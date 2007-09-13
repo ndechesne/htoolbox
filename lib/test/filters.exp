@@ -1,0 +1,78 @@
+Conditions test
+filter_name check
+match 2.1
+filter_name_start check
+match 3.1
+match 3.2
+filter_name_end check
+match 4.1
+filter_name_regex check
+match 5.1
+filter_path check
+match 6.1
+filter_path_start check
+match 7.1
+filter_path_end check
+match 8.1
+filter_path_regex check
+match 9.1
+
+Match function test
+Matching 4000
+Not matching 6000
+
+Simple rules test
+>List 1 rule(s):
+-> List 1 condition(s)
+--> ^to a.*\.txt 8
+>List 2 rule(s):
+-> List 1 condition(s)
+--> ^to a.*\.txt 8
+-> List 1 condition(s)
+--> ^to a.*\.t.t 8
+Not matching 3
+Not matching +1
+Not matching +2
+Not matching +3
+>List 1 rule(s):
+-> List 1 condition(s)
+--> ^to a.*\.txt 8
+>List 2 rule(s):
+-> List 1 condition(s)
+--> ^to a.*\.txt 8
+-> List 1 condition(s)
+--> ^to a.*\.t.t 8
+Not matching +3
+Not matching 3
+Not matching 0
+Not matching 1000
+Not matching 1000000
+>List 1 rule(s):
+-> List 1 condition(s)
+--> 500 10
+Matching 0
+Not matching 1000
+Not matching 1000000
+>List 2 rule(s):
+-> List 1 condition(s)
+--> 500 10
+-> List 1 condition(s)
+--> 5000 9
+Matching 0
+Not matching 1000
+Matching 1000000
+
+Complex rules test
+>List 0 rule(s):
+>List 1 rule(s):
+-> List 1 condition(s)
+--> 500 10
+>List 1 rule(s):
+-> List 2 condition(s)
+--> 500 10
+--> 400 9
+Not matching 600
+Matching 500
+Matching 450
+Matching 400
+Not matching 300

@@ -1,0 +1,32 @@
+#!/bin/sh
+
+target="$1"
+expected="$target".exp
+output="$target".all
+executable="$target"_test
+
+# Set path to access test scripts in priority
+export PATH=../../test_tools:$PATH
+
+# Cleanup previous attempt, if any
+rm -f $output
+
+# Setup
+if ! test_setup; then
+	echo "Cannot setup test environment"
+	exit 1
+fi
+
+# Run
+if ! ./$executable > $output 2>&1; then
+	exit 2
+fi
+
+# Check
+if ! diff -q $expected $output; then
+	exit 3
+fi
+
+# Cleanup
+rm -f $output
+exit 0

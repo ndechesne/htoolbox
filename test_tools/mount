@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# From test_setup
+TESTDIRCIFS="$PWD/test_cifs"
+TESTDIRNFS="$PWD/test_nfs"
+ROOTDIRNFS="/home/User"
+
+# Expect -t
+case "$1" in
+"-t" )
+  echo > /dev/null
+  ;;
+* )
+  exit -EINVAL
+  ;;
+esac
+shift
+
+# Get type
+fstype=$1
+shift
+
+# Skip options
+shift
+shift
+
+# Expect source
+case "$fstype" in
+"cifs" )
+  src="$TESTDIRCIFS"
+  ;;
+"nfs" )
+  src="$TESTDIRNFS`echo $1 | sed "s%.*$ROOTDIRNFS%%"`"
+  ;;
+* )
+  exit -EINVAL
+  ;;
+esac
+shift
+
+# Get destination
+dest="$1"
+shift
+
+# Simulate mounting of share
+rm -rf "$dest"
+cp -a "$src" "$dest"
+
+# Success
+exit 0

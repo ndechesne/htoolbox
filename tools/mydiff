@@ -1,0 +1,8 @@
+#!/bin/sh
+
+sed "s/\r/\n/g" $1/test/$2.exp > .left
+sed "s/\r/\n/g" $1/test/$2.all > .right
+
+tkdiff .left .right
+
+rm -f .left .right

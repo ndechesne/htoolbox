@@ -1,0 +1,39 @@
+#!/bin/sh
+
+target="$1"
+expected="$target".exp
+output="$target".all
+
+
+# Set path to access test scripts in priority
+export PATH=../../test_tools:$PATH
+
+# Cleanup previous attempt, if any
+rm -f $output
+
+# Setup
+if ! test_setup; then
+	echo "Cannot setup test environment"
+	exit 1
+fi
+
+# Typical backup
+../hbackup -vvv -c etc/hbackup.conf >> $output 2>&1 #|| exit 1
+
+# Specify clients
+../hbackup -vvv -c etc/hbackup.conf -C myhost -C client >> $output 2>&1 #|| exit 1
+
+# Scan DB
+../hbackup -vvv -c etc/hbackup.conf -s >> $output 2>&1 #|| exit 1
+
+# Check DB
+../hbackup -vvv -c etc/hbackup.conf -t >> $output 2>&1 #|| exit 1
+
+# Check
+if ! diff -q $expected $output; then
+	exit 3
+fi
+
+# Cleanup
+rm -f $output
+exit 0

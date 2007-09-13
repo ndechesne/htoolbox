@@ -1,0 +1,193 @@
+>List 0 client(s):
+ --> Client: localhost
+>List 1 client(s):
+Client: localhost
+-> file://localhost etc/doesnotexist
+ --> Database initialized
+ --> Database open (contents: 0 files)
+Backup client 'localhost' using protocol 'file'
+List file not found etc/doesnotexist
+ --> Database closed
+>List 0 client(s):
+ --> Client: myClient
+>List 1 client(s):
+Client: myClient
+-> nfs://myClient /home/User/hbackup.list
+ --> Client: myClient2
+>List 2 client(s):
+Client: myClient
+-> nfs://myClient /home/User/hbackup.list
+Client: myClient2
+-> smb://myClient C:/Backup/Backup.LST
+Options: username=Myself password=flesyM
+ --> Client: otherClient
+>List 3 client(s):
+Client: myClient
+-> nfs://myClient /home/User/hbackup.list
+Client: myClient2
+-> smb://myClient C:/Backup/Backup.LST
+Options: username=Myself password=flesyM
+Client: otherClient
+-> ssh://otherClient c:/home/backup/Backup.list
+ --> Client: Client
+>List 4 client(s):
+Client: myClient
+-> nfs://myClient /home/User/hbackup.list
+Client: myClient2
+-> smb://myClient C:/Backup/Backup.LST
+Options: username=Myself password=flesyM
+Client: otherClient
+-> ssh://otherClient c:/home/backup/Backup.list
+Client: Client
+-> smb://Client c:/home/BlaH/Backup.list
+Options: username=user iocharset=utf8
+ --> Client: Client2
+>List 5 client(s):
+Client: myClient
+-> nfs://myClient /home/User/hbackup.list
+Client: myClient2
+-> smb://myClient C:/Backup/Backup.LST
+Options: username=Myself password=flesyM
+Client: otherClient
+-> ssh://otherClient c:/home/backup/Backup.list
+Client: Client
+-> smb://Client c:/home/BlaH/Backup.list
+Options: username=user iocharset=utf8
+Client: Client2
+-> smb://Client c:/home/BlaH/Backup.list
+Options: nocase username=user password=
+ --> Client: Client3
+>List 6 client(s):
+Client: myClient
+-> nfs://myClient /home/User/hbackup.list
+Client: myClient2
+-> smb://myClient C:/Backup/Backup.LST
+Options: username=Myself password=flesyM
+Client: otherClient
+-> ssh://otherClient c:/home/backup/Backup.list
+Client: Client
+-> smb://Client c:/home/BlaH/Backup.list
+Options: username=user iocharset=utf8
+Client: Client2
+-> smb://Client c:/home/BlaH/Backup.list
+Options: nocase username=user password=
+Client: Client3
+-> smb://Client c:/home/BlaH/Backup.list
+Options: username=
+ --> Client: Client4
+>List 7 client(s):
+Client: myClient
+-> nfs://myClient /home/User/hbackup.list
+Client: myClient2
+-> smb://myClient C:/Backup/Backup.LST
+Options: username=Myself password=flesyM
+Client: otherClient
+-> ssh://otherClient c:/home/backup/Backup.list
+Client: Client
+-> smb://Client c:/home/BlaH/Backup.list
+Options: username=user iocharset=utf8
+Client: Client2
+-> smb://Client c:/home/BlaH/Backup.list
+Options: nocase username=user password=
+Client: Client3
+-> smb://Client c:/home/BlaH/Backup.list
+Options: username=
+Client: Client4
+-> smb://Client c:/home/BlaH/Backup.list
+Options: username= password=
+ --> Database open (contents: 0 files)
+Backup client 'myClient' using protocol 'nfs'
+ -> Reading backup list file
+ --> Path: /home/User/test
+Backup path '/home/User/test'
+Unmounted test_db/mount
+ --> A File2.txt
+Unmounted test_db/mount
+Backup client 'myClient2' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+ --> A File.TXT
+Unmounted test_db/mount
+Protocol not supported: ssh
+Backup client 'Client' using protocol 'smb'
+List file not found test_db/mount/home/BlaH/Backup.list
+Unmounted test_db/mount
+Backup client 'Client2' using protocol 'smb'
+List file not found test_db/mount/home/BlaH/Backup.list
+Unmounted test_db/mount
+Backup client 'Client3' using protocol 'smb'
+List file not found test_db/mount/home/BlaH/Backup.list
+Unmounted test_db/mount
+Backup client 'Client4' using protocol 'smb'
+List file not found test_db/mount/home/BlaH/Backup.list
+Unmounted test_db/mount
+ --> Database closed
+ --> Client: testhost
+>List 1 client(s):
+Client: testhost
+-> file://localhost etc/localhost.list
+ --> Database open (contents: 2 files)
+Backup client 'testhost' using protocol 'file'
+ -> Reading backup list file
+ --> Path: test2
+ --> Path: test1
+Backup path 'test1'
+ --> A cvs
+ --> A cvs/CVS
+ --> A cvs/dirbad
+Directory should be under CVS control: test1/cvs/dirbad
+ --> A cvs/dirutd
+ --> A cvs/dirutd/CVS
+ --> A cvs/dirutd/fileutd
+ --> A cvs/filenew.c
+ --> A cvs/fileutd.h
+ --> A dir space
+ --> A dir space/file space
+ --> A test space
+ --> A testdir
+ --> A testlink
+ --> A testpipe
+Backup path 'test2'
+ --> A testdir
+ --> A testfile
+ --> A testfile2
+ --> A testfile~
+ --> A testlink
+ --> Database closed
+ --> Client: testhost
+>List 1 client(s):
+Client: testhost
+-> file://testhost etc/localhost.list
+ --> Database open (contents: 21 files)
+Backup client 'testhost' using protocol 'file'
+ -> Reading backup list file
+ --> Path: test2
+ --> Path: test1
+Backup path 'test1'
+Directory should be under CVS control: test1/cvs/dirbad
+Backup path 'test2'
+ --> Database closed
+ --> Client: testhost
+>List 1 client(s):
+Client: testhost
+-> file://testhost etc/localhost.list
+ --> Database open (contents: 21 files)
+Backup client 'testhost' using protocol 'file'
+ -> Reading backup list file
+ --> Path: test2
+ --> Path: test1
+ --> Path: test1/subdir
+Path inside another. This is not supported yet
+ --> Database closed
+ --> Client: testhost
+>List 1 client(s):
+Client: testhost
+-> file://testhost etc/localhost.list2
+ --> Database open (contents: 21 files)
+Backup client 'testhost' using protocol 'file'
+ -> Reading backup list file
+ --> Path: test2/subdir
+ --> Path: test2
+Path inside another. This is not supported yet
+ --> Database closed

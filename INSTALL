@@ -1,0 +1,16 @@
+DEPENDENCIES
+
+* openssl: for MD5 sum calculation (libssl-dev)
+* zlib: for compression and decompression (zlib1g-dev)
+
+COMPILATION/TEST
+
+Just type: 'make'
+
+INSTALLATION
+
+Just type: 'make install'
+
+LANGUAGE
+
+This is all written in C++.

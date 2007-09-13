@@ -1,0 +1,252 @@
+Tools Test
+Original mask = 0022
+Our mask = 0077
+
+Test: path
+a/b
+c
+d
+
+Test: pathCompare
+a <> a: 0
+a <> b: -1
+b <> a: 1
+a1 <> b: -1
+b <> a1: 1
+a1 <> a: 1
+a <> a1: -1
+a/ <> a: 1
+a <> a/: -1
+a	 <> a/: -1
+a/ <> a	 1
+a	 <> a	 0
+a
+ <> a/: -1
+a/ <> a
+ 1
+a
+ <> a
+ 0
+a/ <> a.: -1
+a. <> a/: 1
+a/ <> a-: -1
+a- <> a/: 1
+a/ <> a/: 0
+abcd <> abce, 3: 0
+abcd <> abce, 4: -1
+abcd <> abce, 5: -1
+
+Test: file read (no cache)
+read size: 10485760 (10485760 -> 10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
+
+Test: file write (with cache)
+write:  (7 -> 7), checksum: aa5f704d9a0eccde71070d8697a8c1ff
+123abc
+
+Test: file copy (read + write (no cache))
+read size: 10485760 (10485760 -> 10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
+write size: 10485760 (10485760 -> 10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
+
+Test: file compress (read + compress write), with last zero-size write call
+read size: 10485760 (10485760 -> 10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
+write size: 10208 (10485760 -> 10208), checksum: b7350db49d036137b2ef752a82145e91
+
+Test: file uncompress (uncompress read + write)
+read size: 10485760 (10208 -> 10485760), checksum: b7350db49d036137b2ef752a82145e91
+write size: 10485760 (10485760 -> 10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
+
+Test: file compress (read + compress write)
+read size: 10485760 (10485760 -> 10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
+write size (wrong): 8214 (10485760 -> 10208), checksum: b7350db49d036137b2ef752a82145e91
+
+Test: file recompress (uncompress read + compress write), no closing
+read size: 10485760 (10208 -> 10485760), checksum: b7350db49d036137b2ef752a82145e91
+write size (wrong): 8214 (10485760 -> 10208), checksum: b7350db49d036137b2ef752a82145e91
+
+Test: computeChecksum
+Checksum: 59ca0efa9f5633cb0371bbc0355478d8
+
+Test: copy
+checksum in: b7350db49d036137b2ef752a82145e91
+checksum out: f1c9645dbc14efddc7d8a322685f26eb
+
+Test: getLine
+Reading empty file:
+Reading uncompressed file:
+Line: abcdef
+
+Line: ghi
+
+Reading compressed file:
+Line: abcdef
+
+Line: ghi
+
+Reading compressed file (line length = 600):
+Line: 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+Line: 123456789
+
+readline
+readline(a): 0
+a
+
+readline( 	a 	b): 0
+a
+b
+
+readline(	 ab): 0
+ab
+
+readline(	 ab cd): 0
+ab
+cd
+
+readline(	 ab cd	ef # blah): 0
+ab
+cd
+ef
+
+readline(	 'ab' 'cd'	'ef' # blah): 0
+ab
+cd
+ef
+
+readline(	 "ab" 'cd'	"ef" # blah): 0
+ab
+cd
+ef
+
+readline(	 ab cd	ef 'gh ij	kl' "mn op	qr" 	# blah): 0
+ab
+cd
+ef
+gh ij	kl
+mn op	qr
+
+readline(	 ab cd	ef 'gh "ij\'	kl' "mn 'op\"	qr" 	# blah): 0
+ab
+cd
+ef
+gh "ij'	kl
+mn 'op"	qr
+
+readline(	 a\b cd	ef 'g\h "ij\'	kl' "m\n 'op\"	qr" 	# blah): 0
+a\b
+cd
+ef
+g\h "ij'	kl
+m\n 'op"	qr
+
+readline(	 a\b cd	ef 'g\h "ij\'	kl): 1
+a\b
+cd
+ef
+g\h "ij'	kl
+
+readline(	 a\b cd	ef 'g\h "ij\'	kl' "m\n 'op\"	qr): 1
+a\b
+cd
+ef
+g\h "ij'	kl
+m\n 'op"	qr
+
+Name: testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 420
+Name: testlink, type = l, mtime = 1, size = 8, uid = 1, gid = 1, mode = 511, link = testfile
+ > Dir.: testdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
+ > Dir.: subdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
+ -> Oth.: testfile, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 420
+ -> Oth.: testfile1, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ -> Oth.: testfile2, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 420
+
+Validity tests
+File is file? 1
+File is dir? 0
+File is link? 0
+Dir is file? 0
+Dir is dir? 1
+Dir is link? 0
+Link is file? 0
+Link is dir? 0
+Link is link? 1
+
+Creation tests
+File is file? 0
+File is dir? 0
+File is link? 0
+Dir is file? 0
+Dir is dir? 0
+Dir is link? 0
+Link is file? 0
+Link is dir? 0
+Link is link? 0
+Create
+File is file? 1
+File is dir? 0
+File is link? 0
+Dir is file? 0
+Dir is dir? 1
+Dir is link? 0
+Link is file? 0
+Link is dir? 0
+Link is link? 0
+Create again
+File is file? 1
+File is dir? 0
+File is link? 0
+Dir is file? 0
+Dir is dir? 1
+Dir is link? 0
+Link is file? 0
+Link is dir? 0
+Link is link? 0
+
+Parsing test
+ > Dir.: test1, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
+ -> Dir.: cvs, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
+ --> Dir.: CVS, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
+ ---> File: Entries, type = f, mtime = 1, size = 141, uid = 1, gid = 1, mode = 420
+ --> Dir.: dirbad, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
+ ---> File: fileoth, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ ---> File: fileutd, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ --> Dir.: diroth, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
+ --> Dir.: dirutd, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
+ ---> Dir.: CVS, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
+ ----> File: Entries, type = f, mtime = 1, size = 42, uid = 1, gid = 1, mode = 420
+ ---> File: fileoth, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ ---> File: fileutd, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ --> File: filemod.o, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ --> File: filenew.c, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ --> File: fileoth, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ --> File: fileutd.h, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ -> Dir.: dir space, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
+ --> File: file space, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ -> File: rwfile_dest, type = f, mtime = 1, size = 10485760, uid = 1, gid = 1, mode = 384
+ -> File: rwfile_source, type = f, mtime = 1, size = 10208, uid = 1, gid = 1, mode = 384
+ -> Dir.: subdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
+ --> File: testfile, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 420
+ --> File: testfile1, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ --> File: testfile2, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 420
+ -> File: test space, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ -> Dir.: testdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
+ -> File: testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 420
+ -> File: testfile~, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ -> Link: testlink, type = l, mtime = 1, size = 8, uid = 1, gid = 1, mode = 511, link = testfile
+ -> Oth.: testpipe, type = p, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ -> Dir.: toucheddir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 448
+ -> File: touchedfile, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 384
+
+Difference test
+f1 and f2 are identical
+f1 and f2 differ
+f1 and f2 differ
+f1 and f2 differ
+f1 and f2 differ
+f1 and f2 differ
+f1 and f2 differ
+f1 and f2 differ
+l1 and l2 are identical
+l1 and l2 differ
+l1 and l2 differ
+
+End of tests

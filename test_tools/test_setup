@@ -1,0 +1,136 @@
+#!/bin/bash
+
+# Dir names
+CONFIGDIR="etc"
+TESTDIR="test1"
+TESTDIR2="test2"
+TESTDIRCIFS="test_cifs"
+TESTDIRNFS="test_nfs"
+TESTDBDIR="test_db"
+
+ROOTDIRNFS="/home/User"
+
+# Clean
+if [ -d "$TESTDBDIR" ]; then
+  chmod u+w "$TESTDBDIR"
+fi
+rm -rf "$CONFIGDIR"
+rm -rf "$TESTDBDIR"
+rm -rf "$TESTDIR"
+rm -rf "$TESTDIR2"
+rm -rf "$TESTDIRCIFS"
+rm -rf "$TESTDIRNFS"
+
+if [ "$1" == "clean" ]; then
+  exit 0
+fi
+
+# Test bench
+mkdir "$TESTDIR"
+mkdir "$TESTDIR/testdir"
+echo "Hello world!" > "$TESTDIR/testfile"
+touch -d 20061022 "$TESTDIR/testfile"
+touch "$TESTDIR/testfile~"
+ln -s "testfile" "$TESTDIR/testlink"
+mkfifo "$TESTDIR/testpipe"
+
+# Filters test
+mkdir "$TESTDIR/subdir"
+echo "Hello Moon!" > "$TESTDIR/subdir/testfile"
+touch "$TESTDIR/subdir/testfile1"
+echo "Hello Moon!" > "$TESTDIR/subdir/testfile2"
+touch "$TESTDIR/test space"
+mkdir "$TESTDIR/dir space"
+touch "$TESTDIR/dir space/file space"
+
+# CVS test
+CVSDIR="$TESTDIR/cvs"
+mkdir "$CVSDIR"
+touch "$CVSDIR/filemod.o"
+touch "$CVSDIR/filenew.c"
+touch "$CVSDIR/fileoth"
+touch "$CVSDIR/fileutd.h"
+mkdir "$CVSDIR/dirbad"
+touch "$CVSDIR/dirbad/fileoth"
+touch "$CVSDIR/dirbad/fileutd"
+mkdir "$CVSDIR/diroth"
+mkdir "$CVSDIR/dirutd"
+touch "$CVSDIR/dirutd/fileoth"
+touch "$CVSDIR/dirutd/fileutd"
+mkdir "$CVSDIR/dirutd/CVS"
+cat << EOF > "$CVSDIR/dirutd/CVS/Entries"
+/fileutd/1.2/Wed Oct  4 18:04:40 2006//
+D
+EOF
+mkdir "$CVSDIR/CVS"
+cat << EOF > "$CVSDIR/CVS/Entries"
+/filenew.c/0/dummy timestamp//
+/filemod.o/1.1/Mon Oct  2 16:27:11 2006//
+/fileutd.h/1.2/Wed Oct  4 18:04:40 2006//
+D/dirbad////
+D/dirutd////
+EOF
+
+# Multiple backup
+mkdir "$TESTDIR2"
+mkdir "$TESTDIR2/testdir"
+dd if=/dev/zero of="$TESTDIR2/testfile" bs=142 count=1024 2> /dev/null
+touch -t 200610221134.56 "$TESTDIR2/testfile"
+dd if=/dev/zero of="$TESTDIR2/testfile~" bs=512 count=1024 2> /dev/null
+dd if=/dev/zero of="$TESTDIR2/testfile2" bs=253 count=1024 2> /dev/null
+ln -s "testfile" "$TESTDIR2/testlink"
+
+# CIFS test
+mkdir -p "$TESTDIRCIFS/Backup"
+mkdir -p "$TESTDIRCIFS/Test"
+touch  "$TESTDIRCIFS/Test/File.TXT"
+cat << EOF > "$TESTDIRCIFS/Backup/Backup.LST"
+path "C:\Test" # Do not end it in \" !!!
+EOF
+
+# NFS test
+mkdir -p "$TESTDIRNFS/test"
+touch  "$TESTDIRNFS/test/File2.txt"
+cat << EOF > "$TESTDIRNFS/hbackup.list"
+path "$ROOTDIRNFS/test/"
+EOF
+
+# Config
+mkdir "$CONFIGDIR"
+cat << EOF > "$CONFIGDIR/hbackup.conf"
+db "$TESTDBDIR"
+
+client nfs myClient
+hostname myClient
+listfile $ROOTDIRNFS/hbackup.list
+
+client ssh other
+hostname otherClient
+listfile /home/backup/Backup.list
+
+client file myhost
+hostname myhost.mynetwork.lan
+listfile "$CONFIGDIR/localhost.list"
+
+client smb client
+option username Myself
+option password flesyM
+option nocase
+hostname myClient
+listfile "C:\Backup\Backup.LST"
+EOF
+
+cat << EOF > "$CONFIGDIR/localhost.list"
+# Share test
+path test2//
+
+path "test1" # should work
+expire 1
+ignore path_start subdir
+ignore type file
+ignand path_end ~
+ignore path_end ".o"
+ignore size_above 10
+ignand type file
+parser cvs controlled
+EOF

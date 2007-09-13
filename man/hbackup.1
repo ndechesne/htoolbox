@@ -1,0 +1,54 @@
+.TH hbackup 1
+.SH NAME
+hbackup - backup local and remote directories onto a local partition
+.SH SYNOPSIS
+.B hbackup
+.RI [ OPTIONS ]
+.SH DESCRIPTION
+.PP
+.B hbackup
+backs up directories from local and remote storage.
+.PP
+The files are backed up in a way that does not depend on the backup
+storage filesystem, and that prevents data duplication. The system
+keeps track of changes in metadata too, such as permissions, owner,
+group and modification time.
+.SH OPTIONS
+.TP
+.BR \-h ", " \-\-help
+Display the program usage and exit.
+.TP
+.BR \-V ", " \-\-version
+Display the program version and exit.
+.TP
+.BI \-c " FILE" "\fR,\fB \-\-config " FILE
+Override the default configuration file from "/etc/hbackup/hbackup.conf" to
+.IR FILE .
+.TP
+.BR \-s ", " \-\-scan
+Scan the entire database for missing data.
+.TP
+.BR \-t ", " \-\-check
+Check the entire database for corrupted data.
+.TP
+.BR \-v ", " \-\-verbose
+Be verbose.  Options
+.B -vv
+and
+.B -vvv
+can also be used for added verbosity.
+.TP
+.BI \-C " CLIENT" "\fR,\fB \-\-client " CLIENT
+Backup only client
+.IR CLIENT ,
+provided that it appears in the configuration file.  This option can be
+used more than once.
+.SH AUTHOR
+Written by Herve Fache.
+.SH COPYRIGHT
+Copyright \(co 2006-2007 Herve Fache.
+.br
+This is free software.  You may redistribute copies of it under the terms of
+the GNU General Public License version 2
+<http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>.
+There is NO WARRANTY, to the extent permitted by law.

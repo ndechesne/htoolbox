@@ -1,0 +1,67 @@
+
+
+StrPath test
+
+constructors
+0: 
+0: 
+3: 123
+7: 123/456
+3: 789
+11: 123/456/789
+
+compare
+a <> a: 0
+a <> b: -1
+b <> a: 1
+a1 <> b: -1
+b <> a1: 1
+a1 <> a: 1
+a <> a1: -1
+a/ <> a: 1
+a <> a/: -1
+a	 <> a/: -1
+a/ <> a	 1
+a	 <> a	 0
+a
+ <> a/: -1
+a/ <> a
+ 1
+a
+ <> a
+ 0
+a/ <> a.: -1
+a. <> a/: 1
+a/ <> a-: -1
+a- <> a/: 1
+a/ <> a/: 0
+abcd <> abce, 3: 0
+abcd <> abce, 4: -1
+abcd <> abce, 5: -1
+
+Test: toUnix
+this\is a path/ Unix\ cannot cope with/\ -> this/is a path/ Unix/ cannot cope with//
+this/is a path/ Unix/ cannot cope with// -> this/is a path/ Unix/ cannot cope with//
+
+Test: noEndingSlash
+this/is a path/ Unix/ cannot cope with// -> this/is a path/ Unix/ cannot cope with
+this/is a path/ Unix/ cannot cope with -> this/is a path/ Unix/ cannot cope with
+
+Test: basename and dirname
+this/is a path/to a/file -> base: file, dir: this/is a path/to a
+this is a file -> base: this is a file, dir: .
+this is a path/ -> base: , dir: this is a path
+
+Test: comparators
+this is a path/ == this is a path.: 0
+this is a path/ != this is a path.: 1
+this is a path/ < this is a path.: 1
+this is a path/ > this is a path.: 0
+this is a path/ < this is a path#: 1
+this is a path/ > this is a path#: 0
+this is a path/ < this is a path-: 1
+this is a path/ > this is a path-: 0
+this is a path/ == this is a path to somewhere: 0
+this is a path/ != this is a path to somewhere: 1
+this is a path/ <= this is a path to somewhere: 1
+this is a path/ >= this is a path to somewhere: 0

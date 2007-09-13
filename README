@@ -1,0 +1,132 @@
+I. DESCRIPTION
+
+This is a backup program. The name hbackup has been chosen because of the way
+data is stored: based on the file hash (a la git).
+
+Why yet another backup program? Because I wanted something geared towards what
+I do: software development. This system can easily be made to recognise
+version-controlled directories to optimise backup choices: why re-backup files
+that are on a server somewhere, itself with its own backup system?
+
+II. SERVER CONFIGURATION
+
+The default configuration file is /etc/hbackup/hbackup.conf, and can be
+overriden using the -c option. The following keywords are acceptable there:
+* db gives the backup database path. The default is '/hbackup'.
+  Syntax:  db "<path to backup database>"
+  Example: db "/backup"
+* client gives the client name.
+  Syntax:  client "protocol" "<client desired name>"
+  Example: client file "montblanc"
+
+The client keyword can be followed by the following keywords:
+* listfile is mandatory as it gives the path to the backup list file.
+  Syntax:             listfile "<path to file>"
+  Example (smb):      listfile "C:/Backup/hbackup.list"
+  Example (file/nfs): listfile "/etc/hbackup.list"
+* hostname is used by network (smb and nfs) protocols to specify a network host
+  name (if different from the client name) or IP address.
+  Syntax:               hostname "<host name or IP address>"
+  Example (name):       hostname "everest"
+  Example (IP address): hostname "192.168.0.2"
+* option can be used to specify any file system option.
+  Syntax:  option <option name>
+  Syntax:  option <option name> "<option value>"
+  Example: option nocase
+  Example: option nolock
+  Example: option username "herve"
+  Example: option iocharset "utf8"
+
+Note for the SMB protocol users: hbackup uses CIFS, and as such will NOT use
+the SMB protocol to resolve client names.
+
+III. CLIENT CONFIGURATION
+
+A. Client setup
+
+1. Network File System (NFS)
+
+It is warmly recommended for the client to export to the backup server only,
+with the following options: read-only, no squash.
+
+Example of /etc/exports entry, where fujiyama is the name of the backup server:
+/home fujiyama(no_root_squash,no_all_squash,ro)
+
+2. Server Message Block (SMB)
+
+By default, Windows XP and Windows Vista will authenticate all users as guests
+when accessed remotely. For hbackup to work properly, such computers need to be
+told to use the classic authentication which authenticates users as themselves,
+so the administrative shares can be mounted as Administrator.
+
+Instructions:
+  Start -> Control Panel -> Administrative Tools -> Local Security Policy
+  On the left hand side, expand Local Policies (click the + sign)
+  Click Security Options
+  On the right hand side, find Network access: Sharing and security model...
+  Double click it, change to Classic - local users authenticate as themselves
+  Click OK, quit Local Security Policy then quit Administrative Tools
+
+B. Configuration file
+
+Each client must provide its own configuration file. Keywords that may be used:
+* path:   start of a new backup list, gives the path information.
+  Syntax: path "<path to backup>"
+* ignore: add files filter to skip (see FILTERS below).
+* ignand: add AND condition to last files filter (see FILTERS below).
+* parser: files under version control (see PARSERS below).
+* expire: delay in days after which removed files can be erased from database
+
+1. COMPRESSION
+
+No compression is enabled for now.
+
+2. FILTERS
+
+Syntax: [ignore|ignand] <filter type> "<string>"
+
+There are six filter types:
+* type:         match file type
+* name:         match file name
+* name_start:   match start of file name
+* name_end:     match end of file name
+* name_regex:   match regular expression on file name
+* path:         match path
+* path_start:   match start of path
+* path_end:     match end of path
+* path_regex:   match regular expression on path
+* size_above:   match files which size is above or equals given value
+* size_below:   match files which size is below or equals given value
+
+There are seven file types:
+* f or file:    regular file
+* d or dir:     directory
+* c or char:    character device
+* b or block:   block device
+* p or pipe:    named pipe or FIFO
+* l or link:    symbolic link
+* s or socket:  socket
+
+Example:
+ignore path_start abr
+ignand type file
+ignand size_above 5000
+
+This will ignore all regular files which name starts in abr (abr*) and size is
+greater than or equal to 5000.
+
+3. PARSERS
+
+Syntax: parser "<parser name>" <mode>
+
+Only one parser is implemented at the moment:
+* cvs: this parser does not check for file modification
+
+There are four modes (only the first letter matters):
+* m: backup files under control, that were modified locally (m for modified)
+* o: backup files not under control (o for others)
+* l: backup files in the two cases above (l for local)
+* c: backup all files under control (c for controlled)
+
+Note: parsers that do not check for file modification shall backup all
+controlled files if 'modified' was chosen, or all files if 'local' was chosen.
