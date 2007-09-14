@@ -141,7 +141,10 @@ public:
   int searchCopy(
     List&         list,
     StrPath&      prefix,
-    StrPath&      path);
+    StrPath&      path,
+    time_t        expire = 0,
+    list<string>* active = NULL,
+    list<string>* expired = NULL);
   // Merge list and backup into this list
   int  merge(
     List&         list,

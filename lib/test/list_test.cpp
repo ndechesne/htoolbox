@@ -17,6 +17,8 @@
 */
 
 #include <iostream>
+#include <list>
+#include <string>
 #include <errno.h>
 
 using namespace std;
@@ -44,10 +46,9 @@ time_t time(time_t *t) {
 }
 
 int main(void) {
-  List    list("test_db/list");
+  List    dblist("test_db/list");
   List    journal("test_db/journal");
   List    merge("test_db/merge");
-  char*   line   = NULL;
   char*   prefix = NULL;
   char*   path   = NULL;
   Node*   node   = NULL;
@@ -56,11 +57,12 @@ int main(void) {
   cout << "Test: DB lists" << endl;
   mkdir("test_db", 0755);
 
-  if (list.open("w")) {
-    cerr << "Failed to open list" << endl;
+  if (dblist.open("w")) {
+    cerr << "Failed to open dblist" << endl;
     return 0;
   }
-  list.close();
+  dblist.close();
+
 
   cout << endl << "Test: journal write" << endl;
   my_time++;
@@ -86,6 +88,7 @@ int main(void) {
   free(node);
   journal.close();
 
+
   cout << endl << "Test: journal read" << endl;
   my_time++;
 
@@ -124,16 +127,16 @@ int main(void) {
     cout << endl;
   }
   journal.close();
-  free(line);
+
 
   cout << endl << "Test: journal merge into empty list" << endl;
   my_time++;
 
-  if (list.open("r")) {
-    cerr << "Failed to open list" << endl;
+  if (dblist.open("r")) {
+    cerr << "Failed to open dblist" << endl;
     return 0;
   }
-  if (list.isEmpty()) {
+  if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   }
   if (journal.open("r")) {
@@ -147,13 +150,14 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(list, journal)) {
+  if (merge.merge(dblist, journal)) {
     cerr << "Failed to merge: " << strerror(errno) << endl;
     return 0;
   }
   merge.close();
   journal.close();
-  list.close();
+  dblist.close();
+
 
   cout << endl << "Test: merge read" << endl;
   my_time++;
@@ -194,11 +198,11 @@ int main(void) {
     cout << endl;
   }
   merge.close();
-  free(line);
 
   if (rename("test_db/merge", "test_db/list")) {
     cerr << "Failed to rename merge into list" << endl;
   }
+
 
   cout << endl << "Test: journal write again" << endl;
   my_time++;
@@ -219,6 +223,7 @@ int main(void) {
   free(node);
   journal.close();
 
+
   cout << endl << "Test: journal read" << endl;
   my_time++;
 
@@ -257,16 +262,16 @@ int main(void) {
     cout << endl;
   }
   journal.close();
-  free(line);
+
 
   cout << endl << "Test: journal merge into list" << endl;
   my_time++;
 
-  if (list.open("r")) {
-    cerr << "Failed to open list" << endl;
+  if (dblist.open("r")) {
+    cerr << "Failed to open dblist" << endl;
     return 0;
   }
-  if (list.isEmpty()) {
+  if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   }
   if (journal.open("r")) {
@@ -280,13 +285,14 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(list, journal)) {
+  if (merge.merge(dblist, journal)) {
     cerr << "Failed to merge: " << strerror(errno) << endl;
     return 0;
   }
   merge.close();
   journal.close();
-  list.close();
+  dblist.close();
+
 
   cout << endl << "Test: merge read" << endl;
   my_time++;
@@ -327,11 +333,11 @@ int main(void) {
     cout << endl;
   }
   merge.close();
-  free(line);
 
   if (rename("test_db/merge", "test_db/list")) {
     cerr << "Failed to rename merge into list" << endl;
   }
+
 
   cout << endl << "Test: journal prefix out of order" << endl;
   my_time++;
@@ -348,6 +354,7 @@ int main(void) {
   free(node);
   journal.close();
 
+
   cout << endl << "Test: journal read" << endl;
   my_time++;
 
@@ -386,16 +393,16 @@ int main(void) {
     cout << endl;
   }
   journal.close();
-  free(line);
+
 
   cout << endl << "Test: journal merge into list" << endl;
   my_time++;
 
-  if (list.open("r")) {
-    cerr << "Failed to open list" << endl;
+  if (dblist.open("r")) {
+    cerr << "Failed to open dblist" << endl;
     return 0;
   }
-  if (list.isEmpty()) {
+  if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   }
   if (journal.open("r")) {
@@ -409,13 +416,14 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(list, journal)) {
+  if (merge.merge(dblist, journal)) {
     cerr << "Failed to merge: " << strerror(errno) << endl;
 //     return 0;
   }
   merge.close();
   journal.close();
-  list.close();
+  dblist.close();
+
 
   cout << endl << "Test: merge read" << endl;
   my_time++;
@@ -456,7 +464,7 @@ int main(void) {
     cout << endl;
   }
   merge.close();
-  free(line);
+
 
   cout << endl << "Test: journal path out of order" << endl;
   my_time++;
@@ -473,6 +481,7 @@ int main(void) {
   free(node);
   journal.close();
 
+
   cout << endl << "Test: journal read" << endl;
   my_time++;
 
@@ -511,16 +520,16 @@ int main(void) {
     cout << endl;
   }
   journal.close();
-  free(line);
+
 
   cout << endl << "Test: journal merge into list" << endl;
   my_time++;
 
-  if (list.open("r")) {
-    cerr << "Failed to open list" << endl;
+  if (dblist.open("r")) {
+    cerr << "Failed to open dblist" << endl;
     return 0;
   }
-  if (list.isEmpty()) {
+  if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   }
   if (journal.open("r")) {
@@ -534,13 +543,14 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(list, journal)) {
+  if (merge.merge(dblist, journal)) {
     cerr << "Failed to merge: " << strerror(errno) << endl;
 //     return 0;
   }
   merge.close();
   journal.close();
-  list.close();
+  dblist.close();
+
 
   cout << endl << "Test: merge read" << endl;
   my_time++;
@@ -581,6 +591,7 @@ int main(void) {
     cout << endl;
   }
   merge.close();
+
 
   cout << endl << "Test: prefix find" << endl;
   my_time++;
@@ -710,7 +721,103 @@ int main(void) {
     cout << endl;
   }
   merge.close();
-  free(line);
+
+
+  cout << endl << "Test: expire" << endl;
+
+  if (dblist.open("r")) {
+    cerr << "Failed to open dblist" << endl;
+    return 0;
+  }
+  if (dblist.isEmpty()) {
+    cout << "List is empty" << endl;
+  }
+  if (merge.open("w")) {
+    cerr << "Failed to open merge" << endl;
+    return 0;
+  }
+  StrPath null;
+  list<string> active;
+  list<string> expired;
+  if (merge.searchCopy(dblist, null, null, 14, &active, &expired)) {
+    cerr << "Failed to copy: " << strerror(errno) << endl;
+    return 0;
+  }
+  merge.close();
+  dblist.close();
+
+  merge.open("r");
+  if (merge.isEmpty()) {
+    cout << "Merge is empty" << endl;
+  }
+  while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
+    cout << "Prefix: " << prefix << endl;
+    cout << "Path:   " << path << endl;
+    cout << "TS:     " << ts << endl;
+    if (node == NULL) {
+      cout << "Type:   removed" << endl;
+    } else {
+      switch (node->type()) {
+        case 'f':
+          cout << "Type:   file" << endl;
+          break;
+        case 'l':
+          cout << "Type:   link" << endl;
+          break;
+        default:
+          cout << "Type:   other" << endl;
+      }
+      cout << "Name:   " << node->name() << endl;
+      cout << "Size:   " << node->size() << endl;
+      switch (node->type()) {
+        case 'f':
+          cout << "Chcksm: " << ((File*) node)->checksum() << endl;
+          break;
+        case 'l':
+          cout << "Link:   " << ((Link*) node)->link() << endl;
+      }
+      free(node);
+      node = NULL;
+    }
+    cout << endl;
+  }
+  merge.close();
+
+  cout << "Active checksums (gross): " << active.size() << endl;
+  for (list<string>::iterator i = active.begin(); i != active.end();  i++) {
+    cout << " " << *i << endl;
+  }
+  active.sort();
+  active.unique();
+  cout << "Active checksums (sorted, uniqued): " << active.size() << endl;
+  for (list<string>::iterator i = active.begin(); i != active.end();  i++) {
+    cout << " " << *i << endl;
+  }
+  cout << "Expired checksums (gross): " << expired.size() << endl;
+  for (list<string>::iterator i = expired.begin(); i != expired.end();  i++) {
+    cout << " " << *i << endl;
+  }
+  expired.sort();
+  expired.unique();
+  cout << "Expired checksums (sorted, uniqued): " << expired.size() << endl;
+  for (list<string>::iterator i = expired.begin(); i != expired.end();  i++) {
+    cout << " " << *i << endl;
+  }
+  // Get checksums for removal
+  list<string>::iterator i = expired.begin();
+  list<string>::iterator j = active.begin();
+  while (i != expired.end()) {
+    while ((j != active.end()) && (*j < *i)) { j++; }
+    if ((j != active.end()) && (*j == *i)) {
+      i = expired.erase(i);
+    } else {
+      i++;
+    }
+  }
+  cout << "Expired checksums: " << expired.size() << endl;
+  for (list<string>::iterator i = expired.begin(); i != expired.end();  i++) {
+    cout << " " << *i << endl;
+  }
 
   return 0;
 }

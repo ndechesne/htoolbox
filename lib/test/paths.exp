@@ -337,8 +337,7 @@ List:
 [ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] file://localhost /home/User/subdir                  d     0 755
 [ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 0] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir/testfile         f    12 000 
+[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0

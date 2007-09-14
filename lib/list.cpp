@@ -564,10 +564,22 @@ int List::removed(
 int List::searchCopy(
     List&         list,
     StrPath&      prefix_l,
-    StrPath&      path_l) {
+    StrPath&      path_l,
+    time_t        expire,
+    list<string>* active,
+    list<string>* expired) {
   int   rc             = 0;
   char* exception_line = NULL;
   int   path_cmp;
+
+  // No need to compare prefixes
+  if (prefix_l.length() == 0) {
+    _line_status = 1;
+  }
+  // No need to compare paths
+  if ((_line_status > 0) || (path_l.length() == 0)) {
+    path_cmp = 1;
+  }
 
   while (true) {
     // Read list or get last data
@@ -597,19 +609,12 @@ int List::searchCopy(
       break;
     }
 
-    // Full copy
-    if (prefix_l.length() == 0) {
-      if (write(list._line.c_str(), list._line.length()) < 0) {
-        // Could not write
-        rc = -1;
-        break;
-      }
-    } else
-
     // Got a prefix
     if (list._line[0] != '\t') {
       // Compare prefixes
-      _line_status = prefix_l.compare(list._line);
+      if (prefix_l.length() != 0) {
+        _line_status = prefix_l.compare(list._line);
+      }
       if (_line_status > 0)  {
         // Our prefix is here or after, so let's copy
         if (write(list._line.c_str(), list._line.length()) < 0) {
@@ -630,19 +635,12 @@ int List::searchCopy(
       }
     } else
 
-    // Looking for prefix
-    if ((path_l.length() == 0) || (_line_status > 0)) {
-      if (write(list._line.c_str(), list._line.length()) < 0) {
-        // Could not write
-        rc = -1;
-        break;
-      }
-    } else
-
     // Got a path
     if (list._line[1] != '\t') {
       // Compare paths
-      path_cmp = path_l.compare(list._line);
+      if ((_line_status <= 0) && (path_l.length() != 0)) {
+        path_cmp = path_l.compare(list._line);
+      }
       if (path_cmp > 0) {
         // Our path is here or after, so let's copy
         if (write(list._line.c_str(), list._line.length()) < 0) {
@@ -693,11 +691,43 @@ int List::searchCopy(
         // Get only end of line
         asprintf(&exception_line, "%s", &list._line[4]);
       } else
-      // Our prefix and path are after, so let's copy
-      if (write(list._line.c_str(), list._line.length() ) < 0) {
-        // Could not write
-        rc = -1;
-        break;
+      {
+        // General case: check for expiry
+        if (expire > 0) {
+          // Check time
+          time_t ts = 0;
+          string reader = &list._line[2];
+          reader[reader.size() - 1] = '\0';
+          size_t pos = reader.find('\t');
+          if ((pos != string::npos)
+           && (sscanf(reader.substr(pos - 1).c_str(), "%lu", &ts) == 1)) {
+            reader = reader.substr(pos + 1);
+            const char* checksum = NULL;
+            if ((reader[0] == 'f')
+             && ((expired != NULL) || (active != NULL))) {
+              pos = reader.rfind('\t');
+              if (pos != string::npos) {
+                checksum = &reader[pos + 1];
+              }
+            }
+            if (time(NULL) - ts > expire) {
+              if ((checksum != NULL) && (expired != NULL)) {
+                expired->push_back(checksum);
+              }
+              continue;
+            } else {
+              if ((checksum != NULL) && (active != NULL)) {
+                active->push_back(checksum);
+              }
+            }
+          }
+        }
+        // Our prefix and path are after, so let's copy
+        if (write(list._line.c_str(), list._line.length() ) < 0) {
+          // Could not write
+          rc = -1;
+          break;
+        }
       }
     }
   }
