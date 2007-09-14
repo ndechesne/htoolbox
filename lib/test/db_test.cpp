@@ -107,6 +107,7 @@ int main(void) {
     }
   }
 
+
   cout << endl << "Test: getdir" << endl;
   cout << "Check test_db/data dir: " << ! Directory("test_db/data").isValid() << endl;
   File("").create("test_db/data/.nofiles");
@@ -136,6 +137,7 @@ int main(void) {
   mkdir("test_db/data/fe/dc/76/test6", 0755);
   cout << "fedc76test6 status: " << db.getDir("fedc76test6", getdir_path, true)
     << ", getdir_path: " << getdir_path << endl;
+
 
   cout << endl << "Test: write and read back" << endl;
   /* Write */
@@ -171,6 +173,33 @@ int main(void) {
   }
   cout << chksm << "  test_db/blah" << endl;
 
+
+  cout << endl << "Test: check" << endl;
+  if (db.scan("49ca0efa9f5633cb0371bbc0355678d8-0")) {
+    printf("db.check: %s\n", strerror(errno));
+  }
+  if (db.scan("59ca0efa9f5633cb0371bbc0355678d8-0")) {
+    printf("db.check: %s\n", strerror(errno));
+  }
+  if (db.scan("59ca0efa9f5633cb0371bbc0355478d8")) {
+    printf("db.check: %s\n", strerror(errno));
+  }
+  if (db.scan("59ca0efa9f5633cb0371bbc0355478d8-0")) {
+    printf("db.check: %s\n", strerror(errno));
+  }
+  if (db.scan()) {
+    printf("db.check: %s\n", strerror(errno));
+  }
+  remove("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data");
+  if (db.scan("59ca0efa9f5633cb0371bbc0355478d8-0")) {
+    printf("db.check: %s\n", strerror(errno));
+  }
+  File("").create("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data");
+  if (db.scan("59ca0efa9f5633cb0371bbc0355478d8-0")) {
+    printf("db.check: %s\n", strerror(errno));
+  }
+
+
   cout << endl << "Test: organise" << endl;
   mkdir("test_db/data/zz", 0755);
   mkdir("test_db/data/zz/000001", 0755);
@@ -187,6 +216,7 @@ int main(void) {
   system("find test_db/data/zz");
 
   db.close();
+
 
   cout << endl << "Test: lock" << endl;
   if (! db.open()) {
@@ -207,231 +237,6 @@ int main(void) {
   system("touch test_db/lock");
   if (! db.open()) {
     db.close();
-  }
-return 0;
-
-  /* Re-open database => no change */
-  if ((status = db.open())) {
-    printf("db_open error status %u\n", status);
-    if (status == 2) {
-      return 0;
-    }
-  }
-
-  cout << "List select test" << endl;
-  list<Node*> select_list;
-  db.setPrefix("prefix");
-  db.getList("base_path", "rel_path", select_list);
-  cout << "Got " << select_list.size() << " elements" << endl;
-  if (select_list.size() != 0) {
-    for (list<Node*>::iterator i = select_list.begin(); i != select_list.end();
-        i++) {
-      cout << "Name: " << (*i)->name() << endl;
-      delete *i;
-    }
-  }
-  db.setPrefix("file://host");
-  db.getList("/home/user", "cvs", select_list);
-  cout << "Got " << select_list.size() << " elements" << endl;
-  if (select_list.size() != 0) {
-    for (list<Node*>::iterator i = select_list.begin(); i != select_list.end();
-        i++) {
-      cout << "Name: " << (*i)->name() << endl;
-      delete *i;
-    }
-  }
-
-  verbose = 3;
-  if ((status = db.scan("59ca0efa9f5633cb0371bbc0355478d8-0"))) {
-    printf("scan error status %u\n", status);
-    if (status) {
-      return 0;
-    }
-  }
-  verbose = 4;
-
-  verbose = 3;
-  if ((status = db.scan("59ca0efa9f5633cb0371bbc0355478d8-0", true))) {
-    printf("scan error status %u\n", status);
-    if (status) {
-      return 0;
-    }
-  }
-  verbose = 4;
-
-  db.close();
-
-
-  db.open();
-
-  verbose = 3;
-  if ((status = db.scan())) {
-    printf("full scan error status %u\n", status);
-    if (status) {
-      return 0;
-    }
-  }
-  verbose = 4;
-
-  db.close();
-
-
-  db.open();
-
-  verbose = 3;
-  if ((status = db.scan("", true))) {
-    printf("full thorough scan error status %u\n", status);
-    if (status) {
-      return 0;
-    }
-  }
-  verbose = 4;
-
-  db.close();
-
-
-  // Save list
-  system("cp test_db/active test_db/active.save");
-
-  db.open();
-
-  remove("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data");
-  verbose = 3;
-  if ((status = db.scan())) {
-    printf("full scan error status %u\n", status);
-  }
-  verbose = 4;
-
-  db.close();
-
-
-  // Restore list
-  system("cp test_db/active.save test_db/active");
-
-  db.open();
-
-  verbose = 3;
-  if ((status = db.scan("", true))) {
-    printf("full thorough scan error status %u\n", status);
-  }
-  verbose = 4;
-
-  db.close();
-
-
-  // Restore list
-  system("cp test_db/active.save test_db/active");
-
-  db.open();
-
-  Directory("").create("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0");
-  File("").create("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data");
-  verbose = 3;
-  if ((status = db.scan("", true))) {
-    printf("full thorough scan error status %u\n", status);
-  }
-  verbose = 4;
-
-  db.close();
-
-
-  /* Re-open database */
-  if ((status = db.open())) {
-    printf("db_open error status %u\n", status);
-    if (status == 2) {
-      return 0;
-    }
-  }
-
-  system("chmod 0775 test1/testdir");
-  system("chmod 0775 test1/cvs/dirutd/CVS/Entries");
-
-
-  remove("test1/dir space/file space");
-  verbose = 3;
-
-  db.close();
-
-
-  /* Re-open database */
-  if ((status = db.open())) {
-    printf("db_open error status %u\n", status);
-    if (status == 2) {
-      return 0;
-    }
-  }
-
-  system("chmod 0777 test1/testdir");
-  system("chmod 0777 test1/cvs/dirutd/CVS/Entries");
-
-  remove("test1/dir space/file space");
-  verbose = 3;
-
-  db.close();
-
-
-  /* Re-open database => remove some files */
-  if ((status = db.open())) {
-    printf("db_open error status %u\n", status);
-    if (status == 2) {
-      return 0;
-    }
-  }
-
-  remove("test1/testfile");
-  remove("test1/cvs/dirutd/fileutd");
-
-
-  db.organise("test_db/data", 2);
-
-  db.close();
-
-
-  /* Re-open database => one less active item */
-  if ((status = db.open())) {
-    printf("db_open error status %u\n", status);
-    if (status == 2) {
-      return 0;
-    }
-  }
-
-  db.close();
-
-
-  cout << "List cannot be saved" << endl;
-  if ((status = db.open())) {
-    printf("db_open error status %u\n", status);
-    if (status == 2) {
-      return 0;
-    }
-  }
-  system("chmod ugo-w test_db");
-  db.close();
-  printf("Error: %s\n", strerror(errno));
-  system("chmod u+w test_db");
-  system("rm -f test_db/lock");
-
-  cout << "List cannot be read" << endl;
-  system("chmod ugo-r test_db/active");
-  if ((status = db.open())) {
-    printf("Error: %s\n", strerror(errno));
-  }
-
-  cout << "List is garbaged" << endl;
-  system("chmod u+r test_db/active");
-  system("head test_db/active > blah && mv blah test_db/active");
-  system("echo blah >> test_db/active");
-  if ((status = db.open())) {
-    printf("Error: %s\n", strerror(errno));
-  } else {
-    db.close();
-  }
-
-  cout << "List is gone" << endl;
-  rename("test_db/active", "test_db/active.save");
-  remove("test_db/active~");
-  if ((status = db.open())) {
-    printf("Error: %s\n", strerror(errno));
   }
 
   return 0;

@@ -15,6 +15,16 @@ Test: write and read back
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 
+Test: check
+db.check: Structure needs cleaning
+db.check: Structure needs cleaning
+db.check: Invalid argument
+ --> Scanning database contents thoroughly: 0 files
+db: check: data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
+db.check: No such file or directory
+db: check: data corrupted for 59ca0efa9f5633cb0371bbc0355478d8-0
+db.check: Exec format error
+
 Test: organise
 Lesser:
 test_db/data/zz

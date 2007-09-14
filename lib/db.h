@@ -33,7 +33,7 @@ protected: // So I can test them/use them in tests
   int getDir(
     const string&   checksum,
     string&         path,
-    bool            create);
+    bool            create = false);
   int  organise(
     const string&   path,
     int             number);
@@ -45,25 +45,24 @@ public:
   Database(const string& path);
   ~Database();
   string path() const { return _path; }
-  /* Open database */
+  // Open database
   int  open();
-  /* Close database */
+  // Close database
   int  close();
   // Prepare list for parser
   void getList(
     const char*     base_path,
     const char*     rel_path,
     list<Node*>&    list);
-  /* Read file with given checksum, extract it to path */
+  // Read file with given checksum, extract it to path
   int  read(
     const string&   path,
     const string&   checksum);
-  /* Check database for missing/corrupted data */
-  /* If checksum is empty, scan all contents */
-  /* If thorough is true, check for corruption */
+  // Scan database for missing/corrupted (if thorough) data
+  // If checksum is empty, scan all contents
   int  scan(
     const string&   checksum = "",
-    bool            thorough = false);
+    bool            thorough = true);
   // Set the current prefix
   void setPrefix(
     const char*     prefix);

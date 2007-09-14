@@ -603,7 +603,7 @@ int Database::read(const string& path, const string& checksum) {
   string  temp_checksum;
   int     failed = 0;
 
-  if (getDir(checksum, source_path, false)) {
+  if (getDir(checksum, source_path)) {
     cerr << "db: read: failed to get dir for: " << checksum << endl;
     return 2;
   }
@@ -657,8 +657,6 @@ int Database::read(const string& path, const string& checksum) {
 
 int Database::scan(const string& checksum, bool thorough) {
   // FIXME scan still broken
-  int failed = 0;
-
   if (_d->merge != NULL) {
     _d->merge->close();
     delete _d->merge;
@@ -697,59 +695,37 @@ int Database::scan(const string& checksum, bool thorough) {
       cout << endl;
     }
     for (list<string>::iterator i = sums.begin(); i != sums.end(); i++) {
-      scan(i->c_str(), thorough);
+      scan(i->c_str());
       if (terminating()) {
         errno = EINTR;
         return -1;
       }
     }
   } else {
-    string  path;
-    bool    filefailed = false;
-
-    if (getDir(checksum.c_str(), path, false)) {
-      errno = ENODATA;
-      filefailed = true;
-      cerr << "db: scan: failed to get directory for checksum "
-        << checksum.c_str() << endl;
-    } else
-    if (! File(path.c_str(), "data").isValid()) {
-      errno = ENOENT;
-      filefailed = true;
-      cerr << "db: scan: file data missing for checksum "
-        << checksum.c_str() << endl;
-    } else
-    if (thorough) {
-      string check_path = path + "/data";
-
-      /* Read file to compute checksum, compare with expected */
-      Stream s(check_path.c_str());
-      if (s.computeChecksum()) {
-        errno = ENOENT;
-        filefailed = true;
-        cerr << "db: scan: file data missing for checksum "
-          << checksum.c_str() << endl;
-      } else
-      if (strncmp(checksum.c_str(), s.checksum(), strlen(s.checksum()))) {
-        errno = EILSEQ;
-        filefailed = true;
-        if (! terminating()) {
-          cerr << "db: scan: file data corrupted for checksum "
-            << checksum.c_str() << " (found to be " << s.checksum() << ")"
-            << endl;
-        }
-      }
-
-      // Remove corrupted file if any
-      if (filefailed) {
-        std::remove(check_path.c_str());
-      }
+    size_t pos = checksum.rfind('-');
+    if (pos == string::npos) {
+      errno = EINVAL;
+      return -1;
     }
-    if (filefailed) {
-      failed = 1;
+    StrPath path;
+    if (getDir(checksum, path)) {
+      errno = EUCLEAN;
+      return -1;
+    }
+    Stream filedata((path + "/data").c_str());
+    if (! filedata.isValid()) {
+      cerr << "db: check: data missing for " << checksum << endl;
+      errno = ENOENT;
+      return -1;
+    }
+    filedata.computeChecksum();
+    if (checksum.substr(0, pos) != filedata.checksum()) {
+      cerr << "db: check: data corrupted for " << checksum << endl;
+      errno = ENOEXEC;
+      return -1;
     }
   }
-  return failed;
+  return 0;
 }
 
 void Database::setPrefix(
