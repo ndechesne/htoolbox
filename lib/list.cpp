@@ -615,14 +615,7 @@ int List::searchCopy(
       if (prefix_l.length() != 0) {
         _line_status = prefix_l.compare(list._line);
       }
-      if (_line_status > 0)  {
-        // Our prefix is here or after, so let's copy
-        if (write(list._line.c_str(), list._line.length()) < 0) {
-          // Could not write
-          rc = -1;
-          break;
-        }
-      } else {
+      if (_line_status <= 0)  {
         if (_line_status < 0) {
           // Prefix not found
           list._line_status = 1;
@@ -641,22 +634,12 @@ int List::searchCopy(
       if ((_line_status <= 0) && (path_l.length() != 0)) {
         path_cmp = path_l.compare(list._line);
       }
-      if (path_cmp > 0) {
-        // Our path is here or after, so let's copy
-        if (write(list._line.c_str(), list._line.length()) < 0) {
-          // Could not write
-          rc = -1;
-          break;
-        }
-      } else {
+      if (path_cmp <= 0) {
         if (path_cmp < 0) {
           // Path not found
           list._line_status = 1;
-          break;
-        } else {
-          // Looking for path, found
-          break;
         }
+        break;
       }
     } else
 
@@ -665,31 +648,25 @@ int List::searchCopy(
       // Deal with exception
       if (exception_line != NULL) {
         // Copy start of line (timestamp)
-        char* pos = strchr(&list._line[2], '\t');
-        if (pos == NULL) {
+        size_t pos = list._line.substr(2).find('\t');
+        if (pos == string::npos) {
           errno = EUCLEAN;
           rc    = -1;
           break;
         }
-        // Write first part from second line
-        if (write(list._line.c_str(), pos - list._line.c_str() + 1) < 0) {
-          // Could not write
-          rc = -1;
-          break;
-        }
-        // Write end of fisrt line
-        if (write(exception_line, strlen(exception_line)) < 0) {
-          // Could not write
-          rc = -1;
-          break;
-        }
+        pos += 2;
+        // Re-create line using previous data
+        list._line.resize(pos);
+        list._line.append(exception_line);
         free(exception_line);
         exception_line = NULL;
       } else
       // Check for exception
       if (strncmp(list._line.c_str(), "\t\t0\t", 4) == 0) {
         // Get only end of line
-        asprintf(&exception_line, "%s", &list._line[4]);
+        asprintf(&exception_line, "%s", &list._line[3]);
+        // Do not copy
+        continue;
       } else
       {
         // General case: check for expiry
@@ -722,13 +699,13 @@ int List::searchCopy(
             }
           }
         }
-        // Our prefix and path are after, so let's copy
-        if (write(list._line.c_str(), list._line.length() ) < 0) {
-          // Could not write
-          rc = -1;
-          break;
-        }
       }
+    }
+    // Our data is here or after, so let's copy
+    if (write(list._line.c_str(), list._line.length()) < 0) {
+      // Could not write
+      rc = -1;
+      break;
     }
   }
   free(exception_line);
