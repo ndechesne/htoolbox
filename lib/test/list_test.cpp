@@ -74,7 +74,7 @@ int main(void) {
   mkdir("test_db", 0755);
 
   if (dblist.open("w")) {
-    cerr << "Failed to open dblist" << endl;
+    cerr << "Failed to open list" << endl;
     return 0;
   }
   dblist.close();
@@ -123,7 +123,7 @@ int main(void) {
   my_time++;
 
   if (dblist.open("r")) {
-    cerr << "Failed to open dblist" << endl;
+    cerr << "Failed to open list" << endl;
     return 0;
   }
   if (dblist.isEmpty()) {
@@ -211,7 +211,7 @@ int main(void) {
   my_time++;
 
   if (dblist.open("r")) {
-    cerr << "Failed to open dblist" << endl;
+    cerr << "Failed to open list" << endl;
     return 0;
   }
   if (dblist.isEmpty()) {
@@ -288,7 +288,7 @@ int main(void) {
   my_time++;
 
   if (dblist.open("r")) {
-    cerr << "Failed to open dblist" << endl;
+    cerr << "Failed to open list" << endl;
     return 0;
   }
   if (dblist.isEmpty()) {
@@ -361,7 +361,7 @@ int main(void) {
   my_time++;
 
   if (dblist.open("r")) {
-    cerr << "Failed to open dblist" << endl;
+    cerr << "Failed to open list" << endl;
     return 0;
   }
   if (dblist.isEmpty()) {
@@ -449,7 +449,7 @@ int main(void) {
   cout << endl << "Test: expire" << endl;
 
   if (dblist.open("r")) {
-    cerr << "Failed to open dblist" << endl;
+    cerr << "Failed to open list" << endl;
     return 0;
   }
   if (dblist.isEmpty()) {
@@ -462,7 +462,7 @@ int main(void) {
   StrPath null;
   list<string> active;
   list<string> expired;
-  if (merge.searchCopy(dblist, null, null, 14, &active, &expired)) {
+  if (merge.searchCopy(dblist, null, null, 14, &active, &expired) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -513,6 +513,54 @@ int main(void) {
   for (list<string>::iterator i = expired.begin(); i != expired.end();  i++) {
     cout << " " << *i << endl;
   }
+
+
+  cout << endl << "Test: copy prefix data" << endl;
+
+  if (dblist.open("r")) {
+    cerr << "Failed to open list" << endl;
+    return 0;
+  }
+  if (dblist.isEmpty()) {
+    cout << "List is empty" << endl;
+  } else {
+    cout << "List:" << endl;
+  }
+  while (dblist.getEntry(&ts, &prefix, &path, &node) > 0) {
+    showLine(ts, prefix, path, node);
+  }
+  dblist.close();
+  if (dblist.open("r")) {
+    cerr << "Failed to open list" << endl;
+    return 0;
+  }
+  if (dblist.isEmpty()) {
+    cout << "List is empty" << endl;
+  }
+  if (merge.open("w")) {
+    cerr << "Failed to open merge" << endl;
+    return 0;
+  }
+  StrPath prefix3("prefix3\n");
+  if (merge.searchCopy(dblist, prefix3, null) < 0) {
+    cerr << "Failed to copy: " << strerror(errno) << endl;
+    return 0;
+  }
+  merge.close();
+  dblist.close();
+
+  merge.open("r");
+  if (merge.isEmpty()) {
+    cout << "Merge is empty" << endl;
+  } else {
+    cout << "Merge:" << endl;
+  }
+  while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
+    showLine(ts, prefix, path, node);
+  }
+  merge.close();
+  cout << "Merge tail:" << endl;
+  system("tail -2 test_db/merge | grep -v 13");
 
   return 0;
 }

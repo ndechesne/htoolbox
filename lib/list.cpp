@@ -590,14 +590,12 @@ int List::searchCopy(
       // Unexpected end of file
       cerr << "Unexpected end of list" << endl;
       errno = EUCLEAN;
-      rc    = -1;
-      break;
+      return -1;
     }
 
     // End of file
     if (list._line[0] == '#') {
-      rc = 0;
-      break;
+      return 0;
     }
 
     // Check line
@@ -605,8 +603,7 @@ int List::searchCopy(
       // Corrupted line
       cerr << "Corrupted line in list" << endl;
       errno = EUCLEAN;
-      rc    = -1;
-      break;
+      return -1;
     }
 
     // Got a prefix
@@ -619,11 +616,11 @@ int List::searchCopy(
         if (_line_status < 0) {
           // Prefix not found
           list._line_status = 1;
-          break;
+          return 1;
         } else
         if (path_l.length() == 0) {
           // Looking for prefix, found
-          break;
+          return 1;
         }
       }
     } else
@@ -639,7 +636,7 @@ int List::searchCopy(
           // Path not found
           list._line_status = 1;
         }
-        break;
+        return 1;
       }
     } else
 
@@ -651,8 +648,7 @@ int List::searchCopy(
         size_t pos = list._line.substr(2).find('\t');
         if (pos == string::npos) {
           errno = EUCLEAN;
-          rc    = -1;
-          break;
+          return -1;
         }
         pos += 3;
         // Re-create line using previous data
@@ -703,11 +699,10 @@ int List::searchCopy(
     // Our data is here or after, so let's copy
     if (write(list._line.c_str(), list._line.length()) < 0) {
       // Could not write
-      rc = -1;
-      break;
+      return -1;
     }
   }
-  return rc;
+  return -2;
 }
 
 int List::merge(List& list, List& journal) {

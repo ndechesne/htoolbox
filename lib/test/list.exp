@@ -105,3 +105,23 @@ Expired checksums (sorted, uniqued): 2
  d41d8cd98f00b204e9800998ecf8427e
 Expired checksums: 1
  59ca0efa9f5633cb0371bbc0355478d8
+
+Test: copy prefix data
+List:
+[ 1] prefix           file_gone                          [rm]
+[ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 0] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] prefix2          file sp                            f     0 644 
+[ 5] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] prefix2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] prefix3          link                               l     8 777 testfile
+[ 5] prefix4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] prefix5          path                               d     0 755
+Merge:
+[ 1] prefix           file_gone                          [rm]
+[ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] prefix2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+Merge tail:
+# end
