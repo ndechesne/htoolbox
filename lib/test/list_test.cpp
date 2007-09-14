@@ -70,6 +70,10 @@ int main(void) {
     return 0;
   }
   journal.removed("prefix", "file_gone");
+  node = new Stream("test1/test space");
+  ((Stream*) node)->computeChecksum();
+  journal.added("prefix2", "file sp", node);
+  free(node);
   node = new Stream("test1/testfile");
   ((Stream*) node)->computeChecksum();
   journal.added("prefix2", "file_new", node);
@@ -208,6 +212,9 @@ int main(void) {
   ((Stream*) node)->computeChecksum();
   journal.added("prefix", "file_new", node);
   journal.added("prefix2", "file_new", node);
+  free(node);
+  node = new Stream("test1/test space");
+  ((Stream*) node)->computeChecksum();
   journal.added("prefix4", "file_new", node);
   free(node);
   journal.close();

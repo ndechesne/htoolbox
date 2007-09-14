@@ -9,6 +9,14 @@ TS:     1
 Type:   removed
 
 Prefix: prefix2
+Path:   file sp
+TS:     1
+Type:   file
+Name:   file sp
+Size:   0
+Chcksm: d41d8cd98f00b204e9800998ecf8427e
+
+Prefix: prefix2
 Path:   file_new
 TS:     1
 Type:   file
@@ -40,6 +48,14 @@ Prefix: prefix
 Path:   file_gone
 TS:     1
 Type:   removed
+
+Prefix: prefix2
+Path:   file sp
+TS:     1
+Type:   file
+Name:   file sp
+Size:   0
+Chcksm: d41d8cd98f00b204e9800998ecf8427e
 
 Prefix: prefix2
 Path:   file_new
@@ -89,8 +105,8 @@ Path:   file_new
 TS:     5
 Type:   file
 Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
+Size:   0
+Chcksm: d41d8cd98f00b204e9800998ecf8427e
 
 
 Test: journal merge into list
@@ -108,6 +124,14 @@ Type:   file
 Name:   file_new
 Size:   20
 Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
+
+Prefix: prefix2
+Path:   file sp
+TS:     1
+Type:   file
+Name:   file sp
+Size:   0
+Chcksm: d41d8cd98f00b204e9800998ecf8427e
 
 Prefix: prefix2
 Path:   file_new
@@ -138,8 +162,8 @@ Path:   file_new
 TS:     5
 Type:   file
 Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
+Size:   0
+Chcksm: d41d8cd98f00b204e9800998ecf8427e
 
 Prefix: prefix5
 Path:   path
@@ -186,6 +210,14 @@ Type:   file
 Name:   file_new
 Size:   20
 Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
+
+Prefix: prefix2
+Path:   file sp
+TS:     1
+Type:   file
+Name:   file sp
+Size:   0
+Chcksm: d41d8cd98f00b204e9800998ecf8427e
 
 Prefix: prefix2
 Path:   file_new
@@ -259,6 +291,14 @@ Size:   20
 Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
 
 Prefix: prefix2
+Path:   file sp
+TS:     1
+Type:   file
+Name:   file sp
+Size:   0
+Chcksm: d41d8cd98f00b204e9800998ecf8427e
+
+Prefix: prefix2
 Path:   file_new
 TS:     13
 Type:   file
@@ -283,6 +323,14 @@ Size:   20
 Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
 
 Prefix: prefix2
+Path:   file sp
+TS:     1
+Type:   file
+Name:   file sp
+Size:   0
+Chcksm: d41d8cd98f00b204e9800998ecf8427e
+
+Prefix: prefix2
 Path:   file_new
 TS:     13
 Type:   file
@@ -292,6 +340,14 @@ Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
 
 prefix 'silly' not found
 prefix 'prefix2' found
+Prefix: prefix2
+Path:   file sp
+TS:     1
+Type:   file
+Name:   file sp
+Size:   0
+Chcksm: d41d8cd98f00b204e9800998ecf8427e
+
 Prefix: prefix2
 Path:   file_new
 TS:     13
