@@ -3,385 +3,93 @@ Test: DB lists
 Test: journal write
 
 Test: journal read
-Prefix: prefix
-Path:   file_gone
-TS:     1
-Type:   removed
-
-Prefix: prefix2
-Path:   file sp
-TS:     1
-Type:   file
-Name:   file sp
-Size:   0
-Chcksm: d41d8cd98f00b204e9800998ecf8427e
-
-Prefix: prefix2
-Path:   file_new
-TS:     1
-Type:   file
-Name:   file_new
-Size:   13
-Chcksm: 59ca0efa9f5633cb0371bbc0355478d8
-
-Prefix: prefix3
-Path:   link
-TS:     1
-Type:   link
-Name:   link
-Size:   8
-Link:   testfile
-
-Prefix: prefix5
-Path:   path
-TS:     1
-Type:   other
-Name:   path
-Size:   0
-
+[ 1] prefix           file_gone                          [rm]
+[ 1] prefix2          file sp                            f     0 644 
+[ 1] prefix2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] prefix3          link                               l     8 777 testfile
+[ 1] prefix5          path                               d     0 755
 
 Test: journal merge into empty list
 List is empty
 
 Test: merge read
-Prefix: prefix
-Path:   file_gone
-TS:     1
-Type:   removed
-
-Prefix: prefix2
-Path:   file sp
-TS:     1
-Type:   file
-Name:   file sp
-Size:   0
-Chcksm: d41d8cd98f00b204e9800998ecf8427e
-
-Prefix: prefix2
-Path:   file_new
-TS:     1
-Type:   file
-Name:   file_new
-Size:   13
-Chcksm: 59ca0efa9f5633cb0371bbc0355478d8
-
-Prefix: prefix3
-Path:   link
-TS:     1
-Type:   link
-Name:   link
-Size:   8
-Link:   testfile
-
-Prefix: prefix5
-Path:   path
-TS:     1
-Type:   other
-Name:   path
-Size:   0
-
+[ 1] prefix           file_gone                          [rm]
+[ 1] prefix2          file sp                            f     0 644 
+[ 1] prefix2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] prefix3          link                               l     8 777 testfile
+[ 1] prefix5          path                               d     0 755
 
 Test: journal write again
 
 Test: journal read
-Prefix: prefix
-Path:   file_new
-TS:     5
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
-Prefix: prefix2
-Path:   file_new
-TS:     5
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
-Prefix: prefix4
-Path:   file_new
-TS:     5
-Type:   file
-Name:   file_new
-Size:   0
-Chcksm: d41d8cd98f00b204e9800998ecf8427e
-
+[ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 0] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 5] prefix4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
 
 Test: journal merge into list
 
 Test: merge read
-Prefix: prefix
-Path:   file_gone
-TS:     1
-Type:   removed
-
-Prefix: prefix
-Path:   file_new
-TS:     5
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
-Prefix: prefix2
-Path:   file sp
-TS:     1
-Type:   file
-Name:   file sp
-Size:   0
-Chcksm: d41d8cd98f00b204e9800998ecf8427e
-
-Prefix: prefix2
-Path:   file_new
-TS:     5
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
-Prefix: prefix2
-Path:   file_new
-TS:     1
-Type:   file
-Name:   file_new
-Size:   13
-Chcksm: 59ca0efa9f5633cb0371bbc0355478d8
-
-Prefix: prefix3
-Path:   link
-TS:     1
-Type:   link
-Name:   link
-Size:   8
-Link:   testfile
-
-Prefix: prefix4
-Path:   file_new
-TS:     5
-Type:   file
-Name:   file_new
-Size:   0
-Chcksm: d41d8cd98f00b204e9800998ecf8427e
-
-Prefix: prefix5
-Path:   path
-TS:     1
-Type:   other
-Name:   path
-Size:   0
-
+[ 1] prefix           file_gone                          [rm]
+[ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 0] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] prefix2          file sp                            f     0 644 
+[ 5] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] prefix2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] prefix3          link                               l     8 777 testfile
+[ 5] prefix4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] prefix5          path                               d     0 755
 
 Test: journal prefix out of order
 
 Test: journal read
-Prefix: prefix4
-Path:   file_new
-TS:     9
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
-Prefix: prefix2
-Path:   file_new
-TS:     9
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
+[ 9] prefix4          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 9] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: journal merge into list
 Prefix out of order in journal, line 4
 Failed to merge: Structure needs cleaning
 
 Test: merge read
-Prefix: prefix
-Path:   file_gone
-TS:     1
-Type:   removed
-
-Prefix: prefix
-Path:   file_new
-TS:     5
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
-Prefix: prefix2
-Path:   file sp
-TS:     1
-Type:   file
-Name:   file sp
-Size:   0
-Chcksm: d41d8cd98f00b204e9800998ecf8427e
-
-Prefix: prefix2
-Path:   file_new
-TS:     5
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
-Prefix: prefix2
-Path:   file_new
-TS:     1
-Type:   file
-Name:   file_new
-Size:   13
-Chcksm: 59ca0efa9f5633cb0371bbc0355478d8
-
-Prefix: prefix3
-Path:   link
-TS:     1
-Type:   link
-Name:   link
-Size:   8
-Link:   testfile
-
-Prefix: prefix4
-Path:   file_new
-TS:     9
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
+[ 1] prefix           file_gone                          [rm]
+[ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] prefix2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] prefix3          link                               l     8 777 testfile
+[ 9] prefix4          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: journal path out of order
 
 Test: journal read
-Prefix: prefix2
-Path:   file_new
-TS:     13
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
-Prefix: prefix2
-Path:   file_gone
-TS:     13
-Type:   file
-Name:   file_gone
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
+[13] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[13] prefix2          file_gone                          f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: journal merge into list
 Path out of order in journal, line 5
 Failed to merge: Structure needs cleaning
 
 Test: merge read
-Prefix: prefix
-Path:   file_gone
-TS:     1
-Type:   removed
-
-Prefix: prefix
-Path:   file_new
-TS:     5
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
-Prefix: prefix2
-Path:   file sp
-TS:     1
-Type:   file
-Name:   file sp
-Size:   0
-Chcksm: d41d8cd98f00b204e9800998ecf8427e
-
-Prefix: prefix2
-Path:   file_new
-TS:     13
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
+[ 1] prefix           file_gone                          [rm]
+[ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[13] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: prefix find
 prefix 'path' not found
-Prefix: prefix
-Path:   file_gone
-TS:     1
-Type:   removed
-
-Prefix: prefix
-Path:   file_new
-TS:     5
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
-Prefix: prefix2
-Path:   file sp
-TS:     1
-Type:   file
-Name:   file sp
-Size:   0
-Chcksm: d41d8cd98f00b204e9800998ecf8427e
-
-Prefix: prefix2
-Path:   file_new
-TS:     13
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
+[ 1] prefix           file_gone                          [rm]
+[ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[13] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 prefix 'silly' not found
 prefix 'prefix2' found
-Prefix: prefix2
-Path:   file sp
-TS:     1
-Type:   file
-Name:   file sp
-Size:   0
-Chcksm: d41d8cd98f00b204e9800998ecf8427e
-
-Prefix: prefix2
-Path:   file_new
-TS:     13
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
+[ 1] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[13] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: expire
-Prefix: prefix
-Path:   file_new
-TS:     5
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
-Prefix: prefix2
-Path:   file_new
-TS:     5
-Type:   file
-Name:   file_new
-Size:   20
-Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
-
-Prefix: prefix4
-Path:   file_new
-TS:     5
-Type:   file
-Name:   file_new
-Size:   0
-Chcksm: d41d8cd98f00b204e9800998ecf8427e
-
+[ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 5] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 5] prefix4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
 Active checksums (gross): 3
  12fec763b7f0a7d6acfc8bfe7606c325
  12fec763b7f0a7d6acfc8bfe7606c325

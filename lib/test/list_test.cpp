@@ -45,6 +45,22 @@ time_t time(time_t *t) {
   return my_time;
 }
 
+static void showLine(time_t timestamp, char* prefix, char* path, Node* node) {
+  printf("[%2ld] %-16s %-34s", timestamp, prefix, path);
+  if (node != NULL) {
+    printf(" %c %5llu %03o", node->type(), node->size(), node->mode());
+    if (node->type() == 'f') {
+      printf(" %s", ((File*) node)->checksum());
+    }
+    if (node->type() == 'l') {
+      printf(" %s", ((Link*) node)->link());
+    }
+  } else {
+    printf(" [rm]");
+  }
+  cout << endl;
+}
+
 int main(void) {
   List    dblist("test_db/list");
   List    journal("test_db/journal");
@@ -67,13 +83,13 @@ int main(void) {
   cout << endl << "Test: journal write" << endl;
   my_time++;
 
-  if (journal.open("w")) {
+  if (journal.open("w", -1)) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
   journal.removed("prefix", "file_gone");
   node = new Stream("test1/test space");
-  ((Stream*) node)->computeChecksum();
+  // No checksum
   journal.added("prefix2", "file sp", node);
   free(node);
   node = new Stream("test1/testfile");
@@ -98,33 +114,7 @@ int main(void) {
     cout << "Journal is empty" << endl;
   } else
   while (journal.getEntry(&ts, &prefix, &path, &node) > 0) {
-    cout << "Prefix: " << prefix << endl;
-    cout << "Path:   " << path << endl;
-    cout << "TS:     " << ts << endl;
-    if (node == NULL) {
-      cout << "Type:   removed" << endl;
-    } else {
-      switch (node->type()) {
-        case 'f':
-          cout << "Type:   file" << endl;
-          break;
-        case 'l':
-          cout << "Type:   link" << endl;
-          break;
-        default:
-          cout << "Type:   other" << endl;
-      }
-      cout << "Name:   " << node->name() << endl;
-      cout << "Size:   " << node->size() << endl;
-      switch (node->type()) {
-        case 'f':
-          cout << "Chcksm: " << ((File*) node)->checksum() << endl;
-          break;
-        case 'l':
-          cout << "Link:   " << ((Link*) node)->link() << endl;
-      }
-    }
-    cout << endl;
+    showLine(ts, prefix, path, node);
   }
   journal.close();
 
@@ -167,35 +157,7 @@ int main(void) {
     cout << "Merge is empty" << endl;
   } else
   while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
-    cout << "Prefix: " << prefix << endl;
-    cout << "Path:   " << path << endl;
-    cout << "TS:     " << ts << endl;
-    if (node == NULL) {
-      cout << "Type:   removed" << endl;
-    } else {
-      switch (node->type()) {
-        case 'f':
-          cout << "Type:   file" << endl;
-          break;
-        case 'l':
-          cout << "Type:   link" << endl;
-          break;
-        default:
-          cout << "Type:   other" << endl;
-      }
-      cout << "Name:   " << node->name() << endl;
-      cout << "Size:   " << node->size() << endl;
-      switch (node->type()) {
-        case 'f':
-          cout << "Chcksm: " << ((File*) node)->checksum() << endl;
-          break;
-        case 'l':
-          cout << "Link:   " << ((Link*) node)->link() << endl;
-      }
-      free(node);
-      node = NULL;
-    }
-    cout << endl;
+    showLine(ts, prefix, path, node);
   }
   merge.close();
 
@@ -215,6 +177,13 @@ int main(void) {
   node = new Stream("test1/testfile");
   ((Stream*) node)->computeChecksum();
   journal.added("prefix", "file_new", node);
+  free(node);
+  node = new Stream("test1/test space");
+  ((Stream*) node)->computeChecksum();
+  journal.added("prefix2", "file sp", node, 0);
+  free(node);
+  node = new Stream("test1/testfile");
+  ((Stream*) node)->computeChecksum();
   journal.added("prefix2", "file_new", node);
   free(node);
   node = new Stream("test1/test space");
@@ -233,33 +202,7 @@ int main(void) {
     cout << "Journal is empty" << endl;
   } else
   while (journal.getEntry(&ts, &prefix, &path, &node) > 0) {
-    cout << "Prefix: " << prefix << endl;
-    cout << "Path:   " << path << endl;
-    cout << "TS:     " << ts << endl;
-    if (node == NULL) {
-      cout << "Type:   removed" << endl;
-    } else {
-      switch (node->type()) {
-        case 'f':
-          cout << "Type:   file" << endl;
-          break;
-        case 'l':
-          cout << "Type:   link" << endl;
-          break;
-        default:
-          cout << "Type:   other" << endl;
-      }
-      cout << "Name:   " << node->name() << endl;
-      cout << "Size:   " << node->size() << endl;
-      switch (node->type()) {
-        case 'f':
-          cout << "Chcksm: " << ((File*) node)->checksum() << endl;
-          break;
-        case 'l':
-          cout << "Link:   " << ((Link*) node)->link() << endl;
-      }
-    }
-    cout << endl;
+    showLine(ts, prefix, path, node);
   }
   journal.close();
 
@@ -302,35 +245,7 @@ int main(void) {
     cout << "Merge is empty" << endl;
   } else
   while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
-    cout << "Prefix: " << prefix << endl;
-    cout << "Path:   " << path << endl;
-    cout << "TS:     " << ts << endl;
-    if (node == NULL) {
-      cout << "Type:   removed" << endl;
-    } else {
-      switch (node->type()) {
-        case 'f':
-          cout << "Type:   file" << endl;
-          break;
-        case 'l':
-          cout << "Type:   link" << endl;
-          break;
-        default:
-          cout << "Type:   other" << endl;
-      }
-      cout << "Name:   " << node->name() << endl;
-      cout << "Size:   " << node->size() << endl;
-      switch (node->type()) {
-        case 'f':
-          cout << "Chcksm: " << ((File*) node)->checksum() << endl;
-          break;
-        case 'l':
-          cout << "Link:   " << ((Link*) node)->link() << endl;
-      }
-      free(node);
-      node = NULL;
-    }
-    cout << endl;
+    showLine(ts, prefix, path, node);
   }
   merge.close();
 
@@ -364,33 +279,7 @@ int main(void) {
     cout << "Journal is empty" << endl;
   } else
   while (journal.getEntry(&ts, &prefix, &path, &node) > 0) {
-    cout << "Prefix: " << prefix << endl;
-    cout << "Path:   " << path << endl;
-    cout << "TS:     " << ts << endl;
-    if (node == NULL) {
-      cout << "Type:   removed" << endl;
-    } else {
-      switch (node->type()) {
-        case 'f':
-          cout << "Type:   file" << endl;
-          break;
-        case 'l':
-          cout << "Type:   link" << endl;
-          break;
-        default:
-          cout << "Type:   other" << endl;
-      }
-      cout << "Name:   " << node->name() << endl;
-      cout << "Size:   " << node->size() << endl;
-      switch (node->type()) {
-        case 'f':
-          cout << "Chcksm: " << ((File*) node)->checksum() << endl;
-          break;
-        case 'l':
-          cout << "Link:   " << ((Link*) node)->link() << endl;
-      }
-    }
-    cout << endl;
+    showLine(ts, prefix, path, node);
   }
   journal.close();
 
@@ -433,35 +322,7 @@ int main(void) {
     cout << "Merge is empty" << endl;
   } else
   while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
-    cout << "Prefix: " << prefix << endl;
-    cout << "Path:   " << path << endl;
-    cout << "TS:     " << ts << endl;
-    if (node == NULL) {
-      cout << "Type:   removed" << endl;
-    } else {
-      switch (node->type()) {
-        case 'f':
-          cout << "Type:   file" << endl;
-          break;
-        case 'l':
-          cout << "Type:   link" << endl;
-          break;
-        default:
-          cout << "Type:   other" << endl;
-      }
-      cout << "Name:   " << node->name() << endl;
-      cout << "Size:   " << node->size() << endl;
-      switch (node->type()) {
-        case 'f':
-          cout << "Chcksm: " << ((File*) node)->checksum() << endl;
-          break;
-        case 'l':
-          cout << "Link:   " << ((Link*) node)->link() << endl;
-      }
-      free(node);
-      node = NULL;
-    }
-    cout << endl;
+    showLine(ts, prefix, path, node);
   }
   merge.close();
 
@@ -491,33 +352,7 @@ int main(void) {
     cout << "Journal is empty" << endl;
   } else
   while (journal.getEntry(&ts, &prefix, &path, &node) > 0) {
-    cout << "Prefix: " << prefix << endl;
-    cout << "Path:   " << path << endl;
-    cout << "TS:     " << ts << endl;
-    if (node == NULL) {
-      cout << "Type:   removed" << endl;
-    } else {
-      switch (node->type()) {
-        case 'f':
-          cout << "Type:   file" << endl;
-          break;
-        case 'l':
-          cout << "Type:   link" << endl;
-          break;
-        default:
-          cout << "Type:   other" << endl;
-      }
-      cout << "Name:   " << node->name() << endl;
-      cout << "Size:   " << node->size() << endl;
-      switch (node->type()) {
-        case 'f':
-          cout << "Chcksm: " << ((File*) node)->checksum() << endl;
-          break;
-        case 'l':
-          cout << "Link:   " << ((Link*) node)->link() << endl;
-      }
-    }
-    cout << endl;
+    showLine(ts, prefix, path, node);
   }
   journal.close();
 
@@ -560,35 +395,7 @@ int main(void) {
     cout << "Merge is empty" << endl;
   } else
   while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
-    cout << "Prefix: " << prefix << endl;
-    cout << "Path:   " << path << endl;
-    cout << "TS:     " << ts << endl;
-    if (node == NULL) {
-      cout << "Type:   removed" << endl;
-    } else {
-      switch (node->type()) {
-        case 'f':
-          cout << "Type:   file" << endl;
-          break;
-        case 'l':
-          cout << "Type:   link" << endl;
-          break;
-        default:
-          cout << "Type:   other" << endl;
-      }
-      cout << "Name:   " << node->name() << endl;
-      cout << "Size:   " << node->size() << endl;
-      switch (node->type()) {
-        case 'f':
-          cout << "Chcksm: " << ((File*) node)->checksum() << endl;
-          break;
-        case 'l':
-          cout << "Link:   " << ((Link*) node)->link() << endl;
-      }
-      free(node);
-      node = NULL;
-    }
-    cout << endl;
+    showLine(ts, prefix, path, node);
   }
   merge.close();
 
@@ -606,35 +413,7 @@ int main(void) {
     cout << "prefix 'path' found" << endl;
   }
   while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
-    cout << "Prefix: " << prefix << endl;
-    cout << "Path:   " << path << endl;
-    cout << "TS:     " << ts << endl;
-    if (node == NULL) {
-      cout << "Type:   removed" << endl;
-    } else {
-      switch (node->type()) {
-        case 'f':
-          cout << "Type:   file" << endl;
-          break;
-        case 'l':
-          cout << "Type:   link" << endl;
-          break;
-        default:
-          cout << "Type:   other" << endl;
-      }
-      cout << "Name:   " << node->name() << endl;
-      cout << "Size:   " << node->size() << endl;
-      switch (node->type()) {
-        case 'f':
-          cout << "Chcksm: " << ((File*) node)->checksum() << endl;
-          break;
-        case 'l':
-          cout << "Link:   " << ((Link*) node)->link() << endl;
-      }
-      free(node);
-      node = NULL;
-    }
-    cout << endl;
+    showLine(ts, prefix, path, node);
   }
   merge.close();
 
@@ -648,35 +427,7 @@ int main(void) {
     cout << "prefix 'silly' found" << endl;
   }
   while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
-    cout << "Prefix: " << prefix << endl;
-    cout << "Path:   " << path << endl;
-    cout << "TS:     " << ts << endl;
-    if (node == NULL) {
-      cout << "Type:   removed" << endl;
-    } else {
-      switch (node->type()) {
-        case 'f':
-          cout << "Type:   file" << endl;
-          break;
-        case 'l':
-          cout << "Type:   link" << endl;
-          break;
-        default:
-          cout << "Type:   other" << endl;
-      }
-      cout << "Name:   " << node->name() << endl;
-      cout << "Size:   " << node->size() << endl;
-      switch (node->type()) {
-        case 'f':
-          cout << "Chcksm: " << ((File*) node)->checksum() << endl;
-          break;
-        case 'l':
-          cout << "Link:   " << ((Link*) node)->link() << endl;
-      }
-      free(node);
-      node = NULL;
-    }
-    cout << endl;
+    showLine(ts, prefix, path, node);
   }
   merge.close();
 
@@ -690,35 +441,7 @@ int main(void) {
     cout << "prefix 'prefix2' found" << endl;
   }
   while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
-    cout << "Prefix: " << prefix << endl;
-    cout << "Path:   " << path << endl;
-    cout << "TS:     " << ts << endl;
-    if (node == NULL) {
-      cout << "Type:   removed" << endl;
-    } else {
-      switch (node->type()) {
-        case 'f':
-          cout << "Type:   file" << endl;
-          break;
-        case 'l':
-          cout << "Type:   link" << endl;
-          break;
-        default:
-          cout << "Type:   other" << endl;
-      }
-      cout << "Name:   " << node->name() << endl;
-      cout << "Size:   " << node->size() << endl;
-      switch (node->type()) {
-        case 'f':
-          cout << "Chcksm: " << ((File*) node)->checksum() << endl;
-          break;
-        case 'l':
-          cout << "Link:   " << ((Link*) node)->link() << endl;
-      }
-      free(node);
-      node = NULL;
-    }
-    cout << endl;
+    showLine(ts, prefix, path, node);
   }
   merge.close();
 
@@ -751,35 +474,7 @@ int main(void) {
     cout << "Merge is empty" << endl;
   }
   while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
-    cout << "Prefix: " << prefix << endl;
-    cout << "Path:   " << path << endl;
-    cout << "TS:     " << ts << endl;
-    if (node == NULL) {
-      cout << "Type:   removed" << endl;
-    } else {
-      switch (node->type()) {
-        case 'f':
-          cout << "Type:   file" << endl;
-          break;
-        case 'l':
-          cout << "Type:   link" << endl;
-          break;
-        default:
-          cout << "Type:   other" << endl;
-      }
-      cout << "Name:   " << node->name() << endl;
-      cout << "Size:   " << node->size() << endl;
-      switch (node->type()) {
-        case 'f':
-          cout << "Chcksm: " << ((File*) node)->checksum() << endl;
-          break;
-        case 'l':
-          cout << "Link:   " << ((Link*) node)->link() << endl;
-      }
-      free(node);
-      node = NULL;
-    }
-    cout << endl;
+    showLine(ts, prefix, path, node);
   }
   merge.close();
 

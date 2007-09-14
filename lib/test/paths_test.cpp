@@ -16,8 +16,6 @@
      Boston, MA 02111-1307, USA.
 */
 
-// Test add* functions
-
 #include <iostream>
 #include <list>
 #include <string>
@@ -45,12 +43,11 @@ int hbackup::terminating(void) {
 }
 
 static time_t my_time = 0;
-
 time_t time(time_t *t) {
   return my_time;
 }
 
-void showLine(time_t timestamp, char* prefix, char* path, Node* node) {
+static void showLine(time_t timestamp, char* prefix, char* path, Node* node) {
   printf("[%2ld] %-16s %-34s", timestamp, prefix, path);
   if (node != NULL) {
     printf(" %c %5llu %03o", node->type(), node->size(), node->mode());

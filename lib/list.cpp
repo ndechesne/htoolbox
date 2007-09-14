@@ -568,9 +568,9 @@ int List::searchCopy(
     time_t        expire,
     list<string>* active,
     list<string>* expired) {
-  int   rc             = 0;
-  char* exception_line = NULL;
-  int   path_cmp;
+  string exception_line;
+  int    path_cmp;
+  int    rc = 0;
 
   // No need to compare prefixes
   if (prefix_l.length() == 0) {
@@ -646,7 +646,7 @@ int List::searchCopy(
     // Got data
     {
       // Deal with exception
-      if (exception_line != NULL) {
+      if (exception_line.size() != 0) {
         // Copy start of line (timestamp)
         size_t pos = list._line.substr(2).find('\t');
         if (pos == string::npos) {
@@ -654,48 +654,47 @@ int List::searchCopy(
           rc    = -1;
           break;
         }
-        pos += 2;
+        pos += 3;
         // Re-create line using previous data
         list._line.resize(pos);
         list._line.append(exception_line);
-        free(exception_line);
-        exception_line = NULL;
+        exception_line = "";
       } else
       // Check for exception
       if (strncmp(list._line.c_str(), "\t\t0\t", 4) == 0) {
         // Get only end of line
-        asprintf(&exception_line, "%s", &list._line[3]);
-        // Do not copy
+        exception_line = list._line.substr(4);
+        // Do not copy: merge with following line
         continue;
-      } else
-      {
-        // General case: check for expiry
-        if (expire > 0) {
-          // Check time
-          time_t ts = 0;
-          string reader = &list._line[2];
-          reader[reader.size() - 1] = '\0';
-          size_t pos = reader.find('\t');
-          if ((pos != string::npos)
-           && (sscanf(reader.substr(pos - 1).c_str(), "%lu", &ts) == 1)) {
-            reader = reader.substr(pos + 1);
-            const char* checksum = NULL;
-            if ((reader[0] == 'f')
-             && ((expired != NULL) || (active != NULL))) {
-              pos = reader.rfind('\t');
-              if (pos != string::npos) {
-                checksum = &reader[pos + 1];
-              }
+      }
+
+      // Check for expiry
+      if (expire > 0) {
+        // Check time
+        time_t ts = 0;
+        string reader = &list._line[2];
+        reader[reader.size() - 1] = '\0';
+        size_t pos = reader.find('\t');
+        if ((pos != string::npos)
+          && (sscanf(reader.substr(pos - 1).c_str(), "%lu", &ts) == 1)) {
+          reader = reader.substr(pos + 1);
+          const char* checksum = NULL;
+          if ((reader[0] == 'f')
+            && ((expired != NULL) || (active != NULL))) {
+            pos = reader.rfind('\t');
+            if (pos != string::npos) {
+              checksum = &reader[pos + 1];
             }
-            if (time(NULL) - ts > expire) {
-              if ((checksum != NULL) && (expired != NULL)) {
-                expired->push_back(checksum);
-              }
-              continue;
-            } else {
-              if ((checksum != NULL) && (active != NULL)) {
-                active->push_back(checksum);
-              }
+          }
+          if (time(NULL) - ts > expire) {
+            if ((checksum != NULL) && (expired != NULL)) {
+              expired->push_back(checksum);
+            }
+            // Do not copy: expired
+            continue;
+          } else {
+            if ((checksum != NULL) && (active != NULL)) {
+              active->push_back(checksum);
             }
           }
         }
@@ -708,7 +707,6 @@ int List::searchCopy(
       break;
     }
   }
-  free(exception_line);
   return rc;
 }
 
@@ -734,7 +732,6 @@ int List::merge(List& list, List& journal) {
   // Current prefix, path and data (from journal)
   StrPath prefix;
   StrPath path;
-  string  data;
 
   // Last searchCopy status
   _line_status = 0;
@@ -838,8 +835,6 @@ int List::merge(List& list, List& journal) {
       }
       // Copy new path
       path = journal._line;
-      // Not data for this entry yet
-      data = "";
       // Search/copy list
       if (rc_list > 0) {
         rc_list = searchCopy(list, prefix, path);
@@ -862,7 +857,6 @@ int List::merge(List& list, List& journal) {
         rc = -1;
         break;
       }
-      data = journal._line;
     }
 
     // Copy journal line
