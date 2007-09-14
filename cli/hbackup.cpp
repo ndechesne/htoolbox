@@ -20,12 +20,9 @@
 #include <string>
 #include <signal.h>
 #include <errno.h>
-
-using namespace std;
-
 #include "hbackup.h"
 
-using namespace hbackup;
+using namespace std;
 
 /* DEFAULTS */
 
@@ -90,7 +87,7 @@ int main(int argc, char **argv) {
   bool              expect_configpath = false;
   bool              expect_client     = false;
   struct sigaction  action;
-  HBackup           hbackup;
+  hbackup::HBackup  hbackup;
 
   /* Set signal catcher */
   action.sa_handler = sighandler;
