@@ -10,7 +10,7 @@ Type:   removed
 
 Prefix: prefix2
 Path:   file_new
-TS:     2
+TS:     1
 Type:   file
 Name:   file_new
 Size:   13
@@ -18,7 +18,7 @@ Chcksm: 59ca0efa9f5633cb0371bbc0355478d8
 
 Prefix: prefix3
 Path:   link
-TS:     0
+TS:     1
 Type:   link
 Name:   link
 Size:   8
@@ -26,7 +26,7 @@ Link:   testfile
 
 Prefix: prefix5
 Path:   path
-TS:     0
+TS:     1
 Type:   other
 Name:   path
 Size:   0
@@ -43,7 +43,7 @@ Type:   removed
 
 Prefix: prefix2
 Path:   file_new
-TS:     2
+TS:     1
 Type:   file
 Name:   file_new
 Size:   13
@@ -51,7 +51,7 @@ Chcksm: 59ca0efa9f5633cb0371bbc0355478d8
 
 Prefix: prefix3
 Path:   link
-TS:     0
+TS:     1
 Type:   link
 Name:   link
 Size:   8
@@ -59,7 +59,7 @@ Link:   testfile
 
 Prefix: prefix5
 Path:   path
-TS:     0
+TS:     1
 Type:   other
 Name:   path
 Size:   0
@@ -70,7 +70,7 @@ Test: journal write again
 Test: journal read
 Prefix: prefix
 Path:   file_new
-TS:     3
+TS:     5
 Type:   file
 Name:   file_new
 Size:   20
@@ -78,7 +78,7 @@ Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
 
 Prefix: prefix2
 Path:   file_new
-TS:     4
+TS:     5
 Type:   file
 Name:   file_new
 Size:   20
@@ -103,7 +103,7 @@ Type:   removed
 
 Prefix: prefix
 Path:   file_new
-TS:     3
+TS:     5
 Type:   file
 Name:   file_new
 Size:   20
@@ -111,7 +111,7 @@ Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
 
 Prefix: prefix2
 Path:   file_new
-TS:     4
+TS:     5
 Type:   file
 Name:   file_new
 Size:   20
@@ -119,7 +119,7 @@ Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
 
 Prefix: prefix2
 Path:   file_new
-TS:     2
+TS:     1
 Type:   file
 Name:   file_new
 Size:   13
@@ -127,7 +127,7 @@ Chcksm: 59ca0efa9f5633cb0371bbc0355478d8
 
 Prefix: prefix3
 Path:   link
-TS:     0
+TS:     1
 Type:   link
 Name:   link
 Size:   8
@@ -143,7 +143,7 @@ Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
 
 Prefix: prefix5
 Path:   path
-TS:     0
+TS:     1
 Type:   other
 Name:   path
 Size:   0
@@ -154,7 +154,7 @@ Test: journal prefix out of order
 Test: journal read
 Prefix: prefix4
 Path:   file_new
-TS:     6
+TS:     9
 Type:   file
 Name:   file_new
 Size:   20
@@ -162,7 +162,7 @@ Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
 
 Prefix: prefix2
 Path:   file_new
-TS:     7
+TS:     9
 Type:   file
 Name:   file_new
 Size:   20
@@ -181,7 +181,7 @@ Type:   removed
 
 Prefix: prefix
 Path:   file_new
-TS:     3
+TS:     5
 Type:   file
 Name:   file_new
 Size:   20
@@ -189,7 +189,7 @@ Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
 
 Prefix: prefix2
 Path:   file_new
-TS:     4
+TS:     5
 Type:   file
 Name:   file_new
 Size:   20
@@ -197,7 +197,7 @@ Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
 
 Prefix: prefix2
 Path:   file_new
-TS:     2
+TS:     1
 Type:   file
 Name:   file_new
 Size:   13
@@ -205,7 +205,7 @@ Chcksm: 59ca0efa9f5633cb0371bbc0355478d8
 
 Prefix: prefix3
 Path:   link
-TS:     0
+TS:     1
 Type:   link
 Name:   link
 Size:   8
@@ -213,7 +213,7 @@ Link:   testfile
 
 Prefix: prefix4
 Path:   file_new
-TS:     6
+TS:     9
 Type:   file
 Name:   file_new
 Size:   20
@@ -225,7 +225,7 @@ Test: journal path out of order
 Test: journal read
 Prefix: prefix2
 Path:   file_new
-TS:     8
+TS:     13
 Type:   file
 Name:   file_new
 Size:   20
@@ -233,7 +233,7 @@ Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
 
 Prefix: prefix2
 Path:   file_gone
-TS:     9
+TS:     13
 Type:   file
 Name:   file_gone
 Size:   20
@@ -252,7 +252,7 @@ Type:   removed
 
 Prefix: prefix
 Path:   file_new
-TS:     3
+TS:     5
 Type:   file
 Name:   file_new
 Size:   20
@@ -260,7 +260,7 @@ Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
 
 Prefix: prefix2
 Path:   file_new
-TS:     8
+TS:     13
 Type:   file
 Name:   file_new
 Size:   20
@@ -276,7 +276,7 @@ Type:   removed
 
 Prefix: prefix
 Path:   file_new
-TS:     3
+TS:     5
 Type:   file
 Name:   file_new
 Size:   20
@@ -284,7 +284,7 @@ Chcksm: 12fec763b7f0a7d6acfc8bfe7606c325
 
 Prefix: prefix2
 Path:   file_new
-TS:     8
+TS:     13
 Type:   file
 Name:   file_new
 Size:   20
@@ -294,7 +294,7 @@ prefix 'silly' not found
 prefix 'prefix2' found
 Prefix: prefix2
 Path:   file_new
-TS:     8
+TS:     13
 Type:   file
 Name:   file_new
 Size:   20

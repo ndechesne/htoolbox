@@ -38,9 +38,9 @@ int hbackup::terminating(void) {
   return 0;
 }
 
+static time_t my_time = 0;
 time_t time(time_t *t) {
-  static time_t my_time = 0;
-  return ++my_time;
+  return my_time;
 }
 
 int main(void) {
@@ -63,6 +63,7 @@ int main(void) {
   list.close();
 
   cout << endl << "Test: journal write" << endl;
+  my_time++;
 
   if (journal.open("w")) {
     cerr << "Failed to open journal" << endl;
@@ -74,14 +75,15 @@ int main(void) {
   journal.added("prefix2", "file_new", node);
   free(node);
   node = new Link("test1/testlink");
-  journal.added("prefix3", "link", node, 0);
+  journal.added("prefix3", "link", node);
   free(node);
   node = new Directory("test1/testdir");
-  journal.added("prefix5", "path", node, 0);
+  journal.added("prefix5", "path", node);
   free(node);
   journal.close();
 
   cout << endl << "Test: journal read" << endl;
+  my_time++;
 
   node = NULL;
   journal.open("r");
@@ -121,6 +123,7 @@ int main(void) {
   free(line);
 
   cout << endl << "Test: journal merge into empty list" << endl;
+  my_time++;
 
   if (list.open("r")) {
     cerr << "Failed to open list" << endl;
@@ -149,6 +152,7 @@ int main(void) {
   list.close();
 
   cout << endl << "Test: merge read" << endl;
+  my_time++;
 
   merge.open("r");
   if (merge.isEmpty()) {
@@ -193,6 +197,7 @@ int main(void) {
   }
 
   cout << endl << "Test: journal write again" << endl;
+  my_time++;
 
   if (journal.open("w")) {
     cerr << "Failed to open journal" << endl;
@@ -208,6 +213,7 @@ int main(void) {
   journal.close();
 
   cout << endl << "Test: journal read" << endl;
+  my_time++;
 
   node = NULL;
   journal.open("r");
@@ -247,6 +253,7 @@ int main(void) {
   free(line);
 
   cout << endl << "Test: journal merge into list" << endl;
+  my_time++;
 
   if (list.open("r")) {
     cerr << "Failed to open list" << endl;
@@ -275,6 +282,7 @@ int main(void) {
   list.close();
 
   cout << endl << "Test: merge read" << endl;
+  my_time++;
 
   merge.open("r");
   if (merge.isEmpty()) {
@@ -319,6 +327,7 @@ int main(void) {
   }
 
   cout << endl << "Test: journal prefix out of order" << endl;
+  my_time++;
 
   if (journal.open("w")) {
     cerr << "Failed to open journal" << endl;
@@ -333,6 +342,7 @@ int main(void) {
   journal.close();
 
   cout << endl << "Test: journal read" << endl;
+  my_time++;
 
   node = NULL;
   journal.open("r");
@@ -372,6 +382,7 @@ int main(void) {
   free(line);
 
   cout << endl << "Test: journal merge into list" << endl;
+  my_time++;
 
   if (list.open("r")) {
     cerr << "Failed to open list" << endl;
@@ -400,6 +411,7 @@ int main(void) {
   list.close();
 
   cout << endl << "Test: merge read" << endl;
+  my_time++;
 
   merge.open("r");
   if (merge.isEmpty()) {
@@ -440,6 +452,7 @@ int main(void) {
   free(line);
 
   cout << endl << "Test: journal path out of order" << endl;
+  my_time++;
 
   if (journal.open("w")) {
     cerr << "Failed to open journal" << endl;
@@ -454,6 +467,7 @@ int main(void) {
   journal.close();
 
   cout << endl << "Test: journal read" << endl;
+  my_time++;
 
   node = NULL;
   journal.open("r");
@@ -493,6 +507,7 @@ int main(void) {
   free(line);
 
   cout << endl << "Test: journal merge into list" << endl;
+  my_time++;
 
   if (list.open("r")) {
     cerr << "Failed to open list" << endl;
@@ -521,6 +536,7 @@ int main(void) {
   list.close();
 
   cout << endl << "Test: merge read" << endl;
+  my_time++;
 
   merge.open("r");
   if (merge.isEmpty()) {
@@ -560,6 +576,7 @@ int main(void) {
   merge.close();
 
   cout << endl << "Test: prefix find" << endl;
+  my_time++;
 
   merge.open("r");
   if (merge.isEmpty()) {
