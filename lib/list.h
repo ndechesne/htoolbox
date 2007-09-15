@@ -97,6 +97,11 @@ class List : public Stream {
   string          _line;
   // -2: unexpected eof, -1: error, 0: read again, 1: use current, 2: empty
   int             _line_status;
+  // Decode metadata from current line
+  int decodeLine(
+    const char*   path,
+    Node**        node,
+    time_t*       timestamp);
 public:
   List(
     const char*   dir_path,
@@ -114,7 +119,7 @@ public:
   ssize_t getLine();
   // Skip to given prefix
   bool findPrefix(const char* prefix);
-  // Convert one 'line' of data (only works for journal atm)
+  // Convert one 'line' of data
   int getEntry(
     time_t*       timestamp,
     char**        prefix,
