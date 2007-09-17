@@ -431,10 +431,11 @@ bool List::findPrefix(const char* prefix_in) {
 }
 
 int List::getEntry(
-    time_t*   timestamp,
-    char**    prefix,
-    char**    path,
-    Node**    node) {
+    time_t*       timestamp,
+    char**        prefix,
+    char**        path,
+    Node**        node,
+    bool          latest) {
   // Initialise
   errno = 0;
   free(*node);
@@ -482,10 +483,11 @@ int List::getEntry(
         *path = NULL;
         asprintf(path, "%s", &_line[1]);
       }
+      latest = false;
     } else
 
     // Data
-    {
+    if (! latest) {
       if (node != NULL) {
         _line[length] = '\t';
         // Will set errno if an error is found
@@ -713,7 +715,9 @@ int List::searchCopy(
   return -2;
 }
 
-int List::merge(List& list, List& journal) {
+int List::merge(
+    List&         list,
+    List&         journal) {
   // Check that all files are open
   if (! isOpen() || ! list.isOpen() || ! journal.isOpen()) {
     errno = EBADF;

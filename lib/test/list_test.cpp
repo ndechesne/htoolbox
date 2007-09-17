@@ -69,6 +69,7 @@ int main(void) {
   char*   path   = NULL;
   Node*   node   = NULL;
   time_t  ts;
+  int     rc     = 0;
 
   cout << "Test: DB lists" << endl;
   mkdir("test_db", 0755);
@@ -113,10 +114,13 @@ int main(void) {
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   } else
-  while (journal.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = journal.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   journal.close();
+  if (rc < 0) {
+    cerr << "Failed to read journal" << endl;
+  }
 
 
   cout << endl << "Test: journal merge into empty list" << endl;
@@ -156,10 +160,13 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   } else
-  while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   merge.close();
+  if (rc < 0) {
+    cerr << "Failed to read merge" << endl;
+  }
 
   if (rename("test_db/merge", "test_db/list")) {
     cerr << "Failed to rename merge into list" << endl;
@@ -201,10 +208,13 @@ int main(void) {
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   } else
-  while (journal.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = journal.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   journal.close();
+  if (rc < 0) {
+    cerr << "Failed to read journal" << endl;
+  }
 
 
   cout << endl << "Test: journal merge into list" << endl;
@@ -244,10 +254,13 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   } else
-  while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   merge.close();
+  if (rc < 0) {
+    cerr << "Failed to read merge" << endl;
+  }
 
   if (rename("test_db/merge", "test_db/list")) {
     cerr << "Failed to rename merge into list" << endl;
@@ -278,10 +291,13 @@ int main(void) {
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   } else
-  while (journal.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = journal.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   journal.close();
+  if (rc < 0) {
+    cerr << "Failed to read journal" << endl;
+  }
 
 
   cout << endl << "Test: journal merge into list" << endl;
@@ -321,10 +337,13 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   } else
-  while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   merge.close();
+  if (rc < 0) {
+    cerr << "Failed to read merge" << endl;
+  }
 
 
   cout << endl << "Test: journal path out of order" << endl;
@@ -351,10 +370,13 @@ int main(void) {
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   } else
-  while (journal.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = journal.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   journal.close();
+  if (rc < 0) {
+    cerr << "Failed to read journal" << endl;
+  }
 
 
   cout << endl << "Test: journal merge into list" << endl;
@@ -394,10 +416,13 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   } else
-  while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   merge.close();
+  if (rc < 0) {
+    cerr << "Failed to read merge" << endl;
+  }
 
 
   cout << endl << "Test: prefix find" << endl;
@@ -412,10 +437,13 @@ int main(void) {
   } else {
     cout << "prefix 'path' found" << endl;
   }
-  while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   merge.close();
+  if (rc < 0) {
+    cerr << "Failed to read merge" << endl;
+  }
 
   merge.open("r");
   if (merge.isEmpty()) {
@@ -426,10 +454,13 @@ int main(void) {
   } else {
     cout << "prefix 'silly' found" << endl;
   }
-  while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   merge.close();
+  if (rc < 0) {
+    cerr << "Failed to read merge" << endl;
+  }
 
   merge.open("r");
   if (merge.isEmpty()) {
@@ -440,10 +471,13 @@ int main(void) {
   } else {
     cout << "prefix 'prefix2' found" << endl;
   }
-  while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   merge.close();
+  if (rc < 0) {
+    cerr << "Failed to read merge" << endl;
+  }
 
 
   cout << endl << "Test: expire" << endl;
@@ -473,10 +507,13 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   }
-  while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   merge.close();
+  if (rc < 0) {
+    cerr << "Failed to read merge" << endl;
+  }
 
   cout << "Active checksums (gross): " << active.size() << endl;
   for (list<string>::iterator i = active.begin(); i != active.end();  i++) {
@@ -526,10 +563,13 @@ int main(void) {
   } else {
     cout << "List:" << endl;
   }
-  while (dblist.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = dblist.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   dblist.close();
+  if (rc < 0) {
+    cerr << "Failed to read list" << endl;
+  }
   if (dblist.open("r")) {
     cerr << "Failed to open list" << endl;
     return 0;
@@ -555,12 +595,96 @@ int main(void) {
   } else {
     cout << "Merge:" << endl;
   }
-  while (merge.getEntry(&ts, &prefix, &path, &node) > 0) {
+  while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }
   merge.close();
+  if (rc < 0) {
+    cerr << "Failed to read merge" << endl;
+  }
   cout << "Merge tail:" << endl;
   system("tail -2 test_db/merge | grep -v 13");
+  rename("test_db/merge", "test_db/list");
+
+
+  cout << endl << "Test: get latest entry only" << endl;
+
+  // Add new entry in journal
+  if (journal.open("w")) {
+    cerr << "Failed to open journal" << endl;
+    return 0;
+  }
+  system("echo \"this is my other test\" > test1/testfile");
+  node = new Stream("test1/testfile");
+  ((Stream*) node)->computeChecksum();
+  journal.added("prefix", "file_new", node);
+  free(node);
+  node = NULL;
+  journal.close();
+  // Merge
+  if (dblist.open("r")) {
+    cerr << "Failed to open list" << endl;
+    return 0;
+  }
+  if (dblist.isEmpty()) {
+    cout << "List is empty" << endl;
+  }
+  if (journal.open("r")) {
+    cerr << "Failed to open journal" << endl;
+    return 0;
+  }
+  if (journal.isEmpty()) {
+    cout << "Journal is empty" << endl;
+  }
+  if (merge.open("w")) {
+    cerr << "Failed to open merge" << endl;
+    return 0;
+  }
+  if (merge.merge(dblist, journal)) {
+    cerr << "Failed to merge: " << strerror(errno) << endl;
+    return 0;
+  }
+  merge.close();
+  journal.close();
+  dblist.close();
+  // Update
+  if (rename("test_db/merge", "test_db/list")) {
+    cerr << "Failed to rename merge into list" << endl;
+  }
+  // Show list
+  if (dblist.open("r")) {
+    cerr << "Failed to open list" << endl;
+    return 0;
+  }
+  if (dblist.isEmpty()) {
+    cout << "List is empty" << endl;
+  } else {
+    cout << "List:" << endl;
+  }
+  while ((rc = dblist.getEntry(&ts, &prefix, &path, &node)) > 0) {
+    showLine(ts, prefix, path, node);
+  }
+  dblist.close();
+  if (rc < 0) {
+    cerr << "Failed to read list" << endl;
+  }
+  // Show list with new functionality
+  if (dblist.open("r")) {
+    cerr << "Failed to open list" << endl;
+    return 0;
+  }
+  if (dblist.isEmpty()) {
+    cout << "List is empty" << endl;
+  } else {
+    cout << "List:" << endl;
+  }
+  while (dblist.getEntry(&ts, &prefix, &path, &node, true) > 0) {
+    showLine(ts, prefix, path, node);
+  }
+  dblist.close();
+  if (rc < 0) {
+    cerr << "Failed to read list" << endl;
+  }
 
   return 0;
 }
