@@ -120,6 +120,12 @@ int main(void) {
   journal.close();
   if (rc < 0) {
     cerr << "Failed to read journal" << endl;
+  } else
+  // Check that we obtain the end of file again
+  if (rc == 0) {
+    if (journal.getEntry(&ts, &prefix, &path, &node) != 0) {
+      cerr << "Error reading end of journal again" << endl;
+    }
   }
 
 

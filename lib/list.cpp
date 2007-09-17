@@ -460,12 +460,16 @@ int List::getEntry(
       errno = EUCLEAN;
       break;
     }
-    _line[length] = '\0';
 
     // End of file
     if (_line[0] == '#') {
+      // Make sure we return end of file also if called again
+      _line_status = 1;
       return 0;
     }
+
+    // Change end of line
+    _line[length] = '\0';
 
     // Prefix
     if (_line[0] != '\t') {
