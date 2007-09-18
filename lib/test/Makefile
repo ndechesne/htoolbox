@@ -3,9 +3,9 @@ RANLIB := ranlib
 CXXFLAGS := -Wall -g -ansi -I..
 LDFLAGS := -lssl -lz
 
-all: test
+all:
 
-test:   strings.done \
+check:  strings.done \
 	files.done \
 	filters.done \
 	parsers.done \
@@ -20,11 +20,11 @@ clean:
 	@../../test_tools/test_setup clean
 
 # Rules
-%_test.o: %_test.cpp ../libhbackup.a
+%_test.o: %_test.cpp ../.libs/libhbackup.a
 	@echo "CXX	$<"
 	@$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-%_test: %_test.o ../libhbackup.a
+%_test: %_test.o ../.libs/libhbackup.a
 	@echo "BUILD	$@"
 	@$(CXX) $(LDFLAGS) -o $@ $^
 

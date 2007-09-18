@@ -1,0 +1,1 @@
+man_MANS = hbackup.1

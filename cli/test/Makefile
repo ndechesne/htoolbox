@@ -1,14 +1,9 @@
-AR := ar
-RANLIB := ranlib
-CXXFLAGS := -Wall -O2 -ansi -I..
-LDFLAGS := -lssl -lz
+all:
 
-all: test
-
-test:	hbackup.done
+check:	hbackup.done
 
 clean:
-	@rm -f *.[oa] *~ *.all *.done 
+	@rm -f *.[oa] *~ *.all *.done
 	@../../test_tools/test_setup clean
 
 # Rules
