@@ -4,6 +4,7 @@ CXXFLAGS := -Wall -g -ansi -I..
 LDFLAGS := -lssl -lz
 
 all:
+install:
 
 check:  strings.done \
 	files.done \
