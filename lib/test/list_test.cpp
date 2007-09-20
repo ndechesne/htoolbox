@@ -273,6 +273,20 @@ int main(void) {
   }
 
 
+  cout << endl << "Test: get all prefixes" << endl;
+  if (dblist.open("r")) {
+    cerr << "Failed to open list" << endl;
+    return 0;
+  }
+  while (dblist.findPrefix(NULL)) {
+    char   *prefix = NULL;
+    dblist.getEntry(NULL, &prefix, NULL, NULL);
+    cout << prefix << endl;
+    free(prefix);
+  }
+  dblist.close();
+
+
   cout << endl << "Test: journal prefix out of order" << endl;
   my_time++;
 
@@ -674,7 +688,10 @@ int main(void) {
   if (rc < 0) {
     cerr << "Failed to read list" << endl;
   }
+
+
   // Show list with new functionality
+  cout << endl << "Test: last entries data" << endl;
   if (dblist.open("r")) {
     cerr << "Failed to open list" << endl;
     return 0;

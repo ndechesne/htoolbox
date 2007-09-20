@@ -117,7 +117,7 @@ public:
   bool isEmpty() const { return _line_status == 2; }
   // Get relevant line
   ssize_t getLine();
-  // Skip to given prefix
+  // Skip to given prefix or to next if prefix is NULL
   bool findPrefix(const char* prefix);
   // Convert one 'line' of data
   int getEntry(

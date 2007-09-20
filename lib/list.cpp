@@ -415,12 +415,15 @@ ssize_t List::getLine() {
 }
 
 bool List::findPrefix(const char* prefix_in) {
-  StrPath prefix(prefix_in);
-  prefix += "\n";
-  bool    found  = false;
+  StrPath prefix;
+  if (prefix_in != NULL) {
+    prefix  = prefix_in;
+    prefix += "\n";
+  }
+  bool found = false;
   while ((getLine() > 0) && (_line[0] != '#')) {
     if ((_line[0] != '\t') && (_line >= prefix)) {
-      if (_line == prefix) {
+      if ((_line == prefix) || (prefix_in == NULL)) {
         found = true;
       }
       break;
@@ -438,8 +441,10 @@ int List::getEntry(
     bool          latest) {
   // Initialise
   errno = 0;
-  free(*node);
-  *node = NULL;
+  if (node != NULL) {
+    free(*node);
+    *node = NULL;
+  }
 
   bool    done = false;
   ssize_t length;
