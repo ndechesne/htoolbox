@@ -935,201 +935,206 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-
-  // NOT closing the database!
-  remove("test_db/lock");
-  // Show list contents
-  cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
+  {
+    // NOT closing the database! => new one
+    Database  db("test_db");
+    remove("test_db/lock");
+    // Show list contents
+    cout << endl << "List:" << endl;
+    if (! list.open("r")) {
+      while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+        showLine(timestamp, prefix, fpath, node);
+      }
+      list.close();
+    } else {
+      cerr << "Failed to open journal" << endl;
     }
-    list.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
-  // Show journal contents
-  cout << endl << "Journal:" << endl;
-  List real_journal("test_db", "journal");
-  if (! real_journal.open("r")) {
-    while (real_journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
+    free(prefix);
+    prefix = NULL;
+    free(fpath);
+    fpath = NULL;
+    free(node);
+    node = NULL;
+    // Show journal contents
+    cout << endl << "Journal:" << endl;
+    List real_journal("test_db", "journal");
+    if (! real_journal.open("r")) {
+      while (real_journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+        showLine(timestamp, prefix, fpath, node);
+      }
+      real_journal.close();
+    } else {
+      cerr << "Failed to open real journal" << endl;
     }
-    real_journal.close();
-  } else {
-    cerr << "Failed to open real journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+    free(prefix);
+    prefix = NULL;
+    free(fpath);
+    fpath = NULL;
+    free(node);
+    node = NULL;
 
-  // Recover now
-  db.open();
+    // Recover now
+    db.open();
 
-  // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
-    << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
-    i->line();
-  }
-
-  // Show list contents
-  cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
+    // Display DB contents
+    cout << "Active list:  " << ((DbList*)db.active())->size()
+      << " element(s):\n";
+    for (DbList::iterator i = ((DbList*)db.active())->begin();
+        i != ((DbList*)db.active())->end(); i++) {
+      i->line();
     }
-    list.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
-  // Show journal contents
-  cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
+
+    // Show list contents
+    cout << endl << "List:" << endl;
+    if (! list.open("r")) {
+      while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+        showLine(timestamp, prefix, fpath, node);
+      }
+      list.close();
+    } else {
+      cerr << "Failed to open journal" << endl;
     }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
-  db.close();
-
-  db.open();
-
-  // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
-    << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
-    i->line();
-  }
-
-  db.close();
-
-  // Next test
-  my_time++;
-  db.open();
-
-  // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
-    << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
-    i->line();
-  }
-
-  db.setPrefix("file://localhost");
-  if (! path->parse(db, "test1")) {
-    cout << "Parsed " << path->nodes() << " file(s)\n";
-  }
-
-  db.close();
-  // Show list contents
-  cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
+    free(prefix);
+    prefix = NULL;
+    free(fpath);
+    fpath = NULL;
+    free(node);
+    node = NULL;
+    // Show journal contents
+    cout << endl << "Journal:" << endl;
+    if (! journal.open("r")) {
+      while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+        showLine(timestamp, prefix, fpath, node);
+      }
+      journal.close();
+    } else {
+      cerr << "Failed to open journal" << endl;
     }
-    list.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
-  // Show journal contents
-  cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
+    free(prefix);
+    prefix = NULL;
+    free(fpath);
+    fpath = NULL;
+    free(node);
+    node = NULL;
+    db.close();
+
+    db.open();
+
+    // Display DB contents
+    cout << "Active list:  " << ((DbList*)db.active())->size()
+      << " element(s):\n";
+    for (DbList::iterator i = ((DbList*)db.active())->begin();
+        i != ((DbList*)db.active())->end(); i++) {
+      i->line();
     }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
 
-  // Next test
-  my_time++;
-  db.open();
+    db.close();
 
-  // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
-    << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
-    i->line();
-  }
+    // Next test
+    my_time++;
+    db.open();
 
-  db.setPrefix("file://host");
-  if (! path->parse(db, "test2")) {
-    cout << "Parsed " << path->nodes() << " file(s)\n";
-  }
-
-  db.close();
-  // Show list contents
-  cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
+    // Display DB contents
+    cout << "Active list:  " << ((DbList*)db.active())->size()
+      << " element(s):\n";
+    for (DbList::iterator i = ((DbList*)db.active())->begin();
+        i != ((DbList*)db.active())->end(); i++) {
+      i->line();
     }
-    list.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
-  // Show journal contents
-  cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
+
+    db.setPrefix("file://localhost");
+    if (! path->parse(db, "test1")) {
+      cout << "Parsed " << path->nodes() << " file(s)\n";
     }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
+
+    db.close();
+    // Show list contents
+    cout << endl << "List:" << endl;
+    if (! list.open("r")) {
+      while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+        showLine(timestamp, prefix, fpath, node);
+      }
+      list.close();
+    } else {
+      cerr << "Failed to open journal" << endl;
+    }
+    free(prefix);
+    prefix = NULL;
+    free(fpath);
+    fpath = NULL;
+    free(node);
+    node = NULL;
+    // Show journal contents
+    cout << endl << "Journal:" << endl;
+    if (! journal.open("r")) {
+      while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+        showLine(timestamp, prefix, fpath, node);
+      }
+      journal.close();
+    } else {
+      cerr << "Failed to open journal" << endl;
+    }
+    free(prefix);
+    prefix = NULL;
+    free(fpath);
+    fpath = NULL;
+    free(node);
+    node = NULL;
+
+    // Next test
+    my_time++;
+    db.open();
+
+    // Display DB contents
+    cout << "Active list:  " << ((DbList*)db.active())->size()
+      << " element(s):\n";
+    for (DbList::iterator i = ((DbList*)db.active())->begin();
+        i != ((DbList*)db.active())->end(); i++) {
+      i->line();
+    }
+
+    db.setPrefix("file://host");
+    if (! path->parse(db, "test2")) {
+      cout << "Parsed " << path->nodes() << " file(s)\n";
+    }
+
+    db.close();
+    // Show list contents
+    cout << endl << "List:" << endl;
+    if (! list.open("r")) {
+      while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+        showLine(timestamp, prefix, fpath, node);
+      }
+      list.close();
+    } else {
+      cerr << "Failed to open journal" << endl;
+    }
+    free(prefix);
+    prefix = NULL;
+    free(fpath);
+    fpath = NULL;
+    free(node);
+    node = NULL;
+    // Show journal contents
+    cout << endl << "Journal:" << endl;
+    if (! journal.open("r")) {
+      while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+        showLine(timestamp, prefix, fpath, node);
+      }
+      journal.close();
+    } else {
+      cerr << "Failed to open journal" << endl;
+    }
+    free(prefix);
+    prefix = NULL;
+    free(fpath);
+    fpath = NULL;
+    free(node);
+    node = NULL;
+
+    cerr << endl << "Some final garbage because of our little pseudo-crash..."
+      << endl;
   }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
 
   delete path;
   return 0;

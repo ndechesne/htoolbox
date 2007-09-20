@@ -1976,3 +1976,7 @@ List:
 [ 1] file://localhost /home/User/testpipe                p     0 644
 
 Journal:
+
+Some final garbage because of our little pseudo-crash...
+db: close: cannot re-open journal
+ --> Database closed

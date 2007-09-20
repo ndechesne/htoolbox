@@ -16,23 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
-/* Compression to use when required: gzip -5 (best speed/ratio) */
-
-/* List file contents:
- *  prefix        (given in the format: 'protocol://host')
- *  path          (metadata)
- *  type          (metadata)
- *  size          (metadata)
- *  modified time (metadata)
- *  owner         (metadata)
- *  group         (metadata)
- *  permissions   (metadata)
- *  link          (readlink)
- *  checksum      (database)
- *  date in       (database)
- *  date out      (database)
- *  mark
- */
+// Compression to use when required: gzip -5 (best speed/ratio)
 
 #include <iostream>
 #include <sstream>
@@ -64,17 +48,29 @@ struct Database::Private {
   bool              prefixJournalled;
 };
 
+bool Database::isOpen() const {
+  return (_d->list != NULL) && _d->list->isOpen();
+}
+
+bool Database::isWriteable() const {
+  return (_d->journal != NULL) && _d->journal->isOpen();
+}
+
 int Database::organise(const string& path, int number) {
   DIR           *directory;
   struct dirent *dir_entry;
   File          nofiles(path.c_str(), ".nofiles");
   int           failed   = 0;
 
-  /* Already organised? */
+  if (! isWriteable()) {
+    return -1;
+  }
+
+  // Already organised?
   if (nofiles.isValid()) {
     return 0;
   }
-  /* Find out how many entries */
+  // Find out how many entries
   if ((directory = opendir(path.c_str())) == NULL) {
     return 1;
   }
@@ -83,11 +79,11 @@ int Database::organise(const string& path, int number) {
   while (((dir_entry = readdir(directory)) != NULL) && (number > 0)) {
     number--;
   }
-  /* Decide what to do */
+  // Decide what to do
   if (number == 0) {
     rewinddir(directory);
     while ((dir_entry = readdir(directory)) != NULL) {
-      /* Ignore . and .. */
+      // Ignore . and ..
       if (! strcmp(dir_entry->d_name, ".")
        || ! strcmp(dir_entry->d_name, "..")) {
         continue;
@@ -129,6 +125,10 @@ int Database::write(
     const string&   path,
     char**          dchecksum,
     int             compress) {
+  if (! isWriteable()) {
+    return -1;
+  }
+
   string    temp_path;
   string    dest_path;
   string    checksum;
@@ -142,7 +142,7 @@ int Database::write(
     return -1;
   }
 
-  /* Temporary file to write to */
+  // Temporary file to write to
   temp_path = _path + "/filedata";
   Stream temp(temp_path.c_str());
   if (temp.open("w", compress)) {
@@ -150,7 +150,7 @@ int Database::write(
     failed = -1;
   } else
 
-  /* Copy file locally */
+  // Copy file locally
   if (temp.copy(source)) {
     cerr << strerror(errno) << ": " << path << endl;
     failed = -1;
@@ -163,17 +163,17 @@ int Database::write(
     return failed;
   }
 
-  /* Get file final location */
+  // Get file final location
   if (getDir(source.checksum(), dest_path, true) == 2) {
     cerr << "db: write: failed to get dir for: " << source.checksum() << endl;
     failed = -1;
   } else {
-    /* Make sure our checksum is unique */
+    // Make sure our checksum is unique
     do {
       string  final_path = dest_path + "-";
       bool    differ = false;
 
-      /* Complete checksum with index */
+      // Complete checksum with index
       stringstream ss;
       string str;
       ss << index;
@@ -181,10 +181,10 @@ int Database::write(
       checksum = string(source.checksum()) + "-" + str;
       final_path += str;
       if (! Directory("").create(final_path.c_str())) {
-        /* Directory exists */
+        // Directory exists
         File try_file(final_path.c_str(), "data");
         if (try_file.isValid()) {
-          /* A file already exists, let's compare */
+          // A file already exists, let's compare
           File temp_md(temp_path.c_str());
 
           differ = (try_file.size() != temp_md.size());
@@ -197,7 +197,7 @@ int Database::write(
       index++;
     } while (true);
 
-    /* Now move the file in its place */
+    // Now move the file in its place
     if (rename(temp_path.c_str(), (dest_path + "/data").c_str())) {
       cerr << "db: write: failed to move file " << temp_path
         << " to " << dest_path << ": " << strerror(errno);
@@ -205,7 +205,7 @@ int Database::write(
     }
   }
 
-  /* If anything failed, delete temporary file */
+  // If anything failed, delete temporary file
   if (failed || deleteit) {
     std::remove(temp_path.c_str());
   }
@@ -218,14 +218,14 @@ int Database::write(
 
   // TODO Need to store compression data
 
-  /* Make sure we won't exceed the file number limit */
+  // Make sure we won't exceed the file number limit
   if (! failed) {
-    /* dest_path is /path/to/checksum */
+    // dest_path is /path/to/checksum
     unsigned int pos = dest_path.rfind('/');
 
     if (pos != string::npos) {
       dest_path.erase(pos);
-      /* Now dest_path is /path/to */
+      // Now dest_path is /path/to
       organise(dest_path, 256);
     }
   }
@@ -238,18 +238,18 @@ int Database::lock() {
   FILE    *file;
   bool    failed = false;
 
-  /* Set the database path that we just locked as default */
+  // Set the database path that we just locked as default
   lock_path = _path + "/lock";
 
-  /* Try to open lock file for reading: check who's holding the lock */
+  // Try to open lock file for reading: check who's holding the lock
   if ((file = fopen(lock_path.c_str(), "r")) != NULL) {
     pid_t pid = 0;
 
-    /* Lock already taken */
+    // Lock already taken
     fscanf(file, "%d", &pid);
     fclose(file);
     if (pid != 0) {
-      /* Find out whether process is still running, if not, reset lock */
+      // Find out whether process is still running, if not, reset lock
       kill(pid, 0);
       if (errno == ESRCH) {
         cerr << "db: lock: lock reset" << endl;
@@ -264,14 +264,14 @@ int Database::lock() {
     }
   }
 
-  /* Try to open lock file for writing: lock */
+  // Try to open lock file for writing: lock
   if (! failed) {
     if ((file = fopen(lock_path.c_str(), "w")) != NULL) {
-      /* Lock taken */
+      // Lock taken
       fprintf(file, "%u\n", getpid());
       fclose(file);
     } else {
-      /* Lock cannot be taken */
+      // Lock cannot be taken
       cerr << "db: lock: cannot take lock" << endl;
       failed = true;
     }
@@ -291,6 +291,10 @@ int Database::getDir(
     const string& checksum,
     string&       path,
     bool          create) {
+  if (! isWriteable()) {
+    return -1;
+  }
+
   path = _path + "/data";
   int level = 0;
 
@@ -315,6 +319,10 @@ int Database::getDir(
 int Database::merge() {
   bool failed = false;
 
+  if (! isWriteable()) {
+    return -1;
+  }
+
   // Merge with existing list into new one
   List merge(_path.c_str(), "list.part");
   if (! merge.open("w")) {
@@ -334,28 +342,41 @@ int Database::merge() {
     cerr << strerror(errno) << ": failed to open temporary list" << endl;
     failed = true;
   }
-  if (failed) {
-    return -1;
-  }
-  return 0;
+  return failed ? -1 : 0;
 }
 
 Database::Database(const string& path) {
-  _path      = path;
-  _d         = new Private;
-  _d->prefix = "";
+  _path       = path;
+  _d          = new Private;
+  _d->list    = NULL;
+  _d->journal = NULL;
+  _d->prefix  = "";
 }
 
 Database::~Database() {
+  if (isOpen()) {
+    close();
+  }
   delete _d;
 }
 
-int Database::open() {
+int Database::open(bool read_only) {
+  if (isOpen()) {
+    cerr << "db: already open!" << endl;
+    return -1;
+  }
+
   bool failed = false;
 
-  if (! Directory(_path.c_str()).isValid() && mkdir(_path.c_str(), 0755)) {
-    cerr << "db: cannot create base directory" << endl;
-    return 2;
+  if (! Directory(_path.c_str()).isValid()) {
+    if (read_only) {
+      cerr << "db: given path does not exist: " << _path << endl;
+      return 2;
+    } else
+    if (mkdir(_path.c_str(), 0755)) {
+      cerr << "db: cannot create base directory" << endl;
+      return 2;
+    }
   }
   // Try to take lock
   if (lock()) {
@@ -367,6 +388,10 @@ int Database::open() {
 
   // Check DB dir
   if (! Directory((_path + "/data").c_str()).isValid()) {
+    if (read_only) {
+      cerr << "db: given path does not contain a database: " << _path << endl;
+      failed = true;
+    } else
     if (Directory(_path.c_str(), "data").create(_path.c_str())) {
       cerr << "db: cannot create data directory" << endl;
       failed = true;
@@ -427,14 +452,14 @@ int Database::open() {
     }
 
     // Create journal (do not cache)
-    if (! failed && (_d->journal->open("w", -1))) {
+    if (! read_only && ! failed && (_d->journal->open("w", -1))) {
       cerr << "db: open: cannot open journal" << endl;
       failed = true;
     }
   }
 
 //   // Open merged list (can fail)
-//   if (! failed) {
+//   if (! read_only && ! failed) {
 //     // TODO rename as list.part
 //     _d->merge = new List(_path.c_str(), "list.temp");
 //     if (_d->merge->open("w")) {
@@ -445,13 +470,14 @@ int Database::open() {
 //   }
 
   // Read database active items list
-  if (! failed) {
+  if (! read_only && ! failed) {
     _d->active.clear();
     if (_d->active.open(_path, "list")) {
       failed = true;
+    } else {
+      _d->entry = _d->active.begin();
     }
   }
-  _d->entry = _d->active.begin();
 
   if (failed) {
       // Close lists
@@ -459,69 +485,93 @@ int Database::open() {
     _d->journal->close();
 
     // Delete lists
-    delete _d->journal;
     delete _d->list;
+    delete _d->journal;
+
+    // for isOpen and isWriteable
+    _d->list    = NULL;
+    _d->journal = NULL;
 
     // Unlock DB
     unlock();
     return 2;
   }
+
   if (verbosity() > 2) {
-    cout << " --> Database open (contents: "
-      << _d->active.size() << " file";
-    if (_d->active.size() != 1) {
-      cout << "s";
+    cout << " --> Database open";
+    if (! read_only) {
+      cout << " (contents: "
+        << _d->active.size() << " file";
+      if (_d->active.size() != 1) {
+        cout << "s";
+      }
+      cout << ")";
     }
-    cout << ")" << endl;
+    cout << endl;
   }
   return 0;
 }
 
 int Database::close() {
-  bool failed = true;
+  bool failed = false;
+  bool read_only = ! isWriteable();
 
-  // Close journal
-  _d->journal->close();
-  // If a merge already exists, use it FIXME not implemented
-  if (_d->merge != NULL) {
-    StrPath null;
-    _d->merge->searchCopy(*_d->list, null, null);;
-    // Close lists
-    _d->merge->close();
-    _d->list->close();
-    delete _d->merge;
-    // FIXME file names ballet missing
-//     failed = false;
-  } else {
+  if (! isOpen()) {
+    cerr << "db: cannot close because not open!" << endl;
+    return -1;
+  }
+
+  if (read_only) {
     // Close list
     _d->list->close();
-  } // FIXME merge all this
-  {
-    // Re-open lists
-    if (_d->journal->open("r")) {
-      cerr << "db: close: cannot re-open journal" << endl;
+  } else {
+    failed = true;
+    // Close journal
+    _d->journal->close();
+    // If a merge already exists, use it FIXME not implemented
+    if (_d->merge != NULL) {
+      StrPath null;
+      _d->merge->searchCopy(*_d->list, null, null);;
+      // Close lists
+      _d->merge->close();
+      _d->list->close();
+      delete _d->merge;
+      // FIXME file names ballet missing
+  //     failed = false;
     } else {
-      if (_d->journal->isEmpty()) {
-        // Do nothing
-        if (verbosity() > 3) {
-          cout << " ---> Journal is empty, not merging" << endl;
-        }
-        failed = false;
+      // Close list
+      _d->list->close();
+    } // FIXME merge all this
+    {
+      // Re-open lists
+      if (_d->journal->open("r")) {
+        cerr << "db: close: cannot re-open journal" << endl;
       } else {
-        if (_d->list->open("r")) {
-          cerr << "db: close: cannot re-open list" << endl;
-        } else {
-          // Merge journal into list
-          if (! merge()) {
-            failed = false;
+        if (_d->journal->isEmpty()) {
+          // Do nothing
+          if (verbosity() > 3) {
+            cout << " ---> Journal is empty, not merging" << endl;
           }
+          failed = false;
+        } else {
+          if (_d->list->open("r")) {
+            cerr << "db: close: cannot re-open list" << endl;
+          } else {
+            // Merge journal into list
+            if (! merge()) {
+              failed = false;
+            }
 
-          // Close list
-          _d->list->close();
+            // Close list
+            _d->list->close();
+          }
         }
+        // Close journal
+        _d->journal->close();
       }
-      // Close journal
-      _d->journal->close();
+    }
+    if (! failed) {
+      rename((_path + "/journal").c_str(), (_path + "/journal~").c_str());
     }
   }
 
@@ -529,23 +579,27 @@ int Database::close() {
   delete _d->journal;
   delete _d->list;
 
+  // for isOpen and isWriteable
+  _d->list    = NULL;
+  _d->journal = NULL;
+
   // Release lock
   unlock();
-  if (failed) {
-    return -1;
-  } else {
-    rename((_path + "/journal").c_str(), (_path + "/journal~").c_str());
-  }
   if (verbosity() > 2) {
     cout << " --> Database closed" << endl;
   }
-  return 0;
+  return failed ? -1 : 0;
 }
 
 void Database::getList(
     const char*  base_path,
     const char*  rel_path,
     list<Node*>& list) {
+  if (! isWriteable()) {
+    // Don't bother: will go soon I hope
+    return;
+  }
+
   char* full_path = NULL;
   int length = asprintf(&full_path, "%s/%s/%s/", _d->prefix.c_str(),
     base_path, rel_path);
@@ -598,6 +652,9 @@ void Database::getList(
 }
 
 int Database::read(const string& path, const string& checksum) {
+  if (! isOpen()) {
+    return -1;
+  }
   string  source_path;
   string  temp_path;
   string  temp_checksum;
@@ -609,10 +666,10 @@ int Database::read(const string& path, const string& checksum) {
   }
   source_path += "/data";
 
-  /* Open temporary file to write to */
+  // Open temporary file to write to
   temp_path = path + ".part";
 
-  /* Copy file to temporary name (size not checked: checksum suffices) */
+  // Copy file to temporary name (size not checked: checksum suffices)
   Stream source(source_path.c_str());
   if (source.open("r")) {
     cerr << "db: read: failed to open source file: " << source_path << endl;
@@ -633,14 +690,14 @@ int Database::read(const string& path, const string& checksum) {
   temp.close();
 
   if (! failed) {
-    /* Verify that checksums match before overwriting final destination */
+    // Verify that checksums match before overwriting final destination
     if (strncmp(source.checksum(), temp.checksum(), strlen(temp.checksum()))) {
       cerr << "db: read: checksums don't match: " << source_path
         << " " << temp_checksum << endl;
       failed = 2;
     } else
 
-    /* All done */
+    // All done
     if (rename(temp_path.c_str(), path.c_str())) {
       cerr << "db: read: failed to rename file to " << strerror(errno)
         << ": " << path << endl;
@@ -656,6 +713,10 @@ int Database::read(const string& path, const string& checksum) {
 }
 
 int Database::scan(const string& checksum, bool thorough) {
+  if (! isWriteable()) {
+    return -1;
+  }
+
   // FIXME scan still broken
   if (_d->merge != NULL) {
     _d->merge->close();
@@ -746,6 +807,9 @@ int Database::add(
     const char* dir_path,
     const Node* node,
     const char* old_checksum) {
+  if (! isWriteable()) {
+    return -1;
+  }
   bool failed = false;
 
   // Add new record to active list
@@ -813,6 +877,10 @@ void Database::remove(
     const char* base_path,
     const char* rel_path,
     const Node* node) {
+  if (! isWriteable()) {
+    // FIXME what do I do? Wait...
+    return;
+  }
   char* full_path = NULL;
   if (rel_path[0] != '\0') {
     asprintf(&full_path, "%s/%s/%s", base_path, rel_path, node->name());

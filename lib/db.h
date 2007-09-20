@@ -30,6 +30,8 @@ class Database {
   void unlock();
   int  merge();
 protected: // So I can test them/use them in tests
+  bool isOpen() const;
+  bool isWriteable() const;
   int getDir(
     const string&   checksum,
     string&         path,
@@ -46,7 +48,7 @@ public:
   ~Database();
   string path() const { return _path; }
   // Open database
-  int  open();
+  int  open(bool read_only = false);
   // Close database
   int  close();
   // Prepare list for parser

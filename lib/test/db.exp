@@ -58,3 +58,7 @@ db: lock: lock reset
 db: lock: lock taken by process with pid 1
 db: lock: lock taken by an unidentified process!
 db: lock: lock taken by an unidentified process!
+
+Test: read-only mode
+ --> Database open
+ --> Database closed

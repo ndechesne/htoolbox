@@ -37,25 +37,35 @@ using namespace std;
 using namespace hbackup;
 
 // Tests status:
-//   lock:      tested
-//   unlock:    tested
-//   merge:     tested in paths
-//   getDir:    tested
-//   organise:  tested
-//   write:     tested
-//   path:      tested in paths
-//   open:      FIXME not tested
-//   close:     FIXME not tested
-//   getList:   tested in paths
-//   read:      tested
-//   scan:      FIXME not tested
-//   add:       tested in paths
-//   remove:    tested in paths
+//   isOpen:      tested
+//   isWriteable: tested
+//   lock:        tested
+//   unlock:      tested
+//   merge:       tested in paths
+//   getDir:      tested
+//   organise:    tested
+//   write:       tested
+//   path:        tested in paths
+//   open:        FIXME not tested
+//   open(ro):    tested
+//   close:       FIXME not tested
+//   close(ro):   tested
+//   getList:     tested in paths
+//   read:        tested
+//   scan:        FIXME not tested
+//   add:         tested in paths
+//   remove:      tested in paths
 
 class DbTest : public Database {
 public:
   DbTest(const string& path) :
     Database::Database(path) {}
+  bool isOpen() const {
+    return Database::isOpen();
+  }
+  bool isWriteable() const {
+    return Database::isWriteable();
+  }
   int getDir(
       const string&   checksum,
       string&         path,
@@ -99,12 +109,32 @@ int main(void) {
 
   DbTest db("test_db");
 
+  if (db.isOpen()) {
+    cerr << "db is open when it should not be" << endl;
+    return 0;
+  }
+
+  if (db.isWriteable()) {
+    cerr << "db is writeable when it should not be" << endl;
+    return 0;
+  }
+
   /* Test database */
   if ((status = db.open())) {
-    printf("db_open error status %u\n", status);
+    printf("db::open error status %u\n", status);
     if (status == 2) {
       return 0;
     }
+  }
+
+  if (! db.isOpen()) {
+    cerr << "db is not open when it should be" << endl;
+    return 0;
+  }
+
+  if (! db.isWriteable()) {
+    cerr << "db is not writeable when it should be" << endl;
+    return 0;
   }
 
 
@@ -237,6 +267,38 @@ int main(void) {
   system("touch test_db/lock");
   if (! db.open()) {
     db.close();
+  }
+  remove("test_db/lock");
+
+
+  cout << endl << "Test: read-only mode" << endl;
+  if ((status = db.open(true))) {
+    printf("db::open error status %u\n", status);
+    if (status == 2) {
+      return 0;
+    }
+  }
+
+  if (! db.isOpen()) {
+    cerr << "db is not open when it should be" << endl;
+    return 0;
+  }
+
+  if (db.isWriteable()) {
+    cerr << "db is writeable when it should not be" << endl;
+    return 0;
+  }
+
+  db.close();
+
+  if (db.isOpen()) {
+    cerr << "db is open when it should not be" << endl;
+    return 0;
+  }
+
+  if (db.isWriteable()) {
+    cerr << "db is writeable when it should not be" << endl;
+    return 0;
   }
 
   return 0;
