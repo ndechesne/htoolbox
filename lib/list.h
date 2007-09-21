@@ -125,7 +125,7 @@ public:
     char**        prefix,
     char**        path,
     Node**        node,
-    bool          latest = false);
+    time_t        date = -1); // -1: all, 0: latest, otherwise timestamp to get
   // Add a journal record of added file
   int added(
     const char*   prefix,           // Set to NULL not to add prefix

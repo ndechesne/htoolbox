@@ -701,7 +701,7 @@ int main(void) {
   } else {
     cout << "List:" << endl;
   }
-  while (dblist.getEntry(&ts, &prefix, &path, &node, true) > 0) {
+  while (dblist.getEntry(&ts, &prefix, &path, &node, 0) > 0) {
     showLine(ts, prefix, path, node);
   }
   dblist.close();

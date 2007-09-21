@@ -438,7 +438,7 @@ int List::getEntry(
     char**        prefix,
     char**        path,
     Node**        node,
-    bool          latest) {
+    time_t        date) {
   // Initialise
   errno = 0;
   if (node != NULL) {
@@ -492,11 +492,11 @@ int List::getEntry(
         *path = NULL;
         asprintf(path, "%s", &_line[1]);
       }
-      latest = false;
+      date = -1;
     } else
 
     // Data
-    if (! latest) {
+    if (date != 0) {
       if (node != NULL) {
         _line[length] = '\t';
         // Will set errno if an error is found
