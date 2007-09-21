@@ -87,6 +87,22 @@ public:
 
 static int verbose = 4;
 
+static void showLine(time_t timestamp, char* prefix, char* path, Node* node) {
+  printf("[%2ld] %-16s %-34s", timestamp, prefix, path);
+  if (node != NULL) {
+    printf(" %c %5llu %03o", node->type(), node->size(), node->mode());
+    if (node->type() == 'f') {
+      printf(" %s", ((File*) node)->checksum());
+    }
+    if (node->type() == 'l') {
+      printf(" %s", ((Link*) node)->link());
+    }
+  } else {
+    printf(" [rm]");
+  }
+  cout << endl;
+}
+
 int hbackup::verbosity(void) {
   return verbose;
 }
@@ -106,6 +122,11 @@ int main(void) {
   DbList::iterator  i;
   DbList            journal;
   int               status;
+  List    dblist("test_db/list");
+  char*   prefix = NULL;
+  char*   path   = NULL;
+  Node*   node   = NULL;
+  time_t  ts;
 
   DbTest db("test_db");
 
@@ -299,6 +320,77 @@ int main(void) {
   if (db.isWriteable()) {
     cerr << "db is writeable when it should not be" << endl;
     return 0;
+  }
+
+
+  cout << endl << "Test: fill in DB" << endl;
+  if ((status = db.open())) {
+    printf("db::open error status %u\n", status);
+    if (status == 2) {
+      return 0;
+    }
+  }
+
+  db.setPrefix("prot://client");
+
+  File* f;
+  f = new File("test1/test space");
+  db.add("client_path", "", "test1", f);
+  delete f;
+  f = new File("test1/testfile");
+  db.add("client_path", "", "test1", f);
+  delete f;
+
+  db.close();
+
+  dblist.open("r");
+  if (dblist.isEmpty()) {
+    cout << "Merge is empty" << endl;
+  } else
+  while ((status = dblist.getEntry(&ts, &prefix, &path, &node)) > 0) {
+    showLine(ts, prefix, path, node);
+  }
+  dblist.close();
+  if (status < 0) {
+    cerr << "Failed to read list" << endl;
+  }
+
+  cout << endl << "Test: do nothing" << endl;
+  if ((status = db.open())) {
+    printf("db::open error status %u\n", status);
+    if (status == 2) {
+      return 0;
+    }
+  }
+  db.close();
+
+  dblist.open("r");
+  if (dblist.isEmpty()) {
+    cout << "Merge is empty" << endl;
+  } else
+  while ((status = dblist.getEntry(&ts, &prefix, &path, &node)) > 0) {
+    showLine(ts, prefix, path, node);
+  }
+  dblist.close();
+  if (status < 0) {
+    cerr << "Failed to read list" << endl;
+  }
+
+
+  cout << endl << "Test: read prefixes" << endl;
+  list<string> prefixes;
+  if ((status = db.open(true))) {
+    printf("db::open error status %u\n", status);
+    if (status == 2) {
+      return 0;
+    }
+  }
+  db.getPrefixes(prefixes);
+  db.close();
+
+  cout << "List of prefixes:" << endl;
+  for (list<string>::iterator i = prefixes.begin(); i != prefixes.end(); i++) {
+    cout << " -> " << *i << endl;
   }
 
   return 0;

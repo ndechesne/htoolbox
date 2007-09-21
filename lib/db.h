@@ -51,6 +51,8 @@ public:
   int  open(bool read_only = false);
   // Close database
   int  close();
+  // Get list of prefixes in DB list (close-open to re-use DB!)
+  int getPrefixes(list<string>& prefixes);
   // Prepare list for parser
   void getList(
     const char*     base_path,

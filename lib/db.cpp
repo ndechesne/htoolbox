@@ -252,14 +252,14 @@ int Database::lock() {
       // Find out whether process is still running, if not, reset lock
       kill(pid, 0);
       if (errno == ESRCH) {
-        cerr << "db: lock: lock reset" << endl;
+        cerr << "db: lock reset" << endl;
         std::remove(lock_path.c_str());
       } else {
-        cerr << "db: lock: lock taken by process with pid " << pid << endl;
+        cerr << "db: lock taken by process with pid " << pid << endl;
         failed = true;
       }
     } else {
-      cerr << "db: lock: lock taken by an unidentified process!" << endl;
+      cerr << "db: lock taken by an unidentified process!" << endl;
       failed = true;
     }
   }
@@ -589,6 +589,19 @@ int Database::close() {
     cout << " --> Database closed" << endl;
   }
   return failed ? -1 : 0;
+}
+
+int Database::getPrefixes(list<string>& prefixes) {
+  while (_d->list->findPrefix(NULL)) {
+    char   *prefix = NULL;
+    if (_d->list->getEntry(NULL, &prefix, NULL, NULL) < 0) {
+      cerr << "db: error reading entry from list: " << strerror(errno) << endl;
+      return -1;
+    }
+    prefixes.push_back(prefix);
+    free(prefix);
+  }
+  return 0;
 }
 
 void Database::getList(

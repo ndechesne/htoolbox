@@ -107,7 +107,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -159,7 +159,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -212,7 +212,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -268,7 +268,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -324,7 +324,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -381,7 +381,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -437,7 +437,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -492,7 +492,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -544,7 +544,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -600,7 +600,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -653,7 +653,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -706,7 +706,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -759,7 +759,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -833,7 +833,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -884,7 +884,7 @@ int main(void) {
     }
     list.close();
   } else {
-    cerr << "Failed to open journal" << endl;
+    cerr << "Failed to open list" << endl;
   }
   free(prefix);
   prefix = NULL;
@@ -947,7 +947,7 @@ int main(void) {
       }
       list.close();
     } else {
-      cerr << "Failed to open journal" << endl;
+      cerr << "Failed to open list" << endl;
     }
     free(prefix);
     prefix = NULL;
@@ -992,7 +992,7 @@ int main(void) {
       }
       list.close();
     } else {
-      cerr << "Failed to open journal" << endl;
+      cerr << "Failed to open list" << endl;
     }
     free(prefix);
     prefix = NULL;
@@ -1056,7 +1056,7 @@ int main(void) {
       }
       list.close();
     } else {
-      cerr << "Failed to open journal" << endl;
+      cerr << "Failed to open list" << endl;
     }
     free(prefix);
     prefix = NULL;
@@ -1107,7 +1107,7 @@ int main(void) {
       }
       list.close();
     } else {
-      cerr << "Failed to open journal" << endl;
+      cerr << "Failed to open list" << endl;
     }
     free(prefix);
     prefix = NULL;

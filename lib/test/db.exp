@@ -51,14 +51,33 @@ Test: lock
  --> Database open (contents: 0 files)
  ---> Journal is empty, not merging
  --> Database closed
-db: lock: lock reset
+db: lock reset
  --> Database open (contents: 0 files)
  ---> Journal is empty, not merging
  --> Database closed
-db: lock: lock taken by process with pid 1
-db: lock: lock taken by an unidentified process!
-db: lock: lock taken by an unidentified process!
+db: lock taken by process with pid 1
+db: lock taken by an unidentified process!
+db: lock taken by an unidentified process!
 
 Test: read-only mode
  --> Database open
  --> Database closed
+
+Test: fill in DB
+ --> Database open (contents: 0 files)
+ --> Database closed
+[ 1] prot://client    client_path/test space             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 2] prot://client    client_path/testfile               f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1
+
+Test: do nothing
+ --> Database open (contents: 2 files)
+ ---> Journal is empty, not merging
+ --> Database closed
+[ 1] prot://client    client_path/test space             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 2] prot://client    client_path/testfile               f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1
+
+Test: read prefixes
+ --> Database open
+ --> Database closed
+List of prefixes:
+ -> prot://client
