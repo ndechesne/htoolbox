@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <list>
 #include <errno.h>
 
@@ -25,6 +26,7 @@ using namespace std;
 
 #include "strings.h"
 #include "files.h"
+#include "list.h"
 #include "db.h"
 #include "clients.h"
 #include "hbackup.h"
@@ -240,6 +242,41 @@ int HBackup::backup(bool config_check) {
         failed = true;
       }
     }
+    _d->db->close();
+    if (failed) {
+      return -1;
+    }
+  }
+  return -1;
+}
+
+int HBackup::getList(
+    list<string>& records,
+    const char*   prefix,
+    const char*   path,
+    time_t        date) {
+  if (! _d->db->open(true)) {
+    bool failed = false;
+
+    if (prefix[0] == '\0') {
+      failed = (_d->db->getPrefixes(records) != 0);
+    } else {
+      cerr << "Not implemented" << endl;
+      failed = true;
+    }
+    _d->db->close();
+    return failed ? -1 : 0;
+  }
+  return -1;
+}
+
+int HBackup::restore(
+    const char* dest,
+    const char* prefix,
+    const char* path,
+    time_t      date) {
+  if (! _d->db->open(true)) {
+    bool failed = (_d->db->restore(dest, prefix, path, date) != 0);
     _d->db->close();
     if (failed) {
       return -1;

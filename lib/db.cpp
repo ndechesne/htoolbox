@@ -291,10 +291,6 @@ int Database::getDir(
     const string& checksum,
     string&       path,
     bool          create) {
-  if (! isWriteable()) {
-    return -1;
-  }
-
   path = _path + "/data";
   int level = 0;
 
@@ -602,6 +598,56 @@ int Database::getPrefixes(list<string>& prefixes) {
     free(prefix);
   }
   return 0;
+}
+
+int Database::restore(
+    const char* dest,
+    const char* prefix,
+    const char* path,
+    time_t      date) {
+  bool    failed  = false;
+  char*   fprefix = NULL;
+  char*   fpath   = NULL;
+  Node*   fnode   = NULL;
+  time_t  fts;
+  int rc;
+#warning this is utter crap, but saved a life today :)
+
+  char last_fpath[4096];
+  last_fpath[0] = '\0';
+  int len = strlen(path);
+  while ((rc = _d->list->getEntry(&fts, &fprefix, &fpath, &fnode)) > 0) {
+    if ((! strcmp(prefix, fprefix))
+        && ! strncmp(path, fpath, len)) {
+      if (strcmp(last_fpath, fpath) && (fnode != NULL)) {
+        sprintf(last_fpath, fpath);
+        switch (fnode->type()) {
+          case 'f': {
+              string base = dest;
+              base += &fpath[len];
+              if (verbosity() > 3) {
+                cout << " ---> " << base << endl;
+              }
+              File* f = (File*) fnode;
+              read(base, f->checksum());
+            }
+            break;
+          case 'd': {
+              string base = dest;
+              base += &fpath[len];
+              if (verbosity() > 3) {
+                cout << " ---> " << base << '/' << endl;
+              }
+              mkdir(base.c_str(), 0777);
+            }
+            break;
+          default:
+            cerr << "Type '" << fnode->type() << "' not supported yet" << endl;
+        }
+      }
+    }
+  }
+  return failed ? -1 : 0;
 }
 
 void Database::getList(

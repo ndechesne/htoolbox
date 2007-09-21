@@ -18,33 +18,28 @@
 
 #include <iostream>
 #include <string>
-#include <signal.h>
-#include <errno.h>
-#include "hbackup.h"
+#include <list>
 
 using namespace std;
 
-/* DEFAULTS */
+#include <signal.h>
+#include <errno.h>
 
-/* Verbosity */
+#include "hbackup.h"
+
+// DEFAULTS
+
+// Verbosity
 static int verbose = 0;
 
-/* Configuration path */
+// Configuration path
 static string default_config_path = "/etc/hbackup/hbackup.conf";
 
-/* Signal received? */
+// Signal received?
 static int killed = 0;
 
 static void show_version(void) {
-  cout << "(c) 2006-2007 Hervé Fache, version "
-    << VERSION_MAJOR << "." << VERSION_MINOR;
-  if (VERSION_BUGFIX != 0) {
-    cout << "." << VERSION_BUGFIX;
-  }
-  if (BUILD != 0) {
-    cout << " (build " << BUILD << ")";
-  }
-  cout << endl;
+  cout << "(c) 2006-2007 Hervé Fache, version "<< VERSION << endl;
 }
 
 static void show_help(void) {
@@ -54,6 +49,8 @@ static void show_help(void) {
   cout << " -V or --version  to print version and exit" << endl;
   cout << " -c or --config   to specify a configuration file other than \
 /etc/hbackup/hbackup.conf" << endl;
+  cout << " -l or --list     to list the available data" << endl;
+  cout << " -r or --restore  to actually restore a path" << endl;
   cout << " -s or --scan     to scan the database for missing data" << endl;
   cout << " -t or --check    to check the database for corrupted data" << endl;
   cout << " -v or --verbose  to be more verbose (also -vv and -vvv)" << endl;
@@ -80,16 +77,30 @@ void sighandler(int signal) {
 
 int main(int argc, char **argv) {
   string            config_path       = "";
+  string            destination       = "";
+  string            prefix            = "";
+  string            path              = "";
+  time_t            date              = 0;
   int               argn              = 0;
+  bool              expect_configpath = false;
+  // Administration
   bool              scan              = false;
   bool              check             = false;
   bool              config_check      = false;
-  bool              expect_configpath = false;
+  // Backup
   bool              expect_client     = false;
+  // Restoration
+  bool              show_list         = false;
+  bool              restore           = false;
+  bool              expect_dest       = false;
+  bool              expect_prefix     = false;
+  bool              expect_path       = false;
+  bool              expect_date       = false;
+  // Signal handler
   struct sigaction  action;
   hbackup::HBackup  hbackup;
 
-  /* Set signal catcher */
+  // Set signal catcher
   action.sa_handler = sighandler;
   sigemptyset (&action.sa_mask);
   action.sa_flags = 0;
@@ -97,25 +108,55 @@ int main(int argc, char **argv) {
   sigaction (SIGHUP, &action, NULL);
   sigaction (SIGTERM, &action, NULL);
 
-  /* Analyse arguments */
+  // Analyse arguments
   while (++argn < argc) {
     char letter = ' ';
 
-    /* Get config path if request */
+    // Get config path if requested
     if (expect_configpath) {
       config_path       = argv[argn];
       expect_configpath = false;
     }
 
-    /* Get config path if request */
+    // Get client name if requested
     if (expect_client) {
       hbackup.addClient(argv[argn]);
       expect_client = false;
     }
 
-    /* -* */
+    // Get client name if requested
+    if (expect_dest) {
+      destination   = argv[argn];
+      expect_dest   = false;
+      expect_prefix = true;
+    } else
+
+    // Get prefix if requested
+    if (expect_prefix) {
+      prefix        = argv[argn];
+      expect_prefix = false;
+      expect_date   = true;
+    } else
+
+    // Get date if requested
+    if (expect_date) {
+      if (sscanf(argv[argn], "%ld", &date) != 1) {
+        cerr << "Cannot read date from " << argv[argn] << endl;;
+        return 2;
+      }
+      expect_date = false;
+      expect_path = true;
+    } else
+
+    // Get path if requested
+    if (expect_path) {
+      path = argv[argn];
+      expect_path = false;
+    }
+
+    // -*
     if (argv[argn][0] == '-') {
-      /* --* */
+      // --*
       if (argv[argn][1] == '-') {
         if (! strcmp(&argv[argn][2], "config")) {
           letter = 'c';
@@ -123,6 +164,8 @@ int main(int argc, char **argv) {
           letter = 'd';
         } else if (! strcmp(&argv[argn][2], "help")) {
           letter = 'h';
+        } else if (! strcmp(&argv[argn][2], "list")) {
+          letter = 'l';
         } else if (! strcmp(&argv[argn][2], "restore")) {
           letter = 'r';
         } else if (! strcmp(&argv[argn][2], "scan")) {
@@ -167,6 +210,14 @@ int main(int argc, char **argv) {
         case 'h':
           show_help();
           return 0;
+        case 'l':
+          show_list     = true;
+          expect_prefix = true;
+          break;
+        case 'r':
+          restore     = true;
+          expect_dest = true;
+          break;
         case 's':
           scan = true;
           break;
@@ -186,7 +237,7 @@ int main(int argc, char **argv) {
           show_version();
           return 0;
         default:
-          fprintf(stderr, "Unrecognised option: %s\n", argv[1]);
+          cerr << "Unrecognised option: " << argv[argn] << endl;;
           return 2;
       }
     }
@@ -199,6 +250,10 @@ int main(int argc, char **argv) {
 
   if (config_path == "") {
     config_path = default_config_path;
+  }
+
+  if (hbackup::verbosity() > 0) {
+    cout << "HBackup" << endl;
   }
 
   // Read config before using HBackup
@@ -220,6 +275,28 @@ int main(int argc, char **argv) {
       cout << "Checking database" << endl;
     }
     if (hbackup.check(true)) {
+      return 3;
+    }
+  } else
+  // List DB contents
+  if (show_list) {
+    if (hbackup::verbosity() > 0) {
+      cout << "Showing list" << endl;
+    }
+    list<string> records;
+    if (hbackup.getList(records, prefix.c_str(), path.c_str(), date)) {
+      return 3;
+    }
+    for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+      cout << " " << *i << endl;
+    }
+  } else
+  // Restore data
+  if (restore) {
+    if (hbackup::verbosity() > 0) {
+      cout << "Restoring" << endl;
+    }
+    if (hbackup.restore("", prefix.c_str(), path.c_str(), date)) {
       return 3;
     }
   } else

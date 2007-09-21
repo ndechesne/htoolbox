@@ -7,6 +7,7 @@ TESTDIR2="test2"
 TESTDIRCIFS="test_cifs"
 TESTDIRNFS="test_nfs"
 TESTDBDIR="test_db"
+TESTRESTORE="test_r"
 
 ROOTDIRNFS="/home/User"
 
@@ -20,6 +21,7 @@ rm -rf "$TESTDIR"
 rm -rf "$TESTDIR2"
 rm -rf "$TESTDIRCIFS"
 rm -rf "$TESTDIRNFS"
+rm -rf "$TESTRESTORE"
 
 if [ "$1" == "clean" ]; then
   exit 0
@@ -94,6 +96,9 @@ touch  "$TESTDIRNFS/test/File2.txt"
 cat << EOF > "$TESTDIRNFS/hbackup.list"
 path "$ROOTDIRNFS/test/"
 EOF
+
+# Restore
+mkdir -p "$TESTRESTORE"
 
 # Config
 mkdir "$CONFIGDIR"

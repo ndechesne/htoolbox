@@ -8,6 +8,6 @@ clean:
 	@../../test_tools/test_setup clean
 
 # Rules
-hbackup.done: ../hbackup hbackup.exp
+hbackup.done: ../hbackup hbackup_test hbackup.exp
 	@echo "RUN	$<"
 	@./hbackup_test `basename $@ .done` && touch $@

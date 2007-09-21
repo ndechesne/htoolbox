@@ -20,28 +20,43 @@
 #define HBACKUP_H
 
 namespace hbackup {
+  /* Verbosity level */
+  extern int verbosity();
 
-/* Verbosity level */
-extern int verbosity(void);
+  /* Termination required */
+  extern int terminating();
 
-/* Termination required */
-extern int terminating(void);
-
-class HBackup {
-  struct            Private;
-  Private*          _d;
-public:
-  HBackup();
-  ~HBackup();
-  // Added specific client to backup (excludes all non added clients)
-  int addClient(const char* client);
-  // Read configuration file
-  int readConfig(const char* path);
-  // Check database
-  int check(bool thorough = false);
-  // Backup
-  int backup(bool config_check = false);
-};
-
+  class HBackup {
+    struct        Private;
+    Private*      _d;
+  public:
+    HBackup();
+    ~HBackup();
+    // Add specific client to backup (excludes all non other clients)
+    int addClient(
+      const char*   client);               // Client name in configuration file
+    // Read configuration file
+    int readConfig(
+      const char*   config_path);          // Path to configuration file
+    // Check database for missing/corrupted files
+    int check(
+      bool          thorough     = false); // Check data checksum too (no)
+    // Backup
+    int backup(
+      bool          config_check = false); // Dry run (no)
+    // List
+    int getList(
+      list<string>& records,               // List of elements to display
+      const char*   prefix,                // The prefix (list prefixes)
+      const char*   path,                  // The path (list paths)
+      time_t        date         = 0);     // The date (show)
+    // Restore
+    int restore(
+      const char*   dest,                  // Where the restored path goes
+      const char*   prefix,                // The prefix to restore
+      const char*   path         = NULL,   // The path to restore (all)
+      time_t        date         = 0);     // The date to restore (latest)
+  };
 }
-#endif
+
+#endif  // HBACKUP_H

@@ -18,16 +18,22 @@ if ! test_setup; then
 fi
 
 # Typical backup
-../hbackup -vvv -c etc/hbackup.conf >> $output 2>&1 #|| exit 1
+../hbackup -vvv -c etc/hbackup.conf >> $output 2>&1
 
 # Specify clients
-../hbackup -vvv -c etc/hbackup.conf -C myhost -C client >> $output 2>&1 #|| exit 1
+../hbackup -vvv -c etc/hbackup.conf -C myhost -C client >> $output 2>&1
 
 # Scan DB
-../hbackup -vvv -c etc/hbackup.conf -s >> $output 2>&1 #|| exit 1
+../hbackup -vvv -c etc/hbackup.conf -s >> $output 2>&1
 
 # Check DB
-../hbackup -vvv -c etc/hbackup.conf -t >> $output 2>&1 #|| exit 1
+../hbackup -vvv -c etc/hbackup.conf -t >> $output 2>&1
+
+# List prefixes
+../hbackup -vvv -c etc/hbackup.conf -l >> $output 2>&1
+
+# Restore some data
+../hbackup -d -c etc/hbackup.conf -r test_r file://myhost >> $output 2>&1
 
 # Check
 if ! diff -q $expected $output; then

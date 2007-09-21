@@ -53,11 +53,17 @@ public:
   int  close();
   // Get list of prefixes in DB list (close-open to re-use DB!)
   int getPrefixes(list<string>& prefixes);
+  // Restore specified data
+  int restore(
+    const char*     dest,             // Where the restored path goes
+    const char*     prefix,           // The prefix to restore
+    const char*     path = NULL,      // The path to restore (all)
+    time_t          date = 0);        // The date to restore (latest)
   // Prepare list for parser
   void getList(
     const char*     base_path,
     const char*     rel_path,
-    list<Node*>&    list);
+    list<Node*>&    nodes);
   // Read file with given checksum, extract it to path
   int  read(
     const string&   path,

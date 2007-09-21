@@ -1,3 +1,4 @@
+HBackup
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -47,6 +48,7 @@ Backup path 'C:/Test'
 Unmounted test_db/mount
 Protocol not supported: ssh
  --> Database closed
+HBackup
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -67,6 +69,7 @@ Backup client 'client' using protocol 'smb'
 Backup path 'C:/Test'
 Unmounted test_db/mount
  --> Database closed
+HBackup
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -76,6 +79,7 @@ Scanning database
  --> Database open (contents: 21 files)
  --> Scanning database contents: 4 files
  --> Database closed
+HBackup
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -84,4 +88,44 @@ Scanning database
 Checking database
  --> Database open (contents: 21 files)
  --> Scanning database contents thoroughly: 4 files
+ --> Database closed
+HBackup
+ -> Reading configuration file
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+Showing list
+ --> Database open
+ --> Database closed
+ file://myhost
+ nfs://myClient
+ smb://client
+HBackup
+ -> Reading configuration file
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+Restoring
+ --> Database open
+ ---> test1/cvs/
+ ---> test1/cvs/CVS/
+ ---> test1/cvs/dirbad/
+ ---> test1/cvs/dirutd/
+ ---> test1/cvs/dirutd/CVS/
+ ---> test1/cvs/dirutd/fileutd
+ ---> test1/cvs/filenew.c
+ ---> test1/cvs/fileutd.h
+ ---> test1/dir space/
+ ---> test1/dir space/file space
+ ---> test1/test space
+ ---> test1/testdir/
+Type 'l' not supported yet
+Type 'p' not supported yet
+ ---> test2/testdir/
+ ---> test2/testfile
+ ---> test2/testfile2
+ ---> test2/testfile~
+Type 'l' not supported yet
  --> Database closed
