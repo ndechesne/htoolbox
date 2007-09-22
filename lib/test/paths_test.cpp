@@ -34,6 +34,22 @@ using namespace std;
 
 using namespace hbackup;
 
+void line(const DbData& data) {
+  printf("%s\t%s\t%c\t%lld\t%d\t%u\t%u\t%o",
+    data.prefix(), data.path(), data.node()->type(),
+    data.node()->size(), data.node()->mtime() != 0,
+    data.node()->uid() != 0, data.node()->gid() != 0, data.node()->mode());
+  if (data.node()->type() == 'l') {
+    cout << '\t';
+    cout << ((Link*)data.node())->link();
+  }
+  if (data.node()->type() == 'f') {
+    cout << '\t';
+    cout << ((File*)data.node())->checksum();
+  }
+  cout << endl;
+}
+
 int hbackup::verbosity(void) {
   return 4;
 }
@@ -83,7 +99,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   // '-' is before '/' in the ASCII table...
@@ -141,7 +157,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   cout << "as previous" << endl;
@@ -193,7 +209,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   cout << "as previous with subdir/testfile readable" << endl;
@@ -246,7 +262,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   cout << "as previous with subdir/testfile in ignore list" << endl;
@@ -302,7 +318,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   cout << "as previous with subdir in ignore list" << endl;
@@ -358,7 +374,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   cout << "as previous with testlink modified" << endl;
@@ -415,7 +431,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   cout << "as previous with testlink in ignore list" << endl;
@@ -471,7 +487,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   cout << "as previous with CVS parser" << endl;
@@ -526,7 +542,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   cout << "as previous" << endl;
@@ -578,7 +594,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   cout << "as previous with cvs/dirutd in ignore list" << endl;
@@ -634,7 +650,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   cout << "as previous with testpipe gone" << endl;
@@ -687,7 +703,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   cout << "as previous with testfile mode changed" << endl;
@@ -740,7 +756,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   cout << "as previous with cvs/filenew.c touched" << endl;
@@ -793,7 +809,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   cout << "some troublesome past cases" << endl;
@@ -867,7 +883,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   db.setPrefix("file://localhost");
@@ -923,7 +939,7 @@ int main(void) {
     << " element(s):\n";
   for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
        i != ((list<DbData>*)db.active())->end(); i++) {
-    i->line();
+    line(*i);
   }
 
   db.setPrefix("file://host");
@@ -981,7 +997,7 @@ int main(void) {
       << " element(s):\n";
     for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
         i != ((list<DbData>*)db.active())->end(); i++) {
-      i->line();
+      line(*i);
     }
 
     // Show list contents
@@ -1025,7 +1041,7 @@ int main(void) {
       << " element(s):\n";
     for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
         i != ((list<DbData>*)db.active())->end(); i++) {
-      i->line();
+      line(*i);
     }
 
     db.close();
@@ -1039,7 +1055,7 @@ int main(void) {
       << " element(s):\n";
     for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
         i != ((list<DbData>*)db.active())->end(); i++) {
-      i->line();
+      line(*i);
     }
 
     db.setPrefix("file://localhost");
@@ -1090,7 +1106,7 @@ int main(void) {
       << " element(s):\n";
     for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
         i != ((list<DbData>*)db.active())->end(); i++) {
-      i->line();
+      line(*i);
     }
 
     db.setPrefix("file://host");

@@ -536,6 +536,9 @@ int Database::close() {
     return -1;
   }
 
+  // Delete active list
+  _d->active.clear();
+
   if (read_only) {
     // Close list
     _d->list->close();
@@ -706,15 +709,15 @@ void Database::getList(
       && (_d->entry->pathCompare(full_path, length) == 0)) {
     if ((last_dir == NULL) || _d->entry->pathCompare(last_dir, last_dir_len)) {
       Node* node;
-      switch (_d->entry->data()->type()) {
+      switch (_d->entry->node()->type()) {
         case 'f':
-          node = new File(*((File*) _d->entry->data()));
+          node = new File(*((File*) _d->entry->node()));
           break;
         case 'l':
-          node = new Link(*((Link*) _d->entry->data()));
+          node = new Link(*((Link*) _d->entry->node()));
           break;
         default:
-          node = new Node(*_d->entry->data());
+          node = new Node(*_d->entry->node());
       }
       if (node->type() == 'd') {
         free(last_dir);

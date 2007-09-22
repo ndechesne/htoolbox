@@ -66,31 +66,17 @@ public:
   ~DbData() {
     free(_prefix);
     free(_path);
-    free(_node);
+    delete _node;
   }
-  const Node* data() const      { return _node; }
   const char* prefix() const    { return _prefix; }
   const char* path() const      { return _path; }
+  const Node* node() const      { return _node; }
   int pathCompare(const char* path, int length = -1) const {
     char* full_path = NULL;
     asprintf(&full_path, "%s/%s", _prefix, _path);
     int cmp = Node::pathCompare(full_path, path, length);
     free(full_path);
     return cmp;
-  }
-  void line() const {
-    printf("%s\t%s\t%c\t%lld\t%d\t%u\t%u\t%o",
-      _prefix, _path, _node->type(), _node->size(), _node->mtime() != 0,
-      _node->uid(), _node->gid(), _node->mode());
-    if (_node->type() == 'l') {
-      printf("\t");
-      printf(((Link*)_node)->link());
-    }
-    if (_node->type() == 'f') {
-      printf("\t");
-      printf(((File*)_node)->checksum());
-    }
-    printf("\n");
   }
 };
 
