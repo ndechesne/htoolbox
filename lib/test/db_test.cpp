@@ -119,8 +119,6 @@ time_t time(time_t *t) {
 int main(void) {
   string            checksum;
   string            zchecksum;
-  DbList::iterator  i;
-  DbList            journal;
   int               status;
   List    dblist("test_db/list");
   char*   prefix = NULL;

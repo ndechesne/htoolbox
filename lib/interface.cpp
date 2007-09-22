@@ -26,7 +26,6 @@ using namespace std;
 
 #include "strings.h"
 #include "files.h"
-#include "list.h"
 #include "db.h"
 #include "clients.h"
 #include "hbackup.h"

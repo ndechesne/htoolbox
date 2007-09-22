@@ -39,13 +39,13 @@ using namespace std;
 using namespace hbackup;
 
 struct Database::Private {
-  DbList::iterator  entry;
-  DbList            active;
-  List*             list;
-  List*             journal;
-  List*             merge;
-  StrPath           prefix;
-  bool              prefixJournalled;
+  list<DbData>::iterator  entry;
+  list<DbData>            active;
+  List*                   list;
+  List*                   journal;
+  List*                   merge;
+  StrPath                 prefix;
+  bool                    prefixJournalled;
 };
 
 bool Database::isOpen() const {
@@ -468,10 +468,29 @@ int Database::open(bool read_only) {
   // Read database active items list
   if (! read_only && ! failed) {
     _d->active.clear();
-    if (_d->active.open(_path, "list")) {
-      failed = true;
-    } else {
+    if (! _d->list->isEmpty()) {
+      char*   prefix = NULL;
+      char*   path   = NULL;
+      Node*   node   = NULL;
+      int rc = 0;
+      while ((rc = _d->list->getEntry(NULL, &prefix, &path, &node, 0)) > 0) {
+        // Only push back if not a removed data record
+        if (node != NULL) {
+          _d->active.push_back(DbData(prefix, path, node));
+        }
+      }
+      if (rc < 0) {
+        failed = true;
+      }
+    }
+    if (! failed) {
       _d->entry = _d->active.begin();
+    }
+    // Re-open list
+    _d->list->close();
+    if (_d->list->open("r")) {
+      cerr << "db: open: cannot re-open list" << endl;
+      failed = true;
     }
   }
 

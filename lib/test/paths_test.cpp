@@ -68,7 +68,7 @@ int main(void) {
   Database  db("test_db");
   // Journal
   List    journal("test_db", "journal~");
-  List    list("test_db", "list");
+  List    dblist("test_db", "list");
   time_t  timestamp;
   char*   prefix  = NULL;
   char*   fpath   = NULL;
@@ -79,10 +79,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -101,11 +101,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -137,10 +137,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -153,11 +153,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -189,10 +189,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -206,11 +206,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -242,10 +242,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -262,11 +262,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -298,10 +298,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -318,11 +318,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -354,10 +354,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -375,11 +375,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -411,10 +411,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -431,11 +431,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -467,10 +467,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -486,11 +486,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -522,10 +522,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -538,11 +538,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -574,10 +574,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -594,11 +594,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -630,10 +630,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -647,11 +647,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -683,10 +683,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -700,11 +700,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -736,10 +736,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -753,11 +753,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -789,10 +789,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -827,11 +827,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -863,10 +863,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -878,11 +878,11 @@ int main(void) {
   db.close();
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! list.open("r")) {
-    while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+  if (! dblist.open("r")) {
+    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
       showLine(timestamp, prefix, fpath, node);
     }
-    list.close();
+    dblist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
@@ -919,10 +919,10 @@ int main(void) {
   db.open();
 
   // Display DB contents
-  cout << "Active list:  " << ((DbList*)db.active())->size()
+  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
     << " element(s):\n";
-  for (DbList::iterator i = ((DbList*)db.active())->begin();
-       i != ((DbList*)db.active())->end(); i++) {
+  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+       i != ((list<DbData>*)db.active())->end(); i++) {
     i->line();
   }
 
@@ -941,11 +941,11 @@ int main(void) {
     remove("test_db/lock");
     // Show list contents
     cout << endl << "List:" << endl;
-    if (! list.open("r")) {
-      while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+    if (! dblist.open("r")) {
+      while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
         showLine(timestamp, prefix, fpath, node);
       }
-      list.close();
+      dblist.close();
     } else {
       cerr << "Failed to open list" << endl;
     }
@@ -977,20 +977,20 @@ int main(void) {
     db.open();
 
     // Display DB contents
-    cout << "Active list:  " << ((DbList*)db.active())->size()
+    cout << "Active list:  " << ((list<DbData>*)db.active())->size()
       << " element(s):\n";
-    for (DbList::iterator i = ((DbList*)db.active())->begin();
-        i != ((DbList*)db.active())->end(); i++) {
+    for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+        i != ((list<DbData>*)db.active())->end(); i++) {
       i->line();
     }
 
     // Show list contents
     cout << endl << "List:" << endl;
-    if (! list.open("r")) {
-      while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+    if (! dblist.open("r")) {
+      while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
         showLine(timestamp, prefix, fpath, node);
       }
-      list.close();
+      dblist.close();
     } else {
       cerr << "Failed to open list" << endl;
     }
@@ -1021,10 +1021,10 @@ int main(void) {
     db.open();
 
     // Display DB contents
-    cout << "Active list:  " << ((DbList*)db.active())->size()
+    cout << "Active list:  " << ((list<DbData>*)db.active())->size()
       << " element(s):\n";
-    for (DbList::iterator i = ((DbList*)db.active())->begin();
-        i != ((DbList*)db.active())->end(); i++) {
+    for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+        i != ((list<DbData>*)db.active())->end(); i++) {
       i->line();
     }
 
@@ -1035,10 +1035,10 @@ int main(void) {
     db.open();
 
     // Display DB contents
-    cout << "Active list:  " << ((DbList*)db.active())->size()
+    cout << "Active list:  " << ((list<DbData>*)db.active())->size()
       << " element(s):\n";
-    for (DbList::iterator i = ((DbList*)db.active())->begin();
-        i != ((DbList*)db.active())->end(); i++) {
+    for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+        i != ((list<DbData>*)db.active())->end(); i++) {
       i->line();
     }
 
@@ -1050,11 +1050,11 @@ int main(void) {
     db.close();
     // Show list contents
     cout << endl << "List:" << endl;
-    if (! list.open("r")) {
-      while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+    if (! dblist.open("r")) {
+      while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
         showLine(timestamp, prefix, fpath, node);
       }
-      list.close();
+      dblist.close();
     } else {
       cerr << "Failed to open list" << endl;
     }
@@ -1086,10 +1086,10 @@ int main(void) {
     db.open();
 
     // Display DB contents
-    cout << "Active list:  " << ((DbList*)db.active())->size()
+    cout << "Active list:  " << ((list<DbData>*)db.active())->size()
       << " element(s):\n";
-    for (DbList::iterator i = ((DbList*)db.active())->begin();
-        i != ((DbList*)db.active())->end(); i++) {
+    for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
+        i != ((list<DbData>*)db.active())->end(); i++) {
       i->line();
     }
 
@@ -1101,11 +1101,11 @@ int main(void) {
     db.close();
     // Show list contents
     cout << endl << "List:" << endl;
-    if (! list.open("r")) {
-      while (list.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
+    if (! dblist.open("r")) {
+      while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
         showLine(timestamp, prefix, fpath, node);
       }
-      list.close();
+      dblist.close();
     } else {
       cerr << "Failed to open list" << endl;
     }

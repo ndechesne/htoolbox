@@ -46,29 +46,39 @@ public:
   DbData(
       const char* prefix,
       const char* path,
-      Node*       data) :
+      const Node* node) :
       _prefix(NULL),
       _path(NULL),
-      _node(data) {
+      _node(NULL) {
     asprintf(&_prefix, "%s", prefix);
     asprintf(&_path, "%s", path);
+    switch (node->type()) {
+      case 'l':
+        _node = new Link(*((Link*)node));
+        break;
+      case 'f':
+        _node = new File(*((File*)node));
+        break;
+      default:
+        _node = new Node(*node);
+    }
   }
   ~DbData() {
     free(_prefix);
     free(_path);
     free(_node);
   }
-  const Node* data()            { return _node; }
+  const Node* data() const      { return _node; }
   const char* prefix() const    { return _prefix; }
   const char* path() const      { return _path; }
-  int pathCompare(const char* path, int length = -1) {
+  int pathCompare(const char* path, int length = -1) const {
     char* full_path = NULL;
     asprintf(&full_path, "%s/%s", _prefix, _path);
     int cmp = Node::pathCompare(full_path, path, length);
     free(full_path);
     return cmp;
   }
-  void line() {
+  void line() const {
     printf("%s\t%s\t%c\t%lld\t%d\t%u\t%u\t%o",
       _prefix, _path, _node->type(), _node->size(), _node->mtime() != 0,
       _node->uid(), _node->gid(), _node->mode());
@@ -82,15 +92,6 @@ public:
     }
     printf("\n");
   }
-};
-
-class DbList : public list<DbData> {
-  int  load_v2(
-    FILE*         readfile);
-public:
-  int  open(
-    const string& path,
-    const string& filename);
 };
 
 class List : public Stream {

@@ -31,194 +31,6 @@ using namespace std;
 
 using namespace hbackup;
 
-int DbList::load_v2(FILE* readfile) {
-  /* Read the active part of the file into memory */
-  char          *buffer = NULL;
-  size_t        bsize   = 0;
-  unsigned int  line    = 0;
-  ssize_t       size    = 0;
-  int           failed  = 0;
-
-  char*         prefix  = NULL;
-  char*         path    = NULL;
-
-
-  list<DbData>::iterator  db_data;
-  bool                    end_found = false;
-
-  errno = 0;
-  while (((size = getline(&buffer, &bsize, readfile)) >= 0) && ! failed) {
-    char* buffer_last = &buffer[strlen(buffer) - 1];
-    // Remove ending '\n'
-    if (*buffer_last != '\n') {
-      failed = 1;
-      break;
-    }
-    *buffer_last = '\0';
-    if (buffer[0] == '#') {
-      end_found = true;
-      break;
-    } else
-    if (buffer[0] != '\t') {
-      free(prefix);
-      prefix = NULL;
-      asprintf(&prefix, "%s", buffer);
-    } else
-    if ((prefix != NULL) && (buffer[1] != '\t')) {
-      free(path);
-      path = NULL;
-      asprintf(&path, "%s", &buffer[1]);
-      db_data = end();
-    } else if (path != NULL) {
-      *buffer_last = '\t';
-      char* start  = &buffer[2];
-      char* value  = (char *) malloc(size + 1);
-      int   failed = 0;
-      int   fields = 7;
-      // Fields
-      time_t    db_time;          // DB time
-      char      type;             // file type
-      time_t    mtime;            // time of last modification
-      long long size;             // on-disk size, in bytes
-      uid_t     uid;              // user ID of owner
-      gid_t     gid;              // group ID of owner
-      mode_t    mode;             // permissions
-      char*     checksum = NULL;  // file checksum
-      char*     link = NULL;      // what the link points to
-
-      for (int field = 1; field <= fields; field++) {
-        // Get tabulation position
-        char* delim = strchr(start, '\t');
-        if (delim == NULL) {
-          failed = 1;
-        } else {
-          // Get string portion
-          strncpy(value, start, delim - start);
-          value[delim - start] = '\0';
-          /* Extract data */
-          switch (field) {
-            case 1:   /* DB timestamp */
-              if (sscanf(value, "%ld", &db_time) != 1) {
-                failed = -1;
-              }
-              break;
-            case 2:   /* Type */
-              if (sscanf(value, "%c", &type) != 1) {
-                failed = 2;
-              } else if (type == '-') {
-                fields = 2;
-              } else if ((type == 'f') || (type == 'l')) {
-                fields++;
-              }
-              break;
-            case 3:   /* Size */
-              if (sscanf(value, "%lld", &size) != 1) {
-                failed = 2;
-              }
-              break;
-            case 4:   /* Modification time */
-              if (sscanf(value, "%ld", &mtime) != 1) {
-                failed = 2;
-              }
-              break;
-            case 5:   /* User */
-              if (sscanf(value, "%u", &uid) != 1) {
-                failed = 2;
-              }
-              break;
-            case 6:   /* Group */
-              if (sscanf(value, "%u", &gid) != 1) {
-                failed = 2;
-              }
-              break;
-            case 7:   /* Permissions */
-              if (sscanf(value, "%o", &mode) != 1) {
-                failed = 2;
-              }
-              break;
-            case 8:  /* Checksum or Link */
-                if (type == 'f') {
-                  checksum = value;;
-                } else if (type == 'l') {
-                  link = value;;
-                }
-              break;
-          }
-          start = delim + 1;
-        }
-        if (failed) {
-          cerr << "dblist: load: file corrupted, line " << line << endl;
-          errno = EUCLEAN;
-          break;
-        }
-      }
-      if ((type != '-') && (failed == 0)) {
-        Node* node;
-        switch (type) {
-          case 'f':
-            node = new File(path, type, mtime, size, uid, gid, mode, checksum);
-            break;
-          case 'l':
-            node = new Link(path, type, mtime, size, uid, gid, mode, link);
-            break;
-          default:
-            node = new Node(path, type, mtime, size, uid, gid, mode);
-        }
-        push_back(DbData(prefix, path, node));
-      }
-      free(value);
-      // Only take first file data (active)
-      path = NULL;
-    }
-  }
-  free(buffer);
-  free(prefix);
-  free(path);
-
-  if (! end_found) {
-    cerr << "dblist: load: file end not found" << endl;
-    errno = EUCLEAN;
-    failed = -1;
-  }
-
-  return failed;
-}
-
-int DbList::open(
-    const string& path,
-    const string& filename) {
-  string source_path = path + "/" + filename;
-  bool   failed      = false;
-
-  FILE* readfile = fopen(source_path.c_str(), "r");
-  if (readfile == NULL) {
-    // errno set by fopen
-    failed = true;
-  } else {
-    /* Read the file into memory */
-    char    *buffer = NULL;
-    size_t  bsize   = 0;
-
-    // errno set by load_v*
-    if (getline(&buffer, &bsize, readfile) >= 0) {
-      if (buffer[0] != '#') {
-        errno = EUCLEAN;
-        failed = true;
-      } else {
-        // Version 2
-        failed = load_v2(readfile);
-      }
-    }
-    free(buffer);
-    fclose(readfile);
-  }
-  if (failed) {
-    cerr << "dblist: failed to load list: " << strerror(errno) << endl;
-    return -1;
-  }
-  return 0;
-}
-
 int List::decodeLine(
     const char*   path,
     Node**        node,
@@ -242,15 +54,15 @@ int List::decodeLine(
       errno = EUCLEAN;
     } else {
       *delim = '\0';
-      /* Extract data */
+      // Extract data
       switch (field) {
-        case 1:   /* DB timestamp */
+        case 1:   // DB timestamp
           if ((timestamp != NULL)
             && sscanf(start, "%ld", timestamp) != 1) {
             errno = EUCLEAN;
           }
           break;
-        case 2:   /* Type */
+        case 2:   // Type
           if (sscanf(start, "%c", &type) != 1) {
             errno = EUCLEAN;;
           } else if (type == '-') {
@@ -259,32 +71,32 @@ int List::decodeLine(
             fields++;
           }
           break;
-        case 3:   /* Size */
+        case 3:   // Size
           if (sscanf(start, "%lld", &size) != 1) {
             errno = EUCLEAN;;
           }
           break;
-        case 4:   /* Modification time */
+        case 4:   // Modification time
           if (sscanf(start, "%ld", &mtime) != 1) {
             errno = EUCLEAN;;
           }
           break;
-        case 5:   /* User */
+        case 5:   // User
           if (sscanf(start, "%u", &uid) != 1) {
             errno = EUCLEAN;;
           }
           break;
-        case 6:   /* Group */
+        case 6:   // Group
           if (sscanf(start, "%u", &gid) != 1) {
             errno = EUCLEAN;;
           }
           break;
-        case 7:   /* Permissions */
+        case 7:   // Permissions
           if (sscanf(start, "%o", &mode) != 1) {
             errno = EUCLEAN;;
           }
           break;
-        case 8:  /* Checksum or Link */
+        case 8:  // Checksum or Link
             if (type == 'f') {
               checksum = start;
             } else if (type == 'l') {

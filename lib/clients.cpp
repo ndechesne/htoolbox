@@ -29,7 +29,6 @@ using namespace std;
 #include "filters.h"
 #include "parsers.h"
 #include "cvs_parser.h"
-#include "list.h"
 #include "db.h"
 #include "paths.h"
 #include "clients.h"
