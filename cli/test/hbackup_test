@@ -32,7 +32,13 @@ fi
 # List prefixes
 ../hbackup -vvv -c etc/hbackup.conf -l >> $output 2>&1
 
-# Restore all data in a prefix/path
+# Restore a file
+rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r file://myhost 0 test2/testfile >> $output 2>&1
+
+# Restore all data in a prefix/dir path that's not by itself in DB
+rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r file://myhost 0 test1 >> $output 2>&1
+
+# Restore all data in a prefix/dir path
 rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r file://myhost 0 test1/cvs >> $output 2>&1
 
 # Restore all data in a prefix

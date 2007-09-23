@@ -109,6 +109,39 @@ HBackup
  --> Client: client
 Restoring
  --> Database open
+ ---> test_r/test2/testfile
+ --> Database closed
+HBackup
+ -> Reading configuration file
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+Restoring
+ --> Database open
+ ---> test_r/test1/cvs
+ ---> test_r/test1/cvs/CVS
+ ---> test_r/test1/cvs/dirbad
+ ---> test_r/test1/cvs/dirutd
+ ---> test_r/test1/cvs/dirutd/CVS
+ ---> test_r/test1/cvs/dirutd/fileutd
+ ---> test_r/test1/cvs/filenew.c
+ ---> test_r/test1/cvs/fileutd.h
+ ---> test_r/test1/dir space
+ ---> test_r/test1/dir space/file space
+ ---> test_r/test1/test space
+ ---> test_r/test1/testdir
+ ---> test_r/test1/testlink
+ ---> test_r/test1/testpipe
+ --> Database closed
+HBackup
+ -> Reading configuration file
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+Restoring
+ --> Database open
  ---> test_r/test1/cvs
  ---> test_r/test1/cvs/CVS
  ---> test_r/test1/cvs/dirbad

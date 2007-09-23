@@ -635,63 +635,117 @@ int Database::restore(
   char*   fpath   = NULL;
   Node*   fnode   = NULL;
   time_t  fts;
-  int rc;
-  int len = strlen(path);
+  int     rc;
+  int     len = strlen(path);
+  bool    path_is_dir     = false;
+  bool    path_is_not_dir = false;
 
-  // Skip to given prefix
-  _d->list->findPrefix(prefix);
+  if (path[0] == '\0') {
+    path_is_dir = true;
+  }
+
+  // Skip to given prefix FIXME use search to look for path and speed things up
+  if (! _d->list->findPrefix(prefix)) {
+    return -1;
+  }
+
   // Restore relevant data
   while ((rc = _d->list->getEntry(&fts, &fprefix, &fpath, &fnode, date)) > 0) {
-    if ((! strcmp(prefix, fprefix)) && ! strncmp(path, fpath, len)) {
-      if (fnode != NULL) {
-        StrPath base = dest;
-        base += fpath;
-        if (! Directory(base.dirname().c_str()).isValid()) {
-          string command = "mkdir -p ";
-          command += base.dirname().c_str();
-          if (system(command.c_str())) {
-            cerr << base.dirname() << ": " << strerror(errno) << endl;
-          }
+    if (strcmp(fprefix, prefix) != 0) {
+      break;
+    }
+    if (path_is_dir) {
+      if (Node::pathCompare(fpath, path, len) > 0) {
+        break;
+      }
+    } else {
+      int cmp;
+      int flen = strlen(fpath);
+      if (flen < len) {
+        // Not even close
+        continue;
+      } else
+      if (flen == len) {
+        cmp = Node::pathCompare(fpath, path);
+        if (cmp < 0) {
+          continue;
+        } else
+        if (cmp > 0) {
+          break;
+        } else
+        // Perfect match
+        if (fnode->type() == 'd') {
+          path_is_dir = true;
+        } else {
+          path_is_not_dir = true;
         }
-        if (verbosity() > 3) {
-          cout << " ---> " << base << endl;
+      } else
+      if (fpath[len] == '/') {
+        // Contained?
+        cmp = Node::pathCompare(fpath, path, len);
+        if (cmp < 0) {
+          continue;
+        } else
+        if (cmp > 0) {
+          break;
         }
-        switch (fnode->type()) {
-          case 'f': {
-              File* f = (File*) fnode;
-              if (read(base, f->checksum())) {
-                cerr << "Failed to restore file: " << strerror(errno) << endl;
-                failed = true;
-              }
-              if (chmod(base.c_str(), fnode->mode())) {
-                cerr << "Failed to restore file permissions: "
-                  << strerror(errno) << endl;
-              }
-            } break;
-          case 'd':
-            if (mkdir(base.c_str(), fnode->mode())) {
-              cerr << "Failed to restore dir: " << strerror(errno) << endl;
-              failed = true;
-            }
-            break;
-          case 'l': {
-              Link* l = (Link*) fnode;
-              if (symlink(l->link(), base.c_str())) {
-                cerr << "Failed to restore file: " << strerror(errno) << endl;
-                failed = true;
-              }
-            } break;
-          case 'p':
-            if (mkfifo(base.c_str(), fnode->mode())) {
-              cerr << "Failed to restore named pipe (FIFO): "
-                << strerror(errno) << endl;
-              failed = true;
-            }
-            break;
-          default:
-            cerr << "Type '" << fnode->type() << "' not supported" << endl;
+        // Yes indeed! Accept
+        path_is_dir = true;
+      } else {
+        continue;
+      }
+    }
+    if (fnode != NULL) {
+      StrPath base = dest;
+      base += fpath;
+      if (! Directory(base.dirname().c_str()).isValid()) {
+        string command = "mkdir -p ";
+        command += base.dirname().c_str();
+        if (system(command.c_str())) {
+          cerr << base.dirname() << ": " << strerror(errno) << endl;
         }
       }
+      if (verbosity() > 3) {
+        cout << " ---> " << base << endl;
+      }
+      switch (fnode->type()) {
+        case 'f': {
+            File* f = (File*) fnode;
+            if (read(base, f->checksum())) {
+              cerr << "Failed to restore file: " << strerror(errno) << endl;
+              failed = true;
+            }
+            if (chmod(base.c_str(), fnode->mode())) {
+              cerr << "Failed to restore file permissions: "
+                << strerror(errno) << endl;
+            }
+          } break;
+        case 'd':
+          if (mkdir(base.c_str(), fnode->mode())) {
+            cerr << "Failed to restore dir: " << strerror(errno) << endl;
+            failed = true;
+          }
+          break;
+        case 'l': {
+            Link* l = (Link*) fnode;
+            if (symlink(l->link(), base.c_str())) {
+              cerr << "Failed to restore file: " << strerror(errno) << endl;
+              failed = true;
+            }
+          } break;
+        case 'p':
+          if (mkfifo(base.c_str(), fnode->mode())) {
+            cerr << "Failed to restore named pipe (FIFO): "
+              << strerror(errno) << endl;
+            failed = true;
+          }
+          break;
+        default:
+          cerr << "Type '" << fnode->type() << "' not supported" << endl;
+      }
+    }
+    if (path_is_not_dir) {
+      break;
     }
   }
   return failed ? -1 : 0;
