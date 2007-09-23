@@ -114,7 +114,7 @@ const StrPath& StrPath::noEndingSlash() {
   return *this;
 }
 
-const StrPath StrPath::basename() {
+const StrPath StrPath::basename() const {
   size_t pos = this->find_last_of('/');
   if (pos != string::npos) {
     return StrPath(this->substr(++pos));
@@ -123,7 +123,7 @@ const StrPath StrPath::basename() {
   }
 }
 
-const StrPath StrPath::dirname() {
+const StrPath StrPath::dirname() const {
   size_t pos = this->find_last_of('/');
   if (pos != string::npos) {
     return StrPath(this->substr(0, pos));

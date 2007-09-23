@@ -91,8 +91,8 @@ public:
   }
   const StrPath& toUnix();
   const StrPath& noEndingSlash();
-  const StrPath  basename();
-  const StrPath  dirname();
+  const StrPath  basename() const;
+  const StrPath  dirname()  const;
 };
 
 }

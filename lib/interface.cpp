@@ -275,7 +275,10 @@ int HBackup::restore(
     const char* path,
     time_t      date) {
   if (! _d->db->open(true)) {
-    bool failed = (_d->db->restore(dest, prefix, path, date) != 0);
+    StrPath where = dest;
+    where.noEndingSlash();
+    where += '/';
+    bool failed = (_d->db->restore(where.c_str(), prefix, path, date) != 0);
     _d->db->close();
     if (failed) {
       return -1;

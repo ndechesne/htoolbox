@@ -22,7 +22,10 @@
 #include <sstream>
 #include <string>
 #include <list>
+
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <signal.h>
 #include <time.h>
 #include <dirent.h>
@@ -633,38 +636,57 @@ int Database::restore(
   Node*   fnode   = NULL;
   time_t  fts;
   int rc;
-#warning this is utter crap, but saved a life today :)
-
-  char last_fpath[4096];
-  last_fpath[0] = '\0';
   int len = strlen(path);
-  while ((rc = _d->list->getEntry(&fts, &fprefix, &fpath, &fnode)) > 0) {
-    if ((! strcmp(prefix, fprefix))
-        && ! strncmp(path, fpath, len)) {
-      if (strcmp(last_fpath, fpath) && (fnode != NULL)) {
-        sprintf(last_fpath, fpath);
+  _d->list->findPrefix(prefix);
+  while ((rc = _d->list->getEntry(&fts, &fprefix, &fpath, &fnode, date)) > 0) {
+    if ((! strcmp(prefix, fprefix)) && ! strncmp(path, fpath, len)) {
+      if (fnode != NULL) {
+        StrPath base = dest;
+        base += fpath;
+        if (! Directory(base.dirname().c_str()).isValid()) {
+          string command = "mkdir -p ";
+          command += base.dirname().c_str();
+          if (system(command.c_str())) {
+            cerr << base.dirname() << ": " << strerror(errno) << endl;
+          }
+        }
+        if (verbosity() > 3) {
+          cout << " ---> " << base << endl;
+        }
         switch (fnode->type()) {
           case 'f': {
-              string base = dest;
-              base += &fpath[len];
-              if (verbosity() > 3) {
-                cout << " ---> " << base << endl;
-              }
               File* f = (File*) fnode;
-              read(base, f->checksum());
+              if (read(base, f->checksum())) {
+                cerr << "Failed to restore file: " << strerror(errno) << endl;
+                failed = true;
+              }
+              if (chmod(base.c_str(), fnode->mode())) {
+                cerr << "Failed to restore file permissions: "
+                  << strerror(errno) << endl;
+              }
+            } break;
+          case 'd':
+            if (mkdir(base.c_str(), fnode->mode())) {
+              cerr << "Failed to restore dir: " << strerror(errno) << endl;
+              failed = true;
             }
             break;
-          case 'd': {
-              string base = dest;
-              base += &fpath[len];
-              if (verbosity() > 3) {
-                cout << " ---> " << base << '/' << endl;
+          case 'l': {
+              Link* l = (Link*) fnode;
+              if (symlink(l->link(), base.c_str())) {
+                cerr << "Failed to restore file: " << strerror(errno) << endl;
+                failed = true;
               }
-              mkdir(base.c_str(), 0777);
+            } break;
+          case 'p':
+            if (mkfifo(base.c_str(), fnode->mode())) {
+              cerr << "Failed to restore named pipe (FIFO): "
+                << strerror(errno) << endl;
+              failed = true;
             }
             break;
           default:
-            cerr << "Type '" << fnode->type() << "' not supported yet" << endl;
+            cerr << "Type '" << fnode->type() << "' not supported" << endl;
         }
       }
     }

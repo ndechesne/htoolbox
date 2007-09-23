@@ -296,7 +296,8 @@ int main(int argc, char **argv) {
     if (hbackup::verbosity() > 0) {
       cout << "Restoring" << endl;
     }
-    if (hbackup.restore("", prefix.c_str(), path.c_str(), date)) {
+    if (hbackup.restore(destination.c_str(), prefix.c_str(), path.c_str(),
+          date)) {
       return 3;
     }
   } else

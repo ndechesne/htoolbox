@@ -32,8 +32,11 @@ fi
 # List prefixes
 ../hbackup -vvv -c etc/hbackup.conf -l >> $output 2>&1
 
-# Restore some data
-../hbackup -d -c etc/hbackup.conf -r test_r file://myhost >> $output 2>&1
+# Restore all data in a prefix/path
+rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r file://myhost 0 test1/cvs >> $output 2>&1
+
+# Restore all data in a prefix
+rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r file://myhost >> $output 2>&1
 
 # Check
 if ! diff -q $expected $output; then
