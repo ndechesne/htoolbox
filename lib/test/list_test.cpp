@@ -279,7 +279,7 @@ int main(void) {
     return 0;
   }
   while (dblist.findPrefix(NULL)) {
-    char   *prefix = NULL;
+    char *prefix = NULL;
     dblist.getEntry(NULL, &prefix, NULL, NULL);
     cout << prefix << endl;
     free(prefix);
@@ -516,7 +516,7 @@ int main(void) {
   StrPath null;
   list<string> active;
   list<string> expired;
-  if (dblist.search(null, null, &merge, 14, &active, &expired) < 0) {
+  if (dblist.search(&null, &null, &merge, 14, &active, &expired) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -602,7 +602,7 @@ int main(void) {
     return 0;
   }
   StrPath prefix3("prefix3\n");
-  if (dblist.search(prefix3, null, &merge) < 0) {
+  if (dblist.search(&prefix3, &null, &merge) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }

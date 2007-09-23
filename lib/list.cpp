@@ -228,22 +228,18 @@ ssize_t List::getLine() {
 }
 
 bool List::findPrefix(const char* prefix_in) {
-  StrPath prefix;
+  StrPath* prefix = NULL;
+  StrPath  path   = "";
   if (prefix_in != NULL) {
-    prefix  = prefix_in;
-    prefix += "\n";
+    prefix = new StrPath(prefix_in);
+    *prefix += "\n";
   }
-  bool found = false;
-  while ((getLine() > 0) && (_line[0] != '#')) {
-    if ((_line[0] != '\t') && (_line >= prefix)) {
-      if ((_line == prefix) || (prefix_in == NULL)) {
-        found = true;
-      }
-      break;
-    }
+  if ((search(prefix, &path) <= 0) || (_prefix_cmp != 0)) {
+    return false;
   }
+  // Make prefix available
   _line_status = 1;
-  return found;
+  return true;
 }
 
 int List::getEntry(
@@ -394,23 +390,42 @@ int List::removed(
 }
 
 int List::search(
-    StrPath&      prefix_l,
-    StrPath&      path_l,
-    List*         list,
-    time_t        expire,
-    list<string>* active,
-    list<string>* expired) {
+    const StrPath*  prefix_l,
+    const StrPath*  path_l,
+    List*           list,
+    time_t          expire,
+    list<string>*   active,
+    list<string>*   expired) {
   string exception_line;
   int    path_cmp;
   int    rc = 0;
 
-  // No need to compare prefixes
-  if (prefix_l.length() == 0) {
+  // Pre-set prefix comparision result
+  if (prefix_l == NULL) {
+    // Any prefix will match
+    _prefix_cmp = 0;
+  } else
+  if (prefix_l->length() == 0) {
+    // No need to compare prefixes
     _prefix_cmp = 1;
   }
-  // No need to compare paths
-  if ((_prefix_cmp > 0) || (path_l.length() == 0)) {
+
+  // Pre-set path comparision result
+  if (prefix_l == NULL) {
+    // No path will match
     path_cmp = 1;
+  } else
+  if (path_l == NULL) {
+    // Any path will match
+    path_cmp = 0;
+  } else
+  if ((_prefix_cmp > 0) || (path_l->length() == 0)) {
+    // No need to compare paths
+    path_cmp = 1;
+  } else
+  {
+    // Any value will do
+    path_cmp = -1;
   }
 
   while (true) {
@@ -427,6 +442,8 @@ int List::search(
 
     // End of file
     if (_line[0] == '#') {
+      // Future searches will return eof too
+      _line_status = 1;
       return 0;
     }
 
@@ -441,8 +458,8 @@ int List::search(
     // Got a prefix
     if (_line[0] != '\t') {
       // Compare prefixes
-      if (prefix_l.length() != 0) {
-        _prefix_cmp = prefix_l.compare(_line);
+      if ((prefix_l != NULL) && (prefix_l->length() != 0)) {
+        _prefix_cmp = prefix_l->compare(_line);
       }
       if (_prefix_cmp <= 0)  {
         if (_prefix_cmp < 0) {
@@ -450,7 +467,8 @@ int List::search(
           _line_status = 1;
           return 1;
         } else
-        if (path_l.length() == 0) {
+        if ((prefix_l == NULL)
+         || ((path_l != NULL) && (path_l->length() == 0))) {
           // Looking for prefix, found
           return 1;
         }
@@ -460,8 +478,8 @@ int List::search(
     // Got a path
     if (_line[1] != '\t') {
       // Compare paths
-      if ((_prefix_cmp <= 0) && (path_l.length() != 0)) {
-        path_cmp = path_l.compare(_line);
+      if ((_prefix_cmp <= 0) && (path_l != NULL) && (path_l->length() != 0)) {
+        path_cmp = path_l->compare(_line);
       }
       if (path_cmp <= 0) {
         if (path_cmp < 0) {
@@ -592,7 +610,7 @@ int List::merge(
       prefix = "";
       path   = "";
       if (rc_list > 0) {
-        rc_list = list.search(prefix, path, this);
+        rc_list = list.search(&prefix, &path, this);
         if (rc_list < 0) {
           // Error copying list
           cerr << "End of list copy failed" << endl;
@@ -632,7 +650,7 @@ int List::merge(
       path = "";
       // Search/copy list
       if (rc_list > 0) {
-        rc_list = list.search(prefix, path, this);
+        rc_list = list.search(&prefix, &path, this);
         if (rc_list < 0) {
           // Error copying list
           cerr << "Prefix search failed" << endl;
@@ -666,7 +684,7 @@ int List::merge(
       path = journal._line;
       // Search/copy list
       if (rc_list > 0) {
-        rc_list = list.search(prefix, path, this);
+        rc_list = list.search(&prefix, &path, this);
         if (rc_list < 0) {
           // Error copying list
           cerr << "Path search failed" << endl;

@@ -133,13 +133,18 @@ public:
     const char*   rel_path,
     list<Node*>&  list);
   // Search data in list copying contents on the fly
-  int search(
-    StrPath&      prefix,
-    StrPath&      path,
-    List*         list    = NULL,     // List in which to copy, if any
-    time_t        expire  = 0,        // Expiration delay in seconds
-    list<string>* active  = NULL,     // List of active checksums
-    list<string>* expired = NULL);    // List of expired checksums
+  // If prefix is "", copy/skip all remaining records
+  // Otherwise:
+  // If prefix is null, copy/skip to next prefix
+  // If path is "", copy/skip all remaining records till next prefix
+  // If path is null, copy/skip to next path
+  int search(                         // -1: error, 0: eof, 1: ok
+    const StrPath*  prefix  = NULL,   // Prefix to search
+    const StrPath*  path    = NULL,   // Path to search
+    List*           list    = NULL,   // List in which to copy, if any
+    time_t          expire  = 0,      // Expiration delay in seconds
+    list<string>*   active  = NULL,   // List of active checksums
+    list<string>*   expired = NULL);  // List of expired checksums
   // Merge list and backup into this list
   int  merge(
     List&         list,
