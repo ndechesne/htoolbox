@@ -84,6 +84,8 @@ class List : public Stream {
   string          _line;
   // -2: unexpected eof, -1: error, 0: read again, 1: use current, 2: empty
   int             _line_status;
+  // Need to keep prefix status for search()
+  int             _prefix_cmp;
   // Decode metadata from current line
   int decodeLine(
     const char*   path,
@@ -115,13 +117,13 @@ public:
     time_t        date = -1); // -1: all, 0: latest, otherwise timestamp to get
   // Add a journal record of added file
   int added(
-    const char*   prefix,           // Set to NULL not to add prefix
+    const char*   prefix,             // Set to NULL not to add prefix
     const char*   path,
     const Node*   node,
     time_t        timestamp = -1);
   // Add a journal record of removed file
   int removed(
-    const char*   prefix,           // Set to NULL not to add prefix
+    const char*   prefix,             // Set to NULL not to add prefix
     const char*   path,
     time_t        timestamp = -1);
   // Get a list of active records for given prefix and paths
@@ -131,13 +133,13 @@ public:
     const char*   rel_path,
     list<Node*>&  list);
   // Search data in list copying contents on the fly
-  int searchCopy(
-    List&         list,
+  int search(
     StrPath&      prefix,
     StrPath&      path,
-    time_t        expire = 0,
-    list<string>* active = NULL,
-    list<string>* expired = NULL);
+    List*         list    = NULL,     // List in which to copy, if any
+    time_t        expire  = 0,        // Expiration delay in seconds
+    list<string>* active  = NULL,     // List of active checksums
+    list<string>* expired = NULL);    // List of expired checksums
   // Merge list and backup into this list
   int  merge(
     List&         list,

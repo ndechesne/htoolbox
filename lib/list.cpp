@@ -178,6 +178,7 @@ int List::open(
         _line_status = 1;
       }
     }
+    _prefix_cmp = 0;
   }
   return rc;
 }
@@ -392,10 +393,10 @@ int List::removed(
   return 0;
 }
 
-int List::searchCopy(
-    List&         list,
+int List::search(
     StrPath&      prefix_l,
     StrPath&      path_l,
+    List*         list,
     time_t        expire,
     list<string>* active,
     list<string>* expired) {
@@ -405,10 +406,10 @@ int List::searchCopy(
 
   // No need to compare prefixes
   if (prefix_l.length() == 0) {
-    list._line_status = 1;
+    _prefix_cmp = 1;
   }
   // No need to compare paths
-  if ((list._line_status > 0) || (path_l.length() == 0)) {
+  if ((_prefix_cmp > 0) || (path_l.length() == 0)) {
     path_cmp = 1;
   }
 
@@ -441,10 +442,10 @@ int List::searchCopy(
     if (_line[0] != '\t') {
       // Compare prefixes
       if (prefix_l.length() != 0) {
-        list._line_status = prefix_l.compare(_line);
+        _prefix_cmp = prefix_l.compare(_line);
       }
-      if (list._line_status <= 0)  {
-        if (list._line_status < 0) {
+      if (_prefix_cmp <= 0)  {
+        if (_prefix_cmp < 0) {
           // Prefix not found
           _line_status = 1;
           return 1;
@@ -459,7 +460,7 @@ int List::searchCopy(
     // Got a path
     if (_line[1] != '\t') {
       // Compare paths
-      if ((list._line_status <= 0) && (path_l.length() != 0)) {
+      if ((_prefix_cmp <= 0) && (path_l.length() != 0)) {
         path_cmp = path_l.compare(_line);
       }
       if (path_cmp <= 0) {
@@ -527,8 +528,8 @@ int List::searchCopy(
         }
       }
     }
-    // Our data is here or after, so let's copy
-    if (list.write(_line.c_str(), _line.length()) < 0) {
+    // Our data is here or after, so let's copy if required
+    if ((list != NULL) && list->write(_line.c_str(), _line.length()) < 0) {
       // Could not write
       return -1;
     }
@@ -561,7 +562,7 @@ int List::merge(
   StrPath prefix;
   StrPath path;
 
-  // Last searchCopy status
+  // Last search status
   _line_status = 0;
 
   // Parse journal
@@ -591,7 +592,7 @@ int List::merge(
       prefix = "";
       path   = "";
       if (rc_list > 0) {
-        rc_list = list.searchCopy(*this, prefix, path);
+        rc_list = list.search(prefix, path, this);
         if (rc_list < 0) {
           // Error copying list
           cerr << "End of list copy failed" << endl;
@@ -631,7 +632,7 @@ int List::merge(
       path = "";
       // Search/copy list
       if (rc_list > 0) {
-        rc_list = list.searchCopy(*this, prefix, path);
+        rc_list = list.search(prefix, path, this);
         if (rc_list < 0) {
           // Error copying list
           cerr << "Prefix search failed" << endl;
@@ -665,7 +666,7 @@ int List::merge(
       path = journal._line;
       // Search/copy list
       if (rc_list > 0) {
-        rc_list = list.searchCopy(*this, prefix, path);
+        rc_list = list.search(prefix, path, this);
         if (rc_list < 0) {
           // Error copying list
           cerr << "Path search failed" << endl;

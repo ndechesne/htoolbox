@@ -549,7 +549,7 @@ int Database::close() {
     // If a merge already exists, use it FIXME not implemented
     if (_d->merge != NULL) {
       StrPath null;
-      _d->list->searchCopy(*_d->merge, null, null);;
+      _d->list->search(null, null, _d->merge);;
       // Close lists
       _d->merge->close();
       _d->list->close();
@@ -878,7 +878,7 @@ void Database::setPrefix(
   _d->prefix           = prefix;
   _d->prefixJournalled = false;
   if (_d->merge != NULL) {
-    _d->list->searchCopy(*_d->merge, prefixLine, null);
+    _d->list->search(prefixLine, null, _d->merge);
   }
 }
 
