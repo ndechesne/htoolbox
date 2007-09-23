@@ -709,5 +709,25 @@ int main(void) {
     cerr << "Failed to read list" << endl;
   }
 
+
+  // Show list with new functionality
+  cout << endl << "Test: entries for given date" << endl;
+  if (dblist.open("r")) {
+    cerr << "Failed to open list" << endl;
+    return 0;
+  }
+  if (dblist.isEmpty()) {
+    cout << "List is empty" << endl;
+  } else {
+    cout << "List:" << endl;
+  }
+  while (dblist.getEntry(&ts, &prefix, &path, &node, 5) > 0) {
+    showLine(ts, prefix, path, node);
+  }
+  dblist.close();
+  if (rc < 0) {
+    cerr << "Failed to read list" << endl;
+  }
+
   return 0;
 }

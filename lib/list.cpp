@@ -255,9 +255,16 @@ int List::getEntry(
     *node = NULL;
   }
 
-  bool    done = false;
+  bool    got_path;
   ssize_t length;
 
+  if (date == -1) {
+    got_path = true;
+  } else {
+    got_path = false;
+  }
+
+  bool done  = false;
   while (! done) {
     // Get line
     length = getLine();
@@ -265,14 +272,14 @@ int List::getEntry(
     if (length == 0) {
       errno = EUCLEAN;
       cerr << "unexpected end of file" << endl;
-      break;
+      return -1;
     }
 
     // Check line
     length--;
     if ((length < 2) || (_line[length] != '\n')) {
       errno = EUCLEAN;
-      break;
+      return -1;
     }
 
     // End of file
@@ -301,34 +308,24 @@ int List::getEntry(
         *path = NULL;
         asprintf(path, "%s", &_line[1]);
       }
-      date = -1;
+      got_path = true;
     } else
 
     // Data
-    if (date != 0) {
+    if (got_path) {
+      time_t ts;
       if (node != NULL) {
         _line[length] = '\t';
         // Will set errno if an error is found
-        decodeLine(*path, node, timestamp);
+        decodeLine(*path, node, &ts);
+        if (timestamp != NULL) {
+          *timestamp = ts;
+        }
       }
-      done = true;
+      if ((date == -1) || (date == 0) || (ts <= date)) {
+        done = true;
+      }
     }
-  }
-
-  if (errno != 0) {
-    if (prefix != NULL) {
-      free(*prefix);
-      *prefix = NULL;
-    }
-    if (path != NULL) {
-      free(*path);
-      *path = NULL;
-    }
-    if (node != NULL) {
-      free(*node);
-      *node = NULL;
-    }
-    return -1;
   }
   return 1;
 }

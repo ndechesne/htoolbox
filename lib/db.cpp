@@ -637,7 +637,10 @@ int Database::restore(
   time_t  fts;
   int rc;
   int len = strlen(path);
+
+  // Skip to given prefix
   _d->list->findPrefix(prefix);
+  // Restore relevant data
   while ((rc = _d->list->getEntry(&fts, &fprefix, &fpath, &fnode, date)) > 0) {
     if ((! strcmp(prefix, fprefix)) && ! strncmp(path, fpath, len)) {
       if (fnode != NULL) {
