@@ -516,7 +516,7 @@ int main(void) {
   StrPath null;
   list<string> active;
   list<string> expired;
-  if (merge.searchCopy(dblist, null, null, 14, &active, &expired) < 0) {
+  if (dblist.searchCopy(merge, null, null, 14, &active, &expired) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -602,7 +602,7 @@ int main(void) {
     return 0;
   }
   StrPath prefix3("prefix3\n");
-  if (merge.searchCopy(dblist, prefix3, null) < 0) {
+  if (dblist.searchCopy(merge, prefix3, null) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
