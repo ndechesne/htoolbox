@@ -77,15 +77,13 @@ public:
   void setPrefix(
     const char*     prefix);
   int add(
-    const char*     base_path,        // Path being backed up
-    const char*     rel_path,         // Dir (from base_path)
-    const char*     dir_path,         // Local dir below file
-    const Node*     node,             // File
+    const char*     remote_path,      // Dir where the file resides, remotely
+    const char*     local_path,       // Dir where the file resides, locally
+    const Node*     node,             // File metadata
     const char*     checksum = NULL); // Do not copy data, use given checksum
-  void remove(                    // Should not fail
-    const char*     base_path,        // Path being backed up
-    const char*     rel_path,         // Dir (from base_path)
-    const Node*     node);            // File
+  void remove(
+    const char*     remote_path,      // Dir where the file resides, remotely
+    const Node*     node);            // File metadata
 // For debug only
   void* active();
 };

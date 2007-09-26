@@ -38,10 +38,11 @@ using namespace std;
 using namespace hbackup;
 
 int Path::recurse(
-    Database&   db,
-    const char* cur_path,
-    Directory*  dir,
-    Parser*     parser) {
+    Database&     db,
+    const char*   remote_path,
+    const char*   local_path,
+    Directory*    dir,
+    Parser*       parser) {
   if (terminating()) {
     errno = EINTR;
     return -1;
@@ -49,24 +50,24 @@ int Path::recurse(
 
   // Get relative path
   const char* rel_path;
-  if (cur_path[_backup_path_length] == '\0') {
-    rel_path = &cur_path[_backup_path_length];
+  if (local_path[_backup_path_length] == '\0') {
+    rel_path = &local_path[_backup_path_length];
   } else {
-    rel_path = &cur_path[_backup_path_length + 1];
+    rel_path = &local_path[_backup_path_length + 1];
   }
 
   // Check whether directory is under SCM control
   if (! _parsers.empty()) {
     // We have a parser, check this directory with it
     if (parser != NULL) {
-      parser = parser->isControlled(cur_path);
+      parser = parser->isControlled(local_path);
     }
     // We don't have a parser [anymore], check this directory
     if (parser == NULL) {
-      parser = _parsers.isControlled(cur_path);
+      parser = _parsers.isControlled(local_path);
     }
   }
-  if (dir->isValid() && ! dir->createList(cur_path)) {
+  if (dir->isValid() && ! dir->createList(local_path)) {
     list<Node*> db_list;
     // Get database info for this directory
     db.getList(_path.c_str(), rel_path, db_list);
@@ -98,7 +99,7 @@ int Path::recurse(
 
         // For link, find out linked path
         if ((*i)->type() == 'l') {
-          Link *l = new Link(*(*i), cur_path);
+          Link *l = new Link(*(*i), local_path);
           delete *i;
           *i = l;
         }
@@ -122,7 +123,7 @@ int Path::recurse(
               }
               cout << (*j)->name() << endl;
             }
-            recurse_remove(db, _path, rel_path, *j);
+            recurse_remove(db, remote_path, rel_path, *j);
           }
           delete *j;
           j = db_list.erase(j);
@@ -138,7 +139,7 @@ int Path::recurse(
             }
             cout << (*i)->name() << endl;
           }
-          db.add(_path.c_str(), rel_path, cur_path, *i);
+          db.add(remote_path, local_path, *i);
         } else {
           // Same file name found in DB
           if (**i != **j) {
@@ -166,7 +167,7 @@ int Path::recurse(
               }
               cout << (*i)->name() << endl;
             }
-            db.add(_path.c_str(), rel_path, cur_path, *i, checksum);
+            db.add(remote_path, local_path, *i, checksum);
           } else {
             // i and j have same metadata, hence same type...
             // Compare linked data
@@ -179,7 +180,7 @@ int Path::recurse(
                 }
                 cout << (*i)->name() << endl;
               }
-              db.add(_path.c_str(), rel_path, cur_path, *i);
+              db.add(remote_path, local_path, *i);
             } else
             // Check that file data is present
             if (((*i)->type() == 'f')
@@ -193,7 +194,7 @@ int Path::recurse(
                 cout << (*i)->name() << endl;
               }
               const char* checksum = ((File*)(*j))->checksum();
-              db.add(_path.c_str(), rel_path, cur_path, *i, checksum);
+              db.add(remote_path, local_path, *i, checksum);
             } else if ((*i)->type() == 'd') {
               if (verbosity() > 3) {
                 cout << " --> D ";
@@ -210,9 +211,11 @@ int Path::recurse(
 
         // For directory, recurse into it
         if ((*i)->type() == 'd') {
-          char* dir_path = Node::path(cur_path, (*i)->name());
-          recurse(db, dir_path, (Directory*) *i, parser);
-          free(dir_path);
+          char* rem_path = Node::path(remote_path, (*i)->name());
+          char* loc_path = Node::path(local_path, (*i)->name());
+          recurse(db, rem_path, loc_path, (Directory*) *i, parser);
+          free(rem_path);
+          free(loc_path);
         }
       }
       delete *i;
@@ -229,7 +232,7 @@ int Path::recurse(
           }
           cout << (*j)->name() << endl;
         }
-        recurse_remove(db, _path, rel_path, *j);
+        recurse_remove(db, remote_path, rel_path, *j);
       }
       delete *j;
       j = db_list.erase(j);
@@ -241,24 +244,26 @@ int Path::recurse(
 }
 
 void Path::recurse_remove(
-    Database&     db,
-    const StrPath base_path,
-    const char*   rel_path,
-    const Node*   node) {
-  db.remove(base_path.c_str(), rel_path, node);
+    Database&       db,
+    const char*     remote_path,
+    const char*     rel_path,
+    const Node*     node) {
+  db.remove(remote_path, node);
   // Recurse into directories
   if (node->type() == 'd') {
     list<Node*> db_list;
+    char* rem_path = Node::path(remote_path, node->name());
     char* dir_path = Node::path(rel_path, node->name());
 
     // Get database info for this directory
-    db.getList(base_path.c_str(), dir_path, db_list);
+    db.getList(_path.c_str(), dir_path, db_list);
     list<Node*>::iterator j = db_list.begin();
     while (j != db_list.end()) {
-      recurse_remove(db, base_path.c_str(), dir_path, *j);
+      recurse_remove(db, rem_path, dir_path, *j);
       delete *j;
       j = db_list.erase(j);
     }
+    free(rem_path);
     free(dir_path);
   }
 }
@@ -408,7 +413,7 @@ int Path::parse(
   _backup_path_length = strlen(backup_path);
   _nodes = 0;
   _dir = new Directory(backup_path);
-  if (recurse(db, backup_path, _dir, NULL)) {
+  if (recurse(db, _path.c_str(), backup_path, _dir, NULL)) {
     delete _dir;
     _dir = NULL;
     rc = -1;

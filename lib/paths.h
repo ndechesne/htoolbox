@@ -22,23 +22,24 @@
 namespace hbackup {
 
 class Path {
-  StrPath       _path;
-  int           _backup_path_length;
-  Directory*    _dir;
-  Parsers       _parsers;
-  Filters       _filters;
-  int           _expiration;
-  int           _nodes;
+  StrPath     _path;
+  int         _backup_path_length;
+  Directory*  _dir;
+  Parsers     _parsers;
+  Filters     _filters;
+  int         _expiration;
+  int         _nodes;
   int recurse(
-    Database&     db,
-    const char*   path,
-    Directory*    dir,
-    Parser*       parser);
+    Database&       db,
+    const char*     remote_path,      // Dir where the file resides, remotely
+    const char*     local_path,       // Dir where the file resides, locally
+    Directory*      dir,
+    Parser*         parser);
   void recurse_remove(
-    Database&     db,
-    const StrPath base_path,
-    const char*   rel_path,
-    const Node*   node);
+    Database&       db,
+    const char*     remote_path,      // Dir where the file resides, remotely
+    const char*     rel_path,
+    const Node*     node);
 public:
   Path(const char* path);
   ~Path() {

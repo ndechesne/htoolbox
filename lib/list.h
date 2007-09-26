@@ -109,6 +109,7 @@ public:
   // Skip to given prefix or to next if prefix is NULL
   bool findPrefix(const char* prefix);
   // Convert one 'line' of data
+  // rc: -1: error, 0: eof, 1: success
   int getEntry(
     time_t*       timestamp,
     char**        prefix,

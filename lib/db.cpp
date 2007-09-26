@@ -962,11 +962,10 @@ void Database::setPrefix(
 }
 
 int Database::add(
-    const char* base_path,
-    const char* rel_path,
-    const char* dir_path,
-    const Node* node,
-    const char* old_checksum) {
+    const char*     remote_path,
+    const char*     local_path,
+    const Node*     node,
+    const char*     old_checksum) {
   if (! isWriteable()) {
     return -1;
   }
@@ -980,11 +979,7 @@ int Database::add(
 
   // Determine path
   char* full_path = NULL;
-  if (rel_path[0] != '\0') {
-    asprintf(&full_path, "%s/%s/%s", base_path, rel_path, node->name());
-  } else {
-    asprintf(&full_path, "%s/%s", base_path, node->name());
-  }
+  asprintf(&full_path, "%s/%s", remote_path, node->name());
 
   // Create data
   Node* node2;
@@ -999,16 +994,16 @@ int Database::add(
         ((File*)node2)->setChecksum(old_checksum);
       } else {
         // Copy data
-        char* local_path = NULL;
+        char* temp_path = NULL;
         char* checksum   = NULL;
-        asprintf(&local_path, "%s/%s", dir_path, node->name());
-        if (! write(string(local_path), &checksum)) {
+        asprintf(&temp_path, "%s/%s", local_path, node->name());
+        if (! write(string(temp_path), &checksum)) {
           ((File*)node2)->setChecksum(checksum);
           free(checksum);
         } else {
           failed = true;
         }
-        free(local_path);
+        free(temp_path);
       }
       break;
     default:
@@ -1027,26 +1022,18 @@ int Database::add(
   }
 
   free(full_path);
-  if (failed) {
-    return -1;
-  }
-  return 0;
+  return failed ? -1 : 0;
 }
 
 void Database::remove(
-    const char* base_path,
-    const char* rel_path,
-    const Node* node) {
+    const char*     remote_path,
+    const Node*     node) {
   if (! isWriteable()) {
     // FIXME what do I do? Wait...
     return;
   }
   char* full_path = NULL;
-  if (rel_path[0] != '\0') {
-    asprintf(&full_path, "%s/%s/%s", base_path, rel_path, node->name());
-  } else {
-    asprintf(&full_path, "%s/%s", base_path, node->name());
-  }
+  asprintf(&full_path, "%s/%s", remote_path, node->name());
 
   // Add entry info to journal
   _d->journal->removed(_d->prefixJournalled ? NULL : _d->prefix.c_str(),
