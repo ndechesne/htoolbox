@@ -1601,6 +1601,7 @@ Leaving docbook-xml
  --> D testdir/biblio.odb
  --> D testdir/evolocal.odb
 Parsed 32 file(s)
+ --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2151,7 +2152,3 @@ List:
 [ 1] file://localhost /home/User/testpipe                p     0 644
 
 Journal:
-
-Some final garbage because of our little pseudo-crash...
-db: close: cannot re-open journal
- --> Database closed
