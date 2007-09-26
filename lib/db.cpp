@@ -326,14 +326,14 @@ int Database::merge() {
   List merge(_path.c_str(), "list.part");
   if (! merge.open("w")) {
     if (merge.merge(*_d->list, *_d->journal) && (errno != EBUSY)) {
-      cerr << "db: close: merge failed" << endl;
+      cerr << "db: merge failed" << endl;
       failed = true;
     }
     merge.close();
     if (! failed) {
       if (rename((_path + "/list").c_str(), (_path + "/list~").c_str())
       || rename((_path + "/list.part").c_str(), (_path + "/list").c_str())) {
-        cerr << "db: close: cannot rename lists" << endl;
+        cerr << "db: cannot rename lists" << endl;
         failed = true;
       }
     }
@@ -752,20 +752,14 @@ int Database::restore(
 }
 
 void Database::getList(
-    const char*  base_path,
-    const char*  rel_path,
+    const char*  remote_path,
     list<Node*>& list) {
   if (! isWriteable()) {
     // Don't bother: will go soon I hope
     return;
   }
-
   char* full_path = NULL;
-  int length = asprintf(&full_path, "%s/%s/%s/", _d->prefix.c_str(),
-    base_path, rel_path);
-  if (rel_path[0] == '\0') {
-    full_path[--length] = '\0';
-  }
+  int length = asprintf(&full_path, "%s/%s", _d->prefix.c_str(), remote_path);
 
   // Look for beginning
   if ((_d->entry == _d->active.end()) && (_d->entry != _d->active.begin())) {
@@ -979,7 +973,7 @@ int Database::add(
 
   // Determine path
   char* full_path = NULL;
-  asprintf(&full_path, "%s/%s", remote_path, node->name());
+  asprintf(&full_path, "%s%s", remote_path, node->name());
 
   // Create data
   Node* node2;
@@ -1033,7 +1027,7 @@ void Database::remove(
     return;
   }
   char* full_path = NULL;
-  asprintf(&full_path, "%s/%s", remote_path, node->name());
+  asprintf(&full_path, "%s%s", remote_path, node->name());
 
   // Add entry info to journal
   _d->journal->removed(_d->prefixJournalled ? NULL : _d->prefix.c_str(),

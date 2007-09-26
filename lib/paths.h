@@ -23,7 +23,6 @@ namespace hbackup {
 
 class Path {
   StrPath     _path;
-  int         _backup_path_length;
   Directory*  _dir;
   Parsers     _parsers;
   Filters     _filters;
@@ -38,7 +37,6 @@ class Path {
   void recurse_remove(
     Database&       db,
     const char*     remote_path,      // Dir where the file resides, remotely
-    const char*     rel_path,
     const Node*     node);
 public:
   Path(const char* path);

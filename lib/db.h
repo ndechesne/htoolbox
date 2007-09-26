@@ -61,9 +61,8 @@ public:
     time_t          date = 0);        // The date to restore (latest)
   // Prepare list for parser
   void getList(
-    const char*     base_path,
-    const char*     rel_path,
-    list<Node*>&    nodes);
+    const char*     remote_path,      // Dir where the file resides, remotely
+    list<Node*>&    nodes);           // List fo files metadata
   // Read file with given checksum, extract it to path
   int  read(
     const string&   path,

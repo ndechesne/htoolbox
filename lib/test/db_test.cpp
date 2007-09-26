@@ -333,10 +333,10 @@ int main(void) {
 
   File* f;
   f = new File("test1/test space");
-  db.add("client_path", "test1", f);
+  db.add("client_path/", "test1", f);
   delete f;
   f = new File("test1/testfile");
-  db.add("client_path", "test1", f);
+  db.add("client_path/", "test1", f);
   delete f;
 
   db.close();

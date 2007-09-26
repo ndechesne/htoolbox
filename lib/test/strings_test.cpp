@@ -87,6 +87,12 @@ int main(void) {
   cout << pth1.noEndingSlash().c_str() << endl;
   cout << pth1.c_str() << " -> ";
   cout << pth1.noEndingSlash().c_str() << endl;
+  pth1 = "";
+  cout << pth1.c_str() << " -> ";
+  cout << pth1.noEndingSlash().c_str() << endl;
+  pth1 = "/";
+  cout << pth1.c_str() << " -> ";
+  cout << pth1.noEndingSlash().c_str() << endl;
 
   cout << endl << "Test: basename and dirname" << endl;
   pth1 = "this/is a path/to a/file";

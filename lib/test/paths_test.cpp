@@ -114,7 +114,9 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -166,7 +168,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -219,7 +224,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -275,7 +283,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -331,7 +342,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -388,7 +402,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -444,7 +461,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -499,7 +519,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -551,7 +574,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -607,7 +633,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -660,7 +689,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -713,7 +745,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -766,7 +801,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -840,7 +878,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -891,7 +932,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  db.close();
+  if (db.close()) {
+    return 0;
+  }
+
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -1032,7 +1076,10 @@ int main(void) {
     fpath = NULL;
     free(node);
     node = NULL;
-    db.close();
+    if (db.close()) {
+    return 0;
+  }
+
 
     db.open();
 
@@ -1044,7 +1091,10 @@ int main(void) {
       line(*i);
     }
 
-    db.close();
+    if (db.close()) {
+    return 0;
+  }
+
 
     // Next test
     my_time++;
@@ -1063,7 +1113,10 @@ int main(void) {
       cout << "Parsed " << path->nodes() << " file(s)\n";
     }
 
-    db.close();
+    if (db.close()) {
+    return 0;
+  }
+
     // Show list contents
     cout << endl << "List:" << endl;
     if (! dblist.open("r")) {
@@ -1114,7 +1167,10 @@ int main(void) {
       cout << "Parsed " << path->nodes() << " file(s)\n";
     }
 
-    db.close();
+    if (db.close()) {
+    return 0;
+  }
+
     // Show list contents
     cout << endl << "List:" << endl;
     if (! dblist.open("r")) {

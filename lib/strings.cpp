@@ -107,10 +107,11 @@ const StrPath& StrPath::toUnix() {
 }
 
 const StrPath& StrPath::noEndingSlash() {
-  char* pos = &(*this)[this->length()];
-  while ((--pos >= &(*this)[0]) && (*pos == '/')) {
-    *pos = '\0';
+  size_t pos = this->length();
+  while ((pos > 0) && ((*this)[pos - 1] == '/')) {
+    pos--;
   }
+  *this = this->substr(0, pos);
   return *this;
 }
 
