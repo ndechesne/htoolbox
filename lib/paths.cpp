@@ -111,9 +111,6 @@ int Path::recurse(
         while ((j != db_list.end())
             && ((cmp = Node::pathCompare((*j)->name(), (*i)->name())) < 0)) {
           if (! terminating()) {
-            if (verbosity() > 2) {
-              cout << " --> R " << rel_path << (*j)->name() << endl;
-            }
             recurse_remove(db, remote_path, *j);
           }
           delete *j;
@@ -175,10 +172,6 @@ int Path::recurse(
               }
               const char* checksum = ((File*)(*j))->checksum();
               db.add(remote_path, local_path, *i, checksum);
-            } else if ((*i)->type() == 'd') {
-              if (verbosity() > 3) {
-                cout << " --> D " << rel_path << (*i)->name() << endl;
-              }
             }
           }
           delete *j;
@@ -190,7 +183,13 @@ int Path::recurse(
           char* rem_path = NULL;
           asprintf(&rem_path, "%s%s/", remote_path, (*i)->name());
           char* loc_path = Node::path(local_path, (*i)->name());
+          if (verbosity() > 3) {
+            cout << "Entering " << rel_path << (*i)->name() << endl;
+          }
           recurse(db, rem_path, loc_path, (Directory*) *i, parser);
+          if (verbosity() > 3) {
+            cout << "Leaving " << rel_path << (*i)->name() << endl;
+          }
           free(rem_path);
           free(loc_path);
         }
@@ -202,9 +201,6 @@ int Path::recurse(
     // Deal with removed records
     while (j != db_list.end()) {
       if (! terminating()) {
-        if (verbosity() > 2) {
-          cout << " --> R " << rel_path << (*j)->name() << endl;
-        }
         recurse_remove(db, remote_path, *j);
       }
       delete *j;
@@ -220,6 +216,10 @@ void Path::recurse_remove(
     Database&       db,
     const char*     remote_path,
     const Node*     node) {
+  if (verbosity() > 2) {
+    cout << " --> D " << &remote_path[_path.length() + 1] << node->name()
+      << endl;
+  }
   db.remove(remote_path, node);
   // Recurse into directories
   if (node->type() == 'd') {

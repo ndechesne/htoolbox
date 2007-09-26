@@ -4,32 +4,50 @@ Active list:  0 element(s):
 first with subdir/testfile NOT readable
  --> A àccénts_test
  --> A cvs
+Entering cvs
  --> A cvs/CVS
+Entering cvs/CVS
  --> A cvs/CVS/Entries
+Leaving cvs/CVS
  --> A cvs/dirbad
+Entering cvs/dirbad
  --> A cvs/dirbad/fileoth
  --> A cvs/dirbad/fileutd
+Leaving cvs/dirbad
  --> A cvs/diroth
+Entering cvs/diroth
+Leaving cvs/diroth
  --> A cvs/dirutd
+Entering cvs/dirutd
  --> A cvs/dirutd/CVS
+Entering cvs/dirutd/CVS
  --> A cvs/dirutd/CVS/Entries
+Leaving cvs/dirutd/CVS
  --> A cvs/dirutd/fileoth
  --> A cvs/dirutd/fileutd
+Leaving cvs/dirutd
  --> A cvs/filemod.o
  --> A cvs/filenew.c
  --> A cvs/fileoth
  --> A cvs/fileutd.h
+Leaving cvs
  --> A dir space
+Entering dir space
  --> A dir space/file space
+Leaving dir space
  --> A subdir
+Entering subdir
  --> A subdir/testfile
 Permission denied: test1/subdir/testfile
  --> A subdir/testfile1
  --> A subdir/testfile2
+Leaving subdir
  --> A subdir-file
  --> A subdirfile
  --> A test space
  --> A testdir
+Entering testdir
+Leaving testdir
  --> A testfile
  --> A testfile~
  --> A testlink
@@ -136,17 +154,26 @@ file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8
 file://localhost	/home/User/testlink	l	8	1	1	1	777	testfile
 file://localhost	/home/User/testpipe	p	0	1	1	1	644
 as previous
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
- --> D cvs/diroth
- --> D cvs/dirutd
- --> D cvs/dirutd/CVS
- --> D dir space
- --> D subdir
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
+Leaving cvs/dirbad
+Entering cvs/diroth
+Leaving cvs/diroth
+Entering cvs/dirutd
+Entering cvs/dirutd/CVS
+Leaving cvs/dirutd/CVS
+Leaving cvs/dirutd
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering subdir
  --> ! subdir/testfile
 Permission denied: test1/subdir/testfile
- --> D testdir
+Leaving subdir
+Entering testdir
+Leaving testdir
 Parsed 31 file(s)
  ---> Journal is empty, not merging
  --> Database closed
@@ -219,16 +246,25 @@ file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8
 file://localhost	/home/User/testlink	l	8	1	1	1	777	testfile
 file://localhost	/home/User/testpipe	p	0	1	1	1	644
 as previous with subdir/testfile readable
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
- --> D cvs/diroth
- --> D cvs/dirutd
- --> D cvs/dirutd/CVS
- --> D dir space
- --> D subdir
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
+Leaving cvs/dirbad
+Entering cvs/diroth
+Leaving cvs/diroth
+Entering cvs/dirutd
+Entering cvs/dirutd/CVS
+Leaving cvs/dirutd/CVS
+Leaving cvs/dirutd
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering subdir
  --> ~ subdir/testfile
- --> D testdir
+Leaving subdir
+Entering testdir
+Leaving testdir
 Parsed 31 file(s)
  --> Database closed
 
@@ -302,16 +338,25 @@ file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8
 file://localhost	/home/User/testlink	l	8	1	1	1	777	testfile
 file://localhost	/home/User/testpipe	p	0	1	1	1	644
 as previous with subdir/testfile in ignore list
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
- --> D cvs/diroth
- --> D cvs/dirutd
- --> D cvs/dirutd/CVS
- --> D dir space
- --> D subdir
- --> R subdir/testfile
- --> D testdir
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
+Leaving cvs/dirbad
+Entering cvs/diroth
+Leaving cvs/diroth
+Entering cvs/dirutd
+Entering cvs/dirutd/CVS
+Leaving cvs/dirutd/CVS
+Leaving cvs/dirutd
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering subdir
+ --> D subdir/testfile
+Leaving subdir
+Entering testdir
+Leaving testdir
 Parsed 30 file(s)
  --> Database closed
 
@@ -384,15 +429,25 @@ file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8
 file://localhost	/home/User/testlink	l	8	1	1	1	777	testfile
 file://localhost	/home/User/testpipe	p	0	1	1	1	644
 as previous with subdir in ignore list
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
- --> D cvs/diroth
- --> D cvs/dirutd
- --> D cvs/dirutd/CVS
- --> D dir space
- --> R subdir
- --> D testdir
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
+Leaving cvs/dirbad
+Entering cvs/diroth
+Leaving cvs/diroth
+Entering cvs/dirutd
+Entering cvs/dirutd/CVS
+Leaving cvs/dirutd/CVS
+Leaving cvs/dirutd
+Leaving cvs
+Entering dir space
+Leaving dir space
+ --> D subdir
+ --> D subdir/testfile1
+ --> D subdir/testfile2
+Entering testdir
+Leaving testdir
 Parsed 27 file(s)
  --> Database closed
 
@@ -467,14 +522,22 @@ file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8
 file://localhost	/home/User/testlink	l	8	1	1	1	777	testfile
 file://localhost	/home/User/testpipe	p	0	1	1	1	644
 as previous with testlink modified
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
- --> D cvs/diroth
- --> D cvs/dirutd
- --> D cvs/dirutd/CVS
- --> D dir space
- --> D testdir
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
+Leaving cvs/dirbad
+Entering cvs/diroth
+Leaving cvs/diroth
+Entering cvs/dirutd
+Entering cvs/dirutd/CVS
+Leaving cvs/dirutd/CVS
+Leaving cvs/dirutd
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering testdir
+Leaving testdir
  --> M testlink
 Parsed 27 file(s)
  --> Database closed
@@ -549,15 +612,23 @@ file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8
 file://localhost	/home/User/testlink	l	8	1	1	1	777	testnull
 file://localhost	/home/User/testpipe	p	0	1	1	1	644
 as previous with testlink in ignore list
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
- --> D cvs/diroth
- --> D cvs/dirutd
- --> D cvs/dirutd/CVS
- --> D dir space
- --> D testdir
- --> R testlink
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
+Leaving cvs/dirbad
+Entering cvs/diroth
+Leaving cvs/diroth
+Entering cvs/dirutd
+Entering cvs/dirutd/CVS
+Leaving cvs/dirutd/CVS
+Leaving cvs/dirutd
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering testdir
+Leaving testdir
+ --> D testlink
 Parsed 26 file(s)
  --> Database closed
 
@@ -631,19 +702,26 @@ file://localhost	/home/User/testfile	f	13	1	1	1	644	59ca0efa9f5633cb0371bbc03554
 file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
 file://localhost	/home/User/testpipe	p	0	1	1	1	644
 as previous with CVS parser
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- --> R cvs/dirbad/fileoth
- --> R cvs/dirbad/fileutd
- --> R cvs/diroth
- --> D cvs/dirutd
- --> D cvs/dirutd/CVS
- --> R cvs/dirutd/fileoth
- --> R cvs/fileoth
- --> D dir space
- --> D testdir
+ --> D cvs/dirbad/fileoth
+ --> D cvs/dirbad/fileutd
+Leaving cvs/dirbad
+ --> D cvs/diroth
+Entering cvs/dirutd
+Entering cvs/dirutd/CVS
+Leaving cvs/dirutd/CVS
+ --> D cvs/dirutd/fileoth
+Leaving cvs/dirutd
+ --> D cvs/fileoth
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering testdir
+Leaving testdir
 Parsed 21 file(s)
  --> Database closed
 
@@ -721,14 +799,21 @@ file://localhost	/home/User/testfile	f	13	1	1	1	644	59ca0efa9f5633cb0371bbc03554
 file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
 file://localhost	/home/User/testpipe	p	0	1	1	1	644
 as previous
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- --> D cvs/dirutd
- --> D cvs/dirutd/CVS
- --> D dir space
- --> D testdir
+Leaving cvs/dirbad
+Entering cvs/dirutd
+Entering cvs/dirutd/CVS
+Leaving cvs/dirutd/CVS
+Leaving cvs/dirutd
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering testdir
+Leaving testdir
 Parsed 21 file(s)
  ---> Journal is empty, not merging
  --> Database closed
@@ -802,13 +887,21 @@ file://localhost	/home/User/testfile	f	13	1	1	1	644	59ca0efa9f5633cb0371bbc03554
 file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
 file://localhost	/home/User/testpipe	p	0	1	1	1	644
 as previous with cvs/dirutd in ignore list
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- --> R cvs/dirutd
- --> D dir space
- --> D testdir
+Leaving cvs/dirbad
+ --> D cvs/dirutd
+ --> D cvs/dirutd/CVS
+ --> D cvs/dirutd/CVS/Entries
+ --> D cvs/dirutd/fileutd
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering testdir
+Leaving testdir
 Parsed 17 file(s)
  --> Database closed
 
@@ -885,13 +978,18 @@ file://localhost	/home/User/testfile	f	13	1	1	1	644	59ca0efa9f5633cb0371bbc03554
 file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
 file://localhost	/home/User/testpipe	p	0	1	1	1	644
 as previous with testpipe gone
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- --> D dir space
- --> D testdir
- --> R testpipe
+Leaving cvs/dirbad
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering testdir
+Leaving testdir
+ --> D testpipe
 Parsed 16 file(s)
  --> Database closed
 
@@ -965,12 +1063,17 @@ file://localhost	/home/User/testdir	d	0	0	1	1	755
 file://localhost	/home/User/testfile	f	13	1	1	1	644	59ca0efa9f5633cb0371bbc0355478d8-0
 file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
 as previous with testfile mode changed
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- --> D dir space
- --> D testdir
+Leaving cvs/dirbad
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering testdir
+Leaving testdir
  --> ~ testfile
 Parsed 16 file(s)
  --> Database closed
@@ -1046,13 +1149,18 @@ file://localhost	/home/User/testdir	d	0	0	1	1	755
 file://localhost	/home/User/testfile	f	13	1	1	1	660	59ca0efa9f5633cb0371bbc0355478d8-0
 file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
 as previous with cvs/filenew.c touched
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
+Leaving cvs/dirbad
  --> M cvs/filenew.c
- --> D dir space
- --> D testdir
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering testdir
+Leaving testdir
 Parsed 16 file(s)
  --> Database closed
 
@@ -1128,32 +1236,53 @@ file://localhost	/home/User/testdir	d	0	0	1	1	755
 file://localhost	/home/User/testfile	f	13	1	1	1	660	59ca0efa9f5633cb0371bbc0355478d8-0
 file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
 some troublesome past cases
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- --> D dir space
+Leaving cvs/dirbad
+Leaving cvs
+Entering dir space
+Leaving dir space
  --> A docbook-xml
+Entering docbook-xml
  --> A docbook-xml/3.1.7
+Entering docbook-xml/3.1.7
  --> A docbook-xml/3.1.7/dbgenent.ent
+Leaving docbook-xml/3.1.7
  --> A docbook-xml/4.0
+Entering docbook-xml/4.0
  --> A docbook-xml/4.0/dbgenent.ent
+Leaving docbook-xml/4.0
  --> A docbook-xml/4.1.2
+Entering docbook-xml/4.1.2
  --> A docbook-xml/4.1.2/dbgenent.mod
+Leaving docbook-xml/4.1.2
  --> A docbook-xml/4.2
+Entering docbook-xml/4.2
  --> A docbook-xml/4.2/dbgenent.mod
+Leaving docbook-xml/4.2
  --> A docbook-xml/4.3
+Entering docbook-xml/4.3
  --> A docbook-xml/4.3/dbgenent.mod
+Leaving docbook-xml/4.3
  --> A docbook-xml/4.4
+Entering docbook-xml/4.4
  --> A docbook-xml/4.4/dbgenent.mod
+Leaving docbook-xml/4.4
+Leaving docbook-xml
  --> A docbook-xml.cat
  --> A docbook-xml.cat.old
- --> D testdir
+Entering testdir
  --> A testdir/biblio
+Entering testdir/biblio
  --> A testdir/biblio/biblio.dbf
  --> A testdir/biblio/biblio.dbt
+Leaving testdir/biblio
  --> A testdir/biblio.odb
  --> A testdir/evolocal.odb
+Leaving testdir
 Parsed 36 file(s)
  --> Database closed
 
@@ -1287,20 +1416,33 @@ file://localhost	/home/User/testdir/biblio.odb	f	0	1	1	1	644	d41d8cd98f00b204e98
 file://localhost	/home/User/testdir/evolocal.odb	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
 file://localhost	/home/User/testfile	f	13	1	1	1	660	59ca0efa9f5633cb0371bbc0355478d8-0
 file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- --> D dir space
- --> D docbook-xml
- --> D docbook-xml/3.1.7
- --> D docbook-xml/4.0
- --> D docbook-xml/4.1.2
- --> D docbook-xml/4.2
- --> D docbook-xml/4.3
- --> D docbook-xml/4.4
- --> D testdir
- --> D testdir/biblio
+Leaving cvs/dirbad
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering docbook-xml
+Entering docbook-xml/3.1.7
+Leaving docbook-xml/3.1.7
+Entering docbook-xml/4.0
+Leaving docbook-xml/4.0
+Entering docbook-xml/4.1.2
+Leaving docbook-xml/4.1.2
+Entering docbook-xml/4.2
+Leaving docbook-xml/4.2
+Entering docbook-xml/4.3
+Leaving docbook-xml/4.3
+Entering docbook-xml/4.4
+Leaving docbook-xml/4.4
+Leaving docbook-xml
+Entering testdir
+Entering testdir/biblio
+Leaving testdir/biblio
+Leaving testdir
 Parsed 36 file(s)
  ---> Journal is empty, not merging
  --> Database closed
@@ -1418,26 +1560,46 @@ file://localhost	/home/User/testdir/evolocal.odb	f	0	1	1	1	644	d41d8cd98f00b204e
 file://localhost	/home/User/testfile	f	13	1	1	1	660	59ca0efa9f5633cb0371bbc0355478d8-0
 file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
  --> A testdir
+Entering testdir
+Leaving testdir
  --> A testfile
  --> A testfile2
  --> A testfile~
 Parsed 4 file(s)
  --> A crash
+Entering crash
  --> A crash/file
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
+Leaving crash
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- --> D dir space
- --> D docbook-xml
- --> D docbook-xml/3.1.7
- --> D docbook-xml/4.0
- --> D docbook-xml/4.1.2
- --> D docbook-xml/4.2
- --> D docbook-xml/4.3
- --> D docbook-xml/4.4
+Leaving cvs/dirbad
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering docbook-xml
+Entering docbook-xml/3.1.7
+Leaving docbook-xml/3.1.7
+Entering docbook-xml/4.0
+Leaving docbook-xml/4.0
+Entering docbook-xml/4.1.2
+Leaving docbook-xml/4.1.2
+Entering docbook-xml/4.2
+Leaving docbook-xml/4.2
+Entering docbook-xml/4.3
+Leaving docbook-xml/4.3
+Entering docbook-xml/4.4
+Leaving docbook-xml/4.4
+Leaving docbook-xml
  --> M test space
- --> R testdir
+ --> D testdir
+ --> D testdir/biblio
+ --> D testdir/biblio/biblio.dbf
+ --> D testdir/biblio/biblio.dbt
+ --> D testdir/biblio.odb
+ --> D testdir/evolocal.odb
 Parsed 32 file(s)
 
 List:
@@ -1746,19 +1908,31 @@ file://localhost	/home/User/subdirfile	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf
 file://localhost	/home/User/test space	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
 file://localhost	/home/User/testfile	f	13	1	1	1	660	59ca0efa9f5633cb0371bbc0355478d8-0
 file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
- --> D crash
- --> D cvs
- --> D cvs/CVS
- --> D cvs/dirbad
+Entering crash
+Leaving crash
+Entering cvs
+Entering cvs/CVS
+Leaving cvs/CVS
+Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- --> D dir space
- --> D docbook-xml
- --> D docbook-xml/3.1.7
- --> D docbook-xml/4.0
- --> D docbook-xml/4.1.2
- --> D docbook-xml/4.2
- --> D docbook-xml/4.3
- --> D docbook-xml/4.4
+Leaving cvs/dirbad
+Leaving cvs
+Entering dir space
+Leaving dir space
+Entering docbook-xml
+Entering docbook-xml/3.1.7
+Leaving docbook-xml/3.1.7
+Entering docbook-xml/4.0
+Leaving docbook-xml/4.0
+Entering docbook-xml/4.1.2
+Leaving docbook-xml/4.1.2
+Entering docbook-xml/4.2
+Leaving docbook-xml/4.2
+Entering docbook-xml/4.3
+Leaving docbook-xml/4.3
+Entering docbook-xml/4.4
+Leaving docbook-xml/4.4
+Leaving docbook-xml
 Parsed 32 file(s)
  ---> Journal is empty, not merging
  --> Database closed
@@ -1886,7 +2060,8 @@ file://localhost	/home/User/subdirfile	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf
 file://localhost	/home/User/test space	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
 file://localhost	/home/User/testfile	f	13	1	1	1	660	59ca0efa9f5633cb0371bbc0355478d8-0
 file://localhost	/home/User/testfile~	f	0	1	1	1	644	d41d8cd98f00b204e9800998ecf8427e-0
- --> D testdir
+Entering testdir
+Leaving testdir
 Parsed 4 file(s)
  ---> Journal is empty, not merging
  --> Database closed
