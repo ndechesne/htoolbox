@@ -178,7 +178,7 @@ int Client::readListFile(const string& list_path) {
             }
             list<Path*>::iterator i = _d->paths.begin();
             while ((i != _d->paths.end())
-                && (Node::pathCompare((*i)->path(), path->path()) < 0)) {
+                && (pathCompare((*i)->path(), path->path()) < 0)) {
               i++;
             }
             list<Path*>::iterator j = _d->paths.insert(i, path);
@@ -188,7 +188,7 @@ int Client::readListFile(const string& list_path) {
             if (i != _d->paths.end()) {
               int ilen = strlen((*i)->path());
               if ((ilen > jlen)
-               && (Node::pathCompare((*i)->path(), (*j)->path(), jlen) == 0)) {
+               && (pathCompare((*i)->path(), (*j)->path(), jlen) == 0)) {
                 cout << "Path inside another. This is not supported yet"
                   << endl;
                 failed = 1;
@@ -199,7 +199,7 @@ int Client::readListFile(const string& list_path) {
             if (i != _d->paths.end()) {
               int ilen = strlen((*i)->path());
               if ((ilen < jlen)
-               && (Node::pathCompare((*i)->path(), (*j)->path(), ilen) == 0)) {
+               && (pathCompare((*i)->path(), (*j)->path(), ilen) == 0)) {
                 cout << "Path inside another. This is not supported yet"
                   << endl;
                 failed = 1;

@@ -655,7 +655,7 @@ int Database::restore(
       break;
     }
     if (path_is_dir) {
-      if (Node::pathCompare(fpath, path, len) > 0) {
+      if (pathCompare(fpath, path, len) > 0) {
         break;
       }
     } else {
@@ -666,7 +666,7 @@ int Database::restore(
         continue;
       } else
       if (flen == len) {
-        cmp = Node::pathCompare(fpath, path);
+        cmp = pathCompare(fpath, path);
         if (cmp < 0) {
           continue;
         } else
@@ -682,7 +682,7 @@ int Database::restore(
       } else
       if (fpath[len] == '/') {
         // Contained?
-        cmp = Node::pathCompare(fpath, path, len);
+        cmp = pathCompare(fpath, path, len);
         if (cmp < 0) {
           continue;
         } else
@@ -767,20 +767,20 @@ void Database::getList(
   }
   // Jump irrelevant last records
   while ((_d->entry != _d->active.begin())
-      && (_d->entry->pathCompare(full_path, length) >= 0)) {
+      && (_d->entry->pathComp(full_path, length) >= 0)) {
     _d->entry--;
   }
   // Jump irrelevant first records
   while ((_d->entry != _d->active.end())
-      && (_d->entry->pathCompare(full_path) < 0)) {
+      && (_d->entry->pathComp(full_path) < 0)) {
     _d->entry++;
   }
   // Copy relevant records
   char* last_dir     = NULL;
   int   last_dir_len = 0;
   while ((_d->entry != _d->active.end())
-      && (_d->entry->pathCompare(full_path, length) == 0)) {
-    if ((last_dir == NULL) || _d->entry->pathCompare(last_dir, last_dir_len)) {
+      && (_d->entry->pathComp(full_path, length) == 0)) {
+    if ((last_dir == NULL) || _d->entry->pathComp(last_dir, last_dir_len)) {
       Node* node;
       switch (_d->entry->node()->type()) {
         case 'f':

@@ -116,7 +116,6 @@ public:
     }
     return full_path;
   }
-  static int pathCompare(const char* s1, const char* s2, size_t length = -1);
 };
 
 class File : public Node {

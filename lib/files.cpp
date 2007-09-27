@@ -95,58 +95,6 @@ bool Node::operator!=(const Node& right) const {
       || (strcmp(_name, right._name) != 0);
 }
 
-int Node::pathCompare(const char* s1, const char* s2, size_t length) {
-  while (true) {
-    if (length == 0) {
-      return 0;
-    }
-    if (*s1 == '\0') {
-      if (*s2 == '\0') {
-        return 0;
-      } else {
-        return -1;
-      }
-    } else {
-      if (*s2 == '\0') {
-        return 1;
-      } else {
-        if (*s1 == '/') {
-          if (*s2 == '/') {
-            s1++;
-            s2++;
-          } else {
-            if (*s2 < ' ') {
-              return 1;
-            } else {
-              return -1;
-            }
-          }
-        } else {
-          if (*s2 == '/') {
-            if (*s1 < ' ') {
-              return -1;
-            } else {
-              return 1;
-            }
-          } else {
-            if (*s1 < *s2) {
-              return -1;
-            } else if (*s1 > *s2) {
-              return 1;
-            } else {
-              s1++;
-              s2++;
-            }
-          }
-        }
-      }
-    }
-    if (length > 0) {
-      length--;
-    }
-  }
-}
-
 int File::create(const char* dir_path) {
   errno = 0;
   char* full_path = path(dir_path, _name);

@@ -109,7 +109,7 @@ int Path::recurse(
         // Synchronize with DB records
         int cmp = -1;
         while ((j != db_list.end())
-            && ((cmp = Node::pathCompare((*j)->name(), (*i)->name())) < 0)) {
+            && ((cmp = pathCompare((*j)->name(), (*i)->name())) < 0)) {
           if (! terminating()) {
             recurse_remove(db, remote_path, *j);
           }

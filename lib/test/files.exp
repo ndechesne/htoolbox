@@ -7,35 +7,6 @@ a/b
 c
 d
 
-Test: pathCompare
-a <> a: 0
-a <> b: -1
-b <> a: 1
-a1 <> b: -1
-b <> a1: 1
-a1 <> a: 1
-a <> a1: -1
-a/ <> a: 1
-a <> a/: -1
-a	 <> a/: -1
-a/ <> a	 1
-a	 <> a	 0
-a
- <> a/: -1
-a/ <> a
- 1
-a
- <> a
- 0
-a/ <> a.: -1
-a. <> a/: 1
-a/ <> a-: -1
-a- <> a/: 1
-a/ <> a/: 0
-abcd <> abce, 3: 0
-abcd <> abce, 4: -1
-abcd <> abce, 5: -1
-
 Test: file read (no cache)
 read size: 10485760 (10485760 -> 10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 

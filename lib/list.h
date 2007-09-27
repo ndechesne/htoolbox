@@ -71,10 +71,10 @@ public:
   const char* prefix() const    { return _prefix; }
   const char* path() const      { return _path; }
   const Node* node() const      { return _node; }
-  int pathCompare(const char* path, int length = -1) const {
+  int pathComp(const char* path, int length = -1) const {
     char* full_path = NULL;
     asprintf(&full_path, "%s/%s", _prefix, _path);
-    int cmp = Node::pathCompare(full_path, path, length);
+    int cmp = pathCompare(full_path, path, length);
     free(full_path);
     return cmp;
   }

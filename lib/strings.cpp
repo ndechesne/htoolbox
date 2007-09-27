@@ -25,26 +25,7 @@ using namespace std;
 
 using namespace hbackup;
 
-StrPath::StrPath(const char* dir, const char* name) {
-  if (dir == NULL) {
-    *this = "";
-  } else
-  if ((name == NULL) || (name[0] == '\0')) {
-    *this = dir;
-  } else
-  if (dir[0] == '\0') {
-    *this = name;
-  } else
-  {
-    *this = dir;
-    *this += "/";
-    *this += name;
-  }
-}
-
-int StrPath::compare(const char* string, size_t length) const {
-  const char* s1 = this->c_str();
-  const char* s2 = string;
+int hbackup::pathCompare(const char* s1, const char* s2, size_t length) {
   while (true) {
     if (length == 0) {
       return 0;
@@ -93,6 +74,23 @@ int StrPath::compare(const char* string, size_t length) const {
     if (length > 0) {
       length--;
     }
+  }
+}
+
+StrPath::StrPath(const char* dir, const char* name) {
+  if (dir == NULL) {
+    *this = "";
+  } else
+  if ((name == NULL) || (name[0] == '\0')) {
+    *this = dir;
+  } else
+  if (dir[0] == '\0') {
+    *this = name;
+  } else
+  {
+    *this = dir;
+    *this += "/";
+    *this += name;
   }
 }
 

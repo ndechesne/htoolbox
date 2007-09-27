@@ -21,6 +21,8 @@
 
 namespace hbackup {
 
+extern int pathCompare(const char* s1, const char* s2, size_t length = -1);
+
 class StrPath : public string {
 public:
   using string::operator=;
@@ -28,12 +30,14 @@ public:
     *this = string;
   }
   StrPath(const char* dir = NULL, const char* name = NULL);
-  int compare(const char* string, size_t length = -1) const;
+  int compare(const char* string, size_t length = -1) const {
+    return pathCompare(this->c_str(), string, length);
+  }
   int compare(const string& string, size_t length = -1) const {
-    return compare(string.c_str(), length);
+    return pathCompare(this->c_str(), string.c_str(), length);
   }
   int compare(const StrPath& string, size_t length = -1) const {
-    return compare(string.c_str(), length);
+    return pathCompare(this->c_str(), string.c_str(), length);
   }
   bool    operator<(const char* string) const {
     return compare(string) < 0;

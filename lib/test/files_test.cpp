@@ -202,31 +202,6 @@ int main(void) {
   cout << Node::path("c", "") << endl;
   cout << Node::path("", "d") << endl;
 
-  cout << endl << "Test: pathCompare" << endl;
-  cout << "a <> a: " << Node::pathCompare("a", "a") << endl;
-  cout << "a <> b: " << Node::pathCompare("a", "b") << endl;
-  cout << "b <> a: " << Node::pathCompare("b", "a") << endl;
-  cout << "a1 <> b: " << Node::pathCompare("a1", "b") << endl;
-  cout << "b <> a1: " << Node::pathCompare("b", "a1") << endl;
-  cout << "a1 <> a: " << Node::pathCompare("a1", "a") << endl;
-  cout << "a <> a1: " << Node::pathCompare("a", "a1") << endl;
-  cout << "a/ <> a: " << Node::pathCompare("a/", "a") << endl;
-  cout << "a <> a/: " << Node::pathCompare("a", "a/") << endl;
-  cout << "a\t <> a/: " << Node::pathCompare("a\t", "a/") << endl;
-  cout << "a/ <> a\t " << Node::pathCompare("a/", "a\t") << endl;
-  cout << "a\t <> a\t " << Node::pathCompare("a\t", "a\t") << endl;
-  cout << "a\n <> a/: " << Node::pathCompare("a\n", "a/") << endl;
-  cout << "a/ <> a\n " << Node::pathCompare("a/", "a\n") << endl;
-  cout << "a\n <> a\n " << Node::pathCompare("a\n", "a\n") << endl;
-  cout << "a/ <> a.: " << Node::pathCompare("a/", "a.") << endl;
-  cout << "a. <> a/: " << Node::pathCompare("a.", "a/") << endl;
-  cout << "a/ <> a-: " << Node::pathCompare("a/", "a-") << endl;
-  cout << "a- <> a/: " << Node::pathCompare("a-", "a/") << endl;
-  cout << "a/ <> a/: " << Node::pathCompare("a/", "a/") << endl;
-  cout << "abcd <> abce, 3: " << Node::pathCompare("abcd", "abce", 3) << endl;
-  cout << "abcd <> abce, 4: " << Node::pathCompare("abcd", "abce", 4) << endl;
-  cout << "abcd <> abce, 5: " << Node::pathCompare("abcd", "abce", 5) << endl;
-
   Stream* readfile;
   Stream* writefile;
   system("dd if=/dev/zero of=test1/rwfile_source bs=1M count=10 status=noxfer 2> /dev/null");
