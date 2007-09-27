@@ -27,23 +27,41 @@ db.check: Exec format error
 
 Test: organise
 Lesser:
-test_db/data/zz
-test_db/data/zz/000001
+test_db/data/zz:
+000001
+
+test_db/data/zz/000001:
 Equal:
-test_db/data/zz
-test_db/data/zz/00
-test_db/data/zz/00/0001
-test_db/data/zz/00/0002
-test_db/data/zz/.nofiles
+test_db/data/zz:
+.nofiles
+00
+
+test_db/data/zz/00:
+0001
+0002
+
+test_db/data/zz/00/0001:
+
+test_db/data/zz/00/0002:
 Greater:
-test_db/data/zz
-test_db/data/zz/00
-test_db/data/zz/00/00
-test_db/data/zz/00/00/01
-test_db/data/zz/00/00/02
-test_db/data/zz/00/00/03
-test_db/data/zz/00/.nofiles
-test_db/data/zz/.nofiles
+test_db/data/zz:
+.nofiles
+00
+
+test_db/data/zz/00:
+.nofiles
+00
+
+test_db/data/zz/00/00:
+01
+02
+03
+
+test_db/data/zz/00/00/01:
+
+test_db/data/zz/00/00/02:
+
+test_db/data/zz/00/00/03:
  ---> Journal is empty, not merging
  --> Database closed
 
