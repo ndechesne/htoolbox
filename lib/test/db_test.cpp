@@ -254,15 +254,15 @@ int main(void) {
   mkdir("test_db/data/zz/000001", 0755);
   cout << "Lesser:" << endl;
   db.organise("test_db/data/zz", 2);
-  system("LANG=C ls -AR test_db/data/zz");
+  system("LANG=en_US.UTF-8 ls -AR test_db/data/zz");
   mkdir("test_db/data/zz/000002", 0755);
   cout << "Equal:" << endl;
   db.organise("test_db/data/zz", 2);
-  system("LANG=C ls -AR test_db/data/zz");
+  system("LANG=en_US.UTF-8 ls -AR test_db/data/zz");
   mkdir("test_db/data/zz/00/0003", 0755);
   cout << "Greater:" << endl;
   db.organise("test_db/data/zz/00", 2);
-  system("LANG=C ls -AR test_db/data/zz");
+  system("LANG=en_US.UTF-8 ls -AR test_db/data/zz");
 
   db.close();
 
