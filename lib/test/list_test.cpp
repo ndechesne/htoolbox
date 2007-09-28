@@ -623,7 +623,7 @@ int main(void) {
     cerr << "Failed to read merge" << endl;
   }
   cout << "Merge tail:" << endl;
-  system("tail -2 test_db/merge | grep -v 13");
+  system("tail -2 test_db/merge | grep -v 3");
   rename("test_db/merge", "test_db/list");
 
 

@@ -171,11 +171,11 @@ int List::open(
       // Check emptiness
       if (_line[0] == '#') {
         // Signal emptiness
-        _line_status = 2;
+        _line_status = 0;
       } else
       // Tell reader that there is a line cached
       {
-        _line_status = 1;
+        _line_status = 3;
       }
     }
     _prefix_cmp = 0;
@@ -198,28 +198,39 @@ int List::close() {
   return rc;
 }
 
-ssize_t List::getLine() {
-  switch (_line_status) {
+ssize_t List::getLine(bool use_found) {
+  int status = _line_status;
+  if (_line_status == 2) {
+    if (use_found) {
+      status = 3;
+    } else {
+      status = 1;
+    }
+  }
+  switch (status) {
     case -2:
       // Unexpected end of file
       return 0;
-    case 0: {
-      // Need new line
+    case 0:
+      // Empty list
+      return _line.length();
+    case 1: {
+      // Line contains no re-usable data,
       ssize_t length = Stream::getLine(_line);
       if (length < 0) {
         _line_status = -1;
       } else
       if (length == 0) {
         _line_status = -2;
+      } else
+      {
+        _line_status = 1;
       }
       return length;
     }
-    case 1:
-      // Re-use current line
-      _line_status = 0;
-      return _line.length();
-    case 2:
-      // Empty file (_line_status == 2)
+    case 3:
+      // Line contains data to be re-used
+      _line_status = 1;
       return _line.length();
     default:
       // Error
@@ -234,12 +245,7 @@ bool List::findPrefix(const char* prefix_in) {
     prefix = new StrPath(prefix_in);
     *prefix += "\n";
   }
-  if ((search(prefix, &path) <= 0) || (_prefix_cmp != 0)) {
-    return false;
-  }
-  // Make prefix available
-  _line_status = 1;
-  return true;
+  return search(prefix, &path) == 2;
 }
 
 int List::getEntry(
@@ -267,7 +273,7 @@ int List::getEntry(
   bool done  = false;
   while (! done) {
     // Get line
-    length = getLine();
+    length = getLine(true);
 
     if (length == 0) {
       errno = EUCLEAN;
@@ -285,7 +291,7 @@ int List::getEntry(
     // End of file
     if (_line[0] == '#') {
       // Make sure we return end of file also if called again
-      _line_status = 1;
+      _line_status = 3;
       return 0;
     }
 
@@ -440,7 +446,7 @@ int List::search(
     // End of file
     if (_line[0] == '#') {
       // Future searches will return eof too
-      _line_status = 1;
+      _line_status = 3;
       return 0;
     }
 
@@ -461,13 +467,13 @@ int List::search(
       if (_prefix_cmp <= 0)  {
         if (_prefix_cmp < 0) {
           // Prefix exceeded
-          _line_status = 1;
+          _line_status = 3;
           return 1;
         } else
         if ((prefix_l == NULL)
          || ((path_l != NULL) && (path_l->length() == 0))) {
           // Looking for prefix, found
-          return 2;
+          _line_status = 2;
         }
       }
     } else
@@ -481,11 +487,11 @@ int List::search(
       if (path_cmp <= 0) {
         if (path_cmp < 0) {
           // Path exceeded
-          _line_status = 1;
+          _line_status = 3;
           return 1;
         } else {
           // Looking for path, found
-          return 2;
+          _line_status = 2;
         }
       }
     } else
@@ -551,6 +557,9 @@ int List::search(
       // Could not write
       return -1;
     }
+    if (_line_status == 2) {
+      return 2;
+    }
   }
   return -2;
 }
@@ -581,11 +590,11 @@ int List::merge(
   StrPath path;
 
   // Last search status
-  _line_status = 0;
+  _line_status = 1;
 
   // Parse journal
   while (rc > 0) {
-    int rc_journal = journal.getLine();
+    int  rc_journal = journal.getLine();
     j_line_no++;
 
     // Failed
@@ -658,6 +667,9 @@ int List::merge(
           rc = -1;
           break;
         }
+        if (rc_list == 2) {
+          continue;
+        }
       }
     } else
 
@@ -691,6 +703,9 @@ int List::merge(
           cerr << "Path search failed" << endl;
           rc = -1;
           break;
+        }
+        if (rc_list == 2) {
+          continue;
         }
       }
     } else

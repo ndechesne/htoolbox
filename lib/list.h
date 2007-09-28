@@ -82,7 +82,13 @@ public:
 
 class List : public Stream {
   string          _line;
-  // -2: unexpected eof, -1: error, 0: read again, 1: use current, 2: empty
+  // _line_status meaning:
+  //  -2: unexpected end of file
+  //  -1: error
+  //   0: empty list
+  //   1: line contains no valid data
+  //   2: line contains found data, will only re-used in getEntry
+  //   3: line contains data to be re-used
   int             _line_status;
   // Need to keep prefix status for search()
   int             _prefix_cmp;
@@ -103,9 +109,9 @@ public:
   // Close file
   int close();
   // Empty file (check right after opening for read)
-  bool isEmpty() const { return _line_status == 2; }
+  bool isEmpty() const { return _line_status == 0; }
   // Get relevant line
-  ssize_t getLine();
+  ssize_t getLine(bool use_found = false);
   // Skip to given prefix or to next if prefix is NULL
   bool findPrefix(const char* prefix);
   // Convert one 'line' of data
