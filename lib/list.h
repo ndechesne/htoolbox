@@ -139,7 +139,7 @@ public:
   // If prefix is null, copy/skip to next prefix
   // If path is "", copy/skip all remaining records till next prefix
   // If path is null, copy/skip to next path
-  int search(                         // -1: error, 0: eof, 1: ok
+  int search(                         // -1: error, 0: eof, 1: exceeded, 2: fnd
     const StrPath*  prefix  = NULL,   // Prefix to search
     const StrPath*  path    = NULL,   // Path to search
     List*           list    = NULL,   // List in which to copy, if any

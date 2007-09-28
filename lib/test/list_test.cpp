@@ -95,7 +95,7 @@ int main(void) {
   free(node);
   node = new Stream("test1/testfile");
   ((Stream*) node)->computeChecksum();
-  journal.added("prefix2", "file_new", node);
+  journal.added(NULL, "file_new", node);
   free(node);
   node = new Link("test1/testlink");
   journal.added("prefix3", "link", node);
@@ -197,7 +197,7 @@ int main(void) {
   free(node);
   node = new Stream("test1/testfile");
   ((Stream*) node)->computeChecksum();
-  journal.added("prefix2", "file_new", node);
+  journal.added(NULL, "file_new", node);
   free(node);
   node = new Stream("test1/test space");
   ((Stream*) node)->computeChecksum();
@@ -377,7 +377,7 @@ int main(void) {
   node = new Stream("test1/testfile");
   ((Stream*) node)->computeChecksum();
   journal.added("prefix2", "file_new", node);
-  journal.added("prefix2", "file_gone", node);
+  journal.added(NULL, "file_gone", node);
   free(node);
   journal.close();
 

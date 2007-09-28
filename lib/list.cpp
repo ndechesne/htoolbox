@@ -393,11 +393,11 @@ int List::search(
     time_t          expire,
     list<string>*   active,
     list<string>*   expired) {
-  string exception_line;
-  int    path_cmp;
-  int    rc = 0;
+  string  exception_line;
+  int     path_cmp;
+  int     rc    = 0;
 
-  // Pre-set prefix comparision result
+  // Pre-set prefix comparison result
   if (prefix_l == NULL) {
     // Any prefix will match
     _prefix_cmp = 0;
@@ -407,7 +407,7 @@ int List::search(
     _prefix_cmp = 1;
   }
 
-  // Pre-set path comparision result
+  // Pre-set path comparison result
   if (prefix_l == NULL) {
     // No path will match
     path_cmp = 1;
@@ -460,14 +460,14 @@ int List::search(
       }
       if (_prefix_cmp <= 0)  {
         if (_prefix_cmp < 0) {
-          // Prefix not found
+          // Prefix exceeded
           _line_status = 1;
           return 1;
         } else
         if ((prefix_l == NULL)
          || ((path_l != NULL) && (path_l->length() == 0))) {
           // Looking for prefix, found
-          return 1;
+          return 2;
         }
       }
     } else
@@ -480,10 +480,13 @@ int List::search(
       }
       if (path_cmp <= 0) {
         if (path_cmp < 0) {
-          // Path not found
+          // Path exceeded
           _line_status = 1;
+          return 1;
+        } else {
+          // Looking for path, found
+          return 2;
         }
-        return 1;
       }
     } else
 
@@ -630,6 +633,7 @@ int List::merge(
         int cmp = prefix.compare(journal._line);
         // If same prefix, ignore it
         if (cmp == 0) {
+          cerr << "Prefix duplicated in journal, line " << j_line_no << endl;
           continue;
         }
         // Check path order
