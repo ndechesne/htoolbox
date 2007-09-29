@@ -449,13 +449,6 @@ int List::search(
       return -1;
     }
 
-    // End of file
-    if (_line[0] == '#') {
-      // Future searches will return eof too
-      _line_status = 0;
-      return 0;
-    }
-
     // Check line
     if ((rc < 2) || (_line[rc - 1] != '\n')) {
       // Corrupted line
@@ -463,6 +456,12 @@ int List::search(
       errno = EUCLEAN;
       return -1;
     }
+
+    // End of file
+    if (_line[0] == '#') {
+      // Future searches will return eof too
+      _line_status = 0;
+    } else
 
     // Got a prefix
     if (_line[0] != '\t') {
@@ -478,7 +477,6 @@ int List::search(
         if (_prefix_cmp < 0) {
           // Prefix exceeded
           _line_status = 3;
-          return 1;
         } else
         if ((prefix_l == NULL)
          || ((path_l != NULL) && (path_l[0] == '\0'))) {
@@ -506,7 +504,6 @@ int List::search(
         if (path_cmp < 0) {
           // Path exceeded
           _line_status = 3;
-          return 1;
         } else {
           // Looking for path, found
           _line_status = 2;
@@ -570,13 +567,53 @@ int List::search(
         }
       }
     }
-    // Our data is here or after, so let's copy if required
-    if ((list != NULL) && list->write(_line.c_str(), _line.length()) < 0) {
-      // Could not write
-      return -1;
+
+    // New data, add
+    if (list != NULL) {
+      if ((_line_status == 0) || (_line_status == 3)) {
+        if (path_l[0] != '\0') {
+          // Write path
+          if ((path_len != 0) && (list->write("\t", 1) < 0)) {
+            // Could not write
+            return -1;
+          }
+          if (list->write(path_l, strlen(path_l)) < 0) {
+            // Could not write
+            return -1;
+          }
+          if ((path_len != 0) && (list->write("\n", 1) < 0)) {
+            // Could not write
+            return -1;
+          }
+        } else
+        if (prefix_l[0] != '\0') {
+          // Write prefix
+          if (list->write(prefix_l, strlen(prefix_l)) < 0) {
+            // Could not write
+            return -1;
+          }
+          if ((prefix_len != 0) && (list->write("\n", 1) < 0)) {
+            // Could not write
+            return -1;
+          }
+        }
+      } else
+      // Our data is here or after, so let's copy if required
+      if (list->write(_line.c_str(), _line.length()) < 0) {
+        // Could not write
+        return -1;
+      }
     }
-    if (_line_status == 2) {
-      return 2;
+    // If line status is not 1, return search status
+    switch (_line_status) {
+      case 0:
+        // EOF
+      case 2:
+        // Found
+        return _line_status;
+      case 3:
+        // Exceeded
+        return 1;
     }
   }
   return -2;
@@ -675,16 +712,13 @@ int List::merge(
       // No path for this entry yet
       path = "";
       // Search/copy list
-      if (rc_list > 0) {
+      if (rc_list >= 0) {
         rc_list = list.search(prefix.c_str(), path.c_str(), this);
         if (rc_list < 0) {
           // Error copying list
           cerr << "Prefix search failed" << endl;
           rc = -1;
           break;
-        }
-        if (rc_list == 2) {
-          continue;
         }
       }
     } else
@@ -712,16 +746,13 @@ int List::merge(
       // Copy new path
       path = journal._line;
       // Search/copy list
-      if (rc_list > 0) {
+      if (rc_list >= 0) {
         rc_list = list.search(prefix.c_str(), path.c_str(), this);
         if (rc_list < 0) {
           // Error copying list
           cerr << "Path search failed" << endl;
           rc = -1;
           break;
-        }
-        if (rc_list == 2) {
-          continue;
         }
       }
     } else
@@ -736,14 +767,14 @@ int List::merge(
         rc = -1;
         break;
       }
-    }
 
-    // Copy journal line
-    if (write(journal._line.c_str(), journal._line.length()) < 0) {
-      // Could not write
-      cerr << "Journal copy failed" << endl;
-      rc = -1;
-      break;
+      // Copy journal line
+      if (write(journal._line.c_str(), journal._line.length()) < 0) {
+        // Could not write
+        cerr << "Journal copy failed" << endl;
+        rc = -1;
+        break;
+      }
     }
   }
 

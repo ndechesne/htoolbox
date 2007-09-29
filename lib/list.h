@@ -147,6 +147,8 @@ public:
   //    prefix and any path                     prefix      NULL
   // Return code:
   //    -1: error, 0: end of file, 1: exceeded, 2: found
+  // Caution:
+  //    when merging, search for prefix on its own before searching for path
   int search(
     const char*     prefix  = NULL,   // Prefix to search
     const char*     path    = NULL,   // Path to search
