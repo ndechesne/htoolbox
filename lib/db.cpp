@@ -612,7 +612,7 @@ int Database::close() {
 }
 
 int Database::getPrefixes(list<string>& prefixes) {
-  while (_d->list->findPrefix(NULL)) {
+  while (_d->list->search() == 2) {
     char   *prefix = NULL;
     if (_d->list->getEntry(NULL, &prefix, NULL, NULL) < 0) {
       cerr << "db: error reading entry from list: " << strerror(errno) << endl;
@@ -644,7 +644,7 @@ int Database::restore(
   }
 
   // Skip to given prefix FIXME use search to look for path and speed things up
-  if (! _d->list->findPrefix(prefix)) {
+  if (_d->list->search(prefix, "") != 2) {
     return -1;
   }
 
@@ -944,13 +944,9 @@ int Database::scan(const string& checksum, bool thorough) {
 
 void Database::setPrefix(
     const char* prefix) {
-  StrPath prefix_line(prefix);
-  prefix_line += "\n";
   _d->prefix           = prefix;
   _d->prefixJournalled = false;
-  if (_d->merge != NULL) {
-    _d->list->search(prefix_line.c_str(), "", _d->merge);
-  }
+  _d->list->search(prefix, "", _d->merge);
 }
 
 int Database::add(

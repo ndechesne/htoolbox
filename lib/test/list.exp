@@ -47,6 +47,15 @@ prefix3
 prefix4
 prefix5
 
+Test: get all paths for prefix
+file_gone
+file_new
+
+file_new
+
+
+path
+
 Test: journal prefix out of order
 
 Test: journal read

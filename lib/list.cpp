@@ -238,16 +238,6 @@ ssize_t List::getLine(bool use_found) {
   }
 }
 
-bool List::findPrefix(const char* prefix_in) {
-  if (prefix_in == NULL) {
-    // Find next prefix
-    return search(NULL) == 2;
-  }
-  StrPath* prefix = new StrPath(prefix_in);
-  *prefix += "\n";
-  return search(prefix->c_str(), "") == 2;
-}
-
 int List::getEntry(
     time_t*       timestamp,
     char**        prefix,
@@ -401,7 +391,10 @@ int List::search(
     list<string>*   expired) {
   string  exception_line;
   int     path_cmp;
-  int     rc    = 0;
+  int     rc         = 0;
+
+  size_t  prefix_len = 0;   // Not set
+  size_t  path_len   = 0;   // Not set
 
   // Pre-set prefix comparison result
   if (prefix_l == NULL) {
@@ -411,6 +404,13 @@ int List::search(
   if (prefix_l[0] == '\0') {
     // No need to compare prefixes
     _prefix_cmp = 1;
+  } else {
+    // string or line?
+    int len = strlen(prefix_l);
+    if ((len > 0) && (prefix_l[len - 1] != '\n')) {
+      // string: signal it by setting its lengh
+      prefix_len = len;
+    }
   }
 
   // Pre-set path comparison result
@@ -429,6 +429,12 @@ int List::search(
   {
     // Any value will do
     path_cmp = -1;
+    // string or line?
+    int len = strlen(path_l);
+    if ((len > 1) && (path_l[0] != '\t') && (path_l[len - 1] != '\n')) {
+      // string: signal it by setting its lengh
+      path_len = len;
+    }
   }
 
   while (true) {
@@ -462,7 +468,11 @@ int List::search(
     if (_line[0] != '\t') {
       // Compare prefixes
       if ((prefix_l != NULL) && (prefix_l[0] != '\0')) {
-        _prefix_cmp = pathCompare(prefix_l, _line.c_str());
+        if ((prefix_len > 0) && (_line.length() == (prefix_len + 1))) {
+          _prefix_cmp = pathCompare(prefix_l, _line.c_str(), prefix_len);
+        } else {
+          _prefix_cmp = pathCompare(prefix_l, _line.c_str());
+        }
       }
       if (_prefix_cmp <= 0)  {
         if (_prefix_cmp < 0) {
@@ -482,7 +492,15 @@ int List::search(
     if (_line[1] != '\t') {
       // Compare paths
       if ((_prefix_cmp <= 0) && (path_l != NULL) && (path_l[0] != '\0')) {
-        path_cmp = pathCompare(path_l, _line.c_str());
+        if (path_len > 0) {
+          if (_line.length() == (path_len + 2)) {
+            path_cmp = pathCompare(path_l, &_line[1], path_len);
+          } else {
+            path_cmp = pathCompare(path_l, &_line[1]);
+          }
+        } else {
+          path_cmp = pathCompare(path_l, _line.c_str());
+        }
       }
       if (path_cmp <= 0) {
         if (path_cmp < 0) {

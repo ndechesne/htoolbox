@@ -112,8 +112,6 @@ public:
   bool isEmpty() const { return _line_status == 0; }
   // Get relevant line
   ssize_t getLine(bool use_found = false);
-  // Skip to given prefix or to next if prefix is NULL
-  bool findPrefix(const char* prefix);
   // Convert one 'line' of data
   // rc: -1: error, 0: eof, 1: success
   int getEntry(
@@ -147,7 +145,9 @@ public:
   //    prefix and path                         prefix      path
   //    any prefix                              NULL
   //    prefix and any path                     prefix      NULL
-  int search(                         // -1: error, 0: eof, 1: exceeded, 2: fnd
+  // Return code:
+  //    -1: error, 0: end of file, 1: exceeded, 2: found
+  int search(
     const char*     prefix  = NULL,   // Prefix to search
     const char*     path    = NULL,   // Path to search
     List*           list    = NULL,   // List in which to copy, if any

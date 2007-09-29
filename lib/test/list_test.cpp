@@ -278,11 +278,60 @@ int main(void) {
     cerr << "Failed to open list" << endl;
     return 0;
   }
-  while (dblist.findPrefix(NULL)) {
+  while (dblist.search() == 2) {
     char *prefix = NULL;
     dblist.getEntry(NULL, &prefix, NULL, NULL);
     cout << prefix << endl;
     free(prefix);
+  }
+  dblist.close();
+
+
+  cout << endl << "Test: get all paths for prefix" << endl;
+  if (dblist.open("r")) {
+    cerr << "Failed to open list" << endl;
+    return 0;
+  }
+  if (dblist.search("prefix", "") != 2) {
+    cout << "prefix 'prefix' not found" << endl;
+  } else
+  while (dblist.search("prefix") == 2) {
+    char *path   = NULL;
+    dblist.getEntry(NULL, NULL, &path, NULL);
+    cout << path << endl;
+    free(path);
+  }
+  cout << endl;
+  if (dblist.search("prefix2", "") != 2) {
+    cout << "prefix 'prefix2' not found" << endl;
+  } else
+  if (dblist.search("prefix2", "file_h") == 1) {
+    char *path   = NULL;
+    dblist.getEntry(NULL, NULL, &path, NULL);
+    cout << path << endl;
+    free(path);
+  }
+  cout << endl;
+  if (dblist.search("prefix4", "") != 2) {
+    cout << "prefix 'prefix4' not found" << endl;
+  } else
+  if (dblist.search("prefix4", "path") == 2) {
+    cout << "prefix 'prefix4', path 'path' found" << endl;
+  }
+  cout << endl;
+  if (dblist.search("prefix5", "") != 2) {
+    cout << "prefix 'prefix5' not found" << endl;
+  } else
+  if (dblist.search("prefix5", "path") != 2) {
+    cout << "prefix 'prefix5', path 'path' not found" << endl;
+  } else {
+    char *path   = NULL;
+    dblist.getEntry(NULL, NULL, &path, NULL);
+    cout << path << endl;
+    free(path);
+  }
+  if (dblist.search() == 2) {
+    cout << "found a prefix" << endl;
   }
   dblist.close();
 
@@ -452,7 +501,7 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   }
-  if (! merge.findPrefix("path")) {
+  if (merge.search("path", "") != 2) {
     cout << "prefix 'path' not found" << endl;
   } else {
     cout << "prefix 'path' found" << endl;
@@ -469,7 +518,7 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   }
-  if (! merge.findPrefix("silly")) {
+  if (merge.search("silly", "") != 2) {
     cout << "prefix 'silly' not found" << endl;
   } else {
     cout << "prefix 'silly' found" << endl;
@@ -486,7 +535,7 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   }
-  if (! merge.findPrefix("prefix2")) {
+  if (merge.search("prefix2", "") != 2) {
     cout << "prefix 'prefix2' not found" << endl;
   } else {
     cout << "prefix 'prefix2' found" << endl;
