@@ -273,6 +273,61 @@ int main(void) {
   }
 
 
+  cout << endl << "Test: prefix find" << endl;
+  my_time++;
+
+  dblist.open("r");
+  if (dblist.isEmpty()) {
+    cout << "List is empty" << endl;
+  }
+  if (dblist.search("path", "") != 2) {
+    cout << "prefix 'path' not found" << endl;
+  } else {
+    cout << "prefix 'path' found" << endl;
+  }
+  while ((rc = dblist.getEntry(&ts, &prefix, &path, &node)) > 0) {
+    showLine(ts, prefix, path, node);
+  }
+  dblist.close();
+  if (rc < 0) {
+    cerr << "Failed to read read" << endl;
+  }
+
+  dblist.open("r");
+  if (dblist.isEmpty()) {
+    cout << "List is empty" << endl;
+  }
+  if (dblist.search("silly", "") != 2) {
+    cout << "prefix 'silly' not found" << endl;
+  } else {
+    cout << "prefix 'silly' found" << endl;
+  }
+  while ((rc = dblist.getEntry(&ts, &prefix, &path, &node)) > 0) {
+    showLine(ts, prefix, path, node);
+  }
+  dblist.close();
+  if (rc < 0) {
+    cerr << "Failed to read read" << endl;
+  }
+
+  dblist.open("r");
+  if (dblist.isEmpty()) {
+    cout << "List is empty" << endl;
+  }
+  if (dblist.search("prefix2", "") != 2) {
+    cout << "prefix 'prefix2' not found" << endl;
+  } else {
+    cout << "prefix 'prefix2' found" << endl;
+  }
+  while ((rc = dblist.getEntry(&ts, &prefix, &path, &node)) > 0) {
+    showLine(ts, prefix, path, node);
+  }
+  dblist.close();
+  if (rc < 0) {
+    cerr << "Failed to read read" << endl;
+  }
+
+
   cout << endl << "Test: get all prefixes" << endl;
   if (dblist.open("r")) {
     cerr << "Failed to open list" << endl;
@@ -485,61 +540,6 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   } else
-  while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
-    showLine(ts, prefix, path, node);
-  }
-  merge.close();
-  if (rc < 0) {
-    cerr << "Failed to read merge" << endl;
-  }
-
-
-  cout << endl << "Test: prefix find" << endl;
-  my_time++;
-
-  merge.open("r");
-  if (merge.isEmpty()) {
-    cout << "Merge is empty" << endl;
-  }
-  if (merge.search("path", "") != 2) {
-    cout << "prefix 'path' not found" << endl;
-  } else {
-    cout << "prefix 'path' found" << endl;
-  }
-  while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
-    showLine(ts, prefix, path, node);
-  }
-  merge.close();
-  if (rc < 0) {
-    cerr << "Failed to read merge" << endl;
-  }
-
-  merge.open("r");
-  if (merge.isEmpty()) {
-    cout << "Merge is empty" << endl;
-  }
-  if (merge.search("silly", "") != 2) {
-    cout << "prefix 'silly' not found" << endl;
-  } else {
-    cout << "prefix 'silly' found" << endl;
-  }
-  while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
-    showLine(ts, prefix, path, node);
-  }
-  merge.close();
-  if (rc < 0) {
-    cerr << "Failed to read merge" << endl;
-  }
-
-  merge.open("r");
-  if (merge.isEmpty()) {
-    cout << "Merge is empty" << endl;
-  }
-  if (merge.search("prefix2", "") != 2) {
-    cout << "prefix 'prefix2' not found" << endl;
-  } else {
-    cout << "prefix 'prefix2' found" << endl;
-  }
   while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
     showLine(ts, prefix, path, node);
   }

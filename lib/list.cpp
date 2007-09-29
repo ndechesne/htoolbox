@@ -238,6 +238,16 @@ ssize_t List::getLine(bool use_found) {
   }
 }
 
+ssize_t List::putLine(const char* line) {
+  if ((_line_status == 1) || (_line_status == 2)) {
+    _line        = line;
+    _line_status = 3;
+    return _line.length();
+  }
+  return -1;
+}
+
+
 int List::getEntry(
     time_t*       timestamp,
     char**        prefix,
@@ -769,7 +779,8 @@ int List::merge(
       }
 
       // Copy journal line
-      if (write(journal._line.c_str(), journal._line.length()) < 0) {
+      if ((list.putLine(journal._line.c_str()) < 0)
+       && (write(journal._line.c_str(), journal._line.length()) < 0)) {
         // Could not write
         cerr << "Journal copy failed" << endl;
         rc = -1;

@@ -112,6 +112,8 @@ public:
   bool isEmpty() const { return _line_status == 0; }
   // Get relevant line
   ssize_t getLine(bool use_found = false);
+  // Put line into list buffer (will fail and return -1 if buffer in use)
+  ssize_t putLine(const char* line);
   // Convert one 'line' of data
   // rc: -1: error, 0: eof, 1: success
   int getEntry(

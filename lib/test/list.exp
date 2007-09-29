@@ -32,8 +32,26 @@ Test: journal merge into list
 Test: merge read
 [ 1] prefix           file_gone                          [rm]
 [ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 0] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 1] prefix2          file sp                            f     0 644 
+[ 1] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] prefix2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] prefix3          link                               l     8 777 testfile
+[ 5] prefix4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] prefix5          path                               d     0 755
+
+Test: prefix find
+prefix 'path' not found
+[ 1] prefix           file_gone                          [rm]
+[ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] prefix2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] prefix3          link                               l     8 777 testfile
+[ 5] prefix4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] prefix5          path                               d     0 755
+prefix 'silly' not found
+prefix 'prefix2' found
+[ 1] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 5] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] prefix2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
 [ 1] prefix3          link                               l     8 777 testfile
@@ -59,8 +77,8 @@ path
 Test: journal prefix out of order
 
 Test: journal read
-[ 9] prefix4          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 9] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[10] prefix4          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[10] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: journal merge into list
 Prefix out of order in journal, line 4
@@ -73,13 +91,12 @@ Test: merge read
 [ 5] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] prefix2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
 [ 1] prefix3          link                               l     8 777 testfile
-[ 9] prefix4          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: journal path out of order
 
 Test: journal read
-[13] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[13] prefix2          file_gone                          f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[14] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[14] prefix2          file_gone                          f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: journal merge into list
 Path out of order in journal, line 4
@@ -89,18 +106,6 @@ Test: merge read
 [ 1] prefix           file_gone                          [rm]
 [ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[13] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-
-Test: prefix find
-prefix 'path' not found
-[ 1] prefix           file_gone                          [rm]
-[ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[13] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-prefix 'silly' not found
-prefix 'prefix2' found
-[ 1] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[13] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: expire
 [ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
@@ -126,8 +131,7 @@ Test: copy prefix data
 List:
 [ 1] prefix           file_gone                          [rm]
 [ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 0] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 1] prefix2          file sp                            f     0 644 
+[ 1] prefix2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 5] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] prefix2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
 [ 1] prefix3          link                               l     8 777 testfile
