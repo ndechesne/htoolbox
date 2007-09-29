@@ -281,7 +281,7 @@ int List::getEntry(
     // End of file
     if (_line[0] == '#') {
       // Make sure we return end of file also if called again
-      _line_status = 3;
+      _line_status = 0;
       return 0;
     }
 
@@ -452,7 +452,7 @@ int List::search(
     // End of file
     if (_line[0] == '#') {
       // Future searches will return eof too
-      _line_status = 3;
+      _line_status = 0;
       return 0;
     }
 
