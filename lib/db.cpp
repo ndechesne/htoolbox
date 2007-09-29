@@ -551,8 +551,7 @@ int Database::close() {
     _d->journal->close();
     // If a merge already exists, use it FIXME not implemented
     if (_d->merge != NULL) {
-      StrPath null;
-      _d->list->search(&null, &null, _d->merge);;
+      _d->list->search("", "", _d->merge);;
       // Close lists
       _d->merge->close();
       _d->list->close();
@@ -945,13 +944,12 @@ int Database::scan(const string& checksum, bool thorough) {
 
 void Database::setPrefix(
     const char* prefix) {
-  StrPath null;
   StrPath prefix_line(prefix);
   prefix_line += "\n";
   _d->prefix           = prefix;
   _d->prefixJournalled = false;
   if (_d->merge != NULL) {
-    _d->list->search(&prefix_line, &null, _d->merge);
+    _d->list->search(prefix_line.c_str(), "", _d->merge);
   }
 }
 

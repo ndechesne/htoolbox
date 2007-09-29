@@ -139,15 +139,17 @@ public:
     const char*   base_path,
     const char*   rel_path,
     list<Node*>&  list);
-  // Search data in list copying contents on the fly
-  // If prefix is "", copy/skip all remaining records
-  // Otherwise:
-  // If prefix is null, copy/skip to next prefix
-  // If path is "", copy/skip all remaining records till next prefix
-  // If path is null, copy/skip to next path
+  // Search data in list copying contents on the fly if required, and
+  // also expiring data and putting checksums in lists !
+  // Searches:                                  Prefix      Path
+  //    end of file                             ""          ""
+  //    prefix                                  prefix      ""
+  //    prefix and path                         prefix      path
+  //    any prefix                              NULL
+  //    prefix and any path                     prefix      NULL
   int search(                         // -1: error, 0: eof, 1: exceeded, 2: fnd
-    const StrPath*  prefix  = NULL,   // Prefix to search
-    const StrPath*  path    = NULL,   // Path to search
+    const char*     prefix  = NULL,   // Prefix to search
+    const char*     path    = NULL,   // Path to search
     List*           list    = NULL,   // List in which to copy, if any
     time_t          expire  = 0,      // Expiration delay in seconds
     list<string>*   active  = NULL,   // List of active checksums
