@@ -778,8 +778,9 @@ int List::merge(
         break;
       }
 
-      // Copy journal line
-      if ((list.putLine(journal._line.c_str()) < 0)
+      // If exception, try to put in list buffer (will succeed) otherwise write
+      if (((strncmp(journal._line.c_str(), "\t\t0\t", 4) != 0)
+        || (list.putLine(journal._line.c_str()) < 0))
        && (write(journal._line.c_str(), journal._line.length()) < 0)) {
         // Could not write
         cerr << "Journal copy failed" << endl;
