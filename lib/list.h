@@ -114,6 +114,8 @@ public:
   ssize_t getLine(bool use_found = false);
   // Put line into list buffer (will fail and return -1 if buffer in use)
   ssize_t putLine(const char* line);
+  // Mark current line for re-use
+  void keepLine();
   // Get current line type (will get a new line if necessary)
   char getLineType();
   // Convert one or several line(s) to data

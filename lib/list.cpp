@@ -248,6 +248,10 @@ ssize_t List::putLine(const char* line) {
   return -1;
 }
 
+void List::keepLine() {
+  _line_status = 3;
+}
+
 char List::getLineType() {
   getLine();
   // Status is one of -2: eof!, -1: error, 0: eof, 1: ok

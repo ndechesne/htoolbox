@@ -353,6 +353,11 @@ int main(void) {
   while (dblist.search("prefix") == 2) {
     char *path   = NULL;
     dblist.getEntry(NULL, NULL, &path, NULL, -2);
+    cout << path << endl;
+    // Should give the same result twice, then get type
+    dblist.keepLine();
+    dblist.getLine();
+    dblist.getEntry(NULL, NULL, &path, NULL, -2);
     cout << path << ": " << dblist.getLineType() << endl;
     free(path);
   }

@@ -66,7 +66,9 @@ prefix4
 prefix5
 
 Test: get all paths for prefix
+file_gone
 file_gone: -
+file_new
 file_new: f
 
 file_new: P
