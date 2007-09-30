@@ -107,6 +107,8 @@ int Path::recurse(
         }
 
         // Synchronize with DB records
+        db.sendEntry(remote_path, local_path, *i, _path.length());
+
         int cmp = -1;
         while ((j != db_list.end())
             && ((cmp = pathCompare((*j)->name(), (*i)->name())) < 0)) {

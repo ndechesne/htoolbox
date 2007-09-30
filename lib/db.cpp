@@ -949,6 +949,17 @@ void Database::setPrefix(
   _d->list->search(prefix, "", _d->merge);
 }
 
+int Database::sendEntry(
+    const char*     remote_path,
+    const char*     local_path,
+    const Node*     node,
+    int             path_len) {
+  if (! isWriteable()) {
+    return -1;
+  }
+  return -1;
+}
+
 int Database::add(
     const char*     remote_path,
     const char*     local_path,

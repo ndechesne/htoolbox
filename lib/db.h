@@ -75,6 +75,12 @@ public:
   // Set the current prefix
   void setPrefix(
     const char*     prefix);
+  // Send data for comparison
+  int sendEntry(
+    const char*     remote_path,      // Dir where the file resides, remotely
+    const char*     local_path,       // Dir where the file resides, locally
+    const Node*     node,             // File metadata
+    int             path_len = 0);    // Size of base path, for display
   int add(
     const char*     remote_path,      // Dir where the file resides, remotely
     const char*     local_path,       // Dir where the file resides, locally
