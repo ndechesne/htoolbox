@@ -234,6 +234,7 @@ ssize_t List::getLine(bool use_found) {
       return _line.length();
     default:
       // Error
+      _line_status = 1;
       return -1;
   }
 }
@@ -247,6 +248,44 @@ ssize_t List::putLine(const char* line) {
   return -1;
 }
 
+char List::getLineType() {
+  getLine();
+  // Status is one of -2: eof!, -1: error, 0: eof, 1: ok
+  switch (_line_status) {
+    case -2:
+      // Unexpected eof
+      return 'U';
+    case 0:
+      // Eof
+      return 'E';
+    case 1:
+      break;
+    default:
+      // Failure
+      return 'F';
+  }
+  // Line should be re-used
+  _line_status = 3;
+  if (_line[0] != '\t') {
+    // Prefix (client)
+    return 'C';
+  } else
+  if (_line[1] != '\t') {
+    // Path
+    return 'P';
+  } else
+  {
+    const char* pos = strchr(&_line[2], '\t');
+    if (pos == NULL) {
+      // Type unaccessible
+      return 'T';
+    } else
+    {
+      pos++;
+      return *pos;
+    }
+  }
+}
 
 int List::getEntry(
     time_t*       timestamp,
@@ -264,16 +303,19 @@ int List::getEntry(
   bool    got_path;
   ssize_t length;
 
-  if (date == -1) {
+  if (date <= -1) {
     got_path = true;
   } else {
     got_path = false;
   }
 
-  bool done  = false;
-  while (! done) {
+  while (true) {
     // Get line
-    length = getLine(true);
+    if (date != -2) {
+      length = getLine(true);
+    } else {
+      length = _line.length();
+    }
 
     if (length == 0) {
       errno = EUCLEAN;
@@ -295,15 +337,14 @@ int List::getEntry(
       return 0;
     }
 
-    // Change end of line
-    _line[length] = '\0';
-
     // Prefix
     if (_line[0] != '\t') {
       if (prefix != NULL) {
         free(*prefix);
         *prefix = NULL;
         asprintf(prefix, "%s", &_line[0]);
+        // Change end of line
+        (*prefix)[length] = '\0';
       }
     } else
 
@@ -313,6 +354,8 @@ int List::getEntry(
         free(*path);
         *path = NULL;
         asprintf(path, "%s", &_line[1]);
+        // Change end of line
+        (*path)[length - 1] = '\0';
       }
       got_path = true;
     } else
@@ -328,9 +371,12 @@ int List::getEntry(
           *timestamp = ts;
         }
       }
-      if ((date == -1) || (date == 0) || (ts <= date)) {
-        done = true;
+      if ((date <= 0) || (ts <= date)) {
+        break;
       }
+    }
+    if (date == -2) {
+      break;
     }
   }
   return 1;

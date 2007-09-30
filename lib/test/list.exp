@@ -66,13 +66,13 @@ prefix4
 prefix5
 
 Test: get all paths for prefix
-file_gone
-file_new
+file_gone: -
+file_new: f
 
-file_new
+file_new: P
 
 
-path
+path: d
 
 Test: journal prefix out of order
 

@@ -114,14 +114,22 @@ public:
   ssize_t getLine(bool use_found = false);
   // Put line into list buffer (will fail and return -1 if buffer in use)
   ssize_t putLine(const char* line);
-  // Convert one 'line' of data
-  // rc: -1: error, 0: eof, 1: success
+  // Get current line type (will get a new line if necessary)
+  char getLineType();
+  // Convert one or several line(s) to data
+  // Date:
+  //    -2: do not get lines, only use current
+  //    -1: any
+  //     0: latest
+  //     *: as old or just newer than date
+  // Return code:
+  //    -1: error, 0: end of file, 1: success
   int getEntry(
     time_t*       timestamp,
     char**        prefix,
     char**        path,
     Node**        node,
-    time_t        date = -1); // -1: all, 0: latest, otherwise timestamp to get
+    time_t        date = -1);
   // Add a journal record of added file
   int added(
     const char*   prefix,             // Set to NULL not to add prefix

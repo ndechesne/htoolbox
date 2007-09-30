@@ -352,8 +352,8 @@ int main(void) {
   } else
   while (dblist.search("prefix") == 2) {
     char *path   = NULL;
-    dblist.getEntry(NULL, NULL, &path, NULL);
-    cout << path << endl;
+    dblist.getEntry(NULL, NULL, &path, NULL, -2);
+    cout << path << ": " << dblist.getLineType() << endl;
     free(path);
   }
   cout << endl;
@@ -362,8 +362,8 @@ int main(void) {
   } else
   if (dblist.search("prefix2", "file_h") == 1) {
     char *path   = NULL;
-    dblist.getEntry(NULL, NULL, &path, NULL);
-    cout << path << endl;
+    dblist.getEntry(NULL, NULL, &path, NULL, -2);
+    cout << path << ": " << dblist.getLineType() << endl;
     free(path);
   }
   cout << endl;
@@ -381,8 +381,8 @@ int main(void) {
     cout << "prefix 'prefix5', path 'path' not found" << endl;
   } else {
     char *path   = NULL;
-    dblist.getEntry(NULL, NULL, &path, NULL);
-    cout << path << endl;
+    dblist.getEntry(NULL, NULL, &path, NULL, -2);
+    cout << path << ": " << dblist.getLineType() << endl;
     free(path);
   }
   if (dblist.search() == 2) {
