@@ -866,10 +866,9 @@ int Database::sendEntry(
   if (! isWriteable()) {
     return -1;
   }
-  bool  failed = false;
-  char* path   = NULL;
 
   // Paths
+  char* path   = NULL;
   if (node != NULL) {
     asprintf(&path, "%s%s", remote_path, node->name());
   }
@@ -877,43 +876,36 @@ int Database::sendEntry(
   // DB
   char* db_path = NULL;
   int   cmp     = 1;
-  while (true) {
-    // Get path
-    int rc = _d->list->search(_d->prefix.c_str(), NULL, _d->merge);
-
-    if (rc == 2) {
-      if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
-        return -1;
-      }
-      if (path != NULL) {
-        cmp = pathCompare(db_path, path);
-      } else {
-        cmp = -1;
-      }
-
-      // Check match
-      if (cmp < 0) {
-        // Not reached, mark removed (getLineType keeps line automatically)
-        if (_d->list->getLineType() != '-') {
-          _d->journal->removed(_d->prefixJournalled? NULL : _d->prefix.c_str(),
-             db_path);
-          _d->prefixJournalled = true;
-          // FIXME Merge on the fly
-          if (_d->merge != NULL) {
-            // Add path and 'removed' entry
-            _d->merge->removed(_d->prefixJournalled? NULL : _d->prefix.c_str(),
-              db_path);
-            // Get rid of cached path line
-            _d->list->getLine();
-           }
-          if (verbosity() > 2) {
-            cout << " --> D " << db_path << endl;
-          }
+  while (_d->list->search(_d->prefix.c_str(), NULL, _d->merge) == 2) {
+    if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
+      return -1;
+    }
+    if (path != NULL) {
+      cmp = pathCompare(db_path, path);
+    } else {
+      cmp = -1;
+    }
+    // If found or exceeded, break loop
+    if (cmp >= 0) {
+      break;
+    }
+    // Not reached, mark 'removed' (getLineType keeps line automatically)
+    if (_d->list->getLineType() != '-') {
+      _d->journal->removed(_d->prefixJournalled? NULL : _d->prefix.c_str(),
+          db_path);
+      _d->prefixJournalled = true;
+      // FIXME Merge on the fly
+      if (_d->merge != NULL) {
+        // Add path and 'removed' entry
+        _d->merge->removed(_d->prefixJournalled? NULL : _d->prefix.c_str(),
+          db_path);
+        // Get rid of cached path line
+        _d->list->getLine();
         }
-        continue;
+      if (verbosity() > 2) {
+        cout << " --> D " << db_path << endl;
       }
     }
-    break;
   }
 
   if (path == NULL) {
@@ -983,7 +975,7 @@ int Database::sendEntry(
   }
 
   free(path);
-  return failed ? -1 : 0;
+  return 0;
 }
 
 int Database::add(

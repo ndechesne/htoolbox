@@ -102,7 +102,9 @@ int Path::recurse(
         }
 
         // Synchronize with DB records
-        db.sendEntry(remote_path, local_path, *i);
+        if (db.sendEntry(remote_path, local_path, *i) < 0) {
+          cerr << "Failed to compare entries" << endl;
+        }
 
         // For directory, recurse into it
         if ((*i)->type() == 'd') {
