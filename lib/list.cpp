@@ -370,7 +370,7 @@ int List::getEntry(
       if (node != NULL) {
         _line[length] = '\t';
         // Will set errno if an error is found
-        decodeLine(*path, node, &ts);
+        decodeLine(path == NULL ? "" : *path, node, &ts);
         if (timestamp != NULL) {
           *timestamp = ts;
         }
