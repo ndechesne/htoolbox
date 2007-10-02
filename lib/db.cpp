@@ -42,8 +42,6 @@ using namespace std;
 using namespace hbackup;
 
 struct Database::Private {
-  list<DbData>::iterator  entry;
-  list<DbData>            active;
   List*                   list;
   List*                   journal;
   List*                   merge;
@@ -349,7 +347,6 @@ Database::Database(const string& path) {
   _d          = new Private;
   _d->list    = NULL;
   _d->journal = NULL;
-  _d->prefix  = "";
 }
 
 Database::~Database() {
@@ -468,35 +465,6 @@ int Database::open(bool read_only) {
 //     }
 //   }
 
-  // Read database active items list
-  if (! read_only && ! failed) {
-    _d->active.clear();
-    if (! _d->list->isEmpty()) {
-      char*   prefix = NULL;
-      char*   path   = NULL;
-      Node*   node   = NULL;
-      int rc = 0;
-      while ((rc = _d->list->getEntry(NULL, &prefix, &path, &node, 0)) > 0) {
-        // Only push back if not a removed data record
-        if (node != NULL) {
-          _d->active.push_back(DbData(prefix, path, node));
-        }
-      }
-      if (rc < 0) {
-        failed = true;
-      }
-    }
-    if (! failed) {
-      _d->entry = _d->active.begin();
-    }
-    // Re-open list
-    _d->list->close();
-    if (_d->list->open("r")) {
-      cerr << "db: open: cannot re-open list" << endl;
-      failed = true;
-    }
-  }
-
   if (failed) {
       // Close lists
     _d->list->close();
@@ -515,17 +483,11 @@ int Database::open(bool read_only) {
     return 2;
   }
 
+  // Setup some data
+  _d->prefix = "";
+
   if (verbosity() > 2) {
-    cout << " --> Database open";
-    if (! read_only) {
-      cout << " (contents: "
-        << _d->active.size() << " file";
-      if (_d->active.size() != 1) {
-        cout << "s";
-      }
-      cout << ")";
-    }
-    cout << endl;
+    cout << " --> Database open" << endl;
   }
   return 0;
 }
@@ -539,14 +501,13 @@ int Database::close() {
     return -1;
   }
 
-  // Delete active list
-  _d->active.clear();
-
   if (read_only) {
     // Close list
     _d->list->close();
   } else {
     failed = true;
+    // Finish off list reading/copy
+    setPrefix("");
     // Close journal
     _d->journal->close();
     // If a merge already exists, use it FIXME not implemented
@@ -750,60 +711,6 @@ int Database::restore(
   return failed ? -1 : 0;
 }
 
-void Database::getList(
-    const char*  remote_path,
-    list<Node*>& list) {
-  if (! isWriteable()) {
-    // Don't bother: will go soon I hope
-    return;
-  }
-  char* full_path = NULL;
-  int length = asprintf(&full_path, "%s/%s", _d->prefix.c_str(), remote_path);
-
-  // Look for beginning
-  if ((_d->entry == _d->active.end()) && (_d->entry != _d->active.begin())) {
-    _d->entry--;
-  }
-  // Jump irrelevant last records
-  while ((_d->entry != _d->active.begin())
-      && (_d->entry->pathComp(full_path, length) >= 0)) {
-    _d->entry--;
-  }
-  // Jump irrelevant first records
-  while ((_d->entry != _d->active.end())
-      && (_d->entry->pathComp(full_path) < 0)) {
-    _d->entry++;
-  }
-  // Copy relevant records
-  char* last_dir     = NULL;
-  int   last_dir_len = 0;
-  while ((_d->entry != _d->active.end())
-      && (_d->entry->pathComp(full_path, length) == 0)) {
-    if ((last_dir == NULL) || _d->entry->pathComp(last_dir, last_dir_len)) {
-      Node* node;
-      switch (_d->entry->node()->type()) {
-        case 'f':
-          node = new File(*((File*) _d->entry->node()));
-          break;
-        case 'l':
-          node = new Link(*((Link*) _d->entry->node()));
-          break;
-        default:
-          node = new Node(*_d->entry->node());
-      }
-      if (node->type() == 'd') {
-        free(last_dir);
-        last_dir = NULL;
-        last_dir_len = asprintf(&last_dir, "%s%s/", full_path, node->name());
-      }
-      list.push_back(node);
-    }
-    _d->entry++;
-  }
-  free(last_dir);
-  free(full_path);
-}
-
 int Database::read(const string& path, const string& checksum) {
   if (! isOpen()) {
     return -1;
@@ -944,6 +851,9 @@ int Database::scan(const string& checksum, bool thorough) {
 
 void Database::setPrefix(
     const char* prefix) {
+  if (_d->prefix.length() != 0) {
+    sendEntry(NULL, NULL, NULL);
+  }
   _d->prefix           = prefix;
   _d->prefixJournalled = false;
   _d->list->search(prefix, "", _d->merge);
@@ -952,12 +862,128 @@ void Database::setPrefix(
 int Database::sendEntry(
     const char*     remote_path,
     const char*     local_path,
-    const Node*     node,
-    int             path_len) {
+    const Node*     node) {
   if (! isWriteable()) {
     return -1;
   }
-  return -1;
+  bool  failed = false;
+  char* path   = NULL;
+
+  // Paths
+  if (node != NULL) {
+    asprintf(&path, "%s%s", remote_path, node->name());
+  }
+
+  // DB
+  char* db_path = NULL;
+  int   cmp     = 1;
+  while (true) {
+    // Get path
+    int rc = _d->list->search(_d->prefix.c_str(), NULL, _d->merge);
+
+    if (rc == 2) {
+      if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
+        return -1;
+      }
+      if (path != NULL) {
+        cmp = pathCompare(db_path, path);
+      } else {
+        cmp = -1;
+      }
+
+      // Check match
+      if (cmp < 0) {
+        // Not reached, mark removed (getLineType keeps line automatically)
+        if (_d->list->getLineType() != '-') {
+          _d->journal->removed(_d->prefixJournalled? NULL : _d->prefix.c_str(),
+             db_path);
+          _d->prefixJournalled = true;
+          // FIXME Merge on the fly
+          if (_d->merge != NULL) {
+            // Add path and 'removed' entry
+            _d->merge->removed(_d->prefixJournalled? NULL : _d->prefix.c_str(),
+              db_path);
+            // Get rid of cached path line
+            _d->list->getLine();
+           }
+          if (verbosity() > 2) {
+            cout << " --> D " << db_path << endl;
+          }
+        }
+        continue;
+      }
+    }
+    break;
+  }
+
+  if (path == NULL) {
+    return 0;
+  }
+
+  if (cmp > 0) {
+    // Exceeded, keep line for later
+    _d->list->keepLine();
+    add(remote_path, local_path, node);
+    if (verbosity() > 2) {
+      cout << " --> A " << remote_path << node->name() << endl;
+    }
+  } else {
+    // Get metadata
+    Node* db_node = NULL;
+    _d->list->getLine();
+    _d->list->getEntry(NULL, NULL, &db_path, &db_node, -2);
+    // Check for differences
+    if (db_node == NULL) {
+    } else
+    if (*db_node != *node) {
+      const char* checksum = NULL;
+      // Metadata differ
+      if ((node->type() == 'f')
+      && (db_node->type() == 'f')
+      && (node->size() == db_node->size())
+      && (node->mtime() == db_node->mtime())) {
+        // If the file data is there, just add new metadata
+        // If the checksum is missing, this shall retry too
+        checksum = ((File*)db_node)->checksum();
+        if (verbosity() > 2) {
+          cout << " --> ~ ";
+        }
+      } else {
+        // Do it all
+        if (verbosity() > 2) {
+          cout << " --> M ";
+        }
+      }
+      if (verbosity() > 2) {
+        cout << remote_path << node->name() << endl;
+      }
+      add(remote_path, local_path, node, checksum);
+    } else
+    // Same metadata, hence same type...
+    {
+      // Compare linked data
+      if ((node->type() == 'l')
+      && (strcmp(((Link*)node)->link(), ((Link*)db_node)->link()) != 0)) {
+        if (verbosity() > 2) {
+          cout << " --> L " << remote_path << node->name() << endl;
+        }
+        add(remote_path, local_path, node);
+      } else
+      // Check that file data is present
+      if ((node->type() == 'f')
+        && (((File*)db_node)->checksum()[0] == '\0')) {
+        // Checksum missing: retry
+        if (verbosity() > 2) {
+          cout << " --> ! " << remote_path << node->name() << endl;
+        }
+        const char* checksum = ((File*)db_node)->checksum();
+        add(remote_path, local_path, node, checksum);
+      }
+    }
+  }
+
+  free(path);
+  return failed ? -1 : 0;
 }
 
 int Database::add(
@@ -1022,30 +1048,4 @@ int Database::add(
 
   free(full_path);
   return failed ? -1 : 0;
-}
-
-void Database::remove(
-    const char*     remote_path,
-    const Node*     node) {
-  if (! isWriteable()) {
-    // FIXME what do I do? Wait...
-    return;
-  }
-  char* full_path = NULL;
-  asprintf(&full_path, "%s%s", remote_path, node->name());
-
-  // Add entry info to journal
-  _d->journal->removed(_d->prefixJournalled ? NULL : _d->prefix.c_str(),
-    full_path);
-  // Merge on the fly
-  if (_d->merge != NULL) {
-  }
-  _d->prefixJournalled = true;
-
-  free(full_path);
-}
-
-// For debug only
-void* Database::active() {
-  return &_d->active;
 }

@@ -83,6 +83,13 @@ public:
       int             compress = 0) {
     return Database::write(path, checksum, compress);
   }
+  int  add(
+      const char*     remote_path,
+      const char*     local_path,
+      const Node*     node,
+      const char*     checksum = NULL) {
+    return Database::add(remote_path, local_path, node, checksum);
+  }
 };
 
 static int verbose = 4;

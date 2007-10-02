@@ -43,6 +43,12 @@ protected: // So I can test them/use them in tests
     const string&   path,
     char**          checksum,
     int             compress = 0);
+  // Add entry to journal
+  int  add(
+    const char*     remote_path,      // Dir where the file resides, remotely
+    const char*     local_path,       // Dir where the file resides, locally
+    const Node*     node,             // File metadata
+    const char*     checksum = NULL); // Do not copy data, use given checksum
 public:
   Database(const string& path);
   ~Database();
@@ -52,17 +58,13 @@ public:
   // Close database
   int  close();
   // Get list of prefixes in DB list (close-open to re-use DB!)
-  int getPrefixes(list<string>& prefixes);
+  int  getPrefixes(list<string>& prefixes);
   // Restore specified data
-  int restore(
+  int  restore(
     const char*     dest,             // Where the restored path goes
     const char*     prefix,           // The prefix to restore
     const char*     path = NULL,      // The path to restore (all)
     time_t          date = 0);        // The date to restore (latest)
-  // Prepare list for parser
-  void getList(
-    const char*     remote_path,      // Dir where the file resides, remotely
-    list<Node*>&    nodes);           // List fo files metadata
   // Read file with given checksum, extract it to path
   int  read(
     const string&   path,
@@ -76,21 +78,10 @@ public:
   void setPrefix(
     const char*     prefix);
   // Send data for comparison
-  int sendEntry(
+  int  sendEntry(
     const char*     remote_path,      // Dir where the file resides, remotely
     const char*     local_path,       // Dir where the file resides, locally
-    const Node*     node,             // File metadata
-    int             path_len = 0);    // Size of base path, for display
-  int add(
-    const char*     remote_path,      // Dir where the file resides, remotely
-    const char*     local_path,       // Dir where the file resides, locally
-    const Node*     node,             // File metadata
-    const char*     checksum = NULL); // Do not copy data, use given checksum
-  void remove(
-    const char*     remote_path,      // Dir where the file resides, remotely
     const Node*     node);            // File metadata
-// For debug only
-  void* active();
 };
 
 }

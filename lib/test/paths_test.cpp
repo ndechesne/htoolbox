@@ -34,22 +34,6 @@ using namespace std;
 
 using namespace hbackup;
 
-void line(const DbData& data) {
-  printf("%s\t%s\t%c\t%lld\t%d\t%u\t%u\t%o",
-    data.prefix(), data.path(), data.node()->type(),
-    data.node()->size(), data.node()->mtime() != 0,
-    data.node()->uid() != 0, data.node()->gid() != 0, data.node()->mode());
-  if (data.node()->type() == 'l') {
-    cout << '\t';
-    cout << ((Link*)data.node())->link();
-  }
-  if (data.node()->type() == 'f') {
-    cout << '\t';
-    cout << ((File*)data.node())->checksum();
-  }
-  cout << endl;
-}
-
 int hbackup::verbosity(void) {
   return 4;
 }
@@ -93,14 +77,6 @@ int main(void) {
   // Initialisation
   my_time++;
   db.open();
-
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
 
   // '-' is before '/' in the ASCII table...
   system("touch test1/subdir-file");
@@ -154,14 +130,6 @@ int main(void) {
   my_time++;
   db.open();
 
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
-
   cout << "as previous" << endl;
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
@@ -208,14 +176,6 @@ int main(void) {
   // Next test
   my_time++;
   db.open();
-
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
 
   cout << "as previous with subdir/testfile readable" << endl;
   system("chmod 644 test1/subdir/testfile");
@@ -264,14 +224,6 @@ int main(void) {
   // Next test
   my_time++;
   db.open();
-
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
 
   cout << "as previous with subdir/testfile in ignore list" << endl;
   if (path->addFilter("type", "file")
@@ -324,14 +276,6 @@ int main(void) {
   my_time++;
   db.open();
 
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
-
   cout << "as previous with subdir in ignore list" << endl;
   if (path->addFilter("type", "dir")
    || path->addFilter("path", "subdir", true)) {
@@ -382,14 +326,6 @@ int main(void) {
   // Next test
   my_time++;
   db.open();
-
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
 
   cout << "as previous with testlink modified" << endl;
   system("sleep 1 && ln -sf testnull test1/testlink");
@@ -443,14 +379,6 @@ int main(void) {
   my_time++;
   db.open();
 
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
-
   cout << "as previous with testlink in ignore list" << endl;
   if (path->addFilter("type", "link")
    || path->addFilter("path_start", "testlink", true)) {
@@ -502,14 +430,6 @@ int main(void) {
   my_time++;
   db.open();
 
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
-
   cout << "as previous with CVS parser" << endl;
   if (path->addParser("cvs", "controlled")) {
     cout << "Failed to add parser" << endl;
@@ -560,14 +480,6 @@ int main(void) {
   my_time++;
   db.open();
 
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
-
   cout << "as previous" << endl;
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
@@ -614,14 +526,6 @@ int main(void) {
   // Next test
   my_time++;
   db.open();
-
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
 
   cout << "as previous with cvs/dirutd in ignore list" << endl;
   if (path->addFilter("type", "dir")
@@ -674,14 +578,6 @@ int main(void) {
   my_time++;
   db.open();
 
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
-
   cout << "as previous with testpipe gone" << endl;
   remove("test1/testpipe");
   db.setPrefix("file://localhost");
@@ -729,14 +625,6 @@ int main(void) {
   // Next test
   my_time++;
   db.open();
-
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
 
   cout << "as previous with testfile mode changed" << endl;
   system("chmod 660 test1/testfile");
@@ -786,14 +674,6 @@ int main(void) {
   my_time++;
   db.open();
 
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
-
   cout << "as previous with cvs/filenew.c touched" << endl;
   system("echo blah > test1/cvs/filenew.c");
   db.setPrefix("file://localhost");
@@ -841,14 +721,6 @@ int main(void) {
   // Next test
   my_time++;
   db.open();
-
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
 
   cout << "some troublesome past cases" << endl;
 
@@ -919,14 +791,6 @@ int main(void) {
   my_time++;
   db.open();
 
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
-
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
@@ -977,14 +841,6 @@ int main(void) {
   system("touch test1/crash/file");
   system("rm -rf test1/testdir");
   db.open();
-
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-       i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
 
   db.setPrefix("file://host");
   if (! path->parse(db, "test2")) {
@@ -1044,14 +900,6 @@ int main(void) {
   // Recover now
   db.open();
 
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-      i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
-
   // Show list contents
   cout << endl << "List:" << endl;
   if (! dblist.open("r")) {
@@ -1091,14 +939,6 @@ int main(void) {
 
   db.open();
 
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-      i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
-
   if (db.close()) {
     return 0;
   }
@@ -1107,14 +947,6 @@ int main(void) {
   // Next test
   my_time++;
   db.open();
-
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-      i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
 
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
@@ -1161,14 +993,6 @@ int main(void) {
   // Next test
   my_time++;
   db.open();
-
-  // Display DB contents
-  cout << "Active list:  " << ((list<DbData>*)db.active())->size()
-    << " element(s):\n";
-  for (list<DbData>::iterator i = ((list<DbData>*)db.active())->begin();
-      i != ((list<DbData>*)db.active())->end(); i++) {
-    line(*i);
-  }
 
   db.setPrefix("file://host");
   if (! path->parse(db, "test2")) {

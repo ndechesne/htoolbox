@@ -4,7 +4,7 @@
 Client: localhost
 -> file://localhost etc/doesnotexist
  --> Database initialized
- --> Database open (contents: 0 files)
+ --> Database open
 Backup client 'localhost' using protocol 'file'
 List file not found etc/doesnotexist
  --> Database closed
@@ -95,19 +95,19 @@ Options: username=
 Client: Client4
 -> smb://Client c:/home/BlaH/Backup.list
 Options: username= password=
- --> Database open (contents: 0 files)
+ --> Database open
 Backup client 'myClient' using protocol 'nfs'
  -> Reading backup list file
  --> Path: /home/User/test
 Backup path '/home/User/test'
 Unmounted test_db/mount
- --> A File2.txt
+ --> A /home/User/test/File2.txt
 Unmounted test_db/mount
 Backup client 'myClient2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
- --> A File.TXT
+ --> A C:/Test/File.TXT
 Unmounted test_db/mount
 Protocol not supported: ssh
 Backup client 'Client' using protocol 'smb'
@@ -127,39 +127,39 @@ Unmounted test_db/mount
 >List 1 client(s):
 Client: testhost
 -> file://localhost etc/localhost.list
- --> Database open (contents: 2 files)
+ --> Database open
 Backup client 'testhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2
  --> Path: test1
 Backup path 'test1'
- --> A cvs
- --> A cvs/CVS
- --> A cvs/dirbad
+ --> A test1/cvs
+ --> A test1/cvs/CVS
+ --> A test1/cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- --> A cvs/dirutd
- --> A cvs/dirutd/CVS
- --> A cvs/dirutd/fileutd
- --> A cvs/filenew.c
- --> A cvs/fileutd.h
- --> A dir space
- --> A dir space/file space
- --> A test space
- --> A testdir
- --> A testlink
- --> A testpipe
+ --> A test1/cvs/dirutd
+ --> A test1/cvs/dirutd/CVS
+ --> A test1/cvs/dirutd/fileutd
+ --> A test1/cvs/filenew.c
+ --> A test1/cvs/fileutd.h
+ --> A test1/dir space
+ --> A test1/dir space/file space
+ --> A test1/test space
+ --> A test1/testdir
+ --> A test1/testlink
+ --> A test1/testpipe
 Backup path 'test2'
- --> A testdir
- --> A testfile
- --> A testfile2
- --> A testfile~
- --> A testlink
+ --> A test2/testdir
+ --> A test2/testfile
+ --> A test2/testfile2
+ --> A test2/testfile~
+ --> A test2/testlink
  --> Database closed
  --> Client: testhost
 >List 1 client(s):
 Client: testhost
 -> file://testhost etc/localhost.list
- --> Database open (contents: 21 files)
+ --> Database open
 Backup client 'testhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2
@@ -172,7 +172,7 @@ Backup path 'test2'
 >List 1 client(s):
 Client: testhost
 -> file://testhost etc/localhost.list
- --> Database open (contents: 21 files)
+ --> Database open
 Backup client 'testhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2
@@ -184,10 +184,10 @@ Path inside another. This is not supported yet
 >List 1 client(s):
 Client: testhost
 -> file://testhost etc/localhost.list2
- --> Database open (contents: 21 files)
+ --> Database open
 Backup client 'testhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2/subdir
  --> Path: test2
-Path inside another. This is not supported yet
+Path inside another: this is not supported
  --> Database closed

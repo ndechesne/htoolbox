@@ -63,12 +63,7 @@ int Path::recurse(
     }
   }
   if (dir->isValid() && ! dir->createList(local_path)) {
-    list<Node*> db_list;
-    // Get database info for this directory
-    db.getList(remote_path, db_list);
-
     list<Node*>::iterator i = dir->nodesList().begin();
-    list<Node*>::iterator j = db_list.begin();
     while (i != dir->nodesList().end()) {
       if (! terminating()) {
         // Ignore inaccessible files
@@ -107,78 +102,7 @@ int Path::recurse(
         }
 
         // Synchronize with DB records
-        db.sendEntry(remote_path, local_path, *i, _path.length());
-
-        int cmp = -1;
-        while ((j != db_list.end())
-            && ((cmp = pathCompare((*j)->name(), (*i)->name())) < 0)) {
-          if (! terminating()) {
-            recurse_remove(db, remote_path, *j);
-          }
-          delete *j;
-          j = db_list.erase(j);
-        }
-
-        // Deal with data
-        if ((j == db_list.end()) || (cmp > 0)) {
-          // Not found in DB => new
-          if (verbosity() > 2) {
-            cout << " --> A " << rel_path << (*i)->name() << endl;
-          }
-          db.add(remote_path, local_path, *i);
-        } else {
-          // Same file name found in DB
-          if (**i != **j) {
-            const char* checksum = NULL;
-            // Metadata differ
-            if (((*i)->type() == 'f')
-            && ((*j)->type() == 'f')
-            && ((*i)->size() == (*j)->size())
-            && ((*i)->mtime() == (*j)->mtime())) {
-              // If the file data is there, just add new metadata
-              // If the checksum is missing, this shall retry too
-              checksum = ((File*)(*j))->checksum();
-              if (verbosity() > 2) {
-                cout << " --> ~ ";
-              }
-            } else {
-              // Do it all
-              if (verbosity() > 2) {
-                cout << " --> M ";
-              }
-            }
-            if (verbosity() > 2) {
-              cout << rel_path << (*i)->name() << endl;
-            }
-            db.add(remote_path, local_path, *i, checksum);
-          } else {
-            // i and j have same metadata, hence same type...
-            // Compare linked data
-            if (((*i)->type() == 'l')
-            && (strcmp(((Link*)(*i))->link(), ((Link*)(*j))->link()) != 0)) {
-              if (verbosity() > 2) {
-                cout << " --> L ";
-                if (rel_path[0] != '\0') {
-                  cout << rel_path << "/";
-                }
-                cout << (*i)->name() << endl;
-              }
-              db.add(remote_path, local_path, *i);
-            } else
-            // Check that file data is present
-            if (((*i)->type() == 'f')
-             && (((File*)(*j))->checksum()[0] == '\0')) {
-              // Checksum missing: retry
-              if (verbosity() > 2) {
-                cout << " --> ! " << rel_path << (*i)->name() << endl;
-              }
-              const char* checksum = ((File*)(*j))->checksum();
-              db.add(remote_path, local_path, *i, checksum);
-            }
-          }
-          delete *j;
-          j = db_list.erase(j);
-        }
+        db.sendEntry(remote_path, local_path, *i);
 
         // For directory, recurse into it
         if ((*i)->type() == 'd') {
@@ -199,46 +123,10 @@ int Path::recurse(
       delete *i;
       i = dir->nodesList().erase(i);
     }
-
-    // Deal with removed records
-    while (j != db_list.end()) {
-      if (! terminating()) {
-        recurse_remove(db, remote_path, *j);
-      }
-      delete *j;
-      j = db_list.erase(j);
-    }
   } else {
     cerr << strerror(errno) << ": " << rel_path << endl;
   }
   return 0;
-}
-
-void Path::recurse_remove(
-    Database&       db,
-    const char*     remote_path,
-    const Node*     node) {
-  if (verbosity() > 2) {
-    cout << " --> D " << &remote_path[_path.length() + 1] << node->name()
-      << endl;
-  }
-  db.remove(remote_path, node);
-  // Recurse into directories
-  if (node->type() == 'd') {
-    list<Node*> db_list;
-    char* rem_path = NULL;
-    asprintf(&rem_path, "%s%s/", remote_path, node->name());
-
-    // Get database info for this directory
-    db.getList(rem_path, db_list);
-    list<Node*>::iterator j = db_list.begin();
-    while (j != db_list.end()) {
-      recurse_remove(db, rem_path, *j);
-      delete *j;
-      j = db_list.erase(j);
-    }
-    free(rem_path);
-  }
 }
 
 Path::Path(const char* path) {

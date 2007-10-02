@@ -34,10 +34,6 @@ class Path {
     const char*     local_path,       // Dir where the file resides, locally
     Directory*      dir,
     Parser*         parser);
-  void recurse_remove(
-    Database&       db,
-    const char*     remote_path,      // Dir where the file resides, remotely
-    const Node*     node);
 public:
   Path(const char* path);
   ~Path() {

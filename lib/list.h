@@ -21,65 +21,6 @@
 
 namespace hbackup {
 
-class DbData {
-  char*   _prefix;
-  char*   _path;
-  Node*   _node;
-public:
-  DbData(const DbData& data) :
-      _prefix(NULL),
-      _path(NULL),
-      _node(NULL) {
-    asprintf(&_prefix, "%s", data._prefix);
-    asprintf(&_path, "%s", data._path);
-    switch (data._node->type()) {
-      case 'l':
-        _node = new Link(*((Link*)data._node));
-        break;
-      case 'f':
-        _node = new File(*((File*)data._node));
-        break;
-      default:
-        _node = new Node(*data._node);
-    }
-  }
-  DbData(
-      const char* prefix,
-      const char* path,
-      const Node* node) :
-      _prefix(NULL),
-      _path(NULL),
-      _node(NULL) {
-    asprintf(&_prefix, "%s", prefix);
-    asprintf(&_path, "%s", path);
-    switch (node->type()) {
-      case 'l':
-        _node = new Link(*((Link*)node));
-        break;
-      case 'f':
-        _node = new File(*((File*)node));
-        break;
-      default:
-        _node = new Node(*node);
-    }
-  }
-  ~DbData() {
-    free(_prefix);
-    free(_path);
-    delete _node;
-  }
-  const char* prefix() const    { return _prefix; }
-  const char* path() const      { return _path; }
-  const Node* node() const      { return _node; }
-  int pathComp(const char* path, int length = -1) const {
-    char* full_path = NULL;
-    asprintf(&full_path, "%s/%s", _prefix, _path);
-    int cmp = pathCompare(full_path, path, length);
-    free(full_path);
-    return cmp;
-  }
-};
-
 class List : public Stream {
   string          _line;
   // _line_status meaning:

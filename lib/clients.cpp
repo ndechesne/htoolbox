@@ -189,7 +189,7 @@ int Client::readListFile(const string& list_path) {
               int ilen = strlen((*i)->path());
               if ((ilen > jlen)
                && (pathCompare((*i)->path(), (*j)->path(), jlen) == 0)) {
-                cout << "Path inside another. This is not supported yet"
+                cout << "Path inside another: this is not supported"
                   << endl;
                 failed = 1;
               }
@@ -353,7 +353,6 @@ int Client::backup(
   }
   list_path += _listfile.basename().c_str();
 
-  db.setPrefix(prefix().c_str());
   if (verbosity() > 0) {
     cout << "Backup client '" << _name
       << "' using protocol '" << _protocol << "'" << endl;
@@ -365,6 +364,7 @@ int Client::backup(
     if (_d->paths.empty()) {
       failed = 1;
     } else if (! config_check) {
+      db.setPrefix(prefix().c_str());
       for (list<Path*>::iterator i = _d->paths.begin(); i != _d->paths.end(); i++) {
         if (terminating() || clientfailed) {
           break;
