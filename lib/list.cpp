@@ -631,7 +631,7 @@ int List::search(
     // New data, add
     if (list != NULL) {
       if ((_line_status == 0) || (_line_status == 3)) {
-        if (path_l[0] != '\0') {
+        if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
           if ((path_len != 0) && (list->write("\t", 1) < 0)) {
             // Could not write
@@ -646,7 +646,7 @@ int List::search(
             return -1;
           }
         } else
-        if (prefix_l[0] != '\0') {
+        if ((prefix_l != NULL) && (prefix_l[0] != '\0')) {
           // Write prefix
           if (list->write(prefix_l, strlen(prefix_l)) < 0) {
             // Could not write
@@ -668,9 +668,10 @@ int List::search(
     switch (_line_status) {
       case 0:
         // EOF
+        return 0;
       case 2:
         // Found
-        return _line_status;
+        return 2;
       case 3:
         // Exceeded
         return 1;
