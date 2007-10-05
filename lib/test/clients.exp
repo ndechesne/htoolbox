@@ -191,3 +191,144 @@ Backup client 'testhost' using protocol 'file'
  --> Path: test2
 Path inside another: this is not supported
  --> Database closed
+
+Test: missing clients
+ --> Client: myhost2
+ --> Database open
+Backup client 'myhost2' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+ --> A C:/Test/File.TXT
+Unmounted test_db/mount
+ --> Database closed
+ --> Client: myhost3
+ --> Database open
+Backup client 'myhost3' using protocol 'nfs'
+ -> Reading backup list file
+ --> Path: /home/User/test
+Backup path '/home/User/test'
+Unmounted test_db/mount
+ --> A /home/User/test/File2.txt
+Unmounted test_db/mount
+ --> Database closed
+ --> Client: myhost
+ --> Database open
+Backup client 'myhost' using protocol 'file'
+ -> Reading backup list file
+ --> Path: test1/cvs
+Backup path 'test1/cvs'
+ --> A test1/cvs/CVS
+ --> A test1/cvs/CVS/Entries
+ --> A test1/cvs/dirbad
+ --> A test1/cvs/dirbad/fileoth
+ --> A test1/cvs/dirbad/fileutd
+ --> A test1/cvs/diroth
+ --> A test1/cvs/dirutd
+ --> A test1/cvs/dirutd/CVS
+ --> A test1/cvs/dirutd/CVS/Entries
+ --> A test1/cvs/dirutd/fileoth
+ --> A test1/cvs/dirutd/fileutd
+ --> A test1/cvs/filemod.o
+ --> A test1/cvs/filenew.c
+ --> A test1/cvs/fileoth
+ --> A test1/cvs/fileutd.h
+ --> Database closed
+
+Prefixes in DB
+ --> Database open
+ --> Database closed
+ file://myhost
+ file://testhost
+ nfs://myClient
+ nfs://myhost3
+ smb://myClient2
+ smb://myhost2
+Create list of clients
+ --> Client: myhost
+ --> Client: myhost3
+ --> Client: myhost2
+>List 3 client(s):
+Client: myhost
+-> file://myhost etc/testhost.list
+Client: myhost3
+-> nfs://myhost3 /home/User/testhost3.list
+Client: myhost2
+-> smb://myhost2 C:/Backup/testhost2.list
+ --> Database open
+Backup client 'myhost' using protocol 'file'
+ -> Reading backup list file
+ --> Path: test1/cvs
+Backup path 'test1/cvs'
+Backup client 'myhost3' using protocol 'nfs'
+ -> Reading backup list file
+ --> Path: /home/User/test
+Backup path '/home/User/test'
+Unmounted test_db/mount
+Unmounted test_db/mount
+Backup client 'myhost2' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+Unmounted test_db/mount
+ --> Database closed
+Create list of clients
+ --> Client: myhost3
+ --> Client: myhost2
+>List 2 client(s):
+Client: myhost3
+-> nfs://myhost3 /home/User/testhost3.list
+Client: myhost2
+-> smb://myhost2 C:/Backup/testhost2.list
+ --> Database open
+Backup client 'myhost3' using protocol 'nfs'
+ -> Reading backup list file
+ --> Path: /home/User/test
+Backup path '/home/User/test'
+Unmounted test_db/mount
+Unmounted test_db/mount
+Backup client 'myhost2' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+Unmounted test_db/mount
+ --> Database closed
+Create list of clients
+ --> Client: myhost
+ --> Client: myhost3
+>List 2 client(s):
+Client: myhost
+-> file://myhost etc/testhost.list
+Client: myhost3
+-> nfs://myhost3 /home/User/testhost3.list
+ --> Database open
+Backup client 'myhost' using protocol 'file'
+ -> Reading backup list file
+ --> Path: test1/cvs
+Backup path 'test1/cvs'
+Backup client 'myhost3' using protocol 'nfs'
+ -> Reading backup list file
+ --> Path: /home/User/test
+Backup path '/home/User/test'
+Unmounted test_db/mount
+Unmounted test_db/mount
+ --> Database closed
+Create list of clients
+ --> Client: myhost
+ --> Client: myhost2
+>List 2 client(s):
+Client: myhost
+-> file://myhost etc/testhost.list
+Client: myhost2
+-> smb://myhost2 C:/Backup/testhost2.list
+ --> Database open
+Backup client 'myhost' using protocol 'file'
+ -> Reading backup list file
+ --> Path: test1/cvs
+Backup path 'test1/cvs'
+Backup client 'myhost2' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+Unmounted test_db/mount
+ --> Database closed

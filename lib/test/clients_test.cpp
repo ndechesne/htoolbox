@@ -239,5 +239,164 @@ int main(void) {
   clients.clear();
   db.close();
 
+  cout << endl << "Test: missing clients" << endl;
+
+  client = new Client("myhost2");
+  client->setProtocol("smb");
+  system("echo \"path C:\\Test\" > test_cifs/Backup/testhost2.list");
+  client->setListfile("C:\\Backup\\testhost2.list");
+  db.open();
+  client->setMountPoint("test_db/mount");
+  client->backup(db, 0);
+  db.close();
+  delete client;
+
+  client = new Client("myhost3");
+  client->setProtocol("nfs");
+  system("echo path /home/User/test > test_nfs/testhost3.list");
+  client->setListfile("/home/User/testhost3.list");
+  db.open();
+  client->setMountPoint("test_db/mount");
+  client->backup(db, 0);
+  db.close();
+  delete client;
+
+  client = new Client("myhost");
+  client->setProtocol("file");
+  system("echo path test1/cvs > etc/testhost.list");
+  client->setListfile("etc/testhost.list");
+  db.open();
+  client->setMountPoint("test_db/mount");
+  client->backup(db, 0);
+  db.close();
+  delete client;
+
+  cout << endl << "Prefixes in DB" << endl;
+  list<string> prefixes;
+  db.open(true);
+  db.getPrefixes(prefixes);
+  db.close();
+  for (list<string>::iterator i = prefixes.begin(); i != prefixes.end(); i++) {
+    cout << " " << *i << endl;
+  }
+
+  printf("Create list of clients\n");
+  client = new Client("myhost");
+  clients.push_back(client);
+  client->setProtocol("file");
+  system("echo path test1/cvs > etc/testhost.list");
+  client->setListfile("etc/testhost.list");
+
+  client = new Client("myhost3");
+  clients.push_back(client);
+  client->setProtocol("nfs");
+  system("echo path /home/User/test > test_nfs/testhost3.list");
+  client->setListfile("/home/User/testhost3.list");
+
+  client = new Client("myhost2");
+  clients.push_back(client);
+  client->setProtocol("smb");
+  system("echo \"path C:\\Test\" > test_cifs/Backup/testhost2.list");
+  client->setListfile("C:\\Backup\\testhost2.list");
+
+  printf(">List %u client(s):\n", clients.size());
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->show();
+  }
+  db.open();
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->setMountPoint("test_db/mount");
+    (*i)->backup(db, 0);
+  }
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    delete *i;
+  }
+  clients.clear();
+  db.close();
+
+  printf("Create list of clients\n");
+  client = new Client("myhost3");
+  clients.push_back(client);
+  client->setProtocol("nfs");
+  system("echo path /home/User/test > test_nfs/testhost3.list");
+  client->setListfile("/home/User/testhost3.list");
+
+  client = new Client("myhost2");
+  clients.push_back(client);
+  client->setProtocol("smb");
+  system("echo \"path C:\\Test\" > test_cifs/Backup/testhost2.list");
+  client->setListfile("C:\\Backup\\testhost2.list");
+
+  printf(">List %u client(s):\n", clients.size());
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->show();
+  }
+  db.open();
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->setMountPoint("test_db/mount");
+    (*i)->backup(db, 0);
+  }
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    delete *i;
+  }
+  clients.clear();
+  db.close();
+
+  printf("Create list of clients\n");
+  client = new Client("myhost");
+  clients.push_back(client);
+  client->setProtocol("file");
+  system("echo path test1/cvs > etc/testhost.list");
+  client->setListfile("etc/testhost.list");
+
+  client = new Client("myhost3");
+  clients.push_back(client);
+  client->setProtocol("nfs");
+  system("echo path /home/User/test > test_nfs/testhost3.list");
+  client->setListfile("/home/User/testhost3.list");
+
+  printf(">List %u client(s):\n", clients.size());
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->show();
+  }
+  db.open();
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->setMountPoint("test_db/mount");
+    (*i)->backup(db, 0);
+  }
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    delete *i;
+  }
+  clients.clear();
+  db.close();
+
+  printf("Create list of clients\n");
+  client = new Client("myhost");
+  clients.push_back(client);
+  client->setProtocol("file");
+  system("echo path test1/cvs > etc/testhost.list");
+  client->setListfile("etc/testhost.list");
+
+  client = new Client("myhost2");
+  clients.push_back(client);
+  client->setProtocol("smb");
+  system("echo \"path C:\\Test\" > test_cifs/Backup/testhost2.list");
+  client->setListfile("C:\\Backup\\testhost2.list");
+
+  printf(">List %u client(s):\n", clients.size());
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->show();
+  }
+  db.open();
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->setMountPoint("test_db/mount");
+    (*i)->backup(db, 0);
+  }
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    delete *i;
+  }
+  clients.clear();
+  db.close();
+
   return 0;
 }
