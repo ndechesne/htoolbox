@@ -83,7 +83,7 @@ void defaultShowFile(const Node* g) {
     << ", size = " << g->size()
     << ", uid = " << (int)(g->uid() != 0)
     << ", gid = " << (int)(g->gid() != 0)
-    << ", mode = " << g->mode()
+    << oct << ", mode = " << g->mode() << dec
     << endl;
 }
 
@@ -102,7 +102,7 @@ void showFile(const Node* g, int level = 1) {
           << ", size = " << f->size()
           << ", uid = " << (int)(f->uid() != 0)
           << ", gid = " << (int)(f->gid() != 0)
-          << ", mode = " << f->mode()
+          << oct << ", mode = " << f->mode() << dec
           << endl;
       } break;
       case 'l': {
@@ -113,7 +113,7 @@ void showFile(const Node* g, int level = 1) {
           << ", size = " << l->size()
           << ", uid = " << (int)(l->uid() != 0)
           << ", gid = " << (int)(l->gid() != 0)
-          << ", mode = " << l->mode()
+          << oct << ", mode = " << l->mode() << dec
           << ", link = " << l->link()
           << endl;
       } break;
@@ -125,7 +125,7 @@ void showFile(const Node* g, int level = 1) {
           << ", size = " << d->size()
           << ", uid = " << (int)(d->uid() != 0)
           << ", gid = " << (int)(d->gid() != 0)
-          << ", mode = " << d->mode()
+          << oct << ", mode = " << d->mode() << dec
           << endl;
         if (level) {
           showList(d, level);
@@ -159,7 +159,7 @@ void createNshowFile(const Node &g, const char* dir_path) {
       << ", size = " << f->size()
       << ", uid = " << (int)(f->uid() != 0)
       << ", gid = " << (int)(f->gid() != 0)
-      << ", mode = " << f->mode()
+      << oct << ", mode = " << f->mode() << dec
       << endl;
     delete f; }
     break;
@@ -171,7 +171,7 @@ void createNshowFile(const Node &g, const char* dir_path) {
       << ", size = " << l->size()
       << ", uid = " << (int)(l->uid() != 0)
       << ", gid = " << (int)(l->gid() != 0)
-      << ", mode = " << l->mode()
+      << oct << ", mode = " << l->mode() << dec
       << ", link = " << l->link()
       << endl;
     delete l; }

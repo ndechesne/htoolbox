@@ -121,13 +121,13 @@ ef
 g\h "ij'	kl
 m\n 'op"	qr
 
-Name: testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 420
-Name: testlink, type = l, mtime = 1, size = 8, uid = 1, gid = 1, mode = 511, link = testfile
- > Dir.: testdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
- > Dir.: subdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
- -> Oth.: testfile, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 420
- -> Oth.: testfile1, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- -> Oth.: testfile2, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 420
+Name: testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 644
+Name: testlink, type = l, mtime = 1, size = 8, uid = 1, gid = 1, mode = 777, link = testfile
+ > Dir.: testdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ > Dir.: subdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ -> Oth.: testfile, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
+ -> Oth.: testfile1, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ -> Oth.: testfile2, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
 
 Validity tests
 File is file? 1
@@ -172,39 +172,39 @@ Link is dir? 0
 Link is link? 0
 
 Parsing test
- > Dir.: test1, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
- -> Dir.: cvs, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
- --> Dir.: CVS, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
- ---> File: Entries, type = f, mtime = 1, size = 141, uid = 1, gid = 1, mode = 420
- --> Dir.: dirbad, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
- ---> File: fileoth, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- ---> File: fileutd, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- --> Dir.: diroth, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
- --> Dir.: dirutd, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
- ---> Dir.: CVS, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
- ----> File: Entries, type = f, mtime = 1, size = 42, uid = 1, gid = 1, mode = 420
- ---> File: fileoth, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- ---> File: fileutd, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- --> File: filemod.o, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- --> File: filenew.c, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- --> File: fileoth, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- --> File: fileutd.h, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- -> Dir.: dir space, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
- --> File: file space, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- -> File: rwfile_dest, type = f, mtime = 1, size = 10485760, uid = 1, gid = 1, mode = 420
- -> File: rwfile_source, type = f, mtime = 1, size = 10208, uid = 1, gid = 1, mode = 420
- -> Dir.: subdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
- --> File: testfile, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 420
- --> File: testfile1, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- --> File: testfile2, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 420
- -> File: test space, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- -> Dir.: testdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
- -> File: testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 420
- -> File: testfile~, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- -> Link: testlink, type = l, mtime = 1, size = 8, uid = 1, gid = 1, mode = 511, link = testfile
- -> Oth.: testpipe, type = p, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
- -> Dir.: toucheddir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 493
- -> File: touchedfile, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 420
+ > Dir.: test1, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ -> Dir.: cvs, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ --> Dir.: CVS, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ ---> File: Entries, type = f, mtime = 1, size = 141, uid = 1, gid = 1, mode = 644
+ --> Dir.: dirbad, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ ---> File: fileoth, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ ---> File: fileutd, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ --> Dir.: diroth, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ --> Dir.: dirutd, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ ---> Dir.: CVS, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ ----> File: Entries, type = f, mtime = 1, size = 42, uid = 1, gid = 1, mode = 644
+ ---> File: fileoth, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ ---> File: fileutd, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ --> File: filemod.o, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ --> File: filenew.c, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ --> File: fileoth, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ --> File: fileutd.h, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ -> Dir.: dir space, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ --> File: file space, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ -> File: rwfile_dest, type = f, mtime = 1, size = 10485760, uid = 1, gid = 1, mode = 644
+ -> File: rwfile_source, type = f, mtime = 1, size = 10208, uid = 1, gid = 1, mode = 644
+ -> Dir.: subdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ --> File: testfile, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
+ --> File: testfile1, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ --> File: testfile2, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
+ -> File: test space, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ -> Dir.: testdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ -> File: testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 644
+ -> File: testfile~, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ -> Link: testlink, type = l, mtime = 1, size = 8, uid = 1, gid = 1, mode = 777, link = testfile
+ -> Oth.: testpipe, type = p, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ -> Dir.: toucheddir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ -> File: touchedfile, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
 
 Difference test
 f1 and f2 are identical
