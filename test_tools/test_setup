@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set mask
+umask 0022
+
 # Dir names
 CONFIGDIR="etc"
 TESTDIR="test1"

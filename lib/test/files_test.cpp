@@ -192,9 +192,8 @@ int main(void) {
 
   cout << "Tools Test" << endl;
 
-  mode_t mask = umask(0077);
-  printf("Original mask = 0%03o\n", mask);
-  mask = umask(0077);
+  mode_t mask = umask(0022);
+  mask = umask(0022);
   printf("Our mask = 0%03o\n", mask);
 
   cout << endl << "Test: path" << endl;

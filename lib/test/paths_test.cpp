@@ -64,6 +64,7 @@ static void showLine(time_t timestamp, char* prefix, char* path, Node* node) {
 }
 
 int main(void) {
+  umask(0022);
   Path* path = new Path("/home/User");
   Database  db("test_db");
   // Journal
