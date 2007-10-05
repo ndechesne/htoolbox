@@ -249,6 +249,7 @@ int main(void) {
   remove("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data");
   if (db.scan("59ca0efa9f5633cb0371bbc0355478d8-0")) {
     printf("db.check: %s\n", strerror(errno));
+    fflush(stdout);
   }
   File("").create("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data");
   if (db.scan("59ca0efa9f5633cb0371bbc0355478d8-0")) {
