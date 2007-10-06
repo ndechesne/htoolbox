@@ -16,8 +16,8 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef FILTERS_H
-#define FILTERS_H
+#ifndef CONDITIONS_H
+#define CONDITIONS_H
 
 namespace hbackup {
 
@@ -29,17 +29,39 @@ namespace hbackup {
  * True is returned when a match was found.
  */
 
-class Filter: public list<Condition> {
-public:
-  Filter() {}
-  Filter(Condition condition) {
-    push_back(condition);
-  }
-};
+/* Filter types */
+typedef enum {
+  filter_type,        // File type(s)
+  filter_name,        // Exact file name
+  filter_name_start,  // Start of file name
+  filter_name_end,    // End of file name
+  filter_name_regex,  // Regular expression on file name
+  filter_path,        // Exact path
+  filter_path_start,  // Start of path
+  filter_path_end,    // End of path
+  filter_path_regex,  // Regular expression on path
+  filter_size_above,  // Minimum size (only applies to regular files)
+  filter_size_below   // Maximum size (only applies to regular files)
+} filter_type_t;
 
-class Filters: public list<Filter> {
+class Condition {
+  filter_type_t _type;
+  char          _file_type;
+  off_t         _size;
+  string        _string;
 public:
+  // File type-based condition
+  Condition(filter_type_t type, char file_type) :
+    _type(type), _file_type(file_type) {}
+  // Size-based condition
+  Condition(filter_type_t type, off_t size) :
+    _type(type), _size(size) {}
+  // Path-based condition
+  Condition(filter_type_t type, const string& str) :
+    _type(type), _string(str) {}
   bool match(const char* path, const Node& node) const;
+  /* Debug only */
+  void show() const;
 };
 
 }

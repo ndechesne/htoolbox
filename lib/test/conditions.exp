@@ -1,0 +1,22 @@
+Conditions test
+filter_name check
+match 2.1
+filter_name_start check
+match 3.1
+match 3.2
+filter_name_end check
+match 4.1
+filter_name_regex check
+match 5.1
+filter_path check
+match 6.1
+filter_path_start check
+match 7.1
+filter_path_end check
+match 8.1
+filter_path_regex check
+match 9.1
+
+Match function test
+Matching 4000
+Not matching 6000

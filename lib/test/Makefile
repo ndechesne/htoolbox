@@ -8,6 +8,7 @@ install:
 
 check:  strings.done \
 	files.done \
+	conditions.done \
 	filters.done \
 	parsers.done \
 	cvs_parser.done \

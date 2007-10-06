@@ -11,6 +11,7 @@ libhbackup_la_LDFLAGS= -version-info $(VERSION)
 libhbackup_la_SOURCES = \
 	clients.h \
 	cvs_parser.h \
+	conditions.h \
 	db.h \
 	files.h \
 	filters.h \
@@ -21,6 +22,7 @@ libhbackup_la_SOURCES = \
 	strings.h \
 	clients.cpp \
 	cvs_parser.cpp \
+	conditions.cpp \
 	db.cpp \
 	files.cpp \
 	filters.cpp \

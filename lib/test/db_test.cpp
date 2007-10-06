@@ -26,12 +26,8 @@ using namespace std;
 
 #include "strings.h"
 #include "files.h"
-#include "filters.h"
-#include "parsers.h"
-#include "cvs_parser.h"
 #include "list.h"
 #include "db.h"
-#include "paths.h"
 #include "hbackup.h"
 
 using namespace hbackup;
