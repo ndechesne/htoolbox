@@ -16,7 +16,27 @@ filter_path_end check
 match 8.1
 filter_path_regex check
 match 9.1
-
-Match function test
+filter_size_ge check
+Not matching 4000
+Not matching 4999
+Matching 5000
+Matching 5001
+Matching 6000
+filter_size_gt check
+Not matching 4000
+Not matching 4999
+Not matching 5000
+Matching 5001
+Matching 6000
+filter_size_le check
 Matching 4000
+Matching 4999
+Matching 5000
+Not matching 5001
+Not matching 6000
+filter_size_lt check
+Matching 4000
+Matching 4999
+Not matching 5000
+Not matching 5001
 Not matching 6000

@@ -168,7 +168,7 @@ int main(void) {
   delete node;
 
   /* File type is always 'f' */
-  filter->push_back(Filter(Condition(filter_size_below, (off_t) 500)));
+  filter->push_back(Filter(Condition(filter_size_le, (off_t) 500)));
   cout << ">List " << filter->size() << " rule(s):\n";
   filter_show(*filter);
 
@@ -195,7 +195,7 @@ int main(void) {
   delete node;
 
   /* File type is always 'f' */
-  filter->push_back(Filter(Condition(filter_size_above, (off_t) 5000)));
+  filter->push_back(Filter(Condition(filter_size_ge, (off_t) 5000)));
   cout << ">List " << filter->size() << " rule(s):\n";
   filter_show(*filter);
 
@@ -233,11 +233,11 @@ int main(void) {
   filter->push_back(Filter());
   Filter* rule = &filter->back();
 
-  rule->push_back(Condition(filter_size_below, (off_t) 500));
+  rule->push_back(Condition(filter_size_le, (off_t) 500));
   cout << ">List " << filter->size() << " rule(s):\n";
   filter_show(*filter);
 
-  rule->push_back(Condition(filter_size_above, (off_t) 400));
+  rule->push_back(Condition(filter_size_ge, (off_t) 400));
   cout << ">List " << filter->size() << " rule(s):\n";
   filter_show(*filter);
 

@@ -70,10 +70,14 @@ bool Condition::match(const char* npath, const Node& node) const {
       return ! regexec(&regex, path.c_str(), 0, NULL, 0);
     }
     cerr << "filters: regex: incorrect expression" << endl; }
-  case filter_size_above:
+  case filter_size_ge:
     return node.size() >= _size;
-  case filter_size_below:
+  case filter_size_gt:
+    return node.size() > _size;
+  case filter_size_le:
     return node.size() <= _size;
+  case filter_size_lt:
+    return node.size() < _size;
   default:
     cerr << "filters: match: unknown condition type" << endl;
   }
@@ -92,8 +96,10 @@ void Condition::show() const {
     case filter_path_regex:
       cout << "--> " << _string << " " << _type << endl;
       break;
-    case filter_size_above:
-    case filter_size_below:
+    case filter_size_ge:
+    case filter_size_gt:
+    case filter_size_le:
+    case filter_size_lt:
       cout << "--> " << _size << " " << _type << endl;
       break;
     default:

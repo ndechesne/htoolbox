@@ -212,11 +212,11 @@ int Path::addFilter(
   } else
   if (type == "size_below") {
     off_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(filter_size_below, size);
+    condition = new Condition(filter_size_le, size);
   } else
   if (type == "size_above") {
     off_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(filter_size_above, size);
+    condition = new Condition(filter_size_ge, size);
   } else {
     // Wrong type
     return 1;
