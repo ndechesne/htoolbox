@@ -4,9 +4,11 @@
 Client: localhost
 -> file://localhost etc/doesnotexist
 Database initialized
+ -> Database open
 Backup client 'localhost' using protocol 'file'
 List file not found etc/doesnotexist
  -> Journal is empty, not merging
+ -> Database closed
 >List 0 client(s):
  --> Client: myClient
 >List 1 client(s):
@@ -94,6 +96,7 @@ Options: username=
 Client: Client4
 -> smb://Client c:/home/BlaH/Backup.list
 Options: username= password=
+ -> Database open
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading backup list file
@@ -134,10 +137,12 @@ Backup client 'Client4' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
  -> umount test_db/mount
 Unmounted test_db/mount
+ -> Database closed
  --> Client: testhost
 >List 1 client(s):
 Client: testhost
 -> file://localhost etc/localhost.list
+ -> Database open
 Backup client 'testhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2
@@ -180,10 +185,12 @@ A test2/testfile
 A test2/testfile2
 A test2/testfile~
 A test2/testlink
+ -> Database closed
  --> Client: testhost
 >List 1 client(s):
 Client: testhost
 -> file://testhost etc/localhost.list
+ -> Database open
 Backup client 'testhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2
@@ -208,10 +215,12 @@ Backup path 'test2'
  -> Entering testdir
  -> Leaving testdir
  -> Journal is empty, not merging
+ -> Database closed
  --> Client: testhost
 >List 1 client(s):
 Client: testhost
 -> file://testhost etc/localhost.list
+ -> Database open
 Backup client 'testhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2
@@ -219,19 +228,23 @@ Backup client 'testhost' using protocol 'file'
  --> Path: test1/subdir
 Path inside another. This is not supported yet
  -> Journal is empty, not merging
+ -> Database closed
  --> Client: testhost
 >List 1 client(s):
 Client: testhost
 -> file://testhost etc/localhost.list2
+ -> Database open
 Backup client 'testhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2/subdir
  --> Path: test2
 Path inside another: this is not supported
  -> Journal is empty, not merging
+ -> Database closed
 
 Test: missing clients
  --> Client: myhost2
+ -> Database open
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file
@@ -240,7 +253,9 @@ Backup path 'C:/Test'
 A C:/Test/File.TXT
  -> umount test_db/mount
 Unmounted test_db/mount
+ -> Database closed
  --> Client: myhost3
+ -> Database open
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading backup list file
@@ -252,7 +267,9 @@ Unmounted test_db/mount
 A /home/User/test/File2.txt
  -> umount test_db/mount
 Unmounted test_db/mount
+ -> Database closed
  --> Client: myhost
+ -> Database open
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
@@ -282,8 +299,11 @@ A test1/cvs/filemod.o
 A test1/cvs/filenew.c
 A test1/cvs/fileoth
 A test1/cvs/fileutd.h
+ -> Database closed
 
 Prefixes in DB
+ -> Database open
+ -> Database closed
  file://myhost
  file://testhost
  nfs://myClient
@@ -301,6 +321,7 @@ Client: myhost3
 -> nfs://myhost3 /home/User/testhost3.list
 Client: myhost2
 -> smb://myhost2 C:/Backup/testhost2.list
+ -> Database open
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
@@ -333,6 +354,7 @@ Backup path 'C:/Test'
  -> umount test_db/mount
 Unmounted test_db/mount
  -> Journal is empty, not merging
+ -> Database closed
 Create list of clients
  --> Client: myhost3
  --> Client: myhost2
@@ -341,6 +363,7 @@ Client: myhost3
 -> nfs://myhost3 /home/User/testhost3.list
 Client: myhost2
 -> smb://myhost2 C:/Backup/testhost2.list
+ -> Database open
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading backup list file
@@ -359,6 +382,7 @@ Backup path 'C:/Test'
  -> umount test_db/mount
 Unmounted test_db/mount
  -> Journal is empty, not merging
+ -> Database closed
 Create list of clients
  --> Client: myhost
  --> Client: myhost3
@@ -367,6 +391,7 @@ Client: myhost
 -> file://myhost etc/testhost.list
 Client: myhost3
 -> nfs://myhost3 /home/User/testhost3.list
+ -> Database open
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
@@ -392,6 +417,7 @@ Unmounted test_db/mount
  -> umount test_db/mount
 Unmounted test_db/mount
  -> Journal is empty, not merging
+ -> Database closed
 Create list of clients
  --> Client: myhost
  --> Client: myhost2
@@ -400,6 +426,7 @@ Client: myhost
 -> file://myhost etc/testhost.list
 Client: myhost2
 -> smb://myhost2 C:/Backup/testhost2.list
+ -> Database open
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
@@ -422,3 +449,4 @@ Backup path 'C:/Test'
  -> umount test_db/mount
 Unmounted test_db/mount
  -> Journal is empty, not merging
+ -> Database closed

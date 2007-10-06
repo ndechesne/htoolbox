@@ -485,6 +485,9 @@ int Database::open(bool read_only) {
 
   // Setup some data
   _d->prefix = "";
+  if (verbosity() > 1) {
+    cout << " -> Database open" << endl;
+  }
   return 0;
 }
 
@@ -562,6 +565,9 @@ int Database::close() {
 
   // Release lock
   unlock();
+  if (verbosity() > 1) {
+    cout << " -> Database closed" << endl;
+  }
   return failed ? -1 : 0;
 }
 

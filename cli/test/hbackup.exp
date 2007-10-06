@@ -6,6 +6,7 @@ HBackup
  --> Client: client
 Backing up
 Database initialized
+ -> Database open
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2
@@ -68,6 +69,7 @@ A C:/Test/File.TXT
  -> umount test_db/mount
 Unmounted test_db/mount
 Protocol not supported: ssh
+ -> Database closed
 HBackup
  -> Reading configuration file
  --> Client: myClient
@@ -75,6 +77,7 @@ HBackup
  --> Client: myhost
  --> Client: client
 Backing up
+ -> Database open
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2
@@ -106,6 +109,7 @@ Backup path 'C:/Test'
  -> umount test_db/mount
 Unmounted test_db/mount
  -> Journal is empty, not merging
+ -> Database closed
 HBackup
  -> Reading configuration file
  --> Client: myClient
@@ -113,8 +117,10 @@ HBackup
  --> Client: myhost
  --> Client: client
 Scanning database
+ -> Database open
 Scanning database contents: 4 files
  -> Journal is empty, not merging
+ -> Database closed
 HBackup
  -> Reading configuration file
  --> Client: myClient
@@ -122,8 +128,10 @@ HBackup
  --> Client: myhost
  --> Client: client
 Checking database
+ -> Database open
 Scanning database contents thoroughly: 4 files
  -> Journal is empty, not merging
+ -> Database closed
 HBackup
  -> Reading configuration file
  --> Client: myClient
@@ -131,6 +139,8 @@ HBackup
  --> Client: myhost
  --> Client: client
 Showing list
+ -> Database open
+ -> Database closed
  file://myhost
  nfs://myClient
  smb://client
@@ -141,7 +151,9 @@ HBackup
  --> Client: myhost
  --> Client: client
 Restoring
+ -> Database open
 U test_r/test2/testfile
+ -> Database closed
 HBackup
  -> Reading configuration file
  --> Client: myClient
@@ -149,6 +161,7 @@ HBackup
  --> Client: myhost
  --> Client: client
 Restoring
+ -> Database open
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/dirbad
@@ -163,6 +176,7 @@ U test_r/test1/test space
 U test_r/test1/testdir
 U test_r/test1/testlink
 U test_r/test1/testpipe
+ -> Database closed
 HBackup
  -> Reading configuration file
  --> Client: myClient
@@ -170,6 +184,7 @@ HBackup
  --> Client: myhost
  --> Client: client
 Restoring
+ -> Database open
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/dirbad
@@ -178,6 +193,7 @@ U test_r/test1/cvs/dirutd/CVS
 U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
+ -> Database closed
 HBackup
  -> Reading configuration file
  --> Client: myClient
@@ -185,6 +201,7 @@ HBackup
  --> Client: myhost
  --> Client: client
 Restoring
+ -> Database open
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/dirbad
@@ -204,3 +221,4 @@ U test_r/test2/testfile
 U test_r/test2/testfile2
 U test_r/test2/testfile~
 U test_r/test2/testlink
+ -> Database closed
