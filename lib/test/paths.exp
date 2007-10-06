@@ -1,58 +1,56 @@
- --> Database initialized
- --> Database open
+Database initialized
 first with subdir/testfile NOT readable
- --> A /home/User/àccénts_test
- --> A /home/User/cvs
+A /home/User/àccénts_test
+A /home/User/cvs
 Entering cvs
- --> A /home/User/cvs/CVS
+A /home/User/cvs/CVS
 Entering cvs/CVS
- --> A /home/User/cvs/CVS/Entries
+A /home/User/cvs/CVS/Entries
 Leaving cvs/CVS
- --> A /home/User/cvs/dirbad
+A /home/User/cvs/dirbad
 Entering cvs/dirbad
- --> A /home/User/cvs/dirbad/fileoth
- --> A /home/User/cvs/dirbad/fileutd
+A /home/User/cvs/dirbad/fileoth
+A /home/User/cvs/dirbad/fileutd
 Leaving cvs/dirbad
- --> A /home/User/cvs/diroth
+A /home/User/cvs/diroth
 Entering cvs/diroth
 Leaving cvs/diroth
- --> A /home/User/cvs/dirutd
+A /home/User/cvs/dirutd
 Entering cvs/dirutd
- --> A /home/User/cvs/dirutd/CVS
+A /home/User/cvs/dirutd/CVS
 Entering cvs/dirutd/CVS
- --> A /home/User/cvs/dirutd/CVS/Entries
+A /home/User/cvs/dirutd/CVS/Entries
 Leaving cvs/dirutd/CVS
- --> A /home/User/cvs/dirutd/fileoth
- --> A /home/User/cvs/dirutd/fileutd
+A /home/User/cvs/dirutd/fileoth
+A /home/User/cvs/dirutd/fileutd
 Leaving cvs/dirutd
- --> A /home/User/cvs/filemod.o
- --> A /home/User/cvs/filenew.c
- --> A /home/User/cvs/fileoth
- --> A /home/User/cvs/fileutd.h
+A /home/User/cvs/filemod.o
+A /home/User/cvs/filenew.c
+A /home/User/cvs/fileoth
+A /home/User/cvs/fileutd.h
 Leaving cvs
- --> A /home/User/dir space
+A /home/User/dir space
 Entering dir space
- --> A /home/User/dir space/file space
+A /home/User/dir space/file space
 Leaving dir space
- --> A /home/User/subdir
+A /home/User/subdir
 Entering subdir
 Permission denied: test1/subdir/testfile
- --> A /home/User/subdir/testfile
- --> A /home/User/subdir/testfile1
- --> A /home/User/subdir/testfile2
+A /home/User/subdir/testfile
+A /home/User/subdir/testfile1
+A /home/User/subdir/testfile2
 Leaving subdir
- --> A /home/User/subdir-file
- --> A /home/User/subdirfile
- --> A /home/User/test space
- --> A /home/User/testdir
+A /home/User/subdir-file
+A /home/User/subdirfile
+A /home/User/test space
+A /home/User/testdir
 Entering testdir
 Leaving testdir
- --> A /home/User/testfile
- --> A /home/User/testfile~
- --> A /home/User/testlink
- --> A /home/User/testpipe
+A /home/User/testfile
+A /home/User/testfile~
+A /home/User/testlink
+A /home/User/testpipe
 Parsed 31 file(s)
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -119,7 +117,6 @@ Journal:
 [ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] file://localhost /home/User/testlink                l     8 777 testfile
 [ 1] file://localhost /home/User/testpipe                p     0 644
- --> Database open
 as previous
 Entering cvs
 Entering cvs/CVS
@@ -136,14 +133,13 @@ Leaving cvs
 Entering dir space
 Leaving dir space
 Entering subdir
- --> ! /home/User/subdir/testfile
+! /home/User/subdir/testfile
 Permission denied: test1/subdir/testfile
 Leaving subdir
 Entering testdir
 Leaving testdir
 Parsed 31 file(s)
  ---> Journal is empty, not merging
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -179,7 +175,6 @@ List:
 [ 1] file://localhost /home/User/testpipe                p     0 644
 
 Journal:
- --> Database open
 as previous with subdir/testfile readable
 Entering cvs
 Entering cvs/CVS
@@ -196,12 +191,11 @@ Leaving cvs
 Entering dir space
 Leaving dir space
 Entering subdir
- --> ~ /home/User/subdir/testfile
+~ /home/User/subdir/testfile
 Leaving subdir
 Entering testdir
 Leaving testdir
 Parsed 31 file(s)
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -238,7 +232,6 @@ List:
 
 Journal:
 [ 0] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
- --> Database open
 as previous with subdir/testfile in ignore list
 Entering cvs
 Entering cvs/CVS
@@ -255,12 +248,11 @@ Leaving cvs
 Entering dir space
 Leaving dir space
 Entering subdir
- --> D /home/User/subdir/testfile
+D /home/User/subdir/testfile
 Leaving subdir
 Entering testdir
 Leaving testdir
 Parsed 30 file(s)
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -298,7 +290,6 @@ List:
 
 Journal:
 [ 4] file://localhost /home/User/subdir/testfile         [rm]
- --> Database open
 as previous with subdir in ignore list
 Entering cvs
 Entering cvs/CVS
@@ -314,13 +305,12 @@ Leaving cvs/dirutd
 Leaving cvs
 Entering dir space
 Leaving dir space
- --> D /home/User/subdir
- --> D /home/User/subdir/testfile1
- --> D /home/User/subdir/testfile2
+D /home/User/subdir
+D /home/User/subdir/testfile1
+D /home/User/subdir/testfile2
 Entering testdir
 Leaving testdir
 Parsed 27 file(s)
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -363,7 +353,6 @@ Journal:
 [ 5] file://localhost /home/User/subdir                  [rm]
 [ 5] file://localhost /home/User/subdir/testfile1        [rm]
 [ 5] file://localhost /home/User/subdir/testfile2        [rm]
- --> Database open
 as previous with testlink modified
 Entering cvs
 Entering cvs/CVS
@@ -381,9 +370,8 @@ Entering dir space
 Leaving dir space
 Entering testdir
 Leaving testdir
- --> M /home/User/testlink
+M /home/User/testlink
 Parsed 27 file(s)
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -425,7 +413,6 @@ List:
 
 Journal:
 [ 6] file://localhost /home/User/testlink                l     8 777 testnull
- --> Database open
 as previous with testlink in ignore list
 Entering cvs
 Entering cvs/CVS
@@ -443,9 +430,8 @@ Entering dir space
 Leaving dir space
 Entering testdir
 Leaving testdir
- --> D /home/User/testlink
+D /home/User/testlink
 Parsed 26 file(s)
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -488,7 +474,6 @@ List:
 
 Journal:
 [ 7] file://localhost /home/User/testlink                [rm]
- --> Database open
 as previous with CVS parser
 Entering cvs
 Entering cvs/CVS
@@ -496,22 +481,21 @@ Leaving cvs/CVS
 Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
 Leaving cvs/dirbad
- --> D /home/User/cvs/dirbad/fileoth
- --> D /home/User/cvs/dirbad/fileutd
- --> D /home/User/cvs/diroth
+D /home/User/cvs/dirbad/fileoth
+D /home/User/cvs/dirbad/fileutd
+D /home/User/cvs/diroth
 Entering cvs/dirutd
 Entering cvs/dirutd/CVS
 Leaving cvs/dirutd/CVS
- --> D /home/User/cvs/dirutd/fileoth
+D /home/User/cvs/dirutd/fileoth
 Leaving cvs/dirutd
- --> D /home/User/cvs/fileoth
+D /home/User/cvs/fileoth
 Leaving cvs
 Entering dir space
 Leaving dir space
 Entering testdir
 Leaving testdir
 Parsed 21 file(s)
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -563,7 +547,6 @@ Journal:
 [ 8] file://localhost /home/User/cvs/diroth              [rm]
 [ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
 [ 8] file://localhost /home/User/cvs/fileoth             [rm]
- --> Database open
 as previous
 Entering cvs
 Entering cvs/CVS
@@ -582,7 +565,6 @@ Entering testdir
 Leaving testdir
 Parsed 21 file(s)
  ---> Journal is empty, not merging
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -629,7 +611,6 @@ List:
 [ 1] file://localhost /home/User/testpipe                p     0 644
 
 Journal:
- --> Database open
 as previous with cvs/dirutd in ignore list
 Entering cvs
 Entering cvs/CVS
@@ -637,17 +618,16 @@ Leaving cvs/CVS
 Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
 Leaving cvs/dirbad
- --> D /home/User/cvs/dirutd
- --> D /home/User/cvs/dirutd/CVS
- --> D /home/User/cvs/dirutd/CVS/Entries
- --> D /home/User/cvs/dirutd/fileutd
+D /home/User/cvs/dirutd
+D /home/User/cvs/dirutd/CVS
+D /home/User/cvs/dirutd/CVS/Entries
+D /home/User/cvs/dirutd/fileutd
 Leaving cvs
 Entering dir space
 Leaving dir space
 Entering testdir
 Leaving testdir
 Parsed 17 file(s)
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -702,7 +682,6 @@ Journal:
 [10] file://localhost /home/User/cvs/dirutd/CVS          [rm]
 [10] file://localhost /home/User/cvs/dirutd/CVS/Entries  [rm]
 [10] file://localhost /home/User/cvs/dirutd/fileutd      [rm]
- --> Database open
 as previous with testpipe gone
 Entering cvs
 Entering cvs/CVS
@@ -716,8 +695,7 @@ Leaving dir space
 Entering testdir
 Leaving testdir
 Parsed 16 file(s)
- --> D /home/User/testpipe
- --> Database closed
+D /home/User/testpipe
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -770,7 +748,6 @@ List:
 
 Journal:
 [11] file://localhost /home/User/testpipe                [rm]
- --> Database open
 as previous with testfile mode changed
 Entering cvs
 Entering cvs/CVS
@@ -783,9 +760,8 @@ Entering dir space
 Leaving dir space
 Entering testdir
 Leaving testdir
- --> ~ /home/User/testfile
+~ /home/User/testfile
 Parsed 16 file(s)
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -839,7 +815,6 @@ List:
 
 Journal:
 [12] file://localhost /home/User/testfile                f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
- --> Database open
 as previous with cvs/filenew.c touched
 Entering cvs
 Entering cvs/CVS
@@ -847,14 +822,13 @@ Leaving cvs/CVS
 Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
 Leaving cvs/dirbad
- --> M /home/User/cvs/filenew.c
+M /home/User/cvs/filenew.c
 Leaving cvs
 Entering dir space
 Leaving dir space
 Entering testdir
 Leaving testdir
 Parsed 16 file(s)
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -909,7 +883,6 @@ List:
 
 Journal:
 [13] file://localhost /home/User/cvs/filenew.c           f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
- --> Database open
 some troublesome past cases
 Entering cvs
 Entering cvs/CVS
@@ -920,46 +893,45 @@ Leaving cvs/dirbad
 Leaving cvs
 Entering dir space
 Leaving dir space
- --> A /home/User/docbook-xml
+A /home/User/docbook-xml
 Entering docbook-xml
- --> A /home/User/docbook-xml/3.1.7
+A /home/User/docbook-xml/3.1.7
 Entering docbook-xml/3.1.7
- --> A /home/User/docbook-xml/3.1.7/dbgenent.ent
+A /home/User/docbook-xml/3.1.7/dbgenent.ent
 Leaving docbook-xml/3.1.7
- --> A /home/User/docbook-xml/4.0
+A /home/User/docbook-xml/4.0
 Entering docbook-xml/4.0
- --> A /home/User/docbook-xml/4.0/dbgenent.ent
+A /home/User/docbook-xml/4.0/dbgenent.ent
 Leaving docbook-xml/4.0
- --> A /home/User/docbook-xml/4.1.2
+A /home/User/docbook-xml/4.1.2
 Entering docbook-xml/4.1.2
- --> A /home/User/docbook-xml/4.1.2/dbgenent.mod
+A /home/User/docbook-xml/4.1.2/dbgenent.mod
 Leaving docbook-xml/4.1.2
- --> A /home/User/docbook-xml/4.2
+A /home/User/docbook-xml/4.2
 Entering docbook-xml/4.2
- --> A /home/User/docbook-xml/4.2/dbgenent.mod
+A /home/User/docbook-xml/4.2/dbgenent.mod
 Leaving docbook-xml/4.2
- --> A /home/User/docbook-xml/4.3
+A /home/User/docbook-xml/4.3
 Entering docbook-xml/4.3
- --> A /home/User/docbook-xml/4.3/dbgenent.mod
+A /home/User/docbook-xml/4.3/dbgenent.mod
 Leaving docbook-xml/4.3
- --> A /home/User/docbook-xml/4.4
+A /home/User/docbook-xml/4.4
 Entering docbook-xml/4.4
- --> A /home/User/docbook-xml/4.4/dbgenent.mod
+A /home/User/docbook-xml/4.4/dbgenent.mod
 Leaving docbook-xml/4.4
 Leaving docbook-xml
- --> A /home/User/docbook-xml.cat
- --> A /home/User/docbook-xml.cat.old
+A /home/User/docbook-xml.cat
+A /home/User/docbook-xml.cat.old
 Entering testdir
- --> A /home/User/testdir/biblio
+A /home/User/testdir/biblio
 Entering testdir/biblio
- --> A /home/User/testdir/biblio/biblio.dbf
- --> A /home/User/testdir/biblio/biblio.dbt
+A /home/User/testdir/biblio/biblio.dbf
+A /home/User/testdir/biblio/biblio.dbt
 Leaving testdir/biblio
- --> A /home/User/testdir/biblio.odb
- --> A /home/User/testdir/evolocal.odb
+A /home/User/testdir/biblio.odb
+A /home/User/testdir/evolocal.odb
 Leaving testdir
 Parsed 36 file(s)
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1053,7 +1025,6 @@ Journal:
 [14] file://localhost /home/User/testdir/biblio/biblio.dbt f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [14] file://localhost /home/User/testdir/biblio.odb      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [14] file://localhost /home/User/testdir/evolocal.odb    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
- --> Database open
 Entering cvs
 Entering cvs/CVS
 Leaving cvs/CVS
@@ -1083,7 +1054,6 @@ Leaving testdir/biblio
 Leaving testdir
 Parsed 36 file(s)
  ---> Journal is empty, not merging
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1159,17 +1129,16 @@ List:
 Journal:
 
 List recovery after crash
- --> Database open
- --> A /home/User/testdir
+A /home/User/testdir
 Entering testdir
 Leaving testdir
- --> A /home/User/testfile
- --> A /home/User/testfile2
- --> A /home/User/testfile~
+A /home/User/testfile
+A /home/User/testfile2
+A /home/User/testfile~
 Parsed 4 file(s)
- --> A /home/User/crash
+A /home/User/crash
 Entering crash
- --> A /home/User/crash/file
+A /home/User/crash/file
 Leaving crash
 Entering cvs
 Entering cvs/CVS
@@ -1194,15 +1163,14 @@ Leaving docbook-xml/4.3
 Entering docbook-xml/4.4
 Leaving docbook-xml/4.4
 Leaving docbook-xml
- --> M /home/User/test space
- --> D /home/User/testdir
- --> D /home/User/testdir/biblio
- --> D /home/User/testdir/biblio/biblio.dbf
- --> D /home/User/testdir/biblio/biblio.dbt
- --> D /home/User/testdir/biblio.odb
- --> D /home/User/testdir/evolocal.odb
+M /home/User/test space
+D /home/User/testdir
+D /home/User/testdir/biblio
+D /home/User/testdir/biblio/biblio.dbf
+D /home/User/testdir/biblio/biblio.dbt
+D /home/User/testdir/biblio.odb
+D /home/User/testdir/evolocal.odb
 Parsed 32 file(s)
- --> Database closed
 
 List:
 [ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1292,7 +1260,6 @@ Journal:
 unexpected end of file
 Previous crash detected, attempting recovery
 Unexpected end of journal, line 29
- --> Database open
 
 List:
 [16] file://host      /home/User/testdir                 d     0 755
@@ -1394,11 +1361,7 @@ Journal:
 [16] file://localhost /home/User/testdir/evolocal.odb    [rm]
 unexpected end of file
  ---> Journal is empty, not merging
- --> Database closed
- --> Database open
  ---> Journal is empty, not merging
- --> Database closed
- --> Database open
 Entering crash
 Leaving crash
 Entering cvs
@@ -1426,7 +1389,6 @@ Leaving docbook-xml/4.4
 Leaving docbook-xml
 Parsed 32 file(s)
  ---> Journal is empty, not merging
- --> Database closed
 
 List:
 [16] file://host      /home/User/testdir                 d     0 755
@@ -1513,12 +1475,10 @@ List:
 [ 1] file://localhost /home/User/testpipe                p     0 644
 
 Journal:
- --> Database open
 Entering testdir
 Leaving testdir
 Parsed 4 file(s)
  ---> Journal is empty, not merging
- --> Database closed
 
 List:
 [16] file://host      /home/User/testdir                 d     0 755

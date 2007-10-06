@@ -1,5 +1,4 @@
- --> Database initialized
- --> Database open
+Database initialized
 
 Test: getdir
 Check test_db/data dir: 0
@@ -19,7 +18,7 @@ Test: check
 db.check: Structure needs cleaning
 db.check: Structure needs cleaning
 db.check: Invalid argument
- --> Scanning database contents thoroughly: 0 files
+Scanning database contents thoroughly: 0 files
 db: check: data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 db.check: No such file or directory
 db: check: data corrupted for 59ca0efa9f5633cb0371bbc0355478d8-0
@@ -63,39 +62,26 @@ test_db/data/zz/00/00/02:
 
 test_db/data/zz/00/00/03:
  ---> Journal is empty, not merging
- --> Database closed
 
 Test: lock
- --> Database open
  ---> Journal is empty, not merging
- --> Database closed
 db: lock reset
- --> Database open
  ---> Journal is empty, not merging
- --> Database closed
 db: lock taken by process with pid 1
 db: lock taken by an unidentified process!
 db: lock taken by an unidentified process!
 
 Test: read-only mode
- --> Database open
- --> Database closed
 
 Test: fill in DB
- --> Database open
- --> Database closed
 [ 1] prot://client    client_path/test space             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 2] prot://client    client_path/testfile               f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1
 
 Test: do nothing
- --> Database open
  ---> Journal is empty, not merging
- --> Database closed
 [ 1] prot://client    client_path/test space             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 2] prot://client    client_path/testfile               f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1
 
 Test: read prefixes
- --> Database open
- --> Database closed
 List of prefixes:
  -> prot://client

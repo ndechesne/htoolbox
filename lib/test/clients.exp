@@ -3,11 +3,9 @@
 >List 1 client(s):
 Client: localhost
 -> file://localhost etc/doesnotexist
- --> Database initialized
- --> Database open
+Database initialized
 Backup client 'localhost' using protocol 'file'
 List file not found etc/doesnotexist
- --> Database closed
 >List 0 client(s):
  --> Client: myClient
 >List 1 client(s):
@@ -95,19 +93,18 @@ Options: username=
 Client: Client4
 -> smb://Client c:/home/BlaH/Backup.list
 Options: username= password=
- --> Database open
 Backup client 'myClient' using protocol 'nfs'
  -> Reading backup list file
  --> Path: /home/User/test
 Backup path '/home/User/test'
 Unmounted test_db/mount
- --> A /home/User/test/File2.txt
+A /home/User/test/File2.txt
 Unmounted test_db/mount
 Backup client 'myClient2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
- --> A C:/Test/File.TXT
+A C:/Test/File.TXT
 Unmounted test_db/mount
 Protocol not supported: ssh
 Backup client 'Client' using protocol 'smb'
@@ -122,44 +119,40 @@ Unmounted test_db/mount
 Backup client 'Client4' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
 Unmounted test_db/mount
- --> Database closed
  --> Client: testhost
 >List 1 client(s):
 Client: testhost
 -> file://localhost etc/localhost.list
- --> Database open
 Backup client 'testhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2
  --> Path: test1
 Backup path 'test1'
- --> A test1/cvs
- --> A test1/cvs/CVS
- --> A test1/cvs/dirbad
+A test1/cvs
+A test1/cvs/CVS
+A test1/cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- --> A test1/cvs/dirutd
- --> A test1/cvs/dirutd/CVS
- --> A test1/cvs/dirutd/fileutd
- --> A test1/cvs/filenew.c
- --> A test1/cvs/fileutd.h
- --> A test1/dir space
- --> A test1/dir space/file space
- --> A test1/test space
- --> A test1/testdir
- --> A test1/testlink
- --> A test1/testpipe
+A test1/cvs/dirutd
+A test1/cvs/dirutd/CVS
+A test1/cvs/dirutd/fileutd
+A test1/cvs/filenew.c
+A test1/cvs/fileutd.h
+A test1/dir space
+A test1/dir space/file space
+A test1/test space
+A test1/testdir
+A test1/testlink
+A test1/testpipe
 Backup path 'test2'
- --> A test2/testdir
- --> A test2/testfile
- --> A test2/testfile2
- --> A test2/testfile~
- --> A test2/testlink
- --> Database closed
+A test2/testdir
+A test2/testfile
+A test2/testfile2
+A test2/testfile~
+A test2/testlink
  --> Client: testhost
 >List 1 client(s):
 Client: testhost
 -> file://testhost etc/localhost.list
- --> Database open
 Backup client 'testhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2
@@ -167,77 +160,64 @@ Backup client 'testhost' using protocol 'file'
 Backup path 'test1'
 Directory should be under CVS control: test1/cvs/dirbad
 Backup path 'test2'
- --> Database closed
  --> Client: testhost
 >List 1 client(s):
 Client: testhost
 -> file://testhost etc/localhost.list
- --> Database open
 Backup client 'testhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2
  --> Path: test1
  --> Path: test1/subdir
 Path inside another. This is not supported yet
- --> Database closed
  --> Client: testhost
 >List 1 client(s):
 Client: testhost
 -> file://testhost etc/localhost.list2
- --> Database open
 Backup client 'testhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test2/subdir
  --> Path: test2
 Path inside another: this is not supported
- --> Database closed
 
 Test: missing clients
  --> Client: myhost2
- --> Database open
 Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
- --> A C:/Test/File.TXT
+A C:/Test/File.TXT
 Unmounted test_db/mount
- --> Database closed
  --> Client: myhost3
- --> Database open
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading backup list file
  --> Path: /home/User/test
 Backup path '/home/User/test'
 Unmounted test_db/mount
- --> A /home/User/test/File2.txt
+A /home/User/test/File2.txt
 Unmounted test_db/mount
- --> Database closed
  --> Client: myhost
- --> Database open
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
 Backup path 'test1/cvs'
- --> A test1/cvs/CVS
- --> A test1/cvs/CVS/Entries
- --> A test1/cvs/dirbad
- --> A test1/cvs/dirbad/fileoth
- --> A test1/cvs/dirbad/fileutd
- --> A test1/cvs/diroth
- --> A test1/cvs/dirutd
- --> A test1/cvs/dirutd/CVS
- --> A test1/cvs/dirutd/CVS/Entries
- --> A test1/cvs/dirutd/fileoth
- --> A test1/cvs/dirutd/fileutd
- --> A test1/cvs/filemod.o
- --> A test1/cvs/filenew.c
- --> A test1/cvs/fileoth
- --> A test1/cvs/fileutd.h
- --> Database closed
+A test1/cvs/CVS
+A test1/cvs/CVS/Entries
+A test1/cvs/dirbad
+A test1/cvs/dirbad/fileoth
+A test1/cvs/dirbad/fileutd
+A test1/cvs/diroth
+A test1/cvs/dirutd
+A test1/cvs/dirutd/CVS
+A test1/cvs/dirutd/CVS/Entries
+A test1/cvs/dirutd/fileoth
+A test1/cvs/dirutd/fileutd
+A test1/cvs/filemod.o
+A test1/cvs/filenew.c
+A test1/cvs/fileoth
+A test1/cvs/fileutd.h
 
 Prefixes in DB
- --> Database open
- --> Database closed
  file://myhost
  file://testhost
  nfs://myClient
@@ -255,7 +235,6 @@ Client: myhost3
 -> nfs://myhost3 /home/User/testhost3.list
 Client: myhost2
 -> smb://myhost2 C:/Backup/testhost2.list
- --> Database open
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
@@ -271,7 +250,6 @@ Backup client 'myhost2' using protocol 'smb'
  --> Path: C:/Test
 Backup path 'C:/Test'
 Unmounted test_db/mount
- --> Database closed
 Create list of clients
  --> Client: myhost3
  --> Client: myhost2
@@ -280,7 +258,6 @@ Client: myhost3
 -> nfs://myhost3 /home/User/testhost3.list
 Client: myhost2
 -> smb://myhost2 C:/Backup/testhost2.list
- --> Database open
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading backup list file
  --> Path: /home/User/test
@@ -292,7 +269,6 @@ Backup client 'myhost2' using protocol 'smb'
  --> Path: C:/Test
 Backup path 'C:/Test'
 Unmounted test_db/mount
- --> Database closed
 Create list of clients
  --> Client: myhost
  --> Client: myhost3
@@ -301,7 +277,6 @@ Client: myhost
 -> file://myhost etc/testhost.list
 Client: myhost3
 -> nfs://myhost3 /home/User/testhost3.list
- --> Database open
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
@@ -312,7 +287,6 @@ Backup client 'myhost3' using protocol 'nfs'
 Backup path '/home/User/test'
 Unmounted test_db/mount
 Unmounted test_db/mount
- --> Database closed
 Create list of clients
  --> Client: myhost
  --> Client: myhost2
@@ -321,7 +295,6 @@ Client: myhost
 -> file://myhost etc/testhost.list
 Client: myhost2
 -> smb://myhost2 C:/Backup/testhost2.list
- --> Database open
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
@@ -331,4 +304,3 @@ Backup client 'myhost2' using protocol 'smb'
  --> Path: C:/Test
 Backup path 'C:/Test'
 Unmounted test_db/mount
- --> Database closed

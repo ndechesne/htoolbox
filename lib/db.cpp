@@ -396,8 +396,8 @@ int Database::open(bool read_only) {
       cerr << "db: cannot create list file" << endl;
       failed = true;
     } else
-    if (verbosity() > 2) {
-      cout << " --> Database initialized" << endl;
+    if (verbosity() > 0) {
+      cout << "Database initialized" << endl;
     }
   } else {
     if (! list.isValid()) {
@@ -485,10 +485,6 @@ int Database::open(bool read_only) {
 
   // Setup some data
   _d->prefix = "";
-
-  if (verbosity() > 2) {
-    cout << " --> Database open" << endl;
-  }
   return 0;
 }
 
@@ -566,9 +562,6 @@ int Database::close() {
 
   // Release lock
   unlock();
-  if (verbosity() > 2) {
-    cout << " --> Database closed" << endl;
-  }
   return failed ? -1 : 0;
 }
 
@@ -804,8 +797,8 @@ int Database::scan(const string& checksum, bool thorough) {
     }
     sums.sort();
     sums.unique();
-    if (verbosity() > 2) {
-      cout << " --> Scanning database contents";
+    if (verbosity() > 0) {
+      cout << "Scanning database contents";
       if (thorough) {
         cout << " thoroughly";
       }
@@ -902,8 +895,8 @@ int Database::sendEntry(
         // Get rid of cached path line
         _d->list->getLine();
         }
-      if (verbosity() > 2) {
-        cout << " --> D " << db_path << endl;
+      if (verbosity() > 0) {
+        cout << "D " << db_path << endl;
       }
     }
   }
@@ -916,8 +909,8 @@ int Database::sendEntry(
     // Exceeded, keep line for later
     _d->list->keepLine();
     add(remote_path, local_path, node);
-    if (verbosity() > 2) {
-      cout << " --> A " << remote_path << node->name() << endl;
+    if (verbosity() > 0) {
+      cout << "A " << remote_path << node->name() << endl;
     }
   } else {
     // Get metadata
@@ -937,16 +930,16 @@ int Database::sendEntry(
         // If the file data is there, just add new metadata
         // If the checksum is missing, this shall retry too
         checksum = ((File*)db_node)->checksum();
-        if (verbosity() > 2) {
-          cout << " --> ~ ";
+        if (verbosity() > 0) {
+          cout << "~ ";
         }
       } else {
         // Do it all
-        if (verbosity() > 2) {
-          cout << " --> M ";
+        if (verbosity() > 0) {
+          cout << "M ";
         }
       }
-      if (verbosity() > 2) {
+      if (verbosity() > 0) {
         cout << remote_path << node->name() << endl;
       }
       add(remote_path, local_path, node, checksum);
@@ -956,8 +949,8 @@ int Database::sendEntry(
       // Compare linked data
       if ((node->type() == 'l')
       && (strcmp(((Link*)node)->link(), ((Link*)db_node)->link()) != 0)) {
-        if (verbosity() > 2) {
-          cout << " --> L " << remote_path << node->name() << endl;
+        if (verbosity() > 0) {
+          cout << "L " << remote_path << node->name() << endl;
         }
         add(remote_path, local_path, node);
       } else
@@ -965,8 +958,8 @@ int Database::sendEntry(
       if ((node->type() == 'f')
         && (((File*)db_node)->checksum()[0] == '\0')) {
         // Checksum missing: retry
-        if (verbosity() > 2) {
-          cout << " --> ! " << remote_path << node->name() << endl;
+        if (verbosity() > 0) {
+          cout << "! " << remote_path << node->name() << endl;
         }
         const char* checksum = ((File*)db_node)->checksum();
         add(remote_path, local_path, node, checksum);
