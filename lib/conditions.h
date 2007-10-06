@@ -43,21 +43,25 @@ typedef enum {
   filter_size_ge    = 31,     // Minimum size (only applies to regular files)
   filter_size_gt,             // Maximum size (only applies to regular files)
   filter_size_le,             // Maximum size (only applies to regular files)
-  filter_size_lt              // Maximum size (only applies to regular files)
+  filter_size_lt,             // Maximum size (only applies to regular files)
+  filter_mode_and = 41,       // Mode contains some of the given mode bits
+  filter_mode_eq,             // Mode contains all of the given mode bits
 } filter_type_t;
 
 class Condition {
   filter_type_t _type;
   char          _file_type;
-  off_t         _size;
+  long long     _value;
   string        _string;
 public:
   // File type-based condition
   Condition(filter_type_t type, char file_type) :
     _type(type), _file_type(file_type) {}
   // Size-based condition
-  Condition(filter_type_t type, off_t size) :
-    _type(type), _size(size) {}
+  Condition(filter_type_t type, mode_t value) :
+    _type(type), _value(value) {}
+  Condition(filter_type_t type, long long value) :
+    _type(type), _value(value) {}
   // Path-based condition
   Condition(filter_type_t type, const string& str) :
     _type(type), _string(str) {}

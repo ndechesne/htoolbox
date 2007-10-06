@@ -211,29 +211,29 @@ int Path::addFilter(
     condition = new Condition(filter_path_regex, value);
   } else
   if (type == "size<") {
-    off_t size = strtoul(value.c_str(), NULL, 10);
+    off64_t size = strtoul(value.c_str(), NULL, 10);
     condition = new Condition(filter_size_lt, size);
   } else
   if (type == "size<=") {
-    off_t size = strtoul(value.c_str(), NULL, 10);
+    off64_t size = strtoul(value.c_str(), NULL, 10);
     condition = new Condition(filter_size_le, size);
   } else
   if (type == "size>=") {
-    off_t size = strtoul(value.c_str(), NULL, 10);
+    off64_t size = strtoul(value.c_str(), NULL, 10);
     condition = new Condition(filter_size_ge, size);
   } else
   if (type == "size>") {
-    off_t size = strtoul(value.c_str(), NULL, 10);
+    off64_t size = strtoul(value.c_str(), NULL, 10);
     condition = new Condition(filter_size_gt, size);
   } else
   if (type == "size_below") {
     cerr << "Warning: size_below is deprecated, use size<= instead" << endl;
-    off_t size = strtoul(value.c_str(), NULL, 10);
+    off64_t size = strtoul(value.c_str(), NULL, 10);
     condition = new Condition(filter_size_le, size);
   } else
   if (type == "size_above") {
     cerr << "Warning: size_below is deprecated, use size>= instead" << endl;
-    off_t size = strtoul(value.c_str(), NULL, 10);
+    off64_t size = strtoul(value.c_str(), NULL, 10);
     condition = new Condition(filter_size_ge, size);
   } else {
     // Wrong type

@@ -40,3 +40,11 @@ Matching 4999
 Not matching 5000
 Not matching 5001
 Not matching 6000
+filter_mode_and check
+Matching 777
+Not matching 666
+Matching 111
+filter_mode_eq check
+Not matching 777
+Not matching 666
+Matching 111

@@ -176,7 +176,7 @@ int main(void) {
   delete node;
 
   cout << "filter_size_ge check" << endl;
-  condition = new Condition(filter_size_ge, (off_t) 5000);
+  condition = new Condition(filter_size_ge, (off64_t) 5000);
   node = new Node("", 'f', 0, 4000, 0, 0, 0);
   if (! condition->match("this is/a path/", *node)) {
     cout << "Not matching " << node->size() << "" << endl;
@@ -215,7 +215,7 @@ int main(void) {
   delete condition;
 
   cout << "filter_size_gt check" << endl;
-  condition = new Condition(filter_size_gt, (off_t) 5000);
+  condition = new Condition(filter_size_gt, (off64_t) 5000);
   node = new Node("", 'f', 0, 4000, 0, 0, 0);
   if (! condition->match("this is/a path/", *node)) {
     cout << "Not matching " << node->size() << "" << endl;
@@ -254,7 +254,7 @@ int main(void) {
   delete condition;
 
   cout << "filter_size_le check" << endl;
-  condition = new Condition(filter_size_le, (off_t) 5000);
+  condition = new Condition(filter_size_le, (off64_t) 5000);
   node = new Node("", 'f', 0, 4000, 0, 0, 0);
   if (! condition->match("this is/a path/", *node)) {
     cout << "Not matching " << node->size() << "" << endl;
@@ -293,7 +293,7 @@ int main(void) {
   delete condition;
 
   cout << "filter_size_lt check" << endl;
-  condition = new Condition(filter_size_lt, (off_t) 5000);
+  condition = new Condition(filter_size_lt, (off64_t) 5000);
   node = new Node("", 'f', 0, 4000, 0, 0, 0);
   if (! condition->match("this is/a path/", *node)) {
     cout << "Not matching " << node->size() << "" << endl;
@@ -327,6 +327,56 @@ int main(void) {
     cout << "Not matching " << node->size() << "" << endl;
   } else {
     cout << "Matching " << node->size() << "" << endl;
+  }
+  delete node;
+  delete condition;
+
+  cout << "filter_mode_and check" << endl;
+  condition = new Condition(filter_mode_and, (off64_t) 0111);
+  node = new Node("", 'f', 0, 4000, 0, 0, 0777);
+  if (! condition->match("this is/a path/", *node)) {
+    cout << "Not matching " << oct << node->mode() << dec << "" << endl;
+  } else {
+    cout << "Matching " << oct << node->mode() << dec << "" << endl;
+  }
+  delete node;
+  node = new Node("", 'f', 0, 4999, 0, 0, 0666);
+  if (! condition->match("this is/a path/", *node)) {
+    cout << "Not matching " << oct << node->mode() << dec << "" << endl;
+  } else {
+    cout << "Matching " << oct << node->mode() << dec << "" << endl;
+  }
+  delete node;
+  node = new Node("", 'f', 0, 4999, 0, 0, 0111);
+  if (! condition->match("this is/a path/", *node)) {
+    cout << "Not matching " << oct << node->mode() << dec << "" << endl;
+  } else {
+    cout << "Matching " << oct << node->mode() << dec << "" << endl;
+  }
+  delete node;
+  delete condition;
+
+  cout << "filter_mode_eq check" << endl;
+  condition = new Condition(filter_mode_eq, (off64_t) 0111);
+  node = new Node("", 'f', 0, 4000, 0, 0, 0777);
+  if (! condition->match("this is/a path/", *node)) {
+    cout << "Not matching " << oct << node->mode() << dec << "" << endl;
+  } else {
+    cout << "Matching " << oct << node->mode() << dec << "" << endl;
+  }
+  delete node;
+  node = new Node("", 'f', 0, 4999, 0, 0, 0666);
+  if (! condition->match("this is/a path/", *node)) {
+    cout << "Not matching " << oct << node->mode() << dec << "" << endl;
+  } else {
+    cout << "Matching " << oct << node->mode() << dec << "" << endl;
+  }
+  delete node;
+  node = new Node("", 'f', 0, 4999, 0, 0, 0111);
+  if (! condition->match("this is/a path/", *node)) {
+    cout << "Not matching " << oct << node->mode() << dec << "" << endl;
+  } else {
+    cout << "Matching " << oct << node->mode() << dec << "" << endl;
   }
   delete node;
   delete condition;
