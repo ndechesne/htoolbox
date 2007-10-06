@@ -138,7 +138,7 @@ ignore path_start subdir
 ignore type file
 ignand path_end ~
 ignore path_end ".o"
-ignore size_above 10
+ignore size>= 10
 ignand type file
 parser cvs controlled
 EOF
