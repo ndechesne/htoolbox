@@ -358,7 +358,7 @@ ssize_t Stream::read(void* buffer, size_t count) {
       case Z_NEED_DICT:
       case Z_DATA_ERROR:
       case Z_MEM_ERROR:
-        fprintf(stderr, "File::read: inflate failed\n");
+        cerr << "File::read: inflate failed" << endl;
     }
     _flength = (_strm->avail_out == 0);
     count -= _strm->avail_out;

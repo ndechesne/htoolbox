@@ -140,7 +140,7 @@ int Client::readListFile(const string& list_path) {
     failed = 2;
   } else {
     if (verbosity() > 1) {
-      printf(" -> Reading backup list file\n");
+      cout << " -> Reading backup list file" << endl;
     }
 
     /* Read list file */
