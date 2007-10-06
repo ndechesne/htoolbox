@@ -60,11 +60,13 @@ int main(void) {
 
   cout << "\nSimple rules test\n";
   filter = new Filters;
-  filter->push_back(Filter(Condition(filter_path_regex, "^/to a.*\\.txt")));
+  filter->push_back(Filter(Condition(filter_path_regex, "^/to a.*\\.txt",
+    false)));
   cout << ">List " << filter->size() << " rule(s):\n";
   filter_show(*filter);
 
-  filter->push_back(Filter(Condition(filter_path_regex, "^/to a.*\\.t.t")));
+  filter->push_back(Filter(Condition(filter_path_regex, "^/to a.*\\.t.t",
+    false)));
   cout << ">List " << filter->size() << " rule(s):\n";
   filter_show(*filter);
 
@@ -102,11 +104,13 @@ int main(void) {
   delete node;
 
 
-  filter2->push_back(Filter(Condition(filter_path_regex, "^/to a.*\\.txt")));
+  filter2->push_back(Filter(Condition(filter_path_regex, "^/to a.*\\.txt",
+    false)));
   cout << ">List " << filter2->size() << " rule(s):\n";
   filter_show(*filter2);
 
-  filter2->push_back(Filter(Condition(filter_path_regex, "^/to a.*\\.t.t")));
+  filter2->push_back(Filter(Condition(filter_path_regex, "^/to a.*\\.t.t",
+    false)));
   cout << ">List " << filter2->size() << " rule(s):\n";
   filter_show(*filter2);
 
@@ -168,7 +172,7 @@ int main(void) {
   delete node;
 
   /* File type is always 'f' */
-  filter->push_back(Filter(Condition(filter_size_le, (off64_t) 500)));
+  filter->push_back(Filter(Condition(filter_size_le, (off64_t) 500, false)));
   cout << ">List " << filter->size() << " rule(s):\n";
   filter_show(*filter);
 
@@ -195,7 +199,7 @@ int main(void) {
   delete node;
 
   /* File type is always 'f' */
-  filter->push_back(Filter(Condition(filter_size_ge, (off64_t) 5000)));
+  filter->push_back(Filter(Condition(filter_size_ge, (off64_t) 5000, false)));
   cout << ">List " << filter->size() << " rule(s):\n";
   filter_show(*filter);
 
@@ -233,11 +237,11 @@ int main(void) {
   filter->push_back(Filter());
   Filter* rule = &filter->back();
 
-  rule->push_back(Condition(filter_size_le, (off64_t) 500));
+  rule->push_back(Condition(filter_size_le, (off64_t) 500, false));
   cout << ">List " << filter->size() << " rule(s):\n";
   filter_show(*filter);
 
-  rule->push_back(Condition(filter_size_ge, (off64_t) 400));
+  rule->push_back(Condition(filter_size_ge, (off64_t) 400, false));
   cout << ">List " << filter->size() << " rule(s):\n";
   filter_show(*filter);
 

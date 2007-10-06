@@ -85,7 +85,13 @@ No compression is enabled for now.
 
 2. FILTERS
 
-Syntax: [ignore|ignand] <filter type> "<string>"
+Syntax: [ignore|ignand] [!]<filter type> "<string>"
+
+If the filter type is preceded by a '!' (without space!), then the result of the
+conditions is negated.
+Example: these two conditions give the same result
+ignore size>= 5000
+ignore !size< 5000
 
 These are the filter types:
 * type          match file type

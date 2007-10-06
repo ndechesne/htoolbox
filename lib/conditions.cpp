@@ -34,58 +34,78 @@ bool Condition::match(const char* npath, const Node& node) const {
   // TODO Use char arrays
   string name = node.name();
   string path = npath + name;
+  bool  result = false;
 
   switch(_type) {
   case filter_type:
-    return _file_type == node.type();
+    result = _file_type == node.type();
+    break;
   case filter_name:
-    return strcmp(node.name(), _string.c_str()) == 0;
+    result = strcmp(node.name(), _string.c_str()) == 0;
+    break;
   case filter_name_start:
-    return name.substr(0, _string.size()) == _string;
+    result = name.substr(0, _string.size()) == _string;
+    break;
   case filter_name_end: {
     signed int diff = name.size() - _string.size();
     if (diff < 0) {
-      return false;
+      result = false;
+    } else {
+      result = _string == name.substr(diff); }
     }
-    return _string == name.substr(diff); }
+    break;
   case filter_name_regex: {
-    regex_t regex;
-    if (! regcomp(&regex, _string.c_str(), REG_EXTENDED)) {
-      return ! regexec(&regex, name.c_str(), 0, NULL, 0);
-    }
-    cerr << "filters: regex: incorrect expression" << endl; }
+      regex_t regex;
+      if (! regcomp(&regex, _string.c_str(), REG_EXTENDED)) {
+        result = ! regexec(&regex, name.c_str(), 0, NULL, 0);
+      } else {
+        cerr << "filters: regex: incorrect expression" << endl;
+      }
+    } break;
   case filter_path:
-    return path == _string;
+    result = path == _string;
+    break;
   case filter_path_start:
-    return path.substr(0, _string.size()) == _string;
+    result = path.substr(0, _string.size()) == _string;
+    break;
   case filter_path_end: {
-    signed int diff = path.size() - _string.size();
-    if (diff < 0) {
-      return false;
-    }
-    return _string == path.substr(diff); }
+      signed int diff = path.size() - _string.size();
+      if (diff < 0) {
+        result = false;
+      } else {
+        result = _string == path.substr(diff);
+      }
+    } break;
   case filter_path_regex: {
-    regex_t regex;
-    if (! regcomp(&regex, _string.c_str(), REG_EXTENDED)) {
-      return ! regexec(&regex, path.c_str(), 0, NULL, 0);
-    }
-    cerr << "filters: regex: incorrect expression" << endl; }
+      regex_t regex;
+      if (! regcomp(&regex, _string.c_str(), REG_EXTENDED)) {
+        result = ! regexec(&regex, path.c_str(), 0, NULL, 0);
+      } else {
+        cerr << "filters: regex: incorrect expression" << endl;
+      }
+    } break;
   case filter_size_ge:
-    return node.size() >= _value;
+    result = node.size() >= _value;
+    break;
   case filter_size_gt:
-    return node.size() > _value;
+    result = node.size() > _value;
+    break;
   case filter_size_le:
-    return node.size() <= _value;
+    result = node.size() <= _value;
+    break;
   case filter_size_lt:
-    return node.size() < _value;
+    result = node.size() < _value;
+    break;
   case filter_mode_and:
-    return (node.mode() & _value) != 0;
+    result = (node.mode() & _value) != 0;
+    break;
   case filter_mode_eq:
-    return node.mode() == _value;
+    result = node.mode() == _value;
+    break;
   default:
     cerr << "filters: match: unknown condition type" << endl;
   }
-  return false;
+  return _negated ? ! result : result;
 }
 
 void Condition::show() const {

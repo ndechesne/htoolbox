@@ -50,21 +50,22 @@ typedef enum {
 
 class Condition {
   filter_type_t _type;
+  bool          _negated;
   char          _file_type;
   long long     _value;
   string        _string;
 public:
   // File type-based condition
-  Condition(filter_type_t type, char file_type) :
-    _type(type), _file_type(file_type) {}
+  Condition(filter_type_t type, char file_type, bool negated) :
+    _type(type), _negated(negated), _file_type(file_type) {}
   // Size-based condition
-  Condition(filter_type_t type, mode_t value) :
-    _type(type), _value(value) {}
-  Condition(filter_type_t type, long long value) :
-    _type(type), _value(value) {}
+  Condition(filter_type_t type, mode_t value, bool negated) :
+    _type(type), _negated(negated), _value(value) {}
+  Condition(filter_type_t type, long long value, bool negated) :
+    _type(type), _negated(negated), _value(value) {}
   // Path-based condition
-  Condition(filter_type_t type, const string& str) :
-    _type(type), _string(str) {}
+  Condition(filter_type_t type, const string& str, bool negated) :
+    _type(type), _negated(negated), _string(str) {}
   bool match(const char* path, const Node& node) const;
   /* Debug only */
   void show() const;

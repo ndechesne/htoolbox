@@ -48,3 +48,7 @@ filter_mode_eq check
 Not matching 777
 Not matching 666
 Matching 111
+negation check (using filter_mode_eq)
+Matching 777
+Matching 666
+Not matching 111
