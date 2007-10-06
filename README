@@ -55,9 +55,10 @@ Example of /etc/exports entry, where fujiyama is the name of the backup server:
 2. Server Message Block (SMB)
 
 By default, Windows XP and Windows Vista will authenticate all users as guests
-when accessed remotely. For hbackup to work properly, such computers need to be
-told to use the classic authentication which authenticates users as themselves,
-so the administrative shares can be mounted as Administrator.
+when accessed remotely. Windows 2000 is not affected. For hbackup to work
+properly, such computers need to be told to use the classic authentication which
+authenticates users as themselves, so the administrative shares can be mounted
+as Administrator.
 
 Instructions:
   Start -> Control Panel -> Administrative Tools -> Local Security Policy
@@ -72,6 +73,7 @@ B. Configuration file
 Each client must provide its own configuration file. Keywords that may be used:
 * path:   start of a new backup list, gives the path information.
   Syntax: path "<path to backup>"
+  Important note for Windows paths: they MUST NOT end with a '\'
 * ignore: add files filter to skip (see FILTERS below).
 * ignand: add AND condition to last files filter (see FILTERS below).
 * parser: files under version control (see PARSERS below).
@@ -85,18 +87,20 @@ No compression is enabled for now.
 
 Syntax: [ignore|ignand] <filter type> "<string>"
 
-There are six filter types:
-* type:         match file type
-* name:         match file name
-* name_start:   match start of file name
-* name_end:     match end of file name
-* name_regex:   match regular expression on file name
-* path:         match path
-* path_start:   match start of path
-* path_end:     match end of path
-* path_regex:   match regular expression on path
-* size_above:   match files which size is above or equals given value
-* size_below:   match files which size is below or equals given value
+These are the filter types:
+* type          match file type
+* name          match file name
+* name_start    match start of file name
+* name_end      match end of file name
+* name_regex    match regular expression on file name
+* path          match path
+* path_start    match start of path
+* path_end      match end of path
+* path_regex    match regular expression on path
+* size<         match files which size is strictly below given value
+* size<=        match files which size is below or equals given value
+* size>=        match files which size is above or equals given value
+* size>         match files which size is strictly above given value
 
 There are seven file types:
 * f or file:    regular file
@@ -110,7 +114,7 @@ There are seven file types:
 Example:
 ignore path_start abr
 ignand type file
-ignand size_above 5000
+ignand size>= 5000
 
 This will ignore all regular files which name starts in abr (abr*) and size is
 greater than or equal to 5000.
