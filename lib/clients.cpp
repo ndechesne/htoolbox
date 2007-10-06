@@ -98,8 +98,8 @@ int Client::mountPath(
   command += " " + share + " " + _mount_point;
 
   /* Issue mount command */
-  if (verbosity() > 3) {
-    cout << " ---> " << command << endl;
+  if (verbosity() > 0) {
+    cout << " -> " << command << endl;
   }
   command += " > /dev/null 2>&1";
 
@@ -117,8 +117,8 @@ int Client::umount() {
     string command = "umount ";
 
     command += _mount_point;
-    if (verbosity() > 3) {
-      cout << " ---> " << command << endl;
+    if (verbosity() > 0) {
+      cout << " -> " << command << endl;
     }
     _mounted = "";
     return system(command.c_str());
@@ -173,7 +173,7 @@ int Client::readListFile(const string& list_path) {
           } else {
             /* New backup path */
             path = new Path(current->c_str());
-            if (verbosity() > 2) {
+            if (verbosity() > 1) {
               cout << " --> Path: " << path->path() << endl;
             }
             list<Path*>::iterator i = _d->paths.begin();
@@ -300,7 +300,7 @@ Client::Client(string value) {
   _mounted      = "";
   _initialised  = false;
 
-  if (verbosity() > 2) {
+  if (verbosity() > 1) {
     cout << " --> Client: " << _name << endl;
   }
 }

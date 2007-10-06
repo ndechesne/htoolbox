@@ -180,21 +180,8 @@ int main(int argc, char **argv) {
           letter = 'C';
         } else if (! strcmp(&argv[argn][2], "version")) {
           letter = 'V';
-        }
-      } else if (argv[argn][1] == 'v') {
-        letter = argv[argn][1];
-        if (argv[argn][2] == 'v') {
-          verbose++;
-          if (argv[argn][3] == 'v') {
-            verbose++;
-            if (argv[argn][4] != '\0') {
-              letter = ' ';
-            }
-          } else if (argv[argn][3] != '\0') {
-            letter = ' ';
-          }
-        } else if (argv[argn][2] != '\0') {
-          letter = ' ';
+        } else if (! strcmp(&argv[argn][2], "")) {
+          break;
         }
       } else if (argv[argn][2] == '\0') {
         letter = argv[argn][1];
@@ -205,7 +192,7 @@ int main(int argc, char **argv) {
           expect_configpath = true;
           break;
         case 'd':
-          verbose = 9;
+          verbose = 2;
           break;
         case 'h':
           show_help();
@@ -228,7 +215,7 @@ int main(int argc, char **argv) {
           config_check = true;
           break;
         case 'v':
-          verbose++;
+          verbose = 1;
           break;
         case 'C':
           expect_client = true;

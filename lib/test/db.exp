@@ -61,12 +61,12 @@ test_db/data/zz/00/00/01:
 test_db/data/zz/00/00/02:
 
 test_db/data/zz/00/00/03:
- ---> Journal is empty, not merging
+ -> Journal is empty, not merging
 
 Test: lock
- ---> Journal is empty, not merging
+ -> Journal is empty, not merging
 db: lock reset
- ---> Journal is empty, not merging
+ -> Journal is empty, not merging
 db: lock taken by process with pid 1
 db: lock taken by an unidentified process!
 db: lock taken by an unidentified process!
@@ -78,7 +78,7 @@ Test: fill in DB
 [ 2] prot://client    client_path/testfile               f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1
 
 Test: do nothing
- ---> Journal is empty, not merging
+ -> Journal is empty, not merging
 [ 1] prot://client    client_path/test space             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 2] prot://client    client_path/testfile               f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1
 

@@ -18,19 +18,19 @@ if ! test_setup; then
 fi
 
 # Typical backup
-../hbackup -vvv -c etc/hbackup.conf >> $output 2>&1
+../hbackup -d -c etc/hbackup.conf -- >> $output 2>&1
 
 # Specify clients
-../hbackup -vvv -c etc/hbackup.conf -C myhost -C client >> $output 2>&1
+../hbackup -d -c etc/hbackup.conf -C myhost -C client >> $output 2>&1
 
 # Scan DB
-../hbackup -vvv -c etc/hbackup.conf -s >> $output 2>&1
+../hbackup -d -c etc/hbackup.conf -s >> $output 2>&1
 
 # Check DB
-../hbackup -vvv -c etc/hbackup.conf -t >> $output 2>&1
+../hbackup -d -c etc/hbackup.conf -t >> $output 2>&1
 
 # List prefixes
-../hbackup -vvv -c etc/hbackup.conf -l >> $output 2>&1
+../hbackup -d -c etc/hbackup.conf -l >> $output 2>&1
 
 # Restore a file
 rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r file://myhost 0 test2/testfile >> $output 2>&1

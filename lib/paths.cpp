@@ -111,12 +111,12 @@ int Path::recurse(
           char* rem_path = NULL;
           asprintf(&rem_path, "%s%s/", remote_path, (*i)->name());
           char* loc_path = Node::path(local_path, (*i)->name());
-          if (verbosity() > 3) {
-            cout << "Entering " << rel_path << (*i)->name() << endl;
+          if (verbosity() > 1) {
+            cout << " -> Entering " << rel_path << (*i)->name() << endl;
           }
           recurse(db, rem_path, loc_path, (Directory*) *i, parser);
-          if (verbosity() > 3) {
-            cout << "Leaving " << rel_path << (*i)->name() << endl;
+          if (verbosity() > 1) {
+            cout << " -> Leaving " << rel_path << (*i)->name() << endl;
           }
           free(rem_path);
           free(loc_path);

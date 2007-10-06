@@ -526,8 +526,8 @@ int Database::close() {
       } else {
         if (_d->journal->isEmpty()) {
           // Do nothing
-          if (verbosity() > 3) {
-            cout << " ---> Journal is empty, not merging" << endl;
+          if (verbosity() > 1) {
+            cout << " -> Journal is empty, not merging" << endl;
           }
           failed = false;
         } else {
@@ -658,8 +658,8 @@ int Database::restore(
           cerr << base.dirname() << ": " << strerror(errno) << endl;
         }
       }
-      if (verbosity() > 3) {
-        cout << " ---> " << base << endl;
+      if (verbosity() > 0) {
+        cout << "U " << base << endl;
       }
       switch (fnode->type()) {
         case 'f': {

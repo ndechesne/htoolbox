@@ -6,6 +6,7 @@ Client: localhost
 Database initialized
 Backup client 'localhost' using protocol 'file'
 List file not found etc/doesnotexist
+ -> Journal is empty, not merging
 >List 0 client(s):
  --> Client: myClient
 >List 1 client(s):
@@ -93,31 +94,45 @@ Options: username=
 Client: Client4
 -> smb://Client c:/home/BlaH/Backup.list
 Options: username= password=
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading backup list file
  --> Path: /home/User/test
 Backup path '/home/User/test'
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
 A /home/User/test/File2.txt
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM //myClient/C$ test_db/mount
 Backup client 'myClient2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
 A C:/Test/File.TXT
+ -> umount test_db/mount
 Unmounted test_db/mount
 Protocol not supported: ssh
+ -> mount -t cifs -o ro,noatime,nocase,username=user,iocharset=utf8 //Client/c$ test_db/mount
 Backup client 'Client' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,nocase,username=user,password= //Client/c$ test_db/mount
 Backup client 'Client2' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username= //Client/c$ test_db/mount
 Backup client 'Client3' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username=,password= //Client/c$ test_db/mount
 Backup client 'Client4' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
+ -> umount test_db/mount
 Unmounted test_db/mount
  --> Client: testhost
 >List 1 client(s):
@@ -129,22 +144,38 @@ Backup client 'testhost' using protocol 'file'
  --> Path: test1
 Backup path 'test1'
 A test1/cvs
+ -> Entering cvs
 A test1/cvs/CVS
+ -> Entering cvs/CVS
+ -> Leaving cvs/CVS
 A test1/cvs/dirbad
+ -> Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
+ -> Leaving cvs/dirbad
 A test1/cvs/dirutd
+ -> Entering cvs/dirutd
 A test1/cvs/dirutd/CVS
+ -> Entering cvs/dirutd/CVS
+ -> Leaving cvs/dirutd/CVS
 A test1/cvs/dirutd/fileutd
+ -> Leaving cvs/dirutd
 A test1/cvs/filenew.c
 A test1/cvs/fileutd.h
+ -> Leaving cvs
 A test1/dir space
+ -> Entering dir space
 A test1/dir space/file space
+ -> Leaving dir space
 A test1/test space
 A test1/testdir
+ -> Entering testdir
+ -> Leaving testdir
 A test1/testlink
 A test1/testpipe
 Backup path 'test2'
 A test2/testdir
+ -> Entering testdir
+ -> Leaving testdir
 A test2/testfile
 A test2/testfile2
 A test2/testfile~
@@ -158,8 +189,25 @@ Backup client 'testhost' using protocol 'file'
  --> Path: test2
  --> Path: test1
 Backup path 'test1'
+ -> Entering cvs
+ -> Entering cvs/CVS
+ -> Leaving cvs/CVS
+ -> Entering cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
+ -> Leaving cvs/dirbad
+ -> Entering cvs/dirutd
+ -> Entering cvs/dirutd/CVS
+ -> Leaving cvs/dirutd/CVS
+ -> Leaving cvs/dirutd
+ -> Leaving cvs
+ -> Entering dir space
+ -> Leaving dir space
+ -> Entering testdir
+ -> Leaving testdir
 Backup path 'test2'
+ -> Entering testdir
+ -> Leaving testdir
+ -> Journal is empty, not merging
  --> Client: testhost
 >List 1 client(s):
 Client: testhost
@@ -170,6 +218,7 @@ Backup client 'testhost' using protocol 'file'
  --> Path: test1
  --> Path: test1/subdir
 Path inside another. This is not supported yet
+ -> Journal is empty, not merging
  --> Client: testhost
 >List 1 client(s):
 Client: testhost
@@ -179,22 +228,29 @@ Backup client 'testhost' using protocol 'file'
  --> Path: test2/subdir
  --> Path: test2
 Path inside another: this is not supported
+ -> Journal is empty, not merging
 
 Test: missing clients
  --> Client: myhost2
+ -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
 A C:/Test/File.TXT
+ -> umount test_db/mount
 Unmounted test_db/mount
  --> Client: myhost3
+ -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading backup list file
  --> Path: /home/User/test
 Backup path '/home/User/test'
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User/test test_db/mount
 A /home/User/test/File2.txt
+ -> umount test_db/mount
 Unmounted test_db/mount
  --> Client: myhost
 Backup client 'myhost' using protocol 'file'
@@ -202,16 +258,26 @@ Backup client 'myhost' using protocol 'file'
  --> Path: test1/cvs
 Backup path 'test1/cvs'
 A test1/cvs/CVS
+ -> Entering CVS
 A test1/cvs/CVS/Entries
+ -> Leaving CVS
 A test1/cvs/dirbad
+ -> Entering dirbad
 A test1/cvs/dirbad/fileoth
 A test1/cvs/dirbad/fileutd
+ -> Leaving dirbad
 A test1/cvs/diroth
+ -> Entering diroth
+ -> Leaving diroth
 A test1/cvs/dirutd
+ -> Entering dirutd
 A test1/cvs/dirutd/CVS
+ -> Entering dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries
+ -> Leaving dirutd/CVS
 A test1/cvs/dirutd/fileoth
 A test1/cvs/dirutd/fileutd
+ -> Leaving dirutd
 A test1/cvs/filemod.o
 A test1/cvs/filenew.c
 A test1/cvs/fileoth
@@ -239,17 +305,34 @@ Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
 Backup path 'test1/cvs'
+ -> Entering CVS
+ -> Leaving CVS
+ -> Entering dirbad
+ -> Leaving dirbad
+ -> Entering diroth
+ -> Leaving diroth
+ -> Entering dirutd
+ -> Entering dirutd/CVS
+ -> Leaving dirutd/CVS
+ -> Leaving dirutd
+ -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading backup list file
  --> Path: /home/User/test
 Backup path '/home/User/test'
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User/test test_db/mount
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> Journal is empty, not merging
 Create list of clients
  --> Client: myhost3
  --> Client: myhost2
@@ -258,17 +341,24 @@ Client: myhost3
 -> nfs://myhost3 /home/User/testhost3.list
 Client: myhost2
 -> smb://myhost2 C:/Backup/testhost2.list
+ -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading backup list file
  --> Path: /home/User/test
 Backup path '/home/User/test'
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User/test test_db/mount
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> Journal is empty, not merging
 Create list of clients
  --> Client: myhost
  --> Client: myhost3
@@ -281,12 +371,27 @@ Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
 Backup path 'test1/cvs'
+ -> Entering CVS
+ -> Leaving CVS
+ -> Entering dirbad
+ -> Leaving dirbad
+ -> Entering diroth
+ -> Leaving diroth
+ -> Entering dirutd
+ -> Entering dirutd/CVS
+ -> Leaving dirutd/CVS
+ -> Leaving dirutd
+ -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading backup list file
  --> Path: /home/User/test
 Backup path '/home/User/test'
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User/test test_db/mount
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> Journal is empty, not merging
 Create list of clients
  --> Client: myhost
  --> Client: myhost2
@@ -299,8 +404,21 @@ Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
 Backup path 'test1/cvs'
+ -> Entering CVS
+ -> Leaving CVS
+ -> Entering dirbad
+ -> Leaving dirbad
+ -> Entering diroth
+ -> Leaving diroth
+ -> Entering dirutd
+ -> Entering dirutd/CVS
+ -> Leaving dirutd/CVS
+ -> Leaving dirutd
+ -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+ -> umount test_db/mount
 Unmounted test_db/mount
+ -> Journal is empty, not merging
