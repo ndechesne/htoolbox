@@ -193,57 +193,57 @@ int Path::addFilter(
       // Wrong value
       return 2;
     }
-    condition = new Condition(filter_type, file_type, negated);
+    condition = new Condition(condition_type, file_type, negated);
   } else
   if (type == "name") {
-    condition = new Condition(filter_name, value, negated);
+    condition = new Condition(condition_name, value, negated);
   } else
   if (type == "name_start") {
-    condition = new Condition(filter_name_start, value, negated);
+    condition = new Condition(condition_name_start, value, negated);
   } else
   if (type == "name_end") {
-    condition = new Condition(filter_name_end, value, negated);
+    condition = new Condition(condition_name_end, value, negated);
   } else
   if (type == "name_regex") {
-    condition = new Condition(filter_name_regex, value, negated);
+    condition = new Condition(condition_name_regex, value, negated);
   } else
   if (type == "path") {
-    condition = new Condition(filter_path, value, negated);
+    condition = new Condition(condition_path, value, negated);
   } else
   if (type == "path_start") {
-    condition = new Condition(filter_path_start, value, negated);
+    condition = new Condition(condition_path_start, value, negated);
   } else
   if (type == "path_end") {
-    condition = new Condition(filter_path_end, value, negated);
+    condition = new Condition(condition_path_end, value, negated);
   } else
   if (type == "path_regex") {
-    condition = new Condition(filter_path_regex, value, negated);
+    condition = new Condition(condition_path_regex, value, negated);
   } else
   if (type == "size<") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(filter_size_lt, size, negated);
+    condition = new Condition(condition_size_lt, size, negated);
   } else
   if (type == "size<=") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(filter_size_le, size, negated);
+    condition = new Condition(condition_size_le, size, negated);
   } else
   if (type == "size>=") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(filter_size_ge, size, negated);
+    condition = new Condition(condition_size_ge, size, negated);
   } else
   if (type == "size>") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(filter_size_gt, size, negated);
+    condition = new Condition(condition_size_gt, size, negated);
   } else
   if (type == "size_below") {
     cerr << "Warning: size_below is deprecated, use size<= instead" << endl;
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(filter_size_le, size, negated);
+    condition = new Condition(condition_size_le, size, negated);
   } else
   if (type == "size_above") {
     cerr << "Warning: size_below is deprecated, use size>= instead" << endl;
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(filter_size_ge, size, negated);
+    condition = new Condition(condition_size_ge, size, negated);
   } else {
     // Wrong type
     return 1;

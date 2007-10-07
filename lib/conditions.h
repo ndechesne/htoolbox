@@ -31,40 +31,48 @@ namespace hbackup {
 
 /* Filter types */
 typedef enum {
-  filter_type       = 1,      // File type(s)
-  filter_name       = 11,     // Exact file name
-  filter_name_start,          // Start of file name
-  filter_name_end,            // End of file name
-  filter_name_regex,          // Regular expression on file name
-  filter_path       = 21,     // Exact path
-  filter_path_start,          // Start of path
-  filter_path_end,            // End of path
-  filter_path_regex,          // Regular expression on path
-  filter_size_ge    = 31,     // Minimum size (only applies to regular files)
-  filter_size_gt,             // Maximum size (only applies to regular files)
-  filter_size_le,             // Maximum size (only applies to regular files)
-  filter_size_lt,             // Maximum size (only applies to regular files)
-  filter_mode_and = 41,       // Mode contains some of the given mode bits
-  filter_mode_eq,             // Mode contains all of the given mode bits
-} filter_type_t;
+  condition_subfilter   = 0,  // Subfilter
+  condition_type        = 1,  // File type
+  condition_name        = 11, // Exact file name
+  condition_name_start,       // Start of file name
+  condition_name_end,         // End of file name
+  condition_name_regex,       // Regular expression on file name
+  condition_path        = 21, // Exact path
+  condition_path_start,       // Start of path
+  condition_path_end,         // End of path
+  condition_path_regex,       // Regular expression on path
+  condition_size_ge     = 31, // Minimum size (only applies to regular files)
+  condition_size_gt,          // Minimum size (only applies to regular files)
+  condition_size_le,          // Maximum size (only applies to regular files)
+  condition_size_lt,          // Maximum size (only applies to regular files)
+  condition_mode_and    = 41, // Mode contains some of the given mode bits
+  condition_mode_eq,          // Mode contains all of the given mode bits
+} condition_type_t;
+
+// Stub
+class Filter2;
 
 class Condition {
-  filter_type_t _type;
-  bool          _negated;
-  char          _file_type;
-  long long     _value;
-  string        _string;
+  condition_type_t  _type;
+  bool              _negated;
+  const Filter2*    _filter;
+  char              _file_type;
+  long long         _value;
+  string            _string;
 public:
+  // Sub-filter type-based condition
+  Condition(condition_type_t type, const Filter2* filter, bool negated) :
+    _type(type), _negated(negated), _filter(filter) {}
   // File type-based condition
-  Condition(filter_type_t type, char file_type, bool negated) :
+  Condition(condition_type_t type, char file_type, bool negated) :
     _type(type), _negated(negated), _file_type(file_type) {}
   // Size-based condition
-  Condition(filter_type_t type, mode_t value, bool negated) :
+  Condition(condition_type_t type, mode_t value, bool negated) :
     _type(type), _negated(negated), _value(value) {}
-  Condition(filter_type_t type, long long value, bool negated) :
+  Condition(condition_type_t type, long long value, bool negated) :
     _type(type), _negated(negated), _value(value) {}
   // Path-based condition
-  Condition(filter_type_t type, const string& str, bool negated) :
+  Condition(condition_type_t type, const string& str, bool negated) :
     _type(type), _negated(negated), _string(str) {}
   bool match(const char* path, const Node& node) const;
   /* Debug only */

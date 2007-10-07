@@ -50,3 +50,35 @@ bool Filters::match(const char* path, const Node& node) const {
   /* No match */
   return false;
 }
+
+Filter2::~Filter2() {
+  list<Condition*>::const_iterator condition;
+  for (condition = _conditions.begin(); condition != _conditions.end();
+      condition++) {
+    delete *condition;
+  }
+}
+
+bool Filter2::match(const char* path, const Node& node) const {
+  // Test all conditions
+  list<Condition*>::const_iterator condition;
+  for (condition = _conditions.begin(); condition != _conditions.end();
+      condition++) {
+    bool matches = (*condition)->match(path, node);
+    if (_type == filter_or) {
+      if (matches) {
+        return true;
+      }
+    } else {  // filter_and
+      if (! matches) {
+        return false;
+      }
+    }
+  }
+  // All conditions evaluated
+  if (_type == filter_or) {
+    return false;
+  } else {  // filter_and
+    return true;
+  }
+}

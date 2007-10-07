@@ -42,6 +42,30 @@ public:
   bool match(const char* path, const Node& node) const;
 };
 
+// This new class will eventually replace the old one
+// Each filter can be declared as a logical AND or OR of its conditions
+// A special condition runs a filter, so expressions of any complexity can be
+// defined. This is why the name is needed and must be unique.
+// Note: the tag is only application defined
+typedef enum {
+  filter_or         = 1,      // Matches if at least one condition matches
+  filter_and,                 // Matches if all of its conditions match
+} filter_type_t;
+
+class Filter2 {
+  filter_type_t     _type;
+  string            _name;
+  int               _tag;
+  list<Condition*>  _conditions;
+public:
+  Filter2(filter_type_t type, const char* name, int tag = 0) :
+    _type(type), _name(name), _tag(tag) {}
+  ~Filter2();
+  const string& name() const     { return _name; }
+  void add(Condition* condition) { _conditions.push_back(condition); }
+  bool match(const char* path, const Node& node) const;
+};
+
 }
 
 #endif
