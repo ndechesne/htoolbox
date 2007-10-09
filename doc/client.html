@@ -1,0 +1,84 @@
+<h1>Client configuration</h1>
+
+<p><font color="red">Note: filters are in the process of being re-implemented
+as described below...</font></p>
+
+<h2>Client setup</h2>
+
+<h3>Network File System (NFS)</h3>
+
+<p>It is warmly recommended for the client to export to the backup server only,
+with the following options: read-only, no squash.</p>
+
+<p>Example of /etc/exports entry, where fujiyama is the name of the backup
+server:
+<br><code>/home fujiyama(no_root_squash,no_all_squash,ro)</code></p>
+
+<h3>Server Message Block (SMB)</h3>
+
+<p>By default, Windows XP and Windows Vista will authenticate all users as
+guests when accessed remotely. Windows 2000 is not affected.
+<br>For hbackup to work properly, such computers need to be told to use the
+classic authentication which authenticates users as themselves, so the
+administrative shares can be mounted as Administrator.</p>
+
+<p>Instructions:</p>
+<ul>
+  <li><i>Start</i> -> <i>Control Panel</i> -> <i>Administrative Tools</i> ->
+    <i>Local Security Policy</i></li>
+  <li>On the left hand side, expand <i>Local Policies</i> (click the <i>+</i>
+    sign)</li>
+  <li>Click <i>Security Options</i></li>
+  <li>On the right hand side, find <i>Network access: Sharing and security
+    model (...)</i></li>
+  <li>Double click it, change to <i>Classic - local users authenticate as
+    themselves</i></li>
+  <li>Click <i>OK</i>, quit <i>Local Security Policy</i> then quit
+    <i>Administrative Tools</i></li>
+</ul>
+
+<h2>Configuration file (aka list file)</h2>
+
+<p>Each client must provide its own configuration file. Keywords that may be used:</p>
+
+<table border="1" width="100%">
+  <tr>
+    <td><b>Keyword</b></td>
+    <td><b>Description</b></td>
+    <td><b>Default</b></td>
+    <td><b>Syntax</b></td>
+    <td><b>Example</b></td>
+  </tr>
+  <tr>
+    <td>path</td>
+    <td>path to backup, starts a new path section</td>
+    <td><i>none</i></td>
+    <td><code>path "&lt;path to backup&gt;"</code>
+      <br>Note: must not end with a '\'</td>
+    <td><code>path "/home"</code>
+      <br><code>path "C:\Documents and Settings"</code></td>
+  </tr>
+  <tr>
+    <td>expire</td>
+    <td>expiration delay (days) for removed items to be deleted</td>
+    <td><i>no expiration</i></td>
+    <td><code>expire "&lt;delay&gt;"</code></td>
+    <td><code>expire "180"</code></td>
+  </tr>
+  <tr>
+    <td>parser</td>
+    <td>version control parser to use, see
+      <a href="parsers.html">Parsers</a></td>
+    <td><i>none</i></td>
+    <td><code>parser "&lt;parser name&gt;" "&lt;mode&gt;"</code></td>
+    <td><code>parser "cvs" "modified"</code></td>
+  </tr>
+  <tr>
+    <td>ignore</td>
+    <td>filter to use to determine which files to ignore, see
+      <a href="filters.html">Filters</a></td>
+    <td><i>none</i></td>
+    <td><code>ignore "&lt;filter name&gt;"</code></td>
+    <td><code>ignore "ignore_filter"</code></td>
+  </tr>
+</table>
