@@ -1,0 +1,166 @@
+<h1>Filters</h1>
+
+<p>Note: this is in the process of being implemented...</p>
+
+<h2>Introduction</h2>
+
+<p>In order to build complex filters, the system devised is to provide the
+ability to build simple filters, based on conditions, and to the use them in
+higher order filters.</p>
+
+<p>Filters can be defined in three different places:</p>
+<ul>
+<li>the configuration file (global scope)</li>
+<li>at the top of the client's list file (client scope)</li>
+<li>within a path section in the client's list file (path scope)</li>
+</ul>
+
+<p>There is no namespace protection, so if two filters are defined with the
+same name, the filter of most restricted scope is used: path, then client, then
+global.</p>
+
+<h2>Conditions</h2>
+
+<p>A filter is a filter only based on conditions.</p>
+
+<p>All available conditions are shown in the table below:</p>
+<table border="1">
+  <tr>
+    <td><b>Condition name</b></td>
+    <td><b>Description</b></td>
+    <td><b>Parameter type</b></td>
+  </tr>
+  <tr>
+    <td>filter</td>
+    <td>Subfilter</td>
+    <td>string</td>
+  </tr>
+  <tr>
+    <td>type</td>
+    <td>File type</td>
+    <td>character or string</td>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>Exact file name</td>
+    <td>string</td>
+  </tr>
+  <tr>
+    <td>name_start</td>
+    <td>Start of file name</td>
+    <td>string</td>
+  </tr>
+  <tr>
+    <td>name_end</td>
+    <td>End of file name</td>
+    <td>string</td>
+  </tr>
+  <tr>
+    <td>name_regex</td>
+    <td>Regular expression on file name</td>
+    <td>string</td>
+  </tr>
+  <tr>
+    <td>path</td>
+    <td>Exact path</td>
+    <td>string</td>
+  </tr>
+  <tr>
+    <td>path_start</td>
+    <td>Start of path</td>
+    <td>string</td>
+  </tr>
+  <tr>
+    <td>path_end</td>
+    <td>End of path</td>
+    <td>string</td>
+  </tr>
+  <tr>
+    <td>path_regex</td>
+    <td>Regular expression on path</td>
+    <td>string</td>
+  </tr>
+  <tr>
+    <td>size_ge</td>
+    <td>Minimum size (regular files only)</td>
+    <td>decimal number</td>
+  </tr>
+  <tr>
+    <td>size_gt</td>
+    <td>Minimum size (regular files only)</td>
+    <td>decimal number</td>
+  </tr>
+  <tr>
+    <td>size_le</td>
+    <td>Maximum size (regular files only)</td>
+    <td>decimal number</td>
+  </tr>
+  <tr>
+    <td>size_lt</td>
+    <td>Maximum size (regular files only)</td>
+    <td>decimal number</td>
+  </tr>
+  <!--
+  <tr>
+     <td>mode_and</td>
+     <td>Mode contains some of the given mode bits</td>
+    <td>octal number</td>
+  </tr>
+  <tr>
+     <td>mode_eq</td>
+     <td>Mode contains all of the given mode bits</td>
+    <td>octal number</td>
+  </tr>
+  -->
+</table>
+
+<p>Conditions can be negated by placing the '!' character in front of the
+condition name (no space allowed).</p>
+
+<p>Examples of conditions:</p>
+
+<code>
+# Size is strictly more than 10k
+<br>condition size&gt; 10000
+<br>
+<br># Name does not start in ml
+<br>condition !name_start ml
+</code>
+
+<h2>Filters</h2>
+
+<p>There are two types of filters:</p>
+<ul>
+<li>OR filters are a logical 'or' of its conditions and subfilters</li>
+<li>AND filters are a logical 'and' of its conditions and subfilters</li>
+</ul>
+
+<h2>Basic filters</h2>
+
+<p>Basic filters are filters that do not have subfilters and are based solely
+on conditions. Here are two examples of basic filters:</p>
+
+<code>
+# Basic OR filter defining compressed archives
+<br>filter or compressed_archives
+<br>condition name_end .bz2
+<br>condition name_end .gz
+<br>condition name_end .zip
+<br>
+<br># Basic AND filter defining big files
+<br>filter and big_files
+<br>condition type file
+<br>condition !size&lt; 1024
+</code>
+
+<h2>Complex filters</h2>
+
+<p>Complex filters are filters that have subfilters. Here is an example of a
+complex filter:</p>
+
+<code>
+# Filter defining files worth compressing
+<br>filter and worth_compressing
+<br>condition !filter compressed_archives
+<br>condition filter big_files
+</code>

@@ -1,0 +1,56 @@
+<h1>Parsers</h1>
+
+<h2>Introduction</h2>
+
+<p>Parsers are there to save time when dealing with files under version
+control, typically source code and documents from industry projects.</p>
+
+<p>Version control systems are used to keep track of changes on files deemed
+important to the project. It is this notion that parsers rely on. Indeed, if files deemed important are under version control, then those that are not
+controlled are therefore not considered important.</p>
+
+<p>On the other hand, files that are under version control and have not been
+modified need to necessarily be backed up, as they are already backed up on
+the version control server, at least for centralised version control
+systems.</p>
+
+<p>To try and suit all cases, the following parser types have been devised:</p>
+<table border="1">
+  <tr>
+    <td><b>Parser type</b></td>
+    <td><b>Description</b></td>
+  </tr>
+  <tr>
+    <td>controlled</td>
+    <td>Backs up all files under version control</td>
+  </tr>
+  <tr>
+    <td>modified</td>
+    <td>Backs up files under version control that are locally modified</td>
+  </tr>
+  <tr>
+    <td>others</td>
+    <td>Backs up all files that are not under version control</td>
+  </tr>
+  <tr>
+    <td>local</td>
+    <td>Backs up all files that are not under version control, or are locally
+      modified (= <i>modified</i> + <i>others</i>)</td>
+  </tr>
+</table>
+
+<p>The parsers available are as follows:</p>
+<table border="1">
+  <tr>
+    <td><b>Parser name</b></td>
+    <td><b>Description</b></td>
+    <td><b>Comment</b></td>
+  </tr>
+  <tr>
+    <td>cvs</td>
+    <td>Parser for the CVS version control tool</td>
+    <td>As the parser cannot check whether the files are modified ot not,
+      <i>modified</i> is the same as <i>controlled</i>, and <i>local</i> is
+      the same as having no parser at all</td>
+  </tr>
+</table>
