@@ -840,7 +840,7 @@ List:
 Journal:
 [12] file://localhost /home/User/testfile                f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Database open
-as previous with cvs/filenew.c touched
+as previous with cvs/filenew.c touched and testpipe restored
  -> Entering cvs
  -> Entering cvs/CVS
  -> Leaving cvs/CVS
@@ -853,7 +853,8 @@ M /home/User/cvs/filenew.c
  -> Leaving dir space
  -> Entering testdir
  -> Leaving testdir
-Parsed 16 file(s)
+A /home/User/testpipe
+Parsed 17 file(s)
  -> Database closed
 
 List:
@@ -904,11 +905,13 @@ List:
 [ 7] file://localhost /home/User/testlink                [rm]
 [ 6] file://localhost /home/User/testlink                l     8 777 testnull
 [ 1] file://localhost /home/User/testlink                l     8 777 testfile
+[13] file://localhost /home/User/testpipe                p     0 644
 [11] file://localhost /home/User/testpipe                [rm]
 [ 1] file://localhost /home/User/testpipe                p     0 644
 
 Journal:
 [13] file://localhost /home/User/cvs/filenew.c           f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[13] file://localhost /home/User/testpipe                p     0 644
  -> Database open
 some troublesome past cases
  -> Entering cvs
@@ -958,7 +961,7 @@ A /home/User/testdir/biblio/biblio.dbt
 A /home/User/testdir/biblio.odb
 A /home/User/testdir/evolocal.odb
  -> Leaving testdir
-Parsed 36 file(s)
+Parsed 37 file(s)
  -> Database closed
 
 List:
@@ -1029,6 +1032,7 @@ List:
 [ 7] file://localhost /home/User/testlink                [rm]
 [ 6] file://localhost /home/User/testlink                l     8 777 testnull
 [ 1] file://localhost /home/User/testlink                l     8 777 testfile
+[13] file://localhost /home/User/testpipe                p     0 644
 [11] file://localhost /home/User/testpipe                [rm]
 [ 1] file://localhost /home/User/testpipe                p     0 644
 
@@ -1081,7 +1085,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Entering testdir/biblio
  -> Leaving testdir/biblio
  -> Leaving testdir
-Parsed 36 file(s)
+Parsed 37 file(s)
  -> Journal is empty, not merging
  -> Database closed
 
@@ -1153,6 +1157,7 @@ List:
 [ 7] file://localhost /home/User/testlink                [rm]
 [ 6] file://localhost /home/User/testlink                l     8 777 testnull
 [ 1] file://localhost /home/User/testlink                l     8 777 testfile
+[13] file://localhost /home/User/testpipe                p     0 644
 [11] file://localhost /home/User/testpipe                [rm]
 [ 1] file://localhost /home/User/testpipe                p     0 644
 
@@ -1201,7 +1206,7 @@ D /home/User/testdir/biblio/biblio.dbf
 D /home/User/testdir/biblio/biblio.dbt
 D /home/User/testdir/biblio.odb
 D /home/User/testdir/evolocal.odb
-Parsed 32 file(s)
+Parsed 33 file(s)
  -> Database closed
 
 List:
@@ -1272,6 +1277,7 @@ List:
 [ 7] file://localhost /home/User/testlink                [rm]
 [ 6] file://localhost /home/User/testlink                l     8 777 testnull
 [ 1] file://localhost /home/User/testlink                l     8 777 testfile
+[13] file://localhost /home/User/testpipe                p     0 644
 [11] file://localhost /home/User/testpipe                [rm]
 [ 1] file://localhost /home/User/testpipe                p     0 644
 
@@ -1375,6 +1381,7 @@ List:
 [ 7] file://localhost /home/User/testlink                [rm]
 [ 6] file://localhost /home/User/testlink                l     8 777 testnull
 [ 1] file://localhost /home/User/testlink                l     8 777 testfile
+[13] file://localhost /home/User/testpipe                p     0 644
 [11] file://localhost /home/User/testpipe                [rm]
 [ 1] file://localhost /home/User/testpipe                p     0 644
 
@@ -1424,7 +1431,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Entering docbook-xml/4.4
  -> Leaving docbook-xml/4.4
  -> Leaving docbook-xml
-Parsed 32 file(s)
+Parsed 33 file(s)
  -> Journal is empty, not merging
  -> Database closed
 
@@ -1509,6 +1516,7 @@ List:
 [ 7] file://localhost /home/User/testlink                [rm]
 [ 6] file://localhost /home/User/testlink                l     8 777 testnull
 [ 1] file://localhost /home/User/testlink                l     8 777 testfile
+[13] file://localhost /home/User/testpipe                p     0 644
 [11] file://localhost /home/User/testpipe                [rm]
 [ 1] file://localhost /home/User/testpipe                p     0 644
 
@@ -1601,6 +1609,7 @@ List:
 [ 7] file://localhost /home/User/testlink                [rm]
 [ 6] file://localhost /home/User/testlink                l     8 777 testnull
 [ 1] file://localhost /home/User/testlink                l     8 777 testfile
+[13] file://localhost /home/User/testpipe                p     0 644
 [11] file://localhost /home/User/testpipe                [rm]
 [ 1] file://localhost /home/User/testpipe                p     0 644
 

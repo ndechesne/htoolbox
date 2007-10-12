@@ -581,7 +581,7 @@ int main(void) {
   db.open();
 
   cout << "as previous with testpipe gone" << endl;
-  remove("test1/testpipe");
+  rename("test1/testpipe", "testpipe");
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
@@ -676,8 +676,9 @@ int main(void) {
   my_time++;
   db.open();
 
-  cout << "as previous with cvs/filenew.c touched" << endl;
+  cout << "as previous with cvs/filenew.c touched and testpipe restored" << endl;
   system("echo blah > test1/cvs/filenew.c");
+  rename("testpipe", "test1/testpipe");
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";

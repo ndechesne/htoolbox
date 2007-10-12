@@ -374,6 +374,7 @@ int List::getEntry(
         if (timestamp != NULL) {
           *timestamp = ts;
         }
+        _line[length] = '\n';
       }
       if ((date <= 0) || (ts <= date)) {
         break;

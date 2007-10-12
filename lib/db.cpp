@@ -874,6 +874,7 @@ int Database::sendEntry(
 
   // DB
   char* db_path = NULL;
+  Node* db_node = NULL;
   int   cmp     = 1;
   while (_d->list->search(_d->prefix.c_str(), NULL, _d->merge) == 2) {
     if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
@@ -885,7 +886,13 @@ int Database::sendEntry(
       cmp = -1;
     }
     // If found or exceeded, break loop
-    if (cmp >= 0) {
+    if (cmp > 0) {
+      break;
+    } else
+    if (cmp == 0) {
+      // Get metadata
+      _d->list->getLine();
+      _d->list->getEntry(NULL, NULL, &db_path, &db_node, -2);
       break;
     }
     // Not reached, mark 'removed' (getLineType keeps line automatically)
@@ -911,7 +918,7 @@ int Database::sendEntry(
     return 0;
   }
 
-  if (cmp > 0) {
+  if ((cmp > 0) || (db_node == NULL)) {
     // Exceeded, keep line for later
     _d->list->keepLine();
     add(remote_path, local_path, node);
@@ -919,13 +926,7 @@ int Database::sendEntry(
       cout << "A " << remote_path << node->name() << endl;
     }
   } else {
-    // Get metadata
-    Node* db_node = NULL;
-    _d->list->getLine();
-    _d->list->getEntry(NULL, NULL, &db_path, &db_node, -2);
     // Check for differences
-    if (db_node == NULL) {
-    } else
     if (*db_node != *node) {
       const char* checksum = NULL;
       // Metadata differ
