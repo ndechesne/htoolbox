@@ -359,7 +359,7 @@ int Client::backup(
   }
   list_path += _listfile.basename().c_str();
 
-  if (verbosity() > 0) {
+  if ((_home_path.length() == 0) && (verbosity() > 0)) {
     cout << "Backup client '" << _name
       << "' using protocol '" << _protocol << "'" << endl;
   }
@@ -375,7 +375,7 @@ int Client::backup(
         if (terminating() || clientfailed) {
           break;
         }
-        string  backup_path;
+        string backup_path;
 
         if (verbosity() > 0) {
           cout << "Backup path '" << (*i)->path() << "'" << endl;

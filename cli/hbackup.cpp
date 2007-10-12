@@ -40,7 +40,7 @@ static string default_config_path = "/etc/hbackup/hbackup.conf";
 static int killed = 0;
 
 static void show_version(void) {
-  cout << "(c) 2006-2007 Hervé Fache, version "<< VERSION << endl;
+  cout << "HBackup (c) 2006-2007 Hervé Fache, version "<< VERSION << endl;
 }
 
 static void show_help(void) {
@@ -249,7 +249,7 @@ int main(int argc, char **argv) {
   }
 
   if (hbackup::verbosity() > 0) {
-    cout << "HBackup" << endl;
+    show_version();
   }
 
   // Read config before using HBackup
