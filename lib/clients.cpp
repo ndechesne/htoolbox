@@ -173,7 +173,11 @@ int Client::readListFile(const string& list_path) {
             failed = 1;
           } else {
             /* New backup path */
-            path = new Path(current->c_str());
+            if ((*current)[0] == '~') {
+              path = new Path((_home_path + &(*current)[1]).c_str());
+            } else {
+              path = new Path(current->c_str());
+            }
             if (verbosity() > 1) {
               cout << " --> Path: " << path->path() << endl;
             }
@@ -297,6 +301,7 @@ Client::Client(string value) {
   _name         = value;
   _host_or_ip   = _name;
   _protocol     = "";
+  _home_path    = "";
   _mount_point  = "";
   _mounted      = "";
   _initialised  = false;

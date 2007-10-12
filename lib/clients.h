@@ -47,6 +47,7 @@ class Client {
   list<Option>  _options;
   //
   bool          _initialised;
+  string        _home_path;
   string        _mount_point;
   string        _mounted;
   int mountPath(string  backup_path, string  *path);
@@ -69,10 +70,12 @@ public:
   //
   bool initialised() const { return _initialised; }
   void setInitialised() { _initialised = true; }
+  void setBasePath(const string& home_path) {
+    _home_path = home_path;
+  }
   void setMountPoint(const string& mount_point) {
     _mount_point = mount_point;
   }
-  string mountPoint() { return _mount_point; }
   int  backup(Database& db, bool config_check = false);
   void show();
 };

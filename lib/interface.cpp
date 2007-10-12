@@ -32,17 +32,17 @@ using namespace std;
 
 using namespace hbackup;
 
+#define DEFAULT_DB_PATH "/backup"
+
 struct HBackup::Private {
-  const char    *default_db_path;
   Database*     db;
   list<string>  selected_clients;
   list<Client*> clients;
 };
 
 HBackup::HBackup() {
-  _d                  = new Private;
-  _d->default_db_path = "/backup";
-  delete _d->db;
+  _d            = new Private;
+  _d->db        = NULL;
   _d->selected_clients.clear();
   _d->clients.clear();
 }
@@ -53,7 +53,6 @@ HBackup::~HBackup() {
     delete *client;
   }
   free(_d->db);
-  _d->default_db_path = NULL;
   delete _d;
 }
 
@@ -69,6 +68,22 @@ int HBackup::addClient(const char* name) {
     return -1;
   }
   _d->selected_clients.insert(client, name);
+  return 0;
+}
+
+int HBackup::setUserPath(const char* home_path) {
+  string path = home_path;
+  
+  // Set-up DB
+  _d->db = new Database(path + "/.hbackup");
+
+  // Set-up client info
+  Client* client = new Client("localhost");
+  client->setProtocol("file");
+  client->setListfile((_d->db->path() + "/config").c_str());
+  client->setBasePath(home_path);
+  _d->clients.push_back(client);
+
   return 0;
 }
 
@@ -193,7 +208,7 @@ int HBackup::readConfig(const char* config_path) {
 
   // Use default DB path if none specified
   if (_d->db == NULL) {
-    _d->db = new Database(_d->default_db_path);
+    _d->db = new Database(DEFAULT_DB_PATH);
   }
   return 0;
 }

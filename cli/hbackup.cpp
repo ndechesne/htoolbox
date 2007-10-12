@@ -22,6 +22,7 @@
 
 using namespace std;
 
+#include <stdlib.h>
 #include <signal.h>
 #include <errno.h>
 
@@ -45,15 +46,17 @@ static void show_version(void) {
 static void show_help(void) {
   show_version();
   cout << "Options are:" << endl;
-  cout << " -h or --help     to print this help and exit" << endl;
-  cout << " -V or --version  to print version and exit" << endl;
-  cout << " -c or --config   to specify a configuration file other than \
+  cout << " -h or --help     print this help and exit" << endl;
+  cout << " -V or --version  print version and exit" << endl;
+  cout << " -c or --config   specify a configuration file other than \
 /etc/hbackup/hbackup.conf" << endl;
-  cout << " -l or --list     to list the available data" << endl;
-  cout << " -r or --restore  to actually restore a path" << endl;
-  cout << " -s or --scan     to scan the database for missing data" << endl;
-  cout << " -t or --check    to check the database for corrupted data" << endl;
-  cout << " -v or --verbose  to be more verbose (also -vv and -vvv)" << endl;
+  cout << " -d or --debug    print debug information" << endl;
+  cout << " -l or --list     list the available data" << endl;
+  cout << " -r or --restore  actually restore a path" << endl;
+  cout << " -s or --scan     scan the database for missing data" << endl;
+  cout << " -t or --check    check the database for corrupted data" << endl;
+  cout << " -u or --user     user-mode backup" << endl;
+  cout << " -v or --verbose  print progress information" << endl;
   cout << " -C or --client   specify client to backup (more than one allowed)"
     << endl;
 }
@@ -88,6 +91,7 @@ int main(int argc, char **argv) {
   bool              check             = false;
   bool              config_check      = false;
   // Backup
+  bool              user              = false;
   bool              expect_client     = false;
   // Restoration
   bool              show_list         = false;
@@ -174,6 +178,8 @@ int main(int argc, char **argv) {
           letter = 't';
         } else if (! strcmp(&argv[argn][2], "configcheck")) {
           letter = 'p';
+        } else if (! strcmp(&argv[argn][2], "user")) {
+          letter = 'u';
         } else if (! strcmp(&argv[argn][2], "verbose")) {
           letter = 'v';
         } else if (! strcmp(&argv[argn][2], "client")) {
@@ -214,6 +220,9 @@ int main(int argc, char **argv) {
         case 'p':
           config_check = true;
           break;
+        case 'u':
+          user = true;
+          break;
         case 'v':
           verbose = 1;
           break;
@@ -244,6 +253,11 @@ int main(int argc, char **argv) {
   }
 
   // Read config before using HBackup
+  if (user) {
+    if (hbackup.setUserPath(getenv("HOME"))) {
+      return 2;
+    }
+  } else
   if (hbackup.readConfig(config_path.c_str())) {
     return 2;
   }
