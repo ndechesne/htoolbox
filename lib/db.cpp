@@ -456,7 +456,6 @@ int Database::open(bool read_only) {
 
 //   // Open merged list (can fail)
 //   if (! read_only && ! failed) {
-//     // TODO rename as list.part
 //     _d->merge = new List(_path.c_str(), "list.temp");
 //     if (_d->merge->open("w")) {
 //       cerr << "db: open: cannot open merge list" << endl;
@@ -850,11 +849,13 @@ int Database::scan(const string& checksum, bool thorough) {
 
 void Database::setPrefix(
     const char* prefix) {
+  // Finish previous prefix work (removed items at end of list)
   if (_d->prefix.length() != 0) {
     sendEntry(NULL, NULL, NULL);
   }
   _d->prefix           = prefix;
   _d->prefixJournalled = false;
+  // This will add the prefix if not found, copy it if found
   _d->list->search(prefix, "", _d->merge);
 }
 
@@ -899,9 +900,6 @@ int Database::sendEntry(
     if (_d->list->getLineType() != '-') {
       if (! _d->prefixJournalled) {
         _d->journal->prefix(_d->prefix.c_str());
-        if (_d->merge != NULL) {
-          _d->merge->prefix(_d->prefix.c_str());
-        }
         _d->prefixJournalled = true;
       }
       _d->journal->path(db_path);
@@ -1018,7 +1016,7 @@ int Database::add(
       } else {
         // Copy data
         char* temp_path = NULL;
-        char* checksum   = NULL;
+        char* checksum  = NULL;
         asprintf(&temp_path, "%s/%s", local_path, node->name());
         if (! write(string(temp_path), &checksum)) {
           ((File*)node2)->setChecksum(checksum);
@@ -1034,17 +1032,23 @@ int Database::add(
   }
 
   if (! failed || (old_checksum == NULL)) {
+    time_t ts;
+    if ((old_checksum != NULL) && (old_checksum[0] == '\0')) {
+      ts = 0;
+    } else {
+      ts = time(NULL);
+    }
     // Add entry info to journal
     if (! _d->prefixJournalled) {
       _d->journal->prefix(_d->prefix.c_str());
       _d->prefixJournalled = true;
     }
     _d->journal->path(full_path);
-    _d->journal->data(
-      (old_checksum != NULL) && (old_checksum[0] == '\0') ? 0 : time(NULL),
-      node2);
+    _d->journal->data(ts, node2);
     // Merge on the fly
     if (_d->merge != NULL) {
+      _d->merge->path(full_path);
+      _d->merge->data(ts, node2);
     }
   }
 
