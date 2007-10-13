@@ -91,12 +91,12 @@ public:
     list<Node*>&    list);
   // Search data in list copying contents on the fly if required, and
   // also expiring data and putting checksums in lists !
-  // Searches:                                  Prefix      Path
-  //    end of file                             ""          ""
-  //    prefix                                  prefix      ""
-  //    prefix and path                         prefix      path
-  //    any prefix                              NULL
-  //    prefix and any path                     prefix      NULL
+  // Searches:                        Prefix      Path        Copy
+  //    end of file                   ""          ""          yes
+  //    prefix                        prefix      ""          yes
+  //    prefix and path               prefix      path        yes
+  //    any prefix                    NULL                    no
+  //    prefix and any path           prefix      NULL        no
   // Return code:
   //    -1: error, 0: end of file, 1: exceeded, 2: found
   // Caution:

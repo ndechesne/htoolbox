@@ -661,7 +661,9 @@ int List::search(
             return -1;
           }
         } else
-        if ((prefix_l != NULL) && (prefix_l[0] != '\0')) {
+        if ((prefix_l != NULL)
+         && (prefix_l[0] != '\0')
+         && (path_l != NULL)) {
           // Write prefix
           if (list->write(prefix_l, strlen(prefix_l)) < 0) {
             // Could not write
