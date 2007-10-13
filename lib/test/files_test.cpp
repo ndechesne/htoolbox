@@ -326,7 +326,7 @@ int main(void) {
     cout << "read size: " << read_size
       << " (" << readfile->size() << " -> " <<  readfile->dsize()
       << "), checksum: " << readfile->checksum() << endl;
-    cout << "write size: " << write_size
+    cout << "write size (wrong): " << write_size
       << " (" << writefile->dsize() << " -> " <<  writefile->size()
       << "), checksum: " << writefile->checksum() << endl;
   }

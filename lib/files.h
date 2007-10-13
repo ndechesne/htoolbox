@@ -304,8 +304,6 @@ public:
     void*           buffer,
     size_t          count);
   // Write to file
-  // Important note: you MUST signal the end of file for compression to end
-  // properly, by calling one last time write with count = 0
   ssize_t write(
     const void*     buffer,
     size_t          count);

@@ -393,7 +393,7 @@ ssize_t Stream::write(const void* buffer, size_t count) {
 
   if (count > chunk) count = chunk;
 
-  if (count == 0) {
+  if ((count == 0) && (buffer == NULL)) {
     if (finish) {
       // Finished last time
       return 0;
