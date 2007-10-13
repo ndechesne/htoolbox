@@ -387,60 +387,74 @@ int List::getEntry(
   return 1;
 }
 
-int List::added(
-    const char*   prefix,
-    const char*   path,
-    const Node*   node,
-    time_t        timestamp) {
-  if (prefix != NULL) {
-    Stream::write(prefix, strlen(prefix));
-    Stream::write("\n", 1);
+int List::prefix(
+    const char*     prefix) {
+  ssize_t length = strlen(prefix);
+  if ((Stream::write(prefix, length) != length)
+   || (Stream::write("\n", 1) != 1)) {
+    return -1;
   }
-  Stream::write("\t", 1);
-  Stream::write(path, strlen(path));
-  Stream::write("\n", 1);
-  char* line = NULL;
-  int size = asprintf(&line, "\t\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o",
-    (timestamp >= 0) ? timestamp : time(NULL), node->type(), node->size(),
-    node->mtime(), node->uid(), node->gid(), node->mode());
-  Stream::write(line, size);
-  free(line);
-  switch (node->type()) {
-    case 'f':
-      Stream::write("\t", 1);
-      {
-        const char* checksum = ((File*) node)->checksum();
-        Stream::write(checksum, strlen(checksum));
-      }
-      break;
-    case 'l':
-      Stream::write("\t", 1);
-      {
-        const char* link = ((Link*) node)->link();
-        Stream::write(link, strlen(link));
-      }
-  }
-  Stream::write("\n", 1);
   return 0;
 }
 
-int List::removed(
-    const char*   prefix,
-    const char*   path,
-    time_t        timestamp) {
-  if (prefix != NULL) {
-    Stream::write(prefix, strlen(prefix));
-    Stream::write("\n", 1);
+int List::path(
+    const char*     path) {
+  ssize_t length = strlen(path);
+  if ((Stream::write("\t", 1) != 1)
+   || (Stream::write(path, length) != length)
+   || (Stream::write("\n", 1) != 1)) {
+    return -1;
   }
-  Stream::write("\t", 1);
-  Stream::write(path, strlen(path));
-  Stream::write("\n", 1);
-  char* line = NULL;
-  int size = asprintf(&line, "\t\t%ld\t-\n",
-    (timestamp >= 0) ? timestamp : time(NULL));
-  Stream::write(line, size);
-  free(line);
   return 0;
+}
+
+int List::data(
+    time_t          timestamp,
+    const Node*     node) {
+  char* line = NULL;
+  int   rc   = 0;
+
+  if (node == NULL) {
+    int size = asprintf(&line, "\t\t%ld\t-\n", timestamp);
+    if (Stream::write(line, size) != size) {
+      rc = -1;
+    }
+  } else {
+    int size = asprintf(&line, "\t\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o",
+      timestamp, node->type(), node->size(), node->mtime(), node->uid(),
+      node->gid(), node->mode());
+    if (Stream::write(line, size) != size) {
+      rc = -1;
+    } else
+    switch (node->type()) {
+      case 'f':
+        if (Stream::write("\t", 1) != 1) {
+          rc = -1;
+        } else {
+          const char* extra  = ((File*) node)->checksum();
+          int         length = strlen(extra);
+          if (Stream::write(extra, length) != length) {
+            rc = -1;
+          }
+        }
+        break;
+      case 'l':
+        if (Stream::write("\t", 1) != 1) {
+          rc = -1;
+        } else {
+          const char* extra  = ((Link*) node)->link();
+          int         length = strlen(extra);
+          if (Stream::write(extra, length) != length) {
+            rc = -1;
+          }
+        }
+    }
+    if ((rc == 0) && (Stream::write("\n", 1) != 1)) {
+      return -1;
+    }
+  }
+  free(line);
+  return rc;
 }
 
 int List::search(

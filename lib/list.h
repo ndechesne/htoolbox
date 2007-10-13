@@ -22,7 +22,7 @@
 namespace hbackup {
 
 class List : public Stream {
-  string          _line;
+  string            _line;
   // _line_status meaning:
   //  -2: unexpected end of file
   //  -1: error
@@ -30,23 +30,23 @@ class List : public Stream {
   //   1: line contains no valid data
   //   2: line contains found data, will only re-used in getEntry
   //   3: line contains data to be re-used
-  int             _line_status;
+  int               _line_status;
   // Need to keep prefix status for search()
-  int             _prefix_cmp;
+  int               _prefix_cmp;
   // Decode metadata from current line
   int decodeLine(
-    const char*   path,
-    Node**        node,
-    time_t*       timestamp);
+    const char*     path,
+    Node**          node,
+    time_t*         timestamp);
 public:
   List(
-    const char*   dir_path,
-    const char*   name = "") :
+    const char*     dir_path,
+    const char*     name = "") :
     Stream(dir_path, name) {}
   // Open file, for read or write (no append), with compression (cf. Stream)
   int open(
-    const char*   req_mode,
-    int           compression = 0);
+    const char*     req_mode,
+    int             compression = 0);
   // Close file
   int close();
   // Empty file (check right after opening for read)
@@ -68,28 +68,27 @@ public:
   // Return code:
   //    -1: error, 0: end of file, 1: success
   int getEntry(
-    time_t*       timestamp,
-    char**        prefix,
-    char**        path,
-    Node**        node,
-    time_t        date = -1);
-  // Add a journal record of added file
-  int added(
-    const char*   prefix,             // Set to NULL not to add prefix
-    const char*   path,
-    const Node*   node,
-    time_t        timestamp = -1);
-  // Add a journal record of removed file
-  int removed(
-    const char*   prefix,             // Set to NULL not to add prefix
-    const char*   path,
-    time_t        timestamp = -1);
+    time_t*         timestamp,
+    char**          prefix,
+    char**          path,
+    Node**          node,
+    time_t          date = -1);
+  // Add prefix to list
+  int prefix(
+    const char*     prefix);
+  // Add path to list
+  int path(
+    const char*     path);
+  // Add data to list
+  int data(
+    time_t          timestamp,
+    const Node*     node = NULL);
   // Get a list of active records for given prefix and paths
   void getList(
-    const char*   prefix,
-    const char*   base_path,
-    const char*   rel_path,
-    list<Node*>&  list);
+    const char*     prefix,
+    const char*     base_path,
+    const char*     rel_path,
+    list<Node*>&    list);
   // Search data in list copying contents on the fly if required, and
   // also expiring data and putting checksums in lists !
   // Searches:                                  Prefix      Path
@@ -111,8 +110,8 @@ public:
     list<string>*   expired = NULL);  // List of expired checksums
   // Merge list and backup into this list
   int  merge(
-    List&         list,
-    List&         journal);
+    List&           list,
+    List&           journal);
 };
 
 }

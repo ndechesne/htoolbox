@@ -897,14 +897,20 @@ int Database::sendEntry(
     }
     // Not reached, mark 'removed' (getLineType keeps line automatically)
     if (_d->list->getLineType() != '-') {
-      _d->journal->removed(_d->prefixJournalled? NULL : _d->prefix.c_str(),
-          db_path);
-      _d->prefixJournalled = true;
+      if (! _d->prefixJournalled) {
+        _d->journal->prefix(_d->prefix.c_str());
+        if (_d->merge != NULL) {
+          _d->merge->prefix(_d->prefix.c_str());
+        }
+        _d->prefixJournalled = true;
+      }
+      _d->journal->path(db_path);
+      _d->journal->data(time(NULL));
       // FIXME Merge on the fly
       if (_d->merge != NULL) {
         // Add path and 'removed' entry
-        _d->merge->removed(_d->prefixJournalled? NULL : _d->prefix.c_str(),
-          db_path);
+        _d->merge->path(db_path);
+        _d->merge->data(time(NULL));
         // Get rid of cached path line
         _d->list->getLine();
         }
@@ -1029,13 +1035,17 @@ int Database::add(
 
   if (! failed || (old_checksum == NULL)) {
     // Add entry info to journal
-    _d->journal->added(_d->prefixJournalled ? NULL : _d->prefix.c_str(),
-      full_path, node2,
-      (old_checksum != NULL) && (old_checksum[0] == '\0') ? 0 : -1);
+    if (! _d->prefixJournalled) {
+      _d->journal->prefix(_d->prefix.c_str());
+      _d->prefixJournalled = true;
+    }
+    _d->journal->path(full_path);
+    _d->journal->data(
+      (old_checksum != NULL) && (old_checksum[0] == '\0') ? 0 : time(NULL),
+      node2);
     // Merge on the fly
     if (_d->merge != NULL) {
     }
-    _d->prefixJournalled = true;
   }
 
   free(full_path);

@@ -88,20 +88,29 @@ int main(void) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
-  journal.removed("prefix", "file_gone");
+  journal.prefix("prefix");
+  journal.path("file_gone");
+  journal.data(time(NULL));
   node = new Stream("test1/test space");
   // No checksum
-  journal.added("prefix2", "file sp", node);
+  journal.prefix("prefix2");
+  journal.path("file sp");
+  journal.data(time(NULL), node);
   free(node);
   node = new Stream("test1/testfile");
   ((Stream*) node)->computeChecksum();
-  journal.added(NULL, "file_new", node);
+  journal.path("file_new");
+  journal.data(time(NULL), node);
   free(node);
   node = new Link("test1/testlink");
-  journal.added("prefix3", "link", node);
+  journal.prefix("prefix3");
+  journal.path("link");
+  journal.data(time(NULL), node);
   free(node);
   node = new Directory("test1/testdir");
-  journal.added("prefix5", "path", node);
+  journal.prefix("prefix5");
+  journal.path("path");
+  journal.data(time(NULL), node);
   free(node);
   journal.close();
 
@@ -189,19 +198,26 @@ int main(void) {
   system("echo \"this is my new test\" > test1/testfile");
   node = new Stream("test1/testfile");
   ((Stream*) node)->computeChecksum();
-  journal.added("prefix", "file_new", node);
+  journal.prefix("prefix");
+  journal.path("file_new");
+  journal.data(time(NULL), node);
   free(node);
   node = new Stream("test1/test space");
   ((Stream*) node)->computeChecksum();
-  journal.added("prefix2", "file sp", node, 0);
+  journal.prefix("prefix2");
+  journal.path("file sp");
+  journal.data(0, node);
   free(node);
   node = new Stream("test1/testfile");
   ((Stream*) node)->computeChecksum();
-  journal.added(NULL, "file_new", node);
+  journal.path("file_new");
+  journal.data(time(NULL), node);
   free(node);
   node = new Stream("test1/test space");
   ((Stream*) node)->computeChecksum();
-  journal.added("prefix4", "file_new", node);
+  journal.prefix("prefix4");
+  journal.path("file_new");
+  journal.data(time(NULL), node);
   free(node);
   journal.close();
 
@@ -406,8 +422,12 @@ int main(void) {
   system("echo \"this is my new test\" > test1/testfile");
   node = new Stream("test1/testfile");
   ((Stream*) node)->computeChecksum();
-  journal.added("prefix4", "file_new", node);
-  journal.added("prefix2", "file_new", node);
+  journal.prefix("prefix4");
+  journal.path("file_new");
+  journal.data(time(NULL), node);
+  journal.prefix("prefix2");
+  journal.path("file_new");
+  journal.data(time(NULL), node);
   free(node);
   journal.close();
 
@@ -485,8 +505,11 @@ int main(void) {
   system("echo \"this is my new test\" > test1/testfile");
   node = new Stream("test1/testfile");
   ((Stream*) node)->computeChecksum();
-  journal.added("prefix2", "file_new", node);
-  journal.added(NULL, "file_gone", node);
+  journal.prefix("prefix2");
+  journal.path("file_new");
+  journal.data(time(NULL), node);
+  journal.path("file_gone");
+  journal.data(time(NULL), node);
   free(node);
   journal.close();
 
@@ -690,7 +713,9 @@ int main(void) {
   system("echo \"this is my other test\" > test1/testfile");
   node = new Stream("test1/testfile");
   ((Stream*) node)->computeChecksum();
-  journal.added("prefix", "file_new", node);
+  journal.prefix("prefix");
+  journal.path("file_new");
+  journal.data(time(NULL), node);
   free(node);
   node = NULL;
   journal.close();
