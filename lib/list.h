@@ -33,11 +33,6 @@ class List : public Stream {
   int               _line_status;
   // Need to keep prefix status for search()
   int               _prefix_cmp;
-  // Decode metadata from current line
-  int decodeLine(
-    const char*     path,
-    Node**          node,
-    time_t*         timestamp);
 public:
   List(
     const char*     dir_path,
@@ -51,12 +46,20 @@ public:
   int close();
   // Empty file (check right after opening for read)
   bool isEmpty() const { return _line_status == 0; }
-  // Get relevant line
+  // Get current line
+  const char* line(ssize_t* length = NULL);
+  // Buffer relevant line
   ssize_t getLine(bool use_found = false);
   // Put line into list buffer (will fail and return -1 if buffer in use)
   ssize_t putLine(const char* line);
   // Mark current line for re-use
   void keepLine();
+  // Decode metadata from current line
+  int decodeLine(
+    const char*     line,
+    const char*     path,
+    Node**          node,
+    time_t*         timestamp);
   // Get current line type (will get a new line if necessary)
   char getLineType();
   // Convert one or several line(s) to data
@@ -83,12 +86,6 @@ public:
   int data(
     time_t          timestamp,
     const Node*     node = NULL);
-  // Get a list of active records for given prefix and paths
-  void getList(
-    const char*     prefix,
-    const char*     base_path,
-    const char*     rel_path,
-    list<Node*>&    list);
   // Search data in list copying contents on the fly if required, and
   // also expiring data and putting checksums in lists !
   // Searches:                        Prefix      Path        Copy
