@@ -58,26 +58,14 @@ int List::open(
     if (_line != header) {
       errno = EUCLEAN;
       rc = -1;
-    } else {
-      ssize_t size = Stream::getLine(_line);
-      if (size < 0) {
-        // Signal error
-        _line_status = -1;
-        rc = -1;
-      } else
-      if (size == 0) {
-        // Signal unexpected end of file
-        _line_status = -2;
-      } else
-      // Check emptiness
-      if (_line[0] == '#') {
-        // Signal emptiness
-        _line_status = 0;
-      } else
-      // Tell reader that there is a line cached
-      {
-        _line_status = 3;
-      }
+    }
+    _line_status = 1;
+    getLine();
+    if (_line_status < 0) {
+      rc = -1;
+    } else
+    if (_line_status == 1) {
+      _line_status = 3;
     }
     _prefix_cmp = 0;
   }
@@ -130,6 +118,10 @@ ssize_t List::getLine(bool use_found) {
       } else
       if (length == 0) {
         _line_status = -2;
+      } else
+      if (_line[0] == '#') {
+        // Signal end of file
+        _line_status = 0;
       } else
       {
         _line_status = 1;
