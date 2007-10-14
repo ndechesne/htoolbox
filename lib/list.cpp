@@ -87,7 +87,7 @@ int List::close() {
   return rc;
 }
 
-const char* List::line(ssize_t* length) {
+const char* List::line(ssize_t* length) const {
   if (length != NULL) {
     *length = _line.length();
   }
@@ -168,6 +168,7 @@ int List::decodeLine(
   mode_t      mode;             // permissions
   char*       extra = NULL;     // file checksum
 
+  errno = 0;
   for (int field = 1; field <= fields; field++) {
     // Get tabulation position
     const char* delim;
@@ -176,13 +177,13 @@ int List::decodeLine(
       delim = strchr(start, '\n');
     }
     if (delim == NULL) {
+      field = 0;
       errno = EUCLEAN;
     } else {
       // Extract data
       switch (field) {
         case 1:   // DB timestamp
-          if ((timestamp != NULL)
-            && sscanf(start, "%ld", timestamp) != 1) {
+          if ((timestamp != NULL) && sscanf(start, "%ld", timestamp) != 1) {
             errno = EUCLEAN;
           }
           break;
@@ -230,7 +231,7 @@ int List::decodeLine(
       start = delim + 1;
     }
     if (errno != 0) {
-      cerr << "dblist: file corrupted line " << line << endl;
+      cerr << "Field " << field << " corrupted in line: " << line << endl;
       errno = EUCLEAN;
       break;
     }

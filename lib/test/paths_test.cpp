@@ -48,8 +48,8 @@ time_t time(time_t *t) {
   return my_time;
 }
 
-static void showLine(time_t timestamp, char* prefix, char* path, Node* node) {
-  printf("[%2ld] %-16s %-34s", timestamp, prefix, path);
+static void showLine(time_t timestamp, Node* node) {
+  printf("[%2ld]", timestamp);
   if (node != NULL) {
     printf(" %c %5llu %03o", node->type(), node->size(), node->mode());
     if (node->type() == 'f') {
@@ -59,28 +59,30 @@ static void showLine(time_t timestamp, char* prefix, char* path, Node* node) {
       printf(" %s", ((Link*) node)->link());
     }
   } else {
-    printf(" [rm]");
+    printf(" -");
   }
   cout << endl;
 }
 
 static void showList(List& slist) {
-  time_t  timestamp;
-  char*   prefix = NULL;
-  char*   path   = NULL;
-  Node*   node   = NULL;
-
   if (! slist.open("r")) {
-    while (slist.getEntry(&timestamp, &prefix, &path, &node) > 0) {
-      showLine(timestamp, prefix, path, node);
+    while ((slist.getLine() > 0) && (slist.lineStatus() > 0)) {
+      const char* line = slist.line();
+      if (line[1] != '\t') {
+        cout << slist.line();
+      } else {
+        time_t ts;
+        Node*  node   = NULL;
+
+        slist.decodeLine(line, "", &node, &ts);
+        showLine(ts, node);
+        free(node);
+      }
     }
     slist.close();
   } else {
     cerr << "Failed to open list" << endl;
   }
-  free(prefix);
-  free(path);
-  free(node);
 }
 
 int main(void) {

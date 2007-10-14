@@ -47,7 +47,9 @@ public:
   // Empty file (check right after opening for read)
   bool isEmpty() const { return _line_status == 0; }
   // Get current line
-  const char* line(ssize_t* length = NULL);
+  const char* line(ssize_t* length = NULL) const;
+  // Get current line status
+  int lineStatus() const { return _line_status; }
   // Buffer relevant line
   ssize_t getLine(bool use_found = false);
   // Put line into list buffer (will fail and return -1 if buffer in use)

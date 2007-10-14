@@ -55,70 +55,134 @@ Parsed 31 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 1] file://localhost /home/User/subdir/testfile         f    12 000 
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 1] f    12 000 
+	/home/User/subdir/testfile1
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
 
 Journal:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 1] file://localhost /home/User/subdir/testfile         f    12 000 
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 1] f    12 000 
+	/home/User/subdir/testfile1
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
  -> Database open
 as previous
  -> Entering cvs
@@ -146,37 +210,69 @@ Parsed 31 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 1] file://localhost /home/User/subdir/testfile         f    12 000 
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 1] f    12 000 
+	/home/User/subdir/testfile1
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
 
 Journal:
  -> Database open
@@ -204,40 +300,74 @@ Parsed 31 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
 
 Journal:
-[ 0] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+file://localhost
+	/home/User/subdir/testfile
+[ 0] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
  -> Database open
 as previous with subdir/testfile in ignore list
  -> Entering cvs
@@ -263,41 +393,75 @@ Parsed 30 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
 
 Journal:
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
+file://localhost
+	/home/User/subdir/testfile
+[ 4] -
  -> Database open
 as previous with subdir in ignore list
  -> Entering cvs
@@ -323,46 +487,82 @@ Parsed 27 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
 
 Journal:
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
+file://localhost
+	/home/User/subdir
+[ 5] -
+	/home/User/subdir/testfile1
+[ 5] -
+	/home/User/subdir/testfile2
+[ 5] -
  -> Database open
 as previous with testlink modified
  -> Entering cvs
@@ -386,45 +586,79 @@ Parsed 27 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
 
 Journal:
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
+file://localhost
+	/home/User/testlink
+[ 6] l     8 777 testnull
  -> Database open
 as previous with testlink in ignore list
  -> Entering cvs
@@ -448,46 +682,80 @@ Parsed 26 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] file://localhost /home/User/testlink                [rm]
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 7] -
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
 
 Journal:
-[ 7] file://localhost /home/User/testlink                [rm]
+file://localhost
+	/home/User/testlink
+[ 7] -
  -> Database open
 as previous with CVS parser
  -> Entering cvs
@@ -514,55 +782,93 @@ Parsed 21 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 8] file://localhost /home/User/cvs/dirbad/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/dirbad/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/diroth              [rm]
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/fileoth             [rm]
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] file://localhost /home/User/testlink                [rm]
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 8] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 7] -
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
 
 Journal:
-[ 8] file://localhost /home/User/cvs/dirbad/fileoth      [rm]
-[ 8] file://localhost /home/User/cvs/dirbad/fileutd      [rm]
-[ 8] file://localhost /home/User/cvs/diroth              [rm]
-[ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
-[ 8] file://localhost /home/User/cvs/fileoth             [rm]
+file://localhost
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+	/home/User/cvs/diroth
+[ 8] -
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+	/home/User/cvs/fileoth
+[ 8] -
  -> Database open
 as previous
  -> Entering cvs
@@ -585,48 +891,80 @@ Parsed 21 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 8] file://localhost /home/User/cvs/dirbad/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/dirbad/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/diroth              [rm]
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/fileoth             [rm]
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] file://localhost /home/User/testlink                [rm]
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 8] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 7] -
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
 
 Journal:
  -> Database open
@@ -650,58 +988,95 @@ Parsed 17 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 8] file://localhost /home/User/cvs/dirbad/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/dirbad/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/diroth              [rm]
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[10] file://localhost /home/User/cvs/dirutd              [rm]
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS          [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS/Entries  [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[10] file://localhost /home/User/cvs/dirutd/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/fileoth             [rm]
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] file://localhost /home/User/testlink                [rm]
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 8] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[10] -
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[10] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 7] -
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
 
 Journal:
-[10] file://localhost /home/User/cvs/dirutd              [rm]
-[10] file://localhost /home/User/cvs/dirutd/CVS          [rm]
-[10] file://localhost /home/User/cvs/dirutd/CVS/Entries  [rm]
-[10] file://localhost /home/User/cvs/dirutd/fileutd      [rm]
+file://localhost
+	/home/User/cvs/dirutd
+[10] -
+	/home/User/cvs/dirutd/CVS
+[10] -
+	/home/User/cvs/dirutd/CVS/Entries
+[10] -
+	/home/User/cvs/dirutd/fileutd
+[10] -
  -> Database open
 as previous with testpipe gone
  -> Entering cvs
@@ -720,56 +1095,90 @@ D /home/User/testpipe
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 8] file://localhost /home/User/cvs/dirbad/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/dirbad/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/diroth              [rm]
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[10] file://localhost /home/User/cvs/dirutd              [rm]
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS          [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS/Entries  [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[10] file://localhost /home/User/cvs/dirutd/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/fileoth             [rm]
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] file://localhost /home/User/testlink                [rm]
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[11] file://localhost /home/User/testpipe                [rm]
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 8] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[10] -
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[10] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 7] -
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[11] -
+[ 1] p     0 644
 
 Journal:
-[11] file://localhost /home/User/testpipe                [rm]
+file://localhost
+	/home/User/testpipe
+[11] -
  -> Database open
 as previous with testfile mode changed
  -> Entering cvs
@@ -788,57 +1197,91 @@ Parsed 16 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 8] file://localhost /home/User/cvs/dirbad/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/dirbad/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/diroth              [rm]
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[10] file://localhost /home/User/cvs/dirutd              [rm]
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS          [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS/Entries  [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[10] file://localhost /home/User/cvs/dirutd/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/fileoth             [rm]
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[12] file://localhost /home/User/testfile                f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] file://localhost /home/User/testlink                [rm]
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[11] file://localhost /home/User/testpipe                [rm]
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 8] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[10] -
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[10] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[12] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 7] -
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[11] -
+[ 1] p     0 644
 
 Journal:
-[12] file://localhost /home/User/testfile                f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+file://localhost
+	/home/User/testfile
+[12] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Database open
 as previous with cvs/filenew.c touched and testpipe restored
  -> Entering cvs
@@ -858,60 +1301,95 @@ Parsed 17 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 8] file://localhost /home/User/cvs/dirbad/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/dirbad/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/diroth              [rm]
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[10] file://localhost /home/User/cvs/dirutd              [rm]
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS          [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS/Entries  [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[10] file://localhost /home/User/cvs/dirutd/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[13] file://localhost /home/User/cvs/filenew.c           f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/fileoth             [rm]
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[12] file://localhost /home/User/testfile                f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] file://localhost /home/User/testlink                [rm]
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[13] file://localhost /home/User/testpipe                p     0 644
-[11] file://localhost /home/User/testpipe                [rm]
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 8] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[10] -
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[10] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[13] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[12] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 7] -
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[13] p     0 644
+[11] -
+[ 1] p     0 644
 
 Journal:
-[13] file://localhost /home/User/cvs/filenew.c           f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
-[13] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/cvs/filenew.c
+[13] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+	/home/User/testpipe
+[13] p     0 644
  -> Database open
 some troublesome past cases
  -> Entering cvs
@@ -965,98 +1443,171 @@ Parsed 37 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 8] file://localhost /home/User/cvs/dirbad/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/dirbad/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/diroth              [rm]
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[10] file://localhost /home/User/cvs/dirutd              [rm]
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS          [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS/Entries  [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[10] file://localhost /home/User/cvs/dirutd/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[13] file://localhost /home/User/cvs/filenew.c           f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/fileoth             [rm]
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml             d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7       d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.0         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.0/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.1.2       d     0 755
-[14] file://localhost /home/User/docbook-xml/4.1.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.2         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.3         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.3/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.4         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.4/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat         f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat.old     f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[14] file://localhost /home/User/testdir/biblio          d     0 755
-[14] file://localhost /home/User/testdir/biblio/biblio.dbf f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/testdir/biblio/biblio.dbt f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/testdir/biblio.odb      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/testdir/evolocal.odb    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[12] file://localhost /home/User/testfile                f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] file://localhost /home/User/testlink                [rm]
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[13] file://localhost /home/User/testpipe                p     0 644
-[11] file://localhost /home/User/testpipe                [rm]
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 8] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[10] -
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[10] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[13] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.0
+[14] d     0 755
+	/home/User/docbook-xml/4.0/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.1.2
+[14] d     0 755
+	/home/User/docbook-xml/4.1.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.2
+[14] d     0 755
+	/home/User/docbook-xml/4.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.3
+[14] d     0 755
+	/home/User/docbook-xml/4.3/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.4
+[14] d     0 755
+	/home/User/docbook-xml/4.4/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat.old
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testdir/biblio
+[14] d     0 755
+	/home/User/testdir/biblio/biblio.dbf
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio/biblio.dbt
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio.odb
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/evolocal.odb
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testfile
+[12] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 7] -
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[13] p     0 644
+[11] -
+[ 1] p     0 644
 
 Journal:
-[14] file://localhost /home/User/docbook-xml             d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7       d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.0         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.0/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.1.2       d     0 755
-[14] file://localhost /home/User/docbook-xml/4.1.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.2         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.3         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.3/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.4         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.4/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat         f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat.old     f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/testdir/biblio          d     0 755
-[14] file://localhost /home/User/testdir/biblio/biblio.dbf f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/testdir/biblio/biblio.dbt f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/testdir/biblio.odb      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/testdir/evolocal.odb    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+file://localhost
+	/home/User/docbook-xml
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.0
+[14] d     0 755
+	/home/User/docbook-xml/4.0/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.1.2
+[14] d     0 755
+	/home/User/docbook-xml/4.1.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.2
+[14] d     0 755
+	/home/User/docbook-xml/4.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.3
+[14] d     0 755
+	/home/User/docbook-xml/4.3/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.4
+[14] d     0 755
+	/home/User/docbook-xml/4.4/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat.old
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio
+[14] d     0 755
+	/home/User/testdir/biblio/biblio.dbf
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio/biblio.dbt
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio.odb
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/evolocal.odb
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
  -> Database open
  -> Entering cvs
  -> Entering cvs/CVS
@@ -1090,76 +1641,128 @@ Parsed 37 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 8] file://localhost /home/User/cvs/dirbad/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/dirbad/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/diroth              [rm]
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[10] file://localhost /home/User/cvs/dirutd              [rm]
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS          [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS/Entries  [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[10] file://localhost /home/User/cvs/dirutd/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[13] file://localhost /home/User/cvs/filenew.c           f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/fileoth             [rm]
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml             d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7       d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.0         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.0/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.1.2       d     0 755
-[14] file://localhost /home/User/docbook-xml/4.1.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.2         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.3         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.3/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.4         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.4/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat         f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat.old     f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[14] file://localhost /home/User/testdir/biblio          d     0 755
-[14] file://localhost /home/User/testdir/biblio/biblio.dbf f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/testdir/biblio/biblio.dbt f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/testdir/biblio.odb      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/testdir/evolocal.odb    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[12] file://localhost /home/User/testfile                f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] file://localhost /home/User/testlink                [rm]
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[13] file://localhost /home/User/testpipe                p     0 644
-[11] file://localhost /home/User/testpipe                [rm]
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 8] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[10] -
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[10] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[13] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.0
+[14] d     0 755
+	/home/User/docbook-xml/4.0/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.1.2
+[14] d     0 755
+	/home/User/docbook-xml/4.1.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.2
+[14] d     0 755
+	/home/User/docbook-xml/4.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.3
+[14] d     0 755
+	/home/User/docbook-xml/4.3/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.4
+[14] d     0 755
+	/home/User/docbook-xml/4.4/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat.old
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testdir/biblio
+[14] d     0 755
+	/home/User/testdir/biblio/biblio.dbf
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio/biblio.dbt
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio.odb
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/evolocal.odb
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testfile
+[12] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 7] -
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[13] p     0 644
+[11] -
+[ 1] p     0 644
 
 Journal:
 
@@ -1210,196 +1813,335 @@ Parsed 33 file(s)
  -> Database closed
 
 List:
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 8] file://localhost /home/User/cvs/dirbad/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/dirbad/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/diroth              [rm]
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[10] file://localhost /home/User/cvs/dirutd              [rm]
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS          [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS/Entries  [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[10] file://localhost /home/User/cvs/dirutd/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[13] file://localhost /home/User/cvs/filenew.c           f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/fileoth             [rm]
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml             d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7       d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.0         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.0/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.1.2       d     0 755
-[14] file://localhost /home/User/docbook-xml/4.1.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.2         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.3         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.3/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.4         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.4/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat         f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat.old     f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[14] file://localhost /home/User/testdir/biblio          d     0 755
-[14] file://localhost /home/User/testdir/biblio/biblio.dbf f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/testdir/biblio/biblio.dbt f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/testdir/biblio.odb      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/testdir/evolocal.odb    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[12] file://localhost /home/User/testfile                f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] file://localhost /home/User/testlink                [rm]
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[13] file://localhost /home/User/testpipe                p     0 644
-[11] file://localhost /home/User/testpipe                [rm]
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 8] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[10] -
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[10] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[13] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.0
+[14] d     0 755
+	/home/User/docbook-xml/4.0/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.1.2
+[14] d     0 755
+	/home/User/docbook-xml/4.1.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.2
+[14] d     0 755
+	/home/User/docbook-xml/4.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.3
+[14] d     0 755
+	/home/User/docbook-xml/4.3/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.4
+[14] d     0 755
+	/home/User/docbook-xml/4.4/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat.old
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testdir/biblio
+[14] d     0 755
+	/home/User/testdir/biblio/biblio.dbf
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio/biblio.dbt
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio.odb
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/evolocal.odb
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testfile
+[12] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 7] -
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[13] p     0 644
+[11] -
+[ 1] p     0 644
 
 Journal:
-[16] file://host      /home/User/testdir                 d     0 755
-[16] file://host      /home/User/testfile                f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
-[16] file://host      /home/User/testfile2               f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
-[16] file://host      /home/User/testfile~               f 524288 644 59071590099d21dd439896592338bf95-0
-[16] file://localhost /home/User/crash                   d     0 755
-[16] file://localhost /home/User/crash/file              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir                 [rm]
-[16] file://localhost /home/User/testdir/biblio          [rm]
-[16] file://localhost /home/User/testdir/biblio/biblio.dbf [rm]
-[16] file://localhost /home/User/testdir/biblio/biblio.dbt [rm]
-[16] file://localhost /home/User/testdir/biblio.odb      [rm]
-[16] file://localhost /home/User/testdir/evolocal.odb    [rm]
-unexpected end of file
+file://host
+	/home/User/testdir
+[16] d     0 755
+	/home/User/testfile
+[16] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+	/home/User/testfile2
+[16] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+	/home/User/testfile~
+[16] f 524288 644 59071590099d21dd439896592338bf95-0
+file://localhost
+	/home/User/crash
+[16] d     0 755
+	/home/User/crash/file
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[16] -
+	/home/User/testdir/biblio
+[16] -
+	/home/User/testdir/biblio/biblio.dbf
+[16] -
+	/home/User/testdir/biblio/biblio.dbt
+[16] -
+	/home/User/testdir/biblio.odb
+[16] -
+	/home/User/testdir/evolocal.odb
+[16] -
 Previous crash detected, attempting recovery
 Unexpected end of journal, line 29
  -> Database open
 
 List:
-[16] file://host      /home/User/testdir                 d     0 755
-[16] file://host      /home/User/testfile                f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
-[16] file://host      /home/User/testfile2               f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
-[16] file://host      /home/User/testfile~               f 524288 644 59071590099d21dd439896592338bf95-0
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/crash                   d     0 755
-[16] file://localhost /home/User/crash/file              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 8] file://localhost /home/User/cvs/dirbad/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/dirbad/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/diroth              [rm]
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[10] file://localhost /home/User/cvs/dirutd              [rm]
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS          [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS/Entries  [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[10] file://localhost /home/User/cvs/dirutd/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[13] file://localhost /home/User/cvs/filenew.c           f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/fileoth             [rm]
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml             d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7       d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.0         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.0/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.1.2       d     0 755
-[14] file://localhost /home/User/docbook-xml/4.1.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.2         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.3         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.3/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.4         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.4/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat         f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat.old     f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir                 [rm]
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[16] file://localhost /home/User/testdir/biblio          [rm]
-[14] file://localhost /home/User/testdir/biblio          d     0 755
-[16] file://localhost /home/User/testdir/biblio/biblio.dbf [rm]
-[14] file://localhost /home/User/testdir/biblio/biblio.dbf f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir/biblio/biblio.dbt [rm]
-[14] file://localhost /home/User/testdir/biblio/biblio.dbt f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir/biblio.odb      [rm]
-[14] file://localhost /home/User/testdir/biblio.odb      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir/evolocal.odb    [rm]
-[14] file://localhost /home/User/testdir/evolocal.odb    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[12] file://localhost /home/User/testfile                f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] file://localhost /home/User/testlink                [rm]
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[13] file://localhost /home/User/testpipe                p     0 644
-[11] file://localhost /home/User/testpipe                [rm]
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://host
+	/home/User/testdir
+[16] d     0 755
+	/home/User/testfile
+[16] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+	/home/User/testfile2
+[16] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+	/home/User/testfile~
+[16] f 524288 644 59071590099d21dd439896592338bf95-0
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/crash
+[16] d     0 755
+	/home/User/crash/file
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 8] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[10] -
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[10] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[13] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.0
+[14] d     0 755
+	/home/User/docbook-xml/4.0/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.1.2
+[14] d     0 755
+	/home/User/docbook-xml/4.1.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.2
+[14] d     0 755
+	/home/User/docbook-xml/4.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.3
+[14] d     0 755
+	/home/User/docbook-xml/4.3/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.4
+[14] d     0 755
+	/home/User/docbook-xml/4.4/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat.old
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[16] -
+[ 1] d     0 755
+	/home/User/testdir/biblio
+[16] -
+[14] d     0 755
+	/home/User/testdir/biblio/biblio.dbf
+[16] -
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio/biblio.dbt
+[16] -
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio.odb
+[16] -
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/evolocal.odb
+[16] -
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testfile
+[12] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 7] -
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[13] p     0 644
+[11] -
+[ 1] p     0 644
 
 Journal:
-[16] file://host      /home/User/testdir                 d     0 755
-[16] file://host      /home/User/testfile                f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
-[16] file://host      /home/User/testfile2               f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
-[16] file://host      /home/User/testfile~               f 524288 644 59071590099d21dd439896592338bf95-0
-[16] file://localhost /home/User/crash                   d     0 755
-[16] file://localhost /home/User/crash/file              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir                 [rm]
-[16] file://localhost /home/User/testdir/biblio          [rm]
-[16] file://localhost /home/User/testdir/biblio/biblio.dbf [rm]
-[16] file://localhost /home/User/testdir/biblio/biblio.dbt [rm]
-[16] file://localhost /home/User/testdir/biblio.odb      [rm]
-[16] file://localhost /home/User/testdir/evolocal.odb    [rm]
-unexpected end of file
+file://host
+	/home/User/testdir
+[16] d     0 755
+	/home/User/testfile
+[16] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+	/home/User/testfile2
+[16] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+	/home/User/testfile~
+[16] f 524288 644 59071590099d21dd439896592338bf95-0
+file://localhost
+	/home/User/crash
+[16] d     0 755
+	/home/User/crash/file
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[16] -
+	/home/User/testdir/biblio
+[16] -
+	/home/User/testdir/biblio/biblio.dbf
+[16] -
+	/home/User/testdir/biblio/biblio.dbt
+[16] -
+	/home/User/testdir/biblio.odb
+[16] -
+	/home/User/testdir/evolocal.odb
+[16] -
  -> Journal is empty, not merging
  -> Database closed
  -> Database open
@@ -1436,89 +2178,148 @@ Parsed 33 file(s)
  -> Database closed
 
 List:
-[16] file://host      /home/User/testdir                 d     0 755
-[16] file://host      /home/User/testfile                f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
-[16] file://host      /home/User/testfile2               f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
-[16] file://host      /home/User/testfile~               f 524288 644 59071590099d21dd439896592338bf95-0
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/crash                   d     0 755
-[16] file://localhost /home/User/crash/file              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 8] file://localhost /home/User/cvs/dirbad/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/dirbad/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/diroth              [rm]
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[10] file://localhost /home/User/cvs/dirutd              [rm]
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS          [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS/Entries  [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[10] file://localhost /home/User/cvs/dirutd/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[13] file://localhost /home/User/cvs/filenew.c           f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/fileoth             [rm]
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml             d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7       d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.0         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.0/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.1.2       d     0 755
-[14] file://localhost /home/User/docbook-xml/4.1.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.2         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.3         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.3/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.4         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.4/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat         f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat.old     f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir                 [rm]
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[16] file://localhost /home/User/testdir/biblio          [rm]
-[14] file://localhost /home/User/testdir/biblio          d     0 755
-[16] file://localhost /home/User/testdir/biblio/biblio.dbf [rm]
-[14] file://localhost /home/User/testdir/biblio/biblio.dbf f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir/biblio/biblio.dbt [rm]
-[14] file://localhost /home/User/testdir/biblio/biblio.dbt f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir/biblio.odb      [rm]
-[14] file://localhost /home/User/testdir/biblio.odb      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir/evolocal.odb    [rm]
-[14] file://localhost /home/User/testdir/evolocal.odb    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[12] file://localhost /home/User/testfile                f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] file://localhost /home/User/testlink                [rm]
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[13] file://localhost /home/User/testpipe                p     0 644
-[11] file://localhost /home/User/testpipe                [rm]
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://host
+	/home/User/testdir
+[16] d     0 755
+	/home/User/testfile
+[16] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+	/home/User/testfile2
+[16] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+	/home/User/testfile~
+[16] f 524288 644 59071590099d21dd439896592338bf95-0
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/crash
+[16] d     0 755
+	/home/User/crash/file
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 8] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[10] -
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[10] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[13] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.0
+[14] d     0 755
+	/home/User/docbook-xml/4.0/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.1.2
+[14] d     0 755
+	/home/User/docbook-xml/4.1.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.2
+[14] d     0 755
+	/home/User/docbook-xml/4.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.3
+[14] d     0 755
+	/home/User/docbook-xml/4.3/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.4
+[14] d     0 755
+	/home/User/docbook-xml/4.4/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat.old
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[16] -
+[ 1] d     0 755
+	/home/User/testdir/biblio
+[16] -
+[14] d     0 755
+	/home/User/testdir/biblio/biblio.dbf
+[16] -
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio/biblio.dbt
+[16] -
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio.odb
+[16] -
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/evolocal.odb
+[16] -
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testfile
+[12] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 7] -
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[13] p     0 644
+[11] -
+[ 1] p     0 644
 
 Journal:
  -> Database open
@@ -1529,88 +2330,147 @@ Parsed 4 file(s)
  -> Database closed
 
 List:
-[16] file://host      /home/User/testdir                 d     0 755
-[16] file://host      /home/User/testfile                f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
-[16] file://host      /home/User/testfile2               f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
-[16] file://host      /home/User/testfile~               f 524288 644 59071590099d21dd439896592338bf95-0
-[ 1] file://localhost /home/User/àccénts_test          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/crash                   d     0 755
-[16] file://localhost /home/User/crash/file              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs                     d     0 755
-[ 1] file://localhost /home/User/cvs/CVS                 d     0 755
-[ 1] file://localhost /home/User/cvs/CVS/Entries         f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[ 1] file://localhost /home/User/cvs/dirbad              d     0 755
-[ 8] file://localhost /home/User/cvs/dirbad/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/dirbad/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirbad/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/diroth              [rm]
-[ 1] file://localhost /home/User/cvs/diroth              d     0 755
-[10] file://localhost /home/User/cvs/dirutd              [rm]
-[ 1] file://localhost /home/User/cvs/dirutd              d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS          [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS          d     0 755
-[10] file://localhost /home/User/cvs/dirutd/CVS/Entries  [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/CVS/Entries  f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 8] file://localhost /home/User/cvs/dirutd/fileoth      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileoth      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[10] file://localhost /home/User/cvs/dirutd/fileutd      [rm]
-[ 1] file://localhost /home/User/cvs/dirutd/fileutd      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/filemod.o           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[13] file://localhost /home/User/cvs/filenew.c           f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
-[ 1] file://localhost /home/User/cvs/filenew.c           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] file://localhost /home/User/cvs/fileoth             [rm]
-[ 1] file://localhost /home/User/cvs/fileoth             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/cvs/fileutd.h           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/dir space               d     0 755
-[ 1] file://localhost /home/User/dir space/file space    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml             d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7       d     0 755
-[14] file://localhost /home/User/docbook-xml/3.1.7/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.0         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.0/dbgenent.ent f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.1.2       d     0 755
-[14] file://localhost /home/User/docbook-xml/4.1.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.2         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.2/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.3         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.3/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml/4.4         d     0 755
-[14] file://localhost /home/User/docbook-xml/4.4/dbgenent.mod f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat         f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[14] file://localhost /home/User/docbook-xml.cat.old     f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir                  [rm]
-[ 1] file://localhost /home/User/subdir                  d     0 755
-[ 4] file://localhost /home/User/subdir/testfile         [rm]
-[ 1] file://localhost /home/User/subdir/testfile         f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 5] file://localhost /home/User/subdir/testfile1        [rm]
-[ 1] file://localhost /home/User/subdir/testfile1        f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] file://localhost /home/User/subdir/testfile2        [rm]
-[ 1] file://localhost /home/User/subdir/testfile2        f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] file://localhost /home/User/subdir-file             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/subdirfile              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] file://localhost /home/User/test space              f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir                 [rm]
-[ 1] file://localhost /home/User/testdir                 d     0 755
-[16] file://localhost /home/User/testdir/biblio          [rm]
-[14] file://localhost /home/User/testdir/biblio          d     0 755
-[16] file://localhost /home/User/testdir/biblio/biblio.dbf [rm]
-[14] file://localhost /home/User/testdir/biblio/biblio.dbf f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir/biblio/biblio.dbt [rm]
-[14] file://localhost /home/User/testdir/biblio/biblio.dbt f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir/biblio.odb      [rm]
-[14] file://localhost /home/User/testdir/biblio.odb      f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[16] file://localhost /home/User/testdir/evolocal.odb    [rm]
-[14] file://localhost /home/User/testdir/evolocal.odb    f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[12] file://localhost /home/User/testfile                f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile                f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] file://localhost /home/User/testfile~               f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] file://localhost /home/User/testlink                [rm]
-[ 6] file://localhost /home/User/testlink                l     8 777 testnull
-[ 1] file://localhost /home/User/testlink                l     8 777 testfile
-[13] file://localhost /home/User/testpipe                p     0 644
-[11] file://localhost /home/User/testpipe                [rm]
-[ 1] file://localhost /home/User/testpipe                p     0 644
+file://host
+	/home/User/testdir
+[16] d     0 755
+	/home/User/testfile
+[16] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+	/home/User/testfile2
+[16] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+	/home/User/testfile~
+[16] f 524288 644 59071590099d21dd439896592338bf95-0
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/crash
+[16] d     0 755
+	/home/User/crash/file
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 8] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[10] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[10] -
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[10] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[13] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 8] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.0
+[14] d     0 755
+	/home/User/docbook-xml/4.0/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.1.2
+[14] d     0 755
+	/home/User/docbook-xml/4.1.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.2
+[14] d     0 755
+	/home/User/docbook-xml/4.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.3
+[14] d     0 755
+	/home/User/docbook-xml/4.3/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.4
+[14] d     0 755
+	/home/User/docbook-xml/4.4/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat.old
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 5] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 4] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 5] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[16] -
+[ 1] d     0 755
+	/home/User/testdir/biblio
+[16] -
+[14] d     0 755
+	/home/User/testdir/biblio/biblio.dbf
+[16] -
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio/biblio.dbt
+[16] -
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio.odb
+[16] -
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/evolocal.odb
+[16] -
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testfile
+[12] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 7] -
+[ 6] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[13] p     0 644
+[11] -
+[ 1] p     0 644
 
 Journal:
