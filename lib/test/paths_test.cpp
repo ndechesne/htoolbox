@@ -64,6 +64,25 @@ static void showLine(time_t timestamp, char* prefix, char* path, Node* node) {
   cout << endl;
 }
 
+static void showList(List& slist) {
+  time_t  timestamp;
+  char*   prefix = NULL;
+  char*   path   = NULL;
+  Node*   node   = NULL;
+
+  if (! slist.open("r")) {
+    while (slist.getEntry(&timestamp, &prefix, &path, &node) > 0) {
+      showLine(timestamp, prefix, path, node);
+    }
+    slist.close();
+  } else {
+    cerr << "Failed to open list" << endl;
+  }
+  free(prefix);
+  free(path);
+  free(node);
+}
+
 int main(void) {
   umask(0022);
   Path* path = new Path("/home/User");
@@ -71,10 +90,6 @@ int main(void) {
   // Journal
   List    journal("test_db", "journal~");
   List    dblist("test_db", "list");
-  time_t  timestamp;
-  char*   prefix  = NULL;
-  char*   fpath   = NULL;
-  Node*   node    = NULL;
 
   // Initialisation
   my_time++;
@@ -97,36 +112,10 @@ int main(void) {
   }
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -144,36 +133,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -192,36 +155,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -243,36 +180,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -294,36 +205,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -346,36 +231,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -397,36 +256,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -447,36 +280,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -494,36 +301,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -545,36 +326,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -593,36 +348,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -641,36 +370,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -690,36 +393,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -759,36 +436,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -805,36 +456,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -868,73 +493,21 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
   List real_journal("test_db", "journal");
-  if (! real_journal.open("r")) {
-    while (real_journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    real_journal.close();
-  } else {
-    cerr << "Failed to open real journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(real_journal);
 
   // Recover now
   db.open();
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
   if (db.close()) {
     return 0;
   }
@@ -962,36 +535,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   // Next test
   my_time++;
@@ -1008,36 +555,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
-  if (! dblist.open("r")) {
-    while (dblist.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    dblist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  if (! journal.open("r")) {
-    while (journal.getEntry(&timestamp, &prefix, &fpath, &node) > 0) {
-      showLine(timestamp, prefix, fpath, node);
-    }
-    journal.close();
-  } else {
-    cerr << "Failed to open journal" << endl;
-  }
-  free(prefix);
-  prefix = NULL;
-  free(fpath);
-  fpath = NULL;
-  free(node);
-  node = NULL;
+  showList(journal);
 
   delete path;
   return 0;
