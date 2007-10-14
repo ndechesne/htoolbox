@@ -174,16 +174,18 @@ int List::decodeLine(
   uid_t       uid;              // user ID of owner
   gid_t       gid;              // group ID of owner
   mode_t      mode;             // permissions
-  const char* checksum = NULL;  // file checksum
-  const char* link     = NULL;  // what the link points to
+  char*       extra = NULL;     // file checksum
 
   for (int field = 1; field <= fields; field++) {
     // Get tabulation position
-    char* delim = strchr(start, '\t');
+    const char* delim;
+    delim = strchr(start, '\t');
+    if (delim == NULL) {
+      delim = strchr(start, '\n');
+    }
     if (delim == NULL) {
       errno = EUCLEAN;
     } else {
-      *delim = '\0';
       // Extract data
       switch (field) {
         case 1:   // DB timestamp
@@ -227,11 +229,8 @@ int List::decodeLine(
           }
           break;
         case 8:  // Checksum or Link
-            if (type == 'f') {
-              checksum = start;
-            } else if (type == 'l') {
-              link = start;
-            }
+          asprintf(&extra, "%s", start);
+          extra[strlen(extra) -1] = '\0';
           break;
         default:
           errno = EUCLEAN;;
@@ -249,14 +248,15 @@ int List::decodeLine(
       *node = NULL;
       break;
     case 'f':
-      *node = new File(path, type, mtime, size, uid, gid, mode, checksum);
+      *node = new File(path, type, mtime, size, uid, gid, mode, extra);
       break;
     case 'l':
-      *node = new Link(path, type, mtime, size, uid, gid, mode, link);
+      *node = new Link(path, type, mtime, size, uid, gid, mode, extra);
       break;
     default:
       *node = new Node(path, type, mtime, size, uid, gid, mode);
   }
+  free(extra);
   return (errno != 0) ? -1 : 0;
 }
 
@@ -376,13 +376,11 @@ int List::getEntry(
     if (got_path) {
       time_t ts;
       if (node != NULL) {
-        _line[length] = '\t';
         // Will set errno if an error is found
         decodeLine(_line.c_str(), path == NULL ? "" : *path, node, &ts);
         if (timestamp != NULL) {
           *timestamp = ts;
         }
-        _line[length] = '\n';
       }
       if ((date <= 0) || (ts <= date)) {
         break;
