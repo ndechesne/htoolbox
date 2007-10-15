@@ -344,6 +344,7 @@ int main(void) {
   delete f;
 
   db.close();
+  rename("test_db/journal~", "test_db/list");
 
   dblist.open("r");
   if (dblist.isEmpty()) {

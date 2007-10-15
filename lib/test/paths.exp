@@ -36,8 +36,8 @@ A /home/User/dir space/file space
  -> Leaving dir space
 A /home/User/subdir
  -> Entering subdir
-Permission denied: test1/subdir/testfile
 A /home/User/subdir/testfile
+Permission denied: test1/subdir/testfile
 A /home/User/subdir/testfile1
 A /home/User/subdir/testfile2
  -> Leaving subdir
@@ -275,6 +275,69 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 1] f    12 000 
+	/home/User/subdir/testfile1
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
  -> Database open
 as previous with subdir/testfile readable
  -> Entering cvs
@@ -967,6 +1030,17 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
+file://localhost
+	/home/User/cvs/dirbad/fileoth
+[ 8] -
+	/home/User/cvs/dirbad/fileutd
+[ 8] -
+	/home/User/cvs/diroth
+[ 8] -
+	/home/User/cvs/dirutd/fileoth
+[ 8] -
+	/home/User/cvs/fileoth
+[ 8] -
  -> Database open
 as previous with cvs/dirutd in ignore list
  -> Entering cvs
@@ -1765,6 +1839,47 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
+file://localhost
+	/home/User/docbook-xml
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7
+[14] d     0 755
+	/home/User/docbook-xml/3.1.7/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.0
+[14] d     0 755
+	/home/User/docbook-xml/4.0/dbgenent.ent
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.1.2
+[14] d     0 755
+	/home/User/docbook-xml/4.1.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.2
+[14] d     0 755
+	/home/User/docbook-xml/4.2/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.3
+[14] d     0 755
+	/home/User/docbook-xml/4.3/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.4
+[14] d     0 755
+	/home/User/docbook-xml/4.4/dbgenent.mod
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat.old
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio
+[14] d     0 755
+	/home/User/testdir/biblio/biblio.dbf
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio/biblio.dbt
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/biblio.odb
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir/evolocal.odb
+[14] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 List recovery after crash
  -> Database open
@@ -2322,6 +2437,34 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
+file://host
+	/home/User/testdir
+[16] d     0 755
+	/home/User/testfile
+[16] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+	/home/User/testfile2
+[16] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+	/home/User/testfile~
+[16] f 524288 644 59071590099d21dd439896592338bf95-0
+file://localhost
+	/home/User/crash
+[16] d     0 755
+	/home/User/crash/file
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[16] -
+	/home/User/testdir/biblio
+[16] -
+	/home/User/testdir/biblio/biblio.dbf
+[16] -
+	/home/User/testdir/biblio/biblio.dbt
+[16] -
+	/home/User/testdir/biblio.odb
+[16] -
+	/home/User/testdir/evolocal.odb
+[16] -
  -> Database open
  -> Entering testdir
  -> Leaving testdir
@@ -2474,3 +2617,31 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
+file://host
+	/home/User/testdir
+[16] d     0 755
+	/home/User/testfile
+[16] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+	/home/User/testfile2
+[16] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+	/home/User/testfile~
+[16] f 524288 644 59071590099d21dd439896592338bf95-0
+file://localhost
+	/home/User/crash
+[16] d     0 755
+	/home/User/crash/file
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[16] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[16] -
+	/home/User/testdir/biblio
+[16] -
+	/home/User/testdir/biblio/biblio.dbf
+[16] -
+	/home/User/testdir/biblio/biblio.dbt
+[16] -
+	/home/User/testdir/biblio.odb
+[16] -
+	/home/User/testdir/evolocal.odb
+[16] -

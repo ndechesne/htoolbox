@@ -87,15 +87,16 @@ public:
   // Add data to list
   int data(
     time_t          timestamp,
-    const Node*     node = NULL);
+    const Node*     node = NULL,
+    bool            bufferize = false);
   // Search data in list copying contents on the fly if required, and
   // also expiring data and putting checksums in lists !
   // Searches:                        Prefix      Path        Copy
-  //    end of file                   ""          ""          yes
-  //    prefix                        prefix      ""          yes
-  //    prefix and path               prefix      path        yes
-  //    any prefix                    NULL                    no
-  //    prefix and any path           prefix      NULL        no
+  //    end of file                   ""          ""          all
+  //    prefix                        prefix      ""          all up to prefix
+  //    prefix and path               prefix      path        all up to path
+  //    any prefix                    NULL                    all before prefix
+  //    prefix and any path           prefix      NULL        all before path
   // Return code:
   //    -1: error, 0: end of file, 1: exceeded, 2: found
   // Caution:

@@ -454,15 +454,15 @@ int Database::open(bool read_only) {
     }
   }
 
-//   // Open merged list (can fail)
-//   if (! read_only && ! failed) {
-//     _d->merge = new List(_path.c_str(), "list.temp");
-//     if (_d->merge->open("w")) {
-//       cerr << "db: open: cannot open merge list" << endl;
-//       delete _d->merge;
-      _d->merge = NULL;
-//     }
-//   }
+  // Open merged list (can fail)
+  if (! read_only && ! failed) {
+    _d->merge = new List(_path.c_str(), "list.part");
+    if (_d->merge->open("w")) {
+      cerr << "db: open: cannot open merge list" << endl;
+      delete _d->merge;
+      failed = true;
+    }
+  }
 
   if (failed) {
       // Close lists
@@ -476,6 +476,7 @@ int Database::open(bool read_only) {
     // for isOpen and isWriteable
     _d->list    = NULL;
     _d->journal = NULL;
+    _d->merge   = NULL;
 
     // Unlock DB
     unlock();
@@ -503,64 +504,48 @@ int Database::close() {
     // Close list
     _d->list->close();
   } else {
-    failed = true;
     // Finish off list reading/copy
     setPrefix("");
     // Close journal
     _d->journal->close();
-    // If a merge already exists, use it FIXME not implemented
-    if (_d->merge != NULL) {
-      _d->list->search("", "", _d->merge);;
-      // Close lists
-      _d->merge->close();
-      _d->list->close();
-      delete _d->merge;
-      // FIXME file names ballet missing
-  //     failed = false;
-    } else {
+    // See if any data was added
+    if (_d->journal->isEmpty()) {
+      // Do nothing
+      if (verbosity() > 1) {
+        cout << " -> Journal is empty, not merging" << endl;
+      }
       // Close list
       _d->list->close();
-    } // FIXME merge all this
-    {
-      // Re-open lists
-      if (_d->journal->open("r")) {
-        cerr << "db: close: cannot re-open journal" << endl;
+      // Close merge
+      _d->merge->close();
+      remove((_path + "/list.part").c_str());
+      remove((_path + "/journal").c_str());
+    } else {
+      _d->list->search("", "", _d->merge);;
+      // Close list
+      _d->list->close();
+      // Close merge
+      _d->merge->close();
+      // File names ballet
+      if (rename((_path + "/list").c_str(), (_path + "/list~").c_str())
+       || rename((_path + "/list.part").c_str(), (_path + "/list").c_str())) {
+        cerr << "db: cannot rename lists" << endl;
+        failed = true;
       } else {
-        if (_d->journal->isEmpty()) {
-          // Do nothing
-          if (verbosity() > 1) {
-            cout << " -> Journal is empty, not merging" << endl;
-          }
-          failed = false;
-        } else {
-          if (_d->list->open("r")) {
-            cerr << "db: close: cannot re-open list" << endl;
-          } else {
-            // Merge journal into list
-            if (! merge()) {
-              failed = false;
-            }
-
-            // Close list
-            _d->list->close();
-          }
-        }
-        // Close journal
-        _d->journal->close();
+        rename((_path + "/journal").c_str(), (_path + "/journal~").c_str());
       }
     }
-    if (! failed) {
-      rename((_path + "/journal").c_str(), (_path + "/journal~").c_str());
-    }
+    delete _d->journal;
+    delete _d->merge;
   }
 
-  // Delete lists
-  delete _d->journal;
+  // Delete list
   delete _d->list;
 
   // for isOpen and isWriteable
   _d->list    = NULL;
   _d->journal = NULL;
+  _d->merge   = NULL;
 
   // Release lock
   unlock();
@@ -775,13 +760,6 @@ int Database::scan(const string& checksum, bool thorough) {
     return -1;
   }
 
-  // FIXME scan still broken
-  if (_d->merge != NULL) {
-    _d->merge->close();
-    delete _d->merge;
-    _d->merge = NULL;
-  }
-
   if (checksum == "") {
     list<string> sums;
     char*       path   = NULL;
@@ -887,16 +865,18 @@ int Database::sendEntry(
       cmp = -1;
     }
     // If found or exceeded, break loop
-    if (cmp > 0) {
-      break;
-    } else
-    if (cmp == 0) {
-      // Get metadata
-      _d->list->getLine();
-      _d->list->getEntry(NULL, NULL, &db_path, &db_node, -2);
+    if (cmp >= 0) {
+      if (cmp == 0) {
+        // Get metadata
+        _d->list->getLine();
+        _d->list->getEntry(NULL, NULL, &db_path, &db_node, -2);
+        // Do not lose this metadata!
+        _d->list->keepLine();
+      }
       break;
     }
     // Not reached, mark 'removed' (getLineType keeps line automatically)
+    _d->merge->path(db_path);
     if (_d->list->getLineType() != '-') {
       if (! _d->prefixJournalled) {
         _d->journal->prefix(_d->prefix.c_str());
@@ -904,14 +884,8 @@ int Database::sendEntry(
       }
       _d->journal->path(db_path);
       _d->journal->data(time(NULL));
-      // FIXME Merge on the fly
-      if (_d->merge != NULL) {
-        // Add path and 'removed' entry
-        _d->merge->path(db_path);
-        _d->merge->data(time(NULL));
-        // Get rid of cached path line
-        _d->list->getLine();
-        }
+      // Add path and 'removed' entry
+      _d->merge->data(time(NULL));
       if (verbosity() > 0) {
         cout << "D " << db_path << endl;
       }
@@ -922,13 +896,14 @@ int Database::sendEntry(
     return 0;
   }
 
+  _d->merge->path(path);
   if ((cmp > 0) || (db_node == NULL)) {
     // Exceeded, keep line for later
     _d->list->keepLine();
-    add(remote_path, local_path, node);
     if (verbosity() > 0) {
       cout << "A " << remote_path << node->name() << endl;
     }
+    add(remote_path, local_path, node);
   } else {
     // Check for differences
     if (*db_node != *node) {
@@ -994,7 +969,7 @@ int Database::add(
 
   // Add new record to active list
   if ((node->type() == 'l') && ! node->parsed()) {
-    cerr << "Bug in db add: link is not parsed!" << endl;
+    cerr << "Bug in db add: link was not parsed!" << endl;
     return -1;
   }
 
@@ -1045,11 +1020,7 @@ int Database::add(
     }
     _d->journal->path(full_path);
     _d->journal->data(ts, node2);
-    // Merge on the fly
-    if (_d->merge != NULL) {
-      _d->merge->path(full_path);
-      _d->merge->data(ts, node2);
-    }
+    _d->merge->data(ts, node2, true);
   }
 
   free(full_path);

@@ -46,6 +46,7 @@ int List::open(
       Stream::close();
       rc = -1;
     }
+    _line_status = 0;
   } else
   // Open for read
   {
@@ -393,6 +394,7 @@ int List::prefix(
    || (Stream::write("\n", 1) != 1)) {
     return -1;
   }
+  _line_status = 1;
   return 0;
 }
 
@@ -404,53 +406,48 @@ int List::path(
    || (Stream::write("\n", 1) != 1)) {
     return -1;
   }
+  _line_status = 1;
   return 0;
 }
 
 int List::data(
     time_t          timestamp,
-    const Node*     node) {
+    const Node*     node,
+    bool            bufferize) {
   char* line = NULL;
+  int   size;
   int   rc   = 0;
 
   if (node == NULL) {
-    int size = asprintf(&line, "\t\t%ld\t-\n", timestamp);
-    if (Stream::write(line, size) != size) {
-      rc = -1;
-    }
+    size = asprintf(&line, "\t\t%ld\t-\n", timestamp);
   } else {
-    int size = asprintf(&line, "\t\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o",
+    char* temp = NULL;
+    size = asprintf(&temp, "\t\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o",
       timestamp, node->type(), node->size(), node->mtime(), node->uid(),
       node->gid(), node->mode());
-    if (Stream::write(line, size) != size) {
-      rc = -1;
-    } else
     switch (node->type()) {
-      case 'f':
-        if (Stream::write("\t", 1) != 1) {
-          rc = -1;
-        } else {
-          const char* extra  = ((File*) node)->checksum();
-          int         length = strlen(extra);
-          if (Stream::write(extra, length) != length) {
-            rc = -1;
-          }
-        }
-        break;
-      case 'l':
-        if (Stream::write("\t", 1) != 1) {
-          rc = -1;
-        } else {
-          const char* extra  = ((Link*) node)->link();
-          int         length = strlen(extra);
-          if (Stream::write(extra, length) != length) {
-            rc = -1;
-          }
-        }
+      case 'f': {
+        const char* extra  = ((File*) node)->checksum();
+        size = asprintf(&line, "%s\t%s\n", temp, extra);
+      } break;
+      case 'l': {
+        const char* extra  = ((Link*) node)->link();
+        size = asprintf(&line, "%s\t%s\n", temp, extra);
+      } break;
+      default:
+        size = asprintf(&line, "%s\n", temp);
     }
-    if ((rc == 0) && (Stream::write("\n", 1) != 1)) {
-      return -1;
-    }
+    free(temp);
+  }
+  if ((timestamp == 0) && bufferize) {
+    // Send line to search method, so it can deal with exception
+    _line        = line;
+    _line_status = 3;
+  } else
+  if (Stream::write(line, size) != size) {
+    rc = -1;
+  } else {
+    _line_status = 1;
   }
   free(line);
   return rc;
@@ -463,7 +460,6 @@ int List::search(
     time_t          expire,
     list<string>*   active,
     list<string>*   expired) {
-  string  exception_line;
   int     path_cmp;
   int     rc         = 0;
 
@@ -587,64 +583,67 @@ int List::search(
 
     // Got data
     {
-      // Deal with exception
-      if (exception_line.size() != 0) {
-        // Copy start of line (timestamp)
-        size_t pos = _line.substr(2).find('\t');
-        if (pos == string::npos) {
-          errno = EUCLEAN;
-          return -1;
+      if (list != NULL) {
+        // Deal with exception
+        if (list->_line_status == 3) {
+          list->_line_status = 1;
+          // Copy start of line (timestamp)
+          size_t pos = _line.substr(2).find('\t');
+          if (pos == string::npos) {
+            errno = EUCLEAN;
+            return -1;
+          }
+          pos += 3;
+          // Re-create line using previous data
+          _line.resize(pos);
+          _line.append(list->_line.substr(4));
+        } else
+        // Check for exception
+        if (strncmp(_line.c_str(), "\t\t0\t", 4) == 0) {
+          // Get only end of line
+          list->_line = _line;
+          list->_line_status = 3;
+          // Do not copy: merge with following line
+          continue;
         }
-        pos += 3;
-        // Re-create line using previous data
-        _line.resize(pos);
-        _line.append(exception_line);
-        exception_line = "";
-      } else
-      // Check for exception
-      if (strncmp(_line.c_str(), "\t\t0\t", 4) == 0) {
-        // Get only end of line
-        exception_line = _line.substr(4);
-        // Do not copy: merge with following line
-        continue;
-      }
 
-      // Check for expiry
-      if (expire > 0) {
-        // Check time
-        time_t ts = 0;
-        string reader = &_line[2];
-        reader[reader.size() - 1] = '\0';
-        size_t pos = reader.find('\t');
-        if ((pos != string::npos)
-          && (sscanf(reader.substr(pos - 1).c_str(), "%lu", &ts) == 1)) {
-          reader = reader.substr(pos + 1);
-          const char* checksum = NULL;
-          if ((reader[0] == 'f')
-            && ((expired != NULL) || (active != NULL))) {
-            pos = reader.rfind('\t');
-            if (pos != string::npos) {
-              checksum = &reader[pos + 1];
+        // Check for expiry
+        if (expire > 0) {
+          // Check time
+          time_t ts = 0;
+          string reader = &_line[2];
+          reader[reader.size() - 1] = '\0';
+          size_t pos = reader.find('\t');
+          if ((pos != string::npos)
+            && (sscanf(reader.substr(pos - 1).c_str(), "%lu", &ts) == 1)) {
+            reader = reader.substr(pos + 1);
+            const char* checksum = NULL;
+            if ((reader[0] == 'f')
+              && ((expired != NULL) || (active != NULL))) {
+              pos = reader.rfind('\t');
+              if (pos != string::npos) {
+                checksum = &reader[pos + 1];
+              }
+            }
+            if (time(NULL) - ts > expire) {
+              if ((checksum != NULL) && (expired != NULL)) {
+                expired->push_back(checksum);
+              }
+              // Do not copy: expired
+              continue;
+            } else {
+              if ((checksum != NULL) && (active != NULL)) {
+                active->push_back(checksum);
+              }
             }
           }
-          if (time(NULL) - ts > expire) {
-            if ((checksum != NULL) && (expired != NULL)) {
-              expired->push_back(checksum);
-            }
-            // Do not copy: expired
-            continue;
-          } else {
-            if ((checksum != NULL) && (active != NULL)) {
-              active->push_back(checksum);
-            }
-          }
-        }
-      }
+        } // expire > 0
+      } // list != NULL
     }
 
     // New data, add
     if (list != NULL) {
-      if ((_line_status == 0) || (_line_status == 3)) {
+      if (_line_status != 1) {
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
           if ((path_len != 0) && (list->write("\t", 1) < 0)) {
