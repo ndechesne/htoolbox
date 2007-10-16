@@ -110,22 +110,22 @@ db "$TESTDBDIR"
 
 client nfs myClient
 hostname myClient
-listfile $ROOTDIRNFS/hbackup.list
+config $ROOTDIRNFS/hbackup.list
 
 client ssh other
 hostname otherClient
-listfile /home/backup/Backup.list
+config /home/backup/Backup.list
 
 client file myhost
 hostname myhost.mynetwork.lan
-listfile "$CONFIGDIR/localhost.list"
+config "$CONFIGDIR/localhost.list"
 
 client smb client
 option username Myself
 option password flesyM
 option nocase
 hostname myClient
-listfile "C:\Backup\Backup.LST"
+config "C:\Backup\Backup.LST"
 EOF
 
 cat << EOF > "$CONFIGDIR/localhost.list"

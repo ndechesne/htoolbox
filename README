@@ -20,10 +20,10 @@ overriden using the -c option. The following keywords are acceptable there:
   Example: client file "montblanc"
 
 The client keyword can be followed by the following keywords:
-* listfile is mandatory as it gives the path to the backup list file.
-  Syntax:             listfile "<path to file>"
-  Example (smb):      listfile "C:/Backup/hbackup.list"
-  Example (file/nfs): listfile "/etc/hbackup.list"
+* config is mandatory as it gives the path to the backup list file.
+  Syntax:             config "<path to file>"
+  Example (smb):      config "C:/Backup/hbackup.list"
+  Example (file/nfs): config "/etc/hbackup.list"
 * hostname is used by network (smb and nfs) protocols to specify a network host
   name (if different from the client name) or IP address.
   Syntax:               hostname "<host name or IP address>"
