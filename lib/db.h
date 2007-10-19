@@ -43,12 +43,6 @@ protected: // So I can test them/use them in tests
     const string&   path,
     char**          checksum,
     int             compress = 0);
-  // Add entry to journal
-  int  add(
-    const char*     remote_path,      // Dir where the file resides, remotely
-    const char*     local_path,       // Dir where the file resides, locally
-    const Node*     node,             // File metadata
-    const char*     checksum = NULL); // Do not copy data, use given checksum
 public:
   Database(const string& path);
   ~Database();
@@ -81,7 +75,15 @@ public:
   int  sendEntry(
     const char*     remote_path,      // Dir where the file resides, remotely
     const char*     local_path,       // Dir where the file resides, locally
-    const Node*     node);            // File metadata
+    const Node*     node,             // File metadata
+    Node**          db_node);         // DB File metadata
+  // Add entry to journal/list
+  int  add(
+    const char*     full_path,        // File path on client
+    const char*     local_path,       // Dir where the file resides, locally
+    const Node*     node,             // File metadata
+    const char*     checksum = NULL,  // Do not copy data, use given checksum
+    int             compress = 0);    // Compression level for regular files
 };
 
 }

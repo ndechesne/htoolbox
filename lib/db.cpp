@@ -829,7 +829,7 @@ void Database::setPrefix(
     const char* prefix) {
   // Finish previous prefix work (removed items at end of list)
   if (_d->prefix.length() != 0) {
-    sendEntry(NULL, NULL, NULL);
+    sendEntry(NULL, NULL, NULL, NULL);
   }
   _d->prefix           = prefix;
   _d->prefixJournalled = false;
@@ -840,27 +840,21 @@ void Database::setPrefix(
 int Database::sendEntry(
     const char*     remote_path,
     const char*     local_path,
-    const Node*     node) {
+    const Node*     node,
+    Node**          db_node) {
   if (! isWriteable()) {
     return -1;
   }
 
-  // Paths
-  char* path   = NULL;
-  if (node != NULL) {
-    asprintf(&path, "%s%s", remote_path, node->name());
-  }
-
   // DB
   char* db_path = NULL;
-  Node* db_node = NULL;
   int   cmp     = 1;
   while (_d->list->search(_d->prefix.c_str(), NULL, _d->merge) == 2) {
     if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
       return -1;
     }
-    if (path != NULL) {
-      cmp = pathCompare(db_path, path);
+    if (remote_path != NULL) {
+      cmp = pathCompare(db_path, remote_path);
     } else {
       cmp = -1;
     }
@@ -868,8 +862,9 @@ int Database::sendEntry(
     if (cmp >= 0) {
       if (cmp == 0) {
         // Get metadata
+        *db_node = NULL;
         _d->list->getLine();
-        _d->list->getEntry(NULL, NULL, &db_path, &db_node, -2);
+        _d->list->getEntry(NULL, NULL, &db_path, db_node, -2);
         // Do not lose this metadata!
         _d->list->keepLine();
       }
@@ -891,69 +886,15 @@ int Database::sendEntry(
       }
     }
   }
-
-  if (path == NULL) {
-    return 0;
-  }
-
-  _d->merge->path(path);
-  if ((cmp > 0) || (db_node == NULL)) {
-    // Exceeded, keep line for later
-    _d->list->keepLine();
-    if (verbosity() > 0) {
-      cout << "A " << remote_path << node->name() << endl;
-    }
-    add(remote_path, local_path, node);
-  } else {
-    // Check for differences
-    if (*db_node != *node) {
-      const char* checksum = NULL;
-      // Metadata differ
-      if ((node->type() == 'f')
-      && (db_node->type() == 'f')
-      && (node->size() == db_node->size())
-      && (node->mtime() == db_node->mtime())) {
-        // If the file data is there, just add new metadata
-        // If the checksum is missing, this shall retry too
-        checksum = ((File*)db_node)->checksum();
-        if (verbosity() > 0) {
-          cout << "~ ";
-        }
-      } else {
-        // Do it all
-        if (verbosity() > 0) {
-          cout << "M ";
-        }
-      }
-      if (verbosity() > 0) {
-        cout << remote_path << node->name() << endl;
-      }
-      add(remote_path, local_path, node, checksum);
-    } else
-    // Same metadata, hence same type...
-    {
-      // Compare linked data
-      if ((node->type() == 'l')
-      && (strcmp(((Link*)node)->link(), ((Link*)db_node)->link()) != 0)) {
-        if (verbosity() > 0) {
-          cout << "L " << remote_path << node->name() << endl;
-        }
-        add(remote_path, local_path, node);
-      } else
-      // Check that file data is present
-      if ((node->type() == 'f')
-        && (((File*)db_node)->checksum()[0] == '\0')) {
-        // Checksum missing: retry
-        if (verbosity() > 0) {
-          cout << "! " << remote_path << node->name() << endl;
-        }
-        const char* checksum = ((File*)db_node)->checksum();
-        add(remote_path, local_path, node, checksum);
-      }
+  // Send status back
+  if (remote_path != NULL) {
+    _d->merge->path(remote_path);
+    if ((cmp > 0) || (*db_node == NULL)) {
+      // Exceeded, keep line for later
+      _d->list->keepLine();
+      return 1;
     }
   }
-
-  free(path);
   return 0;
 }
 
@@ -961,7 +902,8 @@ int Database::add(
     const char*     remote_path,
     const char*     local_path,
     const Node*     node,
-    const char*     old_checksum) {
+    const char*     old_checksum,
+    int             compress) {
   if (! isWriteable()) {
     return -1;
   }
@@ -972,10 +914,6 @@ int Database::add(
     cerr << "Bug in db add: link was not parsed!" << endl;
     return -1;
   }
-
-  // Determine path
-  char* full_path = NULL;
-  asprintf(&full_path, "%s%s", remote_path, node->name());
 
   // Create data
   Node* node2;
@@ -990,16 +928,13 @@ int Database::add(
         ((File*)node2)->setChecksum(old_checksum);
       } else {
         // Copy data
-        char* temp_path = NULL;
         char* checksum  = NULL;
-        asprintf(&temp_path, "%s/%s", local_path, node->name());
-        if (! write(string(temp_path), &checksum)) {
+        if (! write(string(local_path), &checksum, compress)) {
           ((File*)node2)->setChecksum(checksum);
           free(checksum);
         } else {
           failed = true;
         }
-        free(temp_path);
       }
       break;
     default:
@@ -1018,11 +953,10 @@ int Database::add(
       _d->journal->prefix(_d->prefix.c_str());
       _d->prefixJournalled = true;
     }
-    _d->journal->path(full_path);
+    _d->journal->path(remote_path);
     _d->journal->data(ts, node2);
     _d->merge->data(ts, node2, true);
   }
 
-  free(full_path);
   return failed ? -1 : 0;
 }

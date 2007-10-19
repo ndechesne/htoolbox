@@ -158,5 +158,7 @@ condition filter bigfile
 
 ignore to_be_ignored
 
+compress bigfile
+
 parser cvs controlled
 EOF

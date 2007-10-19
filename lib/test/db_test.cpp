@@ -79,13 +79,6 @@ public:
       int             compress = 0) {
     return Database::write(path, checksum, compress);
   }
-  int  add(
-      const char*     remote_path,
-      const char*     local_path,
-      const Node*     node,
-      const char*     checksum = NULL) {
-    return Database::add(remote_path, local_path, node, checksum);
-  }
 };
 
 static int verbose = 4;
@@ -337,10 +330,10 @@ int main(void) {
 
   File* f;
   f = new File("test1/test space");
-  db.add("client_path/", "test1", f);
+  db.add("client_path/test space", "test1/test space", f);
   delete f;
   f = new File("test1/testfile");
-  db.add("client_path/", "test1", f);
+  db.add("client_path/testfile", "test1/testfile", f);
   delete f;
 
   db.close();

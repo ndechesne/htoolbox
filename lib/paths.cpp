@@ -84,13 +84,13 @@ int Path::recurse(
         }
 
         // Let the parser analyse the file data to know whether to back it up
-        if ((parser != NULL) && (parser->ignore(*(*i)))) {
+        if ((parser != NULL) && (parser->ignore(**i))) {
           i = dir->nodesList().erase(i);
           continue;
         }
 
         // Now pass it through the filters
-        if ((_ignore != NULL) && _ignore->match(rel_path, *(*i))) {
+        if ((_ignore != NULL) && _ignore->match(rel_path, **i)) {
           i = dir->nodesList().erase(i);
           continue;
         }
@@ -100,28 +100,95 @@ int Path::recurse(
 
         // For link, find out linked path
         if ((*i)->type() == 'l') {
-          Link *l = new Link(*(*i), local_path);
+          Link *l = new Link(**i, local_path);
           delete *i;
           *i = l;
         }
 
         // Also deal with directory, as some fields should not be considered
         if ((*i)->type() == 'd') {
-          Directory *d = new Directory(*(*i));
+          Directory *d = new Directory(**i);
           delete *i;
           *i = d;
         }
 
         // Synchronize with DB records
-        if (db.sendEntry(remote_path, local_path, *i) < 0) {
+        char* rem_path = NULL;
+        int last = asprintf(&rem_path, "%s%s/", remote_path, (*i)->name()) - 1;
+        rem_path[last] = '\0';
+        char* loc_path = Node::path(local_path, (*i)->name());
+        Node* db_node;
+        int rc = db.sendEntry(rem_path, loc_path, *i, &db_node);
+        const char* checksum = NULL;
+        bool        add      = false;
+        if (rc < 0) {
           cerr << "Failed to compare entries" << endl;
+        } else
+        if (rc > 0) {
+          if (verbosity() > 0) {
+            cout << "A";
+          }
+          add = true;
+        } else
+        {
+          // Check for differences
+          if (*db_node != **i) {
+            // Metadata differ
+            if (((*i)->type() == 'f')
+            && (db_node->type() == 'f')
+            && ((*i)->size() == db_node->size())
+            && ((*i)->mtime() == db_node->mtime())) {
+              // If the file data is there, just add new metadata
+              // If the checksum is missing, this shall retry too
+              checksum = ((File*)db_node)->checksum();
+              if (verbosity() > 0) {
+                cout << "~";
+              }
+            } else {
+              // Do it all
+              if (verbosity() > 0) {
+                cout << "M";
+              }
+            }
+            add = true;
+          } else
+          // Same metadata, hence same type...
+          {
+            // Compare linked data
+            if (((*i)->type() == 'l')
+            && (strcmp(((Link*)*i)->link(), ((Link*)db_node)->link()) != 0)) {
+              if (verbosity() > 0) {
+                cout << "L";
+              }
+              add = true;
+            } else
+            // Check that file data is present
+            if (((*i)->type() == 'f')
+              && (((File*)db_node)->checksum()[0] == '\0')) {
+              // Checksum missing: retry
+              if (verbosity() > 0) {
+                cout << "!";
+              }
+              checksum = ((File*)db_node)->checksum();
+              add = true;
+            }
+          }
+        }
+        if (add) {
+          if (verbosity() > 0) {
+            cout << " " << rem_path << endl;
+          }
+          int compress = 0;
+          if (((*i)->type() == 'f')
+           && (_compress != NULL) && _compress->match(rel_path, **i)) {
+            compress = 5;
+          }
+          db.add(rem_path, loc_path, *i, checksum, compress);
         }
 
         // For directory, recurse into it
         if ((*i)->type() == 'd') {
-          char* rem_path = NULL;
-          asprintf(&rem_path, "%s%s/", remote_path, (*i)->name());
-          char* loc_path = Node::path(local_path, (*i)->name());
+          rem_path[last] = '/';
           if (verbosity() > 1) {
             cout << " -> Entering " << rel_path << (*i)->name() << endl;
           }
@@ -129,9 +196,9 @@ int Path::recurse(
           if (verbosity() > 1) {
             cout << " -> Leaving " << rel_path << (*i)->name() << endl;
           }
-          free(rem_path);
-          free(loc_path);
         }
+        free(rem_path);
+        free(loc_path);
       }
       delete *i;
       i = dir->nodesList().erase(i);

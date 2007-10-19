@@ -80,14 +80,19 @@ Each client must provide its own configuration file. Keywords that may be used:
   Syntax        see FILTERS below
 * condition     add condition to last declared filter
   Syntax        see FILTERS below
-* ignore        set filter to use to ignore files
+* ignore        set filter to use to select files to ignore
+* compress      set filter to use to select files to compress
 * expire        delay in days after which removed files may be erased from DB
   Syntax        expire <delay>
 
 
 1. COMPRESSION
 
-No compression is enabled for now.
+Files that match the compress filter are compressed using the gzip format, with
+level 5, the best size over speed ratio in my tests.
+
+If a file is already stored in the backup database, whether compressed or not,
+it does not get re-added in the other form.
 
 
 2. FILTERS
