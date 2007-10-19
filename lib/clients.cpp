@@ -169,7 +169,7 @@ int Client::readListFile(const string& list_path) {
           // Expect exactly two parameters
           if (params.size() != 2) {
             cerr << "Error: in list file " << list_path << ", line " << line
-              << " 'path' takes exactly one argument" << endl;
+              << " '" << keyword << "' takes exactly one argument" << endl;
             failed = 1;
           } else {
             /* New backup path */
@@ -219,30 +219,62 @@ int Client::readListFile(const string& list_path) {
             type = *current++;
           }
           // Path attributes
-          if ((keyword == "ignore") || (keyword == "ignand")) {
+          if (keyword == "ignore") {
+            // Expect exactly two parameters
+            if (params.size() != 2) {
+              cerr << "Error: in list file " << list_path << ", line " << line
+                << " '" << keyword << "' takes exactly two arguments" << endl;
+              failed = 1;
+            } else
+            if (path->setIgnore(type)) {
+              cerr << "Error: in list file " << list_path << ", line "
+                << line << ": filter not found with name: " << type << endl;
+              failed = 1;
+            }
+          } else
+          if (keyword == "compress") {
+            // Expect exactly two parameters
+            if (params.size() != 2) {
+              cerr << "Error: in list file " << list_path << ", line " << line
+                << " '" << keyword << "' takes exactly two arguments" << endl;
+              failed = 1;
+            } else
+            if (path->setCompress(type)) {
+              cerr << "Error: in list file " << list_path << ", line "
+                << line << ": filter not found with name: " << type << endl;
+              failed = 1;
+            }
+          } else
+          if (keyword == "filter") {
             // Expect exactly three parameters
             if (params.size() != 3) {
               cerr << "Error: in list file " << list_path << ", line " << line
-                << " 'filter' takes exactly two arguments" << endl;
+                << " '" << keyword << "' takes exactly two arguments" << endl;
               failed = 1;
             } else
-            if ((rc = path->addFilter(type, *current, keyword
-             == "ignand"))) {
+            if (path->addFilter(type, *current)) {
+              cerr << "Error: in list file " << list_path << ", line "
+                << line << " unsupported filter type: " << type << endl;
+              failed = 1;
+            }
+          } else
+          if (keyword == "condition") {
+            // Expect exactly three parameters
+            if (params.size() != 3) {
+              cerr << "Error: in list file " << list_path << ", line " << line
+                << " '" << keyword << "' takes exactly two arguments" << endl;
+              failed = 1;
+            } else
+            if ((rc = path->addCondition(type, *current))) {
               switch (rc) {
                 case 1:
                   cerr << "Error: in list file " << list_path << ", line "
-                   << line << " unsupported filter type: " << type << endl;
+                   << line << " unsupported condition type: " << type << endl;
                   failed = 1;
                   break;
                 case 2:
                   cerr << "Error: in list file " << list_path << ", line "
-                   << line << " unsupported value: '" << *current
-                   << "' for filter type " << type << endl;
-                  failed = 1;
-                  break;
-                case 3:
-                  cerr << "Error: in list file " << list_path << ", line "
-                   << line << " cannot append to nothing" << endl;
+                   << line << " no filter defined" << endl;
                   failed = 1;
                   break;
               }
@@ -252,7 +284,7 @@ int Client::readListFile(const string& list_path) {
             // Expect exactly three parameters
             if (params.size() != 3) {
               cerr << "Error: in list file " << list_path << ", line " << line
-                << " 'parser' takes exactly two arguments" << endl;
+                << " '" << keyword << "' takes exactly two arguments" << endl;
               failed = 1;
             } else
             if ((rc = path->addParser(type, *current))) {

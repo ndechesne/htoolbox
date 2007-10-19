@@ -38,6 +38,16 @@ using namespace std;
 
 using namespace hbackup;
 
+Filter2* Path::findFilter(const string& name) const {
+  list<Filter2*>::const_iterator filter;
+  for (filter = _filters2.begin(); filter != _filters2.end(); filter++) {
+    if ((*filter)->name() == name) {
+      return *filter;
+    }
+  }
+  return NULL;
+}
+
 int Path::recurse(
     Database&     db,
     const char*   remote_path,
@@ -80,7 +90,7 @@ int Path::recurse(
         }
 
         // Now pass it through the filters
-        if (! _filters.empty() && _filters.match(rel_path, *(*i))) {
+        if ((_ignore != NULL) && _ignore->match(rel_path, *(*i))) {
           i = dir->nodesList().erase(i);
           continue;
         }
@@ -134,127 +144,128 @@ int Path::recurse(
 
 Path::Path(const char* path) {
   _dir                = NULL;
+  _ignore             = NULL;
+  _compress           = NULL;
   _expiration         = 0;
-
   // Copy path accross
   _path = path;
-
   // Change '\' into '/'
   _path.toUnix();
-
   // Remove trailing '/'s
   _path.noEndingSlash();
 }
 
+Path::~Path() {
+  delete _dir;
+  // Delete all filters
+  list<Filter2*>::const_iterator filter;
+  for (filter = _filters2.begin(); filter != _filters2.end(); filter++) {
+    delete *filter;
+  }
+}
+
+int Path::setIgnore(
+    const string& name) {
+  _ignore = findFilter(name);
+  return (_ignore == NULL) ? -1 : 0;
+}
+
+int Path::setCompress(
+    const string& name) {
+  _compress = findFilter(name);
+  return (_compress == NULL) ? -1 : 0;
+}
+
 int Path::addFilter(
-    const string& type_str,
-    const string& value,
-    bool          append) {
-  Condition* condition;
+    const string&   type,
+    const string&   name) {
+  filter_type_t ftype;
+  if (type == "and") {
+    ftype = filter_and;
+  } else
+  if (type == "or") {
+    ftype = filter_or;
+  } else
+  {
+    return 1;
+  }
+  _filters2.push_back(new Filter2(ftype, name.c_str()));
+  return 0;
+}
+
+int Path::addCondition(
+    const string&   type_str,
+    const string&   value) {
+  if (_filters2.empty()) {
+    // Can't append to nothing
+    return 2;
+  }
+
   string     type;
   bool       negated;
   if (type_str[0] == '!') {
-    type = type_str.substr(1);
+    type    = type_str.substr(1);
     negated = true;
   } else {
-    type = type_str;
+    type    = type_str;
     negated = false;
   }
 
-  if (append && _filters.empty()) {
-    // Can't append to nothing
-    return 3;
-  }
-
   /* Add specified filter */
-  if (type == "type") {
-    char file_type;
-    if ((value == "file") || (value == "f")) {
-      file_type = 'f';
-    } else
-    if ((value == "dir") || (value == "d")) {
-      file_type = 'd';
-    } else
-    if ((value == "char") || (value == "c")) {
-      file_type = 'c';
-    } else
-    if ((value == "block") || (value == "b")) {
-      file_type = 'b';
-    } else
-    if ((value == "pipe") || (value == "p")) {
-      file_type = 'p';
-    } else
-    if ((value == "link") || (value == "l")) {
-      file_type = 'l';
-    } else
-    if ((value == "socket") || (value == "s")) {
-      file_type = 's';
-    } else {
-      // Wrong value
+  if (type == "filter") {
+    Filter2* filter = findFilter(value);
+    if (filter == NULL) {
       return 2;
     }
-    condition = new Condition(condition_type, file_type, negated);
+    _filters2.back()->add(new Condition(condition_subfilter, filter, negated));
+  } else
+  if (type == "type") {
+    _filters2.back()->add(new Condition(condition_type, value[0], negated));
   } else
   if (type == "name") {
-    condition = new Condition(condition_name, value, negated);
+    _filters2.back()->add(new Condition(condition_name, value, negated));
   } else
   if (type == "name_start") {
-    condition = new Condition(condition_name_start, value, negated);
+    _filters2.back()->add(new Condition(condition_name_start, value, negated));
   } else
   if (type == "name_end") {
-    condition = new Condition(condition_name_end, value, negated);
+    _filters2.back()->add(new Condition(condition_name_end, value, negated));
   } else
   if (type == "name_regex") {
-    condition = new Condition(condition_name_regex, value, negated);
+    _filters2.back()->add(new Condition(condition_name_regex, value, negated));
   } else
   if (type == "path") {
-    condition = new Condition(condition_path, value, negated);
+    _filters2.back()->add(new Condition(condition_path, value, negated));
   } else
   if (type == "path_start") {
-    condition = new Condition(condition_path_start, value, negated);
+    _filters2.back()->add(new Condition(condition_path_start, value, negated));
   } else
   if (type == "path_end") {
-    condition = new Condition(condition_path_end, value, negated);
+    _filters2.back()->add(new Condition(condition_path_end, value, negated));
   } else
   if (type == "path_regex") {
-    condition = new Condition(condition_path_regex, value, negated);
+    _filters2.back()->add(new Condition(condition_path_regex, value, negated));
   } else
   if (type == "size<") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(condition_size_lt, size, negated);
+    _filters2.back()->add(new Condition(condition_size_lt, size, negated));
   } else
   if (type == "size<=") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(condition_size_le, size, negated);
+    _filters2.back()->add(new Condition(condition_size_le, size, negated));
   } else
   if (type == "size>=") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(condition_size_ge, size, negated);
+    _filters2.back()->add(new Condition(condition_size_ge, size, negated));
   } else
   if (type == "size>") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(condition_size_gt, size, negated);
+    _filters2.back()->add(new Condition(condition_size_gt, size, negated));
   } else
-  if (type == "size_below") {
-    cerr << "Warning: size_below is deprecated, use size<= instead" << endl;
-    off64_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(condition_size_le, size, negated);
-  } else
-  if (type == "size_above") {
-    cerr << "Warning: size_below is deprecated, use size>= instead" << endl;
-    off64_t size = strtoul(value.c_str(), NULL, 10);
-    condition = new Condition(condition_size_ge, size, negated);
-  } else {
+  {
     // Wrong type
     return 1;
   }
-
-  if (append) {
-    _filters.back().push_back(*condition);
-  } else {
-    _filters.push_back(Filter(*condition));
-  }
-  delete condition;
   return 0;
 }
 

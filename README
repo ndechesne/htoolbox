@@ -71,29 +71,40 @@ Instructions:
 B. Configuration file
 
 Each client must provide its own configuration file. Keywords that may be used:
-* path:   start of a new backup list, gives the path information.
-  Syntax: path "<path to backup>"
-  Important note for Windows paths: they MUST NOT end with a '\'
-* ignore: add files filter to skip (see FILTERS below).
-* ignand: add AND condition to last files filter (see FILTERS below).
-* parser: files under version control (see PARSERS below).
-* expire: delay in days after which removed files can be erased from database
+* path          start of a new backup list, gives the path information
+  Syntax        path "<path to backup>"
+  Important     note for Windows paths: they MUST NOT end with a '\'
+* parser        files under version control
+  Syntax        see PARSERS below
+* filter        declare a new filter
+  Syntax        see FILTERS below
+* condition     add condition to last declared filter
+  Syntax        see FILTERS below
+* ignore        set filter to use to ignore files
+* expire        delay in days after which removed files may be erased from DB
+  Syntax        expire <delay>
+
 
 1. COMPRESSION
 
 No compression is enabled for now.
 
+
 2. FILTERS
 
-Syntax: [ignore|ignand] [!]<filter type> "<string>"
+a. Conditions
 
-If the filter type is preceded by a '!' (without space!), then the result of the
+Syntax: condition [!]<type> "<string>"
+
+If the type is preceded by a '!' (without space!), then the result of the
 conditions is negated.
-Example: these two conditions give the same result
-ignore size>= 5000
-ignore !size< 5000
 
-These are the filter types:
+For example, these two conditions give the same result:
+condition size>= 5000
+condition !size< 5000
+
+These are the condition types:
+* filter        run filter as a sub-filter (see section b. below)
 * type          match file type
 * name          match file name
 * name_start    match start of file name
@@ -108,7 +119,7 @@ These are the filter types:
 * size>=        match files which size is above or equals given value
 * size>         match files which size is strictly above given value
 
-There are seven file types:
+There are seven file types (only the initial matters):
 * f or file:    regular file
 * d or dir:     directory
 * c or char:    character device
@@ -117,13 +128,48 @@ There are seven file types:
 * l or link:    symbolic link
 * s or socket:  socket
 
-Example:
-ignore path_start abr
-ignand type file
-ignand size>= 5000
+Examples:
+condition name_start abr
+condition type f
+condition size>= 5000
 
-This will ignore all regular files which name starts in abr (abr*) and size is
-greater than or equal to 5000.
+A filter defined by these conditions will match on all regular files which name
+starts in abr (abr*) and size is greater than or equal to 5000 bytes.
+
+b. Filters
+
+Syntax: filter <type> "name"
+
+These are the filter types:
+* or            filter matches if any condition matches
+* and           filter matches if all conditions match
+
+The name should be unique as it is used to add sub-filters to filters.
+
+Example:
+
+# Define compressed archives
+filter or compressed_archives
+condition name_end .bz2
+condition name_end .gz
+condition name_end .zip
+
+# Define compressed images
+filter or compressed_images
+condition name_end .jpg
+condition name_end .png
+condition name_end .gif
+
+# Define compressed files based on two previous filters
+filter or compressed_files
+condition filter compressed_archives
+condition filter compressed_images
+
+# Define files worth compressing based on previous filter and size condition
+filter and worth_compressing
+condition !filter compressed_files
+condition size>= 1024
+
 
 3. PARSERS
 

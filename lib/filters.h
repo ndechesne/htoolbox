@@ -21,14 +21,7 @@
 
 namespace hbackup {
 
-/* The filter stores a list of rules, each containing a list of conditions.
- * A rule matches if all conditions in it match (AND)
- *    rule = condition AND condition AND ... AND condition
- * A match is obtained if any rule matches (OR)
- *    result = rule OR rule OR ... OR rule
- * True is returned when a match was found.
- */
-
+// This is obsolete and will go very soon
 class Filter: public list<Condition> {
 public:
   Filter() {}
@@ -42,11 +35,9 @@ public:
   bool match(const char* path, const Node& node) const;
 };
 
-// This new class will eventually replace the old one
 // Each filter can be declared as a logical AND or OR of its conditions
 // A special condition runs a filter, so expressions of any complexity can be
 // defined. This is why the name is needed and must be unique.
-// Note: the tag is only application defined
 typedef enum {
   filter_or         = 1,      // Matches if at least one condition matches
   filter_and,                 // Matches if all of its conditions match
@@ -55,11 +46,10 @@ typedef enum {
 class Filter2 {
   filter_type_t     _type;
   string            _name;
-  int               _tag;
   list<Condition*>  _conditions;
 public:
-  Filter2(filter_type_t type, const char* name, int tag = 0) :
-    _type(type), _name(name), _tag(tag) {}
+  Filter2(filter_type_t type, const char* name) :
+    _type(type), _name(name) {}
   ~Filter2();
   const string& name() const     { return _name; }
   void add(Condition* condition) { _conditions.push_back(condition); }

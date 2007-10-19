@@ -134,12 +134,29 @@ path test2//
 
 path "test1" # should work
 expire 1
-ignore path_start subdir
-ignand !size< 100
-ignore type file
-ignand path_end ~
-ignore path_end ".o"
-ignore size>= 10
-ignand type file
+
+filter and subdir
+condition path_start subdir
+condition !size< 100
+
+filter and backup
+condition type file
+condition path_end ~
+
+filter and object
+condition path_end ".o"
+
+filter and bigfile
+condition size>= 10
+condition type file
+
+filter or to_be_ignored
+condition filter subdir
+condition filter backup
+condition filter object
+condition filter bigfile
+
+ignore to_be_ignored
+
 parser cvs controlled
 EOF

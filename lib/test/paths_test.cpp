@@ -167,9 +167,13 @@ int main(void) {
   db.open();
 
   cout << "as previous with subdir/testfile in ignore list" << endl;
-  if (path->addFilter("type", "file")
-   || path->addFilter("path", "subdir/testfile", true)) {
+  if (path->addFilter("and", "testfile")
+   || path->addCondition("type", "file")
+   || path->addCondition("path", "subdir/testfile")) {
     cout << "Failed to add filter" << endl;
+  }
+  if (path->setIgnore("testfile")) {
+    cout << "Failed to set ignore filter" << endl;
   }
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
@@ -192,9 +196,13 @@ int main(void) {
   db.open();
 
   cout << "as previous with subdir in ignore list" << endl;
-  if (path->addFilter("type", "dir")
-   || path->addFilter("path", "subdir", true)) {
+  if (path->addFilter("and", "subdir")
+   || path->addCondition("type", "dir")
+   || path->addCondition("path", "subdir")) {
     cout << "Failed to add filter" << endl;
+  }
+  if (path->setIgnore("subdir")) {
+    cout << "Failed to set ignore filter" << endl;
   }
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
@@ -218,9 +226,13 @@ int main(void) {
 
   cout << "as previous with testlink modified" << endl;
   system("sleep 1 && ln -sf testnull test1/testlink");
-  if (path->addFilter("type", "dir")
-   || path->addFilter("path", "subdir", true)) {
+  if (path->addFilter("and", "subdir")
+   || path->addCondition("type", "dir")
+   || path->addCondition("path", "subdir")) {
     cout << "Failed to add filter" << endl;
+  }
+  if (path->setIgnore("subdir")) {
+    cout << "Failed to set ignore filter" << endl;
   }
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
@@ -243,9 +255,18 @@ int main(void) {
   db.open();
 
   cout << "as previous with testlink in ignore list" << endl;
-  if (path->addFilter("type", "link")
-   || path->addFilter("path_start", "testlink", true)) {
-    cout << "Failed to add filter" << endl;
+  if (path->addFilter("and", "testlink")
+   || path->addCondition("type", "link")
+   || path->addCondition("path_start", "testlink")) {
+    cout << "Failed to add 'and' filter" << endl;
+  }
+  if (path->addFilter("or", "ignore1")
+   || path->addCondition("filter", "subdir")
+   || path->addCondition("filter", "testlink")) {
+    cout << "Failed to add 'or' filter" << endl;
+  }
+  if (path->setIgnore("ignore1")) {
+    cout << "Failed to set ignore filter" << endl;
   }
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
@@ -313,9 +334,19 @@ int main(void) {
   db.open();
 
   cout << "as previous with cvs/dirutd in ignore list" << endl;
-  if (path->addFilter("type", "dir")
-   || path->addFilter("path", "cvs/dirutd", true)) {
-    cout << "Failed to add filter" << endl;
+  if (path->addFilter("and", "cvs_dirutd")
+   || path->addCondition("type", "dir")
+   || path->addCondition("path", "cvs/dirutd")) {
+    cout << "Failed to add 'and' filter" << endl;
+  }
+  if (path->addFilter("or", "ignore2")
+   || path->addCondition("filter", "subdir")
+   || path->addCondition("filter", "testlink")
+   || path->addCondition("filter", "cvs_dirutd")) {
+    cout << "Failed to add 'or' filter" << endl;
+  }
+  if (path->setIgnore("ignore2")) {
+    cout << "Failed to set ignore filter" << endl;
   }
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
