@@ -36,254 +36,11 @@ int hbackup::terminating(void) {
   return 0;
 }
 
-void filter_show(const Filters& filters) {
-  /* Read through list of filters */
-  Filters::const_iterator rule;
-  for (rule = filters.begin(); rule != filters.end(); rule++) {
-    cout << "-> List " << rule->size() << " condition(s)" << endl;
-    /* Read through list of conditions in filter */
-    Filter::const_iterator condition;
-    for (condition = rule->begin(); condition != rule->end(); condition++) {
-      condition->show();
-    }
-  }
-}
-
 int main(void) {
-  Filters   *filter = NULL;
-  Filters   *filter2 = NULL;
-  Node*     node;
-
-  cout << "\nSimple rules test" << endl;
-  filter = new Filters;
-  filter->push_back(Filter(Condition(condition_path_regex, "^/to a.*\\.txt",
-    false)));
-  cout << ">List " << filter->size() << " rule(s):" << endl;
-  filter_show(*filter);
-
-  filter->push_back(Filter(Condition(condition_path_regex, "^/to a.*\\.t.t",
-    false)));
-  cout << ">List " << filter->size() << " rule(s):" << endl;
-  filter_show(*filter);
-
-  node = new Node("to a file.txt", 'f', 0, 0, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching 1" << endl;
-  }
-  delete node;
-  node = new Node("to a file.tst", 'f', 0, 0, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching 2" << endl;
-  }
-  delete node;
-  node = new Node("to a file.tsu", 'f', 0, 0, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching 3" << endl;
-  }
-  delete node;
-
-  filter2 = new Filters;
-  node = new Node("to a file.txt", 'f', 0, 0, 0, 0, 0);
-  if (! filter2->match("this is/a path/", *node)) {
-    cout << "Not matching +1" << endl;
-  }
-  delete node;
-  node = new Node("to a file.tst", 'f', 0, 0, 0, 0, 0);
-  if (! filter2->match("this is/a path/", *node)) {
-    cout << "Not matching +2" << endl;
-  }
-  delete node;
-  node = new Node("to a file.tsu", 'f', 0, 0, 0, 0, 0);
-  if (! filter2->match("this is/a path/", *node)) {
-    cout << "Not matching +3" << endl;
-  }
-  delete node;
-
-
-  filter2->push_back(Filter(Condition(condition_path_regex, "^/to a.*\\.txt",
-    false)));
-  cout << ">List " << filter2->size() << " rule(s):" << endl;
-  filter_show(*filter2);
-
-  filter2->push_back(Filter(Condition(condition_path_regex, "^/to a.*\\.t.t",
-    false)));
-  cout << ">List " << filter2->size() << " rule(s):" << endl;
-  filter_show(*filter2);
-
-  node = new Node("to a file.txt", 'f', 0, 0, 0, 0, 0);
-  if (! filter2->match("/", *node)) {
-    cout << "Not matching +1" << endl;
-  }
-  delete node;
-  node = new Node("to a file.tst", 'f', 0, 0, 0, 0, 0);
-  if (! filter2->match("/", *node)) {
-    cout << "Not matching +2" << endl;
-  }
-  delete node;
-  node = new Node("to a file.tsu", 'f', 0, 0, 0, 0, 0);
-  if (! filter2->match("/", *node)) {
-    cout << "Not matching +3" << endl;
-  }
-  delete node;
-  delete filter2;
-
-  node = new Node("to a file.txt", 'f', 0, 0, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching 1" << endl;
-  }
-  delete node;
-  node = new Node("to a file.tst", 'f', 0, 0, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching 2" << endl;
-  }
-  delete node;
-  node = new Node("to a file.tsu", 'f', 0, 0, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching 3" << endl;
-  }
-  delete node;
-  delete filter;
-
-  filter = new Filters;
-  node = new Node("", 'f', 0, 0, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-  node = new Node("", 'f', 0, 1000, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-  node = new Node("", 'f', 0, 1000000, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-
-  /* File type is always 'f' */
-  filter->push_back(Filter(Condition(condition_size_le, (long long) 500,
-    false)));
-  cout << ">List " << filter->size() << " rule(s):" << endl;
-  filter_show(*filter);
-
-  node = new Node("", 'f', 0, 0, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-  node = new Node("", 'f', 0, 1000, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-  node = new Node("", 'f', 0, 1000000, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-
-  /* File type is always 'f' */
-  filter->push_back(Filter(Condition(condition_size_ge, (long long) 5000,
-    false)));
-  cout << ">List " << filter->size() << " rule(s):" << endl;
-  filter_show(*filter);
-
-  node = new Node("", 'f', 0, 0, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-  node = new Node("", 'f', 0, 1000, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-  node = new Node("", 'f', 0, 1000000, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-
-  delete filter;
-
-  /* Test complex rules */
-  cout << "\nComplex rules test" << endl;
-  filter = new Filters;
-
-  cout << ">List " << filter->size() << " rule(s):" << endl;
-  filter_show(*filter);
-
-  filter->push_back(Filter());
-  Filter* rule = &filter->back();
-
-  rule->push_back(Condition(condition_size_le, (long long) 500, false));
-  cout << ">List " << filter->size() << " rule(s):" << endl;
-  filter_show(*filter);
-
-  rule->push_back(Condition(condition_size_ge, (long long) 400, false));
-  cout << ">List " << filter->size() << " rule(s):" << endl;
-  filter_show(*filter);
-
-  node = new Node("", 'f', 0, 600, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-  node = new Node("", 'f', 0, 500, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-  node = new Node("", 'f', 0, 450, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-  node = new Node("", 'f', 0, 400, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-  node = new Node("", 'f', 0, 300, 0, 0, 0);
-  if (! filter->match("/", *node)) {
-    cout << "Not matching " << node->size() << "" << endl;
-  } else {
-    cout << "Matching " << node->size() << "" << endl;
-  }
-  delete node;
-
-  delete filter;
-
+  Node*           node;
 
   cout << "OR filter test" << endl;
-  Filter2* or_filter = new Filter2(filter_or, "my_filter_or");
+  Filter* or_filter = new Filter(filter_or, "my_filter_or");
   or_filter->add(new Condition(condition_size_le, (long long) 500, false));
   or_filter->add(new Condition(condition_path_regex, "^/to a.*\\.txt", false));
   // Show name
@@ -317,7 +74,7 @@ int main(void) {
 
 
   cout << "AND filter test" << endl;
-  Filter2* and_filter = new Filter2(filter_and, "my_filter_and");
+  Filter* and_filter = new Filter(filter_and, "my_filter_and");
   and_filter->add(new Condition(condition_size_le, (long long) 500, false));
   and_filter->add(new Condition(condition_path_regex, "^/to a.*\\.txt",
     false));
@@ -352,11 +109,11 @@ int main(void) {
 
 
   cout << "Sub-filter test" << endl;
-  Filter2* sub_filter = new Filter2(filter_and, "my_subfilter");
+  Filter* sub_filter = new Filter(filter_and, "my_subfilter");
   sub_filter->add(new Condition(condition_size_le, (long long) 500, false));
   sub_filter->add(new Condition(condition_path_regex, "^/to a.*\\.txt",
     false));
-  and_filter = new Filter2(filter_and, "my_filter_and");
+  and_filter = new Filter(filter_and, "my_filter_and");
   and_filter->add(new Condition(condition_type, 'f', false));
   and_filter->add(new Condition(condition_subfilter, sub_filter, true));
   // Show names

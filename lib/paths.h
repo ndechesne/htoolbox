@@ -25,12 +25,12 @@ class Path {
   StrPath         _path;
   Directory*      _dir;
   Parsers         _parsers;
-  list<Filter2*>  _filters2;
-  Filter2*        _ignore;
-  Filter2*        _compress;
+  list<Filter*>   _filters;
+  Filter*         _ignore;
+  Filter*         _compress;
   int             _expiration;
   int             _nodes;
-  Filter2* findFilter(const string& name) const;
+  Filter* findFilter(const string& name) const;
   int recurse(
     Database&       db,
     const char*     remote_path,      // Dir where the file resides, remotely

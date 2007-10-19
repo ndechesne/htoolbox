@@ -38,9 +38,9 @@ using namespace std;
 
 using namespace hbackup;
 
-Filter2* Path::findFilter(const string& name) const {
-  list<Filter2*>::const_iterator filter;
-  for (filter = _filters2.begin(); filter != _filters2.end(); filter++) {
+Filter* Path::findFilter(const string& name) const {
+  list<Filter*>::const_iterator filter;
+  for (filter = _filters.begin(); filter != _filters.end(); filter++) {
     if ((*filter)->name() == name) {
       return *filter;
     }
@@ -158,8 +158,8 @@ Path::Path(const char* path) {
 Path::~Path() {
   delete _dir;
   // Delete all filters
-  list<Filter2*>::const_iterator filter;
-  for (filter = _filters2.begin(); filter != _filters2.end(); filter++) {
+  list<Filter*>::const_iterator filter;
+  for (filter = _filters.begin(); filter != _filters.end(); filter++) {
     delete *filter;
   }
 }
@@ -189,14 +189,14 @@ int Path::addFilter(
   {
     return 1;
   }
-  _filters2.push_back(new Filter2(ftype, name.c_str()));
+  _filters.push_back(new Filter(ftype, name.c_str()));
   return 0;
 }
 
 int Path::addCondition(
     const string&   type_str,
     const string&   value) {
-  if (_filters2.empty()) {
+  if (_filters.empty()) {
     // Can't append to nothing
     return 2;
   }
@@ -213,54 +213,54 @@ int Path::addCondition(
 
   /* Add specified filter */
   if (type == "filter") {
-    Filter2* filter = findFilter(value);
+    Filter* filter = findFilter(value);
     if (filter == NULL) {
       return 2;
     }
-    _filters2.back()->add(new Condition(condition_subfilter, filter, negated));
+    _filters.back()->add(new Condition(condition_subfilter, filter, negated));
   } else
   if (type == "type") {
-    _filters2.back()->add(new Condition(condition_type, value[0], negated));
+    _filters.back()->add(new Condition(condition_type, value[0], negated));
   } else
   if (type == "name") {
-    _filters2.back()->add(new Condition(condition_name, value, negated));
+    _filters.back()->add(new Condition(condition_name, value, negated));
   } else
   if (type == "name_start") {
-    _filters2.back()->add(new Condition(condition_name_start, value, negated));
+    _filters.back()->add(new Condition(condition_name_start, value, negated));
   } else
   if (type == "name_end") {
-    _filters2.back()->add(new Condition(condition_name_end, value, negated));
+    _filters.back()->add(new Condition(condition_name_end, value, negated));
   } else
   if (type == "name_regex") {
-    _filters2.back()->add(new Condition(condition_name_regex, value, negated));
+    _filters.back()->add(new Condition(condition_name_regex, value, negated));
   } else
   if (type == "path") {
-    _filters2.back()->add(new Condition(condition_path, value, negated));
+    _filters.back()->add(new Condition(condition_path, value, negated));
   } else
   if (type == "path_start") {
-    _filters2.back()->add(new Condition(condition_path_start, value, negated));
+    _filters.back()->add(new Condition(condition_path_start, value, negated));
   } else
   if (type == "path_end") {
-    _filters2.back()->add(new Condition(condition_path_end, value, negated));
+    _filters.back()->add(new Condition(condition_path_end, value, negated));
   } else
   if (type == "path_regex") {
-    _filters2.back()->add(new Condition(condition_path_regex, value, negated));
+    _filters.back()->add(new Condition(condition_path_regex, value, negated));
   } else
   if (type == "size<") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    _filters2.back()->add(new Condition(condition_size_lt, size, negated));
+    _filters.back()->add(new Condition(condition_size_lt, size, negated));
   } else
   if (type == "size<=") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    _filters2.back()->add(new Condition(condition_size_le, size, negated));
+    _filters.back()->add(new Condition(condition_size_le, size, negated));
   } else
   if (type == "size>=") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    _filters2.back()->add(new Condition(condition_size_ge, size, negated));
+    _filters.back()->add(new Condition(condition_size_ge, size, negated));
   } else
   if (type == "size>") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    _filters2.back()->add(new Condition(condition_size_gt, size, negated));
+    _filters.back()->add(new Condition(condition_size_gt, size, negated));
   } else
   {
     // Wrong type

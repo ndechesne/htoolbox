@@ -21,20 +21,6 @@
 
 namespace hbackup {
 
-// This is obsolete and will go very soon
-class Filter: public list<Condition> {
-public:
-  Filter() {}
-  Filter(Condition condition) {
-    push_back(condition);
-  }
-};
-
-class Filters: public list<Filter> {
-public:
-  bool match(const char* path, const Node& node) const;
-};
-
 // Each filter can be declared as a logical AND or OR of its conditions
 // A special condition runs a filter, so expressions of any complexity can be
 // defined. This is why the name is needed and must be unique.
@@ -43,14 +29,14 @@ typedef enum {
   filter_and,                 // Matches if all of its conditions match
 } filter_type_t;
 
-class Filter2 {
+class Filter {
   filter_type_t     _type;
   string            _name;
   list<Condition*>  _conditions;
 public:
-  Filter2(filter_type_t type, const char* name) :
+  Filter(filter_type_t type, const char* name) :
     _type(type), _name(name) {}
-  ~Filter2();
+  ~Filter();
   const string& name() const     { return _name; }
   void add(Condition* condition) { _conditions.push_back(condition); }
   bool match(const char* path, const Node& node) const;

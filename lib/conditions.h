@@ -50,18 +50,18 @@ typedef enum {
 } condition_type_t;
 
 // Stub
-class Filter2;
+class Filter;
 
 class Condition {
   condition_type_t  _type;
   bool              _negated;
-  const Filter2*    _filter;
+  const Filter*     _filter;
   char              _file_type;
   long long         _value;
   string            _string;
 public:
   // Sub-filter type-based condition
-  Condition(condition_type_t type, const Filter2* filter, bool negated) :
+  Condition(condition_type_t type, const Filter* filter, bool negated) :
     _type(type), _negated(negated), _filter(filter) {}
   // File type-based condition
   Condition(condition_type_t type, char file_type, bool negated) :

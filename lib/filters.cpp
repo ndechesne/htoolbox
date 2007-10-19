@@ -27,31 +27,7 @@ using namespace std;
 
 using namespace hbackup;
 
-bool Filters::match(const char* path, const Node& node) const {
-  /* Read through list of rules */
-  const_iterator rule;
-  for (rule = this->begin(); rule != this->end(); rule++) {
-    bool match = true;
-
-    /* Read through list of conditions in rule */
-    Filter::const_iterator condition;
-    for (condition = rule->begin(); condition != rule->end(); condition++) {
-      /* All filters must match for rule to match */
-      if (! condition->match(path, node)) {
-        match = false;
-        break;
-      }
-    }
-    /* If all conditions matched, or the rule is empty, we have a rule match */
-    if (match) {
-      return true;
-    }
-  }
-  /* No match */
-  return false;
-}
-
-Filter2::~Filter2() {
+Filter::~Filter() {
   list<Condition*>::const_iterator condition;
   for (condition = _conditions.begin(); condition != _conditions.end();
       condition++) {
@@ -59,7 +35,7 @@ Filter2::~Filter2() {
   }
 }
 
-bool Filter2::match(const char* path, const Node& node) const {
+bool Filter::match(const char* path, const Node& node) const {
   // Test all conditions
   list<Condition*>::const_iterator condition;
   for (condition = _conditions.begin(); condition != _conditions.end();
