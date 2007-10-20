@@ -56,9 +56,6 @@ public:
   Filter* findFilter(const string& name) const {
     return _filters.find(name);
   }
-  int addCondition(
-    const string&   type_str,
-    const string&   value);
   int addParser(
     const string&   type,
     const string&   string);

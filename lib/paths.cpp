@@ -228,37 +228,6 @@ int Path::setCompress(
   return (_compress == NULL) ? -1 : 0;
 }
 
-int Path::addCondition(
-    const string&   type_str,
-    const string&   value) {
-  if (_filters.empty()) {
-    // Can't append to nothing
-    return 2;
-  }
-
-  string     type;
-  bool       negated;
-  if (type_str[0] == '!') {
-    type    = type_str.substr(1);
-    negated = true;
-  } else {
-    type    = type_str;
-    negated = false;
-  }
-
-  /* Add specified filter */
-  if (type == "filter") {
-    Filter* filter = findFilter(value);
-    if (filter == NULL) {
-      return 2;
-    }
-    _filters.back()->add(new Condition(condition_subfilter, filter, negated));
-  } else {
-    return _filters.back()->add(type, value, negated);
-  }
-  return 0;
-}
-
 int Path::addParser(
     const string& type,
     const string& string) {
