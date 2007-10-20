@@ -1,4 +1,4 @@
-VERSION = 0.3a
+VERSION = 0.3b
 
 SUBDIRS = test
 
