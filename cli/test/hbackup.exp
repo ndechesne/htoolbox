@@ -1,4 +1,4 @@
-HBackup (c) 2006-2007 Hervé Fache, version 0.3a
+HBackup (c) 2006-2007 Hervé Fache, version 0.3b
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -80,7 +80,7 @@ A C:/Test/File.TXT
 Unmounted test_db/mount
 Protocol not supported: ssh
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3a
+HBackup (c) 2006-2007 Hervé Fache, version 0.3b
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -120,7 +120,7 @@ Backup path 'C:/Test'
 Unmounted test_db/mount
  -> Journal is empty, not merging
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3a
+HBackup (c) 2006-2007 Hervé Fache, version 0.3b
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -131,7 +131,7 @@ Scanning database
 Scanning database contents: 7 files
  -> Journal is empty, not merging
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3a
+HBackup (c) 2006-2007 Hervé Fache, version 0.3b
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -142,7 +142,7 @@ Checking database
 Scanning database contents thoroughly: 7 files
  -> Journal is empty, not merging
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3a
+HBackup (c) 2006-2007 Hervé Fache, version 0.3b
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -154,7 +154,7 @@ Showing list
  file://myhost
  nfs://myClient
  smb://client
-HBackup (c) 2006-2007 Hervé Fache, version 0.3a
+HBackup (c) 2006-2007 Hervé Fache, version 0.3b
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -164,7 +164,7 @@ Restoring
  -> Database open
 U test_r/test2/testfile
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3a
+HBackup (c) 2006-2007 Hervé Fache, version 0.3b
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -190,7 +190,7 @@ U test_r/test1/testfile
 U test_r/test1/testlink
 U test_r/test1/testpipe
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3a
+HBackup (c) 2006-2007 Hervé Fache, version 0.3b
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -209,7 +209,7 @@ U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3a
+HBackup (c) 2006-2007 Hervé Fache, version 0.3b
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
