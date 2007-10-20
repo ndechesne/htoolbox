@@ -44,9 +44,15 @@ int hbackup::terminating(void) {
 }
 
 int main(void) {
-  Client*                           client;
-  list<Client*>                     clients;
-  Database  db("test_db");
+  Client*       client;
+  list<Client*> clients;
+  Database      db("test_db");
+  Filters       filters;
+
+  // Create global filter
+  Filter* filter = filters.add("and", "backup");
+  filter->add("type", "file", false);
+  filter->add("path_end", "~", false);
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -64,7 +70,7 @@ int main(void) {
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
-    (*i)->backup(db, 0);
+    (*i)->backup(db, filters, 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -152,7 +158,7 @@ int main(void) {
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
-    (*i)->backup(db, 0);
+    (*i)->backup(db, filters, 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -172,7 +178,7 @@ int main(void) {
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
-    (*i)->backup(db, 0);
+    (*i)->backup(db, filters, 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -191,7 +197,7 @@ int main(void) {
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
-    (*i)->backup(db, 0);
+    (*i)->backup(db, filters, 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -211,7 +217,7 @@ int main(void) {
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
-    (*i)->backup(db, 0);
+    (*i)->backup(db, filters, 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -232,7 +238,7 @@ int main(void) {
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
-    (*i)->backup(db, 0);
+    (*i)->backup(db, filters, 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -248,7 +254,7 @@ int main(void) {
   client->setListfile("C:\\Backup\\testhost2.list");
   db.open();
   client->setMountPoint("test_db/mount");
-  client->backup(db, 0);
+  client->backup(db, filters, 0);
   db.close();
   delete client;
 
@@ -258,7 +264,7 @@ int main(void) {
   client->setListfile("/home/User/testhost3.list");
   db.open();
   client->setMountPoint("test_db/mount");
-  client->backup(db, 0);
+  client->backup(db, filters, 0);
   db.close();
   delete client;
 
@@ -268,7 +274,7 @@ int main(void) {
   client->setListfile("etc/testhost.list");
   db.open();
   client->setMountPoint("test_db/mount");
-  client->backup(db, 0);
+  client->backup(db, filters, 0);
   db.close();
   delete client;
 
@@ -307,7 +313,7 @@ int main(void) {
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
-    (*i)->backup(db, 0);
+    (*i)->backup(db, filters, 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -335,7 +341,7 @@ int main(void) {
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
-    (*i)->backup(db, 0);
+    (*i)->backup(db, filters, 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -363,7 +369,7 @@ int main(void) {
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
-    (*i)->backup(db, 0);
+    (*i)->backup(db, filters, 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -391,7 +397,7 @@ int main(void) {
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
-    (*i)->backup(db, 0);
+    (*i)->backup(db, filters, 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;

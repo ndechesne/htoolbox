@@ -127,7 +127,9 @@ int Client::umount() {
   return 0;
 }
 
-int Client::readListFile(const string& list_path) {
+int Client::readListFile(
+    const string&   list_path,
+    const Filters&  global_filters) {
   string  buffer;
   int     line    = 0;
   int     failed  = 0;
@@ -267,7 +269,12 @@ int Client::readListFile(const string& list_path) {
                 subfilter = findFilter(*current);
               }
               if (subfilter == NULL) {
-                return 2;
+                subfilter = global_filters.find(*current);
+              }
+              if (subfilter == NULL) {
+                cerr << "Error: in list file " << list_path << ", line "
+                  << line << " filter not found: " << *current << endl;
+                failed = 2;
               }
               filter->add(new Condition(condition_subfilter, subfilter,
                 negated));
@@ -398,8 +405,9 @@ void Client::setListfile(const char* value) {
 }
 
 int Client::backup(
-    Database& db,
-    bool      config_check) {
+    Database&       db,
+    const Filters&  global_filters,
+    bool            config_check) {
   int     failed = 0;
   int     clientfailed  = 0;
   string  share;
@@ -429,7 +437,7 @@ int Client::backup(
       << "' using protocol '" << _protocol << "'" << endl;
   }
 
-  if (! readListFile(list_path)) {
+  if (! readListFile(list_path, global_filters)) {
     setInitialised();
     /* Backup */
     if (_d->paths.empty()) {

@@ -53,7 +53,9 @@ class Client {
   Filters       _filters;
   int mountPath(string  backup_path, string  *path);
   int umount();
-  int readListFile(const string& list_path);
+  int readListFile(
+    const string&   list_path,
+    const Filters&  global_filters);
 public:
   Client(string name);
   ~Client();
@@ -83,7 +85,10 @@ public:
   Filter* findFilter(const string& name) const {
     return _filters.find(name);
   }
-  int  backup(Database& db, bool config_check = false);
+  int  backup(
+    Database&       db,
+    const Filters&  global_filters,
+    bool            config_check = false);
   void show();
 };
 

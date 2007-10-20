@@ -40,6 +40,13 @@ struct HBackup::Private {
   Database*     db;
   list<string>  selected_clients;
   list<Client*> clients;
+  Filters       filters;
+  Filter* addFilter(const string& type, const string& name) {
+    return filters.add(type, name);
+  }
+  Filter* findFilter(const string& name) const {
+    return filters.find(name);
+  }
 };
 
 HBackup::HBackup() {
@@ -106,6 +113,7 @@ int HBackup::readConfig(const char* config_path) {
     }
 
     Client* client = NULL;
+    Filter* filter = NULL;
     while (! config_file.eof()) {
       getline(config_file, buffer);
       unsigned int pos = buffer.find("\r");
@@ -128,6 +136,7 @@ int HBackup::readConfig(const char* config_path) {
       } else if (params.size() > 1) {
         list<string>::iterator current = params.begin();
         string                 keyword = *current++;
+        string                 type = *current++;
 
         if (keyword == "db") {
           if (params.size() > 2) {
@@ -140,17 +149,72 @@ int HBackup::readConfig(const char* config_path) {
               << " '" << keyword << "' seen twice" << endl;
             return -1;
           } else {
-            _d->db = new Database(*current);
+            _d->db = new Database(type);
           }
-        } else if (keyword == "client") {
+        } else
+        if (keyword == "filter") {
+          // Expect exactly three parameters
           if (params.size() != 3) {
             cerr << "Error: in file " << config_path << ", line " << line
               << " '" << keyword << "' takes exactly two arguments" << endl;
             return -1;
           }
-          string protocol = *current++;
+          filter = _d->addFilter(type, *current);
+          if (filter == NULL) {
+            cerr << "Error: in file " << config_path << ", line " << line
+              << " unsupported filter type: " << type << endl;
+            return -1;
+          }
+        } else
+        if (keyword == "condition") {
+          if (params.size() != 3) {
+            cerr << "Error: in file " << config_path << ", line " << line
+              << " '" << keyword << "' takes exactly two arguments" << endl;
+            return -1;
+          }
+          string  filter_type;
+          bool    negated;
+          if (type[0] == '!') {
+            filter_type = type.substr(1);
+            negated     = true;
+          } else {
+            filter_type = type;
+            negated     = false;
+          }
+
+          /* Add specified filter */
+          if (type == "filter") {
+            Filter* subfilter = _d->findFilter(*current);
+            if (subfilter == NULL) {
+              cerr << "Error: in file " << config_path << ", line " << line
+                << " filter not found: " << *current << endl;
+              return -1;
+            }
+            filter->add(new Condition(condition_subfilter, subfilter,
+              negated));
+          } else {
+            switch (filter->add(filter_type, *current, negated)) {
+              case 1:
+                cerr << "Error: in file " << config_path << ", line " << line
+                  << " unsupported condition type: " << type << endl;
+                return -1;
+                break;
+              case 2:
+                cerr << "Error: in file " << config_path << ", line " << line
+                  << " no filter defined" << endl;
+                return -1;
+                break;
+            }
+          }
+        } else
+        if (keyword == "client") {
+          if (params.size() != 3) {
+            cerr << "Error: in file " << config_path << ", line " << line
+              << " '" << keyword << "' takes exactly two arguments" << endl;
+            return -1;
+          }
           client = new Client(*current);
-          client->setProtocol(protocol);
+          client->setProtocol(type);
 
           int cmp = 1;
           list<Client*>::iterator i = _d->clients.begin();
@@ -170,7 +234,7 @@ int HBackup::readConfig(const char* config_path) {
                 << " '" << keyword << "' takes exactly one argument" << endl;
               return -1;
             }
-            client->setHostOrIp(*current);
+            client->setHostOrIp(type);
           } else
           if (keyword == "option") {
             if (params.size() > 3) {
@@ -179,10 +243,9 @@ int HBackup::readConfig(const char* config_path) {
               return -1;
             }
             if (params.size() == 2) {
-              client->addOption(*current);
+              client->addOption(type);
             } else {
-              string name = *current++;
-              client->addOption(name, *current);
+              client->addOption(type, *current);
             }
           } else
           if ((keyword == "listfile") || (keyword == "config")) {
@@ -191,11 +254,10 @@ int HBackup::readConfig(const char* config_path) {
                 << " '" << keyword << "' takes exactly one argument" << endl;
               return -1;
             }
-            client->setListfile(current->c_str());
+            client->setListfile(type.c_str());
           } else {
             cerr << "Unrecognised keyword '" << keyword
-              << "' in configuration file, line " << line
-              << endl;
+              << "' in configuration file, line " << line << endl;
             return -1;
           }
         } else {
@@ -254,7 +316,7 @@ int HBackup::backup(bool config_check) {
         }
       }
       (*client)->setMountPoint(_d->db->path() + "/mount");
-      if ((*client)->backup(*_d->db, config_check)) {
+      if ((*client)->backup(*_d->db, _d->filters, config_check)) {
         failed = true;
       }
     }
