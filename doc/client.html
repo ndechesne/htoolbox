@@ -1,8 +1,5 @@
 <h1>Client configuration</h1>
 
-<p><font color="red">Note: filters are in the process of being re-implemented
-as described below...</font></p>
-
 <h2>Client setup</h2>
 
 <h3>Network File System (NFS)</h3>
@@ -38,6 +35,8 @@ administrative shares can be mounted as Administrator.</p>
 </ul>
 
 <h2>Configuration file (aka list file)</h2>
+
+<h3>Path section</h3>
 
 <p>Each client must provide its own configuration file. Keywords that may be used:</p>
 
@@ -82,3 +81,12 @@ administrative shares can be mounted as Administrator.</p>
     <td><code>ignore "ignore_filter"</code></td>
   </tr>
 </table>
+
+<h3>Filter section</h3>
+
+<p>Filter sections can either be before any path section, in which case the
+filters are available to any path, or within a path section, in which case
+they are only available to that path.</p>
+
+<p>For information on the syntax, please refer to
+<a href="filters.html">Filters</a>.</p>

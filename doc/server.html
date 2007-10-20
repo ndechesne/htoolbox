@@ -25,7 +25,16 @@ overriden using the -c option. The following keywords are acceptable there:</p>
     <td><code>client "protocol" "&lt;client desired name&gt;"</code></td>
     <td><code>client file "montblanc"</code></td>
   </tr>
+  <tr>
+    <td>filter</td>
+    <td>filter definition</td>
+    <td><code></code></td>
+    <td>See <a href="filters.html">Filters</a>.</td>
+    <td>See <a href="filters.html">Filters</a>.</td>
+  </tr>
 </table>
+
+<h2>Client section</h2>
 
 <p>The <i>client</i> keyword starts a new client section, and can be followed
 by the keywords below:</p>
@@ -71,3 +80,10 @@ by the keywords below:</p>
 <p>Note: for SMB protocol users: hbackup uses CIFS, and as such will
 <b>NOT</b> use the SMB protocol to resolve client names into IP addresses.</p>
 
+<h2>Filter section</h2>
+
+<p>The <i>filter</i> keyword starts a new filter section. Filter sections can
+be anywhere. The filters defined here are available globally.</p>
+
+<p>For information on the syntax, please refer to
+<a href="filters.html">Filters</a>.</p>
