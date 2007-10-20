@@ -314,6 +314,8 @@ public:
   int computeChecksum();
   // Copy file into another
   int copy(Stream& source);
+  // Compare two files
+  int compare(Stream& source, long long length = -1);
   // Data access
   long long dsize() const   { return _dsize; };
   // Read parameters from line

@@ -33,6 +33,26 @@ Test: file recompress (uncompress read + compress write), no closing
 read size: 10485760 (10208 -> 10485760), checksum: b7350db49d036137b2ef752a82145e91
 write size (wrong): 8214 (10485760 -> 10208), checksum: b7350db49d036137b2ef752a82145e91
 
+Test: file compare (both compressed)
+  whole files
+files are equal
+  exact size
+files are equal
+  first 2000 bytes
+files are equal
+  first 100 bytes
+files are equal
+
+Test: file compare (one compressed)
+  whole files
+files differ
+  exact size
+files differ
+  first 2000 bytes
+files differ
+  first 100 bytes
+files differ
+
 Test: computeChecksum
 Checksum: 59ca0efa9f5633cb0371bbc0355478d8
 

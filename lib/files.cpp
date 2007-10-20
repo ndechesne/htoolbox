@@ -568,6 +568,73 @@ int Stream::copy(Stream& source) {
   return 0;
 }
 
+int Stream::compare(Stream& source, long long length) {
+  if ((! isOpen()) || (! source.isOpen())) {
+    errno = EBADF;
+    return -1;
+  }
+  int             buf_size = 1024;
+  unsigned char*  buffer1  = (unsigned char*) malloc(buf_size);
+  unsigned char*  buffer2  = (unsigned char*) malloc(buf_size);
+  while (true) {
+    bool eof;
+    // Make we stop when needed
+    if ((length >= 0) && (length < buf_size)) {
+      buf_size = length;
+    }
+    // Fill in buffer1
+    ssize_t size1 = 0;
+    eof = false;
+    while (! eof && (size1 < buf_size)) {
+      ssize_t size = read(&buffer1[size1], buf_size - size1);
+      if (size < 0) {
+        return -1;
+      } else if (size == 0) {
+        eof = true;
+      }
+      size1 += size;
+    }
+    // Fill in buffer2
+    ssize_t size2 = 0;
+    eof = false;
+    while (! eof && (size2 < buf_size)) {
+      ssize_t size = read(&buffer2[size2], buf_size - size2);
+      if (size < 0) {
+        return -1;
+      } else if (size == 0) {
+        eof = true;
+      }
+      size2 += size;
+    }
+    // Compare size
+    if (size1 != size2) {
+      // Differ in size
+      return 1;
+    }
+    // Check end of files
+    if (size1 == 0) {
+      return 0;
+    }
+    // Compare buffers
+    if (memcmp(buffer1, buffer2, size1) != 0) {
+      // Differ in contents
+      return 1;
+    }
+    // Check buffer fill
+    if (size1 < buf_size) {
+      return 0;
+    }
+    // How much is left to compare?
+    if (length >= 0) {
+      length -= size1;
+      if (length <= 0) {
+        return 0;
+      }
+    }
+  }
+  return -1;
+}
+
 // Public functions
 int Stream::decodeLine(const string& line, list<string>& params) {
   const char* read  = line.c_str();

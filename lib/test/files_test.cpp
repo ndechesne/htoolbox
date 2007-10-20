@@ -456,6 +456,136 @@ int main(void) {
   delete readfile;
   delete writefile;
 
+  cout << endl
+    << "Test: file compare (both compressed)"
+    << endl;
+  readfile = new Stream("test1/rwfile_source");
+  writefile = new Stream("test1/rwfile_dest");
+  if (readfile->open("r", 1)) {
+    cout << "Error opening source file: " << strerror(errno) << endl;
+  } else if (writefile->open("r", 1)) {
+    cout << "Error opening dest file: " << strerror(errno) << endl;
+  } else {
+    int rc;
+    cout << "  whole files" << endl;
+    rc = writefile->compare(*readfile);
+    if (rc < 0) {
+      cout << "Error comparing files: " << strerror(errno) << endl;
+    } else if (rc > 0) {
+      cout << "files differ" << endl;
+    } else {
+      cout << "files are equal" << endl;
+    }
+    if (readfile->close()) cout << "Error closing read file" << endl;
+    if (writefile->close()) cout << "Error closing write file" << endl;
+    readfile->open("r", 1);
+    writefile->open("r", 1);
+    cout << "  exact size" << endl;
+    rc = writefile->compare(*readfile, 10485760);
+    if (rc < 0) {
+      cout << "Error comparing files: " << strerror(errno) << endl;
+    } else if (rc > 0) {
+      cout << "files differ" << endl;
+    } else {
+      cout << "files are equal" << endl;
+    }
+    if (readfile->close()) cout << "Error closing read file" << endl;
+    if (writefile->close()) cout << "Error closing write file" << endl;
+    readfile->open("r", 1);
+    writefile->open("r", 1);
+    cout << "  first 2000 bytes" << endl;
+    rc = writefile->compare(*readfile, 2000);
+    if (rc < 0) {
+      cout << "Error comparing files: " << strerror(errno) << endl;
+    } else if (rc > 0) {
+      cout << "files differ" << endl;
+    } else {
+      cout << "files are equal" << endl;
+    }
+    if (readfile->close()) cout << "Error closing read file" << endl;
+    if (writefile->close()) cout << "Error closing write file" << endl;
+    readfile->open("r", 1);
+    writefile->open("r", 1);
+    cout << "  first 100 bytes" << endl;
+    rc = writefile->compare(*readfile, 100);
+    if (rc < 0) {
+      cout << "Error comparing files: " << strerror(errno) << endl;
+    } else if (rc > 0) {
+      cout << "files differ" << endl;
+    } else {
+      cout << "files are equal" << endl;
+    }
+    if (readfile->close()) cout << "Error closing read file" << endl;
+    if (writefile->close()) cout << "Error closing write file" << endl;
+  }
+  delete readfile;
+  delete writefile;
+
+  cout << endl
+    << "Test: file compare (one compressed)"
+    << endl;
+  readfile = new Stream("test1/rwfile_source");
+  writefile = new Stream("test1/rwfile_dest");
+  if (readfile->open("r", 1)) {
+    cout << "Error opening source file: " << strerror(errno) << endl;
+  } else if (writefile->open("r")) {
+    cout << "Error opening dest file: " << strerror(errno) << endl;
+  } else {
+    int rc;
+    cout << "  whole files" << endl;
+    rc = writefile->compare(*readfile);
+    if (rc < 0) {
+      cout << "Error comparing files: " << strerror(errno) << endl;
+    } else if (rc > 0) {
+      cout << "files differ" << endl;
+    } else {
+      cout << "files are equal" << endl;
+    }
+    if (readfile->close()) cout << "Error closing read file" << endl;
+    if (writefile->close()) cout << "Error closing write file" << endl;
+    readfile->open("r", 1);
+    writefile->open("r");
+    cout << "  exact size" << endl;
+    rc = writefile->compare(*readfile, 10208);
+    if (rc < 0) {
+      cout << "Error comparing files: " << strerror(errno) << endl;
+    } else if (rc > 0) {
+      cout << "files differ" << endl;
+    } else {
+      cout << "files are equal" << endl;
+    }
+    if (readfile->close()) cout << "Error closing read file" << endl;
+    if (writefile->close()) cout << "Error closing write file" << endl;
+    readfile->open("r", 1);
+    writefile->open("r");
+    cout << "  first 2000 bytes" << endl;
+    rc = writefile->compare(*readfile, 2000);
+    if (rc < 0) {
+      cout << "Error comparing files: " << strerror(errno) << endl;
+    } else if (rc > 0) {
+      cout << "files differ" << endl;
+    } else {
+      cout << "files are equal" << endl;
+    }
+    if (readfile->close()) cout << "Error closing read file" << endl;
+    if (writefile->close()) cout << "Error closing write file" << endl;
+    readfile->open("r", 1);
+    writefile->open("r");
+    cout << "  first 100 bytes" << endl;
+    rc = writefile->compare(*readfile, 100);
+    if (rc < 0) {
+      cout << "Error comparing files: " << strerror(errno) << endl;
+    } else if (rc > 0) {
+      cout << "files differ" << endl;
+    } else {
+      cout << "files are equal" << endl;
+    }
+    if (readfile->close()) cout << "Error closing read file" << endl;
+    if (writefile->close()) cout << "Error closing write file" << endl;
+  }
+  delete readfile;
+  delete writefile;
+
   cout << endl << "Test: computeChecksum" << endl;
   readfile = new Stream("test1/testfile");
   if (readfile->computeChecksum()) {
