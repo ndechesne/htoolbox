@@ -598,7 +598,7 @@ int Stream::compare(Stream& source, long long length) {
     ssize_t size2 = 0;
     eof = false;
     while (! eof && (size2 < buf_size)) {
-      ssize_t size = read(&buffer2[size2], buf_size - size2);
+      ssize_t size = source.read(&buffer2[size2], buf_size - size2);
       if (size < 0) {
         return -1;
       } else if (size == 0) {
