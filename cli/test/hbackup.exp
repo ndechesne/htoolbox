@@ -16,6 +16,8 @@ A test1/cvs
  -> Entering cvs
 A test1/cvs/CVS
  -> Entering cvs/CVS
+A test1/cvs/CVS/Entries
+Adding compressed file data to DB in: test_db/data/63b52e85e7a255c09df5cca819b74a88-0
  -> Leaving cvs/CVS
 A test1/cvs/dirbad
  -> Entering cvs/dirbad
@@ -25,8 +27,11 @@ A test1/cvs/dirutd
  -> Entering cvs/dirutd
 A test1/cvs/dirutd/CVS
  -> Entering cvs/dirutd/CVS
+A test1/cvs/dirutd/CVS/Entries
+Adding compressed file data to DB in: test_db/data/5252f242d27b8c2c9fdbdcbb33545d07-0
  -> Leaving cvs/dirutd/CVS
 A test1/cvs/dirutd/fileutd
+Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
  -> Leaving cvs/dirutd
 A test1/cvs/filenew.c
 A test1/cvs/fileutd.h
@@ -39,6 +44,8 @@ A test1/test space
 A test1/testdir
  -> Entering testdir
  -> Leaving testdir
+A test1/testfile
+Adding compressed file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
 A test1/testlink
 A test1/testpipe
 Backup path 'test2'
@@ -46,8 +53,11 @@ A test2/testdir
  -> Entering testdir
  -> Leaving testdir
 A test2/testfile
+Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
 A test2/testfile2
+Adding file data to DB in: test_db/data/fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A test2/testfile~
+Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
 A test2/testlink
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
@@ -118,7 +128,7 @@ HBackup (c) 2006-2007 Hervé Fache, version 0.3a
  --> Client: client
 Scanning database
  -> Database open
-Scanning database contents: 4 files
+Scanning database contents: 7 files
  -> Journal is empty, not merging
  -> Database closed
 HBackup (c) 2006-2007 Hervé Fache, version 0.3a
@@ -129,7 +139,7 @@ HBackup (c) 2006-2007 Hervé Fache, version 0.3a
  --> Client: client
 Checking database
  -> Database open
-Scanning database contents thoroughly: 4 files
+Scanning database contents thoroughly: 7 files
  -> Journal is empty, not merging
  -> Database closed
 HBackup (c) 2006-2007 Hervé Fache, version 0.3a
@@ -164,9 +174,11 @@ Restoring
  -> Database open
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
+U test_r/test1/cvs/CVS/Entries
 U test_r/test1/cvs/dirbad
 U test_r/test1/cvs/dirutd
 U test_r/test1/cvs/dirutd/CVS
+U test_r/test1/cvs/dirutd/CVS/Entries
 U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
@@ -174,6 +186,7 @@ U test_r/test1/dir space
 U test_r/test1/dir space/file space
 U test_r/test1/test space
 U test_r/test1/testdir
+U test_r/test1/testfile
 U test_r/test1/testlink
 U test_r/test1/testpipe
  -> Database closed
@@ -187,9 +200,11 @@ Restoring
  -> Database open
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
+U test_r/test1/cvs/CVS/Entries
 U test_r/test1/cvs/dirbad
 U test_r/test1/cvs/dirutd
 U test_r/test1/cvs/dirutd/CVS
+U test_r/test1/cvs/dirutd/CVS/Entries
 U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
@@ -204,9 +219,11 @@ Restoring
  -> Database open
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
+U test_r/test1/cvs/CVS/Entries
 U test_r/test1/cvs/dirbad
 U test_r/test1/cvs/dirutd
 U test_r/test1/cvs/dirutd/CVS
+U test_r/test1/cvs/dirutd/CVS/Entries
 U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
@@ -214,6 +231,7 @@ U test_r/test1/dir space
 U test_r/test1/dir space/file space
 U test_r/test1/test space
 U test_r/test1/testdir
+U test_r/test1/testfile
 U test_r/test1/testlink
 U test_r/test1/testpipe
 U test_r/test2/testdir

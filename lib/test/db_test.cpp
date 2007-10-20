@@ -136,7 +136,7 @@ int main(void) {
 
   /* Test database */
   if ((status = db.open())) {
-    printf("db::open error status %u\n", status);
+    printf("db::open error status %d\n", status);
     if (status == 2) {
       return 0;
     }
@@ -188,7 +188,7 @@ int main(void) {
   /* Write */
   char* chksm = NULL;
   if ((status = db.write("test1/testfile", &chksm))) {
-    printf("db.write error status %u\n", status);
+    printf("db.write error status %d\n", status);
     db.close();
     return 0;
   }
@@ -200,14 +200,48 @@ int main(void) {
   cout << chksm << "  test1/testfile" << endl;
   /* Read */
   if ((status = db.read("test_db/blah", chksm))) {
-    printf("db.read error status %u\n", status);
+    printf("db.read error status %d\n", status);
     db.close();
     return 0;
   }
   /* Write again */
   chksm = NULL;
   if ((status = db.write("test_db/blah", &chksm))) {
-    printf("db.write error status %u\n", status);
+    printf("db.write error status %d\n", status);
+    db.close();
+    return 0;
+  }
+  if (chksm == NULL) {
+    printf("db.write returned unexpected null checksum\n");
+    db.close();
+    return 0;
+  }
+  cout << chksm << "  test_db/blah" << endl;
+
+  cout << endl << "Test: write and read back with compression" << endl;
+  /* Write */
+  chksm = NULL;
+  if ((status = db.write("test1/testfile", &chksm, 5))) {
+    printf("db.write error status %d\n", status);
+    db.close();
+    return 0;
+  }
+  if (chksm == NULL) {
+    printf("db.write returned unexpected null checksum\n");
+    db.close();
+    return 0;
+  }
+  cout << chksm << "  test1/testfile" << endl;
+  /* Read */
+  if ((status = db.read("test_db/blah", chksm))) {
+    printf("db.read error status %d\n", status);
+    db.close();
+    return 0;
+  }
+  /* Write again */
+  chksm = NULL;
+  if ((status = db.write("test_db/blah", &chksm))) {
+    printf("db.write error status %d\n", status);
     db.close();
     return 0;
   }
@@ -289,7 +323,7 @@ int main(void) {
 
   cout << endl << "Test: read-only mode" << endl;
   if ((status = db.open(true))) {
-    printf("db::open error status %u\n", status);
+    printf("db::open error status %d\n", status);
     if (status == 2) {
       return 0;
     }
@@ -320,7 +354,7 @@ int main(void) {
 
   cout << endl << "Test: fill in DB" << endl;
   if ((status = db.open())) {
-    printf("db::open error status %u\n", status);
+    printf("db::open error status %d\n", status);
     if (status == 2) {
       return 0;
     }
@@ -353,7 +387,7 @@ int main(void) {
 
   cout << endl << "Test: do nothing" << endl;
   if ((status = db.open())) {
-    printf("db::open error status %u\n", status);
+    printf("db::open error status %d\n", status);
     if (status == 2) {
       return 0;
     }
@@ -376,7 +410,7 @@ int main(void) {
   cout << endl << "Test: read prefixes" << endl;
   list<string> prefixes;
   if ((status = db.open(true))) {
-    printf("db::open error status %u\n", status);
+    printf("db::open error status %d\n", status);
     if (status == 2) {
       return 0;
     }

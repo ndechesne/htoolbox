@@ -12,6 +12,11 @@ fedc76test6 status: 1, getdir_path: test_db/data/fe/dc/76/test6
 fedc76test6 status: 0, getdir_path: test_db/data/fe/dc/76/test6
 
 Test: write and read back
+Adding file data to DB in: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0
+59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
+59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
+
+Test: write and read back with compression
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 
@@ -20,7 +25,6 @@ db.check: Structure needs cleaning
 db.check: Structure needs cleaning
 db.check: Invalid argument
 Scanning database contents thoroughly: 0 files
-db: check: data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 db.check: No such file or directory
 db: check: data corrupted for 59ca0efa9f5633cb0371bbc0355478d8-0
 db.check: Exec format error
@@ -83,6 +87,8 @@ Test: read-only mode
 
 Test: fill in DB
  -> Database open
+Adding file data to DB in: test_db/data/d4/1d8cd98f00b204e9800998ecf8427e-0
+Adding file data to DB in: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-1
  -> Database closed
 [ 1] prot://client    client_path/test space             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 2] prot://client    client_path/testfile               f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1

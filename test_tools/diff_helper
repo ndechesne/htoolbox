@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+  exit 1
+fi
+
+if [ "$1" != "hbackup" ]; then
+  echo "cp -a lib/test/$1.all lib/test/$1.exp"
+  tkdiff lib/test/$1.exp lib/test/$1.all &
+else
+  echo "cp -a cli/test/$1.all cli/test/$1.exp"
+  tkdiff cli/test/$1.exp cli/test/$1.all &
+fi
+exit 0

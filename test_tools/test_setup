@@ -158,7 +158,6 @@ filter or to_be_ignored
 condition filter subdir
 condition filter backup
 condition filter object
-condition filter bigfile
 
 ignore to_be_ignored
 

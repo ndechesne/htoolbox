@@ -130,12 +130,7 @@ int Database::write(
     return -1;
   }
 
-  string    temp_path;
-  string    dest_path;
-  string    checksum;
-  int       index = 0;
-  int       deleteit = 0;
-  int       failed = 0;
+  int failed = 0;
 
   Stream source(path.c_str());
   if (source.open("r")) {
@@ -144,7 +139,7 @@ int Database::write(
   }
 
   // Temporary file to write to
-  temp_path = _path + "/filedata";
+  string temp_path = _path + "/filedata";
   Stream temp(temp_path.c_str());
   if (temp.open("w", compress)) {
     cerr << strerror(errno) << ": " << temp_path << endl;
@@ -165,59 +160,80 @@ int Database::write(
   }
 
   // Get file final location
+  string dest_path;
   if (getDir(source.checksum(), dest_path, true) == 2) {
     cerr << "db: write: failed to get dir for: " << source.checksum() << endl;
-    failed = -1;
-  } else {
-    // Make sure our checksum is unique
-    do {
-      string  final_path = dest_path + "-";
-      bool    differ = false;
+    return -1;
+  }
 
-      // Complete checksum with index
-      stringstream ss;
-      string str;
-      ss << index;
-      ss >> str;
-      checksum = string(source.checksum()) + "-" + str;
-      final_path += str;
-      if (! Directory("").create(final_path.c_str())) {
-        // Directory exists
-        File try_file(final_path.c_str(), "data");
-        if (try_file.isValid()) {
-          // A file already exists, let's compare
-          File temp_md(temp_path.c_str());
+  // Make sure our checksum is unique: compare first bytes of files
+  int  index = 0;
+  bool missing = false;
+  bool present = false;
+  do {
+    char* final_path = NULL;
+    asprintf(&final_path, "%s-%u", dest_path.c_str(), index);
 
-          differ = (try_file.size() != temp_md.size());
+    // Check whether directory already exists
+    if (Directory(final_path).isValid()) {
+      Stream* try_file = new Stream(final_path, "data");
+
+      if (try_file->isValid()) {
+        try_file->open("r");
+      } else {
+        delete try_file;
+        try_file = new Stream(final_path, "data.gz");
+        if (! try_file->isValid()) {
+          delete try_file;
+          // Need to copy file accross: leave index to current value and exit
+          break;
         }
+        try_file->open("r", 1);
       }
-      if (! differ) {
-        dest_path = final_path;
-        break;
+      temp.open("r", compress);
+      switch (temp.compare(*try_file, 1024)) {
+        case 0:
+          present = true;
+          break;
+        case 1:
+          index++;
+          break;
+        default:
+          failed = -1;
       }
-      index++;
-    } while (true);
-
-    // Now move the file in its place
-    if (rename(temp_path.c_str(), (dest_path + "/data").c_str())) {
-      cerr << "db: write: failed to move file " << temp_path
-        << " to " << dest_path << ": " << strerror(errno);
-      failed = -1;
+      try_file->close();
+      delete try_file;
+      temp.close();
+    } else {
+      Directory("").create(final_path);
+      dest_path = final_path;
+      missing = true;
     }
+    free(final_path);
+  } while ((failed == 0) && (! missing) && (! present));
+
+  // Now move the file in its place
+  if (! present && rename(temp_path.c_str(),
+        (dest_path + "/data" + ((compress != 0) ? ".gz" : "")).c_str())) {
+    cerr << "Failed to move file " << temp_path << " to "
+      << dest_path << ": " << strerror(errno) << endl;
+    failed = -1;
+  } else
+  if (! present && (verbosity() > 1)) {
+    cout << "Adding " << ((compress != 0) ? "compressed " : "")
+      << "file data to DB in: " << dest_path << endl;
   }
 
   // If anything failed, delete temporary file
-  if (failed || deleteit) {
+  if (failed || present) {
     std::remove(temp_path.c_str());
   }
 
   // Report checksum
   *dchecksum = NULL;
   if (! failed) {
-    asprintf(dchecksum, "%s", checksum.c_str());
+    asprintf(dchecksum, "%s-%d", source.checksum(), index);
   }
-
-  // TODO Need to store compression data
 
   // Make sure we won't exceed the file number limit
   if (! failed) {
@@ -698,32 +714,36 @@ int Database::read(const string& path, const string& checksum) {
   if (! isOpen()) {
     return -1;
   }
-  string  source_path;
-  string  temp_path;
-  string  temp_checksum;
   int     failed = 0;
 
+  string source_path;
   if (getDir(checksum, source_path)) {
     cerr << "db: read: failed to get dir for: " << checksum << endl;
     return 2;
   }
+
+  // Open source
+  bool decompress = false;
   source_path += "/data";
-
-  // Open temporary file to write to
-  temp_path = path + ".part";
-
-  // Copy file to temporary name (size not checked: checksum suffices)
+  if (! File(source_path.c_str()).isValid()) {
+    source_path += ".gz";
+    decompress = true;
+  }
   Stream source(source_path.c_str());
-  if (source.open("r")) {
+  if (source.open("r", decompress ? 1 : 0)) {
     cerr << "db: read: failed to open source file: " << source_path << endl;
     return 2;
   }
+
+  // Open temporary file to write to
+  string temp_path = path + ".part";
   Stream temp(temp_path.c_str());
   if (temp.open("w")) {
     cerr << "db: read: failed to open dest file: " << temp_path << endl;
     failed = 2;
   } else
 
+  // Copy file to temporary name (size not checked: checksum suffices)
   if (temp.copy(source)) {
     cerr << "db: read: failed to copy file: " << source_path << endl;
     failed = 2;
@@ -734,9 +754,9 @@ int Database::read(const string& path, const string& checksum) {
 
   if (! failed) {
     // Verify that checksums match before overwriting final destination
-    if (strncmp(source.checksum(), temp.checksum(), strlen(temp.checksum()))) {
-      cerr << "db: read: checksums don't match: " << source_path
-        << " " << temp_checksum << endl;
+    if (strncmp(checksum.c_str(), temp.checksum(), strlen(temp.checksum()))) {
+      cerr << "db: read: checksums don't match: " << checksum << " "
+        << temp.checksum() << endl;
       failed = 2;
     } else
 
@@ -811,7 +831,7 @@ int Database::scan(const string& checksum, bool thorough) {
     }
     Stream filedata((path + "/data").c_str());
     if (! filedata.isValid()) {
-      cerr << "db: check: data missing for " << checksum << endl;
+//       cerr << "db: check: data missing for " << checksum << endl;
       errno = ENOENT;
       return -1;
     }

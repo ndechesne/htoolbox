@@ -2,11 +2,13 @@ Database initialized
  -> Database open
 first with subdir/testfile NOT readable
 A /home/User/àccénts_test
+Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
 A /home/User/cvs
  -> Entering cvs
 A /home/User/cvs/CVS
  -> Entering cvs/CVS
 A /home/User/cvs/CVS/Entries
+Adding file data to DB in: test_db/data/63b52e85e7a255c09df5cca819b74a88-0
  -> Leaving cvs/CVS
 A /home/User/cvs/dirbad
  -> Entering cvs/dirbad
@@ -21,6 +23,7 @@ A /home/User/cvs/dirutd
 A /home/User/cvs/dirutd/CVS
  -> Entering cvs/dirutd/CVS
 A /home/User/cvs/dirutd/CVS/Entries
+Adding file data to DB in: test_db/data/5252f242d27b8c2c9fdbdcbb33545d07-0
  -> Leaving cvs/dirutd/CVS
 A /home/User/cvs/dirutd/fileoth
 A /home/User/cvs/dirutd/fileutd
@@ -40,6 +43,7 @@ A /home/User/subdir/testfile
 Permission denied: test1/subdir/testfile
 A /home/User/subdir/testfile1
 A /home/User/subdir/testfile2
+Adding file data to DB in: test_db/data/285b35198a5e188b3a0df3ed33f93a26-0
  -> Leaving subdir
 A /home/User/subdir-file
 A /home/User/subdirfile
@@ -48,6 +52,7 @@ A /home/User/testdir
  -> Entering testdir
  -> Leaving testdir
 A /home/User/testfile
+Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
 A /home/User/testfile~
 A /home/User/testlink
 A /home/User/testpipe
@@ -1365,6 +1370,7 @@ as previous with cvs/filenew.c touched and testpipe restored
 Directory should be under CVS control: test1/cvs/dirbad
  -> Leaving cvs/dirbad
 M /home/User/cvs/filenew.c
+Adding file data to DB in: test_db/data/0d599f0ec05c3bda8c3b8a68c32a1b47-0
  -> Leaving cvs
  -> Entering dir space
  -> Leaving dir space
@@ -1887,8 +1893,11 @@ A /home/User/testdir
  -> Entering testdir
  -> Leaving testdir
 A /home/User/testfile
+Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
 A /home/User/testfile2
+Adding file data to DB in: test_db/data/fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A /home/User/testfile~
+Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
 Parsed 4 file(s)
 A /home/User/crash
  -> Entering crash
