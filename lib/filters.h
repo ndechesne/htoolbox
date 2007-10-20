@@ -29,17 +29,34 @@ typedef enum {
   filter_and,                 // Matches if all of its conditions match
 } filter_type_t;
 
-class Filter {
+class Filter : public list<Condition*> {
   filter_type_t     _type;
   string            _name;
-  list<Condition*>  _conditions;
 public:
-  Filter(filter_type_t type, const char* name) :
-    _type(type), _name(name) {}
+  Filter(
+    filter_type_t   type,
+    const char*     name) :
+      _type(type), _name(name) {}
   ~Filter();
   const string& name() const     { return _name; }
-  void add(Condition* condition) { _conditions.push_back(condition); }
-  bool match(const char* path, const Node& node) const;
+  void add(Condition* condition) { push_back(condition); }
+  int add(
+    const string&   type,
+    const string&   value,
+    bool            negated);
+  bool match(
+    const char*     path,
+    const Node&     node) const;
+};
+
+class Filters : public list<Filter*> {
+public:
+  ~Filters();
+  Filter* find(
+    const string&   name) const;
+  Filter* add(
+    const string&   type,
+    const string&   name);
 };
 
 }

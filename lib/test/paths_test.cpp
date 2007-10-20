@@ -167,7 +167,7 @@ int main(void) {
   db.open();
 
   cout << "as previous with subdir/testfile in ignore list" << endl;
-  if (path->addFilter("and", "testfile")
+  if ((path->addFilter("and", "testfile") == NULL)
    || path->addCondition("type", "file")
    || path->addCondition("path", "subdir/testfile")) {
     cout << "Failed to add filter" << endl;
@@ -196,7 +196,7 @@ int main(void) {
   db.open();
 
   cout << "as previous with subdir in ignore list" << endl;
-  if (path->addFilter("and", "subdir")
+  if ((path->addFilter("and", "subdir") == NULL)
    || path->addCondition("type", "dir")
    || path->addCondition("path", "subdir")) {
     cout << "Failed to add filter" << endl;
@@ -226,7 +226,7 @@ int main(void) {
 
   cout << "as previous with testlink modified" << endl;
   system("sleep 1 && ln -sf testnull test1/testlink");
-  if (path->addFilter("and", "subdir")
+  if ((path->addFilter("and", "subdir") == NULL)
    || path->addCondition("type", "dir")
    || path->addCondition("path", "subdir")) {
     cout << "Failed to add filter" << endl;
@@ -255,12 +255,12 @@ int main(void) {
   db.open();
 
   cout << "as previous with testlink in ignore list" << endl;
-  if (path->addFilter("and", "testlink")
+  if ((path->addFilter("and", "testlink") == NULL)
    || path->addCondition("type", "link")
    || path->addCondition("path_start", "testlink")) {
     cout << "Failed to add 'and' filter" << endl;
   }
-  if (path->addFilter("or", "ignore1")
+  if ((path->addFilter("or", "ignore1") == NULL)
    || path->addCondition("filter", "subdir")
    || path->addCondition("filter", "testlink")) {
     cout << "Failed to add 'or' filter" << endl;
@@ -334,12 +334,12 @@ int main(void) {
   db.open();
 
   cout << "as previous with cvs/dirutd in ignore list" << endl;
-  if (path->addFilter("and", "cvs_dirutd")
+  if ((path->addFilter("and", "cvs_dirutd") == NULL)
    || path->addCondition("type", "dir")
    || path->addCondition("path", "cvs/dirutd")) {
     cout << "Failed to add 'and' filter" << endl;
   }
-  if (path->addFilter("or", "ignore2")
+  if ((path->addFilter("or", "ignore2") == NULL)
    || path->addCondition("filter", "subdir")
    || path->addCondition("filter", "testlink")
    || path->addCondition("filter", "cvs_dirutd")) {

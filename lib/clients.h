@@ -16,8 +16,8 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef CLIENT_H
-#define CLIENT_H
+#ifndef _CLIENT_H
+#define _CLIENT_H
 
 namespace hbackup {
 
@@ -50,6 +50,7 @@ class Client {
   string        _home_path;
   string        _mount_point;
   string        _mounted;
+  Filters       _filters;
   int mountPath(string  backup_path, string  *path);
   int umount();
   int readListFile(const string& list_path);
@@ -75,6 +76,12 @@ public:
   }
   void setMountPoint(const string& mount_point) {
     _mount_point = mount_point;
+  }
+  Filter* addFilter(const string& type, const string& name) {
+    return _filters.add(type, name);
+  }
+  Filter* findFilter(const string& name) const {
+    return _filters.find(name);
   }
   int  backup(Database& db, bool config_check = false);
   void show();

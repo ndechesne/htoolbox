@@ -145,7 +145,8 @@ int Client::readListFile(const string& list_path) {
     }
 
     /* Read list file */
-    Path *path = NULL;
+    Path*   path   = NULL;
+    Filter* filter = NULL;
     while (! list_file.eof() && ! failed) {
       getline(list_file, buffer);
       unsigned int pos = buffer.find("\r");
@@ -163,9 +164,15 @@ int Client::readListFile(const string& list_path) {
           << endl;
       }
       if (params.size() > 0) {
-        list<string>::iterator current = params.begin();
-        string                 keyword = *current++;
+        list<string>::iterator  current = params.begin();
+        string                  keyword = *current++;
+        string                  type;
+        if (params.size() > 1) {
+          type = *current++;
+        }
+
         if (keyword == "path") {
+          filter = NULL;
           // Expect exactly two parameters
           if (params.size() != 2) {
             cerr << "Error: in list file " << list_path << ", line " << line
@@ -173,10 +180,10 @@ int Client::readListFile(const string& list_path) {
             failed = 1;
           } else {
             /* New backup path */
-            if ((*current)[0] == '~') {
-              path = new Path((_home_path + &(*current)[1]).c_str());
+            if (type[0] == '~') {
+              path = new Path((_home_path + &type[1]).c_str());
             } else {
-              path = new Path(current->c_str());
+              path = new Path(type.c_str());
             }
             if (verbosity() > 1) {
               cout << " --> Path: " << path->path() << endl;
@@ -211,13 +218,76 @@ int Client::readListFile(const string& list_path) {
               }
             }
           }
-        } else if (path != NULL) {
-          string type;
-          int rc;
-
-          if (params.size() > 1) {
-            type = *current++;
+        } else
+        if (keyword == "filter") {
+          // Expect exactly three parameters
+          if (params.size() != 3) {
+            cerr << "Error: in list file " << list_path << ", line " << line
+              << " '" << keyword << "' takes exactly two arguments" << endl;
+            failed = 1;
+          } else {
+            if (path == NULL) {
+              // Client-wide filter
+              filter = addFilter(type, *current);
+            } else {
+              // Path-wide filter
+              filter = path->addFilter(type, *current);
+            }
+            if (filter == NULL) {
+              cerr << "Error: in list file " << list_path << ", line "
+                << line << " unsupported filter type: " << type << endl;
+              failed = 1;
+            }
           }
+        } else
+        if (keyword == "condition") {
+          // Expect exactly three parameters
+          if (params.size() != 3) {
+            cerr << "Error: in list file " << list_path << ", line " << line
+              << " '" << keyword << "' takes exactly two arguments" << endl;
+            failed = 1;
+          } else {
+            string  filter_type;
+            bool    negated;
+            if (type[0] == '!') {
+              filter_type = type.substr(1);
+              negated     = true;
+            } else {
+              filter_type = type;
+              negated     = false;
+            }
+
+            /* Add specified filter */
+            if (type == "filter") {
+              Filter* subfilter = NULL;
+              if (path != NULL) {
+                subfilter = path->findFilter(*current);
+              }
+              if (subfilter == NULL) {
+                subfilter = findFilter(*current);
+              }
+              if (subfilter == NULL) {
+                return 2;
+              }
+              filter->add(new Condition(condition_subfilter, subfilter,
+                negated));
+            } else {
+              switch (filter->add(filter_type, *current, negated)) {
+                case 1:
+                  cerr << "Error: in list file " << list_path << ", line "
+                    << line << " unsupported condition type: " << type << endl;
+                  failed = 1;
+                  break;
+                case 2:
+                  cerr << "Error: in list file " << list_path << ", line "
+                    << line << " no filter defined" << endl;
+                  failed = 1;
+                  break;
+              }
+            }
+          }
+        } else
+        if (path != NULL) {
           // Path attributes
           if (keyword == "ignore") {
             // Expect exactly two parameters
@@ -245,41 +315,6 @@ int Client::readListFile(const string& list_path) {
               failed = 1;
             }
           } else
-          if (keyword == "filter") {
-            // Expect exactly three parameters
-            if (params.size() != 3) {
-              cerr << "Error: in list file " << list_path << ", line " << line
-                << " '" << keyword << "' takes exactly two arguments" << endl;
-              failed = 1;
-            } else
-            if (path->addFilter(type, *current)) {
-              cerr << "Error: in list file " << list_path << ", line "
-                << line << " unsupported filter type: " << type << endl;
-              failed = 1;
-            }
-          } else
-          if (keyword == "condition") {
-            // Expect exactly three parameters
-            if (params.size() != 3) {
-              cerr << "Error: in list file " << list_path << ", line " << line
-                << " '" << keyword << "' takes exactly two arguments" << endl;
-              failed = 1;
-            } else
-            if ((rc = path->addCondition(type, *current))) {
-              switch (rc) {
-                case 1:
-                  cerr << "Error: in list file " << list_path << ", line "
-                   << line << " unsupported condition type: " << type << endl;
-                  failed = 1;
-                  break;
-                case 2:
-                  cerr << "Error: in list file " << list_path << ", line "
-                   << line << " no filter defined" << endl;
-                  failed = 1;
-                  break;
-              }
-            }
-          } else
           if (keyword == "parser") {
             // Expect exactly three parameters
             if (params.size() != 3) {
@@ -287,19 +322,17 @@ int Client::readListFile(const string& list_path) {
                 << " '" << keyword << "' takes exactly two arguments" << endl;
               failed = 1;
             } else
-            if ((rc = path->addParser(type, *current))) {
-              switch (rc) {
-                case 1:
-                  cerr << "Error: in list file " << list_path << ", line "
-                   << line << " unsupported parser type: " << type << endl;
-                  failed = 1;
-                  break;
-                case 2:
-                  cerr << "Error: in list file " << list_path << ", line "
-                   << line << " unsupported parser mode: " << *current << endl;
-                  failed = 1;
-                  break;
-              }
+            switch (path->addParser(type, *current)) {
+              case 1:
+                cerr << "Error: in list file " << list_path << ", line "
+                  << line << " unsupported parser type: " << type << endl;
+                failed = 1;
+                break;
+              case 2:
+                cerr << "Error: in list file " << list_path << ", line "
+                  << line << " unsupported parser mode: " << *current << endl;
+                failed = 1;
+                break;
             }
           } else
           if (keyword == "expire") {

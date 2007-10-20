@@ -38,16 +38,6 @@ using namespace std;
 
 using namespace hbackup;
 
-Filter* Path::findFilter(const string& name) const {
-  list<Filter*>::const_iterator filter;
-  for (filter = _filters.begin(); filter != _filters.end(); filter++) {
-    if ((*filter)->name() == name) {
-      return *filter;
-    }
-  }
-  return NULL;
-}
-
 int Path::recurse(
     Database&     db,
     const char*   remote_path,
@@ -224,11 +214,6 @@ Path::Path(const char* path) {
 
 Path::~Path() {
   delete _dir;
-  // Delete all filters
-  list<Filter*>::const_iterator filter;
-  for (filter = _filters.begin(); filter != _filters.end(); filter++) {
-    delete *filter;
-  }
 }
 
 int Path::setIgnore(
@@ -241,23 +226,6 @@ int Path::setCompress(
     const string& name) {
   _compress = findFilter(name);
   return (_compress == NULL) ? -1 : 0;
-}
-
-int Path::addFilter(
-    const string&   type,
-    const string&   name) {
-  filter_type_t ftype;
-  if (type == "and") {
-    ftype = filter_and;
-  } else
-  if (type == "or") {
-    ftype = filter_or;
-  } else
-  {
-    return 1;
-  }
-  _filters.push_back(new Filter(ftype, name.c_str()));
-  return 0;
 }
 
 int Path::addCondition(
@@ -285,53 +253,8 @@ int Path::addCondition(
       return 2;
     }
     _filters.back()->add(new Condition(condition_subfilter, filter, negated));
-  } else
-  if (type == "type") {
-    _filters.back()->add(new Condition(condition_type, value[0], negated));
-  } else
-  if (type == "name") {
-    _filters.back()->add(new Condition(condition_name, value, negated));
-  } else
-  if (type == "name_start") {
-    _filters.back()->add(new Condition(condition_name_start, value, negated));
-  } else
-  if (type == "name_end") {
-    _filters.back()->add(new Condition(condition_name_end, value, negated));
-  } else
-  if (type == "name_regex") {
-    _filters.back()->add(new Condition(condition_name_regex, value, negated));
-  } else
-  if (type == "path") {
-    _filters.back()->add(new Condition(condition_path, value, negated));
-  } else
-  if (type == "path_start") {
-    _filters.back()->add(new Condition(condition_path_start, value, negated));
-  } else
-  if (type == "path_end") {
-    _filters.back()->add(new Condition(condition_path_end, value, negated));
-  } else
-  if (type == "path_regex") {
-    _filters.back()->add(new Condition(condition_path_regex, value, negated));
-  } else
-  if (type == "size<") {
-    off64_t size = strtoul(value.c_str(), NULL, 10);
-    _filters.back()->add(new Condition(condition_size_lt, size, negated));
-  } else
-  if (type == "size<=") {
-    off64_t size = strtoul(value.c_str(), NULL, 10);
-    _filters.back()->add(new Condition(condition_size_le, size, negated));
-  } else
-  if (type == "size>=") {
-    off64_t size = strtoul(value.c_str(), NULL, 10);
-    _filters.back()->add(new Condition(condition_size_ge, size, negated));
-  } else
-  if (type == "size>") {
-    off64_t size = strtoul(value.c_str(), NULL, 10);
-    _filters.back()->add(new Condition(condition_size_gt, size, negated));
-  } else
-  {
-    // Wrong type
-    return 1;
+  } else {
+    return _filters.back()->add(type, value, negated);
   }
   return 0;
 }

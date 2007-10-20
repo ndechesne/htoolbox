@@ -26,6 +26,8 @@ using namespace std;
 
 #include "strings.h"
 #include "files.h"
+#include "conditions.h"
+#include "filters.h"
 #include "db.h"
 #include "clients.h"
 #include "hbackup.h"
@@ -73,7 +75,7 @@ int HBackup::addClient(const char* name) {
 
 int HBackup::setUserPath(const char* home_path) {
   string path = home_path;
-  
+
   // Set-up DB
   _d->db = new Database(path + "/.hbackup");
 

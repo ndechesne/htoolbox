@@ -16,21 +16,20 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef PATHS_H
-#define PATHS_H
+#ifndef _PATHS_H
+#define _PATHS_H
 
 namespace hbackup {
 
 class Path {
-  StrPath         _path;
-  Directory*      _dir;
-  Parsers         _parsers;
-  list<Filter*>   _filters;
-  Filter*         _ignore;
-  Filter*         _compress;
-  int             _expiration;
-  int             _nodes;
-  Filter* findFilter(const string& name) const;
+  StrPath     _path;
+  Directory*  _dir;
+  Parsers     _parsers;
+  Filters     _filters;
+  Filter*     _ignore;
+  Filter*     _compress;
+  int         _expiration;
+  int         _nodes;
   int recurse(
     Database&       db,
     const char*     remote_path,      // Dir where the file resides, remotely
@@ -47,23 +46,25 @@ public:
   void setExpiration(int expiration) { _expiration = expiration; }
   // Set ignore filter
   int setIgnore(
-    const string& name);
+    const string&   name);
   // Set compress filter
   int setCompress(
-    const string& name);
-  // Set append to true to add as condition to last added filter
-  int addFilter(
-    const string& type,
-    const string& name);
+    const string&   name);
+  Filter* addFilter(const string& type, const string& name) {
+    return _filters.add(type, name);
+  }
+  Filter* findFilter(const string& name) const {
+    return _filters.find(name);
+  }
   int addCondition(
-    const string& type_str,
-    const string& value);
+    const string&   type_str,
+    const string&   value);
   int addParser(
-    const string& type,
-    const string& string);
+    const string&   type,
+    const string&   string);
   int parse(
-    Database&   db,
-    const char* backup_path);
+    Database&       db,
+    const char*     backup_path);
   // Information
   void showParsers() {
     _parsers.list();

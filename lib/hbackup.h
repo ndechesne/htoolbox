@@ -16,8 +16,8 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef HBACKUP_H
-#define HBACKUP_H
+#ifndef _HBACKUP_H
+#define _HBACKUP_H
 
 namespace hbackup {
   /* Verbosity level */
