@@ -76,7 +76,22 @@ int main(void) {
   cout << "abcd <> abce, 5: " << StrPath("abcd").compare("abce", 5) << endl;
 
   cout << endl << "Test: toUnix" << endl;
-  StrPath pth1 = "this\\is a path/ Unix\\ cannot cope with/\\";
+  StrPath pth1 = "a:\\backup\\";
+  cout << pth1.c_str() << " -> ";
+  cout << pth1.toUnix().c_str() << endl;
+  pth1 = "z:/backup";
+  cout << pth1.c_str() << " -> ";
+  cout << pth1.toUnix().c_str() << endl;
+  pth1 = "1:/backup";
+  cout << pth1.c_str() << " -> ";
+  cout << pth1.toUnix().c_str() << endl;
+  pth1 = "f;/backup";
+  cout << pth1.c_str() << " -> ";
+  cout << pth1.toUnix().c_str() << endl;
+  pth1 = "l:|backup";
+  cout << pth1.c_str() << " -> ";
+  cout << pth1.toUnix().c_str() << endl;
+  pth1 = "this\\is a path/ Unix\\ cannot cope with/\\";
   cout << pth1.c_str() << " -> ";
   cout << pth1.toUnix().c_str() << endl;
   cout << pth1.c_str() << " -> ";

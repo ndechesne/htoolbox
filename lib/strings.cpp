@@ -101,6 +101,10 @@ const StrPath& StrPath::toUnix() {
       *pos = '/';
     }
   }
+  if (((*this)[1] == ':') && ((*this)[2] == '/')
+   && ((*this)[0] >= 'a') && ((*this)[0] <= 'z')) {
+    (*this)[0] -= 0x20;
+  }
   return *this;
 }
 

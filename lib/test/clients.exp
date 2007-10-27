@@ -29,7 +29,7 @@ Client: myClient2
 -> smb://myClient C:/Backup/Backup.LST
 Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient c:/home/backup/Backup.list
+-> ssh://otherClient C:/home/backup/Backup.list
  --> Client: Client
 >List 4 client(s):
 Client: myClient
@@ -38,9 +38,9 @@ Client: myClient2
 -> smb://myClient C:/Backup/Backup.LST
 Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient c:/home/backup/Backup.list
+-> ssh://otherClient C:/home/backup/Backup.list
 Client: Client
--> smb://Client c:/home/BlaH/Backup.list
+-> smb://Client C:/home/BlaH/Backup.list
 Options: username=user iocharset=utf8
  --> Client: Client2
 >List 5 client(s):
@@ -50,12 +50,12 @@ Client: myClient2
 -> smb://myClient C:/Backup/Backup.LST
 Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient c:/home/backup/Backup.list
+-> ssh://otherClient C:/home/backup/Backup.list
 Client: Client
--> smb://Client c:/home/BlaH/Backup.list
+-> smb://Client C:/home/BlaH/Backup.list
 Options: username=user iocharset=utf8
 Client: Client2
--> smb://Client c:/home/BlaH/Backup.list
+-> smb://Client C:/home/BlaH/Backup.list
 Options: nocase username=user password=
  --> Client: Client3
 >List 6 client(s):
@@ -65,15 +65,15 @@ Client: myClient2
 -> smb://myClient C:/Backup/Backup.LST
 Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient c:/home/backup/Backup.list
+-> ssh://otherClient C:/home/backup/Backup.list
 Client: Client
--> smb://Client c:/home/BlaH/Backup.list
+-> smb://Client C:/home/BlaH/Backup.list
 Options: username=user iocharset=utf8
 Client: Client2
--> smb://Client c:/home/BlaH/Backup.list
+-> smb://Client C:/home/BlaH/Backup.list
 Options: nocase username=user password=
 Client: Client3
--> smb://Client c:/home/BlaH/Backup.list
+-> smb://Client C:/home/BlaH/Backup.list
 Options: username=
  --> Client: Client4
 >List 7 client(s):
@@ -83,18 +83,18 @@ Client: myClient2
 -> smb://myClient C:/Backup/Backup.LST
 Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient c:/home/backup/Backup.list
+-> ssh://otherClient C:/home/backup/Backup.list
 Client: Client
--> smb://Client c:/home/BlaH/Backup.list
+-> smb://Client C:/home/BlaH/Backup.list
 Options: username=user iocharset=utf8
 Client: Client2
--> smb://Client c:/home/BlaH/Backup.list
+-> smb://Client C:/home/BlaH/Backup.list
 Options: nocase username=user password=
 Client: Client3
--> smb://Client c:/home/BlaH/Backup.list
+-> smb://Client C:/home/BlaH/Backup.list
 Options: username=
 Client: Client4
--> smb://Client c:/home/BlaH/Backup.list
+-> smb://Client C:/home/BlaH/Backup.list
 Options: username= password=
  -> Database open
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
@@ -118,22 +118,22 @@ A C:/Test/File.TXT
  -> umount test_db/mount
 Unmounted test_db/mount
 Protocol not supported: ssh
- -> mount -t cifs -o ro,noatime,nocase,username=user,iocharset=utf8 //Client/c$ test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
 Backup client 'Client' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
  -> umount test_db/mount
 Unmounted test_db/mount
- -> mount -t cifs -o ro,noatime,nocase,nocase,username=user,password= //Client/c$ test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,nocase,username=user,password= //Client/C$ test_db/mount
 Backup client 'Client2' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
  -> umount test_db/mount
 Unmounted test_db/mount
- -> mount -t cifs -o ro,noatime,nocase,username= //Client/c$ test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username= //Client/C$ test_db/mount
 Backup client 'Client3' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
  -> umount test_db/mount
 Unmounted test_db/mount
- -> mount -t cifs -o ro,noatime,nocase,username=,password= //Client/c$ test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username=,password= //Client/C$ test_db/mount
 Backup client 'Client4' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
  -> umount test_db/mount

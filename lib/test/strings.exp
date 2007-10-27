@@ -40,6 +40,11 @@ abcd <> abce, 4: -1
 abcd <> abce, 5: -1
 
 Test: toUnix
+a:\backup\ -> A:/backup/
+z:/backup -> Z:/backup
+1:/backup -> 1:/backup
+f;/backup -> f;/backup
+l:|backup -> l:|backup
 this\is a path/ Unix\ cannot cope with/\ -> this/is a path/ Unix/ cannot cope with//
 this/is a path/ Unix/ cannot cope with// -> this/is a path/ Unix/ cannot cope with//
 
