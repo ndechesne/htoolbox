@@ -15,7 +15,8 @@ check:  strings.done \
 	list.done \
 	db.done \
 	paths.done \
-	clients.done
+	clients.done \
+	interface.done
 
 clean:
 	@rm -f *.[oa] *~ *.out *.err *.all *.done *_test zcop*
