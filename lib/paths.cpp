@@ -166,7 +166,28 @@ int Path::recurse(
         }
         if (add) {
           if (verbosity() > 0) {
-            cout << " " << rem_path << endl;
+            cout << " " << rem_path;
+            if ((*i)->type() == 'f') {
+              cout << " (";
+              if ((*i)->size() < 10000) {
+                cout << (*i)->size();
+                cout << " ";
+              } else
+              if ((*i)->size() < 10000000) {
+                cout << (*i)->size() / 1000;
+                cout << " k";
+              } else
+              if ((*i)->size() < 10000000000ll) {
+                cout << (*i)->size() / 1000000;
+                cout << " M";
+              } else
+              {
+                cout << (*i)->size() / 1000000000;
+                cout << " G";
+              }
+              cout << "B)";
+            }
+            cout << endl;
           }
           int compress = 0;
           if (((*i)->type() == 'f')

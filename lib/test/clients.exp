@@ -105,7 +105,7 @@ Backup path '/home/User/test'
  -> umount test_db/mount
 Unmounted test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
-A /home/User/test/File2.txt
+A /home/User/test/File2.txt (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
  -> umount test_db/mount
 Unmounted test_db/mount
@@ -114,7 +114,7 @@ Backup client 'myClient2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
-A C:/Test/File.TXT
+A C:/Test/File.TXT (0 B)
  -> umount test_db/mount
 Unmounted test_db/mount
 Protocol not supported: ssh
@@ -153,7 +153,7 @@ A test1/cvs
  -> Entering cvs
 A test1/cvs/CVS
  -> Entering cvs/CVS
-A test1/cvs/CVS/Entries
+A test1/cvs/CVS/Entries (141 B)
 Adding compressed file data to DB in: test_db/data/63b52e85e7a255c09df5cca819b74a88-0
  -> Leaving cvs/CVS
 A test1/cvs/dirbad
@@ -164,23 +164,23 @@ A test1/cvs/dirutd
  -> Entering cvs/dirutd
 A test1/cvs/dirutd/CVS
  -> Entering cvs/dirutd/CVS
-A test1/cvs/dirutd/CVS/Entries
+A test1/cvs/dirutd/CVS/Entries (42 B)
 Adding compressed file data to DB in: test_db/data/5252f242d27b8c2c9fdbdcbb33545d07-0
  -> Leaving cvs/dirutd/CVS
-A test1/cvs/dirutd/fileutd
+A test1/cvs/dirutd/fileutd (0 B)
  -> Leaving cvs/dirutd
-A test1/cvs/filenew.c
-A test1/cvs/fileutd.h
+A test1/cvs/filenew.c (0 B)
+A test1/cvs/fileutd.h (0 B)
  -> Leaving cvs
 A test1/dir space
  -> Entering dir space
-A test1/dir space/file space
+A test1/dir space/file space (0 B)
  -> Leaving dir space
-A test1/test space
+A test1/test space (0 B)
 A test1/testdir
  -> Entering testdir
  -> Leaving testdir
-A test1/testfile
+A test1/testfile (13 B)
 Adding compressed file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
 A test1/testlink
 A test1/testpipe
@@ -188,11 +188,11 @@ Backup path 'test2'
 A test2/testdir
  -> Entering testdir
  -> Leaving testdir
-A test2/testfile
+A test2/testfile (145 kB)
 Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
-A test2/testfile2
+A test2/testfile2 (259 kB)
 Adding file data to DB in: test_db/data/fb00cd74a5f35e89a7fbdd3c1d05375a-0
-A test2/testfile~
+A test2/testfile~ (524 kB)
 Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
 A test2/testlink
  -> Database closed
@@ -260,7 +260,7 @@ Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
-A C:/Test/File.TXT
+A C:/Test/File.TXT (0 B)
  -> umount test_db/mount
 Unmounted test_db/mount
  -> Database closed
@@ -274,7 +274,7 @@ Backup path '/home/User/test'
  -> umount test_db/mount
 Unmounted test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User/test test_db/mount
-A /home/User/test/File2.txt
+A /home/User/test/File2.txt (0 B)
  -> umount test_db/mount
 Unmounted test_db/mount
  -> Database closed
@@ -286,12 +286,12 @@ Backup client 'myhost' using protocol 'file'
 Backup path 'test1/cvs'
 A test1/cvs/CVS
  -> Entering CVS
-A test1/cvs/CVS/Entries
+A test1/cvs/CVS/Entries (141 B)
  -> Leaving CVS
 A test1/cvs/dirbad
  -> Entering dirbad
-A test1/cvs/dirbad/fileoth
-A test1/cvs/dirbad/fileutd
+A test1/cvs/dirbad/fileoth (0 B)
+A test1/cvs/dirbad/fileutd (0 B)
  -> Leaving dirbad
 A test1/cvs/diroth
  -> Entering diroth
@@ -300,15 +300,15 @@ A test1/cvs/dirutd
  -> Entering dirutd
 A test1/cvs/dirutd/CVS
  -> Entering dirutd/CVS
-A test1/cvs/dirutd/CVS/Entries
+A test1/cvs/dirutd/CVS/Entries (42 B)
  -> Leaving dirutd/CVS
-A test1/cvs/dirutd/fileoth
-A test1/cvs/dirutd/fileutd
+A test1/cvs/dirutd/fileoth (0 B)
+A test1/cvs/dirutd/fileutd (0 B)
  -> Leaving dirutd
-A test1/cvs/filemod.o
-A test1/cvs/filenew.c
-A test1/cvs/fileoth
-A test1/cvs/fileutd.h
+A test1/cvs/filemod.o (0 B)
+A test1/cvs/filenew.c (0 B)
+A test1/cvs/fileoth (0 B)
+A test1/cvs/fileutd.h (0 B)
  -> Database closed
 
 Prefixes in DB
