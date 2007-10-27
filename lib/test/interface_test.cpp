@@ -35,11 +35,22 @@ using namespace std;
 
 using namespace hbackup;
 
+static bool killed  = false;
+static bool killall = false;
+
 int hbackup::verbosity(void) {
   return 3;
 }
 
-int hbackup::terminating(const char* unused) {
+int hbackup::terminating(const char* function) {
+  if (killall) {
+    return 1;
+  }
+  if (killed && (function != NULL) && (! strcmp(function, "write"))) {
+    cout << "Killing during " << function << endl;
+    killall = true;
+    return 1;
+  }
   return 0;
 }
 
@@ -62,6 +73,27 @@ int main(void) {
   }
   hbackup->backup();
   delete hbackup;
+
+  cout << endl << "Test: same backup" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->backup();
+  delete hbackup;
+
+  cout << endl << "Test: interrupted backup" << endl;
+  system("dd if=/dev/zero of=test_cifs/Test/big_file bs=1k count=500"
+    " > /dev/null 2>&1");
+  killed = true;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->backup();
+  delete hbackup;
+  killed = false;
+  killall = false;
 
   cout << endl << "Test: specify clients" << endl;
   hbackup = new HBackup();
