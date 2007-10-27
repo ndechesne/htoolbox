@@ -39,7 +39,7 @@ int hbackup::verbosity(void) {
   return 3;
 }
 
-int hbackup::terminating(void) {
+int hbackup::terminating(const char* unused) {
   return 0;
 }
 

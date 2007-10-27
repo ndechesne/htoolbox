@@ -30,16 +30,6 @@ using namespace std;
 
 using namespace hbackup;
 
-static int verbose = 4;
-
-int hbackup::verbosity(void) {
-  return verbose;
-}
-
-int hbackup::terminating(void) {
-  return 0;
-}
-
 static time_t my_time = 0;
 time_t time(time_t *t) {
   return my_time;

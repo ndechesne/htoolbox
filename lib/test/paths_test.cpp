@@ -35,11 +35,22 @@ using namespace std;
 
 using namespace hbackup;
 
+static bool killed  = false;
+static bool killall = false;
+
 int hbackup::verbosity(void) {
   return 4;
 }
 
-int hbackup::terminating(void) {
+int hbackup::terminating(const char* function) {
+  if (killall) {
+    return 1;
+  }
+  if (killed && (function != NULL) && (! strcmp(function, "write"))) {
+    cout << "Killing during " << function << endl;
+    killall = true;
+    return 1;
+  }
   return 0;
 }
 
@@ -90,6 +101,7 @@ int main(void) {
   Path* path = new Path("/home/User");
   Database  db("test_db");
   // Journal
+  List    real_journal("test_db", "journal");
   List    journal("test_db", "journal~");
   List    dblist("test_db", "list");
   // Filter
@@ -146,7 +158,33 @@ int main(void) {
   my_time++;
   db.open();
 
+  cout << "as previous with new big_file, interrupted" << endl;
+  system("dd if=/dev/zero of=test1/cvs/big_file bs=1k count=500"
+    " > /dev/null 2>&1");
+  killed = true;
+  db.setPrefix("file://localhost");
+  if (! path->parse(db, "test1")) {
+    cout << "Parsed " << path->nodes() << " file(s)\n";
+  }
+
+  if (db.close()) {
+    return 0;
+  }
+
+  // Show list contents
+  cout << endl << "List:" << endl;
+  showList(dblist);
+  // Show journal contents
+  cout << endl << "Journal:" << endl;
+  showList(real_journal);
+
+  // Next test
+  my_time++;
+  db.open();
+
   cout << "as previous with subdir/testfile readable" << endl;
+  killed  = false;
+  killall = false;
   system("chmod 644 test1/subdir/testfile");
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
@@ -531,7 +569,6 @@ int main(void) {
   showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
-  List real_journal("test_db", "journal");
   showList(real_journal);
 
   // Recover now

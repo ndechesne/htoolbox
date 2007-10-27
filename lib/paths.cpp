@@ -197,7 +197,7 @@ int Path::recurse(
           db.add(rem_path, loc_path, *i, checksum, compress);
         }
 
-        // For directory, recurse into it
+         // For directory, recurse into it
         if ((*i)->type() == 'd') {
           rem_path[last] = '/';
           if (verbosity() > 1) {
@@ -208,6 +208,7 @@ int Path::recurse(
             cout << " -> Leaving " << rel_path << (*i)->name() << endl;
           }
         }
+
         free(rem_path);
         free(loc_path);
       }

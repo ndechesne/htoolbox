@@ -65,7 +65,7 @@ int hbackup::verbosity(void) {
   return verbose;
 }
 
-int hbackup::terminating(void) {
+int hbackup::terminating(const char* unused) {
   return killed;
 }
 

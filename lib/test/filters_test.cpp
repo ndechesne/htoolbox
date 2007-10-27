@@ -28,14 +28,6 @@ using namespace std;
 
 using namespace hbackup;
 
-int hbackup::verbosity(void) {
-  return 0;
-}
-
-int hbackup::terminating(void) {
-  return 0;
-}
-
 int main(void) {
   Node*           node;
 

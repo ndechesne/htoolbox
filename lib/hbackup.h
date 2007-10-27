@@ -23,8 +23,8 @@ namespace hbackup {
   /* Verbosity level */
   extern int verbosity();
 
-  /* Termination required */
-  extern int terminating();
+  /* Termination required (string is for debug purposes only) */
+  extern int terminating(const char* string = NULL);
 
   class HBackup {
     struct        Private;

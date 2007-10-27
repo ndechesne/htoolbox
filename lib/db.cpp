@@ -41,6 +41,10 @@ using namespace std;
 
 using namespace hbackup;
 
+static bool cancel() {
+  return terminating("write") != 0;
+}
+
 struct Database::Private {
   List*                   list;
   List*                   journal;
@@ -147,7 +151,7 @@ int Database::write(
   } else
 
   // Copy file locally
-  if (temp.copy(source)) {
+  if (temp.copy(source, cancel)) {
     cerr << strerror(errno) << ": " << path << endl;
     failed = -1;
   }
@@ -519,6 +523,14 @@ int Database::close() {
   if (read_only) {
     // Close list
     _d->list->close();
+  } else if (terminating()) {
+    // Close list
+    _d->list->close();
+    // Close journal
+    _d->journal->close();
+    // Close and delete merge
+    _d->merge->close();
+    remove((_path + "/list.part").c_str());
   } else {
     // Finish off list reading/copy
     setPrefix("");

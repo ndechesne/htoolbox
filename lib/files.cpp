@@ -124,7 +124,7 @@ int Directory::createList(const char* dir_path, bool is_path) {
   if (directory == NULL) return -1;
 
   struct dirent *dir_entry;
-  while (((dir_entry = readdir(directory)) != NULL) && ! terminating()) {
+  while (((dir_entry = readdir(directory)) != NULL)) {
     // Ignore . and ..
     if (!strcmp(dir_entry->d_name, ".") || !strcmp(dir_entry->d_name, "..")) {
       continue;
@@ -539,7 +539,7 @@ int Stream::computeChecksum() {
   return 0;
 }
 
-int Stream::copy(Stream& source) {
+int Stream::copy(Stream& source, cancel_f cancel) {
   if ((! isOpen()) || (! source.isOpen())) {
     errno = EBADF;
     return -1;
@@ -560,6 +560,10 @@ int Stream::copy(Stream& source) {
       break;
     }
     write_size += size;
+    if ((cancel != NULL) && ((*cancel)())) {
+      errno = ECANCELED;
+      return -1;
+    }
   } while (! eof);
   if (read_size != source.dsize()) {
     errno = EAGAIN;

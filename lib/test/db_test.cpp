@@ -83,6 +83,14 @@ public:
 
 static int verbose = 4;
 
+int hbackup::verbosity(void) {
+  return verbose;
+}
+
+int hbackup::terminating(const char* unused) {
+  return 0;
+}
+
 static void showLine(time_t timestamp, char* prefix, char* path, Node* node) {
   printf("[%2ld] %-16s %-34s", timestamp, prefix, path);
   if (node != NULL) {
@@ -97,14 +105,6 @@ static void showLine(time_t timestamp, char* prefix, char* path, Node* node) {
     printf(" [rm]");
   }
   cout << endl;
-}
-
-int hbackup::verbosity(void) {
-  return verbose;
-}
-
-int hbackup::terminating(void) {
-  return 0;
 }
 
 time_t time(time_t *t) {

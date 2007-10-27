@@ -29,14 +29,6 @@ using namespace std;
 
 using namespace hbackup;
 
-int hbackup::verbosity(void) {
-  return 0;
-}
-
-int hbackup::terminating(void) {
-  return 0;
-}
-
 int parseList(Directory *d, const char* cur_dir) {
   list<Node*>::iterator i = d->nodesList().begin();
   while (i != d->nodesList().end()) {
@@ -185,6 +177,10 @@ void createNshowFile(const Node &g, const char* dir_path) {
   default:
     cout << "Unknown file type: " << g.type() << endl;
   }
+}
+
+bool cancel() {
+  return true;
 }
 
 int main(void) {
@@ -603,6 +599,26 @@ int main(void) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     int rc = writefile->copy(*readfile);
+    if (readfile->close()) cout << "Error closing read file" << endl;
+    if (writefile->close()) cout << "Error closing write file" << endl;
+    if (rc) {
+      cout << "Error copying file: " << strerror(errno) << endl;
+    } else {
+      cout << "checksum in: " << readfile->checksum() << endl;
+      cout << "checksum out: " << writefile->checksum() << endl;
+    }
+  }
+  delete readfile;
+  delete writefile;
+
+  cout << endl << "Test: interrupted copy" << endl;
+  readfile = new Stream("test1/rwfile_source");
+  remove("test1/rwfile_dest");
+  writefile = new Stream("test1/rwfile_dest");
+  if (readfile->open("r", 1) || writefile->open("w", 0)) {
+    cout << "Error opening file: " << strerror(errno) << endl;
+  } else {
+    int rc = writefile->copy(*readfile, cancel);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {

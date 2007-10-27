@@ -277,6 +277,8 @@ class Stream : public File {
 public:
   // Max buffer size for read/write
   static const size_t chunk = 409600;
+  // Prototype for cancellation function
+  typedef bool (*cancel_f)();
 //   // Constructor for existing File
 //   Stream(const File& g, const char* dir_path) {}
   // Constructor for path in the VFS
@@ -313,7 +315,7 @@ public:
   // Compute file checksum
   int computeChecksum();
   // Copy file into another
-  int copy(Stream& source);
+  int copy(Stream& source, cancel_f cancel = NULL);
   // Compare two files
   int compare(Stream& source, long long length = -1);
   // Data access
