@@ -150,44 +150,36 @@ Backup client 'testhost' using protocol 'file'
  --> Path: test1
 Backup path 'test1'
 A test1/cvs
- -> Entering cvs
+ -> Dir cvs
 A test1/cvs/CVS
- -> Entering cvs/CVS
+ -> Dir cvs/CVS
 A test1/cvs/CVS/Entries (141 B)
 Adding compressed file data to DB in: test_db/data/63b52e85e7a255c09df5cca819b74a88-0
- -> Leaving cvs/CVS
 A test1/cvs/dirbad
- -> Entering cvs/dirbad
+ -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- -> Leaving cvs/dirbad
 A test1/cvs/dirutd
- -> Entering cvs/dirutd
+ -> Dir cvs/dirutd
 A test1/cvs/dirutd/CVS
- -> Entering cvs/dirutd/CVS
+ -> Dir cvs/dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries (42 B)
 Adding compressed file data to DB in: test_db/data/5252f242d27b8c2c9fdbdcbb33545d07-0
- -> Leaving cvs/dirutd/CVS
 A test1/cvs/dirutd/fileutd (0 B)
- -> Leaving cvs/dirutd
 A test1/cvs/filenew.c (0 B)
 A test1/cvs/fileutd.h (0 B)
- -> Leaving cvs
 A test1/dir space
- -> Entering dir space
+ -> Dir dir space
 A test1/dir space/file space (0 B)
- -> Leaving dir space
 A test1/test space (0 B)
 A test1/testdir
- -> Entering testdir
- -> Leaving testdir
+ -> Dir testdir
 A test1/testfile (13 B)
 Adding compressed file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
 A test1/testlink
 A test1/testpipe
 Backup path 'test2'
 A test2/testdir
- -> Entering testdir
- -> Leaving testdir
+ -> Dir testdir
 A test2/testfile (145 kB)
 Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
 A test2/testfile2 (259 kB)
@@ -206,24 +198,16 @@ Backup client 'testhost' using protocol 'file'
  --> Path: test2
  --> Path: test1
 Backup path 'test1'
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- -> Leaving cvs/dirbad
- -> Entering cvs/dirutd
- -> Entering cvs/dirutd/CVS
- -> Leaving cvs/dirutd/CVS
- -> Leaving cvs/dirutd
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering testdir
- -> Leaving testdir
+ -> Dir cvs/dirutd
+ -> Dir cvs/dirutd/CVS
+ -> Dir dir space
+ -> Dir testdir
 Backup path 'test2'
- -> Entering testdir
- -> Leaving testdir
+ -> Dir testdir
  -> Journal is empty, not merging
  -> Database closed
  --> Client: testhost
@@ -285,26 +269,21 @@ Backup client 'myhost' using protocol 'file'
  --> Path: test1/cvs
 Backup path 'test1/cvs'
 A test1/cvs/CVS
- -> Entering CVS
+ -> Dir CVS
 A test1/cvs/CVS/Entries (141 B)
- -> Leaving CVS
 A test1/cvs/dirbad
- -> Entering dirbad
+ -> Dir dirbad
 A test1/cvs/dirbad/fileoth (0 B)
 A test1/cvs/dirbad/fileutd (0 B)
- -> Leaving dirbad
 A test1/cvs/diroth
- -> Entering diroth
- -> Leaving diroth
+ -> Dir diroth
 A test1/cvs/dirutd
- -> Entering dirutd
+ -> Dir dirutd
 A test1/cvs/dirutd/CVS
- -> Entering dirutd/CVS
+ -> Dir dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries (42 B)
- -> Leaving dirutd/CVS
 A test1/cvs/dirutd/fileoth (0 B)
 A test1/cvs/dirutd/fileutd (0 B)
- -> Leaving dirutd
 A test1/cvs/filemod.o (0 B)
 A test1/cvs/filenew.c (0 B)
 A test1/cvs/fileoth (0 B)
@@ -336,16 +315,11 @@ Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
 Backup path 'test1/cvs'
- -> Entering CVS
- -> Leaving CVS
- -> Entering dirbad
- -> Leaving dirbad
- -> Entering diroth
- -> Leaving diroth
- -> Entering dirutd
- -> Entering dirutd/CVS
- -> Leaving dirutd/CVS
- -> Leaving dirutd
+ -> Dir CVS
+ -> Dir dirbad
+ -> Dir diroth
+ -> Dir dirutd
+ -> Dir dirutd/CVS
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading backup list file
@@ -406,16 +380,11 @@ Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
 Backup path 'test1/cvs'
- -> Entering CVS
- -> Leaving CVS
- -> Entering dirbad
- -> Leaving dirbad
- -> Entering diroth
- -> Leaving diroth
- -> Entering dirutd
- -> Entering dirutd/CVS
- -> Leaving dirutd/CVS
- -> Leaving dirutd
+ -> Dir CVS
+ -> Dir dirbad
+ -> Dir diroth
+ -> Dir dirutd
+ -> Dir dirutd/CVS
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading backup list file
@@ -441,16 +410,11 @@ Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> Path: test1/cvs
 Backup path 'test1/cvs'
- -> Entering CVS
- -> Leaving CVS
- -> Entering dirbad
- -> Leaving dirbad
- -> Entering diroth
- -> Leaving diroth
- -> Entering dirutd
- -> Entering dirutd/CVS
- -> Leaving dirutd/CVS
- -> Leaving dirutd
+ -> Dir CVS
+ -> Dir dirbad
+ -> Dir diroth
+ -> Dir dirutd
+ -> Dir dirutd/CVS
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file

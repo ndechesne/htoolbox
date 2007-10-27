@@ -4,53 +4,44 @@ first with subdir/testfile NOT readable
 A /home/User/àccénts_test (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
 A /home/User/cvs
- -> Entering cvs
+ -> Dir cvs
 A /home/User/cvs/CVS
- -> Entering cvs/CVS
+ -> Dir cvs/CVS
 A /home/User/cvs/CVS/Entries (141 B)
 Adding file data to DB in: test_db/data/63b52e85e7a255c09df5cca819b74a88-0
- -> Leaving cvs/CVS
 A /home/User/cvs/dirbad
- -> Entering cvs/dirbad
+ -> Dir cvs/dirbad
 A /home/User/cvs/dirbad/fileoth (0 B)
 A /home/User/cvs/dirbad/fileutd (0 B)
- -> Leaving cvs/dirbad
 A /home/User/cvs/diroth
- -> Entering cvs/diroth
- -> Leaving cvs/diroth
+ -> Dir cvs/diroth
 A /home/User/cvs/dirutd
- -> Entering cvs/dirutd
+ -> Dir cvs/dirutd
 A /home/User/cvs/dirutd/CVS
- -> Entering cvs/dirutd/CVS
+ -> Dir cvs/dirutd/CVS
 A /home/User/cvs/dirutd/CVS/Entries (42 B)
 Adding file data to DB in: test_db/data/5252f242d27b8c2c9fdbdcbb33545d07-0
- -> Leaving cvs/dirutd/CVS
 A /home/User/cvs/dirutd/fileoth (0 B)
 A /home/User/cvs/dirutd/fileutd (0 B)
- -> Leaving cvs/dirutd
 A /home/User/cvs/filemod.o (0 B)
 A /home/User/cvs/filenew.c (0 B)
 A /home/User/cvs/fileoth (0 B)
 A /home/User/cvs/fileutd.h (0 B)
- -> Leaving cvs
 A /home/User/dir space
- -> Entering dir space
+ -> Dir dir space
 A /home/User/dir space/file space (0 B)
- -> Leaving dir space
 A /home/User/subdir
- -> Entering subdir
+ -> Dir subdir
 A /home/User/subdir/testfile (12 B)
 Permission denied: test1/subdir/testfile
 A /home/User/subdir/testfile1 (0 B)
 A /home/User/subdir/testfile2 (12 B)
 Adding file data to DB in: test_db/data/285b35198a5e188b3a0df3ed33f93a26-0
- -> Leaving subdir
 A /home/User/subdir-file (0 B)
 A /home/User/subdirfile (0 B)
 A /home/User/test space (0 B)
 A /home/User/testdir
- -> Entering testdir
- -> Leaving testdir
+ -> Dir testdir
 A /home/User/testfile (13 B)
 Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
 A /home/User/testfile~ (0 B)
@@ -190,26 +181,17 @@ file://localhost
 [ 1] p     0 644
  -> Database open
 as previous
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
- -> Leaving cvs/dirbad
- -> Entering cvs/diroth
- -> Leaving cvs/diroth
- -> Entering cvs/dirutd
- -> Entering cvs/dirutd/CVS
- -> Leaving cvs/dirutd/CVS
- -> Leaving cvs/dirutd
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering subdir
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
+ -> Dir cvs/diroth
+ -> Dir cvs/dirutd
+ -> Dir cvs/dirutd/CVS
+ -> Dir dir space
+ -> Dir subdir
 ! /home/User/subdir/testfile (12 B)
 Permission denied: test1/subdir/testfile
- -> Leaving subdir
- -> Entering testdir
- -> Leaving testdir
+ -> Dir testdir
 Parsed 31 file(s)
  -> Journal is empty, not merging
  -> Database closed
@@ -345,13 +327,11 @@ file://localhost
 [ 1] p     0 644
  -> Database open
 as previous with new big_file, interrupted
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
+ -> Dir cvs
+ -> Dir cvs/CVS
 A /home/User/cvs/big_file (512 kB)
 Killing during write
 Operation canceled: test1/cvs/big_file
- -> Leaving cvs
 Parsed 5 file(s)
  -> Database closed
 
@@ -427,27 +407,18 @@ file://localhost
 Previous crash detected, attempting recovery
  -> Database open
 as previous with subdir/testfile readable
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
+ -> Dir cvs
+ -> Dir cvs/CVS
 ! /home/User/cvs/big_file (512 kB)
 Adding file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
- -> Entering cvs/dirbad
- -> Leaving cvs/dirbad
- -> Entering cvs/diroth
- -> Leaving cvs/diroth
- -> Entering cvs/dirutd
- -> Entering cvs/dirutd/CVS
- -> Leaving cvs/dirutd/CVS
- -> Leaving cvs/dirutd
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering subdir
+ -> Dir cvs/dirbad
+ -> Dir cvs/diroth
+ -> Dir cvs/dirutd
+ -> Dir cvs/dirutd/CVS
+ -> Dir dir space
+ -> Dir subdir
 ~ /home/User/subdir/testfile (12 B)
- -> Leaving subdir
- -> Entering testdir
- -> Leaving testdir
+ -> Dir testdir
 Parsed 32 file(s)
  -> Database closed
 
@@ -526,25 +497,16 @@ file://localhost
 [ 0] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
  -> Database open
 as previous with subdir/testfile in ignore list
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
- -> Leaving cvs/dirbad
- -> Entering cvs/diroth
- -> Leaving cvs/diroth
- -> Entering cvs/dirutd
- -> Entering cvs/dirutd/CVS
- -> Leaving cvs/dirutd/CVS
- -> Leaving cvs/dirutd
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering subdir
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
+ -> Dir cvs/diroth
+ -> Dir cvs/dirutd
+ -> Dir cvs/dirutd/CVS
+ -> Dir dir space
+ -> Dir subdir
 D /home/User/subdir/testfile
- -> Leaving subdir
- -> Entering testdir
- -> Leaving testdir
+ -> Dir testdir
 Parsed 31 file(s)
  -> Database closed
 
@@ -622,25 +584,17 @@ file://localhost
 [ 5] -
  -> Database open
 as previous with subdir in ignore list
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
- -> Leaving cvs/dirbad
- -> Entering cvs/diroth
- -> Leaving cvs/diroth
- -> Entering cvs/dirutd
- -> Entering cvs/dirutd/CVS
- -> Leaving cvs/dirutd/CVS
- -> Leaving cvs/dirutd
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
+ -> Dir cvs/diroth
+ -> Dir cvs/dirutd
+ -> Dir cvs/dirutd/CVS
+ -> Dir dir space
 D /home/User/subdir
 D /home/User/subdir/testfile1
 D /home/User/subdir/testfile2
- -> Entering testdir
- -> Leaving testdir
+ -> Dir testdir
 Parsed 28 file(s)
  -> Database closed
 
@@ -725,22 +679,14 @@ file://localhost
 [ 6] -
  -> Database open
 as previous with testlink modified
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
- -> Leaving cvs/dirbad
- -> Entering cvs/diroth
- -> Leaving cvs/diroth
- -> Entering cvs/dirutd
- -> Entering cvs/dirutd/CVS
- -> Leaving cvs/dirutd/CVS
- -> Leaving cvs/dirutd
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering testdir
- -> Leaving testdir
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
+ -> Dir cvs/diroth
+ -> Dir cvs/dirutd
+ -> Dir cvs/dirutd/CVS
+ -> Dir dir space
+ -> Dir testdir
 M /home/User/testlink
 Parsed 28 file(s)
  -> Database closed
@@ -823,22 +769,14 @@ file://localhost
 [ 7] l     8 777 testnull
  -> Database open
 as previous with testlink in ignore list
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
- -> Leaving cvs/dirbad
- -> Entering cvs/diroth
- -> Leaving cvs/diroth
- -> Entering cvs/dirutd
- -> Entering cvs/dirutd/CVS
- -> Leaving cvs/dirutd/CVS
- -> Leaving cvs/dirutd
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering testdir
- -> Leaving testdir
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
+ -> Dir cvs/diroth
+ -> Dir cvs/dirutd
+ -> Dir cvs/dirutd/CVS
+ -> Dir dir space
+ -> Dir testdir
 D /home/User/testlink
 Parsed 27 file(s)
  -> Database closed
@@ -922,27 +860,20 @@ file://localhost
 [ 8] -
  -> Database open
 as previous with CVS parser
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
+ -> Dir cvs
+ -> Dir cvs/CVS
 D /home/User/cvs/big_file
- -> Entering cvs/dirbad
+ -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- -> Leaving cvs/dirbad
 D /home/User/cvs/dirbad/fileoth
 D /home/User/cvs/dirbad/fileutd
 D /home/User/cvs/diroth
- -> Entering cvs/dirutd
- -> Entering cvs/dirutd/CVS
- -> Leaving cvs/dirutd/CVS
+ -> Dir cvs/dirutd
+ -> Dir cvs/dirutd/CVS
 D /home/User/cvs/dirutd/fileoth
- -> Leaving cvs/dirutd
 D /home/User/cvs/fileoth
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering testdir
- -> Leaving testdir
+ -> Dir dir space
+ -> Dir testdir
 Parsed 21 file(s)
  -> Database closed
 
@@ -1041,21 +972,14 @@ file://localhost
 [ 9] -
  -> Database open
 as previous
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- -> Leaving cvs/dirbad
- -> Entering cvs/dirutd
- -> Entering cvs/dirutd/CVS
- -> Leaving cvs/dirutd/CVS
- -> Leaving cvs/dirutd
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering testdir
- -> Leaving testdir
+ -> Dir cvs/dirutd
+ -> Dir cvs/dirutd/CVS
+ -> Dir dir space
+ -> Dir testdir
 Parsed 21 file(s)
  -> Journal is empty, not merging
  -> Database closed
@@ -1155,21 +1079,16 @@ file://localhost
 [ 9] -
  -> Database open
 as previous with cvs/dirutd in ignore list
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- -> Leaving cvs/dirbad
 D /home/User/cvs/dirutd
 D /home/User/cvs/dirutd/CVS
 D /home/User/cvs/dirutd/CVS/Entries
 D /home/User/cvs/dirutd/fileutd
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering testdir
- -> Leaving testdir
+ -> Dir dir space
+ -> Dir testdir
 Parsed 17 file(s)
  -> Database closed
 
@@ -1268,17 +1187,12 @@ file://localhost
 [11] -
  -> Database open
 as previous with testpipe gone
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- -> Leaving cvs/dirbad
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering testdir
- -> Leaving testdir
+ -> Dir dir space
+ -> Dir testdir
 Parsed 16 file(s)
 D /home/User/testpipe
  -> Database closed
@@ -1373,17 +1287,12 @@ file://localhost
 [12] -
  -> Database open
 as previous with testfile mode changed
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- -> Leaving cvs/dirbad
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering testdir
- -> Leaving testdir
+ -> Dir dir space
+ -> Dir testdir
 ~ /home/User/testfile (13 B)
 Parsed 16 file(s)
  -> Database closed
@@ -1479,19 +1388,14 @@ file://localhost
 [13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Database open
 as previous with cvs/filenew.c touched and testpipe restored
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- -> Leaving cvs/dirbad
 M /home/User/cvs/filenew.c (5 B)
 Adding file data to DB in: test_db/data/0d599f0ec05c3bda8c3b8a68c32a1b47-0
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering testdir
- -> Leaving testdir
+ -> Dir dir space
+ -> Dir testdir
 A /home/User/testpipe
 Parsed 17 file(s)
  -> Database closed
@@ -1591,53 +1495,40 @@ file://localhost
 [14] p     0 644
  -> Database open
 some troublesome past cases
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- -> Leaving cvs/dirbad
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
+ -> Dir dir space
 A /home/User/docbook-xml
- -> Entering docbook-xml
+ -> Dir docbook-xml
 A /home/User/docbook-xml/3.1.7
- -> Entering docbook-xml/3.1.7
+ -> Dir docbook-xml/3.1.7
 A /home/User/docbook-xml/3.1.7/dbgenent.ent (0 B)
- -> Leaving docbook-xml/3.1.7
 A /home/User/docbook-xml/4.0
- -> Entering docbook-xml/4.0
+ -> Dir docbook-xml/4.0
 A /home/User/docbook-xml/4.0/dbgenent.ent (0 B)
- -> Leaving docbook-xml/4.0
 A /home/User/docbook-xml/4.1.2
- -> Entering docbook-xml/4.1.2
+ -> Dir docbook-xml/4.1.2
 A /home/User/docbook-xml/4.1.2/dbgenent.mod (0 B)
- -> Leaving docbook-xml/4.1.2
 A /home/User/docbook-xml/4.2
- -> Entering docbook-xml/4.2
+ -> Dir docbook-xml/4.2
 A /home/User/docbook-xml/4.2/dbgenent.mod (0 B)
- -> Leaving docbook-xml/4.2
 A /home/User/docbook-xml/4.3
- -> Entering docbook-xml/4.3
+ -> Dir docbook-xml/4.3
 A /home/User/docbook-xml/4.3/dbgenent.mod (0 B)
- -> Leaving docbook-xml/4.3
 A /home/User/docbook-xml/4.4
- -> Entering docbook-xml/4.4
+ -> Dir docbook-xml/4.4
 A /home/User/docbook-xml/4.4/dbgenent.mod (0 B)
- -> Leaving docbook-xml/4.4
- -> Leaving docbook-xml
 A /home/User/docbook-xml.cat (0 B)
 A /home/User/docbook-xml.cat.old (0 B)
- -> Entering testdir
+ -> Dir testdir
 A /home/User/testdir/biblio
- -> Entering testdir/biblio
+ -> Dir testdir/biblio
 A /home/User/testdir/biblio/biblio.dbf (0 B)
 A /home/User/testdir/biblio/biblio.dbt (0 B)
- -> Leaving testdir/biblio
 A /home/User/testdir/biblio.odb (0 B)
 A /home/User/testdir/evolocal.odb (0 B)
- -> Leaving testdir
 Parsed 37 file(s)
  -> Database closed
 
@@ -1811,33 +1702,20 @@ file://localhost
 	/home/User/testdir/evolocal.odb
 [15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
  -> Database open
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- -> Leaving cvs/dirbad
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering docbook-xml
- -> Entering docbook-xml/3.1.7
- -> Leaving docbook-xml/3.1.7
- -> Entering docbook-xml/4.0
- -> Leaving docbook-xml/4.0
- -> Entering docbook-xml/4.1.2
- -> Leaving docbook-xml/4.1.2
- -> Entering docbook-xml/4.2
- -> Leaving docbook-xml/4.2
- -> Entering docbook-xml/4.3
- -> Leaving docbook-xml/4.3
- -> Entering docbook-xml/4.4
- -> Leaving docbook-xml/4.4
- -> Leaving docbook-xml
- -> Entering testdir
- -> Entering testdir/biblio
- -> Leaving testdir/biblio
- -> Leaving testdir
+ -> Dir dir space
+ -> Dir docbook-xml
+ -> Dir docbook-xml/3.1.7
+ -> Dir docbook-xml/4.0
+ -> Dir docbook-xml/4.1.2
+ -> Dir docbook-xml/4.2
+ -> Dir docbook-xml/4.3
+ -> Dir docbook-xml/4.4
+ -> Dir testdir
+ -> Dir testdir/biblio
 Parsed 37 file(s)
  -> Journal is empty, not merging
  -> Database closed
@@ -2015,8 +1893,7 @@ file://localhost
 List recovery after crash
  -> Database open
 A /home/User/testdir
- -> Entering testdir
- -> Leaving testdir
+ -> Dir testdir
 A /home/User/testfile (145 kB)
 Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
 A /home/User/testfile2 (259 kB)
@@ -2025,32 +1902,20 @@ A /home/User/testfile~ (524 kB)
 Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
 Parsed 4 file(s)
 A /home/User/crash
- -> Entering crash
+ -> Dir crash
 A /home/User/crash/file (0 B)
- -> Leaving crash
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- -> Leaving cvs/dirbad
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering docbook-xml
- -> Entering docbook-xml/3.1.7
- -> Leaving docbook-xml/3.1.7
- -> Entering docbook-xml/4.0
- -> Leaving docbook-xml/4.0
- -> Entering docbook-xml/4.1.2
- -> Leaving docbook-xml/4.1.2
- -> Entering docbook-xml/4.2
- -> Leaving docbook-xml/4.2
- -> Entering docbook-xml/4.3
- -> Leaving docbook-xml/4.3
- -> Entering docbook-xml/4.4
- -> Leaving docbook-xml/4.4
- -> Leaving docbook-xml
+ -> Dir dir space
+ -> Dir docbook-xml
+ -> Dir docbook-xml/3.1.7
+ -> Dir docbook-xml/4.0
+ -> Dir docbook-xml/4.1.2
+ -> Dir docbook-xml/4.2
+ -> Dir docbook-xml/4.3
+ -> Dir docbook-xml/4.4
 M /home/User/test space (0 B)
 D /home/User/testdir
 D /home/User/testdir/biblio
@@ -2403,31 +2268,19 @@ file://localhost
  -> Journal is empty, not merging
  -> Database closed
  -> Database open
- -> Entering crash
- -> Leaving crash
- -> Entering cvs
- -> Entering cvs/CVS
- -> Leaving cvs/CVS
- -> Entering cvs/dirbad
+ -> Dir crash
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
- -> Leaving cvs/dirbad
- -> Leaving cvs
- -> Entering dir space
- -> Leaving dir space
- -> Entering docbook-xml
- -> Entering docbook-xml/3.1.7
- -> Leaving docbook-xml/3.1.7
- -> Entering docbook-xml/4.0
- -> Leaving docbook-xml/4.0
- -> Entering docbook-xml/4.1.2
- -> Leaving docbook-xml/4.1.2
- -> Entering docbook-xml/4.2
- -> Leaving docbook-xml/4.2
- -> Entering docbook-xml/4.3
- -> Leaving docbook-xml/4.3
- -> Entering docbook-xml/4.4
- -> Leaving docbook-xml/4.4
- -> Leaving docbook-xml
+ -> Dir dir space
+ -> Dir docbook-xml
+ -> Dir docbook-xml/3.1.7
+ -> Dir docbook-xml/4.0
+ -> Dir docbook-xml/4.1.2
+ -> Dir docbook-xml/4.2
+ -> Dir docbook-xml/4.3
+ -> Dir docbook-xml/4.4
 Parsed 33 file(s)
  -> Journal is empty, not merging
  -> Database closed
@@ -2609,8 +2462,7 @@ file://localhost
 	/home/User/testdir/evolocal.odb
 [17] -
  -> Database open
- -> Entering testdir
- -> Leaving testdir
+ -> Dir testdir
 Parsed 4 file(s)
  -> Journal is empty, not merging
  -> Database closed
