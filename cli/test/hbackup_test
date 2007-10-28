@@ -17,32 +17,41 @@ if ! test_setup; then
 	exit 1
 fi
 
-# Typical backup
+echo "Help" >> $output
+../hbackup -h -- >> $output 2>&1
+
+echo "Version" >> $output
+../hbackup --version -- >> $output 2>&1
+
+echo "Error" >> $output
+../hbackup -! -- >> $output 2>&1
+
+echo "Typical backup" >> $output
 ../hbackup -d -c etc/hbackup.conf -- >> $output 2>&1
 
-# Specify clients
+echo "Specify clients" >> $output
 ../hbackup -d -c etc/hbackup.conf -C myhost -C client >> $output 2>&1
 
-# Scan DB
+echo "Scan DB" >> $output
 ../hbackup -d -c etc/hbackup.conf -s >> $output 2>&1
 
-# Check DB
+echo "Check DB" >> $output
 ../hbackup -d -c etc/hbackup.conf -t >> $output 2>&1
 
-# List prefixes
+echo "List prefixes" >> $output
 ../hbackup -d -c etc/hbackup.conf -l >> $output 2>&1
 
-# Restore a file
-rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r file://myhost 0 test2/testfile >> $output 2>&1
+echo "Restore a file" >> $output
+rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r -C file://myhost -P test2/testfile >> $output 2>&1
 
-# Restore all data in a prefix/dir path that's not by itself in DB
-rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r file://myhost 0 test1 >> $output 2>&1
+echo "Restore all data in a prefix/dir path that's not by itself in DB" >> $output
+rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r -C file://myhost -P test1 -D 0 >> $output 2>&1
 
-# Restore all data in a prefix/dir path
-rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r file://myhost 0 test1/cvs >> $output 2>&1
+echo "Restore all data in a prefix/dir path" >> $output
+rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r -C file://myhost -P test1/cvs >> $output 2>&1
 
-# Restore all data in a prefix
-rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r file://myhost >> $output 2>&1
+echo "Restore all data in a prefix" >> $output
+rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r -C file://myhost >> $output 2>&1
 
 # Check
 if ! diff -q $expected $output; then

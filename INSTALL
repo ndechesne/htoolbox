@@ -1,7 +1,8 @@
 DEPENDENCIES
 
-* openssl: for MD5 sum calculation (libssl-dev)
-* zlib: for compression and decompression (zlib1g-dev)
+* TCLAP:   command line parsing (libtclap-dev)
+* OpenSSL: MD5 sum calculation (libssl-dev)
+* zlib:    compression and decompression (zlib1g-dev)
 
 COMPILATION/TEST
 
@@ -9,7 +10,7 @@ Just type: 'make'
 
 INSTALLATION
 
-Just type: 'make install'
+Just type: 'make install' as root, or 'sudo make install'
 
 LANGUAGE
 

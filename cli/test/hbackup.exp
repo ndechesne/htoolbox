@@ -1,4 +1,101 @@
-HBackup (c) 2006-2007 Hervé Fache, version 0.3
+Help
+HBackup (c) 2006-2007 Hervé Fache
+  -v,  --verbose
+    Be verbose about actions
+
+  -u,  --user
+    Perform user-mode backup
+
+  -t,  --check
+    Check DB for corrupted data
+
+  -s,  --scan
+    Scan DB for missing data
+
+  -r <directory>,  --restore <directory>
+    Restore to directory
+
+  -P <path>,  --path <path>
+    Specify path
+
+  -p,  --pretend
+    Only check configuration
+
+  -l,  --list
+    List available prefixes
+
+  -D <UNIX epoch>,  --date <UNIX epoch>
+    Specify date
+
+  -d,  --debug
+    Print debug information
+
+  -C <client>,  --client <client>  (accepted multiple times)
+    Specify client name or prefix
+
+  -c <file name>,  --config <file name>
+    Specify configuration file
+
+  --,  --ignore_rest
+    Ignores the rest of the labeled arguments following this flag.
+
+  --version
+    Displays version information and exits.
+
+  -h,  --help
+    Displays usage information and exits.
+
+Version
+HBackup (c) 2006-2007 Hervé Fache version 0.4a
+Error
+Error: -! -- Couldn't find match for argument
+HBackup (c) 2006-2007 Hervé Fache
+  -v,  --verbose
+    Be verbose about actions
+
+  -u,  --user
+    Perform user-mode backup
+
+  -t,  --check
+    Check DB for corrupted data
+
+  -s,  --scan
+    Scan DB for missing data
+
+  -r <directory>,  --restore <directory>
+    Restore to directory
+
+  -P <path>,  --path <path>
+    Specify path
+
+  -p,  --pretend
+    Only check configuration
+
+  -l,  --list
+    List available prefixes
+
+  -D <UNIX epoch>,  --date <UNIX epoch>
+    Specify date
+
+  -d,  --debug
+    Print debug information
+
+  -C <client>,  --client <client>  (accepted multiple times)
+    Specify client name or prefix
+
+  -c <file name>,  --config <file name>
+    Specify configuration file
+
+  --,  --ignore_rest
+    Ignores the rest of the labeled arguments following this flag.
+
+  --version
+    Displays version information and exits.
+
+  -h,  --help
+    Displays usage information and exits.
+
+Typical backup
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -72,7 +169,7 @@ A C:/Test/File.TXT (0 B)
 Unmounted test_db/mount
 Protocol not supported: ssh
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3
+Specify clients
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -104,7 +201,7 @@ Backup path 'C:/Test'
 Unmounted test_db/mount
  -> Journal is empty, not merging
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3
+Scan DB
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -115,7 +212,7 @@ Scanning database
 Scanning database contents: 7 files
  -> Journal is empty, not merging
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3
+Check DB
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -126,7 +223,7 @@ Checking database
 Scanning database contents thoroughly: 7 files
  -> Journal is empty, not merging
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3
+List prefixes
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -138,7 +235,7 @@ Showing list
  file://myhost
  nfs://myClient
  smb://client
-HBackup (c) 2006-2007 Hervé Fache, version 0.3
+Restore a file
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -148,7 +245,7 @@ Restoring
  -> Database open
 U test_r/test2/testfile
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3
+Restore all data in a prefix/dir path that's not by itself in DB
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -174,7 +271,7 @@ U test_r/test1/testfile
 U test_r/test1/testlink
 U test_r/test1/testpipe
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3
+Restore all data in a prefix/dir path
  -> Reading configuration file
  --> Client: myClient
  --> Client: other
@@ -193,7 +290,7 @@ U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
  -> Database closed
-HBackup (c) 2006-2007 Hervé Fache, version 0.3
+Restore all data in a prefix
  -> Reading configuration file
  --> Client: myClient
  --> Client: other

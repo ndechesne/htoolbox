@@ -248,7 +248,7 @@ int HBackup::readConfig(const char* config_path) {
               client->addOption(type, *current);
             }
           } else
-          if ((keyword == "listfile") || (keyword == "config")) {
+          if (keyword == "config") {
             if (params.size() > 2) {
               cerr << "Error: in file " << config_path << ", line " << line
                 << " '" << keyword << "' takes exactly one argument" << endl;
