@@ -41,7 +41,6 @@ using namespace hbackup;
 int Path::recurse(
     Database&     db,
     const char*   remote_path,
-    const char*   local_path,
     Directory*    dir,
     Parser*       parser) {
   if (terminating()) {
@@ -56,14 +55,14 @@ int Path::recurse(
   if (! _parsers.empty()) {
     // We have a parser, check this directory with it
     if (parser != NULL) {
-      parser = parser->isControlled(local_path);
+      parser = parser->isControlled(dir->path());
     }
     // We don't have a parser [anymore], check this directory
     if (parser == NULL) {
-      parser = _parsers.isControlled(local_path);
+      parser = _parsers.isControlled(dir->path());
     }
   }
-  if (dir->isValid() && ! dir->createList(local_path)) {
+  if (dir->isValid() && ! dir->createList()) {
     list<Node*>::iterator i = dir->nodesList().begin();
     while (i != dir->nodesList().end()) {
       if (! terminating()) {
@@ -90,7 +89,7 @@ int Path::recurse(
 
         // For link, find out linked path
         if ((*i)->type() == 'l') {
-          Link *l = new Link(**i, local_path);
+          Link *l = new Link(**i);
           delete *i;
           *i = l;
         }
@@ -106,9 +105,8 @@ int Path::recurse(
         char* rem_path = NULL;
         int last = asprintf(&rem_path, "%s%s/", remote_path, (*i)->name()) - 1;
         rem_path[last] = '\0';
-        char* loc_path = Node::path(local_path, (*i)->name());
         Node* db_node;
-        int rc = db.sendEntry(rem_path, loc_path, *i, &db_node);
+        int rc = db.sendEntry(rem_path, *i, &db_node);
         const char* checksum = NULL;
         bool        add      = false;
         if (rc < 0) {
@@ -194,7 +192,7 @@ int Path::recurse(
            && (_compress != NULL) && _compress->match(rel_path, **i)) {
             compress = 5;
           }
-          db.add(rem_path, loc_path, *i, checksum, compress);
+          db.add(rem_path, *i, checksum, compress);
         }
 
         // For directory, recurse into it
@@ -203,11 +201,10 @@ int Path::recurse(
           if (verbosity() > 1) {
             cout << " -> Dir " << rel_path << (*i)->name() << endl;
           }
-          recurse(db, rem_path, loc_path, (Directory*) *i, parser);
+          recurse(db, rem_path, (Directory*) *i, parser);
         }
 
         free(rem_path);
-        free(loc_path);
       }
       delete *i;
       i = dir->nodesList().erase(i);
@@ -291,7 +288,7 @@ int Path::parse(
   int rc = 0;
   _nodes = 0;
   _dir = new Directory(backup_path);
-  if (recurse(db, (_path + '/').c_str(), backup_path, _dir, NULL)) {
+  if (recurse(db, (_path + '/').c_str(), _dir, NULL)) {
     delete _dir;
     _dir = NULL;
     rc = -1;

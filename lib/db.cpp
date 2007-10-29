@@ -106,7 +106,7 @@ int Database::organise(const string& path, int number) {
        && (node.name()[2] != '-')) {
         // Create two-letter directory
         string dir_path = path + "/" + node.name()[0] + node.name()[1];
-        if (Directory("").create(dir_path.c_str())) {
+        if (Directory(dir_path.c_str()).create()) {
           failed = 2;
         } else {
           // Create destination path
@@ -119,7 +119,7 @@ int Database::organise(const string& path, int number) {
       }
     }
     if (! failed) {
-      nofiles.create(path.c_str());
+      nofiles.create();
     }
   }
   closedir(directory);
@@ -209,7 +209,7 @@ int Database::write(
       delete try_file;
       temp.close();
     } else {
-      Directory("").create(final_path);
+      Directory(final_path).create();
       dest_path = final_path;
       missing = true;
     }
@@ -321,7 +321,7 @@ int Database::getDir(
     if (File(path.c_str(), ".nofiles").isValid()) {
       path += "/" + checksum.substr(level, 2);
       level += 2;
-      if (create && Directory("").create(path.c_str())) {
+      if (create && Directory(path.c_str()).create()) {
         return 1;
       }
     } else {
@@ -408,7 +408,7 @@ int Database::open(bool read_only) {
       cerr << "db: given path does not contain a database: " << _path << endl;
       failed = true;
     } else
-    if (Directory(_path.c_str(), "data").create(_path.c_str())) {
+    if (Directory(_path.c_str(), "data").create()) {
       cerr << "db: cannot create data directory" << endl;
       failed = true;
     } else
@@ -861,7 +861,7 @@ void Database::setPrefix(
     const char* prefix) {
   // Finish previous prefix work (removed items at end of list)
   if (_d->prefix.length() != 0) {
-    sendEntry(NULL, NULL, NULL, NULL);
+    sendEntry(NULL, NULL, NULL);
   }
   _d->prefix           = prefix;
   _d->prefixJournalled = false;
@@ -871,7 +871,6 @@ void Database::setPrefix(
 
 int Database::sendEntry(
     const char*     remote_path,
-    const char*     local_path,
     const Node*     node,
     Node**          db_node) {
   if (! isWriteable()) {
@@ -932,7 +931,6 @@ int Database::sendEntry(
 
 int Database::add(
     const char*     remote_path,
-    const char*     local_path,
     const Node*     node,
     const char*     old_checksum,
     int             compress) {
@@ -961,7 +959,7 @@ int Database::add(
       } else {
         // Copy data
         char* checksum  = NULL;
-        if (! write(string(local_path), &checksum, compress)) {
+        if (! write(string(node->path()), &checksum, compress)) {
           ((File*)node2)->setChecksum(checksum);
           free(checksum);
         } else {

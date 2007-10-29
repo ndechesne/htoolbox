@@ -76,7 +76,7 @@ int Client::mountPath(
   }
 
   /* Check that mount dir exists, if not create it */
-  if (Directory("").create(_mount_point.c_str())) {
+  if (Directory(_mount_point.c_str()).create()) {
     return 2;
   }
 

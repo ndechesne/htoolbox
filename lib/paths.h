@@ -33,7 +33,6 @@ class Path {
   int recurse(
     Database&       db,
     const char*     remote_path,      // Dir where the file resides, remotely
-    const char*     local_path,       // Dir where the file resides, locally
     Directory*      dir,
     Parser*         parser);
 public:

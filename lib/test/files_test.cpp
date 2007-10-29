@@ -41,7 +41,7 @@ int parseList(Directory *d, const char* cur_dir) {
       }
       break;
       case 'l': {
-        Link *l = new Link(*payload, cur_dir);
+        Link *l = new Link(*payload);
         delete *i;
         *i = l;
       }
@@ -51,7 +51,7 @@ int parseList(Directory *d, const char* cur_dir) {
         delete *i;
         *i = di;
         char* dir_path = Node::path(cur_dir, di->name());
-        if (! di->createList(dir_path)) {
+        if (! di->createList()) {
           parseList(di, dir_path);
         } else {
           cerr << "Failed to create list for " << di->name() << " in "
@@ -70,6 +70,7 @@ void showList(const Directory* d, int level = 0);
 
 void defaultShowFile(const Node* g) {
   cout << "Oth.: " << g->name()
+    << ", path = " << g->path()
     << ", type = " << g->type()
     << ", mtime = " << (g->mtime() != 0)
     << ", size = " << g->size()
@@ -89,6 +90,7 @@ void showFile(const Node* g, int level = 1) {
       case 'f': {
         const File* f = (const File*) g;
         cout << "File: " << f->name()
+          << ", path = " << f->path()
           << ", type = " << f->type()
           << ", mtime = " << (f->mtime() != 0)
           << ", size = " << f->size()
@@ -100,6 +102,7 @@ void showFile(const Node* g, int level = 1) {
       case 'l': {
         const Link* l = (const Link*) g;
         cout << "Link: " << l->name()
+          << ", path = " << l->path()
           << ", type = " << l->type()
           << ", mtime = " << (l->mtime() != 0)
           << ", size = " << l->size()
@@ -112,6 +115,7 @@ void showFile(const Node* g, int level = 1) {
       case 'd': {
         Directory* d = (Directory*) g;
         cout << "Dir.: " << d->name()
+          << ", path = " << d->path()
           << ", type = " << d->type()
           << ", mtime = " << (d->mtime() != 0)
           << ", size = " << d->size()
@@ -141,11 +145,12 @@ void showList(const Directory* d, int level) {
   }
 }
 
-void createNshowFile(const Node &g, const char* dir_path) {
+void createNshowFile(const Node &g) {
   switch (g.type()) {
   case 'f': {
     File *f = new File(g);
     cout << "Name: " << f->name()
+      << ", path = " << f->path()
       << ", type = " << f->type()
       << ", mtime = " << (f->mtime() != 0)
       << ", size = " << f->size()
@@ -156,8 +161,9 @@ void createNshowFile(const Node &g, const char* dir_path) {
     delete f; }
     break;
   case 'l': {
-    Link *l = new Link(g, dir_path);
+    Link *l = new Link(g);
     cout << "Name: " << l->name()
+      << ", path = " << l->path()
       << ", type = " << l->type()
       << ", mtime = " << (l->mtime() != 0)
       << ", size = " << l->size()
@@ -170,7 +176,7 @@ void createNshowFile(const Node &g, const char* dir_path) {
     break;
   case 'd': {
     Directory *d = new Directory(g);
-    d->createList(dir_path, false);
+    d->createList();
     showList(d);
     delete d; }
     break;
@@ -855,19 +861,19 @@ int main(void) {
   cout << endl;
   delete params;
 
-  // New age preparation test
+  // File types
   Node *g;
   g = new Node("test1/testfile");
-  createNshowFile(*g, "test1");
+  createNshowFile(*g);
   delete g;
   g = new Node("test1/testlink");
-  createNshowFile(*g, "test1");
+  createNshowFile(*g);
   delete g;
   g = new Node("test1/testdir");
-  createNshowFile(*g, "test1");
+  createNshowFile(*g);
   delete g;
   g = new Node("test1/subdir");
-  createNshowFile(*g, "test1");
+  createNshowFile(*g);
   delete g;
 
   cout << endl << "Validity tests" << endl;
@@ -893,9 +899,9 @@ int main(void) {
   cout << "Link is link? " << Link("test1/touchedlink").isValid() << endl;
 
   cout << "Create" << endl;
-  if (File("test1/touchedfile").create("test1"))
+  if (File("test1/touchedfile").create())
     cout << "failed to create file: " << strerror(errno) << endl;
-  if (Directory("test1/toucheddir").create("test1"))
+  if (Directory("test1/toucheddir").create())
     cout << "failed to create dir" << endl;
 
   cout << "File is file? " << File("test1/touchedfile").isValid() << endl;
@@ -909,9 +915,9 @@ int main(void) {
   cout << "Link is link? " << Link("test1/touchedlink").isValid() << endl;
 
   cout << "Create again" << endl;
-  if (File("test1/touchedfile").create("test1"))
+  if (File("test1/touchedfile").create())
     cout << "failed to create file: " << strerror(errno) << endl;
-  if (Directory("test1/toucheddir").create("test1"))
+  if (Directory("test1/toucheddir").create())
     cout << "failed to create dir" << endl;
 
   cout << "File is file? " << File("test1/touchedfile").isValid() << endl;
@@ -928,7 +934,7 @@ int main(void) {
 
   Directory* d = new Directory("test1");
   if (d->isValid()) {
-    if (! d->createList("", false)) {
+    if (! d->createList()) {
       if (! parseList(d, "test1")) {
         showList(d);
       }

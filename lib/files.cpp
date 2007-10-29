@@ -52,9 +52,9 @@ using namespace std;
 
 using namespace hbackup;
 
-void Node::metadata(const char* path) {
+void Node::metadata() {
   struct stat64 metadata;
-  if (lstat64(path, &metadata)) {
+  if (lstat64(_path, &metadata)) {
     // errno set by lstat
     _type = '?';
   } else {
@@ -77,50 +77,40 @@ void Node::metadata(const char* path) {
 
 Node::Node(const char* dir_path, const char* name) {
   _parsed = false;
-  char* full_path = path(dir_path, name);
-  asprintf(&_name, "%s", basename(full_path));
-  if (_name[0] == '\0') {
+  _path = path(dir_path, name);
+  if (basename(_path)[0] == '\0') {
     _type = '?';
   } else {
     errno = 0;
-    metadata(full_path);
+    metadata();
   }
-  free(full_path);
 }
 
 bool Node::operator!=(const Node& right) const {
   return (_type != right._type)   || (_mtime != right._mtime)
       || (_size != right._size)   || (_uid != right._uid)
       || (_gid != right._gid)     || (_mode != right._mode)
-      || (strcmp(_name, right._name) != 0);
+      || (strcmp(basename(_path), basename(right._path)) != 0);
 }
 
-int File::create(const char* dir_path) {
+int File::create() {
   errno = 0;
-  char* full_path = path(dir_path, _name);
-  if (_name[0] == '\0') {
-    metadata(full_path);
+  if (_type == '?') {
+    metadata();
   }
   if (! isValid()) {
-    int readfile = open(full_path, O_WRONLY | O_CREAT, 0666);
+    int readfile = open(_path, O_WRONLY | O_CREAT, 0666);
     if (readfile < 0) {
       return -1;
     }
     close(readfile);
-    metadata(full_path);
+    metadata();
   }
-  free(full_path);
   return 0;
 }
 
-int Directory::createList(const char* dir_path, bool is_path) {
-  char* full_path;
-  if (is_path) {
-    full_path = path(dir_path, "");
-  } else {
-    full_path = path(dir_path, _name);
-  }
-  DIR* directory = opendir(full_path);
+int Directory::createList() {
+  DIR* directory = opendir(_path);
   if (directory == NULL) return -1;
 
   struct dirent *dir_entry;
@@ -129,14 +119,13 @@ int Directory::createList(const char* dir_path, bool is_path) {
     if (!strcmp(dir_entry->d_name, ".") || !strcmp(dir_entry->d_name, "..")) {
       continue;
     }
-    Node *g = new Node(full_path, dir_entry->d_name);
+    Node *g = new Node(_path, dir_entry->d_name);
     list<Node*>::iterator i = _nodes.begin();
     while ((i != _nodes.end()) && (*(*i) < *g)) {
       i++;
     }
     _nodes.insert(i, g);
   }
-  free(full_path);
 
   closedir(directory);
   return 0;
@@ -150,19 +139,17 @@ void Directory::deleteList() {
   }
 }
 
-int Directory::create(const char* dir_path) {
+int Directory::create() {
   errno = 0;
-  char* full_path = path(dir_path, _name);
-  if (_name[0] == '\0') {
-    metadata(full_path);
+  if (_type == '?') {
+    metadata();
   }
   if (! isValid()) {
-    if (mkdir(full_path, 0777)) {
+    if (mkdir(_path, 0777)) {
       return -1;
     }
-    metadata(full_path);
+    metadata();
   }
-  free(full_path);
   return 0;
 }
 
@@ -303,7 +290,7 @@ int Stream::close() {
   }
 
   // Update metadata
-  metadata(_path);
+  metadata();
   return rc;
 }
 

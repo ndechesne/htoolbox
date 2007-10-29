@@ -33,7 +33,7 @@ namespace hbackup {
 
 class Node {
 protected:
-  char*     _name;      // file name
+  char*     _path;      // file path
   char      _type;      // file type ('?' if metadata not available)
   time_t    _mtime;     // time of last modification
   long long _size;      // file size, in bytes
@@ -41,8 +41,8 @@ protected:
   gid_t     _gid;       // group ID of owner
   mode_t    _mode;      // permissions
   bool      _parsed;    // more info available using proper type
-  void  metadata(const char* path);
-  const char* basename(const char* path) {
+  void  metadata();
+  const char* basename(const char* path) const {
     const char* name = strrchr(path, '/');
     if (name != NULL) {
       name++;
@@ -54,7 +54,7 @@ protected:
 public:
   // Default constructor
   Node(const Node& g) :
-        _name(NULL),
+        _path(NULL),
         _type(g._type),
         _mtime(g._mtime),
         _size(g._size),
@@ -62,20 +62,20 @@ public:
         _gid(g._gid),
         _mode(g._mode),
         _parsed(false) {
-    asprintf(&_name, "%s", g._name);
+    _path = strdup(g._path);
   }
   // Constructor for path in the VFS
   Node(const char *path, const char* name = "");
   // Constructor for given file metadata
   Node(
-      const char* name,
+      const char* path,
       char        type,
       time_t      mtime,
       long long   size,
       uid_t       uid,
       gid_t       gid,
       mode_t      mode) :
-        _name(NULL),
+        _path(NULL),
         _type(type),
         _mtime(mtime),
         _size(size),
@@ -83,21 +83,23 @@ public:
         _gid(gid),
         _mode(mode),
         _parsed(false) {
-    asprintf(&_name, "%s", basename(name));
+    _path = strdup(path);
   }
   virtual ~Node() {
-    free(_name);
-    _name = NULL;
+    free(_path);
+    _path = NULL;
   }
   // Operators
   bool operator<(const Node& right) const {
     // Only compare names
-    return pathCompare(_name, right._name) < 0;
+    return pathCompare(_path, right._path) < 0;
   }
+  // Compares names and metadata, not paths
   virtual bool operator!=(const Node&) const;
   // Data read access
   virtual bool  isValid() const { return _type != '?'; }
-  const char*   name()    const { return _name;   }
+  const char*   path()    const { return _path;   }
+  const char*   name()    const { return basename(_path);   }
   char          type()    const { return _type;   }
   time_t        mtime()   const { return _mtime;  }
   long long     size()    const { return _size;   }
@@ -108,9 +110,9 @@ public:
   static char* path(const char* dir_path, const char* name) {
     char* full_path = NULL;
     if (dir_path[0] == '\0') {
-      asprintf(&full_path, "%s", name);
+      full_path = strdup(name);
     } else if (name[0] == '\0') {
-      asprintf(&full_path, "%s", dir_path);
+      full_path = strdup(dir_path);
     } else {
       asprintf(&full_path, "%s/%s", dir_path, name);
     }
@@ -127,20 +129,20 @@ public:
       Node(g),
       _checksum(NULL) {
     _parsed = true;
-    asprintf(&_checksum, "%s", g._checksum);
+    _checksum = strdup(g._checksum);
   }
   File(const Node& g) :
       Node(g),
       _checksum(NULL) {
     _parsed = true;
-    asprintf(&_checksum, "%s", "");
+    _checksum = strdup("");
   }
   // Constructor for path in the VFS
   File(const char *path, const char* name = "") :
       Node(path, name),
       _checksum(NULL) {
     _parsed = true;
-    asprintf(&_checksum, "%s", "");
+    _checksum = strdup("");
   }
   // Constructor for given file metadata
   File(
@@ -162,14 +164,14 @@ public:
     _checksum = NULL;
   }
   // Create empty file
-  int create(const char* dir_path);
+  int create();
   bool isValid() const { return _type == 'f'; }
   // Data read access
   const char* checksum() const { return _checksum;  }
   void setChecksum(const char* checksum) {
     free(_checksum);
     _checksum = NULL;
-    asprintf(&_checksum, "%s", checksum);
+    _checksum = strdup(checksum);
   }
 };
 
@@ -196,9 +198,9 @@ public:
     deleteList();
   }
   // Create directory
-  int   create(const char* dir_path);
+  int   create();
   // Create list of Nodes contained in directory
-  int   createList(const char* dir_path, bool is_path = true);
+  int   createList();
   void  deleteList();
   bool  isValid() const                     { return _type == 'd'; }
   list<Node*>& nodesList()                  { return _nodes; }
@@ -213,27 +215,23 @@ public:
       Node(g),
       _link(NULL) {
     _parsed = true;
-    asprintf(&_link, "%s", g._link);
+    _link = strdup(g._link);
   }
-  Link(const Node& g, const char* dir_path) :
+  Link(const Node& g) :
       Node(g),
       _link(NULL) {
-    char* full_path = path(dir_path, _name);
     _parsed = true;
     _link = (char*) malloc(_size + 1);
-    readlink(full_path, _link, _size);
-    free(full_path);
+    readlink(_path, _link, _size);
     _link[_size] = '\0';
   }
   // Constructor for path in the VFS
   Link(const char *dir_path, const char* name = "") :
       Node(dir_path, name),
       _link(NULL) {
-    char* full_path = path(dir_path, name);
     _parsed = true;
     _link = (char*) malloc(_size + 1);
-    readlink(full_path, _link, _size);
-    free(full_path);
+    readlink(_path, _link, _size);
     _link[_size] = '\0';
   }
   // Constructor for given file metadata
@@ -249,7 +247,7 @@ public:
         Node(name, type, mtime, size, uid, gid, mode),
         _link(NULL) {
     _parsed = true;
-    asprintf(&_link, "%s", link);
+    _link = strdup(link);
   }
   ~Link() {
     free(_link);
@@ -290,10 +288,6 @@ public:
   virtual ~Stream();
   bool isOpen() const      { return _fd != -1; }
   bool isWriteable() const { return (_fmode & O_WRONLY) != 0; }
-  // Create empty file
-  int create() {
-    return File::create(_path);
-  }
   // Open file, for read or write (no append), with or without compression
   // A negative value for compression disables the read/write cache
   int open(

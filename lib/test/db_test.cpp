@@ -155,16 +155,16 @@ int main(void) {
 
   cout << endl << "Test: getdir" << endl;
   cout << "Check test_db/data dir: " << ! Directory("test_db/data").isValid() << endl;
-  File("").create("test_db/data/.nofiles");
-  Directory("").create("test_db/data/fe");
-  File("").create("test_db/data/fe/.nofiles");
-  File("").create("test_db/data/fe/test4");
-  Directory("").create("test_db/data/fe/dc");
-  File("").create("test_db/data/fe/dc/.nofiles");
-  Directory("").create("test_db/data/fe/ba");
-  Directory("").create("test_db/data/fe/ba/test1");
-  Directory("").create("test_db/data/fe/98");
-  Directory("").create("test_db/data/fe/98/test2");
+  File("test_db/data/.nofiles").create();
+  Directory("test_db/data/fe").create();
+  File("test_db/data/fe/.nofiles").create();
+  File("test_db/data/fe/test4").create();
+  Directory("test_db/data/fe/dc").create();
+  File("test_db/data/fe/dc/.nofiles").create();
+  Directory("test_db/data/fe/ba").create();
+  Directory("test_db/data/fe/ba/test1").create();
+  Directory("test_db/data/fe/98").create();
+  Directory("test_db/data/fe/98/test2").create();
   string  getdir_path;
   cout << "febatest1 status: " << db.getDir("febatest1", getdir_path, true)
     << ", getdir_path: " << getdir_path << endl;
@@ -176,7 +176,7 @@ int main(void) {
     << ", getdir_path: " << getdir_path << endl;
   cout << "fedc76test5 status: " << db.getDir("fedc76test5", getdir_path, true)
     << ", getdir_path: " << getdir_path << endl;
-  Directory("").create("test_db/data/fe/dc/76");
+  Directory("test_db/data/fe/dc/76").create();
   cout << "fedc76test6 status: " << db.getDir("fedc76test6", getdir_path, true)
     << ", getdir_path: " << getdir_path << endl;
   mkdir("test_db/data/fe/dc/76/test6", 0755);
@@ -274,7 +274,7 @@ int main(void) {
     printf("db.check: %s\n", strerror(errno));
     fflush(stdout);
   }
-  File("").create("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data");
+  File("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data").create();
   if (db.scan("59ca0efa9f5633cb0371bbc0355478d8-0")) {
     printf("db.check: %s\n", strerror(errno));
   }
@@ -364,10 +364,10 @@ int main(void) {
 
   File* f;
   f = new File("test1/test space");
-  db.add("client_path/test space", "test1/test space", f);
+  db.add("client_path/test space", f);
   delete f;
   f = new File("test1/testfile");
-  db.add("client_path/testfile", "test1/testfile", f);
+  db.add("client_path/testfile", f);
   delete f;
 
   db.close();
