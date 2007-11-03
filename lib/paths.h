@@ -22,14 +22,14 @@
 namespace hbackup {
 
 class Path {
-  StrPath     _path;
-  Directory*  _dir;
-  Parsers     _parsers;
-  Filters     _filters;
-  Filter*     _ignore;
-  Filter*     _compress;
-  int         _expiration;
-  int         _nodes;
+  StrPath           _path;
+  Directory*        _dir;
+  Parsers           _parsers;
+  Filters           _filters;
+  const Filter*     _ignore;
+  const Filter*     _compress;
+  int               _expiration;
+  int               _nodes;
   int recurse(
     Database&       db,
     const char*     remote_path,      // Dir where the file resides, remotely
@@ -44,17 +44,16 @@ public:
   int nodes() const            { return _nodes;        }
   void setExpiration(int expiration) { _expiration = expiration; }
   // Set ignore filter
-  int setIgnore(
-    const string&   name);
+  void setIgnore(const Filter* filter)   { _ignore   = filter; }
   // Set compress filter
-  int setCompress(
-    const string&   name);
+  void setCompress(const Filter* filter) { _compress = filter; }
   Filter* addFilter(const string& type, const string& name) {
     return _filters.add(type, name);
   }
-  Filter* findFilter(const string& name) const {
-    return _filters.find(name);
-  }
+  Filter* findFilter(
+    const string&   name,
+    const Filters*  local = NULL,
+    const Filters*  global = NULL) const;
   int addParser(
     const string&   type,
     const string&   string);

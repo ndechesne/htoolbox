@@ -142,6 +142,10 @@ filter and subdir
 condition path_start subdir
 condition !size< 100
 
+filter and bigfile
+condition size>= 10
+condition type file
+
 path test2//
 
 path "test1" # should work
@@ -149,10 +153,6 @@ expire 1
 
 filter and object
 condition path_end ".o"
-
-filter and bigfile
-condition size>= 10
-condition type file
 
 filter or to_be_ignored
 condition filter subdir

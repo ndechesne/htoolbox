@@ -213,9 +213,7 @@ int main(void) {
    || filter->add("path", "subdir/testfile", false)) {
     cout << "Failed to add filter" << endl;
   }
-  if (path->setIgnore("testfile")) {
-    cout << "Failed to set ignore filter" << endl;
-  }
+  path->setIgnore(filter);
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
@@ -243,9 +241,7 @@ int main(void) {
    || subdir->add("path", "subdir", false)) {
     cout << "Failed to add subdir 'and' filter" << endl;
   }
-  if (path->setIgnore("subdir")) {
-    cout << "Failed to set ignore filter" << endl;
-  }
+  path->setIgnore(subdir);
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
@@ -301,9 +297,7 @@ int main(void) {
   }
   filter->add(new Condition(condition_subfilter, subdir, false));
   filter->add(new Condition(condition_subfilter, testlink, false));
-  if (path->setIgnore("ignore1")) {
-    cout << "Failed to set ignore filter" << endl;
-  }
+  path->setIgnore(filter);
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
@@ -385,9 +379,7 @@ int main(void) {
   filter->add(new Condition(condition_subfilter, testlink, false));
   filter->add(new Condition(condition_subfilter, cvs_dirutd, false));
   filter->add(new Condition(condition_subfilter, empty, false));
-  if (path->setIgnore("ignore2")) {
-    cout << "Failed to set ignore filter" << endl;
-  }
+  path->setIgnore(filter);
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";

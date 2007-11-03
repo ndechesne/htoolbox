@@ -160,6 +160,10 @@ int HBackup::readConfig(const char* config_path) {
             return -1;
           }
           filter = _d->addFilter(type, *current);
+          if (verbosity() > 1) {
+            cout << " --> global filter " << type << " " << *current
+              << endl;
+          }
           if (filter == NULL) {
             cerr << "Error: in file " << config_path << ", line " << line
               << " unsupported filter type: " << type << endl;
@@ -183,12 +187,19 @@ int HBackup::readConfig(const char* config_path) {
           }
 
           /* Add specified filter */
-          if (type == "filter") {
+          if (filter_type == "filter") {
             Filter* subfilter = _d->findFilter(*current);
             if (subfilter == NULL) {
               cerr << "Error: in file " << config_path << ", line " << line
                 << " filter not found: " << *current << endl;
               return -1;
+            }
+            if (verbosity() > 1) {
+              cout << " ---> condition ";
+              if (negated) {
+                cout << "not ";
+              }
+              cout << filter_type << " " << subfilter->name() << endl;
             }
             filter->add(new Condition(condition_subfilter, subfilter,
               negated));
@@ -204,6 +215,14 @@ int HBackup::readConfig(const char* config_path) {
                   << " no filter defined" << endl;
                 return -1;
                 break;
+              default:
+                if (verbosity() > 1) {
+                  cout << " ---> condition ";
+                  if (negated) {
+                    cout << "not ";
+                  }
+                  cout << filter_type << " " << *current << endl;
+                }
             }
           }
         } else

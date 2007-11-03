@@ -231,9 +231,17 @@ int Client::readListFile(
             if (path == NULL) {
               // Client-wide filter
               filter = addFilter(type, *current);
+              if (verbosity() > 1) {
+                cout << " --> client-wide filter " << type << " " << *current
+                  << endl;
+              }
             } else {
               // Path-wide filter
               filter = path->addFilter(type, *current);
+              if (verbosity() > 1) {
+                cout << " --> path-wide filter " << type << " " << *current
+                  << endl;
+              }
             }
             if (filter == NULL) {
               cerr << "Error: in list file " << list_path << ", line "
@@ -260,7 +268,7 @@ int Client::readListFile(
             }
 
             /* Add specified filter */
-            if (type == "filter") {
+            if (filter_type == "filter") {
               Filter* subfilter = NULL;
               if (path != NULL) {
                 subfilter = path->findFilter(*current);
@@ -275,9 +283,17 @@ int Client::readListFile(
                 cerr << "Error: in list file " << list_path << ", line "
                   << line << " filter not found: " << *current << endl;
                 failed = 2;
+              } else {
+                if (verbosity() > 1) {
+                  cout << " ---> condition ";
+                  if (negated) {
+                    cout << "not ";
+                  }
+                  cout << filter_type << " " << subfilter->name() << endl;
+                }
+                filter->add(new Condition(condition_subfilter, subfilter,
+                  negated));
               }
-              filter->add(new Condition(condition_subfilter, subfilter,
-                negated));
             } else {
               switch (filter->add(filter_type, *current, negated)) {
                 case 1:
@@ -290,6 +306,14 @@ int Client::readListFile(
                     << line << " no filter defined" << endl;
                   failed = 1;
                   break;
+                default:
+                  if (verbosity() > 1) {
+                    cout << " ---> condition ";
+                    if (negated) {
+                      cout << "not ";
+                    }
+                    cout << filter_type << " " << *current << endl;
+                  }
               }
             }
           }
@@ -302,11 +326,17 @@ int Client::readListFile(
               cerr << "Error: in list file " << list_path << ", line " << line
                 << " '" << keyword << "' takes exactly two arguments" << endl;
               failed = 1;
-            } else
-            if (path->setIgnore(type)) {
-              cerr << "Error: in list file " << list_path << ", line "
-                << line << ": filter not found with name: " << type << endl;
-              failed = 1;
+            } else {
+              Filter* filter = path->findFilter(type, &_filters,
+                &global_filters);
+              if (filter == NULL) {
+                cerr << "Error: in list file " << list_path << ", line "
+                  << line << ": filter for ignoring not found: " << type
+                  << endl;
+                failed = 1;
+              } else {
+                path->setIgnore(filter);
+              }
             }
           } else
           if (keyword == "compress") {
@@ -315,11 +345,17 @@ int Client::readListFile(
               cerr << "Error: in list file " << list_path << ", line " << line
                 << " '" << keyword << "' takes exactly two arguments" << endl;
               failed = 1;
-            } else
-            if (path->setCompress(type)) {
-              cerr << "Error: in list file " << list_path << ", line "
-                << line << ": filter not found with name: " << type << endl;
-              failed = 1;
+            } else {
+              Filter* filter = path->findFilter(type, &_filters,
+                &global_filters);
+              if (filter == NULL) {
+                cerr << "Error: in list file " << list_path << ", line "
+                  << line << ": filter for compression not found: " << type
+                  << endl;
+                failed = 1;
+              } else {
+                path->setCompress(filter);
+              }
             }
           } else
           if (keyword == "parser") {

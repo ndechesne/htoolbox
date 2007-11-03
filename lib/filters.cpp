@@ -24,6 +24,7 @@ using namespace std;
 #include "files.h"
 #include "conditions.h"
 #include "filters.h"
+#include "hbackup.h"
 
 using namespace hbackup;
 
@@ -135,10 +136,10 @@ Filter* Filters::add(
     const string&   type,
     const string&   name) {
   filter_type_t ftype;
-  if (type == "and") {
+  if ((type == "and") || (type == "all")) {
     ftype = filter_and;
   } else
-  if (type == "or") {
+  if ((type == "or") || (type == "any")) {
     ftype = filter_or;
   } else
   {

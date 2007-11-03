@@ -39,10 +39,10 @@ using namespace std;
 using namespace hbackup;
 
 int Path::recurse(
-    Database&     db,
-    const char*   remote_path,
-    Directory*    dir,
-    Parser*       parser) {
+    Database&       db,
+    const char*     remote_path,
+    Directory*      dir,
+    Parser*         parser) {
   if (terminating()) {
     errno = EINTR;
     return -1;
@@ -232,21 +232,9 @@ Path::~Path() {
   delete _dir;
 }
 
-int Path::setIgnore(
-    const string& name) {
-  _ignore = findFilter(name);
-  return (_ignore == NULL) ? -1 : 0;
-}
-
-int Path::setCompress(
-    const string& name) {
-  _compress = findFilter(name);
-  return (_compress == NULL) ? -1 : 0;
-}
-
 int Path::addParser(
-    const string& type,
-    const string& string) {
+    const string&   type,
+    const string&   string) {
   parser_mode_t mode;
 
   /* Determine mode */
@@ -282,9 +270,23 @@ int Path::addParser(
   return 0;
 }
 
+Filter* Path::findFilter(
+    const string&   name,
+    const Filters*  local,
+    const Filters*  global) const {
+  Filter* filter = _filters.find(name);
+  if ((filter == NULL) && (local != NULL)) {
+    filter = local->find(name);
+  }
+  if ((filter == NULL) && (global != NULL)) {
+    filter = global->find(name);
+  }
+  return filter;
+}
+
 int Path::parse(
-    Database&   db,
-    const char* backup_path) {
+    Database&       db,
+    const char*     backup_path) {
   int rc = 0;
   _nodes = 0;
   _dir = new Directory(backup_path);
