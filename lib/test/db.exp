@@ -105,3 +105,24 @@ Test: read prefixes
  -> Database closed
 List of prefixes:
  -> prot://client
+
+Test: crawl
+ -> Database open
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+File data corrupted for 59ca0efa9f5633cb0371bbc0355478d8-0, removed
+ -> 59ca0efa9f5633cb0371bbc0355478d8-1
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> fe98test2
+File data missing for fe98test2
+ -> febatest1
+File data missing for febatest1
+ -> fedc76test6
+File data missing for fedc76test6
+ -> zz000001
+File data missing for zz000001
+ -> zz000002
+File data missing for zz000002
+ -> zz000003
+File data missing for zz000003
+ -> Journal is empty, not merging
+ -> Database closed

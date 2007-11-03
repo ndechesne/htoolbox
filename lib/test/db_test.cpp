@@ -41,14 +41,15 @@ using namespace hbackup;
 //   getDir:      tested
 //   organise:    tested
 //   write:       tested
+//   crawl:       FIXME not tested
 //   path:        tested in paths
-//   open:        FIXME not tested
+//   open:        tested in paths
 //   open(ro):    tested
-//   close:       FIXME not tested
+//   close:       tested in paths
 //   close(ro):   tested
 //   getList:     tested in paths
 //   read:        tested
-//   scan:        FIXME not tested
+//   scan:        FIXME broken, not tested
 //   add:         tested in paths
 //   remove:      tested in paths
 
@@ -78,6 +79,9 @@ public:
       char**          checksum,
       int             compress = 0) {
     return Database::write(path, checksum, compress);
+  }
+  int  crawl(Directory &dir, string path, bool check) const {
+    return Database::crawl(dir, path, check);
   }
 };
 
@@ -136,7 +140,7 @@ int main(void) {
 
   /* Test database */
   if ((status = db.open())) {
-    printf("db::open error status %d\n", status);
+    cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
     }
@@ -323,7 +327,7 @@ int main(void) {
 
   cout << endl << "Test: read-only mode" << endl;
   if ((status = db.open(true))) {
-    printf("db::open error status %d\n", status);
+    cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
     }
@@ -354,7 +358,7 @@ int main(void) {
 
   cout << endl << "Test: fill in DB" << endl;
   if ((status = db.open())) {
-    printf("db::open error status %d\n", status);
+    cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
     }
@@ -387,7 +391,7 @@ int main(void) {
 
   cout << endl << "Test: do nothing" << endl;
   if ((status = db.open())) {
-    printf("db::open error status %d\n", status);
+    cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
     }
@@ -410,7 +414,7 @@ int main(void) {
   cout << endl << "Test: read prefixes" << endl;
   list<string> prefixes;
   if ((status = db.open(true))) {
-    printf("db::open error status %d\n", status);
+    cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
     }
@@ -422,6 +426,19 @@ int main(void) {
   for (list<string>::iterator i = prefixes.begin(); i != prefixes.end(); i++) {
     cout << " -> " << *i << endl;
   }
+
+  cout << endl << "Test: crawl" << endl;
+  if ((status = db.open())) {
+    cout << "db::open error status " << status << endl;
+    if (status == 2) {
+      return 0;
+    }
+  }
+  Directory d("test_db/data");
+  if (db.crawl(d, "", true) != 0) {
+    cout << "db::crawl failed" << endl;
+  }
+  db.close();
 
   return 0;
 }

@@ -308,6 +308,63 @@ void Database::unlock() {
   std::remove(lock_path.c_str());
 }
 
+int Database::crawl(Directory &dir, string path, bool check) const {
+  if (dir.isValid() && ! dir.createList()) {
+    bool no_files = false;
+    list<Node*>::iterator i = dir.nodesList().begin();
+    while (i != dir.nodesList().end()) {
+      if (((*i)->type() == 'f') && (strcmp((*i)->name(), ".nofiles") == 0)) {
+        no_files = true;
+      }
+      if ((*i)->type() == 'd') {
+        if (no_files) {
+          Directory *d = new Directory(**i);
+          crawl(*d, path + (*i)->name(), check);
+          delete d;
+        } else {
+          string checksum = path + (*i)->name();
+          cout << " -> " << path << (*i)->name() << endl;
+          if (File((*i)->path(), "data").isValid()) {
+            if (check) {
+              Stream f((*i)->path(), "data");
+              int rc = f.open("r", 0);
+              if (! rc) {
+                rc = f.computeChecksum();
+                if (! rc) {
+                  if (strncmp(f.checksum(), checksum.c_str(),
+                      strlen(f.checksum()))) {
+                    cout << "File data corrupted for " << checksum << ", ";
+                    if (f.remove()) {
+                      cout << "NOT";
+                    }
+                    cout << "removed" << endl;
+                  }
+                }
+                f.close();
+              }
+              if (rc) {
+                cerr << strerror(errno) << ": " << checksum << endl;
+              }
+            }
+          } else
+          if (File((*i)->path(), "data.gz").isValid()) {
+            if (check) {
+            }
+          } else
+          {
+            cerr << "File data missing for " << checksum << endl;
+          }
+        }
+      }
+      delete *i;
+      i = dir.nodesList().erase(i);
+    }
+  } else {
+    return -1;
+  }
+  return 0;
+}
+
 int Database::getDir(
     const string& checksum,
     string&       path,

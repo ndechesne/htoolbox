@@ -43,6 +43,10 @@ protected: // So I can test them/use them in tests
     const string&   path,
     char**          checksum,
     int             compress = 0);
+  int  crawl(
+    Directory&      dir,
+    string          path,
+    bool            check) const;
 public:
   Database(const string& path);
   ~Database();
