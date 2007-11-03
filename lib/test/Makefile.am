@@ -25,6 +25,8 @@ paths_test_SOURCES = paths_test.cpp
 clients_test_SOURCES = clients_test.cpp
 interface_test_SOURCES = interface_test.cpp
 
+LDADD = @top_srcdir@/lib/libhbackup.la
+
 check_SUCCESSES = \
 	strings.done \
 	files.done \
@@ -40,9 +42,9 @@ check_SUCCESSES = \
 
 check-local: $(check_SUCCESSES)
 
-LDADD = @top_srcdir@/lib/libhbackup.la
+CLEANFILES = $(check_SUCCESSES)
 
-clean-generic:
+clean-local:
 	@echo "Calling test tool to clean test environment"
 	@@top_srcdir@/$(TEST_TOOL) clean
 

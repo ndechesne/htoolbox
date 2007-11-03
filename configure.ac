@@ -51,6 +51,7 @@ AC_PATH_PROG(TEST_RUN, test_tools/test_run, test_tools/test_run)
 
 AC_CONFIG_FILES([Makefile
                  cli/Makefile
+                 cli/test/Makefile
                  lib/Makefile
                  lib/test/Makefile
                  man/Makefile])
