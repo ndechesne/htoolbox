@@ -1,6 +1,6 @@
 VERSION = 0:2:0
 
-SUBDIRS = test
+SUBDIRS = . test
 
 AM_CXXFLAGS = -Wall -ansi
 

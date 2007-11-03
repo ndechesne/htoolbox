@@ -15,7 +15,6 @@ AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-AC_PROG_RANLIB
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
@@ -46,8 +45,13 @@ AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
 AC_CHECK_FUNCS([mkdir mkfifo regcomp strchr strerror strrchr strtoul])
 
+# Define test tool
+AC_PATH_PROG(TEST_TOOL, test_tools/test_setup, test_tools/test_setup)
+AC_PATH_PROG(TEST_RUN, test_tools/test_run, test_tools/test_run)
+
 AC_CONFIG_FILES([Makefile
                  cli/Makefile
                  lib/Makefile
+                 lib/test/Makefile
                  man/Makefile])
 AC_OUTPUT

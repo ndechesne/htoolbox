@@ -17,6 +17,7 @@
 */
 
 #include <iostream>
+#include <list>
 
 using namespace std;
 
@@ -24,8 +25,17 @@ using namespace std;
 #include <stdlib.h>
 
 #include "strings.h"
+#include "hbackup.h"
 
 using namespace hbackup;
+
+int hbackup::verbosity(void) {
+  return 2;
+}
+
+int hbackup::terminating(const char* function) {
+  return 0;
+}
 
 int main(void) {
   cout << endl << endl << "StrPath test" << endl;

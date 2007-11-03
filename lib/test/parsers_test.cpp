@@ -24,14 +24,15 @@ using namespace std;
 #include "strings.h"
 #include "files.h"
 #include "parsers.h"
+#include "hbackup.h"
 
 using namespace hbackup;
 
-int verbosity(void) {
-  return 0;
+int hbackup::verbosity(void) {
+  return 2;
 }
 
-int terminating(void) {
+int hbackup::terminating(const char* function) {
   return 0;
 }
 
