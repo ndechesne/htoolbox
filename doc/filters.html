@@ -140,8 +140,10 @@ condition name (no space allowed).</p>
 
 <p>There are two types of filters:</p>
 <ul>
-<li>OR filters are a logical 'or' of its conditions and subfilters</li>
-<li>AND filters are a logical 'and' of its conditions and subfilters</li>
+<li>ANY (a.k.a. OR) filters are a logical 'or' of its conditions and
+  subfilters, so they match if any condition is true.</li>
+<li>ALL (a.k.a AND) filters are a logical 'and' of its conditions and
+  subfilters, so they only match if all conditions are true.</li>
 </ul>
 
 <h2>Basic filters</h2>
@@ -150,14 +152,14 @@ condition name (no space allowed).</p>
 on conditions. Here are two examples of basic filters:</p>
 
 <code>
-# Basic OR filter defining compressed archives
-<br>filter or compressed_archives
+# Basic ANY filter defining compressed archives
+<br>filter any compressed_archives
 <br>condition name_end .bz2
 <br>condition name_end .gz
 <br>condition name_end .zip
 <br>
-<br># Basic AND filter defining big files
-<br>filter and big_files
+<br># Basic ALL filter defining big files
+<br>filter all big_files
 <br>condition type file
 <br>condition !size&lt; 1024
 </code>
@@ -169,7 +171,7 @@ complex filter:</p>
 
 <code>
 # Filter defining files worth compressing
-<br>filter and worth_compressing
+<br>filter all worth_compressing
 <br>condition !filter compressed_archives
 <br>condition filter big_files
 </code>

@@ -108,11 +108,11 @@ mkdir "$CONFIGDIR"
 cat << EOF > "$CONFIGDIR/hbackup.conf"
 db "$TESTDBDIR"
 
-filter and backup
+filter all backup
 condition type file
 condition path_end ~
 
-filter or test_or
+filter any test_or
 condition filter backup
 condition !size< 1000
 
@@ -151,13 +151,13 @@ path test2//
 path "test1" # should work
 expire 1
 
-filter and object
-condition path_end ".o"
+filter and not_object
+condition !path_end ".o"
 
 filter or to_be_ignored
 condition filter subdir
 condition filter backup
-condition filter object
+condition !filter not_object
 
 ignore to_be_ignored
 

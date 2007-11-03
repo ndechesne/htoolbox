@@ -71,19 +71,19 @@ Instructions:
 B. Configuration file
 
 Each client must provide its own configuration file. Keywords that may be used:
-* path          start of a new backup list, gives the path information
-  Syntax        path "<path to backup>"
-  Important     note for Windows paths: they MUST NOT end with a '\'
-* parser        files under version control
-  Syntax        see PARSERS below
-* filter        declare a new filter
-  Syntax        see FILTERS below
-* condition     add condition to last declared filter
-  Syntax        see FILTERS below
-* ignore        set filter to use to select files to ignore
-* compress      set filter to use to select files to compress
-* expire        delay in days after which removed files may be erased from DB
-  Syntax        expire <delay>
+* path              start of a new backup list, gives the path information
+  Syntax            path "<path to backup>"
+  Important         note for Windows paths: they MUST NOT end with a '\'
+* parser            files under version control
+  Syntax            see PARSERS below
+* filter            declare a new filter
+  Syntax            see FILTERS below
+* condition         add condition to last declared filter
+  Syntax            see FILTERS below
+* ignore            set filter to use to select files to ignore
+* compress          set filter to use to select files to compress
+* expire            delay in days after which removed files may be erased from DB
+  Syntax            expire <delay>
 
 
 1. COMPRESSION
@@ -109,29 +109,29 @@ condition size>= 5000
 condition !size< 5000
 
 These are the condition types:
-* filter        run filter as a sub-filter (see section b. below)
-* type          match file type
-* name          match file name
-* name_start    match start of file name
-* name_end      match end of file name
-* name_regex    match regular expression on file name
-* path          match path
-* path_start    match start of path
-* path_end      match end of path
-* path_regex    match regular expression on path
-* size<         match files which size is strictly below given value
-* size<=        match files which size is below or equals given value
-* size>=        match files which size is above or equals given value
-* size>         match files which size is strictly above given value
+* filter            run filter as a sub-filter (see section b. below)
+* type              match file type
+* name              match file name
+* name_start        match start of file name
+* name_end          match end of file name
+* name_regex        match regular expression on file name
+* path              match path
+* path_start        match start of path
+* path_end          match end of path
+* path_regex        match regular expression on path
+* size<             match files which size is strictly below given value
+* size<=            match files which size is below or equals given value
+* size>=            match files which size is above or equals given value
+* size>             match files which size is strictly above given value
 
 There are seven file types (only the initial matters):
-* f or file:    regular file
-* d or dir:     directory
-* c or char:    character device
-* b or block:   block device
-* p or pipe:    named pipe or FIFO
-* l or link:    symbolic link
-* s or socket:  socket
+* 'f' or 'file'     regular file
+* 'd' or 'dir'      directory
+* 'c' or 'char'     character device
+* 'b' or 'block'    block device
+* 'p' or 'pipe'     named pipe or FIFO
+* 'l' or 'link'     symbolic link
+* 's' or 'socket'   socket
 
 Examples:
 condition name_start abr
@@ -146,8 +146,8 @@ b. Filters
 Syntax: filter <type> "name"
 
 These are the filter types:
-* or            filter matches if any condition matches
-* and           filter matches if all conditions match
+* 'or' or 'any'     filter matches if any condition matches
+* 'and' or 'all'    filter matches if all conditions match
 
 The name should be unique as it is used to add sub-filters to filters.
 
@@ -181,13 +181,13 @@ condition size>= 1024
 Syntax: parser "<parser name>" <mode>
 
 Only one parser is implemented at the moment:
-* cvs: this parser does not check for file modification
+* 'cvs'             this parser does not check for file modification
 
 There are four modes (only the first letter matters):
-* m: backup files under control, that were modified locally (m for modified)
-* o: backup files not under control (o for others)
-* l: backup files in the two cases above (l for local)
-* c: backup all files under control (c for controlled)
+* 'm'     backup files under control, that were modified locally (m for modified)
+* 'o'     backup files not under control (o for others)
+* 'l'     backup files in the two cases above (l for local)
+* 'c'     backup all files under control (c for controlled)
 
 Note: parsers that do not check for file modification shall backup all
 controlled files if 'modified' was chosen, or all files if 'local' was chosen.

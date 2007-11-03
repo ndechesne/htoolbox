@@ -97,10 +97,10 @@ HBackup (c) 2006-2007 Hervé Fache
 
 Typical backup
  -> Reading configuration file
- --> global filter and backup
+ --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
- --> global filter or test_or
+ --> global filter any test_or
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
@@ -120,12 +120,12 @@ Backup client 'myhost' using protocol 'file'
  ---> condition type file
  --> Path: test2
  --> Path: test1
- --> path-wide filter and object
- ---> condition path_end .o
+ --> path-wide filter and not_object
+ ---> condition not path_end .o
  --> path-wide filter or to_be_ignored
  ---> condition filter subdir
  ---> condition filter backup
- ---> condition filter object
+ ---> condition not filter not_object
 Backup path 'test1'
 A test1/cvs
  -> Dir cvs
@@ -189,10 +189,10 @@ Protocol not supported: ssh
  -> Database closed
 Specify clients
  -> Reading configuration file
- --> global filter and backup
+ --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
- --> global filter or test_or
+ --> global filter any test_or
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
@@ -211,12 +211,12 @@ Backup client 'myhost' using protocol 'file'
  ---> condition type file
  --> Path: test2
  --> Path: test1
- --> path-wide filter and object
- ---> condition path_end .o
+ --> path-wide filter and not_object
+ ---> condition not path_end .o
  --> path-wide filter or to_be_ignored
  ---> condition filter subdir
  ---> condition filter backup
- ---> condition filter object
+ ---> condition not filter not_object
 Backup path 'test1'
  -> Dir cvs
  -> Dir cvs/CVS
@@ -239,10 +239,10 @@ Unmounted test_db/mount
  -> Database closed
 Scan DB
  -> Reading configuration file
- --> global filter and backup
+ --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
- --> global filter or test_or
+ --> global filter any test_or
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
@@ -256,10 +256,10 @@ Scanning database contents: 7 files
  -> Database closed
 Check DB
  -> Reading configuration file
- --> global filter and backup
+ --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
- --> global filter or test_or
+ --> global filter any test_or
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
@@ -273,10 +273,10 @@ Scanning database contents thoroughly: 7 files
  -> Database closed
 List prefixes
  -> Reading configuration file
- --> global filter and backup
+ --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
- --> global filter or test_or
+ --> global filter any test_or
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
@@ -291,10 +291,10 @@ Showing list
  smb://client
 Restore a file
  -> Reading configuration file
- --> global filter and backup
+ --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
- --> global filter or test_or
+ --> global filter any test_or
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
@@ -307,10 +307,10 @@ U test_r/test2/testfile
  -> Database closed
 Restore all data in a prefix/dir path that's not by itself in DB
  -> Reading configuration file
- --> global filter and backup
+ --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
- --> global filter or test_or
+ --> global filter any test_or
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
@@ -339,10 +339,10 @@ U test_r/test1/testpipe
  -> Database closed
 Restore all data in a prefix/dir path
  -> Reading configuration file
- --> global filter and backup
+ --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
- --> global filter or test_or
+ --> global filter any test_or
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
@@ -364,10 +364,10 @@ U test_r/test1/cvs/fileutd.h
  -> Database closed
 Restore all data in a prefix
  -> Reading configuration file
- --> global filter and backup
+ --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
- --> global filter or test_or
+ --> global filter any test_or
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
