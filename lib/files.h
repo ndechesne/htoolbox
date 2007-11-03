@@ -107,6 +107,8 @@ public:
   gid_t         gid()     const { return _gid;    }
   mode_t        mode()    const { return _mode;   }
   bool          parsed()  const { return _parsed; }
+  // Remove node
+  int   remove();
   static char* path(const char* dir_path, const char* name) {
     char* full_path = NULL;
     if (dir_path[0] == '\0') {
@@ -163,9 +165,9 @@ public:
     free(_checksum);
     _checksum = NULL;
   }
+  bool isValid() const { return _type == 'f'; }
   // Create empty file
   int create();
-  bool isValid() const { return _type == 'f'; }
   // Data read access
   const char* checksum() const { return _checksum;  }
   void setChecksum(const char* checksum) {
@@ -197,12 +199,12 @@ public:
   ~Directory() {
     deleteList();
   }
+  bool  isValid() const { return _type == 'd'; }
   // Create directory
   int   create();
   // Create list of Nodes contained in directory
   int   createList();
   void  deleteList();
-  bool  isValid() const                     { return _type == 'd'; }
   list<Node*>& nodesList()                  { return _nodes; }
   const list<Node*>& nodesListConst() const { return _nodes; }
 };

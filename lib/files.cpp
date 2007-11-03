@@ -93,6 +93,14 @@ bool Node::operator!=(const Node& right) const {
       || (strcmp(basename(_path), basename(right._path)) != 0);
 }
 
+int Node::remove() {
+  int rc = std::remove(_path);
+  if (! rc) {
+    _type = '?';
+  }
+  return rc;
+}
+
 int File::create() {
   errno = 0;
   if (_type == '?') {

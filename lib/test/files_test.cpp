@@ -607,7 +607,7 @@ int main(void) {
 
   cout << endl << "Test: copy" << endl;
   readfile = new Stream("test1/rwfile_source");
-  remove("test1/rwfile_dest");
+  Node("test1/rwfile_dest").remove();
   writefile = new Stream("test1/rwfile_dest");
   if (readfile->open("r", 1) || writefile->open("w", 0)) {
     cout << "Error opening file: " << strerror(errno) << endl;
@@ -627,7 +627,7 @@ int main(void) {
 
   cout << endl << "Test: interrupted copy" << endl;
   readfile = new Stream("test1/rwfile_source");
-  remove("test1/rwfile_dest");
+  Node("test1/rwfile_dest").remove();
   writefile = new Stream("test1/rwfile_dest");
   if (readfile->open("r", 1) || writefile->open("w", 0)) {
     cout << "Error opening file: " << strerror(errno) << endl;
