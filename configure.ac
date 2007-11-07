@@ -16,6 +16,7 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
+AC_PROG_RANLIB
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lssl':
@@ -43,7 +44,7 @@ AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
-AC_CHECK_FUNCS([mkdir mkfifo regcomp strchr strerror strrchr strtoul])
+AC_CHECK_FUNCS([mkdir mkfifo regcomp strchr strdup strerror strrchr strtoul])
 
 # Define test tool
 AC_PATH_PROG(TEST_TOOL, test_tools/test_setup, test_tools/test_setup)
