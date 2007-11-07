@@ -19,10 +19,12 @@ AC_PROG_LIBTOOL
 AC_PROG_RANLIB
 
 # Checks for libraries.
-# FIXME: Replace `main' with a function in `-lssl':
-AC_CHECK_LIB([ssl], [main])
-# FIXME: Replace `main' with a function in `-lz':
-AC_CHECK_LIB([z], [main])
+liberrors=""
+AC_CHECK_LIB(ssl, SSL_CTX_new, [], [liberrors="yes"])
+AC_CHECK_LIB(z, deflate, [], [liberrors="yes"])
+if test "x$liberrors" != "x"; then
+  AC_MSG_ERROR([some libraries were missing or unusable])
+fi
 
 # Checks for header files.
 AC_HEADER_DIRENT
