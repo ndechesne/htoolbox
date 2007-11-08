@@ -1,4 +1,4 @@
-AM_CXXFLAGS = -Wall -g -ansi -I@top_srcdir@/lib
+AM_CXXFLAGS = -I@top_srcdir@/lib
 
 check_PROGRAMS = \
 	strings_test \

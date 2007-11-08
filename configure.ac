@@ -2,11 +2,27 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT([hbackup],[0.4],[herve@lucidia.net])
-AM_INIT_AUTOMAKE(hbackup, 0.2)
+
+# This contains version information
+AC_INIT([Hbackup],[0.4b],[herve@lucidia.net])
+AC_SUBST(LIB_VERSION, [0:2:0])
+
+AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 AC_LANG([C++])
+
+# Compiler options
+AC_ARG_ENABLE(debug,
+    AC_HELP_STRING(--enable-debug, [Compile with symbols (Default = no)]),
+    enable_debug=$enableval, enable_debug=no)
+if test "$enable_debug" = "yes" ; then
+    CFLAGS="$CFLAGS -Wall -Werror -g -D_DEBUG"
+    CXXFLAGS="$CXXFLAGS -Wall -Werror -g -D_DEBUG"
+else
+    CFLAGS="$CFLAGS -Wall -Werror -O2"
+    CXXFLAGS="$CXXFLAGS -Wall -Werror -O2"
+fi
 
 # Checks for programs.
 AC_PROG_CXX

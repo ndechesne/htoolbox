@@ -92,7 +92,8 @@ int main(int argc, char **argv) {
   // Analyse arguments
   try {
     // Description
-    CmdLine cmd("HBackup (c) 2006-2007 Hervé Fache", ' ', "0.4a");
+    CmdLine cmd(PACKAGE_NAME " (c) 2006-2007 Hervé Fache", ' ',
+      PACKAGE_VERSION);
     MyOutput output;
     cmd.setOutput(&output);
 

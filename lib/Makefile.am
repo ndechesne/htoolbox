@@ -1,12 +1,8 @@
-VERSION = 0:2:0
-
 SUBDIRS = . test
-
-AM_CXXFLAGS = -Wall -ansi
 
 # Library
 lib_LTLIBRARIES = libhbackup.la
-libhbackup_la_LDFLAGS= -version-info $(VERSION)
+libhbackup_la_LDFLAGS= -version-info $(LIB_VERSION)
 
 libhbackup_la_SOURCES = \
 	clients.h \

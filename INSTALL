@@ -6,7 +6,7 @@ DEPENDENCIES
 
 COMPILATION/TEST
 
-Just type: 'make'
+Type: './autogen.sh && make'
 
 INSTALLATION
 
