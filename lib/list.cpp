@@ -608,7 +608,8 @@ int List::search(
         }
 
         // Check for expiry
-        if (expire > 0) {
+#warning expiration broken: does not look for removed entries first!
+        if (expire >= 0) {
           // Check time
           time_t ts = 0;
           string reader = &_line[2];
@@ -625,7 +626,7 @@ int List::search(
                 checksum = &reader[pos + 1];
               }
             }
-            if (time(NULL) - ts > expire) {
+            if ((expire == 0) || (expire > ts)) {
               if ((checksum != NULL) && (expired != NULL)) {
                 expired->push_back(checksum);
               }

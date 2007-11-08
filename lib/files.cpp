@@ -58,14 +58,14 @@ void Node::metadata() {
     // errno set by lstat
     _type = '?';
   } else {
-    if (S_ISREG(metadata.st_mode))       _type =  'f';
-    else if (S_ISDIR(metadata.st_mode))  _type =  'd';
-    else if (S_ISCHR(metadata.st_mode))  _type =  'c';
-    else if (S_ISBLK(metadata.st_mode))  _type =  'b';
-    else if (S_ISFIFO(metadata.st_mode)) _type =  'p';
-    else if (S_ISLNK(metadata.st_mode))  _type =  'l';
-    else if (S_ISSOCK(metadata.st_mode)) _type =  's';
-    else                                 _type =  '?';
+    if (S_ISREG(metadata.st_mode))       _type = 'f';
+    else if (S_ISDIR(metadata.st_mode))  _type = 'd';
+    else if (S_ISCHR(metadata.st_mode))  _type = 'c';
+    else if (S_ISBLK(metadata.st_mode))  _type = 'b';
+    else if (S_ISFIFO(metadata.st_mode)) _type = 'p';
+    else if (S_ISLNK(metadata.st_mode))  _type = 'l';
+    else if (S_ISSOCK(metadata.st_mode)) _type = 's';
+    else                                 _type = '?';
     // Fill in file information
     _size  = metadata.st_size;
     _mtime = metadata.st_mtime;

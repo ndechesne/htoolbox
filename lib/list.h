@@ -97,6 +97,8 @@ public:
   //    prefix and path               prefix      path        all up to path
   //    any prefix                    NULL                    all before prefix
   //    prefix and any path           prefix      NULL        all before path
+  // Expiration:
+  //    -1: no expiration, 0: only keep last, otherwise use given date
   // Return code:
   //    -1: error, 0: end of file, 1: exceeded, 2: found
   // Caution:
@@ -105,7 +107,7 @@ public:
     const char*     prefix  = NULL,   // Prefix to search
     const char*     path    = NULL,   // Path to search
     List*           list    = NULL,   // List in which to copy, if any
-    time_t          expire  = 0,      // Expiration delay in seconds
+    time_t          expire  = -1,     // Expiration date
     list<string>*   active  = NULL,   // List of active checksums
     list<string>*   expired = NULL);  // List of expired checksums
   // Merge list and backup into this list

@@ -112,6 +112,7 @@ Test: merge read
 [14] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: expire
+Date: 4
 [ 5] prefix           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 [ 5] prefix2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 [ 5] prefix4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
@@ -126,6 +127,26 @@ Expired checksums (gross): 2
  d41d8cd98f00b204e9800998ecf8427e
  59ca0efa9f5633cb0371bbc0355478d8
 Expired checksums (sorted, uniqued): 2
+ 59ca0efa9f5633cb0371bbc0355478d8
+ d41d8cd98f00b204e9800998ecf8427e
+Expired checksums: 1
+ 59ca0efa9f5633cb0371bbc0355478d8
+Date: 0
+Active checksums (gross): 2
+ 12fec763b7f0a7d6acfc8bfe7606c325
+ d41d8cd98f00b204e9800998ecf8427e
+Active checksums (sorted, uniqued): 2
+ 12fec763b7f0a7d6acfc8bfe7606c325
+ d41d8cd98f00b204e9800998ecf8427e
+Expired checksums (gross): 6
+ 59ca0efa9f5633cb0371bbc0355478d8
+ 12fec763b7f0a7d6acfc8bfe7606c325
+ d41d8cd98f00b204e9800998ecf8427e
+ 12fec763b7f0a7d6acfc8bfe7606c325
+ 59ca0efa9f5633cb0371bbc0355478d8
+ d41d8cd98f00b204e9800998ecf8427e
+Expired checksums (sorted, uniqued): 3
+ 12fec763b7f0a7d6acfc8bfe7606c325
  59ca0efa9f5633cb0371bbc0355478d8
  d41d8cd98f00b204e9800998ecf8427e
 Expired checksums: 1

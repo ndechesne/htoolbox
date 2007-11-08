@@ -576,7 +576,12 @@ int main(void) {
 
 
   cout << endl << "Test: expire" << endl;
+  list<string> active;
+  list<string> expired;
+  list<string>::iterator i;
+  list<string>::iterator j;
 
+  cout << "Date: 4" << endl;
   if (dblist.open("r")) {
     cerr << "Failed to open list" << endl;
     return 0;
@@ -588,9 +593,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  list<string> active;
-  list<string> expired;
-  if (dblist.search("", "", &merge, 14, &active, &expired) < 0) {
+  if (dblist.search("", "", &merge, 4, &active, &expired) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -630,8 +633,76 @@ int main(void) {
     cout << " " << *i << endl;
   }
   // Get checksums for removal
-  list<string>::iterator i = expired.begin();
-  list<string>::iterator j = active.begin();
+  i = expired.begin();
+  j = active.begin();
+  while (i != expired.end()) {
+    while ((j != active.end()) && (*j < *i)) { j++; }
+    if ((j != active.end()) && (*j == *i)) {
+      i = expired.erase(i);
+    } else {
+      i++;
+    }
+  }
+  cout << "Expired checksums: " << expired.size() << endl;
+  for (list<string>::iterator i = expired.begin(); i != expired.end();  i++) {
+    cout << " " << *i << endl;
+  }
+
+  // All but last
+  cout << "Date: 0" << endl;
+  if (dblist.open("r")) {
+    cerr << "Failed to open list" << endl;
+    return 0;
+  }
+  if (dblist.isEmpty()) {
+    cout << "List is empty" << endl;
+  }
+  if (merge.open("w")) {
+    cerr << "Failed to open merge" << endl;
+    return 0;
+  }
+  if (dblist.search("", "", &merge, 0, &active, &expired) < 0) {
+    cerr << "Failed to copy: " << strerror(errno) << endl;
+    return 0;
+  }
+  merge.close();
+  dblist.close();
+
+  merge.open("r");
+  if (merge.isEmpty()) {
+    cout << "Merge is empty" << endl;
+  }
+  while ((rc = merge.getEntry(&ts, &prefix, &path, &node)) > 0) {
+    showLine(ts, prefix, path, node);
+  }
+  merge.close();
+  if (rc < 0) {
+    cerr << "Failed to read merge" << endl;
+  }
+
+  cout << "Active checksums (gross): " << active.size() << endl;
+  for (list<string>::iterator i = active.begin(); i != active.end();  i++) {
+    cout << " " << *i << endl;
+  }
+  active.sort();
+  active.unique();
+  cout << "Active checksums (sorted, uniqued): " << active.size() << endl;
+  for (list<string>::iterator i = active.begin(); i != active.end();  i++) {
+    cout << " " << *i << endl;
+  }
+  cout << "Expired checksums (gross): " << expired.size() << endl;
+  for (list<string>::iterator i = expired.begin(); i != expired.end();  i++) {
+    cout << " " << *i << endl;
+  }
+  expired.sort();
+  expired.unique();
+  cout << "Expired checksums (sorted, uniqued): " << expired.size() << endl;
+  for (list<string>::iterator i = expired.begin(); i != expired.end();  i++) {
+    cout << " " << *i << endl;
+  }
+  // Get checksums for removal
+  i = expired.begin();
+  j = active.begin();
   while (i != expired.end()) {
     while ((j != active.end()) && (*j < *i)) { j++; }
     if ((j != active.end()) && (*j == *i)) {
