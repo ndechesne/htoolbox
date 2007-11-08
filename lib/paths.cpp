@@ -68,20 +68,22 @@ int Path::recurse(
       if (! terminating()) {
         // Ignore inaccessible files
         if ((*i)->type() == '?') {
-          i = dir->nodesList().erase(i);
-          continue;
+          goto end;
         }
 
+        // Always ignore a dir named '.hbackup'
+        if (((*i)->type() == 'd') && (strcmp((*i)->name(), ".hbackup") == 0)) {
+          goto end;
+        }
+        
         // Let the parser analyse the file data to know whether to back it up
         if ((parser != NULL) && (parser->ignore(**i))) {
-          i = dir->nodesList().erase(i);
-          continue;
+          goto end;
         }
 
         // Now pass it through the filters
         if ((_ignore != NULL) && _ignore->match(rel_path, **i)) {
-          i = dir->nodesList().erase(i);
-          continue;
+          goto end;
         }
 
         // Count the nodes considered, for info
@@ -206,6 +208,7 @@ int Path::recurse(
 
         free(rem_path);
       }
+end:
       delete *i;
       i = dir->nodesList().erase(i);
     }

@@ -137,7 +137,8 @@ int main(void) {
   my_time++;
   db.open();
 
-  cout << "as previous" << endl;
+  cout << "as previous, with a .hbackup directory" << endl;
+  mkdir("test1/.hbackup", 0755);
   db.setPrefix("file://localhost");
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";

@@ -180,7 +180,7 @@ file://localhost
 	/home/User/testpipe
 [ 1] p     0 644
  -> Database open
-as previous
+as previous, with a .hbackup directory
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
