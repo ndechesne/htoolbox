@@ -1,5 +1,5 @@
 Help
-Hbackup (c) 2006-2007 Hervé Fache
+HBackup (c) 2006-2007 Hervé Fache
   -v,  --verbose
     Be verbose about actions
 
@@ -46,10 +46,10 @@ Hbackup (c) 2006-2007 Hervé Fache
     Displays usage information and exits.
 
 Version
-Hbackup (c) 2006-2007 Hervé Fache version 0.4b
+HBackup (c) 2006-2007 Hervé Fache version 0.4b
 Error
 Error: -! -- Couldn't find match for argument
-Hbackup (c) 2006-2007 Hervé Fache
+HBackup (c) 2006-2007 Hervé Fache
   -v,  --verbose
     Be verbose about actions
 

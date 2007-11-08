@@ -28,6 +28,7 @@ using namespace std;
 #include <signal.h>
 #include <errno.h>
 
+#include "config.h"
 #include "hbackup.h"
 
 // DEFAULTS
@@ -92,8 +93,7 @@ int main(int argc, char **argv) {
   // Analyse arguments
   try {
     // Description
-    CmdLine cmd(PACKAGE_NAME " (c) 2006-2007 Hervé Fache", ' ',
-      PACKAGE_VERSION);
+    CmdLine cmd(PACKAGE_NAME " (c) 2006-2007 Hervé Fache", ' ', VERSION);
     MyOutput output;
     cmd.setOutput(&output);
 
