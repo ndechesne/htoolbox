@@ -17,11 +17,15 @@ AC_ARG_ENABLE(debug,
     AC_HELP_STRING(--enable-debug, [Compile with symbols (Default = no)]),
     enable_debug=$enableval, enable_debug=no)
 if test "$enable_debug" = "yes" ; then
-    CFLAGS="$CFLAGS -Wall -Werror -g -D_DEBUG"
-    CXXFLAGS="$CXXFLAGS -Wall -Werror -g -D_DEBUG"
+    CFLAGS="$CFLAGS -Wall -Werror -Wundef -Wstrict-prototypes \
+                    -Wno-trigraphs -fno-strict-aliasing -fno-common -g -D_DEBUG"
+    CXXFLAGS="$CXXFLAGS -Wall -Werror -Wundef \
+                    -Wno-trigraphs -fno-strict-aliasing -fno-common -g -D_DEBUG"
 else
-    CFLAGS="$CFLAGS -Wall -Werror -O2"
-    CXXFLAGS="$CXXFLAGS -Wall -Werror -O2"
+    CFLAGS="$CFLAGS -Wall -Werror -Wundef -Wstrict-prototypes \
+                    -Wno-trigraphs -fno-strict-aliasing -fno-common -O2"
+    CXXFLAGS="$CXXFLAGS -Wall -Werror -Wundef \
+                    -Wno-trigraphs -fno-strict-aliasing -fno-common -O2"
 fi
 
 # Checks for programs.
@@ -32,7 +36,7 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
-AC_PROG_RANLIB
+#AC_PROG_RANLIB
 
 # Checks for libraries.
 liberrors=""
