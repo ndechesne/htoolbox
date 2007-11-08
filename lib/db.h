@@ -72,10 +72,10 @@ public:
   int  scan(
     const string&   checksum = "",
     bool            thorough = true);
-  // Set the current prefix and its expiration delay
+  // Set the current prefix and its expiration delay (seconds)
   void setPrefix(
     const char*     prefix,
-    int             expire = -1);
+    time_t          expire = -1);
   // Send data for comparison
   int  sendEntry(
     const char*     remote_path,      // Dir where the file resides, remotely

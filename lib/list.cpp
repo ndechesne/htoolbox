@@ -509,7 +509,7 @@ int List::search(
 
   // Need to know whether line of data is active or not
   bool active_data_line = true;
-  
+
   while (true) {
     // Read list or get last data
     rc = getLine();
@@ -619,11 +619,10 @@ int List::search(
           // Check time
           time_t ts = 0;
           string reader = &_line[2];
-          reader[reader.size() - 1] = '\0';
           size_t pos = reader.find('\t');
           if ((pos != string::npos)
-            && (sscanf(reader.substr(pos - 1).c_str(), "%lu", &ts) == 1)) {
-            reader = reader.substr(pos + 1);
+            && (sscanf(reader.substr(0, pos).c_str(), "%ld", &ts) == 1)) {
+            reader = reader.substr(pos + 1, reader.size() - (pos + 1) - 1);
             const char* checksum = NULL;
             if ((reader[0] == 'f')
               && ((expired != NULL) || (active != NULL))) {

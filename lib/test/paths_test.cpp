@@ -56,11 +56,11 @@ int hbackup::terminating(const char* function) {
 
 static time_t my_time = 0;
 time_t time(time_t *t) {
-  return my_time;
+  return my_time * 24 * 3600;
 }
 
 static void showLine(time_t timestamp, Node* node) {
-  printf("[%2ld]", timestamp);
+  printf("[%2ld]", timestamp / 24 / 3600);
   if (node != NULL) {
     printf(" %c %5llu %03o", node->type(), node->size(), node->mode());
     if (node->type() == 'f') {
@@ -630,6 +630,27 @@ int main(void) {
   db.open();
 
   system("touch test1/testfile");
+  db.setPrefix("file://localhost", 18 * 24 * 3600);
+  if (! path->parse(db, "test1")) {
+    cout << "Parsed " << path->nodes() << " file(s)\n";
+  }
+
+  if (db.close()) {
+    return 0;
+  }
+
+  // Show list contents
+  cout << endl << "List:" << endl;
+  showList(dblist);
+  // Show journal contents
+  cout << endl << "Journal:" << endl;
+  showList(journal);
+
+  // Next test
+  my_time++;
+  db.open();
+
+  system("touch test1/testfile~");
   db.setPrefix("file://localhost", 0);
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";

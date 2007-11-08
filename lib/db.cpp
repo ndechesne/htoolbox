@@ -642,6 +642,7 @@ int Database::close() {
             i++;
           }
         }
+        _d->active_data.clear();
         for (i = _d->expired_data.begin(); i != _d->expired_data.end(); i++) {
           string path;
           if (! getDir(*i, path)) {
@@ -960,13 +961,17 @@ int Database::scan(const string& checksum, bool thorough) {
 
 void Database::setPrefix(
     const char*     prefix,
-    int             expire) {
+    time_t          expire) {
   // Finish previous prefix work (removed items at end of list)
   if (_d->prefix.length() != 0) {
     sendEntry(NULL, NULL, NULL);
   }
-  _d->prefix           = prefix;
-  _d->expire           = expire;
+  _d->prefix = prefix;
+  if (expire > 0) {
+    _d->expire = time(NULL) - expire;
+  } else {
+    _d->expire = expire;
+  }
   _d->prefixJournalled = false;
   // This will add the prefix if not found, copy it if found
   _d->list->search(prefix, "", _d->merge, -1, &_d->active_data,
