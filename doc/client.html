@@ -34,7 +34,7 @@ administrative shares can be mounted as Administrator.</p>
     <i>Administrative Tools</i></li>
 </ul>
 
-<h2>Configuration file (aka list file)</h2>
+<h2>Configuration file</h2>
 
 <h3>Path section</h3>
 
@@ -98,3 +98,60 @@ they are only available to that path.</p>
 
 <p>For information on the syntax, please refer to
 <a href="filters.html">Filters</a>.</p>
+
+<h3>Example</h3>
+
+<p><code><pre>
+# Define compressed archives
+filter or compressed_archives
+condition name_end .bz2
+condition name_end .gz
+condition name_end .zip
+
+# Define compressed images
+filter or compressed_images
+condition name_end .jpg
+condition name_end .png
+condition name_end .gif
+
+# Define compressed files based on two previous filters
+filter or compressed_files
+condition filter compressed_archives
+condition filter compressed_images
+
+# Define files worth compressing based on previous filter and size condition
+filter and worth_compressing
+condition !filter compressed_files
+condition size>= 1024
+
+# Path to backup: /etc
+path /etc
+# Specific filter
+filter or ignored_files
+condition path .mtab
+# Files removed 1 month ago can be deleted from DB
+expire 31
+# Files to be ignored selection filter
+ignore ignored_files
+# Files to be compressed selection filter
+compress worth_compressing
+
+# Path to backup: /home
+path /home
+# Use CVS parser to get modified files
+parser cvs modified
+# Files removed 6 months ago can be deleted from DB
+expire 180
+# Specific filter
+filter or not_worth_backing_up
+condition path .kde
+condition path .mozilla
+condition path .xsession-errors
+condition path .viminfo
+condition path .bash_history
+# Files to be ignored selection filter
+ignore not_worth_backing_up
+# Files to be compressed selection filter
+compress worth_compressing
+</pre></code></p>
+

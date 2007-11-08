@@ -85,6 +85,9 @@ Each client must provide its own configuration file. Keywords that may be used:
 * expire            delay in days after which removed files may be erased from DB
   Syntax            expire <delay>
 
+Note for user-mode backup: only the client configuration is necessary. There
+MUST be a directory called '.hbackup' in the root of the user's home, in which
+the configuration file MUST be placed under the name 'config'.
 
 1. COMPRESSION
 

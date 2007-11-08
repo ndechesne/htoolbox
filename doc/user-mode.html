@@ -1,0 +1,23 @@
+<h1>User-mode backup</h1>
+
+<p>User-mode backup is a special case of backup. It does not require a
+server-side configuration, but has some requirements.</p>
+
+<h2>Database</h2>
+
+<p>The database will be created in the <code>$HOME/.hbackup</code> directory,
+so you <b>must</b> leave it free for that use.</p>
+
+<h2>Configuration file</h2>
+
+<p>The configuration file is a standard <a href="client.html">client-side</a>
+configuration file, except that paths starting in <code>~</code> are
+allowed, where <code>~</code> represents the <code>$HOME</code> path as
+defined in the current environment.</p>
+
+<p>The configuration file <b>must</b> be
+<code>$HOME/.hbackup/config</code>.</p>
+
+<p>There is no need for a specific filter to ignore the
+<code>~/.hbackup</code> path, as directories named <code>.hbackup</code>
+are always ignored.</p>
