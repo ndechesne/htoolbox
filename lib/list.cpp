@@ -507,6 +507,9 @@ int List::search(
     }
   }
 
+  // Need to know whether line of data is active or not
+  bool active_data_line = true;
+  
   while (true) {
     // Read list or get last data
     rc = getLine();
@@ -554,6 +557,8 @@ int List::search(
           _line_status = 2;
         }
       }
+      // Next line of data is active
+      active_data_line = true;
     } else
 
     // Got a path
@@ -579,6 +584,8 @@ int List::search(
           _line_status = 2;
         }
       }
+      // Next line of data is active
+      active_data_line = true;
     } else
 
     // Got data
@@ -608,7 +615,6 @@ int List::search(
         }
 
         // Check for expiry
-#warning expiration broken: does not look for removed entries first!
         if (expire >= 0) {
           // Check time
           time_t ts = 0;
@@ -626,20 +632,22 @@ int List::search(
                 checksum = &reader[pos + 1];
               }
             }
-            if ((expire == 0) || (expire > ts)) {
+            if (active_data_line || ((expire != 0) && (ts >= expire))) {
+              if ((checksum != NULL) && (active != NULL)) {
+                active->push_back(checksum);
+              }
+            } else {
               if ((checksum != NULL) && (expired != NULL)) {
                 expired->push_back(checksum);
               }
               // Do not copy: expired
               continue;
-            } else {
-              if ((checksum != NULL) && (active != NULL)) {
-                active->push_back(checksum);
-              }
             }
           }
-        } // expire > 0
+        } // expire >= 0
       } // list != NULL
+      // Next line of data is not active
+      active_data_line = false;
     }
 
     // New data, add
