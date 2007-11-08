@@ -23,7 +23,8 @@ if ! ./$executable > $output 2>&1; then
 fi
 
 # Check
-if ! diff -q $expected $output; then
+if ! diff -q $expected $output > /dev/null; then
+	echo "$target: error: test output is different from expected" >&2
 	exit 3
 fi
 

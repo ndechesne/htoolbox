@@ -54,7 +54,8 @@ echo "Restore all data in a prefix" >> $output
 rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r -C file://myhost >> $output 2>&1
 
 # Check
-if ! diff -q $expected $output; then
+if ! diff -q $expected $output > /dev/null; then
+	echo "$target: error: test output is different from expected" >&2
 	exit 3
 fi
 
