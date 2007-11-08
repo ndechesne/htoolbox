@@ -625,6 +625,27 @@ int main(void) {
   cout << endl << "Journal:" << endl;
   showList(journal);
 
+  // Next test
+  my_time++;
+  db.open();
+
+  system("touch test1/testfile");
+  db.setPrefix("file://localhost", 0);
+  if (! path->parse(db, "test1")) {
+    cout << "Parsed " << path->nodes() << " file(s)\n";
+  }
+
+  if (db.close()) {
+    return 0;
+  }
+
+  // Show list contents
+  cout << endl << "List:" << endl;
+  showList(dblist);
+  // Show journal contents
+  cout << endl << "Journal:" << endl;
+  showList(journal);
+
   delete path;
   return 0;
 }

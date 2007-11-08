@@ -38,19 +38,20 @@ public:
 };
 
 class Client {
-  struct        Private;
-  Private*      _d;
-  string        _name;
-  string        _host_or_ip;
-  StrPath       _listfile;
-  string        _protocol;
-  list<Option>  _options;
+  struct            Private;
+  Private*          _d;
+  string            _name;
+  string            _host_or_ip;
+  StrPath           _listfile;
+  string            _protocol;
+  list<Option>      _options;
   //
-  bool          _initialised;
-  string        _home_path;
-  string        _mount_point;
-  string        _mounted;
-  Filters       _filters;
+  bool              _initialised;
+  int               _expire;
+  string            _home_path;
+  string            _mount_point;
+  string            _mounted;
+  Filters           _filters;
   int mountPath(string  backup_path, string  *path);
   int umount();
   int readListFile(

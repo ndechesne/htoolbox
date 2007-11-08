@@ -152,6 +152,7 @@ Backup client 'testhost' using protocol 'file'
  --> client-wide filter and bigfile
  ---> condition size>= 10
  ---> condition type file
+ --> expiry 1 day(s)
  --> Path: test2
  --> Path: test1
  --> path-wide filter and not_object
@@ -213,6 +214,7 @@ Backup client 'testhost' using protocol 'file'
  --> client-wide filter and bigfile
  ---> condition size>= 10
  ---> condition type file
+ --> expiry 1 day(s)
  --> Path: test2
  --> Path: test1
  --> path-wide filter and not_object
@@ -247,6 +249,7 @@ Backup client 'testhost' using protocol 'file'
  --> client-wide filter and bigfile
  ---> condition size>= 10
  ---> condition type file
+ --> expiry 1 day(s)
  --> Path: test2
  --> Path: test1
  --> path-wide filter and not_object
@@ -266,13 +269,13 @@ Client: testhost
  -> Database open
 Backup client 'testhost' using protocol 'file'
  -> Reading backup list file
- --> Path: test2/subdir
- --> path-wide filter and subdir
+ --> client-wide filter and subdir
  ---> condition path_start subdir
  ---> condition not size< 100
- --> path-wide filter and bigfile
+ --> client-wide filter and bigfile
  ---> condition size>= 10
  ---> condition type file
+ --> Path: test2/subdir
  --> Path: test2
 Path inside another: this is not supported
  -> Journal is empty, not merging

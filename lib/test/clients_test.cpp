@@ -228,8 +228,7 @@ int main(void) {
   client = new Client("testhost");
   clients.push_back(client);
   client->setProtocol("file");
-  system("echo path test2/subdir > etc/localhost.list2");
-  system("cat etc/localhost.list >> etc/localhost.list2");
+  system("sed \"s%expire.*%path test2/subdir%\" etc/localhost.list > etc/localhost.list2");
   client->setListfile("etc/localhost.list2");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {

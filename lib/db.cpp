@@ -46,6 +46,9 @@ static bool cancel() {
 }
 
 struct Database::Private {
+  int                     expire;
+  list<string>            active_data;
+  list<string>            expired_data;
   List*                   list;
   List*                   journal;
   List*                   merge;
@@ -424,6 +427,7 @@ Database::Database(const string& path) {
   _d          = new Private;
   _d->list    = NULL;
   _d->journal = NULL;
+  _d->expire  = -1;
 }
 
 Database::~Database() {
@@ -606,7 +610,9 @@ int Database::close() {
       remove((_path + "/list.part").c_str());
       remove((_path + "/journal").c_str());
     } else {
-      _d->list->search("", "", _d->merge);;
+      // Finish off merging
+      _d->list->search("", "", _d->merge, -1, &_d->active_data,
+        &_d->expired_data);
       // Close list
       _d->list->close();
       // Close merge
@@ -617,7 +623,45 @@ int Database::close() {
         cerr << "db: cannot rename lists" << endl;
         failed = true;
       } else {
+        // All merging successful
         rename((_path + "/journal").c_str(), (_path + "/journal~").c_str());
+        // Get rid of expired data
+        _d->active_data.sort();
+        _d->active_data.unique();
+        _d->expired_data.sort();
+        _d->expired_data.unique();
+
+        // Get checksums for removal
+        list<string>::iterator i = _d->expired_data.begin();
+        list<string>::iterator j = _d->active_data.begin();
+        while (i != _d->expired_data.end()) {
+          while ((j != _d->active_data.end()) && (*j < *i)) { j++; }
+          if ((j != _d->active_data.end()) && (*j == *i)) {
+            i = _d->expired_data.erase(i);
+          } else {
+            i++;
+          }
+        }
+        for (i = _d->expired_data.begin(); i != _d->expired_data.end(); i++) {
+          string path;
+          if (! getDir(*i, path)) {
+            if (verbosity() > 1) {
+              cout << " -> Removing data for " << *i << ": ";
+              if (File(path.c_str(), "data").isValid()) {
+                remove((path + "/data").c_str());
+              } else
+              if (File(path.c_str(), "data.gz").isValid()) {
+                remove((path + "/data.gz").c_str());
+              }
+              if (remove(path.c_str())) {
+                cout << "FAILED!";
+              } else {
+                cout << "done";
+              }
+              cout << endl;
+            }
+          }
+        }
       }
     }
     delete _d->journal;
@@ -915,15 +959,18 @@ int Database::scan(const string& checksum, bool thorough) {
 }
 
 void Database::setPrefix(
-    const char* prefix) {
+    const char*     prefix,
+    int             expire) {
   // Finish previous prefix work (removed items at end of list)
   if (_d->prefix.length() != 0) {
     sendEntry(NULL, NULL, NULL);
   }
   _d->prefix           = prefix;
+  _d->expire           = expire;
   _d->prefixJournalled = false;
   // This will add the prefix if not found, copy it if found
-  _d->list->search(prefix, "", _d->merge);
+  _d->list->search(prefix, "", _d->merge, -1, &_d->active_data,
+    &_d->expired_data);
 }
 
 int Database::sendEntry(
@@ -937,7 +984,8 @@ int Database::sendEntry(
   // DB
   char* db_path = NULL;
   int   cmp     = 1;
-  while (_d->list->search(_d->prefix.c_str(), NULL, _d->merge) == 2) {
+  while (_d->list->search(_d->prefix.c_str(), NULL, _d->merge, _d->expire,
+      &_d->active_data, &_d->expired_data) == 2) {
     if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
       return -1;
     }

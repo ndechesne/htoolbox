@@ -173,6 +173,22 @@ int Client::readListFile(
           type = *current++;
         }
 
+        if (keyword == "expire") {
+          if (path != NULL) {
+            goto misplaced;
+          }
+          int expire;
+          if ((sscanf(type.c_str(), "%d", &expire) != 0) && (expire >= 0)) {
+            _expire = expire * 3600 * 24;
+            if (verbosity() > 1) {
+              cout << " --> expiry " << expire << " day(s)" << endl;
+            }
+          } else {
+            cerr << "Error: in list file " << list_path << ", line "
+              << line << " wrong expiration value: " << type << endl;
+            failed = 1;
+          }
+        } else
         if (keyword == "path") {
           filter = NULL;
           // Expect exactly two parameters
@@ -251,6 +267,9 @@ int Client::readListFile(
           }
         } else
         if (keyword == "condition") {
+          if (filter == NULL) {
+            goto misplaced;
+          }
           // Expect exactly three parameters
           if (params.size() != 3) {
             cerr << "Error: in list file " << list_path << ", line " << line
@@ -318,82 +337,76 @@ int Client::readListFile(
             }
           }
         } else
-        if (path != NULL) {
-          // Path attributes
-          if (keyword == "ignore") {
-            // Expect exactly two parameters
-            if (params.size() != 2) {
-              cerr << "Error: in list file " << list_path << ", line " << line
-                << " '" << keyword << "' takes exactly two arguments" << endl;
-              failed = 1;
-            } else {
-              Filter* filter = path->findFilter(type, &_filters,
-                &global_filters);
-              if (filter == NULL) {
-                cerr << "Error: in list file " << list_path << ", line "
-                  << line << ": filter for ignoring not found: " << type
-                  << endl;
-                failed = 1;
-              } else {
-                path->setIgnore(filter);
-              }
-            }
-          } else
-          if (keyword == "compress") {
-            // Expect exactly two parameters
-            if (params.size() != 2) {
-              cerr << "Error: in list file " << list_path << ", line " << line
-                << " '" << keyword << "' takes exactly two arguments" << endl;
-              failed = 1;
-            } else {
-              Filter* filter = path->findFilter(type, &_filters,
-                &global_filters);
-              if (filter == NULL) {
-                cerr << "Error: in list file " << list_path << ", line "
-                  << line << ": filter for compression not found: " << type
-                  << endl;
-                failed = 1;
-              } else {
-                path->setCompress(filter);
-              }
-            }
-          } else
-          if (keyword == "parser") {
-            // Expect exactly three parameters
-            if (params.size() != 3) {
-              cerr << "Error: in list file " << list_path << ", line " << line
-                << " '" << keyword << "' takes exactly two arguments" << endl;
-              failed = 1;
-            } else
-            switch (path->addParser(type, *current)) {
-              case 1:
-                cerr << "Error: in list file " << list_path << ", line "
-                  << line << " unsupported parser type: " << type << endl;
-                failed = 1;
-                break;
-              case 2:
-                cerr << "Error: in list file " << list_path << ", line "
-                  << line << " unsupported parser mode: " << *current << endl;
-                failed = 1;
-                break;
-            }
-          } else
-          if (keyword == "expire") {
-            int time_out;
-            if ((sscanf(type.c_str(), "%d", &time_out) != 0)
-             && (time_out != 0)) {
-              path->setExpiration(time_out * 3600 * 24);
-            }
-          } else {
-            // What was that?
+        // Path attributes
+        if (keyword == "ignore") {
+          // Expect exactly two parameters
+          if (params.size() != 2) {
             cerr << "Error: in list file " << list_path << ", line " << line
-              << " unknown keyword: " << keyword << endl;
+              << " '" << keyword << "' takes exactly two arguments" << endl;
             failed = 1;
+          } else {
+            Filter* filter = path->findFilter(type, &_filters,
+              &global_filters);
+            if (filter == NULL) {
+              cerr << "Error: in list file " << list_path << ", line "
+                << line << ": filter for ignoring not found: " << type
+                << endl;
+              failed = 1;
+            } else {
+              path->setIgnore(filter);
+            }
+          }
+        } else
+        if (keyword == "compress") {
+          // Expect exactly two parameters
+          if (params.size() != 2) {
+            cerr << "Error: in list file " << list_path << ", line " << line
+              << " '" << keyword << "' takes exactly two arguments" << endl;
+            failed = 1;
+          } else {
+            Filter* filter = path->findFilter(type, &_filters,
+              &global_filters);
+            if (filter == NULL) {
+              cerr << "Error: in list file " << list_path << ", line "
+                << line << ": filter for compression not found: " << type
+                << endl;
+              failed = 1;
+            } else {
+              path->setCompress(filter);
+            }
+          }
+        } else
+        if (keyword == "parser") {
+          // Expect exactly three parameters
+          if (params.size() != 3) {
+            cerr << "Error: in list file " << list_path << ", line " << line
+              << " '" << keyword << "' takes exactly two arguments" << endl;
+            failed = 1;
+          } else
+          switch (path->addParser(type, *current)) {
+            case 1:
+              cerr << "Error: in list file " << list_path << ", line "
+                << line << " unsupported parser type: " << type << endl;
+              failed = 1;
+              break;
+            case 2:
+              cerr << "Error: in list file " << list_path << ", line "
+                << line << " unsupported parser mode: " << *current << endl;
+              failed = 1;
+              break;
           }
         } else {
+          // What was that?
+          cerr << "Error: in list file " << list_path << ", line " << line
+            << " unknown keyword: " << keyword << endl;
+          failed = 1;
+        }
+        continue;
+misplaced:
+        {
           // What?
           cerr << "Error: in list file " << list_path << ", line " << line
-            << " unexpected keyword at this level: " << keyword << endl;
+            << " misplaced keyword: " << keyword << endl;
           failed = 1;
         }
       }
@@ -413,6 +426,7 @@ Client::Client(string value) {
   _mount_point  = "";
   _mounted      = "";
   _initialised  = false;
+  _expire       = -1;
 
   if (verbosity() > 1) {
     cout << " --> Client: " << _name << endl;
@@ -479,7 +493,7 @@ int Client::backup(
     if (_d->paths.empty()) {
       failed = 1;
     } else if (! config_check) {
-      db.setPrefix(prefix().c_str());
+      db.setPrefix(prefix().c_str(), _expire);
       for (list<Path*>::iterator i = _d->paths.begin(); i != _d->paths.end(); i++) {
         if (terminating() || clientfailed) {
           break;

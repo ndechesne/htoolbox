@@ -28,7 +28,6 @@ class Path {
   Filters           _filters;
   const Filter*     _ignore;
   const Filter*     _compress;
-  int               _expiration;
   int               _nodes;
   int recurse(
     Database&       db,
@@ -40,9 +39,7 @@ public:
   ~Path();
   const char* path() const     { return _path.c_str(); }
   const Directory* dir() const { return _dir;          }
-  int expiration() const       { return _expiration;   }
   int nodes() const            { return _nodes;        }
-  void setExpiration(int expiration) { _expiration = expiration; }
   // Set ignore filter
   void setIgnore(const Filter* filter)   { _ignore   = filter; }
   // Set compress filter

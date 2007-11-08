@@ -222,7 +222,6 @@ Path::Path(const char* path) {
   _dir                = NULL;
   _ignore             = NULL;
   _compress           = NULL;
-  _expiration         = 0;
   // Copy path accross
   _path = path;
   // Change '\' into '/'
