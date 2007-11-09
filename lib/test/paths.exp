@@ -2658,8 +2658,9 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.3
  -> Dir docbook-xml/4.4
 M /home/User/testfile (13 B)
+Permission denied: test1/testfile
 Parsed 33 file(s)
- -> Removing data for 285b35198a5e188b3a0df3ed33f93a26-0: done
+ -> Removing data for 285b35198a5e188b3a0df3ed33f93a26-0: ALREADY GONE!
  -> Removing data for 5252f242d27b8c2c9fdbdcbb33545d07-0: done
  -> Database closed
 
@@ -2781,7 +2782,7 @@ file://localhost
 [17] -
 [15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
-[20] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[20] f    13 000 
 [13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2795,7 +2796,7 @@ file://localhost
 Journal:
 file://localhost
 	/home/User/testfile
-[20] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[20] f    13 000 
  -> Database open
  -> Dir crash
  -> Dir cvs
@@ -2810,8 +2811,10 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.2
  -> Dir docbook-xml/4.3
  -> Dir docbook-xml/4.4
+D /home/User/testfile
 M /home/User/testfile~ (0 B)
-Parsed 33 file(s)
+Parsed 32 file(s)
+ -> Removing data for 59ca0efa9f5633cb0371bbc0355478d8-0: FAILED!
  -> Removing data for 816df6f64deba63b029ca19d880ee10a-0: done
  -> Database closed
 
@@ -2927,7 +2930,8 @@ file://localhost
 	/home/User/testdir/evolocal.odb
 [17] -
 	/home/User/testfile
-[20] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[21] -
+[20] f    13 000 
 	/home/User/testfile~
 [21] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2938,5 +2942,150 @@ file://localhost
 
 Journal:
 file://localhost
+	/home/User/testfile
+[21] -
 	/home/User/testfile~
 [21] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+ -> Database open
+ -> Dir crash
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
+Directory should be under CVS control: test1/cvs/dirbad
+ -> Dir dir space
+ -> Dir docbook-xml
+ -> Dir docbook-xml/3.1.7
+ -> Dir docbook-xml/4.0
+ -> Dir docbook-xml/4.1.2
+ -> Dir docbook-xml/4.2
+ -> Dir docbook-xml/4.3
+ -> Dir docbook-xml/4.4
+M /home/User/testfile~ (5 B)
+Parsed 32 file(s)
+ -> Database closed
+
+List:
+file://host
+	/home/User/testdir
+[17] d     0 755
+	/home/User/testfile
+[17] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+	/home/User/testfile2
+[17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+	/home/User/testfile~
+[17] f 524288 644 59071590099d21dd439896592338bf95-0
+file://localhost
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/crash
+[17] d     0 755
+	/home/User/crash/file
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+	/home/User/cvs/big_file
+[ 9] -
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 9] -
+	/home/User/cvs/dirbad/fileutd
+[ 9] -
+	/home/User/cvs/diroth
+[ 9] -
+	/home/User/cvs/dirutd
+[11] -
+	/home/User/cvs/dirutd/CVS
+[11] -
+	/home/User/cvs/dirutd/CVS/Entries
+[11] -
+	/home/User/cvs/dirutd/fileoth
+[ 9] -
+	/home/User/cvs/dirutd/fileutd
+[11] -
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+	/home/User/cvs/fileoth
+[ 9] -
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml
+[15] d     0 755
+	/home/User/docbook-xml/3.1.7
+[15] d     0 755
+	/home/User/docbook-xml/3.1.7/dbgenent.ent
+[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.0
+[15] d     0 755
+	/home/User/docbook-xml/4.0/dbgenent.ent
+[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.1.2
+[15] d     0 755
+	/home/User/docbook-xml/4.1.2/dbgenent.mod
+[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.2
+[15] d     0 755
+	/home/User/docbook-xml/4.2/dbgenent.mod
+[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.3
+[15] d     0 755
+	/home/User/docbook-xml/4.3/dbgenent.mod
+[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml/4.4
+[15] d     0 755
+	/home/User/docbook-xml/4.4/dbgenent.mod
+[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat
+[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/docbook-xml.cat.old
+[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 6] -
+	/home/User/subdir/testfile
+[ 5] -
+	/home/User/subdir/testfile1
+[ 6] -
+	/home/User/subdir/testfile2
+[ 6] -
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[17] -
+	/home/User/testdir/biblio
+[17] -
+	/home/User/testdir/biblio/biblio.dbf
+[17] -
+	/home/User/testdir/biblio/biblio.dbt
+[17] -
+	/home/User/testdir/biblio.odb
+[17] -
+	/home/User/testdir/evolocal.odb
+[17] -
+	/home/User/testfile
+[21] -
+	/home/User/testfile~
+[22] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[21] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 8] -
+	/home/User/testpipe
+[14] p     0 644
+
+Journal:
+file://localhost
+	/home/User/testfile~
+[22] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0

@@ -184,7 +184,6 @@ Stream::~Stream() {
     close();
   }
   free(_path);
-  _path = NULL;
 }
 
 int Stream::open(const char* req_mode, int compression) {
@@ -271,6 +270,7 @@ int Stream::close() {
     size_t        length;
 
     EVP_DigestFinal(_ctx, checksum, &length);
+    free(_checksum);
     _checksum = (char*) malloc(2 * length + 1);
     md5sum(_checksum, checksum, length);
     delete _ctx;
@@ -575,7 +575,9 @@ int Stream::compare(Stream& source, long long length) {
   int             buf_size = 1024;
   unsigned char*  buffer1  = (unsigned char*) malloc(buf_size);
   unsigned char*  buffer2  = (unsigned char*) malloc(buf_size);
-  while (true) {
+  int             rc = -2;
+
+  while (rc == -2) {
     bool eof;
     // Make we stop when needed
     if ((length >= 0) && (length < buf_size)) {
@@ -587,7 +589,8 @@ int Stream::compare(Stream& source, long long length) {
     while (! eof && (size1 < buf_size)) {
       ssize_t size = read(&buffer1[size1], buf_size - size1);
       if (size < 0) {
-        return -1;
+        rc = -1;
+        break;
       } else if (size == 0) {
         eof = true;
       }
@@ -595,43 +598,50 @@ int Stream::compare(Stream& source, long long length) {
     }
     // Fill in buffer2
     ssize_t size2 = 0;
-    eof = false;
-    while (! eof && (size2 < buf_size)) {
-      ssize_t size = source.read(&buffer2[size2], buf_size - size2);
-      if (size < 0) {
-        return -1;
-      } else if (size == 0) {
-        eof = true;
+    if (rc == -2) {
+      eof = false;
+      while (! eof && (size2 < buf_size)) {
+        ssize_t size = source.read(&buffer2[size2], buf_size - size2);
+        if (size < 0) {
+          rc = -1;
+          break;
+        } else if (size == 0) {
+          eof = true;
+        }
+        size2 += size;
       }
-      size2 += size;
     }
-    // Compare size
-    if (size1 != size2) {
-      // Differ in size
-      return 1;
-    }
-    // Check end of files
-    if (size1 == 0) {
-      return 0;
-    }
-    // Compare buffers
-    if (memcmp(buffer1, buffer2, size1) != 0) {
-      // Differ in contents
-      return 1;
-    }
-    // Check buffer fill
-    if (size1 < buf_size) {
-      return 0;
-    }
-    // How much is left to compare?
-    if (length >= 0) {
-      length -= size1;
-      if (length <= 0) {
-        return 0;
+    if (rc == -2) {
+      // Compare size
+      if (size1 != size2) {
+        // Differ in size
+        rc = 1;
+      } else
+      // Check end of files
+      if (size1 == 0) {
+        rc = 0;
+      } else
+      // Compare buffers
+      if (memcmp(buffer1, buffer2, size1) != 0) {
+        // Differ in contents
+        rc = 1;
+      } else
+      // Check buffer fill
+      if (size1 < buf_size) {
+        rc = 0;
+      } else
+      // How much is left to compare?
+      if (length >= 0) {
+        length -= size1;
+        if (length <= 0) {
+          rc = 0;
+        }
       }
     }
   }
-  return -1;
+  free(buffer1);
+  free(buffer2);
+  return rc;
 }
 
 // Public functions
@@ -715,7 +725,7 @@ int Stream::decodeLine(const string& line, list<string>& params) {
         }
       } else {
         // Start decoding new string
-        write = value = new char[end - read + 1];
+        write = value = (char*) malloc(end - read + 1);
         if (*read == '\'') {
           singlequoted = true;
         } else
@@ -731,7 +741,7 @@ int Stream::decodeLine(const string& line, list<string>& params) {
     if (valueend) {
       *write++ = '\0';
       params.push_back(string(value));
-      delete value;
+      free(value);
       skipblanks = true;
       valueend = false;
     }

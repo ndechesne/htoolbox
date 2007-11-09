@@ -643,25 +643,39 @@ int Database::close() {
           }
         }
         _d->active_data.clear();
-        for (i = _d->expired_data.begin(); i != _d->expired_data.end(); i++) {
-          string path;
-          if (! getDir(*i, path)) {
+        // Remove obsolete data
+        i = _d->expired_data.begin();
+        while (i != _d->expired_data.end()) {
+          if (i->size() != 0) {
+            string path;
             if (verbosity() > 1) {
               cout << " -> Removing data for " << *i << ": ";
+            }
+            if (! getDir(*i, path)) {
               if (File(path.c_str(), "data").isValid()) {
                 remove((path + "/data").c_str());
               } else
               if (File(path.c_str(), "data.gz").isValid()) {
                 remove((path + "/data.gz").c_str());
               }
-              if (remove(path.c_str())) {
-                cout << "FAILED!";
-              } else {
-                cout << "done";
+              int rc = remove(path.c_str());
+              if (verbosity() > 1) {
+                if (rc) {
+                  cout << "FAILED!";
+                } else {
+                  cout << "done";
+                }
               }
+            } else {
+              if (verbosity() > 1) {
+                cout << "ALREADY GONE!";
+              }
+            }
+            if (verbosity() > 1) {
               cout << endl;
             }
           }
+          i = _d->expired_data.erase(i);
         }
       }
     }
@@ -1003,7 +1017,6 @@ int Database::sendEntry(
     if (cmp >= 0) {
       if (cmp == 0) {
         // Get metadata
-        *db_node = NULL;
         _d->list->getLine();
         _d->list->getEntry(NULL, NULL, &db_path, db_node, -2);
         // Do not lose this metadata!
@@ -1027,6 +1040,7 @@ int Database::sendEntry(
       }
     }
   }
+  free(db_path);
   // Send status back
   if (remote_path != NULL) {
     _d->merge->path(remote_path);
@@ -1056,7 +1070,7 @@ int Database::add(
   }
 
   // Create data
-  Node* node2;
+  Node* node2 = NULL;
   switch (node->type()) {
     case 'l':
       node2 = new Link(*(Link*)node);
@@ -1097,6 +1111,7 @@ int Database::add(
     _d->journal->data(ts, node2);
     _d->merge->data(ts, node2, true);
   }
+  delete node2;
 
   return failed ? -1 : 0;
 }

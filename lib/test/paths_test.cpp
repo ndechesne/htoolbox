@@ -630,6 +630,9 @@ int main(void) {
   db.open();
 
   system("touch test1/testfile");
+  system("chmod 0 test1/testfile");
+  // Make removal complain
+  system("rm -r test_db/data/285b35198a5e188b3a0df3ed33f93a26-0");
   db.setPrefix("file://localhost", 18 * 24 * 3600);
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
@@ -651,6 +654,30 @@ int main(void) {
   db.open();
 
   system("touch test1/testfile~");
+  system("rm -f test1/testfile");
+  // Make removal fail
+  system("touch test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/blah");
+  db.setPrefix("file://localhost", 0);
+  if (! path->parse(db, "test1")) {
+    cout << "Parsed " << path->nodes() << " file(s)\n";
+  }
+
+  if (db.close()) {
+    return 0;
+  }
+
+  // Show list contents
+  cout << endl << "List:" << endl;
+  showList(dblist);
+  // Show journal contents
+  cout << endl << "Journal:" << endl;
+  showList(journal);
+
+  // Next test
+  my_time++;
+  db.open();
+
+  system("echo blah > test1/testfile~");
   db.setPrefix("file://localhost", 0);
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";

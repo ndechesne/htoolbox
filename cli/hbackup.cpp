@@ -231,6 +231,7 @@ int main(int argc, char **argv) {
         return 3;
       }
     }
+    hbackup.close();
   } catch (ArgException &e) {
     cerr << "error: " << e.error() << " for arg " << e.argId() << endl;
   };

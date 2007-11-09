@@ -107,7 +107,7 @@ int Path::recurse(
         char* rem_path = NULL;
         int last = asprintf(&rem_path, "%s%s/", remote_path, (*i)->name()) - 1;
         rem_path[last] = '\0';
-        Node* db_node;
+        Node* db_node = NULL;
         int rc = db.sendEntry(rem_path, *i, &db_node);
         const char* checksum = NULL;
         bool        add      = false;
@@ -205,8 +205,8 @@ int Path::recurse(
           }
           recurse(db, rem_path, (Directory*) *i, parser);
         }
-
         free(rem_path);
+        delete db_node;
       }
 end:
       delete *i;

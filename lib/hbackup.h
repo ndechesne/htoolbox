@@ -35,12 +35,14 @@ namespace hbackup {
     // Add specific client to backup (excludes all non other clients)
     int addClient(
       const char*   client);               // Client name in configuration file
-    // Set user path (user-mode backup)
+    // Set user path (user-mode backup), opens DB
     int setUserPath(
       const char*   home_path);          // Path to user's home
-    // Read configuration file (server-mode backup)
+    // Read configuration file (server-mode backup), opens DB
     int readConfig(
       const char*   config_path);          // Path to configuration file
+    // Close DB
+    void close();
     // Check database for missing/corrupted files
     int check(
       bool          thorough     = false); // Check data checksum too (no)

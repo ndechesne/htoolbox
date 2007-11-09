@@ -61,7 +61,7 @@ HBackup::~HBackup() {
       client != _d->clients.end(); client++){
     delete *client;
   }
-  free(_d->db);
+  close();
   delete _d;
 }
 
@@ -294,6 +294,11 @@ int HBackup::readConfig(const char* config_path) {
     _d->db = new Database(DEFAULT_DB_PATH);
   }
   return 0;
+}
+
+void HBackup::close() {
+  delete _d->db;
+  _d->db = NULL;
 }
 
 int HBackup::check(bool thorough) {

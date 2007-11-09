@@ -87,7 +87,6 @@ public:
   }
   virtual ~Node() {
     free(_path);
-    _path = NULL;
   }
   // Operators
   bool operator<(const Node& right) const {
@@ -161,9 +160,8 @@ public:
     _parsed = true;
     setChecksum(checksum);
   }
-  ~File() {
+  virtual ~File() {
     free(_checksum);
-    _checksum = NULL;
   }
   bool isValid() const { return _type == 'f'; }
   // Create empty file
@@ -253,7 +251,6 @@ public:
   }
   ~Link() {
     free(_link);
-    _link = NULL;
   }
   // Operators
   bool operator!=(const Link&) const;
