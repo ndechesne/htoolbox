@@ -3,28 +3,40 @@
 <h2>Introduction</h2>
 
 <p>In order to build complex filters, the system devised is to provide the
-ability to build simple filters, based on conditions, and to the use them in
-higher order filters.</p>
+ability to build basic filters, based solely on conditions, and to the use
+them in higher order filters.</p>
 
 <p>Filters can be defined in three different places:</p>
 <ul>
-<li>the configuration file (global scope)</li>
-<li>at the top of the client's list file (client scope)</li>
-<li>within a path section in the client's list file (path scope)</li>
+<li>in the server configuration file (global scope)</li>
+<li>at the top of the client configuration file (client scope)</li>
+<li>within a path section in the client configuration file (path scope)</li>
 </ul>
 
 <p>There is no namespace protection, so if two filters are defined with the
 same name, the filter of most restricted scope is used: path, then client, then
 global.</p>
 
+<h2>Syntax</h2>
+
+<p><code><pre>
+filter &lt;filter type&gt; &lt;name&gt;
+condition &lt;condition type&gt; &lt;value&gt;
+...
+</pre></code></p>
+
 <h2>Conditions</h2>
 
-<p>A filter is a filter only based on conditions.</p>
+<p>Conditions are the base of all filters. They are the individual conditions,
+based on virtually any file metadata (path, name, type, size, ...) that put
+together make a filter.</p>
 
-<p>All available conditions are shown in the table below:</p>
+<h3>Condition types</h3>
+
+<p>All available conditions types are shown in the table below:</p>
 <table border="1" width="100%">
   <tr>
-    <td><b>Condition name</b></td>
+    <td><b>Condition type</b></td>
     <td><b>Description</b></td>
     <td><b>Parameter type</b></td>
   </tr>
@@ -112,29 +124,64 @@ global.</p>
   -->
 </table>
 
-<p>Conditions can be negated by placing the '!' character in front of the
-condition name (no space allowed).</p>
+<p>Note: conditions can be negated by placing the <code>!</code> (exclamation
+mark) character in front of the condition name (no space allowed).</p>
 
-<p>The files type can be any number of starting letters of the words below:</p>
-<ul>
-<li>file:    regular file</li>
-<li>dir:     directory</li>
-<li>char:    character device</li>
-<li>block:   block device</li>
-<li>pipe:    named pipe or FIFO</li>
-<li>link:    symbolic link</li>
-<li>socket:  socket</li>
-</ul>
+<h3>File types</h3>
 
-<p>Examples of conditions:</p>
+<p>All file types are shown below:</p>
 
-<code>
+<table border="1" width="100%">
+  <tr>
+    <td><b>File type</b></td>
+    <td><b>Description</b></td>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>Regular file</td>
+  </tr>
+  <tr>
+    <td>directory</td>
+    <td>Directory</td>
+  </tr>
+  <tr>
+    <td>link</td>
+    <td>Symbolic link</td>
+  </tr>
+  <tr>
+    <td>pipe</td>
+    <td>Named pipe or FIFO</td>
+  </tr>
+  <tr>
+    <td>socket</td>
+    <td>Socket</td>
+  </tr>
+  <tr>
+    <td>char</td>
+    <td>Character device</td>
+  </tr>
+  <tr>
+    <td>block</td>
+    <td>Block device</td>
+  </tr>
+</table>
+
+<p>Note: only the initial of the type matters, so <code>file</code> can be
+replaced by <code>f</code> or <code>fi</code> or <code>fate</code> without
+any change in behaviour.</p>
+
+<h3>Examples</h3>
+
+<p><code><pre>
 # Size is strictly more than 10k
-<br>condition size&gt; 10000
-<br>
-<br># Name does not start in ml
-<br>condition !name_start ml
-</code>
+condition size&gt; 10000
+
+# Name does not start in ml
+condition !name_start ml
+
+# File is a pipe
+condition type p
+</pre></code></p>
 
 <h2>Filters</h2>
 
@@ -146,32 +193,32 @@ condition name (no space allowed).</p>
   subfilters, so they only match if all conditions are true.</li>
 </ul>
 
-<h2>Basic filters</h2>
+<h3>Basic filters</h3>
 
 <p>Basic filters are filters that do not have subfilters and are based solely
 on conditions. Here are two examples of basic filters:</p>
 
-<code>
+<p><code><pre>
 # Basic ANY filter defining compressed archives
-<br>filter any compressed_archives
-<br>condition name_end .bz2
-<br>condition name_end .gz
-<br>condition name_end .zip
-<br>
-<br># Basic ALL filter defining big files
-<br>filter all big_files
-<br>condition type file
-<br>condition !size&lt; 1024
-</code>
+filter any compressed_archives
+condition name_end .bz2
+condition name_end .gz
+condition name_end .zip
 
-<h2>Complex filters</h2>
+# Basic ALL filter defining big regular files
+filter all big_files
+condition type file
+condition !size&lt; 1024
+</pre></code></p>
+
+<h3>Complex filters</h3>
 
 <p>Complex filters are filters that have subfilters. Here is an example of a
 complex filter:</p>
 
-<code>
+<p><code><pre>
 # Filter defining files worth compressing
-<br>filter all worth_compressing
-<br>condition !filter compressed_archives
-<br>condition filter big_files
-</code>
+filter all worth_compressing
+condition !filter compressed_archives
+condition filter big_files
+</pre></code></p>

@@ -107,6 +107,11 @@ of the client section. Path-wide definitions include
   </tr>
 </table>
 
+<p>Note: files that match the compress filter are compressed using the gzip
+format, with level 5, the best size over speed ratio in my tests. If a file is
+already stored in the backup database, whether compressed or not, it does not
+get re-added in the other form.</p>
+
 <h3>Filter section</h3>
 
 <p>Filter sections can either be before any path section, in which case the
