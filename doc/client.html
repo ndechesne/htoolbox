@@ -36,9 +36,33 @@ administrative shares can be mounted as Administrator.</p>
 
 <h2>Configuration file</h2>
 
+<h3>Client section</h3>
+
+<p>This is the section preceding any path section. Client-wide definitions
+include <a href="filters.html">filters</a> and expiration delay.</p>
+
+<table border="1" width="100%">
+  <tr>
+    <td><b>Keyword</b></td>
+    <td><b>Description</b></td>
+    <td><b>Default</b></td>
+    <td><b>Syntax</b></td>
+    <td><b>Example</b></td>
+  </tr>
+  <tr>
+    <td>expire</td>
+    <td>expiration delay (days) for removed items to be deleted</td>
+    <td><i>no expiration</i></td>
+    <td><code>expire "&lt;delay&gt;"</code></td>
+    <td><code>expire "180"</code></td>
+  </tr>
+</table>
+
 <h3>Path section</h3>
 
-<p>Each client must provide its own configuration file. Keywords that may be used:</p>
+<p>This section starts with a <code>path</code> defintion and signals the end
+of the client section. Path-wide definitions include
+<a href="filters.html">filters</a> and the following keywords:</p>
 
 <table border="1" width="100%">
   <tr>
@@ -56,13 +80,6 @@ administrative shares can be mounted as Administrator.</p>
       <br>Note: must not end with a '\'</td>
     <td><code>path "/home"</code>
       <br><code>path "C:\Documents and Settings"</code></td>
-  </tr>
-  <tr>
-    <td>expire</td>
-    <td>expiration delay (days) for removed items to be deleted</td>
-    <td><i>no expiration</i></td>
-    <td><code>expire "&lt;delay&gt;"</code></td>
-    <td><code>expire "180"</code></td>
   </tr>
   <tr>
     <td>parser</td>
@@ -99,38 +116,39 @@ they are only available to that path.</p>
 <p>For information on the syntax, please refer to
 <a href="filters.html">Filters</a>.</p>
 
-<h3>Example</h3>
+<h3>Example of complex client configuration file</h3>
 
 <p><code><pre>
+# Files removed 6 months ago can be deleted from DB
+expire 180
+
 # Define compressed archives
-filter or compressed_archives
+filter any compressed_archives
 condition name_end .bz2
 condition name_end .gz
 condition name_end .zip
 
 # Define compressed images
-filter or compressed_images
+filter any compressed_images
 condition name_end .jpg
 condition name_end .png
 condition name_end .gif
 
 # Define compressed files based on two previous filters
-filter or compressed_files
+filter any compressed_files
 condition filter compressed_archives
 condition filter compressed_images
 
 # Define files worth compressing based on previous filter and size condition
-filter and worth_compressing
+filter all worth_compressing
 condition !filter compressed_files
 condition size>= 1024
 
 # Path to backup: /etc
 path /etc
 # Specific filter
-filter or ignored_files
+filter any ignored_files
 condition path .mtab
-# Files removed 1 month ago can be deleted from DB
-expire 31
 # Files to be ignored selection filter
 ignore ignored_files
 # Files to be compressed selection filter
@@ -140,10 +158,8 @@ compress worth_compressing
 path /home
 # Use CVS parser to get modified files
 parser cvs modified
-# Files removed 6 months ago can be deleted from DB
-expire 180
 # Specific filter
-filter or not_worth_backing_up
+filter any not_worth_backing_up
 condition path .kde
 condition path .mozilla
 condition path .xsession-errors
