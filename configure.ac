@@ -71,7 +71,7 @@ AC_PATH_PROG(TEST_TOOL, test_tools/test_setup, test_tools/test_setup)
 AC_PATH_PROG(TEST_RUN, test_tools/test_run, test_tools/test_run)
 
 # Use colormake if available
-AC_PATH_PROG(MAKE, ./test_tools/hmake, make)
+AC_PATH_PROG(MAKE, hmake, make)
 
 AC_CONFIG_FILES([Makefile
                  cli/Makefile

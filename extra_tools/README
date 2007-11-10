@@ -1,0 +1,7 @@
+These tools can help your development as they help mine.
+I personally just copy them into /usr/local/bin...
+
+svn-tkdiff: calls tkdiff recursively on files modified in Subversion
+hmake:      a more colorful make, where colors make sense to me
+
+Enjoy!
