@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# Wrapper around anything, to colorize based on keywords
+# This is inspired by colormake.
+#
+
+colorize() {
+  while read; do
+    if echo $REPLY | grep -e "^make" > /dev/null; then
+      echo -e "\033[37m$REPLY\033[0m"
+    elif echo $REPLY | grep -e "^creating " > /dev/null; then
+      echo -e "\033[32m$REPLY\033[0m"
+    elif echo $REPLY | grep -i "error: " > /dev/null; then
+      # Print errors in red
+      echo -e "\033[31m$REPLY\033[0m"
+    elif echo $REPLY | grep -i "warning: " > /dev/null; then
+      # Print warnings in orange
+      echo -e "\033[33m$REPLY\033[0m"
+    elif echo $REPLY | grep -e "^[^ ]*\.[^ ]*: " > /dev/null; then
+      echo -e "\033[36m$REPLY\033[0m"
+    else
+      # Print info in blue
+      echo "$REPLY"
+    fi
+  done
+}
+
+# Determine what program to call
+PROG="$1"
+if [ -z "$PROG" ]; then
+  echo "No program to call, aborting." >&2
+  exit 1
+fi
+PROG_WHICH=`which $PROG`
+if [ -z "$PROG_WHICH" ]; then
+  echo "$PROG not found, aborting." >&2
+  exit 1
+fi
+shift
+
+$PROG_WHICH $@ 2>&1 | colorize
+exit ${PIPESTATUS[0]}
