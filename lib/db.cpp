@@ -352,6 +352,25 @@ int Database::crawl(Directory &dir, string path, bool check) const {
           } else
           if (File((*i)->path(), "data.gz").isValid()) {
             if (check) {
+              Stream f((*i)->path(), "data.gz");
+              int rc = f.open("r", 1);
+              if (! rc) {
+                rc = f.computeChecksum();
+                if (! rc) {
+                  if (strncmp(f.checksum(), checksum.c_str(),
+                      strlen(f.checksum()))) {
+                    cout << "File data corrupted for " << checksum << ", ";
+                    if (f.remove()) {
+                      cout << "NOT";
+                    }
+                    cout << "removed" << endl;
+                  }
+                }
+                f.close();
+              }
+              if (rc) {
+                cerr << strerror(errno) << ": " << checksum << endl;
+              }
             }
           } else
           {
