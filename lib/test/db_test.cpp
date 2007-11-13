@@ -419,7 +419,7 @@ int main(void) {
       return 0;
     }
   }
-  db.getPrefixes(prefixes);
+  db.getRecords(prefixes);
   db.close();
 
   cout << "List of prefixes:" << endl;

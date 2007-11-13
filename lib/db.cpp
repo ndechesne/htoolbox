@@ -718,17 +718,26 @@ int Database::close() {
   return failed ? -1 : 0;
 }
 
-int Database::getPrefixes(list<string>& prefixes) {
-  while (_d->list->search() == 2) {
-    char   *prefix = NULL;
-    if (_d->list->getEntry(NULL, &prefix, NULL, NULL) < 0) {
-      cerr << "db: error reading entry from list: " << strerror(errno) << endl;
-      return -1;
+int Database::getRecords(
+    list<string>&   records,
+    const char*     prefix,
+    const char*     path,
+    time_t          date) {
+  if ((prefix == NULL) || (prefix[0] == '\0')) {
+    while (_d->list->search() == 2) {
+      char   *prefix = NULL;
+      if (_d->list->getEntry(NULL, &prefix, NULL, NULL) < 0) {
+        cerr << "db: error reading entry from list: " << strerror(errno) << endl;
+        return -1;
+      }
+      records.push_back(prefix);
+      free(prefix);
     }
-    prefixes.push_back(prefix);
-    free(prefix);
+    return 0;
+  } else {
+    cerr << "Not implemented" << endl;
   }
-  return 0;
+  return -1;
 }
 
 int Database::restore(

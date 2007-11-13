@@ -37,10 +37,10 @@ using namespace hbackup;
 #define DEFAULT_DB_PATH "/backup"
 
 struct HBackup::Private {
-  Database*     db;
-  list<string>  selected_clients;
-  list<Client*> clients;
-  Filters       filters;
+  Database*         db;
+  list<string>      selected_clients;
+  list<Client*>     clients;
+  Filters           filters;
   Filter* addFilter(const string& type, const string& name) {
     return filters.add(type, name);
   }
@@ -353,38 +353,33 @@ int HBackup::backup(bool config_check) {
 }
 
 int HBackup::getList(
-    list<string>& records,
-    const char*   prefix,
-    const char*   path,
-    time_t        date) {
+    list<string>&   records,
+    const char*     prefix,
+    const char*     path,
+    time_t          date) {
   if (! _d->db->open(true)) {
-    bool failed = false;
-
-    if (prefix[0] == '\0') {
-      failed = (_d->db->getPrefixes(records) != 0);
-    } else {
-      cerr << "Not implemented" << endl;
-      failed = true;
-    }
+    bool failed = _d->db->getRecords(records, prefix, path, date) != 0;
     _d->db->close();
-    return failed ? -1 : 0;
+    if (! failed) {
+      return 0;
+    }
   }
   return -1;
 }
 
 int HBackup::restore(
-    const char* dest,
-    const char* prefix,
-    const char* path,
-    time_t      date) {
+    const char*     dest,
+    const char*     prefix,
+    const char*     path,
+    time_t          date) {
   if (! _d->db->open(true)) {
     StrPath where = dest;
     where.noEndingSlash();
     where += '/';
     bool failed = (_d->db->restore(where.c_str(), prefix, path, date) != 0);
     _d->db->close();
-    if (failed) {
-      return -1;
+    if (! failed) {
+      return 0;
     }
   }
   return -1;

@@ -34,33 +34,33 @@ namespace hbackup {
     ~HBackup();
     // Add specific client to backup (excludes all non other clients)
     int addClient(
-      const char*   client);               // Client name in configuration file
-    // Set user path (user-mode backup), opens DB
+      const char*   client);                // Client name in configuration
+    // Set user path (user-mode backup), open database
     int setUserPath(
-      const char*   home_path);          // Path to user's home
-    // Read configuration file (server-mode backup), opens DB
+      const char*   home_path);             // Path to user's home
+    // Read configuration file (server-mode backup), open database
     int readConfig(
-      const char*   config_path);          // Path to configuration file
-    // Close DB
+      const char*   config_path);           // Path to configuration file
+    // Close database
     void close();
     // Check database for missing/corrupted files
     int check(
-      bool          thorough     = false); // Check data checksum too (no)
+      bool          thorough      = false); // Check data checksum too (no)
     // Backup
     int backup(
-      bool          config_check = false); // Dry run (no)
+      bool          config_check  = false); // Dry run (no)
     // List
     int getList(
-      list<string>& records,               // List of elements to display
-      const char*   prefix,                // The prefix (list prefixes)
-      const char*   path,                  // The path (list paths)
-      time_t        date         = 0);     // The date (show)
+      list<string>& records,                // List of elements to display
+      const char*   prefix        = NULL,   // The prefix (list prefixes)
+      const char*   path          = NULL,   // The path (list paths)
+      time_t        date          = 0);     // The date (latest)
     // Restore
     int restore(
-      const char*   dest,                  // Where the restored path goes
-      const char*   prefix,                // The prefix to restore
-      const char*   path         = NULL,   // The path to restore (all)
-      time_t        date         = 0);     // The date to restore (latest)
+      const char*   dest,                   // Where the restored path goes
+      const char*   prefix,                 // The prefix to restore
+      const char*   path          = NULL,   // The path to restore (all)
+      time_t        date          = 0);     // The date to restore (latest)
   };
 }
 

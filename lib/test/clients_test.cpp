@@ -280,7 +280,7 @@ int main(void) {
   cout << endl << "Prefixes in DB" << endl;
   list<string> prefixes;
   db.open(true);
-  db.getPrefixes(prefixes);
+  db.getRecords(prefixes);
   db.close();
   for (list<string>::iterator i = prefixes.begin(); i != prefixes.end(); i++) {
     cout << " " << *i << endl;

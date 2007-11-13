@@ -56,7 +56,11 @@ public:
   // Close database
   int  close();
   // Get list of prefixes in DB list (close-open to re-use DB!)
-  int  getPrefixes(list<string>& prefixes);
+  int  getRecords(
+      list<string>& records,          // List of elements to display
+      const char*   prefix  = NULL,   // The prefix (list prefixes)
+      const char*   path    = NULL,   // The path (list paths)
+      time_t        date    = 0);     // The date (latest)
   // Restore specified data
   int  restore(
     const char*     dest,             // Where the restored path goes
