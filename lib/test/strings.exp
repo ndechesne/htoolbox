@@ -2,13 +2,25 @@
 
 StrPath test
 
-constructors
+constructors / countChar
 0: 
 0: 
 3: 123
+'/'s in string: 0
+'1's in string: 1
+'9's in string: 0
 7: 123/456
+'/'s in string: 1
+'1's in string: 1
+'9's in string: 0
 3: 789
+'/'s in string: 0
+'1's in string: 0
+'9's in string: 1
 11: 123/456/789
+'/'s in string: 2
+'1's in string: 1
+'9's in string: 1
 
 compare
 a <> a: 0

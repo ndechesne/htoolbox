@@ -97,6 +97,7 @@ public:
   const StrPath& noEndingSlash();
   const StrPath  basename() const;
   const StrPath  dirname()  const;
+  int            countChar(char c) const;
 };
 
 }

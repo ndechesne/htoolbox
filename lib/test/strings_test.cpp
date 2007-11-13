@@ -39,7 +39,7 @@ int hbackup::terminating(const char* function) {
 
 int main(void) {
   cout << endl << endl << "StrPath test" << endl;
-  cout << endl << "constructors" << endl;
+  cout << endl << "constructors / countChar" << endl;
   StrPath* pth0;
   pth0 = new StrPath();
   cout << pth0->length() << ": " << pth0->c_str() << endl;
@@ -49,15 +49,27 @@ int main(void) {
   delete pth0;
   pth0 = new StrPath("123");
   cout << pth0->length() << ": " << pth0->c_str() << endl;
+  cout << "'/'s in string: " << pth0->countChar('/') << endl;
+  cout << "'1's in string: " << pth0->countChar('1') << endl;
+  cout << "'9's in string: " << pth0->countChar('9') << endl;
   delete pth0;
   pth0 = new StrPath("123/456", "");
   cout << pth0->length() << ": " << pth0->c_str() << endl;
+  cout << "'/'s in string: " << pth0->countChar('/') << endl;
+  cout << "'1's in string: " << pth0->countChar('1') << endl;
+  cout << "'9's in string: " << pth0->countChar('9') << endl;
   delete pth0;
   pth0 = new StrPath("", "789");
   cout << pth0->length() << ": " << pth0->c_str() << endl;
+  cout << "'/'s in string: " << pth0->countChar('/') << endl;
+  cout << "'1's in string: " << pth0->countChar('1') << endl;
+  cout << "'9's in string: " << pth0->countChar('9') << endl;
   delete pth0;
   pth0 = new StrPath("123/456", "789");
   cout << pth0->length() << ": " << pth0->c_str() << endl;
+  cout << "'/'s in string: " << pth0->countChar('/') << endl;
+  cout << "'1's in string: " << pth0->countChar('1') << endl;
+  cout << "'9's in string: " << pth0->countChar('9') << endl;
   delete pth0;
 
   cout << endl << "compare" << endl;

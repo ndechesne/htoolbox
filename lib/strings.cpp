@@ -134,3 +134,15 @@ const StrPath StrPath::dirname() const {
     return StrPath(".");
   }
 }
+
+int StrPath::countChar(char c) const {
+  int occurences = 0;
+  size_t length = this->size();
+  const char *reader = this->c_str();
+  while (length-- > 0) {
+    if (*reader++ == c) {
+      occurences++;
+    }
+  }
+  return occurences;
+}
