@@ -98,6 +98,7 @@ public:
   const StrPath  basename() const;
   const StrPath  dirname()  const;
   int            countChar(char c) const;
+  int            countBlocks(char c) const;
 };
 
 }

@@ -146,3 +146,19 @@ int StrPath::countChar(char c) const {
   }
   return occurences;
 }
+
+int StrPath::countBlocks(char c) const {
+  const char* reader = this->c_str();
+  size_t      length = this->size();
+  int         blocks = 0;
+  bool        just_seen_one = true;
+  while (length-- > 0) {
+    if (*reader++ == c) {
+      just_seen_one = true;
+    } else if (just_seen_one) {
+      blocks++;
+      just_seen_one = false;
+    }
+  }
+  return blocks;
+}
