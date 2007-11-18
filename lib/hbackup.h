@@ -34,7 +34,7 @@ namespace hbackup {
     ~HBackup();
     // Add specific client to backup (excludes all non other clients)
     int addClient(
-      const char*   client);                // Client name in configuration
+      const char*   client);                // Client to take into account
     // Set user path (user-mode backup), open database
     int setUserPath(
       const char*   home_path);             // Path to user's home
@@ -52,13 +52,13 @@ namespace hbackup {
     // List
     int getList(
       list<string>& records,                // List of elements to display
-      const char*   prefix        = NULL,   // The prefix (list prefixes)
+      const char*   client        = NULL,   // The client (list clients)
       const char*   path          = NULL,   // The path (list paths)
       time_t        date          = 0);     // The date (latest)
     // Restore
     int restore(
       const char*   dest,                   // Where the restored path goes
-      const char*   prefix,                 // The prefix to restore
+      const char*   client        = NULL,   // The client (list clients)
       const char*   path          = NULL,   // The path to restore (all)
       time_t        date          = 0);     // The date to restore (latest)
   };

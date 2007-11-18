@@ -41,6 +41,18 @@ echo "Check DB" >> $output
 echo "List prefixes" >> $output
 ../hbackup -d -c etc/hbackup.conf -l >> $output 2>&1
 
+echo "Try to list paths in both file://myhost and smb://client (fails)" >> $output
+../hbackup -d -c etc/hbackup.conf -l -C file://myhost -C smb://client >> $output 2>&1
+
+echo "List paths in file://myhost" >> $output
+../hbackup -d -c etc/hbackup.conf -l -C file://myhost >> $output 2>&1
+
+echo "List paths in file://myhost under test2/" >> $output
+../hbackup -d -c etc/hbackup.conf -l -C file://myhost -P test2/ >> $output 2>&1
+
+echo "List paths in file://myhost under test1/cvs" >> $output
+../hbackup -d -c etc/hbackup.conf -l -C file://myhost -P test1/cvs >> $output 2>&1
+
 echo "Restore a file" >> $output
 rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r -C file://myhost -P test2/testfile >> $output 2>&1
 

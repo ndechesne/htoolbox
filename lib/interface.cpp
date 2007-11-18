@@ -354,11 +354,11 @@ int HBackup::backup(bool config_check) {
 
 int HBackup::getList(
     list<string>&   records,
-    const char*     prefix,
+    const char*     client,
     const char*     path,
     time_t          date) {
   if (! _d->db->open(true)) {
-    bool failed = _d->db->getRecords(records, prefix, path, date) != 0;
+    bool failed = _d->db->getRecords(records, client, path, date) != 0;
     _d->db->close();
     if (! failed) {
       return 0;
@@ -369,14 +369,14 @@ int HBackup::getList(
 
 int HBackup::restore(
     const char*     dest,
-    const char*     prefix,
+    const char*     client,
     const char*     path,
     time_t          date) {
   if (! _d->db->open(true)) {
     StrPath where = dest;
     where.noEndingSlash();
     where += '/';
-    bool failed = (_d->db->restore(where.c_str(), prefix, path, date) != 0);
+    bool failed = (_d->db->restore(where.c_str(), client, path, date) != 0);
     _d->db->close();
     if (! failed) {
       return 0;

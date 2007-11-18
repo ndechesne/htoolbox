@@ -199,9 +199,18 @@ int main(int argc, char **argv) {
       if (hbackup::verbosity() > 0) {
         cout << "Showing list" << endl;
       }
+      string client;
+      string path;
+      if (clientArg.getValue().size() > 1) {
+        cerr << "Error: maximum one client allowed" << endl;
+        return 1;
+      } else
+      if (clientArg.getValue().size() != 0) {
+        client = clientArg.getValue()[0];
+      }
       list<string> records;
-      // FIXME Give prefix, path and date
-      if (hbackup.getList(records, "", "", 0)) {
+      if (hbackup.getList(records, client.c_str(), pathArg.getValue().c_str(),
+          dateArg.getValue())) {
         return 3;
       }
       for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -213,7 +222,11 @@ int main(int argc, char **argv) {
       if (hbackup::verbosity() > 0) {
         cout << "Restoring" << endl;
       }
-      string client = "";
+      string client;
+      if (clientArg.getValue().size() > 1) {
+        cerr << "Error: maximum one client allowed" << endl;
+        return 1;
+      } else
       if (clientArg.getValue().size() != 0) {
         client = clientArg.getValue()[0];
       }

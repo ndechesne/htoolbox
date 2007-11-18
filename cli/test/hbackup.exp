@@ -291,6 +291,77 @@ Showing list
  file://myhost
  nfs://myClient
  smb://client
+Try to list paths in both file://myhost and smb://client (fails)
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+Showing list
+Error: maximum one client allowed
+List paths in file://myhost
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+Showing list
+ -> Database open
+ -> Database closed
+ test1
+ test2
+List paths in file://myhost under test2/
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+Showing list
+ -> Database open
+ -> Database closed
+ test2/testdir
+ test2/testfile
+ test2/testfile2
+ test2/testfile~
+ test2/testlink
+List paths in file://myhost under test1/cvs
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+Showing list
+ -> Database open
+ -> Database closed
+ test1/cvs/CVS
+ test1/cvs/dirbad
+ test1/cvs/dirutd
+ test1/cvs/filenew.c
+ test1/cvs/fileutd.h
 Restore a file
  -> Reading configuration file
  --> global filter all backup
