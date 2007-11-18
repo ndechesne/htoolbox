@@ -1,17 +1,17 @@
 AM_CXXFLAGS = -I@top_srcdir@/lib
 
 check_PROGRAMS = \
-	strings_test \
-	files_test \
-	conditions_test \
-	filters_test \
-	parsers_test \
-	cvs_parser_test \
-	list_test \
-	db_test \
-	paths_test \
 	clients_test \
-	interface_test
+	conditions_test \
+	cvs_parser_test \
+	db_test \
+	files_test \
+	filters_test \
+	interface_test \
+	list_test \
+	parsers_test \
+	paths_test \
+	strings_test
 
 strings_test_SOURCES = strings_test.cpp
 files_test_SOURCES = files_test.cpp

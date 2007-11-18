@@ -26,6 +26,14 @@ echo "Version" >> $output
 echo "Error" >> $output
 ../hbackup -! -- >> $output 2>&1
 
+echo "List prefixes (missing DB path)" >> $output
+../hbackup -d -c etc/hbackup.conf -l >> $output 2>&1
+
+echo "List prefixes (empty DB path)" >> $output
+mkdir test_db
+../hbackup -d -c etc/hbackup.conf -l >> $output 2>&1
+rmdir test_db
+
 echo "Typical backup" >> $output
 ../hbackup -d -c etc/hbackup.conf -- >> $output 2>&1
 

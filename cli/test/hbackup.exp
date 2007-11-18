@@ -95,6 +95,34 @@ HBackup (c) 2006-2007 Hervé Fache
   -h,  --help
     Displays usage information and exits.
 
+List prefixes (missing DB path)
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+Showing list
+db: given path does not exist: test_db
+List prefixes (empty DB path)
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+Showing list
+db: given path does not contain a database: test_db
 Typical backup
  -> Reading configuration file
  --> global filter all backup

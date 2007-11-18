@@ -521,6 +521,8 @@ int Database::open(bool read_only) {
       cerr << "db: open: cannot open list" << endl;
       failed = true;
     }
+  } else {
+    _d->list = NULL;
   }
 
   // Deal with journal
@@ -552,6 +554,8 @@ int Database::open(bool read_only) {
       cerr << "db: open: cannot open journal" << endl;
       failed = true;
     }
+  } else {
+    _d->journal = NULL;
   }
 
   // Open merged list (can fail)
@@ -565,13 +569,18 @@ int Database::open(bool read_only) {
   }
 
   if (failed) {
-      // Close lists
-    _d->list->close();
-    _d->journal->close();
-
-    // Delete lists
-    delete _d->list;
-    delete _d->journal;
+    if (_d->list != NULL) {
+        // Close list
+      _d->list->close();
+      // Delete list
+      delete _d->list;
+    }
+    if (_d->journal != NULL) {
+        // Close journal
+      _d->journal->close();
+      // Delete journal
+      delete _d->journal;
+    }
 
     // for isOpen and isWriteable
     _d->list    = NULL;

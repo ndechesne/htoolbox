@@ -52,16 +52,16 @@ namespace hbackup {
     // List
     int getList(
       list<string>& records,                // List of elements to display
-      const char*   client        = NULL,   // The client (list clients)
-      const char*   path          = NULL,   // The path (list paths)
+      const char*   client        = NULL,   // The client (list all)
+      const char*   path          = NULL,   // The [start of the] path (list all)
       time_t        date          = 0);     // The date (latest)
     // Restore
     int restore(
       const char*   dest,                   // Where the restored path goes
-      const char*   client        = NULL,   // The client (list clients)
-      const char*   path          = NULL,   // The path to restore (all)
-      time_t        date          = 0);     // The date to restore (latest)
+      const char*   client        = NULL,   // The client
+      const char*   path          = NULL,   // The path (restore all)
+      time_t        date          = 0);     // The date (latest)
   };
 }
 
-#endif  // HBACKUP_H
+#endif  // _HBACKUP_H
