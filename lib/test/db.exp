@@ -89,25 +89,68 @@ Test: fill in DB
  -> Database open
 Adding file data to DB in: test_db/data/d4/1d8cd98f00b204e9800998ecf8427e-0
 Adding file data to DB in: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-1
+Adding file data to DB in: test_db/data/28/5b35198a5e188b3a0df3ed33f93a26-0
+Adding file data to DB in: test_db/data/3d/546a1ce46c6ae10ad34ab8a81c542e-0
  -> Database closed
-[ 1] prot://client    client_path/test space             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 2] prot://client    client_path/testfile               f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1
+[ 1] prot://client    /client_path/test space            f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 2] prot://client    /client_path/testfile              f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1
+[ 3] prot://client    /client_path/subdir                d     0 755
+[ 4] prot://client    /client_path/subdir/testfile       f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+[ 5] prot://client    /client_path/subdir/testfile2      f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+[ 6] prot://client    other_path/testfile                f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[ 7] prot://client    other_path/testdir                 d     0 755
 
 Test: do nothing
  -> Database open
  -> Journal is empty, not merging
  -> Database closed
-[ 1] prot://client    client_path/test space             f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 2] prot://client    client_path/testfile               f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1
+[ 1] prot://client    /client_path/test space            f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 2] prot://client    /client_path/testfile              f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1
+[ 3] prot://client    /client_path/subdir                d     0 755
+[ 4] prot://client    /client_path/subdir/testfile       f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+[ 5] prot://client    /client_path/subdir/testfile2      f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+[ 6] prot://client    other_path/testfile                f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[ 7] prot://client    other_path/testdir                 d     0 755
 
 Test: read prefixes
  -> Database open
  -> Database closed
-List of prefixes:
+List of prefixes: 1
  -> prot://client
+
+Test: read paths in prot://client
+ -> Database open
+ -> Database closed
+List of paths: 2
+ -> /client_path
+ -> other_path
+
+Test: read paths in prot://client below /client_path
+ -> Database open
+ -> Database closed
+List of paths: 3
+ -> /client_path/test space
+ -> /client_path/testfile
+ -> /client_path/subdir
+
+Test: read paths in prot://client below other_path
+ -> Database open
+ -> Database closed
+List of paths: 2
+ -> other_path/testfile
+ -> other_path/testdir
+
+Test: read paths in prot://client below /client_path/subdir
+ -> Database open
+ -> Database closed
+List of paths: 2
+ -> /client_path/subdir/testfile
+ -> /client_path/subdir/testfile2
 
 Test: crawl
  -> Database open
+ -> 285b35198a5e188b3a0df3ed33f93a26-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
 File data corrupted for 59ca0efa9f5633cb0371bbc0355478d8-0, removed
  -> 59ca0efa9f5633cb0371bbc0355478d8-1

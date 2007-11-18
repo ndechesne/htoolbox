@@ -277,14 +277,69 @@ int main(void) {
   db.close();
   delete client;
 
+  list<string> records;
+
   cout << endl << "Prefixes in DB" << endl;
-  list<string> prefixes;
   db.open(true);
-  db.getRecords(prefixes);
+  db.getRecords(records);
   db.close();
-  for (list<string>::iterator i = prefixes.begin(); i != prefixes.end(); i++) {
+  cout << "Records found: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " " << *i << endl;
   }
+  records.clear();
+
+  cout << endl << "Paths in 'file://myhost' prefix in DB" << endl;
+  db.open(true);
+  db.getRecords(records, "file://myhost");
+  db.close();
+  cout << "Records found: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " " << *i << endl;
+  }
+  records.clear();
+
+  cout << endl << "Paths in 'file://myhost' prefix under test1 in DB" << endl;
+  db.open(true);
+  db.getRecords(records, "file://myhost", "test1");
+  db.close();
+  cout << "Records found: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " " << *i << endl;
+  }
+  records.clear();
+
+  cout << endl << "Paths in 'file://myhost' prefix under test1/cvs in DB" << endl;
+  db.open(true);
+  db.getRecords(records, "file://myhost", "test1/cvs");
+  db.close();
+  cout << "Records found: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " " << *i << endl;
+  }
+  records.clear();
+
+  cout << endl << "Paths in 'file://myhost' prefix under test1/cvs/diroth in DB"
+    << endl;
+  db.open(true);
+  db.getRecords(records, "file://myhost", "test1/cvs/diroth");
+  db.close();
+  cout << "Records found: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " " << *i << endl;
+  }
+  records.clear();
+
+  cout << endl << "Paths in 'file://myhost' prefix under test1/cvs/dirutd in DB"
+    << endl;
+  db.open(true);
+  db.getRecords(records, "file://myhost", "test1/cvs/dirutd");
+  db.close();
+  cout << "Records found: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " " << *i << endl;
+  }
+  records.clear();
 
   printf("Create list of clients\n");
   client = new Client("myhost");

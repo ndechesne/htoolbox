@@ -338,12 +338,51 @@ A test1/cvs/fileutd.h (0 B)
 Prefixes in DB
  -> Database open
  -> Database closed
+Records found: 6
  file://myhost
  file://testhost
  nfs://myClient
  nfs://myhost3
  smb://myClient2
  smb://myhost2
+
+Paths in 'file://myhost' prefix in DB
+ -> Database open
+ -> Database closed
+Records found: 1
+ test1
+
+Paths in 'file://myhost' prefix under test1 in DB
+ -> Database open
+ -> Database closed
+Records found: 1
+ test1/cvs
+
+Paths in 'file://myhost' prefix under test1/cvs in DB
+ -> Database open
+ -> Database closed
+Records found: 8
+ test1/cvs/CVS
+ test1/cvs/dirbad
+ test1/cvs/diroth
+ test1/cvs/dirutd
+ test1/cvs/filemod.o
+ test1/cvs/filenew.c
+ test1/cvs/fileoth
+ test1/cvs/fileutd.h
+
+Paths in 'file://myhost' prefix under test1/cvs/diroth in DB
+ -> Database open
+ -> Database closed
+Records found: 0
+
+Paths in 'file://myhost' prefix under test1/cvs/dirutd in DB
+ -> Database open
+ -> Database closed
+Records found: 3
+ test1/cvs/dirutd/CVS
+ test1/cvs/dirutd/fileoth
+ test1/cvs/dirutd/fileutd
 Create list of clients
  --> Client: myhost
  --> Client: myhost3

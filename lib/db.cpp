@@ -723,18 +723,55 @@ int Database::getRecords(
     const char*     prefix,
     const char*     path,
     time_t          date) {
+  // Look for prefixes
   if ((prefix == NULL) || (prefix[0] == '\0')) {
     while (_d->list->search() == 2) {
-      char   *prefix = NULL;
-      if (_d->list->getEntry(NULL, &prefix, NULL, NULL) < 0) {
-        cerr << "db: error reading entry from list: " << strerror(errno) << endl;
+      char *db_prefix = NULL;
+      if (_d->list->getEntry(NULL, &db_prefix, NULL, NULL) < 0) {
+        cerr << "db: error reading from list: " << strerror(errno) << endl;
         return -1;
       }
-      records.push_back(prefix);
-      free(prefix);
+      records.push_back(db_prefix);
+      free(db_prefix);
     }
     return 0;
-  } else {
+  } else
+  // Look for paths
+  if (date == 0) {
+    int blocks = 0;
+    StrPath ls_path;
+    if (path != NULL) {
+      ls_path = path;
+      ls_path.noEndingSlash();
+      blocks = ls_path.countBlocks('/');
+    }
+
+    char* db_path = NULL;
+    while (_d->list->search(prefix, NULL) == 2) {
+      if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
+        cerr << "db: error reading from list: " << strerror(errno) << endl;
+        return -1;
+      }
+      StrPath db_path2 = db_path;
+      if ((db_path2.size() >= ls_path.size())                 // Path no shorter
+       && (db_path2.countBlocks('/') > blocks)                // Not less blocks
+       && (ls_path.compare(db_path2, ls_path.size()) == 0)) { // Paths alike
+        char* slash = strchr(&db_path[ls_path.size() + 1], '/');
+        if (slash != NULL) {
+          *slash = '\0';
+        }
+
+        if ((records.size() == 0)
+         || (strcmp(records.back().c_str(), db_path) != 0)) {
+          records.push_back(db_path);
+        }
+      }
+    }
+    free(db_path);
+    return 0;
+  } else
+  // The rest still needs to see the light of day
+  {
     cerr << "Not implemented" << endl;
   }
   return -1;

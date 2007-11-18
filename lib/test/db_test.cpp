@@ -368,12 +368,29 @@ int main(void) {
 
   File* f;
   f = new File("test1/test space");
-  db.add("client_path/test space", f);
+  db.add("/client_path/test space", f);
   delete f;
   f = new File("test1/testfile");
-  db.add("client_path/testfile", f);
+  db.add("/client_path/testfile", f);
+  delete f;
+  Directory* d;
+  d = new Directory("test1/subdir");
+  db.add("/client_path/subdir", d);
+  delete d;
+  f = new File("test1/subdir/testfile");
+  db.add("/client_path/subdir/testfile", f);
+  delete f;
+  f = new File("test1/subdir/testfile2");
+  db.add("/client_path/subdir/testfile2", f);
   delete f;
 
+  f = new File("test2/testfile");
+  db.add("other_path/testfile", f);
+  delete f;
+  d = new Directory("test1/testdir");
+  db.add("other_path/testdir", d);
+  delete d;
+  
   db.close();
   rename("test_db/journal~", "test_db/list");
 
@@ -411,21 +428,84 @@ int main(void) {
   }
 
 
+  list<string> records;
   cout << endl << "Test: read prefixes" << endl;
-  list<string> prefixes;
   if ((status = db.open(true))) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
     }
   }
-  db.getRecords(prefixes);
+  db.getRecords(records);
   db.close();
-
-  cout << "List of prefixes:" << endl;
-  for (list<string>::iterator i = prefixes.begin(); i != prefixes.end(); i++) {
+  cout << "List of prefixes: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
   }
+  records.clear();
+
+  cout << endl << "Test: read paths in prot://client" << endl;
+  if ((status = db.open(true))) {
+    cout << "db::open error status " << status << endl;
+    if (status == 2) {
+      return 0;
+    }
+  }
+  db.getRecords(records, "prot://client");
+  db.close();
+  cout << "List of paths: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+
+  cout << endl << "Test: read paths in prot://client below /client_path"
+    << endl;
+  if ((status = db.open(true))) {
+    cout << "db::open error status " << status << endl;
+    if (status == 2) {
+      return 0;
+    }
+  }
+  db.getRecords(records, "prot://client", "/client_path");
+  db.close();
+  cout << "List of paths: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+
+  cout << endl << "Test: read paths in prot://client below other_path"
+    << endl;
+  if ((status = db.open(true))) {
+    cout << "db::open error status " << status << endl;
+    if (status == 2) {
+      return 0;
+    }
+  }
+  db.getRecords(records, "prot://client", "other_path");
+  db.close();
+  cout << "List of paths: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+
+  cout << endl << "Test: read paths in prot://client below /client_path/subdir"
+    << endl;
+  if ((status = db.open(true))) {
+    cout << "db::open error status " << status << endl;
+    if (status == 2) {
+      return 0;
+    }
+  }
+  db.getRecords(records, "prot://client", "/client_path/subdir");
+  db.close();
+  cout << "List of paths: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
 
   cout << endl << "Test: crawl" << endl;
   if ((status = db.open())) {
@@ -434,10 +514,11 @@ int main(void) {
       return 0;
     }
   }
-  Directory d("test_db/data");
-  if (db.crawl(d, "", true) != 0) {
+  d = new Directory("test_db/data");
+  if (db.crawl(*d, "", true) != 0) {
     cout << "db::crawl failed" << endl;
   }
+  delete d;
   db.close();
 
   return 0;
