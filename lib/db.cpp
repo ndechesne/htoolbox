@@ -1066,6 +1066,14 @@ void Database::setPrefix(
     &_d->expired_data);
 }
 
+void Database::failedPrefix() {
+  // Skip to next prefix/end of file
+  _d->list->search(NULL, NULL, _d->merge, -1, &_d->active_data,
+    &_d->expired_data);
+  // Keep prefix found
+  _d->list->keepLine();
+}
+
 int Database::sendEntry(
     const char*     remote_path,
     const Node*     node,

@@ -87,6 +87,7 @@ int main(void) {
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
   client->setListfile("/home/User/hbackup.list");
+  system("echo path /home/User/test2 >> test_nfs/hbackup.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
@@ -444,6 +445,73 @@ int main(void) {
   system("echo \"path C:\\Test\" > test_cifs/Backup/testhost2.list");
   client->setListfile("C:\\Backup\\testhost2.list");
 
+  printf(">List %u client(s):\n", clients.size());
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->show();
+  }
+  db.open();
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->setMountPoint("test_db/mount");
+    (*i)->backup(db, filters, 0);
+  }
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    delete *i;
+  }
+  clients.clear();
+  db.close();
+  
+  printf("Second mount fails\n");
+  client = new Client("myClient");
+  clients.push_back(client);
+  client->setProtocol("nfs");
+  client->setHostOrIp("myClient");
+  client->setListfile("/home/User/hbackup.list");
+  system("touch test_nfs/test2/fail");
+  printf(">List %u client(s):\n", clients.size());
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->show();
+  }
+  db.open();
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->setMountPoint("test_db/mount");
+    (*i)->backup(db, filters, 0);
+  }
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    delete *i;
+  }
+  clients.clear();
+  db.close();
+  
+  printf("First mount fails\n");
+  client = new Client("myClient");
+  clients.push_back(client);
+  client->setProtocol("nfs");
+  client->setHostOrIp("myClient");
+  client->setListfile("/home/User/hbackup.list");
+  system("touch test_nfs/test/fail");
+  system("rm -f test_nfs/test2/fail");
+  printf(">List %u client(s):\n", clients.size());
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->show();
+  }
+  db.open();
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->setMountPoint("test_db/mount");
+    (*i)->backup(db, filters, 0);
+  }
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    delete *i;
+  }
+  clients.clear();
+  db.close();
+
+  printf("Works again\n");
+  client = new Client("myClient");
+  clients.push_back(client);
+  client->setProtocol("nfs");
+  client->setHostOrIp("myClient");
+  client->setListfile("/home/User/hbackup.list");
+  system("rm -f test_nfs/test/fail");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();

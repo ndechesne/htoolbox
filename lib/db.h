@@ -80,6 +80,8 @@ public:
   void setPrefix(
     const char*     prefix,
     time_t          expire = -1);
+  // Tell DB that this prefix failed (skip last records)
+  void failedPrefix();
   // Send data for comparison
   int  sendEntry(
     const char*     remote_path,      // Dir where the file resides, remotely

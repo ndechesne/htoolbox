@@ -101,14 +101,18 @@ Options: username= password=
 Backup client 'myClient' using protocol 'nfs'
  -> Reading backup list file
  --> Path: /home/User/test
+ --> Path: /home/User/test2
 Backup path '/home/User/test'
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
 A /home/User/test/File2.txt (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
+Backup path '/home/User/test2'
  -> umount test_db/mount
-Unmounted test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test2 test_db/mount
+A /home/User/test2/File3.txt (0 B)
+A /home/User/test2/File4.txt (0 B)
+ -> umount test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM //myClient/C$ test_db/mount
 Backup client 'myClient2' using protocol 'smb'
  -> Reading backup list file
@@ -116,28 +120,23 @@ Backup client 'myClient2' using protocol 'smb'
 Backup path 'C:/Test'
 A C:/Test/File.TXT (0 B)
  -> umount test_db/mount
-Unmounted test_db/mount
 Protocol not supported: ssh
  -> mount -t cifs -o ro,noatime,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
 Backup client 'Client' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,nocase,username=user,password= //Client/C$ test_db/mount
 Backup client 'Client2' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username= //Client/C$ test_db/mount
 Backup client 'Client3' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username=,password= //Client/C$ test_db/mount
 Backup client 'Client4' using protocol 'smb'
 List file not found test_db/mount/home/BlaH/Backup.list
  -> umount test_db/mount
-Unmounted test_db/mount
  -> Database closed
  --> Client: testhost
 >List 1 client(s):
@@ -291,7 +290,6 @@ Backup client 'myhost2' using protocol 'smb'
 Backup path 'C:/Test'
 A C:/Test/File.TXT (0 B)
  -> umount test_db/mount
-Unmounted test_db/mount
  -> Database closed
  --> Client: myhost3
  -> Database open
@@ -301,11 +299,9 @@ Backup client 'myhost3' using protocol 'nfs'
  --> Path: /home/User/test
 Backup path '/home/User/test'
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User/test test_db/mount
 A /home/User/test/File2.txt (0 B)
  -> umount test_db/mount
-Unmounted test_db/mount
  -> Database closed
  --> Client: myhost
  -> Database open
@@ -410,17 +406,14 @@ Backup client 'myhost3' using protocol 'nfs'
  --> Path: /home/User/test
 Backup path '/home/User/test'
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User/test test_db/mount
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
  -> umount test_db/mount
-Unmounted test_db/mount
  -> Journal is empty, not merging
  -> Database closed
 Create list of clients
@@ -438,17 +431,14 @@ Backup client 'myhost3' using protocol 'nfs'
  --> Path: /home/User/test
 Backup path '/home/User/test'
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User/test test_db/mount
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
  -> umount test_db/mount
-Unmounted test_db/mount
  -> Journal is empty, not merging
  -> Database closed
 Create list of clients
@@ -475,10 +465,8 @@ Backup client 'myhost3' using protocol 'nfs'
  --> Path: /home/User/test
 Backup path '/home/User/test'
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User/test test_db/mount
  -> umount test_db/mount
-Unmounted test_db/mount
  -> Journal is empty, not merging
  -> Database closed
 Create list of clients
@@ -505,6 +493,62 @@ Backup client 'myhost2' using protocol 'smb'
  --> Path: C:/Test
 Backup path 'C:/Test'
  -> umount test_db/mount
-Unmounted test_db/mount
+ -> Journal is empty, not merging
+ -> Database closed
+Second mount fails
+ --> Client: myClient
+>List 1 client(s):
+Client: myClient
+-> nfs://myClient /home/User/hbackup.list
+ -> Database open
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
+Backup client 'myClient' using protocol 'nfs'
+ -> Reading backup list file
+ --> Path: /home/User/test
+ --> Path: /home/User/test2
+Backup path '/home/User/test'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+Backup path '/home/User/test2'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test2 test_db/mount
+clients: backup: mount failed for /home/User/test2
+ -> Journal is empty, not merging
+ -> Database closed
+First mount fails
+ --> Client: myClient
+>List 1 client(s):
+Client: myClient
+-> nfs://myClient /home/User/hbackup.list
+ -> Database open
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
+Backup client 'myClient' using protocol 'nfs'
+ -> Reading backup list file
+ --> Path: /home/User/test
+ --> Path: /home/User/test2
+Backup path '/home/User/test'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+clients: backup: mount failed for /home/User/test
+ -> Journal is empty, not merging
+ -> Database closed
+Works again
+ --> Client: myClient
+>List 1 client(s):
+Client: myClient
+-> nfs://myClient /home/User/hbackup.list
+ -> Database open
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
+Backup client 'myClient' using protocol 'nfs'
+ -> Reading backup list file
+ --> Path: /home/User/test
+ --> Path: /home/User/test2
+Backup path '/home/User/test'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+Backup path '/home/User/test2'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test2 test_db/mount
+ -> umount test_db/mount
  -> Journal is empty, not merging
  -> Database closed

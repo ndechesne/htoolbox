@@ -96,6 +96,9 @@ EOF
 # NFS test
 mkdir -p "$TESTDIRNFS/test"
 touch  "$TESTDIRNFS/test/File2.txt"
+mkdir -p "$TESTDIRNFS/test2"
+touch  "$TESTDIRNFS/test2/File3.txt"
+touch  "$TESTDIRNFS/test2/File4.txt"
 cat << EOF > "$TESTDIRNFS/hbackup.list"
 path "$ROOTDIRNFS/test/"
 EOF

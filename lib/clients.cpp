@@ -458,8 +458,7 @@ int Client::backup(
     Database&       db,
     const Filters&  global_filters,
     bool            config_check) {
-  int     failed = 0;
-  int     clientfailed  = 0;
+  bool    failed = false;
   string  share;
   string  list_path;
 
@@ -491,11 +490,12 @@ int Client::backup(
     setInitialised();
     /* Backup */
     if (_d->paths.empty()) {
-      failed = 1;
+      failed = true;
     } else if (! config_check) {
       db.setPrefix(prefix().c_str(), _expire);
-      for (list<Path*>::iterator i = _d->paths.begin(); i != _d->paths.end(); i++) {
-        if (terminating() || clientfailed) {
+      for (list<Path*>::iterator i = _d->paths.begin(); i != _d->paths.end();
+          i++) {
+        if (terminating()) {
           break;
         }
         string backup_path;
@@ -506,15 +506,16 @@ int Client::backup(
 
         if (mountPath((*i)->path(), &backup_path)) {
           cerr << "clients: backup: mount failed for " << (*i)->path() << endl;
-          failed = 1;
+          db.failedPrefix();
+          break;
         } else
         if ((*i)->parse(db, backup_path.c_str())) {
           // prepare_share sets errno
           if (! terminating()) {
             cerr << "clients: backup: list creation failed" << endl;
           }
-          failed        = 1;
-          clientfailed  = 1;
+          failed = true;
+          break;
         }
       }
     }
@@ -527,10 +528,10 @@ int Client::backup(
       case EUCLEAN:
         cerr << "List file corrupted " << list_path << endl;
     }
-    failed = 1;
+    failed = true;
   }
   umount(); // does not change errno
-  return failed;
+  return failed ? -1 : 0;
 }
 
 void Client::show() {

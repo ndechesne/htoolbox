@@ -76,11 +76,9 @@ Backup client 'myClient' using protocol 'nfs'
  --> Path: /home/User/test
 Backup path '/home/User/test'
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
 A /home/User/test/File2.txt (0 B)
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading backup list file
@@ -88,7 +86,6 @@ Backup client 'client' using protocol 'smb'
 Backup path 'C:/Test'
 A C:/Test/File.TXT (0 B)
  -> umount test_db/mount
-Unmounted test_db/mount
 Protocol not supported: ssh
  -> Database closed
 
@@ -139,17 +136,14 @@ Backup client 'myClient' using protocol 'nfs'
  --> Path: /home/User/test
 Backup path '/home/User/test'
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
  -> umount test_db/mount
-Unmounted test_db/mount
 Protocol not supported: ssh
  -> Journal is empty, not merging
  -> Database closed
@@ -201,10 +195,8 @@ Backup client 'myClient' using protocol 'nfs'
  --> Path: /home/User/test
 Backup path '/home/User/test'
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
  -> umount test_db/mount
-Unmounted test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading backup list file
@@ -214,7 +206,6 @@ A C:/Test/big_file (512 kB)
 Killing during write
 Operation canceled: test_db/mount/Test/big_file
  -> umount test_db/mount
-Unmounted test_db/mount
  -> Database closed
 
 Test: specify clients
@@ -267,7 +258,6 @@ Backup path 'C:/Test'
 ! C:/Test/big_file (512 kB)
 Adding file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
  -> umount test_db/mount
-Unmounted test_db/mount
  -> Database closed
 
 Test: scan DB
