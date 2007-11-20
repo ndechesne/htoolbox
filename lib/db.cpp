@@ -778,7 +778,6 @@ int Database::getRecords(
 
     // Skip to given client
     if (_d->list->search(client, "") != 2) {
-      cerr << "Error: client not found" << endl;
       return -1;
     }
 

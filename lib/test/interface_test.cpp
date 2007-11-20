@@ -121,15 +121,46 @@ int main(void) {
   hbackup->check(true);
   delete hbackup;
 
-#if 0
+  list<string> records;
+
   cout << endl << "Test: list clients" << endl;
   hbackup = new HBackup();
   if (hbackup->readConfig("etc/hbackup.conf")) {
     return 1;
   }
-  // TODO
+  hbackup->getList(records);
   delete hbackup;
-#endif
+  cout << "List of clients: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+
+  cout << endl << "Test: list paths in UNIX client" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->getList(records, "myClient");
+  delete hbackup;
+  cout << "List of paths in 'myClient': " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+  
+  cout << endl << "Test: list paths in DOS client" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->getList(records, "client");
+  delete hbackup;
+  cout << "List of paths in 'client': " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
 
   cout << endl << "Test: restore file" << endl;
   hbackup = new HBackup();

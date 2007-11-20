@@ -441,6 +441,17 @@ Client::~Client() {
   delete _d;
 }
 
+string Client::internal_name() const {
+  // Add suffix so that dual booted clients can use the same name twice
+  char suffix;
+  if (_protocol == "smb") {
+    suffix = '$';
+  } else {
+    suffix = '#';
+  }
+  return _name + suffix;
+}
+
 void Client::setHostOrIp(string value) {
   _host_or_ip = value;
 }
@@ -492,7 +503,7 @@ int Client::backup(
     if (_d->paths.empty()) {
       failed = true;
     } else if (! config_check) {
-      db.setClient(_name.c_str(), _expire);
+      db.setClient(internal_name().c_str(), _expire);
       for (list<Path*>::iterator i = _d->paths.begin(); i != _d->paths.end();
           i++) {
         if (terminating()) {

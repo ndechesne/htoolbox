@@ -291,6 +291,59 @@ Scanning database contents thoroughly: 8 files
  -> Journal is empty, not merging
  -> Database closed
 
+Test: list clients
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ -> Database open
+ -> Database closed
+List of clients: 3
+ -> client
+ -> myClient
+ -> myhost
+
+Test: list paths in UNIX client
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ -> Database open
+ -> Database closed
+List of paths in 'myClient': 1
+ -> /home
+
+Test: list paths in DOS client
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ -> Database open
+ -> Database closed
+List of paths in 'client': 1
+ -> C:
+
 Test: restore file
  -> Reading configuration file
  --> global filter all backup

@@ -240,8 +240,11 @@ int HBackup::readConfig(const char* config_path) {
           // Clients MUST BE in alphabetic order
           int cmp = 1;
           list<Client*>::iterator i = _d->clients.begin();
-          while ((i != _d->clients.end())
-              && ((cmp = client->name().compare((*i)->name())) > 0)) {
+          while (i != _d->clients.end()) {
+            cmp = client->internal_name().compare((*i)->internal_name());
+            if (cmp <= 0) {
+              break;
+            }
             i++;
           }
           if (cmp == 0) {
@@ -361,14 +364,35 @@ int HBackup::getList(
     const char*     client,
     const char*     path,
     time_t          date) {
-  if (! _d->db->open(true)) {
-    bool failed = _d->db->getRecords(records, client, path, date) != 0;
-    _d->db->close();
-    if (! failed) {
-      return 0;
-    }
+  bool failed;
+  
+  if (_d->db->open(true)) {
+    return -1;
   }
-  return -1;
+  if ((client == NULL) || (client[0] == '\0')) {
+    failed = _d->db->getRecords(records, client, path, date) != 0;
+    if (! failed) {
+      // We got internal client names, get rid of extra character
+      list<string>::iterator i;
+      for (i = records.begin(); i != records.end(); i++) {
+        *i = i->substr(0, i->size() - 1);
+      }
+    }
+  } else {
+    bool failed1, failed2;
+    string internal;
+    // Get records for client#
+    internal = client;
+    internal += "#";
+    failed1 = _d->db->getRecords(records, internal.c_str(), path, date) != 0;
+    // Get records for client$
+    internal = client;
+    internal += "$";
+    failed2 = _d->db->getRecords(records, internal.c_str(), path, date) != 0;
+    failed = failed1 && failed2;
+  }
+  _d->db->close();
+  return failed ? -1 : 0;
 }
 
 int HBackup::restore(
@@ -376,15 +400,23 @@ int HBackup::restore(
     const char*     client,
     const char*     path,
     time_t          date) {
-  if (! _d->db->open(true)) {
-    StrPath where = dest;
-    where.noEndingSlash();
-    where += '/';
-    bool failed = (_d->db->restore(where.c_str(), client, path, date) != 0);
-    _d->db->close();
-    if (! failed) {
-      return 0;
-    }
+  if (_d->db->open(true)) {
+    return -1;
   }
-  return -1;
+  StrPath where = dest;
+  where.noEndingSlash();
+  where += '/';
+
+  bool failed1, failed2;
+  string internal;
+  // Get records for client#
+  internal = client;
+  internal += "#";
+  failed1 = _d->db->restore(where.c_str(), internal.c_str(), path, date) != 0;
+  // Get records for client$
+  internal = client;
+  internal += "$";
+  failed2 = _d->db->restore(where.c_str(), internal.c_str(), path, date) != 0;
+  _d->db->close();
+  return (failed1 && failed2) ? -1 : 0;
 }
