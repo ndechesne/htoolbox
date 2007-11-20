@@ -38,6 +38,7 @@ using namespace hbackup;
 
 struct HBackup::Private {
   Database*         db;
+  string            mount_point;
   list<string>      selected_clients;
   list<Client*>     clients;
   Filters           filters;
@@ -89,7 +90,7 @@ int HBackup::setUserPath(const char* home_path) {
   // Set-up client info
   Client* client = new Client("localhost");
   client->setProtocol("file");
-  client->setListfile((_d->db->path() + "/config").c_str());
+  client->setListfile((path + "/.hbackup/config").c_str());
   client->setBasePath(home_path);
   _d->clients.push_back(client);
 
@@ -150,6 +151,7 @@ int HBackup::readConfig(const char* config_path) {
             return -1;
           } else {
             _d->db = new Database(type);
+            _d->mount_point = type + "/mount";
           }
         } else
         if (keyword == "filter") {
@@ -292,6 +294,7 @@ int HBackup::readConfig(const char* config_path) {
   // Use default DB path if none specified
   if (_d->db == NULL) {
     _d->db = new Database(DEFAULT_DB_PATH);
+    _d->mount_point = DEFAULT_DB_PATH "/mount";
   }
   return 0;
 }
@@ -339,7 +342,7 @@ int HBackup::backup(bool config_check) {
           continue;
         }
       }
-      (*client)->setMountPoint(_d->db->path() + "/mount");
+      (*client)->setMountPoint(_d->mount_point);
       if ((*client)->backup(*_d->db, _d->filters, config_check)) {
         failed = true;
       }

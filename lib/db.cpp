@@ -46,6 +46,7 @@ static bool cancel() {
 }
 
 struct Database::Private {
+  string                  path;
   int                     expire;
   list<string>            active_data;
   list<string>            expired_data;
@@ -55,6 +56,21 @@ struct Database::Private {
   StrPath                 prefix;
   bool                    prefixJournalled;
 };
+
+int Database::update(
+    string          name,
+    bool            new_file) {
+  // Simplify writings to avoid mistakes
+  string path = _d->path + "/" + name;
+
+  // Backup file
+  int rc = rename(path.c_str(), (path + "~").c_str());
+  // Put new version in place
+  if (new_file && (rc == 0)) {
+    rc = rename((path + ".part").c_str(), path.c_str());
+  }
+  return rc;
+}
 
 bool Database::isOpen() const {
   return (_d->list != NULL) && _d->list->isOpen();
@@ -146,7 +162,7 @@ int Database::write(
   }
 
   // Temporary file to write to
-  string temp_path = _path + "/filedata";
+  string temp_path = _d->path + "/filedata";
   Stream temp(temp_path.c_str());
   if (temp.open("w", compress)) {
     cerr << strerror(errno) << ": " << temp_path << endl;
@@ -263,7 +279,7 @@ int Database::lock() {
   bool    failed = false;
 
   // Set the database path that we just locked as default
-  lock_path = _path + "/lock";
+  lock_path = _d->path + "/lock";
 
   // Try to open lock file for reading: check who's holding the lock
   if ((file = fopen(lock_path.c_str(), "r")) != NULL) {
@@ -307,7 +323,7 @@ int Database::lock() {
 }
 
 void Database::unlock() {
-  string lock_path = _path + "/lock";
+  string lock_path = _d->path + "/lock";
   std::remove(lock_path.c_str());
 }
 
@@ -391,7 +407,7 @@ int Database::getDir(
     const string& checksum,
     string&       path,
     bool          create) {
-  path = _path + "/data";
+  path = _d->path + "/data";
   int level = 0;
 
   // Two cases: either there are files, or a .nofiles file and directories
@@ -420,7 +436,7 @@ int Database::merge() {
   }
 
   // Merge with existing list into new one
-  List merge(_path.c_str(), "list.part");
+  List merge(_d->path.c_str(), "list.part");
   if (! merge.open("w")) {
     if (merge.merge(*_d->list, *_d->journal) && (errno != EBUSY)) {
       cerr << "db: merge failed" << endl;
@@ -428,8 +444,7 @@ int Database::merge() {
     }
     merge.close();
     if (! failed) {
-      if (rename((_path + "/list").c_str(), (_path + "/list~").c_str())
-      || rename((_path + "/list.part").c_str(), (_path + "/list").c_str())) {
+      if (update("list", true)) {
         cerr << "db: cannot rename lists" << endl;
         failed = true;
       }
@@ -442,8 +457,8 @@ int Database::merge() {
 }
 
 Database::Database(const string& path) {
-  _path       = path;
   _d          = new Private;
+  _d->path    = path;
   _d->list    = NULL;
   _d->journal = NULL;
   _d->expire  = -1;
@@ -464,12 +479,12 @@ int Database::open(bool read_only) {
 
   bool failed = false;
 
-  if (! Directory(_path.c_str()).isValid()) {
+  if (! Directory(_d->path.c_str()).isValid()) {
     if (read_only) {
-      cerr << "db: given path does not exist: " << _path << endl;
+      cerr << "db: given path does not exist: " << _d->path << endl;
       return 2;
     } else
-    if (mkdir(_path.c_str(), 0755)) {
+    if (mkdir(_d->path.c_str(), 0755)) {
       cerr << "db: cannot create base directory" << endl;
       return 2;
     }
@@ -480,15 +495,16 @@ int Database::open(bool read_only) {
     return 2;
   }
 
-  List list(_path.c_str(), "list");
+  List list(_d->path.c_str(), "list");
 
   // Check DB dir
-  if (! Directory((_path + "/data").c_str()).isValid()) {
+  if (! Directory((_d->path + "/data").c_str()).isValid()) {
     if (read_only) {
-      cerr << "db: given path does not contain a database: " << _path << endl;
+      cerr << "db: given path does not contain a database: "
+        << _d->path << endl;
       failed = true;
     } else
-    if (Directory(_path.c_str(), "data").create()) {
+    if (Directory(_d->path.c_str(), "data").create()) {
       cerr << "db: cannot create data directory" << endl;
       failed = true;
     } else
@@ -501,12 +517,12 @@ int Database::open(bool read_only) {
     }
   } else {
     if (! list.isValid()) {
-      Stream backup(_path.c_str(), "list~");
+      Stream backup(_d->path.c_str(), "list~");
 
       cerr << "db: list not accessible...";
       if (backup.isValid()) {
         cerr << "using backup" << endl;
-        rename((_path + "/list~").c_str(), (_path + "/list").c_str());
+        rename((_d->path + "/list~").c_str(), (_d->path + "/list").c_str());
       } else {
         cerr << "no backup accessible, aborting.";
         failed = true;
@@ -516,7 +532,7 @@ int Database::open(bool read_only) {
 
   // Open list
   if (! failed) {
-    _d->list = new List(_path.c_str(), "list");
+    _d->list = new List(_d->path.c_str(), "list");
     if (_d->list->open("r")) {
       cerr << "db: open: cannot open list" << endl;
       failed = true;
@@ -527,7 +543,7 @@ int Database::open(bool read_only) {
 
   // Deal with journal
   if (! failed) {
-    _d->journal = new List(_path.c_str(), "journal");
+    _d->journal = new List(_d->path.c_str(), "journal");
 
     // Check previous crash
     if (! _d->journal->open("r")) {
@@ -540,7 +556,7 @@ int Database::open(bool read_only) {
       _d->list->close();
 
       if (! failed) {
-        rename((_path + "/journal").c_str(), (_path + "/journal~").c_str());
+        update("journal");
         // Re-open list
         if (_d->list->open("r")) {
           cerr << "db: open: cannot re-open list" << endl;
@@ -560,7 +576,7 @@ int Database::open(bool read_only) {
 
   // Open merged list (can fail)
   if (! read_only && ! failed) {
-    _d->merge = new List(_path.c_str(), "list.part");
+    _d->merge = new List(_d->path.c_str(), "list.part");
     if (_d->merge->open("w")) {
       cerr << "db: open: cannot open merge list" << endl;
       delete _d->merge;
@@ -619,7 +635,7 @@ int Database::close() {
     _d->journal->close();
     // Close and delete merge
     _d->merge->close();
-    remove((_path + "/list.part").c_str());
+    remove((_d->path + "/list.part").c_str());
   } else {
     // Finish off list reading/copy
     setPrefix("");
@@ -635,8 +651,8 @@ int Database::close() {
       _d->list->close();
       // Close merge
       _d->merge->close();
-      remove((_path + "/list.part").c_str());
-      remove((_path + "/journal").c_str());
+      remove((_d->path + "/list.part").c_str());
+      remove((_d->path + "/journal").c_str());
     } else {
       // Finish off merging
       _d->list->search("", "", _d->merge, -1, &_d->active_data,
@@ -646,13 +662,12 @@ int Database::close() {
       // Close merge
       _d->merge->close();
       // File names ballet
-      if (rename((_path + "/list").c_str(), (_path + "/list~").c_str())
-       || rename((_path + "/list.part").c_str(), (_path + "/list").c_str())) {
+      if (update("list", true)) {
         cerr << "db: cannot rename lists" << endl;
         failed = true;
       } else {
         // All merging successful
-        rename((_path + "/journal").c_str(), (_path + "/journal~").c_str());
+        update("journal");
         // Get rid of expired data
         _d->active_data.sort();
         _d->active_data.unique();

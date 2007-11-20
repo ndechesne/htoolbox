@@ -24,11 +24,12 @@ namespace hbackup {
 class Database {
   struct        Private;
   Private*      _d;
-  string        _path;
-  list<string>  _active_checksums;
   int  lock();
   void unlock();
   int  merge();
+  int  update(
+    string          name,
+    bool            new_file = false);
 protected: // So I can test them/use them in tests
   bool isOpen() const;
   bool isWriteable() const;
@@ -50,7 +51,6 @@ protected: // So I can test them/use them in tests
 public:
   Database(const string& path);
   ~Database();
-  string path() const { return _path; }
   // Open database
   int  open(bool read_only = false);
   // Close database
