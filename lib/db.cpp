@@ -752,7 +752,7 @@ int Database::getRecords(
     while (_d->list->search() == 2) {
       char *db_client = NULL;
       if (_d->list->getEntry(NULL, &db_client, NULL, NULL) < 0) {
-        cerr << "db: error reading from list: " << strerror(errno) << endl;
+        cerr << "Error reading from list: " << strerror(errno) << endl;
         return -1;
       }
       records.push_back(db_client);
@@ -770,10 +770,16 @@ int Database::getRecords(
       blocks = ls_path.countBlocks('/');
     }
 
+    // Skip to given client
+    if (_d->list->search(client, "") != 2) {
+      cerr << "Error: client not found" << endl;
+      return -1;
+    }
+
     char* db_path = NULL;
     while (_d->list->search(client, NULL) == 2) {
       if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
-        cerr << "db: error reading from list: " << strerror(errno) << endl;
+        cerr << "Error reading from list: " << strerror(errno) << endl;
         return -1;
       }
       StrPath db_path2 = db_path;
