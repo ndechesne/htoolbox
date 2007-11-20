@@ -60,7 +60,6 @@ class Client {
 public:
   Client(string name);
   ~Client();
-  string prefix() const { return _protocol + "://" + _name; }
   string name() const   { return _name; }
   void addOption(const string& value) {
     _options.push_back(Option("", value));

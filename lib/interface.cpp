@@ -237,10 +237,11 @@ int HBackup::readConfig(const char* config_path) {
           client = new Client(*current);
           client->setProtocol(type);
 
+          // Clients MUST BE in alphabetic order
           int cmp = 1;
           list<Client*>::iterator i = _d->clients.begin();
           while ((i != _d->clients.end())
-              && ((cmp = client->prefix().compare((*i)->prefix())) > 0)) {
+              && ((cmp = client->name().compare((*i)->name())) > 0)) {
             i++;
           }
           if (cmp == 0) {

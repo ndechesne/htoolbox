@@ -290,9 +290,9 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Paths in 'file://myhost' client in DB" << endl;
+  cout << endl << "Paths in 'myhost' client in DB" << endl;
   db.open(true);
-  db.getRecords(records, "file://myhost");
+  db.getRecords(records, "myhost");
   db.close();
   cout << "Records found: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -300,9 +300,9 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Paths in 'file://myhost' client under test1 in DB" << endl;
+  cout << endl << "Paths in 'myhost' client under test1 in DB" << endl;
   db.open(true);
-  db.getRecords(records, "file://myhost", "test1");
+  db.getRecords(records, "myhost", "test1");
   db.close();
   cout << "Records found: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -310,9 +310,9 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Paths in 'file://myhost' client under test1/cvs in DB" << endl;
+  cout << endl << "Paths in 'myhost' client under test1/cvs in DB" << endl;
   db.open(true);
-  db.getRecords(records, "file://myhost", "test1/cvs");
+  db.getRecords(records, "myhost", "test1/cvs");
   db.close();
   cout << "Records found: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -320,10 +320,10 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Paths in 'file://myhost' client under test1/cvs/diroth in DB"
+  cout << endl << "Paths in 'myhost' client under test1/cvs/diroth in DB"
     << endl;
   db.open(true);
-  db.getRecords(records, "file://myhost", "test1/cvs/diroth");
+  db.getRecords(records, "myhost", "test1/cvs/diroth");
   db.close();
   cout << "Records found: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -331,10 +331,10 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Paths in 'file://myhost' client under test1/cvs/dirutd in DB"
+  cout << endl << "Paths in 'myhost' client under test1/cvs/dirutd in DB"
     << endl;
   db.open(true);
-  db.getRecords(records, "file://myhost", "test1/cvs/dirutd");
+  db.getRecords(records, "myhost", "test1/cvs/dirutd");
   db.close();
   cout << "Records found: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -349,17 +349,17 @@ int main(void) {
   system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
 
-  client = new Client("myhost3");
-  clients.push_back(client);
-  client->setProtocol("nfs");
-  system("echo path /home/User/test > test_nfs/testhost3.list");
-  client->setListfile("/home/User/testhost3.list");
-
   client = new Client("myhost2");
   clients.push_back(client);
   client->setProtocol("smb");
   system("echo \"path C:\\Test\" > test_cifs/Backup/testhost2.list");
   client->setListfile("C:\\Backup\\testhost2.list");
+
+  client = new Client("myhost3");
+  clients.push_back(client);
+  client->setProtocol("nfs");
+  system("echo path /home/User/test > test_nfs/testhost3.list");
+  client->setListfile("/home/User/testhost3.list");
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -377,17 +377,17 @@ int main(void) {
   db.close();
 
   printf("Create list of clients\n");
-  client = new Client("myhost3");
-  clients.push_back(client);
-  client->setProtocol("nfs");
-  system("echo path /home/User/test > test_nfs/testhost3.list");
-  client->setListfile("/home/User/testhost3.list");
-
   client = new Client("myhost2");
   clients.push_back(client);
   client->setProtocol("smb");
   system("echo \"path C:\\Test\" > test_cifs/Backup/testhost2.list");
   client->setListfile("C:\\Backup\\testhost2.list");
+
+  client = new Client("myhost3");
+  clients.push_back(client);
+  client->setProtocol("nfs");
+  system("echo path /home/User/test > test_nfs/testhost3.list");
+  client->setListfile("/home/User/testhost3.list");
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {

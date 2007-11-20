@@ -34,8 +34,9 @@ using namespace hbackup;
 int List::open(
     const char*   req_mode,
     int           compression) {
-  const char header[] = "# version 2\n";
-  int rc = 0;
+  const char old_header[] = "# version 2\n";
+  const char header[]     = "# version 3\n";
+  int        rc           = 0;
 
   if (Stream::open(req_mode, compression)) {
     rc = -1;
@@ -55,8 +56,16 @@ int List::open(
       Stream::close();
       rc = -1;
     } else
-    // Check header
-    if (_line != header) {
+    // Expected header?
+    if (_line == header) {
+      _old_version = false;
+    } else
+    // Old header?
+    if (_line == old_header) {
+      _old_version = true;
+    } else
+    // No.
+    {
       errno = EUCLEAN;
       rc = -1;
     }

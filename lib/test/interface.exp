@@ -13,6 +13,23 @@ Test: typical backup
  --> Client: client
 Database initialized
  -> Database open
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+Backup client 'client' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+A C:/Test/File.TXT (0 B)
+Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
+Backup client 'myClient' using protocol 'nfs'
+ -> Reading backup list file
+ --> Path: /home/User/test
+Backup path '/home/User/test'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+A /home/User/test/File2.txt (0 B)
+ -> umount test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> client-wide filter and subdir
@@ -47,7 +64,6 @@ A test1/cvs/dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries (42 B)
 Adding compressed file data to DB in: test_db/data/5252f242d27b8c2c9fdbdcbb33545d07-0
 A test1/cvs/dirutd/fileutd (0 B)
-Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
 A test1/cvs/filenew.c (0 B)
 A test1/cvs/fileutd.h (0 B)
 A test1/dir space
@@ -70,22 +86,6 @@ Adding file data to DB in: test_db/data/fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A test2/testfile~ (524 kB)
 Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
 A test2/testlink
- -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
-Backup client 'myClient' using protocol 'nfs'
- -> Reading backup list file
- --> Path: /home/User/test
-Backup path '/home/User/test'
- -> umount test_db/mount
- -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
-A /home/User/test/File2.txt (0 B)
- -> umount test_db/mount
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
-Backup client 'client' using protocol 'smb'
- -> Reading backup list file
- --> Path: C:/Test
-Backup path 'C:/Test'
-A C:/Test/File.TXT (0 B)
- -> umount test_db/mount
 Protocol not supported: ssh
  -> Database closed
 
@@ -102,6 +102,20 @@ Test: same backup
  --> Client: myhost
  --> Client: client
  -> Database open
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+Backup client 'client' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
+Backup client 'myClient' using protocol 'nfs'
+ -> Reading backup list file
+ --> Path: /home/User/test
+Backup path '/home/User/test'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+ -> umount test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> client-wide filter and subdir
@@ -130,20 +144,6 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir testdir
 Backup path 'test2'
  -> Dir testdir
- -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
-Backup client 'myClient' using protocol 'nfs'
- -> Reading backup list file
- --> Path: /home/User/test
-Backup path '/home/User/test'
- -> umount test_db/mount
- -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
- -> umount test_db/mount
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
-Backup client 'client' using protocol 'smb'
- -> Reading backup list file
- --> Path: C:/Test
-Backup path 'C:/Test'
- -> umount test_db/mount
 Protocol not supported: ssh
  -> Journal is empty, not merging
  -> Database closed
@@ -161,6 +161,20 @@ Test: interrupted backup
  --> Client: myhost
  --> Client: client
  -> Database open
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+Backup client 'client' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
+Backup client 'myClient' using protocol 'nfs'
+ -> Reading backup list file
+ --> Path: /home/User/test
+Backup path '/home/User/test'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+ -> umount test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> client-wide filter and subdir
@@ -186,26 +200,9 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
- -> Dir testdir
-Backup path 'test2'
- -> Dir testdir
- -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
-Backup client 'myClient' using protocol 'nfs'
- -> Reading backup list file
- --> Path: /home/User/test
-Backup path '/home/User/test'
- -> umount test_db/mount
- -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
- -> umount test_db/mount
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
-Backup client 'client' using protocol 'smb'
- -> Reading backup list file
- --> Path: C:/Test
-Backup path 'C:/Test'
-A C:/Test/big_file (512 kB)
+A test1/dir space/big_file (512 kB)
 Killing during write
-Operation canceled: test_db/mount/Test/big_file
- -> umount test_db/mount
+Operation canceled: test1/dir space/big_file
  -> Database closed
 
 Test: specify clients
@@ -222,6 +219,12 @@ Test: specify clients
  --> Client: client
 Previous crash detected, attempting recovery
  -> Database open
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+Backup client 'client' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+ -> umount test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
  --> client-wide filter and subdir
@@ -247,17 +250,11 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
+! test1/dir space/big_file (512 kB)
+Adding compressed file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
  -> Dir testdir
 Backup path 'test2'
  -> Dir testdir
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
-Backup client 'client' using protocol 'smb'
- -> Reading backup list file
- --> Path: C:/Test
-Backup path 'C:/Test'
-! C:/Test/big_file (512 kB)
-Adding file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
- -> umount test_db/mount
  -> Database closed
 
 Test: scan DB
@@ -334,6 +331,7 @@ U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
 U test_r/test1/dir space
+U test_r/test1/dir space/big_file
 U test_r/test1/dir space/file space
 U test_r/test1/test space
 U test_r/test1/testdir
@@ -391,6 +389,7 @@ U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
 U test_r/test1/dir space
+U test_r/test1/dir space/big_file
 U test_r/test1/dir space/file space
 U test_r/test1/test space
 U test_r/test1/testdir

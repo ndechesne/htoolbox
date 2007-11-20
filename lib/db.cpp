@@ -115,7 +115,8 @@ int Database::organise(const string& path, int number) {
       Node node(path.c_str(), dir_entry->d_name);
       string source_path = path + "/" + dir_entry->d_name;
       if (node.type() == '?') {
-        cerr << "db: organise: cannot get metadata: " << source_path << endl;
+        cerr << "Error: organise: cannot get metadata: " << source_path
+          << endl;
         failed = 2;
       } else
       if ((node.type() == 'd')
@@ -185,7 +186,8 @@ int Database::write(
   // Get file final location
   string dest_path;
   if (getDir(source.checksum(), dest_path, true) == 2) {
-    cerr << "db: write: failed to get dir for: " << source.checksum() << endl;
+    cerr << "Error: write: failed to get dir for: " << source.checksum()
+      << endl;
     return -1;
   }
 
@@ -292,14 +294,14 @@ int Database::lock() {
       // Find out whether process is still running, if not, reset lock
       kill(pid, 0);
       if (errno == ESRCH) {
-        cerr << "db: lock reset" << endl;
+        cerr << "Warning: lock reset" << endl;
         std::remove(lock_path.c_str());
       } else {
-        cerr << "db: lock taken by process with pid " << pid << endl;
+        cerr << "Error: lock taken by process with pid " << pid << endl;
         failed = true;
       }
     } else {
-      cerr << "db: lock taken by an unidentified process!" << endl;
+      cerr << "Error: lock taken by an unidentified process!" << endl;
       failed = true;
     }
   }
@@ -312,7 +314,7 @@ int Database::lock() {
       fclose(file);
     } else {
       // Lock cannot be taken
-      cerr << "db: lock: cannot take lock" << endl;
+      cerr << "Error: lock: cannot take lock" << endl;
       failed = true;
     }
   }
@@ -439,13 +441,13 @@ int Database::merge() {
   List merge(_d->path.c_str(), "list.part");
   if (! merge.open("w")) {
     if (merge.merge(*_d->list, *_d->journal) && (errno != EBUSY)) {
-      cerr << "db: merge failed" << endl;
+      cerr << "Error: merge failed" << endl;
       failed = true;
     }
     merge.close();
     if (! failed) {
       if (update("list", true)) {
-        cerr << "db: cannot rename lists" << endl;
+        cerr << "Error: cannot rename lists" << endl;
         failed = true;
       }
     }
@@ -473,7 +475,7 @@ Database::~Database() {
 
 int Database::open(bool read_only) {
   if (isOpen()) {
-    cerr << "db: already open!" << endl;
+    cerr << "Error: DB already open!" << endl;
     return -1;
   }
 
@@ -481,11 +483,11 @@ int Database::open(bool read_only) {
 
   if (! Directory(_d->path.c_str()).isValid()) {
     if (read_only) {
-      cerr << "db: given path does not exist: " << _d->path << endl;
+      cerr << "Error: given DB path does not exist: " << _d->path << endl;
       return 2;
     } else
     if (mkdir(_d->path.c_str(), 0755)) {
-      cerr << "db: cannot create base directory" << endl;
+      cerr << "Error: cannot create DB base directory" << endl;
       return 2;
     }
   }
@@ -500,16 +502,16 @@ int Database::open(bool read_only) {
   // Check DB dir
   if (! Directory((_d->path + "/data").c_str()).isValid()) {
     if (read_only) {
-      cerr << "db: given path does not contain a database: "
+      cerr << "Error: given path does not contain a database: "
         << _d->path << endl;
       failed = true;
     } else
     if (Directory(_d->path.c_str(), "data").create()) {
-      cerr << "db: cannot create data directory" << endl;
+      cerr << "Error: cannot create data directory" << endl;
       failed = true;
     } else
     if (list.open("w") || list.close()) {
-      cerr << "db: cannot create list file" << endl;
+      cerr << "Error: cannot create list file" << endl;
       failed = true;
     } else
     if (verbosity() > 0) {
@@ -519,7 +521,7 @@ int Database::open(bool read_only) {
     if (! list.isValid()) {
       Stream backup(_d->path.c_str(), "list~");
 
-      cerr << "db: list not accessible...";
+      cerr << "Error: list not accessible...";
       if (backup.isValid()) {
         cerr << "using backup" << endl;
         rename((_d->path + "/list~").c_str(), (_d->path + "/list").c_str());
@@ -534,7 +536,11 @@ int Database::open(bool read_only) {
   if (! failed) {
     _d->list = new List(_d->path.c_str(), "list");
     if (_d->list->open("r")) {
-      cerr << "db: open: cannot open list" << endl;
+      cerr << "Error: cannot open list" << endl;
+      failed = true;
+    } else
+    if (_d->list->isOldVersion()) {
+      cerr << "Error: list cannot be converted yet" << endl;
       failed = true;
     }
   } else {
@@ -549,7 +555,7 @@ int Database::open(bool read_only) {
     if (! _d->journal->open("r")) {
       cout << "Previous crash detected, attempting recovery" << endl;
       if (merge()) {
-        cerr << "db: open: cannot recover from previous crash" << endl;
+        cerr << "Error: cannot recover from previous crash" << endl;
         failed = true;
       }
       _d->journal->close();
@@ -559,7 +565,7 @@ int Database::open(bool read_only) {
         update("journal");
         // Re-open list
         if (_d->list->open("r")) {
-          cerr << "db: open: cannot re-open list" << endl;
+          cerr << "Error: cannot re-open DB list" << endl;
           failed = true;
         }
       }
@@ -567,7 +573,7 @@ int Database::open(bool read_only) {
 
     // Create journal (do not cache)
     if (! read_only && ! failed && (_d->journal->open("w", -1))) {
-      cerr << "db: open: cannot open journal" << endl;
+      cerr << "Error: cannot open DB journal" << endl;
       failed = true;
     }
   } else {
@@ -578,7 +584,7 @@ int Database::open(bool read_only) {
   if (! read_only && ! failed) {
     _d->merge = new List(_d->path.c_str(), "list.part");
     if (_d->merge->open("w")) {
-      cerr << "db: open: cannot open merge list" << endl;
+      cerr << "Error: cannot open DB merge list" << endl;
       delete _d->merge;
       failed = true;
     }
@@ -621,7 +627,7 @@ int Database::close() {
   bool read_only = ! isWriteable();
 
   if (! isOpen()) {
-    cerr << "db: cannot close because not open!" << endl;
+    cerr << "Error: cannot close DB because not open!" << endl;
     return -1;
   }
 
@@ -663,7 +669,7 @@ int Database::close() {
       _d->merge->close();
       // File names ballet
       if (update("list", true)) {
-        cerr << "db: cannot rename lists" << endl;
+        cerr << "Error: cannot rename DB lists" << endl;
         failed = true;
       } else {
         // All merging successful
@@ -941,7 +947,7 @@ int Database::read(const string& path, const string& checksum) {
 
   string source_path;
   if (getDir(checksum, source_path)) {
-    cerr << "db: read: failed to get dir for: " << checksum << endl;
+    cerr << "Error: read: failed to get dir for: " << checksum << endl;
     return 2;
   }
 
@@ -954,7 +960,7 @@ int Database::read(const string& path, const string& checksum) {
   }
   Stream source(source_path.c_str());
   if (source.open("r", decompress ? 1 : 0)) {
-    cerr << "db: read: failed to open source file: " << source_path << endl;
+    cerr << "Error: failed to open read source file: " << source_path << endl;
     return 2;
   }
 
@@ -962,13 +968,13 @@ int Database::read(const string& path, const string& checksum) {
   string temp_path = path + ".part";
   Stream temp(temp_path.c_str());
   if (temp.open("w")) {
-    cerr << "db: read: failed to open dest file: " << temp_path << endl;
+    cerr << "Error: failed to open read dest file: " << temp_path << endl;
     failed = 2;
   } else
 
   // Copy file to temporary name (size not checked: checksum suffices)
   if (temp.copy(source)) {
-    cerr << "db: read: failed to copy file: " << source_path << endl;
+    cerr << "Error: failed to read file: " << source_path << endl;
     failed = 2;
   }
 
@@ -978,14 +984,14 @@ int Database::read(const string& path, const string& checksum) {
   if (! failed) {
     // Verify that checksums match before overwriting final destination
     if (strncmp(checksum.c_str(), temp.checksum(), strlen(temp.checksum()))) {
-      cerr << "db: read: checksums don't match: " << checksum << " "
+      cerr << "Error: read checksums don't match: " << checksum << " "
         << temp.checksum() << endl;
       failed = 2;
     } else
 
     // All done
     if (rename(temp_path.c_str(), path.c_str())) {
-      cerr << "db: read: failed to rename file to " << strerror(errno)
+      cerr << "Error: failed to rename read file to " << strerror(errno)
         << ": " << path << endl;
       failed = 2;
     }
@@ -1054,13 +1060,13 @@ int Database::scan(const string& checksum, bool thorough) {
     }
     Stream filedata((path + "/data").c_str());
     if (! filedata.isValid()) {
-//       cerr << "db: check: data missing for " << checksum << endl;
+//       cerr << "Error: data missing for " << checksum << endl;
       errno = ENOENT;
       return -1;
     }
     filedata.computeChecksum();
     if (checksum.substr(0, pos) != filedata.checksum()) {
-      cerr << "db: check: data corrupted for " << checksum << endl;
+      cerr << "Error: data corrupted for " << checksum << endl;
       errno = ENOEXEC;
       return -1;
     }

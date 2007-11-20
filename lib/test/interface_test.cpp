@@ -83,7 +83,7 @@ int main(void) {
   delete hbackup;
 
   cout << endl << "Test: interrupted backup" << endl;
-  system("dd if=/dev/zero of=test_cifs/Test/big_file bs=1k count=500"
+  system("dd if=/dev/zero of=test1/dir\\ space/big_file bs=1k count=500"
     " > /dev/null 2>&1");
   killed = true;
   hbackup = new HBackup();
@@ -136,7 +136,7 @@ int main(void) {
   if (hbackup->readConfig("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "file://myhost", "test2/testfile", 0);
+  hbackup->restore("test_r", "myhost", "test2/testfile", 0);
   system("rm -rf test_r");
   delete hbackup;
 
@@ -145,7 +145,7 @@ int main(void) {
   if (hbackup->readConfig("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "file://myhost", "test1", 0);
+  hbackup->restore("test_r", "myhost", "test1", 0);
   system("rm -rf test_r");
   delete hbackup;
 
@@ -154,7 +154,7 @@ int main(void) {
   if (hbackup->readConfig("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "file://myhost", "test1/cvs", 0);
+  hbackup->restore("test_r", "myhost", "test1/cvs", 0);
   system("rm -rf test_r");
   delete hbackup;
 
@@ -163,7 +163,7 @@ int main(void) {
   if (hbackup->readConfig("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "file://myhost", "", 0);
+  hbackup->restore("test_r", "myhost", "", 0);
   system("rm -rf test_r");
   delete hbackup;
 

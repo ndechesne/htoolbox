@@ -33,11 +33,14 @@ class List : public Stream {
   int               _line_status;
   // Need to keep client status for search()
   int               _client_cmp;
+  bool              _old_version;
 public:
   List(
     const char*     dir_path,
     const char*     name = "") :
     Stream(dir_path, name) {}
+  // Version
+  bool isOldVersion() const { return _old_version; }
   // Open file, for read or write (no append), with compression (cf. Stream)
   int open(
     const char*     req_mode,
