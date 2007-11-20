@@ -364,7 +364,7 @@ int main(void) {
     }
   }
 
-  db.setClient("prot://client");
+  db.setClient("myClient");
 
   File* f;
   f = new File("test1/test space");
@@ -444,14 +444,14 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Test: read paths in prot://client" << endl;
+  cout << endl << "Test: read paths in myClient" << endl;
   if ((status = db.open(true))) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
     }
   }
-  db.getRecords(records, "prot://client");
+  db.getRecords(records, "myClient");
   db.close();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -459,7 +459,7 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Test: read paths in prot://client below /client_path"
+  cout << endl << "Test: read paths in myClient below /client_path"
     << endl;
   if ((status = db.open(true))) {
     cout << "db::open error status " << status << endl;
@@ -467,7 +467,7 @@ int main(void) {
       return 0;
     }
   }
-  db.getRecords(records, "prot://client", "/client_path");
+  db.getRecords(records, "myClient", "/client_path");
   db.close();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -475,7 +475,7 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Test: read paths in prot://client below other_path"
+  cout << endl << "Test: read paths in myClient below other_path"
     << endl;
   if ((status = db.open(true))) {
     cout << "db::open error status " << status << endl;
@@ -483,7 +483,7 @@ int main(void) {
       return 0;
     }
   }
-  db.getRecords(records, "prot://client", "other_path");
+  db.getRecords(records, "myClient", "other_path");
   db.close();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -491,7 +491,7 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Test: read paths in prot://client below /client_path/subdir"
+  cout << endl << "Test: read paths in myClient below /client_path/subdir"
     << endl;
   if ((status = db.open(true))) {
     cout << "db::open error status " << status << endl;
@@ -499,7 +499,7 @@ int main(void) {
       return 0;
     }
   }
-  db.getRecords(records, "prot://client", "/client_path/subdir");
+  db.getRecords(records, "myClient", "/client_path/subdir");
   db.close();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {

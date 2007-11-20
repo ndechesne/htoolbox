@@ -51,7 +51,7 @@ Parsed 31 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -116,7 +116,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -197,7 +197,7 @@ Parsed 31 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -262,7 +262,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -336,7 +336,7 @@ Parsed 5 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -401,7 +401,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/cvs/big_file
 [ 3] f 512000 644 
 Previous crash detected, attempting recovery
@@ -423,7 +423,7 @@ Parsed 32 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -490,7 +490,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/cvs/big_file
 [ 0] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/subdir/testfile
@@ -511,7 +511,7 @@ Parsed 31 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -579,7 +579,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/subdir/testfile
 [ 5] -
  -> Database open
@@ -599,7 +599,7 @@ Parsed 28 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -670,7 +670,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/subdir
 [ 6] -
 	/home/User/subdir/testfile1
@@ -692,7 +692,7 @@ Parsed 28 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -764,7 +764,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/testlink
 [ 7] l     8 777 testnull
  -> Database open
@@ -782,7 +782,7 @@ Parsed 27 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -855,7 +855,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/testlink
 [ 8] -
  -> Database open
@@ -878,7 +878,7 @@ Parsed 21 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -957,7 +957,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/cvs/big_file
 [ 9] -
 	/home/User/cvs/dirbad/fileoth
@@ -985,7 +985,7 @@ Parsed 21 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -1064,7 +1064,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/cvs/big_file
 [ 9] -
 	/home/User/cvs/dirbad/fileoth
@@ -1093,7 +1093,7 @@ Parsed 17 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -1176,7 +1176,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/cvs/dirutd
 [11] -
 	/home/User/cvs/dirutd/CVS
@@ -1198,7 +1198,7 @@ D /home/User/testpipe
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -1282,7 +1282,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/testpipe
 [12] -
  -> Database open
@@ -1298,7 +1298,7 @@ Parsed 16 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -1383,7 +1383,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/testfile
 [13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Database open
@@ -1401,7 +1401,7 @@ Parsed 17 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -1488,7 +1488,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/cvs/filenew.c
 [14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 	/home/User/testpipe
@@ -1533,7 +1533,7 @@ Parsed 37 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -1660,7 +1660,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/docbook-xml
 [15] d     0 755
 	/home/User/docbook-xml/3.1.7
@@ -1721,7 +1721,7 @@ Parsed 37 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -1848,7 +1848,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/docbook-xml
 [15] d     0 755
 	/home/User/docbook-xml/3.1.7
@@ -1927,7 +1927,7 @@ Parsed 33 file(s)
  -> Database closed
 
 List:
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
@@ -2054,7 +2054,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://host
+hisClient
 	/home/User/testdir
 [17] d     0 755
 	/home/User/testfile
@@ -2063,7 +2063,7 @@ file://host
 [17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [17] f 524288 644 59071590099d21dd439896592338bf95-0
-file://localhost
+myClient
 	/home/User/crash
 [17] d     0 755
 	/home/User/crash/file
@@ -2087,7 +2087,7 @@ Unexpected end of journal, line 29
  -> Database open
 
 List:
-file://host
+hisClient
 	/home/User/testdir
 [17] d     0 755
 	/home/User/testfile
@@ -2096,7 +2096,7 @@ file://host
 [17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [17] f 524288 644 59071590099d21dd439896592338bf95-0
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/crash
@@ -2234,7 +2234,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://host
+hisClient
 	/home/User/testdir
 [17] d     0 755
 	/home/User/testfile
@@ -2243,7 +2243,7 @@ file://host
 [17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [17] f 524288 644 59071590099d21dd439896592338bf95-0
-file://localhost
+myClient
 	/home/User/crash
 [17] d     0 755
 	/home/User/crash/file
@@ -2286,7 +2286,7 @@ Parsed 33 file(s)
  -> Database closed
 
 List:
-file://host
+hisClient
 	/home/User/testdir
 [17] d     0 755
 	/home/User/testfile
@@ -2295,7 +2295,7 @@ file://host
 [17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [17] f 524288 644 59071590099d21dd439896592338bf95-0
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/crash
@@ -2433,7 +2433,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://host
+hisClient
 	/home/User/testdir
 [17] d     0 755
 	/home/User/testfile
@@ -2442,7 +2442,7 @@ file://host
 [17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [17] f 524288 644 59071590099d21dd439896592338bf95-0
-file://localhost
+myClient
 	/home/User/crash
 [17] d     0 755
 	/home/User/crash/file
@@ -2468,7 +2468,7 @@ Parsed 4 file(s)
  -> Database closed
 
 List:
-file://host
+hisClient
 	/home/User/testdir
 [17] d     0 755
 	/home/User/testfile
@@ -2477,7 +2477,7 @@ file://host
 [17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [17] f 524288 644 59071590099d21dd439896592338bf95-0
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/crash
@@ -2615,7 +2615,7 @@ file://localhost
 [ 1] p     0 644
 
 Journal:
-file://host
+hisClient
 	/home/User/testdir
 [17] d     0 755
 	/home/User/testfile
@@ -2624,7 +2624,7 @@ file://host
 [17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [17] f 524288 644 59071590099d21dd439896592338bf95-0
-file://localhost
+myClient
 	/home/User/crash
 [17] d     0 755
 	/home/User/crash/file
@@ -2665,7 +2665,7 @@ Parsed 33 file(s)
  -> Database closed
 
 List:
-file://host
+hisClient
 	/home/User/testdir
 [17] d     0 755
 	/home/User/testfile
@@ -2674,7 +2674,7 @@ file://host
 [17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [17] f 524288 644 59071590099d21dd439896592338bf95-0
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/crash
@@ -2794,7 +2794,7 @@ file://localhost
 [12] -
 
 Journal:
-file://localhost
+myClient
 	/home/User/testfile
 [20] f    13 000 
  -> Database open
@@ -2819,7 +2819,7 @@ Parsed 32 file(s)
  -> Database closed
 
 List:
-file://host
+hisClient
 	/home/User/testdir
 [17] d     0 755
 	/home/User/testfile
@@ -2828,7 +2828,7 @@ file://host
 [17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [17] f 524288 644 59071590099d21dd439896592338bf95-0
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/crash
@@ -2941,7 +2941,7 @@ file://localhost
 [14] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/testfile
 [21] -
 	/home/User/testfile~
@@ -2965,7 +2965,7 @@ Parsed 32 file(s)
  -> Database closed
 
 List:
-file://host
+hisClient
 	/home/User/testdir
 [17] d     0 755
 	/home/User/testfile
@@ -2974,7 +2974,7 @@ file://host
 [17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [17] f 524288 644 59071590099d21dd439896592338bf95-0
-file://localhost
+myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/crash
@@ -3086,6 +3086,6 @@ file://localhost
 [14] p     0 644
 
 Journal:
-file://localhost
+myClient
 	/home/User/testfile~
 [22] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
