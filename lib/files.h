@@ -19,15 +19,9 @@
 #ifndef FILES_H
 #define FILES_H
 
-#include <fstream>
 #include <list>
 
 using namespace std;
-
-#include <fcntl.h>
-#include <openssl/md5.h>
-#include <openssl/evp.h>
-#include <zlib.h>
 
 namespace hbackup {
 
@@ -260,15 +254,8 @@ public:
 };
 
 class Stream : public File {
-  char*           _path;      // file path
-  int             _fd;        // file descriptor
-  mode_t          _fmode;     // file open mode
-  long long       _dsize;     // uncompressed file data size, in bytes
-  unsigned char*  _fbuffer;   // buffer for read/write operations
-  unsigned char*  _freader;   // buffer read pointer
-  ssize_t         _flength;   // buffer length
-  EVP_MD_CTX*     _ctx;       // openssl resources
-  z_stream*       _strm;      // zlib resources
+  struct          Private;
+  Private*        _d;
   // Convert MD5 to readable string
   static void md5sum(char* out, const unsigned char* in, int bytes);
 public:
@@ -276,17 +263,11 @@ public:
   static const size_t chunk = 409600;
   // Prototype for cancellation function
   typedef bool (*cancel_f)();
-//   // Constructor for existing File
-//   Stream(const File& g, const char* dir_path) {}
   // Constructor for path in the VFS
-  Stream(const char *dir_path, const char* name = "") :
-      File(dir_path, name),
-      _fd(-1) {
-    _path = path(dir_path, name);
-  }
+  Stream(const char *dir_path, const char* name = "");
   virtual ~Stream();
-  bool isOpen() const      { return _fd != -1; }
-  bool isWriteable() const { return (_fmode & O_WRONLY) != 0; }
+  bool isOpen() const;     
+  bool isWriteable() const;
   // Open file, for read or write (no append), with or without compression
   // A negative value for compression disables the read/write cache
   int open(
@@ -311,8 +292,6 @@ public:
   int copy(Stream& source, cancel_f cancel = NULL);
   // Compare two files
   int compare(Stream& source, long long length = -1);
-  // Data access
-  long long dsize() const   { return _dsize; };
   // Read parameters from line
   static int decodeLine(const string& line, list<string>& params);
 };

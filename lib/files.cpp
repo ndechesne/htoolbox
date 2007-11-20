@@ -23,12 +23,16 @@
 #include <cctype>
 #include <cstdio>
 
+#include <fcntl.h>
 #include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
+
+#include <openssl/md5.h>
+#include <openssl/evp.h>
+#include <zlib.h>
 
 // I want to use the C file functions
 #undef open
@@ -168,6 +172,17 @@ bool Link::operator!=(const Link& right) const {
   return strcmp(_link, right._link) != 0;
 }
 
+struct Stream::Private {
+  int               fd;         // file descriptor
+  mode_t            mode;       // file open mode
+  long long         size;       // uncompressed file data size, in bytes
+  unsigned char*    buffer;     // buffer for read/write operations
+  unsigned char*    reader;     // buffer read pointer
+  ssize_t           length;     // buffer length
+  EVP_MD_CTX*       ctx;        // openssl resources
+  z_stream*         strm;       // zlib resources
+};
+
 void Stream::md5sum(char* out, const unsigned char* in, int bytes) {
   char* hex   = "0123456789abcdef";
 
@@ -179,32 +194,45 @@ void Stream::md5sum(char* out, const unsigned char* in, int bytes) {
   *out = '\0';
 }
 
+Stream::Stream(const char *dir_path, const char* name) : File(dir_path, name) {
+  _d = new Private;
+  _d->fd = -1;
+}
+
 Stream::~Stream() {
   if (isOpen()) {
     close();
   }
-  free(_path);
+  delete _d;
+}
+
+bool Stream::isOpen() const {
+  return _d->fd != -1;
+}
+
+bool Stream::isWriteable() const {
+  return (_d->mode & O_WRONLY) != 0;
 }
 
 int Stream::open(const char* req_mode, int compression) {
-  _fmode = O_NOATIME | O_LARGEFILE;
+  _d->mode = O_NOATIME | O_LARGEFILE;
 
   switch (req_mode[0]) {
   case 'w':
-    _fmode = O_WRONLY | O_CREAT | O_TRUNC;
+    _d->mode = O_WRONLY | O_CREAT | O_TRUNC;
     _size = 0;
     break;
   case 'r':
-    _fmode = O_RDONLY;
+    _d->mode = O_RDONLY;
     break;
   default:
     errno = EACCES;
     return -1;
   }
 
-  _dsize   = 0;
-  _flength = 0;
-  _fd = std::open64(_path, _fmode, 0666);
+  _d->size   = 0;
+  _d->length = 0;
+  _d->fd = std::open64(_path, _d->mode, 0666);
   if (! isOpen()) {
     // errno set by open
     return -1;
@@ -212,42 +240,42 @@ int Stream::open(const char* req_mode, int compression) {
 
   // Create buffer if not told not to
   if (compression >= 0) {
-    _fbuffer = (unsigned char*) malloc(chunk);
-    _freader = _fbuffer;
+    _d->buffer = (unsigned char*) malloc(chunk);
+    _d->reader = _d->buffer;
   } else {
-    _freader = NULL;
+    _d->reader = NULL;
   }
 
   // Create openssl resources
-  _ctx = new EVP_MD_CTX;
-  if (_ctx != NULL) {
-    EVP_DigestInit(_ctx, EVP_md5());
+  _d->ctx = new EVP_MD_CTX;
+  if (_d->ctx != NULL) {
+    EVP_DigestInit(_d->ctx, EVP_md5());
   }
 
   // Create zlib resources
-  if ((compression > 0) && (_freader != NULL)) {
-    _strm           = new z_stream;
-    _strm->zalloc   = Z_NULL;
-    _strm->zfree    = Z_NULL;
-    _strm->opaque   = Z_NULL;
-    _strm->avail_in = 0;
-    _strm->next_in  = Z_NULL;
+  if ((compression > 0) && (_d->reader != NULL)) {
+    _d->strm           = new z_stream;
+    _d->strm->zalloc   = Z_NULL;
+    _d->strm->zfree    = Z_NULL;
+    _d->strm->opaque   = Z_NULL;
+    _d->strm->avail_in = 0;
+    _d->strm->next_in  = Z_NULL;
     if (isWriteable()) {
       // Compress
-      if (deflateInit2(_strm, compression, Z_DEFLATED, 16 + 15, 9,
+      if (deflateInit2(_d->strm, compression, Z_DEFLATED, 16 + 15, 9,
           Z_DEFAULT_STRATEGY)) {
         cerr << "stream: deflate init failed" << endl;
         compression = 0;
       }
     } else {
       // De-compress
-      if (inflateInit2(_strm, 32 + 15)) {
+      if (inflateInit2(_d->strm, 32 + 15)) {
         cerr << "stream: inflate init failed" << endl;
         compression = 0;
       }
     }
   } else {
-    _strm = NULL;
+    _d->strm = NULL;
   }
 
   return 0;
@@ -265,36 +293,36 @@ int Stream::close() {
   }
 
   // Compute checksum
-  if (_ctx != NULL) {
+  if (_d->ctx != NULL) {
     unsigned char checksum[36];
     size_t        length;
 
-    EVP_DigestFinal(_ctx, checksum, &length);
+    EVP_DigestFinal(_d->ctx, checksum, &length);
     free(_checksum);
     _checksum = (char*) malloc(2 * length + 1);
     md5sum(_checksum, checksum, length);
-    delete _ctx;
-    _ctx = NULL;
+    delete _d->ctx;
+    _d->ctx = NULL;
   }
 
   // Destroy zlib resources
-  if (_strm != NULL) {
+  if (_d->strm != NULL) {
     if (isWriteable()) {
-      deflateEnd(_strm);
+      deflateEnd(_d->strm);
     } else {
-      inflateEnd(_strm);
+      inflateEnd(_d->strm);
     }
-    delete _strm;
-    _strm = NULL;
+    delete _d->strm;
+    _d->strm = NULL;
   }
 
-  int rc = std::close(_fd);
-  _fd = -1;
+  int rc = std::close(_d->fd);
+  _d->fd = -1;
 
   // Destroy buffer if any
-  if (_freader != NULL) {
-    free(_fbuffer);
-    _fbuffer = NULL;
+  if (_d->reader != NULL) {
+    free(_d->buffer);
+    _d->buffer = NULL;
   }
 
   // Update metadata
@@ -317,59 +345,59 @@ ssize_t Stream::read(void* buffer, size_t count) {
   if (count == 0) return 0;
 
   // Read new data
-  if (_flength == 0) {
-    if (_freader == NULL) {
+  if (_d->length == 0) {
+    if (_d->reader == NULL) {
       // No buffer: just read
-      _fbuffer = (unsigned char*) buffer;
-      _flength = std::read(_fd, _fbuffer, count);
+      _d->buffer = (unsigned char*) buffer;
+      _d->length = std::read(_d->fd, _d->buffer, count);
     } else {
       // Fill in buffer
-      _flength = std::read(_fd, _fbuffer, chunk);
-      _freader = _fbuffer;
+      _d->length = std::read(_d->fd, _d->buffer, chunk);
+      _d->reader = _d->buffer;
     }
 
     // Check result
-    if (_flength < 0) {
+    if (_d->length < 0) {
       // errno set by read
       return -1;
     }
 
     // Update checksum with chunk
-    if (_ctx != NULL) {
-      EVP_DigestUpdate(_ctx, _fbuffer, _flength);
+    if (_d->ctx != NULL) {
+      EVP_DigestUpdate(_d->ctx, _d->buffer, _d->length);
     }
 
     // Fill decompression input buffer with chunk or just return chunk
-    if (_strm != NULL) {
-      _strm->avail_in = _flength;
-      _strm->next_in  = _fbuffer;
+    if (_d->strm != NULL) {
+      _d->strm->avail_in = _d->length;
+      _d->strm->next_in  = _d->buffer;
     }
   }
-  if (_strm != NULL) {
+  if (_d->strm != NULL) {
     // Continue decompression of previous data
-    _strm->avail_out = count;
-    _strm->next_out  = (unsigned char*) buffer;
-    switch (inflate(_strm, Z_NO_FLUSH)) {
+    _d->strm->avail_out = count;
+    _d->strm->next_out  = (unsigned char*) buffer;
+    switch (inflate(_d->strm, Z_NO_FLUSH)) {
       case Z_NEED_DICT:
       case Z_DATA_ERROR:
       case Z_MEM_ERROR:
         cerr << "File::read: inflate failed" << endl;
     }
-    _flength = (_strm->avail_out == 0);
-    count -= _strm->avail_out;
+    _d->length = (_d->strm->avail_out == 0);
+    count -= _d->strm->avail_out;
   } else {
-    if ((unsigned) _flength < count) {
-      count = _flength;
+    if ((unsigned) _d->length < count) {
+      count = _d->length;
     }
-    if (_freader == NULL) {
-      _flength = 0;
+    if (_d->reader == NULL) {
+      _d->length = 0;
     } else {
-      memcpy(buffer, _freader, count);
-      _flength -= count;
-      _freader += count;
+      memcpy(buffer, _d->reader, count);
+      _d->length -= count;
+      _d->reader += count;
     }
   }
-  _dsize   += count;
+  _d->size   += count;
   return count;
 }
 
@@ -398,40 +426,40 @@ ssize_t Stream::write(const void* buffer, size_t count) {
     finish = false;
   }
 
-  _dsize += count;
+  _d->size += count;
 
-  if (_strm == NULL) {
+  if (_d->strm == NULL) {
     // Checksum computation
-    if (_ctx != NULL) {
-      EVP_DigestUpdate(_ctx, buffer, count);
+    if (_d->ctx != NULL) {
+      EVP_DigestUpdate(_d->ctx, buffer, count);
     }
 
     size_t blength  = count;
     bool   write_it = finish;
 
-    if (_freader == NULL) {
+    if (_d->reader == NULL) {
       // No buffer: just write
       write_it = true;
-      _flength = count;
-      _fbuffer = (unsigned char*) buffer;
+      _d->length = count;
+      _d->buffer = (unsigned char*) buffer;
     } else {
       // Fill in buffer
       write_it = finish;
-      if (count > chunk - _flength) {
-        blength = chunk - _flength;
+      if (count > chunk - _d->length) {
+        blength = chunk - _d->length;
         write_it = true;
       }
-      memcpy(_freader, buffer, blength);
-      _flength += blength;
-      _freader += blength;
+      memcpy(_d->reader, buffer, blength);
+      _d->length += blength;
+      _d->reader += blength;
     }
 
     // Write data
     if (write_it) {
-      ssize_t length = _flength;
+      ssize_t length = _d->length;
       ssize_t wlength;
       do {
-        wlength = std::write(_fd, _fbuffer, length);
+        wlength = std::write(_d->fd, _d->buffer, length);
         if (wlength < 0) {
           // errno set by write
           return -1;
@@ -443,39 +471,39 @@ ssize_t Stream::write(const void* buffer, size_t count) {
     // Refill buffer
     if (blength < count) {
       char* cbuffer = (char*) buffer;
-      memcpy(_fbuffer, &cbuffer[blength], count - blength);
-      _flength = count - blength;
-      _freader = _fbuffer + _flength;
+      memcpy(_d->buffer, &cbuffer[blength], count - blength);
+      _d->length = count - blength;
+      _d->reader = _d->buffer + _d->length;
     }
   } else {
     // Compress data
-    _strm->avail_in = count;
-    _strm->next_in  = (unsigned char*) buffer;
+    _d->strm->avail_in = count;
+    _d->strm->next_in  = (unsigned char*) buffer;
     count = 0;
 
     ssize_t length;
     do {
-      _strm->avail_out = chunk;
-      _strm->next_out  = _fbuffer;
-      deflate(_strm, finish ? Z_FINISH : Z_NO_FLUSH);
-      length = chunk - _strm->avail_out;
+      _d->strm->avail_out = chunk;
+      _d->strm->next_out  = _d->buffer;
+      deflate(_d->strm, finish ? Z_FINISH : Z_NO_FLUSH);
+      length = chunk - _d->strm->avail_out;
       count += length;
 
       // Checksum computation (on compressed data)
-      if (_ctx != NULL) {
-        EVP_DigestUpdate(_ctx, _fbuffer, length);
+      if (_d->ctx != NULL) {
+        EVP_DigestUpdate(_d->ctx, _d->buffer, length);
       }
 
       ssize_t wlength;
       do {
-        wlength = std::write(_fd, _fbuffer, length);
+        wlength = std::write(_d->fd, _d->buffer, length);
         if (wlength < 0) {
           // errno set by write
           return -1;
         }
         length -= wlength;
       } while ((length != 0) && (wlength != 0));
-    } while (_strm->avail_out == 0);
+    } while (_d->strm->avail_out == 0);
   }
 
   _size += count;
@@ -560,7 +588,7 @@ int Stream::copy(Stream& source, cancel_f cancel) {
       return -1;
     }
   } while (! eof);
-  if (read_size != source.dsize()) {
+  if (read_size != source._d->size) {
     errno = EAGAIN;
     return -1;
   }

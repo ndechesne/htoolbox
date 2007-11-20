@@ -234,8 +234,7 @@ int main(void) {
       read_size += size;
     } while (true);
     if (readfile->close()) cout << "Error closing file" << endl;
-    cout << "read size: " << read_size
-      << " (" << readfile->size() << " -> " <<  readfile->dsize()
+    cout << "read size: " << read_size << " (" << readfile->size()
       << "), checksum: " << readfile->checksum() << endl;
   }
   delete readfile;
@@ -245,17 +244,19 @@ int main(void) {
   if (writefile->open("w", 0)) {
     cout << "Error opening source file: " << strerror(errno) << endl;
   } else {
+    size_t write_size = 0;
     ssize_t size = writefile->write("123", 3);
     if (size < 0) {
       cout << "write failed: " << strerror(errno) << endl;
     }
+    write_size += size;
     size = writefile->write("abc\n", 4);
     if (size < 0) {
       cout << "write failed: " << strerror(errno) << endl;
     }
+    write_size += size;
     if (writefile->close()) cout << "Error closing file" << endl;
-    cout << "write: "
-      << " (" << writefile->size() << " -> " <<  writefile->dsize()
+    cout << "write size: " << write_size << " (" << writefile->size()
       << "), checksum: " << writefile->checksum() << endl;
   }
   delete writefile;
@@ -292,11 +293,9 @@ int main(void) {
     } while (true);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
-    cout << "read size: " << read_size
-      << " (" << readfile->size() << " -> " <<  readfile->dsize()
+    cout << "read size: " << read_size << " (" << readfile->size()
       << "), checksum: " << readfile->checksum() << endl;
-    cout << "write size: " << write_size
-      << " (" << writefile->dsize() << " -> " <<  writefile->size()
+    cout << "write size: " << write_size << " (" << writefile->size()
       << "), checksum: " << writefile->checksum() << endl;
   }
   delete readfile;
@@ -333,11 +332,9 @@ int main(void) {
     } while (true);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
-    cout << "read size: " << read_size
-      << " (" << readfile->size() << " -> " <<  readfile->dsize()
+    cout << "read size: " << read_size << " (" << readfile->size()
       << "), checksum: " << readfile->checksum() << endl;
-    cout << "write size (wrong): " << write_size
-      << " (" << writefile->dsize() << " -> " <<  writefile->size()
+    cout << "write size (wrong): " << write_size << " (" << writefile->size()
       << "), checksum: " << writefile->checksum() << endl;
   }
   delete readfile;
@@ -373,11 +370,9 @@ int main(void) {
     } while (true);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
-    cout << "read size: " << read_size
-      << " (" << readfile->size() << " -> " <<  readfile->dsize()
+    cout << "read size: " << read_size << " (" << readfile->size()
       << "), checksum: " << readfile->checksum() << endl;
-    cout << "write size: " << write_size
-      << " (" << writefile->dsize() << " -> " <<  writefile->size()
+    cout << "write size: " << write_size << " (" << writefile->size()
       << "), checksum: " << writefile->checksum() << endl;
   }
   delete readfile;
@@ -414,11 +409,9 @@ int main(void) {
     } while (true);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
-    cout << "read size: " << read_size
-      << " (" << readfile->size() << " -> " <<  readfile->dsize()
+    cout << "read size: " << read_size << " (" << readfile->size()
       << "), checksum: " << readfile->checksum() << endl;
-    cout << "write size (wrong): " << write_size
-      << " (" << writefile->dsize() << " -> " <<  writefile->size()
+    cout << "write size (wrong): " << write_size << " (" << writefile->size()
       << "), checksum: " << writefile->checksum() << endl;
   }
   cout << endl
@@ -456,11 +449,9 @@ int main(void) {
     } while (true);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
-    cout << "read size: " << read_size
-      << " (" << readfile->size() << " -> " <<  readfile->dsize()
+    cout << "read size: " << read_size << " (" << readfile->size()
       << "), checksum: " << readfile->checksum() << endl;
-    cout << "write size (wrong): " << write_size
-      << " (" << writefile->dsize() << " -> " <<  writefile->size()
+    cout << "write size (wrong): " << write_size << " (" << writefile->size()
       << "), checksum: " << writefile->checksum() << endl;
   }
   delete readfile;

@@ -18,9 +18,7 @@
 
 #include <iostream>
 
-#include <stdarg.h>
 #include <regex.h>
-#include <sys/stat.h>
 
 using namespace std;
 

@@ -17,8 +17,9 @@
 */
 
 #include <iostream>
-#include <list>
-#include <string>
+
+#include <sys/types.h>
+#include <sys/stat.h>
 
 using namespace std;
 

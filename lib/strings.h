@@ -19,6 +19,8 @@
 #ifndef STRINGS_H
 #define STRINGS_H
 
+#include <string>
+
 namespace hbackup {
 
 extern int pathCompare(const char* s1, const char* s2, size_t length = -1);
