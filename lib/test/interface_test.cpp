@@ -122,7 +122,7 @@ int main(void) {
   delete hbackup;
 
 #if 0
-  cout << endl << "Test: list prefixes" << endl;
+  cout << endl << "Test: list clients" << endl;
   hbackup = new HBackup();
   if (hbackup->readConfig("etc/hbackup.conf")) {
     return 1;
@@ -158,7 +158,7 @@ int main(void) {
   system("rm -rf test_r");
   delete hbackup;
 
-  cout << endl << "Test: prefix" << endl;
+  cout << endl << "Test: restore client" << endl;
   hbackup = new HBackup();
   if (hbackup->readConfig("etc/hbackup.conf")) {
     return 1;

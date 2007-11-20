@@ -280,7 +280,7 @@ int main(void) {
 
   list<string> records;
 
-  cout << endl << "Prefixes in DB" << endl;
+  cout << endl << "Clients in DB" << endl;
   db.open(true);
   db.getRecords(records);
   db.close();
@@ -290,7 +290,7 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Paths in 'file://myhost' prefix in DB" << endl;
+  cout << endl << "Paths in 'file://myhost' client in DB" << endl;
   db.open(true);
   db.getRecords(records, "file://myhost");
   db.close();
@@ -300,7 +300,7 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Paths in 'file://myhost' prefix under test1 in DB" << endl;
+  cout << endl << "Paths in 'file://myhost' client under test1 in DB" << endl;
   db.open(true);
   db.getRecords(records, "file://myhost", "test1");
   db.close();
@@ -310,7 +310,7 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Paths in 'file://myhost' prefix under test1/cvs in DB" << endl;
+  cout << endl << "Paths in 'file://myhost' client under test1/cvs in DB" << endl;
   db.open(true);
   db.getRecords(records, "file://myhost", "test1/cvs");
   db.close();
@@ -320,7 +320,7 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Paths in 'file://myhost' prefix under test1/cvs/diroth in DB"
+  cout << endl << "Paths in 'file://myhost' client under test1/cvs/diroth in DB"
     << endl;
   db.open(true);
   db.getRecords(records, "file://myhost", "test1/cvs/diroth");
@@ -331,7 +331,7 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Paths in 'file://myhost' prefix under test1/cvs/dirutd in DB"
+  cout << endl << "Paths in 'file://myhost' client under test1/cvs/dirutd in DB"
     << endl;
   db.open(true);
   db.getRecords(records, "file://myhost", "test1/cvs/dirutd");

@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
       "file name", cmd);
 
     // Specify client(s)
-    MultiArg<string> clientArg("C", "client", "Specify client name or prefix",
+    MultiArg<string> clientArg("C", "client", "Specify client name",
       false, "client", cmd);
 
     // Debug
@@ -114,8 +114,8 @@ int main(int argc, char **argv) {
     ValueArg<time_t> dateArg("D", "date", "Specify date",
       false, 0, "UNIX epoch", cmd);
 
-    // List prefixes
-    SwitchArg listSwitch("l", "list", "List available prefixes",
+    // List data
+    SwitchArg listSwitch("l", "list", "List available data",
       cmd, false);
 
     // Check configuration

@@ -53,8 +53,8 @@ struct Database::Private {
   List*                   list;
   List*                   journal;
   List*                   merge;
-  StrPath                 prefix;
-  bool                    prefixJournalled;
+  StrPath                 client;
+  bool                    clientJournalled;
 };
 
 int Database::update(
@@ -609,7 +609,7 @@ int Database::open(bool read_only) {
   }
 
   // Setup some data
-  _d->prefix = "";
+  _d->client = "";
   if (verbosity() > 1) {
     cout << " -> Database open" << endl;
   }
@@ -638,7 +638,7 @@ int Database::close() {
     remove((_d->path + "/list.part").c_str());
   } else {
     // Finish off list reading/copy
-    setPrefix("");
+    setClient("");
     // Close journal
     _d->journal->close();
     // See if any data was added
@@ -744,19 +744,19 @@ int Database::close() {
 
 int Database::getRecords(
     list<string>&   records,
-    const char*     prefix,
+    const char*     client,
     const char*     path,
     time_t          date) {
-  // Look for prefixes
-  if ((prefix == NULL) || (prefix[0] == '\0')) {
+  // Look for clientes
+  if ((client == NULL) || (client[0] == '\0')) {
     while (_d->list->search() == 2) {
-      char *db_prefix = NULL;
-      if (_d->list->getEntry(NULL, &db_prefix, NULL, NULL) < 0) {
+      char *db_client = NULL;
+      if (_d->list->getEntry(NULL, &db_client, NULL, NULL) < 0) {
         cerr << "db: error reading from list: " << strerror(errno) << endl;
         return -1;
       }
-      records.push_back(db_prefix);
-      free(db_prefix);
+      records.push_back(db_client);
+      free(db_client);
     }
     return 0;
   } else
@@ -771,7 +771,7 @@ int Database::getRecords(
     }
 
     char* db_path = NULL;
-    while (_d->list->search(prefix, NULL) == 2) {
+    while (_d->list->search(client, NULL) == 2) {
       if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
         cerr << "db: error reading from list: " << strerror(errno) << endl;
         return -1;
@@ -803,11 +803,11 @@ int Database::getRecords(
 
 int Database::restore(
     const char* dest,
-    const char* prefix,
+    const char* client,
     const char* path,
     time_t      date) {
   bool    failed  = false;
-  char*   fprefix = NULL;
+  char*   fclient = NULL;
   char*   fpath   = NULL;
   Node*   fnode   = NULL;
   time_t  fts;
@@ -820,14 +820,14 @@ int Database::restore(
     path_is_dir = true;
   }
 
-  // Skip to given prefix FIXME use search to look for path and speed things up
-  if (_d->list->search(prefix, "") != 2) {
+  // Skip to given client FIXME use search to look for path and speed things up
+  if (_d->list->search(client, "") != 2) {
     return -1;
   }
 
   // Restore relevant data
-  while ((rc = _d->list->getEntry(&fts, &fprefix, &fpath, &fnode, date)) > 0) {
-    if (strcmp(fprefix, prefix) != 0) {
+  while ((rc = _d->list->getEntry(&fts, &fclient, &fpath, &fnode, date)) > 0) {
+    if (strcmp(fclient, client) != 0) {
       break;
     }
     if (path_is_dir) {
@@ -1062,30 +1062,30 @@ int Database::scan(const string& checksum, bool thorough) {
   return 0;
 }
 
-void Database::setPrefix(
-    const char*     prefix,
+void Database::setClient(
+    const char*     client,
     time_t          expire) {
-  // Finish previous prefix work (removed items at end of list)
-  if (_d->prefix.length() != 0) {
+  // Finish previous client work (removed items at end of list)
+  if (_d->client.length() != 0) {
     sendEntry(NULL, NULL, NULL);
   }
-  _d->prefix = prefix;
+  _d->client = client;
   if (expire > 0) {
     _d->expire = time(NULL) - expire;
   } else {
     _d->expire = expire;
   }
-  _d->prefixJournalled = false;
-  // This will add the prefix if not found, copy it if found
-  _d->list->search(prefix, "", _d->merge, -1, &_d->active_data,
+  _d->clientJournalled = false;
+  // This will add the client if not found, copy it if found
+  _d->list->search(client, "", _d->merge, -1, &_d->active_data,
     &_d->expired_data);
 }
 
-void Database::failedPrefix() {
-  // Skip to next prefix/end of file
+void Database::failedClient() {
+  // Skip to next client/end of file
   _d->list->search(NULL, NULL, _d->merge, -1, &_d->active_data,
     &_d->expired_data);
-  // Keep prefix found
+  // Keep client found
   _d->list->keepLine();
 }
 
@@ -1100,7 +1100,7 @@ int Database::sendEntry(
   // DB
   char* db_path = NULL;
   int   cmp     = 1;
-  while (_d->list->search(_d->prefix.c_str(), NULL, _d->merge, _d->expire,
+  while (_d->list->search(_d->client.c_str(), NULL, _d->merge, _d->expire,
       &_d->active_data, &_d->expired_data) == 2) {
     if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
       return -1;
@@ -1124,9 +1124,9 @@ int Database::sendEntry(
     // Not reached, mark 'removed' (getLineType keeps line automatically)
     _d->merge->path(db_path);
     if (_d->list->getLineType() != '-') {
-      if (! _d->prefixJournalled) {
-        _d->journal->prefix(_d->prefix.c_str());
-        _d->prefixJournalled = true;
+      if (! _d->clientJournalled) {
+        _d->journal->client(_d->client.c_str());
+        _d->clientJournalled = true;
       }
       _d->journal->path(db_path);
       _d->journal->data(time(NULL));
@@ -1200,9 +1200,9 @@ int Database::add(
       ts = time(NULL);
     }
     // Add entry info to journal
-    if (! _d->prefixJournalled) {
-      _d->journal->prefix(_d->prefix.c_str());
-      _d->prefixJournalled = true;
+    if (! _d->clientJournalled) {
+      _d->journal->client(_d->client.c_str());
+      _d->clientJournalled = true;
     }
     _d->journal->path(remote_path);
     _d->journal->data(ts, node2);

@@ -55,16 +55,16 @@ public:
   int  open(bool read_only = false);
   // Close database
   int  close();
-  // Get list of prefixes in DB list (close-open to re-use DB!)
+  // Get list of clientes in DB list (close-open to re-use DB!)
   int  getRecords(
       list<string>& records,          // List of elements to display
-      const char*   prefix  = NULL,   // The prefix (list prefixes)
+      const char*   client  = NULL,   // The client (list clientes)
       const char*   path    = NULL,   // The path (list paths)
       time_t        date    = 0);     // The date (latest)
   // Restore specified data
   int  restore(
     const char*     dest,             // Where the restored path goes
-    const char*     prefix,           // The prefix to restore
+    const char*     client,           // The client to restore
     const char*     path = NULL,      // The path to restore (all)
     time_t          date = 0);        // The date to restore (latest)
   // Read file with given checksum, extract it to path
@@ -76,12 +76,12 @@ public:
   int  scan(
     const string&   checksum = "",
     bool            thorough = true);
-  // Set the current prefix and its expiration delay (seconds)
-  void setPrefix(
-    const char*     prefix,
+  // Set the current client and its expiration delay (seconds)
+  void setClient(
+    const char*     client,
     time_t          expire = -1);
-  // Tell DB that this prefix failed (skip last records)
-  void failedPrefix();
+  // Tell DB that this client failed (skip last records)
+  void failedClient();
   // Send data for comparison
   int  sendEntry(
     const char*     remote_path,      // Dir where the file resides, remotely

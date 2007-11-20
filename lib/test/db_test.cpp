@@ -95,8 +95,8 @@ int hbackup::terminating(const char* unused) {
   return 0;
 }
 
-static void showLine(time_t timestamp, char* prefix, char* path, Node* node) {
-  printf("[%2ld] %-16s %-34s", timestamp, prefix, path);
+static void showLine(time_t timestamp, char* client, char* path, Node* node) {
+  printf("[%2ld] %-16s %-34s", timestamp, client, path);
   if (node != NULL) {
     printf(" %c %5llu %03o", node->type(), node->size(), node->mode());
     if (node->type() == 'f') {
@@ -121,7 +121,7 @@ int main(void) {
   string            zchecksum;
   int               status;
   List    dblist("test_db/list");
-  char*   prefix = NULL;
+  char*   client = NULL;
   char*   path   = NULL;
   Node*   node   = NULL;
   time_t  ts;
@@ -364,7 +364,7 @@ int main(void) {
     }
   }
 
-  db.setPrefix("prot://client");
+  db.setClient("prot://client");
 
   File* f;
   f = new File("test1/test space");
@@ -398,8 +398,8 @@ int main(void) {
   if (dblist.isEmpty()) {
     cout << "Merge is empty" << endl;
   } else
-  while ((status = dblist.getEntry(&ts, &prefix, &path, &node)) > 0) {
-    showLine(ts, prefix, path, node);
+  while ((status = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
+    showLine(ts, client, path, node);
   }
   dblist.close();
   if (status < 0) {
@@ -419,8 +419,8 @@ int main(void) {
   if (dblist.isEmpty()) {
     cout << "Merge is empty" << endl;
   } else
-  while ((status = dblist.getEntry(&ts, &prefix, &path, &node)) > 0) {
-    showLine(ts, prefix, path, node);
+  while ((status = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
+    showLine(ts, client, path, node);
   }
   dblist.close();
   if (status < 0) {
@@ -429,7 +429,7 @@ int main(void) {
 
 
   list<string> records;
-  cout << endl << "Test: read prefixes" << endl;
+  cout << endl << "Test: read clients" << endl;
   if ((status = db.open(true))) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
@@ -438,7 +438,7 @@ int main(void) {
   }
   db.getRecords(records);
   db.close();
-  cout << "List of prefixes: " << records.size() << endl;
+  cout << "List of clients: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
   }

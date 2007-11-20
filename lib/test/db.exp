@@ -112,10 +112,10 @@ Test: do nothing
 [ 6] prot://client    other_path/testfile                f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [ 7] prot://client    other_path/testdir                 d     0 755
 
-Test: read prefixes
+Test: read clients
  -> Database open
  -> Database closed
-List of prefixes: 1
+List of clients: 1
  -> prot://client
 
 Test: read paths in prot://client

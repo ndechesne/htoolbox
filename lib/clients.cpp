@@ -492,7 +492,7 @@ int Client::backup(
     if (_d->paths.empty()) {
       failed = true;
     } else if (! config_check) {
-      db.setPrefix(prefix().c_str(), _expire);
+      db.setClient(prefix().c_str(), _expire);
       for (list<Path*>::iterator i = _d->paths.begin(); i != _d->paths.end();
           i++) {
         if (terminating()) {
@@ -506,7 +506,7 @@ int Client::backup(
 
         if (mountPath((*i)->path(), &backup_path)) {
           cerr << "clients: backup: mount failed for " << (*i)->path() << endl;
-          db.failedPrefix();
+          db.failedClient();
           break;
         } else
         if ((*i)->parse(db, backup_path.c_str())) {

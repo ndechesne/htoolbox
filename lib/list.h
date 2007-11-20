@@ -31,8 +31,8 @@ class List : public Stream {
   //   2: line contains found data, will only re-used in getEntry
   //   3: line contains data to be re-used
   int               _line_status;
-  // Need to keep prefix status for search()
-  int               _prefix_cmp;
+  // Need to keep client status for search()
+  int               _client_cmp;
 public:
   List(
     const char*     dir_path,
@@ -74,13 +74,13 @@ public:
   //    -1: error, 0: end of file, 1: success
   int getEntry(
     time_t*         timestamp,
-    char**          prefix,
+    char**          client,
     char**          path,
     Node**          node,
     time_t          date = -1);
-  // Add prefix to list
-  int prefix(
-    const char*     prefix);
+  // Add client to list
+  int client(
+    const char*     client);
   // Add path to list
   int path(
     const char*     path);
@@ -91,20 +91,20 @@ public:
     bool            bufferize = false);
   // Search data in list copying contents on the fly if required, and
   // also expiring data and putting checksums in lists !
-  // Searches:                        Prefix      Path        Copy
+  // Searches:                        Client      Path        Copy
   //    end of file                   ""          ""          all
-  //    prefix                        prefix      ""          all up to prefix
-  //    prefix and path               prefix      path        all up to path
-  //    any prefix                    NULL                    all before prefix
-  //    prefix and any path           prefix      NULL        all before path
+  //    client                        client      ""          all up to client
+  //    client and path               client      path        all up to path
+  //    any client                    NULL                    all before client
+  //    client and any path           client      NULL        all before path
   // Expiration:
   //    -1: no expiration, 0: only keep last, otherwise use given date
   // Return code:
   //    -1: error, 0: end of file, 1: exceeded, 2: found
   // Caution:
-  //    when merging, search for prefix on its own before searching for path
+  //    when merging, search for client on its own before searching for path
   int search(
-    const char*     prefix  = NULL,   // Prefix to search
+    const char*     client  = NULL,   // Client to search
     const char*     path    = NULL,   // Path to search
     List*           list    = NULL,   // List in which to copy, if any
     time_t          expire  = -1,     // Expiration date

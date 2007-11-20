@@ -367,7 +367,7 @@ U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
  -> Database closed
 
-Test: prefix
+Test: restore client
  -> Reading configuration file
  --> global filter all backup
  ---> condition type file

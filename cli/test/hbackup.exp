@@ -22,7 +22,7 @@ HBackup (c) 2006-2007 Hervé Fache
     Only check configuration
 
   -l,  --list
-    List available prefixes
+    List available data
 
   -D <UNIX epoch>,  --date <UNIX epoch>
     Specify date
@@ -31,7 +31,7 @@ HBackup (c) 2006-2007 Hervé Fache
     Print debug information
 
   -C <client>,  --client <client>  (accepted multiple times)
-    Specify client name or prefix
+    Specify client name
 
   -c <file name>,  --config <file name>
     Specify configuration file
@@ -72,7 +72,7 @@ HBackup (c) 2006-2007 Hervé Fache
     Only check configuration
 
   -l,  --list
-    List available prefixes
+    List available data
 
   -D <UNIX epoch>,  --date <UNIX epoch>
     Specify date
@@ -81,7 +81,7 @@ HBackup (c) 2006-2007 Hervé Fache
     Print debug information
 
   -C <client>,  --client <client>  (accepted multiple times)
-    Specify client name or prefix
+    Specify client name
 
   -c <file name>,  --config <file name>
     Specify configuration file

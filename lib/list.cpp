@@ -68,7 +68,7 @@ int List::open(
     if (_line_status == 1) {
       _line_status = 3;
     }
-    _prefix_cmp = 0;
+    _client_cmp = 0;
   }
   return rc;
 }
@@ -273,7 +273,7 @@ char List::getLineType() {
   // Line should be re-used
   _line_status = 3;
   if (_line[0] != '\t') {
-    // Prefix (client)
+    // Client
     return 'C';
   } else
   if (_line[1] != '\t') {
@@ -295,7 +295,7 @@ char List::getLineType() {
 
 int List::getEntry(
     time_t*       timestamp,
-    char**        prefix,
+    char**        client,
     char**        path,
     Node**        node,
     time_t        date) {
@@ -343,14 +343,14 @@ int List::getEntry(
       return 0;
     }
 
-    // Prefix
+    // Client
     if (_line[0] != '\t') {
-      if (prefix != NULL) {
-        free(*prefix);
-        *prefix = NULL;
-        asprintf(prefix, "%s", &_line[0]);
+      if (client != NULL) {
+        free(*client);
+        *client = NULL;
+        asprintf(client, "%s", &_line[0]);
         // Change end of line
-        (*prefix)[length] = '\0';
+        (*client)[length] = '\0';
       }
     } else
 
@@ -387,10 +387,10 @@ int List::getEntry(
   return 1;
 }
 
-int List::prefix(
-    const char*     prefix) {
-  ssize_t length = strlen(prefix);
-  if ((Stream::write(prefix, length) != length)
+int List::client(
+    const char*     client) {
+  ssize_t length = strlen(client);
+  if ((Stream::write(client, length) != length)
    || (Stream::write("\n", 1) != 1)) {
     return -1;
   }
@@ -454,7 +454,7 @@ int List::data(
 }
 
 int List::search(
-    const char*     prefix_l,
+    const char*     client_l,
     const char*     path_l,
     List*           list,
     time_t          expire,
@@ -463,28 +463,28 @@ int List::search(
   int     path_cmp;
   int     rc         = 0;
 
-  size_t  prefix_len = 0;   // Not set
+  size_t  client_len = 0;   // Not set
   size_t  path_len   = 0;   // Not set
 
-  // Pre-set prefix comparison result
-  if (prefix_l == NULL) {
-    // Any prefix will match
-    _prefix_cmp = 0;
+  // Pre-set client comparison result
+  if (client_l == NULL) {
+    // Any client will match
+    _client_cmp = 0;
   } else
-  if (prefix_l[0] == '\0') {
-    // No need to compare prefixes
-    _prefix_cmp = 1;
+  if (client_l[0] == '\0') {
+    // No need to compare clientes
+    _client_cmp = 1;
   } else {
     // string or line?
-    int len = strlen(prefix_l);
-    if ((len > 0) && (prefix_l[len - 1] != '\n')) {
+    int len = strlen(client_l);
+    if ((len > 0) && (client_l[len - 1] != '\n')) {
       // string: signal it by setting its lengh
-      prefix_len = len;
+      client_len = len;
     }
   }
 
   // Pre-set path comparison result
-  if (prefix_l == NULL) {
+  if (client_l == NULL) {
     // No path will match
     path_cmp = 1;
   } else
@@ -492,7 +492,7 @@ int List::search(
     // Any path will match
     path_cmp = 0;
   } else
-  if ((_prefix_cmp > 0) || (path_l[0] == '\0')) {
+  if ((_client_cmp > 0) || (path_l[0] == '\0')) {
     // No need to compare paths
     path_cmp = 1;
   } else
@@ -536,24 +536,24 @@ int List::search(
       _line_status = 0;
     } else
 
-    // Got a prefix
+    // Got a client
     if (_line[0] != '\t') {
-      // Compare prefixes
-      if ((prefix_l != NULL) && (prefix_l[0] != '\0')) {
-        if ((prefix_len > 0) && (_line.length() == (prefix_len + 1))) {
-          _prefix_cmp = pathCompare(prefix_l, _line.c_str(), prefix_len);
+      // Compare clientes
+      if ((client_l != NULL) && (client_l[0] != '\0')) {
+        if ((client_len > 0) && (_line.length() == (client_len + 1))) {
+          _client_cmp = pathCompare(client_l, _line.c_str(), client_len);
         } else {
-          _prefix_cmp = pathCompare(prefix_l, _line.c_str());
+          _client_cmp = pathCompare(client_l, _line.c_str());
         }
       }
-      if (_prefix_cmp <= 0)  {
-        if (_prefix_cmp < 0) {
-          // Prefix exceeded
+      if (_client_cmp <= 0)  {
+        if (_client_cmp < 0) {
+          // Client exceeded
           _line_status = 3;
         } else
-        if ((prefix_l == NULL)
+        if ((client_l == NULL)
          || ((path_l != NULL) && (path_l[0] == '\0'))) {
-          // Looking for prefix, found
+          // Looking for client, found
           _line_status = 2;
         }
       }
@@ -564,7 +564,7 @@ int List::search(
     // Got a path
     if (_line[1] != '\t') {
       // Compare paths
-      if ((_prefix_cmp <= 0) && (path_l != NULL) && (path_l[0] != '\0')) {
+      if ((_client_cmp <= 0) && (path_l != NULL) && (path_l[0] != '\0')) {
         if (path_len > 0) {
           if (_line.length() == (path_len + 2)) {
             path_cmp = pathCompare(path_l, &_line[1], path_len);
@@ -667,15 +667,15 @@ int List::search(
             return -1;
           }
         } else
-        if ((prefix_l != NULL)
-         && (prefix_l[0] != '\0')
+        if ((client_l != NULL)
+         && (client_l[0] != '\0')
          && (path_l != NULL)) {
-          // Write prefix
-          if (list->write(prefix_l, strlen(prefix_l)) < 0) {
+          // Write client
+          if (list->write(client_l, strlen(client_l)) < 0) {
             // Could not write
             return -1;
           }
-          if ((prefix_len != 0) && (list->write("\n", 1) < 0)) {
+          if ((client_len != 0) && (list->write("\n", 1) < 0)) {
             // Could not write
             return -1;
           }
@@ -724,8 +724,8 @@ int List::merge(
   // Line read from journal
   int j_line_no = 0;
 
-  // Current prefix, path and data (from journal)
-  StrPath prefix;
+  // Current client, path and data (from journal)
+  StrPath client;
   StrPath path;
 
   // Last search status
@@ -773,34 +773,34 @@ int List::merge(
       break;
     }
 
-    // Got a prefix
+    // Got a client
     if (journal._line[0] != '\t') {
-      if (prefix.length() != 0) {
-        int cmp = prefix.compare(journal._line);
-        // If same prefix, ignore it
+      if (client.length() != 0) {
+        int cmp = client.compare(journal._line);
+        // If same client, ignore it
         if (cmp == 0) {
-          cerr << "Prefix duplicated in journal, line " << j_line_no << endl;
+          cerr << "Client duplicated in journal, line " << j_line_no << endl;
           continue;
         }
         // Check path order
         if (cmp > 0) {
           // Cannot go back
-          cerr << "Prefix out of order in journal, line " << j_line_no << endl;
+          cerr << "Client out of order in journal, line " << j_line_no << endl;
           errno = EUCLEAN;
           rc = -1;
           break;
         }
       }
-      // Copy new prefix
-      prefix = journal._line;
+      // Copy new client
+      client = journal._line;
       // No path for this entry yet
       path = "";
       // Search/copy list
       if (rc_list >= 0) {
-        rc_list = list.search(prefix.c_str(), path.c_str(), this);
+        rc_list = list.search(client.c_str(), path.c_str(), this);
         if (rc_list < 0) {
           // Error copying list
-          cerr << "Prefix search failed" << endl;
+          cerr << "Client search failed" << endl;
           rc = -1;
           break;
         }
@@ -809,10 +809,10 @@ int List::merge(
 
     // Got a path
     if (journal._line[1] != '\t') {
-      // Must have a prefix by now
-      if (prefix.length() == 0) {
-        // Did not get a prefix first thing
-        cerr << "Prefix missing in journal, line " << j_line_no << endl;
+      // Must have a client by now
+      if (client.length() == 0) {
+        // Did not get a client first thing
+        cerr << "Client missing in journal, line " << j_line_no << endl;
         errno = EUCLEAN;
         rc = -1;
         break;
@@ -831,7 +831,7 @@ int List::merge(
       path = journal._line;
       // Search/copy list
       if (rc_list >= 0) {
-        rc_list = list.search(prefix.c_str(), path.c_str(), this);
+        rc_list = list.search(client.c_str(), path.c_str(), this);
         if (rc_list < 0) {
           // Error copying list
           cerr << "Path search failed" << endl;
@@ -844,7 +844,7 @@ int List::merge(
     // Got data
     {
       // Must have a path before then
-      if ((prefix.length() == 0) || (path.length() == 0)) {
+      if ((client.length() == 0) || (path.length() == 0)) {
         // Did not get anything before data
         cerr << "Data out of order in journal, line " << j_line_no << endl;
         errno = EUCLEAN;

@@ -331,7 +331,7 @@ A test1/cvs/fileoth (0 B)
 A test1/cvs/fileutd.h (0 B)
  -> Database closed
 
-Prefixes in DB
+Clients in DB
  -> Database open
  -> Database closed
 Records found: 6
@@ -342,19 +342,19 @@ Records found: 6
  smb://myClient2
  smb://myhost2
 
-Paths in 'file://myhost' prefix in DB
+Paths in 'file://myhost' client in DB
  -> Database open
  -> Database closed
 Records found: 1
  test1
 
-Paths in 'file://myhost' prefix under test1 in DB
+Paths in 'file://myhost' client under test1 in DB
  -> Database open
  -> Database closed
 Records found: 1
  test1/cvs
 
-Paths in 'file://myhost' prefix under test1/cvs in DB
+Paths in 'file://myhost' client under test1/cvs in DB
  -> Database open
  -> Database closed
 Records found: 8
@@ -367,12 +367,12 @@ Records found: 8
  test1/cvs/fileoth
  test1/cvs/fileutd.h
 
-Paths in 'file://myhost' prefix under test1/cvs/diroth in DB
+Paths in 'file://myhost' client under test1/cvs/diroth in DB
  -> Database open
  -> Database closed
 Records found: 0
 
-Paths in 'file://myhost' prefix under test1/cvs/dirutd in DB
+Paths in 'file://myhost' client under test1/cvs/dirutd in DB
  -> Database open
  -> Database closed
 Records found: 3
