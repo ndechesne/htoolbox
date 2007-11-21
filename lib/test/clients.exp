@@ -552,3 +552,29 @@ Backup path '/home/User/test2'
  -> umount test_db/mount
  -> Journal is empty, not merging
  -> Database closed
+Test with dual boot client
+ --> Client: myClient
+>List 1 client(s):
+Client: myClient
+-> smb://myClient C:/Backup/testhost2.list
+ -> Database open
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
+Backup client 'myClient' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+A C:/Test/File.TXT (0 B)
+ -> umount test_db/mount
+ -> Database closed
+
+Clients in DB
+ -> Database open
+ -> Database closed
+Records found: 7
+ myClient#
+ myClient$
+ myClient2$
+ myhost#
+ myhost2$
+ myhost3#
+ testhost#

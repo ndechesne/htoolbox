@@ -377,6 +377,7 @@ int HBackup::getList(
       for (i = records.begin(); i != records.end(); i++) {
         *i = i->substr(0, i->size() - 1);
       }
+      records.unique();
     }
   } else {
     bool failed1, failed2;

@@ -198,5 +198,143 @@ int main(void) {
   system("rm -rf test_r");
   delete hbackup;
 
+  cout << endl << "Test: add dual-boot client" << endl;
+  system("echo >> etc/hbackup.conf");
+  system("echo client smb myClient >> etc/hbackup.conf");
+  system("echo config C:\\\\Backup\\\\Backup.LST >> etc/hbackup.conf");
+  
+  cout << endl << "Test: typical backup" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->backup();
+  delete hbackup;
+
+  cout << endl << "Test: specify clients" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient");
+  hbackup->addClient("client");
+  hbackup->backup();
+  delete hbackup;
+
+  cout << endl << "Test: list clients" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->getList(records);
+  delete hbackup;
+  cout << "List of clients: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+
+  cout << endl << "Test: list paths in DUAL client" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->getList(records, "myClient");
+  delete hbackup;
+  cout << "List of paths in 'myClient': " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+  
+  cout << endl << "Test: list sub-paths in UNIX client" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->getList(records, "myClient", "/home");
+  delete hbackup;
+  cout << "List of paths in 'myClient': " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+  
+  cout << endl << "Test: list sub-paths in DOS client" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->getList(records, "myClient", "C:");
+  delete hbackup;
+  cout << "List of paths in 'myClient': " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+  
+  cout << endl << "Test: restore file (UNIX)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->restore("test_r", "myClient", "/home/User/test/File2.txt", 0);
+  system("rm -rf test_r");
+  delete hbackup;
+  
+  cout << endl << "Test: restore subdir (UNIX)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->restore("test_r", "myClient", "/home/User/test", 0);
+  system("rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore dir (UNIX)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->restore("test_r", "myClient", "/", 0);
+  system("rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore file (DOS)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->restore("test_r", "myClient", "C:/Test/File.TXT", 0);
+  system("rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore subdir (DOS)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->restore("test_r", "myClient", "C:/Test", 0);
+  system("rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore dir (DOS)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->restore("test_r", "myClient", "C:", 0);
+  system("rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore client" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->restore("test_r", "myClient", "", 0);
+  system("rm -rf test_r");
+  delete hbackup;
+
   return 0;
 }

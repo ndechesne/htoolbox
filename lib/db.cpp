@@ -827,18 +827,21 @@ int Database::restore(
   bool    path_is_dir     = false;
   bool    path_is_not_dir = false;
 
-  if (path[0] == '\0') {
+  if ((len == 0) || (path[len - 1] == '/')) {
     path_is_dir = true;
   }
 
-  // Skip to given client FIXME use search to look for path and speed things up
+  // Skip to given client
   if (_d->list->search(client, "") != 2) {
     return -1;
   }
 
   // Restore relevant data
-  while ((rc = _d->list->getEntry(&fts, &fclient, &fpath, &fnode, date)) > 0) {
+  while ((rc = _d->list->getEntry(NULL, &fclient, NULL, NULL, -2)) > 0) {
     if (strcmp(fclient, client) != 0) {
+      break;
+    }
+    if (_d->list->getEntry(&fts, &fclient, &fpath, &fnode, date) <= 0) {
       break;
     }
     if (path_is_dir) {

@@ -455,3 +455,303 @@ U test_r/test2/testfile2
 U test_r/test2/testfile~
 U test_r/test2/testlink
  -> Database closed
+
+Test: add dual-boot client
+
+Test: typical backup
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ --> Client: myClient
+ -> Database open
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+Backup client 'client' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
+Backup client 'myClient' using protocol 'nfs'
+ -> Reading backup list file
+ --> Path: /home/User/test
+Backup path '/home/User/test'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+ -> umount test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
+Backup client 'myClient' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+A C:/Test/File.TXT (0 B)
+ -> umount test_db/mount
+Backup client 'myhost' using protocol 'file'
+ -> Reading backup list file
+ --> client-wide filter and subdir
+ ---> condition path_start subdir
+ ---> condition not size< 100
+ --> client-wide filter and bigfile
+ ---> condition size>= 10
+ ---> condition type file
+ --> expiry 1 day(s)
+ --> Path: test2
+ --> Path: test1
+ --> path-wide filter and not_object
+ ---> condition not path_end .o
+ --> path-wide filter or to_be_ignored
+ ---> condition filter subdir
+ ---> condition filter backup
+ ---> condition not filter not_object
+Backup path 'test1'
+ -> Dir cvs
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
+Directory should be under CVS control: test1/cvs/dirbad
+ -> Dir cvs/dirutd
+ -> Dir cvs/dirutd/CVS
+ -> Dir dir space
+ -> Dir testdir
+Backup path 'test2'
+ -> Dir testdir
+Protocol not supported: ssh
+ -> Database closed
+
+Test: specify clients
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ --> Client: myClient
+ -> Database open
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+Backup client 'client' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
+Backup client 'myClient' using protocol 'nfs'
+ -> Reading backup list file
+ --> Path: /home/User/test
+Backup path '/home/User/test'
+ -> umount test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+ -> umount test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
+Backup client 'myClient' using protocol 'smb'
+ -> Reading backup list file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+ -> umount test_db/mount
+ -> Journal is empty, not merging
+ -> Database closed
+
+Test: list clients
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ --> Client: myClient
+ -> Database open
+ -> Database closed
+List of clients: 3
+ -> client
+ -> myClient
+ -> myhost
+
+Test: list paths in DUAL client
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ --> Client: myClient
+ -> Database open
+ -> Database closed
+List of paths in 'myClient': 2
+ -> /home
+ -> C:
+
+Test: list sub-paths in UNIX client
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ --> Client: myClient
+ -> Database open
+ -> Database closed
+List of paths in 'myClient': 1
+ -> /home/User
+
+Test: list sub-paths in DOS client
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ --> Client: myClient
+ -> Database open
+ -> Database closed
+List of paths in 'myClient': 1
+ -> C:/Test
+
+Test: restore file (UNIX)
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ --> Client: myClient
+ -> Database open
+U test_r//home/User/test/File2.txt
+ -> Database closed
+
+Test: restore subdir (UNIX)
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ --> Client: myClient
+ -> Database open
+U test_r//home/User/test/File2.txt
+ -> Database closed
+
+Test: restore dir (UNIX)
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ --> Client: myClient
+ -> Database open
+U test_r//home/User/test/File2.txt
+ -> Database closed
+
+Test: restore file (DOS)
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ --> Client: myClient
+ -> Database open
+U test_r/C:/Test/File.TXT
+ -> Database closed
+
+Test: restore subdir (DOS)
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ --> Client: myClient
+ -> Database open
+U test_r/C:/Test/File.TXT
+ -> Database closed
+
+Test: restore dir (DOS)
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ --> Client: myClient
+ -> Database open
+U test_r/C:/Test/File.TXT
+ -> Database closed
+
+Test: restore client
+ -> Reading configuration file
+ --> global filter all backup
+ ---> condition type file
+ ---> condition path_end ~
+ --> global filter any test_or
+ ---> condition filter backup
+ ---> condition not size< 1000
+ --> Client: myClient
+ --> Client: other
+ --> Client: myhost
+ --> Client: client
+ --> Client: myClient
+ -> Database open
+U test_r//home/User/test/File2.txt
+U test_r/C:/Test/File.TXT
+ -> Database closed

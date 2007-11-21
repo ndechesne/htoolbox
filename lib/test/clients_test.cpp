@@ -527,5 +527,36 @@ int main(void) {
   clients.clear();
   db.close();
 
+  printf("Test with dual boot client\n");
+  client = new Client("myClient");
+  clients.push_back(client);
+  client->setProtocol("smb");
+  client->setListfile("C:\\Backup\\testhost2.list");
+
+  printf(">List %u client(s):\n", clients.size());
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->show();
+  }
+  db.open();
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->setMountPoint("test_db/mount");
+    (*i)->backup(db, filters, 0);
+  }
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    delete *i;
+  }
+  clients.clear();
+  db.close();
+  
+  cout << endl << "Clients in DB" << endl;
+  db.open(true);
+  db.getRecords(records);
+  db.close();
+  cout << "Records found: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+    cout << " " << *i << endl;
+  }
+  records.clear();
+
   return 0;
 }
