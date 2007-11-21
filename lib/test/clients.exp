@@ -107,6 +107,10 @@ Backup path '/home/User/test'
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
 A /home/User/test/File2.txt (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
+A /home/User/test/dir
+ -> Dir dir
+A /home/User/test/dir/file3.txt (2 B)
+Adding file data to DB in: test_db/data/6d7fce9fee471194aa8b5b6e47267f03-0
 Backup path '/home/User/test2'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test2 test_db/mount
@@ -118,6 +122,12 @@ Backup client 'myClient2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+A C:/Test/Dir
+ -> Dir Dir
+A C:/Test/Dir/a File.TXT (2 B)
+Adding file data to DB in: test_db/data/b026324c6904b2a9cb4b88d6d61c81d1-0
+A C:/Test/Dir/another File.TXT (2 B)
+Adding file data to DB in: test_db/data/26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
  -> umount test_db/mount
 Protocol not supported: ssh
@@ -288,6 +298,10 @@ Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+A C:/Test/Dir
+ -> Dir Dir
+A C:/Test/Dir/a File.TXT (2 B)
+A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
  -> umount test_db/mount
  -> Database closed
@@ -301,6 +315,9 @@ Backup path '/home/User/test'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User/test test_db/mount
 A /home/User/test/File2.txt (0 B)
+A /home/User/test/dir
+ -> Dir dir
+A /home/User/test/dir/file3.txt (2 B)
  -> umount test_db/mount
  -> Database closed
  --> Client: myhost
@@ -405,6 +422,7 @@ Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+ -> Dir Dir
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
@@ -413,6 +431,7 @@ Backup client 'myhost3' using protocol 'nfs'
 Backup path '/home/User/test'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User/test test_db/mount
+ -> Dir dir
  -> umount test_db/mount
  -> Journal is empty, not merging
  -> Database closed
@@ -430,6 +449,7 @@ Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+ -> Dir Dir
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
@@ -438,6 +458,7 @@ Backup client 'myhost3' using protocol 'nfs'
 Backup path '/home/User/test'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User/test test_db/mount
+ -> Dir dir
  -> umount test_db/mount
  -> Journal is empty, not merging
  -> Database closed
@@ -466,6 +487,7 @@ Backup client 'myhost3' using protocol 'nfs'
 Backup path '/home/User/test'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User/test test_db/mount
+ -> Dir dir
  -> umount test_db/mount
  -> Journal is empty, not merging
  -> Database closed
@@ -492,6 +514,7 @@ Backup client 'myhost2' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+ -> Dir Dir
  -> umount test_db/mount
  -> Journal is empty, not merging
  -> Database closed
@@ -509,6 +532,7 @@ Backup client 'myClient' using protocol 'nfs'
 Backup path '/home/User/test'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+ -> Dir dir
 Backup path '/home/User/test2'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test2 test_db/mount
@@ -546,6 +570,7 @@ Backup client 'myClient' using protocol 'nfs'
 Backup path '/home/User/test'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+ -> Dir dir
 Backup path '/home/User/test2'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test2 test_db/mount
@@ -563,6 +588,10 @@ Backup client 'myClient' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+A C:/Test/Dir
+ -> Dir Dir
+A C:/Test/Dir/a File.TXT (2 B)
+A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
  -> umount test_db/mount
  -> Database closed

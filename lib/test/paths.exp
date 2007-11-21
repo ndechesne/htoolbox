@@ -404,7 +404,7 @@ Journal:
 myClient
 	/home/User/cvs/big_file
 [ 3] f 512000 644 
-Previous crash detected, attempting recovery
+Backup was interrupted in a previous run, finishing up...
  -> Database open
 as previous with subdir/testfile readable
  -> Dir cvs
@@ -2082,7 +2082,7 @@ myClient
 [17] -
 	/home/User/testdir/evolocal.odb
 [17] -
-Previous crash detected, attempting recovery
+Backup was interrupted in a previous run, finishing up...
 Unexpected end of journal, line 29
  -> Database open
 

@@ -18,6 +18,12 @@ Backup client 'client' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+A C:/Test/Dir
+ -> Dir Dir
+A C:/Test/Dir/a File.TXT (2 B)
+Adding file data to DB in: test_db/data/b026324c6904b2a9cb4b88d6d61c81d1-0
+A C:/Test/Dir/another File.TXT (2 B)
+Adding file data to DB in: test_db/data/26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
  -> umount test_db/mount
@@ -29,6 +35,10 @@ Backup path '/home/User/test'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
 A /home/User/test/File2.txt (0 B)
+A /home/User/test/dir
+ -> Dir dir
+A /home/User/test/dir/file3.txt (2 B)
+Adding file data to DB in: test_db/data/6d7fce9fee471194aa8b5b6e47267f03-0
  -> umount test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
@@ -107,6 +117,7 @@ Backup client 'client' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+ -> Dir Dir
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
@@ -115,6 +126,7 @@ Backup client 'myClient' using protocol 'nfs'
 Backup path '/home/User/test'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+ -> Dir dir
  -> umount test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
@@ -166,6 +178,7 @@ Backup client 'client' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+ -> Dir Dir
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
@@ -174,6 +187,7 @@ Backup client 'myClient' using protocol 'nfs'
 Backup path '/home/User/test'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+ -> Dir dir
  -> umount test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
@@ -217,13 +231,14 @@ Test: specify clients
  --> Client: other
  --> Client: myhost
  --> Client: client
-Previous crash detected, attempting recovery
+Backup was interrupted in a previous run, finishing up...
  -> Database open
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+ -> Dir Dir
  -> umount test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
@@ -270,7 +285,7 @@ Test: scan DB
  --> Client: myhost
  --> Client: client
  -> Database open
-Scanning database contents: 8 files
+Scanning database contents: 11 files
  -> Journal is empty, not merging
  -> Database closed
 
@@ -287,7 +302,7 @@ Test: check DB
  --> Client: myhost
  --> Client: client
  -> Database open
-Scanning database contents thoroughly: 8 files
+Scanning database contents thoroughly: 11 files
  -> Journal is empty, not merging
  -> Database closed
 
@@ -477,6 +492,7 @@ Backup client 'client' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+ -> Dir Dir
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
@@ -485,12 +501,17 @@ Backup client 'myClient' using protocol 'nfs'
 Backup path '/home/User/test'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+ -> Dir dir
  -> umount test_db/mount
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+A C:/Test/Dir
+ -> Dir Dir
+A C:/Test/Dir/a File.TXT (2 B)
+A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
  -> umount test_db/mount
 Backup client 'myhost' using protocol 'file'
@@ -543,6 +564,7 @@ Backup client 'client' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+ -> Dir Dir
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
@@ -551,12 +573,14 @@ Backup client 'myClient' using protocol 'nfs'
 Backup path '/home/User/test'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
+ -> Dir dir
  -> umount test_db/mount
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+ -> Dir Dir
  -> umount test_db/mount
  -> Journal is empty, not merging
  -> Database closed
@@ -668,6 +692,8 @@ Test: restore subdir (UNIX)
  --> Client: myClient
  -> Database open
 U test_r//home/User/test/File2.txt
+U test_r//home/User/test/dir
+U test_r//home/User/test/dir/file3.txt
  -> Database closed
 
 Test: restore dir (UNIX)
@@ -685,6 +711,8 @@ Test: restore dir (UNIX)
  --> Client: myClient
  -> Database open
 U test_r//home/User/test/File2.txt
+U test_r//home/User/test/dir
+U test_r//home/User/test/dir/file3.txt
  -> Database closed
 
 Test: restore file (DOS)
@@ -718,6 +746,9 @@ Test: restore subdir (DOS)
  --> Client: client
  --> Client: myClient
  -> Database open
+U test_r/C:/Test/Dir
+U test_r/C:/Test/Dir/a File.TXT
+U test_r/C:/Test/Dir/another File.TXT
 U test_r/C:/Test/File.TXT
  -> Database closed
 
@@ -735,6 +766,9 @@ Test: restore dir (DOS)
  --> Client: client
  --> Client: myClient
  -> Database open
+U test_r/C:/Test/Dir
+U test_r/C:/Test/Dir/a File.TXT
+U test_r/C:/Test/Dir/another File.TXT
 U test_r/C:/Test/File.TXT
  -> Database closed
 
@@ -753,5 +787,10 @@ Test: restore client
  --> Client: myClient
  -> Database open
 U test_r//home/User/test/File2.txt
+U test_r//home/User/test/dir
+U test_r//home/User/test/dir/file3.txt
+U test_r/C:/Test/Dir
+U test_r/C:/Test/Dir/a File.TXT
+U test_r/C:/Test/Dir/another File.TXT
 U test_r/C:/Test/File.TXT
  -> Database closed

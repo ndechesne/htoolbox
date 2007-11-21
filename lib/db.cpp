@@ -102,7 +102,7 @@ int Database::convertList() {
       if (i->name == nc.name) {
         cerr << "Error: found two identical names: " << i->name << endl;
         return -1;
-      } else 
+      } else
       if (i->name > nc.name) {
         break;
       }
@@ -151,7 +151,7 @@ int Database::convertList() {
     return -1;
   }
   delete _d->merge;
-  
+
   if (verbosity() > 0) {
     cout << "Conversion successful" << endl;
   }
@@ -647,9 +647,9 @@ int Database::open(bool read_only) {
 
     // Check previous crash
     if (! _d->journal->open("r")) {
-      cout << "Previous crash detected, attempting recovery" << endl;
+      cout << "Backup was interrupted in a previous run, finishing up..." << endl;
       if (merge()) {
-        cerr << "Error: cannot recover from previous crash" << endl;
+        cerr << "Error: failed to recover previous data" << endl;
         failed = true;
       }
       _d->journal->close();
@@ -921,7 +921,6 @@ int Database::restore(
   char*   fpath   = NULL;
   Node*   fnode   = NULL;
   time_t  fts;
-  int     rc;
   int     len = strlen(path);
   bool    path_is_dir     = false;
   bool    path_is_not_dir = false;
@@ -936,10 +935,7 @@ int Database::restore(
   }
 
   // Restore relevant data
-  while ((rc = _d->list->getEntry(NULL, &fclient, NULL, NULL, -2)) > 0) {
-    if (strcmp(fclient, client) != 0) {
-      break;
-    }
+  while (_d->list->search(client, NULL) == 2) {
     if (_d->list->getEntry(&fts, &fclient, &fpath, &fnode, date) <= 0) {
       break;
     }

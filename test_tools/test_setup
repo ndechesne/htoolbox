@@ -88,17 +88,22 @@ ln -s "testfile" "$TESTDIR2/testlink"
 # CIFS test
 mkdir -p "$TESTDIRCIFS/Backup"
 mkdir -p "$TESTDIRCIFS/Test"
-touch  "$TESTDIRCIFS/Test/File.TXT"
+touch "$TESTDIRCIFS/Test/File.TXT"
+mkdir -p "$TESTDIRCIFS/Test/Dir"
+echo 1 > "$TESTDIRCIFS/Test/Dir/a File.TXT"
+echo 2 > "$TESTDIRCIFS/Test/Dir/another File.TXT"
 cat << EOF > "$TESTDIRCIFS/Backup/Backup.LST"
 path "C:\Test" # Do not end it in \" !!!
 EOF
 
 # NFS test
 mkdir -p "$TESTDIRNFS/test"
-touch  "$TESTDIRNFS/test/File2.txt"
+touch "$TESTDIRNFS/test/File2.txt"
+mkdir -p "$TESTDIRNFS/test/dir"
+echo 3 > "$TESTDIRNFS/test/dir/file3.txt"
 mkdir -p "$TESTDIRNFS/test2"
-touch  "$TESTDIRNFS/test2/File3.txt"
-touch  "$TESTDIRNFS/test2/File4.txt"
+touch "$TESTDIRNFS/test2/File3.txt"
+touch "$TESTDIRNFS/test2/File4.txt"
 cat << EOF > "$TESTDIRNFS/hbackup.list"
 path "$ROOTDIRNFS/test/"
 EOF

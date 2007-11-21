@@ -143,6 +143,12 @@ Backup client 'client' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+A C:/Test/Dir
+ -> Dir Dir
+A C:/Test/Dir/a File.TXT (2 B)
+Adding file data to DB in: test_db/data/b026324c6904b2a9cb4b88d6d61c81d1-0
+A C:/Test/Dir/another File.TXT (2 B)
+Adding file data to DB in: test_db/data/26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
  -> umount test_db/mount
@@ -154,6 +160,10 @@ Backup path '/home/User/test'
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User/test test_db/mount
 A /home/User/test/File2.txt (0 B)
+A /home/User/test/dir
+ -> Dir dir
+A /home/User/test/dir/file3.txt (2 B)
+Adding file data to DB in: test_db/data/6d7fce9fee471194aa8b5b6e47267f03-0
  -> umount test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
@@ -232,6 +242,7 @@ Backup client 'client' using protocol 'smb'
  -> Reading backup list file
  --> Path: C:/Test
 Backup path 'C:/Test'
+ -> Dir Dir
  -> umount test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading backup list file
@@ -277,7 +288,7 @@ Scan DB
  --> Client: client
 Scanning database
  -> Database open
-Scanning database contents: 7 files
+Scanning database contents: 10 files
  -> Journal is empty, not merging
  -> Database closed
 Check DB
@@ -294,7 +305,7 @@ Check DB
  --> Client: client
 Checking database
  -> Database open
-Scanning database contents thoroughly: 7 files
+Scanning database contents thoroughly: 10 files
  -> Journal is empty, not merging
  -> Database closed
 List prefixes
