@@ -855,6 +855,9 @@ int Database::getRecords(
   // Look for clientes
   if ((client == NULL) || (client[0] == '\0')) {
     while (_d->list->search() == 2) {
+      if (terminating()) {
+        return -1;
+      }
       char *db_client = NULL;
       if (_d->list->getEntry(NULL, &db_client, NULL, NULL) < 0) {
         cerr << "Error reading from list: " << strerror(errno) << endl;
@@ -882,6 +885,9 @@ int Database::getRecords(
 
     char* db_path = NULL;
     while (_d->list->search(client, NULL) == 2) {
+      if (terminating()) {
+        return -1;
+      }
       if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
         cerr << "Error reading from list: " << strerror(errno) << endl;
         return -1;
