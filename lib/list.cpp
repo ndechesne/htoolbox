@@ -187,7 +187,6 @@ int List::decodeLine(
       delim = strchr(start, '\n');
     }
     if (delim == NULL) {
-      field = 0;
       errno = EUCLEAN;
     } else {
       // Extract data
@@ -241,8 +240,9 @@ int List::decodeLine(
       start = delim + 1;
     }
     if (errno != 0) {
-      cerr << "Field " << field << " corrupted in line: " << line << endl;
-      errno = EUCLEAN;
+      cerr << "For path: " << path << endl;
+      cerr << "Field " << field << " corrupted in line: " << line;
+      type = '-';
       break;
     }
   }

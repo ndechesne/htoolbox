@@ -996,10 +996,13 @@ int Database::restore(
       switch (fnode->type()) {
         case 'f': {
             File* f = (File*) fnode;
+            if (f->checksum()[0] == '\0') {
+              cerr << "Failed to restore file: data missing" << endl;
+            } else
             if (read(base, f->checksum())) {
               cerr << "Failed to restore file: " << strerror(errno) << endl;
               failed = true;
-            }
+            } else
             if (chmod(base.c_str(), fnode->mode())) {
               cerr << "Failed to restore file permissions: "
                 << strerror(errno) << endl;
@@ -1009,6 +1012,10 @@ int Database::restore(
           if (mkdir(base.c_str(), fnode->mode())) {
             cerr << "Failed to restore dir: " << strerror(errno) << endl;
             failed = true;
+          } else
+          if (chmod(base.c_str(), fnode->mode())) {
+            cerr << "Failed to restore dir permissions: "
+              << strerror(errno) << endl;
           }
           break;
         case 'l': {
