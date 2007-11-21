@@ -27,6 +27,7 @@ class Database {
   int  lock();
   void unlock();
   int  merge();
+  int  convertList();
   int  update(
     string          name,
     bool            new_file = false);
