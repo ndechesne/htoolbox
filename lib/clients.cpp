@@ -99,7 +99,7 @@ int Client::mountPath(
   command += " " + share + " " + _mount_point;
 
   /* Issue mount command */
-  if (verbosity() > 0) {
+  if (verbosity() > 1) {
     cout << " -> " << command << endl;
   }
   command += " > /dev/null 2>&1";
@@ -118,7 +118,7 @@ int Client::umount() {
     string command = "umount ";
 
     command += _mount_point;
-    if (verbosity() > 0) {
+    if (verbosity() > 1) {
       cout << " -> " << command << endl;
     }
     _mounted = "";
@@ -480,9 +480,9 @@ int Client::backup(
         return 1;
       case ETIMEDOUT:
         if (verbosity() > 0) {
-          cout << "Client unreachable '" << _name
-            << "' using protocol '" << _protocol << "' ("
-            <<  strerror(errno) << ")" << endl;
+          cerr << "Warning: cannot connect to client: " << _name
+            << " (using the " << _protocol << " protocol). "
+            <<  strerror(errno) << endl;
         }
         return 0;
     }
