@@ -936,7 +936,12 @@ int Database::restore(
 
   // Restore relevant data
   while (_d->list->search(client, NULL) == 2) {
+    if (terminating()) {
+      failed = true;
+      break;
+    }
     if (_d->list->getEntry(&fts, &fclient, &fpath, &fnode, date) <= 0) {
+      failed = true;
       break;
     }
     if (path_is_dir) {
@@ -993,6 +998,7 @@ int Database::restore(
       if (verbosity() > 0) {
         cout << "U " << base << endl;
       }
+      bool set_permissions = false;
       switch (fnode->type()) {
         case 'f': {
             File* f = (File*) fnode;
@@ -1003,9 +1009,8 @@ int Database::restore(
               cerr << "Failed to restore file: " << strerror(errno) << endl;
               failed = true;
             } else
-            if (chmod(base.c_str(), fnode->mode())) {
-              cerr << "Failed to restore file permissions: "
-                << strerror(errno) << endl;
+            {
+              set_permissions = true;
             }
           } break;
         case 'd':
@@ -1013,9 +1018,8 @@ int Database::restore(
             cerr << "Failed to restore dir: " << strerror(errno) << endl;
             failed = true;
           } else
-          if (chmod(base.c_str(), fnode->mode())) {
-            cerr << "Failed to restore dir permissions: "
-              << strerror(errno) << endl;
+          {
+            set_permissions = true;
           }
           break;
         case 'l': {
@@ -1034,6 +1038,10 @@ int Database::restore(
           break;
         default:
           cerr << "Type '" << fnode->type() << "' not supported" << endl;
+      }
+      if (set_permissions && chmod(base.c_str(), fnode->mode())) {
+        cerr << "Failed to restore file permissions: " << strerror(errno)
+          << endl;
       }
     }
     if (path_is_not_dir) {
@@ -1077,7 +1085,7 @@ int Database::read(const string& path, const string& checksum) {
   } else
 
   // Copy file to temporary name (size not checked: checksum suffices)
-  if (temp.copy(source)) {
+  if (temp.copy(source, cancel)) {
     cerr << "Error: failed to read file: " << source_path << endl;
     failed = 2;
   }
