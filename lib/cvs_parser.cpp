@@ -28,6 +28,7 @@ using namespace std;
 #include "files.h"
 #include "parsers.h"
 #include "cvs_parser.h"
+#include "hbackup.h"
 
 using namespace hbackup;
 
@@ -61,7 +62,7 @@ Parser *CvsParser::isControlled(const string& dir_path) const {
   }
 }
 
-CvsParser::CvsParser(parser_mode_t mode, const string& dir_path) {
+CvsParser::CvsParser(Mode mode, const string& dir_path) {
   string    path = dir_path + "/" + _control_dir + "/" + _entries;
   ifstream  entries(path.c_str());
 
@@ -69,6 +70,9 @@ CvsParser::CvsParser(parser_mode_t mode, const string& dir_path) {
   _mode = mode;
 
   /* Fill in list of controlled files */
+  if (verbosity() > 1) {
+    cout << "Parsing CVS entries" << endl;
+  }
   while (! entries.eof()) {
     string  buffer;
     getline(entries, buffer);
@@ -96,6 +100,9 @@ CvsParser::CvsParser(parser_mode_t mode, const string& dir_path) {
     }
     buffer.erase(pos);
     _files.push_back(Node(buffer.c_str(), type, 0, 0, 0, 0, 0));
+    if (verbosity() > 1) {
+      cout << " -> " << type << " " << buffer << endl;
+    }
   }
   /* Close file */
   entries.close();
@@ -103,7 +110,7 @@ CvsParser::CvsParser(parser_mode_t mode, const string& dir_path) {
 
 bool CvsParser::ignore(const Node& node) {
   // No need to check more
-  if (_mode == parser_modifiedandothers) {
+  if (_mode == Parser::modifiedandothers) {
     return false;
   }
 
@@ -113,10 +120,10 @@ bool CvsParser::ignore(const Node& node) {
   }
 
   // Look for match in list
-  bool controlled = false;
+  bool file_controlled = false;
   for (_i = _files.begin(); _i != _files.end(); _i++) {
     if (! strcmp(_i->name(), node.name()) && (_i->type() == node.type())) {
-      controlled = true;
+      file_controlled = true;
       break;
     }
   }
@@ -124,14 +131,14 @@ bool CvsParser::ignore(const Node& node) {
   // Deal with result
   switch (_mode) {
     // We don't know whether controlled files are modified or not
-    case parser_controlled:
-    case parser_modified:
-      if (controlled) return false; else return true;
-    case parser_modifiedandothers:
+    case Parser::controlled:
+    case Parser::modified:
+      if (file_controlled) return false; else return true;
+    case Parser::modifiedandothers:
       return false;
-    case parser_others:
-      if (controlled) return true; else return false;
-    default:  // parser_disabled
+    case Parser::others:
+      if (file_controlled) return true; else return false;
+    default:  // disabled
       return false;
   }
 }

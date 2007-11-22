@@ -75,7 +75,7 @@ int Path::recurse(
         if (((*i)->type() == 'd') && (strcmp((*i)->name(), ".hbackup") == 0)) {
           goto end;
         }
-        
+
         // Let the parser analyse the file data to know whether to back it up
         if ((parser != NULL) && (parser->ignore(**i))) {
           goto end;
@@ -237,25 +237,25 @@ Path::~Path() {
 int Path::addParser(
     const string&   type,
     const string&   string) {
-  parser_mode_t mode;
+  Parser::Mode mode;
 
   /* Determine mode */
   switch (string[0]) {
     case 'c':
       // All controlled files
-      mode = parser_controlled;
+      mode = Parser::controlled;
       break;
     case 'l':
       // Local files
-      mode = parser_modifiedandothers;
+      mode = Parser::modifiedandothers;
       break;
     case 'm':
       // Modified controlled files
-      mode = parser_modified;
+      mode = Parser::modified;
       break;
     case 'o':
       // Non controlled files
-      mode = parser_others;
+      mode = Parser::others;
       break;
     default:
       cerr << "Undefined mode " << type << " for parser " << string << endl;

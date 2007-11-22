@@ -26,9 +26,9 @@ class CvsParser : public Parser {
   static char*      _entries;
 public:
   // Constructor for parsers list
-  CvsParser(parser_mode_t mode) : Parser(mode) {}
+  CvsParser(Mode mode) : Parser(mode) {}
   // Constructor for directory parsing
-  CvsParser(parser_mode_t mode, const string& dir_path);
+  CvsParser(Mode mode, const string& dir_path);
   // Just to know the parser used
   string name() const;
   // This will create an appropriate parser for the directory if relevant

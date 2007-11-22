@@ -861,6 +861,12 @@ myClient
  -> Database open in read/write mode
 as previous with CVS parser
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
 D /home/User/cvs/big_file
  -> Dir cvs/dirbad
@@ -869,6 +875,8 @@ D /home/User/cvs/dirbad/fileoth
 D /home/User/cvs/dirbad/fileutd
 D /home/User/cvs/diroth
  -> Dir cvs/dirutd
+Parsing CVS entries
+ -> f fileutd
  -> Dir cvs/dirutd/CVS
 D /home/User/cvs/dirutd/fileoth
 D /home/User/cvs/fileoth
@@ -973,10 +981,18 @@ myClient
  -> Database open in read/write mode
 as previous
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
+Parsing CVS entries
+ -> f fileutd
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
  -> Dir testdir
@@ -1080,6 +1096,12 @@ myClient
  -> Database open in read/write mode
 as previous with cvs/dirutd in ignore list
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -1188,6 +1210,12 @@ myClient
  -> Database open in read/write mode
 as previous with testpipe gone
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -1288,6 +1316,12 @@ myClient
  -> Database open in read/write mode
 as previous with testfile mode changed
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -1389,6 +1423,12 @@ myClient
  -> Database open in read/write mode
 as previous with cvs/filenew.c touched and testpipe restored
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -1496,6 +1536,12 @@ myClient
  -> Database open in read/write mode
 some troublesome past cases
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -1703,6 +1749,12 @@ myClient
 [15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
  -> Database open in read/write mode
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -1905,6 +1957,12 @@ A /home/User/crash
  -> Dir crash
 A /home/User/crash/file (0 B)
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -2270,6 +2328,12 @@ myClient
  -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -2646,6 +2710,12 @@ myClient
  -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -2800,6 +2870,12 @@ myClient
  -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -2949,6 +3025,12 @@ myClient
  -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad

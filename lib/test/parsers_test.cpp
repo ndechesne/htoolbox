@@ -40,13 +40,13 @@ class TestParser : public Parser {
   int           _index;
 public:
   // Constructor for parsers list
-  TestParser(parser_mode_t mode) : Parser(mode) {
+  TestParser(Mode mode) : Parser(mode) {
     _index = 1;
     cout << "Contructing for list, mode: " << _mode << ", dummy: " << _dummy
       << endl;
   }
   // Constructor for directory parsing
-  TestParser(parser_mode_t mode, const string& dir_path) {
+  TestParser(Mode mode, const string& dir_path) {
     _mode = mode;
     _index = 2;
     cout << "Contructing for use, mode: " << mode << ", dummy: " << _dummy
@@ -77,9 +77,9 @@ int main(void) {
 
   parsers = new Parsers;
   cout << "Add TestParser to list" << endl;
-  parsers->push_back(new TestParser(parser_modified));
+  parsers->push_back(new TestParser(Parser::modified));
   cout << "Add IgnoreParser to list" << endl;
-  parsers->push_back(new IgnoreParser(parser_modified));  // Whatever mode...
+  parsers->push_back(new IgnoreParser(Parser::modified));  // Whatever mode...
   cout << "Check parsers against test directory" << endl;
   parser = parsers->isControlled("test");
   if (parser != NULL) {

@@ -185,6 +185,12 @@ Backup client 'myhost' using protocol 'file'
 Backup path 'test1'
 A test1/cvs
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
 A test1/cvs/CVS
  -> Dir cvs/CVS
 A test1/cvs/CVS/Entries (141 B)
@@ -194,6 +200,8 @@ A test1/cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
 A test1/cvs/dirutd
  -> Dir cvs/dirutd
+Parsing CVS entries
+ -> f fileutd
 A test1/cvs/dirutd/CVS
  -> Dir cvs/dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries (42 B)
@@ -263,10 +271,18 @@ Backup client 'myhost' using protocol 'file'
  ---> condition not filter not_object
 Backup path 'test1'
  -> Dir cvs
+Parsing CVS entries
+ -> f filenew.c
+ -> f filemod.o
+ -> f fileutd.h
+ -> d dirbad
+ -> d dirutd
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
+Parsing CVS entries
+ -> f fileutd
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
  -> Dir testdir

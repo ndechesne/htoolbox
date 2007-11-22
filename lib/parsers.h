@@ -21,30 +21,30 @@
 
 namespace hbackup {
 
-typedef enum {
-  parser_controlled,
-  parser_modified,
-  parser_modifiedandothers,
-  parser_others
-} parser_mode_t;
-
 class Parser {
+public:
+  enum Mode {
+    controlled,
+    modified,
+    modifiedandothers,
+    others
+  };
 protected:
   // Declare list stuff here to overcome apparent bug in GCC
   list<Node>            _files;
   list<Node>::iterator  _i;
-  parser_mode_t         _mode;
+  Mode                  _mode;
   bool                  _dummy;
 public:
   // Constructor for parsers list
   // Note: inherited classes MUST PURELY INHERIT this constructor
   // Example: MyParser(parser_mode_t mode) : Parser(mode) {}
-  Parser(parser_mode_t mode) : _mode(mode), _dummy(true) {}
+  Parser(Mode mode) : _mode(mode), _dummy(true) {}
   // Default constructor
   // Again MUST BE INHERITED when classes define a default constructor
   // Example1: MyParser() : Parser() { ... }, inherited
   // Example2: MyParser(blah_t blah) { ... }, called implicitely
-  Parser() : _mode(parser_controlled), _dummy(false) {}
+  Parser() : _mode(controlled), _dummy(false) {}
   // Need a virtual destructor
   virtual ~Parser() {};
   // Just to know the parser used
@@ -62,7 +62,7 @@ public:
   // Default contructor
   IgnoreParser() : Parser() {}
   // Useless here as IgnoreParser never gets enlisted, but rules are rules.
-  IgnoreParser(parser_mode_t mode) : Parser(mode) {}
+  IgnoreParser(Mode mode) : Parser(mode) {}
   // Tell them who we are
   string name() const {
     return "ignore";

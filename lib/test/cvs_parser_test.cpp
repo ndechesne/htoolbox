@@ -45,7 +45,7 @@ int main(void) {
   Node*       node;
 
   // Create pseudo parsers list member
-  parser_list = new CvsParser(parser_controlled);
+  parser_list = new CvsParser(Parser::controlled);
 
   /* Directory */
   if ((parser = parser_list->isControlled("test1")) == NULL) {
