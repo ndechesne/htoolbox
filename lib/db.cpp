@@ -859,9 +859,11 @@ int Database::close() {
           }
         }
       }
-      delete _d->journal;
-      delete _d->merge;
     }
+    // Delate lists
+    delete _d->journal;
+    delete _d->merge;
+    
     // Release lock
     unlock();
   }
