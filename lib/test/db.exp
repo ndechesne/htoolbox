@@ -170,6 +170,38 @@ File data missing for zz000003
  -> Journal is empty, not merging
  -> Database closed
 
+Test: concurrent access
+ -> Database open in read/write mode
+ -> Database open in read-only mode
+D /client_path/test space
+D /client_path/testfile
+D /client_path/subdir
+D /client_path/subdir/testfile
+D /client_path/subdir/testfile2
+D other_path/testfile
+D other_path/testdir
+ -> Database closed
+ -> Database closed
+[ 8] myClient         /client_path/new_link              l     8 777 testfile
+[ 9] myClient         /client_path/test space            [rm]
+[11] myClient         /client_path/testfile              [rm]
+[13] myClient         /client_path/subdir                [rm]
+[15] myClient         /client_path/subdir/testfile       [rm]
+[17] myClient         /client_path/subdir/testfile2      [rm]
+[19] myClient         other_path/testfile                [rm]
+[21] myClient         other_path/testdir                 [rm]
+List of paths: 3
+ -> /client_path/test space
+ -> /client_path/testfile
+ -> /client_path/subdir
+ -> Database open in read-only mode
+ -> Database closed
+List of paths: 4
+ -> /client_path/new_link
+ -> /client_path/test space
+ -> /client_path/testfile
+ -> /client_path/subdir
+
 Test: check format
 Converting database list
 Clients found: 6

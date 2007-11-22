@@ -521,6 +521,50 @@ int main(void) {
   delete d;
   db.close();
 
+  cout << endl << "Test: concurrent access" << endl;
+  if (db.open_rw() == 0) {
+    Database db2("test_db");
+    if (db2.open_ro() != 0) {
+      return 0;
+    }
+    db.setClient("myClient");
+    Link* l = new Link("test1/testlink");
+    db.add("/client_path/new_link", l);
+    delete l;
+    db.close();
+    rename("test_db/journal~", "test_db/list");
+    db2.getRecords(records, "myClient", "/client_path");
+    db2.close();
+  }
+  dblist.open("r");
+  if (dblist.isEmpty()) {
+    cout << "List is empty" << endl;
+  } else
+  while ((status = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
+    showLine(ts, client, path, node);
+  }
+  dblist.close();
+  if (status < 0) {
+    cerr << "Failed to read list" << endl;
+  }
+  cout << "List of paths: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end();
+      i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+  if (db.open_ro() != 0) {
+    return 0;
+  }
+  db.getRecords(records, "myClient", "/client_path");
+  db.close();
+  cout << "List of paths: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end();
+      i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+  
   cout << endl << "Test: check format" << endl;
   if (system("cp -a ../../test_tools/list_v2 test_db/list")) {
     cout << "failed to copy list over" << endl;
@@ -540,6 +584,6 @@ int main(void) {
   if (status < 0) {
     cerr << "Failed to read list" << endl;
   }
-  
+
   return 0;
 }

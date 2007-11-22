@@ -579,9 +579,14 @@ int Database::open_ro() {
       << endl;
     return -1;
   }
+
+  if (link((_d->path + "/list").c_str(), (_d->path + "/list.ro").c_str())) {
+    cerr << "Error: could not create hard link to list" << endl;
+    return -1;
+  }
   
   bool failed = false;
-  _d->list = new List(_d->path.c_str(), "list");
+  _d->list = new List(_d->path.c_str(), "list.ro");
   _d->journal = NULL;
   if (_d->list->open("r")) {
     cerr << "Error: cannot open list" << endl;
@@ -758,104 +763,108 @@ int Database::close() {
   if (read_only) {
     // Close list
     _d->list->close();
-  } else if (terminating()) {
-    // Close list
-    _d->list->close();
-    // Close journal
-    _d->journal->close();
-    // Close and delete merge
-    _d->merge->close();
-    remove((_d->path + "/list.part").c_str());
+    unlink((_d->path + "/list.ro").c_str());
   } else {
-    // Finish off list reading/copy
-    setClient("");
-    // Close journal
-    _d->journal->close();
-    // See if any data was added
-    if (_d->journal->isEmpty()) {
-      // Do nothing
-      if (verbosity() > 1) {
-        cout << " -> Journal is empty, not merging" << endl;
-      }
+    if (terminating()) {
       // Close list
       _d->list->close();
-      // Close merge
+      // Close journal
+      _d->journal->close();
+      // Close and delete merge
       _d->merge->close();
       remove((_d->path + "/list.part").c_str());
-      remove((_d->path + "/journal").c_str());
     } else {
-      // Finish off merging
-      _d->list->search("", "", _d->merge, -1, &_d->active_data,
-        &_d->expired_data);
-      // Close list
-      _d->list->close();
-      // Close merge
-      _d->merge->close();
-      // File names ballet
-      if (update("list", true)) {
-        cerr << "Error: cannot rename DB lists" << endl;
-        failed = true;
-      } else {
-        // All merging successful
-        update("journal");
-        // Get rid of expired data
-        _d->active_data.sort();
-        _d->active_data.unique();
-        _d->expired_data.sort();
-        _d->expired_data.unique();
-
-        // Get checksums for removal
-        list<string>::iterator i = _d->expired_data.begin();
-        list<string>::iterator j = _d->active_data.begin();
-        while (i != _d->expired_data.end()) {
-          while ((j != _d->active_data.end()) && (*j < *i)) { j++; }
-          if ((j != _d->active_data.end()) && (*j == *i)) {
-            i = _d->expired_data.erase(i);
-          } else {
-            i++;
-          }
+      // Finish off list reading/copy
+      setClient("");
+      // Close journal
+      _d->journal->close();
+      // See if any data was added
+      if (_d->journal->isEmpty()) {
+        // Do nothing
+        if (verbosity() > 1) {
+          cout << " -> Journal is empty, not merging" << endl;
         }
-        _d->active_data.clear();
-        // Remove obsolete data
-        i = _d->expired_data.begin();
-        while (i != _d->expired_data.end()) {
-          if (i->size() != 0) {
-            string path;
-            if (verbosity() > 1) {
-              cout << " -> Removing data for " << *i << ": ";
+        // Close list
+        _d->list->close();
+        // Close merge
+        _d->merge->close();
+        remove((_d->path + "/list.part").c_str());
+        remove((_d->path + "/journal").c_str());
+      } else {
+        // Finish off merging
+        _d->list->search("", "", _d->merge, -1, &_d->active_data,
+          &_d->expired_data);
+        // Close list
+        _d->list->close();
+        // Close merge
+        _d->merge->close();
+        // File names ballet
+        if (update("list", true)) {
+          cerr << "Error: cannot rename DB lists" << endl;
+          failed = true;
+        } else {
+          // All merging successful
+          update("journal");
+          // Get rid of expired data
+          _d->active_data.sort();
+          _d->active_data.unique();
+          _d->expired_data.sort();
+          _d->expired_data.unique();
+
+          // Get checksums for removal
+          list<string>::iterator i = _d->expired_data.begin();
+          list<string>::iterator j = _d->active_data.begin();
+          while (i != _d->expired_data.end()) {
+            while ((j != _d->active_data.end()) && (*j < *i)) { j++; }
+            if ((j != _d->active_data.end()) && (*j == *i)) {
+              i = _d->expired_data.erase(i);
+            } else {
+              i++;
             }
-            if (! getDir(*i, path)) {
-              if (File(path.c_str(), "data").isValid()) {
-                remove((path + "/data").c_str());
-              } else
-              if (File(path.c_str(), "data.gz").isValid()) {
-                remove((path + "/data.gz").c_str());
-              }
-              int rc = remove(path.c_str());
+          }
+          _d->active_data.clear();
+          // Remove obsolete data
+          i = _d->expired_data.begin();
+          while (i != _d->expired_data.end()) {
+            if (i->size() != 0) {
+              string path;
               if (verbosity() > 1) {
-                if (rc) {
-                  cout << "FAILED!";
-                } else {
-                  cout << "done";
+                cout << " -> Removing data for " << *i << ": ";
+              }
+              if (! getDir(*i, path)) {
+                if (File(path.c_str(), "data").isValid()) {
+                  remove((path + "/data").c_str());
+                } else
+                if (File(path.c_str(), "data.gz").isValid()) {
+                  remove((path + "/data.gz").c_str());
+                }
+                int rc = remove(path.c_str());
+                if (verbosity() > 1) {
+                  if (rc) {
+                    cout << "FAILED!";
+                  } else {
+                    cout << "done";
+                  }
+                }
+              } else {
+                if (verbosity() > 1) {
+                  cout << "ALREADY GONE!";
                 }
               }
-            } else {
               if (verbosity() > 1) {
-                cout << "ALREADY GONE!";
+                cout << endl;
               }
             }
-            if (verbosity() > 1) {
-              cout << endl;
-            }
+            i = _d->expired_data.erase(i);
           }
-          i = _d->expired_data.erase(i);
         }
       }
+      delete _d->journal;
+      delete _d->merge;
     }
-    delete _d->journal;
-    delete _d->merge;
+    // Release lock
+    unlock();
   }
-
   // Delete list
   delete _d->list;
 
@@ -864,8 +873,6 @@ int Database::close() {
   _d->journal = NULL;
   _d->merge   = NULL;
 
-  // Release lock
-  unlock();
   if (verbosity() > 1) {
     cout << " -> Database closed" << endl;
   }
