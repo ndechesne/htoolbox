@@ -35,22 +35,22 @@ class Filter;
 class Condition {
 public:
   enum Type {
-    subfilter   = 1,  // Subfilter
-    type        = 11, // File type
-    name        = 21, // Exact file name
-    name_start,       // Start of file name
-    name_end,         // End of file name
-    name_regex,       // Regular expression on file name
-    path        = 31, // Exact path
-    path_start,       // Start of path
-    path_end,         // End of path
-    path_regex,       // Regular expression on path
-    size_ge     = 41, // Minimum size (only applies to regular files)
-    size_gt,          // Minimum size (only applies to regular files)
-    size_le,          // Maximum size (only applies to regular files)
-    size_lt,          // Maximum size (only applies to regular files)
-    mode_and    = 51, // Mode contains some of the given mode bits
-    mode_eq,          // Mode contains all of the given mode bits
+    subfilter   = 1,    //!< subfilter
+    type        = 11,   //!< file type
+    name        = 21,   //!< exact file name
+    name_start,         //!< start of file name
+    name_end,           //!< end of file name
+    name_regex,         //!< regular expression on file name
+    path        = 31,   //!< exact path
+    path_start,         //!< start of path
+    path_end,           //!< end of path
+    path_regex,         //!< regular expression on path
+    size_ge     = 41,   //!< minimum size (only applies to regular files)
+    size_gt,            //!< minimum size (only applies to regular files)
+    size_le,            //!< maximum size (only applies to regular files)
+    size_lt,            //!< maximum size (only applies to regular files)
+    mode_and    = 51,   //!< mode contains some of the given mode bits
+    mode_eq,            //!< mode contains all of the given mode bits
   };
 private:
   Type              _type;

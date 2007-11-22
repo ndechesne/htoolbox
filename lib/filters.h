@@ -27,8 +27,8 @@ namespace hbackup {
 class Filter : public list<Condition*> {
 public:
   enum Mode {
-    any = 1,                  // Matches if at least one condition matches
-    all                       // Matches if all of its conditions match
+    any = 1,            //!< matches if at least one condition matches
+    all                 //!< matches if all of its conditions match
   };
 private:
   Mode              _type;

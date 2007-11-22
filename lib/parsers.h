@@ -24,10 +24,10 @@ namespace hbackup {
 class Parser {
 public:
   enum Mode {
-    controlled = 1,
-    modified,
-    modifiedandothers,
-    others
+    controlled = 1,     //!< controlled files only
+    modified,           //!< controlled modified files only
+    modifiedandothers,  //!< controlled modified files and non-controlled files
+    others              //!< non-controlled files
   };
 protected:
   // Declare list stuff here to overcome apparent bug in GCC
