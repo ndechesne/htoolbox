@@ -568,7 +568,41 @@ Database::~Database() {
   delete _d;
 }
 
-int Database::open(bool read_only) {
+int Database::open_ro() {
+  if (! Directory(_d->path.c_str()).isValid()) {
+    cerr << "Error: given DB path does not exist: " << _d->path << endl;
+    return -1;
+  }
+  
+  if (! Directory((_d->path + "/data").c_str()).isValid()) {
+    cerr << "Error: given DB path does not contain a database: " << _d->path
+      << endl;
+    return -1;
+  }
+  
+  bool failed = false;
+  _d->list = new List(_d->path.c_str(), "list");
+  _d->journal = NULL;
+  if (_d->list->open("r")) {
+    cerr << "Error: cannot open list" << endl;
+    failed = true;
+  } else
+  if (_d->list->isOldVersion()) {
+    cerr << "Error: list in old format (run hbackup in backup mode to update)"
+      << endl;
+    failed = true;
+  } else
+  if (verbosity() > 1) {
+    cout << " -> Database open in read-only mode" << endl;
+  }
+  if (failed) {
+    delete _d->list;
+    return -1;
+  }
+  return 0;
+}
+
+int Database::open_rw() {
   if (isOpen()) {
     cerr << "Error: DB already open!" << endl;
     return -1;
@@ -577,30 +611,21 @@ int Database::open(bool read_only) {
   bool failed = false;
 
   if (! Directory(_d->path.c_str()).isValid()) {
-    if (read_only) {
-      cerr << "Error: given DB path does not exist: " << _d->path << endl;
-      return 2;
-    } else
     if (mkdir(_d->path.c_str(), 0755)) {
       cerr << "Error: cannot create DB base directory" << endl;
-      return 2;
+      return -1;
     }
   }
   // Try to take lock
   if (lock()) {
     errno = ENOLCK;
-    return 2;
+    return -1;
   }
 
   List list(_d->path.c_str(), "list");
 
   // Check DB dir
   if (! Directory((_d->path + "/data").c_str()).isValid()) {
-    if (read_only) {
-      cerr << "Error: given path does not contain a database: "
-        << _d->path << endl;
-      failed = true;
-    } else
     if (Directory(_d->path.c_str(), "data").create()) {
       cerr << "Error: cannot create data directory" << endl;
       failed = true;
@@ -671,7 +696,7 @@ int Database::open(bool read_only) {
     }
 
     // Create journal (do not cache)
-    if (! read_only && ! failed && (_d->journal->open("w", -1))) {
+    if (! failed && (_d->journal->open("w", -1))) {
       cerr << "Error: cannot open DB journal" << endl;
       failed = true;
     }
@@ -680,7 +705,7 @@ int Database::open(bool read_only) {
   }
 
   // Open merged list (can fail)
-  if (! read_only && ! failed) {
+  if (! failed) {
     _d->merge = new List(_d->path.c_str(), "list.part");
     if (_d->merge->open("w")) {
       cerr << "Error: cannot open DB merge list" << endl;
@@ -710,13 +735,13 @@ int Database::open(bool read_only) {
 
     // Unlock DB
     unlock();
-    return 2;
+    return -1;
   }
 
   // Setup some data
   _d->client = "";
   if (verbosity() > 1) {
-    cout << " -> Database open" << endl;
+    cout << " -> Database open in read/write mode" << endl;
   }
   return 0;
 }
@@ -1066,7 +1091,7 @@ int Database::read(const string& path, const string& checksum) {
   string source_path;
   if (getDir(checksum, source_path)) {
     cerr << "Error: read: failed to get dir for: " << checksum << endl;
-    return 2;
+    return -1;
   }
 
   // Open source
@@ -1079,7 +1104,7 @@ int Database::read(const string& path, const string& checksum) {
   Stream source(source_path.c_str());
   if (source.open("r", decompress ? 1 : 0)) {
     cerr << "Error: failed to open read source file: " << source_path << endl;
-    return 2;
+    return -1;
   }
 
   // Open temporary file to write to

@@ -110,7 +110,7 @@ int main(void) {
 
   // Initialisation
   my_time++;
-  db.open();
+  db.open_rw();
 
   // '-' is before '/' in the ASCII table...
   system("touch test1/subdir-file");
@@ -136,7 +136,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "as previous, with a .hbackup directory" << endl;
   mkdir("test1/.hbackup", 0755);
@@ -158,7 +158,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "as previous with new big_file, interrupted" << endl;
   system("dd if=/dev/zero of=test1/cvs/big_file bs=1k count=500"
@@ -182,7 +182,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "as previous with subdir/testfile readable" << endl;
   killed  = false;
@@ -206,7 +206,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "as previous with subdir/testfile in ignore list" << endl;
   filter = path->addFilter("and", "testfile");
@@ -234,7 +234,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "as previous with subdir in ignore list" << endl;
   Filter* subdir = path->addFilter("and", "subdir");
@@ -262,7 +262,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "as previous with testlink modified" << endl;
   system("sleep 1 && ln -sf testnull test1/testlink");
@@ -284,7 +284,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "as previous with testlink in ignore list" << endl;
   Filter* testlink = path->addFilter("and", "testlink");
@@ -318,7 +318,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "as previous with CVS parser" << endl;
   if (path->addParser("cvs", "controlled")) {
@@ -342,7 +342,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "as previous" << endl;
   db.setClient("myClient");
@@ -363,7 +363,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "as previous with cvs/dirutd in ignore list" << endl;
   Filter* cvs_dirutd = path->addFilter("and", "cvs_dirutd");
@@ -400,7 +400,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "as previous with testpipe gone" << endl;
   rename("test1/testpipe", "testpipe");
@@ -422,7 +422,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "as previous with testfile mode changed" << endl;
   system("chmod 660 test1/testfile");
@@ -444,7 +444,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "as previous with cvs/filenew.c touched and testpipe restored" << endl;
   system("echo blah > test1/cvs/filenew.c");
@@ -467,7 +467,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   cout << "some troublesome past cases" << endl;
 
@@ -510,7 +510,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   db.setClient("myClient");
   if (! path->parse(db, "test1")) {
@@ -535,7 +535,7 @@ int main(void) {
   system("mkdir test1/crash");
   system("touch test1/crash/file");
   system("rm -rf test1/testdir");
-  db.open();
+  db.open_rw();
 
   db.setClient("hisClient");
   if (! path->parse(db, "test2")) {
@@ -566,7 +566,7 @@ int main(void) {
   showList(real_journal);
 
   // Recover now
-  db.open();
+  db.open_rw();
 
   // Show list contents
   cout << endl << "List:" << endl;
@@ -579,7 +579,7 @@ int main(void) {
   }
 
 
-  db.open();
+  db.open_rw();
 
   if (db.close()) {
     return 0;
@@ -588,7 +588,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   db.setClient("myClient");
   if (! path->parse(db, "test1")) {
@@ -608,7 +608,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   db.setClient("hisClient");
   if (! path->parse(db, "test2")) {
@@ -628,7 +628,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   system("touch test1/testfile");
   system("chmod 0 test1/testfile");
@@ -652,7 +652,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   system("touch test1/testfile~");
   system("rm -f test1/testfile");
@@ -676,7 +676,7 @@ int main(void) {
 
   // Next test
   my_time++;
-  db.open();
+  db.open_rw();
 
   system("echo blah > test1/testfile~");
   db.setClient("myClient", 0);

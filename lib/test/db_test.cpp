@@ -139,7 +139,7 @@ int main(void) {
   }
 
   /* Test database */
-  if ((status = db.open())) {
+  if ((status = db.open_rw())) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
@@ -303,30 +303,30 @@ int main(void) {
 
 
   cout << endl << "Test: lock" << endl;
-  if (! db.open()) {
+  if (! db.open_rw()) {
     db.close();
   }
   system("echo 100000 > test_db/lock");
-  if (! db.open()) {
+  if (! db.open_rw()) {
     db.close();
   }
   system("echo 1 > test_db/lock");
-  if (! db.open()) {
+  if (! db.open_rw()) {
     db.close();
   }
   system("echo 0 > test_db/lock");
-  if (! db.open()) {
+  if (! db.open_rw()) {
     db.close();
   }
   system("touch test_db/lock");
-  if (! db.open()) {
+  if (! db.open_rw()) {
     db.close();
   }
   remove("test_db/lock");
 
 
   cout << endl << "Test: read-only mode" << endl;
-  if ((status = db.open(true))) {
+  if ((status = db.open_ro())) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
@@ -357,7 +357,7 @@ int main(void) {
 
 
   cout << endl << "Test: fill in DB" << endl;
-  if ((status = db.open())) {
+  if ((status = db.open_rw())) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
@@ -407,7 +407,7 @@ int main(void) {
   }
 
   cout << endl << "Test: do nothing" << endl;
-  if ((status = db.open())) {
+  if ((status = db.open_rw())) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
@@ -430,7 +430,7 @@ int main(void) {
 
   list<string> records;
   cout << endl << "Test: read clients" << endl;
-  if ((status = db.open(true))) {
+  if ((status = db.open_ro())) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
@@ -445,7 +445,7 @@ int main(void) {
   records.clear();
 
   cout << endl << "Test: read paths in myClient" << endl;
-  if ((status = db.open(true))) {
+  if ((status = db.open_ro())) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
@@ -461,7 +461,7 @@ int main(void) {
 
   cout << endl << "Test: read paths in myClient below /client_path"
     << endl;
-  if ((status = db.open(true))) {
+  if ((status = db.open_ro())) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
@@ -477,7 +477,7 @@ int main(void) {
 
   cout << endl << "Test: read paths in myClient below other_path"
     << endl;
-  if ((status = db.open(true))) {
+  if ((status = db.open_ro())) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
@@ -493,7 +493,7 @@ int main(void) {
 
   cout << endl << "Test: read paths in myClient below /client_path/subdir"
     << endl;
-  if ((status = db.open(true))) {
+  if ((status = db.open_ro())) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
@@ -508,7 +508,7 @@ int main(void) {
   records.clear();
 
   cout << endl << "Test: crawl" << endl;
-  if ((status = db.open())) {
+  if ((status = db.open_rw())) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
       return 0;
@@ -526,7 +526,7 @@ int main(void) {
     cout << "failed to copy list over" << endl;
     return 0;
   }
-  if (db.open("r") == 0) {
+  if (db.open_rw() == 0) {
     db.close();
   }
   dblist.open("r");

@@ -122,7 +122,7 @@ List prefixes (empty DB path)
  --> Client: myhost
  --> Client: client
 Showing list
-Error: given path does not contain a database: test_db
+Error: given DB path does not contain a database: test_db
 Typical backup
  -> Reading configuration file
  --> global filter all backup
@@ -137,7 +137,7 @@ Typical backup
  --> Client: client
 Backing up
 Database initialized
- -> Database open
+ -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading backup list file
@@ -236,7 +236,7 @@ Specify clients
  --> Client: myhost
  --> Client: client
 Backing up
- -> Database open
+ -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading backup list file
@@ -287,7 +287,7 @@ Scan DB
  --> Client: myhost
  --> Client: client
 Scanning database
- -> Database open
+ -> Database open in read/write mode
 Scanning database contents: 10 files
  -> Journal is empty, not merging
  -> Database closed
@@ -304,7 +304,7 @@ Check DB
  --> Client: myhost
  --> Client: client
 Checking database
- -> Database open
+ -> Database open in read/write mode
 Scanning database contents thoroughly: 10 files
  -> Journal is empty, not merging
  -> Database closed
@@ -321,7 +321,7 @@ List prefixes
  --> Client: myhost
  --> Client: client
 Showing list
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
  client
  myClient
@@ -353,7 +353,7 @@ List paths in myhost
  --> Client: myhost
  --> Client: client
 Showing list
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
  test1
  test2
@@ -370,7 +370,7 @@ List paths in myhost under test2/
  --> Client: myhost
  --> Client: client
 Showing list
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
  test2/testdir
  test2/testfile
@@ -390,7 +390,7 @@ List paths in myhost under test1/cvs
  --> Client: myhost
  --> Client: client
 Showing list
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
  test1/cvs/CVS
  test1/cvs/dirbad
@@ -410,7 +410,7 @@ Restore a file
  --> Client: myhost
  --> Client: client
 Restoring
- -> Database open
+ -> Database open in read-only mode
 U test_r/test2/testfile
  -> Database closed
 Restore all data in a prefix/dir path that's not by itself in DB
@@ -426,7 +426,7 @@ Restore all data in a prefix/dir path that's not by itself in DB
  --> Client: myhost
  --> Client: client
 Restoring
- -> Database open
+ -> Database open in read-only mode
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
@@ -458,7 +458,7 @@ Restore all data in a prefix/dir path
  --> Client: myhost
  --> Client: client
 Restoring
- -> Database open
+ -> Database open in read-only mode
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
@@ -483,7 +483,7 @@ Restore all data in a prefix
  --> Client: myhost
  --> Client: client
 Restoring
- -> Database open
+ -> Database open in read-only mode
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries

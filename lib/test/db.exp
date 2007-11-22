@@ -1,5 +1,5 @@
 Database initialized
- -> Database open
+ -> Database open in read/write mode
 
 Test: getdir
 Check test_db/data dir: 0
@@ -70,11 +70,11 @@ test_db/data/zz/00/00/03:
  -> Database closed
 
 Test: lock
- -> Database open
+ -> Database open in read/write mode
  -> Journal is empty, not merging
  -> Database closed
 Warning: lock reset
- -> Database open
+ -> Database open in read/write mode
  -> Journal is empty, not merging
  -> Database closed
 Error: lock taken by process with pid 1
@@ -82,11 +82,11 @@ Error: lock taken by an unidentified process!
 Error: lock taken by an unidentified process!
 
 Test: read-only mode
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
 
 Test: fill in DB
- -> Database open
+ -> Database open in read/write mode
 Adding file data to DB in: test_db/data/d4/1d8cd98f00b204e9800998ecf8427e-0
 Adding file data to DB in: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-1
 Adding file data to DB in: test_db/data/28/5b35198a5e188b3a0df3ed33f93a26-0
@@ -101,7 +101,7 @@ Adding file data to DB in: test_db/data/3d/546a1ce46c6ae10ad34ab8a81c542e-0
 [ 7] myClient         other_path/testdir                 d     0 755
 
 Test: do nothing
- -> Database open
+ -> Database open in read/write mode
  -> Journal is empty, not merging
  -> Database closed
 [ 1] myClient         /client_path/test space            f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -113,20 +113,20 @@ Test: do nothing
 [ 7] myClient         other_path/testdir                 d     0 755
 
 Test: read clients
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
 List of clients: 1
  -> myClient
 
 Test: read paths in myClient
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
 List of paths: 2
  -> /client_path
  -> other_path
 
 Test: read paths in myClient below /client_path
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
 List of paths: 3
  -> /client_path/test space
@@ -134,21 +134,21 @@ List of paths: 3
  -> /client_path/subdir
 
 Test: read paths in myClient below other_path
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
 List of paths: 2
  -> other_path/testfile
  -> other_path/testdir
 
 Test: read paths in myClient below /client_path/subdir
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
 List of paths: 2
  -> /client_path/subdir/testfile
  -> /client_path/subdir/testfile2
 
 Test: crawl
- -> Database open
+ -> Database open in read/write mode
  -> 285b35198a5e188b3a0df3ed33f93a26-0
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
@@ -183,7 +183,8 @@ DB list rewinded
  file://myhost -> myhost#
 DB list rewinded
 Conversion successful
- -> Database open
+ -> Database open in read/write mode
+ -> Journal is empty, not merging
  -> Database closed
 [1195557261] client$          C:/Test/File.TXT                   f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [1195557261] hisClient#       test1/dir space                    d     0 755

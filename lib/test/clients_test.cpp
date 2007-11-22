@@ -67,7 +67,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -156,7 +156,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -176,7 +176,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -195,7 +195,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -215,7 +215,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -235,7 +235,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -252,7 +252,7 @@ int main(void) {
   client->setProtocol("smb");
   system("echo \"path C:\\Test\" > test_cifs/Backup/testhost2.list");
   client->setListfile("C:\\Backup\\testhost2.list");
-  db.open();
+  db.open_rw();
   client->setMountPoint("test_db/mount");
   client->backup(db, filters, 0);
   db.close();
@@ -262,7 +262,7 @@ int main(void) {
   client->setProtocol("nfs");
   system("echo path /home/User/test > test_nfs/testhost3.list");
   client->setListfile("/home/User/testhost3.list");
-  db.open();
+  db.open_rw();
   client->setMountPoint("test_db/mount");
   client->backup(db, filters, 0);
   db.close();
@@ -272,7 +272,7 @@ int main(void) {
   client->setProtocol("file");
   system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
-  db.open();
+  db.open_rw();
   client->setMountPoint("test_db/mount");
   client->backup(db, filters, 0);
   db.close();
@@ -281,7 +281,7 @@ int main(void) {
   list<string> records;
 
   cout << endl << "Clients in DB" << endl;
-  db.open(true);
+  db.open_ro();
   db.getRecords(records);
   db.close();
   cout << "Records found: " << records.size() << endl;
@@ -291,7 +291,7 @@ int main(void) {
   records.clear();
 
   cout << endl << "Paths in 'myhost#' client in DB" << endl;
-  db.open(true);
+  db.open_ro();
   db.getRecords(records, "myhost#");
   db.close();
   cout << "Records found: " << records.size() << endl;
@@ -301,7 +301,7 @@ int main(void) {
   records.clear();
 
   cout << endl << "Paths in 'myhost#' client under test1 in DB" << endl;
-  db.open(true);
+  db.open_ro();
   db.getRecords(records, "myhost#", "test1");
   db.close();
   cout << "Records found: " << records.size() << endl;
@@ -311,7 +311,7 @@ int main(void) {
   records.clear();
 
   cout << endl << "Paths in 'myhost#' client under test1/cvs in DB" << endl;
-  db.open(true);
+  db.open_ro();
   db.getRecords(records, "myhost#", "test1/cvs");
   db.close();
   cout << "Records found: " << records.size() << endl;
@@ -322,7 +322,7 @@ int main(void) {
 
   cout << endl << "Paths in 'myhost#' client under test1/cvs/diroth in DB"
     << endl;
-  db.open(true);
+  db.open_ro();
   db.getRecords(records, "myhost#", "test1/cvs/diroth");
   db.close();
   cout << "Records found: " << records.size() << endl;
@@ -333,7 +333,7 @@ int main(void) {
 
   cout << endl << "Paths in 'myhost#' client under test1/cvs/dirutd in DB"
     << endl;
-  db.open(true);
+  db.open_ro();
   db.getRecords(records, "myhost#", "test1/cvs/dirutd");
   db.close();
   cout << "Records found: " << records.size() << endl;
@@ -365,7 +365,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -393,7 +393,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -421,7 +421,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -449,7 +449,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -471,7 +471,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -494,7 +494,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -516,7 +516,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -537,7 +537,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open();
+  db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);
@@ -549,7 +549,7 @@ int main(void) {
   db.close();
   
   cout << endl << "Clients in DB" << endl;
-  db.open(true);
+  db.open_ro();
   db.getRecords(records);
   db.close();
   cout << "Records found: " << records.size() << endl;

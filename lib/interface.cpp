@@ -309,7 +309,7 @@ void HBackup::close() {
 }
 
 int HBackup::check(bool thorough) {
-  if (! _d->db->open()) {
+  if (! _d->db->open_rw()) {
     bool failed = false;
 
     if (_d->db->scan("", thorough)) {
@@ -324,7 +324,7 @@ int HBackup::check(bool thorough) {
 }
 
 int HBackup::backup(bool config_check) {
-  if (! _d->db->open()) {
+  if (! _d->db->open_rw()) {
     bool failed = false;
 
     for (list<Client*>::iterator client = _d->clients.begin();
@@ -366,7 +366,7 @@ int HBackup::getList(
     time_t          date) {
   bool failed;
   
-  if (_d->db->open(true)) {
+  if (_d->db->open_ro()) {
     return -1;
   }
   if ((client == NULL) || (client[0] == '\0')) {
@@ -401,7 +401,7 @@ int HBackup::restore(
     const char*     client,
     const char*     path,
     time_t          date) {
-  if (_d->db->open(true)) {
+  if (_d->db->open_ro()) {
     return -1;
   }
   StrPath where = dest;

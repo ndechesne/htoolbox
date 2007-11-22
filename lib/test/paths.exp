@@ -1,5 +1,5 @@
 Database initialized
- -> Database open
+ -> Database open in read/write mode
 first with subdir/testfile NOT readable
 A /home/User/àccénts_test (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
@@ -179,7 +179,7 @@ myClient
 [ 1] l     8 777 testfile
 	/home/User/testpipe
 [ 1] p     0 644
- -> Database open
+ -> Database open in read/write mode
 as previous, with a .hbackup directory
  -> Dir cvs
  -> Dir cvs/CVS
@@ -325,7 +325,7 @@ myClient
 [ 1] l     8 777 testfile
 	/home/User/testpipe
 [ 1] p     0 644
- -> Database open
+ -> Database open in read/write mode
 as previous with new big_file, interrupted
  -> Dir cvs
  -> Dir cvs/CVS
@@ -405,7 +405,7 @@ myClient
 	/home/User/cvs/big_file
 [ 3] f 512000 644 
 Backup was interrupted in a previous run, finishing up...
- -> Database open
+ -> Database open in read/write mode
 as previous with subdir/testfile readable
  -> Dir cvs
  -> Dir cvs/CVS
@@ -495,7 +495,7 @@ myClient
 [ 0] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/subdir/testfile
 [ 0] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
- -> Database open
+ -> Database open in read/write mode
 as previous with subdir/testfile in ignore list
  -> Dir cvs
  -> Dir cvs/CVS
@@ -582,7 +582,7 @@ Journal:
 myClient
 	/home/User/subdir/testfile
 [ 5] -
- -> Database open
+ -> Database open in read/write mode
 as previous with subdir in ignore list
  -> Dir cvs
  -> Dir cvs/CVS
@@ -677,7 +677,7 @@ myClient
 [ 6] -
 	/home/User/subdir/testfile2
 [ 6] -
- -> Database open
+ -> Database open in read/write mode
 as previous with testlink modified
  -> Dir cvs
  -> Dir cvs/CVS
@@ -767,7 +767,7 @@ Journal:
 myClient
 	/home/User/testlink
 [ 7] l     8 777 testnull
- -> Database open
+ -> Database open in read/write mode
 as previous with testlink in ignore list
  -> Dir cvs
  -> Dir cvs/CVS
@@ -858,7 +858,7 @@ Journal:
 myClient
 	/home/User/testlink
 [ 8] -
- -> Database open
+ -> Database open in read/write mode
 as previous with CVS parser
  -> Dir cvs
  -> Dir cvs/CVS
@@ -970,7 +970,7 @@ myClient
 [ 9] -
 	/home/User/cvs/fileoth
 [ 9] -
- -> Database open
+ -> Database open in read/write mode
 as previous
  -> Dir cvs
  -> Dir cvs/CVS
@@ -1077,7 +1077,7 @@ myClient
 [ 9] -
 	/home/User/cvs/fileoth
 [ 9] -
- -> Database open
+ -> Database open in read/write mode
 as previous with cvs/dirutd in ignore list
  -> Dir cvs
  -> Dir cvs/CVS
@@ -1185,7 +1185,7 @@ myClient
 [11] -
 	/home/User/cvs/dirutd/fileutd
 [11] -
- -> Database open
+ -> Database open in read/write mode
 as previous with testpipe gone
  -> Dir cvs
  -> Dir cvs/CVS
@@ -1285,7 +1285,7 @@ Journal:
 myClient
 	/home/User/testpipe
 [12] -
- -> Database open
+ -> Database open in read/write mode
 as previous with testfile mode changed
  -> Dir cvs
  -> Dir cvs/CVS
@@ -1386,7 +1386,7 @@ Journal:
 myClient
 	/home/User/testfile
 [13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
- -> Database open
+ -> Database open in read/write mode
 as previous with cvs/filenew.c touched and testpipe restored
  -> Dir cvs
  -> Dir cvs/CVS
@@ -1493,7 +1493,7 @@ myClient
 [14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 	/home/User/testpipe
 [14] p     0 644
- -> Database open
+ -> Database open in read/write mode
 some troublesome past cases
  -> Dir cvs
  -> Dir cvs/CVS
@@ -1701,7 +1701,7 @@ myClient
 [15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/evolocal.odb
 [15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
- -> Database open
+ -> Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
@@ -1891,7 +1891,7 @@ myClient
 [15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 List recovery after crash
- -> Database open
+ -> Database open in read/write mode
 A /home/User/testdir
  -> Dir testdir
 A /home/User/testfile (145 kB)
@@ -2084,7 +2084,7 @@ myClient
 [17] -
 Backup was interrupted in a previous run, finishing up...
 Unexpected end of journal, line 29
- -> Database open
+ -> Database open in read/write mode
 
 List:
 hisClient
@@ -2264,10 +2264,10 @@ myClient
 [17] -
  -> Journal is empty, not merging
  -> Database closed
- -> Database open
+ -> Database open in read/write mode
  -> Journal is empty, not merging
  -> Database closed
- -> Database open
+ -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
  -> Dir cvs/CVS
@@ -2461,7 +2461,7 @@ myClient
 [17] -
 	/home/User/testdir/evolocal.odb
 [17] -
- -> Database open
+ -> Database open in read/write mode
  -> Dir testdir
 Parsed 4 file(s)
  -> Journal is empty, not merging
@@ -2643,7 +2643,7 @@ myClient
 [17] -
 	/home/User/testdir/evolocal.odb
 [17] -
- -> Database open
+ -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
  -> Dir cvs/CVS
@@ -2797,7 +2797,7 @@ Journal:
 myClient
 	/home/User/testfile
 [20] f    13 000 
- -> Database open
+ -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
  -> Dir cvs/CVS
@@ -2946,7 +2946,7 @@ myClient
 [21] -
 	/home/User/testfile~
 [21] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
- -> Database open
+ -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
  -> Dir cvs/CVS

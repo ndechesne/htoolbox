@@ -53,7 +53,8 @@ public:
   Database(const string& path);
   ~Database();
   // Open database
-  int  open(bool read_only = false);
+  int  open_ro();
+  int  open_rw();
   // Close database
   int  close();
   // Get list of clientes in DB list (close-open to re-use DB!)

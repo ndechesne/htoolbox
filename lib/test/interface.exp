@@ -12,7 +12,7 @@ Test: typical backup
  --> Client: myhost
  --> Client: client
 Database initialized
- -> Database open
+ -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading backup list file
@@ -111,7 +111,7 @@ Test: same backup
  --> Client: other
  --> Client: myhost
  --> Client: client
- -> Database open
+ -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading backup list file
@@ -172,7 +172,7 @@ Test: interrupted backup
  --> Client: other
  --> Client: myhost
  --> Client: client
- -> Database open
+ -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading backup list file
@@ -232,7 +232,7 @@ Test: specify clients
  --> Client: myhost
  --> Client: client
 Backup was interrupted in a previous run, finishing up...
- -> Database open
+ -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading backup list file
@@ -284,7 +284,7 @@ Test: scan DB
  --> Client: other
  --> Client: myhost
  --> Client: client
- -> Database open
+ -> Database open in read/write mode
 Scanning database contents: 11 files
  -> Journal is empty, not merging
  -> Database closed
@@ -301,7 +301,7 @@ Test: check DB
  --> Client: other
  --> Client: myhost
  --> Client: client
- -> Database open
+ -> Database open in read/write mode
 Scanning database contents thoroughly: 11 files
  -> Journal is empty, not merging
  -> Database closed
@@ -318,7 +318,7 @@ Test: list clients
  --> Client: other
  --> Client: myhost
  --> Client: client
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
 List of clients: 3
  -> client
@@ -337,7 +337,7 @@ Test: list paths in UNIX client
  --> Client: other
  --> Client: myhost
  --> Client: client
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
 List of paths in 'myClient': 1
  -> /home
@@ -354,7 +354,7 @@ Test: list paths in DOS client
  --> Client: other
  --> Client: myhost
  --> Client: client
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
 List of paths in 'client': 1
  -> C:
@@ -371,7 +371,7 @@ Test: restore file
  --> Client: other
  --> Client: myhost
  --> Client: client
- -> Database open
+ -> Database open in read-only mode
 U test_r/test2/testfile
  -> Database closed
 
@@ -387,7 +387,7 @@ Test: restore dir
  --> Client: other
  --> Client: myhost
  --> Client: client
- -> Database open
+ -> Database open in read-only mode
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
@@ -420,7 +420,7 @@ Test: restore subdir
  --> Client: other
  --> Client: myhost
  --> Client: client
- -> Database open
+ -> Database open in read-only mode
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
@@ -445,7 +445,7 @@ Test: restore client
  --> Client: other
  --> Client: myhost
  --> Client: client
- -> Database open
+ -> Database open in read-only mode
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
@@ -486,7 +486,7 @@ Test: typical backup
  --> Client: myhost
  --> Client: client
  --> Client: myClient
- -> Database open
+ -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading backup list file
@@ -558,7 +558,7 @@ Test: specify clients
  --> Client: myhost
  --> Client: client
  --> Client: myClient
- -> Database open
+ -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading backup list file
@@ -598,7 +598,7 @@ Test: list clients
  --> Client: myhost
  --> Client: client
  --> Client: myClient
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
 List of clients: 3
  -> client
@@ -618,7 +618,7 @@ Test: list paths in DUAL client
  --> Client: myhost
  --> Client: client
  --> Client: myClient
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
 List of paths in 'myClient': 2
  -> /home
@@ -637,7 +637,7 @@ Test: list sub-paths in UNIX client
  --> Client: myhost
  --> Client: client
  --> Client: myClient
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
 List of paths in 'myClient': 1
  -> /home/User
@@ -655,7 +655,7 @@ Test: list sub-paths in DOS client
  --> Client: myhost
  --> Client: client
  --> Client: myClient
- -> Database open
+ -> Database open in read-only mode
  -> Database closed
 List of paths in 'myClient': 1
  -> C:/Test
@@ -673,7 +673,7 @@ Test: restore file (UNIX)
  --> Client: myhost
  --> Client: client
  --> Client: myClient
- -> Database open
+ -> Database open in read-only mode
 U test_r//home/User/test/File2.txt
  -> Database closed
 
@@ -690,7 +690,7 @@ Test: restore subdir (UNIX)
  --> Client: myhost
  --> Client: client
  --> Client: myClient
- -> Database open
+ -> Database open in read-only mode
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir
 U test_r//home/User/test/dir/file3.txt
@@ -709,7 +709,7 @@ Test: restore dir (UNIX)
  --> Client: myhost
  --> Client: client
  --> Client: myClient
- -> Database open
+ -> Database open in read-only mode
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir
 U test_r//home/User/test/dir/file3.txt
@@ -728,7 +728,7 @@ Test: restore file (DOS)
  --> Client: myhost
  --> Client: client
  --> Client: myClient
- -> Database open
+ -> Database open in read-only mode
 U test_r/C:/Test/File.TXT
  -> Database closed
 
@@ -745,7 +745,7 @@ Test: restore subdir (DOS)
  --> Client: myhost
  --> Client: client
  --> Client: myClient
- -> Database open
+ -> Database open in read-only mode
 U test_r/C:/Test/Dir
 U test_r/C:/Test/Dir/a File.TXT
 U test_r/C:/Test/Dir/another File.TXT
@@ -765,7 +765,7 @@ Test: restore dir (DOS)
  --> Client: myhost
  --> Client: client
  --> Client: myClient
- -> Database open
+ -> Database open in read-only mode
 U test_r/C:/Test/Dir
 U test_r/C:/Test/Dir/a File.TXT
 U test_r/C:/Test/Dir/another File.TXT
@@ -785,7 +785,7 @@ Test: restore client
  --> Client: myhost
  --> Client: client
  --> Client: myClient
- -> Database open
+ -> Database open in read-only mode
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir
 U test_r//home/User/test/dir/file3.txt
