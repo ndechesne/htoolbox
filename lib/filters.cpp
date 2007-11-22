@@ -95,7 +95,7 @@ bool Filter::match(const char* path, const Node& node) const {
   list<Condition*>::const_iterator condition;
   for (condition = begin(); condition != end(); condition++) {
     bool matches = (*condition)->match(path, node);
-    if (_type == filter_or) {
+    if (_type == any) {
       if (matches) {
         return true;
       }
@@ -106,7 +106,7 @@ bool Filter::match(const char* path, const Node& node) const {
     }
   }
   // All conditions evaluated
-  if (_type == filter_or) {
+  if (_type == any) {
     return false;
   } else {  // filter_and
     return true;
@@ -135,12 +135,12 @@ Filter* Filters::find(
 Filter* Filters::add(
     const string&   type,
     const string&   name) {
-  filter_type_t ftype;
+  Filter::Mode ftype;
   if ((type == "and") || (type == "all")) {
-    ftype = filter_and;
+    ftype = Filter::all;
   } else
   if ((type == "or") || (type == "any")) {
-    ftype = filter_or;
+    ftype = Filter::any;
   } else
   {
     return NULL;

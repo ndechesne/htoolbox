@@ -40,7 +40,7 @@ int main(void) {
   Node*           node;
 
   cout << "OR filter test" << endl;
-  Filter* or_filter = new Filter(filter_or, "my_filter_or");
+  Filter* or_filter = new Filter(Filter::any, "my_filter_or");
   or_filter->add(new Condition(condition_size_le, (long long) 500, false));
   or_filter->add(new Condition(condition_path_regex, "^/to a.*\\.txt", false));
   // Show name
@@ -74,7 +74,7 @@ int main(void) {
 
 
   cout << "AND filter test" << endl;
-  Filter* and_filter = new Filter(filter_and, "my_filter_and");
+  Filter* and_filter = new Filter(Filter::all, "my_filter_and");
   and_filter->add(new Condition(condition_size_le, (long long) 500, false));
   and_filter->add(new Condition(condition_path_regex, "^/to a.*\\.txt",
     false));
@@ -109,11 +109,11 @@ int main(void) {
 
 
   cout << "Sub-filter test" << endl;
-  Filter* sub_filter = new Filter(filter_and, "my_subfilter");
+  Filter* sub_filter = new Filter(Filter::all, "my_subfilter");
   sub_filter->add(new Condition(condition_size_le, (long long) 500, false));
   sub_filter->add(new Condition(condition_path_regex, "^/to a.*\\.txt",
     false));
-  and_filter = new Filter(filter_and, "my_filter_and");
+  and_filter = new Filter(Filter::all, "my_filter_and");
   and_filter->add(new Condition(condition_type, 'f', false));
   and_filter->add(new Condition(condition_subfilter, sub_filter, true));
   // Show names

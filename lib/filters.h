@@ -24,17 +24,18 @@ namespace hbackup {
 // Each filter can be declared as a logical AND or OR of its conditions
 // A special condition runs a filter, so expressions of any complexity can be
 // defined. This is why the name is needed and must be unique.
-typedef enum {
-  filter_or         = 1,      // Matches if at least one condition matches
-  filter_and,                 // Matches if all of its conditions match
-} filter_type_t;
-
 class Filter : public list<Condition*> {
-  filter_type_t     _type;
+public:
+  enum Mode {
+    any = 1,                  // Matches if at least one condition matches
+    all                       // Matches if all of its conditions match
+  };
+private:
+  Mode              _type;
   string            _name;
 public:
   Filter(
-    filter_type_t   type,
+    Mode            type,
     const char*     name) :
       _type(type), _name(name) {}
   ~Filter();
