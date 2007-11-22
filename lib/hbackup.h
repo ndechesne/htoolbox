@@ -20,47 +20,105 @@
 #define _HBACKUP_H
 
 namespace hbackup {
-  /* Verbosity level */
+  //! Verbosity level
   extern int verbosity();
 
-  /* Termination required (string is for debug purposes only) */
+  //! Termination required (string is for debug purposes only)
   extern int terminating(const char* string = NULL);
 
+  //! \brief The HBackup class provides the full functionality of HBackup.
+  /*!
+    This class implements all the internals of HBackup, thus allowing for any
+    front-end to be easily implemented on top of it. It depends on
+    configuration files to behave as expected.
+  */
   class HBackup {
     struct        Private;
     Private*      _d;
   public:
+    //! \brief Constructor
     HBackup();
+    //! \brief Destructor
     ~HBackup();
-    // Add specific client to backup (excludes all non other clients)
+    //! \brief Specify client
+    /*!
+      - Backup: adds specific client(s) to backup (excludes all non other
+        clients)
+      - List or restore: specifies client to list/restore the contents of
+      \param client       the name of client
+      \return 0 on success, -1 on failure
+    */
     int addClient(
-      const char*   client);                // Client to take into account
-    // Set user path (user-mode backup), open database
+      const char*   client);
+    //! \brief Set path for user-mode backup, open database
+    /*!
+      Sets the user path to use for user-mode backup and opens the backup
+      database in read/write mode.
+      \param home_path    the user's home directory
+      \return 0 on success, -1 on failure
+    */
     int setUserPath(
-      const char*   home_path);             // Path to user's home
-    // Read configuration file (server-mode backup), open database
+      const char*   home_path);
+    //! \brief Read configuration file for server-mode backup, open database
+    /*!
+      Reads the file specified by config_path opens the backup database in
+      read/write mode.
+      \param config_path  the server configuration file
+      \return 0 on success, -1 on failure
+    */
     int readConfig(
-      const char*   config_path);           // Path to configuration file
-    // Close database
+      const char*   config_path);
+    //! \brief Close database
+    /*!
+      Makes sure the lists are up-to-date.
+    */
     void close();
-    // Check database for missing/corrupted files
+    //! \brief Check database for missing/corrupted files
+    /*!
+      Checks every entry in the database to detect missing, obsolete and/or
+      corrupted file data.
+      \param thorough     check for data corruption
+      \return 0 on success, -1 on failure
+    */
     int check(
-      bool          thorough      = false); // Check data checksum too (no)
-    // Backup
+      bool          thorough      = false);
+    //! \brief Backup all accessible clients
+    /*!
+      Backs up all specified clients, using their configuration file. Also
+      deals with expired entries.
+      \param config_check do not backup, but check configuration files
+      \return 0 on success, -1 on failure
+    */
     int backup(
-      bool          config_check  = false); // Dry run (no)
-    // List
+      bool          config_check  = false);
+    //! \brief List database contents selectively
+    /*!
+      Lists contents, using the given parameters as filters.
+      \param records      list of elements to display
+      \param client       client (if none given, list all clients)
+      \param path         path (if none given, list all client's paths)
+      \param date         date (if none given, show latest)
+      \return 0 on success, -1 on failure
+    */
     int getList(
-      list<string>& records,                // List of elements to display
-      const char*   client        = NULL,   // The client (list all)
-      const char*   path          = NULL,   // The [start of the] path (list all)
-      time_t        date          = 0);     // The date (latest)
-    // Restore
+      list<string>& records,
+      const char*   client        = NULL,
+      const char*   path          = NULL,
+      time_t        date          = 0);
+    //! \brief Restore specified database contents
+    /*!
+      Lists contents, using the given parameters as filters.
+      \param destination  path where to restore the data
+      \param client       client
+      \param path         path (if none given, restore all client's paths)
+      \param date         date (if none given, get latest)
+      \return 0 on success, -1 on failure
+    */
     int restore(
-      const char*   dest,                   // Where the restored path goes
-      const char*   client        = NULL,   // The client
-      const char*   path          = NULL,   // The path (restore all)
-      time_t        date          = 0);     // The date (latest)
+      const char*   destination,
+      const char*   client,
+      const char*   path          = NULL,
+      time_t        date          = 0);
   };
 }
 
