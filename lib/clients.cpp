@@ -47,7 +47,7 @@ int Client::mountPath(
   string command = "mount ";
   string share;
 
-  /* Determine share and path */
+  // Determine share and path
   if (_protocol == "file") {
     share = "";
     *path = backup_path;
@@ -64,32 +64,34 @@ int Client::mountPath(
     return 2;
   }
 
-  /* Check what is mounted */
+  // Check what is mounted
   if (_mounted != "") {
     if (_mounted != share) {
-      /* Different share mounted: unmount */
+      // Different share mounted: unmount
       umount();
     } else {
-      /* Same share mounted: nothing to do */
+      // Same share mounted: nothing to do
       return 0;
     }
   }
 
-  /* Check that mount dir exists, if not create it */
-  if (Directory(_mount_point.c_str()).create()) {
-    return 2;
-  }
-
-  /* Build mount command */
+  // Build mount command
   if (_protocol == "file") {
     return 0;
-  } else
-  if (_protocol == "nfs") {
-    command += "-t nfs -o ro,noatime,nolock";
-  } else
-  if (_protocol == "smb") {
-    // codepage=858
-    command += "-t cifs -o ro,noatime,nocase";
+  } else {
+    // Check that mount dir exists, if not create it
+    if (Directory(_mount_point.c_str()).create()) {
+      return 2;
+    }
+
+    // Set protocol and default options
+    if (_protocol == "nfs") {
+      command += "-t nfs -o ro,noatime,nolock";
+    } else
+    if (_protocol == "smb") {
+      // codepage=858
+      command += "-t cifs -o ro,noatime,nocase";
+    }
   }
   // Additional options
   for (list<Option>::iterator i = _options.begin(); i != _options.end(); i++ ){
@@ -98,7 +100,7 @@ int Client::mountPath(
   // Paths
   command += " " + share + " " + _mount_point;
 
-  /* Issue mount command */
+  // Issue mount command
   if (verbosity() > 1) {
     cout << " -> " << command << endl;
   }
@@ -134,10 +136,10 @@ int Client::readListFile(
   int     line    = 0;
   int     failed  = 0;
 
-  /* Open list file */
+  // Open list file
   ifstream list_file(list_path.c_str());
 
-  /* Open list file */
+  // Open list file
   if (! list_file.is_open()) {
 //     cerr << "List file not found " << list_path << endl;
     failed = 2;
@@ -146,7 +148,7 @@ int Client::readListFile(
       cout << " -> Reading backup list file" << endl;
     }
 
-    /* Read list file */
+    // Read list file
     Path*   path   = NULL;
     Filter* filter = NULL;
     while (! list_file.eof() && ! failed) {
@@ -197,7 +199,7 @@ int Client::readListFile(
               << " '" << keyword << "' takes exactly one argument" << endl;
             failed = 1;
           } else {
-            /* New backup path */
+            // New backup path
             if (type[0] == '~') {
               path = new Path((_home_path + &type[1]).c_str());
             } else {
@@ -286,7 +288,7 @@ int Client::readListFile(
               negated     = false;
             }
 
-            /* Add specified filter */
+            // Add specified filter
             if (filter_type == "filter") {
               Filter* subfilter = NULL;
               if (path != NULL) {
@@ -411,7 +413,7 @@ misplaced:
         }
       }
     }
-    /* Close list file */
+    // Close list file
     list_file.close();
   }
   return failed;
@@ -499,7 +501,7 @@ int Client::backup(
 
   if (! readListFile(list_path, global_filters)) {
     setInitialised();
-    /* Backup */
+    // Backup
     if (_d->paths.empty()) {
       failed = true;
     } else if (! config_check) {
