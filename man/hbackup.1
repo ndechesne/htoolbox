@@ -18,12 +18,26 @@ group and modification time.
 .BR \-h ", " \-\-help
 Display the program usage and exit.
 .TP
-.BR \-V ", " \-\-version
+.BR \-\-version
 Display the program version and exit.
 .TP
 .BI \-c " FILE" "\fR,\fB \-\-config " FILE
 Override the default configuration file from "/etc/hbackup/hbackup.conf" to
 .IR FILE .
+.TP
+.BR \-p ", " \-\-pretend
+Do not perform backup, but check all configuration files.
+.TP
+.BR \-u ", " \-\-user
+Perform user-mode backup.
+.TP
+.BR \-l ", " \-\-list
+List contents of backup database.
+.TP
+.BI \-r " PATH" "\fR,\fB \-\-restore " PATH
+Select path 
+.IR PATH
+as base directory where to restore files.
 .TP
 .BR \-s ", " \-\-scan
 Scan the entire database for missing data.
@@ -32,17 +46,31 @@ Scan the entire database for missing data.
 Check the entire database for corrupted data.
 .TP
 .BR \-v ", " \-\-verbose
-Be verbose.  Options
-.B -vv
-and
-.B -vvv
-can also be used for added verbosity.
+Be verbose.
+.TP
+.BR \-d ", " \-\-debug
+Show debug (be more verbose).
+.TP
+.BR \-\- ", " \-\-ignore_rest
+End of options.
 .TP
 .BI \-C " CLIENT" "\fR,\fB \-\-client " CLIENT
-Backup only client
+Select client
 .IR CLIENT ,
-provided that it appears in the configuration file.  This option can be
-used more than once.
+provided that it appears in the configuration file, for backup, list or
+restoration.  This option can be used more than once in the backup case.
+.TP
+.BI \-P " PATH" "\fR,\fB \-\-path " PATH
+Select path
+.IR PATH
+to list or restore the contents of.
+.TP
+.BI \-D " EPOCH" "\fR,\fB \-\-date " EPOCH
+Select date
+.IR EPOCH
+(UNIX epoch) to restore the contents for.
+.TP
+
 .SH AUTHOR
 Written by Herve Fache.
 .SH COPYRIGHT
