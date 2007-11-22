@@ -585,6 +585,27 @@ Backup path 'C:/Test'
  -> Journal is empty, not merging
  -> Database closed
 
+Test: user-mode backup
+ --> Client: localhost
+Database initialized
+ -> Database open in read/write mode
+ -> Reading backup list file
+ --> Path: test_user/testuser
+Backup path 'test_user/testuser'
+A test_user/testuser/f1.txt (3 B)
+Adding file data to DB in: test_user/.hbackup/data/31d30eea8d0968d6458e0ad0027c9f80-0
+A test_user/testuser/subdir
+ -> Dir subdir
+A test_user/testuser/subdir/f2.txt (3 B)
+Adding file data to DB in: test_user/.hbackup/data/dbbf8220893d497d403bb9cdf49db7a4-0
+A test_user/testuser/subdir2
+ -> Dir subdir2
+A test_user/testuser/subdir2/f3.txt (3 B)
+Adding file data to DB in: test_user/.hbackup/data/d5b4c7d9b06b60a7846c4529834c9812-0
+A test_user/testuser/subdir2/f4.txt (3 B)
+Adding file data to DB in: test_user/.hbackup/data/90e2a51705594d033a3abe9d77b2b7ad-0
+ -> Database closed
+
 Test: list clients
  -> Reading configuration file
  --> global filter all backup

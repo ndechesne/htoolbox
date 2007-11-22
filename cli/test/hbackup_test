@@ -7,6 +7,8 @@ output="$target".all
 
 # Set path to access test scripts in priority
 export PATH=../../test_tools:$PATH
+TESTDIRUSER="test_user"
+export HOME="$TESTDIRUSER"
 
 # Cleanup previous attempt, if any
 rm -f $output
@@ -39,6 +41,9 @@ echo "Typical backup" >> $output
 
 echo "Specify clients" >> $output
 ../hbackup -d -c etc/hbackup.conf -C myhost -C client >> $output 2>&1
+
+echo "User-mode backup" >> $output
+../hbackup -du -c etc/hbackup.conf -- >> $output 2>&1
 
 echo "Scan DB" >> $output
 ../hbackup -d -c etc/hbackup.conf -s >> $output 2>&1

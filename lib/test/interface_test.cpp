@@ -221,6 +221,14 @@ int main(void) {
   hbackup->backup();
   delete hbackup;
 
+  cout << endl << "Test: user-mode backup" << endl;
+  hbackup = new HBackup();
+  if (hbackup->setUserPath("test_user")) {
+    return 1;
+  }
+  hbackup->backup();
+  delete hbackup;
+
   cout << endl << "Test: list clients" << endl;
   hbackup = new HBackup();
   if (hbackup->readConfig("etc/hbackup.conf")) {

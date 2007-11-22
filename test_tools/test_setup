@@ -9,6 +9,7 @@ TESTDIR="test1"
 TESTDIR2="test2"
 TESTDIRCIFS="test_cifs"
 TESTDIRNFS="test_nfs"
+TESTDIRUSER="test_user"
 TESTDBDIR="test_db"
 TESTRESTORE="test_r"
 
@@ -24,6 +25,7 @@ rm -rf "$TESTDIR"
 rm -rf "$TESTDIR2"
 rm -rf "$TESTDIRCIFS"
 rm -rf "$TESTDIRNFS"
+rm -rf "$TESTDIRUSER"
 rm -rf "$TESTRESTORE"
 
 if [ "$1" == "clean" ]; then
@@ -106,6 +108,19 @@ touch "$TESTDIRNFS/test2/File3.txt"
 touch "$TESTDIRNFS/test2/File4.txt"
 cat << EOF > "$TESTDIRNFS/hbackup.list"
 path "$ROOTDIRNFS/test/"
+EOF
+
+# User-mode test
+mkdir -p "$TESTDIRUSER/testuser"
+echo 10 > "$TESTDIRUSER/testuser/f1.txt"
+mkdir -p "$TESTDIRUSER/testuser/subdir"
+echo 20 > "$TESTDIRUSER/testuser/subdir/f2.txt"
+mkdir -p "$TESTDIRUSER/testuser/subdir2"
+echo 30 > "$TESTDIRUSER/testuser/subdir2/f3.txt"
+echo 40 > "$TESTDIRUSER/testuser/subdir2/f4.txt"
+mkdir -p "$TESTDIRUSER/.hbackup"
+cat << EOF > "$TESTDIRUSER/.hbackup/config"
+path "~/testuser/"
 EOF
 
 # Restore
