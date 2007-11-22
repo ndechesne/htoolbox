@@ -29,31 +29,31 @@ namespace hbackup {
  * True is returned when a match was found.
  */
 
-/* Filter types */
-typedef enum {
-  condition_subfilter   = 0,  // Subfilter
-  condition_type        = 1,  // File type
-  condition_name        = 11, // Exact file name
-  condition_name_start,       // Start of file name
-  condition_name_end,         // End of file name
-  condition_name_regex,       // Regular expression on file name
-  condition_path        = 21, // Exact path
-  condition_path_start,       // Start of path
-  condition_path_end,         // End of path
-  condition_path_regex,       // Regular expression on path
-  condition_size_ge     = 31, // Minimum size (only applies to regular files)
-  condition_size_gt,          // Minimum size (only applies to regular files)
-  condition_size_le,          // Maximum size (only applies to regular files)
-  condition_size_lt,          // Maximum size (only applies to regular files)
-  condition_mode_and    = 41, // Mode contains some of the given mode bits
-  condition_mode_eq,          // Mode contains all of the given mode bits
-} condition_type_t;
-
 // Stub
 class Filter;
 
 class Condition {
-  condition_type_t  _type;
+public:
+  enum Type {
+    subfilter   = 1,  // Subfilter
+    type        = 11, // File type
+    name        = 21, // Exact file name
+    name_start,       // Start of file name
+    name_end,         // End of file name
+    name_regex,       // Regular expression on file name
+    path        = 31, // Exact path
+    path_start,       // Start of path
+    path_end,         // End of path
+    path_regex,       // Regular expression on path
+    size_ge     = 41, // Minimum size (only applies to regular files)
+    size_gt,          // Minimum size (only applies to regular files)
+    size_le,          // Maximum size (only applies to regular files)
+    size_lt,          // Maximum size (only applies to regular files)
+    mode_and    = 51, // Mode contains some of the given mode bits
+    mode_eq,          // Mode contains all of the given mode bits
+  };
+private:
+  Type              _type;
   bool              _negated;
   const Filter*     _filter;
   char              _file_type;
@@ -61,20 +61,37 @@ class Condition {
   string            _string;
 public:
   // Sub-filter type-based condition
-  Condition(condition_type_t type, const Filter* filter, bool negated) :
-    _type(type), _negated(negated), _filter(filter) {}
+  Condition(
+    Type            type,
+    const Filter*   filter,
+    bool            negated) :
+      _type(type), _negated(negated), _filter(filter) {}
   // File type-based condition
-  Condition(condition_type_t type, char file_type, bool negated) :
-    _type(type), _negated(negated), _file_type(file_type) {}
+  Condition(
+    Type            type,
+    char            file_type,
+    bool            negated) :
+      _type(type), _negated(negated), _file_type(file_type) {}
   // Size-based condition
-  Condition(condition_type_t type, mode_t value, bool negated) :
-    _type(type), _negated(negated), _value(value) {}
-  Condition(condition_type_t type, long long value, bool negated) :
-    _type(type), _negated(negated), _value(value) {}
+  Condition(
+    Type            type,
+    mode_t          value,
+    bool            negated) :
+      _type(type), _negated(negated), _value(value) {}
+  Condition(
+    Type            type,
+    long long       value,
+    bool            negated) :
+      _type(type), _negated(negated), _value(value) {}
   // Path-based condition
-  Condition(condition_type_t type, const string& str, bool negated) :
-    _type(type), _negated(negated), _string(str) {}
-  bool match(const char* path, const Node& node) const;
+  Condition(
+    Type            type,
+    const string&   str,
+    bool            negated) :
+      _type(type), _negated(negated), _string(str) {}
+  bool match(
+    const char*     path,
+    const Node&     node) const;
   /* Debug only */
   void show() const;
 };

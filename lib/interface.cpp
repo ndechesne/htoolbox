@@ -203,7 +203,7 @@ int HBackup::readConfig(const char* config_path) {
               }
               cout << filter_type << " " << subfilter->name() << endl;
             }
-            filter->add(new Condition(condition_subfilter, subfilter,
+            filter->add(new Condition(Condition::subfilter, subfilter,
               negated));
           } else {
             switch (filter->add(filter_type, *current, negated)) {
@@ -365,7 +365,7 @@ int HBackup::getList(
     const char*     path,
     time_t          date) {
   bool failed;
-  
+
   if (_d->db->open_ro()) {
     return -1;
   }

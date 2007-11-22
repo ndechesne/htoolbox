@@ -36,19 +36,19 @@ bool Condition::match(const char* npath, const Node& node) const {
   bool  result = false;
 
   switch(_type) {
-    case condition_subfilter: {
+    case Condition::subfilter: {
         result = _filter->match(npath, node);
       } break;
-    case condition_type:
+    case Condition::type:
       result = _file_type == node.type();
       break;
-    case condition_name:
+    case Condition::name:
       result = strcmp(node.name(), _string.c_str()) == 0;
       break;
-    case condition_name_start:
+    case Condition::name_start:
       result = name.substr(0, _string.size()) == _string;
       break;
-    case condition_name_end: {
+    case Condition::name_end: {
       signed int diff = name.size() - _string.size();
       if (diff < 0) {
         result = false;
@@ -56,7 +56,7 @@ bool Condition::match(const char* npath, const Node& node) const {
         result = _string == name.substr(diff); }
       }
       break;
-    case condition_name_regex: {
+    case Condition::name_regex: {
         regex_t regex;
         if (! regcomp(&regex, _string.c_str(), REG_EXTENDED)) {
           result = ! regexec(&regex, name.c_str(), 0, NULL, 0);
@@ -64,13 +64,13 @@ bool Condition::match(const char* npath, const Node& node) const {
           cerr << "filters: regex: incorrect expression" << endl;
         }
       } break;
-    case condition_path:
+    case Condition::path:
       result = path == _string;
       break;
-    case condition_path_start:
+    case Condition::path_start:
       result = path.substr(0, _string.size()) == _string;
       break;
-    case condition_path_end: {
+    case Condition::path_end: {
         signed int diff = path.size() - _string.size();
         if (diff < 0) {
           result = false;
@@ -78,7 +78,7 @@ bool Condition::match(const char* npath, const Node& node) const {
           result = _string == path.substr(diff);
         }
       } break;
-    case condition_path_regex: {
+    case Condition::path_regex: {
         regex_t regex;
         if (! regcomp(&regex, _string.c_str(), REG_EXTENDED)) {
           result = ! regexec(&regex, path.c_str(), 0, NULL, 0);
@@ -86,22 +86,22 @@ bool Condition::match(const char* npath, const Node& node) const {
           cerr << "filters: regex: incorrect expression" << endl;
         }
       } break;
-    case condition_size_ge:
+    case Condition::size_ge:
       result = node.size() >= _value;
       break;
-    case condition_size_gt:
+    case Condition::size_gt:
       result = node.size() > _value;
       break;
-    case condition_size_le:
+    case Condition::size_le:
       result = node.size() <= _value;
       break;
-    case condition_size_lt:
+    case Condition::size_lt:
       result = node.size() < _value;
       break;
-    case condition_mode_and:
+    case Condition::mode_and:
       result = (node.mode() & _value) != 0;
       break;
-    case condition_mode_eq:
+    case Condition::mode_eq:
       result = node.mode() == _value;
       break;
     default:
@@ -112,29 +112,29 @@ bool Condition::match(const char* npath, const Node& node) const {
 
 void Condition::show() const {
   switch (_type) {
-    case condition_subfilter:
+    case Condition::subfilter:
       cout << "--> " << _filter->name() << " " << _type << endl;
       break;
-    case condition_type:
+    case Condition::type:
       break;
-    case condition_name:
-    case condition_name_end:
-    case condition_name_start:
-    case condition_name_regex:
-    case condition_path:
-    case condition_path_end:
-    case condition_path_start:
-    case condition_path_regex:
+    case Condition::name:
+    case Condition::name_end:
+    case Condition::name_start:
+    case Condition::name_regex:
+    case Condition::path:
+    case Condition::path_end:
+    case Condition::path_start:
+    case Condition::path_regex:
       cout << "--> " << _string << " " << _type << endl;
       break;
-    case condition_size_ge:
-    case condition_size_gt:
-    case condition_size_le:
-    case condition_size_lt:
+    case Condition::size_ge:
+    case Condition::size_gt:
+    case Condition::size_le:
+    case Condition::size_lt:
       cout << "--> " << _value << " " << _type << endl;
       break;
-    case condition_mode_and:
-    case condition_mode_eq:
+    case Condition::mode_and:
+    case Condition::mode_eq:
       cout << "--> " << hex << _value << dec << " " << _type << endl;
       break;
     default:

@@ -41,47 +41,47 @@ int Filter::add(
     bool            negated) {
   /* Add specified filter */
   if (type == "type") {
-    add(new Condition(condition_type, value[0], negated));
+    add(new Condition(Condition::type, value[0], negated));
   } else
   if (type == "name") {
-    add(new Condition(condition_name, value, negated));
+    add(new Condition(Condition::name, value, negated));
   } else
   if (type == "name_start") {
-    add(new Condition(condition_name_start, value, negated));
+    add(new Condition(Condition::name_start, value, negated));
   } else
   if (type == "name_end") {
-    add(new Condition(condition_name_end, value, negated));
+    add(new Condition(Condition::name_end, value, negated));
   } else
   if (type == "name_regex") {
-    add(new Condition(condition_name_regex, value, negated));
+    add(new Condition(Condition::name_regex, value, negated));
   } else
   if (type == "path") {
-    add(new Condition(condition_path, value, negated));
+    add(new Condition(Condition::path, value, negated));
   } else
   if (type == "path_start") {
-    add(new Condition(condition_path_start, value, negated));
+    add(new Condition(Condition::path_start, value, negated));
   } else
   if (type == "path_end") {
-    add(new Condition(condition_path_end, value, negated));
+    add(new Condition(Condition::path_end, value, negated));
   } else
   if (type == "path_regex") {
-    add(new Condition(condition_path_regex, value, negated));
+    add(new Condition(Condition::path_regex, value, negated));
   } else
   if (type == "size<") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    add(new Condition(condition_size_lt, size, negated));
+    add(new Condition(Condition::size_lt, size, negated));
   } else
   if (type == "size<=") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    add(new Condition(condition_size_le, size, negated));
+    add(new Condition(Condition::size_le, size, negated));
   } else
   if (type == "size>=") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    add(new Condition(condition_size_ge, size, negated));
+    add(new Condition(Condition::size_ge, size, negated));
   } else
   if (type == "size>") {
     off64_t size = strtoul(value.c_str(), NULL, 10);
-    add(new Condition(condition_size_gt, size, negated));
+    add(new Condition(Condition::size_gt, size, negated));
   } else
   {
     // Wrong type

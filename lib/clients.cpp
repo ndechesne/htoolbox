@@ -312,7 +312,7 @@ int Client::readListFile(
                   }
                   cout << filter_type << " " << subfilter->name() << endl;
                 }
-                filter->add(new Condition(condition_subfilter, subfilter,
+                filter->add(new Condition(Condition::subfilter, subfilter,
                   negated));
               }
             } else {

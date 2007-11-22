@@ -297,8 +297,8 @@ int main(void) {
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
-  filter->add(new Condition(condition_subfilter, subdir, false));
-  filter->add(new Condition(condition_subfilter, testlink, false));
+  filter->add(new Condition(Condition::subfilter, subdir, false));
+  filter->add(new Condition(Condition::subfilter, testlink, false));
   path->setIgnore(filter);
   db.setClient("myClient");
   if (! path->parse(db, "test1")) {
@@ -377,10 +377,10 @@ int main(void) {
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
-  filter->add(new Condition(condition_subfilter, subdir, false));
-  filter->add(new Condition(condition_subfilter, testlink, false));
-  filter->add(new Condition(condition_subfilter, cvs_dirutd, false));
-  filter->add(new Condition(condition_subfilter, empty, false));
+  filter->add(new Condition(Condition::subfilter, subdir, false));
+  filter->add(new Condition(Condition::subfilter, testlink, false));
+  filter->add(new Condition(Condition::subfilter, cvs_dirutd, false));
+  filter->add(new Condition(Condition::subfilter, empty, false));
   path->setIgnore(filter);
   db.setClient("myClient");
   if (! path->parse(db, "test1")) {

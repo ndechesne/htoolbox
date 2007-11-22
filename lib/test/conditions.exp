@@ -1,54 +1,54 @@
 Conditions test
-condition_name check
+Condition::name check
 match 2.1
-condition_name_start check
+Condition::name_start check
 match 3.1
 match 3.2
-condition_name_end check
+Condition::name_end check
 match 4.1
-condition_name_regex check
+Condition::name_regex check
 match 5.1
-condition_path check
+Condition::path check
 match 6.1
-condition_path_start check
+Condition::path_start check
 match 7.1
-condition_path_end check
+Condition::path_end check
 match 8.1
-condition_path_regex check
+Condition::path_regex check
 match 9.1
-condition_size_ge check
+Condition::size_ge check
 Not matching 4000
 Not matching 4999
 Matching 5000
 Matching 5001
 Matching 6000
-condition_size_gt check
+Condition::size_gt check
 Not matching 4000
 Not matching 4999
 Not matching 5000
 Matching 5001
 Matching 6000
-condition_size_le check
+Condition::size_le check
 Matching 4000
 Matching 4999
 Matching 5000
 Not matching 5001
 Not matching 6000
-condition_size_lt check
+Condition::size_lt check
 Matching 4000
 Matching 4999
 Not matching 5000
 Not matching 5001
 Not matching 6000
-condition_mode_and check
+Condition::mode_and check
 Matching 777
 Not matching 666
 Matching 111
-condition_mode_eq check
+Condition::mode_eq check
 Not matching 777
 Not matching 666
 Matching 111
-negation check (using condition_mode_eq)
+negation check (using Condition::mode_eq)
 Matching 777
 Matching 666
 Not matching 111
