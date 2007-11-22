@@ -1,8 +1,8 @@
 Add TestParser to list
-Contructing for list, mode: 1, dummy: 1
+Contructing for list, mode: 2, dummy: 1
 Add IgnoreParser to list
 Check parsers against test directory
-Contructing for use, mode: 1, dummy: 0, path: test
+Contructing for use, mode: 2, dummy: 0, path: test
 Displaying list
 Destroying (index 2)
 List: 2 parser(s)

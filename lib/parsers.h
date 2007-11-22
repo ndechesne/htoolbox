@@ -24,7 +24,7 @@ namespace hbackup {
 class Parser {
 public:
   enum Mode {
-    controlled,
+    controlled = 1,
     modified,
     modifiedandothers,
     others
