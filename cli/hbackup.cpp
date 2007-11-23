@@ -81,6 +81,13 @@ class MyOutput : public StdOutput {
 int main(int argc, char **argv) {
   hbackup::HBackup hbackup;
 
+  // Accept hubackup as a replacement for hbackup -u
+  bool   user_mode = false;
+  string prog_name = basename(argv[0]);
+  if (prog_name == "hubackup") {
+    user_mode = true;
+  }
+
   // Signal handler
   struct sigaction action;
   action.sa_handler = sighandler;
@@ -167,8 +174,12 @@ int main(int argc, char **argv) {
       }
     }
 
-    // Read config before using HBackup
+    // Check backup mode
     if (userSwitch.getValue()) {
+      user_mode = true;
+    }
+    // Read config before using HBackup
+    if (user_mode) {
       if (hbackup.setUserPath(getenv("HOME"))) {
         return 2;
       }
@@ -238,7 +249,13 @@ int main(int argc, char **argv) {
     // Backup
     {
       if (hbackup::verbosity() > 0) {
-        cout << "Backing up" << endl;
+        cout << "Backing up in ";
+        if (user_mode) {
+          cout << "user";
+        } else {
+          cout << "server";
+        }
+        cout << " mode" << endl;
       }
       if (hbackup.backup()) {
         return 3;

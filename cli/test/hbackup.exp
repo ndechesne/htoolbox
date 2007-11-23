@@ -135,7 +135,7 @@ Typical backup
  --> Client: other
  --> Client: myhost
  --> Client: client
-Backing up
+Backing up in server mode
 Database initialized
  -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
@@ -243,7 +243,7 @@ Specify clients
  --> Client: other
  --> Client: myhost
  --> Client: client
-Backing up
+Backing up in server mode
  -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
@@ -292,7 +292,7 @@ Backup path 'test2'
  -> Database closed
 User-mode backup
  --> Client: localhost
-Backing up
+Backing up in user mode
 Database initialized
  -> Database open in read/write mode
  -> Reading backup list file
