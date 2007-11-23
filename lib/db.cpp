@@ -264,7 +264,7 @@ int Database::write(
   }
 
   // Temporary file to write to
-  string temp_path = _d->path + "/filedata";
+  string temp_path = _d->path + "/data/temp";
   Stream temp(temp_path.c_str());
   if (temp.open("w", compress)) {
     cerr << strerror(errno) << ": " << temp_path << endl;
@@ -573,7 +573,7 @@ int Database::open_ro() {
     cerr << "Error: given DB path does not exist: " << _d->path << endl;
     return -1;
   }
-  
+
   if (! Directory((_d->path + "/data").c_str()).isValid()) {
     cerr << "Error: given DB path does not contain a database: " << _d->path
       << endl;
@@ -584,7 +584,7 @@ int Database::open_ro() {
     cerr << "Error: could not create hard link to list" << endl;
     return -1;
   }
-  
+
   bool failed = false;
   _d->list = new List(_d->path.c_str(), "list.ro");
   _d->journal = NULL;
@@ -863,7 +863,7 @@ int Database::close() {
     // Delate lists
     delete _d->journal;
     delete _d->merge;
-    
+
     // Release lock
     unlock();
   }
