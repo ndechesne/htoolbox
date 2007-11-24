@@ -1,3 +1,5 @@
+
+Initial backup, check '/' precedence
 Database initialized
  -> Database open in read/write mode
 first with subdir/testfile NOT readable
@@ -179,8 +181,9 @@ myClient
 [ 1] l     8 777 testfile
 	/home/User/testpipe
 [ 1] p     0 644
+
+As previous, with a .hbackup directory
  -> Database open in read/write mode
-as previous, with a .hbackup directory
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
@@ -325,8 +328,9 @@ myClient
 [ 1] l     8 777 testfile
 	/home/User/testpipe
 [ 1] p     0 644
+
+As previous with new big_file, interrupted
  -> Database open in read/write mode
-as previous with new big_file, interrupted
  -> Dir cvs
  -> Dir cvs/CVS
 A /home/User/cvs/big_file (512 kB)
@@ -404,9 +408,10 @@ Journal:
 myClient
 	/home/User/cvs/big_file
 [ 3] f 512000 644 
+
+As previous with subdir/testfile readable
 Backup was interrupted in a previous run, finishing up...
  -> Database open in read/write mode
-as previous with subdir/testfile readable
  -> Dir cvs
  -> Dir cvs/CVS
 ! /home/User/cvs/big_file (512 kB)
@@ -495,8 +500,9 @@ myClient
 [ 0] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/subdir/testfile
 [ 0] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+
+As previous with subdir/testfile in ignore list
  -> Database open in read/write mode
-as previous with subdir/testfile in ignore list
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
@@ -582,8 +588,9 @@ Journal:
 myClient
 	/home/User/subdir/testfile
 [ 5] -
+
+As previous with subdir in ignore list
  -> Database open in read/write mode
-as previous with subdir in ignore list
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
@@ -677,8 +684,9 @@ myClient
 [ 6] -
 	/home/User/subdir/testfile2
 [ 6] -
+
+As previous with testlink modified
  -> Database open in read/write mode
-as previous with testlink modified
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
@@ -767,8 +775,9 @@ Journal:
 myClient
 	/home/User/testlink
 [ 7] l     8 777 testnull
+
+As previous with testlink in ignore list
  -> Database open in read/write mode
-as previous with testlink in ignore list
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
@@ -858,8 +867,9 @@ Journal:
 myClient
 	/home/User/testlink
 [ 8] -
+
+As previous with CVS parser
  -> Database open in read/write mode
-as previous with CVS parser
  -> Dir cvs
 Parsing CVS entries
  -> f filenew.c
@@ -978,8 +988,9 @@ myClient
 [ 9] -
 	/home/User/cvs/fileoth
 [ 9] -
+
+As previous
  -> Database open in read/write mode
-as previous
  -> Dir cvs
 Parsing CVS entries
  -> f filenew.c
@@ -1093,8 +1104,9 @@ myClient
 [ 9] -
 	/home/User/cvs/fileoth
 [ 9] -
+
+As previous with cvs/dirutd in ignore list
  -> Database open in read/write mode
-as previous with cvs/dirutd in ignore list
  -> Dir cvs
 Parsing CVS entries
  -> f filenew.c
@@ -1207,8 +1219,9 @@ myClient
 [11] -
 	/home/User/cvs/dirutd/fileutd
 [11] -
+
+As previous with testpipe gone
  -> Database open in read/write mode
-as previous with testpipe gone
  -> Dir cvs
 Parsing CVS entries
  -> f filenew.c
@@ -1313,8 +1326,9 @@ Journal:
 myClient
 	/home/User/testpipe
 [12] -
+
+As previous with testfile mode changed
  -> Database open in read/write mode
-as previous with testfile mode changed
  -> Dir cvs
 Parsing CVS entries
  -> f filenew.c
@@ -1420,8 +1434,9 @@ Journal:
 myClient
 	/home/User/testfile
 [13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+
+As previous with cvs/filenew.c touched and testpipe restored
  -> Database open in read/write mode
-as previous with cvs/filenew.c touched and testpipe restored
  -> Dir cvs
 Parsing CVS entries
  -> f filenew.c
@@ -1533,8 +1548,9 @@ myClient
 [14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 	/home/User/testpipe
 [14] p     0 644
+
+Some troublesome past cases
  -> Database open in read/write mode
-some troublesome past cases
  -> Dir cvs
 Parsing CVS entries
  -> f filenew.c
@@ -1747,6 +1763,8 @@ myClient
 [15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/evolocal.odb
 [15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+
+Same again: journal and list left untouched
  -> Database open in read/write mode
  -> Dir cvs
 Parsing CVS entries
@@ -2325,6 +2343,8 @@ myClient
  -> Database open in read/write mode
  -> Journal is empty, not merging
  -> Database closed
+
+Same again
  -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
@@ -2525,6 +2545,8 @@ myClient
 [17] -
 	/home/User/testdir/evolocal.odb
 [17] -
+
+Same again
  -> Database open in read/write mode
  -> Dir testdir
 Parsed 4 file(s)
@@ -2707,6 +2729,8 @@ myClient
 [17] -
 	/home/User/testdir/evolocal.odb
 [17] -
+
+Expiry delay: 18, date: 20
  -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
@@ -2867,6 +2891,8 @@ Journal:
 myClient
 	/home/User/testfile
 [20] f    13 000 
+
+Prevent data dir from being removed
  -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
@@ -3022,6 +3048,8 @@ myClient
 [21] -
 	/home/User/testfile~
 [21] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+
+Add one file
  -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
