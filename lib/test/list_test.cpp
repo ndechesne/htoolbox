@@ -97,7 +97,9 @@ int main(void) {
   journal.data(time(NULL), node);
   free(node);
   node = new Stream("test1/testfile");
+  ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
+  ((Stream*) node)->close();
   journal.path("file_new");
   journal.data(time(NULL), node);
   free(node);
@@ -196,24 +198,32 @@ int main(void) {
   }
   system("echo \"this is my new test\" > test1/testfile");
   node = new Stream("test1/testfile");
+  ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
+  ((Stream*) node)->close();
   journal.client("client");
   journal.path("file_new");
   journal.data(time(NULL), node);
   free(node);
   node = new Stream("test1/test space");
+  ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
+  ((Stream*) node)->close();
   journal.client("client2");
   journal.path("file sp");
   journal.data(0, node);
   free(node);
   node = new Stream("test1/testfile");
+  ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
+  ((Stream*) node)->close();
   journal.path("file_new");
   journal.data(time(NULL), node);
   free(node);
   node = new Stream("test1/test space");
+  ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
+  ((Stream*) node)->close();
   journal.client("client4");
   journal.path("file_new");
   journal.data(time(NULL), node);
@@ -420,7 +430,9 @@ int main(void) {
   }
   system("echo \"this is my new test\" > test1/testfile");
   node = new Stream("test1/testfile");
+  ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
+  ((Stream*) node)->close();
   journal.client("client4");
   journal.path("file_new");
   journal.data(time(NULL), node);
@@ -503,7 +515,9 @@ int main(void) {
   }
   system("echo \"this is my new test\" > test1/testfile");
   node = new Stream("test1/testfile");
+  ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
+  ((Stream*) node)->close();
   journal.client("client2");
   journal.path("file_new");
   journal.data(time(NULL), node);
@@ -595,7 +609,7 @@ int main(void) {
   if (rc < 0) {
     cerr << "Failed to read list" << endl;
   }
-  
+
   list<string> active;
   list<string> expired;
   list<string>::iterator i;
@@ -801,7 +815,9 @@ int main(void) {
   }
   system("echo \"this is my other test\" > test1/testfile");
   node = new Stream("test1/testfile");
+  ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
+  ((Stream*) node)->close();
   journal.client("client");
   journal.path("file_new");
   journal.data(time(NULL), node);

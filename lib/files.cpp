@@ -539,7 +539,8 @@ ssize_t Stream::getLine(string& buffer) {
 }
 
 int Stream::computeChecksum() {
-  if (open("r", 0)) {
+  if (! isOpen()) {
+    errno = EBADF;
     return -1;
   }
   unsigned char buffer[Stream::chunk];
@@ -552,9 +553,6 @@ int Stream::computeChecksum() {
     }
     read_size += size;
   } while (size != 0);
-  if (close()) {
-    return -1;
-  }
   if (read_size != _size) {
     errno = EAGAIN;
     return -1;

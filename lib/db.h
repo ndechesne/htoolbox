@@ -76,8 +76,8 @@ public:
   // Scan database for missing/corrupted (if thorough) data
   // If checksum is empty, scan all contents
   int  scan(
-    const string&   checksum = "",
-    bool            thorough = true);
+    bool            thorough = true,
+    const string&   checksum = "");
   // Set the current client and its expiration delay (seconds)
   void setClient(
     const char*     client,

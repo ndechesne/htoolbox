@@ -430,7 +430,10 @@ void Database::unlock() {
   std::remove(lock_path.c_str());
 }
 
-int Database::crawl(Directory &dir, string path, bool check) const {
+int Database::crawl(
+    Directory&      dir,
+    string          path,
+    bool            check) const {
   if (dir.isValid() && ! dir.createList()) {
     bool no_files = false;
     list<Node*>::iterator i = dir.nodesList().begin();
@@ -446,54 +449,42 @@ int Database::crawl(Directory &dir, string path, bool check) const {
         } else {
           string checksum = path + (*i)->name();
           cout << " -> " << path << (*i)->name() << endl;
+          bool failed = false;
+          Stream* data = NULL;
           if (File((*i)->path(), "data").isValid()) {
             if (check) {
-              Stream f((*i)->path(), "data");
-              int rc = f.open("r", 0);
-              if (! rc) {
-                rc = f.computeChecksum();
-                if (! rc) {
-                  if (strncmp(f.checksum(), checksum.c_str(),
-                      strlen(f.checksum()))) {
-                    cout << "File data corrupted for " << checksum << ", ";
-                    if (f.remove()) {
-                      cout << "NOT";
-                    }
-                    cout << "removed" << endl;
-                  }
-                }
-                f.close();
-              }
-              if (rc) {
-                cerr << strerror(errno) << ": " << checksum << endl;
+              data = new Stream((*i)->path(), "data");
+              if (data->open("r")) {
+                failed = true;
               }
             }
           } else
           if (File((*i)->path(), "data.gz").isValid()) {
             if (check) {
-              Stream f((*i)->path(), "data.gz");
-              int rc = f.open("r", 1);
-              if (! rc) {
-                rc = f.computeChecksum();
-                if (! rc) {
-                  if (strncmp(f.checksum(), checksum.c_str(),
-                      strlen(f.checksum()))) {
-                    cout << "File data corrupted for " << checksum << ", ";
-                    if (f.remove()) {
-                      cout << "NOT";
-                    }
-                    cout << "removed" << endl;
-                  }
-                }
-                f.close();
-              }
-              if (rc) {
-                cerr << strerror(errno) << ": " << checksum << endl;
+              data = new Stream((*i)->path(), "data.gz");
+              if (data->open("r", 1)) {
+                failed = true;
               }
             }
           } else
           {
-            cerr << "File data missing for " << checksum << endl;
+            failed = true;
+          }
+          if (failed) {
+            cerr << strerror(errno) << ": " << checksum << endl;
+          } else
+          if (check) {
+            if (data->computeChecksum() || data->close()) {
+              failed = true;
+            } else
+            if (strncmp(data->checksum(), checksum.c_str(),
+                strlen(data->checksum()))) {
+              cout << "File data corrupted for " << checksum << ", ";
+              if (data->remove()) {
+                cout << "NOT";
+              }
+              cout << "removed" << endl;
+            }
           }
         }
       }
@@ -1156,24 +1147,28 @@ int Database::read(const string& path, const string& checksum) {
   return failed;
 }
 
-int Database::scan(const string& checksum, bool thorough) {
+int Database::scan(
+    bool            thorough,
+    const string&   checksum) {
   if (! isWriteable()) {
     return -1;
   }
 
+  // Check entire database for missing/corrupted data
   if (checksum == "") {
     list<string> sums;
-    char*       path   = NULL;
-    Node*       node   = NULL;
+    Node*        node = NULL;
 
     // Get list of checksums
-    while (_d->list->getEntry(NULL, NULL, &path, &node) > 0) {
+    while (_d->list->getEntry(NULL, NULL, NULL, &node) > 0) {
       if (node->type() == 'f') {
-        File *f = (File*) node;
+        File* f = (File*) node;
         if (f->checksum()[0] != '\0') {
           sums.push_back(f->checksum());
         }
       }
+      delete node;
+      node = NULL;
       if (terminating()) {
         errno = EINTR;
         return -1;
@@ -1193,13 +1188,15 @@ int Database::scan(const string& checksum, bool thorough) {
       cout << endl;
     }
     for (list<string>::iterator i = sums.begin(); i != sums.end(); i++) {
-      scan(i->c_str());
+      scan(thorough, i->c_str());
       if (terminating()) {
         errno = EINTR;
         return -1;
       }
     }
-  } else {
+  } else
+  // Check given file data
+  {
     size_t pos = checksum.rfind('-');
     if (pos == string::npos) {
       errno = EINVAL;
@@ -1210,16 +1207,49 @@ int Database::scan(const string& checksum, bool thorough) {
       errno = EUCLEAN;
       return -1;
     }
-    Stream filedata((path + "/data").c_str());
-    if (! filedata.isValid()) {
-//       cerr << "Error: data missing for " << checksum << endl;
+    bool failed = false;
+    Stream *data = NULL;
+    // Uncompressed data
+    if (File(path.c_str(), "data").isValid()) {
+      if (thorough) {
+        data = new Stream(path.c_str(), "data");
+        if (data->open("r")) {
+          errno = EINVAL;
+          failed = true;
+        }
+      } else {
+        return 0;
+      }
+    } else
+    // Compressed data
+    if (File(path.c_str(), "data.gz").isValid()) {
+      if (thorough) {
+        data = new Stream(path.c_str(), "data.gz");
+        if (data->open("r", 1)) {
+          errno = EINVAL;
+          failed = true;
+        }
+      } else {
+        return 0;
+      }
+    } else
+    // Missing data
+    {
+      cerr << "Error: data missing for " << checksum << endl;
       errno = ENOENT;
       return -1;
     }
-    filedata.computeChecksum();
-    if (checksum.substr(0, pos) != filedata.checksum()) {
+    if (data->computeChecksum() || data->close()) {
+      errno = EINVAL;
+      failed = true;
+    } else
+    if (checksum.substr(0, pos) != data->checksum()) {
       cerr << "Error: data corrupted for " << checksum << endl;
-      errno = ENOEXEC;
+      errno = EUCLEAN;
+      failed = true;
+    }
+    delete data;
+    if (failed) {
       return -1;
     }
   }

@@ -25,9 +25,13 @@ db.check: Structure needs cleaning
 db.check: Structure needs cleaning
 db.check: Invalid argument
 Scanning database contents thoroughly: 0 files
+File data gone
+Error: data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 db.check: No such file or directory
+File data corrupted, surficial scan
+File data corrupted, thorough scan
 Error: data corrupted for 59ca0efa9f5633cb0371bbc0355478d8-0
-db.check: Exec format error
+db.check: Structure needs cleaning
 
 Test: organise
 Lesser:
@@ -89,7 +93,7 @@ Test: fill in DB
  -> Database open in read/write mode
 Adding file data to DB in: test_db/data/d4/1d8cd98f00b204e9800998ecf8427e-0
 Adding file data to DB in: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-1
-Adding file data to DB in: test_db/data/28/5b35198a5e188b3a0df3ed33f93a26-0
+Adding compressed file data to DB in: test_db/data/28/5b35198a5e188b3a0df3ed33f93a26-0
 Adding file data to DB in: test_db/data/3d/546a1ce46c6ae10ad34ab8a81c542e-0
  -> Database closed
 [ 1] myClient         /client_path/test space            f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -156,17 +160,17 @@ File data corrupted for 59ca0efa9f5633cb0371bbc0355478d8-0, removed
  -> 59ca0efa9f5633cb0371bbc0355478d8-1
  -> d41d8cd98f00b204e9800998ecf8427e-0
  -> fe98test2
-File data missing for fe98test2
+No such file or directory: fe98test2
  -> febatest1
-File data missing for febatest1
+No such file or directory: febatest1
  -> fedc76test6
-File data missing for fedc76test6
+No such file or directory: fedc76test6
  -> zz000001
-File data missing for zz000001
+No such file or directory: zz000001
  -> zz000002
-File data missing for zz000002
+No such file or directory: zz000002
  -> zz000003
-File data missing for zz000003
+No such file or directory: zz000003
  -> Journal is empty, not merging
  -> Database closed
 

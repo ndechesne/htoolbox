@@ -258,28 +258,35 @@ int main(void) {
 
 
   cout << endl << "Test: check" << endl;
-  if (db.scan("49ca0efa9f5633cb0371bbc0355678d8-0")) {
+  if (db.scan(false, "49ca0efa9f5633cb0371bbc0355678d8-0")) {
     printf("db.check: %s\n", strerror(errno));
   }
-  if (db.scan("59ca0efa9f5633cb0371bbc0355678d8-0")) {
+  if (db.scan(false, "59ca0efa9f5633cb0371bbc0355678d8-0")) {
     printf("db.check: %s\n", strerror(errno));
   }
-  if (db.scan("59ca0efa9f5633cb0371bbc0355478d8")) {
+  if (db.scan(false, "59ca0efa9f5633cb0371bbc0355478d8")) {
     printf("db.check: %s\n", strerror(errno));
   }
-  if (db.scan("59ca0efa9f5633cb0371bbc0355478d8-0")) {
+  if (db.scan(false, "59ca0efa9f5633cb0371bbc0355478d8-0")) {
     printf("db.check: %s\n", strerror(errno));
   }
   if (db.scan()) {
     printf("db.check: %s\n", strerror(errno));
   }
+  cout << "File data gone" << endl;
   remove("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data");
-  if (db.scan("59ca0efa9f5633cb0371bbc0355478d8-0")) {
+  if (db.scan(false, "59ca0efa9f5633cb0371bbc0355478d8-0")) {
     printf("db.check: %s\n", strerror(errno));
     fflush(stdout);
   }
+  cout << "File data corrupted, surficial scan" << endl;
   File("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data").create();
-  if (db.scan("59ca0efa9f5633cb0371bbc0355478d8-0")) {
+  if (db.scan(false, "59ca0efa9f5633cb0371bbc0355478d8-0")) {
+    printf("db.check: %s\n", strerror(errno));
+  }
+  cout << "File data corrupted, thorough scan" << endl;
+  File("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data").create();
+  if (db.scan(true, "59ca0efa9f5633cb0371bbc0355478d8-0")) {
     printf("db.check: %s\n", strerror(errno));
   }
 
@@ -378,7 +385,7 @@ int main(void) {
   db.add("/client_path/subdir", d);
   delete d;
   f = new File("test1/subdir/testfile");
-  db.add("/client_path/subdir/testfile", f);
+  db.add("/client_path/subdir/testfile", f, NULL, 5);
   delete f;
   f = new File("test1/subdir/testfile2");
   db.add("/client_path/subdir/testfile2", f);
@@ -390,7 +397,7 @@ int main(void) {
   d = new Directory("test1/testdir");
   db.add("other_path/testdir", d);
   delete d;
-  
+
   db.close();
   rename("test_db/journal~", "test_db/list");
 
@@ -564,7 +571,7 @@ int main(void) {
     cout << " -> " << *i << endl;
   }
   records.clear();
-  
+
   cout << endl << "Test: check format" << endl;
   if (system("cp -a ../../test_tools/list_v2 test_db/list")) {
     cout << "failed to copy list over" << endl;

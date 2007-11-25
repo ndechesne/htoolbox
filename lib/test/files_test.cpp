@@ -589,11 +589,17 @@ int main(void) {
 
   cout << endl << "Test: computeChecksum" << endl;
   readfile = new Stream("test1/testfile");
+  if (readfile->open("r")) {
+    return 0;
+  }
   if (readfile->computeChecksum()) {
     cout << "Error computing checksum" << endl;
-  } else {
-    cout << "Checksum: " << readfile->checksum() << endl;
+    return 0;
   }
+  if (readfile->close()) {
+    return 0;
+  }
+  cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
 
   cout << endl << "Test: copy" << endl;

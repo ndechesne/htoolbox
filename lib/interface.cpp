@@ -312,7 +312,7 @@ int HBackup::check(bool thorough) {
   if (! _d->db->open_rw()) {
     bool failed = false;
 
-    if (_d->db->scan("", thorough)) {
+    if (_d->db->scan(thorough)) {
       failed = true;
     }
     _d->db->close();
