@@ -158,6 +158,82 @@ int Database::convertList() {
   return 0;
 }
 
+int Database::lock() {
+  string  lock_path;
+  FILE    *file;
+  bool    failed = false;
+
+  // Set the database path that we just locked as default
+  lock_path = _d->path + "/lock";
+
+  // Try to open lock file for reading: check who's holding the lock
+  if ((file = fopen(lock_path.c_str(), "r")) != NULL) {
+    pid_t pid = 0;
+
+    // Lock already taken
+    fscanf(file, "%d", &pid);
+    fclose(file);
+    if (pid != 0) {
+      // Find out whether process is still running, if not, reset lock
+      kill(pid, 0);
+      if (errno == ESRCH) {
+        cerr << "Warning: lock reset" << endl;
+        std::remove(lock_path.c_str());
+      } else {
+        cerr << "Error: lock taken by process with pid " << pid << endl;
+        failed = true;
+      }
+    } else {
+      cerr << "Error: lock taken by an unidentified process!" << endl;
+      failed = true;
+    }
+  }
+
+  // Try to open lock file for writing: lock
+  if (! failed) {
+    if ((file = fopen(lock_path.c_str(), "w")) != NULL) {
+      // Lock taken
+      fprintf(file, "%u\n", getpid());
+      fclose(file);
+    } else {
+      // Lock cannot be taken
+      cerr << "Error: lock: cannot take lock" << endl;
+      failed = true;
+    }
+  }
+  if (failed) {
+    return -1;
+  }
+  return 0;
+}
+
+void Database::unlock() {
+  string lock_path = _d->path + "/lock";
+  std::remove(lock_path.c_str());
+}
+
+int Database::merge() {
+  bool failed = false;
+
+  if (! isWriteable()) {
+    return -1;
+  }
+
+  // Merge with existing list into new one
+  List merge(_d->path.c_str(), "list.part");
+  if (! merge.open("w")) {
+    if (merge.merge(*_d->list, *_d->journal) && (errno != EBUSY)) {
+      cerr << "Error: merge failed" << endl;
+      failed = true;
+    }
+    merge.close();
+  } else {
+    cerr << strerror(errno) << ": failed to open temporary list" << endl;
+    failed = true;
+  }
+  return failed ? -1 : 0;
+}
+
 int Database::update(
     string          name,
     bool            new_file) {
@@ -179,6 +255,31 @@ bool Database::isOpen() const {
 
 bool Database::isWriteable() const {
   return (_d->journal != NULL) && _d->journal->isOpen();
+}
+
+int Database::getDir(
+    const string& checksum,
+    string&       path,
+    bool          create) {
+  path = _d->path + "/data";
+  int level = 0;
+
+  // Two cases: either there are files, or a .nofiles file and directories
+  do {
+    // If we can find a .nofiles file, then go down one more directory
+    if (File(path.c_str(), ".nofiles").isValid()) {
+      path += "/" + checksum.substr(level, 2);
+      level += 2;
+      if (create && Directory(path.c_str()).create()) {
+        return 1;
+      }
+    } else {
+      break;
+    }
+  } while (true);
+  // Return path
+  path += "/" + checksum.substr(level);
+  return ! Directory(path.c_str()).isValid();
 }
 
 int Database::organise(const string& path, int number) {
@@ -374,181 +475,6 @@ int Database::write(
   }
 
   return failed;
-}
-
-int Database::lock() {
-  string  lock_path;
-  FILE    *file;
-  bool    failed = false;
-
-  // Set the database path that we just locked as default
-  lock_path = _d->path + "/lock";
-
-  // Try to open lock file for reading: check who's holding the lock
-  if ((file = fopen(lock_path.c_str(), "r")) != NULL) {
-    pid_t pid = 0;
-
-    // Lock already taken
-    fscanf(file, "%d", &pid);
-    fclose(file);
-    if (pid != 0) {
-      // Find out whether process is still running, if not, reset lock
-      kill(pid, 0);
-      if (errno == ESRCH) {
-        cerr << "Warning: lock reset" << endl;
-        std::remove(lock_path.c_str());
-      } else {
-        cerr << "Error: lock taken by process with pid " << pid << endl;
-        failed = true;
-      }
-    } else {
-      cerr << "Error: lock taken by an unidentified process!" << endl;
-      failed = true;
-    }
-  }
-
-  // Try to open lock file for writing: lock
-  if (! failed) {
-    if ((file = fopen(lock_path.c_str(), "w")) != NULL) {
-      // Lock taken
-      fprintf(file, "%u\n", getpid());
-      fclose(file);
-    } else {
-      // Lock cannot be taken
-      cerr << "Error: lock: cannot take lock" << endl;
-      failed = true;
-    }
-  }
-  if (failed) {
-    return -1;
-  }
-  return 0;
-}
-
-void Database::unlock() {
-  string lock_path = _d->path + "/lock";
-  std::remove(lock_path.c_str());
-}
-
-int Database::crawl(
-    Directory&      dir,
-    string          path,
-    bool            check,
-    list<string>&   checksums) const {
-  if (dir.isValid() && ! dir.createList()) {
-    bool no_files = false;
-    list<Node*>::iterator i = dir.nodesList().begin();
-    while (i != dir.nodesList().end()) {
-      if (((*i)->type() == 'f') && (strcmp((*i)->name(), ".nofiles") == 0)) {
-        no_files = true;
-      }
-      if ((*i)->type() == 'd') {
-        if (no_files) {
-          Directory *d = new Directory(**i);
-          crawl(*d, path + (*i)->name(), check, checksums);
-          delete d;
-        } else {
-          string checksum = path + (*i)->name();
-          if (verbosity() > 1) {
-            cout << " -> checking: " << path << (*i)->name() << endl;
-          }
-          bool failed = false;
-          Stream* data = NULL;
-          if (File((*i)->path(), "data").isValid()) {
-            if (check) {
-              data = new Stream((*i)->path(), "data");
-              if (data->open("r")) {
-                failed = true;
-              }
-            }
-          } else
-          if (File((*i)->path(), "data.gz").isValid()) {
-            if (check) {
-              data = new Stream((*i)->path(), "data.gz");
-              if (data->open("r", 1)) {
-                failed = true;
-              }
-            }
-          } else
-          {
-            failed = true;
-          }
-          if (failed) {
-            cerr << strerror(errno) << ": " << checksum << endl;
-          } else
-          if (check) {
-            if (data->computeChecksum() || data->close()) {
-              failed = true;
-            } else
-            if (strncmp(data->checksum(), checksum.c_str(),
-                strlen(data->checksum()))) {
-              failed = true;
-              cerr << "File data corrupted for " << checksum << ", ";
-              if (data->remove()) {
-                cerr << "NOT";
-              }
-              cerr << "removed" << endl;
-            }
-          }
-          if (! failed) {
-            checksums.push_back(checksum);
-          }
-        }
-      }
-      delete *i;
-      i = dir.nodesList().erase(i);
-    }
-  } else {
-    return -1;
-  }
-  return 0;
-}
-
-int Database::getDir(
-    const string& checksum,
-    string&       path,
-    bool          create) {
-  path = _d->path + "/data";
-  int level = 0;
-
-  // Two cases: either there are files, or a .nofiles file and directories
-  do {
-    // If we can find a .nofiles file, then go down one more directory
-    if (File(path.c_str(), ".nofiles").isValid()) {
-      path += "/" + checksum.substr(level, 2);
-      level += 2;
-      if (create && Directory(path.c_str()).create()) {
-        return 1;
-      }
-    } else {
-      break;
-    }
-  } while (true);
-  // Return path
-  path += "/" + checksum.substr(level);
-  return ! Directory(path.c_str()).isValid();
-}
-
-int Database::merge() {
-  bool failed = false;
-
-  if (! isWriteable()) {
-    return -1;
-  }
-
-  // Merge with existing list into new one
-  List merge(_d->path.c_str(), "list.part");
-  if (! merge.open("w")) {
-    if (merge.merge(*_d->list, *_d->journal) && (errno != EBUSY)) {
-      cerr << "Error: merge failed" << endl;
-      failed = true;
-    }
-    merge.close();
-  } else {
-    cerr << strerror(errno) << ": failed to open temporary list" << endl;
-    failed = true;
-  }
-  return failed ? -1 : 0;
 }
 
 Database::Database(const string& path) {
@@ -1152,6 +1078,80 @@ int Database::read(const string& path, const string& checksum) {
   }
 
   return failed;
+}
+
+int Database::crawl(
+    Directory&      dir,
+    string          path,
+    bool            check,
+    list<string>&   checksums) const {
+  if (dir.isValid() && ! dir.createList()) {
+    bool no_files = false;
+    list<Node*>::iterator i = dir.nodesList().begin();
+    while (i != dir.nodesList().end()) {
+      if (((*i)->type() == 'f') && (strcmp((*i)->name(), ".nofiles") == 0)) {
+        no_files = true;
+      }
+      if ((*i)->type() == 'd') {
+        if (no_files) {
+          Directory *d = new Directory(**i);
+          crawl(*d, path + (*i)->name(), check, checksums);
+          delete d;
+        } else {
+          string checksum = path + (*i)->name();
+          if (verbosity() > 1) {
+            cout << " -> checking: " << path << (*i)->name() << endl;
+          }
+          bool failed = false;
+          Stream* data = NULL;
+          if (File((*i)->path(), "data").isValid()) {
+            if (check) {
+              data = new Stream((*i)->path(), "data");
+              if (data->open("r")) {
+                failed = true;
+              }
+            }
+          } else
+          if (File((*i)->path(), "data.gz").isValid()) {
+            if (check) {
+              data = new Stream((*i)->path(), "data.gz");
+              if (data->open("r", 1)) {
+                failed = true;
+              }
+            }
+          } else
+          {
+            failed = true;
+          }
+          if (failed) {
+            cerr << strerror(errno) << ": " << checksum << endl;
+          } else
+          if (check) {
+            if (data->computeChecksum() || data->close()) {
+              failed = true;
+            } else
+            if (strncmp(data->checksum(), checksum.c_str(),
+                strlen(data->checksum()))) {
+              failed = true;
+              cerr << "File data corrupted for " << checksum << ", ";
+              if (data->remove()) {
+                cerr << "NOT";
+              }
+              cerr << "removed" << endl;
+            }
+          }
+          if (! failed) {
+            checksums.push_back(checksum);
+          }
+        }
+      }
+      delete *i;
+      i = dir.nodesList().erase(i);
+    }
+  } else {
+    return -1;
+  }
+  return 0;
 }
 
 int Database::scan(
