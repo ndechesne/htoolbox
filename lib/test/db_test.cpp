@@ -80,6 +80,17 @@ public:
       int             compress = 0) {
     return Database::write(path, checksum, compress);
   }
+  int  crawl(
+      Directory&      dir,
+      const string&   checksumPart,
+      bool            thorough,
+      list<string>&   checksums) const {
+    return Database::crawl(dir, checksumPart, thorough, checksums);
+  }
+  int  parseChecksums(
+      list<string>&   checksums) {
+    return Database::parseChecksums(checksums);
+  }
 };
 
 static int verbose = 4;

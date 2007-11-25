@@ -37,14 +37,23 @@ protected: // So I can test them/use them in tests
   int getDir(
     const string&   checksum,
     string&         path,
-    bool            create = false);
+    bool            create = false) const;
   int  organise(
     const string&   path,
-    int             number);
+    int             number) const;
   int  write(
     const string&   path,
     char**          checksum,
     int             compress = 0);
+  // Scan database for missing/corrupted data, return a list of valid checksums
+  int  crawl(
+    Directory&      dir,              // Base directory
+    const string&   checksumPart,     // Checksum part
+    bool            thorough,         // Whether to do a corruption check
+    list<string>&   checksums) const; // List of collected checksums
+  // Use crawl's list of checksums to check for missing and obsolete data
+  int  parseChecksums(
+    list<string>&   checksums);
 public:
   Database(const string& path);
   ~Database();
@@ -69,17 +78,11 @@ public:
   int  read(
     const string&   path,
     const string&   checksum);
-  // Scan database for missing/corrupted data, return a list of valid checksums
-  int  crawl(
-    Directory&      dir,              // Base directory
-    string          path,             // Checksum part
-    bool            check,            // Whether to do a corruption check
-    list<string>&   checksums) const; // List of collected checksums
   // Scan database for missing/corrupted (if thorough) data
   // If checksum is empty, scan all contents
   int  scan(
     bool            thorough = true,
-    const string&   checksum = "");
+    const string&   checksum = "") const;
   // Set the current client and its expiration delay (seconds)
   void setClient(
     const char*     client,

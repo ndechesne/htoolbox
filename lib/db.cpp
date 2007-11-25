@@ -260,7 +260,7 @@ bool Database::isWriteable() const {
 int Database::getDir(
     const string& checksum,
     string&       path,
-    bool          create) {
+    bool          create) const {
   path = _d->path + "/data";
   int level = 0;
 
@@ -282,7 +282,9 @@ int Database::getDir(
   return ! Directory(path.c_str()).isValid();
 }
 
-int Database::organise(const string& path, int number) {
+int Database::organise(
+    const string&   path,
+    int             number) const {
   DIR           *directory;
   struct dirent *dir_entry;
   File          nofiles(path.c_str(), ".nofiles");
@@ -475,6 +477,47 @@ int Database::write(
   }
 
   return failed;
+}
+
+int Database::crawl(
+    Directory&      dir,
+    const string&   checksumPart,
+    bool            thorough,
+    list<string>&   checksums) const {
+  if (dir.isValid() && ! dir.createList()) {
+    bool no_files = false;
+    list<Node*>::iterator i = dir.nodesList().begin();
+    while (i != dir.nodesList().end()) {
+      if (((*i)->type() == 'f') && (strcmp((*i)->name(), ".nofiles") == 0)) {
+        no_files = true;
+      }
+      if ((*i)->type() == 'd') {
+        string checksum = checksumPart + (*i)->name();
+        if (no_files) {
+          Directory *d = new Directory(**i);
+          crawl(*d, checksum, thorough, checksums);
+          delete d;
+        } else {
+          if (verbosity() > 1) {
+            cout << " -> checking: " << checksum << endl;
+          }
+          if (! scan(thorough, checksum)) {
+            checksums.push_back(checksum);
+          }
+        }
+      }
+      delete *i;
+      i = dir.nodesList().erase(i);
+    }
+  } else {
+    return -1;
+  }
+  return 0;
+}
+
+int Database::parseChecksums(
+    list<string>&   checksums) {
+  return -1;
 }
 
 Database::Database(const string& path) {
@@ -1080,83 +1123,9 @@ int Database::read(const string& path, const string& checksum) {
   return failed;
 }
 
-int Database::crawl(
-    Directory&      dir,
-    string          path,
-    bool            check,
-    list<string>&   checksums) const {
-  if (dir.isValid() && ! dir.createList()) {
-    bool no_files = false;
-    list<Node*>::iterator i = dir.nodesList().begin();
-    while (i != dir.nodesList().end()) {
-      if (((*i)->type() == 'f') && (strcmp((*i)->name(), ".nofiles") == 0)) {
-        no_files = true;
-      }
-      if ((*i)->type() == 'd') {
-        if (no_files) {
-          Directory *d = new Directory(**i);
-          crawl(*d, path + (*i)->name(), check, checksums);
-          delete d;
-        } else {
-          string checksum = path + (*i)->name();
-          if (verbosity() > 1) {
-            cout << " -> checking: " << path << (*i)->name() << endl;
-          }
-          bool failed = false;
-          Stream* data = NULL;
-          if (File((*i)->path(), "data").isValid()) {
-            if (check) {
-              data = new Stream((*i)->path(), "data");
-              if (data->open("r")) {
-                failed = true;
-              }
-            }
-          } else
-          if (File((*i)->path(), "data.gz").isValid()) {
-            if (check) {
-              data = new Stream((*i)->path(), "data.gz");
-              if (data->open("r", 1)) {
-                failed = true;
-              }
-            }
-          } else
-          {
-            failed = true;
-          }
-          if (failed) {
-            cerr << strerror(errno) << ": " << checksum << endl;
-          } else
-          if (check) {
-            if (data->computeChecksum() || data->close()) {
-              failed = true;
-            } else
-            if (strncmp(data->checksum(), checksum.c_str(),
-                strlen(data->checksum()))) {
-              failed = true;
-              cerr << "File data corrupted for " << checksum << ", ";
-              if (data->remove()) {
-                cerr << "NOT";
-              }
-              cerr << "removed" << endl;
-            }
-          }
-          if (! failed) {
-            checksums.push_back(checksum);
-          }
-        }
-      }
-      delete *i;
-      i = dir.nodesList().erase(i);
-    }
-  } else {
-    return -1;
-  }
-  return 0;
-}
-
 int Database::scan(
     bool            thorough,
-    const string&   checksum) {
+    const string&   checksum) const {
   if (! isWriteable()) {
     return -1;
   }
@@ -1204,11 +1173,6 @@ int Database::scan(
   } else
   // Check given file data
   {
-    size_t pos = checksum.rfind('-');
-    if (pos == string::npos) {
-      errno = EINVAL;
-      return -1;
-    }
     StrPath path;
     if (getDir(checksum, path)) {
       errno = EUCLEAN;
@@ -1250,7 +1214,7 @@ int Database::scan(
       errno = EINVAL;
       failed = true;
     } else
-    if (checksum.substr(0, pos) != data->checksum()) {
+    if (strncmp(data->checksum(), checksum.c_str(), strlen(data->checksum()))){
       cerr << "Error: data corrupted for " << checksum << endl;
       errno = EUCLEAN;
       failed = true;
