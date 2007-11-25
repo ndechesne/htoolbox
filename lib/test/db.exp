@@ -153,26 +153,30 @@ List of paths: 2
 
 Test: crawl
  -> Database open in read/write mode
- -> 285b35198a5e188b3a0df3ed33f93a26-0
- -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> checking: 285b35198a5e188b3a0df3ed33f93a26-0
+ -> checking: 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> checking: 59ca0efa9f5633cb0371bbc0355478d8-0
 File data corrupted for 59ca0efa9f5633cb0371bbc0355478d8-0, removed
- -> 59ca0efa9f5633cb0371bbc0355478d8-1
- -> d41d8cd98f00b204e9800998ecf8427e-0
- -> fe98test2
+ -> checking: 59ca0efa9f5633cb0371bbc0355478d8-1
+ -> checking: d41d8cd98f00b204e9800998ecf8427e-0
+ -> checking: fe98test2
 No such file or directory: fe98test2
- -> febatest1
+ -> checking: febatest1
 No such file or directory: febatest1
- -> fedc76test6
+ -> checking: fedc76test6
 No such file or directory: fedc76test6
- -> zz000001
+ -> checking: zz000001
 No such file or directory: zz000001
- -> zz000002
+ -> checking: zz000002
 No such file or directory: zz000002
- -> zz000003
+ -> checking: zz000003
 No such file or directory: zz000003
  -> Journal is empty, not merging
  -> Database closed
+List of valid checksums
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-1
+ -> d41d8cd98f00b204e9800998ecf8427e-0
 
 Test: concurrent access
  -> Database open in read/write mode

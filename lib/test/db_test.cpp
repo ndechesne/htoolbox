@@ -80,9 +80,6 @@ public:
       int             compress = 0) {
     return Database::write(path, checksum, compress);
   }
-  int  crawl(Directory &dir, string path, bool check) const {
-    return Database::crawl(dir, path, check);
-  }
 };
 
 static int verbose = 4;
@@ -515,6 +512,7 @@ int main(void) {
   records.clear();
 
   cout << endl << "Test: crawl" << endl;
+  list<string> checksums;
   if ((status = db.open_rw())) {
     cout << "db::open error status " << status << endl;
     if (status == 2) {
@@ -522,11 +520,16 @@ int main(void) {
     }
   }
   d = new Directory("test_db/data");
-  if (db.crawl(*d, "", true) != 0) {
+  if (db.crawl(*d, "", true, checksums) != 0) {
     cout << "db::crawl failed" << endl;
   }
   delete d;
   db.close();
+  cout << "List of valid checksums" << endl;
+  for (list<string>::iterator i = checksums.begin(); i != checksums.end(); i++) {
+    cout << " -> " << *i << endl;
+  }
+  checksums.clear();
 
   cout << endl << "Test: concurrent access" << endl;
   if (db.open_rw() == 0) {

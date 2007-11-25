@@ -433,7 +433,8 @@ void Database::unlock() {
 int Database::crawl(
     Directory&      dir,
     string          path,
-    bool            check) const {
+    bool            check,
+    list<string>&   checksums) const {
   if (dir.isValid() && ! dir.createList()) {
     bool no_files = false;
     list<Node*>::iterator i = dir.nodesList().begin();
@@ -444,11 +445,13 @@ int Database::crawl(
       if ((*i)->type() == 'd') {
         if (no_files) {
           Directory *d = new Directory(**i);
-          crawl(*d, path + (*i)->name(), check);
+          crawl(*d, path + (*i)->name(), check, checksums);
           delete d;
         } else {
           string checksum = path + (*i)->name();
-          cout << " -> " << path << (*i)->name() << endl;
+          if (verbosity() > 1) {
+            cout << " -> checking: " << path << (*i)->name() << endl;
+          }
           bool failed = false;
           Stream* data = NULL;
           if (File((*i)->path(), "data").isValid()) {
@@ -479,12 +482,16 @@ int Database::crawl(
             } else
             if (strncmp(data->checksum(), checksum.c_str(),
                 strlen(data->checksum()))) {
-              cout << "File data corrupted for " << checksum << ", ";
+              failed = true;
+              cerr << "File data corrupted for " << checksum << ", ";
               if (data->remove()) {
-                cout << "NOT";
+                cerr << "NOT";
               }
-              cout << "removed" << endl;
+              cerr << "removed" << endl;
             }
+          }
+          if (! failed) {
+            checksums.push_back(checksum);
           }
         }
       }

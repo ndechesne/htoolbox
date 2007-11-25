@@ -45,10 +45,6 @@ protected: // So I can test them/use them in tests
     const string&   path,
     char**          checksum,
     int             compress = 0);
-  int  crawl(
-    Directory&      dir,
-    string          path,
-    bool            check) const;
 public:
   Database(const string& path);
   ~Database();
@@ -73,6 +69,12 @@ public:
   int  read(
     const string&   path,
     const string&   checksum);
+  // Scan database for missing/corrupted data, return a list of valid checksums
+  int  crawl(
+    Directory&      dir,              // Base directory
+    string          path,             // Checksum part
+    bool            check,            // Whether to do a corruption check
+    list<string>&   checksums) const; // List of collected checksums
   // Scan database for missing/corrupted (if thorough) data
   // If checksum is empty, scan all contents
   int  scan(
