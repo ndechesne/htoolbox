@@ -150,6 +150,7 @@ config /home/backup/Backup.list
 client file myhost
 hostname myhost.mynetwork.lan
 config "$CONFIGDIR/localhost.list"
+expire 1
 
 client smb client
 option username Myself

@@ -8,9 +8,14 @@ Test: typical backup
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
 Database initialized
  -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
@@ -116,9 +121,14 @@ Test: same backup
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
@@ -185,9 +195,14 @@ Test: interrupted backup
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
@@ -252,9 +267,14 @@ Test: specify clients
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
 Backup was interrupted in a previous run, finishing up...
  -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
@@ -313,9 +333,14 @@ Test: scan DB
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read/write mode
 Scanning database contents: 11 files
  -> Journal is empty, not merging
@@ -330,9 +355,14 @@ Test: check DB
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read/write mode
 Scanning database contents thoroughly: 11 files
  -> Journal is empty, not merging
@@ -347,9 +377,14 @@ Test: list clients
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
  -> Database closed
 List of clients: 3
@@ -366,9 +401,14 @@ Test: list paths in UNIX client
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
  -> Database closed
 List of paths in 'myClient': 1
@@ -383,9 +423,14 @@ Test: list paths in DOS client
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
  -> Database closed
 List of paths in 'client': 1
@@ -400,9 +445,14 @@ Test: restore file
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
 U test_r/test2/testfile
  -> Database closed
@@ -416,9 +466,14 @@ Test: restore dir
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
@@ -449,9 +504,14 @@ Test: restore subdir
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
@@ -474,9 +534,14 @@ Test: restore client
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
@@ -514,10 +579,16 @@ Test: typical backup
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  --> Client: myClient
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
@@ -594,10 +665,16 @@ Test: specify clients
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  --> Client: myClient
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
@@ -655,10 +732,16 @@ Test: list clients
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  --> Client: myClient
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
  -> Database closed
 List of clients: 3
@@ -675,10 +758,16 @@ Test: list paths in DUAL client
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  --> Client: myClient
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
  -> Database closed
 List of paths in 'myClient': 2
@@ -694,10 +783,16 @@ Test: list sub-paths in UNIX client
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  --> Client: myClient
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
  -> Database closed
 List of paths in 'myClient': 1
@@ -712,10 +807,16 @@ Test: list sub-paths in DOS client
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  --> Client: myClient
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
  -> Database closed
 List of paths in 'myClient': 1
@@ -730,10 +831,16 @@ Test: restore file (UNIX)
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  --> Client: myClient
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
 U test_r//home/User/test/File2.txt
  -> Database closed
@@ -747,10 +854,16 @@ Test: restore subdir (UNIX)
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  --> Client: myClient
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir
@@ -766,10 +879,16 @@ Test: restore dir (UNIX)
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  --> Client: myClient
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir
@@ -785,10 +904,16 @@ Test: restore file (DOS)
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  --> Client: myClient
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
 U test_r/C:/Test/File.TXT
  -> Database closed
@@ -802,10 +927,16 @@ Test: restore subdir (DOS)
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  --> Client: myClient
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
 U test_r/C:/Test/Dir
 U test_r/C:/Test/Dir/a File.TXT
@@ -822,10 +953,16 @@ Test: restore dir (DOS)
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  --> Client: myClient
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
 U test_r/C:/Test/Dir
 U test_r/C:/Test/Dir/a File.TXT
@@ -842,10 +979,16 @@ Test: restore client
  ---> condition filter backup
  ---> condition not size< 1000
  --> Client: myClient
+ ---> config file: /home/User/hbackup.list
  --> Client: other
+ ---> config file: /home/backup/Backup.list
  --> Client: myhost
+ ---> config file: etc/localhost.list
+ ---> expiry: 1 day(s)
  --> Client: client
+ ---> config file: C:\Backup\Backup.LST
  --> Client: myClient
+ ---> config file: C:\Backup\Backup.LST
  -> Database open in read-only mode
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir

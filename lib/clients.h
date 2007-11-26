@@ -71,6 +71,7 @@ public:
   void setHostOrIp(string value);
   void setProtocol(string value);
   void setListfile(const char* value);
+  void setExpire(int expire) { _expire = expire; };
   //
   bool initialised() const { return _initialised; }
   void setInitialised() { _initialised = true; }

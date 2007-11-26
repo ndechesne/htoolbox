@@ -280,6 +280,27 @@ int HBackup::readConfig(const char* config_path) {
               return -1;
             }
             client->setListfile(type.c_str());
+            if (verbosity() > 1) {
+              cout << " ---> config file: " << type << endl;
+            }
+          } else
+          if (keyword == "expire") {
+            if (params.size() > 2) {
+              cerr << "Error: in file " << config_path << ", line " << line
+                << " '" << keyword << "' takes exactly one argument" << endl;
+              return -1;
+            }
+            errno = 0;
+            int expire = strtol(type.c_str(), NULL, 10);
+            if (errno != 0) {
+              cerr << "Error: in file " << config_path << ", line " << line
+                << " '" << keyword << "' expects a number as argument" << endl;
+              return -1;
+            }
+            if (verbosity() > 1) {
+              cout << " ---> expiry: " << expire << " day(s)" << endl;
+            }
+            client->setExpire(expire * 3600 * 24);
           } else {
             cerr << "Unrecognised keyword '" << keyword
               << "' in configuration file, line " << line << endl;
