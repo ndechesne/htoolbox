@@ -54,14 +54,18 @@ protected: // So I can test them/use them in tests
   // Use crawl's list of checksums to check for missing and obsolete data
   int  parseChecksums(
     list<string>&   checksums);
+  // Deal with trash items
+  int  trash(
+    string          path,
+    int             trash_expire);
 public:
   Database(const string& path);
   ~Database();
   // Open database
   int  open_ro();
   int  open_rw();
-  // Close database
-  int  close();
+  // Close database (put removed data into trash)
+  int  close(int trash_expire = -1);
   // Get list of clientes in DB list (close-open to re-use DB!)
   int  getRecords(
       list<string>& records,          // List of elements to display

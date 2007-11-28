@@ -17,7 +17,7 @@ ROOTDIRNFS="/home/User"
 
 # Clean
 if [ -d "$TESTDBDIR" ]; then
-  chmod u+w "$TESTDBDIR"
+  chmod -R 755 "$TESTDBDIR"
 fi
 rm -rf "$CONFIGDIR"
 rm -rf "$TESTDBDIR"
@@ -130,6 +130,7 @@ mkdir -p "$TESTRESTORE"
 mkdir "$CONFIGDIR"
 cat << EOF > "$CONFIGDIR/hbackup.conf"
 db "$TESTDBDIR"
+trash 1
 
 filter all backup
 condition type file

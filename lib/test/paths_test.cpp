@@ -57,11 +57,11 @@ int hbackup::terminating(const char* function) {
 
 static time_t my_time = 0;
 time_t time(time_t *t) {
-  return my_time * 24 * 3600;
+  return 2000000000 + (my_time * 24 * 3600);
 }
 
 static void showLine(time_t timestamp, Node* node) {
-  printf("[%2ld]", timestamp / 24 / 3600);
+  printf("[%2ld]", (timestamp == 0)? 0 : (timestamp - 2000000000) / 24 / 3600);
   if (node != NULL) {
     printf(" %c %5llu %03o", node->type(), node->size(), node->mode());
     if (node->type() == 'f') {
@@ -646,6 +646,7 @@ int main(void) {
   if (db.close()) {
     return 0;
   }
+  system("ls -s test_db/data/trash");
 
   // Show list contents
   cout << endl << "List:" << endl;
@@ -662,15 +663,16 @@ int main(void) {
   system("touch test1/testfile~");
   system("rm -f test1/testfile");
   // Make removal fail
-  system("touch test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/blah");
+  system("chmod 0 test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0");
   db.setClient("myClient", 0);
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  if (db.close()) {
+  if (db.close(0)) {
     return 0;
   }
+  system("ls -s test_db/data/trash");
 
   // Show list contents
   cout << endl << "List:" << endl;
@@ -690,9 +692,10 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  if (db.close()) {
+  if (db.close(0)) {
     return 0;
   }
+  system("ls -s test_db/data/trash");
 
   // Show list contents
   cout << endl << "List:" << endl;

@@ -520,6 +520,36 @@ int Database::parseChecksums(
   return -1;
 }
 
+int Database::trash(
+    string          trash_path,
+    int             trash_expire) {
+  if (trash_expire < 0) {
+    return 0;
+  }
+  // Read trash directory
+  Directory trash_dir(trash_path.c_str());
+  if (! trash_dir.isValid()) {
+    return 0;
+  }
+  trash_dir.createList();
+  // Deal with files in it
+  time_t time_remove = time(NULL) - trash_expire;
+  bool failed;
+  list<Node*>::iterator i = trash_dir.nodesList().begin();
+  while (i != trash_dir.nodesList().end()) {
+    if ((*i)->mtime() < time_remove) {
+      if (remove((*i)->path()) != 0) {
+        failed = true;
+      } else if (verbosity() > 1) {
+        cout << "Removed from trash: " << (*i)->path() << endl;
+      }
+    }
+    delete *i;
+    i = trash_dir.nodesList().erase(i);
+  }
+  return failed ? -1 : 0;
+}
+
 Database::Database(const string& path) {
   _d          = new Private;
   _d->path    = path;
@@ -718,7 +748,7 @@ int Database::open_rw() {
   return 0;
 }
 
-int Database::close() {
+int Database::close(int trash_expire) {
   bool failed = false;
   bool read_only = ! isWriteable();
 
@@ -772,6 +802,7 @@ int Database::close() {
         } else {
           // All merging successful
           update("journal");
+
           // Get rid of expired data
           _d->active_data.sort();
           _d->active_data.unique();
@@ -790,40 +821,72 @@ int Database::close() {
             }
           }
           _d->active_data.clear();
-          // Remove obsolete data
-          i = _d->expired_data.begin();
-          while (i != _d->expired_data.end()) {
-            if (i->size() != 0) {
-              string path;
-              if (verbosity() > 1) {
-                cout << " -> Removing data for " << *i << ": ";
-              }
-              if (! getDir(*i, path)) {
-                if (File(path.c_str(), "data").isValid()) {
-                  remove((path + "/data").c_str());
-                } else
-                if (File(path.c_str(), "data.gz").isValid()) {
-                  remove((path + "/data.gz").c_str());
-                }
-                int rc = remove(path.c_str());
+          // Create trash if necessary
+          string trash_path = _d->path + "/data/trash";
+          trash(trash_path, trash_expire);
+          if ((trash_expire >= 0) && (_d->expired_data.size() != 0)
+           && (Directory(trash_path.c_str()).create() != 0)) {
+            cerr << "Warning: could not create trash" << endl;
+          } else {
+            // Remove obsolete data
+            i = _d->expired_data.begin();
+            while (i != _d->expired_data.end()) {
+              if (i->size() != 0) {
+                string path;
                 if (verbosity() > 1) {
-                  if (rc) {
-                    cout << "FAILED!";
+                  cout << " -> Removing data for " << *i << ": ";
+                }
+                if (! getDir(*i, path)) {
+                  File* f;
+                  string trash_name;
+                  f = new File(path.c_str(), "data");
+                  if (! f->isValid()) {
+                    delete f;
+                    f = new File(path.c_str(), "data.gz");
+                    if (! f->isValid()) {
+                      delete f;
+                      f = NULL;
+                    } else {
+                      trash_name = *i + ".gz";
+                    }
                   } else {
-                    cout << "done";
+                    trash_name = *i;
+                  }
+                  int rc;
+                  if (f != NULL) {
+                    if ((trash_expire >= 0)) {
+                      rc = rename(f->path(),
+                                  (trash_path + "/" + trash_name).c_str());
+                    } else {
+                      rc = f->remove();
+                    }
+                    if (verbosity() > 1) {
+                      if (rc) {
+                        cout << "FAILED!";
+                      } else {
+                        cout << "done";
+                      }
+                    }
+                  } else {
+                    if (verbosity() > 1) {
+                      cout << "DATA GONE!";
+                    }
+                  }
+                  delete f;
+                  remove(path.c_str());
+                } else {
+                  if (verbosity() > 1) {
+                    cout << "ALREADY GONE!";
                   }
                 }
-              } else {
                 if (verbosity() > 1) {
-                  cout << "ALREADY GONE!";
+                  cout << endl;
                 }
               }
-              if (verbosity() > 1) {
-                cout << endl;
-              }
+              i = _d->expired_data.erase(i);
             }
-            i = _d->expired_data.erase(i);
           }
+          _d->expired_data.clear();
         }
       }
     }
