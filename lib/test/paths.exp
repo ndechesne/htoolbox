@@ -2757,7 +2757,7 @@ Parsed 33 file(s)
  -> Removing data for 285b35198a5e188b3a0df3ed33f93a26-0: ALREADY GONE!
  -> Removing data for 5252f242d27b8c2c9fdbdcbb33545d07-0: done
  -> Database closed
-ls: test_db/data/trash: No such file or directory
+du: cannot access `test_db/data/trash/*': No such file or directory
 
 List:
 hisClient
@@ -2920,8 +2920,7 @@ Parsed 32 file(s)
  -> Removing data for 59ca0efa9f5633cb0371bbc0355478d8-0: DATA GONE!
  -> Removing data for 816df6f64deba63b029ca19d880ee10a-0: done
  -> Database closed
-total 504
-504 816df6f64deba63b029ca19d880ee10a-0
+512000	test_db/data/trash/816df6f64deba63b029ca19d880ee10a-0
 
 List:
 hisClient
@@ -3077,7 +3076,7 @@ M /home/User/testfile~ (5 B)
 Parsed 32 file(s)
 Removed from trash: test_db/data/trash/816df6f64deba63b029ca19d880ee10a-0
  -> Database closed
-total 0
+du: cannot access `test_db/data/trash/*': No such file or directory
 
 List:
 hisClient

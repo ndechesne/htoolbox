@@ -646,7 +646,7 @@ int main(void) {
   if (db.close()) {
     return 0;
   }
-  system("ls -s test_db/data/trash");
+  system("du -sb test_db/data/trash/*");
 
   // Show list contents
   cout << endl << "List:" << endl;
@@ -672,7 +672,7 @@ int main(void) {
   if (db.close(0)) {
     return 0;
   }
-  system("ls -s test_db/data/trash");
+  system("du -sb test_db/data/trash/*");
 
   // Show list contents
   cout << endl << "List:" << endl;
@@ -695,7 +695,7 @@ int main(void) {
   if (db.close(0)) {
     return 0;
   }
-  system("ls -s test_db/data/trash");
+  system("du -sb test_db/data/trash/*");
 
   // Show list contents
   cout << endl << "List:" << endl;
