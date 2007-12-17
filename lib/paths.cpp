@@ -99,6 +99,8 @@ int Path::recurse(
         // Also deal with directory, as some fields should not be considered
         if ((*i)->type() == 'd') {
           Directory *d = new Directory(**i);
+          d->resetMtime();
+          d->resetSize();
           delete *i;
           *i = d;
         }

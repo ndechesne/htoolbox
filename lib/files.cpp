@@ -56,9 +56,10 @@ using namespace std;
 
 using namespace hbackup;
 
-void Node::metadata() {
+int Node::stat() {
   struct stat64 metadata;
-  if (lstat64(_path, &metadata)) {
+  int rc = lstat64(_path, &metadata);
+  if (rc) {
     // errno set by lstat
     _type = '?';
   } else {
@@ -77,17 +78,7 @@ void Node::metadata() {
     _gid   = metadata.st_gid;
     _mode  = metadata.st_mode & ~S_IFMT;
   }
-}
-
-Node::Node(const char* dir_path, const char* name) {
-  _parsed = false;
-  _path = path(dir_path, name);
-  if (basename(_path)[0] == '\0') {
-    _type = '?';
-  } else {
-    errno = 0;
-    metadata();
-  }
+  return rc;
 }
 
 bool Node::operator!=(const Node& right) const {
@@ -108,7 +99,7 @@ int Node::remove() {
 int File::create() {
   errno = 0;
   if (_type == '?') {
-    metadata();
+    stat();
   }
   if (! isValid()) {
     int readfile = open(_path, O_WRONLY | O_CREAT, 0666);
@@ -116,7 +107,7 @@ int File::create() {
       return -1;
     }
     close(readfile);
-    metadata();
+    stat();
   }
   return 0;
 }
@@ -132,6 +123,7 @@ int Directory::createList() {
       continue;
     }
     Node *g = new Node(_path, dir_entry->d_name);
+    g->stat();
     list<Node*>::iterator i = _nodes.begin();
     while ((i != _nodes.end()) && (*(*i) < *g)) {
       i++;
@@ -154,13 +146,13 @@ void Directory::deleteList() {
 int Directory::create() {
   errno = 0;
   if (_type == '?') {
-    metadata();
+    stat();
   }
   if (! isValid()) {
     if (mkdir(_path, 0777)) {
       return -1;
     }
-    metadata();
+    stat();
   }
   return 0;
 }
@@ -326,7 +318,7 @@ int Stream::close() {
   }
 
   // Update metadata
-  metadata();
+  stat();
   return rc;
 }
 

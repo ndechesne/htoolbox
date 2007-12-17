@@ -35,7 +35,6 @@ protected:
   gid_t     _gid;       // group ID of owner
   mode_t    _mode;      // permissions
   bool      _parsed;    // more info available using proper type
-  void  metadata();
   const char* basename(const char* path) const {
     const char* name = strrchr(path, '/');
     if (name != NULL) {
@@ -48,18 +47,19 @@ protected:
 public:
   // Default constructor
   Node(const Node& g) :
-        _path(NULL),
+        _path(strdup(g._path)),
         _type(g._type),
         _mtime(g._mtime),
         _size(g._size),
         _uid(g._uid),
         _gid(g._gid),
         _mode(g._mode),
-        _parsed(false) {
-    _path = strdup(g._path);
-  }
+        _parsed(false) {}
   // Constructor for path in the VFS
-  Node(const char *path, const char* name = "");
+  Node(const char *dir, const char* name = "") :
+      _path(path(dir, name)),
+      _type('?'),
+      _parsed(false) {}
   // Constructor for given file metadata
   Node(
       const char* path,
@@ -82,6 +82,11 @@ public:
   virtual ~Node() {
     free(_path);
   }
+  // Stat file metadata
+  int stat();
+  // Reset some metadata
+  void resetMtime() { _mtime = 0; }
+  void resetSize()  { _size  = 0; }
   // Operators
   bool operator<(const Node& right) const {
     // Only compare names
@@ -136,6 +141,7 @@ public:
   File(const char *path, const char* name = "") :
       Node(path, name),
       _checksum(NULL) {
+    stat();
     _parsed = true;
     _checksum = strdup("");
   }
@@ -175,16 +181,13 @@ public:
   // Constructor for existing Node
   Directory(const Node& g) :
       Node(g) {
-    _size  = 0;
-    _mtime = 0;
     _parsed = true;
     _nodes.clear();
   }
   // Constructor for path in the VFS
   Directory(const char *path, const char* name = "") :
       Node(path, name) {
-    _size  = 0;
-    _mtime = 0;
+    stat();
     _parsed = true;
     _nodes.clear();
   }
@@ -223,6 +226,7 @@ public:
   Link(const char *dir_path, const char* name = "") :
       Node(dir_path, name),
       _link(NULL) {
+    stat();
     _parsed = true;
     _link = (char*) malloc(_size + 1);
     readlink(_path, _link, _size);
@@ -266,7 +270,7 @@ public:
   // Constructor for path in the VFS
   Stream(const char *dir_path, const char* name = "");
   virtual ~Stream();
-  bool isOpen() const;     
+  bool isOpen() const;
   bool isWriteable() const;
   // Open file, for read or write (no append), with or without compression
   // A negative value for compression disables the read/write cache

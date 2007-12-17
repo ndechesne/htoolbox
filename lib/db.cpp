@@ -318,7 +318,7 @@ int Database::organise(
       }
       Node node(path.c_str(), dir_entry->d_name);
       string source_path = path + "/" + dir_entry->d_name;
-      if (node.type() == '?') {
+      if (node.stat()) {
         cerr << "Error: organise: cannot get metadata: " << source_path
           << endl;
         failed = 2;

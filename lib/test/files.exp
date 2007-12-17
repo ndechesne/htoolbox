@@ -146,8 +146,8 @@ m\n 'op"	qr
 
 Name: testfile, path = test1/testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 644
 Name: testlink, path = test1/testlink, type = l, mtime = 1, size = 8, uid = 1, gid = 1, mode = 777, link = testfile
- > Dir.: testdir, path = test1/testdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
- > Dir.: subdir, path = test1/subdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ > Dir.: testdir, path = test1/testdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
+ > Dir.: subdir, path = test1/subdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  -> Oth.: testfile, path = test1/subdir/testfile, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
  -> Oth.: testfile1, path = test1/subdir/testfile1, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
  -> Oth.: testfile2, path = test1/subdir/testfile2, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
@@ -195,16 +195,16 @@ Link is dir? 0
 Link is link? 0
 
 Parsing test
- > Dir.: test1, path = test1, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
- -> Dir.: cvs, path = test1/cvs, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
- --> Dir.: CVS, path = test1/cvs/CVS, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ > Dir.: test1, path = test1, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
+ -> Dir.: cvs, path = test1/cvs, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
+ --> Dir.: CVS, path = test1/cvs/CVS, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  ---> File: Entries, path = test1/cvs/CVS/Entries, type = f, mtime = 1, size = 141, uid = 1, gid = 1, mode = 644
- --> Dir.: dirbad, path = test1/cvs/dirbad, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ --> Dir.: dirbad, path = test1/cvs/dirbad, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  ---> File: fileoth, path = test1/cvs/dirbad/fileoth, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
  ---> File: fileutd, path = test1/cvs/dirbad/fileutd, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
- --> Dir.: diroth, path = test1/cvs/diroth, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
- --> Dir.: dirutd, path = test1/cvs/dirutd, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
- ---> Dir.: CVS, path = test1/cvs/dirutd/CVS, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ --> Dir.: diroth, path = test1/cvs/diroth, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
+ --> Dir.: dirutd, path = test1/cvs/dirutd, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
+ ---> Dir.: CVS, path = test1/cvs/dirutd/CVS, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  ----> File: Entries, path = test1/cvs/dirutd/CVS/Entries, type = f, mtime = 1, size = 42, uid = 1, gid = 1, mode = 644
  ---> File: fileoth, path = test1/cvs/dirutd/fileoth, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
  ---> File: fileutd, path = test1/cvs/dirutd/fileutd, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
@@ -212,21 +212,21 @@ Parsing test
  --> File: filenew.c, path = test1/cvs/filenew.c, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
  --> File: fileoth, path = test1/cvs/fileoth, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
  --> File: fileutd.h, path = test1/cvs/fileutd.h, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
- -> Dir.: dir space, path = test1/dir space, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ -> Dir.: dir space, path = test1/dir space, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  --> File: file space, path = test1/dir space/file space, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
  -> File: rwfile_dest, path = test1/rwfile_dest, type = f, mtime = 1, size = 409600, uid = 1, gid = 1, mode = 644
  -> File: rwfile_source, path = test1/rwfile_source, type = f, mtime = 1, size = 10208, uid = 1, gid = 1, mode = 644
- -> Dir.: subdir, path = test1/subdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ -> Dir.: subdir, path = test1/subdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  --> File: testfile, path = test1/subdir/testfile, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
  --> File: testfile1, path = test1/subdir/testfile1, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
  --> File: testfile2, path = test1/subdir/testfile2, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
  -> File: test space, path = test1/test space, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
- -> Dir.: testdir, path = test1/testdir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ -> Dir.: testdir, path = test1/testdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  -> File: testfile, path = test1/testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 644
  -> File: testfile~, path = test1/testfile~, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
  -> Link: testlink, path = test1/testlink, type = l, mtime = 1, size = 8, uid = 1, gid = 1, mode = 777, link = testfile
  -> Oth.: testpipe, path = test1/testpipe, type = p, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
- -> Dir.: toucheddir, path = test1/toucheddir, type = d, mtime = 0, size = 0, uid = 1, gid = 1, mode = 755
+ -> Dir.: toucheddir, path = test1/toucheddir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  -> File: touchedfile, path = test1/touchedfile, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
 
 Difference test

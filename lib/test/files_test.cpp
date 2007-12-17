@@ -37,7 +37,7 @@ int hbackup::terminating(const char* function) {
   return 0;
 }
 
-int parseList(Directory *d, const char* cur_dir) {
+static int parseList(Directory *d, const char* cur_dir) {
   list<Node*>::iterator i = d->nodesList().begin();
   while (i != d->nodesList().end()) {
     Node* payload = *i;
@@ -74,9 +74,9 @@ int parseList(Directory *d, const char* cur_dir) {
   return 0;
 }
 
-void showList(const Directory* d, int level = 0);
+static void showList(const Directory* d, int level = 0);
 
-void defaultShowFile(const Node* g) {
+static void defaultShowFile(const Node* g) {
   cout << "Oth.: " << g->name()
     << ", path = " << g->path()
     << ", type = " << g->type()
@@ -88,7 +88,7 @@ void defaultShowFile(const Node* g) {
     << endl;
 }
 
-void showFile(const Node* g, int level = 1) {
+static void showFile(const Node* g, int level = 1) {
   int level_no = level;
   cout << " ";
   while (level_no--) cout << "-";
@@ -126,7 +126,7 @@ void showFile(const Node* g, int level = 1) {
           << ", path = " << d->path()
           << ", type = " << d->type()
           << ", mtime = " << (d->mtime() != 0)
-          << ", size = " << d->size()
+          << ", size = " << (d->size() != 0)
           << ", uid = " << (int)(d->uid() != 0)
           << ", gid = " << (int)(d->gid() != 0)
           << oct << ", mode = " << d->mode() << dec
@@ -141,19 +141,18 @@ void showFile(const Node* g, int level = 1) {
   }
 }
 
-void showList(const Directory* d, int level) {
+static void showList(const Directory* d, int level) {
   if (level == 0) {
     showFile(d, level);
   }
   ++level;
   list<Node*>::const_iterator i;
-
   for (i = d->nodesListConst().begin(); i != d->nodesListConst().end(); i++) {
     showFile(*i, level);
   }
 }
 
-void createNshowFile(const Node &g) {
+static void createNshowFile(const Node &g) {
   switch (g.type()) {
   case 'f': {
     File *f = new File(g);
@@ -593,7 +592,7 @@ int main(void) {
     return 0;
   }
   if (readfile->computeChecksum()) {
-    cout << "Error computing checksum" << endl;
+    cout << "Error computing checksum, " << strerror(errno) << endl;
     return 0;
   }
   if (readfile->close()) {
@@ -869,15 +868,19 @@ int main(void) {
   // File types
   Node *g;
   g = new Node("test1/testfile");
+  g->stat();
   createNshowFile(*g);
   delete g;
   g = new Node("test1/testlink");
+  g->stat();
   createNshowFile(*g);
   delete g;
   g = new Node("test1/testdir");
+  g->stat();
   createNshowFile(*g);
   delete g;
   g = new Node("test1/subdir");
+  g->stat();
   createNshowFile(*g);
   delete g;
 

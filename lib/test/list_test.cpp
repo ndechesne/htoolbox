@@ -47,7 +47,8 @@ time_t time(time_t *t) {
 static void showLine(time_t timestamp, char* client, char* path, Node* node) {
   printf("[%2ld] %-16s %-34s", timestamp, client, path);
   if (node != NULL) {
-    printf(" %c %5llu %03o", node->type(), node->size(), node->mode());
+    printf(" %c %5llu %03o", node->type(),
+    (node->type() != 'd') ? node->size() : 0, node->mode());
     if (node->type() == 'f') {
       printf(" %s", ((File*) node)->checksum());
     }
