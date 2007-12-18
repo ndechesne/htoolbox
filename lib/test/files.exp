@@ -198,7 +198,7 @@ Parsing test
  > Dir.: test1, path = test1, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  -> Dir.: cvs, path = test1/cvs, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  --> Dir.: CVS, path = test1/cvs/CVS, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
- ---> File: Entries, path = test1/cvs/CVS/Entries, type = f, mtime = 1, size = 141, uid = 1, gid = 1, mode = 644
+ ---> File: Entries, path = test1/cvs/CVS/Entries, type = f, mtime = 1, size = 161, uid = 1, gid = 1, mode = 644
  --> Dir.: dirbad, path = test1/cvs/dirbad, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  ---> File: fileoth, path = test1/cvs/dirbad/fileoth, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
  ---> File: fileutd, path = test1/cvs/dirbad/fileutd, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644

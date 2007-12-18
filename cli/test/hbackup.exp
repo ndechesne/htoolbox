@@ -203,23 +203,23 @@ Backup client 'myhost' using protocol 'file'
 Backup path 'test1'
 A test1/cvs
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
 A test1/cvs/CVS
  -> Dir cvs/CVS
-A test1/cvs/CVS/Entries (141 B)
-Adding compressed file data to DB in: test_db/data/63b52e85e7a255c09df5cca819b74a88-0
+A test1/cvs/CVS/Entries (161 B)
+Adding compressed file data to DB in: test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0
 A test1/cvs/dirbad
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
 A test1/cvs/dirutd
  -> Dir cvs/dirutd
-Parsing CVS entries
- -> f fileutd
+ -> Parsing CVS entries
+ --> f fileutd 1159977880
 A test1/cvs/dirutd/CVS
  -> Dir cvs/dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries (42 B)
@@ -295,18 +295,18 @@ Backup client 'myhost' using protocol 'file'
  ---> condition not filter not_object
 Backup path 'test1'
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
-Parsing CVS entries
- -> f fileutd
+ -> Parsing CVS entries
+ --> f fileutd 1159977880
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
  -> Dir testdir

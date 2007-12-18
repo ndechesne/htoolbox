@@ -71,37 +71,89 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
 
   /* Fill in list of controlled files */
   if (verbosity() > 1) {
-    cout << "Parsing CVS entries" << endl;
+    cout << " -> Parsing CVS entries" << endl;
   }
+  int line_no = 0;
   while (! entries.eof()) {
     string  buffer;
     getline(entries, buffer);
-    string name;
-    char type;
+    const char* reader = buffer.c_str();
+    const char* pos;
 
-    if (buffer.substr(0,1) == "D") {
-      if (buffer.size() == 1) {
+    // Empty line
+    if (*reader == '\0') {
+      break;
+    }
+    line_no++;
+    // Determine type
+    char type;
+    if (*reader == 'D') {
+      reader++;
+      if (*reader == '\0') {
         // If a directory contains no subdirectories, the last line of the
         // entries file is a single 'D'
-        continue;
+        break;
       }
       type = 'd';
-      buffer.erase(0,1);
     } else {
       type = 'f';
     }
-    if (buffer.substr(0,1) != "/") {
+    // We expect a separator
+    if (*reader != '/') {
+      cerr << "Error parsing CVS entries file for " << dir_path
+        << ", line " << line_no << ": can't find first delimiter" << endl;
       continue;
     }
-    buffer.erase(0,1);
-    unsigned int pos = buffer.find("/");
-    if (pos == string::npos) {
+    reader++;
+    // Get name
+    pos = strchr(reader, '/');
+    if (pos == NULL) {
+      cerr << "Error parsing CVS entries file for " << dir_path
+        << ", line " << line_no << ": can't find second delimiter" << endl;
       continue;
     }
-    buffer.erase(pos);
-    _files.push_back(Node(buffer.c_str(), type, 0, 0, 0, 0, 0));
+    string name = reader;
+    name.erase(pos - reader);
+    time_t mtime;
+    if (type == 'f') {
+      // Skip version
+      reader = pos + 1;
+      pos = strchr(reader, '/');
+      if (pos == NULL) {
+        cerr << "Error parsing CVS entries file for " << dir_path
+          << ", line " << line_no << ": can't find third delimiter" << endl;
+        continue;
+      }
+      // Get date
+      reader = pos + 1;
+      pos = strchr(reader, '/');
+      if (pos == NULL) {
+        cerr << "Error parsing CVS entries file for " << dir_path
+          << ", line " << line_no << ": can't find fourth delimiter" << endl;
+        continue;
+      }
+      string date = reader;
+      date.erase(pos - reader);
+      if (date[0] == 'd') {
+        // Dummy timestamp
+        mtime = 0;
+      } else {
+        // Decode the date
+        struct tm tm;
+        char* rc = strptime(date.c_str(), "%a %b %d %H:%M:%S %Y", &tm);
+        if ((rc == NULL) || (*rc != '\0')) {
+          mtime = 1;
+        } else {
+          mtime = mktime(&tm);
+        }
+      }
+    } else {
+      mtime = 0;
+    }
+    // Enlist data
+    _files.push_back(Node(name.c_str(), type, mtime, 0, 0, 0, 0));
     if (verbosity() > 1) {
-      cout << " -> " << type << " " << buffer << endl;
+      cout << " --> " << type << " " << name << " " << mtime << endl;
     }
   }
   /* Close file */

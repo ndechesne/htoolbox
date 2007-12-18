@@ -72,7 +72,7 @@ EOF
 mkdir "$CVSDIR/CVS"
 cat << EOF > "$CVSDIR/CVS/Entries"
 /filenew.c/0/dummy timestamp//
-/filemod.o/1.1/Mon Oct  2 16:27:11 2006//
+/filemod.o/1.1/Mon Oct  2 16:27:11 2006//D2007.12.16.23.00.00
 /fileutd.h/1.2/Wed Oct  4 18:04:40 2006//
 D/dirbad////
 D/dirutd////

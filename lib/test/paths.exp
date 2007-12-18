@@ -9,8 +9,8 @@ A /home/User/cvs
  -> Dir cvs
 A /home/User/cvs/CVS
  -> Dir cvs/CVS
-A /home/User/cvs/CVS/Entries (141 B)
-Adding file data to DB in: test_db/data/63b52e85e7a255c09df5cca819b74a88-0
+A /home/User/cvs/CVS/Entries (161 B)
+Adding file data to DB in: test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0
 A /home/User/cvs/dirbad
  -> Dir cvs/dirbad
 A /home/User/cvs/dirbad/fileoth (0 B)
@@ -61,7 +61,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/dirbad
 [ 1] d     0 755
 	/home/User/cvs/dirbad/fileoth
@@ -126,7 +126,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/dirbad
 [ 1] d     0 755
 	/home/User/cvs/dirbad/fileoth
@@ -208,7 +208,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/dirbad
 [ 1] d     0 755
 	/home/User/cvs/dirbad/fileoth
@@ -273,7 +273,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/dirbad
 [ 1] d     0 755
 	/home/User/cvs/dirbad/fileoth
@@ -348,7 +348,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/dirbad
 [ 1] d     0 755
 	/home/User/cvs/dirbad/fileoth
@@ -436,7 +436,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/cvs/dirbad
@@ -525,7 +525,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/cvs/dirbad
@@ -614,7 +614,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/cvs/dirbad
@@ -708,7 +708,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/cvs/dirbad
@@ -799,7 +799,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/cvs/dirbad
@@ -871,12 +871,12 @@ myClient
 As previous with CVS parser
  -> Database open in read/write mode
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
 D /home/User/cvs/big_file
  -> Dir cvs/dirbad
@@ -885,8 +885,8 @@ D /home/User/cvs/dirbad/fileoth
 D /home/User/cvs/dirbad/fileutd
 D /home/User/cvs/diroth
  -> Dir cvs/dirutd
-Parsing CVS entries
- -> f fileutd
+ -> Parsing CVS entries
+ --> f fileutd 1159977880
  -> Dir cvs/dirutd/CVS
 D /home/User/cvs/dirutd/fileoth
 D /home/User/cvs/fileoth
@@ -904,7 +904,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -992,18 +992,18 @@ myClient
 As previous
  -> Database open in read/write mode
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
-Parsing CVS entries
- -> f fileutd
+ -> Parsing CVS entries
+ --> f fileutd 1159977880
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
  -> Dir testdir
@@ -1020,7 +1020,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1108,12 +1108,12 @@ myClient
 As previous with cvs/dirutd in ignore list
  -> Database open in read/write mode
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -1135,7 +1135,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1223,12 +1223,12 @@ myClient
 As previous with testpipe gone
  -> Database open in read/write mode
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -1247,7 +1247,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1330,12 +1330,12 @@ myClient
 As previous with testfile mode changed
  -> Database open in read/write mode
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -1354,7 +1354,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1438,12 +1438,12 @@ myClient
 As previous with cvs/filenew.c touched and testpipe restored
  -> Database open in read/write mode
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -1464,7 +1464,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1552,12 +1552,12 @@ myClient
 Some troublesome past cases
  -> Database open in read/write mode
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -1603,7 +1603,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1767,12 +1767,12 @@ myClient
 Same again: journal and list left untouched
  -> Database open in read/write mode
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -1799,7 +1799,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1975,12 +1975,12 @@ A /home/User/crash
  -> Dir crash
 A /home/User/crash/file (0 B)
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -2011,7 +2011,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -2184,7 +2184,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -2348,12 +2348,12 @@ Same again
  -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -2391,7 +2391,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -2575,7 +2575,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -2734,12 +2734,12 @@ Expiry delay: 18, date: 20
  -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -2781,7 +2781,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -2897,12 +2897,12 @@ Prevent data dir from being removed
  -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -2944,7 +2944,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 	/home/User/cvs/dirbad
@@ -3055,12 +3055,12 @@ Add one file
  -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
-Parsing CVS entries
- -> f filenew.c
- -> f filemod.o
- -> f fileutd.h
- -> d dirbad
- -> d dirutd
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159799231
+ --> f fileutd.h 1159977880
+ --> d dirbad 0
+ --> d dirutd 0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -3100,7 +3100,7 @@ myClient
 	/home/User/cvs/CVS
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
-[ 1] f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
 	/home/User/cvs/big_file
 [ 9] -
 	/home/User/cvs/dirbad
