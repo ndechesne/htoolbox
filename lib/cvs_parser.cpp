@@ -134,28 +134,23 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
       }
       string date = reader;
       date.erase(pos - reader);
-      if (date[0] == 'd') {
-        // Dummy timestamp
+      // Decode the date
+      struct tm tm;
+      char* rc = strptime(date.c_str(), "%a %b %d %H:%M:%S %Y", &tm);
+      if ((rc == NULL) || (*rc != '\0')) {
         mtime = 0;
       } else {
-        // Decode the date
-        struct tm tm;
-        char* rc = strptime(date.c_str(), "%a %b %d %H:%M:%S %Y", &tm);
-        if ((rc == NULL) || (*rc != '\0')) {
-          mtime = 1;
-        } else {
-          char *tz = getenv("TZ");
+        char *tz = getenv("TZ");
 
-          setenv("TZ", "", 1);
-          tzset();
-          mtime = mktime(&tm);
-          if (tz) {
-            setenv("TZ", tz, 1);
-          } else {
-            unsetenv("TZ");
-          }
-          tzset();
+        setenv("TZ", "", 1);
+        tzset();
+        mtime = mktime(&tm);
+        if (tz) {
+          setenv("TZ", tz, 1);
+        } else {
+          unsetenv("TZ");
         }
+        tzset();
       }
     } else {
       mtime = 0;
