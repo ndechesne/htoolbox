@@ -171,13 +171,8 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
 }
 
 bool CvsParser::ignore(const Node& node) {
-  // No need to check more
-  if (_mode == Parser::modifiedandothers) {
-    return false;
-  }
-
   // Do not ignore control directory
-  if (! strcmp(node.name(), _control_dir) && (node.type() == 'd')) {
+  if ((node.type() == 'd') && (strcmp(node.name(), _control_dir) == 0)) {
     return false;
   }
 
