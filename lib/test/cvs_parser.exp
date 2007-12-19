@@ -1,8 +1,8 @@
-test1 is not under CVS control
+test1 will be ignored
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
 List: 5 file(s)
@@ -11,15 +11,15 @@ List: 5 file(s)
 -> fileutd.h (f)
 -> dirbad (d)
 -> dirutd (d)
-test1/cvs/nofile is not under CVS control
-test1/cvs/fileoth is not under CVS control
-test1/cvs/diroth is not under CVS control
-test1/cvs/CVS is not under CVS control
+test1/cvs/nofile will be ignored
+test1/cvs/fileoth will be ignored
+test1/cvs/diroth will be ignored
+test1/cvs/CVS will be ignored
 Directory should be under CVS control: test1/cvs/diroth
  -> Parsing CVS entries
- --> f fileutd 1159977880
+ --> f fileutd 1159985080
 List: 1 file(s)
 -> fileutd (f)
-test1/cvs/dirutd/fileoth is not under CVS control
-test1/cvs/dirbad is not under CVS control
-test1/cvs/CVS is not under CVS control
+test1/cvs/dirutd/fileoth will be ignored
+test1/cvs/dirbad will be ignored
+test1/cvs/CVS will be ignored

@@ -82,7 +82,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
 
     // Empty line
     if (*reader == '\0') {
-      break;
+      continue;
     }
     line_no++;
     // Determine type
@@ -92,7 +92,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
       if (*reader == '\0') {
         // If a directory contains no subdirectories, the last line of the
         // entries file is a single 'D'
-        break;
+        continue;
       }
       type = 'd';
     } else {
@@ -144,7 +144,17 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
         if ((rc == NULL) || (*rc != '\0')) {
           mtime = 1;
         } else {
+          char *tz = getenv("TZ");
+
+          setenv("TZ", "", 1);
+          tzset();
           mtime = mktime(&tm);
+          if (tz) {
+            setenv("TZ", tz, 1);
+          } else {
+            unsetenv("TZ");
+          }
+          tzset();
         }
       }
     } else {
@@ -173,26 +183,43 @@ bool CvsParser::ignore(const Node& node) {
 
   // Look for match in list
   bool file_controlled = false;
+  bool file_modified   = false;
   for (_i = _files.begin(); _i != _files.end(); _i++) {
     if (! strcmp(_i->name(), node.name()) && (_i->type() == node.type())) {
       file_controlled = true;
+      if (_i->mtime() != node.mtime()) {
+        file_modified = true;
+      }
       break;
     }
   }
 
   // Deal with result
   switch (_mode) {
-    // We don't know whether controlled files are modified or not
     case Parser::controlled:
+      if (file_controlled) {
+        return false;
+      }
+      break;
     case Parser::modified:
-      if (file_controlled) return false; else return true;
+      if (file_modified) {
+        return false;
+      }
+      break;
     case Parser::modifiedandothers:
-      return false;
+      if (file_modified || ! file_controlled) {
+        return false;
+      }
+      break;
     case Parser::others:
-      if (file_controlled) return true; else return false;
-    default:  // disabled
+      if (! file_controlled) {
+        return false;
+      }
+      break;
+    default:
       return false;
   }
+  return true;
 }
 
 void CvsParser::list() {

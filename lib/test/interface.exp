@@ -68,8 +68,8 @@ A test1/cvs
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
 A test1/cvs/CVS
@@ -82,7 +82,7 @@ Directory should be under CVS control: test1/cvs/dirbad
 A test1/cvs/dirutd
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159977880
+ --> f fileutd 1159985080
 A test1/cvs/dirutd/CVS
  -> Dir cvs/dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries (42 B)
@@ -169,8 +169,8 @@ Backup path 'test1'
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -178,7 +178,7 @@ Backup path 'test1'
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159977880
+ --> f fileutd 1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
  -> Dir testdir
@@ -244,8 +244,8 @@ Backup path 'test1'
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -253,7 +253,7 @@ Backup path 'test1'
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159977880
+ --> f fileutd 1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
 A test1/dir space/big_file (512 kB)
@@ -309,8 +309,8 @@ Backup path 'test1'
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -318,7 +318,7 @@ Backup path 'test1'
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159977880
+ --> f fileutd 1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
 ! test1/dir space/big_file (512 kB)
@@ -652,8 +652,8 @@ Backup path 'test1'
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -661,7 +661,7 @@ Backup path 'test1'
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159977880
+ --> f fileutd 1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
  -> Dir testdir

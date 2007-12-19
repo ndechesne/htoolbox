@@ -873,8 +873,8 @@ As previous with CVS parser
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -886,7 +886,7 @@ D /home/User/cvs/dirbad/fileutd
 D /home/User/cvs/diroth
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159977880
+ --> f fileutd 1159985080
  -> Dir cvs/dirutd/CVS
 D /home/User/cvs/dirutd/fileoth
 D /home/User/cvs/fileoth
@@ -994,8 +994,8 @@ As previous
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -1003,7 +1003,7 @@ As previous
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159977880
+ --> f fileutd 1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
  -> Dir testdir
@@ -1110,8 +1110,8 @@ As previous with cvs/dirutd in ignore list
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -1225,8 +1225,8 @@ As previous with testpipe gone
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -1332,8 +1332,8 @@ As previous with testfile mode changed
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -1440,8 +1440,8 @@ As previous with cvs/filenew.c touched and testpipe restored
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -1554,8 +1554,8 @@ Some troublesome past cases
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -1769,8 +1769,8 @@ Same again: journal and list left untouched
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -1977,8 +1977,8 @@ A /home/User/crash/file (0 B)
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -2350,8 +2350,8 @@ Same again
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -2736,8 +2736,8 @@ Expiry delay: 18, date: 20
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -2899,8 +2899,8 @@ Prevent data dir from being removed
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
@@ -3057,8 +3057,8 @@ Add one file
  -> Dir cvs
  -> Parsing CVS entries
  --> f filenew.c 0
- --> f filemod.o 1159799231
- --> f fileutd.h 1159977880
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
