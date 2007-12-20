@@ -22,12 +22,10 @@
 namespace hbackup {
 
 class CvsParser : public Parser {
-  static char*      _control_dir;
-  static char*      _entries;
 public:
-  // Constructor for parsers list
+  // Constructor for parsers list (MUST call specific base constructor)
   CvsParser(Mode mode) : Parser(mode) {}
-  // Constructor for directory parsing
+  // Constructor for directory parsing (uses default base constructor)
   CvsParser(Mode mode, const string& dir_path);
   // Just to know the parser used
   string name() const;
@@ -37,6 +35,19 @@ public:
   bool ignore(const Node& node);
   // For debug purposes
   void list();
+};
+
+// Parser for CVS control directory 'CVS'
+class CvsControlParser : public Parser {
+public:
+  // Just to know the parser used
+  string name() const;
+  // This directory has no controlled children
+  Parser* isControlled(const string& dir_path) const {
+    return new IgnoreParser;
+  }
+  // That tells use whether to ignore the file, i.e. not back it up
+  bool ignore(const Node& node);
 };
 
 }

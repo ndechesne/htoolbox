@@ -69,6 +69,8 @@ cat << EOF > "$CVSDIR/dirutd/CVS/Entries"
 /fileutd/1.2/Wed Oct  4 18:04:40 2006//
 D
 EOF
+echo "Some root" > "$CVSDIR/dirutd/CVS/Root"
+echo "Some thing" > "$CVSDIR/dirutd/CVS/Whatever"
 mkdir "$CVSDIR/CVS"
 cat << EOF > "$CVSDIR/CVS/Entries"
 /filenew.c/0/dummy timestamp//
@@ -77,6 +79,10 @@ cat << EOF > "$CVSDIR/CVS/Entries"
 D/dirbad////
 D/dirutd////
 EOF
+echo "Some other root" > "$CVSDIR/CVS/Root"
+echo "Some other thing" > "$CVSDIR/CVS/Whatever"
+mkdir "$CVSDIR/CVS/Wherever"
+touch "$CVSDIR/CVS/Wherever/Whichever"
 
 # Multiple backup
 mkdir "$TESTDIR2"

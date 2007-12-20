@@ -32,8 +32,8 @@ using namespace std;
 
 using namespace hbackup;
 
-char* CvsParser::_control_dir = "CVS";
-char* CvsParser::_entries = "Entries";
+static const string control_dir = "/CVS";
+static const char* entries = "/Entries";
 
 string CvsParser::name() const {
   return "CVS";
@@ -41,15 +41,14 @@ string CvsParser::name() const {
 
 Parser *CvsParser::isControlled(const string& dir_path) const {
   // Parent under control, this is the control directory
-  string control_dir = "/" + string(_control_dir);
   if (! _dummy
    && (dir_path.size() > control_dir.size())
    && (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
-    return NULL;
+    return new CvsControlParser;
   }
 
   // If control directory exists and contains an entries file, assume control
-  if (! File((dir_path + "/" + _control_dir).c_str(), _entries).isValid()) {
+  if (! File((dir_path + control_dir).c_str(), &entries[1]).isValid()) {
     if (! _dummy) {
       cerr << "Directory should be under " << name() << " control: "
         << dir_path << endl;
@@ -63,8 +62,8 @@ Parser *CvsParser::isControlled(const string& dir_path) const {
 }
 
 CvsParser::CvsParser(Mode mode, const string& dir_path) {
-  string    path = dir_path + "/" + _control_dir + "/" + _entries;
-  ifstream  entries(path.c_str());
+  string    path = dir_path + control_dir + entries;
+  ifstream  entries_file(path.c_str());
 
   // Save mode
   _mode = mode;
@@ -74,9 +73,9 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
     cout << " -> Parsing CVS entries" << endl;
   }
   int line_no = 0;
-  while (! entries.eof()) {
+  while (! entries_file.eof()) {
     string  buffer;
-    getline(entries, buffer);
+    getline(entries_file, buffer);
     const char* reader = buffer.c_str();
     const char* pos;
 
@@ -162,12 +161,12 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
     }
   }
   /* Close file */
-  entries.close();
+  entries_file.close();
 }
 
 bool CvsParser::ignore(const Node& node) {
   // Do not ignore control directory
-  if ((node.type() == 'd') && (strcmp(node.name(), _control_dir) == 0)) {
+  if ((node.type() == 'd') && (strcmp(node.name(), &control_dir[1]) == 0)) {
     return false;
   }
 
@@ -215,6 +214,24 @@ bool CvsParser::ignore(const Node& node) {
 void CvsParser::list() {
   cout << "List: " << _files.size() << " file(s)" << endl;
   for (_i = _files.begin(); _i != _files.end(); _i++) {
-    cout << "-> " << _i->name() << " (" << _i->type() << ")" << endl;
+    cout << "-> " << _i->name() << " (";
+    if (_i->type() == 'd') {
+      cout << "D";
+    } else {
+      cout << _i->mtime();
+    }
+    cout << ")" << endl;
   }
+}
+
+string CvsControlParser::name() const {
+  return "CVS Control";
+}
+
+bool CvsControlParser::ignore(const Node& node) {
+  if ((strcmp(node.name(), "Entries") == 0)
+   || (strcmp(node.name(), "Root") == 0)) {
+    return false;
+  }
+  return true;
 }

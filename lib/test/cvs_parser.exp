@@ -8,20 +8,20 @@ test1 will be ignored
  --> d dirbad 0
  --> d dirutd 0
 List: 5 file(s)
--> filenew.c (f)
--> filemod.o (f)
--> fileutd.h (f)
--> dirbad (d)
--> dirutd (d)
+-> filenew.c (0)
+-> filemod.o (1159806431)
+-> fileutd.h (1159985080)
+-> dirbad (D)
+-> dirutd (D)
 test1/cvs/nofile will be ignored
 test1/cvs/fileoth will be ignored
 test1/cvs/diroth will be ignored
-test1/cvs/CVS is not controlled
+test1/cvs/CVS/Whatever will be ignored
 Directory should be under CVS control: test1/cvs/diroth
  -> Parsing CVS entries
  --> f fileutd 1159985080
 List: 1 file(s)
--> fileutd (f)
+-> fileutd (1159985080)
 test1/cvs/dirutd/fileoth will be ignored
 test1/cvs/dirbad will be ignored
 test1/cvs/CVS will be ignored
@@ -35,21 +35,21 @@ test1 will be ignored
  --> d dirbad 0
  --> d dirutd 0
 List: 5 file(s)
--> filenew.c (f)
--> filemod.o (f)
--> fileutd.h (f)
--> dirbad (d)
--> dirutd (d)
+-> filenew.c (0)
+-> filemod.o (1159806431)
+-> fileutd.h (1159985080)
+-> dirbad (D)
+-> dirutd (D)
 test1/cvs/nofile will be ignored
 test1/cvs/fileutd.h will be ignored
 test1/cvs/fileoth will be ignored
 test1/cvs/diroth will be ignored
-test1/cvs/CVS is not controlled
+test1/cvs/CVS/Whatever will be ignored
 Directory should be under CVS control: test1/cvs/diroth
  -> Parsing CVS entries
  --> f fileutd 1159985080
 List: 1 file(s)
--> fileutd (f)
+-> fileutd (1159985080)
 test1/cvs/dirutd/fileoth will be ignored
 test1/cvs/dirbad will be ignored
 test1/cvs/CVS will be ignored
@@ -63,18 +63,18 @@ test1 will be ignored
  --> d dirbad 0
  --> d dirutd 0
 List: 5 file(s)
--> filenew.c (f)
--> filemod.o (f)
--> fileutd.h (f)
--> dirbad (d)
--> dirutd (d)
+-> filenew.c (0)
+-> filemod.o (1159806431)
+-> fileutd.h (1159985080)
+-> dirbad (D)
+-> dirutd (D)
 test1/cvs/fileutd.h will be ignored
-test1/cvs/CVS is not controlled
+test1/cvs/CVS/Whatever will be ignored
 Directory should be under CVS control: test1/cvs/diroth
  -> Parsing CVS entries
  --> f fileutd 1159985080
 List: 1 file(s)
--> fileutd (f)
+-> fileutd (1159985080)
 test1/cvs/dirbad will be ignored
 test1/cvs/CVS will be ignored
 
@@ -87,21 +87,21 @@ test1 will be ignored
  --> d dirbad 0
  --> d dirutd 0
 List: 5 file(s)
--> filenew.c (f)
--> filemod.o (f)
--> fileutd.h (f)
--> dirbad (d)
--> dirutd (d)
+-> filenew.c (0)
+-> filemod.o (1159806431)
+-> fileutd.h (1159985080)
+-> dirbad (D)
+-> dirutd (D)
 test1/cvs/filenew.c will be ignored
 test1/cvs/filemod.o will be ignored
 test1/cvs/fileutd.h will be ignored
 test1/cvs/dirutd will be ignored
-test1/cvs/CVS is not controlled
+test1/cvs/CVS/Whatever will be ignored
 Directory should be under CVS control: test1/cvs/diroth
  -> Parsing CVS entries
  --> f fileutd 1159985080
 List: 1 file(s)
--> fileutd (f)
+-> fileutd (1159985080)
 test1/cvs/dirutd/fileutd will be ignored
 test1/cvs/dirbad will be ignored
 test1/cvs/CVS will be ignored

@@ -11,6 +11,13 @@ A /home/User/cvs/CVS
  -> Dir cvs/CVS
 A /home/User/cvs/CVS/Entries (161 B)
 Adding file data to DB in: test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0
+A /home/User/cvs/CVS/Root (16 B)
+Adding file data to DB in: test_db/data/b90f8fa56ea1d39881d4a199c7a81d35-0
+A /home/User/cvs/CVS/Whatever (17 B)
+Adding file data to DB in: test_db/data/9283e2c51868272850bd2d89b63c58e8-0
+A /home/User/cvs/CVS/Wherever
+ -> Dir cvs/CVS/Wherever
+A /home/User/cvs/CVS/Wherever/Whichever (0 B)
 A /home/User/cvs/dirbad
  -> Dir cvs/dirbad
 A /home/User/cvs/dirbad/fileoth (0 B)
@@ -23,6 +30,10 @@ A /home/User/cvs/dirutd/CVS
  -> Dir cvs/dirutd/CVS
 A /home/User/cvs/dirutd/CVS/Entries (42 B)
 Adding file data to DB in: test_db/data/5252f242d27b8c2c9fdbdcbb33545d07-0
+A /home/User/cvs/dirutd/CVS/Root (10 B)
+Adding file data to DB in: test_db/data/eb75fb33b2019ef3c840eb5ccdc2e795-0
+A /home/User/cvs/dirutd/CVS/Whatever (11 B)
+Adding file data to DB in: test_db/data/caecaacc7fdee8a7667d4f4f315858a9-0
 A /home/User/cvs/dirutd/fileoth (0 B)
 A /home/User/cvs/dirutd/fileutd (0 B)
 A /home/User/cvs/filemod.o (0 B)
@@ -49,7 +60,7 @@ Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
 A /home/User/testfile~ (0 B)
 A /home/User/testlink
 A /home/User/testpipe
-Parsed 31 file(s)
+Parsed 37 file(s)
  -> Database closed
 
 List:
@@ -62,6 +73,14 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirbad
 [ 1] d     0 755
 	/home/User/cvs/dirbad/fileoth
@@ -76,6 +95,10 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
@@ -127,6 +150,14 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirbad
 [ 1] d     0 755
 	/home/User/cvs/dirbad/fileoth
@@ -141,6 +172,10 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
@@ -186,6 +221,7 @@ As previous, with a .hbackup directory
  -> Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
+ -> Dir cvs/CVS/Wherever
  -> Dir cvs/dirbad
  -> Dir cvs/diroth
  -> Dir cvs/dirutd
@@ -195,7 +231,7 @@ As previous, with a .hbackup directory
 ! /home/User/subdir/testfile (12 B)
 Permission denied: test1/subdir/testfile
  -> Dir testdir
-Parsed 31 file(s)
+Parsed 37 file(s)
  -> Journal is empty, not merging
  -> Database closed
 
@@ -209,6 +245,14 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirbad
 [ 1] d     0 755
 	/home/User/cvs/dirbad/fileoth
@@ -223,6 +267,10 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
@@ -274,6 +322,14 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirbad
 [ 1] d     0 755
 	/home/User/cvs/dirbad/fileoth
@@ -288,6 +344,10 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
@@ -333,10 +393,11 @@ As previous with new big_file, interrupted
  -> Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
+ -> Dir cvs/CVS/Wherever
 A /home/User/cvs/big_file (512 kB)
 Killing during write
 Operation canceled: test1/cvs/big_file
-Parsed 5 file(s)
+Parsed 9 file(s)
  -> Database closed
 
 List:
@@ -349,6 +410,14 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirbad
 [ 1] d     0 755
 	/home/User/cvs/dirbad/fileoth
@@ -363,6 +432,10 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
@@ -414,6 +487,7 @@ Backup was interrupted in a previous run, finishing up...
  -> Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
+ -> Dir cvs/CVS/Wherever
 ! /home/User/cvs/big_file (512 kB)
 Adding file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
  -> Dir cvs/dirbad
@@ -424,7 +498,7 @@ Adding file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
  -> Dir subdir
 ~ /home/User/subdir/testfile (12 B)
  -> Dir testdir
-Parsed 32 file(s)
+Parsed 38 file(s)
  -> Database closed
 
 List:
@@ -437,6 +511,14 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/cvs/dirbad
@@ -453,6 +535,10 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
@@ -505,6 +591,7 @@ As previous with subdir/testfile in ignore list
  -> Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
+ -> Dir cvs/CVS/Wherever
  -> Dir cvs/dirbad
  -> Dir cvs/diroth
  -> Dir cvs/dirutd
@@ -513,7 +600,7 @@ As previous with subdir/testfile in ignore list
  -> Dir subdir
 D /home/User/subdir/testfile
  -> Dir testdir
-Parsed 31 file(s)
+Parsed 37 file(s)
  -> Database closed
 
 List:
@@ -526,6 +613,14 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/cvs/dirbad
@@ -542,6 +637,10 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
@@ -593,6 +692,7 @@ As previous with subdir in ignore list
  -> Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
+ -> Dir cvs/CVS/Wherever
  -> Dir cvs/dirbad
  -> Dir cvs/diroth
  -> Dir cvs/dirutd
@@ -602,7 +702,7 @@ D /home/User/subdir
 D /home/User/subdir/testfile1
 D /home/User/subdir/testfile2
  -> Dir testdir
-Parsed 28 file(s)
+Parsed 34 file(s)
  -> Database closed
 
 List:
@@ -615,6 +715,14 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/cvs/dirbad
@@ -631,6 +739,10 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
@@ -689,6 +801,7 @@ As previous with testlink modified
  -> Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
+ -> Dir cvs/CVS/Wherever
  -> Dir cvs/dirbad
  -> Dir cvs/diroth
  -> Dir cvs/dirutd
@@ -696,7 +809,7 @@ As previous with testlink modified
  -> Dir dir space
  -> Dir testdir
 M /home/User/testlink
-Parsed 28 file(s)
+Parsed 34 file(s)
  -> Database closed
 
 List:
@@ -709,6 +822,14 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/cvs/dirbad
@@ -725,6 +846,10 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
@@ -780,6 +905,7 @@ As previous with testlink in ignore list
  -> Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
+ -> Dir cvs/CVS/Wherever
  -> Dir cvs/dirbad
  -> Dir cvs/diroth
  -> Dir cvs/dirutd
@@ -787,7 +913,7 @@ As previous with testlink in ignore list
  -> Dir dir space
  -> Dir testdir
 D /home/User/testlink
-Parsed 27 file(s)
+Parsed 33 file(s)
  -> Database closed
 
 List:
@@ -800,6 +926,14 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/cvs/dirbad
@@ -816,6 +950,10 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
@@ -878,6 +1016,9 @@ As previous with CVS parser
  --> d dirbad 0
  --> d dirutd 0
  -> Dir cvs/CVS
+D /home/User/cvs/CVS/Whatever
+D /home/User/cvs/CVS/Wherever
+D /home/User/cvs/CVS/Wherever/Whichever
 D /home/User/cvs/big_file
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -888,11 +1029,12 @@ D /home/User/cvs/diroth
  -> Parsing CVS entries
  --> f fileutd 1159985080
  -> Dir cvs/dirutd/CVS
+D /home/User/cvs/dirutd/CVS/Whatever
 D /home/User/cvs/dirutd/fileoth
 D /home/User/cvs/fileoth
  -> Dir dir space
  -> Dir testdir
-Parsed 21 file(s)
+Parsed 23 file(s)
  -> Database closed
 
 List:
@@ -905,6 +1047,17 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -925,6 +1078,11 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -976,6 +1134,12 @@ myClient
 
 Journal:
 myClient
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
 	/home/User/cvs/big_file
 [ 9] -
 	/home/User/cvs/dirbad/fileoth
@@ -983,6 +1147,8 @@ myClient
 	/home/User/cvs/dirbad/fileutd
 [ 9] -
 	/home/User/cvs/diroth
+[ 9] -
+	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
@@ -1007,7 +1173,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
  -> Dir testdir
-Parsed 21 file(s)
+Parsed 23 file(s)
  -> Journal is empty, not merging
  -> Database closed
 
@@ -1021,6 +1187,17 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1041,6 +1218,11 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1092,6 +1274,12 @@ myClient
 
 Journal:
 myClient
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
 	/home/User/cvs/big_file
 [ 9] -
 	/home/User/cvs/dirbad/fileoth
@@ -1099,6 +1287,8 @@ myClient
 	/home/User/cvs/dirbad/fileutd
 [ 9] -
 	/home/User/cvs/diroth
+[ 9] -
+	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
@@ -1120,10 +1310,11 @@ Directory should be under CVS control: test1/cvs/dirbad
 D /home/User/cvs/dirutd
 D /home/User/cvs/dirutd/CVS
 D /home/User/cvs/dirutd/CVS/Entries
+D /home/User/cvs/dirutd/CVS/Root
 D /home/User/cvs/dirutd/fileutd
  -> Dir dir space
  -> Dir testdir
-Parsed 17 file(s)
+Parsed 18 file(s)
  -> Database closed
 
 List:
@@ -1136,6 +1327,17 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1159,6 +1361,12 @@ myClient
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1217,6 +1425,8 @@ myClient
 [11] -
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
 	/home/User/cvs/dirutd/fileutd
 [11] -
 
@@ -1234,7 +1444,7 @@ As previous with testpipe gone
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir testdir
-Parsed 16 file(s)
+Parsed 17 file(s)
 D /home/User/testpipe
  -> Database closed
 
@@ -1248,6 +1458,17 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1271,6 +1492,12 @@ myClient
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1342,7 +1569,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir testdir
 ~ /home/User/testfile (13 B)
-Parsed 16 file(s)
+Parsed 17 file(s)
  -> Database closed
 
 List:
@@ -1355,6 +1582,17 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1378,6 +1616,12 @@ myClient
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1452,7 +1696,7 @@ Adding file data to DB in: test_db/data/0d599f0ec05c3bda8c3b8a68c32a1b47-0
  -> Dir dir space
  -> Dir testdir
 A /home/User/testpipe
-Parsed 17 file(s)
+Parsed 18 file(s)
  -> Database closed
 
 List:
@@ -1465,6 +1709,17 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1488,6 +1743,12 @@ myClient
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1591,7 +1852,7 @@ A /home/User/testdir/biblio/biblio.dbf (0 B)
 A /home/User/testdir/biblio/biblio.dbt (0 B)
 A /home/User/testdir/biblio.odb (0 B)
 A /home/User/testdir/evolocal.odb (0 B)
-Parsed 37 file(s)
+Parsed 38 file(s)
  -> Database closed
 
 List:
@@ -1604,6 +1865,17 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1627,6 +1899,12 @@ myClient
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1786,7 +2064,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.4
  -> Dir testdir
  -> Dir testdir/biblio
-Parsed 37 file(s)
+Parsed 38 file(s)
  -> Journal is empty, not merging
  -> Database closed
 
@@ -1800,6 +2078,17 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -1823,6 +2112,12 @@ myClient
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1999,7 +2294,7 @@ D /home/User/testdir/biblio/biblio.dbf
 D /home/User/testdir/biblio/biblio.dbt
 D /home/User/testdir/biblio.odb
 D /home/User/testdir/evolocal.odb
-Parsed 33 file(s)
+Parsed 34 file(s)
  -> Database closed
 
 List:
@@ -2012,6 +2307,17 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -2035,6 +2341,12 @@ myClient
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2185,6 +2497,17 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -2208,6 +2531,12 @@ myClient
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2365,7 +2694,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.2
  -> Dir docbook-xml/4.3
  -> Dir docbook-xml/4.4
-Parsed 33 file(s)
+Parsed 34 file(s)
  -> Journal is empty, not merging
  -> Database closed
 
@@ -2392,6 +2721,17 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -2415,6 +2755,12 @@ myClient
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2576,6 +2922,17 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -2599,6 +2956,12 @@ myClient
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2753,9 +3116,12 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.4
 M /home/User/testfile (13 B)
 Permission denied: test1/testfile
-Parsed 33 file(s)
+Parsed 34 file(s)
  -> Removing data for 285b35198a5e188b3a0df3ed33f93a26-0: ALREADY GONE!
  -> Removing data for 5252f242d27b8c2c9fdbdcbb33545d07-0: done
+ -> Removing data for 9283e2c51868272850bd2d89b63c58e8-0: done
+ -> Removing data for caecaacc7fdee8a7667d4f4f315858a9-0: done
+ -> Removing data for eb75fb33b2019ef3c840eb5ccdc2e795-0: done
  -> Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
@@ -2782,6 +3148,14 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
 	/home/User/cvs/big_file
 [ 9] -
 [ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
@@ -2799,6 +3173,10 @@ myClient
 [11] -
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 	/home/User/cvs/dirutd/fileutd
@@ -2916,7 +3294,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.4
 D /home/User/testfile
 M /home/User/testfile~ (0 B)
-Parsed 32 file(s)
+Parsed 33 file(s)
  -> Removing data for 59ca0efa9f5633cb0371bbc0355478d8-0: DATA GONE!
  -> Removing data for 816df6f64deba63b029ca19d880ee10a-0: done
  -> Database closed
@@ -2945,6 +3323,14 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
 	/home/User/cvs/big_file
 [ 9] -
 	/home/User/cvs/dirbad
@@ -2961,6 +3347,10 @@ myClient
 [11] -
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 	/home/User/cvs/dirutd/fileutd
@@ -3073,7 +3463,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.3
  -> Dir docbook-xml/4.4
 M /home/User/testfile~ (5 B)
-Parsed 32 file(s)
+Parsed 33 file(s)
 Removed from trash: test_db/data/trash/816df6f64deba63b029ca19d880ee10a-0
  -> Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
@@ -3101,6 +3491,14 @@ myClient
 [ 1] d     0 755
 	/home/User/cvs/CVS/Entries
 [ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
 	/home/User/cvs/big_file
 [ 9] -
 	/home/User/cvs/dirbad
@@ -3117,6 +3515,10 @@ myClient
 [11] -
 	/home/User/cvs/dirutd/CVS/Entries
 [11] -
+	/home/User/cvs/dirutd/CVS/Root
+[11] -
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 	/home/User/cvs/dirutd/fileutd

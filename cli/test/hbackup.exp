@@ -213,6 +213,8 @@ A test1/cvs/CVS
  -> Dir cvs/CVS
 A test1/cvs/CVS/Entries (161 B)
 Adding compressed file data to DB in: test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0
+A test1/cvs/CVS/Root (16 B)
+Adding compressed file data to DB in: test_db/data/b90f8fa56ea1d39881d4a199c7a81d35-0
 A test1/cvs/dirbad
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -224,6 +226,8 @@ A test1/cvs/dirutd/CVS
  -> Dir cvs/dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries (42 B)
 Adding compressed file data to DB in: test_db/data/5252f242d27b8c2c9fdbdcbb33545d07-0
+A test1/cvs/dirutd/CVS/Root (10 B)
+Adding compressed file data to DB in: test_db/data/eb75fb33b2019ef3c840eb5ccdc2e795-0
 A test1/cvs/dirutd/fileutd (0 B)
 A test1/cvs/filenew.c (0 B)
 A test1/cvs/fileutd.h (0 B)
@@ -355,7 +359,7 @@ Scan DB
  ---> config file: C:\Backup\Backup.LST
 Scanning database
  -> Database open in read/write mode
-Scanning database contents: 10 files
+Scanning database contents: 12 files
  -> Journal is empty, not merging
  -> Database closed
 Check DB
@@ -378,7 +382,7 @@ Check DB
  ---> config file: C:\Backup\Backup.LST
 Checking database
  -> Database open in read/write mode
-Scanning database contents thoroughly: 10 files
+Scanning database contents thoroughly: 12 files
  -> Journal is empty, not merging
  -> Database closed
 List prefixes
@@ -545,10 +549,12 @@ Restoring
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
+U test_r/test1/cvs/CVS/Root
 U test_r/test1/cvs/dirbad
 U test_r/test1/cvs/dirutd
 U test_r/test1/cvs/dirutd/CVS
 U test_r/test1/cvs/dirutd/CVS/Entries
+U test_r/test1/cvs/dirutd/CVS/Root
 U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
@@ -583,10 +589,12 @@ Restoring
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
+U test_r/test1/cvs/CVS/Root
 U test_r/test1/cvs/dirbad
 U test_r/test1/cvs/dirutd
 U test_r/test1/cvs/dirutd/CVS
 U test_r/test1/cvs/dirutd/CVS/Entries
+U test_r/test1/cvs/dirutd/CVS/Root
 U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
@@ -614,10 +622,12 @@ Restoring
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
+U test_r/test1/cvs/CVS/Root
 U test_r/test1/cvs/dirbad
 U test_r/test1/cvs/dirutd
 U test_r/test1/cvs/dirutd/CVS
 U test_r/test1/cvs/dirutd/CVS/Entries
+U test_r/test1/cvs/dirutd/CVS/Root
 U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h

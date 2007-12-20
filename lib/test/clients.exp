@@ -183,6 +183,8 @@ A test1/cvs/CVS
  -> Dir cvs/CVS
 A test1/cvs/CVS/Entries (161 B)
 Adding compressed file data to DB in: test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0
+A test1/cvs/CVS/Root (16 B)
+Adding compressed file data to DB in: test_db/data/b90f8fa56ea1d39881d4a199c7a81d35-0
 A test1/cvs/dirbad
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -194,6 +196,8 @@ A test1/cvs/dirutd/CVS
  -> Dir cvs/dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries (42 B)
 Adding compressed file data to DB in: test_db/data/5252f242d27b8c2c9fdbdcbb33545d07-0
+A test1/cvs/dirutd/CVS/Root (10 B)
+Adding compressed file data to DB in: test_db/data/eb75fb33b2019ef3c840eb5ccdc2e795-0
 A test1/cvs/dirutd/fileutd (0 B)
 A test1/cvs/filenew.c (0 B)
 A test1/cvs/fileutd.h (0 B)
@@ -345,6 +349,12 @@ Backup path 'test1/cvs'
 A test1/cvs/CVS
  -> Dir CVS
 A test1/cvs/CVS/Entries (161 B)
+A test1/cvs/CVS/Root (16 B)
+A test1/cvs/CVS/Whatever (17 B)
+Adding file data to DB in: test_db/data/9283e2c51868272850bd2d89b63c58e8-0
+A test1/cvs/CVS/Wherever
+ -> Dir CVS/Wherever
+A test1/cvs/CVS/Wherever/Whichever (0 B)
 A test1/cvs/dirbad
  -> Dir dirbad
 A test1/cvs/dirbad/fileoth (0 B)
@@ -356,6 +366,9 @@ A test1/cvs/dirutd
 A test1/cvs/dirutd/CVS
  -> Dir dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries (42 B)
+A test1/cvs/dirutd/CVS/Root (10 B)
+A test1/cvs/dirutd/CVS/Whatever (11 B)
+Adding file data to DB in: test_db/data/caecaacc7fdee8a7667d4f4f315858a9-0
 A test1/cvs/dirutd/fileoth (0 B)
 A test1/cvs/dirutd/fileutd (0 B)
 A test1/cvs/filemod.o (0 B)
@@ -429,6 +442,7 @@ Backup client 'myhost' using protocol 'file'
  --> Path: test1/cvs
 Backup path 'test1/cvs'
  -> Dir CVS
+ -> Dir CVS/Wherever
  -> Dir dirbad
  -> Dir diroth
  -> Dir dirutd
@@ -492,6 +506,7 @@ Backup client 'myhost' using protocol 'file'
  --> Path: test1/cvs
 Backup path 'test1/cvs'
  -> Dir CVS
+ -> Dir CVS/Wherever
  -> Dir dirbad
  -> Dir diroth
  -> Dir dirutd
@@ -521,6 +536,7 @@ Backup client 'myhost' using protocol 'file'
  --> Path: test1/cvs
 Backup path 'test1/cvs'
  -> Dir CVS
+ -> Dir CVS/Wherever
  -> Dir dirbad
  -> Dir diroth
  -> Dir dirutd
