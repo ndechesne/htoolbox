@@ -16,6 +16,7 @@ libhbackup_la_SOURCES = \
 	parsers.h \
 	paths.h \
 	strings.h \
+	svn_parser.h \
 	clients.cpp \
 	cvs_parser.cpp \
 	conditions.cpp \
@@ -25,7 +26,8 @@ libhbackup_la_SOURCES = \
 	interface.cpp \
 	list.cpp \
 	paths.cpp \
-	strings.cpp
+	strings.cpp \
+	svn_parser.cpp
 
 # Header file
 library_includedir = $(includedir)
