@@ -1,6 +1,6 @@
 
 Initial backup, check '/' precedence
-Database initialized
+Database initialized in test_db
  -> Database open in read/write mode
 first with subdir/testfile NOT readable
 A /home/User/àccénts_test (0 B)

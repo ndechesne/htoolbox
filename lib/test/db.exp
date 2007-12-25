@@ -1,4 +1,4 @@
-Database initialized
+Database initialized in test_db
  -> Database open in read/write mode
 
 Test: getdir

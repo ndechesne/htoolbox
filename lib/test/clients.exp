@@ -3,10 +3,10 @@
 >List 1 client(s):
 Client: localhost
 -> file://localhost etc/doesnotexist
-Database initialized
+Database initialized in test_db
  -> Database open in read/write mode
 Backup client 'localhost' using protocol 'file'
-List file not found etc/doesnotexist
+Client configuration file not found etc/doesnotexist
  -> Journal is empty, not merging
  -> Database closed
 >List 0 client(s):
@@ -99,7 +99,7 @@ Options: username= password=
  -> Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: /home/User/test
  --> Path: /home/User/test2
 Backup path '/home/User/test'
@@ -119,7 +119,7 @@ A /home/User/test2/File4.txt (0 B)
  -> umount test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM //myClient/C$ test_db/mount
 Backup client 'myClient2' using protocol 'smb'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: C:/Test
 Backup path 'C:/Test'
 A C:/Test/Dir
@@ -133,19 +133,19 @@ A C:/Test/File.TXT (0 B)
 Protocol not supported: ssh
  -> mount -t cifs -o ro,noatime,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
 Backup client 'Client' using protocol 'smb'
-List file not found test_db/mount/home/BlaH/Backup.list
+Client configuration file not found test_db/mount/home/BlaH/Backup.list
  -> umount test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,nocase,username=user,password= //Client/C$ test_db/mount
 Backup client 'Client2' using protocol 'smb'
-List file not found test_db/mount/home/BlaH/Backup.list
+Client configuration file not found test_db/mount/home/BlaH/Backup.list
  -> umount test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username= //Client/C$ test_db/mount
 Backup client 'Client3' using protocol 'smb'
-List file not found test_db/mount/home/BlaH/Backup.list
+Client configuration file not found test_db/mount/home/BlaH/Backup.list
  -> umount test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username=,password= //Client/C$ test_db/mount
 Backup client 'Client4' using protocol 'smb'
-List file not found test_db/mount/home/BlaH/Backup.list
+Client configuration file not found test_db/mount/home/BlaH/Backup.list
  -> umount test_db/mount
  -> Database closed
  --> Client: testhost
@@ -154,7 +154,7 @@ Client: testhost
 -> file://localhost etc/localhost.list
  -> Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
- -> Reading backup list file
+ -> Reading client configuration file
  --> client-wide filter and subdir
  ---> condition path_start subdir
  ---> condition not size< 100
@@ -228,7 +228,7 @@ Client: testhost
 -> file://testhost etc/localhost.list
  -> Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
- -> Reading backup list file
+ -> Reading client configuration file
  --> client-wide filter and subdir
  ---> condition path_start subdir
  ---> condition not size< 100
@@ -271,7 +271,7 @@ Client: testhost
 -> file://testhost etc/localhost.list
  -> Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
- -> Reading backup list file
+ -> Reading client configuration file
  --> client-wide filter and subdir
  ---> condition path_start subdir
  ---> condition not size< 100
@@ -297,7 +297,7 @@ Client: testhost
 -> file://testhost etc/localhost.list2
  -> Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
- -> Reading backup list file
+ -> Reading client configuration file
  --> client-wide filter and subdir
  ---> condition path_start subdir
  ---> condition not size< 100
@@ -315,7 +315,7 @@ Test: missing clients
  -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: C:/Test
 Backup path 'C:/Test'
 A C:/Test/Dir
@@ -329,7 +329,7 @@ A C:/Test/File.TXT (0 B)
  -> Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: /home/User/test
 Backup path '/home/User/test'
  -> umount test_db/mount
@@ -343,7 +343,7 @@ A /home/User/test/dir/file3.txt (2 B)
  --> Client: myhost
  -> Database open in read/write mode
 Backup client 'myhost' using protocol 'file'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: test1/cvs
 Backup path 'test1/cvs'
 A test1/cvs/CVS
@@ -438,7 +438,7 @@ Client: myhost3
 -> nfs://myhost3 /home/User/testhost3.list
  -> Database open in read/write mode
 Backup client 'myhost' using protocol 'file'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: test1/cvs
 Backup path 'test1/cvs'
  -> Dir CVS
@@ -449,14 +449,14 @@ Backup path 'test1/cvs'
  -> Dir dirutd/CVS
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: C:/Test
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: /home/User/test
 Backup path '/home/User/test'
  -> umount test_db/mount
@@ -476,14 +476,14 @@ Client: myhost3
  -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: C:/Test
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount test_db/mount
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: /home/User/test
 Backup path '/home/User/test'
  -> umount test_db/mount
@@ -502,7 +502,7 @@ Client: myhost3
 -> nfs://myhost3 /home/User/testhost3.list
  -> Database open in read/write mode
 Backup client 'myhost' using protocol 'file'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: test1/cvs
 Backup path 'test1/cvs'
  -> Dir CVS
@@ -513,7 +513,7 @@ Backup path 'test1/cvs'
  -> Dir dirutd/CVS
  -> mount -t nfs -o ro,noatime,nolock myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: /home/User/test
 Backup path '/home/User/test'
  -> umount test_db/mount
@@ -532,7 +532,7 @@ Client: myhost2
 -> smb://myhost2 C:/Backup/testhost2.list
  -> Database open in read/write mode
 Backup client 'myhost' using protocol 'file'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: test1/cvs
 Backup path 'test1/cvs'
  -> Dir CVS
@@ -543,7 +543,7 @@ Backup path 'test1/cvs'
  -> Dir dirutd/CVS
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: C:/Test
 Backup path 'C:/Test'
  -> Dir Dir
@@ -558,7 +558,7 @@ Client: myClient
  -> Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: /home/User/test
  --> Path: /home/User/test2
 Backup path '/home/User/test'
@@ -579,7 +579,7 @@ Client: myClient
  -> Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: /home/User/test
  --> Path: /home/User/test2
 Backup path '/home/User/test'
@@ -596,7 +596,7 @@ Client: myClient
  -> Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: /home/User/test
  --> Path: /home/User/test2
 Backup path '/home/User/test'
@@ -617,7 +617,7 @@ Client: myClient
  -> Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
 Backup client 'myClient' using protocol 'smb'
- -> Reading backup list file
+ -> Reading client configuration file
  --> Path: C:/Test
 Backup path 'C:/Test'
 A C:/Test/Dir

@@ -636,8 +636,8 @@ int Database::open_rw() {
       cerr << "Error: cannot create list file" << endl;
       failed = true;
     } else
-    if (verbosity() > 0) {
-      cout << "Database initialized" << endl;
+    {
+      cout << "Database initialized in " << _d->path << endl;
     }
   } else {
     if (! list.isValid()) {
