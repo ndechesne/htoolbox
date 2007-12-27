@@ -1,6 +1,6 @@
 
 Only consider controlled files
-test1 will be ignored
+test1 is not controlled
  -> Parsing CVS entries
  --> filenew.c	f	0
  --> filemod.o	f	1159806431
@@ -14,19 +14,28 @@ CVS list: 5 file(s)
 -> filenew.c (0)
 -> fileutd.h (1159985080)
 test1/cvs/nofile will be ignored
+test1/cvs/filenew.c will not be ignored
+test1/cvs/filemod.o will not be ignored
+test1/cvs/fileutd.h will not be ignored
 test1/cvs/fileoth will be ignored
+test1/cvs/dirutd will not be ignored
+test1/cvs/dirbad will not be ignored
+test1/cvs/CVS will not be ignored
+test1/cvs/CVS/Entries will not be ignored
+test1/cvs/CVS/Root will not be ignored
 test1/cvs/CVS/Whatever will be ignored
 Directory should be under CVS control: test1/cvs/dirbad
  -> Parsing CVS entries
  --> fileutd	f	1159985080
 CVS list: 1 file(s)
 -> fileutd (1159985080)
+test1/cvs/dirutd/fileutd will not be ignored
 test1/cvs/dirutd/fileoth will be ignored
-test1/cvs/diroth will be ignored
-test1/cvs/CVS will be ignored
+test1/cvs/diroth is not controlled
+test1/cvs/CVS is not controlled
 
 Only consider controlled modified files
-test1 will be ignored
+test1 is not controlled
  -> Parsing CVS entries
  --> filenew.c	f	0
  --> filemod.o	f	1159806431
@@ -40,20 +49,28 @@ CVS list: 5 file(s)
 -> filenew.c (0)
 -> fileutd.h (1159985080)
 test1/cvs/nofile will be ignored
+test1/cvs/filenew.c will not be ignored
+test1/cvs/filemod.o will not be ignored
 test1/cvs/fileutd.h will be ignored
 test1/cvs/fileoth will be ignored
+test1/cvs/dirutd will not be ignored
+test1/cvs/dirbad will not be ignored
+test1/cvs/CVS will not be ignored
+test1/cvs/CVS/Entries will not be ignored
+test1/cvs/CVS/Root will not be ignored
 test1/cvs/CVS/Whatever will be ignored
 Directory should be under CVS control: test1/cvs/dirbad
  -> Parsing CVS entries
  --> fileutd	f	1159985080
 CVS list: 1 file(s)
 -> fileutd (1159985080)
+test1/cvs/dirutd/fileutd will not be ignored
 test1/cvs/dirutd/fileoth will be ignored
-test1/cvs/diroth will be ignored
-test1/cvs/CVS will be ignored
+test1/cvs/diroth is not controlled
+test1/cvs/CVS is not controlled
 
 Only consider controlled modified and non-controlled files
-test1 will be ignored
+test1 is not controlled
  -> Parsing CVS entries
  --> filenew.c	f	0
  --> filemod.o	f	1159806431
@@ -66,18 +83,29 @@ CVS list: 5 file(s)
 -> filemod.o (1159806431)
 -> filenew.c (0)
 -> fileutd.h (1159985080)
+test1/cvs/nofile will not be ignored
+test1/cvs/filenew.c will not be ignored
+test1/cvs/filemod.o will not be ignored
 test1/cvs/fileutd.h will be ignored
+test1/cvs/fileoth will not be ignored
+test1/cvs/dirutd will not be ignored
+test1/cvs/dirbad will not be ignored
+test1/cvs/CVS will not be ignored
+test1/cvs/CVS/Entries will not be ignored
+test1/cvs/CVS/Root will not be ignored
 test1/cvs/CVS/Whatever will be ignored
 Directory should be under CVS control: test1/cvs/dirbad
  -> Parsing CVS entries
  --> fileutd	f	1159985080
 CVS list: 1 file(s)
 -> fileutd (1159985080)
-test1/cvs/diroth will be ignored
-test1/cvs/CVS will be ignored
+test1/cvs/dirutd/fileutd will not be ignored
+test1/cvs/dirutd/fileoth will not be ignored
+test1/cvs/diroth is not controlled
+test1/cvs/CVS is not controlled
 
 Only consider non-controlled files
-test1 will be ignored
+test1 is not controlled
  -> Parsing CVS entries
  --> filenew.c	f	0
  --> filemod.o	f	1159806431
@@ -90,11 +118,16 @@ CVS list: 5 file(s)
 -> filemod.o (1159806431)
 -> filenew.c (0)
 -> fileutd.h (1159985080)
+test1/cvs/nofile will not be ignored
 test1/cvs/filenew.c will be ignored
 test1/cvs/filemod.o will be ignored
 test1/cvs/fileutd.h will be ignored
+test1/cvs/fileoth will not be ignored
 test1/cvs/dirutd will be ignored
 test1/cvs/dirbad will be ignored
+test1/cvs/CVS will not be ignored
+test1/cvs/CVS/Entries will not be ignored
+test1/cvs/CVS/Root will not be ignored
 test1/cvs/CVS/Whatever will be ignored
 Directory should be under CVS control: test1/cvs/dirbad
  -> Parsing CVS entries
@@ -102,5 +135,6 @@ Directory should be under CVS control: test1/cvs/dirbad
 CVS list: 1 file(s)
 -> fileutd (1159985080)
 test1/cvs/dirutd/fileutd will be ignored
-test1/cvs/diroth will be ignored
-test1/cvs/CVS will be ignored
+test1/cvs/dirutd/fileoth will not be ignored
+test1/cvs/diroth is not controlled
+test1/cvs/CVS is not controlled
