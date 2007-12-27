@@ -100,7 +100,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) {
       // Add to list of Nodes, with status
       _files.push_back(Node(&buffer[7], type, 0, 0, 0, 0, 0));
       if (verbosity() > 1) {
-        cout << " --> " << _files.back().type() << ": " << _files.back().name()
+        cout << " --> " << _files.back().name() << "\t" << _files.back().type()
           << endl;
       }
     }
@@ -138,13 +138,15 @@ bool SvnParser::ignore(const Node& node) {
       }
       break;
     case Parser::modified:
-      // DIrectories under control are treated as modified
+      // Directories under control need to get parsed
       if (file_modified || (file_controlled && (node.type() == 'd'))) {
         return false;
       }
       break;
     case Parser::modifiedandothers:
-      if (file_modified || ! file_controlled) {
+      // Directories under control need to get parsed
+      if (file_modified || (file_controlled && (node.type() == 'd'))
+       || ! file_controlled) {
         return false;
       }
       break;
@@ -157,6 +159,13 @@ bool SvnParser::ignore(const Node& node) {
       return false;
   }
   return true;
+}
+
+void SvnParser::list() {
+  cout << name() << " list: " << _files.size() << " file(s)" << endl;
+  for (_i = _files.begin(); _i != _files.end(); _i++) {
+    cout << "-> " << _i->name() << " (" << _i->type() << ")" << endl;
+  }
 }
 
 string SvnControlParser::name() const {

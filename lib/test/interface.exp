@@ -67,11 +67,11 @@ Backup path 'test1'
 A test1/cvs
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
 A test1/cvs/CVS
  -> Dir cvs/CVS
 A test1/cvs/CVS/Entries (161 B)
@@ -84,7 +84,7 @@ Directory should be under CVS control: test1/cvs/dirbad
 A test1/cvs/dirutd
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159985080
+ --> fileutd	f	1159985080
 A test1/cvs/dirutd/CVS
  -> Dir cvs/dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries (42 B)
@@ -100,10 +100,10 @@ A test1/dir space/file space (0 B)
 A test1/svn
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
 A test1/svn/.svn
  -> Dir svn/.svn
 A test1/svn/.svn/entries (77 B)
@@ -114,8 +114,8 @@ Directory should be under Subversion control: test1/svn/dirbad
 A test1/svn/dirutd
  -> Dir svn/dirutd
  -> Parsing Subversion entries
- --> m: fileutd
- --> o: fileoth
+ --> fileutd	m
+ --> fileoth	o
 A test1/svn/dirutd/.svn
  -> Dir svn/dirutd/.svn
 A test1/svn/dirutd/.svn/entries (30 B)
@@ -197,32 +197,32 @@ Backup client 'myhost' using protocol 'file'
 Backup path 'test1'
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159985080
+ --> fileutd	f	1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
  -> Dir svn/dirutd
  -> Parsing Subversion entries
- --> m: fileutd
- --> o: fileoth
+ --> fileutd	m
+ --> fileoth	o
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Backup path 'test2'
@@ -286,17 +286,17 @@ Backup client 'myhost' using protocol 'file'
 Backup path 'test1'
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159985080
+ --> fileutd	f	1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
 A test1/dir space/big_file (512 kB)
@@ -351,34 +351,34 @@ Backup client 'myhost' using protocol 'file'
 Backup path 'test1'
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159985080
+ --> fileutd	f	1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
 ! test1/dir space/big_file (512 kB)
 Adding compressed file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
  -> Dir svn/dirutd
  -> Parsing Subversion entries
- --> m: fileutd
- --> o: fileoth
+ --> fileutd	m
+ --> fileoth	o
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Backup path 'test2'
@@ -732,32 +732,32 @@ Backup client 'myhost' using protocol 'file'
 Backup path 'test1'
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159985080
+ --> fileutd	f	1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
  -> Dir svn/dirutd
  -> Parsing Subversion entries
- --> m: fileutd
- --> o: fileoth
+ --> fileutd	m
+ --> fileoth	o
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Backup path 'test2'

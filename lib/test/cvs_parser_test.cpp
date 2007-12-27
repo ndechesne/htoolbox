@@ -94,9 +94,9 @@ int main(void) {
       cout << "test1/cvs/dirutd" << " will be ignored" << endl;
     }
     delete node;
-    node = new Directory("test1/cvs/diroth");
+    node = new Directory("test1/cvs/dirbad");
     if (parser->ignore(*node)) {
-      cout << "test1/cvs/diroth" << " will be ignored" << endl;
+      cout << "test1/cvs/dirbad" << " will be ignored" << endl;
     }
     delete node;
     node = new Directory("test1/cvs/CVS");
@@ -125,8 +125,8 @@ int main(void) {
       delete parser2;
     }
     // Use parser so directory appears as child of controlled directory
-    if ((parser2 = parser->isControlled("test1/cvs/diroth")) == NULL) {
-      cout << "test1/cvs/diroth" << " is not controlled" << endl;
+    if ((parser2 = parser->isControlled("test1/cvs/dirbad")) == NULL) {
+      cout << "test1/cvs/dirbad" << " is not controlled" << endl;
     } else {
       delete parser2;
     }
@@ -153,19 +153,19 @@ int main(void) {
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/cvs/dirbad")) == NULL) {
-    cout << "test1/cvs/dirbad" << " will be ignored" << endl;
+  if ((parser = parser_list->isControlled("test1/cvs/diroth")) == NULL) {
+    cout << "test1/cvs/diroth" << " will be ignored" << endl;
   } else {
     parser->list();
     /* Nodes */
-    node = new File("test1/cvs/dirbad/fileutd");
+    node = new File("test1/cvs/diroth/fileutd");
     if (parser->ignore(*node)) {
-      cout << "test1/cvs/dirbad/fileutd" << " will be ignored" << endl;
+      cout << "test1/cvs/diroth/fileutd" << " will be ignored" << endl;
     }
     delete node;
-    node = new File("test1/cvs/dirbad/fileoth");
+    node = new File("test1/cvs/diroth/fileoth");
     if (parser->ignore(*node)) {
-      cout << "test1/cvs/dirbad/fileoth" << " will be ignored" << endl;
+      cout << "test1/cvs/diroth/fileoth" << " will be ignored" << endl;
     }
     delete node;
     delete parser;
@@ -244,9 +244,9 @@ int main(void) {
       cout << "test1/cvs/dirutd" << " will be ignored" << endl;
     }
     delete node;
-    node = new Directory("test1/cvs/diroth");
+    node = new Directory("test1/cvs/dirbad");
     if (parser->ignore(*node)) {
-      cout << "test1/cvs/diroth" << " will be ignored" << endl;
+      cout << "test1/cvs/dirbad" << " will be ignored" << endl;
     }
     delete node;
     node = new Directory("test1/cvs/CVS");
@@ -275,8 +275,8 @@ int main(void) {
       delete parser2;
     }
     // Use parser so directory appears as child of controlled directory
-    if ((parser2 = parser->isControlled("test1/cvs/diroth")) == NULL) {
-      cout << "test1/cvs/diroth" << " is not controlled" << endl;
+    if ((parser2 = parser->isControlled("test1/cvs/dirbad")) == NULL) {
+      cout << "test1/cvs/dirbad" << " is not controlled" << endl;
     } else {
       delete parser2;
     }
@@ -303,19 +303,19 @@ int main(void) {
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/cvs/dirbad")) == NULL) {
-    cout << "test1/cvs/dirbad" << " will be ignored" << endl;
+  if ((parser = parser_list->isControlled("test1/cvs/diroth")) == NULL) {
+    cout << "test1/cvs/diroth" << " will be ignored" << endl;
   } else {
     parser->list();
     /* Nodes */
-    node = new File("test1/cvs/dirbad/fileutd");
+    node = new File("test1/cvs/diroth/fileutd");
     if (parser->ignore(*node)) {
-      cout << "test1/cvs/dirbad/fileutd" << " will be ignored" << endl;
+      cout << "test1/cvs/diroth/fileutd" << " will be ignored" << endl;
     }
     delete node;
-    node = new File("test1/cvs/dirbad/fileoth");
+    node = new File("test1/cvs/diroth/fileoth");
     if (parser->ignore(*node)) {
-      cout << "test1/cvs/dirbad/fileoth" << " will be ignored" << endl;
+      cout << "test1/cvs/diroth/fileoth" << " will be ignored" << endl;
     }
     delete node;
     delete parser;
@@ -395,9 +395,9 @@ int main(void) {
       cout << "test1/cvs/dirutd" << " will be ignored" << endl;
     }
     delete node;
-    node = new Directory("test1/cvs/diroth");
+    node = new Directory("test1/cvs/dirbad");
     if (parser->ignore(*node)) {
-      cout << "test1/cvs/diroth" << " will be ignored" << endl;
+      cout << "test1/cvs/dirbad" << " will be ignored" << endl;
     }
     delete node;
     node = new Directory("test1/cvs/CVS");
@@ -426,8 +426,8 @@ int main(void) {
       delete parser2;
     }
     // Use parser so directory appears as child of controlled directory
-    if ((parser2 = parser->isControlled("test1/cvs/diroth")) == NULL) {
-      cout << "test1/cvs/diroth" << " is not controlled" << endl;
+    if ((parser2 = parser->isControlled("test1/cvs/dirbad")) == NULL) {
+      cout << "test1/cvs/dirbad" << " is not controlled" << endl;
     } else {
       delete parser2;
     }
@@ -454,19 +454,19 @@ int main(void) {
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/cvs/dirbad")) == NULL) {
-    cout << "test1/cvs/dirbad" << " will be ignored" << endl;
+  if ((parser = parser_list->isControlled("test1/cvs/diroth")) == NULL) {
+    cout << "test1/cvs/diroth" << " will be ignored" << endl;
   } else {
     parser->list();
     /* Nodes */
-    node = new File("test1/cvs/dirbad/fileutd");
+    node = new File("test1/cvs/diroth/fileutd");
     if (parser->ignore(*node)) {
-      cout << "test1/cvs/dirbad/fileutd" << " will be ignored" << endl;
+      cout << "test1/cvs/diroth/fileutd" << " will be ignored" << endl;
     }
     delete node;
-    node = new File("test1/cvs/dirbad/fileoth");
+    node = new File("test1/cvs/diroth/fileoth");
     if (parser->ignore(*node)) {
-      cout << "test1/cvs/dirbad/fileoth" << " will be ignored" << endl;
+      cout << "test1/cvs/diroth/fileoth" << " will be ignored" << endl;
     }
     delete node;
     delete parser;
@@ -546,9 +546,9 @@ int main(void) {
       cout << "test1/cvs/dirutd" << " will be ignored" << endl;
     }
     delete node;
-    node = new Directory("test1/cvs/diroth");
+    node = new Directory("test1/cvs/dirbad");
     if (parser->ignore(*node)) {
-      cout << "test1/cvs/diroth" << " will be ignored" << endl;
+      cout << "test1/cvs/dirbad" << " will be ignored" << endl;
     }
     delete node;
     node = new Directory("test1/cvs/CVS");
@@ -577,8 +577,8 @@ int main(void) {
       delete parser2;
     }
     // Use parser so directory appears as child of controlled directory
-    if ((parser2 = parser->isControlled("test1/cvs/diroth")) == NULL) {
-      cout << "test1/cvs/diroth" << " is not controlled" << endl;
+    if ((parser2 = parser->isControlled("test1/cvs/dirbad")) == NULL) {
+      cout << "test1/cvs/dirbad" << " is not controlled" << endl;
     } else {
       delete parser2;
     }
@@ -605,19 +605,19 @@ int main(void) {
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/cvs/dirbad")) == NULL) {
-    cout << "test1/cvs/dirbad" << " will be ignored" << endl;
+  if ((parser = parser_list->isControlled("test1/cvs/diroth")) == NULL) {
+    cout << "test1/cvs/diroth" << " will be ignored" << endl;
   } else {
     parser->list();
     /* Nodes */
-    node = new File("test1/cvs/dirbad/fileutd");
+    node = new File("test1/cvs/diroth/fileutd");
     if (parser->ignore(*node)) {
-      cout << "test1/cvs/dirbad/fileutd" << " will be ignored" << endl;
+      cout << "test1/cvs/diroth/fileutd" << " will be ignored" << endl;
     }
     delete node;
-    node = new File("test1/cvs/dirbad/fileoth");
+    node = new File("test1/cvs/diroth/fileoth");
     if (parser->ignore(*node)) {
-      cout << "test1/cvs/dirbad/fileoth" << " will be ignored" << endl;
+      cout << "test1/cvs/diroth/fileoth" << " will be ignored" << endl;
     }
     delete node;
     delete parser;

@@ -33,6 +33,8 @@ public:
   Parser* isControlled(const string& dir_path) const;
   // That tells us whether to ignore the file, i.e. not back it up
   bool ignore(const Node& node);
+  // For debug purposes
+  void list();
 };
 
 // Parser for Subversion control directory '.svn'
@@ -46,6 +48,8 @@ public:
   }
   // That tells us whether to ignore the file, i.e. not back it up
   bool ignore(const Node& node);
+  // For debug purposes
+  void list() {}
 };
 
 }

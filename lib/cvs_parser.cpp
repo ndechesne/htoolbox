@@ -157,8 +157,8 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
     // Enlist data
     _files.push_back(Node(name.c_str(), type, mtime, 0, 0, 0, 0));
     if (verbosity() > 1) {
-      cout << " --> " << _files.back().type() << " " << _files.back().name()
-        << " " << _files.back().mtime() << endl;
+      cout << " --> " << _files.back().name() << "\t" << _files.back().type()
+        << "\t" << _files.back().mtime() << endl;
     }
   }
   /* Close file */
@@ -214,7 +214,7 @@ bool CvsParser::ignore(const Node& node) {
 }
 
 void CvsParser::list() {
-  cout << "List: " << _files.size() << " file(s)" << endl;
+  cout << name() << " list: " << _files.size() << " file(s)" << endl;
   for (_i = _files.begin(); _i != _files.end(); _i++) {
     cout << "-> " << _i->name() << " (";
     if (_i->type() == 'd') {

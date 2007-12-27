@@ -1527,11 +1527,11 @@ As previous with CVS parser (controlled)
  -> Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
 D /home/User/cvs/CVS/Whatever
 D /home/User/cvs/CVS/Wherever
@@ -1544,7 +1544,7 @@ D /home/User/cvs/dirbad/fileutd
 D /home/User/cvs/diroth
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159985080
+ --> fileutd	f	1159985080
  -> Dir cvs/dirutd/CVS
 D /home/User/cvs/dirutd/CVS/Whatever
 D /home/User/cvs/dirutd/fileoth
@@ -1727,17 +1727,17 @@ As previous
  -> Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159985080
+ --> fileutd	f	1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
  -> Dir svn
@@ -1918,25 +1918,25 @@ As previous with Subversion parser (modified)
  -> Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
- --> f fileutd 1159985080
+ --> fileutd	f	1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
 D /home/User/svn/.svn/format
 D /home/User/svn/.svn/whatever
@@ -1949,8 +1949,8 @@ D /home/User/svn/dirbad/fileutd
 D /home/User/svn/diroth
  -> Dir svn/dirutd
  -> Parsing Subversion entries
- --> m: fileutd
- --> o: fileoth
+ --> fileutd	m
+ --> fileoth	o
  -> Dir svn/dirutd/.svn
 D /home/User/svn/dirutd/.svn/format
 D /home/User/svn/dirutd/.svn/whatever
@@ -2143,11 +2143,11 @@ As previous with cvs/dirutd in ignore list
  -> Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -2159,17 +2159,17 @@ D /home/User/cvs/dirutd/fileutd
  -> Dir dir space
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
  -> Dir svn/dirutd
  -> Parsing Subversion entries
- --> m: fileutd
- --> o: fileoth
+ --> fileutd	m
+ --> fileoth	o
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 28 file(s)
@@ -2348,21 +2348,21 @@ As previous with svn/dirutd in ignore list
  -> Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
@@ -2549,21 +2549,21 @@ As previous with testpipe gone
  -> Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
@@ -2742,21 +2742,21 @@ As previous with testfile mode changed
  -> Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
@@ -2936,11 +2936,11 @@ As previous with cvs/filenew.c touched and testpipe restored
  -> Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -2949,10 +2949,10 @@ Adding file data to DB in: test_db/data/0d599f0ec05c3bda8c3b8a68c32a1b47-0
  -> Dir dir space
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
@@ -3136,11 +3136,11 @@ Some troublesome past cases
  -> Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -3169,10 +3169,10 @@ A /home/User/docbook-xml.cat (0 B)
 A /home/User/docbook-xml.cat.old (0 B)
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
@@ -3437,11 +3437,11 @@ Same again: journal and list left untouched
  -> Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -3455,10 +3455,10 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.4
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
@@ -3731,11 +3731,11 @@ A /home/User/crash
 A /home/User/crash/file (0 B)
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -3749,10 +3749,10 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.4
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
@@ -4267,11 +4267,11 @@ Same again
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -4285,10 +4285,10 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.4
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
@@ -4816,11 +4816,11 @@ Expiry delay: 18, date: 22
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -4834,10 +4834,10 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.4
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
@@ -5052,11 +5052,11 @@ Prevent data dir from being removed
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -5070,10 +5070,10 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.4
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
@@ -5274,11 +5274,11 @@ Add one file
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
- --> f filenew.c 0
- --> f filemod.o 1159806431
- --> f fileutd.h 1159985080
- --> d dirbad 0
- --> d dirutd 0
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
@@ -5292,10 +5292,10 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.4
  -> Dir svn
  -> Parsing Subversion entries
- --> m: filenew.c
- --> m: filemod.o
- --> i: fileoth
- --> o: diroth
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad

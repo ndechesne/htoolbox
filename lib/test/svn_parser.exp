@@ -1,0 +1,140 @@
+
+Only consider controlled files
+test1 is not controlled
+ -> Parsing Subversion entries
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
+Subversion list: 4 file(s)
+-> diroth (o)
+-> filemod.o (m)
+-> filenew.c (m)
+-> fileoth (i)
+test1/svn/nofile will not be ignored
+test1/svn/filenew.c will not be ignored
+test1/svn/filemod.o will not be ignored
+test1/svn/fileutd.h will not be ignored
+test1/svn/fileoth will be ignored
+test1/svn/dirutd will not be ignored
+test1/svn/dirbad will not be ignored
+test1/svn/.svn will not be ignored
+test1/svn/.svn/entries will not be ignored
+test1/svn/.svn/format will be ignored
+test1/svn/.svn/whatever will be ignored
+Directory should be under Subversion control: test1/svn/dirbad
+ -> Parsing Subversion entries
+ --> fileutd	m
+ --> fileoth	o
+Subversion list: 2 file(s)
+-> fileoth (o)
+-> fileutd (m)
+test1/svn/dirutd/fileutd will not be ignored
+test1/svn/dirutd/fileoth will be ignored
+test1/svn/diroth is not controlled
+test1/svn/.svn is not controlled
+
+Only consider controlled modified files
+test1 is not controlled
+ -> Parsing Subversion entries
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
+Subversion list: 4 file(s)
+-> diroth (o)
+-> filemod.o (m)
+-> filenew.c (m)
+-> fileoth (i)
+test1/svn/nofile will be ignored
+test1/svn/filenew.c will not be ignored
+test1/svn/filemod.o will not be ignored
+test1/svn/fileutd.h will be ignored
+test1/svn/fileoth will be ignored
+test1/svn/dirutd will not be ignored
+test1/svn/dirbad will not be ignored
+test1/svn/.svn will not be ignored
+test1/svn/.svn/entries will not be ignored
+test1/svn/.svn/format will be ignored
+test1/svn/.svn/whatever will be ignored
+Directory should be under Subversion control: test1/svn/dirbad
+ -> Parsing Subversion entries
+ --> fileutd	m
+ --> fileoth	o
+Subversion list: 2 file(s)
+-> fileoth (o)
+-> fileutd (m)
+test1/svn/dirutd/fileutd will not be ignored
+test1/svn/dirutd/fileoth will be ignored
+test1/svn/diroth is not controlled
+test1/svn/.svn is not controlled
+
+Only consider controlled modified and non-controlled files
+test1 is not controlled
+ -> Parsing Subversion entries
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
+Subversion list: 4 file(s)
+-> diroth (o)
+-> filemod.o (m)
+-> filenew.c (m)
+-> fileoth (i)
+test1/svn/nofile will be ignored
+test1/svn/filenew.c will not be ignored
+test1/svn/filemod.o will not be ignored
+test1/svn/fileutd.h will be ignored
+test1/svn/fileoth will not be ignored
+test1/svn/dirutd will not be ignored
+test1/svn/dirbad will not be ignored
+test1/svn/.svn will not be ignored
+test1/svn/.svn/entries will not be ignored
+test1/svn/.svn/format will be ignored
+test1/svn/.svn/whatever will be ignored
+Directory should be under Subversion control: test1/svn/dirbad
+ -> Parsing Subversion entries
+ --> fileutd	m
+ --> fileoth	o
+Subversion list: 2 file(s)
+-> fileoth (o)
+-> fileutd (m)
+test1/svn/dirutd/fileutd will not be ignored
+test1/svn/dirutd/fileoth will not be ignored
+test1/svn/diroth is not controlled
+test1/svn/.svn is not controlled
+
+Only consider non-controlled files
+test1 is not controlled
+ -> Parsing Subversion entries
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
+Subversion list: 4 file(s)
+-> diroth (o)
+-> filemod.o (m)
+-> filenew.c (m)
+-> fileoth (i)
+test1/svn/nofile will be ignored
+test1/svn/filenew.c will be ignored
+test1/svn/filemod.o will be ignored
+test1/svn/fileutd.h will be ignored
+test1/svn/fileoth will not be ignored
+test1/svn/dirutd will be ignored
+test1/svn/dirbad will be ignored
+test1/svn/.svn will not be ignored
+test1/svn/.svn/entries will not be ignored
+test1/svn/.svn/format will be ignored
+test1/svn/.svn/whatever will be ignored
+Directory should be under Subversion control: test1/svn/dirbad
+ -> Parsing Subversion entries
+ --> fileutd	m
+ --> fileoth	o
+Subversion list: 2 file(s)
+-> fileoth (o)
+-> fileutd (m)
+test1/svn/dirutd/fileutd will be ignored
+test1/svn/dirutd/fileoth will not be ignored
+test1/svn/diroth is not controlled
+test1/svn/.svn is not controlled
