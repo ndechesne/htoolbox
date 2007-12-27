@@ -1,0 +1,13 @@
+#!/bin/sh
+
+shift
+shift
+shift
+shift
+
+if [ ! -r "$1/.svn/entries" ]; then
+  exit 1
+fi
+
+cat "$1/.svn/entries"
+exit 0

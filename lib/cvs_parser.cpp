@@ -157,11 +157,13 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
     // Enlist data
     _files.push_back(Node(name.c_str(), type, mtime, 0, 0, 0, 0));
     if (verbosity() > 1) {
-      cout << " --> " << type << " " << name << " " << mtime << endl;
+      cout << " --> " << _files.back().type() << " " << _files.back().name()
+        << " " << _files.back().mtime() << endl;
     }
   }
   /* Close file */
   entries_file.close();
+  _files.sort();
 }
 
 bool CvsParser::ignore(const Node& node) {

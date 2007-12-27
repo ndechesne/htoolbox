@@ -318,12 +318,12 @@ int main(void) {
   showList(journal);
 
   // Next test
-  cout << endl << "As previous with CVS parser" << endl;
+  cout << endl << "As previous with CVS parser (controlled)" << endl;
   my_time++;
   db.open_rw();
 
   if (path->addParser("cvs", "controlled")) {
-    cout << "Failed to add parser" << endl;
+    cout << "Failed to add CVS parser" << endl;
   }
   db.setClient("myClient");
   if (! path->parse(db, "test1")) {
@@ -363,6 +363,33 @@ int main(void) {
   showList(journal);
 
   // Next test
+  cout << endl << "As previous with Subversion parser (modified)" << endl;
+  my_time++;
+  db.open_rw();
+
+  if (path->addParser("cvs", "controlled")) {
+    cout << "Failed to add CVS parser" << endl;
+  }
+  if (path->addParser("svn", "modified")) {
+    cout << "Failed to add Subversion parser" << endl;
+  }
+  db.setClient("myClient");
+  if (! path->parse(db, "test1")) {
+    cout << "Parsed " << path->nodes() << " file(s)\n";
+  }
+
+  if (db.close()) {
+    return 0;
+  }
+
+  // Show list contents
+  cout << endl << "List:" << endl;
+  showList(dblist);
+  // Show journal contents
+  cout << endl << "Journal:" << endl;
+  showList(journal);
+
+  // Next test
   cout << endl << "As previous with cvs/dirutd in ignore list" << endl;
   my_time++;
   db.open_rw();
@@ -383,6 +410,34 @@ int main(void) {
   filter->add(new Condition(Condition::subfilter, cvs_dirutd, false));
   filter->add(new Condition(Condition::subfilter, empty, false));
   path->setIgnore(filter);
+  db.setClient("myClient");
+  if (! path->parse(db, "test1")) {
+    cout << "Parsed " << path->nodes() << " file(s)\n";
+  }
+
+  if (db.close()) {
+    return 0;
+  }
+
+  // Show list contents
+  cout << endl << "List:" << endl;
+  showList(dblist);
+  // Show journal contents
+  cout << endl << "Journal:" << endl;
+  showList(journal);
+
+  // Next test
+  cout << endl << "As previous with svn/dirutd in ignore list" << endl;
+  my_time++;
+  db.open_rw();
+
+  Filter* svn_dirutd = path->addFilter("and", "svn_dirutd");
+  if ((svn_dirutd == NULL)
+   || svn_dirutd->add("type", "dir", false)
+   || svn_dirutd->add("path", "svn/dirutd", false)) {
+    cout << "Failed to add 'and' filter" << endl;
+  }
+  filter->add(new Condition(Condition::subfilter, svn_dirutd, false));
   db.setClient("myClient");
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";

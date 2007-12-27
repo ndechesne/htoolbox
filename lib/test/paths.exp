@@ -52,6 +52,41 @@ A /home/User/subdir/testfile2 (12 B)
 Adding file data to DB in: test_db/data/285b35198a5e188b3a0df3ed33f93a26-0
 A /home/User/subdir-file (0 B)
 A /home/User/subdirfile (0 B)
+A /home/User/svn
+ -> Dir svn
+A /home/User/svn/.svn
+ -> Dir svn/.svn
+A /home/User/svn/.svn/entries (77 B)
+Adding file data to DB in: test_db/data/0f2ea973d77135dc3d06c8e68da6dc59-0
+A /home/User/svn/.svn/format (18 B)
+Adding file data to DB in: test_db/data/3cd6b399f9fa49fd0b137a3de46d83f5-0
+A /home/User/svn/.svn/whatever (15 B)
+Adding file data to DB in: test_db/data/06f05055bfb2c8b900459f45826fc8ea-0
+A /home/User/svn/.svn/wherever
+ -> Dir svn/.svn/wherever
+A /home/User/svn/.svn/wherever/whichever (0 B)
+A /home/User/svn/dirbad
+ -> Dir svn/dirbad
+A /home/User/svn/dirbad/fileoth (0 B)
+A /home/User/svn/dirbad/fileutd (0 B)
+A /home/User/svn/diroth
+ -> Dir svn/diroth
+A /home/User/svn/dirutd
+ -> Dir svn/dirutd
+A /home/User/svn/dirutd/.svn
+ -> Dir svn/dirutd/.svn
+A /home/User/svn/dirutd/.svn/entries (30 B)
+Adding file data to DB in: test_db/data/8bdef5751e46ed57d237cbe3f4a5061c-0
+A /home/User/svn/dirutd/.svn/format (12 B)
+Adding file data to DB in: test_db/data/60afe8c3ac66cb77a34da116394d9ac8-0
+A /home/User/svn/dirutd/.svn/whatever (10 B)
+Adding file data to DB in: test_db/data/3b9ddae5294c8f4850d45073a933f3e6-0
+A /home/User/svn/dirutd/fileoth (0 B)
+A /home/User/svn/dirutd/fileutd (0 B)
+A /home/User/svn/filemod.o (0 B)
+A /home/User/svn/filenew.c (0 B)
+A /home/User/svn/fileoth (0 B)
+A /home/User/svn/fileutd.h (0 B)
 A /home/User/test space (0 B)
 A /home/User/testdir
  -> Dir testdir
@@ -60,7 +95,7 @@ Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
 A /home/User/testfile~ (0 B)
 A /home/User/testlink
 A /home/User/testpipe
-Parsed 37 file(s)
+Parsed 59 file(s)
  -> Database closed
 
 List:
@@ -126,6 +161,50 @@ myClient
 	/home/User/subdir-file
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -204,6 +283,50 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
@@ -230,8 +353,15 @@ As previous, with a .hbackup directory
  -> Dir subdir
 ! /home/User/subdir/testfile (12 B)
 Permission denied: test1/subdir/testfile
+ -> Dir svn
+ -> Dir svn/.svn
+ -> Dir svn/.svn/wherever
+ -> Dir svn/dirbad
+ -> Dir svn/diroth
+ -> Dir svn/dirutd
+ -> Dir svn/dirutd/.svn
  -> Dir testdir
-Parsed 37 file(s)
+Parsed 59 file(s)
  -> Journal is empty, not merging
  -> Database closed
 
@@ -299,6 +429,50 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
@@ -375,6 +549,50 @@ myClient
 	/home/User/subdir-file
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -464,6 +682,50 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
@@ -497,8 +759,15 @@ Adding file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
  -> Dir dir space
  -> Dir subdir
 ~ /home/User/subdir/testfile (12 B)
+ -> Dir svn
+ -> Dir svn/.svn
+ -> Dir svn/.svn/wherever
+ -> Dir svn/dirbad
+ -> Dir svn/diroth
+ -> Dir svn/dirutd
+ -> Dir svn/dirutd/.svn
  -> Dir testdir
-Parsed 38 file(s)
+Parsed 60 file(s)
  -> Database closed
 
 List:
@@ -566,6 +835,50 @@ myClient
 	/home/User/subdir-file
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -599,8 +912,15 @@ As previous with subdir/testfile in ignore list
  -> Dir dir space
  -> Dir subdir
 D /home/User/subdir/testfile
+ -> Dir svn
+ -> Dir svn/.svn
+ -> Dir svn/.svn/wherever
+ -> Dir svn/dirbad
+ -> Dir svn/diroth
+ -> Dir svn/dirutd
+ -> Dir svn/dirutd/.svn
  -> Dir testdir
-Parsed 37 file(s)
+Parsed 59 file(s)
  -> Database closed
 
 List:
@@ -669,6 +989,50 @@ myClient
 	/home/User/subdir-file
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -701,8 +1065,15 @@ As previous with subdir in ignore list
 D /home/User/subdir
 D /home/User/subdir/testfile1
 D /home/User/subdir/testfile2
+ -> Dir svn
+ -> Dir svn/.svn
+ -> Dir svn/.svn/wherever
+ -> Dir svn/dirbad
+ -> Dir svn/diroth
+ -> Dir svn/dirutd
+ -> Dir svn/dirutd/.svn
  -> Dir testdir
-Parsed 34 file(s)
+Parsed 56 file(s)
  -> Database closed
 
 List:
@@ -774,6 +1145,50 @@ myClient
 	/home/User/subdir-file
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -807,9 +1222,16 @@ As previous with testlink modified
  -> Dir cvs/dirutd
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
+ -> Dir svn
+ -> Dir svn/.svn
+ -> Dir svn/.svn/wherever
+ -> Dir svn/dirbad
+ -> Dir svn/diroth
+ -> Dir svn/dirutd
+ -> Dir svn/dirutd/.svn
  -> Dir testdir
 M /home/User/testlink
-Parsed 34 file(s)
+Parsed 56 file(s)
  -> Database closed
 
 List:
@@ -881,6 +1303,50 @@ myClient
 	/home/User/subdir-file
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -911,9 +1377,16 @@ As previous with testlink in ignore list
  -> Dir cvs/dirutd
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
+ -> Dir svn
+ -> Dir svn/.svn
+ -> Dir svn/.svn/wherever
+ -> Dir svn/dirbad
+ -> Dir svn/diroth
+ -> Dir svn/dirutd
+ -> Dir svn/dirutd/.svn
  -> Dir testdir
 D /home/User/testlink
-Parsed 33 file(s)
+Parsed 55 file(s)
  -> Database closed
 
 List:
@@ -986,6 +1459,50 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
@@ -1006,7 +1523,7 @@ myClient
 	/home/User/testlink
 [ 8] -
 
-As previous with CVS parser
+As previous with CVS parser (controlled)
  -> Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
@@ -1033,8 +1550,15 @@ D /home/User/cvs/dirutd/CVS/Whatever
 D /home/User/cvs/dirutd/fileoth
 D /home/User/cvs/fileoth
  -> Dir dir space
+ -> Dir svn
+ -> Dir svn/.svn
+ -> Dir svn/.svn/wherever
+ -> Dir svn/dirbad
+ -> Dir svn/diroth
+ -> Dir svn/dirutd
+ -> Dir svn/dirutd/.svn
  -> Dir testdir
-Parsed 23 file(s)
+Parsed 45 file(s)
  -> Database closed
 
 List:
@@ -1116,6 +1640,50 @@ myClient
 	/home/User/subdir-file
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1172,8 +1740,15 @@ Directory should be under CVS control: test1/cvs/dirbad
  --> f fileutd 1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
+ -> Dir svn
+ -> Dir svn/.svn
+ -> Dir svn/.svn/wherever
+ -> Dir svn/dirbad
+ -> Dir svn/diroth
+ -> Dir svn/dirutd
+ -> Dir svn/dirutd/.svn
  -> Dir testdir
-Parsed 23 file(s)
+Parsed 45 file(s)
  -> Journal is empty, not merging
  -> Database closed
 
@@ -1257,6 +1832,50 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
@@ -1295,7 +1914,7 @@ myClient
 	/home/User/cvs/fileoth
 [ 9] -
 
-As previous with cvs/dirutd in ignore list
+As previous with Subversion parser (modified)
  -> Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
@@ -1307,14 +1926,39 @@ As previous with cvs/dirutd in ignore list
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
-D /home/User/cvs/dirutd
-D /home/User/cvs/dirutd/CVS
-D /home/User/cvs/dirutd/CVS/Entries
-D /home/User/cvs/dirutd/CVS/Root
-D /home/User/cvs/dirutd/fileutd
+ -> Dir cvs/dirutd
+ -> Parsing CVS entries
+ --> f fileutd 1159985080
+ -> Dir cvs/dirutd/CVS
  -> Dir dir space
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
+ -> Dir svn/.svn
+D /home/User/svn/.svn/format
+D /home/User/svn/.svn/whatever
+D /home/User/svn/.svn/wherever
+D /home/User/svn/.svn/wherever/whichever
+ -> Dir svn/dirbad
+Directory should be under Subversion control: test1/svn/dirbad
+D /home/User/svn/dirbad/fileoth
+D /home/User/svn/dirbad/fileutd
+D /home/User/svn/diroth
+ -> Dir svn/dirutd
+ -> Parsing Subversion entries
+ --> m: fileutd
+ --> o: fileoth
+ -> Dir svn/dirutd/.svn
+D /home/User/svn/dirutd/.svn/format
+D /home/User/svn/dirutd/.svn/whatever
+D /home/User/svn/dirutd/fileoth
+D /home/User/svn/fileoth
+D /home/User/svn/fileutd.h
  -> Dir testdir
-Parsed 18 file(s)
+Parsed 33 file(s)
  -> Database closed
 
 List:
@@ -1353,16 +1997,12 @@ myClient
 [ 9] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd
-[11] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS
-[11] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
 [ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
@@ -1371,7 +2011,6 @@ myClient
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
-[11] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filemod.o
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1402,6 +2041,281 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[11] -
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[11] -
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[11] -
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[11] -
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 8] -
+[ 7] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
+
+Journal:
+myClient
+	/home/User/svn/.svn/format
+[11] -
+	/home/User/svn/.svn/whatever
+[11] -
+	/home/User/svn/.svn/wherever
+[11] -
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+	/home/User/svn/dirbad/fileoth
+[11] -
+	/home/User/svn/dirbad/fileutd
+[11] -
+	/home/User/svn/diroth
+[11] -
+	/home/User/svn/dirutd/.svn/format
+[11] -
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+	/home/User/svn/dirutd/fileoth
+[11] -
+	/home/User/svn/fileoth
+[11] -
+	/home/User/svn/fileutd.h
+[11] -
+
+As previous with cvs/dirutd in ignore list
+ -> Database open in read/write mode
+ -> Dir cvs
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
+ --> d dirbad 0
+ --> d dirutd 0
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
+Directory should be under CVS control: test1/cvs/dirbad
+D /home/User/cvs/dirutd
+D /home/User/cvs/dirutd/CVS
+D /home/User/cvs/dirutd/CVS/Entries
+D /home/User/cvs/dirutd/CVS/Root
+D /home/User/cvs/dirutd/fileutd
+ -> Dir dir space
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
+ -> Dir svn/.svn
+ -> Dir svn/dirbad
+Directory should be under Subversion control: test1/svn/dirbad
+ -> Dir svn/dirutd
+ -> Parsing Subversion entries
+ --> m: fileutd
+ --> o: fileoth
+ -> Dir svn/dirutd/.svn
+ -> Dir testdir
+Parsed 28 file(s)
+ -> Database closed
+
+List:
+myClient
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/big_file
+[ 9] -
+[ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[12] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[12] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[12] -
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[12] -
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+	/home/User/cvs/dirutd/fileoth
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[12] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 6] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 6] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 6] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[11] -
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[11] -
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[11] -
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[11] -
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
@@ -1420,15 +2334,216 @@ myClient
 Journal:
 myClient
 	/home/User/cvs/dirutd
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
+[12] -
 	/home/User/cvs/dirutd/fileutd
+[12] -
+
+As previous with svn/dirutd in ignore list
+ -> Database open in read/write mode
+ -> Dir cvs
+ -> Parsing CVS entries
+ --> f filenew.c 0
+ --> f filemod.o 1159806431
+ --> f fileutd.h 1159985080
+ --> d dirbad 0
+ --> d dirutd 0
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
+Directory should be under CVS control: test1/cvs/dirbad
+ -> Dir dir space
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
+ -> Dir svn/.svn
+ -> Dir svn/dirbad
+Directory should be under Subversion control: test1/svn/dirbad
+D /home/User/svn/dirutd
+D /home/User/svn/dirutd/.svn
+D /home/User/svn/dirutd/.svn/entries
+D /home/User/svn/dirutd/fileutd
+ -> Dir testdir
+Parsed 24 file(s)
+ -> Database closed
+
+List:
+myClient
+	/home/User/àccénts_test
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs
+[ 1] d     0 755
+	/home/User/cvs/CVS
+[ 1] d     0 755
+	/home/User/cvs/CVS/Entries
+[ 1] f   161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+	/home/User/cvs/CVS/Root
+[ 1] f    16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+	/home/User/cvs/CVS/Whatever
+[ 9] -
+[ 1] f    17 644 9283e2c51868272850bd2d89b63c58e8-0
+	/home/User/cvs/CVS/Wherever
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/CVS/Wherever/Whichever
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/big_file
+[ 9] -
+[ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+	/home/User/cvs/dirbad
+[ 1] d     0 755
+	/home/User/cvs/dirbad/fileoth
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirbad/fileutd
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/diroth
+[ 9] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd
+[12] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS
+[12] -
+[ 1] d     0 755
+	/home/User/cvs/dirutd/CVS/Entries
+[12] -
+[ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+	/home/User/cvs/dirutd/CVS/Root
+[12] -
+[ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+	/home/User/cvs/dirutd/CVS/Whatever
+[ 9] -
+[ 1] f    11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+	/home/User/cvs/dirutd/fileoth
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/dirutd/fileutd
+[12] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileoth
+[ 9] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/cvs/fileutd.h
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/dir space
+[ 1] d     0 755
+	/home/User/dir space/file space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir
+[ 6] -
+[ 1] d     0 755
+	/home/User/subdir/testfile
+[ 5] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir/testfile1
+[ 6] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdir/testfile2
+[ 6] -
+[ 1] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
+	/home/User/subdir-file
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/subdirfile
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
 [11] -
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[11] -
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[11] -
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[11] -
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[11] -
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[13] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/test space
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testdir
+[ 1] d     0 755
+	/home/User/testfile
+[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+	/home/User/testfile~
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/testlink
+[ 8] -
+[ 7] l     8 777 testnull
+[ 1] l     8 777 testfile
+	/home/User/testpipe
+[ 1] p     0 644
+
+Journal:
+myClient
+	/home/User/svn/dirutd
+[13] -
+	/home/User/svn/dirutd/.svn
+[13] -
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+	/home/User/svn/dirutd/fileutd
+[13] -
 
 As previous with testpipe gone
  -> Database open in read/write mode
@@ -1443,8 +2558,17 @@ As previous with testpipe gone
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
+ -> Dir svn/.svn
+ -> Dir svn/dirbad
+Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
-Parsed 17 file(s)
+Parsed 23 file(s)
 D /home/User/testpipe
  -> Database closed
 
@@ -1484,16 +2608,16 @@ myClient
 [ 9] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
+[12] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
+[12] -
 [ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
@@ -1502,7 +2626,7 @@ myClient
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
-[11] -
+[12] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filemod.o
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1533,6 +2657,66 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[11] -
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[11] -
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[11] -
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[11] -
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[13] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
@@ -1546,13 +2730,13 @@ myClient
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[12] -
+[14] -
 [ 1] p     0 644
 
 Journal:
 myClient
 	/home/User/testpipe
-[12] -
+[14] -
 
 As previous with testfile mode changed
  -> Database open in read/write mode
@@ -1567,9 +2751,18 @@ As previous with testfile mode changed
  -> Dir cvs/dirbad
 Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
+ -> Dir svn/.svn
+ -> Dir svn/dirbad
+Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 ~ /home/User/testfile (13 B)
-Parsed 17 file(s)
+Parsed 23 file(s)
  -> Database closed
 
 List:
@@ -1608,16 +2801,16 @@ myClient
 [ 9] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
+[12] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
+[12] -
 [ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
@@ -1626,7 +2819,7 @@ myClient
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
-[11] -
+[12] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filemod.o
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1657,12 +2850,72 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[11] -
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[11] -
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[11] -
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[11] -
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[13] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1671,13 +2924,13 @@ myClient
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[12] -
+[14] -
 [ 1] p     0 644
 
 Journal:
 myClient
 	/home/User/testfile
-[13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 
 As previous with cvs/filenew.c touched and testpipe restored
  -> Database open in read/write mode
@@ -1694,9 +2947,18 @@ Directory should be under CVS control: test1/cvs/dirbad
 M /home/User/cvs/filenew.c (5 B)
 Adding file data to DB in: test_db/data/0d599f0ec05c3bda8c3b8a68c32a1b47-0
  -> Dir dir space
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
+ -> Dir svn/.svn
+ -> Dir svn/dirbad
+Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 A /home/User/testpipe
-Parsed 18 file(s)
+Parsed 24 file(s)
  -> Database closed
 
 List:
@@ -1735,16 +2997,16 @@ myClient
 [ 9] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
+[12] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
+[12] -
 [ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
@@ -1753,12 +3015,12 @@ myClient
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
-[11] -
+[12] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filemod.o
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filenew.c
-[14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[16] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/fileoth
 [ 9] -
@@ -1785,12 +3047,72 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[11] -
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[11] -
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[11] -
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[11] -
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[13] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1799,16 +3121,16 @@ myClient
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[14] p     0 644
-[12] -
+[16] p     0 644
+[14] -
 [ 1] p     0 644
 
 Journal:
 myClient
 	/home/User/cvs/filenew.c
-[14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[16] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 	/home/User/testpipe
-[14] p     0 644
+[16] p     0 644
 
 Some troublesome past cases
  -> Database open in read/write mode
@@ -1845,6 +3167,15 @@ A /home/User/docbook-xml/4.4
 A /home/User/docbook-xml/4.4/dbgenent.mod (0 B)
 A /home/User/docbook-xml.cat (0 B)
 A /home/User/docbook-xml.cat.old (0 B)
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
+ -> Dir svn/.svn
+ -> Dir svn/dirbad
+Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 A /home/User/testdir/biblio
  -> Dir testdir/biblio
@@ -1852,7 +3183,7 @@ A /home/User/testdir/biblio/biblio.dbf (0 B)
 A /home/User/testdir/biblio/biblio.dbt (0 B)
 A /home/User/testdir/biblio.odb (0 B)
 A /home/User/testdir/evolocal.odb (0 B)
-Parsed 38 file(s)
+Parsed 44 file(s)
  -> Database closed
 
 List:
@@ -1891,16 +3222,16 @@ myClient
 [ 9] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
+[12] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
+[12] -
 [ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
@@ -1909,12 +3240,12 @@ myClient
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
-[11] -
+[12] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filemod.o
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filenew.c
-[14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[16] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/fileoth
 [ 9] -
@@ -1926,35 +3257,35 @@ myClient
 	/home/User/dir space/file space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.0
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.0/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.1.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.1.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.3
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.3/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.4
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.4/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat.old
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdir
 [ 6] -
 [ 1] d     0 755
@@ -1971,22 +3302,82 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[11] -
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[11] -
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[11] -
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[11] -
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[13] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testdir/biblio
-[15] d     0 755
+[17] d     0 755
 	/home/User/testdir/biblio/biblio.dbf
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio/biblio.dbt
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio.odb
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/evolocal.odb
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
-[13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1995,52 +3386,52 @@ myClient
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[14] p     0 644
-[12] -
+[16] p     0 644
+[14] -
 [ 1] p     0 644
 
 Journal:
 myClient
 	/home/User/docbook-xml
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.0
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.0/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.1.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.1.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.3
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.3/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.4
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.4/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat.old
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio
-[15] d     0 755
+[17] d     0 755
 	/home/User/testdir/biblio/biblio.dbf
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio/biblio.dbt
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio.odb
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/evolocal.odb
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 Same again: journal and list left untouched
  -> Database open in read/write mode
@@ -2062,9 +3453,18 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.2
  -> Dir docbook-xml/4.3
  -> Dir docbook-xml/4.4
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
+ -> Dir svn/.svn
+ -> Dir svn/dirbad
+Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
  -> Dir testdir/biblio
-Parsed 38 file(s)
+Parsed 44 file(s)
  -> Journal is empty, not merging
  -> Database closed
 
@@ -2104,16 +3504,16 @@ myClient
 [ 9] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
+[12] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
+[12] -
 [ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
@@ -2122,12 +3522,12 @@ myClient
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
-[11] -
+[12] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filemod.o
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filenew.c
-[14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[16] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/fileoth
 [ 9] -
@@ -2139,35 +3539,35 @@ myClient
 	/home/User/dir space/file space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.0
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.0/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.1.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.1.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.3
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.3/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.4
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.4/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat.old
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdir
 [ 6] -
 [ 1] d     0 755
@@ -2184,22 +3584,82 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[11] -
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[11] -
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[11] -
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[11] -
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[13] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testdir/biblio
-[15] d     0 755
+[17] d     0 755
 	/home/User/testdir/biblio/biblio.dbf
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio/biblio.dbt
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio.odb
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/evolocal.odb
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
-[13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2208,52 +3668,52 @@ myClient
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[14] p     0 644
-[12] -
+[16] p     0 644
+[14] -
 [ 1] p     0 644
 
 Journal:
 myClient
 	/home/User/docbook-xml
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.0
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.0/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.1.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.1.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.3
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.3/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.4
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.4/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat.old
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio
-[15] d     0 755
+[17] d     0 755
 	/home/User/testdir/biblio/biblio.dbf
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio/biblio.dbt
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio.odb
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/evolocal.odb
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 List recovery after crash
  -> Database open in read/write mode
@@ -2287,6 +3747,15 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.2
  -> Dir docbook-xml/4.3
  -> Dir docbook-xml/4.4
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
+ -> Dir svn/.svn
+ -> Dir svn/dirbad
+Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/test space (0 B)
 D /home/User/testdir
 D /home/User/testdir/biblio
@@ -2294,7 +3763,7 @@ D /home/User/testdir/biblio/biblio.dbf
 D /home/User/testdir/biblio/biblio.dbt
 D /home/User/testdir/biblio.odb
 D /home/User/testdir/evolocal.odb
-Parsed 34 file(s)
+Parsed 40 file(s)
  -> Database closed
 
 List:
@@ -2333,16 +3802,16 @@ myClient
 [ 9] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
+[12] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
+[12] -
 [ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
@@ -2351,12 +3820,12 @@ myClient
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
-[11] -
+[12] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filemod.o
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filenew.c
-[14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[16] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/fileoth
 [ 9] -
@@ -2368,35 +3837,35 @@ myClient
 	/home/User/dir space/file space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.0
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.0/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.1.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.1.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.3
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.3/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.4
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.4/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat.old
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdir
 [ 6] -
 [ 1] d     0 755
@@ -2413,22 +3882,82 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[11] -
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[11] -
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[11] -
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[11] -
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[13] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testdir/biblio
-[15] d     0 755
+[17] d     0 755
 	/home/User/testdir/biblio/biblio.dbf
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio/biblio.dbt
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio.odb
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/evolocal.odb
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
-[13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2437,39 +3966,39 @@ myClient
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[14] p     0 644
-[12] -
+[16] p     0 644
+[14] -
 [ 1] p     0 644
 
 Journal:
 hisClient
 	/home/User/testdir
-[17] d     0 755
+[19] d     0 755
 	/home/User/testfile
-[17] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 	/home/User/testfile2
-[17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
-[17] f 524288 644 59071590099d21dd439896592338bf95-0
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/crash
-[17] d     0 755
+[19] d     0 755
 	/home/User/crash/file
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
-[17] -
+[19] -
 	/home/User/testdir/biblio
-[17] -
+[19] -
 	/home/User/testdir/biblio/biblio.dbf
-[17] -
+[19] -
 	/home/User/testdir/biblio/biblio.dbt
-[17] -
+[19] -
 	/home/User/testdir/biblio.odb
-[17] -
+[19] -
 	/home/User/testdir/evolocal.odb
-[17] -
+[19] -
 Backup was interrupted in a previous run, finishing up...
 Unexpected end of journal, line 29
  -> Database open in read/write mode
@@ -2477,20 +4006,20 @@ Unexpected end of journal, line 29
 List:
 hisClient
 	/home/User/testdir
-[17] d     0 755
+[19] d     0 755
 	/home/User/testfile
-[17] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 	/home/User/testfile2
-[17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
-[17] f 524288 644 59071590099d21dd439896592338bf95-0
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/crash
-[17] d     0 755
+[19] d     0 755
 	/home/User/crash/file
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -2523,16 +4052,16 @@ myClient
 [ 9] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
+[12] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
+[12] -
 [ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
@@ -2541,12 +4070,12 @@ myClient
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
-[11] -
+[12] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filemod.o
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filenew.c
-[14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[16] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/fileoth
 [ 9] -
@@ -2558,35 +4087,35 @@ myClient
 	/home/User/dir space/file space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.0
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.0/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.1.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.1.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.3
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.3/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.4
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.4/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat.old
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdir
 [ 6] -
 [ 1] d     0 755
@@ -2603,29 +4132,89 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[11] -
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[11] -
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[11] -
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[11] -
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[13] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
-[17] -
+[19] -
 [ 1] d     0 755
 	/home/User/testdir/biblio
-[17] -
-[15] d     0 755
+[19] -
+[17] d     0 755
 	/home/User/testdir/biblio/biblio.dbf
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio/biblio.dbt
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio.odb
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/evolocal.odb
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
-[13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2634,39 +4223,39 @@ myClient
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[14] p     0 644
-[12] -
+[16] p     0 644
+[14] -
 [ 1] p     0 644
 
 Journal:
 hisClient
 	/home/User/testdir
-[17] d     0 755
+[19] d     0 755
 	/home/User/testfile
-[17] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 	/home/User/testfile2
-[17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
-[17] f 524288 644 59071590099d21dd439896592338bf95-0
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/crash
-[17] d     0 755
+[19] d     0 755
 	/home/User/crash/file
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
-[17] -
+[19] -
 	/home/User/testdir/biblio
-[17] -
+[19] -
 	/home/User/testdir/biblio/biblio.dbf
-[17] -
+[19] -
 	/home/User/testdir/biblio/biblio.dbt
-[17] -
+[19] -
 	/home/User/testdir/biblio.odb
-[17] -
+[19] -
 	/home/User/testdir/evolocal.odb
-[17] -
+[19] -
  -> Journal is empty, not merging
  -> Database closed
  -> Database open in read/write mode
@@ -2694,27 +4283,36 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.2
  -> Dir docbook-xml/4.3
  -> Dir docbook-xml/4.4
-Parsed 34 file(s)
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
+ -> Dir svn/.svn
+ -> Dir svn/dirbad
+Directory should be under Subversion control: test1/svn/dirbad
+Parsed 40 file(s)
  -> Journal is empty, not merging
  -> Database closed
 
 List:
 hisClient
 	/home/User/testdir
-[17] d     0 755
+[19] d     0 755
 	/home/User/testfile
-[17] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 	/home/User/testfile2
-[17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
-[17] f 524288 644 59071590099d21dd439896592338bf95-0
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/crash
-[17] d     0 755
+[19] d     0 755
 	/home/User/crash/file
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -2747,16 +4345,16 @@ myClient
 [ 9] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
+[12] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
+[12] -
 [ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
@@ -2765,12 +4363,12 @@ myClient
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
-[11] -
+[12] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filemod.o
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filenew.c
-[14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[16] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/fileoth
 [ 9] -
@@ -2782,35 +4380,35 @@ myClient
 	/home/User/dir space/file space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.0
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.0/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.1.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.1.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.3
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.3/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.4
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.4/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat.old
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdir
 [ 6] -
 [ 1] d     0 755
@@ -2827,29 +4425,89 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[11] -
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[11] -
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[11] -
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[11] -
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[13] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
-[17] -
+[19] -
 [ 1] d     0 755
 	/home/User/testdir/biblio
-[17] -
-[15] d     0 755
+[19] -
+[17] d     0 755
 	/home/User/testdir/biblio/biblio.dbf
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio/biblio.dbt
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio.odb
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/evolocal.odb
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
-[13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2858,39 +4516,39 @@ myClient
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[14] p     0 644
-[12] -
+[16] p     0 644
+[14] -
 [ 1] p     0 644
 
 Journal:
 hisClient
 	/home/User/testdir
-[17] d     0 755
+[19] d     0 755
 	/home/User/testfile
-[17] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 	/home/User/testfile2
-[17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
-[17] f 524288 644 59071590099d21dd439896592338bf95-0
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/crash
-[17] d     0 755
+[19] d     0 755
 	/home/User/crash/file
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
-[17] -
+[19] -
 	/home/User/testdir/biblio
-[17] -
+[19] -
 	/home/User/testdir/biblio/biblio.dbf
-[17] -
+[19] -
 	/home/User/testdir/biblio/biblio.dbt
-[17] -
+[19] -
 	/home/User/testdir/biblio.odb
-[17] -
+[19] -
 	/home/User/testdir/evolocal.odb
-[17] -
+[19] -
 
 Same again
  -> Database open in read/write mode
@@ -2902,20 +4560,20 @@ Parsed 4 file(s)
 List:
 hisClient
 	/home/User/testdir
-[17] d     0 755
+[19] d     0 755
 	/home/User/testfile
-[17] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 	/home/User/testfile2
-[17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
-[17] f 524288 644 59071590099d21dd439896592338bf95-0
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/crash
-[17] d     0 755
+[19] d     0 755
 	/home/User/crash/file
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -2948,16 +4606,16 @@ myClient
 [ 9] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS
-[11] -
+[12] -
 [ 1] d     0 755
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
+[12] -
 [ 1] f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
+[12] -
 [ 1] f    10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
@@ -2966,12 +4624,12 @@ myClient
 [ 9] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/dirutd/fileutd
-[11] -
+[12] -
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filemod.o
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filenew.c
-[14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[16] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/fileoth
 [ 9] -
@@ -2983,35 +4641,35 @@ myClient
 	/home/User/dir space/file space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.0
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.0/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.1.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.1.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.3
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.3/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.4
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.4/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat.old
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdir
 [ 6] -
 [ 1] d     0 755
@@ -3028,29 +4686,89 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+[ 1] f    18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
+	/home/User/svn/.svn/whatever
+[11] -
+[ 1] f    15 644 06f05055bfb2c8b900459f45826fc8ea-0
+	/home/User/svn/.svn/wherever
+[11] -
+[ 1] d     0 755
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirbad/fileutd
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/diroth
+[11] -
+[ 1] d     0 755
+	/home/User/svn/dirutd
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn
+[13] -
+[ 1] d     0 755
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+[ 1] f    30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
+	/home/User/svn/dirutd/.svn/format
+[11] -
+[ 1] f    12 644 60afe8c3ac66cb77a34da116394d9ac8-0
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+[ 1] f    10 644 3b9ddae5294c8f4850d45073a933f3e6-0
+	/home/User/svn/dirutd/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/dirutd/fileutd
+[13] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileutd.h
+[11] -
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
-[17] -
+[19] -
 [ 1] d     0 755
 	/home/User/testdir/biblio
-[17] -
-[15] d     0 755
+[19] -
+[17] d     0 755
 	/home/User/testdir/biblio/biblio.dbf
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio/biblio.dbt
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio.odb
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/evolocal.odb
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
-[13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3059,41 +4777,41 @@ myClient
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[14] p     0 644
-[12] -
+[16] p     0 644
+[14] -
 [ 1] p     0 644
 
 Journal:
 hisClient
 	/home/User/testdir
-[17] d     0 755
+[19] d     0 755
 	/home/User/testfile
-[17] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 	/home/User/testfile2
-[17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
-[17] f 524288 644 59071590099d21dd439896592338bf95-0
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/crash
-[17] d     0 755
+[19] d     0 755
 	/home/User/crash/file
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/test space
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
-[17] -
+[19] -
 	/home/User/testdir/biblio
-[17] -
+[19] -
 	/home/User/testdir/biblio/biblio.dbf
-[17] -
+[19] -
 	/home/User/testdir/biblio/biblio.dbt
-[17] -
+[19] -
 	/home/User/testdir/biblio.odb
-[17] -
+[19] -
 	/home/User/testdir/evolocal.odb
-[17] -
+[19] -
 
-Expiry delay: 18, date: 20
+Expiry delay: 18, date: 22
  -> Database open in read/write mode
  -> Dir crash
  -> Dir cvs
@@ -3114,11 +4832,26 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.2
  -> Dir docbook-xml/4.3
  -> Dir docbook-xml/4.4
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
+ -> Dir svn/.svn
+ -> Dir svn/dirbad
+Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile (13 B)
 Permission denied: test1/testfile
-Parsed 34 file(s)
+Parsed 40 file(s)
+ -> Removing data for 06f05055bfb2c8b900459f45826fc8ea-0: done
  -> Removing data for 285b35198a5e188b3a0df3ed33f93a26-0: ALREADY GONE!
+ -> Removing data for 3b9ddae5294c8f4850d45073a933f3e6-0: done
+ -> Removing data for 3cd6b399f9fa49fd0b137a3de46d83f5-0: done
  -> Removing data for 5252f242d27b8c2c9fdbdcbb33545d07-0: done
+ -> Removing data for 60afe8c3ac66cb77a34da116394d9ac8-0: done
+ -> Removing data for 816df6f64deba63b029ca19d880ee10a-0: done
+ -> Removing data for 8bdef5751e46ed57d237cbe3f4a5061c-0: done
  -> Removing data for 9283e2c51868272850bd2d89b63c58e8-0: done
  -> Removing data for caecaacc7fdee8a7667d4f4f315858a9-0: done
  -> Removing data for eb75fb33b2019ef3c840eb5ccdc2e795-0: done
@@ -3128,20 +4861,20 @@ du: cannot access `test_db/data/trash/*': No such file or directory
 List:
 hisClient
 	/home/User/testdir
-[17] d     0 755
+[19] d     0 755
 	/home/User/testfile
-[17] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 	/home/User/testfile2
-[17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
-[17] f 524288 644 59071590099d21dd439896592338bf95-0
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/crash
-[17] d     0 755
+[19] d     0 755
 	/home/User/crash/file
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -3158,7 +4891,6 @@ myClient
 [ 9] -
 	/home/User/cvs/big_file
 [ 9] -
-[ 3] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/cvs/dirbad
 [ 1] d     0 755
 	/home/User/cvs/dirbad/fileoth
@@ -3168,23 +4900,23 @@ myClient
 	/home/User/cvs/diroth
 [ 9] -
 	/home/User/cvs/dirutd
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 	/home/User/cvs/dirutd/fileutd
-[11] -
+[12] -
 	/home/User/cvs/filemod.o
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filenew.c
-[14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[16] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 	/home/User/cvs/fileoth
 [ 9] -
 	/home/User/cvs/fileutd.h
@@ -3194,35 +4926,35 @@ myClient
 	/home/User/dir space/file space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.0
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.0/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.1.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.1.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.3
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.3/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.4
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.4/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat.old
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdir
 [ 6] -
 	/home/User/subdir/testfile
@@ -3235,41 +4967,85 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+	/home/User/svn/.svn/whatever
+[11] -
+	/home/User/svn/.svn/wherever
+[11] -
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+	/home/User/svn/dirbad/fileutd
+[11] -
+	/home/User/svn/diroth
+[11] -
+	/home/User/svn/dirutd
+[13] -
+	/home/User/svn/dirutd/.svn
+[13] -
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+	/home/User/svn/dirutd/.svn/format
+[11] -
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+	/home/User/svn/dirutd/fileoth
+[11] -
+	/home/User/svn/dirutd/fileutd
+[13] -
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+	/home/User/svn/fileutd.h
+[11] -
 	/home/User/test space
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
-[17] -
+[19] -
 	/home/User/testdir/biblio
-[17] -
-[15] d     0 755
+[19] -
+[17] d     0 755
 	/home/User/testdir/biblio/biblio.dbf
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio/biblio.dbt
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/biblio.odb
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir/evolocal.odb
-[17] -
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] -
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
-[20] f    13 000 
-[13] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[22] f    13 000 
+[15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
 [ 8] -
 [ 7] l     8 777 testnull
 	/home/User/testpipe
-[14] p     0 644
-[12] -
+[16] p     0 644
+[14] -
 
 Journal:
 myClient
 	/home/User/testfile
-[20] f    13 000 
+[22] f    13 000 
 
 Prevent data dir from being removed
  -> Database open in read/write mode
@@ -3292,31 +5068,39 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.2
  -> Dir docbook-xml/4.3
  -> Dir docbook-xml/4.4
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
+ -> Dir svn/.svn
+ -> Dir svn/dirbad
+Directory should be under Subversion control: test1/svn/dirbad
 D /home/User/testfile
 M /home/User/testfile~ (0 B)
-Parsed 33 file(s)
+Parsed 39 file(s)
  -> Removing data for 59ca0efa9f5633cb0371bbc0355478d8-0: DATA GONE!
- -> Removing data for 816df6f64deba63b029ca19d880ee10a-0: done
  -> Database closed
-512000	test_db/data/trash/816df6f64deba63b029ca19d880ee10a-0
+du: cannot access `test_db/data/trash/*': No such file or directory
 
 List:
 hisClient
 	/home/User/testdir
-[17] d     0 755
+[19] d     0 755
 	/home/User/testfile
-[17] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 	/home/User/testfile2
-[17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
-[17] f 524288 644 59071590099d21dd439896592338bf95-0
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/crash
-[17] d     0 755
+[19] d     0 755
 	/home/User/crash/file
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -3342,23 +5126,23 @@ myClient
 	/home/User/cvs/diroth
 [ 9] -
 	/home/User/cvs/dirutd
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 	/home/User/cvs/dirutd/fileutd
-[11] -
+[12] -
 	/home/User/cvs/filemod.o
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filenew.c
-[14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[16] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 	/home/User/cvs/fileoth
 [ 9] -
 	/home/User/cvs/fileutd.h
@@ -3368,35 +5152,35 @@ myClient
 	/home/User/dir space/file space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.0
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.0/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.1.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.1.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.3
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.3/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.4
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.4/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat.old
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdir
 [ 6] -
 	/home/User/subdir/testfile
@@ -3409,37 +5193,81 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+	/home/User/svn/.svn/whatever
+[11] -
+	/home/User/svn/.svn/wherever
+[11] -
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+	/home/User/svn/dirbad/fileutd
+[11] -
+	/home/User/svn/diroth
+[11] -
+	/home/User/svn/dirutd
+[13] -
+	/home/User/svn/dirutd/.svn
+[13] -
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+	/home/User/svn/dirutd/.svn/format
+[11] -
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+	/home/User/svn/dirutd/fileoth
+[11] -
+	/home/User/svn/dirutd/fileutd
+[13] -
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+	/home/User/svn/fileutd.h
+[11] -
 	/home/User/test space
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
-[17] -
+[19] -
 	/home/User/testdir/biblio
-[17] -
+[19] -
 	/home/User/testdir/biblio/biblio.dbf
-[17] -
+[19] -
 	/home/User/testdir/biblio/biblio.dbt
-[17] -
+[19] -
 	/home/User/testdir/biblio.odb
-[17] -
+[19] -
 	/home/User/testdir/evolocal.odb
-[17] -
+[19] -
 	/home/User/testfile
-[21] -
-[20] f    13 000 
+[23] -
+[22] f    13 000 
 	/home/User/testfile~
-[21] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[23] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
 [ 8] -
 	/home/User/testpipe
-[14] p     0 644
+[16] p     0 644
 
 Journal:
 myClient
 	/home/User/testfile
-[21] -
+[23] -
 	/home/User/testfile~
-[21] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[23] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 Add one file
  -> Database open in read/write mode
@@ -3462,29 +5290,37 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir docbook-xml/4.2
  -> Dir docbook-xml/4.3
  -> Dir docbook-xml/4.4
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
+ -> Dir svn/.svn
+ -> Dir svn/dirbad
+Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile~ (5 B)
-Parsed 33 file(s)
-Removed from trash: test_db/data/trash/816df6f64deba63b029ca19d880ee10a-0
+Parsed 39 file(s)
  -> Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
 List:
 hisClient
 	/home/User/testdir
-[17] d     0 755
+[19] d     0 755
 	/home/User/testfile
-[17] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 	/home/User/testfile2
-[17] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
-[17] f 524288 644 59071590099d21dd439896592338bf95-0
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/crash
-[17] d     0 755
+[19] d     0 755
 	/home/User/crash/file
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -3510,23 +5346,23 @@ myClient
 	/home/User/cvs/diroth
 [ 9] -
 	/home/User/cvs/dirutd
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS/Entries
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS/Root
-[11] -
+[12] -
 	/home/User/cvs/dirutd/CVS/Whatever
 [ 9] -
 	/home/User/cvs/dirutd/fileoth
 [ 9] -
 	/home/User/cvs/dirutd/fileutd
-[11] -
+[12] -
 	/home/User/cvs/filemod.o
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/cvs/filenew.c
-[14] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[16] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 	/home/User/cvs/fileoth
 [ 9] -
 	/home/User/cvs/fileutd.h
@@ -3536,35 +5372,35 @@ myClient
 	/home/User/dir space/file space
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/3.1.7/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.0
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.0/dbgenent.ent
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.1.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.1.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.2
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.2/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.3
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.3/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml/4.4
-[15] d     0 755
+[17] d     0 755
 	/home/User/docbook-xml/4.4/dbgenent.mod
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/docbook-xml.cat.old
-[15] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdir
 [ 6] -
 	/home/User/subdir/testfile
@@ -3577,31 +5413,75 @@ myClient
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/subdirfile
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn
+[ 1] d     0 755
+	/home/User/svn/.svn
+[ 1] d     0 755
+	/home/User/svn/.svn/entries
+[ 1] f    77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
+	/home/User/svn/.svn/format
+[11] -
+	/home/User/svn/.svn/whatever
+[11] -
+	/home/User/svn/.svn/wherever
+[11] -
+	/home/User/svn/.svn/wherever/whichever
+[11] -
+	/home/User/svn/dirbad
+[ 1] d     0 755
+	/home/User/svn/dirbad/fileoth
+[11] -
+	/home/User/svn/dirbad/fileutd
+[11] -
+	/home/User/svn/diroth
+[11] -
+	/home/User/svn/dirutd
+[13] -
+	/home/User/svn/dirutd/.svn
+[13] -
+	/home/User/svn/dirutd/.svn/entries
+[13] -
+	/home/User/svn/dirutd/.svn/format
+[11] -
+	/home/User/svn/dirutd/.svn/whatever
+[11] -
+	/home/User/svn/dirutd/fileoth
+[11] -
+	/home/User/svn/dirutd/fileutd
+[13] -
+	/home/User/svn/filemod.o
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/filenew.c
+[ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/svn/fileoth
+[11] -
+	/home/User/svn/fileutd.h
+[11] -
 	/home/User/test space
-[17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[19] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testdir
-[17] -
+[19] -
 	/home/User/testdir/biblio
-[17] -
+[19] -
 	/home/User/testdir/biblio/biblio.dbf
-[17] -
+[19] -
 	/home/User/testdir/biblio/biblio.dbt
-[17] -
+[19] -
 	/home/User/testdir/biblio.odb
-[17] -
+[19] -
 	/home/User/testdir/evolocal.odb
-[17] -
+[19] -
 	/home/User/testfile
-[21] -
+[23] -
 	/home/User/testfile~
-[22] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
-[21] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[24] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[23] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
 [ 8] -
 	/home/User/testpipe
-[14] p     0 644
+[16] p     0 644
 
 Journal:
 myClient
 	/home/User/testfile~
-[22] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[24] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0

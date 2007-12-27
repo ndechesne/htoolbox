@@ -75,19 +75,88 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) {
     char*   buffer = NULL;
     size_t  buflen = 0;
     ssize_t length;
-    while ((length = getline(&buffer, &buflen, fd)) != -1) {
-      // TODO: add to list of Nodes, with some status
+    while ((length = getline(&buffer, &buflen, fd)) >= 0) {
+      if (length == 0) {
+        continue;
+      }
+      buffer[length - 1] = '\0';
+      char type;
+      switch (buffer[0]) {
+        case ' ': // controlled
+          continue;
+        case 'D': // deleted
+          type = 'd';
+          break;
+        case 'I': // ignored
+          type = 'i';
+          break;
+        case '?': // other
+          type = 'o';
+          break;
+        case 'A': // added
+        default:  // modified/conflict/etc... => controlled and not up-to-date
+          type = 'm';
+      }
+      // Add to list of Nodes, with status
+      _files.push_back(Node(&buffer[7], type, 0, 0, 0, 0, 0));
       if (verbosity() > 1) {
-        cout << " --> " << buffer[0] << ": " << &buffer[7] << endl;
+        cout << " --> " << _files.back().type() << ": " << _files.back().name()
+          << endl;
       }
     }
     pclose(fd);
+    _files.sort();
   }
 }
 
 bool SvnParser::ignore(const Node& node) {
-  // TODO: implement it!
-  return false;
+  // Do not ignore control directory
+  if ((node.type() == 'd') && (strcmp(node.name(), &control_dir[1]) == 0)) {
+    return false;
+  }
+
+  // Look for match in list
+  bool file_controlled = true;
+  bool file_modified   = false;
+  for (_i = _files.begin(); _i != _files.end(); _i++) {
+    // Find file
+    if (! strcmp(_i->name(), node.name())) {
+      if (_i->type() == 'm') {
+        file_modified   = true;
+      } else {
+        file_controlled = false;
+      }
+      break;
+    }
+  }
+
+  // Deal with result
+  switch (_mode) {
+    case Parser::controlled:
+      if (file_controlled) {
+        return false;
+      }
+      break;
+    case Parser::modified:
+      // DIrectories under control are treated as modified
+      if (file_modified || (file_controlled && (node.type() == 'd'))) {
+        return false;
+      }
+      break;
+    case Parser::modifiedandothers:
+      if (file_modified || ! file_controlled) {
+        return false;
+      }
+      break;
+    case Parser::others:
+      if (! file_controlled) {
+        return false;
+      }
+      break;
+    default:
+      return false;
+  }
+  return true;
 }
 
 string SvnControlParser::name() const {

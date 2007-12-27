@@ -31,6 +31,7 @@ using namespace std;
 #include "filters.h"
 #include "parsers.h"
 #include "cvs_parser.h"
+#include "svn_parser.h"
 #include "list.h"
 #include "db.h"
 #include "paths.h"
@@ -267,8 +268,12 @@ int Path::addParser(
   /* Add specified parser */
   if (type == "cvs") {
     _parsers.push_back(new CvsParser(mode));
-  } else {
-    cerr << "Unsupported parser " << string << endl;
+  } else
+  if (type == "svn") {
+    _parsers.push_back(new SvnParser(mode));
+  } else
+  {
+    cerr << "Unsupported parser " << type << endl;
     return 2;
   }
   return 0;

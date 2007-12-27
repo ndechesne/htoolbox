@@ -84,6 +84,40 @@ echo "Some other thing" > "$CVSDIR/CVS/Whatever"
 mkdir "$CVSDIR/CVS/Wherever"
 touch "$CVSDIR/CVS/Wherever/Whichever"
 
+# Subversion test
+SVNDIR="$TESTDIR/svn"
+mkdir "$SVNDIR"
+touch "$SVNDIR/filemod.o"
+touch "$SVNDIR/filenew.c"
+touch "$SVNDIR/fileoth"
+touch -d "Wed Oct  4 18:04:40 UTC 2006" "$SVNDIR/fileutd.h"
+mkdir "$SVNDIR/dirbad"
+touch "$SVNDIR/dirbad/fileoth"
+touch "$SVNDIR/dirbad/fileutd"
+mkdir "$SVNDIR/diroth"
+mkdir "$SVNDIR/dirutd"
+touch "$SVNDIR/dirutd/fileoth"
+touch "$SVNDIR/dirutd/fileutd"
+mkdir "$SVNDIR/dirutd/.svn"
+cat << EOF > "$SVNDIR/dirutd/.svn/entries"
+C      fileutd
+?      fileoth
+EOF
+echo "Some format" > "$SVNDIR/dirutd/.svn/format"
+echo "Something" > "$SVNDIR/dirutd/.svn/whatever"
+mkdir "$SVNDIR/.svn"
+cat << EOF > "$SVNDIR/.svn/entries"
+A      filenew.c
+M      filemod.o
+I      fileoth
+ M     dirbad
+?      diroth
+EOF
+echo "Some other format" > "$SVNDIR/.svn/format"
+echo "Someotherthing" > "$SVNDIR/.svn/whatever"
+mkdir "$SVNDIR/.svn/wherever"
+touch "$SVNDIR/.svn/wherever/whichever"
+
 # Multiple backup
 mkdir "$TESTDIR2"
 mkdir "$TESTDIR2/testdir"

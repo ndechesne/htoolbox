@@ -8,11 +8,11 @@ test1 will be ignored
  --> d dirbad 0
  --> d dirutd 0
 List: 5 file(s)
--> filenew.c (0)
--> filemod.o (1159806431)
--> fileutd.h (1159985080)
 -> dirbad (D)
 -> dirutd (D)
+-> filemod.o (1159806431)
+-> filenew.c (0)
+-> fileutd.h (1159985080)
 test1/cvs/nofile will be ignored
 test1/cvs/fileoth will be ignored
 test1/cvs/diroth will be ignored
@@ -35,11 +35,11 @@ test1 will be ignored
  --> d dirbad 0
  --> d dirutd 0
 List: 5 file(s)
--> filenew.c (0)
--> filemod.o (1159806431)
--> fileutd.h (1159985080)
 -> dirbad (D)
 -> dirutd (D)
+-> filemod.o (1159806431)
+-> filenew.c (0)
+-> fileutd.h (1159985080)
 test1/cvs/nofile will be ignored
 test1/cvs/fileutd.h will be ignored
 test1/cvs/fileoth will be ignored
@@ -63,11 +63,11 @@ test1 will be ignored
  --> d dirbad 0
  --> d dirutd 0
 List: 5 file(s)
--> filenew.c (0)
--> filemod.o (1159806431)
--> fileutd.h (1159985080)
 -> dirbad (D)
 -> dirutd (D)
+-> filemod.o (1159806431)
+-> filenew.c (0)
+-> fileutd.h (1159985080)
 test1/cvs/fileutd.h will be ignored
 test1/cvs/CVS/Whatever will be ignored
 Directory should be under CVS control: test1/cvs/diroth
@@ -87,11 +87,11 @@ test1 will be ignored
  --> d dirbad 0
  --> d dirutd 0
 List: 5 file(s)
--> filenew.c (0)
--> filemod.o (1159806431)
--> fileutd.h (1159985080)
 -> dirbad (D)
 -> dirutd (D)
+-> filemod.o (1159806431)
+-> filenew.c (0)
+-> fileutd.h (1159985080)
 test1/cvs/filenew.c will be ignored
 test1/cvs/filemod.o will be ignored
 test1/cvs/fileutd.h will be ignored
