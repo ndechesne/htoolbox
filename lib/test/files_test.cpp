@@ -148,6 +148,9 @@ static void showList(const Directory* d, int level) {
   ++level;
   list<Node*>::const_iterator i;
   for (i = d->nodesListConst().begin(); i != d->nodesListConst().end(); i++) {
+    if (! strcmp((*i)->name(), "cvs")) continue;
+    if (! strcmp((*i)->name(), "svn")) continue;
+    if (! strcmp((*i)->name(), "bzr")) continue;
     showFile(*i, level);
   }
 }

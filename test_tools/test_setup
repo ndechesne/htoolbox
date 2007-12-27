@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Set mask
 umask 0022
@@ -9,7 +9,7 @@ TESTDIR="test1"
 TESTDIR2="test2"
 TESTDIRCIFS="test_cifs"
 TESTDIRNFS="test_nfs"
-TESTDIRUSER="test_user"
+export TESTDIRUSER="test_user"
 TESTDBDIR="test_db"
 TESTRESTORE="test_r"
 
@@ -28,7 +28,7 @@ rm -rf "$TESTDIRNFS"
 rm -rf "$TESTDIRUSER"
 rm -rf "$TESTRESTORE"
 
-if [ "$1" == "clean" ]; then
+if [ "$1" = "clean" ]; then
   exit 0
 fi
 
@@ -90,7 +90,7 @@ mkdir "$SVNDIR"
 touch "$SVNDIR/filemod.o"
 touch "$SVNDIR/filenew.c"
 touch "$SVNDIR/fileoth"
-touch -d "Wed Oct  4 18:04:40 UTC 2006" "$SVNDIR/fileutd.h"
+touch "$SVNDIR/fileutd.h"
 mkdir "$SVNDIR/dirbad"
 touch "$SVNDIR/dirbad/fileoth"
 touch "$SVNDIR/dirbad/fileutd"
@@ -117,6 +117,34 @@ echo "Some other format" > "$SVNDIR/.svn/format"
 echo "Someotherthing" > "$SVNDIR/.svn/whatever"
 mkdir "$SVNDIR/.svn/wherever"
 touch "$SVNDIR/.svn/wherever/whichever"
+
+# Bazaar test
+BZRDIR="$TESTDIR/bzr"
+mkdir "$BZRDIR"
+touch "$BZRDIR/filemod.o"
+touch "$BZRDIR/filenew.c"
+touch "$BZRDIR/fileoth"
+touch "$BZRDIR/fileutd.h"
+mkdir "$BZRDIR/dirbad"
+touch "$BZRDIR/dirbad/fileoth"
+touch "$BZRDIR/dirbad/fileutd"
+mkdir "$BZRDIR/diroth"
+mkdir "$BZRDIR/dirutd"
+touch "$BZRDIR/dirutd/fileoth"
+touch "$BZRDIR/dirutd/fileutd"
+BZROLDDIR=`pwd`
+cd "$BZRDIR"
+bzr init
+bzr -q add filemod.o
+bzr -q add fileutd.h
+bzr -q add dirbad
+bzr -q add dirbad/fileutd
+bzr -q add dirutd
+bzr -q add dirutd/fileutd
+bzr -q commit -m "Initial import"
+bzr -q add filenew.c
+echo "bzr 1" > filemod.o
+cd "$BZROLDDIR"
 
 # Multiple backup
 mkdir "$TESTDIR2"
@@ -231,4 +259,5 @@ compress bigfile
 
 parser cvs controlled
 parser svn modified
+parser bzr modified
 EOF

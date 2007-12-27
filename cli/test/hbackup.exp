@@ -201,6 +201,23 @@ Backup client 'myhost' using protocol 'file'
  ---> condition filter backup
  ---> condition not filter not_object
 Backup path 'test1'
+A test1/bzr
+ -> Dir bzr
+A test1/bzr/.bzr
+ -> Dir bzr/.bzr
+A test1/bzr/dirbad
+ -> Dir bzr/dirbad
+A test1/bzr/dirbad/fileoth (0 B)
+A test1/bzr/dirbad/fileutd (0 B)
+A test1/bzr/diroth
+ -> Dir bzr/diroth
+A test1/bzr/dirutd
+ -> Dir bzr/dirutd
+A test1/bzr/dirutd/fileoth (0 B)
+A test1/bzr/dirutd/fileutd (0 B)
+A test1/bzr/filenew.c (0 B)
+A test1/bzr/fileoth (0 B)
+A test1/bzr/fileutd.h (0 B)
 A test1/cvs
  -> Dir cvs
  -> Parsing CVS entries
@@ -323,6 +340,11 @@ Backup client 'myhost' using protocol 'file'
  ---> condition filter backup
  ---> condition not filter not_object
 Backup path 'test1'
+ -> Dir bzr
+ -> Dir bzr/.bzr
+ -> Dir bzr/dirbad
+ -> Dir bzr/diroth
+ -> Dir bzr/dirutd
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -585,6 +607,18 @@ Restore all data in a prefix/dir path that's not by itself in DB
  ---> config file: C:\Backup\Backup.LST
 Restoring
  -> Database open in read-only mode
+U test_r/test1/bzr
+U test_r/test1/bzr/.bzr
+U test_r/test1/bzr/dirbad
+U test_r/test1/bzr/dirbad/fileoth
+U test_r/test1/bzr/dirbad/fileutd
+U test_r/test1/bzr/diroth
+U test_r/test1/bzr/dirutd
+U test_r/test1/bzr/dirutd/fileoth
+U test_r/test1/bzr/dirutd/fileutd
+U test_r/test1/bzr/filenew.c
+U test_r/test1/bzr/fileoth
+U test_r/test1/bzr/fileutd.h
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
@@ -667,6 +701,18 @@ Restore all data in a prefix
  ---> config file: C:\Backup\Backup.LST
 Restoring
  -> Database open in read-only mode
+U test_r/test1/bzr
+U test_r/test1/bzr/.bzr
+U test_r/test1/bzr/dirbad
+U test_r/test1/bzr/dirbad/fileoth
+U test_r/test1/bzr/dirbad/fileutd
+U test_r/test1/bzr/diroth
+U test_r/test1/bzr/dirutd
+U test_r/test1/bzr/dirutd/fileoth
+U test_r/test1/bzr/dirutd/fileutd
+U test_r/test1/bzr/filenew.c
+U test_r/test1/bzr/fileoth
+U test_r/test1/bzr/fileutd.h
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries

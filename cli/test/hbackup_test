@@ -7,17 +7,17 @@ output="$target".all
 
 # Set path to access test scripts in priority
 export PATH=../../test_tools:$PATH
-TESTDIRUSER="test_user"
-export HOME="$TESTDIRUSER"
 
 # Cleanup previous attempt, if any
 rm -f $output
 
 # Setup
-if ! test_setup; then
+TEST_SETUP=`which test_setup`
+if [ ! -r $TEST_SETUP ]; then
 	echo "Cannot setup test environment"
 	exit 1
 fi
+. $TEST_SETUP
 
 echo "Help" >> $output
 ../hbackup -h -- >> $output 2>&1
@@ -43,6 +43,7 @@ echo "Specify clients" >> $output
 ../hbackup -d -c etc/hbackup.conf -C myhost -C client >> $output 2>&1
 
 echo "User-mode backup" >> $output
+export HOME="$TESTDIRUSER"
 ../hbackup -du -c etc/hbackup.conf -- >> $output 2>&1
 
 echo "Scan DB" >> $output
