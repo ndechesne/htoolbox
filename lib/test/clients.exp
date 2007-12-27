@@ -206,38 +206,29 @@ A test1/dir space
 A test1/dir space/file space (0 B)
 A test1/svn
  -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
 A test1/svn/.svn
  -> Dir svn/.svn
 A test1/svn/.svn/entries (77 B)
 Adding compressed file data to DB in: test_db/data/0f2ea973d77135dc3d06c8e68da6dc59-0
-A test1/svn/.svn/format (18 B)
-Adding compressed file data to DB in: test_db/data/3cd6b399f9fa49fd0b137a3de46d83f5-0
-A test1/svn/.svn/whatever (15 B)
-Adding compressed file data to DB in: test_db/data/06f05055bfb2c8b900459f45826fc8ea-0
-A test1/svn/.svn/wherever
- -> Dir svn/.svn/wherever
-A test1/svn/.svn/wherever/whichever (0 B)
 A test1/svn/dirbad
  -> Dir svn/dirbad
-A test1/svn/dirbad/fileoth (0 B)
-A test1/svn/dirbad/fileutd (0 B)
-A test1/svn/diroth
- -> Dir svn/diroth
+Directory should be under Subversion control: test1/svn/dirbad
 A test1/svn/dirutd
  -> Dir svn/dirutd
+ -> Parsing Subversion entries
+ --> m: fileutd
+ --> o: fileoth
 A test1/svn/dirutd/.svn
  -> Dir svn/dirutd/.svn
 A test1/svn/dirutd/.svn/entries (30 B)
 Adding compressed file data to DB in: test_db/data/8bdef5751e46ed57d237cbe3f4a5061c-0
-A test1/svn/dirutd/.svn/format (12 B)
-Adding compressed file data to DB in: test_db/data/60afe8c3ac66cb77a34da116394d9ac8-0
-A test1/svn/dirutd/.svn/whatever (10 B)
-Adding compressed file data to DB in: test_db/data/3b9ddae5294c8f4850d45073a933f3e6-0
-A test1/svn/dirutd/fileoth (0 B)
 A test1/svn/dirutd/fileutd (0 B)
 A test1/svn/filenew.c (0 B)
-A test1/svn/fileoth (0 B)
-A test1/svn/fileutd.h (0 B)
 A test1/test space (0 B)
 A test1/testdir
  -> Dir testdir
@@ -295,11 +286,18 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
  -> Dir svn
+ -> Parsing Subversion entries
+ --> m: filenew.c
+ --> m: filemod.o
+ --> i: fileoth
+ --> o: diroth
  -> Dir svn/.svn
- -> Dir svn/.svn/wherever
  -> Dir svn/dirbad
- -> Dir svn/diroth
+Directory should be under Subversion control: test1/svn/dirbad
  -> Dir svn/dirutd
+ -> Parsing Subversion entries
+ --> m: fileutd
+ --> o: fileoth
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Backup path 'test2'
