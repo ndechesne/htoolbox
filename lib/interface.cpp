@@ -126,7 +126,7 @@ int HBackup::readConfig(const char* config_path) {
       list<string> params;
 
       line++;
-      if (Stream::decodeLine(buffer, params)) {
+      if (Stream::readConfigLine(buffer, params)) {
         errno = EUCLEAN;
         cerr << "Warning: in file " << config_path << ", line " << line
           << " missing single- or double-quote" << endl;

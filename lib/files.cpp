@@ -663,7 +663,7 @@ int Stream::compare(Stream& source, long long length) {
 }
 
 // Public functions
-int Stream::decodeLine(const string& line, list<string>& params) {
+int Stream::readConfigLine(const string& line, list<string>& params) {
   const char* read  = line.c_str();
   const char* end   = &read[line.size()];
   char* value       = NULL;

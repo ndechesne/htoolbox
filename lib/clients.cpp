@@ -159,7 +159,7 @@ int Client::readListFile(
       list<string> params;
 
       line++;
-      if (Stream::decodeLine(buffer, params)) {
+      if (Stream::readConfigLine(buffer, params)) {
         errno = EUCLEAN;
         cerr << "Warning: in client configuration file " << list_path
           << ", line " << line << " missing single- or double-quote,"

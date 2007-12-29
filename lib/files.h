@@ -297,7 +297,7 @@ public:
   // Compare two files
   int compare(Stream& source, long long length = -1);
   // Read parameters from line
-  static int decodeLine(const string& line, list<string>& params);
+  static int readConfigLine(const string& line, list<string>& params);
 };
 
 }
