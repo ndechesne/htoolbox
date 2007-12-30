@@ -16,7 +16,6 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <fstream>
 #include <iostream>
 #include <string>
 #include <list>
@@ -62,20 +61,20 @@ Parser *CvsParser::isControlled(const string& dir_path) const {
 }
 
 CvsParser::CvsParser(Mode mode, const string& dir_path) {
-  string    path = dir_path + control_dir + entries;
-  ifstream  entries_file(path.c_str());
+  string path = dir_path + control_dir + entries;
+  Stream entries_file(path.c_str());
 
   // Save mode
   _mode = mode;
 
   /* Fill in list of controlled files */
+  entries_file.open("r");
   if (verbosity() > 1) {
     cout << " -> Parsing CVS entries" << endl;
   }
-  int line_no = 0;
-  while (! entries_file.eof()) {
-    string  buffer;
-    getline(entries_file, buffer);
+  int    line_no = 0;
+  string buffer;
+  while (entries_file.getLine(buffer) > 0) {
     const char* reader = buffer.c_str();
     const char* pos;
 
@@ -88,7 +87,8 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
     char type;
     if (*reader == 'D') {
       reader++;
-      if (*reader == '\0') {
+      // End of line check should go once getLine is fixed
+      if ((*reader == '\0') || (*reader == '\n')) {
         // If a directory contains no subdirectories, the last line of the
         // entries file is a single 'D'
         continue;

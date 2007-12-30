@@ -17,7 +17,6 @@
 */
 
 #include <iostream>
-#include <fstream>
 #include <string>
 #include <list>
 #include <errno.h>
@@ -101,9 +100,9 @@ int HBackup::setUserPath(const char* home_path) {
 
 int HBackup::readConfig(const char* config_path) {
   /* Open configuration file */
-  ifstream config_file(config_path);
+  Stream config_file(config_path);
 
-  if (! config_file.is_open()) {
+  if (config_file.open("r")) {
     cerr << strerror(errno) << ": " << config_path << endl;
     return -1;
   } else {
@@ -117,9 +116,13 @@ int HBackup::readConfig(const char* config_path) {
 
     Client* client = NULL;
     Filter* filter = NULL;
-    while (! config_file.eof()) {
-      getline(config_file, buffer);
+    while (config_file.getLine(buffer) > 0) {
       unsigned int pos = buffer.find("\r");
+      if (pos != string::npos) {
+        buffer.erase(pos);
+      }
+      // Not a 'real' getLine
+      pos = buffer.find("\n");
       if (pos != string::npos) {
         buffer.erase(pos);
       }

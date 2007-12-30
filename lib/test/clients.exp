@@ -349,7 +349,7 @@ Backup client 'testhost' using protocol 'file'
  ---> condition filter backup
  ---> condition not filter not_object
  --> Path: test1/subdir
-Path inside another. This is not supported yet
+Path inside another. This is not supported
  -> Journal is empty, not merging
  -> Database closed
  --> Client: testhost

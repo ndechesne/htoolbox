@@ -16,7 +16,6 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <fstream>
 #include <iostream>
 #include <list>
 #include <string>
@@ -136,11 +135,11 @@ int Client::readListFile(
   int     failed  = 0;
 
   // Open client configuration file
-  ifstream list_file(list_path.c_str());
+  Stream list_file(list_path.c_str());
 
   // Open client configuration file
-  if (! list_file.is_open()) {
-//     cerr << "Client configuration file not found " << list_path << endl;
+  if (list_file.open("r")) {
+    cerr << "Client configuration file not found " << list_path << endl;
     failed = 2;
   } else {
     if (verbosity() > 1) {
@@ -150,9 +149,13 @@ int Client::readListFile(
     // Read client configuration file
     Path*   path   = NULL;
     Filter* filter = NULL;
-    while (! list_file.eof() && ! failed) {
-      getline(list_file, buffer);
+    while ((list_file.getLine(buffer) > 0) && ! failed) {
       unsigned int pos = buffer.find("\r");
+      if (pos != string::npos) {
+        buffer.erase(pos);
+      }
+      // Not a 'real' getLine
+      pos = buffer.find("\n");
       if (pos != string::npos) {
         buffer.erase(pos);
       }
@@ -223,8 +226,8 @@ int Client::readListFile(
               int ilen = strlen((*i)->path());
               if ((ilen > jlen)
                && (pathCompare((*i)->path(), (*j)->path(), jlen) == 0)) {
-                cout << "Path inside another: this is not supported"
-                  << endl;
+                errno = EUCLEAN;
+                cout << "Path inside another: this is not supported" << endl;
                 failed = 1;
               }
               i = j;
@@ -234,8 +237,8 @@ int Client::readListFile(
               int ilen = strlen((*i)->path());
               if ((ilen < jlen)
                && (pathCompare((*i)->path(), (*j)->path(), ilen) == 0)) {
-                cout << "Path inside another. This is not supported yet"
-                  << endl;
+                errno = EUCLEAN;
+                cout << "Path inside another. This is not supported" << endl;
                 failed = 1;
               }
             }
@@ -545,14 +548,6 @@ int Client::backup(
       }
     }
   } else {
-    // errno set by functions called
-    switch (errno) {
-      case ENOENT:
-        cerr << "Client configuration file not found " << list_path << endl;
-        break;
-      case EUCLEAN:
-        cerr << "Client configuration file corrupted " << list_path << endl;
-    }
     failed = true;
   }
   umount(); // does not change errno
