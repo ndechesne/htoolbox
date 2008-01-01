@@ -98,8 +98,8 @@ static void showList(List& slist) {
 
 int main(void) {
   umask(0022);
-  Path* path = new Path("/home/User");
-  Database  db("test_db");
+  ClientPath* path = new ClientPath("/home/User");
+  Database    db("test_db");
   // Journal
   List    real_journal("test_db", "journal");
   List    journal("test_db", "journal~");

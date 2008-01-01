@@ -40,7 +40,7 @@ using namespace std;
 
 using namespace hbackup;
 
-int Path::recurse(
+int ClientPath::recurse(
     Database&       db,
     const char*     remote_path,
     Directory*      dir,
@@ -222,7 +222,7 @@ end:
   return 0;
 }
 
-Path::Path(const char* path) {
+ClientPath::ClientPath(const char* path) {
   _dir                = NULL;
   _ignore             = NULL;
   _compress           = NULL;
@@ -234,11 +234,11 @@ Path::Path(const char* path) {
   _path.noEndingSlash();
 }
 
-Path::~Path() {
+ClientPath::~ClientPath() {
   delete _dir;
 }
 
-int Path::addParser(
+int ClientPath::addParser(
     const string&   type,
     const string&   string) {
   Parser::Mode mode;
@@ -283,7 +283,7 @@ int Path::addParser(
   return 0;
 }
 
-Filter* Path::findFilter(
+Filter* ClientPath::findFilter(
     const string&   name,
     const Filters*  local,
     const Filters*  global) const {
@@ -297,7 +297,7 @@ Filter* Path::findFilter(
   return filter;
 }
 
-int Path::parse(
+int ClientPath::parse(
     Database&       db,
     const char*     backup_path) {
   int rc = 0;

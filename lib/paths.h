@@ -21,7 +21,7 @@
 
 namespace hbackup {
 
-class Path {
+class ClientPath {
   StrPath           _path;
   Directory*        _dir;
   Parsers           _parsers;
@@ -35,8 +35,8 @@ class Path {
     Directory*      dir,
     Parser*         parser);
 public:
-  Path(const char* path);
-  ~Path();
+  ClientPath(const char* path);
+  ~ClientPath();
   const char* path() const     { return _path.c_str(); }
   const Directory* dir() const { return _dir;          }
   int nodes() const            { return _nodes;        }
