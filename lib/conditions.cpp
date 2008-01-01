@@ -22,7 +22,6 @@
 
 using namespace std;
 
-#include "strings.h"
 #include "files.h"
 #include "conditions.h"
 #include "filters.h"

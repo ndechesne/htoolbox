@@ -42,7 +42,7 @@ class Client {
   Private*          _d;
   string            _name;
   string            _host_or_ip;
-  StrPath           _listfile;
+  char*             _list_file;
   string            _protocol;
   list<Option>      _options;
   //

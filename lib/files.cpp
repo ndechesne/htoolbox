@@ -56,6 +56,140 @@ using namespace std;
 
 using namespace hbackup;
 
+const char* Path::operator=(const char* path) {
+  if (_path != NULL) {
+    free(_path);
+  }
+  _path = strdup(path);
+  _length = strlen(_path);
+  return _path;
+}
+
+char* Path::path(const char* dir_path, const char* name) {
+  char* full_path = NULL;
+  if (dir_path[0] == '\0') {
+    full_path = strdup(name);
+  } else if (name[0] == '\0') {
+    full_path = strdup(dir_path);
+  } else {
+    asprintf(&full_path, "%s/%s", dir_path, name);
+  }
+  return full_path;
+}
+
+const char* Path::basename(const char* path) {
+  const char* name = strrchr(path, '/');
+  if (name != NULL) {
+    name++;
+  } else {
+    name = path;
+  }
+  return name;
+}
+
+char* Path::dirname(const char* path) {
+  const char* end = strrchr(path, '/');
+  char*       dir;
+  if (end == NULL) {
+    dir = strdup(".");
+  } else {
+    int length = end - path;
+    dir = (char*) malloc(length + 1);
+    strncpy(dir, path, length);
+    dir[length] = '\0';
+  }
+  return dir;
+}
+
+char* Path::fromDos(const char* dos_path) {
+  char* unix_path = strdup(dos_path);
+  int   length    = strlen(dos_path);
+  if (length > 0) {
+    int         count  = length;
+    bool        proven = false;
+    const char* reader = dos_path;
+    char*       writer = unix_path;
+    while (count--) {
+      if (*reader == '\\') {
+        proven = true;
+        *writer = '/';
+      } else {
+        *writer = *reader;
+      }
+      reader++;
+      writer++;
+    }
+    // Upper case drive letter
+    if (proven && (length >= 2)) {
+      if ((dos_path[1] == ':') && (dos_path[2] == '\\')
+        && (dos_path[0] >= 'a') && (dos_path[0] <= 'z')) {
+        unix_path[0] -= 0x20;
+      }
+    }
+  }
+  return unix_path;
+}
+
+char* Path::noTrailingSlashes(char* dir_path) {
+  char* end = &dir_path[strlen(dir_path)];
+  while ((--end >= dir_path) && (*end == '/')) {
+    *end = '\0';
+  }
+  return dir_path;
+}
+
+int Path::compare(const char* s1, const char* s2, size_t length) {
+  while (true) {
+    if (length == 0) {
+      return 0;
+    }
+    if (*s1 == '\0') {
+      if (*s2 == '\0') {
+        return 0;
+      } else {
+        return -1;
+      }
+    } else {
+      if (*s2 == '\0') {
+        return 1;
+      } else {
+        if (*s1 == '/') {
+          if (*s2 == '/') {
+            s1++;
+            s2++;
+          } else {
+            if (*s2 < ' ') {
+              return 1;
+            } else {
+              return -1;
+            }
+          }
+        } else {
+          if (*s2 == '/') {
+            if (*s1 < ' ') {
+              return -1;
+            } else {
+              return 1;
+            }
+          } else {
+            if (*s1 < *s2) {
+              return -1;
+            } else if (*s1 > *s2) {
+              return 1;
+            } else {
+              s1++;
+              s2++;
+            }
+          }
+        }
+      }
+    }
+    if (length > 0) {
+      length--;
+    }
+  }
+}
+
 int Node::stat() {
   struct stat64 metadata;
   int rc = lstat64(_path, &metadata);

@@ -46,15 +46,15 @@ static bool cancel() {
 }
 
 struct Database::Private {
-  string                  path;
-  int                     expire;
-  list<string>            active_data;
-  list<string>            expired_data;
-  List*                   list;
-  List*                   journal;
-  List*                   merge;
-  StrPath                 client;
-  bool                    clientJournalled;
+  string            path;
+  int               expire;
+  list<string>      active_data;
+  list<string>      expired_data;
+  List*             list;
+  List*             journal;
+  List*             merge;
+  Path              client;
+  bool              clientJournalled;
 };
 
 typedef struct {

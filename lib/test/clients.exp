@@ -29,7 +29,7 @@ Client: myClient2
 -> smb://myClient C:/Backup/Backup.LST
 Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient C:/home/backup/Backup.list
+-> ssh://otherClient c:/home/backup/Backup.list
  --> Client: Client
 >List 4 client(s):
 Client: myClient
@@ -38,7 +38,7 @@ Client: myClient2
 -> smb://myClient C:/Backup/Backup.LST
 Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient C:/home/backup/Backup.list
+-> ssh://otherClient c:/home/backup/Backup.list
 Client: Client
 -> smb://Client C:/home/BlaH/Backup.list
 Options: username=user iocharset=utf8
@@ -50,7 +50,7 @@ Client: myClient2
 -> smb://myClient C:/Backup/Backup.LST
 Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient C:/home/backup/Backup.list
+-> ssh://otherClient c:/home/backup/Backup.list
 Client: Client
 -> smb://Client C:/home/BlaH/Backup.list
 Options: username=user iocharset=utf8
@@ -65,7 +65,7 @@ Client: myClient2
 -> smb://myClient C:/Backup/Backup.LST
 Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient C:/home/backup/Backup.list
+-> ssh://otherClient c:/home/backup/Backup.list
 Client: Client
 -> smb://Client C:/home/BlaH/Backup.list
 Options: username=user iocharset=utf8
@@ -83,7 +83,7 @@ Client: myClient2
 -> smb://myClient C:/Backup/Backup.LST
 Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient C:/home/backup/Backup.list
+-> ssh://otherClient c:/home/backup/Backup.list
 Client: Client
 -> smb://Client C:/home/BlaH/Backup.list
 Options: username=user iocharset=utf8

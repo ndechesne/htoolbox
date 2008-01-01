@@ -438,6 +438,7 @@ Client::Client(string value) {
   _d            = new Private;
   _name         = value;
   _host_or_ip   = _name;
+  _list_file    = NULL;
   _protocol     = "";
   _home_path    = "";
   _mount_point  = "";
@@ -451,6 +452,7 @@ Client::Client(string value) {
 }
 
 Client::~Client() {
+  free(_list_file);
   for (list<ClientPath*>::iterator i = _d->paths.begin(); i != _d->paths.end();
       i++) {
     delete *i;
@@ -478,8 +480,8 @@ void Client::setProtocol(string value) {
 }
 
 void Client::setListfile(const char* value) {
-  _listfile = value;
-  _listfile.toUnix();
+  _list_file = Path::fromDos(value);
+  _list_file = Path::noTrailingSlashes(_list_file);
 }
 
 int Client::backup(
@@ -489,8 +491,9 @@ int Client::backup(
   bool    failed = false;
   string  share;
   string  list_path;
+  char*   dir = Path::dirname(_list_file);
 
-  if (mountPath(_listfile.dirname().c_str(), &list_path)) {
+  if (mountPath(dir, &list_path)) {
     switch (errno) {
       case EPROTONOSUPPORT:
         cerr << "Protocol not supported: " << _protocol << endl;
@@ -504,10 +507,11 @@ int Client::backup(
         return 0;
     }
   }
+  free(dir);
   if (list_path.size() != 0) {
     list_path += "/";
   }
-  list_path += _listfile.basename().c_str();
+  list_path += Path::basename(_list_file);
 
   if ((_home_path.length() == 0) && (verbosity() > 0)) {
     cout << "Backup client '" << _name
@@ -556,8 +560,8 @@ int Client::backup(
 
 void Client::show() {
   cout << "Client: " << _name << endl;
-  cout << "-> " << _protocol << "://" << _host_or_ip << " "
-    << _listfile.c_str() << endl;
+  cout << "-> " << _protocol << "://" << _host_or_ip << " " << _list_file
+    << endl;
   if (_options.size() > 0) {
     cout << "Options:";
     for (list<Option>::iterator i = _options.begin(); i != _options.end();

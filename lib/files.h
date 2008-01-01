@@ -25,6 +25,33 @@ using namespace std;
 
 namespace hbackup {
 
+class Path {
+  char* _path;
+  int   _length;
+public:
+  Path() : _path(NULL), _length(0) {}
+  Path(const char* path) : _path(strdup(path)), _length(strlen(_path)) {}
+  ~Path() { free(_path); }
+  const char* operator=(const char* path);
+  const char* c_str() const { return _path; }
+  int length() const        { return _length; }
+  const char* noTrailingSlashes() {
+    noTrailingSlashes(_path);
+    _length = strlen(_path);
+    return _path;
+  }
+  int compare(const char* s, size_t length = -1) {
+    return compare(_path, s, length);
+  }
+  // Some generic methods
+  static char* path(const char* dir_path, const char* name);
+  static const char* basename(const char* path);
+  static char* dirname(const char* path);
+  static char* fromDos(const char* dos_path);
+  static char* noTrailingSlashes(char* dir_path);
+  static int compare(const char* s1, const char* s2, size_t length = -1);
+};
+
 class Node {
 protected:
   char*     _path;      // file path
@@ -35,15 +62,6 @@ protected:
   gid_t     _gid;       // group ID of owner
   mode_t    _mode;      // permissions
   bool      _parsed;    // more info available using proper type
-  const char* basename(const char* path) const {
-    const char* name = strrchr(path, '/');
-    if (name != NULL) {
-      name++;
-    } else {
-      name = path;
-    }
-    return name;
-  }
 public:
   // Default constructor
   Node(const Node& g) :
@@ -57,7 +75,7 @@ public:
         _parsed(false) {}
   // Constructor for path in the VFS
   Node(const char *dir, const char* name = "") :
-      _path(path(dir, name)),
+      _path(Path::path(dir, name)),
       _type('?'),
       _parsed(false) {}
   // Constructor for given file metadata
@@ -69,16 +87,14 @@ public:
       uid_t       uid,
       gid_t       gid,
       mode_t      mode) :
-        _path(NULL),
+        _path(strdup(path)),
         _type(type),
         _mtime(mtime),
         _size(size),
         _uid(uid),
         _gid(gid),
         _mode(mode),
-        _parsed(false) {
-    _path = strdup(path);
-  }
+        _parsed(false) {}
   virtual ~Node() {
     free(_path);
   }
@@ -90,7 +106,7 @@ public:
   // Operators
   bool operator<(const Node& right) const {
     // Only compare names
-    return pathCompare(_path, right._path) < 0;
+    return Path::compare(_path, right._path) < 0;
   }
   // Compares names and metadata, not paths
   virtual bool operator!=(const Node&) const;
@@ -107,17 +123,6 @@ public:
   bool          parsed()  const { return _parsed; }
   // Remove node
   int   remove();
-  static char* path(const char* dir_path, const char* name) {
-    char* full_path = NULL;
-    if (dir_path[0] == '\0') {
-      full_path = strdup(name);
-    } else if (name[0] == '\0') {
-      full_path = strdup(dir_path);
-    } else {
-      asprintf(&full_path, "%s/%s", dir_path, name);
-    }
-    return full_path;
-  }
 };
 
 class File : public Node {

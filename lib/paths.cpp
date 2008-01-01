@@ -226,12 +226,10 @@ ClientPath::ClientPath(const char* path) {
   _dir                = NULL;
   _ignore             = NULL;
   _compress           = NULL;
-  // Copy path accross
-  _path = path;
   // Change '\' into '/'
-  _path.toUnix();
+  _path = Path::fromDos(path);
   // Remove trailing '/'s
-  _path.noEndingSlash();
+  _path.noTrailingSlashes();
 }
 
 ClientPath::~ClientPath() {
@@ -302,11 +300,14 @@ int ClientPath::parse(
     const char*     backup_path) {
   int rc = 0;
   _nodes = 0;
+  char* rem_path = NULL;
+  asprintf(&rem_path, "%s/", _path.c_str());
   _dir = new Directory(backup_path);
-  if (recurse(db, (_path + '/').c_str(), _dir, NULL)) {
+  if (recurse(db, rem_path, _dir, NULL)) {
     delete _dir;
     _dir = NULL;
     rc = -1;
   }
+  free(rem_path);
   return rc;
 }

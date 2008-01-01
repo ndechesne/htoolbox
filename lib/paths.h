@@ -22,7 +22,7 @@
 namespace hbackup {
 
 class ClientPath {
-  StrPath           _path;
+  Path              _path;
   Directory*        _dir;
   Parsers           _parsers;
   Filters           _filters;
@@ -38,8 +38,8 @@ public:
   ClientPath(const char* path);
   ~ClientPath();
   const char* path() const     { return _path.c_str(); }
-  const Directory* dir() const { return _dir;          }
-  int nodes() const            { return _nodes;        }
+  const Directory* dir() const { return _dir;   }
+  int nodes() const            { return _nodes; }
   // Set ignore filter
   void setIgnore(const Filter* filter)   { _ignore   = filter; }
   // Set compress filter

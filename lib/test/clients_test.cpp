@@ -118,7 +118,7 @@ int main(void) {
   client->setHostOrIp("Client");
   client->addOption("username", "user");
   client->addOption("iocharset", "utf8");
-  client->setListfile("c:/home/BlaH/Backup.list");
+  client->setListfile("c:\\home\\BlaH\\Backup.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
@@ -130,7 +130,7 @@ int main(void) {
   client->addOption("nocase");
   client->addOption("username", "user");
   client->addOption("password", "");
-  client->setListfile("c:/home/BlaH/Backup.list");
+  client->setListfile("c:\\home\\BlaH\\Backup.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
@@ -140,7 +140,7 @@ int main(void) {
   client->setProtocol("smb");
   client->setHostOrIp("Client");
   client->addOption("username", "");
-  client->setListfile("c:/home/BlaH/Backup.list");
+  client->setListfile("c:\\home\\BlaH\\Backup.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
@@ -151,7 +151,7 @@ int main(void) {
   client->setHostOrIp("Client");
   client->addOption("username", "");
   client->addOption("password", "");
-  client->setListfile("c:/home/BlaH/Backup.list");
+  client->setListfile("c:\\home\\BlaH\\Backup.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
@@ -459,7 +459,7 @@ int main(void) {
   }
   clients.clear();
   db.close();
-  
+
   printf("Second mount fails\n");
   client = new Client("myClient");
   clients.push_back(client);
@@ -481,7 +481,7 @@ int main(void) {
   }
   clients.clear();
   db.close();
-  
+
   printf("First mount fails\n");
   client = new Client("myClient");
   clients.push_back(client);
@@ -547,7 +547,7 @@ int main(void) {
   }
   clients.clear();
   db.close();
-  
+
   cout << endl << "Clients in DB" << endl;
   db.open_ro();
   db.getRecords(records);

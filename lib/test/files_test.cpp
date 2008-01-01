@@ -23,7 +23,6 @@
 
 using namespace std;
 
-#include "strings.h"
 #include "files.h"
 #include "hbackup.h"
 
@@ -58,7 +57,7 @@ static int parseList(Directory *d, const char* cur_dir) {
         Directory *di = new Directory(*payload);
         delete *i;
         *i = di;
-        char* dir_path = Node::path(cur_dir, di->name());
+        char* dir_path = Path::path(cur_dir, di->name());
         if (! di->createList()) {
           parseList(di, dir_path);
         } else {
@@ -209,9 +208,101 @@ int main(void) {
   printf("Our mask = 0%03o\n", mask);
 
   cout << endl << "Test: path" << endl;
-  cout << Node::path("a", "b") << endl;
-  cout << Node::path("c", "") << endl;
-  cout << Node::path("", "d") << endl;
+  char* tmp;
+  tmp = Path::path("a", "b");
+  cout << tmp << endl;
+  free(tmp);
+  tmp = Path::path("c", "");
+  cout << tmp << endl;
+  free(tmp);
+  tmp = Path::path("", "d");
+  cout << tmp << endl;
+  free(tmp);
+
+  cout << endl << "Test: basename and dirname" << endl;
+  const char* str;
+  str = "this/is a path/to a/file";
+  cout << str;
+  cout << " -> base: ";
+  cout << Path::basename(str);
+  cout << ", dir: ";
+  cout << Path::dirname(str);
+  cout << endl;
+  str = "this is a file";
+  cout << str;
+  cout << " -> base: ";
+  cout << Path::basename(str);
+  cout << ", dir: ";
+  cout << Path::dirname(str);
+  cout << endl;
+  str = "this is a path/";
+  cout << str;
+  cout << " -> base: ";
+  cout << Path::basename(str);
+  cout << ", dir: ";
+  cout << Path::dirname(str);
+  cout << endl;
+
+  cout << endl << "Test: fromDos" << endl;
+  str = "a:\\backup\\";
+  cout << str << " -> ";
+  cout << Path::fromDos(str) << endl;
+  str = "z:/backup";
+  cout << str << " -> ";
+  cout << Path::fromDos(str) << endl;
+  str = "1:/backup";
+  cout << str << " -> ";
+  cout << Path::fromDos(str) << endl;
+  str = "f;/backup";
+  cout << str << " -> ";
+  cout << Path::fromDos(str) << endl;
+  str = "l:|backup";
+  cout << str << " -> ";
+  cout << Path::fromDos(str) << endl;
+  str = "this\\is a path/ Unix\\ cannot cope with/\\";
+  cout << str << " -> ";
+  char* str2 = Path::fromDos(str);
+  cout << str2 << endl;
+  cout << str2 << " -> ";
+  cout << Path::fromDos(str2) << endl;
+
+  cout << endl << "Test: noTrailingSlashes" << endl;
+  str2 = strdup("this/is a path/ Unix/ cannot cope with//");
+  cout << str2 << " -> ";
+  cout << Path::noTrailingSlashes(str2) << endl;
+  cout << str2 << " -> ";
+  cout << Path::noTrailingSlashes(str2) << endl;
+  str2 = strdup("");
+  cout << str2 << " -> ";
+  cout << Path::noTrailingSlashes(str2) << endl;
+  str2 = strdup("/");
+  cout << str2 << " -> ";
+  cout << Path::noTrailingSlashes(str2) << endl;
+
+  cout << endl << "Test: compare" << endl;
+  cout << "a <> a: " << Path::compare("a", "a") << endl;
+  cout << "a <> b: " << Path::compare("a", "b") << endl;
+  cout << "b <> a: " << Path::compare("b", "a") << endl;
+  cout << "a1 <> b: " << Path::compare("a1", "b") << endl;
+  cout << "b <> a1: " << Path::compare("b", "a1") << endl;
+  cout << "a1 <> a: " << Path::compare("a1", "a") << endl;
+  cout << "a <> a1: " << Path::compare("a", "a1") << endl;
+  cout << "a/ <> a: " << Path::compare("a/", "a") << endl;
+  cout << "a <> a/: " << Path::compare("a", "a/") << endl;
+  cout << "a\t <> a/: " << Path::compare("a\t", "a/") << endl;
+  cout << "a/ <> a\t " << Path::compare("a/", "a\t") << endl;
+  cout << "a\t <> a\t " << Path::compare("a\t", "a\t") << endl;
+  cout << "a\n <> a/: " << Path::compare("a\n", "a/") << endl;
+  cout << "a/ <> a\n " << Path::compare("a/", "a\n") << endl;
+  cout << "a\n <> a\n " << Path::compare("a\n", "a\n") << endl;
+  cout << "a/ <> a.: " << Path::compare("a/", "a.") << endl;
+  cout << "a. <> a/: " << Path::compare("a.", "a/") << endl;
+  cout << "a/ <> a-: " << Path::compare("a/", "a-") << endl;
+  cout << "a- <> a/: " << Path::compare("a-", "a/") << endl;
+  cout << "a/ <> a/: " << Path::compare("a/", "a/") << endl;
+  cout << "abcd <> abce, 3: " << Path::compare("abcd", "abce", 3) << endl;
+  cout << "abcd <> abce, 4: " << Path::compare("abcd", "abce", 4) << endl;
+  cout << "abcd <> abce, 5: " << Path::compare("abcd", "abce", 5) << endl;
 
   Stream* readfile;
   Stream* writefile;

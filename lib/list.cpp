@@ -734,8 +734,8 @@ int List::merge(
   int j_line_no = 0;
 
   // Current client, path and data (from journal)
-  StrPath client;
-  StrPath path;
+  Path client;
+  Path path;
 
   // Last search status
   _line_status = 1;
@@ -785,7 +785,7 @@ int List::merge(
     // Got a client
     if (journal._line[0] != '\t') {
       if (client.length() != 0) {
-        int cmp = client.compare(journal._line);
+        int cmp = client.compare(journal._line.c_str());
         // If same client, ignore it
         if (cmp == 0) {
           cerr << "Client duplicated in journal, line " << j_line_no << endl;
@@ -801,7 +801,7 @@ int List::merge(
         }
       }
       // Copy new client
-      client = journal._line;
+      client = journal._line.c_str();
       // No path for this entry yet
       path = "";
       // Search/copy list
@@ -828,7 +828,7 @@ int List::merge(
       }
       // Check path order
       if (path.length() != 0) {
-        if (path.compare(journal._line) > 0) {
+        if (path.compare(journal._line.c_str()) > 0) {
           // Cannot go back
           cerr << "Path out of order in journal, line " << j_line_no << endl;
           errno = EUCLEAN;
@@ -837,7 +837,7 @@ int List::merge(
         }
       }
       // Copy new path
-      path = journal._line;
+      path = journal._line.c_str();
       // Search/copy list
       if (rc_list >= 0) {
         rc_list = list.search(client.c_str(), path.c_str(), this);
