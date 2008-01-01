@@ -57,14 +57,13 @@ static int parseList(Directory *d, const char* cur_dir) {
         Directory *di = new Directory(*payload);
         delete *i;
         *i = di;
-        char* dir_path = Path::path(cur_dir, di->name());
+        Path dir_path(cur_dir, di->name());
         if (! di->createList()) {
-          parseList(di, dir_path);
+          parseList(di, dir_path.c_str());
         } else {
           cerr << "Failed to create list for " << di->name() << " in "
             << cur_dir << endl;
         }
-        free(dir_path);
       }
       break;
     }
@@ -207,17 +206,64 @@ int main(void) {
   mask = umask(0022);
   printf("Our mask = 0%03o\n", mask);
 
-  cout << endl << "Test: path" << endl;
-  char* tmp;
-  tmp = Path::path("a", "b");
-  cout << tmp << endl;
-  free(tmp);
-  tmp = Path::path("c", "");
-  cout << tmp << endl;
-  free(tmp);
-  tmp = Path::path("", "d");
-  cout << tmp << endl;
-  free(tmp);
+  cout << endl << "Test: constructors / countBlocks" << endl;
+  Path* pth0;
+  pth0 = new Path;
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
+  cout << "blocks separated by '/'s: " << pth0->countBlocks('/') << endl;
+  cout << "blocks separated by '1's: " << pth0->countBlocks('1') << endl;
+  cout << "blocks separated by '5's: " << pth0->countBlocks('5') << endl;
+  cout << "blocks separated by '9's: " << pth0->countBlocks('9') << endl;
+  delete pth0;
+  pth0 = new Path("");
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
+  cout << "blocks separated by '/'s: " << pth0->countBlocks('/') << endl;
+  cout << "blocks separated by '1's: " << pth0->countBlocks('1') << endl;
+  cout << "blocks separated by '5's: " << pth0->countBlocks('5') << endl;
+  cout << "blocks separated by '9's: " << pth0->countBlocks('9') << endl;
+  delete pth0;
+  pth0 = new Path("123");
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
+  cout << "blocks separated by '/'s: " << pth0->countBlocks('/') << endl;
+  cout << "blocks separated by '1's: " << pth0->countBlocks('1') << endl;
+  cout << "blocks separated by '5's: " << pth0->countBlocks('5') << endl;
+  cout << "blocks separated by '9's: " << pth0->countBlocks('9') << endl;
+  delete pth0;
+  pth0 = new Path("123/456", "");
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
+  cout << "blocks separated by '/'s: " << pth0->countBlocks('/') << endl;
+  cout << "blocks separated by '1's: " << pth0->countBlocks('1') << endl;
+  cout << "blocks separated by '5's: " << pth0->countBlocks('5') << endl;
+  cout << "blocks separated by '9's: " << pth0->countBlocks('9') << endl;
+  delete pth0;
+  pth0 = new Path("", "789");
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
+  cout << "blocks separated by '/'s: " << pth0->countBlocks('/') << endl;
+  cout << "blocks separated by '1's: " << pth0->countBlocks('1') << endl;
+  cout << "blocks separated by '5's: " << pth0->countBlocks('5') << endl;
+  cout << "blocks separated by '9's: " << pth0->countBlocks('9') << endl;
+  delete pth0;
+  pth0 = new Path("123/456", "789");
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
+  cout << "blocks separated by '/'s: " << pth0->countBlocks('/') << endl;
+  cout << "blocks separated by '1's: " << pth0->countBlocks('1') << endl;
+  cout << "blocks separated by '5's: " << pth0->countBlocks('5') << endl;
+  cout << "blocks separated by '9's: " << pth0->countBlocks('9') << endl;
+  delete pth0;
+  pth0 = new Path("123/456", "789/159");
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
+  cout << "blocks separated by '/'s: " << pth0->countBlocks('/') << endl;
+  cout << "blocks separated by '1's: " << pth0->countBlocks('1') << endl;
+  cout << "blocks separated by '5's: " << pth0->countBlocks('5') << endl;
+  cout << "blocks separated by '9's: " << pth0->countBlocks('9') << endl;
+  delete pth0;
+  pth0 = new Path("//1123//456", "7899//11599//");
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
+  cout << "blocks separated by '/'s: " << pth0->countBlocks('/') << endl;
+  cout << "blocks separated by '1's: " << pth0->countBlocks('1') << endl;
+  cout << "blocks separated by '5's: " << pth0->countBlocks('5') << endl;
+  cout << "blocks separated by '9's: " << pth0->countBlocks('9') << endl;
+  delete pth0;
 
   cout << endl << "Test: basename and dirname" << endl;
   const char* str;

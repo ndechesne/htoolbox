@@ -23,7 +23,6 @@
 
 using namespace std;
 
-#include "strings.h"
 #include "files.h"
 #include "conditions.h"
 #include "filters.h"
@@ -215,7 +214,7 @@ int Client::readListFile(
             }
             list<ClientPath*>::iterator i = _d->paths.begin();
             while ((i != _d->paths.end())
-                && (pathCompare((*i)->path(), path->path()) < 0)) {
+                && (Path::compare((*i)->path(), path->path()) < 0)) {
               i++;
             }
             list<ClientPath*>::iterator j = _d->paths.insert(i, path);
@@ -225,7 +224,7 @@ int Client::readListFile(
             if (i != _d->paths.end()) {
               int ilen = strlen((*i)->path());
               if ((ilen > jlen)
-               && (pathCompare((*i)->path(), (*j)->path(), jlen) == 0)) {
+               && (Path::compare((*i)->path(), (*j)->path(), jlen) == 0)) {
                 errno = EUCLEAN;
                 cout << "Path inside another: this is not supported" << endl;
                 failed = 1;
@@ -236,7 +235,7 @@ int Client::readListFile(
             if (i != _d->paths.end()) {
               int ilen = strlen((*i)->path());
               if ((ilen < jlen)
-               && (pathCompare((*i)->path(), (*j)->path(), ilen) == 0)) {
+               && (Path::compare((*i)->path(), (*j)->path(), ilen) == 0)) {
                 errno = EUCLEAN;
                 cout << "Path inside another. This is not supported" << endl;
                 failed = 1;

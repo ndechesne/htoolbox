@@ -16,7 +16,6 @@ libhbackup_la_SOURCES = \
 	list.h \
 	parsers.h \
 	paths.h \
-	strings.h \
 	svn_parser.h \
 	bzr_parser.cpp \
 	clients.cpp \
@@ -28,7 +27,6 @@ libhbackup_la_SOURCES = \
 	interface.cpp \
 	list.cpp \
 	paths.cpp \
-	strings.cpp \
 	svn_parser.cpp
 
 # Header file

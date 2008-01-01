@@ -30,21 +30,27 @@ class Path {
   int   _length;
 public:
   Path() : _path(NULL), _length(0) {}
+  Path(const Path& p) : _path(strdup(p._path)), _length(p._length) {}
   Path(const char* path) : _path(strdup(path)), _length(strlen(_path)) {}
+  Path(const char *dir, const char* name);
   ~Path() { free(_path); }
   const char* operator=(const char* path);
-  const char* c_str() const { return _path; }
-  int length() const        { return _length; }
+  const char* c_str() const { if (_length > 0) return _path; else return ""; }
+  int length() const           { return _length; }
+  const char* basename() const { return basename(_path); }
   const char* noTrailingSlashes() {
     noTrailingSlashes(_path);
     _length = strlen(_path);
     return _path;
   }
-  int compare(const char* s, size_t length = -1) {
+  int compare(const char* s, size_t length = -1) const {
     return compare(_path, s, length);
   }
+  int compare(const Path& p, size_t length = -1) const {
+    return compare(_path, p.c_str(), length);
+  }
+  int countBlocks(char c) const;
   // Some generic methods
-  static char* path(const char* dir_path, const char* name);
   static const char* basename(const char* path);
   static char* dirname(const char* path);
   static char* fromDos(const char* dos_path);
@@ -54,7 +60,7 @@ public:
 
 class Node {
 protected:
-  char*     _path;      // file path
+  Path      _path;      // file path
   char      _type;      // file type ('?' if metadata not available)
   time_t    _mtime;     // time of last modification
   long long _size;      // file size, in bytes
@@ -65,7 +71,7 @@ protected:
 public:
   // Default constructor
   Node(const Node& g) :
-        _path(strdup(g._path)),
+        _path(g._path),
         _type(g._type),
         _mtime(g._mtime),
         _size(g._size),
@@ -75,7 +81,7 @@ public:
         _parsed(false) {}
   // Constructor for path in the VFS
   Node(const char *dir, const char* name = "") :
-      _path(Path::path(dir, name)),
+      _path(dir, name),
       _type('?'),
       _parsed(false) {}
   // Constructor for given file metadata
@@ -95,9 +101,7 @@ public:
         _gid(gid),
         _mode(mode),
         _parsed(false) {}
-  virtual ~Node() {
-    free(_path);
-  }
+  virtual ~Node() {}
   // Stat file metadata
   int stat();
   // Reset some metadata
@@ -105,15 +109,15 @@ public:
   void resetSize()  { _size  = 0; }
   // Operators
   bool operator<(const Node& right) const {
-    // Only compare names
-    return Path::compare(_path, right._path) < 0;
+    // Only compare paths
+    return _path.compare(right._path) < 0;
   }
   // Compares names and metadata, not paths
   virtual bool operator!=(const Node&) const;
   // Data read access
   virtual bool  isValid() const { return _type != '?'; }
-  const char*   path()    const { return _path;   }
-  const char*   name()    const { return basename(_path);   }
+  const char*   path()    const { return _path.c_str(); }
+  const char*   name()    const { return _path.basename(); }
   char          type()    const { return _type;   }
   time_t        mtime()   const { return _mtime;  }
   long long     size()    const { return _size;   }
@@ -224,7 +228,7 @@ public:
       _link(NULL) {
     _parsed = true;
     _link = (char*) malloc(_size + 1);
-    readlink(_path, _link, _size);
+    readlink(_path.c_str(), _link, _size);
     _link[_size] = '\0';
   }
   // Constructor for path in the VFS
@@ -234,7 +238,7 @@ public:
     stat();
     _parsed = true;
     _link = (char*) malloc(_size + 1);
-    readlink(_path, _link, _size);
+    readlink(_path.c_str(), _link, _size);
     _link[_size] = '\0';
   }
   // Constructor for given file metadata

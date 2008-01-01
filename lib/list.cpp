@@ -24,7 +24,6 @@
 
 using namespace std;
 
-#include "strings.h"
 #include "files.h"
 #include "list.h"
 #include "hbackup.h"
@@ -550,9 +549,9 @@ int List::search(
       // Compare clientes
       if ((client_l != NULL) && (client_l[0] != '\0')) {
         if ((client_len > 0) && (_line.length() == (client_len + 1))) {
-          _client_cmp = pathCompare(client_l, _line.c_str(), client_len);
+          _client_cmp = Path::compare(client_l, _line.c_str(), client_len);
         } else {
-          _client_cmp = pathCompare(client_l, _line.c_str());
+          _client_cmp = Path::compare(client_l, _line.c_str());
         }
       }
       if (_client_cmp <= 0)  {
@@ -576,12 +575,12 @@ int List::search(
       if ((_client_cmp <= 0) && (path_l != NULL) && (path_l[0] != '\0')) {
         if (path_len > 0) {
           if (_line.length() == (path_len + 2)) {
-            path_cmp = pathCompare(path_l, &_line[1], path_len);
+            path_cmp = Path::compare(path_l, &_line[1], path_len);
           } else {
-            path_cmp = pathCompare(path_l, &_line[1]);
+            path_cmp = Path::compare(path_l, &_line[1]);
           }
         } else {
-          path_cmp = pathCompare(path_l, _line.c_str());
+          path_cmp = Path::compare(path_l, _line.c_str());
         }
       }
       if (path_cmp <= 0) {

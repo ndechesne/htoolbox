@@ -22,7 +22,6 @@
 
 using namespace std;
 
-#include "strings.h"
 #include "files.h"
 #include "parsers.h"
 #include "cvs_parser.h"

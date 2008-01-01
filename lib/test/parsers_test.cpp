@@ -21,7 +21,6 @@ using namespace std;
 #include <iostream>
 #include <list>
 
-#include "strings.h"
 #include "files.h"
 #include "parsers.h"
 #include "hbackup.h"

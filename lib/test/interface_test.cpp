@@ -22,7 +22,6 @@
 
 using namespace std;
 
-#include "strings.h"
 #include "files.h"
 #include "conditions.h"
 #include "filters.h"
@@ -148,7 +147,7 @@ int main(void) {
     cout << " -> " << *i << endl;
   }
   records.clear();
-  
+
   cout << endl << "Test: list paths in DOS client" << endl;
   hbackup = new HBackup();
   if (hbackup->readConfig("etc/hbackup.conf")) {
@@ -202,7 +201,7 @@ int main(void) {
   system("echo >> etc/hbackup.conf");
   system("echo client smb myClient >> etc/hbackup.conf");
   system("echo config C:\\\\Backup\\\\Backup.LST >> etc/hbackup.conf");
-  
+
   cout << endl << "Test: typical backup" << endl;
   hbackup = new HBackup();
   if (hbackup->readConfig("etc/hbackup.conf")) {
@@ -254,7 +253,7 @@ int main(void) {
     cout << " -> " << *i << endl;
   }
   records.clear();
-  
+
   cout << endl << "Test: list sub-paths in UNIX client" << endl;
   hbackup = new HBackup();
   if (hbackup->readConfig("etc/hbackup.conf")) {
@@ -267,7 +266,7 @@ int main(void) {
     cout << " -> " << *i << endl;
   }
   records.clear();
-  
+
   cout << endl << "Test: list sub-paths in DOS client" << endl;
   hbackup = new HBackup();
   if (hbackup->readConfig("etc/hbackup.conf")) {
@@ -280,7 +279,7 @@ int main(void) {
     cout << " -> " << *i << endl;
   }
   records.clear();
-  
+
   cout << endl << "Test: restore file (UNIX)" << endl;
   hbackup = new HBackup();
   if (hbackup->readConfig("etc/hbackup.conf")) {
@@ -289,7 +288,7 @@ int main(void) {
   hbackup->restore("test_r", "myClient", "/home/User/test/File2.txt", 0);
   system("rm -rf test_r");
   delete hbackup;
-  
+
   cout << endl << "Test: restore subdir (UNIX)" << endl;
   hbackup = new HBackup();
   if (hbackup->readConfig("etc/hbackup.conf")) {

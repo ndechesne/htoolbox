@@ -23,7 +23,6 @@
 
 using namespace std;
 
-#include "strings.h"
 #include "files.h"
 #include "conditions.h"
 #include "filters.h"
@@ -449,9 +448,8 @@ int HBackup::restore(
   if (_d->db->open_ro()) {
     return -1;
   }
-  StrPath where = dest;
-  where.noEndingSlash();
-  where += '/';
+  Path where(dest);
+  where.noTrailingSlashes();
 
   bool failed1, failed2;
   string internal;

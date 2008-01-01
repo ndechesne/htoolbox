@@ -24,7 +24,6 @@
 
 using namespace std;
 
-#include "strings.h"
 #include "files.h"
 #include "list.h"
 #include "hbackup.h"
@@ -781,7 +780,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  StrPath client3("client3\n");
+  string client3("client3\n");
   if (dblist.search(client3.c_str(), "", &merge) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;

@@ -33,7 +33,6 @@
 
 using namespace std;
 
-#include "strings.h"
 #include "files.h"
 #include "list.h"
 #include "db.h"
@@ -935,10 +934,10 @@ int Database::getRecords(
   // Look for paths
   if (date == 0) {
     int blocks = 0;
-    StrPath ls_path;
+    Path ls_path;
     if (path != NULL) {
       ls_path = path;
-      ls_path.noEndingSlash();
+      ls_path.noTrailingSlashes();
       blocks = ls_path.countBlocks('/');
     }
 
@@ -956,11 +955,11 @@ int Database::getRecords(
         cerr << "Error reading from list: " << strerror(errno) << endl;
         return -1;
       }
-      StrPath db_path2 = db_path;
-      if ((db_path2.size() >= ls_path.size())                 // Path no shorter
-       && (db_path2.countBlocks('/') > blocks)                // Not less blocks
-       && (ls_path.compare(db_path2, ls_path.size()) == 0)) { // Paths alike
-        char* slash = strchr(&db_path[ls_path.size() + 1], '/');
+      Path db_path2 = db_path;
+      if ((db_path2.length() >= ls_path.length())   // Path no shorter
+       && (db_path2.countBlocks('/') > blocks)      // Not less blocks
+       && (ls_path.compare(db_path2.c_str(), ls_path.length()) == 0)) {
+        char* slash = strchr(&db_path[ls_path.length() + 1], '/');
         if (slash != NULL) {
           *slash = '\0';
         }
@@ -1015,7 +1014,7 @@ int Database::restore(
       break;
     }
     if (path_is_dir) {
-      if (pathCompare(fpath, path, len) > 0) {
+      if (Path::compare(fpath, path, len) > 0) {
         break;
       }
     } else {
@@ -1026,7 +1025,7 @@ int Database::restore(
         continue;
       } else
       if (flen == len) {
-        cmp = pathCompare(fpath, path);
+        cmp = Path::compare(fpath, path);
         if (cmp < 0) {
           continue;
         } else
@@ -1042,7 +1041,7 @@ int Database::restore(
       } else
       if (fpath[len] == '/') {
         // Contained?
-        cmp = pathCompare(fpath, path, len);
+        cmp = Path::compare(fpath, path, len);
         if (cmp < 0) {
           continue;
         } else
@@ -1056,17 +1055,18 @@ int Database::restore(
       }
     }
     if (fnode != NULL) {
-      StrPath base = dest;
-      base += fpath;
-      if (! Directory(base.dirname().c_str()).isValid()) {
+      Path base(dest, fpath);
+      char* dir = Path::dirname(base.c_str());
+      if (! Directory(dir).isValid()) {
         string command = "mkdir -p ";
-        command += base.dirname().c_str();
+        command += dir;
         if (system(command.c_str())) {
-          cerr << base.dirname() << ": " << strerror(errno) << endl;
+          cerr << dir << ": " << strerror(errno) << endl;
         }
       }
+      free(dir);
       if (verbosity() > 0) {
-        cout << "U " << base << endl;
+        cout << "U " << base.c_str() << endl;
       }
       bool set_permissions = false;
       switch (fnode->type()) {
@@ -1075,7 +1075,7 @@ int Database::restore(
             if (f->checksum()[0] == '\0') {
               cerr << "Failed to restore file: data missing" << endl;
             } else
-            if (read(base, f->checksum())) {
+            if (read(base.c_str(), f->checksum())) {
               cerr << "Failed to restore file: " << strerror(errno) << endl;
               failed = true;
             } else
@@ -1236,7 +1236,7 @@ int Database::scan(
   } else
   // Check given file data
   {
-    StrPath path;
+    string path;
     if (getDir(checksum, path)) {
       errno = EUCLEAN;
       return -1;
@@ -1334,7 +1334,7 @@ int Database::sendEntry(
       return -1;
     }
     if (remote_path != NULL) {
-      cmp = pathCompare(db_path, remote_path);
+      cmp = Path::compare(db_path, remote_path);
     } else {
       cmp = -1;
     }

@@ -11,10 +11,8 @@ check_PROGRAMS = \
 	list_test \
 	parsers_test \
 	paths_test \
-	strings_test \
 	svn_parser_test
 
-strings_test_SOURCES = strings_test.cpp
 files_test_SOURCES = files_test.cpp
 conditions_test_SOURCES = conditions_test.cpp
 filters_test_SOURCES = filters_test.cpp
@@ -30,7 +28,6 @@ interface_test_SOURCES = interface_test.cpp
 LDADD = @top_srcdir@/lib/libhbackup.la
 
 check_SUCCESSES = \
-	strings.done \
 	files.done \
 	conditions.done \
 	filters.done \

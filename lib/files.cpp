@@ -50,7 +50,6 @@ namespace std {
 
 using namespace std;
 
-#include "strings.h"
 #include "files.h"
 #include "hbackup.h"
 
@@ -65,16 +64,15 @@ const char* Path::operator=(const char* path) {
   return _path;
 }
 
-char* Path::path(const char* dir_path, const char* name) {
-  char* full_path = NULL;
+Path::Path(const char* dir_path, const char* name) {
   if (dir_path[0] == '\0') {
-    full_path = strdup(name);
+    _path = strdup(name);
   } else if (name[0] == '\0') {
-    full_path = strdup(dir_path);
+    _path = strdup(dir_path);
   } else {
-    asprintf(&full_path, "%s/%s", dir_path, name);
+    asprintf(&_path, "%s/%s", dir_path, name);
   }
-  return full_path;
+  _length = strlen(_path);
 }
 
 const char* Path::basename(const char* path) {
@@ -190,9 +188,25 @@ int Path::compare(const char* s1, const char* s2, size_t length) {
   }
 }
 
+int Path::countBlocks(char c) const {
+  const char* reader = _path;
+  size_t      length = _length;
+  int         blocks = 0;
+  bool        just_seen_one = true;
+  while (length-- > 0) {
+    if (*reader++ == c) {
+      just_seen_one = true;
+    } else if (just_seen_one) {
+      blocks++;
+      just_seen_one = false;
+    }
+  }
+  return blocks;
+}
+
 int Node::stat() {
   struct stat64 metadata;
-  int rc = lstat64(_path, &metadata);
+  int rc = lstat64(_path.c_str(), &metadata);
   if (rc) {
     // errno set by lstat
     _type = '?';
@@ -219,11 +233,11 @@ bool Node::operator!=(const Node& right) const {
   return (_type != right._type)   || (_mtime != right._mtime)
       || (_size != right._size)   || (_uid != right._uid)
       || (_gid != right._gid)     || (_mode != right._mode)
-      || (strcmp(basename(_path), basename(right._path)) != 0);
+      || (strcmp(_path.basename(), right._path.basename()) != 0);
 }
 
 int Node::remove() {
-  int rc = std::remove(_path);
+  int rc = std::remove(_path.c_str());
   if (! rc) {
     _type = '?';
   }
@@ -236,7 +250,7 @@ int File::create() {
     stat();
   }
   if (! isValid()) {
-    int readfile = open(_path, O_WRONLY | O_CREAT, 0666);
+    int readfile = open(_path.c_str(), O_WRONLY | O_CREAT, 0666);
     if (readfile < 0) {
       return -1;
     }
@@ -247,7 +261,7 @@ int File::create() {
 }
 
 int Directory::createList() {
-  DIR* directory = opendir(_path);
+  DIR* directory = opendir(_path.c_str());
   if (directory == NULL) return -1;
 
   struct dirent *dir_entry;
@@ -256,7 +270,7 @@ int Directory::createList() {
     if (!strcmp(dir_entry->d_name, ".") || !strcmp(dir_entry->d_name, "..")) {
       continue;
     }
-    Node *g = new Node(_path, dir_entry->d_name);
+    Node *g = new Node(_path.c_str(), dir_entry->d_name);
     g->stat();
     list<Node*>::iterator i = _nodes.begin();
     while ((i != _nodes.end()) && (*(*i) < *g)) {
@@ -283,7 +297,7 @@ int Directory::create() {
     stat();
   }
   if (! isValid()) {
-    if (mkdir(_path, 0777)) {
+    if (mkdir(_path.c_str(), 0777)) {
       return -1;
     }
     stat();
@@ -358,7 +372,7 @@ int Stream::open(const char* req_mode, int compression) {
 
   _d->size   = 0;
   _d->length = 0;
-  _d->fd = std::open64(_path, _d->mode, 0666);
+  _d->fd = std::open64(_path.c_str(), _d->mode, 0666);
   if (! isOpen()) {
     // errno set by open
     return -1;
