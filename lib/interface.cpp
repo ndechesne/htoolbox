@@ -115,23 +115,17 @@ int HBackup::readConfig(const char* config_path) {
 
     Client* client = NULL;
     Filter* filter = NULL;
-    while (config_file.getLine(buffer) > 0) {
-      unsigned int pos = buffer.find("\r");
-      if (pos != string::npos) {
-        buffer.erase(pos);
-      }
-      // Not a 'real' getLine
-      pos = buffer.find("\n");
-      if (pos != string::npos) {
-        buffer.erase(pos);
-      }
+    while (true) {
       list<string> params;
 
       line++;
-      if (Stream::readConfigLine(buffer, params)) {
+      int rc = config_file.getParams(params);
+      if (rc == -2) {
         errno = EUCLEAN;
         cerr << "Warning: in file " << config_path << ", line " << line
           << " missing single- or double-quote" << endl;
+      } else if (rc <= 0) {
+        break;
       }
       if (params.size() == 1) {
         errno = EUCLEAN;

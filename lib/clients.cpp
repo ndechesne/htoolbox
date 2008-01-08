@@ -134,10 +134,10 @@ int Client::readListFile(
   int     failed  = 0;
 
   // Open client configuration file
-  Stream list_file(list_path.c_str());
+  Stream config_file(list_path.c_str());
 
   // Open client configuration file
-  if (list_file.open("r")) {
+  if (config_file.open("r")) {
     cerr << "Client configuration file not found " << list_path << endl;
     failed = 2;
   } else {
@@ -148,26 +148,20 @@ int Client::readListFile(
     // Read client configuration file
     ClientPath* path   = NULL;
     Filter*     filter = NULL;
-    while ((list_file.getLine(buffer) > 0) && ! failed) {
-      unsigned int pos = buffer.find("\r");
-      if (pos != string::npos) {
-        buffer.erase(pos);
-      }
-      // Not a 'real' getLine
-      pos = buffer.find("\n");
-      if (pos != string::npos) {
-        buffer.erase(pos);
-      }
+    while (! failed) {
       list<string> params;
-
+      
       line++;
-      if (Stream::readConfigLine(buffer, params)) {
+      int rc = config_file.getParams(params);
+      if (rc == -2) {
         errno = EUCLEAN;
         cerr << "Warning: in client configuration file " << list_path
           << ", line " << line << " missing single- or double-quote,"
           << endl;
         cerr << "make sure double-quoted Windows paths do not end in '\\'."
           << endl;
+      } else if (rc <= 0) {
+        break;
       }
       if (params.size() > 0) {
         list<string>::iterator  current = params.begin();
@@ -428,7 +422,7 @@ misplaced:
       }
     }
     // Close client configuration file
-    list_file.close();
+    config_file.close();
   }
   return failed;
 }

@@ -166,7 +166,7 @@ Line: 12345678901234567890123456789012345678901234567890123456789012345678901234
 
 Line: 123456789
 
-readline
+extractParams
 readline(a): 0
 a
 
@@ -230,6 +230,8 @@ ef
 g\h "ij'	kl
 m\n 'op"	qr
 
+
+File types
 Name: testfile, path = test1/testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 644
 Name: testlink, path = test1/testlink, type = l, mtime = 1, size = 8, uid = 1, gid = 1, mode = 777, link = testfile
  > Dir.: testdir, path = test1/testdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
@@ -311,5 +313,37 @@ f1 and f2 differ
 l1 and l2 are identical
 l1 and l2 differ
 l1 and l2 differ
+
+getParams
+db	test_db	
+trash	1	
+
+filter	all	backup	
+condition	type	file	
+condition	path_end	~	
+
+filter	any	test_or	
+condition	filter	backup	
+condition	!size<	1000	
+
+client	nfs	myClient	
+hostname	myClient	
+config	/home/User/hbackup.list	
+
+client	ssh	other	
+hostname	otherClient	
+config	/home/backup/Backup.list	
+
+client	file	myhost	
+hostname	myhost.mynetwork.lan	
+config	etc/localhost.list	
+expire	1	
+
+client	smb	client	
+option	username	Myself	
+option	password	flesyM	
+option	nocase	
+hostname	myClient	
+config	C:\Backup\Backup.LST	
 
 End of tests

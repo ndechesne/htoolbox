@@ -305,13 +305,21 @@ public:
   int copy(Stream& source, cancel_f cancel = NULL);
   // Compare two files
   int compare(Stream& source, long long length = -1);
-  // Read parameters from line
-  static int readConfigLine(
+  // Extract parameters from line read from file
+  int getParams(                          // -1: error, 0: eof, 1: success
+    list<string>&   params,
+    bool            need_lf      = false, // Line feed MUST be present at EOL
+    bool            accept_cr_lf = true,  // Silently accept DOS format
+    const char*     delims       = "\t ", // Default: tabulation and space
+    const char*     quotes       = "'\"", // Default: single and double quotes
+    const char*     comments     = "#");  // Default: hash
+  // Extract parameters from given line
+  static int extractParams(
     const string&   line,
     list<string>&   params,
-    const char*     delims = "\t ",   // default: tab and space
-    const char*     quotes = "'\"",   // default: ' and "
-    const char*     comments = "#");  // default: #
+    const char*     delims       = "\t ", // Default: tabulation and space
+    const char*     quotes       = "'\"", // Default: single and double quotes
+    const char*     comments     = "#");  // Default: hash
 };
 
 }

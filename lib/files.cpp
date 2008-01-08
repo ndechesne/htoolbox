@@ -809,8 +809,39 @@ int Stream::compare(Stream& source, long long length) {
   return rc;
 }
 
+int Stream::getParams(
+    list<string>&   params,
+    bool            need_lf,
+    bool            accept_cr_lf,
+    const char*     delims,
+    const char*     quotes,
+    const char*     comments) {
+  string buffer;
+  
+  int rc = getLine(buffer);
+  if (rc == 0) {
+    return 0;
+  }
+  if (rc < 0) {
+    return -1;
+  }
+
+  if (buffer[buffer.size() - 1] == '\n') {
+    buffer.erase(buffer.size() - 1);
+  } else if (need_lf) {
+    return -1;
+  }
+  if (accept_cr_lf && (buffer[buffer.size() - 1] == '\r')) {
+    buffer.erase(buffer.size() - 1);
+  }
+  if (Stream::extractParams(buffer, params, delims, quotes, comments)) {
+    return -2;
+  }
+  return 1;
+}
+
 // Public functions
-int Stream::readConfigLine(
+int Stream::extractParams(
     const string&   line,
     list<string>&   params,
     const char*     delims,

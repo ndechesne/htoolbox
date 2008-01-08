@@ -869,14 +869,14 @@ int main(void) {
   delete readfile;
 
 
-  cout << "\nreadline" << endl;
+  cout << "\nextractParams" << endl;
   list<string> *params;
   list<string>::iterator i;
 
   // Start simple: one argument
   line = "a";
   params = new list<string>;
-  cout << "readline(" << line << "): " << Stream::readConfigLine(line, *params)
+  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -887,7 +887,7 @@ int main(void) {
   // Two arguments, test blanks
   line = " \ta \tb";
   params = new list<string>;
-  cout << "readline(" << line << "): " << Stream::readConfigLine(line, *params)
+  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -898,7 +898,7 @@ int main(void) {
   // Not single character argument
   line = "\t ab";
   params = new list<string>;
-  cout << "readline(" << line << "): " << Stream::readConfigLine(line, *params)
+  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -909,7 +909,7 @@ int main(void) {
   // Two of them
   line = "\t ab cd";
   params = new list<string>;
-  cout << "readline(" << line << "): " << Stream::readConfigLine(line, *params)
+  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -920,7 +920,7 @@ int main(void) {
   // Three, with comment
   line = "\t ab cd\tef # blah";
   params = new list<string>;
-  cout << "readline(" << line << "): " << Stream::readConfigLine(line, *params)
+  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -931,7 +931,7 @@ int main(void) {
   // Single quotes
   line = "\t 'ab' 'cd'\t'ef' # blah";
   params = new list<string>;
-  cout << "readline(" << line << "): " << Stream::readConfigLine(line, *params)
+  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -942,7 +942,7 @@ int main(void) {
   // And double quotes
   line = "\t \"ab\" 'cd'\t\"ef\" # blah";
   params = new list<string>;
-  cout << "readline(" << line << "): " << Stream::readConfigLine(line, *params)
+  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -953,7 +953,7 @@ int main(void) {
   // With blanks in quotes
   line = "\t ab cd\tef 'gh ij\tkl' \"mn op\tqr\" \t# blah";
   params = new list<string>;
-  cout << "readline(" << line << "): " << Stream::readConfigLine(line, *params)
+  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -964,7 +964,7 @@ int main(void) {
   // With quotes in quotes
   line = "\t ab cd\tef 'gh \"ij\\\'\tkl' \"mn 'op\\\"\tqr\" \t# blah";
   params = new list<string>;
-  cout << "readline(" << line << "): " << Stream::readConfigLine(line, *params)
+  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -975,7 +975,7 @@ int main(void) {
   // With escape characters
   line = "\t a\\b cd\tef 'g\\h \"ij\\\'\tkl' \"m\\n 'op\\\"\tqr\" \t# blah";
   params = new list<string>;
-  cout << "readline(" << line << "): " << Stream::readConfigLine(line, *params)
+  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -986,7 +986,7 @@ int main(void) {
   // Missing ending single quote
   line = "\t a\\b cd\tef 'g\\h \"ij\\\'\tkl";
   params = new list<string>;
-  cout << "readline(" << line << "): " << Stream::readConfigLine(line, *params)
+  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -997,7 +997,7 @@ int main(void) {
   // Missing ending double quote
   line = "\t a\\b cd\tef 'g\\h \"ij\\\'\tkl' \"m\\n 'op\\\"\tqr";
   params = new list<string>;
-  cout << "readline(" << line << "): " << Stream::readConfigLine(line, *params)
+  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -1005,6 +1005,8 @@ int main(void) {
   cout << endl;
   delete params;
 
+
+  cout << "\nFile types" << endl;
   // File types
   Node *g;
   g = new Node("test1/testfile");
@@ -1176,6 +1178,27 @@ int main(void) {
   }
   delete l2;
   delete l1;
+
+
+  cout << "\ngetParams" << endl;
+  Stream config("etc/hbackup.conf");
+  if (! config.open("r")) {
+    int rc = 1;
+    while (rc > 0) {
+      params = new list<string>;
+      rc = config.getParams(*params);
+      if (rc > 0) {
+        for (list<string>::iterator i = params->begin(); i != params->end();
+            i++) {
+          cout << *i << "\t";
+        }
+        cout << endl;
+      }
+      delete params;
+    }
+    config.close();
+  }
+
 
   cout << endl << "End of tests" << endl;
 
