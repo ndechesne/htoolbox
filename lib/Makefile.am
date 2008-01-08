@@ -7,8 +7,9 @@ libhbackup_la_LDFLAGS= -version-info $(LIB_VERSION)
 libhbackup_la_SOURCES = \
 	bzr_parser.h \
 	clients.h \
-	cvs_parser.h \
 	conditions.h \
+	configuration.h \
+	cvs_parser.h \
 	db.h \
 	files.h \
 	filters.h \
@@ -19,8 +20,9 @@ libhbackup_la_SOURCES = \
 	svn_parser.h \
 	bzr_parser.cpp \
 	clients.cpp \
-	cvs_parser.cpp \
 	conditions.cpp \
+	configuration.cpp \
+	cvs_parser.cpp \
 	db.cpp \
 	files.cpp \
 	filters.cpp \

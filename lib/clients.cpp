@@ -24,6 +24,7 @@
 using namespace std;
 
 #include "files.h"
+#include "configuration.h"
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"
