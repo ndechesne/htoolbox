@@ -51,7 +51,6 @@ namespace std {
 using namespace std;
 
 #include "files.h"
-#include "hbackup.h"
 
 using namespace hbackup;
 
@@ -811,112 +810,130 @@ int Stream::compare(Stream& source, long long length) {
 }
 
 // Public functions
-int Stream::readConfigLine(const string& line, list<string>& params) {
-  const char* read  = line.c_str();
-  const char* end   = &read[line.size()];
-  char* value       = NULL;
-  char* write       = NULL;
-  bool increment;
-  bool skipblanks   = true;
-  bool checkcomment = false;
-  bool escaped      = false;
-  bool unquoted     = false;
-  bool singlequoted = false;
-  bool doublequoted = false;
-  bool valueend     = false;
-  bool endedwell    = true;
+int Stream::readConfigLine(
+    const string&   line,
+    list<string>&   params,
+    const char*     delims,
+    const char*     quotes, 
+    const char*     comments) {
+  const char* read   = line.c_str();
+  int chars_left     = line.size();
+  char* param        = (char*) malloc(line.size() + 1);
+  char* write        = NULL;
+  bool no_increment  = true;  // Set to re-use character next time round
+  bool skip_blanks   = true;  // Set to ignore any incoming blank
+  bool check_comment = false; // Set after a blank was found
+  bool escaped       = false; // Set after a \ was found
+  char quote         = -1;    // Last quote when decoding, -1 when not decoding
+  bool value_end     = false; // Set to signal the end of the string
+  bool ended_well    = true;  // Set when all quotes were matched
 
-  while (read <= end) {
-    increment = true;
-    // End of line
-    if (read == end) {
-      if (unquoted || singlequoted || doublequoted) {
+  do {
+    if (no_increment) {
+      no_increment = false;
+    } else {
+      read++;
+      chars_left--;
+    }
+    if (*read == '\0') {
+      // End of line reached
+      if (quote >= 0) {
         // Stop decoding
-        valueend = true;
-        // Missing closing single- or double-quote
-        if (singlequoted || doublequoted) {
-          endedwell = false;
+        value_end = true;
+        // Missing closing quote
+        if (quote > 0) {
+          ended_well = false;
         }
       }
-    } else
-    // Skip blanks until no more, then change mode
-    if (skipblanks) {
-      if ((*read != ' ') && (*read != '\t')) {
-        skipblanks = false;
-        checkcomment = true;
-        // Do not increment!
-        increment = false;
+      // Do not increment!
+      no_increment = true;
+    } else if (check_comment) {
+      // Before deconfig, verify it's not a comment
+      bool comment = false;
+      for (const char* c = comments; *c != '\0'; c++) {
+        if (*c == *read) {
+          comment = true;
+          break;
+        }
       }
-    } else if (checkcomment) {
-      if (*read == '#') {
+      if (comment) {
         // Nothing more to do
         break;
       } else {
-        checkcomment = false;
+        check_comment = false;
         // Do not increment!
-        increment = false;
+        no_increment = true;
       }
-    } else { // neither a blank nor a comment
-      if (singlequoted || doublequoted) {
-        // Decoding quoted string
-        if ((singlequoted && (*read == '\''))
-         || (doublequoted && (*read == '"'))) {
-          if (escaped) {
-            *write++ = *read;
-            escaped  = false;
-          } else {
-            // Found match, stop decoding
-            singlequoted = doublequoted = false;
-            valueend = true;
-          }
-        } else if (*read == '\\') {
-          escaped = true;
-        } else {
-          if (escaped) {
-            *write++ = '\\';
-            escaped  = false;
-          }
+    } else if (quote > 0) {
+      // Decoding quoted string
+      if (*read == quote) {
+        if (escaped) {
           *write++ = *read;
-        }
-      } else if (unquoted) {
-        // Decoding unquoted string
-        if ((*read == ' ') || (*read == '\t')) {
-          // Found blank, stop decoding
-          unquoted = false;
-          valueend = true;
-          // Do not increment!
-          increment = false;
+          escaped  = false;
         } else {
-          *write++ = *read;
+          // Found match, stop decoding
+          value_end = true;
         }
+      } else if (*read == '\\') {
+        escaped = true;
       } else {
-        // Start decoding new string
-        write = value = (char*) malloc(end - read + 1);
-        if (*read == '\'') {
-          singlequoted = true;
-        } else
-        if (*read == '"') {
-          doublequoted = true;
-        } else {
-          unquoted = true;
-          // Do not increment!
-          increment = false;
+        if (escaped) {
+          *write++ = '\\';
+          escaped  = false;
+        }
+        *write++ = *read;
+      }
+    } else if (skip_blanks || (quote == 0)) {
+      bool delim = false;
+      for (const char* c = delims; *c != '\0'; c++) {
+        if (*c == *read) {
+          delim = true;
+          break;
         }
       }
+      if (quote == 0) {
+        // Decoding unquoted string
+        if (delim) {
+          // Found blank, stop decoding
+          value_end = true;
+          // Do not increment!
+          no_increment = true;
+        } else {
+          *write++ = *read;
+        }
+      } else if (! delim) {
+        // Skip blanks until no more
+        skip_blanks = false;
+        check_comment = true;
+        // Do not increment!
+        no_increment = true;
+      }
+    } else {
+      // Start decoding new string
+      write = param;
+      quote = 0;
+      for (const char* c = quotes; *c != '\0'; c++) {
+        if (*c == *read) {
+          quote = *c;
+          break;
+        }
+      }
+      if (quote == 0) {
+        // Do not increment!
+        no_increment = true;
+      }
     }
-    if (valueend) {
+    if (value_end) {
       *write++ = '\0';
-      params.push_back(string(value));
-      free(value);
-      skipblanks = true;
-      valueend = false;
+      params.push_back(string(param));
+      skip_blanks = true;
+      quote       = -1;
+      value_end   = false;
     }
-    if (increment) {
-      read++;
-    }
-  }
-
-  if (! endedwell) {
+  } while (*read != '\0');
+  
+  free(param);
+  if (! ended_well) {
     return 1;
   }
   return 0;

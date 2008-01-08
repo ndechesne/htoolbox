@@ -306,7 +306,12 @@ public:
   // Compare two files
   int compare(Stream& source, long long length = -1);
   // Read parameters from line
-  static int readConfigLine(const string& line, list<string>& params);
+  static int readConfigLine(
+    const string&   line,
+    list<string>&   params,
+    const char*     delims = "\t ",   // default: tab and space
+    const char*     quotes = "'\"",   // default: ' and "
+    const char*     comments = "#");  // default: #
 };
 
 }
