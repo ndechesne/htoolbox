@@ -1,75 +1,13 @@
 Database initialized in test_db
  -> Database open in read/write mode
 
-Test: getdir
-Check test_db/data dir: 0
-febatest1 status: 0, getdir_path: test_db/data/fe/ba/test1
-fe98test2 status: 0, getdir_path: test_db/data/fe/98/test2
-fe98test3 status: 1, getdir_path: test_db/data/fe/98/test3
-fetest4 status: 1, getdir_path: test_db/data/fe/te/st4
-fedc76test5 status: 1, getdir_path: test_db/data/fe/dc/76/test5
-fedc76test6 status: 1, getdir_path: test_db/data/fe/dc/76/test6
-fedc76test6 status: 0, getdir_path: test_db/data/fe/dc/76/test6
-
-Test: write and read back
-Adding file data to DB in: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0
-59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
-59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
-
-Test: write and read back with compression
-59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
-59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
-
 Test: check
-db.check: Structure needs cleaning
-db.check: Structure needs cleaning
-db.check: Structure needs cleaning
 Scanning database contents thoroughly: 0 files
 File data gone
 Error: data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
-db.check: No such file or directory
 File data corrupted, surficial scan
 File data corrupted, thorough scan
 Error: data corrupted for 59ca0efa9f5633cb0371bbc0355478d8-0
-db.check: Structure needs cleaning
-
-Test: organise
-Lesser:
-test_db/data/zz:
-000001
-
-test_db/data/zz/000001:
-Equal:
-test_db/data/zz:
-00
-.nofiles
-
-test_db/data/zz/00:
-0001
-0002
-
-test_db/data/zz/00/0001:
-
-test_db/data/zz/00/0002:
-Greater:
-test_db/data/zz:
-00
-.nofiles
-
-test_db/data/zz/00:
-00
-.nofiles
-
-test_db/data/zz/00/00:
-01
-02
-03
-
-test_db/data/zz/00/00/01:
-
-test_db/data/zz/00/00/02:
-
-test_db/data/zz/00/00/03:
  -> Journal is empty, not merging
  -> Database closed
 
@@ -91,10 +29,10 @@ Test: read-only mode
 
 Test: fill in DB
  -> Database open in read/write mode
-Adding file data to DB in: test_db/data/d4/1d8cd98f00b204e9800998ecf8427e-0
-Adding file data to DB in: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-1
-Adding compressed file data to DB in: test_db/data/28/5b35198a5e188b3a0df3ed33f93a26-0
-Adding file data to DB in: test_db/data/3d/546a1ce46c6ae10ad34ab8a81c542e-0
+Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
+Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-1
+Adding compressed file data to DB in: test_db/data/285b35198a5e188b3a0df3ed33f93a26-0
+Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
  -> Database closed
 [ 1] myClient         /client_path/test space            f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 2] myClient         /client_path/testfile              f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1
@@ -159,18 +97,6 @@ Test: crawl
 Error: data corrupted for 59ca0efa9f5633cb0371bbc0355478d8-0
  -> checking: 59ca0efa9f5633cb0371bbc0355478d8-1
  -> checking: d41d8cd98f00b204e9800998ecf8427e-0
- -> checking: fe98test2
-Error: data missing for fe98test2
- -> checking: febatest1
-Error: data missing for febatest1
- -> checking: fedc76test6
-Error: data missing for fedc76test6
- -> checking: zz000001
-Error: data missing for zz000001
- -> checking: zz000002
-Error: data missing for zz000002
- -> checking: zz000003
-Error: data missing for zz000003
  -> Journal is empty, not merging
  -> Database closed
 List of valid checksums

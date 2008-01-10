@@ -35,17 +35,15 @@ using namespace std;
 
 #include "files.h"
 #include "list.h"
+#include "data.h"
 #include "db.h"
 #include "hbackup.h"
 
 using namespace hbackup;
 
-static bool cancel() {
-  return terminating("write") != 0;
-}
-
 struct Database::Private {
   string            path;
+  Data              data;
   int               expire;
   list<string>      active_data;
   list<string>      expired_data;
@@ -256,298 +254,14 @@ bool Database::isWriteable() const {
   return (_d->journal != NULL) && _d->journal->isOpen();
 }
 
-int Database::getDir(
-    const string& checksum,
-    string&       path,
-    bool          create) const {
-  path = _d->path + "/data";
-  int level = 0;
-
-  // Two cases: either there are files, or a .nofiles file and directories
-  do {
-    // If we can find a .nofiles file, then go down one more directory
-    if (File(path.c_str(), ".nofiles").isValid()) {
-      path += "/" + checksum.substr(level, 2);
-      level += 2;
-      if (create && Directory(path.c_str()).create()) {
-        return 1;
-      }
-    } else {
-      break;
-    }
-  } while (true);
-  // Return path
-  path += "/" + checksum.substr(level);
-  return ! Directory(path.c_str()).isValid();
-}
-
-int Database::organise(
-    const string&   path,
-    int             number) const {
-  DIR           *directory;
-  struct dirent *dir_entry;
-  File          nofiles(path.c_str(), ".nofiles");
-  int           failed   = 0;
-
-  if (! isWriteable()) {
-    return -1;
-  }
-
-  // Already organised?
-  if (nofiles.isValid()) {
-    return 0;
-  }
-  // Find out how many entries
-  if ((directory = opendir(path.c_str())) == NULL) {
-    return 1;
-  }
-  // Skip . and ..
-  number += 2;
-  while (((dir_entry = readdir(directory)) != NULL) && (number > 0)) {
-    number--;
-  }
-  // Decide what to do
-  if (number == 0) {
-    rewinddir(directory);
-    while ((dir_entry = readdir(directory)) != NULL) {
-      // Ignore . and ..
-      if (! strcmp(dir_entry->d_name, ".")
-       || ! strcmp(dir_entry->d_name, "..")) {
-        continue;
-      }
-      Node node(path.c_str(), dir_entry->d_name);
-      string source_path = path + "/" + dir_entry->d_name;
-      if (node.stat()) {
-        cerr << "Error: organise: cannot get metadata: " << source_path
-          << endl;
-        failed = 2;
-      } else
-      if ((node.type() == 'd')
-       // If we crashed, we might have some two-letter dirs already
-       && (strlen(node.name()) != 2)
-       // If we've reached the point where the dir is ??-?, stop!
-       && (node.name()[2] != '-')) {
-        // Create two-letter directory
-        string dir_path = path + "/" + node.name()[0] + node.name()[1];
-        if (Directory(dir_path.c_str()).create()) {
-          failed = 2;
-        } else {
-          // Create destination path
-          string dest_path = dir_path + "/" + &node.name()[2];
-          // Move directory accross, changing its name
-          if (rename(source_path.c_str(), dest_path.c_str())) {
-            failed = 1;
-          }
-        }
-      }
-    }
-    if (! failed) {
-      nofiles.create();
-    }
-  }
-  closedir(directory);
-  return failed;
-}
-
-int Database::write(
-    const string&   path,
-    char**          dchecksum,
-    int             compress) {
-  if (! isWriteable()) {
-    return -1;
-  }
-
-  int failed = 0;
-
-  Stream source(path.c_str());
-  if (source.open("r")) {
-    cerr << strerror(errno) << ": " << path << endl;
-    return -1;
-  }
-
-  // Temporary file to write to
-  string temp_path = _d->path + "/data/temp";
-  Stream temp(temp_path.c_str());
-  if (temp.open("w", compress)) {
-    cerr << strerror(errno) << ": " << temp_path << endl;
-    failed = -1;
-  } else
-
-  // Copy file locally
-  if (temp.copy(source, cancel)) {
-    cerr << strerror(errno) << ": " << path << endl;
-    failed = -1;
-  }
-
-  source.close();
-  temp.close();
-
-  if (failed) {
-    return failed;
-  }
-
-  // Get file final location
-  string dest_path;
-  if (getDir(source.checksum(), dest_path, true) == 2) {
-    cerr << "Error: write: failed to get dir for: " << source.checksum()
-      << endl;
-    return -1;
-  }
-
-  // Make sure our checksum is unique: compare first bytes of files
-  int  index = 0;
-  bool missing = false;
-  bool present = false;
-  do {
-    char* final_path = NULL;
-    asprintf(&final_path, "%s-%u", dest_path.c_str(), index);
-
-    // Check whether directory already exists
-    if (Directory(final_path).isValid()) {
-      Stream* try_file = new Stream(final_path, "data");
-
-      if (try_file->isValid()) {
-        try_file->open("r");
-      } else {
-        delete try_file;
-        try_file = new Stream(final_path, "data.gz");
-        if (! try_file->isValid()) {
-          delete try_file;
-          // Need to copy file accross: leave index to current value and exit
-          break;
-        }
-        try_file->open("r", 1);
-      }
-      temp.open("r", compress);
-      switch (temp.compare(*try_file, 1024)) {
-        case 0:
-          present = true;
-          break;
-        case 1:
-          index++;
-          break;
-        default:
-          failed = -1;
-      }
-      try_file->close();
-      delete try_file;
-      temp.close();
-    } else {
-      Directory(final_path).create();
-      dest_path = final_path;
-      missing = true;
-    }
-    free(final_path);
-  } while ((failed == 0) && (! missing) && (! present));
-
-  // Now move the file in its place
-  if (! present && rename(temp_path.c_str(),
-        (dest_path + "/data" + ((compress != 0) ? ".gz" : "")).c_str())) {
-    cerr << "Failed to move file " << temp_path << " to "
-      << dest_path << ": " << strerror(errno) << endl;
-    failed = -1;
-  } else
-  if (! present && (verbosity() > 1)) {
-    cout << "Adding " << ((compress != 0) ? "compressed " : "")
-      << "file data to DB in: " << dest_path << endl;
-  }
-
-  // If anything failed, delete temporary file
-  if (failed || present) {
-    std::remove(temp_path.c_str());
-  }
-
-  // Report checksum
-  *dchecksum = NULL;
-  if (! failed) {
-    asprintf(dchecksum, "%s-%d", source.checksum(), index);
-  }
-
-  // Make sure we won't exceed the file number limit
-  if (! failed) {
-    // dest_path is /path/to/checksum
-    unsigned int pos = dest_path.rfind('/');
-
-    if (pos != string::npos) {
-      dest_path.erase(pos);
-      // Now dest_path is /path/to
-      organise(dest_path, 256);
-    }
-  }
-
-  return failed;
-}
-
 int Database::crawl(
     Directory&      dir,
     const string&   checksumPart,
     bool            thorough,
     list<string>&   checksums) const {
-  if (dir.isValid() && ! dir.createList()) {
-    bool no_files = false;
-    list<Node*>::iterator i = dir.nodesList().begin();
-    while (i != dir.nodesList().end()) {
-      if (((*i)->type() == 'f') && (strcmp((*i)->name(), ".nofiles") == 0)) {
-        no_files = true;
-      }
-      if ((*i)->type() == 'd') {
-        string checksum = checksumPart + (*i)->name();
-        if (no_files) {
-          Directory *d = new Directory(**i);
-          crawl(*d, checksum, thorough, checksums);
-          delete d;
-        } else {
-          if (verbosity() > 1) {
-            cout << " -> checking: " << checksum << endl;
-          }
-          if (! scan(thorough, checksum)) {
-            checksums.push_back(checksum);
-          }
-        }
-      }
-      delete *i;
-      i = dir.nodesList().erase(i);
-    }
-  } else {
-    return -1;
-  }
-  return 0;
+  return _d->data.crawl(dir, checksumPart, thorough, checksums);
 }
 
-int Database::parseChecksums(
-    list<string>&   checksums) {
-  return -1;
-}
-
-int Database::trash(
-    string          trash_path,
-    int             trash_expire) {
-  if (trash_expire < 0) {
-    return 0;
-  }
-  // Read trash directory
-  Directory trash_dir(trash_path.c_str());
-  if (! trash_dir.isValid()) {
-    return 0;
-  }
-  trash_dir.createList();
-  // Deal with files in it
-  time_t time_remove = time(NULL) - trash_expire;
-  bool failed;
-  list<Node*>::iterator i = trash_dir.nodesList().begin();
-  while (i != trash_dir.nodesList().end()) {
-    if ((*i)->mtime() < time_remove) {
-      if (remove((*i)->path()) != 0) {
-        failed = true;
-      } else if (verbosity() > 1) {
-        cout << "Removed from trash: " << (*i)->path() << endl;
-      }
-    }
-    delete *i;
-    i = trash_dir.nodesList().erase(i);
-  }
-  return failed ? -1 : 0;
-}
 
 Database::Database(const string& path) {
   _d          = new Private;
@@ -570,7 +284,7 @@ int Database::open_ro() {
     return -1;
   }
 
-  if (! Directory((_d->path + "/data").c_str()).isValid()) {
+  if (_d->data.open((_d->path + "/data").c_str())) {
     cerr << "Error: given DB path does not contain a database: " << _d->path
       << endl;
     return -1;
@@ -626,31 +340,35 @@ int Database::open_rw() {
   List list(_d->path.c_str(), "list");
 
   // Check DB dir
-  if (! Directory((_d->path + "/data").c_str()).isValid()) {
-    if (Directory(_d->path.c_str(), "data").create()) {
+  switch (_d->data.open((_d->path + "/data").c_str(), true)) {
+    case 0:
+      // Open successful
+      if (! list.isValid()) {
+        Stream backup(_d->path.c_str(), "list~");
+
+        cerr << "Error: list not accessible...";
+        if (backup.isValid()) {
+          cerr << "using backup" << endl;
+          rename((_d->path + "/list~").c_str(), (_d->path + "/list").c_str());
+        } else {
+          cerr << "no backup accessible, aborting.";
+          failed = true;
+        }
+      }
+      break;
+    case 1:
+      // Creation successful
+      if (list.open("w") || list.close()) {
+        cerr << "Error: cannot create list file" << endl;
+        failed = true;
+      } else {
+        cout << "Database initialized in " << _d->path << endl;
+      }
+      break;
+    default:
+      // Creation failed
       cerr << "Error: cannot create data directory" << endl;
       failed = true;
-    } else
-    if (list.open("w") || list.close()) {
-      cerr << "Error: cannot create list file" << endl;
-      failed = true;
-    } else
-    {
-      cout << "Database initialized in " << _d->path << endl;
-    }
-  } else {
-    if (! list.isValid()) {
-      Stream backup(_d->path.c_str(), "list~");
-
-      cerr << "Error: list not accessible...";
-      if (backup.isValid()) {
-        cerr << "using backup" << endl;
-        rename((_d->path + "/list~").c_str(), (_d->path + "/list").c_str());
-      } else {
-        cerr << "no backup accessible, aborting.";
-        failed = true;
-      }
-    }
   }
 
   // Open list
@@ -820,70 +538,39 @@ int Database::close(int trash_expire) {
             }
           }
           _d->active_data.clear();
-          // Create trash if necessary
-          string trash_path = _d->path + "/data/trash";
-          trash(trash_path, trash_expire);
-          if ((trash_expire >= 0) && (_d->expired_data.size() != 0)
-           && (Directory(trash_path.c_str()).create() != 0)) {
-            cerr << "Warning: could not create trash" << endl;
-          } else {
-            // Remove obsolete data
-            i = _d->expired_data.begin();
-            while (i != _d->expired_data.end()) {
-              if (i->size() != 0) {
-                string path;
-                if (verbosity() > 1) {
-                  cout << " -> Removing data for " << *i << ": ";
-                }
-                if (! getDir(*i, path)) {
-                  File* f;
-                  string trash_name;
-                  f = new File(path.c_str(), "data");
-                  if (! f->isValid()) {
-                    delete f;
-                    f = new File(path.c_str(), "data.gz");
-                    if (! f->isValid()) {
-                      delete f;
-                      f = NULL;
-                    } else {
-                      trash_name = *i + ".gz";
-                    }
-                  } else {
-                    trash_name = *i;
+          // Remove obsolete data
+          i = _d->expired_data.begin();
+          while (i != _d->expired_data.end()) {
+            if (i->size() != 0) {
+              if (verbosity() > 1) {
+                cout << " -> Removing data for " << *i << ": ";
+              }
+              switch (_d->data.remove(*i)) {
+                case 0:
+                  if (verbosity() > 1) {
+                    cout << "done";
                   }
-                  int rc;
-                  if (f != NULL) {
-                    if ((trash_expire >= 0)) {
-                      rc = rename(f->path(),
-                                  (trash_path + "/" + trash_name).c_str());
-                    } else {
-                      rc = f->remove();
-                    }
-                    if (verbosity() > 1) {
-                      if (rc) {
-                        cout << "FAILED!";
-                      } else {
-                        cout << "done";
-                      }
-                    }
-                  } else {
-                    if (verbosity() > 1) {
-                      cout << "DATA GONE!";
-                    }
-                  }
-                  delete f;
-                  remove(path.c_str());
-                } else {
+                  break;
+                case 1:
                   if (verbosity() > 1) {
                     cout << "ALREADY GONE!";
                   }
-                }
-                if (verbosity() > 1) {
-                  cout << endl;
-                }
+                  break;
+                case 2:
+                  if (verbosity() > 1) {
+                    cout << "DATA GONE!";
+                  }
+                  break;
+                default:
+                  if (verbosity() > 1) {
+                    cout << "FAILED!";
+                  }
               }
-              i = _d->expired_data.erase(i);
+              if (verbosity() > 1) {
+                cout << endl;
+              }
             }
+            i = _d->expired_data.erase(i);
           }
           _d->expired_data.clear();
         }
@@ -1075,7 +762,7 @@ int Database::restore(
             if (f->checksum()[0] == '\0') {
               cerr << "Failed to restore file: data missing" << endl;
             } else
-            if (read(base.c_str(), f->checksum())) {
+            if (_d->data.read(base.c_str(), f->checksum())) {
               cerr << "Failed to restore file: " << strerror(errno) << endl;
               failed = true;
             } else
@@ -1119,71 +806,6 @@ int Database::restore(
     }
   }
   return failed ? -1 : 0;
-}
-
-int Database::read(const string& path, const string& checksum) {
-  if (! isOpen()) {
-    return -1;
-  }
-  int     failed = 0;
-
-  string source_path;
-  if (getDir(checksum, source_path)) {
-    cerr << "Error: read: failed to get dir for: " << checksum << endl;
-    return -1;
-  }
-
-  // Open source
-  bool decompress = false;
-  source_path += "/data";
-  if (! File(source_path.c_str()).isValid()) {
-    source_path += ".gz";
-    decompress = true;
-  }
-  Stream source(source_path.c_str());
-  if (source.open("r", decompress ? 1 : 0)) {
-    cerr << "Error: failed to open read source file: " << source_path << endl;
-    return -1;
-  }
-
-  // Open temporary file to write to
-  string temp_path = path + ".part";
-  Stream temp(temp_path.c_str());
-  if (temp.open("w")) {
-    cerr << "Error: failed to open read dest file: " << temp_path << endl;
-    failed = 2;
-  } else
-
-  // Copy file to temporary name (size not checked: checksum suffices)
-  if (temp.copy(source, cancel)) {
-    cerr << "Error: failed to read file: " << source_path << endl;
-    failed = 2;
-  }
-
-  source.close();
-  temp.close();
-
-  if (! failed) {
-    // Verify that checksums match before overwriting final destination
-    if (strncmp(checksum.c_str(), temp.checksum(), strlen(temp.checksum()))) {
-      cerr << "Error: read checksums don't match: " << checksum << " "
-        << temp.checksum() << endl;
-      failed = 2;
-    } else
-
-    // All done
-    if (rename(temp_path.c_str(), path.c_str())) {
-      cerr << "Error: failed to rename read file to " << strerror(errno)
-        << ": " << path << endl;
-      failed = 2;
-    }
-  }
-
-  if (failed) {
-    std::remove(temp_path.c_str());
-  }
-
-  return failed;
 }
 
 int Database::scan(
@@ -1233,59 +855,9 @@ int Database::scan(
         return -1;
       }
     }
-  } else
-  // Check given file data
-  {
-    string path;
-    if (getDir(checksum, path)) {
-      errno = EUCLEAN;
-      return -1;
-    }
-    bool failed = false;
-    Stream *data = NULL;
-    // Uncompressed data
-    if (File(path.c_str(), "data").isValid()) {
-      if (thorough) {
-        data = new Stream(path.c_str(), "data");
-        if (data->open("r")) {
-          errno = EINVAL;
-          failed = true;
-        }
-      } else {
-        return 0;
-      }
-    } else
-    // Compressed data
-    if (File(path.c_str(), "data.gz").isValid()) {
-      if (thorough) {
-        data = new Stream(path.c_str(), "data.gz");
-        if (data->open("r", 1)) {
-          errno = EINVAL;
-          failed = true;
-        }
-      } else {
-        return 0;
-      }
-    } else
-    // Missing data
-    {
-      cerr << "Error: data missing for " << checksum << endl;
-      errno = ENOENT;
-      return -1;
-    }
-    if (data->computeChecksum() || data->close()) {
-      errno = EINVAL;
-      failed = true;
-    } else
-    if (strncmp(data->checksum(), checksum.c_str(), strlen(data->checksum()))){
-      cerr << "Error: data corrupted for " << checksum << endl;
-      errno = EUCLEAN;
-      failed = true;
-    }
-    delete data;
-    if (failed) {
-      return -1;
-    }
+  } else {
+    // Check given file data
+    _d->data.check(checksum, thorough);
   }
   return 0;
 }
@@ -1408,7 +980,7 @@ int Database::add(
       } else {
         // Copy data
         char* checksum  = NULL;
-        if (! write(string(node->path()), &checksum, compress)) {
+        if (! _d->data.write(string(node->path()), &checksum, compress)) {
           ((File*)node2)->setChecksum(checksum);
           free(checksum);
         } else {

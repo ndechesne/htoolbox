@@ -34,30 +34,12 @@ class Database {
 protected: // So I can test them/use them in tests
   bool isOpen() const;
   bool isWriteable() const;
-  int getDir(
-    const string&   checksum,
-    string&         path,
-    bool            create = false) const;
-  int  organise(
-    const string&   path,
-    int             number) const;
-  int  write(
-    const string&   path,
-    char**          checksum,
-    int             compress = 0);
   // Scan database for missing/corrupted data, return a list of valid checksums
-  int  crawl(
+  int crawl(
     Directory&      dir,              // Base directory
     const string&   checksumPart,     // Checksum part
     bool            thorough,         // Whether to do a corruption check
     list<string>&   checksums) const; // List of collected checksums
-  // Use crawl's list of checksums to check for missing and obsolete data
-  int  parseChecksums(
-    list<string>&   checksums);
-  // Deal with trash items
-  int  trash(
-    string          path,
-    int             trash_expire);
 public:
   Database(const string& path);
   ~Database();
@@ -78,10 +60,6 @@ public:
     const char*     client,           // The client to restore
     const char*     path = NULL,      // The path to restore (all)
     time_t          date = 0);        // The date to restore (latest)
-  // Read file with given checksum, extract it to path
-  int  read(
-    const string&   path,
-    const string&   checksum);
   // Scan database for missing/corrupted (if thorough) data
   // If checksum is empty, scan all contents
   int  scan(

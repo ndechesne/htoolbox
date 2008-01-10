@@ -1,0 +1,62 @@
+db::open status 1
+
+Test: getdir
+Check test_db/data dir: 0
+febatest1 status: 0, getdir_path: test_db/data/fe/ba/test1
+fe98test2 status: 0, getdir_path: test_db/data/fe/98/test2
+fe98test3 status: -1, getdir_path: test_db/data/fe/98/test3
+fetest4 status: -1, getdir_path: test_db/data/fe/te/st4
+fedc76test5 status: -1, getdir_path: test_db/data/fe/dc/76/test5
+fedc76test6 status: -1, getdir_path: test_db/data/fe/dc/76/test6
+fedc76test6 status: 0, getdir_path: test_db/data/fe/dc/76/test6
+
+Test: write and read back
+Adding file data to DB in: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0
+59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
+59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
+
+Test: write and read back with compression
+59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
+59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
+
+Test: organise
+Lesser:
+test_db/data/zz:
+000001
+
+test_db/data/zz/000001:
+Equal:
+test_db/data/zz:
+00
+.nofiles
+
+test_db/data/zz/00:
+0001
+0002
+
+test_db/data/zz/00/0001:
+
+test_db/data/zz/00/0002:
+Greater:
+test_db/data/zz:
+00
+.nofiles
+
+test_db/data/zz/00:
+00
+.nofiles
+
+test_db/data/zz/00/00:
+01
+02
+03
+
+test_db/data/zz/00/00/01:
+
+test_db/data/zz/00/00/02:
+
+test_db/data/zz/00/00/03:
+
+Test: read-only mode
+
+Test: do nothing

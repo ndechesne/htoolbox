@@ -5,6 +5,7 @@ check_PROGRAMS = \
 	conditions_test \
 	configuration_test \
 	cvs_parser_test \
+	data_test \
 	db_test \
 	files_test \
 	filters_test \
@@ -18,6 +19,7 @@ clients_test_SOURCES = clients_test.cpp
 conditions_test_SOURCES = conditions_test.cpp
 configuration_test_SOURCES = configuration_test.cpp
 cvs_parser_test_SOURCES = cvs_parser_test.cpp
+data_test_SOURCES = data_test.cpp
 db_test_SOURCES = db_test.cpp
 files_test_SOURCES = files_test.cpp
 filters_test_SOURCES = filters_test.cpp
@@ -38,6 +40,7 @@ check_SUCCESSES = \
 	cvs_parser.done \
 	svn_parser.done \
 	list.done \
+	data.done \
 	db.done \
 	paths.done \
 	clients.done \

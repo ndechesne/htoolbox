@@ -10,6 +10,7 @@ libhbackup_la_SOURCES = \
 	conditions.h \
 	configuration.h \
 	cvs_parser.h \
+	data.h \
 	db.h \
 	files.h \
 	filters.h \
@@ -23,6 +24,7 @@ libhbackup_la_SOURCES = \
 	conditions.cpp \
 	configuration.cpp \
 	cvs_parser.cpp \
+	data.cpp \
 	db.cpp \
 	files.cpp \
 	filters.cpp \

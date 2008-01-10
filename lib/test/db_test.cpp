@@ -37,17 +37,12 @@ using namespace hbackup;
 //   lock:        tested
 //   unlock:      tested
 //   merge:       tested in paths
-//   getDir:      tested
-//   organise:    tested
-//   write:       tested
-//   crawl:       FIXME not tested
 //   path:        tested in paths
 //   open:        tested in paths
 //   open(ro):    tested
 //   close:       tested in paths
 //   close(ro):   tested
 //   getList:     tested in paths
-//   read:        tested
 //   scan:        FIXME broken, not tested
 //   add:         tested in paths
 //   remove:      tested in paths
@@ -62,33 +57,12 @@ public:
   bool isWriteable() const {
     return Database::isWriteable();
   }
-  int getDir(
-      const string&   checksum,
-      string&         path,
-      bool            create) {
-    return Database::getDir(checksum, path, create);
-  }
-  int  organise(
-      const string&   path,
-      int             number) {
-    return Database::organise(path, number);
-  }
-  int  write(
-      const string&   path,
-      char**          checksum,
-      int             compress = 0) {
-    return Database::write(path, checksum, compress);
-  }
   int  crawl(
       Directory&      dir,
       const string&   checksumPart,
       bool            thorough,
       list<string>&   checksums) const {
     return Database::crawl(dir, checksumPart, thorough, checksums);
-  }
-  int  parseChecksums(
-      list<string>&   checksums) {
-    return Database::parseChecksums(checksums);
   }
 };
 
@@ -165,107 +139,9 @@ int main(void) {
   }
 
 
-  cout << endl << "Test: getdir" << endl;
-  cout << "Check test_db/data dir: " << ! Directory("test_db/data").isValid() << endl;
-  File("test_db/data/.nofiles").create();
-  Directory("test_db/data/fe").create();
-  File("test_db/data/fe/.nofiles").create();
-  File("test_db/data/fe/test4").create();
-  Directory("test_db/data/fe/dc").create();
-  File("test_db/data/fe/dc/.nofiles").create();
-  Directory("test_db/data/fe/ba").create();
-  Directory("test_db/data/fe/ba/test1").create();
-  Directory("test_db/data/fe/98").create();
-  Directory("test_db/data/fe/98/test2").create();
-  string  getdir_path;
-  cout << "febatest1 status: " << db.getDir("febatest1", getdir_path, true)
-    << ", getdir_path: " << getdir_path << endl;
-  cout << "fe98test2 status: " << db.getDir("fe98test2", getdir_path, true)
-    << ", getdir_path: " << getdir_path << endl;
-  cout << "fe98test3 status: " << db.getDir("fe98test3", getdir_path, true)
-    << ", getdir_path: " << getdir_path << endl;
-  cout << "fetest4 status: " << db.getDir("fetest4", getdir_path, true)
-    << ", getdir_path: " << getdir_path << endl;
-  cout << "fedc76test5 status: " << db.getDir("fedc76test5", getdir_path, true)
-    << ", getdir_path: " << getdir_path << endl;
-  Directory("test_db/data/fe/dc/76").create();
-  cout << "fedc76test6 status: " << db.getDir("fedc76test6", getdir_path, true)
-    << ", getdir_path: " << getdir_path << endl;
-  mkdir("test_db/data/fe/dc/76/test6", 0755);
-  cout << "fedc76test6 status: " << db.getDir("fedc76test6", getdir_path, true)
-    << ", getdir_path: " << getdir_path << endl;
-
-
-  cout << endl << "Test: write and read back" << endl;
-  /* Write */
-  char* chksm = NULL;
-  if ((status = db.write("test1/testfile", &chksm))) {
-    printf("db.write error status %d\n", status);
-    db.close();
-    return 0;
-  }
-  if (chksm == NULL) {
-    printf("db.write returned unexpected null checksum\n");
-    db.close();
-    return 0;
-  }
-  cout << chksm << "  test1/testfile" << endl;
-  /* Read */
-  if ((status = db.read("test_db/blah", chksm))) {
-    printf("db.read error status %d\n", status);
-    db.close();
-    return 0;
-  }
-  /* Write again */
-  chksm = NULL;
-  if ((status = db.write("test_db/blah", &chksm))) {
-    printf("db.write error status %d\n", status);
-    db.close();
-    return 0;
-  }
-  if (chksm == NULL) {
-    printf("db.write returned unexpected null checksum\n");
-    db.close();
-    return 0;
-  }
-  cout << chksm << "  test_db/blah" << endl;
-
-  cout << endl << "Test: write and read back with compression" << endl;
-  /* Write */
-  chksm = NULL;
-  if ((status = db.write("test1/testfile", &chksm, 5))) {
-    printf("db.write error status %d\n", status);
-    db.close();
-    return 0;
-  }
-  if (chksm == NULL) {
-    printf("db.write returned unexpected null checksum\n");
-    db.close();
-    return 0;
-  }
-  cout << chksm << "  test1/testfile" << endl;
-  /* Read */
-  if ((status = db.read("test_db/blah", chksm))) {
-    printf("db.read error status %d\n", status);
-    db.close();
-    return 0;
-  }
-  /* Write again */
-  chksm = NULL;
-  if ((status = db.write("test_db/blah", &chksm))) {
-    printf("db.write error status %d\n", status);
-    db.close();
-    return 0;
-  }
-  if (chksm == NULL) {
-    printf("db.write returned unexpected null checksum\n");
-    db.close();
-    return 0;
-  }
-  cout << chksm << "  test_db/blah" << endl;
-
-
   cout << endl << "Test: check" << endl;
+  Directory("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0").create();
+  File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
   if (db.scan(false, "49ca0efa9f5633cb0371bbc0355678d8-0")) {
     printf("db.check: %s\n", strerror(errno));
   }
@@ -282,37 +158,21 @@ int main(void) {
     printf("db.check: %s\n", strerror(errno));
   }
   cout << "File data gone" << endl;
-  remove("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data");
+  File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").remove();
   if (db.scan(false, "59ca0efa9f5633cb0371bbc0355478d8-0")) {
     printf("db.check: %s\n", strerror(errno));
     fflush(stdout);
   }
   cout << "File data corrupted, surficial scan" << endl;
-  File("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data").create();
+  File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
   if (db.scan(false, "59ca0efa9f5633cb0371bbc0355478d8-0")) {
     printf("db.check: %s\n", strerror(errno));
   }
   cout << "File data corrupted, thorough scan" << endl;
-  File("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data").create();
+  File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
   if (db.scan(true, "59ca0efa9f5633cb0371bbc0355478d8-0")) {
     printf("db.check: %s\n", strerror(errno));
   }
-
-
-  cout << endl << "Test: organise" << endl;
-  mkdir("test_db/data/zz", 0755);
-  mkdir("test_db/data/zz/000001", 0755);
-  cout << "Lesser:" << endl;
-  db.organise("test_db/data/zz", 2);
-  system("LANG=en_US.UTF-8 ls -AR test_db/data/zz");
-  mkdir("test_db/data/zz/000002", 0755);
-  cout << "Equal:" << endl;
-  db.organise("test_db/data/zz", 2);
-  system("LANG=en_US.UTF-8 ls -AR test_db/data/zz");
-  mkdir("test_db/data/zz/00/0003", 0755);
-  cout << "Greater:" << endl;
-  db.organise("test_db/data/zz/00", 2);
-  system("LANG=en_US.UTF-8 ls -AR test_db/data/zz");
 
   db.close();
 
@@ -522,6 +382,7 @@ int main(void) {
   }
   records.clear();
 
+
   cout << endl << "Test: crawl" << endl;
   list<string> checksums;
   if ((status = db.open_rw())) {
@@ -541,6 +402,7 @@ int main(void) {
     cout << " -> " << *i << endl;
   }
   checksums.clear();
+
 
   cout << endl << "Test: concurrent access" << endl;
   if (db.open_rw() == 0) {
