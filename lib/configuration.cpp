@@ -70,3 +70,14 @@ void ConfigItem::debug(int level) {
     (*i)->debug(level + 2);
   }
 }
+
+int Config::read(
+    Stream&         stream) {
+  list<string> params;
+  while (stream.getParams(params) > 0) {
+    if (params.size() > 0) {
+      cout << "line: " << *params.begin() << ", " << params.size() << endl;
+    }
+  }
+  return 0;
+}

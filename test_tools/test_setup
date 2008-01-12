@@ -194,7 +194,7 @@ EOF
 # Restore
 mkdir -p "$TESTRESTORE"
 
-# Config
+# Server config
 mkdir "$CONFIGDIR"
 cat << EOF > "$CONFIGDIR/hbackup.conf"
 db "$TESTDBDIR"
@@ -229,6 +229,7 @@ hostname myClient
 config "C:\Backup\Backup.LST"
 EOF
 
+# Client config
 cat << EOF > "$CONFIGDIR/localhost.list"
 # This is a comment
 filter and subdir
@@ -260,4 +261,68 @@ compress bigfile
 parser cvs controlled
 parser svn modified
 parser bzr modified
+EOF
+
+# General config
+cat << EOF > "$CONFIGDIR/general.conf"
+db "$TESTDBDIR"
+trash 1
+
+filter all backup
+condition type file
+condition path_end ~
+
+filter any test_or
+condition filter backup
+condition !size< 1000
+
+client nfs myClient
+hostname myClient
+config $ROOTDIRNFS/hbackup.list
+
+client ssh other
+hostname otherClient
+config /home/backup/Backup.list
+# This is a comment
+filter and subdir
+condition path_start subdir
+condition !size< 100
+
+filter and bigfile
+condition size>= 10
+condition type file
+
+expire 1
+
+path test2//
+
+path "test1" # should work
+
+filter and not_object
+condition !path_end ".o"
+
+filter or to_be_ignored
+condition filter subdir
+condition filter backup
+condition !filter not_object
+
+ignore to_be_ignored
+
+compress bigfile
+
+parser cvs controlled
+parser svn modified
+parser bzr modified
+
+client file myhost
+hostname myhost.mynetwork.lan
+config "$CONFIGDIR/localhost.list"
+expire 1
+
+client smb client
+option username Myself
+option password flesyM
+option nocase
+hostname myClient
+config "C:\Backup\Backup.LST"
 EOF

@@ -37,7 +37,7 @@ int hbackup::terminating(const char* function) {
 int main(void) {
   Config*     config;
 
-  cout << "Test: server configuration" << endl;
+  cout << "Test: set server configuration" << endl;
   config = new Config;
 
   // db
@@ -76,12 +76,21 @@ int main(void) {
   // show debug
   config->debug();
 
+  cout << endl << "Test: read server configuration" << endl;
+  Stream server_config("etc/hbackup.conf");
+  if (server_config.open("r") == 0) {
+    config->read(server_config);
+    server_config.close();
+  } else {
+    cout << "failed to open it!" << endl;
+  }
+
   delete config;
 
-  cout << endl << "Test: client configuration" << endl;
+  cout << endl << "Test: set client configuration" << endl;
   config = new Config;
 
-  // db
+  // expire
   config->add(new ConfigItem("expire", 0, 1, 1));
 
   // filter
@@ -119,6 +128,98 @@ int main(void) {
 
   // show debug
   config->debug();
+
+  cout << endl << "Test: read client configuration" << endl;
+  Stream client_config("etc/localhost.list");
+  if (client_config.open("r") == 0) {
+    config->read(client_config);
+    client_config.close();
+  } else {
+    cout << "failed to open it!" << endl;
+  }
+
+  delete config;
+
+  cout << "Test: set general configuration" << endl;
+  config = new Config;
+
+  // db
+  config->add(new ConfigItem("db", 0, 1, 1));
+
+  // trash
+  config->add(new ConfigItem("trash", 0, 1, 1));
+
+  // filter
+  {
+    ConfigItem* item = new ConfigItem("filter", 0, 0, 2);
+    config->add(item);
+
+    // condition
+    item->add(new ConfigItem("condition", 1, 0, 2));
+  }
+
+  // client
+  {
+    ConfigItem* item = new ConfigItem("client", 1, 0, 1);
+    config->add(item);
+
+    // hostname
+    item->add(new ConfigItem("hostname", 0, 1, 1));
+
+    // option
+    item->add(new ConfigItem("option", 0, 0, 1, 2));
+
+    // config
+    item->add(new ConfigItem("config", 1, 1, 1));
+
+    // expire
+    item->add(new ConfigItem("expire", 0, 1, 1));
+
+    // filter
+    {
+      ConfigItem* sub_item = new ConfigItem("filter", 0, 0, 2);
+      item->add(sub_item);
+
+      // condition
+      sub_item->add(new ConfigItem("condition", 1, 0, 2));
+    }
+
+    // path
+    {
+      ConfigItem* sub_item = new ConfigItem("path", 1, 0, 1);
+      item->add(sub_item);
+
+      // parser
+      sub_item->add(new ConfigItem("parser", 0, 0, 1, 2));
+
+      // filter
+      {
+        ConfigItem* item2 = new ConfigItem("filter", 0, 0, 2);
+        sub_item->add(item2);
+
+        // condition
+        item2->add(new ConfigItem("condition", 1, 0, 2));
+      }
+
+      // ignore
+      item->add(new ConfigItem("ignore", 0, 1, 1));
+
+      // compress
+      item->add(new ConfigItem("compress", 0, 1, 1));
+    }
+  }
+
+  // show debug
+  config->debug();
+
+  cout << endl << "Test: read general configuration" << endl;
+  Stream general_config("etc/general.conf");
+  if (general_config.open("r") == 0) {
+    config->read(general_config);
+    general_config.close();
+  } else {
+    cout << "failed to open it!" << endl;
+  }
 
   delete config;
 

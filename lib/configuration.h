@@ -56,6 +56,8 @@ class Config : public ConfigItem {
 public:
   Config() :
     ConfigItem("HEAD") {}
+  int read(
+    Stream&         stream);
 };
 
 }

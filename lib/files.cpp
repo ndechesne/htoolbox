@@ -817,7 +817,8 @@ int Stream::getParams(
     const char*     quotes,
     const char*     comments) {
   string buffer;
-  
+
+  params.clear();
   int rc = getLine(buffer);
   if (rc == 0) {
     return 0;
