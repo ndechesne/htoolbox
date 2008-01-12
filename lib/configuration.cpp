@@ -42,15 +42,29 @@ void ConfigItem::debug(int level) {
       cout << " ";
     }
     cout << (*i)->_keyword;
+    cout << ", occ.: ";
     if ((*i)->_min_occurrences != 0) {
-      cout << ": min = " << (*i)->_min_occurrences;
+      cout << "min = " << (*i)->_min_occurrences;
     } else {
-      cout << ", optional";
+      cout << "optional";
     }
+    cout << ", ";
     if ((*i)->_max_occurrences != 0) {
-      cout << ", max = " << (*i)->_max_occurrences;
+      cout << "max = " << (*i)->_max_occurrences;
     } else {
-      cout << ", no max";
+      cout << "no max";
+    }
+    cout << "; params: ";
+    if ((*i)->_min_params != 0) {
+      cout << "min params = " << (*i)->_min_params;
+    } else {
+      cout << "no min";
+    }
+    cout << ", ";
+    if ((*i)->_max_params != 0) {
+      cout << "max params = " << (*i)->_max_params;
+    } else {
+      cout << "no max";
     }
     cout << endl;
     (*i)->debug(level + 2);

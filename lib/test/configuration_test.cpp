@@ -41,36 +41,36 @@ int main(void) {
   config = new Config;
 
   // db
-  config->add(new ConfigItem("db", 0, 1));
+  config->add(new ConfigItem("db", 0, 1, 1));
 
   // trash
-  config->add(new ConfigItem("trash", 0, 1));
+  config->add(new ConfigItem("trash", 0, 1, 1));
 
   // filter
   {
-    ConfigItem* item = new ConfigItem("filter", 0, 0);
+    ConfigItem* item = new ConfigItem("filter", 0, 0, 2);
     config->add(item);
 
     // condition
-    item->add(new ConfigItem("condition", 1, 0));
+    item->add(new ConfigItem("condition", 1, 0, 2));
   }
 
   // client
   {
-    ConfigItem* item = new ConfigItem("client", 1, 0);
+    ConfigItem* item = new ConfigItem("client", 1, 0, 1);
     config->add(item);
 
     // hostname
-    item->add(new ConfigItem("hostname", 0, 1));
+    item->add(new ConfigItem("hostname", 0, 1, 1));
 
     // option
-    item->add(new ConfigItem("option", 0, 0));
+    item->add(new ConfigItem("option", 0, 0, 1, 2));
 
     // config
-    item->add(new ConfigItem("config", 1, 1));
+    item->add(new ConfigItem("config", 1, 1, 1));
 
     // expire
-    item->add(new ConfigItem("expire", 0, 1));
+    item->add(new ConfigItem("expire", 0, 1, 1));
   }
 
   // show debug
@@ -82,39 +82,39 @@ int main(void) {
   config = new Config;
 
   // db
-  config->add(new ConfigItem("expire", 0, 1));
+  config->add(new ConfigItem("expire", 0, 1, 1));
 
   // filter
   {
-    ConfigItem* item = new ConfigItem("filter", 0, 0);
+    ConfigItem* item = new ConfigItem("filter", 0, 0, 2);
     config->add(item);
 
     // condition
-    item->add(new ConfigItem("condition", 1, 0));
+    item->add(new ConfigItem("condition", 1, 0, 2));
   }
 
   // path
   {
-    ConfigItem* item = new ConfigItem("path", 1, 0);
+    ConfigItem* item = new ConfigItem("path", 1, 0, 1);
     config->add(item);
 
     // parser
-    item->add(new ConfigItem("parser", 0, 0));
+    item->add(new ConfigItem("parser", 0, 0, 1, 2));
 
     // filter
     {
-      ConfigItem* item2 = new ConfigItem("filter", 0, 0);
+      ConfigItem* item2 = new ConfigItem("filter", 0, 0, 2);
       item->add(item2);
 
       // condition
-      item2->add(new ConfigItem("condition", 1, 0));
+      item2->add(new ConfigItem("condition", 1, 0, 2));
     }
 
     // ignore
-    item->add(new ConfigItem("ignore", 0, 1));
+    item->add(new ConfigItem("ignore", 0, 1, 1));
 
     // compress
-    item->add(new ConfigItem("compress", 0, 1));
+    item->add(new ConfigItem("compress", 0, 1, 1));
   }
 
   // show debug

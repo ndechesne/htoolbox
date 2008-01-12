@@ -1,21 +1,21 @@
 Test: server configuration
-db, optional, max = 1
-trash, optional, max = 1
-filter, optional, no max
-  condition: min = 1, no max
-client: min = 1, no max
-  hostname, optional, max = 1
-  option, optional, no max
-  config: min = 1, max = 1
-  expire, optional, max = 1
+db, occ.: optional, max = 1; params: min params = 1, max params = 1
+trash, occ.: optional, max = 1; params: min params = 1, max params = 1
+filter, occ.: optional, no max; params: min params = 2, max params = 2
+  condition, occ.: min = 1, no max; params: min params = 2, max params = 2
+client, occ.: min = 1, no max; params: min params = 1, max params = 1
+  hostname, occ.: optional, max = 1; params: min params = 1, max params = 1
+  option, occ.: optional, no max; params: min params = 1, max params = 2
+  config, occ.: min = 1, max = 1; params: min params = 1, max params = 1
+  expire, occ.: optional, max = 1; params: min params = 1, max params = 1
 
 Test: client configuration
-expire, optional, max = 1
-filter, optional, no max
-  condition: min = 1, no max
-path: min = 1, no max
-  parser, optional, no max
-  filter, optional, no max
-    condition: min = 1, no max
-  ignore, optional, max = 1
-  compress, optional, max = 1
+expire, occ.: optional, max = 1; params: min params = 1, max params = 1
+filter, occ.: optional, no max; params: min params = 2, max params = 2
+  condition, occ.: min = 1, no max; params: min params = 2, max params = 2
+path, occ.: min = 1, no max; params: min params = 1, max params = 1
+  parser, occ.: optional, no max; params: min params = 1, max params = 2
+  filter, occ.: optional, no max; params: min params = 2, max params = 2
+    condition, occ.: min = 1, no max; params: min params = 2, max params = 2
+  ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
+  compress, occ.: optional, max = 1; params: min params = 1, max params = 1

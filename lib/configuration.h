@@ -25,15 +25,25 @@ class ConfigItem {
   char*             _keyword;
   int               _min_occurrences;
   int               _max_occurrences;
+  int               _min_params;
+  int               _max_params;
   list<ConfigItem*> _children;
 public:
   ConfigItem(
     const char*     keyword,
     int             min_occurrences = 0,
-    int             max_occurrences = 0) :
+    int             max_occurrences = 0,
+    int             min_params = 0,
+    int             max_params = -1) :
       _keyword(strdup(keyword)),
       _min_occurrences(min_occurrences),
-      _max_occurrences(max_occurrences) {}
+      _max_occurrences(max_occurrences),
+      _min_params(min_params),
+      _max_params(max_params) {
+    if (max_params == -1) {
+      _max_params = _min_params;
+    }
+  }
   ~ConfigItem();
   void add(ConfigItem* child) {
     _children.push_back(child);
