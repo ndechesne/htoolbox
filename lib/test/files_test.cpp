@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2007  Herve Fache
+     Copyright (C) 2006-2008  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -197,6 +197,12 @@ bool cancel() {
   return true;
 }
 
+void progress(long long done, long long total) {
+  cout << "Progress: ";
+  printf("%5.1f%%", 100.0 * done / total);
+  cout << endl;
+}
+
 int main(void) {
   string  line;
 
@@ -359,6 +365,7 @@ int main(void) {
   if (readfile->open("r", -1)) {
     cout << "Error opening source file: " << strerror(errno) << endl;
   } else {
+    readfile->setProgressCallback(progress);
     unsigned char buffer[Stream::chunk];
     size_t read_size = 0;
     do {
@@ -383,6 +390,7 @@ int main(void) {
   if (writefile->open("w", 0)) {
     cout << "Error opening source file: " << strerror(errno) << endl;
   } else {
+    writefile->setProgressCallback(progress);
     size_t write_size = 0;
     ssize_t size = writefile->write("123", 3);
     if (size < 0) {
@@ -410,6 +418,7 @@ int main(void) {
   } else if (writefile->open("w", -1)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
+    readfile->setProgressCallback(progress);
     unsigned char buffer[Stream::chunk];
     size_t read_size = 0;
     size_t write_size = 0;
@@ -731,6 +740,7 @@ int main(void) {
   if (readfile->open("r")) {
     return 0;
   }
+  readfile->setProgressCallback(progress);
   if (readfile->computeChecksum()) {
     cout << "Error computing checksum, " << strerror(errno) << endl;
     return 0;
@@ -768,7 +778,8 @@ int main(void) {
   if (readfile->open("r", 1) || writefile->open("w", 0)) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    int rc = writefile->copy(*readfile, cancel);
+    writefile->setCancelCallback(cancel);
+    int rc = writefile->copy(*readfile);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {

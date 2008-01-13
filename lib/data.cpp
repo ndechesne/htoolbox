@@ -156,7 +156,8 @@ int Data::write(
   } else
 
   // Copy file locally
-  if (temp.copy(source, cancel)) {
+  temp.setCancelCallback(cancel);
+  if (temp.copy(source)) {
     cerr << strerror(errno) << ": " << path << endl;
     failed = -1;
   }
@@ -371,7 +372,8 @@ int Data::read(const string& path, const string& checksum) {
   } else
 
   // Copy file to temporary name (size not checked: checksum suffices)
-  if (temp.copy(source, cancel)) {
+  temp.setCancelCallback(cancel);
+  if (temp.copy(source)) {
     cerr << "Error: failed to read file: " << source_path << endl;
     failed = 2;
   }

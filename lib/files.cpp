@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2007  Herve Fache
+     Copyright (C) 2006-2008  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -312,14 +312,17 @@ bool Link::operator!=(const Link& right) const {
 }
 
 struct Stream::Private {
-  int               fd;         // file descriptor
-  mode_t            mode;       // file open mode
-  long long         size;       // uncompressed file data size, in bytes
-  unsigned char*    buffer;     // buffer for read/write operations
-  unsigned char*    reader;     // buffer read pointer
-  ssize_t           length;     // buffer length
-  EVP_MD_CTX*       ctx;        // openssl resources
-  z_stream*         strm;       // zlib resources
+  int               fd;                 // file descriptor
+  mode_t            mode;               // file open mode
+  long long         size;               // uncompressed file data size (bytes)
+  long long         progress;           // transfered size, for progress
+  unsigned char*    buffer;             // buffer for read/write operations
+  unsigned char*    reader;             // buffer read pointer
+  ssize_t           length;             // buffer length
+  EVP_MD_CTX*       ctx;                // openssl resources
+  z_stream*         strm;               // zlib resources
+  progress_f        progress_callback;  // function to report progress
+  cancel_f          cancel_callback;    // function to check for cancellation
 };
 
 void Stream::md5sum(char* out, const unsigned char* in, int bytes) {
@@ -335,7 +338,9 @@ void Stream::md5sum(char* out, const unsigned char* in, int bytes) {
 
 Stream::Stream(const char *dir_path, const char* name) : File(dir_path, name) {
   _d = new Private;
-  _d->fd = -1;
+  _d->fd                = -1;
+  _d->progress_callback = NULL;
+  _d->cancel_callback   = NULL;
 }
 
 Stream::~Stream() {
@@ -369,8 +374,9 @@ int Stream::open(const char* req_mode, int compression) {
     return -1;
   }
 
-  _d->size   = 0;
-  _d->length = 0;
+  _d->size     = 0;
+  _d->progress = 0;
+  _d->length   = 0;
   _d->fd = std::open64(_path.c_str(), _d->mode, 0666);
   if (! isOpen()) {
     // errno set by open
@@ -469,6 +475,14 @@ int Stream::close() {
   return rc;
 }
 
+long long Stream::progress() const {
+  return _d->progress;
+}
+
+void Stream::setProgressCallback(progress_f progress) {
+  _d->progress_callback = progress;
+}
+
 ssize_t Stream::read(void* buffer, size_t count) {
   if (! isOpen()) {
     errno = EBADF;
@@ -499,6 +513,14 @@ ssize_t Stream::read(void* buffer, size_t count) {
     if (_d->length < 0) {
       // errno set by read
       return -1;
+    }
+
+    // Update progress indicator (size read)
+    if (_d->length > 0) {
+      _d->progress += _d->length;
+      if (_d->progress_callback != NULL) {
+        (*_d->progress_callback)(_d->progress, _size);
+      }
     }
 
     // Update checksum with chunk
@@ -536,7 +558,7 @@ ssize_t Stream::read(void* buffer, size_t count) {
       _d->reader += count;
     }
   }
-  _d->size   += count;
+  _d->size += count;
   return count;
 }
 
@@ -603,6 +625,15 @@ ssize_t Stream::write(const void* buffer, size_t count) {
           // errno set by write
           return -1;
         }
+
+        // Update progress indicator (size written)
+        if (wlength > 0) {
+          _d->progress += wlength;
+          if (_d->progress_callback != NULL) {
+            (*_d->progress_callback)(_d->progress, _size);
+          }
+        }
+
         length -= wlength;
       } while ((length != 0) && (wlength != 0));
     }
@@ -677,6 +708,10 @@ ssize_t Stream::getLine(string& buffer) {
   return buffer.length();
 }
 
+void Stream::setCancelCallback(cancel_f cancel) {
+  _d->cancel_callback = cancel;
+}
+
 int Stream::computeChecksum() {
   if (! isOpen()) {
     errno = EBADF;
@@ -691,6 +726,10 @@ int Stream::computeChecksum() {
       break;
     }
     read_size += size;
+    if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)())) {
+      errno = ECANCELED;
+      return -1;
+    }
   } while (size != 0);
   if (read_size != _size) {
     errno = EAGAIN;
@@ -699,7 +738,7 @@ int Stream::computeChecksum() {
   return 0;
 }
 
-int Stream::copy(Stream& source, cancel_f cancel) {
+int Stream::copy(Stream& source) {
   if ((! isOpen()) || (! source.isOpen())) {
     errno = EBADF;
     return -1;
@@ -720,7 +759,7 @@ int Stream::copy(Stream& source, cancel_f cancel) {
       break;
     }
     write_size += size;
-    if ((cancel != NULL) && ((*cancel)())) {
+    if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)())) {
       errno = ECANCELED;
       return -1;
     }
@@ -803,6 +842,10 @@ int Stream::compare(Stream& source, long long length) {
         }
       }
     }
+    if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)())) {
+      errno = ECANCELED;
+      return -1;
+    }
   }
   free(buffer1);
   free(buffer2);
@@ -846,7 +889,7 @@ int Stream::extractParams(
     const string&   line,
     list<string>&   params,
     const char*     delims,
-    const char*     quotes, 
+    const char*     quotes,
     const char*     comments) {
   const char* read   = line.c_str();
   int chars_left     = line.size();
@@ -963,7 +1006,7 @@ int Stream::extractParams(
       value_end   = false;
     }
   } while (*read != '\0');
-  
+
   free(param);
   if (! ended_well) {
     return 1;

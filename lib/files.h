@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2007  Herve Fache
+     Copyright (C) 2006-2008  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -274,8 +274,10 @@ class Stream : public File {
 public:
   // Max buffer size for read/write
   static const size_t chunk = 409600;
-  // Prototype for cancellation function
+  // Prototype for cancellation function (true cancels)
   typedef bool (*cancel_f)();
+  // Prototype for progress report function (receives size done and total)
+  typedef void (*progress_f)(long long done, long long total);
   // Constructor for path in the VFS
   Stream(const char *dir_path, const char* name = "");
   virtual ~Stream();
@@ -288,6 +290,10 @@ public:
     int             compression = 0);
   // Close file, for read or write (no append), with or without compression
   int close();
+  // Get progress indicator (size read/written)
+  long long progress() const;
+  // Progress report function for read and write
+  void setProgressCallback(progress_f progress);
   // Read file
   ssize_t read(
     void*           buffer,
@@ -299,10 +305,12 @@ public:
   // Read a line from file
   ssize_t getLine(
     string&         buffer);
+  // Cancel function for the three methods below
+  void setCancelCallback(cancel_f cancel);
   // Compute file checksum
   int computeChecksum();
   // Copy file into another
-  int copy(Stream& source, cancel_f cancel = NULL);
+  int copy(Stream& source);
   // Compare two files
   int compare(Stream& source, long long length = -1);
   // Extract parameters from line read from file

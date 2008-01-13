@@ -93,13 +93,66 @@ abcd <> abce, 4: -1
 abcd <> abce, 5: -1
 
 Test: file read (no cache)
+Progress:   3.9%
+Progress:   7.8%
+Progress:  11.7%
+Progress:  15.6%
+Progress:  19.5%
+Progress:  23.4%
+Progress:  27.3%
+Progress:  31.2%
+Progress:  35.2%
+Progress:  39.1%
+Progress:  43.0%
+Progress:  46.9%
+Progress:  50.8%
+Progress:  54.7%
+Progress:  58.6%
+Progress:  62.5%
+Progress:  66.4%
+Progress:  70.3%
+Progress:  74.2%
+Progress:  78.1%
+Progress:  82.0%
+Progress:  85.9%
+Progress:  89.8%
+Progress:  93.8%
+Progress:  97.7%
+Progress: 100.0%
 read size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 
 Test: file write (with cache)
+Progress: 100.0%
 write size: 7 (7), checksum: aa5f704d9a0eccde71070d8697a8c1ff
 123abc
 
 Test: file copy (read + write (no cache))
+Progress:   3.9%
+Progress:   7.8%
+Progress:  11.7%
+Progress:  15.6%
+Progress:  19.5%
+Progress:  23.4%
+Progress:  27.3%
+Progress:  31.2%
+Progress:  35.2%
+Progress:  39.1%
+Progress:  43.0%
+Progress:  46.9%
+Progress:  50.8%
+Progress:  54.7%
+Progress:  58.6%
+Progress:  62.5%
+Progress:  66.4%
+Progress:  70.3%
+Progress:  74.2%
+Progress:  78.1%
+Progress:  82.0%
+Progress:  85.9%
+Progress:  89.8%
+Progress:  93.8%
+Progress:  97.7%
+Progress: 100.0%
 read size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 write size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 
@@ -140,6 +193,7 @@ files differ
 files differ
 
 Test: computeChecksum
+Progress: 100.0%
 Checksum: 59ca0efa9f5633cb0371bbc0355478d8
 
 Test: copy
