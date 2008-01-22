@@ -54,11 +54,20 @@ using namespace std;
 
 using namespace hbackup;
 
+const char* Path::c_str() const {
+  if (_length > 0) {
+    return _const_path;
+  } else {
+    return "";
+  }
+}
+
 const char* Path::operator=(const char* path) {
   if (_path != NULL) {
     free(_path);
   }
   _path = strdup(path);
+  _const_path = _path;
   _length = strlen(_path);
   return _path;
 }
@@ -71,6 +80,7 @@ Path::Path(const char* dir_path, const char* name) {
   } else {
     asprintf(&_path, "%s/%s", dir_path, name);
   }
+  _const_path = _path;
   _length = strlen(_path);
 }
 

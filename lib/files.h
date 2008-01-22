@@ -27,28 +27,42 @@ using namespace std;
 namespace hbackup {
 
 class Path {
-  char* _path;
-  int   _length;
+  char*       _path;
+  const char* _const_path;
+  int         _length;
 public:
-  Path() : _path(NULL), _length(0) {}
-  Path(const Path& p) : _path(strdup(p._path)), _length(p._length) {}
-  Path(const char* path) : _path(strdup(path)), _length(strlen(_path)) {}
+  Path() :
+      _path(NULL),
+      _const_path(_path),
+      _length(0) {}
+  Path(const Path& p) :
+      _path(strdup(p._path)),
+      _const_path(_path),
+      _length(p._length) {}
+  Path(const char* path) :
+      _path(strdup(path)),
+      _const_path(_path),
+      _length(strlen(_path)) {}
+  Path(const char* path, int length) :
+      _path(NULL),
+      _const_path(path),
+      _length(length) {}
   Path(const char *dir, const char* name);
   ~Path() { free(_path); }
   const char* operator=(const char* path);
-  const char* c_str() const { if (_length > 0) return _path; else return ""; }
+  const char* c_str() const;
   int length() const           { return _length; }
-  const char* basename() const { return basename(_path); }
+  const char* basename() const { return basename(_const_path); }
   const char* noTrailingSlashes() {
     noTrailingSlashes(_path);
     _length = strlen(_path);
     return _path;
   }
   int compare(const char* s, size_t length = -1) const {
-    return compare(_path, s, length);
+    return compare(_const_path, s, length);
   }
   int compare(const Path& p, size_t length = -1) const {
-    return compare(_path, p.c_str(), length);
+    return compare(_const_path, p.c_str(), length);
   }
   int countBlocks(char c) const;
   // Some generic methods
@@ -80,6 +94,11 @@ public:
         _gid(g._gid),
         _mode(g._mode),
         _parsed(false) {}
+  // Constructor not copying the path
+  Node(const char* path, int length) :
+      _path(path, length),
+      _type('?'),
+      _parsed(false) {}
   // Constructor for path in the VFS
   Node(const char *dir, const char* name = "") :
       _path(dir, name),
@@ -147,13 +166,19 @@ public:
     _parsed = true;
     _checksum = strdup("");
   }
+  // Constructor not copying the path
+  File(const char* path, int length) :
+      Node(path, length),
+      _checksum(strdup("")) {
+    stat();
+    _parsed = true;
+  }
   // Constructor for path in the VFS
   File(const char *path, const char* name = "") :
       Node(path, name),
-      _checksum(NULL) {
+      _checksum(strdup("")) {
     stat();
     _parsed = true;
-    _checksum = strdup("");
   }
   // Constructor for given file metadata
   File(
@@ -191,6 +216,13 @@ public:
   // Constructor for existing Node
   Directory(const Node& g) :
       Node(g) {
+    _parsed = true;
+    _nodes.clear();
+  }
+  // Constructor not copying the path
+  Directory(const char* path, int length) :
+      Node(path, length) {
+    stat();
     _parsed = true;
     _nodes.clear();
   }
