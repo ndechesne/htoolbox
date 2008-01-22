@@ -73,7 +73,7 @@ void ConfigItem::debug(int level) {
 
 int Config::read(
     Stream&         stream) {
-  list<string> params;
+  vector<string> params;
   while (stream.getParams(params) > 0) {
     if (params.size() > 0) {
       cout << "line: " << *params.begin() << ", " << params.size() << endl;

@@ -853,7 +853,7 @@ int Stream::compare(Stream& source, long long length) {
 }
 
 int Stream::getParams(
-    list<string>&   params,
+    vector<string>& params,
     bool            need_lf,
     bool            accept_cr_lf,
     const char*     delims,
@@ -887,7 +887,7 @@ int Stream::getParams(
 // Public functions
 int Stream::extractParams(
     const string&   line,
-    list<string>&   params,
+    vector<string>& params,
     const char*     delims,
     const char*     quotes,
     const char*     comments) {

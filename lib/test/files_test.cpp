@@ -881,12 +881,12 @@ int main(void) {
 
 
   cout << "\nextractParams" << endl;
-  list<string> *params;
-  list<string>::iterator i;
+  vector<string> *params;
+  vector<string>::iterator i;
 
   // Start simple: one argument
   line = "a";
-  params = new list<string>;
+  params = new vector<string>;
   cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
@@ -897,7 +897,7 @@ int main(void) {
 
   // Two arguments, test blanks
   line = " \ta \tb";
-  params = new list<string>;
+  params = new vector<string>;
   cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
@@ -908,7 +908,7 @@ int main(void) {
 
   // Not single character argument
   line = "\t ab";
-  params = new list<string>;
+  params = new vector<string>;
   cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
@@ -919,7 +919,7 @@ int main(void) {
 
   // Two of them
   line = "\t ab cd";
-  params = new list<string>;
+  params = new vector<string>;
   cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
@@ -930,7 +930,7 @@ int main(void) {
 
   // Three, with comment
   line = "\t ab cd\tef # blah";
-  params = new list<string>;
+  params = new vector<string>;
   cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
@@ -941,7 +941,7 @@ int main(void) {
 
   // Single quotes
   line = "\t 'ab' 'cd'\t'ef' # blah";
-  params = new list<string>;
+  params = new vector<string>;
   cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
@@ -952,7 +952,7 @@ int main(void) {
 
   // And double quotes
   line = "\t \"ab\" 'cd'\t\"ef\" # blah";
-  params = new list<string>;
+  params = new vector<string>;
   cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
@@ -963,7 +963,7 @@ int main(void) {
 
   // With blanks in quotes
   line = "\t ab cd\tef 'gh ij\tkl' \"mn op\tqr\" \t# blah";
-  params = new list<string>;
+  params = new vector<string>;
   cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
@@ -974,7 +974,7 @@ int main(void) {
 
   // With quotes in quotes
   line = "\t ab cd\tef 'gh \"ij\\\'\tkl' \"mn 'op\\\"\tqr\" \t# blah";
-  params = new list<string>;
+  params = new vector<string>;
   cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
@@ -985,7 +985,7 @@ int main(void) {
 
   // With escape characters
   line = "\t a\\b cd\tef 'g\\h \"ij\\\'\tkl' \"m\\n 'op\\\"\tqr\" \t# blah";
-  params = new list<string>;
+  params = new vector<string>;
   cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
@@ -996,7 +996,7 @@ int main(void) {
 
   // Missing ending single quote
   line = "\t a\\b cd\tef 'g\\h \"ij\\\'\tkl";
-  params = new list<string>;
+  params = new vector<string>;
   cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
@@ -1007,7 +1007,7 @@ int main(void) {
 
   // Missing ending double quote
   line = "\t a\\b cd\tef 'g\\h \"ij\\\'\tkl' \"m\\n 'op\\\"\tqr";
-  params = new list<string>;
+  params = new vector<string>;
   cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
     << endl;
   for (i = params->begin(); i != params->end(); i++) {
@@ -1196,10 +1196,10 @@ int main(void) {
   if (! config.open("r")) {
     int rc = 1;
     while (rc > 0) {
-      params = new list<string>;
+      params = new vector<string>;
       rc = config.getParams(*params);
       if (rc > 0) {
-        for (list<string>::iterator i = params->begin(); i != params->end();
+        for (vector<string>::iterator i = params->begin(); i != params->end();
             i++) {
           cout << *i << "\t";
         }

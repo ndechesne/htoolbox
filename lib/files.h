@@ -20,6 +20,7 @@
 #define FILES_H
 
 #include <list>
+#include <vector>
 
 using namespace std;
 
@@ -315,7 +316,7 @@ public:
   int compare(Stream& source, long long length = -1);
   // Extract parameters from line read from file
   int getParams(                          // -1: error, 0: eof, 1: success
-    list<string>&   params,
+    vector<string>& params,
     bool            need_lf      = false, // Line feed MUST be present at EOL
     bool            accept_cr_lf = true,  // Silently accept DOS format
     const char*     delims       = "\t ", // Default: tabulation and space
@@ -324,7 +325,7 @@ public:
   // Extract parameters from given line
   static int extractParams(
     const string&   line,
-    list<string>&   params,
+    vector<string>& params,
     const char*     delims       = "\t ", // Default: tabulation and space
     const char*     quotes       = "'\"", // Default: single and double quotes
     const char*     comments     = "#");  // Default: hash

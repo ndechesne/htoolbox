@@ -116,7 +116,7 @@ int HBackup::readConfig(const char* config_path) {
     Client* client = NULL;
     Filter* filter = NULL;
     while (true) {
-      list<string> params;
+      vector<string> params;
 
       line++;
       int rc = config_file.getParams(params);
@@ -133,36 +133,32 @@ int HBackup::readConfig(const char* config_path) {
           << " unexpected lonely keyword: " << *params.begin() << endl;
         return -1;
       } else if (params.size() > 1) {
-        list<string>::iterator current = params.begin();
-        string                 keyword = *current++;
-        string                 type = *current++;
-
-        if (keyword == "db") {
+        if (params[0] == "db") {
           if (params.size() > 2) {
             cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << keyword << "' takes exactly one argument" << endl;
+              << " '" << params[0] << "' takes exactly one argument" << endl;
             return -1;
           } else
           if (_d->db != NULL) {
             cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << keyword << "' seen twice" << endl;
+              << " '" << params[0] << "' seen twice" << endl;
             return -1;
           } else {
-            _d->db = new Database(type);
-            _d->mount_point = type + "/mount";
+            _d->db = new Database(params[1]);
+            _d->mount_point = params[1] + "/mount";
           }
         } else
-        if (keyword == "trash") {
+        if (params[0] == "trash") {
           if (params.size() > 2) {
             cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << keyword << "' takes exactly one argument" << endl;
+              << " '" << params[0] << "' takes exactly one argument" << endl;
             return -1;
           }
           errno = 0;
-          _d->trash_expire = strtol(type.c_str(), NULL, 10);
+          _d->trash_expire = strtol(params[1].c_str(), NULL, 10);
           if (errno != 0) {
             cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << keyword << "' expects a number as argument" << endl;
+              << " '" << params[0] << "' expects a number as argument" << endl;
             return -1;
           }
           if (verbosity() > 1) {
@@ -171,46 +167,46 @@ int HBackup::readConfig(const char* config_path) {
           }
           _d->trash_expire *= 3600 * 24;
         } else
-        if (keyword == "filter") {
+        if (params[0] == "filter") {
           // Expect exactly three parameters
           if (params.size() != 3) {
             cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << keyword << "' takes exactly two arguments" << endl;
+              << " '" << params[0] << "' takes exactly two arguments" << endl;
             return -1;
           }
-          filter = _d->addFilter(type, *current);
+          filter = _d->addFilter(params[1], params[2]);
           if (verbosity() > 1) {
-            cout << " --> global filter " << type << " " << *current
+            cout << " --> global filter " << params[1] << " " << params[2]
               << endl;
           }
           if (filter == NULL) {
             cerr << "Error: in file " << config_path << ", line " << line
-              << " unsupported filter type: " << type << endl;
+              << " unsupported filter type: " << params[1] << endl;
             return -1;
           }
         } else
-        if (keyword == "condition") {
+        if (params[0] == "condition") {
           if (params.size() != 3) {
             cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << keyword << "' takes exactly two arguments" << endl;
+              << " '" << params[0] << "' takes exactly two arguments" << endl;
             return -1;
           }
           string  filter_type;
           bool    negated;
-          if (type[0] == '!') {
-            filter_type = type.substr(1);
+          if (params[1][0] == '!') {
+            filter_type = params[1].substr(1);
             negated     = true;
           } else {
-            filter_type = type;
+            filter_type = params[1];
             negated     = false;
           }
 
           /* Add specified filter */
           if (filter_type == "filter") {
-            Filter* subfilter = _d->findFilter(*current);
+            Filter* subfilter = _d->findFilter(params[2]);
             if (subfilter == NULL) {
               cerr << "Error: in file " << config_path << ", line " << line
-                << " filter not found: " << *current << endl;
+                << " filter not found: " << params[2] << endl;
               return -1;
             }
             if (verbosity() > 1) {
@@ -223,10 +219,10 @@ int HBackup::readConfig(const char* config_path) {
             filter->add(new Condition(Condition::subfilter, subfilter,
               negated));
           } else {
-            switch (filter->add(filter_type, *current, negated)) {
+            switch (filter->add(filter_type, params[2], negated)) {
               case 1:
                 cerr << "Error: in file " << config_path << ", line " << line
-                  << " unsupported condition type: " << type << endl;
+                  << " unsupported condition type: " << params[1] << endl;
                 return -1;
                 break;
               case 2:
@@ -240,19 +236,19 @@ int HBackup::readConfig(const char* config_path) {
                   if (negated) {
                     cout << "not ";
                   }
-                  cout << filter_type << " " << *current << endl;
+                  cout << filter_type << " " << params[2] << endl;
                 }
             }
           }
         } else
-        if (keyword == "client") {
+        if (params[0] == "client") {
           if (params.size() != 3) {
             cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << keyword << "' takes exactly two arguments" << endl;
+              << " '" << params[0] << "' takes exactly two arguments" << endl;
             return -1;
           }
-          client = new Client(*current);
-          client->setProtocol(type);
+          client = new Client(params[2]);
+          client->setProtocol(params[1]);
 
           // Clients MUST BE in alphabetic order
           int cmp = 1;
@@ -265,53 +261,53 @@ int HBackup::readConfig(const char* config_path) {
             i++;
           }
           if (cmp == 0) {
-            cerr << "Error: client already selected: " << *current << endl;
+            cerr << "Error: client already selected: " << params[2] << endl;
             return -1;
           }
           _d->clients.insert(i, client);
         } else if (client != NULL) {
-          if (keyword == "hostname") {
+          if (params[0] == "hostname") {
             if (params.size() > 2) {
               cerr << "Error: in file " << config_path << ", line " << line
-                << " '" << keyword << "' takes exactly one argument" << endl;
+                << " '" << params[0] << "' takes exactly one argument" << endl;
               return -1;
             }
-            client->setHostOrIp(type);
+            client->setHostOrIp(params[1]);
           } else
-          if (keyword == "option") {
+          if (params[0] == "option") {
             if (params.size() > 3) {
               cerr << "Error: in file " << config_path << ", line " << line
-                << " '" << keyword << "' takes one or two arguments" << endl;
+                << " '" << params[0] << "' takes one or two arguments" << endl;
               return -1;
             }
             if (params.size() == 2) {
-              client->addOption(type);
+              client->addOption(params[1]);
             } else {
-              client->addOption(type, *current);
+              client->addOption(params[1], params[2]);
             }
           } else
-          if (keyword == "config") {
+          if (params[0] == "config") {
             if (params.size() > 2) {
               cerr << "Error: in file " << config_path << ", line " << line
-                << " '" << keyword << "' takes exactly one argument" << endl;
+                << " '" << params[0] << "' takes exactly one argument" << endl;
               return -1;
             }
-            client->setListfile(type.c_str());
+            client->setListfile(params[1].c_str());
             if (verbosity() > 1) {
-              cout << " ---> config file: " << type << endl;
+              cout << " ---> config file: " << params[1] << endl;
             }
           } else
-          if (keyword == "expire") {
+          if (params[0] == "expire") {
             if (params.size() > 2) {
               cerr << "Error: in file " << config_path << ", line " << line
-                << " '" << keyword << "' takes exactly one argument" << endl;
+                << " '" << params[0] << "' takes exactly one argument" << endl;
               return -1;
             }
             errno = 0;
-            int expire = strtol(type.c_str(), NULL, 10);
+            int expire = strtol(params[1].c_str(), NULL, 10);
             if (errno != 0) {
               cerr << "Error: in file " << config_path << ", line " << line
-                << " '" << keyword << "' expects a number as argument" << endl;
+                << " '" << params[0] << "' expects a number as argument" << endl;
               return -1;
             }
             if (verbosity() > 1) {
@@ -319,7 +315,7 @@ int HBackup::readConfig(const char* config_path) {
             }
             client->setExpire(expire * 3600 * 24);
           } else {
-            cerr << "Unrecognised keyword '" << keyword
+            cerr << "Unrecognised keyword '" << params[0]
               << "' in configuration file, line " << line << endl;
             return -1;
           }

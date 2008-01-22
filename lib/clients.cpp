@@ -150,8 +150,8 @@ int Client::readListFile(
     ClientPath* path   = NULL;
     Filter*     filter = NULL;
     while (! failed) {
-      list<string> params;
-      
+      vector<string> params;
+
       line++;
       int rc = config_file.getParams(params);
       if (rc == -2) {
@@ -165,44 +165,37 @@ int Client::readListFile(
         break;
       }
       if (params.size() > 0) {
-        list<string>::iterator  current = params.begin();
-        string                  keyword = *current++;
-        string                  type;
-        if (params.size() > 1) {
-          type = *current++;
-        }
-
-        if (keyword == "expire") {
+        if (params[0] == "expire") {
           if (path != NULL) {
             goto misplaced;
           }
           int expire;
-          if ((sscanf(type.c_str(), "%d", &expire) != 0) && (expire >= 0)) {
+          if ((sscanf(params[1].c_str(), "%d", &expire) != 0) && (expire >= 0)) {
             _expire = expire * 3600 * 24;
             if (verbosity() > 1) {
               cout << " --> expiry " << expire << " day(s)" << endl;
             }
           } else {
             cerr << "Error: in client configuration file " << list_path
-              << ", line " << line << " wrong expiration value: " << type
+              << ", line " << line << " wrong expiration value: " << params[1]
               << endl;
             failed = 1;
           }
         } else
-        if (keyword == "path") {
+        if (params[0] == "path") {
           filter = NULL;
           // Expect exactly two parameters
           if (params.size() != 2) {
             cerr << "Error: in client configuration file " << list_path
-              << ", line " << line << " '" << keyword
+              << ", line " << line << " '" << params[0]
               << "' takes exactly one argument" << endl;
             failed = 1;
           } else {
             // New backup path
-            if (type[0] == '~') {
-              path = new ClientPath((_home_path + &type[1]).c_str());
+            if (params[1][0] == '~') {
+              path = new ClientPath((_home_path + &params[1][1]).c_str());
             } else {
-              path = new ClientPath(type.c_str());
+              path = new ClientPath(params[1].c_str());
             }
             if (verbosity() > 1) {
               cout << " --> Path: " << path->path() << endl;
@@ -238,55 +231,55 @@ int Client::readListFile(
             }
           }
         } else
-        if (keyword == "filter") {
+        if (params[0] == "filter") {
           // Expect exactly three parameters
           if (params.size() != 3) {
             cerr << "Error: in client configuration file " << list_path
-              << ", line " << line << " '" << keyword
+              << ", line " << line << " '" << params[0]
               << "' takes exactly two arguments" << endl;
             failed = 1;
           } else {
             if (path == NULL) {
               // Client-wide filter
-              filter = addFilter(type, *current);
+              filter = addFilter(params[1], params[2]);
               if (verbosity() > 1) {
-                cout << " --> client-wide filter " << type << " " << *current
+                cout << " --> client-wide filter " << params[1] << " " << params[2]
                   << endl;
               }
             } else {
               // Path-wide filter
-              filter = path->addFilter(type, *current);
+              filter = path->addFilter(params[1], params[2]);
               if (verbosity() > 1) {
-                cout << " --> path-wide filter " << type << " " << *current
+                cout << " --> path-wide filter " << params[1] << " " << params[2]
                   << endl;
               }
             }
             if (filter == NULL) {
               cerr << "Error: in client configuration file " << list_path
-                << ", line " << line << " unsupported filter type: " << type
-                << endl;
+                << ", line " << line << " unsupported filter type: "
+                << params[1] << endl;
               failed = 1;
             }
           }
         } else
-        if (keyword == "condition") {
+        if (params[0] == "condition") {
           if (filter == NULL) {
             goto misplaced;
           }
           // Expect exactly three parameters
           if (params.size() != 3) {
             cerr << "Error: in client configuration file " << list_path
-              << ", line " << line << " '" << keyword
+              << ", line " << line << " '" << params[0]
               << "' takes exactly two arguments" << endl;
             failed = 1;
           } else {
-            string  filter_type;
-            bool    negated;
-            if (type[0] == '!') {
-              filter_type = type.substr(1);
+            string filter_type;
+            bool   negated;
+            if (params[1][0] == '!') {
+              filter_type = params[1].substr(1);
               negated     = true;
             } else {
-              filter_type = type;
+              filter_type = params[1];
               negated     = false;
             }
 
@@ -294,17 +287,17 @@ int Client::readListFile(
             if (filter_type == "filter") {
               Filter* subfilter = NULL;
               if (path != NULL) {
-                subfilter = path->findFilter(*current);
+                subfilter = path->findFilter(params[2]);
               }
               if (subfilter == NULL) {
-                subfilter = findFilter(*current);
+                subfilter = findFilter(params[2]);
               }
               if (subfilter == NULL) {
-                subfilter = global_filters.find(*current);
+                subfilter = global_filters.find(params[2]);
               }
               if (subfilter == NULL) {
                 cerr << "Error: in client configuration file " << list_path
-                  << ", line " << line << " filter not found: " << *current
+                  << ", line " << line << " filter not found: " << params[2]
                   << endl;
                 failed = 2;
               } else {
@@ -319,11 +312,11 @@ int Client::readListFile(
                   negated));
               }
             } else {
-              switch (filter->add(filter_type, *current, negated)) {
+              switch (filter->add(filter_type, params[2], negated)) {
                 case 1:
                   cerr << "Error: in client configuration file " << list_path
                     << ", line " << line << " unsupported condition type: "
-                    << type << endl;
+                    << params[1] << endl;
                   failed = 1;
                   break;
                 case 2:
@@ -337,79 +330,79 @@ int Client::readListFile(
                     if (negated) {
                       cout << "not ";
                     }
-                    cout << filter_type << " " << *current << endl;
+                    cout << filter_type << " " << params[2] << endl;
                   }
               }
             }
           }
         } else
         // Path attributes
-        if (keyword == "ignore") {
+        if (params[0] == "ignore") {
           // Expect exactly two parameters
           if (params.size() != 2) {
             cerr << "Error: in client configuration file " << list_path
-              << ", line " << line << " '" << keyword
+              << ", line " << line << " '" << params[0]
               << "' takes exactly two arguments" << endl;
             failed = 1;
           } else {
-            Filter* filter = path->findFilter(type, &_filters,
+            Filter* filter = path->findFilter(params[1], &_filters,
               &global_filters);
             if (filter == NULL) {
               cerr << "Error: in client configuration file " << list_path
                 << ", line " << line << ": filter for ignoring not found: "
-                << type << endl;
+                << params[1] << endl;
               failed = 1;
             } else {
               path->setIgnore(filter);
             }
           }
         } else
-        if (keyword == "compress") {
+        if (params[0] == "compress") {
           // Expect exactly two parameters
           if (params.size() != 2) {
             cerr << "Error: in client configuration file " << list_path
-              << ", line " << line << " '" << keyword
+              << ", line " << line << " '" << params[0]
               << "' takes exactly two arguments" << endl;
             failed = 1;
           } else {
-            Filter* filter = path->findFilter(type, &_filters,
+            Filter* filter = path->findFilter(params[1], &_filters,
               &global_filters);
             if (filter == NULL) {
               cerr << "Error: in client configuration file " << list_path
                 << ", line " << line << ": filter for compression not found: "
-                << type << endl;
+                << params[1] << endl;
               failed = 1;
             } else {
               path->setCompress(filter);
             }
           }
         } else
-        if (keyword == "parser") {
+        if (params[0] == "parser") {
           // Expect exactly three parameters
           if (params.size() != 3) {
             cerr << "Error: in client configuration file " << list_path
-              << ", line " << line << " '" << keyword
+              << ", line " << line << " '" << params[0]
               << "' takes exactly two arguments" << endl;
             failed = 1;
           } else
-          switch (path->addParser(type, *current)) {
+          switch (path->addParser(params[1], params[2])) {
             case 1:
               cerr << "Error: in client configuration file " << list_path
-                << ", line " << line << " unsupported parser type: " << type
-                << endl;
+                << ", line " << line << " unsupported parser type: "
+                << params[1] << endl;
               failed = 1;
               break;
             case 2:
               cerr << "Error: in client configuration file " << list_path
                 << ", line " << line << " unsupported parser mode: "
-                << *current << endl;
+                << params[2] << endl;
               failed = 1;
               break;
           }
         } else {
           // What was that?
           cerr << "Error: in client configuration file " << list_path
-            << ", line " << line << " unknown keyword: " << keyword << endl;
+            << ", line " << line << " unknown keyword: " << params[0] << endl;
           failed = 1;
         }
         continue;
@@ -417,7 +410,8 @@ misplaced:
         {
           // What?
           cerr << "Error: in client configuration file " << list_path
-            << ", line " << line << " misplaced keyword: " << keyword << endl;
+            << ", line " << line << " misplaced keyword: " << params[0]
+            << endl;
           failed = 1;
         }
       }
