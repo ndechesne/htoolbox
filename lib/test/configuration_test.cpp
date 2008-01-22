@@ -37,7 +37,7 @@ int hbackup::terminating(const char* function) {
 int main(void) {
   Config*     config;
 
-  cout << "Test: set server configuration" << endl;
+  cout << "Test: server configuration" << endl;
   config = new Config;
 
   // db
@@ -57,7 +57,7 @@ int main(void) {
 
   // client
   {
-    ConfigItem* item = new ConfigItem("client", 1, 0, 1);
+    ConfigItem* item = new ConfigItem("client", 1, 0, 2);
     config->add(item);
 
     // hostname
@@ -73,10 +73,6 @@ int main(void) {
     item->add(new ConfigItem("expire", 0, 1, 1));
   }
 
-  // show debug
-  config->debug();
-
-  cout << endl << "Test: read server configuration" << endl;
   Stream server_config("etc/hbackup.conf");
   if (server_config.open("r") == 0) {
     config->read(server_config);
@@ -85,9 +81,12 @@ int main(void) {
     cout << "failed to open it!" << endl;
   }
 
+  // show debug
+  config->debug();
+
   delete config;
 
-  cout << endl << "Test: set client configuration" << endl;
+  cout << endl << "Test: client configuration" << endl;
   config = new Config;
 
   // expire
@@ -126,10 +125,6 @@ int main(void) {
     item->add(new ConfigItem("compress", 0, 1, 1));
   }
 
-  // show debug
-  config->debug();
-
-  cout << endl << "Test: read client configuration" << endl;
   Stream client_config("etc/localhost.list");
   if (client_config.open("r") == 0) {
     config->read(client_config);
@@ -138,9 +133,12 @@ int main(void) {
     cout << "failed to open it!" << endl;
   }
 
+  // show debug
+  config->debug();
+
   delete config;
 
-  cout << "Test: set general configuration" << endl;
+  cout << "Test: general configuration" << endl;
   config = new Config;
 
   // db
@@ -160,7 +158,7 @@ int main(void) {
 
   // client
   {
-    ConfigItem* item = new ConfigItem("client", 1, 0, 1);
+    ConfigItem* item = new ConfigItem("client", 1, 0, 2);
     config->add(item);
 
     // hostname
@@ -202,17 +200,13 @@ int main(void) {
       }
 
       // ignore
-      item->add(new ConfigItem("ignore", 0, 1, 1));
+      sub_item->add(new ConfigItem("ignore", 0, 1, 1));
 
       // compress
-      item->add(new ConfigItem("compress", 0, 1, 1));
+      sub_item->add(new ConfigItem("compress", 0, 1, 1));
     }
   }
 
-  // show debug
-  config->debug();
-
-  cout << endl << "Test: read general configuration" << endl;
   Stream general_config("etc/general.conf");
   if (general_config.open("r") == 0) {
     config->read(general_config);
@@ -220,6 +214,9 @@ int main(void) {
   } else {
     cout << "failed to open it!" << endl;
   }
+
+  // show debug
+  config->debug();
 
   delete config;
 

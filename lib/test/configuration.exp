@@ -1,81 +1,42 @@
-Test: set server configuration
-db, occ.: optional, max = 1; params: min params = 1, max params = 1
-trash, occ.: optional, max = 1; params: min params = 1, max params = 1
-filter, occ.: optional, no max; params: min params = 2, max params = 2
-  condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-client, occ.: min = 1, no max; params: min params = 1, max params = 1
-  hostname, occ.: optional, max = 1; params: min params = 1, max params = 1
-  option, occ.: optional, no max; params: min params = 1, max params = 2
-  config, occ.: min = 1, max = 1; params: min params = 1, max params = 1
-  expire, occ.: optional, max = 1; params: min params = 1, max params = 1
-
-Test: read server configuration
-line: db, 2
-line: trash, 2
-line: filter, 3
-line: condition, 3
-line: condition, 3
-line: filter, 3
-line: condition, 3
-line: condition, 3
-line: client, 3
-line: hostname, 2
-line: config, 2
-line: client, 3
-line: hostname, 2
-line: config, 2
-line: client, 3
-line: hostname, 2
-line: config, 2
-line: expire, 2
-line: client, 3
-line: option, 3
-line: option, 3
-line: option, 2
-line: hostname, 2
-line: config, 2
-
-Test: set client configuration
-expire, occ.: optional, max = 1; params: min params = 1, max params = 1
-filter, occ.: optional, no max; params: min params = 2, max params = 2
-  condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-path, occ.: min = 1, no max; params: min params = 1, max params = 1
-  parser, occ.: optional, no max; params: min params = 1, max params = 2
+Test: server configuration
+Items:
+  db, occ.: optional, max = 1; params: min params = 1, max params = 1
+  trash, occ.: optional, max = 1; params: min params = 1, max params = 1
   filter, occ.: optional, no max; params: min params = 2, max params = 2
     condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-  ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
-  compress, occ.: optional, max = 1; params: min params = 1, max params = 1
+  client, occ.: min = 1, no max; params: min params = 2, max params = 2
+    hostname, occ.: optional, max = 1; params: min params = 1, max params = 1
+    option, occ.: optional, no max; params: min params = 1, max params = 2
+    config, occ.: min = 1, max = 1; params: min params = 1, max params = 1
+    expire, occ.: optional, max = 1; params: min params = 1, max params = 1
+Lines:
+  db test_db
+  trash 1
+  filter all backup
+    condition type file
+    condition path_end ~
+  filter any test_or
+    condition filter backup
+    condition !size< 1000
+  client nfs myClient
+    hostname myClient
+    config /home/User/hbackup.list
+  client ssh other
+    hostname otherClient
+    config /home/backup/Backup.list
+  client file myhost
+    hostname myhost.mynetwork.lan
+    config etc/localhost.list
+    expire 1
+  client smb client
+    option username Myself
+    option password flesyM
+    option nocase
+    hostname myClient
+    config C:\Backup\Backup.LST
 
-Test: read client configuration
-line: filter, 3
-line: condition, 3
-line: condition, 3
-line: filter, 3
-line: condition, 3
-line: condition, 3
-line: expire, 2
-line: path, 2
-line: path, 2
-line: filter, 3
-line: condition, 3
-line: filter, 3
-line: condition, 3
-line: condition, 3
-line: condition, 3
-line: ignore, 2
-line: compress, 2
-line: parser, 3
-line: parser, 3
-line: parser, 3
-Test: set general configuration
-db, occ.: optional, max = 1; params: min params = 1, max params = 1
-trash, occ.: optional, max = 1; params: min params = 1, max params = 1
-filter, occ.: optional, no max; params: min params = 2, max params = 2
-  condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-client, occ.: min = 1, no max; params: min params = 1, max params = 1
-  hostname, occ.: optional, max = 1; params: min params = 1, max params = 1
-  option, occ.: optional, no max; params: min params = 1, max params = 2
-  config, occ.: min = 1, max = 1; params: min params = 1, max params = 1
+Test: client configuration
+Items:
   expire, occ.: optional, max = 1; params: min params = 1, max params = 1
   filter, occ.: optional, no max; params: min params = 2, max params = 2
     condition, occ.: min = 1, no max; params: min params = 2, max params = 2
@@ -83,51 +44,90 @@ client, occ.: min = 1, no max; params: min params = 1, max params = 1
     parser, occ.: optional, no max; params: min params = 1, max params = 2
     filter, occ.: optional, no max; params: min params = 2, max params = 2
       condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-  ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
-  compress, occ.: optional, max = 1; params: min params = 1, max params = 1
-
-Test: read general configuration
-line: db, 2
-line: trash, 2
-line: filter, 3
-line: condition, 3
-line: condition, 3
-line: filter, 3
-line: condition, 3
-line: condition, 3
-line: client, 3
-line: hostname, 2
-line: config, 2
-line: client, 3
-line: hostname, 2
-line: config, 2
-line: filter, 3
-line: condition, 3
-line: condition, 3
-line: filter, 3
-line: condition, 3
-line: condition, 3
-line: expire, 2
-line: path, 2
-line: path, 2
-line: filter, 3
-line: condition, 3
-line: filter, 3
-line: condition, 3
-line: condition, 3
-line: condition, 3
-line: ignore, 2
-line: compress, 2
-line: parser, 3
-line: parser, 3
-line: parser, 3
-line: client, 3
-line: hostname, 2
-line: config, 2
-line: expire, 2
-line: client, 3
-line: option, 3
-line: option, 3
-line: option, 2
-line: hostname, 2
-line: config, 2
+    ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
+    compress, occ.: optional, max = 1; params: min params = 1, max params = 1
+Lines:
+  filter and subdir
+    condition path_start subdir
+    condition !size< 100
+  filter and bigfile
+    condition size>= 10
+    condition type file
+  expire 1
+  path test2//
+  path test1
+    filter and not_object
+      condition !path_end .o
+    filter or to_be_ignored
+      condition filter subdir
+      condition filter backup
+      condition !filter not_object
+    ignore to_be_ignored
+    compress bigfile
+    parser cvs controlled
+    parser svn modified
+    parser bzr modified
+Test: general configuration
+Items:
+  db, occ.: optional, max = 1; params: min params = 1, max params = 1
+  trash, occ.: optional, max = 1; params: min params = 1, max params = 1
+  filter, occ.: optional, no max; params: min params = 2, max params = 2
+    condition, occ.: min = 1, no max; params: min params = 2, max params = 2
+  client, occ.: min = 1, no max; params: min params = 2, max params = 2
+    hostname, occ.: optional, max = 1; params: min params = 1, max params = 1
+    option, occ.: optional, no max; params: min params = 1, max params = 2
+    config, occ.: min = 1, max = 1; params: min params = 1, max params = 1
+    expire, occ.: optional, max = 1; params: min params = 1, max params = 1
+    filter, occ.: optional, no max; params: min params = 2, max params = 2
+      condition, occ.: min = 1, no max; params: min params = 2, max params = 2
+    path, occ.: min = 1, no max; params: min params = 1, max params = 1
+      parser, occ.: optional, no max; params: min params = 1, max params = 2
+      filter, occ.: optional, no max; params: min params = 2, max params = 2
+        condition, occ.: min = 1, no max; params: min params = 2, max params = 2
+      ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
+      compress, occ.: optional, max = 1; params: min params = 1, max params = 1
+Lines:
+  db test_db
+  trash 1
+  filter all backup
+    condition type file
+    condition path_end ~
+  filter any test_or
+    condition filter backup
+    condition !size< 1000
+  client nfs myClient
+    hostname myClient
+    config /home/User/hbackup.list
+  client ssh other
+    hostname otherClient
+    config /home/backup/Backup.list
+    filter and subdir
+      condition path_start subdir
+      condition !size< 100
+    filter and bigfile
+      condition size>= 10
+      condition type file
+    expire 1
+    path test2//
+    path test1
+      filter and not_object
+        condition !path_end .o
+      filter or to_be_ignored
+        condition filter subdir
+        condition filter backup
+        condition !filter not_object
+      ignore to_be_ignored
+      compress bigfile
+      parser cvs controlled
+      parser svn modified
+      parser bzr modified
+  client file myhost
+    hostname myhost.mynetwork.lan
+    config etc/localhost.list
+    expire 1
+  client smb client
+    option username Myself
+    option password flesyM
+    option nocase
+    hostname myClient
+    config C:\Backup\Backup.LST
