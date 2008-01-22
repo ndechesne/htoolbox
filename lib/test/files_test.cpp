@@ -1038,11 +1038,12 @@ int main(void) {
   delete g;
 
   cout << endl << "Validity tests" << endl;
-  cout << "File is file? " << File("test1/testfile").isValid() << endl;
+  cout << "File is file? " << File("test1/testfile", -1).isValid() << endl;
   cout << "File is dir? " << Directory("test1/testfile").isValid() << endl;
   cout << "File is link? " << Link("test1/testfile").isValid() << endl;
   cout << "Dir is file? " << File("test1/testdir").isValid() << endl;
-  cout << "Dir is dir? " << Directory("test1/testdir").isValid() << endl;
+  cout << "Dir is dir? " << Directory("test1/testdir",
+    strlen("test1/testdir")).isValid() << endl;
   cout << "Dir is link? " << Link("test1/testdir").isValid() << endl;
   cout << "Link is file? " << File("test1/testlink").isValid() << endl;
   cout << "Link is dir? " << Directory("test1/testlink").isValid() << endl;

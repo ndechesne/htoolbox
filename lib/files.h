@@ -45,8 +45,13 @@ public:
       _length(strlen(_path)) {}
   Path(const char* path, int length) :
       _path(NULL),
-      _const_path(path),
-      _length(length) {}
+      _const_path(path) {
+    if (length < 0) {
+      _length = strlen(_const_path);
+    } else {
+      _length = length;
+    }
+  }
   Path(const char *dir, const char* name);
   ~Path() { free(_path); }
   const char* operator=(const char* path);
