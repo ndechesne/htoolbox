@@ -64,8 +64,14 @@ public:
 
 class ConfigLine : public vector<string> {
   list<ConfigLine*> _children;
+  unsigned int      _line_no;
 public:
+  ConfigLine() : _line_no(0) {}
   ~ConfigLine();
+  // Get line no
+  unsigned int lineNo(void) const                 { return _line_no;          }
+  // Set line no
+  void setLineNo(unsigned int line_no)            { _line_no = line_no;       }
   // Add a child
   void add(ConfigLine* child) {
     _children.push_back(child);
@@ -74,17 +80,23 @@ public:
   void clear();
   // Debug
   void debug(int level = 0) const;
+  // Iterator boundaries
+  list<ConfigLine*>::const_iterator begin() const { return _children.begin(); }
+  list<ConfigLine*>::const_iterator end() const   { return _children.end();   }
 };
 
 class Config {
-  ConfigItem        _items_root;
-  ConfigLine        _lines_root;
+  ConfigItem        _items_top;
+  ConfigLine        _lines_top;
 public:
-  Config() : _items_root("") {}
-  int read(
-    Stream&         stream);
+  Config() : _items_top("") {}
+  int read(Stream& stream);
   // Add a config item
-  void add(ConfigItem* child)           { _items_root.add(child);   }
+  void add(ConfigItem* child)    { _items_top.add(child); }
+  // Lines tree accessor
+  int line(
+    ConfigLine**    params,
+    bool            reset = false) const;
   // Clear config lines
   void clear();
   // Debug

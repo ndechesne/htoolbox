@@ -93,31 +93,28 @@ void ConfigLine::clear() {
 }
 
 void ConfigLine::debug(int level) const {
-  list<ConfigLine*>::const_iterator i;
-  for (i = _children.begin(); i != _children.end(); i++) {
-    for (int j = 0; j < level; j++) {
+  printf("%2u:", lineNo());
+  for (int j = 0; j < level; j++) {
+    cout << " ";
+  }
+  for (unsigned int j = 0; j < size(); j++) {
+    if (j != 0) {
       cout << " ";
     }
-    for (unsigned int j = 0; j < (*i)->size(); j++) {
-      if (j != 0) {
-        cout << " ";
-      }
-      cout << (**i)[j];
-    }
-    cout << endl;
-    (*i)->debug(level + 2);
+    cout << (*this)[j];
   }
+  cout << endl;
 }
 
 int Config::read(
     Stream&         stream) {
   // Where we are in the items tree
   list<const ConfigItem*> items_hierarchy;
-  items_hierarchy.push_back(&_items_root);
+  items_hierarchy.push_back(&_items_top);
 
   // Where are we in the lines tree
   list<ConfigLine*> lines_hierarchy;
-  lines_hierarchy.push_back(&_lines_root);
+  lines_hierarchy.push_back(&_lines_top);
 
   // Read through the file
   ConfigLine *params = new ConfigLine;
@@ -133,6 +130,7 @@ int Config::read(
           // Add under current hierarchy
           items_hierarchy.push_back(child);
           // Add in configuration lines tree, however incorrect it may be
+          params->setLineNo(line_no);
           lines_hierarchy.back()->add(params);
           // Add under current hierarchy
           lines_hierarchy.push_back(params);
@@ -163,6 +161,7 @@ int Config::read(
           params = new ConfigLine;
           break;
         } else {
+          // Keyword not found in children, go up the tree
           items_hierarchy.pop_back();
           lines_hierarchy.pop_back();
           if (items_hierarchy.size() == 0) {
@@ -180,13 +179,56 @@ end:
   return failed ? -1 : 0;
 }
 
+int Config::line(
+    ConfigLine**    params,
+    bool            reset) const {
+  static list<ConfigLine*>::const_iterator       i;
+  static list<const ConfigLine*>                 parents;
+  static list<list<ConfigLine*>::const_iterator> iterators;
+
+  // Reset
+  if (reset || (parents.size() == 0)) {
+    parents.clear();
+    iterators.clear();
+    i = _lines_top.begin();
+    parents.push_back(&_lines_top);
+    iterators.push_back(i);
+  } else
+  // Next
+  {
+    // Any children?
+    if ((*i)->begin() != (*i)->end()) {
+      parents.push_back(*i);
+      iterators.push_back(i);
+      i = (*i)->begin();
+    } else {
+      i++;
+      while ((parents.size() > 0) && (i == parents.back()->end())) {
+        i = iterators.back();
+        i++;
+        parents.pop_back();
+        iterators.pop_back();
+      }
+    }
+  }
+  if (parents.size() > 0) {
+    *params = *i;
+  }
+  return parents.size() - 1;
+}
+
 void Config::clear() {
-  _lines_root.clear();
+  _lines_top.clear();
 }
 
 void Config::debug() const {
   cout << "Items:" << endl;
-  _items_root.debug(2);
+  _items_top.debug(2);
+  
   cout << "Lines:" << endl;
-  _lines_root.debug(2);
+  ConfigLine* params;
+  int level;
+  while ((level = line(&params)) >= 0) {
+    params->debug((level + 1) * 2);
+  }
 }
