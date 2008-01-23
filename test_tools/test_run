@@ -6,6 +6,7 @@ output="$target".all
 executable="$target"_test
 
 # Set path to access test scripts in priority
+OLD_PATH=$PATH
 export PATH=../../test_tools:$PATH
 
 # Cleanup previous attempt, if any
@@ -21,6 +22,9 @@ fi
 if ! ./$executable > $output 2>&1; then
 	exit 2
 fi
+
+# Revert path
+PATH=$OLD_PATH
 
 # Check
 if ! diff -q $expected $output > /dev/null; then
