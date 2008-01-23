@@ -1,0 +1,69 @@
+# Parameters:
+#   1: a short name
+
+# Export
+#   1: the dir
+#   2: the complete name
+
+case $1 in
+  "bzr" )
+    export DIR="lib"
+    export NAME="bzr_parser"
+    ;;
+  "cl" )
+    export DIR="lib"
+    export NAME="clients"
+    ;;
+  "cd" )
+    export DIR="lib"
+    export NAME="conditions"
+    ;;
+  "cf" )
+    export DIR="lib"
+    export NAME="configuration"
+    ;;
+  "cvs" )
+    export DIR="lib"
+    export NAME="cvs_parser"
+    ;;
+  "data" )
+    export DIR="lib"
+    export NAME="data"
+    ;;
+  "db" )
+    export DIR="lib"
+    export NAME="db"
+    ;;
+  "fl" )
+    export DIR="lib"
+    export NAME="files"
+    ;;
+  "ft" )
+    export DIR="lib"
+    export NAME="filters"
+    ;;
+  "hb" )
+    export DIR="cli"
+    export NAME="hbackup"
+    ;;
+  "ls" )
+    export DIR="lib"
+    export NAME="list"
+    ;;
+  "pr" )
+    export DIR="lib"
+    export NAME="parsers"
+    ;;
+  "pt" )
+    export DIR="lib"
+    export NAME="paths"
+    ;;
+  "svn" )
+    export DIR="lib"
+    export NAME="svn_parser"
+    ;;
+  * )
+    export DIR="lib"
+    export NAME="$1"
+    ;;
+esac

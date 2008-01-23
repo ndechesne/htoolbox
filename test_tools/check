@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Check arguments
+if [ -z "$1" ]; then
+  echo "Too few arguments"
+  exit 1
+fi
+
+# Path to scripts
+WHERE=`dirname $0`
+
+# Get data
+. $WHERE/interpret $1
+
+# Try to use hmake
+MAKE=`which hmake`
+if [ -z "$MAKE" ]; then
+  MAKE=make
+fi
+
+# Make sure dependencies are up-to-date
+if [ "$DIR" != "lib" ]; then
+  $MAKE -C lib || exit 2
+fi
+
+# Make
+$MAKE -C $DIR || exit 3
+
+# Check
+$MAKE -C $DIR/test $NAME.done || exit 4
+
+exit 0

@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Check arguments
+if [ -z "$1" ]; then
+  echo "Too few arguments"
+  exit 1
+fi
+
+# Path to scripts
+WHERE=`dirname $0`
+
+# Get data
+. $WHERE/interpret $1
+
+# Check output file presence
+if [ ! -r "$DIR/test/$NAME.all" ]; then
+  echo "File '$DIR/test/$NAME.all' does not exist"
+  exit 2
+fi
+
+# Output useful command
+echo "cp -a $DIR/test/$NAME.all $DIR/test/$NAME.exp"
+
+# Launch diff-er in the background
+tkdiff $DIR/test/$NAME.exp $DIR/test/$NAME.all &
+
+exit 0
