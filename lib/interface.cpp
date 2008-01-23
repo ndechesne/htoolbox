@@ -24,6 +24,7 @@
 using namespace std;
 
 #include "files.h"
+#include "configuration.h"
 #include "conditions.h"
 #include "filters.h"
 #include "db.h"
@@ -102,208 +103,172 @@ int HBackup::readConfig(const char* config_path) {
   if (config_file.open("r")) {
     cerr << strerror(errno) << ": " << config_path << endl;
     return -1;
-  } else {
-    /* Read configuration file */
-    string  buffer;
-    int     line    = 0;
+  }
+  // Set up config syntax and grammar
+  Config config;
 
-    if (verbosity() > 1) {
-      cout << " -> Reading configuration file" << endl;
-    }
+  // db
+  config.add(new ConfigItem("db", 0, 1, 1));
+  // trash
+  config.add(new ConfigItem("trash", 0, 1, 1));
+  // filter
+  {
+    ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
+    config.add(filter);
+    // condition
+    filter->add(new ConfigItem("condition", 1, 0, 2));
+  }
+  // client
+  {
+    ConfigItem* client = new ConfigItem("client", 1, 0, 2);
+    config.add(client);
+    // hostname
+    client->add(new ConfigItem("hostname", 0, 1, 1));
+    // option
+    client->add(new ConfigItem("option", 0, 0, 1, 2));
+    // config
+    client->add(new ConfigItem("config", 1, 1, 1));
+    // expire
+    client->add(new ConfigItem("expire", 0, 1, 1));
+  }
 
+  /* Read configuration file */
+  if (verbosity() > 1) {
+    cout << " -> Reading configuration file" << endl;
+  }
+  if (config.read(config_file) >= 0) {
     Client* client = NULL;
     Filter* filter = NULL;
-    while (true) {
-      vector<string> params;
-
-      line++;
-      int rc = config_file.getParams(params);
+    ConfigLine* params;
+    while (config.line(&params) >= 0) {
+#if 0
       if (rc == -2) {
         errno = EUCLEAN;
-        cerr << "Warning: in file " << config_path << ", line " << line
-          << " missing single- or double-quote" << endl;
-      } else if (rc <= 0) {
-        break;
+        cerr << "Warning: in file " << config_path << ", line "
+          << (*params).lineNo() << " missing single- or double-quote" << endl;
       }
-      if (params.size() == 1) {
-        errno = EUCLEAN;
-        cerr << "Error: in file " << config_path << ", line " << line
-          << " unexpected lonely keyword: " << *params.begin() << endl;
-        return -1;
-      } else if (params.size() > 1) {
-        if (params[0] == "db") {
-          if (params.size() > 2) {
-            cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << params[0] << "' takes exactly one argument" << endl;
-            return -1;
-          } else
-          if (_d->db != NULL) {
-            cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << params[0] << "' seen twice" << endl;
-            return -1;
-          } else {
-            _d->db = new Database(params[1]);
-            _d->mount_point = params[1] + "/mount";
-          }
-        } else
-        if (params[0] == "trash") {
-        } else
-        if (params[0] == "filter") {
-          // Expect exactly three parameters
-          if (params.size() != 3) {
-            cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << params[0] << "' takes exactly two arguments" << endl;
-            return -1;
-          }
-          filter = _d->addFilter(params[1], params[2]);
-          if (verbosity() > 1) {
-            cout << " --> global filter " << params[1] << " " << params[2]
-              << endl;
-          }
-          if (filter == NULL) {
-            cerr << "Error: in file " << config_path << ", line " << line
-              << " unsupported filter type: " << params[1] << endl;
-            return -1;
-          }
-        } else
-        if (params[0] == "condition") {
-          if (params.size() != 3) {
-            cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << params[0] << "' takes exactly two arguments" << endl;
-            return -1;
-          }
-          string  filter_type;
-          bool    negated;
-          if (params[1][0] == '!') {
-            filter_type = params[1].substr(1);
-            negated     = true;
-          } else {
-            filter_type = params[1];
-            negated     = false;
-          }
-
-          /* Add specified filter */
-          if (filter_type == "filter") {
-            Filter* subfilter = _d->findFilter(params[2]);
-            if (subfilter == NULL) {
-              cerr << "Error: in file " << config_path << ", line " << line
-                << " filter not found: " << params[2] << endl;
-              return -1;
-            }
-            if (verbosity() > 1) {
-              cout << " ---> condition ";
-              if (negated) {
-                cout << "not ";
-              }
-              cout << filter_type << " " << subfilter->name() << endl;
-            }
-            filter->add(new Condition(Condition::subfilter, subfilter,
-              negated));
-          } else {
-            switch (filter->add(filter_type, params[2], negated)) {
-              case 1:
-                cerr << "Error: in file " << config_path << ", line " << line
-                  << " unsupported condition type: " << params[1] << endl;
-                return -1;
-                break;
-              case 2:
-                cerr << "Error: in file " << config_path << ", line " << line
-                  << " no filter defined" << endl;
-                return -1;
-                break;
-              default:
-                if (verbosity() > 1) {
-                  cout << " ---> condition ";
-                  if (negated) {
-                    cout << "not ";
-                  }
-                  cout << filter_type << " " << params[2] << endl;
-                }
-            }
-          }
-        } else
-        if (params[0] == "client") {
-          if (params.size() != 3) {
-            cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << params[0] << "' takes exactly two arguments" << endl;
-            return -1;
-          }
-          client = new Client(params[2]);
-          client->setProtocol(params[1]);
-
-          // Clients MUST BE in alphabetic order
-          int cmp = 1;
-          list<Client*>::iterator i = _d->clients.begin();
-          while (i != _d->clients.end()) {
-            cmp = client->internal_name().compare((*i)->internal_name());
-            if (cmp <= 0) {
-              break;
-            }
-            i++;
-          }
-          if (cmp == 0) {
-            cerr << "Error: client already selected: " << params[2] << endl;
-            return -1;
-          }
-          _d->clients.insert(i, client);
-        } else if (client != NULL) {
-          if (params[0] == "hostname") {
-            if (params.size() > 2) {
-              cerr << "Error: in file " << config_path << ", line " << line
-                << " '" << params[0] << "' takes exactly one argument" << endl;
-              return -1;
-            }
-            client->setHostOrIp(params[1]);
-          } else
-          if (params[0] == "option") {
-            if (params.size() > 3) {
-              cerr << "Error: in file " << config_path << ", line " << line
-                << " '" << params[0] << "' takes one or two arguments" << endl;
-              return -1;
-            }
-            if (params.size() == 2) {
-              client->addOption(params[1]);
-            } else {
-              client->addOption(params[1], params[2]);
-            }
-          } else
-          if (params[0] == "config") {
-            if (params.size() > 2) {
-              cerr << "Error: in file " << config_path << ", line " << line
-                << " '" << params[0] << "' takes exactly one argument" << endl;
-              return -1;
-            }
-            client->setListfile(params[1].c_str());
-            if (verbosity() > 1) {
-              cout << " ---> config file: " << params[1] << endl;
-            }
-          } else
-          if (params[0] == "expire") {
-            if (params.size() > 2) {
-              cerr << "Error: in file " << config_path << ", line " << line
-                << " '" << params[0] << "' takes exactly one argument" << endl;
-              return -1;
-            }
-            errno = 0;
-            int expire = strtol(params[1].c_str(), NULL, 10);
-            if (errno != 0) {
-              cerr << "Error: in file " << config_path << ", line " << line
-                << " '" << params[0] << "' expects a number as argument" << endl;
-              return -1;
-            }
-            if (verbosity() > 1) {
-              cout << " ---> expiry: " << expire << " day(s)" << endl;
-            }
-            client->setExpire(expire * 3600 * 24);
-          } else {
-            cerr << "Unrecognised keyword '" << params[0]
-              << "' in configuration file, line " << line << endl;
-            return -1;
-          }
-        } else {
-          cerr << "Error: in file " << config_path << ", line " << line
-            << " keyword before client" << endl;
+#endif
+      if ((*params)[0] == "db") {
+        _d->db = new Database((*params)[1]);
+        _d->mount_point = (*params)[1] + "/mount";
+      } else
+      if ((*params)[0] == "trash") {
+      } else
+      if ((*params)[0] == "filter") {
+        filter = _d->addFilter((*params)[1], (*params)[2]);
+        if (verbosity() > 1) {
+          cout << " --> global filter " << (*params)[1] << " " << (*params)[2]
+            << endl;
+        }
+        if (filter == NULL) {
+          cerr << "Error: in file " << config_path << ", line "
+            << (*params).lineNo() << " unsupported filter type: "
+            << (*params)[1] << endl;
           return -1;
+        }
+      } else
+      if ((*params)[0] == "condition") {
+        string  filter_type;
+        bool    negated;
+        if ((*params)[1][0] == '!') {
+          filter_type = (*params)[1].substr(1);
+          negated     = true;
+        } else {
+          filter_type = (*params)[1];
+          negated     = false;
+        }
+
+        /* Add specified filter */
+        if (filter_type == "filter") {
+          Filter* subfilter = _d->findFilter((*params)[2]);
+          if (subfilter == NULL) {
+            cerr << "Error: in file " << config_path << ", line "
+              << (*params).lineNo() << " filter not found: " << (*params)[2]
+              << endl;
+            return -1;
+          }
+          if (verbosity() > 1) {
+            cout << " ---> condition ";
+            if (negated) {
+              cout << "not ";
+            }
+            cout << filter_type << " " << subfilter->name() << endl;
+          }
+          filter->add(new Condition(Condition::subfilter, subfilter,
+            negated));
+        } else {
+          switch (filter->add(filter_type, (*params)[2], negated)) {
+            case 1:
+              cerr << "Error: in file " << config_path << ", line "
+                << (*params).lineNo() << " unsupported condition type: "
+                << (*params)[1] << endl;
+              return -1;
+              break;
+            case 2:
+              cerr << "Error: in file " << config_path << ", line "
+                << (*params).lineNo() << " no filter defined" << endl;
+              return -1;
+              break;
+            default:
+              if (verbosity() > 1) {
+                cout << " ---> condition ";
+                if (negated) {
+                  cout << "not ";
+                }
+                cout << filter_type << " " << (*params)[2] << endl;
+              }
+          }
+        }
+      } else
+      if ((*params)[0] == "client") {
+        client = new Client((*params)[2]);
+        client->setProtocol((*params)[1]);
+
+        // Clients MUST BE in alphabetic order
+        int cmp = 1;
+        list<Client*>::iterator i = _d->clients.begin();
+        while (i != _d->clients.end()) {
+          cmp = client->internal_name().compare((*i)->internal_name());
+          if (cmp <= 0) {
+            break;
+          }
+          i++;
+        }
+        if (cmp == 0) {
+          cerr << "Error: client already selected: " << (*params)[2] << endl;
+          return -1;
+        }
+        _d->clients.insert(i, client);
+      } else if (client != NULL) {
+        if ((*params)[0] == "hostname") {
+          client->setHostOrIp((*params)[1]);
+        } else
+        if ((*params)[0] == "option") {
+          if ((*params).size() == 2) {
+            client->addOption((*params)[1]);
+          } else {
+            client->addOption((*params)[1], (*params)[2]);
+          }
+        } else
+        if ((*params)[0] == "config") {
+          client->setListfile((*params)[1].c_str());
+          if (verbosity() > 1) {
+            cout << " ---> config file: " << (*params)[1] << endl;
+          }
+        } else
+        if ((*params)[0] == "expire") {
+          errno = 0;
+          int expire = strtol((*params)[1].c_str(), NULL, 10);
+          if (errno != 0) {
+            cerr << "Error: in file " << config_path << ", line "
+              << (*params).lineNo() << " '" << (*params)[0]
+              << "' expects a number as argument" << endl;
+            return -1;
+          }
+          if (verbosity() > 1) {
+            cout << " ---> expiry: " << expire << " day(s)" << endl;
+          }
+          client->setExpire(expire * 3600 * 24);
         }
       }
     }

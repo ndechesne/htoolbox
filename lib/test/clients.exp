@@ -368,6 +368,16 @@ Backup client 'testhost' using protocol 'file'
  --> Path: test2/subdir
  --> Path: test2
 Path inside another: this is not supported
+ --> Path: test1
+ --> path-wide filter and not_object
+ ---> condition not path_end .o
+ --> path-wide filter or to_be_ignored
+ ---> condition filter subdir
+ ---> condition filter backup
+ ---> condition not filter not_object
+ --> Path: test1/subdir
+Path inside another. This is not supported
+backup failed
  -> Journal is empty, not merging
  -> Database closed
 

@@ -237,7 +237,9 @@ int main(void) {
   db.open_rw();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
-    (*i)->backup(db, filters, 0);
+    if ((*i)->backup(db, filters, 0) < 0) {
+      cerr << "backup failed" << endl;
+    }
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
