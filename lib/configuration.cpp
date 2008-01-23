@@ -82,6 +82,10 @@ void ConfigItem::debug(int level) const {
 }
 
 ConfigLine::~ConfigLine() {
+  clear();
+}
+
+void ConfigLine::clear() {
   list<ConfigLine*>::iterator i;
   for (i = _children.begin(); i != _children.end(); i = _children.erase(i)) {
     delete *i;
@@ -128,33 +132,45 @@ int Config::read(
         if (child != NULL) {
           // Add under current hierarchy
           items_hierarchy.push_back(child);
+          // Add in configuration lines tree, however incorrect it may be
+          lines_hierarchy.back()->add(params);
+          // Add under current hierarchy
+          lines_hierarchy.push_back(params);
           // Check number of parameters (params.size() - 1)
           if ((params->size() - 1) < child->min_params()) {
-            cerr << "not enough parameters for keyword: " << (*params)[0]
-              << ", line " << line_no << endl;
+            cerr << "line " << line_no
+              << ": too few parameters for keyword: " << (*params)[0]
+              << " (found: " << params->size() - 1
+              << ", needs: " << child->min_params();
+            if (child->min_params() < child->max_params()) {
+              cerr << " to " << child->max_params();
+            }
+            cerr << ")" << endl;
             failed = true;
           } else
           if ((params->size() - 1) > child->max_params()) {
-            cerr << "too many parameters for keyword: " << (*params)[0]
-              << ", line " << line_no << endl;
+            cerr << "line " << line_no
+              << ": too many parameters for keyword: " << (*params)[0]
+              << " (found: " << params->size() - 1
+              << ", needs: " << child->min_params();
+            if (child->min_params() < child->max_params()) {
+              cerr << " to " << child->max_params();
+            }
+            cerr << ")" << endl;
             failed = true;
-          } else
-          {
-            // Add in configuration lines tree
-            lines_hierarchy.back()->add(params);
-            // Add under current hierarchy
-            lines_hierarchy.push_back(params);
-            params = new ConfigLine;
           }
+          // Prepare new config line
+          params = new ConfigLine;
           break;
-        }
-        items_hierarchy.pop_back();
-        lines_hierarchy.pop_back();
-        if (items_hierarchy.size() == 0) {
-          cerr << "keyword incorrect or misplaced: " << (*params)[0]
-            << ", line " << line_no << "; aborting" << endl;
-          failed = true;
-          goto end;
+        } else {
+          items_hierarchy.pop_back();
+          lines_hierarchy.pop_back();
+          if (items_hierarchy.size() == 0) {
+            cerr << "keyword incorrect or misplaced: " << (*params)[0]
+              << ", line " << line_no << "; aborting" << endl;
+            failed = true;
+            goto end;
+          }
         }
       }
     }
@@ -162,6 +178,10 @@ int Config::read(
 end:
   delete params;
   return failed ? -1 : 0;
+}
+
+void Config::clear() {
+  _lines_root.clear();
 }
 
 void Config::debug() const {

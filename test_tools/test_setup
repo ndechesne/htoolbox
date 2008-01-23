@@ -326,3 +326,82 @@ option nocase
 hostname myClient
 config "C:\Backup\Backup.LST"
 EOF
+
+# Broken config
+cat << EOF > "$CONFIGDIR/broken.conf"
+db "$TESTDBDIR"
+db blah
+trash 1 2
+
+filter all
+condition type file
+condition path_end ~
+
+filter any test_or
+
+client nfs myClient
+
+client ssh other
+hostname otherClient
+hostname 192.168.0.132
+config /home/backup/Backup.list
+config /home/backup/Backup2.list
+# This is a comment
+filter and subdir
+condition path_start subdir
+condition !size< 100
+
+filter and bigfile 3
+condition size>= 10 yeah
+condition type 
+
+expire 1
+expire 2 3 
+
+path test2//
+
+path "test1" # should work
+
+filter and not_object
+condition !path_end ".o"
+
+filter or to_be_ignored
+condition filter subdir
+condition filter backup
+condition !filter not_object
+
+filter and blah
+
+filter or
+
+
+ignore to_be_ignored
+ignore to_be_ignored2
+
+compress bigfile
+compress bigfile2
+
+parser cvs controlled
+parser svn modified
+parser bzr modified
+
+client file myhost
+hostname myhost.mynetwork.lan
+config "$CONFIGDIR/localhost.list"
+expire 1
+
+path blah
+ignore  2 3 
+compress 4 5
+
+client smb client
+option username Myself
+option password flesyM
+option nocase
+hostname myClient
+config "C:\Backup\Backup.LST"
+
+path blah
+ignore
+compress
+EOF

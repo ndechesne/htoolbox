@@ -56,6 +56,7 @@ public:
   void add(ConfigItem* child) {
     _children.push_back(child);
   }
+  // Find a child
   const ConfigItem* find(string& keyword) const;
   // Debug
   void debug(int level = 0) const;
@@ -69,6 +70,8 @@ public:
   void add(ConfigLine* child) {
     _children.push_back(child);
   }
+  // Clear config lines
+  void clear();
   // Debug
   void debug(int level = 0) const;
 };
@@ -80,7 +83,11 @@ public:
   Config() : _items_root("") {}
   int read(
     Stream&         stream);
+  // Add a config item
   void add(ConfigItem* child)           { _items_root.add(child);   }
+  // Clear config lines
+  void clear();
+  // Debug
   void debug() const;
 };
 

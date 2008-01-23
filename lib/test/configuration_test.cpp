@@ -218,6 +218,21 @@ int main(void) {
   // show debug
   config->debug();
 
+  // clear list
+  config->clear();
+
+  cout << "Test: broken configuration" << endl;
+  Stream broken_config("etc/broken.conf");
+  if (broken_config.open("r") == 0) {
+    config->read(broken_config);
+    broken_config.close();
+  } else {
+    cout << "failed to open it!" << endl;
+  }
+
+  // show debug
+  config->debug();
+
   delete config;
 
   return 0;

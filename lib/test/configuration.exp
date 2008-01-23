@@ -131,3 +131,88 @@ Lines:
     option nocase
     hostname myClient
     config C:\Backup\Backup.LST
+Test: broken configuration
+line 3: too many parameters for keyword: trash (found: 2, needs: 1)
+line 5: too few parameters for keyword: filter (found: 1, needs: 2)
+line 23: too many parameters for keyword: filter (found: 3, needs: 2)
+line 24: too many parameters for keyword: condition (found: 3, needs: 2)
+line 25: too few parameters for keyword: condition (found: 1, needs: 2)
+line 28: too many parameters for keyword: expire (found: 2, needs: 1)
+line 44: too few parameters for keyword: filter (found: 1, needs: 2)
+line 63: too many parameters for keyword: ignore (found: 2, needs: 1)
+line 64: too many parameters for keyword: compress (found: 2, needs: 1)
+line 74: too few parameters for keyword: ignore (found: 0, needs: 1)
+line 75: too few parameters for keyword: compress (found: 0, needs: 1)
+Items:
+  db, occ.: optional, max = 1; params: min params = 1, max params = 1
+  trash, occ.: optional, max = 1; params: min params = 1, max params = 1
+  filter, occ.: optional, no max; params: min params = 2, max params = 2
+    condition, occ.: min = 1, no max; params: min params = 2, max params = 2
+  client, occ.: min = 1, no max; params: min params = 2, max params = 2
+    hostname, occ.: optional, max = 1; params: min params = 1, max params = 1
+    option, occ.: optional, no max; params: min params = 1, max params = 2
+    config, occ.: min = 1, max = 1; params: min params = 1, max params = 1
+    expire, occ.: optional, max = 1; params: min params = 1, max params = 1
+    filter, occ.: optional, no max; params: min params = 2, max params = 2
+      condition, occ.: min = 1, no max; params: min params = 2, max params = 2
+    path, occ.: min = 1, no max; params: min params = 1, max params = 1
+      parser, occ.: optional, no max; params: min params = 1, max params = 2
+      filter, occ.: optional, no max; params: min params = 2, max params = 2
+        condition, occ.: min = 1, no max; params: min params = 2, max params = 2
+      ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
+      compress, occ.: optional, max = 1; params: min params = 1, max params = 1
+Lines:
+  db test_db
+  db blah
+  trash 1 2
+  filter all
+    condition type file
+    condition path_end ~
+  filter any test_or
+  client nfs myClient
+  client ssh other
+    hostname otherClient
+    hostname 192.168.0.132
+    config /home/backup/Backup.list
+    config /home/backup/Backup2.list
+    filter and subdir
+      condition path_start subdir
+      condition !size< 100
+    filter and bigfile 3
+      condition size>= 10 yeah
+      condition type
+    expire 1
+    expire 2 3
+    path test2//
+    path test1
+      filter and not_object
+        condition !path_end .o
+      filter or to_be_ignored
+        condition filter subdir
+        condition filter backup
+        condition !filter not_object
+      filter and blah
+      filter or
+      ignore to_be_ignored
+      ignore to_be_ignored2
+      compress bigfile
+      compress bigfile2
+      parser cvs controlled
+      parser svn modified
+      parser bzr modified
+  client file myhost
+    hostname myhost.mynetwork.lan
+    config etc/localhost.list
+    expire 1
+    path blah
+      ignore 2 3
+      compress 4 5
+  client smb client
+    option username Myself
+    option password flesyM
+    option nocase
+    hostname myClient
+    config C:\Backup\Backup.LST
+    path blah
+      ignore
+      compress
