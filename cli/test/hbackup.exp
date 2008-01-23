@@ -97,7 +97,6 @@ HBackup (c) 2006-2007 Hervé Fache
 
 List prefixes (missing DB path)
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -117,7 +116,6 @@ Showing list
 Error: given DB path does not exist: test_db
 List prefixes (empty DB path)
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -137,7 +135,6 @@ Showing list
 Error: given DB path does not contain a database: test_db
 Typical backup
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -297,7 +294,6 @@ Protocol not supported: ssh
  -> Database closed
 Specify clients
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -402,7 +398,6 @@ Adding file data to DB in: test_user/.hbackup/data/90e2a51705594d033a3abe9d77b2b
  -> Database closed
 Scan DB
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -425,7 +420,6 @@ Scanning database contents: 14 files
  -> Database closed
 Check DB
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -448,7 +442,6 @@ Scanning database contents thoroughly: 14 files
  -> Database closed
 List prefixes
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -472,7 +465,6 @@ Showing list
  myhost
 Try to list paths in both myhost and smb://client (fails)
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -492,7 +484,6 @@ Showing list
 Error: maximum one client allowed
 List paths in myhost
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -515,7 +506,6 @@ Showing list
  test2
 List paths in myhost under test2/
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -541,7 +531,6 @@ Showing list
  test2/testlink
 List paths in myhost under test1/cvs
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -567,7 +556,6 @@ Showing list
  test1/cvs/fileutd.h
 Restore a file
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -589,7 +577,6 @@ U test_r/test2/testfile
  -> Database closed
 Restore all data in a prefix/dir path that's not by itself in DB
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -650,7 +637,6 @@ U test_r/test1/testpipe
  -> Database closed
 Restore all data in a prefix/dir path
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -683,7 +669,6 @@ U test_r/test1/cvs/fileutd.h
  -> Database closed
 Restore all data in a prefix
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~

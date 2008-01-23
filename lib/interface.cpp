@@ -36,7 +36,6 @@ using namespace hbackup;
 
 struct HBackup::Private {
   Database*         db;
-  int               trash_expire;
   string            mount_point;
   list<string>      selected_clients;
   list<Client*>     clients;
@@ -52,7 +51,6 @@ struct HBackup::Private {
 HBackup::HBackup() {
   _d               = new Private;
   _d->db           = NULL;
-  _d->trash_expire = -1;
   _d->selected_clients.clear();
   _d->clients.clear();
 }
@@ -149,23 +147,6 @@ int HBackup::readConfig(const char* config_path) {
           }
         } else
         if (params[0] == "trash") {
-          if (params.size() > 2) {
-            cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << params[0] << "' takes exactly one argument" << endl;
-            return -1;
-          }
-          errno = 0;
-          _d->trash_expire = strtol(params[1].c_str(), NULL, 10);
-          if (errno != 0) {
-            cerr << "Error: in file " << config_path << ", line " << line
-              << " '" << params[0] << "' expects a number as argument" << endl;
-            return -1;
-          }
-          if (verbosity() > 1) {
-            cout << " ---> use trash, expiry: " << _d->trash_expire
-              << " day(s)" << endl;
-          }
-          _d->trash_expire *= 3600 * 24;
         } else
         if (params[0] == "filter") {
           // Expect exactly three parameters
@@ -385,7 +366,7 @@ int HBackup::backup(bool config_check) {
         failed = true;
       }
     }
-    _d->db->close(_d->trash_expire);
+    _d->db->close();
     if (failed) {
       return -1;
     }

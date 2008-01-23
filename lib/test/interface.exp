@@ -1,7 +1,6 @@
 
 Test: typical backup
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -161,7 +160,6 @@ Protocol not supported: ssh
 
 Test: same backup
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -255,7 +253,6 @@ Protocol not supported: ssh
 
 Test: interrupted backup
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -333,7 +330,6 @@ Operation canceled: test1/dir space/big_file
 
 Test: specify clients
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -419,7 +415,6 @@ Backup path 'test2'
 
 Test: scan DB
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -442,7 +437,6 @@ Scanning database contents: 15 files
 
 Test: check DB
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -465,7 +459,6 @@ Scanning database contents thoroughly: 15 files
 
 Test: list clients
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -490,7 +483,6 @@ List of clients: 3
 
 Test: list paths in UNIX client
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -513,7 +505,6 @@ List of paths in 'myClient': 1
 
 Test: list paths in DOS client
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -536,7 +527,6 @@ List of paths in 'client': 1
 
 Test: restore file
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -558,7 +548,6 @@ U test_r/test2/testfile
 
 Test: restore dir
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -620,7 +609,6 @@ U test_r/test1/testpipe
 
 Test: restore subdir
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -653,7 +641,6 @@ U test_r/test1/cvs/fileutd.h
 
 Test: restore client
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -722,7 +709,6 @@ Test: add dual-boot client
 
 Test: typical backup
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -828,7 +814,6 @@ Protocol not supported: ssh
 
 Test: specify clients
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -896,7 +881,6 @@ Adding file data to DB in: test_user/.hbackup/data/90e2a51705594d033a3abe9d77b2b
 
 Test: list clients
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -923,7 +907,6 @@ List of clients: 3
 
 Test: list paths in DUAL client
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -949,7 +932,6 @@ List of paths in 'myClient': 2
 
 Test: list sub-paths in UNIX client
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -974,7 +956,6 @@ List of paths in 'myClient': 1
 
 Test: list sub-paths in DOS client
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -999,7 +980,6 @@ List of paths in 'myClient': 1
 
 Test: restore file (UNIX)
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -1023,7 +1003,6 @@ U test_r//home/User/test/File2.txt
 
 Test: restore subdir (UNIX)
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -1049,7 +1028,6 @@ U test_r//home/User/test/dir/file3.txt
 
 Test: restore dir (UNIX)
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -1075,7 +1053,6 @@ U test_r//home/User/test/dir/file3.txt
 
 Test: restore file (DOS)
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -1099,7 +1076,6 @@ U test_r/C:/Test/File.TXT
 
 Test: restore subdir (DOS)
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -1126,7 +1102,6 @@ U test_r/C:/Test/File.TXT
 
 Test: restore dir (DOS)
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -1153,7 +1128,6 @@ U test_r/C:/Test/File.TXT
 
 Test: restore client
  -> Reading configuration file
- ---> use trash, expiry: 1 day(s)
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
