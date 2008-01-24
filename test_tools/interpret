@@ -46,6 +46,10 @@ case $1 in
     export DIR="cli"
     export NAME="hbackup"
     ;;
+  "in" )
+    export DIR="cli"
+    export NAME="interface"
+    ;;
   "ls" )
     export DIR="lib"
     export NAME="list"
