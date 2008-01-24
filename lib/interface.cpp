@@ -130,149 +130,158 @@ int HBackup::readConfig(const char* config_path) {
     client->add(new ConfigItem("config", 1, 1, 1));
     // expire
     client->add(new ConfigItem("expire", 0, 1, 1));
+    // filter
+    {
+      ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
+      client->add(filter);
+      // condition
+      filter->add(new ConfigItem("condition", 1, 0, 2));
+    }
   }
 
   /* Read configuration file */
   if (verbosity() > 1) {
-    cout << " -> Reading configuration file" << endl;
+    cout << " -> Reading configuration file '" << config_path << "'" << endl;
   }
-  if (config.read(config_file) >= 0) {
-    Client* client = NULL;
-    Filter* filter = NULL;
-    ConfigLine* params;
-    while (config.line(&params) >= 0) {
+  int rc = config.read(config_file);
+  config_file.close();
+  
+  if (rc < 0) {
+    return -1;
+  }
+  
+  Client* client = NULL;
+  Filter* filter = NULL;
+  ConfigLine* params;
+  while (config.line(&params) >= 0) {
 #if 0
-      if (rc == -2) {
-        errno = EUCLEAN;
-        cerr << "Warning: in file " << config_path << ", line "
-          << (*params).lineNo() << " missing single- or double-quote" << endl;
-      }
+    if (rc == -2) {
+      errno = EUCLEAN;
+      cerr << "Warning: in file " << config_path << ", line "
+        << (*params).lineNo() << " missing single- or double-quote" << endl;
+    }
 #endif
-      if ((*params)[0] == "db") {
-        _d->db = new Database((*params)[1]);
-        _d->mount_point = (*params)[1] + "/mount";
-      } else
-      if ((*params)[0] == "trash") {
-      } else
-      if ((*params)[0] == "filter") {
-        filter = _d->addFilter((*params)[1], (*params)[2]);
-        if (verbosity() > 1) {
-          cout << " --> global filter " << (*params)[1] << " " << (*params)[2]
-            << endl;
-        }
-        if (filter == NULL) {
+    if ((*params)[0] == "db") {
+      _d->db = new Database((*params)[1]);
+      _d->mount_point = (*params)[1] + "/mount";
+    } else
+    if ((*params)[0] == "trash") {
+    } else
+    if ((*params)[0] == "filter") {
+      filter = _d->addFilter((*params)[1], (*params)[2]);
+      if (verbosity() > 1) {
+        cout << " --> global filter " << (*params)[1] << " " << (*params)[2]
+          << endl;
+      }
+      if (filter == NULL) {
+        cerr << "Error: in file " << config_path << ", line "
+          << (*params).lineNo() << " unsupported filter type: "
+          << (*params)[1] << endl;
+        return -1;
+      }
+    } else
+    if ((*params)[0] == "condition") {
+      string  filter_type;
+      bool    negated;
+      if ((*params)[1][0] == '!') {
+        filter_type = (*params)[1].substr(1);
+        negated     = true;
+      } else {
+        filter_type = (*params)[1];
+        negated     = false;
+      }
+
+      /* Add specified filter */
+      if (filter_type == "filter") {
+        Filter* subfilter = _d->findFilter((*params)[2]);
+        if (subfilter == NULL) {
           cerr << "Error: in file " << config_path << ", line "
-            << (*params).lineNo() << " unsupported filter type: "
-            << (*params)[1] << endl;
+            << (*params).lineNo() << " filter not found: " << (*params)[2]
+            << endl;
           return -1;
         }
-      } else
-      if ((*params)[0] == "condition") {
-        string  filter_type;
-        bool    negated;
-        if ((*params)[1][0] == '!') {
-          filter_type = (*params)[1].substr(1);
-          negated     = true;
-        } else {
-          filter_type = (*params)[1];
-          negated     = false;
+        if (verbosity() > 1) {
+          cout << " ---> condition ";
+          if (negated) {
+            cout << "not ";
+          }
+          cout << filter_type << " " << subfilter->name() << endl;
         }
-
-        /* Add specified filter */
-        if (filter_type == "filter") {
-          Filter* subfilter = _d->findFilter((*params)[2]);
-          if (subfilter == NULL) {
+        filter->add(new Condition(Condition::subfilter, subfilter, negated));
+      } else {
+        switch (filter->add(filter_type, (*params)[2], negated)) {
+          case 1:
             cerr << "Error: in file " << config_path << ", line "
-              << (*params).lineNo() << " filter not found: " << (*params)[2]
-              << endl;
+              << (*params).lineNo() << " unsupported condition type: "
+              << (*params)[1] << endl;
             return -1;
-          }
-          if (verbosity() > 1) {
-            cout << " ---> condition ";
-            if (negated) {
-              cout << "not ";
-            }
-            cout << filter_type << " " << subfilter->name() << endl;
-          }
-          filter->add(new Condition(Condition::subfilter, subfilter,
-            negated));
-        } else {
-          switch (filter->add(filter_type, (*params)[2], negated)) {
-            case 1:
-              cerr << "Error: in file " << config_path << ", line "
-                << (*params).lineNo() << " unsupported condition type: "
-                << (*params)[1] << endl;
-              return -1;
-              break;
-            case 2:
-              cerr << "Error: in file " << config_path << ", line "
-                << (*params).lineNo() << " no filter defined" << endl;
-              return -1;
-              break;
-            default:
-              if (verbosity() > 1) {
-                cout << " ---> condition ";
-                if (negated) {
-                  cout << "not ";
-                }
-                cout << filter_type << " " << (*params)[2] << endl;
-              }
-          }
-        }
-      } else
-      if ((*params)[0] == "client") {
-        client = new Client((*params)[2]);
-        client->setProtocol((*params)[1]);
-
-        // Clients MUST BE in alphabetic order
-        int cmp = 1;
-        list<Client*>::iterator i = _d->clients.begin();
-        while (i != _d->clients.end()) {
-          cmp = client->internal_name().compare((*i)->internal_name());
-          if (cmp <= 0) {
             break;
-          }
-          i++;
+          case 2:
+            cerr << "Error: in file " << config_path << ", line "
+              << (*params).lineNo() << " no filter defined" << endl;
+            return -1;
+            break;
+          default:
+            if (verbosity() > 1) {
+              cout << " ---> condition ";
+              if (negated) cout << "not ";
+              cout << filter_type << " " << (*params)[2] << endl;
+            }
         }
-        if (cmp == 0) {
-          cerr << "Error: client already selected: " << (*params)[2] << endl;
+      }
+    } else
+    if ((*params)[0] == "client") {
+      client = new Client((*params)[2]);
+      client->setProtocol((*params)[1]);
+
+      // Clients MUST BE in alphabetic order
+      int cmp = 1;
+      list<Client*>::iterator i = _d->clients.begin();
+      while (i != _d->clients.end()) {
+        cmp = client->internal_name().compare((*i)->internal_name());
+        if (cmp <= 0) {
+          break;
+        }
+        i++;
+      }
+      if (cmp == 0) {
+        cerr << "Error: client already selected: " << (*params)[2] << endl;
+        return -1;
+      }
+      _d->clients.insert(i, client);
+    } else
+    if (client != NULL) {
+      if ((*params)[0] == "hostname") {
+        client->setHostOrIp((*params)[1]);
+      } else
+      if ((*params)[0] == "option") {
+        if ((*params).size() == 2) {
+          client->addOption((*params)[1]);
+        } else {
+          client->addOption((*params)[1], (*params)[2]);
+        }
+      } else
+      if ((*params)[0] == "config") {
+        client->setListfile((*params)[1].c_str());
+        if (verbosity() > 1) {
+          cout << " ---> config file: " << (*params)[1] << endl;
+        }
+      } else
+      if ((*params)[0] == "expire") {
+        errno = 0;
+        int expire = strtol((*params)[1].c_str(), NULL, 10);
+        if (errno != 0) {
+          cerr << "Error: in file " << config_path << ", line "
+            << (*params).lineNo() << " '" << (*params)[0]
+            << "' expects a number as argument" << endl;
           return -1;
         }
-        _d->clients.insert(i, client);
-      } else if (client != NULL) {
-        if ((*params)[0] == "hostname") {
-          client->setHostOrIp((*params)[1]);
-        } else
-        if ((*params)[0] == "option") {
-          if ((*params).size() == 2) {
-            client->addOption((*params)[1]);
-          } else {
-            client->addOption((*params)[1], (*params)[2]);
-          }
-        } else
-        if ((*params)[0] == "config") {
-          client->setListfile((*params)[1].c_str());
-          if (verbosity() > 1) {
-            cout << " ---> config file: " << (*params)[1] << endl;
-          }
-        } else
-        if ((*params)[0] == "expire") {
-          errno = 0;
-          int expire = strtol((*params)[1].c_str(), NULL, 10);
-          if (errno != 0) {
-            cerr << "Error: in file " << config_path << ", line "
-              << (*params).lineNo() << " '" << (*params)[0]
-              << "' expects a number as argument" << endl;
-            return -1;
-          }
-          if (verbosity() > 1) {
-            cout << " ---> expiry: " << expire << " day(s)" << endl;
-          }
-          client->setExpire(expire * 3600 * 24);
+        if (verbosity() > 1) {
+          cout << " ---> expiry: " << expire << " day(s)" << endl;
         }
+        client->setExpire(expire * 3600 * 24);
       }
     }
-    config_file.close();
   }
 
   // Use default DB path if none specified

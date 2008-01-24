@@ -1,6 +1,6 @@
 
 Test: typical backup
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -159,7 +159,7 @@ Protocol not supported: ssh
  -> Database closed
 
 Test: same backup
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -252,7 +252,7 @@ Protocol not supported: ssh
  -> Database closed
 
 Test: interrupted backup
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -329,7 +329,7 @@ Operation canceled: test1/dir space/big_file
  -> Database closed
 
 Test: specify clients
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -414,7 +414,7 @@ Backup path 'test2'
  -> Database closed
 
 Test: scan DB
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -436,7 +436,7 @@ Scanning database contents: 15 files
  -> Database closed
 
 Test: check DB
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -458,7 +458,7 @@ Scanning database contents thoroughly: 15 files
  -> Database closed
 
 Test: list clients
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -482,7 +482,7 @@ List of clients: 3
  -> myhost
 
 Test: list paths in UNIX client
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -504,7 +504,7 @@ List of paths in 'myClient': 1
  -> /home
 
 Test: list paths in DOS client
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -526,7 +526,7 @@ List of paths in 'client': 1
  -> C:
 
 Test: restore file
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -547,7 +547,7 @@ U test_r/test2/testfile
  -> Database closed
 
 Test: restore dir
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -608,7 +608,7 @@ U test_r/test1/testpipe
  -> Database closed
 
 Test: restore subdir
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -640,7 +640,7 @@ U test_r/test1/cvs/fileutd.h
  -> Database closed
 
 Test: restore client
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -708,7 +708,7 @@ U test_r/test2/testlink
 Test: add dual-boot client
 
 Test: typical backup
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -813,7 +813,7 @@ Protocol not supported: ssh
  -> Database closed
 
 Test: specify clients
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -880,7 +880,7 @@ Adding file data to DB in: test_user/.hbackup/data/90e2a51705594d033a3abe9d77b2b
  -> Database closed
 
 Test: list clients
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -906,7 +906,7 @@ List of clients: 3
  -> myhost
 
 Test: list paths in DUAL client
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -931,7 +931,7 @@ List of paths in 'myClient': 2
  -> C:
 
 Test: list sub-paths in UNIX client
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -955,7 +955,7 @@ List of paths in 'myClient': 1
  -> /home/User
 
 Test: list sub-paths in DOS client
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -979,7 +979,7 @@ List of paths in 'myClient': 1
  -> C:/Test
 
 Test: restore file (UNIX)
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -1002,7 +1002,7 @@ U test_r//home/User/test/File2.txt
  -> Database closed
 
 Test: restore subdir (UNIX)
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -1027,7 +1027,7 @@ U test_r//home/User/test/dir/file3.txt
  -> Database closed
 
 Test: restore dir (UNIX)
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -1052,7 +1052,7 @@ U test_r//home/User/test/dir/file3.txt
  -> Database closed
 
 Test: restore file (DOS)
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -1075,7 +1075,7 @@ U test_r/C:/Test/File.TXT
  -> Database closed
 
 Test: restore subdir (DOS)
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -1101,7 +1101,7 @@ U test_r/C:/Test/File.TXT
  -> Database closed
 
 Test: restore dir (DOS)
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
@@ -1127,7 +1127,7 @@ U test_r/C:/Test/File.TXT
  -> Database closed
 
 Test: restore client
- -> Reading configuration file
+ -> Reading configuration file 'etc/hbackup.conf'
  --> global filter all backup
  ---> condition type file
  ---> condition path_end ~
