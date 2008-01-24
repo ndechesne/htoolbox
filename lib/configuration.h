@@ -44,6 +44,17 @@ public:
   list<ConfigLine*>::const_iterator end() const   { return _children.end();   }
 };
 
+// To check occurrences
+class ConfigCounter {
+  const string&     _keyword;
+  int               _occurrences;
+public:
+  ConfigCounter(const string& keyword) : _keyword(keyword), _occurrences(1) {}
+  const string& keyword() const { return _keyword;    }
+  int occurrences()        const { return _occurrences; }
+  void increment()              { _occurrences++;      }
+};
+
 class ConfigItem {
   char*             _keyword;
   unsigned int      _min_occurrences;
@@ -81,6 +92,10 @@ public:
   }
   // Find a child
   const ConfigItem* find(string& keyword) const;
+  // Check children occurrences
+  bool isValid(
+    const list<ConfigCounter> counters,
+    int                       line = -1) const;
   // Debug
   void debug(int level = 0) const;
 };

@@ -80,6 +80,10 @@ rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r -C myhost -P test1/
 echo "Restore all data in a prefix" >> $output
 rm -rf test_r && ../hbackup -d -c etc/hbackup.conf -r test_r -C myhost >> $output 2>&1
 
+echo "Broken configuration" >> $output
+../hbackup -d -c etc/broken.conf -- >> $output 2>&1
+
+
 # Revert path
 PATH=$OLD_PATH
 

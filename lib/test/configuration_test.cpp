@@ -184,7 +184,7 @@ int main(void) {
 
     // path
     {
-      ConfigItem* sub_item = new ConfigItem("path", 1, 0, 1);
+      ConfigItem* sub_item = new ConfigItem("path", 0, 0, 1);
       item->add(sub_item);
 
       // parser

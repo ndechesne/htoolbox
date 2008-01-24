@@ -344,6 +344,8 @@ client nfs myClient
 client ssh other
 hostname otherClient
 hostname 192.168.0.132
+option I am happy
+option
 config /home/backup/Backup.list
 config /home/backup/Backup2.list
 # This is a comment

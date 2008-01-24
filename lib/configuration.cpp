@@ -70,6 +70,50 @@ const ConfigItem* ConfigItem::find(string& keyword) const {
   return NULL;
 }
 
+bool ConfigItem::isValid(
+    const list<ConfigCounter> counters,
+    int                       line) const {
+  bool is_valid = true;
+  // Check occurrences for each child
+  for (list<ConfigItem*>::const_iterator i = _children.begin();
+      i != _children.end(); i++) {
+    // Find keyword in counters list
+    unsigned int occurrences = 0;
+    list<ConfigCounter>::const_iterator j = counters.begin();
+    while (j != counters.end()) {
+      if (j->keyword() == (*i)->keyword()) {
+        occurrences = j->occurrences();
+        break;
+      }
+      j++;
+    }
+    if ((occurrences < (*i)->min_occurrences())
+        || (((*i)->max_occurrences() != 0)
+          && (occurrences > (*i)->max_occurrences()))) {
+      is_valid = false;
+      cerr << "Error:";
+      if (line >= 0) {
+        cerr << " after line " << line << ":";
+      }
+      if (occurrences < (*i)->min_occurrences()) {
+        // Too few
+        if (occurrences == 0) {
+          cerr << " missing";
+        } else {
+          cerr << " need at least " << (*i)->min_occurrences()
+            << " occurence(s) of";
+        }
+      } else {
+        // Too many
+        cerr << " need at most " << (*i)->max_occurrences()
+          << " occurence(s) of";
+      }
+      cerr << " keyword '" << (*i)->keyword() << "'" << endl;
+    }
+  }
+  return is_valid;
+}
+
 void ConfigItem::debug(int level) const {
   list<ConfigItem*>::const_iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
@@ -120,7 +164,12 @@ int Config::read(
   ConfigLine *params = new ConfigLine;
   int line_no = 0;
   bool failed = false;
-  while (stream.getParams(*params) > 0) {
+  int rc;
+  while ((rc = stream.getParams(*params)) >= 0) {
+    if (rc == 0) {
+      // Force unstacking of elements and final check
+      params->push_back("");
+    }
     line_no++;
     if (params->size() > 0) {
       // Look for keyword in children of items in the current items hierarchy
@@ -135,44 +184,62 @@ int Config::read(
           // Add under current hierarchy
           lines_hierarchy.push_back(params);
           // Check number of parameters (params.size() - 1)
-          if ((params->size() - 1) < child->min_params()) {
-            cerr << "line " << line_no
-              << ": too few parameters for keyword: " << (*params)[0]
-              << " (found: " << params->size() - 1
-              << ", needs: " << child->min_params();
-            if (child->min_params() < child->max_params()) {
-              cerr << " to " << child->max_params();
+          if (((params->size() - 1) < child->min_params())
+              || ((params->size() - 1) > child->max_params())) {
+            cerr << "Error: at line " << line_no << ": keyword '"
+              << (*params)[0] << "' requires ";
+            if (child->min_params() == child->max_params()) {
+              cerr << child->min_params();
+            } else
+            if ((params->size() - 1) < child->min_params()) {
+              cerr << "at least " << child->min_params();
+            } else
+            {
+              cerr << "at most " << child->max_params();
             }
-            cerr << ")" << endl;
-            failed = true;
-          } else
-          if ((params->size() - 1) > child->max_params()) {
-            cerr << "line " << line_no
-              << ": too many parameters for keyword: " << (*params)[0]
-              << " (found: " << params->size() - 1
-              << ", needs: " << child->min_params();
-            if (child->min_params() < child->max_params()) {
-              cerr << " to " << child->max_params();
-            }
-            cerr << ")" << endl;
+            cerr << " parameter(s), found " << params->size() - 1 << endl;
             failed = true;
           }
           // Prepare new config line
           params = new ConfigLine;
           break;
         } else {
+          // Compute children occurrencies
+          list<ConfigCounter> entries;
+          for (list<ConfigLine*>::const_iterator
+              i = lines_hierarchy.back()->begin();
+              i != lines_hierarchy.back()->end(); i++) {
+            list<ConfigCounter>::iterator j = entries.begin();
+            while (j != entries.end()) {
+              if (j->keyword() == (**i)[0]) {
+                j->increment();
+                break;
+              }
+              j++;
+            }
+            // Not found
+            if (j == entries.end()) {
+              entries.push_back((**i)[0]);
+            }
+          }
+          // Check against expected
+          if (! items_hierarchy.back()->isValid(entries,
+              lines_hierarchy.back()->lineNo())) {
+            failed  = true;
+          }
           // Keyword not found in children, go up the tree
           items_hierarchy.pop_back();
           lines_hierarchy.pop_back();
-          if (items_hierarchy.size() == 0) {
-            cerr << "keyword incorrect or misplaced: " << (*params)[0]
-              << ", line " << line_no << "; aborting" << endl;
+          if ((items_hierarchy.size() == 0) && (rc != 0)) {
+            cerr << "Error: at line " << line_no << ": keyword '"
+               << (*params)[0] << "' incorrect or misplaced, aborting" << endl;
             failed = true;
             goto end;
           }
         }
       }
     }
+    if (rc == 0) break;
   }
 end:
   delete params;
