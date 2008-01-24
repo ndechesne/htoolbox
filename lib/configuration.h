@@ -21,6 +21,29 @@
 
 namespace hbackup {
 
+class ConfigLine : public vector<string> {
+  list<ConfigLine*> _children;
+  unsigned int      _line_no;
+public:
+  ConfigLine() : _line_no(0) {}
+  ~ConfigLine();
+  // Get line no
+  unsigned int lineNo(void) const                 { return _line_no;          }
+  // Set line no
+  void setLineNo(unsigned int line_no)            { _line_no = line_no;       }
+  // Add a child
+  void add(ConfigLine* child) {
+    _children.push_back(child);
+  }
+  // Clear config lines
+  void clear();
+  // Debug
+  void debug(int level = 0) const;
+  // Iterator boundaries
+  list<ConfigLine*>::const_iterator begin() const { return _children.begin(); }
+  list<ConfigLine*>::const_iterator end() const   { return _children.end();   }
+};
+
 class ConfigItem {
   char*             _keyword;
   unsigned int      _min_occurrences;
@@ -60,29 +83,6 @@ public:
   const ConfigItem* find(string& keyword) const;
   // Debug
   void debug(int level = 0) const;
-};
-
-class ConfigLine : public vector<string> {
-  list<ConfigLine*> _children;
-  unsigned int      _line_no;
-public:
-  ConfigLine() : _line_no(0) {}
-  ~ConfigLine();
-  // Get line no
-  unsigned int lineNo(void) const                 { return _line_no;          }
-  // Set line no
-  void setLineNo(unsigned int line_no)            { _line_no = line_no;       }
-  // Add a child
-  void add(ConfigLine* child) {
-    _children.push_back(child);
-  }
-  // Clear config lines
-  void clear();
-  // Debug
-  void debug(int level = 0) const;
-  // Iterator boundaries
-  list<ConfigLine*>::const_iterator begin() const { return _children.begin(); }
-  list<ConfigLine*>::const_iterator end() const   { return _children.end();   }
 };
 
 class Config {

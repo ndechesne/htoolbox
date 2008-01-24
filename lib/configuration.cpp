@@ -27,6 +27,31 @@ using namespace std;
 
 using namespace hbackup;
 
+ConfigLine::~ConfigLine() {
+  clear();
+}
+
+void ConfigLine::clear() {
+  list<ConfigLine*>::iterator i;
+  for (i = _children.begin(); i != _children.end(); i = _children.erase(i)) {
+    delete *i;
+  }
+}
+
+void ConfigLine::debug(int level) const {
+  printf("%2u:", lineNo());
+  for (int j = 0; j < level; j++) {
+    cout << " ";
+  }
+  for (unsigned int j = 0; j < size(); j++) {
+    if (j != 0) {
+      cout << " ";
+    }
+    cout << (*this)[j];
+  }
+  cout << endl;
+}
+
 ConfigItem::~ConfigItem() {
   list<ConfigItem*>::iterator i;
   for (i = _children.begin(); i != _children.end(); i = _children.erase(i)) {
@@ -79,31 +104,6 @@ void ConfigItem::debug(int level) const {
     cout << endl;
     (*i)->debug(level + 2);
   }
-}
-
-ConfigLine::~ConfigLine() {
-  clear();
-}
-
-void ConfigLine::clear() {
-  list<ConfigLine*>::iterator i;
-  for (i = _children.begin(); i != _children.end(); i = _children.erase(i)) {
-    delete *i;
-  }
-}
-
-void ConfigLine::debug(int level) const {
-  printf("%2u:", lineNo());
-  for (int j = 0; j < level; j++) {
-    cout << " ";
-  }
-  for (unsigned int j = 0; j < size(); j++) {
-    if (j != 0) {
-      cout << " ";
-    }
-    cout << (*this)[j];
-  }
-  cout << endl;
 }
 
 int Config::read(
