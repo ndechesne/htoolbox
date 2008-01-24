@@ -12,13 +12,25 @@ WHERE=`dirname $0`
 # Get data
 . $WHERE/interpret $1
 
+output="$DIR/test/$NAME.all"
+expected="$DIR/test/$NAME.exp"
+
 # Check output file presence
-if [ ! -r "$DIR/test/$NAME.all" ]; then
-  echo "File '$DIR/test/$NAME.all' does not exist"
+if [ ! -r "$output" ]; then
+  echo "File '$output' does not exist"
   exit 2
 fi
 
-# Output useful command
-cp -a "$DIR/test/$NAME.all" "$DIR/test/$NAME.exp"
+# Check differences
+if diff -q $expected $output > /dev/null; then
+  echo "Files '$expected' and '$output' are identical"
+  exit 0
+fi
+
+# Keep backup
+mv "$expected" "$expected~"
+
+# Overwrite
+cp -a "$output" "$expected"
 
 exit 0

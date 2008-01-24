@@ -12,16 +12,16 @@ WHERE=`dirname $0`
 # Get data
 . $WHERE/interpret $1
 
+output="$DIR/test/$NAME.all"
+expected="$DIR/test/$NAME.exp"
+
 # Check output file presence
-if [ ! -r "$DIR/test/$NAME.all" ]; then
-  echo "File '$DIR/test/$NAME.all' does not exist"
+if [ ! -r "$output" ]; then
+  echo "File '$output' does not exist"
   exit 2
 fi
 
-# Output useful command
-echo "cp -a $DIR/test/$NAME.all $DIR/test/$NAME.exp"
-
 # Launch diff-er in the background
-tkdiff $DIR/test/$NAME.exp $DIR/test/$NAME.all &
+tkdiff "$expected" "$output" &
 
 exit 0

@@ -24,9 +24,9 @@ if [ "$DIR" != "lib" ]; then
 fi
 
 # Make
-$MAKE -C $DIR || exit 3
+$MAKE -C "$DIR" || exit 3
 
 # Check
-$MAKE -C $DIR/test $NAME.done || exit 4
+$MAKE -C "$DIR/test" "$NAME.done" || exit 4
 
 exit 0
