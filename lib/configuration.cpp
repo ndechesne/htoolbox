@@ -31,6 +31,10 @@ ConfigLine::~ConfigLine() {
   clear();
 }
 
+void ConfigLine::add(ConfigLine* child) {
+  _children.push_back(child);
+}
+
 void ConfigLine::clear() {
   list<ConfigLine*>::iterator i;
   for (i = _children.begin(); i != _children.end(); i = _children.erase(i)) {
@@ -58,6 +62,10 @@ ConfigItem::~ConfigItem() {
     delete *i;
   }
   free(_keyword);
+}
+
+void ConfigItem::add(ConfigItem* child) {
+  _children.push_back(child);
 }
 
 const ConfigItem* ConfigItem::find(string& keyword) const {

@@ -21,6 +21,7 @@
 
 namespace hbackup {
 
+// The configuration tree, line per line
 class ConfigLine : public vector<string> {
   list<ConfigLine*> _children;
   unsigned int      _line_no;
@@ -32,9 +33,7 @@ public:
   // Set line no
   void setLineNo(unsigned int line_no)            { _line_no = line_no;       }
   // Add a child
-  void add(ConfigLine* child) {
-    _children.push_back(child);
-  }
+  void add(ConfigLine* child);
   // Clear config lines
   void clear();
   // Debug
@@ -87,9 +86,7 @@ public:
   unsigned int min_params() const       { return _min_params;       }
   unsigned int max_params() const       { return _max_params;       }
   // Add a child
-  void add(ConfigItem* child) {
-    _children.push_back(child);
-  }
+  void add(ConfigItem* child);
   // Find a child
   const ConfigItem* find(string& keyword) const;
   // Check children occurrences
