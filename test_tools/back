@@ -1,0 +1,38 @@
+#!/bin/sh
+
+# Check arguments
+if [ -z "$1" ]; then
+  echo "Too few arguments"
+  exit 1
+fi
+
+# Path to scripts
+WHERE=`dirname $0`
+
+# Get data
+. $WHERE/interpret $1
+
+expected="$DIR/test/$NAME.exp"
+backup="$expected~"
+
+# Check output file presence
+if [ ! -r "$backup" ]; then
+  echo "File '$backup' does not exist"
+  exit 2
+fi
+
+# Check differences
+if diff -q $expected $backup > /dev/null; then
+  echo "Files '$expected' and '$backup' are identical"
+  exit 0
+fi
+
+# Swap backup and result
+mv "$expected" "$backup~"
+mv "$backup" "$expected"
+mv "$backup~" "$backup"
+
+# Trigger test
+touch "$expected"
+
+exit 0

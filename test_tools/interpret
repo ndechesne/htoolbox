@@ -26,7 +26,7 @@ case $1 in
     export DIR="lib"
     export NAME="cvs_parser"
     ;;
-  "data" )
+  "dt" )
     export DIR="lib"
     export NAME="data"
     ;;
@@ -42,12 +42,12 @@ case $1 in
     export DIR="lib"
     export NAME="filters"
     ;;
-  "hb" )
+  "hb" | "hbackup" )
     export DIR="cli"
     export NAME="hbackup"
     ;;
   "in" )
-    export DIR="cli"
+    export DIR="lib"
     export NAME="interface"
     ;;
   "ls" )
