@@ -17,6 +17,7 @@
 */
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <list>
 
@@ -32,7 +33,12 @@ ConfigLine::~ConfigLine() {
 }
 
 void ConfigLine::add(ConfigLine* child) {
-  _children.push_back(child);
+  list<ConfigLine*>:: iterator i = _children.begin();
+  while (i != _children.end()) {
+    if ((**i)[0] > (*child)[0]) break;
+    i++;
+  }
+  _children.insert(i, child);
 }
 
 void ConfigLine::clear() {
@@ -56,6 +62,26 @@ void ConfigLine::debug(int level) const {
   cout << endl;
 }
 
+bool ConfigCounter::operator<(const ConfigCounter& counter) const {
+  return _keyword < counter._keyword;
+}
+
+bool ConfigError::operator<(const ConfigError& error) const {
+  return _line_no < error._line_no;
+}
+
+void ConfigError::print() const {
+  cerr << "Error: ";
+  if (_line_no >= 0) {
+    if (_type != 0) {
+      cerr << "after";
+    } else {
+      cerr << "at";
+    }
+  }
+  cerr << " line " << _line_no << ": " << _message << endl;
+}
+
 ConfigItem::~ConfigItem() {
   list<ConfigItem*>::iterator i;
   for (i = _children.begin(); i != _children.end(); i = _children.erase(i)) {
@@ -65,7 +91,12 @@ ConfigItem::~ConfigItem() {
 }
 
 void ConfigItem::add(ConfigItem* child) {
-  _children.push_back(child);
+  list<ConfigItem*>:: iterator i = _children.begin();
+  while (i != _children.end()) {
+    if ((*i)->keyword() > child->keyword()) break;
+    i++;
+  }
+  _children.insert(i, child);
 }
 
 const ConfigItem* ConfigItem::find(string& keyword) const {
@@ -80,43 +111,39 @@ const ConfigItem* ConfigItem::find(string& keyword) const {
 
 bool ConfigItem::isValid(
     const list<ConfigCounter> counters,
-    int                       line) const {
+    list<ConfigError>&        errors,
+    int                       line_no) const {
   bool is_valid = true;
-  // Check occurrences for each child
+  // Check occurrences for each child (both lists are sorted)
+  list<ConfigCounter>::const_iterator j = counters.begin();
   for (list<ConfigItem*>::const_iterator i = _children.begin();
       i != _children.end(); i++) {
     // Find keyword in counters list
     unsigned int occurrences = 0;
-    list<ConfigCounter>::const_iterator j = counters.begin();
-    while (j != counters.end()) {
-      if (j->keyword() == (*i)->keyword()) {
-        occurrences = j->occurrences();
-        break;
-      }
-      j++;
+    while ((j != counters.end()) && (j->keyword() < (*i)->keyword())) j++;
+    if ((j != counters.end()) && (j->keyword() == (*i)->keyword())) {
+      occurrences = j->occurrences();
     }
     if ((occurrences < (*i)->min_occurrences())
         || (((*i)->max_occurrences() != 0)
           && (occurrences > (*i)->max_occurrences()))) {
       is_valid = false;
-      cerr << "Error:";
-      if (line >= 0) {
-        cerr << " after line " << line << ":";
-      }
+      ostringstream message;
       if (occurrences < (*i)->min_occurrences()) {
         // Too few
         if (occurrences == 0) {
-          cerr << " missing";
+          message << "missing ";
         } else {
-          cerr << " need at least " << (*i)->min_occurrences()
-            << " occurence(s) of";
+          message << "need at least "<< (*i)->min_occurrences()
+            << " occurence(s) of ";
         }
       } else {
         // Too many
-        cerr << " need at most " << (*i)->max_occurrences()
-          << " occurence(s) of";
+        message << "need at most " << (*i)->max_occurrences()
+          << " occurence(s) of ";
       }
-      cerr << " keyword '" << (*i)->keyword() << "'" << endl;
+      message << "keyword '" << (*i)->keyword() << "'";
+      errors.push_back(ConfigError(message.str(), line_no, 1));
     }
   }
   return is_valid;
@@ -168,6 +195,9 @@ int Config::read(
   list<ConfigLine*> lines_hierarchy;
   lines_hierarchy.push_back(&_lines_top);
 
+  // Where we accumulate the errors, to then output them in line no order
+  list<ConfigError> errors;
+
   // Read through the file
   ConfigLine *params = new ConfigLine;
   int line_no = 0;
@@ -194,18 +224,20 @@ int Config::read(
           // Check number of parameters (params.size() - 1)
           if (((params->size() - 1) < child->min_params())
               || ((params->size() - 1) > child->max_params())) {
-            cerr << "Error: at line " << line_no << ": keyword '"
-              << (*params)[0] << "' requires ";
+            ostringstream message;
+            message << "keyword '" << (*params)[0]
+              << "' requires ";
             if (child->min_params() == child->max_params()) {
-              cerr << child->min_params();
+              message << child->min_params();
             } else
             if ((params->size() - 1) < child->min_params()) {
-              cerr << "at least " << child->min_params();
+              message << "at least " << child->min_params();
             } else
             {
-              cerr << "at most " << child->max_params();
+              message << "at most " << child->max_params();
             }
-            cerr << " parameter(s), found " << params->size() - 1 << endl;
+            message << " parameter(s), found " << params->size() - 1;
+            errors.push_back(ConfigError(message.str(), line_no));
             failed = true;
           }
           // Prepare new config line
@@ -231,7 +263,7 @@ int Config::read(
             }
           }
           // Check against expected
-          if (! items_hierarchy.back()->isValid(entries,
+          if (! items_hierarchy.back()->isValid(entries, errors,
               lines_hierarchy.back()->lineNo())) {
             failed  = true;
           }
@@ -239,8 +271,8 @@ int Config::read(
           items_hierarchy.pop_back();
           lines_hierarchy.pop_back();
           if ((items_hierarchy.size() == 0) && (rc != 0)) {
-            cerr << "Error: at line " << line_no << ": keyword '"
-               << (*params)[0] << "' incorrect or misplaced, aborting" << endl;
+            errors.push_back(ConfigError("keyword '" + (*params)[0]
+              + "' incorrect or misplaced, aborting", line_no));
             failed = true;
             goto end;
           }
@@ -250,6 +282,11 @@ int Config::read(
     if (rc == 0) break;
   }
 end:
+  errors.sort();
+  for (list<ConfigError>::const_iterator i = errors.begin(); i != errors.end();
+      i++) {
+    i->print();
+  }
   delete params;
   return failed ? -1 : 0;
 }

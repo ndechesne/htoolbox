@@ -406,4 +406,6 @@ config "C:\Backup\Backup.LST"
 path blah
 ignore
 compress
+
+what_the_f...?
 EOF

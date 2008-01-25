@@ -49,9 +49,27 @@ class ConfigCounter {
   int               _occurrences;
 public:
   ConfigCounter(const string& keyword) : _keyword(keyword), _occurrences(1) {}
+  bool operator<(const ConfigCounter& counter) const;
   const string& keyword() const { return _keyword;    }
   int occurrences()        const { return _occurrences; }
   void increment()              { _occurrences++;      }
+};
+
+// To re-order the error messages
+class ConfigError {
+  string            _message;
+  int               _line_no;
+  int               _type;
+public:
+  ConfigError(
+    const string    message,
+    int             line_no = -1,
+    unsigned int    type = 0) :
+        _message(message),
+        _line_no(line_no),
+        _type(type) {}
+  bool operator<(const ConfigError& error) const;
+  void print() const;
 };
 
 class ConfigItem {
@@ -92,7 +110,8 @@ public:
   // Check children occurrences
   bool isValid(
     const list<ConfigCounter> counters,
-    int                       line = -1) const;
+    list<ConfigError>&        errors,
+    int                       line_no = -1) const;
   // Debug
   void debug(int level = 0) const;
 };
