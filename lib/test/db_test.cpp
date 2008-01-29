@@ -449,7 +449,7 @@ int main(void) {
   records.clear();
 
   cout << endl << "Test: check format" << endl;
-  if (system("cp -a ../../test_tools/list_v2 test_db/list")) {
+  if (system("cp -a ../../../test_tools/list_v2 test_db/list")) {
     cout << "failed to copy list over" << endl;
     return 0;
   }

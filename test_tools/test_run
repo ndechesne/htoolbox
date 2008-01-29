@@ -1,16 +1,28 @@
 #!/bin/sh
 
+if [ "_$1" = "__clean" ]; then
+	rm -rf *_test_dir
+	exit 0
+fi
+
 target="$1"
-expected="$target".exp
-output="$target".all
-executable="$target"_test
+test_dir="${target}_test_dir"
+
+# Create test directory, enter it
+rm -rf "$test_dir"
+mkdir "$test_dir" || exit 1
+cd "$test_dir"
+
+expected="../$target".exp
+output="../$target".all
+executable="../${target}_test"
 
 # Set path to access test scripts in priority
 OLD_PATH=$PATH
-export PATH=../../test_tools:$PATH
+export PATH=../../../test_tools:$PATH
 
 # Cleanup previous attempt, if any
-rm -f $output
+rm -f "$output"
 
 # Setup
 if ! test_setup; then
@@ -19,7 +31,7 @@ if ! test_setup; then
 fi
 
 # Run
-if ! ./$executable > $output 2>&1; then
+if ! "$executable" > "$output" 2>&1; then
 	exit 2
 fi
 
@@ -27,11 +39,11 @@ fi
 PATH=$OLD_PATH
 
 # Check
-if ! diff -q $expected $output > /dev/null; then
+if ! diff -q "$expected" "$output" > /dev/null; then
 	echo "$target: error: test output is different from expected" >&2
 	exit 3
 fi
 
 # Cleanup
-rm -f $output
+rm -f "$output"
 exit 0

@@ -52,7 +52,7 @@ CLEANFILES = $(check_SUCCESSES)
 
 clean-local:
 	@echo "Calling test tool to clean test environment"
-	@@top_srcdir@/$(TEST_TOOL) clean
+	@@top_srcdir@/$(TEST_RUN) _clean
 
 # Rules
 %.done: %_test %.exp @top_srcdir@/$(TEST_RUN) @top_srcdir@/$(TEST_TOOL)

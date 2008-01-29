@@ -16,9 +16,6 @@ TESTRESTORE="test_r"
 ROOTDIRNFS="/home/User"
 
 # Clean
-if [ -d "$TESTDBDIR" ]; then
-  chmod -R 755 "$TESTDBDIR"
-fi
 rm -rf "$CONFIGDIR"
 rm -rf "$TESTDBDIR"
 rm -rf "$TESTDIR"
