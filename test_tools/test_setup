@@ -163,7 +163,8 @@ mkdir -p "$TESTDIRCIFS/Test/Dir"
 echo 1 > "$TESTDIRCIFS/Test/Dir/a File.TXT"
 echo 2 > "$TESTDIRCIFS/Test/Dir/another File.TXT"
 cat << EOF > "$TESTDIRCIFS/Backup/Backup.LST"
-path "C:\Test" # Do not end it in \" !!!
+# Ends in \", but should not fail
+path "C:\Test\"
 EOF
 
 # NFS test
@@ -402,6 +403,9 @@ option password flesyM
 option nocase
 hostname myClient
 config "C:\Backup\Backup.LST"
+
+path "C:\Crash\"
+path "C:\Crash\
 
 path blah
 ignore

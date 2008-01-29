@@ -1016,6 +1016,39 @@ int main(void) {
   cout << endl;
   delete params;
 
+  // The DOS catch: undealt with
+  line = "path \"C:\\Backup\\\"";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
+    << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // The DOS catch: ignoring escape characters altogether
+  line = "path \"C:\\Backup\\\"";
+  params = new vector<string>;
+  cout << "readline(" << line << "): "
+    << Stream::extractParams(line, *params, Stream::flags_no_escape) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // The DOS catch: dealing with the particular case
+  line = "path \"C:\\Backup\\\"";
+  params = new vector<string>;
+  cout << "readline(" << line << "): "
+    << Stream::extractParams(line, *params, Stream::flags_dos_catch) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
 
   cout << "\nFile types" << endl;
   // File types

@@ -175,22 +175,12 @@ int Client::readListFile(
   if (verbosity() > 1) {
     cout << " -> Reading client configuration file" << endl;
   }
-  if (config.read(config_file) >= 0) {
+  if (config.read(config_file, Stream::flags_dos_catch) >= 0) {
     // Read client configuration file
     ClientPath* path   = NULL;
     Filter*     filter = NULL;
     ConfigLine* params;
     while (config.line(&params) >= 0) {
-#if 0
-      if (rc == -2) {
-        errno = EUCLEAN;
-        cerr << "Warning: in client configuration file " << list_path
-          << ", line " << line << " missing single- or double-quote,"
-          << endl;
-        cerr << "make sure double-quoted Windows paths do not end in '\\'."
-          << endl;
-      }
-#endif
       if ((*params)[0] == "expire") {
         int expire;
         if ((sscanf((*params)[1].c_str(), "%d", &expire) != 0) && (expire >= 0)) {

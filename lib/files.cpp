@@ -864,8 +864,7 @@ int Stream::compare(Stream& source, long long length) {
 
 int Stream::getParams(
     vector<string>& params,
-    bool            need_lf,
-    bool            accept_cr_lf,
+    char            flags,
     const char*     delims,
     const char*     quotes,
     const char*     comments) {
@@ -882,14 +881,19 @@ int Stream::getParams(
 
   if (buffer[buffer.size() - 1] == '\n') {
     buffer.erase(buffer.size() - 1);
-  } else if (need_lf) {
+  } else if (flags & flags_need_lf) {
     return -1;
   }
-  if (accept_cr_lf && (buffer[buffer.size() - 1] == '\r')) {
+  if ((flags & flags_accept_cr_lf) && (buffer[buffer.size() - 1] == '\r')) {
     buffer.erase(buffer.size() - 1);
   }
-  if (Stream::extractParams(buffer, params, delims, quotes, comments)) {
-    return -2;
+  rc = extractParams(buffer, params, flags, delims, quotes, comments);
+  if (rc < 0) {
+    return -1;
+  }
+  // Signal warning
+  if (rc > 0) {
+    return 2;
   }
   return 1;
 }
@@ -898,17 +902,18 @@ int Stream::getParams(
 int Stream::extractParams(
     const string&   line,
     vector<string>& params,
+    char            flags,
     const char*     delims,
     const char*     quotes,
     const char*     comments) {
   const char* read   = line.c_str();
-  int chars_left     = line.size();
   char* param        = (char*) malloc(line.size() + 1);
   char* write        = NULL;
   bool no_increment  = true;  // Set to re-use character next time round
   bool skip_blanks   = true;  // Set to ignore any incoming blank
   bool check_comment = false; // Set after a blank was found
   bool escaped       = false; // Set after a \ was found
+  bool was_escaped   = false; // To deal with quoted paths ending in '\' (DOS!)
   char quote         = -1;    // Last quote when decoding, -1 when not decoding
   bool value_end     = false; // Set to signal the end of the string
   bool ended_well    = true;  // Set when all quotes were matched
@@ -918,7 +923,6 @@ int Stream::extractParams(
       no_increment = false;
     } else {
       read++;
-      chars_left--;
     }
     if (*read == '\0') {
       // End of line reached
@@ -927,85 +931,98 @@ int Stream::extractParams(
         value_end = true;
         // Missing closing quote
         if (quote > 0) {
-          ended_well = false;
+          if (was_escaped) {
+            write--;
+            *write++ = '\\';
+          } else {
+            ended_well = false;
+          }
         }
       }
       // Do not increment!
       no_increment = true;
-    } else if (check_comment) {
-      // Before deconfig, verify it's not a comment
-      bool comment = false;
-      for (const char* c = comments; *c != '\0'; c++) {
-        if (*c == *read) {
-          comment = true;
-          break;
+    } else {
+      // This is only used at end of line
+      was_escaped = false;
+      
+      if (check_comment) {
+        // Before deconfig, verify it's not a comment
+        bool comment = false;
+        for (const char* c = comments; *c != '\0'; c++) {
+          if (*c == *read) {
+            comment = true;
+            break;
+          }
         }
-      }
-      if (comment) {
-        // Nothing more to do
-        break;
-      } else {
-        check_comment = false;
-        // Do not increment!
-        no_increment = true;
-      }
-    } else if (quote > 0) {
-      // Decoding quoted string
-      if (*read == quote) {
-        if (escaped) {
-          *write++ = *read;
-          escaped  = false;
+        if (comment) {
+          // Nothing more to do
+          break;
         } else {
-          // Found match, stop decoding
-          value_end = true;
-        }
-      } else if (*read == '\\') {
-        escaped = true;
-      } else {
-        if (escaped) {
-          *write++ = '\\';
-          escaped  = false;
-        }
-        *write++ = *read;
-      }
-    } else if (skip_blanks || (quote == 0)) {
-      bool delim = false;
-      for (const char* c = delims; *c != '\0'; c++) {
-        if (*c == *read) {
-          delim = true;
-          break;
-        }
-      }
-      if (quote == 0) {
-        // Decoding unquoted string
-        if (delim) {
-          // Found blank, stop decoding
-          value_end = true;
+          check_comment = false;
           // Do not increment!
           no_increment = true;
+        }
+      } else if (quote > 0) {
+        // Decoding quoted string
+        if (*read == quote) {
+          if (escaped) {
+            *write++ = *read;
+            escaped  = false;
+            if (flags & flags_dos_catch) {
+              was_escaped = true;
+            }
+          } else {
+            // Found match, stop decoding
+            value_end = true;
+          }
+        } else if (! (flags & flags_no_escape) && (*read == '\\')) {
+          escaped = true;
         } else {
+          if (escaped) {
+            *write++ = '\\';
+            escaped  = false;
+          }
           *write++ = *read;
         }
-      } else if (! delim) {
-        // Skip blanks until no more
-        skip_blanks = false;
-        check_comment = true;
-        // Do not increment!
-        no_increment = true;
-      }
-    } else {
-      // Start decoding new string
-      write = param;
-      quote = 0;
-      for (const char* c = quotes; *c != '\0'; c++) {
-        if (*c == *read) {
-          quote = *c;
-          break;
+      } else if (skip_blanks || (quote == 0)) {
+        bool delim = false;
+        for (const char* c = delims; *c != '\0'; c++) {
+          if (*c == *read) {
+            delim = true;
+            break;
+          }
         }
-      }
-      if (quote == 0) {
-        // Do not increment!
-        no_increment = true;
+        if (quote == 0) {
+          // Decoding unquoted string
+          if (delim) {
+            // Found blank, stop decoding
+            value_end = true;
+            // Do not increment!
+            no_increment = true;
+          } else {
+            *write++ = *read;
+          }
+        } else if (! delim) {
+          // Skip blanks until no more
+          skip_blanks = false;
+          check_comment = true;
+          // Do not increment!
+          no_increment = true;
+        }
+      } else {
+        // Start decoding new string
+        write = param;
+        quote = 0;
+        for (const char* c = quotes; *c != '\0'; c++) {
+          if (*c == *read) {
+            quote = *c;
+            break;
+          }
+        }
+        if (quote == 0) {
+          // Do not increment!
+          no_increment = true;
+        }
       }
     }
     if (value_end) {

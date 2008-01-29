@@ -153,9 +153,9 @@ Error: at line 46: keyword 'filter' requires 2 parameter(s), found 1
 Error: after line 46: missing keyword 'condition'
 Error: at line 65: keyword 'ignore' requires 1 parameter(s), found 2
 Error: at line 66: keyword 'compress' requires 1 parameter(s), found 2
-Error: at line 76: keyword 'ignore' requires 1 parameter(s), found 0
-Error: at line 77: keyword 'compress' requires 1 parameter(s), found 0
-Error: at line 79: keyword 'what_the_f...?' incorrect or misplaced, aborting
+Error: at line 78: keyword 'ignore' requires 1 parameter(s), found 0
+Error: at line 79: keyword 'compress' requires 1 parameter(s), found 0
+Error: at line 81: keyword 'what_the_f...?' incorrect or misplaced, aborting
 Items:
   client, occ.: min = 1, no max; params: min params = 2, max params = 2
     config, occ.: min = 1, max = 1; params: min params = 1, max params = 1
@@ -221,9 +221,11 @@ Lines:
 69:    option username Myself
 70:    option password flesyM
 71:    option nocase
-75:    path blah
-77:      compress
-76:      ignore
+75:    path C:\Crash"
+76:    path C:\Crash
+77:    path blah
+79:      compress
+78:      ignore
  1:  db test_db
  2:  db blah
  5:  filter all

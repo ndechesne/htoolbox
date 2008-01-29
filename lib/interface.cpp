@@ -154,13 +154,6 @@ int HBackup::readConfig(const char* config_path) {
   Filter* filter = NULL;
   ConfigLine* params;
   while (config.line(&params) >= 0) {
-#if 0
-    if (rc == -2) {
-      errno = EUCLEAN;
-      cerr << "Warning: in file " << config_path << ", line "
-        << (*params).lineNo() << " missing single- or double-quote" << endl;
-    }
-#endif
     if ((*params)[0] == "db") {
       _d->db = new Database((*params)[1]);
       _d->mount_point = (*params)[1] + "/mount";

@@ -186,7 +186,8 @@ void ConfigItem::debug(int level) const {
 }
 
 int Config::read(
-    Stream&         stream) {
+    Stream&         stream,
+    char            flags) {
   // Where we are in the items tree
   list<const ConfigItem*> items_hierarchy;
   items_hierarchy.push_back(&_items_top);
@@ -203,7 +204,7 @@ int Config::read(
   int line_no = 0;
   bool failed = false;
   int rc;
-  while ((rc = stream.getParams(*params)) >= 0) {
+  while ((rc = stream.getParams(*params, flags)) >= 0) {
     if (rc == 0) {
       // Force unstacking of elements and final check
       params->push_back("");
@@ -341,6 +342,10 @@ void Config::debug() const {
   ConfigLine* params;
   int level;
   while ((level = line(&params)) >= 0) {
-    params->debug((level + 1) * 2);
+    if (params == NULL) {
+      cerr << "Error: NULL pointer!!!" << endl;
+    } else {
+      params->debug((level + 1) * 2);
+    }
   }
 }
