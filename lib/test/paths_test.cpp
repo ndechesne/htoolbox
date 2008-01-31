@@ -58,7 +58,11 @@ time_t time(time_t *t) {
   return 2000000000 + (my_time * 24 * 3600);
 }
 
-static void showLine(time_t timestamp, Node* node) {
+static void showLine(
+    time_t          timestamp,
+    const char*     client,
+    const char*     path,
+    const Node*     node) {
   printf("[%2ld]", (timestamp == 0)? 0 : (timestamp - 2000000000) / 24 / 3600);
   if (node != NULL) {
     printf(" %c %5llu %03o", node->type(), node->size(), node->mode());
@@ -76,19 +80,30 @@ static void showLine(time_t timestamp, Node* node) {
 
 static void showList(List& slist) {
   if (! slist.open("r")) {
-    while ((slist.getLine() > 0) && (slist.lineStatus() > 0)) {
-      const char* line = slist.line();
-      if (line[1] != '\t') {
-        cout << slist.line();
-      } else {
-        time_t ts;
-        Node*  node   = NULL;
+    time_t ts;
+    char*  client = NULL;
+    char*  path   = NULL;
+    Node*  node   = NULL;
+    string last_client;
+    string last_path;
 
-        slist.decodeLine(line, "", &node, &ts);
-        showLine(ts, node);
-        free(node);
+    while (slist.getEntry(&ts, &client, &path, &node) > 0) {
+      if (last_client != client) {
+        cout << client << endl;
+        last_client = client;
       }
+      if (last_path != path) {
+        cout << "\t" << path << endl;
+        last_path = path;
+      }
+      showLine(ts, client, path, node);
     }
+    if (node != NULL) {
+      showLine(ts, "", "", node);
+    }
+    free(client);
+    free(path);
+    free(node);
     slist.close();
   } else {
     cerr << "Failed to open list" << endl;

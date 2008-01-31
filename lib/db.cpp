@@ -135,7 +135,7 @@ int Database::convertList() {
       return -1;
     }
     // Copy till next prefix
-    if (_d->merge->client(i->name.c_str())
+    if (_d->merge->addClient(i->name.c_str())
      || _d->list->search(NULL, NULL, _d->merge) < 0) {
       cerr << "Error: copy failed" << endl;
       return -1;
@@ -922,16 +922,16 @@ int Database::sendEntry(
       break;
     }
     // Not reached, mark 'removed' (getLineType keeps line automatically)
-    _d->merge->path(db_path);
+    _d->merge->addPath(db_path);
     if (_d->list->getLineType() != '-') {
       if (! _d->clientJournalled) {
-        _d->journal->client(_d->client.c_str());
+        _d->journal->addClient(_d->client.c_str());
         _d->clientJournalled = true;
       }
-      _d->journal->path(db_path);
-      _d->journal->data(time(NULL));
+      _d->journal->addPath(db_path);
+      _d->journal->addData(time(NULL));
       // Add path and 'removed' entry
-      _d->merge->data(time(NULL));
+      _d->merge->addData(time(NULL));
       if (verbosity() > 0) {
         cout << "D " << db_path << endl;
       }
@@ -940,7 +940,7 @@ int Database::sendEntry(
   free(db_path);
   // Send status back
   if (remote_path != NULL) {
-    _d->merge->path(remote_path);
+    _d->merge->addPath(remote_path);
     if ((cmp > 0) || (*db_node == NULL)) {
       // Exceeded, keep line for later
       _d->list->keepLine();
@@ -1001,12 +1001,12 @@ int Database::add(
     }
     // Add entry info to journal
     if (! _d->clientJournalled) {
-      _d->journal->client(_d->client.c_str());
+      _d->journal->addClient(_d->client.c_str());
       _d->clientJournalled = true;
     }
-    _d->journal->path(remote_path);
-    _d->journal->data(ts, node2);
-    _d->merge->data(ts, node2, true);
+    _d->journal->addPath(remote_path);
+    _d->journal->addData(ts, node2);
+    _d->merge->addData(ts, node2, true);
   }
   delete node2;
 

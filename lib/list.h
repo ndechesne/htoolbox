@@ -22,15 +22,16 @@
 namespace hbackup {
 
 class List : public Stream {
+  enum Status {
+    unexpected_eof = -2,      // unexpected end of file
+    error,                    // an error occured
+    empty,                    // list is empty
+    no_data,                  // line contains no valid data
+    cached_data,              // line contains searched-for data
+    new_data                  // line contains new data
+  };
   string            _line;
-  // _line_status meaning:
-  //  -2: unexpected end of file
-  //  -1: error
-  //   0: empty list
-  //   1: line contains no valid data
-  //   2: line contains found data, will only re-used in getEntry
-  //   3: line contains data to be re-used
-  int               _line_status;
+  Status            _line_status;
   // Need to keep client status for search()
   int               _client_cmp;
   bool              _old_version;
@@ -49,10 +50,6 @@ public:
   int close();
   // Empty file (check right after opening for read)
   bool isEmpty() const { return _line_status == 0; }
-  // Get current line
-  const char* line(ssize_t* length = NULL) const;
-  // Get current line status
-  int lineStatus() const { return _line_status; }
   // Buffer relevant line
   ssize_t getLine(bool use_found = false);
   // Put line into list buffer (will fail and return -1 if buffer in use)
@@ -82,18 +79,18 @@ public:
     Node**          node,
     time_t          date = -1);
   // Add client to list
-  int client(
+  int addClient(
     const char*     client);
   // Add path to list
-  int path(
+  int addPath(
     const char*     path);
   // Add data to list
-  int data(
+  int addData(
     time_t          timestamp,
     const Node*     node = NULL,
     bool            bufferize = false);
   // Search data in list copying contents on the fly if required, and
-  // also expiring data and putting checksums in lists !
+  // also expiring data and putting checksums in lists!!!
   // Searches:                        Client      Path        Copy
   //    end of file                   ""          ""          all
   //    client                        client      ""          all up to client
