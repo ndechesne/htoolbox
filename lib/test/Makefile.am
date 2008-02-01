@@ -58,5 +58,4 @@ test_dir: @top_srcdir@/$(TEST_TOOL)
 	$< $@
 
 %.done: %_test %.exp @top_srcdir@/$(TEST_RUN) test_dir
-	@echo "RUN	$<"
-	@@top_srcdir@/$(TEST_RUN) `basename $@ .done` && touch $@
+	@top_srcdir@/$(TEST_RUN) $(subst .done,,$(@))

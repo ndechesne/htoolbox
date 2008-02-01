@@ -9,6 +9,7 @@ rm -rf "$test_dir" && cp -a test_dir "$test_dir" && cd "$test_dir" || exit 1
 
 expected="../$target".exp
 output="../$target".all
+success="../$target".success
 executable="../../${target}"
 
 # Set path to access test scripts in priority
@@ -16,7 +17,7 @@ OLD_PATH=$PATH
 export PATH=../../../test_tools:$PATH
 
 # Cleanup previous attempt, if any
-rm -f "$output"
+rm -f "$output" "$success"
 
 echo "Help" >> "$output"
 "$executable" -h -- >> "$output" 2>&1
@@ -93,4 +94,7 @@ fi
 
 # Cleanup
 rm -f "$output"
+
+# Success
+touch "$success"
 exit 0
