@@ -1,4 +1,6 @@
-AM_CXXFLAGS = -I@top_srcdir@/lib
+include $(top_srcdir)/test_tools/test.mak
+
+AM_CXXFLAGS = -I$(top_srcdir)/lib
 
 check_PROGRAMS = \
 	clients_test \
@@ -29,7 +31,7 @@ parsers_test_SOURCES = parsers_test.cpp
 paths_test_SOURCES = paths_test.cpp
 svn_parser_test_SOURCES = svn_parser_test.cpp
 
-LDADD = @top_srcdir@/lib/libhbackup.la
+LDADD = $(top_srcdir)/lib/libhbackup.la
 
 check_SUCCESSES = \
 	files.done \
@@ -45,17 +47,3 @@ check_SUCCESSES = \
 	paths.done \
 	clients.done \
 	interface.done
-
-check-local: $(check_SUCCESSES)
-
-CLEANFILES = $(check_SUCCESSES)
-
-clean-local:
-	-rm -rf *test_dir
-
-# Rules
-test_dir: @top_srcdir@/$(TEST_TOOL)
-	$< $@
-
-%.done: %_test %.exp @top_srcdir@/$(TEST_RUN) test_dir
-	@top_srcdir@/$(TEST_RUN) $(subst .done,,$(@))
