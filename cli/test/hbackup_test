@@ -9,7 +9,7 @@ rm -rf "$test_dir" && cp -a test_dir "$test_dir" && cd "$test_dir" || exit 1
 
 expected="../$target".exp
 output="../$target".all
-success="../$target".success
+success="../$target".done
 executable="../../${target}"
 
 # Set path to access test scripts in priority
