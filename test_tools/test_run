@@ -1,17 +1,10 @@
 #!/bin/sh
 
-if [ "_$1" = "__clean" ]; then
-	rm -rf *_test_dir
-	exit 0
-fi
-
 target="$1"
 test_dir="${target}_test_dir"
 
 # Create test directory, enter it
-rm -rf "$test_dir"
-mkdir "$test_dir" || exit 1
-cd "$test_dir"
+rm -rf "$test_dir" && cp -a test_dir "$test_dir" && cd "$test_dir" || exit 1
 
 expected="../$target".exp
 output="../$target".all
@@ -23,12 +16,6 @@ export PATH=../../../test_tools:$PATH
 
 # Cleanup previous attempt, if any
 rm -f "$output"
-
-# Setup
-if ! test_setup; then
-	echo "Cannot setup test environment"
-	exit 1
-fi
 
 # Run
 if ! "$executable" > "$output" 2>&1; then

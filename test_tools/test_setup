@@ -5,29 +5,44 @@ umask 0022
 
 # Dir names
 CONFIGDIR="etc"
+
 TESTDIR="test1"
 TESTDIR2="test2"
 TESTDIRCIFS="test_cifs"
 TESTDIRNFS="test_nfs"
-export TESTDIRUSER="test_user"
+TESTDIRUSER="test_user"
 TESTDBDIR="test_db"
 TESTRESTORE="test_r"
 
 ROOTDIRNFS="/home/User"
 
-# Clean
-rm -rf "$CONFIGDIR"
-rm -rf "$TESTDBDIR"
-rm -rf "$TESTDIR"
-rm -rf "$TESTDIR2"
-rm -rf "$TESTDIRCIFS"
-rm -rf "$TESTDIRNFS"
-rm -rf "$TESTDIRUSER"
-rm -rf "$TESTRESTORE"
-
-if [ "$1" = "clean" ]; then
-  exit 0
+# Create given directory, enter it
+if [ -n "$1" ]; then
+  rm -rf "$1" && mkdir "$1" && cd "$1" || exit 1
+else
+  # Clean
+  rm -rf "$CONFIGDIR"
+  rm -rf "$TESTDBDIR"
+  rm -rf "$TESTDIR"
+  rm -rf "$TESTDIR2"
+  rm -rf "$TESTDIRCIFS"
+  rm -rf "$TESTDIRNFS"
+  rm -rf "$TESTDIRUSER"
+  rm -rf "$TESTRESTORE"
 fi
+
+# Create environment file
+cat << EOF >> test_env
+CONFIGDIR="$CONFIGDIR"
+TESTDIR="$TESTDIR"
+TESTDIR2="$TESTDIR2"
+TESTDIRCIFS="$TESTDIRCIFS"
+TESTDIRNFS="$TESTDIRNFS"
+TESTDIRUSER="$TESTDIRUSER"
+TESTDBDIR="$TESTDBDIR"
+TESTRESTORE="$TESTRESTORE"
+ROOTDIRNFS="$ROOTDIRNFS"
+EOF
 
 # Test bench
 mkdir "$TESTDIR"

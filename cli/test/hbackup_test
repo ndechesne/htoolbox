@@ -4,9 +4,8 @@ target="hbackup"
 test_dir="${target}_test_dir"
 
 # Create test directory, enter it
-rm -rf "$test_dir"
-mkdir "$test_dir" || exit 1
-cd "$test_dir"
+rm -rf "$test_dir" && cp -a test_dir "$test_dir" && cd "$test_dir" || exit 1
+. ./test_env || exit 1
 
 expected="../$target".exp
 output="../$target".all
@@ -18,14 +17,6 @@ export PATH=../../../test_tools:$PATH
 
 # Cleanup previous attempt, if any
 rm -f "$output"
-
-# Setup
-TEST_SETUP=`which test_setup`
-if [ ! -r $TEST_SETUP ]; then
-	echo "Cannot setup test environment"
-	exit 1
-fi
-. $TEST_SETUP
 
 echo "Help" >> "$output"
 "$executable" -h -- >> "$output" 2>&1
