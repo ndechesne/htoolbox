@@ -1,100 +1,68 @@
 #!/bin/sh
 
-target="hbackup"
-test_dir="${target}_test_dir"
+hbackup="../../hbackup"
 
-# Create test directory, enter it
-rm -rf "$test_dir" && cp -a test_dir "$test_dir" && cd "$test_dir" || exit 1
-. ./test_env || exit 1
+echo "Help"
+"$hbackup" -h -- 2>&1
 
-expected="../$target".exp
-output="../$target".all
-success="../$target".done
-executable="../../${target}"
+echo "Version"
+"$hbackup" --version -- 2>&1
 
-# Set path to access test scripts in priority
-OLD_PATH=$PATH
-export PATH=../../../test_tools:$PATH
+echo "Error"
+"$hbackup" -! -- 2>&1
 
-# Cleanup previous attempt, if any
-rm -f "$output" "$success"
+echo "List prefixes (missing DB path)"
+"$hbackup" -d -c etc/hbackup.conf -l 2>&1
 
-echo "Help" >> "$output"
-"$executable" -h -- >> "$output" 2>&1
-
-echo "Version" >> "$output"
-"$executable" --version -- >> "$output" 2>&1
-
-echo "Error" >> "$output"
-"$executable" -! -- >> "$output" 2>&1
-
-echo "List prefixes (missing DB path)" >> "$output"
-"$executable" -d -c etc/hbackup.conf -l >> "$output" 2>&1
-
-echo "List prefixes (empty DB path)" >> "$output"
+echo "List prefixes (empty DB path)"
 mkdir test_db
-"$executable" -d -c etc/hbackup.conf -l >> "$output" 2>&1
+"$hbackup" -d -c etc/hbackup.conf -l 2>&1
 rmdir test_db
 
-echo "Typical backup" >> "$output"
-"$executable" -d -c etc/hbackup.conf -- >> "$output" 2>&1
+echo "Typical backup"
+"$hbackup" -d -c etc/hbackup.conf -- 2>&1
 
-echo "Specify clients" >> "$output"
-"$executable" -d -c etc/hbackup.conf -C myhost -C client >> "$output" 2>&1
+echo "Specify clients"
+"$hbackup" -d -c etc/hbackup.conf -C myhost -C client 2>&1
 
-echo "User-mode backup" >> "$output"
+echo "User-mode backup"
 export HOME="$TESTDIRUSER"
-"$executable" -du -c etc/hbackup.conf -- >> "$output" 2>&1
+"$hbackup" -du -c etc/hbackup.conf -- 2>&1
 
-echo "Scan DB" >> "$output"
-"$executable" -d -c etc/hbackup.conf -s >> "$output" 2>&1
+echo "Scan DB"
+"$hbackup" -d -c etc/hbackup.conf -s 2>&1
 
-echo "Check DB" >> "$output"
-"$executable" -d -c etc/hbackup.conf -t >> "$output" 2>&1
+echo "Check DB"
+"$hbackup" -d -c etc/hbackup.conf -t 2>&1
 
-echo "List prefixes" >> "$output"
-"$executable" -d -c etc/hbackup.conf -l >> "$output" 2>&1
+echo "List prefixes"
+"$hbackup" -d -c etc/hbackup.conf -l 2>&1
 
-echo "Try to list paths in both myhost and smb://client (fails)" >> "$output"
-"$executable" -d -c etc/hbackup.conf -l -C myhost -C smb://client >> "$output" 2>&1
+echo "Try to list paths in both myhost and smb://client (fails)"
+"$hbackup" -d -c etc/hbackup.conf -l -C myhost -C smb://client 2>&1
 
-echo "List paths in myhost" >> "$output"
-"$executable" -d -c etc/hbackup.conf -l -C myhost >> "$output" 2>&1
+echo "List paths in myhost"
+"$hbackup" -d -c etc/hbackup.conf -l -C myhost 2>&1
 
-echo "List paths in myhost under test2/" >> "$output"
-"$executable" -d -c etc/hbackup.conf -l -C myhost -P test2/ >> "$output" 2>&1
+echo "List paths in myhost under test2/"
+"$hbackup" -d -c etc/hbackup.conf -l -C myhost -P test2/ 2>&1
 
-echo "List paths in myhost under test1/cvs" >> "$output"
-"$executable" -d -c etc/hbackup.conf -l -C myhost -P test1/cvs >> "$output" 2>&1
+echo "List paths in myhost under test1/cvs"
+"$hbackup" -d -c etc/hbackup.conf -l -C myhost -P test1/cvs 2>&1
 
-echo "Restore a file" >> "$output"
-rm -rf test_r && "$executable" -d -c etc/hbackup.conf -r test_r -C myhost -P test2/testfile >> "$output" 2>&1
+echo "Restore a file"
+rm -rf test_r && "$hbackup" -d -c etc/hbackup.conf -r test_r -C myhost -P test2/testfile 2>&1
 
-echo "Restore all data in a prefix/dir path that's not by itself in DB" >> "$output"
-rm -rf test_r && "$executable" -d -c etc/hbackup.conf -r test_r -C myhost -P test1 -D 0 >> "$output" 2>&1
+echo "Restore all data in a prefix/dir path that's not by itself in DB"
+rm -rf test_r && "$hbackup" -d -c etc/hbackup.conf -r test_r -C myhost -P test1 -D 0 2>&1
 
-echo "Restore all data in a prefix/dir path" >> "$output"
-rm -rf test_r && "$executable" -d -c etc/hbackup.conf -r test_r -C myhost -P test1/cvs >> "$output" 2>&1
+echo "Restore all data in a prefix/dir path"
+rm -rf test_r && "$hbackup" -d -c etc/hbackup.conf -r test_r -C myhost -P test1/cvs 2>&1
 
-echo "Restore all data in a prefix" >> "$output"
-rm -rf test_r && "$executable" -d -c etc/hbackup.conf -r test_r -C myhost >> "$output" 2>&1
+echo "Restore all data in a prefix"
+rm -rf test_r && "$hbackup" -d -c etc/hbackup.conf -r test_r -C myhost 2>&1
 
-echo "Broken configuration" >> "$output"
-"$executable" -d -c etc/broken.conf -- >> "$output" 2>&1
+echo "Broken configuration"
+"$hbackup" -d -c etc/broken.conf -- 2>&1
 
-
-# Revert path
-PATH=$OLD_PATH
-
-# Check
-if ! diff -q "$expected" "$output" > /dev/null; then
-	echo "$target: error: test output is different from expected" >&2
-	exit 3
-fi
-
-# Cleanup
-rm -f "$output"
-
-# Success
-touch "$success"
 exit 0
