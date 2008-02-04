@@ -360,6 +360,8 @@ public:
   // Do not escape last char (and fail to find ending quote) in an end-of-line
   // parameter such as "c:\foo\" (-> c:\foo\ and not c:\foo")
   static const int flags_dos_catch    = 0x8;
+  // Treat spaces as field separators
+  static const int flags_empty_params = 0x10;
   // Extract parameters from line read from file
   int getParams(                          // -1: error, 0: eof, 1: success
     vector<string>& params,

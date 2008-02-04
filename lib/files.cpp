@@ -910,13 +910,19 @@ int Stream::extractParams(
   char* param        = (char*) malloc(line.size() + 1);
   char* write        = NULL;
   bool no_increment  = true;  // Set to re-use character next time round
-  bool skip_blanks   = true;  // Set to ignore any incoming blank
+  bool skip_delims;           // Set to ignore any incoming blank
   bool check_comment = false; // Set after a blank was found
   bool escaped       = false; // Set after a \ was found
   bool was_escaped   = false; // To deal with quoted paths ending in '\' (DOS!)
   char quote         = -1;    // Last quote when decoding, -1 when not decoding
   bool value_end     = false; // Set to signal the end of the string
   bool ended_well    = true;  // Set when all quotes were matched
+
+  if (flags & flags_empty_params) {
+    skip_delims = false;
+  } else {
+    skip_delims = true;
+  }
 
   do {
     if (no_increment) {
@@ -939,12 +945,10 @@ int Stream::extractParams(
           }
         }
       }
-      // Do not increment!
-      no_increment = true;
     } else {
       // This is only used at end of line
       was_escaped = false;
-      
+
       if (check_comment) {
         // Before deconfig, verify it's not a comment
         bool comment = false;
@@ -959,7 +963,7 @@ int Stream::extractParams(
           break;
         } else {
           check_comment = false;
-          // Do not increment!
+          // Do not increment, as this a meaningful character
           no_increment = true;
         }
       } else if (quote > 0) {
@@ -984,7 +988,7 @@ int Stream::extractParams(
           }
           *write++ = *read;
         }
-      } else if (skip_blanks || (quote == 0)) {
+      } else if (skip_delims || (quote == 0)) {
         bool delim = false;
         for (const char* c = delims; *c != '\0'; c++) {
           if (*c == *read) {
@@ -997,16 +1001,15 @@ int Stream::extractParams(
           if (delim) {
             // Found blank, stop decoding
             value_end = true;
-            // Do not increment!
-            no_increment = true;
           } else {
+            // Take character into account for parameter
             *write++ = *read;
           }
         } else if (! delim) {
-          // Skip blanks until no more
-          skip_blanks = false;
+          // No more blanks, check for comment
+          skip_delims   = false;
           check_comment = true;
-          // Do not increment!
+          // Do not increment, as this is the first non-delimiting character
           no_increment = true;
         }
       } else {
@@ -1020,7 +1023,7 @@ int Stream::extractParams(
           }
         }
         if (quote == 0) {
-          // Do not increment!
+          // Do not increment,as this is no quote and needs to be used
           no_increment = true;
         }
       }
@@ -1028,7 +1031,13 @@ int Stream::extractParams(
     if (value_end) {
       *write++ = '\0';
       params.push_back(string(param));
-      skip_blanks = true;
+      if (flags & flags_empty_params) {
+        // Do not skip blanks but check for comment
+        check_comment = true;
+      } else {
+        // Skip any blank on the way
+        skip_delims = true;
+      }
       quote       = -1;
       value_end   = false;
     }

@@ -296,6 +296,35 @@ readline(path "C:\Backup\"): 0
 path
 C:\Backup\
 
+readline( this is a path "C:\Backup"   and  spaces matter ): 0
+
+this
+is
+a
+path
+C:\Backup
+
+
+
+and
+
+spaces
+matter
+
+readline(		f	blah	''): 0
+
+
+f
+blah
+
+
+readline(		f	blah	'): 1
+
+
+f
+blah
+
+
 
 File types
 Name: testfile, path = test1/testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 644
