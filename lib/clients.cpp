@@ -115,7 +115,7 @@ int Client::mountPath(
 
 int Client::umount() {
   if (_mounted != "") {
-    string command = "umount -f ";
+    string command = "umount -fl ";
 
     command += _mount_point;
     if (verbosity() > 1) {

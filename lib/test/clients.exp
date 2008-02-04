@@ -103,7 +103,7 @@ Backup client 'myClient' using protocol 'nfs'
  --> Path: /home/User/test
  --> Path: /home/User/test2
 Backup path '/home/User/test'
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
 A /home/User/test/File2.txt (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
@@ -112,11 +112,11 @@ A /home/User/test/dir
 A /home/User/test/dir/file3.txt (2 B)
 Adding file data to DB in: test_db/data/6d7fce9fee471194aa8b5b6e47267f03-0
 Backup path '/home/User/test2'
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
 A /home/User/test2/File3.txt (0 B)
 A /home/User/test2/File4.txt (0 B)
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM //myClient/C$ test_db/mount
 Backup client 'myClient2' using protocol 'smb'
  -> Reading client configuration file
@@ -129,24 +129,24 @@ Adding file data to DB in: test_db/data/b026324c6904b2a9cb4b88d6d61c81d1-0
 A C:/Test/Dir/another File.TXT (2 B)
 Adding file data to DB in: test_db/data/26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
 Protocol not supported: ssh
  -> mount -t cifs -o ro,noatime,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
 Backup client 'Client' using protocol 'smb'
 Client configuration file not found test_db/mount/home/BlaH/Backup.list
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,nocase,username=user,password= //Client/C$ test_db/mount
 Backup client 'Client2' using protocol 'smb'
 Client configuration file not found test_db/mount/home/BlaH/Backup.list
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username= //Client/C$ test_db/mount
 Backup client 'Client3' using protocol 'smb'
 Client configuration file not found test_db/mount/home/BlaH/Backup.list
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username=,password= //Client/C$ test_db/mount
 Backup client 'Client4' using protocol 'smb'
 Client configuration file not found test_db/mount/home/BlaH/Backup.list
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> Database closed
  --> Client: testhost
 >List 1 client(s):
@@ -394,7 +394,7 @@ A C:/Test/Dir
 A C:/Test/Dir/a File.TXT (2 B)
 A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> Database closed
  --> Client: myhost3
  -> Database open in read/write mode
@@ -403,13 +403,13 @@ Backup client 'myhost3' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
 Backup path '/home/User/test'
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
 A /home/User/test/File2.txt (0 B)
 A /home/User/test/dir
  -> Dir dir
 A /home/User/test/dir/file3.txt (2 B)
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> Database closed
  --> Client: myhost
  -> Database open in read/write mode
@@ -524,16 +524,16 @@ Backup client 'myhost2' using protocol 'smb'
  --> Path: C:/Test
 Backup path 'C:/Test'
  -> Dir Dir
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
 Backup path '/home/User/test'
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
  -> Dir dir
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> Journal is empty, not merging
  -> Database closed
 Create list of clients
@@ -551,16 +551,16 @@ Backup client 'myhost2' using protocol 'smb'
  --> Path: C:/Test
 Backup path 'C:/Test'
  -> Dir Dir
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
 Backup path '/home/User/test'
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
  -> Dir dir
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> Journal is empty, not merging
  -> Database closed
 Create list of clients
@@ -587,10 +587,10 @@ Backup client 'myhost3' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
 Backup path '/home/User/test'
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
  -> Dir dir
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> Journal is empty, not merging
  -> Database closed
 Create list of clients
@@ -618,7 +618,7 @@ Backup client 'myhost2' using protocol 'smb'
  --> Path: C:/Test
 Backup path 'C:/Test'
  -> Dir Dir
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> Journal is empty, not merging
  -> Database closed
 Second mount fails
@@ -633,11 +633,11 @@ Backup client 'myClient' using protocol 'nfs'
  --> Path: /home/User/test
  --> Path: /home/User/test2
 Backup path '/home/User/test'
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
  -> Dir dir
 Backup path '/home/User/test2'
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
 clients: backup: mount failed for /home/User/test2
  -> Journal is empty, not merging
@@ -654,7 +654,7 @@ Backup client 'myClient' using protocol 'nfs'
  --> Path: /home/User/test
  --> Path: /home/User/test2
 Backup path '/home/User/test'
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
 clients: backup: mount failed for /home/User/test
  -> Journal is empty, not merging
@@ -671,13 +671,13 @@ Backup client 'myClient' using protocol 'nfs'
  --> Path: /home/User/test
  --> Path: /home/User/test2
 Backup path '/home/User/test'
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
  -> Dir dir
 Backup path '/home/User/test2'
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> Journal is empty, not merging
  -> Database closed
 Test with dual boot client
@@ -696,7 +696,7 @@ A C:/Test/Dir
 A C:/Test/Dir/a File.TXT (2 B)
 A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
- -> umount -f test_db/mount
+ -> umount -fl test_db/mount
  -> Database closed
 
 Clients in DB
