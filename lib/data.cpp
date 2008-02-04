@@ -140,6 +140,11 @@ int Data::write(
     int             compress) {
   int failed = 0;
 
+  if (path.empty()) {
+    cerr << "Empty path!?!" << endl;
+    return -1;
+  }
+
   Stream source(path.c_str());
   if (source.open("r")) {
     cerr << strerror(errno) << ": " << path << endl;

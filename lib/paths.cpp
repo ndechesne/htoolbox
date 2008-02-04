@@ -63,10 +63,12 @@ int ClientPath::recurse(
       parser = _parsers.isControlled(dir->path());
     }
   }
+
+  bool give_up = false;
   if (dir->isValid() && ! dir->createList()) {
     list<Node*>::iterator i = dir->nodesList().begin();
     while (i != dir->nodesList().end()) {
-      if (! terminating()) {
+      if (! terminating() && ! give_up) {
         // Ignore inaccessible files
         if ((*i)->type() == '?') {
           goto end;
@@ -197,7 +199,9 @@ int ClientPath::recurse(
            && (_compress != NULL) && _compress->match(rel_path, **i)) {
             compress = 5;
           }
-          db.add(rem_path, *i, checksum, compress);
+          if (db.add(rem_path, *i, checksum, compress) && (errno == EIO)) {
+            give_up = true;
+          }
         }
 
         // For directory, recurse into it
@@ -206,7 +210,9 @@ int ClientPath::recurse(
           if (verbosity() > 1) {
             cout << " -> Dir " << rel_path << (*i)->name() << endl;
           }
-          recurse(db, rem_path, (Directory*) *i, parser);
+          if (recurse(db, rem_path, (Directory*) *i, parser)) {
+            give_up = true;
+          }
         }
         free(rem_path);
         delete db_node;
@@ -218,7 +224,7 @@ end:
   } else {
     cerr << strerror(errno) << ": " << rel_path << endl;
   }
-  return 0;
+  return give_up ? -1 : 0;
 }
 
 ClientPath::ClientPath(const char* path) {

@@ -757,8 +757,10 @@ int Stream::copy(Stream& source) {
   long long read_size  = 0;
   long long write_size = 0;
   bool      eof        = false;
+  ssize_t   size;
+
   do {
-    ssize_t size = source.read(buffer, Stream::chunk);
+    size = source.read(buffer, Stream::chunk);
     if (size < 0) {
       break;
     }
@@ -774,6 +776,10 @@ int Stream::copy(Stream& source) {
       return -1;
     }
   } while (! eof);
+  if (size < 0) {
+    // errno is to be used
+    return -1;
+  }
   if (read_size != source._d->size) {
     errno = EAGAIN;
     return -1;

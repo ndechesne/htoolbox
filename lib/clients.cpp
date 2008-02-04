@@ -472,17 +472,21 @@ int Client::backup(
           cout << "Backup path '" << (*i)->path() << "'" << endl;
         }
 
+        bool abort = false;
         if (mountPath((*i)->path(), &backup_path)) {
-          cerr << "clients: backup: mount failed for " << (*i)->path() << endl;
-          db.failedClient();
-          break;
+          cerr << "Warning: mount failed, skipping client backup" << endl;
+          abort = true;
         } else
         if ((*i)->parse(db, backup_path.c_str())) {
           // prepare_share sets errno
           if (! terminating()) {
-            cerr << "clients: backup: list creation failed" << endl;
+            cerr << "Error: backup failed, aborting client backup" << endl;
           }
+          abort  = true;
           failed = true;
+        }
+        if (abort) {
+          db.failedClient();
           break;
         }
       }
