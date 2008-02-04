@@ -1,6 +1,6 @@
 #!/bin/sh
 
-dest="$1"
+dest="$2"
 
 rm -rf "$dest"
 mkdir "$dest"

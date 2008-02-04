@@ -84,7 +84,7 @@ int Client::mountPath(
 
     // Set protocol and default options
     if (_protocol == "nfs") {
-      command += "-t nfs -o ro,noatime,nolock,soft,timeo=30,intr,rsize=8192,wsize=8192";
+      command += "-t nfs -o ro,noatime,nolock,soft,timeo=30,intr";
     } else
     if (_protocol == "smb") {
       // codepage=858
@@ -115,7 +115,7 @@ int Client::mountPath(
 
 int Client::umount() {
   if (_mounted != "") {
-    string command = "umount ";
+    string command = "umount -f ";
 
     command += _mount_point;
     if (verbosity() > 1) {
