@@ -167,13 +167,13 @@ Adding file data to DB in: test_db/data/26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
  -> umount test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft myClient:/home/User test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr,rsize=8192,wsize=8192 myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
 Backup path '/home/User/test'
  -> umount test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft myClient:/home/User/test test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr,rsize=8192,wsize=8192 myClient:/home/User/test test_db/mount
 A /home/User/test/File2.txt (0 B)
 A /home/User/test/dir
  -> Dir dir

@@ -84,7 +84,7 @@ int Client::mountPath(
 
     // Set protocol and default options
     if (_protocol == "nfs") {
-      command += "-t nfs -o ro,noatime,nolock,soft";
+      command += "-t nfs -o ro,noatime,nolock,soft,timeo=30,intr,rsize=8192,wsize=8192";
     } else
     if (_protocol == "smb") {
       // codepage=858
