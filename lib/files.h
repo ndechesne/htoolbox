@@ -370,6 +370,7 @@ public:
     const char*     quotes   = "'\"",   // Default: single and double quotes
     const char*     comments = "#");    // Default: hash
   // Extract parameters from given line
+  // Returns 1 if missing ending quote, 0 otherwise
   static int extractParams(
     const string&   line,
     vector<string>& params,

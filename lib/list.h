@@ -35,6 +35,12 @@ class List : public Stream {
   // Need to keep client status for search()
   int               _client_cmp;
   bool              _old_version;
+  // Decode metadata from current line
+  int decodeDataLine(
+    const string&   line,
+    const char*     path,
+    Node**          node,
+    time_t*         timestamp);
 public:
   List(
     const char*     dir_path,
@@ -56,12 +62,6 @@ public:
   ssize_t putLine(const char* line);
   // Mark current line for re-use
   void keepLine();
-  // Decode metadata from current line
-  int decodeLine(
-    const char*     line,
-    const char*     path,
-    Node**          node,
-    time_t*         timestamp);
   // Get current line type (will get a new line if necessary)
   char getLineType();
   // Convert one or several line(s) to data

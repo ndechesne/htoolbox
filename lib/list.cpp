@@ -154,13 +154,11 @@ void List::keepLine() {
   _line_status = new_data;
 }
 
-int List::decodeLine(
-    const char*     line,
+int List::decodeDataLine(
+    const string&   line,
     const char*     path,
     Node**          node,
     time_t*         timestamp) {
-  const char* start  = &line[2];
-  int         fields = 7;
   // Fields
   char        type;             // file type
   time_t      mtime;            // time of last modification
@@ -168,91 +166,97 @@ int List::decodeLine(
   uid_t       uid;              // user ID of owner
   gid_t       gid;              // group ID of owner
   mode_t      mode;             // permissions
-  char*       extra = NULL;     // file checksum
+  // Arguments
+  vector<string> params;
 
-  errno = 0;
-  for (int field = 1; field <= fields; field++) {
-    // Get tabulation position
-    const char* delim;
-    delim = strchr(start, '\t');
-    if (delim == NULL) {
-      delim = strchr(start, '\n');
-    }
-    if (delim == NULL) {
-      errno = EUCLEAN;
-    } else {
-      // Extract data
-      switch (field) {
-        case 1:   // DB timestamp
-          if ((timestamp != NULL) && sscanf(start, "%ld", timestamp) != 1) {
-            errno = EUCLEAN;
-          }
-          break;
-        case 2:   // Type
-          if (sscanf(start, "%c", &type) != 1) {
-            errno = EUCLEAN;;
-          } else if (type == '-') {
-            fields = 2;
-          } else if ((type == 'f') || (type == 'l')) {
-            fields++;
-          }
-          break;
-        case 3:   // Size
-          if (sscanf(start, "%lld", &size) != 1) {
-            errno = EUCLEAN;;
-          }
-          break;
-        case 4:   // Modification time
-          if (sscanf(start, "%ld", &mtime) != 1) {
-            errno = EUCLEAN;;
-          }
-          break;
-        case 5:   // User
-          if (sscanf(start, "%u", &uid) != 1) {
-            errno = EUCLEAN;;
-          }
-          break;
-        case 6:   // Group
-          if (sscanf(start, "%u", &gid) != 1) {
-            errno = EUCLEAN;;
-          }
-          break;
-        case 7:   // Permissions
-          if (sscanf(start, "%o", &mode) != 1) {
-            errno = EUCLEAN;;
-          }
-          break;
-        case 8:  // Checksum or Link
-          asprintf(&extra, "%s", start);
-          extra[strlen(extra) -1] = '\0';
-          break;
-        default:
-          errno = EUCLEAN;;
-      }
-      start = delim + 1;
-    }
-    if (errno != 0) {
-      cerr << "For path: " << path << endl;
-      cerr << "Field " << field << " corrupted in line: " << line;
-      type = '-';
-      break;
-    }
+  // Get all arguments from line
+  extractParams(line, params, Stream::flags_empty_params, "\t\n");
+
+  // Check result
+  if (params.size() < 4) {
+    cerr << "Error: wrong number of arguments for line" << endl;
+    return -1;
   }
+  
+  // DB timestamp
+  if ((timestamp != NULL) && sscanf(params[2].c_str(), "%ld", timestamp) != 1) {
+    cerr << "Error: cannot decode timestamp" << endl;
+    return -1;
+  }
+
+  // Type
+  if (params[3].size() != 1) {
+    cerr << "Error: cannot decode type" << endl;
+    return -1;
+  }
+  type = params[3][0];
+
   switch (type) {
     case '-':
-      *node = NULL;
-      break;
+      if (params.size() != 4) {
+        cerr << "Error: wrong number of arguments for remove line" << endl;
+        return -1;
+      } else {
+        *node = NULL;
+        return 0;
+      }
     case 'f':
-      *node = new File(path, type, mtime, size, uid, gid, mode, extra);
+    case 'l':
+      if (params.size() != 10) {
+        cerr << "Error: wrong number of arguments for file/link line" << endl;
+        return -1;
+      }
+      break;
+    default:
+      if (params.size() != 9) {
+        cerr << "Error: wrong number of arguments for line" << endl;
+        return -1;
+      }
+  }
+    
+  // Size
+  if (sscanf(params[4].c_str(), "%lld", &size) != 1) {
+    cerr << "Error: cannot decode size" << endl;
+    return -1;
+  }
+
+  // Modification time
+  if (sscanf(params[5].c_str(), "%ld", &mtime) != 1) {
+    cerr << "Error: cannot decode mtime" << endl;
+    return -1;
+  }
+
+  // User
+  if (sscanf(params[6].c_str(), "%u", &uid) != 1) {
+    cerr << "Error: cannot decode uid" << endl;
+    return -1;
+  }
+
+  // Group
+  if (sscanf(params[7].c_str(), "%u", &gid) != 1) {
+    cerr << "Error: cannot decode gid" << endl;
+    return -1;
+  }
+
+  // Permissions
+  if (sscanf(params[8].c_str(), "%o", &mode) != 1) {
+    cerr << "Error: cannot decode mode" << endl;
+    return -1;
+  }
+
+  switch (type) {
+    case 'f':
+      *node = new File(path, type, mtime, size, uid, gid, mode,
+        params[9].c_str());
       break;
     case 'l':
-      *node = new Link(path, type, mtime, size, uid, gid, mode, extra);
+      *node = new Link(path, type, mtime, size, uid, gid, mode,
+        params[9].c_str());
       break;
     default:
       *node = new Node(path, type, mtime, size, uid, gid, mode);
   }
-  free(extra);
-  return (errno != 0) ? -1 : 0;
+  return 0;
 }
 
 char List::getLineType() {
@@ -372,7 +376,7 @@ int List::getEntry(
       time_t ts;
       if (node != NULL) {
         // Will set errno if an error is found
-        decodeLine(_line.c_str(), path == NULL ? "" : *path, node, &ts);
+        decodeDataLine(_line, path == NULL ? "" : *path, node, &ts);
         if (timestamp != NULL) {
           *timestamp = ts;
         }
