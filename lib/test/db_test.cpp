@@ -241,14 +241,8 @@ int main(void) {
 
   db.setClient("myClient");
 
-  File* f;
-  f = new File("test1/test space");
-  db.add("/client_path/test space", f);
-  delete f;
-  f = new File("test1/testfile");
-  db.add("/client_path/testfile", f);
-  delete f;
   Directory* d;
+  File* f;
   d = new Directory("test1/subdir");
   db.add("/client_path/subdir", d);
   delete d;
@@ -258,13 +252,19 @@ int main(void) {
   f = new File("test1/subdir/testfile2");
   db.add("/client_path/subdir/testfile2", f);
   delete f;
-
-  f = new File("test2/testfile");
-  db.add("other_path/testfile", f);
+  f = new File("test1/test space");
+  db.add("/client_path/test space", f);
   delete f;
+  f = new File("test1/testfile");
+  db.add("/client_path/testfile", f);
+  delete f;
+
   d = new Directory("test1/testdir");
   db.add("other_path/testdir", d);
   delete d;
+  f = new File("test2/testfile");
+  db.add("other_path/testfile", f);
+  delete f;
 
   db.close();
   rename("test_db/journal~", "test_db/list");
