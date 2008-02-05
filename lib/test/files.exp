@@ -412,7 +412,7 @@ l1 and l2 differ
 getParams
 db	test_db	
 trash	1	
-
+	
 filter	all	backup	
 condition	type	file	
 condition	path_end	~	

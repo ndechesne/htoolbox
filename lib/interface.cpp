@@ -143,7 +143,7 @@ int HBackup::readConfig(const char* config_path) {
   if (verbosity() > 1) {
     cout << " -> Reading configuration file '" << config_path << "'" << endl;
   }
-  int rc = config.read(config_file);
+  int rc = config.read(config_file, Stream::flags_accept_cr_lf);
   config_file.close();
   
   if (rc < 0) {

@@ -175,7 +175,8 @@ int Client::readListFile(
   if (verbosity() > 1) {
     cout << " -> Reading client configuration file" << endl;
   }
-  if (config.read(config_file, Stream::flags_dos_catch) >= 0) {
+  if (config.read(config_file,
+      Stream::flags_dos_catch | Stream::flags_accept_cr_lf) >= 0) {
     // Read client configuration file
     ClientPath* path   = NULL;
     Filter*     filter = NULL;

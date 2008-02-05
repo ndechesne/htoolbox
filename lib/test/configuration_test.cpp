@@ -75,7 +75,7 @@ int main(void) {
 
   Stream server_config("etc/hbackup.conf");
   if (server_config.open("r") == 0) {
-    config->read(server_config);
+    config->read(server_config, Stream::flags_accept_cr_lf);
     server_config.close();
   } else {
     cout << "failed to open it!" << endl;
@@ -128,6 +128,13 @@ int main(void) {
   Stream client_config("etc/localhost.list");
   if (client_config.open("r") == 0) {
     config->read(client_config);
+    client_config.close();
+  } else {
+    cout << "failed to open it!" << endl;
+  }
+  config->clear();
+  if (client_config.open("r") == 0) {
+    config->read(client_config, Stream::flags_accept_cr_lf);
     client_config.close();
   } else {
     cout << "failed to open it!" << endl;

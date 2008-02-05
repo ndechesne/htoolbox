@@ -212,7 +212,9 @@ mkdir "$CONFIGDIR"
 cat << EOF > "$CONFIGDIR/hbackup.conf"
 db "$TESTDBDIR"
 trash 1
-
+EOF
+echo "\r" >> "$CONFIGDIR/hbackup.conf"
+cat << EOF >> "$CONFIGDIR/hbackup.conf"
 filter all backup
 condition type file
 condition path_end ~
@@ -248,7 +250,9 @@ cat << EOF > "$CONFIGDIR/localhost.list"
 filter and subdir
 condition path_start subdir
 condition !size< 100
-
+EOF
+echo "\r" >> "$CONFIGDIR/localhost.list"
+cat << EOF >> "$CONFIGDIR/localhost.list"
 filter and bigfile
 condition size>= 10
 condition type file

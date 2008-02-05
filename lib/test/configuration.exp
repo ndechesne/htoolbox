@@ -36,6 +36,8 @@ Lines:
  2:  trash 1
 
 Test: client configuration
+Error: after line 0: missing keyword 'path'
+Error: at line 5: found CR character, aborting
 Items:
   expire, occ.: optional, max = 1; params: min params = 1, max params = 1
   filter, occ.: optional, no max; params: min params = 2, max params = 2

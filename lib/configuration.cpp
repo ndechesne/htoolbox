@@ -272,8 +272,13 @@ int Config::read(
           items_hierarchy.pop_back();
           lines_hierarchy.pop_back();
           if ((items_hierarchy.size() == 0) && (rc != 0)) {
-            errors.push_back(ConfigError("keyword '" + (*params)[0]
-              + "' incorrect or misplaced, aborting", line_no));
+            if ((*params)[0][0] != '\r'){
+              errors.push_back(ConfigError("keyword '" + (*params)[0]
+                + "' incorrect or misplaced, aborting", line_no));
+            } else {
+              errors.push_back(ConfigError("found CR character, aborting",
+                line_no));
+            }
             failed = true;
             goto end;
           }
