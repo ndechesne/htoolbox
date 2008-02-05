@@ -22,19 +22,8 @@
 namespace hbackup {
 
 class List : public Stream {
-  enum Status {
-    unexpected_eof = -2,      // unexpected end of file
-    error,                    // an error occured
-    empty,                    // list is empty
-    no_data,                  // line contains no valid data
-    cached_data,              // line contains searched-for data
-    new_data                  // line contains new data
-  };
-  string            _line;
-  Status            _line_status;
-  // Need to keep client status for search()
-  int               _client_cmp;
-  bool              _old_version;
+  struct          Private;
+  Private*        _d;
   // Decode metadata from current line
   int decodeDataLine(
     const string&   line,
@@ -44,18 +33,18 @@ class List : public Stream {
 public:
   List(
     const char*     dir_path,
-    const char*     name = "") :
-    Stream(dir_path, name) {}
-  // Version
-  bool isOldVersion() const { return _old_version; }
+    const char*     name = "");
+  ~List();
   // Open file, for read or write (no append), with compression (cf. Stream)
   int open(
     const char*     req_mode,
     int             compression = 0);
   // Close file
   int close();
+  // Version
+  bool isOldVersion() const;
   // Empty file (check right after opening for read)
-  bool isEmpty() const { return _line_status == 0; }
+  bool isEmpty() const;
   // Buffer relevant line
   ssize_t getLine(bool use_found = false);
   // Put line into list buffer (will fail and return -1 if buffer in use)

@@ -30,6 +30,40 @@ using namespace std;
 
 using namespace hbackup;
 
+enum Status {
+  unexpected_eof = -2,      // unexpected end of file
+  error,                    // an error occured
+  empty,                    // list is empty
+  no_data,                  // line contains no valid data
+  cached_data,              // line contains searched-for data
+  new_data                  // line contains new data
+};
+
+struct List::Private {
+  string            line;
+  Status            line_status;
+  // Keep current client and path
+  string            client;
+  string            path;
+  // Need to keep client status for search() (reading)
+  // Also used to set current client and path when writing
+  int               client_cmp;
+  int               path_cmp;
+  // Set when a previous version is detected
+  bool              old_version;
+};
+
+List::List(
+    const char*     dir_path,
+    const char*     name) :
+    Stream(dir_path, name) {
+  _d = new Private;
+}
+
+List::~List() {
+  delete _d;
+}
+
 int List::open(
     const char*   req_mode,
     int           compression) {
@@ -46,37 +80,40 @@ int List::open(
       Stream::close();
       rc = -1;
     }
-    _line_status = empty;
+    _d->line_status = empty;
   } else
   // Open for read
   {
     // Check rights
-    if (Stream::getLine(_line) < 0) {
+    if (Stream::getLine(_d->line) < 0) {
       Stream::close();
       rc = -1;
     } else
     // Expected header?
-    if (_line == header) {
-      _old_version = false;
+    if (_d->line == header) {
+      _d->old_version = false;
     } else
     // Old header?
-    if (_line == old_header) {
-      _old_version = true;
+    if (_d->line == old_header) {
+      _d->old_version = true;
     } else
     // Unknown header
     {
       errno = EUCLEAN;
       rc = -1;
     }
-    _line_status = no_data;
+    _d->line_status = no_data;
     getLine();
-    if ((_line_status == error) || (_line_status == unexpected_eof)) {
+    if ((_d->line_status == error) || (_d->line_status == unexpected_eof)) {
       rc = -1;
     } else
-    if (_line_status == no_data) {
-      _line_status = new_data;
+    if (_d->line_status == no_data) {
+      _d->line_status = new_data;
     }
-    _client_cmp = 0;
+    _d->client     = "";
+    _d->client_cmp = 0;
+    _d->path       = "";
+    _d->path_cmp   = 0;
   }
   return rc;
 }
@@ -96,9 +133,17 @@ int List::close() {
   return rc;
 }
 
+bool List::isOldVersion() const {
+  return _d->old_version;
+}
+
+bool List::isEmpty() const {
+  return _d->line_status == empty;
+}
+
 ssize_t List::getLine(bool use_found) {
-  int status = _line_status;
-  if (_line_status == cached_data) {
+  int status = _d->line_status;
+  if (_d->line_status == cached_data) {
     if (use_found) {
       status = 3;
     } else {
@@ -111,47 +156,47 @@ ssize_t List::getLine(bool use_found) {
       return 0;
     case 0:
       // Empty list
-      return _line.length();
+      return _d->line.length();
     case 1: {
       // Line contains no re-usable data,
-      ssize_t length = Stream::getLine(_line);
+      ssize_t length = Stream::getLine(_d->line);
       if (length < 0) {
-        _line_status = error;
+        _d->line_status = error;
       } else
       if (length == 0) {
-        _line_status = unexpected_eof;;
+        _d->line_status = unexpected_eof;;
       } else
-      if (_line[0] == '#') {
+      if (_d->line[0] == '#') {
         // Signal end of file
-        _line_status = empty;
+        _d->line_status = empty;
       } else
       {
-        _line_status = no_data;
+        _d->line_status = no_data;
       }
       return length;
     }
     case 3:
       // Line contains data to be re-used
-      _line_status = no_data;
-      return _line.length();
+      _d->line_status = no_data;
+      return _d->line.length();
     default:
       // Error
-      _line_status = no_data;
+      _d->line_status = no_data;
       return -1;
   }
 }
 
 ssize_t List::putLine(const char* line) {
-  if ((_line_status == no_data) || (_line_status == cached_data)) {
-    _line        = line;
-    _line_status = new_data;
-    return _line.length();
+  if ((_d->line_status == no_data) || (_d->line_status == cached_data)) {
+    _d->line        = line;
+    _d->line_status = new_data;
+    return _d->line.length();
   }
   return -1;
 }
 
 void List::keepLine() {
-  _line_status = new_data;
+  _d->line_status = new_data;
 }
 
 int List::decodeDataLine(
@@ -177,7 +222,7 @@ int List::decodeDataLine(
     cerr << "Error: wrong number of arguments for line" << endl;
     return -1;
   }
-  
+
   // DB timestamp
   if ((timestamp != NULL) && sscanf(params[2].c_str(), "%ld", timestamp) != 1) {
     cerr << "Error: cannot decode timestamp" << endl;
@@ -213,7 +258,7 @@ int List::decodeDataLine(
         return -1;
       }
   }
-    
+
   // Size
   if (sscanf(params[4].c_str(), "%lld", &size) != 1) {
     cerr << "Error: cannot decode size" << endl;
@@ -262,7 +307,7 @@ int List::decodeDataLine(
 char List::getLineType() {
   getLine();
   // Status is one of -2: eof!, -1: error, 0: eof, 1: ok
-  switch (_line_status) {
+  switch (_d->line_status) {
     case unexpected_eof:
       // Unexpected eof
       return 'U';
@@ -276,17 +321,17 @@ char List::getLineType() {
       return 'F';
   }
   // Line should be re-used
-  _line_status = new_data;
-  if (_line[0] != '\t') {
+  _d->line_status = new_data;
+  if (_d->line[0] != '\t') {
     // Client
     return 'C';
   } else
-  if (_line[1] != '\t') {
+  if (_d->line[1] != '\t') {
     // Path
     return 'P';
   } else
   {
-    const char* pos = strchr(&_line[2], '\t');
+    const char* pos = strchr(&_d->line[2], '\t');
     if (pos == NULL) {
       // Type unaccessible
       return 'T';
@@ -323,7 +368,7 @@ int List::getEntry(
   while (true) {
     // Get line
     if (date == -2) {
-      length = _line.length();
+      length = _d->line.length();
     } else {
       length = getLine(true);
     }
@@ -336,35 +381,35 @@ int List::getEntry(
 
     // Check line
     length--;
-    if ((length < 2) || (_line[length] != '\n')) {
+    if ((length < 2) || (_d->line[length] != '\n')) {
       errno = EUCLEAN;
       return -1;
     }
 
     // End of file
-    if (_line[0] == '#') {
+    if (_d->line[0] == '#') {
       // Make sure we return end of file also if called again
-      _line_status = empty;
+      _d->line_status = empty;
       return 0;
     }
 
     // Client
-    if (_line[0] != '\t') {
+    if (_d->line[0] != '\t') {
       if (client != NULL) {
         free(*client);
         *client = NULL;
-        asprintf(client, "%s", &_line[0]);
+        asprintf(client, "%s", &_d->line[0]);
         // Change end of line
         (*client)[length] = '\0';
       }
     } else
 
     // Path
-    if (_line[1] != '\t') {
+    if (_d->line[1] != '\t') {
       if (path != NULL) {
         free(*path);
         *path = NULL;
-        asprintf(path, "%s", &_line[1]);
+        asprintf(path, "%s", &_d->line[1]);
         // Change end of line
         (*path)[length - 1] = '\0';
       }
@@ -376,7 +421,7 @@ int List::getEntry(
       time_t ts;
       if (node != NULL) {
         // Will set errno if an error is found
-        decodeDataLine(_line, path == NULL ? "" : *path, node, &ts);
+        decodeDataLine(_d->line, path == NULL ? "" : *path, node, &ts);
         if (timestamp != NULL) {
           *timestamp = ts;
         }
@@ -396,10 +441,10 @@ int List::addClient(
     const char*     client) {
   ssize_t length = strlen(client);
   if ((Stream::write(client, length) != length)
-   || (Stream::write("\n", 1) != 1)) {
+      || (Stream::write("\n", 1) != 1)) {
     return -1;
   }
-  _line_status = no_data;
+  _d->line_status = no_data;
   return 0;
 }
 
@@ -407,11 +452,11 @@ int List::addPath(
     const char*     path) {
   ssize_t length = strlen(path);
   if ((Stream::write("\t", 1) != 1)
-   || (Stream::write(path, length) != length)
-   || (Stream::write("\n", 1) != 1)) {
+      || (Stream::write(path, length) != length)
+      || (Stream::write("\n", 1) != 1)) {
     return -1;
   }
-  _line_status = no_data;
+  _d->line_status = no_data;
   return 0;
 }
 
@@ -446,13 +491,13 @@ int List::addData(
   }
   if ((timestamp == 0) && bufferize) {
     // Send line to search method, so it can deal with exception
-    _line        = line;
-    _line_status = new_data;
+    _d->line        = line;
+    _d->line_status = new_data;
   } else
   if (Stream::write(line, size) != size) {
     rc = -1;
   } else {
-    _line_status = no_data;
+    _d->line_status = no_data;
   }
   free(line);
   return rc;
@@ -474,11 +519,11 @@ int List::search(
   // Pre-set client comparison result
   if (client_l == NULL) {
     // Any client will match
-    _client_cmp = 0;
+    _d->client_cmp = 0;
   } else
   if (client_l[0] == '\0') {
-    // No need to compare clientes
-    _client_cmp = 1;
+    // No need to compare clients
+    _d->client_cmp = 1;
   } else {
     // string or line?
     int len = strlen(client_l);
@@ -497,7 +542,7 @@ int List::search(
     // Any path will match
     path_cmp = 0;
   } else
-  if ((_client_cmp > 0) || (path_l[0] == '\0')) {
+  if ((_d->client_cmp > 0) || (path_l[0] == '\0')) {
     // No need to compare paths
     path_cmp = 1;
   } else
@@ -528,7 +573,7 @@ int List::search(
     }
 
     // Check line
-    if ((rc < 2) || (_line[rc - 1] != '\n')) {
+    if ((rc < 2) || (_d->line[rc - 1] != '\n')) {
       // Corrupted line
       cerr << "Corrupted line in list" << endl;
       errno = EUCLEAN;
@@ -536,30 +581,30 @@ int List::search(
     }
 
     // End of file
-    if (_line[0] == '#') {
+    if (_d->line[0] == '#') {
       // Future searches will return eof too
-      _line_status = empty;
+      _d->line_status = empty;
     } else
 
     // Got a client
-    if (_line[0] != '\t') {
+    if (_d->line[0] != '\t') {
       // Compare clientes
       if ((client_l != NULL) && (client_l[0] != '\0')) {
-        if ((client_len > 0) && (_line.length() == (client_len + 1))) {
-          _client_cmp = Path::compare(client_l, _line.c_str(), client_len);
+        if ((client_len > 0) && (_d->line.length() == (client_len + 1))) {
+          _d->client_cmp = Path::compare(client_l, _d->line.c_str(), client_len);
         } else {
-          _client_cmp = Path::compare(client_l, _line.c_str());
+          _d->client_cmp = Path::compare(client_l, _d->line.c_str());
         }
       }
-      if (_client_cmp <= 0)  {
-        if (_client_cmp < 0) {
+      if (_d->client_cmp <= 0)  {
+        if (_d->client_cmp < 0) {
           // Client exceeded
-          _line_status = new_data;
+          _d->line_status = new_data;
         } else
         if ((client_l == NULL)
          || ((path_l != NULL) && (path_l[0] == '\0'))) {
           // Looking for client, found
-          _line_status = cached_data;
+          _d->line_status = cached_data;
         }
       }
       // Next line of data is active
@@ -567,26 +612,26 @@ int List::search(
     } else
 
     // Got a path
-    if (_line[1] != '\t') {
+    if (_d->line[1] != '\t') {
       // Compare paths
-      if ((_client_cmp <= 0) && (path_l != NULL) && (path_l[0] != '\0')) {
+      if ((_d->client_cmp <= 0) && (path_l != NULL) && (path_l[0] != '\0')) {
         if (path_len > 0) {
-          if (_line.length() == (path_len + 2)) {
-            path_cmp = Path::compare(path_l, &_line[1], path_len);
+          if (_d->line.length() == (path_len + 2)) {
+            path_cmp = Path::compare(path_l, &_d->line[1], path_len);
           } else {
-            path_cmp = Path::compare(path_l, &_line[1]);
+            path_cmp = Path::compare(path_l, &_d->line[1]);
           }
         } else {
-          path_cmp = Path::compare(path_l, _line.c_str());
+          path_cmp = Path::compare(path_l, _d->line.c_str());
         }
       }
       if (path_cmp <= 0) {
         if (path_cmp < 0) {
           // Path exceeded
-          _line_status = new_data;
+          _d->line_status = new_data;
         } else {
           // Looking for path, found
-          _line_status = cached_data;
+          _d->line_status = cached_data;
         }
       }
       // Next line of data is active
@@ -597,24 +642,24 @@ int List::search(
     {
       if (list != NULL) {
         // Deal with exception
-        if (list->_line_status == new_data) {
-          list->_line_status = no_data;
+        if (list->_d->line_status == new_data) {
+          list->_d->line_status = no_data;
           // Copy start of line (timestamp)
-          size_t pos = _line.substr(2).find('\t');
+          size_t pos = _d->line.substr(2).find('\t');
           if (pos == string::npos) {
             errno = EUCLEAN;
             return -1;
           }
           pos += 3;
           // Re-create line using previous data
-          _line.resize(pos);
-          _line.append(list->_line.substr(4));
+          _d->line.resize(pos);
+          _d->line.append(list->_d->line.substr(4));
         } else
         // Check for exception
-        if (strncmp(_line.c_str(), "\t\t0\t", 4) == 0) {
+        if (strncmp(_d->line.c_str(), "\t\t0\t", 4) == 0) {
           // Get only end of line
-          list->_line = _line;
-          list->_line_status = new_data;
+          list->_d->line = _d->line;
+          list->_d->line_status = new_data;
           // Do not copy: merge with following line
           continue;
         }
@@ -623,7 +668,7 @@ int List::search(
         if (expire >= 0) {
           // Check time
           time_t ts = 0;
-          string reader = &_line[2];
+          string reader = &_d->line[2];
           size_t pos = reader.find('\t');
           if ((pos != string::npos)
             && (sscanf(reader.substr(0, pos).c_str(), "%ld", &ts) == 1)) {
@@ -656,7 +701,7 @@ int List::search(
 
     // New data, add
     if (list != NULL) {
-      if (_line_status != no_data) {
+      if (_d->line_status != no_data) {
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
           if ((path_len != 0) && (list->write("\t", 1) < 0)) {
@@ -687,13 +732,13 @@ int List::search(
         }
       } else
       // Our data is here or after, so let's copy if required
-      if (list->write(_line.c_str(), _line.length()) < 0) {
+      if (list->write(_d->line.c_str(), _d->line.length()) < 0) {
         // Could not write
         return -1;
       }
     }
     // If line status is not 1, return search status
-    switch (_line_status) {
+    switch (_d->line_status) {
       case cached_data:
         // Found
         return 2;
@@ -737,7 +782,7 @@ int List::merge(
   Path path;
 
   // Last search status
-  _line_status = no_data;
+  _d->line_status = no_data;
 
   // Parse journal
   while (rc > 0) {
@@ -753,7 +798,7 @@ int List::merge(
 
     // Check line
     if ((rc_journal != 0)
-     && ((rc_journal < 2) || (journal._line[rc_journal - 1] != '\n'))) {
+     && ((rc_journal < 2) || (journal._d->line[rc_journal - 1] != '\n'))) {
       // Corrupted line
       cerr << "Corruption in journal, line " << j_line_no << endl;
       errno = EUCLEAN;
@@ -762,7 +807,7 @@ int List::merge(
     }
 
     // End of file
-    if ((journal._line[0] == '#') || (rc_journal == 0)) {
+    if ((journal._d->line[0] == '#') || (rc_journal == 0)) {
       if (rc_list > 0) {
         rc_list = list.search("", "", this);
         if (rc_list < 0) {
@@ -782,9 +827,9 @@ int List::merge(
     }
 
     // Got a client
-    if (journal._line[0] != '\t') {
+    if (journal._d->line[0] != '\t') {
       if (client.length() != 0) {
-        int cmp = client.compare(journal._line.c_str());
+        int cmp = client.compare(journal._d->line.c_str());
         // If same client, ignore it
         if (cmp == 0) {
           cerr << "Client duplicated in journal, line " << j_line_no << endl;
@@ -800,7 +845,7 @@ int List::merge(
         }
       }
       // Copy new client
-      client = journal._line.c_str();
+      client = journal._d->line.c_str();
       // No path for this entry yet
       path = "";
       // Search/copy list
@@ -816,7 +861,7 @@ int List::merge(
     } else
 
     // Got a path
-    if (journal._line[1] != '\t') {
+    if (journal._d->line[1] != '\t') {
       // Must have a client by now
       if (client.length() == 0) {
         // Did not get a client first thing
@@ -827,7 +872,7 @@ int List::merge(
       }
       // Check path order
       if (path.length() != 0) {
-        if (path.compare(journal._line.c_str()) > 0) {
+        if (path.compare(journal._d->line.c_str()) > 0) {
           // Cannot go back
           cerr << "Path out of order in journal, line " << j_line_no << endl;
           errno = EUCLEAN;
@@ -836,7 +881,7 @@ int List::merge(
         }
       }
       // Copy new path
-      path = journal._line.c_str();
+      path = journal._d->line.c_str();
       // Search/copy list
       if (rc_list >= 0) {
         rc_list = list.search(client.c_str(), path.c_str(), this);
@@ -861,9 +906,9 @@ int List::merge(
       }
 
       // If exception, try to put in list buffer (will succeed) otherwise write
-      if (((strncmp(journal._line.c_str(), "\t\t0\t", 4) != 0)
-        || (list.putLine(journal._line.c_str()) < 0))
-       && (write(journal._line.c_str(), journal._line.length()) < 0)) {
+      if (((strncmp(journal._d->line.c_str(), "\t\t0\t", 4) != 0)
+        || (list.putLine(journal._d->line.c_str()) < 0))
+       && (write(journal._d->line.c_str(), journal._d->line.length()) < 0)) {
         // Could not write
         cerr << "Journal copy failed" << endl;
         rc = -1;
