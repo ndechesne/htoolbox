@@ -222,7 +222,7 @@ end:
       i = dir->nodesList().erase(i);
     }
   } else {
-    cerr << strerror(errno) << ": " << rel_path << endl;
+    cerr << strerror(errno) << ": " << remote_path << endl;
   }
   return give_up ? -1 : 0;
 }
