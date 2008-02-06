@@ -1061,6 +1061,18 @@ int main(void) {
   cout << endl;
   delete params;
 
+  // Extract part of a line where spaces matter
+  line = " this is a path \"C:\\Backup\"   and  spaces matter ";
+  params = new vector<string>;
+  cout << "readline(" << line << "): "
+    << Stream::extractParams(line, *params, Stream::flags_dos_catch
+      | Stream::flags_empty_params, 5) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
   // And another
   line = "\t\tf\tblah\t''";
   params = new vector<string>;

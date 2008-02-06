@@ -311,6 +311,13 @@ and
 spaces
 matter
 
+readline( this is a path "C:\Backup"   and  spaces matter ): 0
+
+this
+is
+a
+path
+
 readline(		f	blah	''): 0
 
 

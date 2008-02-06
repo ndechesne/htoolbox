@@ -893,7 +893,7 @@ int Stream::getParams(
   if ((flags & flags_accept_cr_lf) && (buffer[buffer.size() - 1] == '\r')) {
     buffer.erase(buffer.size() - 1);
   }
-  rc = extractParams(buffer, params, flags, delims, quotes, comments);
+  rc = extractParams(buffer, params, flags, 0, delims, quotes, comments);
   if (rc < 0) {
     return -1;
   }
@@ -909,6 +909,7 @@ int Stream::extractParams(
     const string&   line,
     vector<string>& params,
     char            flags,
+    unsigned int    max_params,
     const char*     delims,
     const char*     quotes,
     const char*     comments) {
@@ -1037,6 +1038,10 @@ int Stream::extractParams(
     if (value_end) {
       *write++ = '\0';
       params.push_back(string(param));
+      if ((max_params > 0) && (params.size () >= max_params)) {
+        // Reach required number of parameters
+        break;
+      }
       if (flags & flags_empty_params) {
         // Do not skip blanks but check for comment
         check_comment = true;

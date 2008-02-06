@@ -374,10 +374,11 @@ public:
   static int extractParams(
     const string&   line,
     vector<string>& params,
-    char            flags    = 0,
-    const char*     delims   = "\t ",   // Default: tabulation and space
-    const char*     quotes   = "'\"",   // Default: single and double quotes
-    const char*     comments = "#");    // Default: hash
+    char            flags      = 0,
+    unsigned int    max_params = 0,     // Number of parameters to decode
+    const char*     delims     = "\t ", // Default: tabulation and space
+    const char*     quotes     = "'\"", // Default: single and double quotes
+    const char*     comments   = "#");  // Default: hash
 };
 
 }

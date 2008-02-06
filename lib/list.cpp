@@ -215,7 +215,7 @@ int List::decodeDataLine(
   vector<string> params;
 
   // Get all arguments from line
-  extractParams(line, params, Stream::flags_empty_params, "\t\n");
+  extractParams(line, params, Stream::flags_empty_params, 0, "\t\n");
 
   // Check result
   if (params.size() < 4) {
