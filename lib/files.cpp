@@ -1039,7 +1039,7 @@ int Stream::extractParams(
       *write++ = '\0';
       params.push_back(string(param));
       if ((max_params > 0) && (params.size () >= max_params)) {
-        // Reach required number of parameters
+        // Reached required number of parameters
         break;
       }
       if (flags & flags_empty_params) {

@@ -666,32 +666,51 @@ int List::search(
 
         // Check for expiry
         if (expire >= 0) {
-          // Check time
-          time_t ts = 0;
-          string reader = &_d->line[2];
-          size_t pos = reader.find('\t');
-          if ((pos != string::npos)
-            && (sscanf(reader.substr(0, pos).c_str(), "%ld", &ts) == 1)) {
-            reader = reader.substr(pos + 1, reader.size() - (pos + 1) - 1);
-            const char* checksum = NULL;
-            if ((reader[0] == 'f')
-              && ((expired != NULL) || (active != NULL))) {
-              pos = reader.rfind('\t');
-              if (pos != string::npos) {
-                checksum = &reader[pos + 1];
-              }
+          bool obsolete;
+          vector<string> params;
+          
+          extractParams(_d->line, params, Stream::flags_empty_params, 0,
+            "\t\n");
+
+          // Check expiration
+          if (active_data_line) {
+            // Active line, never obsolete
+            obsolete = false;
+          } else
+          if (expire == 0) {
+            // Always obsolete
+            obsolete = true;
+          } else
+          {
+            // Check time
+            time_t ts = 0;
+            
+            if ((params.size() > 3)
+            &&  (sscanf(params[2].c_str(), "%ld", &ts) == 1)
+            &&  (ts < expire)) {
+              obsolete = true;
+            } else {
+              obsolete = false;
             }
-            if (active_data_line || ((expire != 0) && (ts >= expire))) {
-              if ((checksum != NULL) && (active != NULL)) {
-                active->push_back(checksum);
+          }
+
+          // Deal with file data removal
+          if ((params[3] == "f")
+          &&  (params.size() == 10)) {
+            if (! obsolete) {
+              if (active != NULL) {
+                active->push_back(params[9]);
               }
             } else {
-              if ((checksum != NULL) && (expired != NULL)) {
-                expired->push_back(checksum);
+              if (expired != NULL) {
+                expired->push_back(params[9]);
               }
-              // Do not copy: expired
-              continue;
             }
+          }
+          
+          // If obsolete, do not copy
+          if (obsolete) {
+            continue;
           }
         } // expire >= 0
       } // list != NULL
