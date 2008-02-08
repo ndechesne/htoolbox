@@ -817,7 +817,7 @@ int Database::sendEntry(
     if (cmp >= 0) {
       if (cmp == 0) {
         // Get metadata
-        _d->list->getLine();
+        _d->list->fetchLine();
         _d->list->getEntry(NULL, NULL, &db_path, &db_node, -2);
         // Do not lose this metadata!
         _d->list->keepLine();

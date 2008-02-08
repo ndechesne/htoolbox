@@ -341,7 +341,7 @@ public:
     const void*     buffer,
     size_t          count);
   // Read a line from file
-  ssize_t getLine(
+  virtual ssize_t getLine(
     string&         buffer);
   // Cancel function for the three methods below
   void setCancelCallback(cancel_f cancel);

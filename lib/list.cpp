@@ -103,7 +103,7 @@ int List::open(
       rc = -1;
     }
     _d->line_status = no_data;
-    getLine();
+    fetchLine();
     if ((_d->line_status == error) || (_d->line_status == unexpected_eof)) {
       rc = -1;
     } else
@@ -141,30 +141,35 @@ bool List::isEmpty() const {
   return _d->line_status == empty;
 }
 
-ssize_t List::getLine(bool use_found) {
-  int status = _d->line_status;
+ssize_t List::fetchLine(bool use_found) {
+  // Line in buffer is marked as used but re-usable?
   if (_d->line_status == cached_data) {
+    // Are we told to re-use it?
     if (use_found) {
-      status = 3;
+      // Force re-use
+      _d->line_status = new_data;
     } else {
-      status = 1;
+      // Force fetch
+      _d->line_status = no_data;
     }
   }
-  switch (status) {
-    case -2:
+
+  // Return line/status depending on line status
+  switch (_d->line_status) {
+    case unexpected_eof:
       // Unexpected end of file
-      return 0;
-    case 0:
+      return empty;
+    case empty:
       // Empty list
       return _d->line.length();
-    case 1: {
+    case no_data: {
       // Line contains no re-usable data,
       ssize_t length = Stream::getLine(_d->line);
       if (length < 0) {
         _d->line_status = error;
       } else
       if (length == 0) {
-        _d->line_status = unexpected_eof;;
+        _d->line_status = unexpected_eof;
       } else
       if (_d->line[0] == '#') {
         // Signal end of file
@@ -175,17 +180,18 @@ ssize_t List::getLine(bool use_found) {
       }
       return length;
     }
-    case 3:
+    case new_data:
       // Line contains data to be re-used
       _d->line_status = no_data;
       return _d->line.length();
     default:
       // Error
       _d->line_status = no_data;
-      return -1;
+      return error;
   }
 }
 
+// Insert line into buffer
 ssize_t List::putLine(const char* line) {
   if ((_d->line_status == no_data) || (_d->line_status == cached_data)) {
     _d->line        = line;
@@ -193,6 +199,18 @@ ssize_t List::putLine(const char* line) {
     return _d->line.length();
   }
   return -1;
+}
+
+// Get line from file/buffer
+ssize_t List::getLine(
+    string&         buffer) {
+  int status = fetchLine(true);
+  if (status <= 0) {
+    return status;
+  }
+  buffer          = _d->line;
+  _d->line_status = no_data;
+  return _d->line.length();
 }
 
 void List::keepLine() {
@@ -305,7 +323,7 @@ int List::decodeDataLine(
 }
 
 char List::getLineType() {
-  getLine();
+  fetchLine();
   // Status is one of -2: eof!, -1: error, 0: eof, 1: ok
   switch (_d->line_status) {
     case unexpected_eof:
@@ -370,7 +388,7 @@ int List::getEntry(
     if (date == -2) {
       length = _d->line.length();
     } else {
-      length = getLine(true);
+      length = fetchLine(true);
     }
 
     if (length == 0) {
@@ -562,7 +580,7 @@ int List::search(
 
   while (true) {
     // Read list or get last data
-    rc = getLine();
+    rc = fetchLine();
 
     // Failed
     if (rc <= 0) {
@@ -805,7 +823,7 @@ int List::merge(
 
   // Parse journal
   while (rc > 0) {
-    int  rc_journal = journal.getLine();
+    int  rc_journal = journal.fetchLine();
     j_line_no++;
 
     // Failed
