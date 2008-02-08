@@ -54,107 +54,6 @@ struct Database::Private {
   bool              clientJournalled;
 };
 
-typedef struct {
-  string name;
-  string prefix;
-} names_convert_t;
-
-int Database::convertList() {
-  if (verbosity() > 0) {
-    cout << "Converting database list" << endl;
-  }
-  list<string> prefixes;
-  if (getRecords(prefixes)) {
-    cerr << "Error: cannot convert: cannot get list of prefixes" << endl;
-    return -1;
-  }
-  // Reset lists
-  if (_d->list->close() || _d->list->open("r")) {
-    cerr << "Error: cannot re-open DB list" << endl;
-    return -1;
-  }
-  _d->merge = new List(_d->path.c_str(), "list.part");
-  if (_d->merge->open("w")) {
-    cerr << "Error: cannot open DB merge list" << endl;
-    delete _d->merge;
-    return -1;
-  }
-  list<names_convert_t> names;
-  for (list<string>::iterator i = prefixes.begin(); i != prefixes.end(); i++) {
-    size_t pos = i->find_last_of('/');
-    if (pos == string::npos) {
-      cerr << "Error: wrong syntax for prefix: " << *i << endl;
-      return -1;
-    }
-    string name = i->substr(pos + 1);
-    if (i->compare(0, 6, "smb://") == 0) {
-      name += "$";
-    } else {
-      name += "#";
-    }
-    names_convert_t nc = { name, *i };
-    // Insert in alphabetic order of name
-    list<names_convert_t>::iterator i = names.begin();
-    while (i != names.end()) {
-      if (i->name == nc.name) {
-        cerr << "Error: found two identical names: " << i->name << endl;
-        return -1;
-      } else
-      if (i->name > nc.name) {
-        break;
-      }
-      i++;
-    }
-    names.insert(i, nc);
-  }
-  if (verbosity() > 0) {
-    cout << "Clients found: " << names.size() << endl;
-  }
-  string last_prefix;
-  for (list<names_convert_t>::iterator i = names.begin(); i != names.end();
-      i++) {
-    if (verbosity() > 0) {
-      cout << " " << i->prefix << " -> " << i->name << endl;
-    }
-    if (last_prefix > i->prefix) {
-      if (_d->list->close() || _d->list->open("r")) {
-        cerr << "Error: cannot re-open DB list" << endl;
-        return -1;
-      } else {
-        if (verbosity() > 1) {
-          cout << "DB list rewinded" << endl;
-        }
-      }
-    } else {
-      _d->list->keepLine();
-    }
-    last_prefix = i->prefix;
-    // Find prefix
-    if (_d->list->search(i->prefix.c_str(), "") != 2) {
-      cerr << "Error: client not found" << endl;
-      return -1;
-    }
-    // Copy till next prefix
-    if (_d->merge->addClient(i->name.c_str())
-     || _d->list->search(NULL, NULL, _d->merge) < 0) {
-      cerr << "Error: copy failed" << endl;
-      return -1;
-    }
-  }
-  // Reset lists
-  if (_d->list->close() || _d->merge->close() || update("list", true)
-   || _d->list->open("r")) {
-    cerr << "Error: cannot re-open DB list" << endl;
-    return -1;
-  }
-  delete _d->merge;
-
-  if (verbosity() > 0) {
-    cout << "Conversion successful" << endl;
-  }
-  return 0;
-}
-
 int Database::lock() {
   string  lock_path;
   FILE    *file;
@@ -378,7 +277,7 @@ int Database::open_rw() {
       cerr << "Error: cannot open list" << endl;
       failed = true;
     } else
-    if (_d->list->isOldVersion() && (convertList() != 0)) {
+    if (_d->list->isOldVersion()) {
       failed = true;
     }
   } else {

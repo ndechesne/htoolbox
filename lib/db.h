@@ -24,7 +24,6 @@ namespace hbackup {
 class Database {
   struct        Private;
   Private*      _d;
-  int  convertList();
   int  lock();
   void unlock();
   int  merge();
