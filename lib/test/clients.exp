@@ -155,13 +155,13 @@ Client: testhost
  -> Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
  -> Reading client configuration file
- --> expiry 1 day(s)
  --> client-wide filter and subdir
  ---> condition path_start subdir
  ---> condition not size< 100
  --> client-wide filter and bigfile
  ---> condition size>= 10
  ---> condition type file
+ --> expiry 1 day(s)
  --> Path: test2
  --> Path: test1
  --> path-wide filter and not_object
@@ -271,13 +271,13 @@ Client: testhost
  -> Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
  -> Reading client configuration file
- --> expiry 1 day(s)
  --> client-wide filter and subdir
  ---> condition path_start subdir
  ---> condition not size< 100
  --> client-wide filter and bigfile
  ---> condition size>= 10
  ---> condition type file
+ --> expiry 1 day(s)
  --> Path: test2
  --> Path: test1
  --> path-wide filter and not_object
@@ -333,13 +333,13 @@ Client: testhost
  -> Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
  -> Reading client configuration file
- --> expiry 1 day(s)
  --> client-wide filter and subdir
  ---> condition path_start subdir
  ---> condition not size< 100
  --> client-wide filter and bigfile
  ---> condition size>= 10
  ---> condition type file
+ --> expiry 1 day(s)
  --> Path: test2
  --> Path: test1
  --> path-wide filter and not_object

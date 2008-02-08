@@ -34,6 +34,8 @@ public:
   void setLineNo(unsigned int line_no)            { _line_no = line_no;       }
   // Add a child
   void add(ConfigLine* child);
+  // Sort children back into config file line order
+  void sortChildren();
   // Clear config lines
   void clear();
   // Debug

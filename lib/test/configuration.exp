@@ -10,30 +10,30 @@ Items:
     condition, occ.: min = 1, no max; params: min params = 2, max params = 2
   trash, occ.: optional, max = 1; params: min params = 1, max params = 1
 Lines:
-12:  client nfs myClient
-14:    config /home/User/hbackup.list
-13:    hostname myClient
-16:  client ssh other
-18:    config /home/backup/Backup.list
-17:    hostname otherClient
-20:  client file myhost
-22:    config etc/localhost.list
-23:    expire 1
-21:    hostname myhost.mynetwork.lan
-25:  client smb client
-30:    config C:\Backup\Backup.LST
-29:    hostname myClient
-26:    option username Myself
-27:    option password flesyM
-28:    option nocase
  1:  db test_db
+ 2:  trash 1
  4:  filter all backup
  5:    condition type file
  6:    condition path_end ~
  8:  filter any test_or
  9:    condition filter backup
 10:    condition !size< 1000
- 2:  trash 1
+12:  client nfs myClient
+13:    hostname myClient
+14:    config /home/User/hbackup.list
+16:  client ssh other
+17:    hostname otherClient
+18:    config /home/backup/Backup.list
+20:  client file myhost
+21:    hostname myhost.mynetwork.lan
+22:    config etc/localhost.list
+23:    expire 1
+25:  client smb client
+26:    option username Myself
+27:    option password flesyM
+28:    option nocase
+29:    hostname myClient
+30:    config C:\Backup\Backup.LST
 
 Test: client configuration
 Error: after line 0: missing keyword 'path'
@@ -49,16 +49,15 @@ Items:
     ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
     parser, occ.: optional, no max; params: min params = 1, max params = 2
 Lines:
-10:  expire 1
  2:  filter and subdir
  3:    condition path_start subdir
  4:    condition !size< 100
  6:  filter and bigfile
  7:    condition size>= 10
  8:    condition type file
+10:  expire 1
 12:  path test2//
 14:  path test1
-26:    compress bigfile
 16:    filter and not_object
 17:      condition !path_end .o
 19:    filter or to_be_ignored
@@ -66,6 +65,7 @@ Lines:
 21:      condition filter backup
 22:      condition !filter not_object
 24:    ignore to_be_ignored
+26:    compress bigfile
 28:    parser cvs controlled
 29:    parser svn modified
 30:    parser bzr modified
@@ -89,22 +89,29 @@ Items:
     condition, occ.: min = 1, no max; params: min params = 2, max params = 2
   trash, occ.: optional, max = 1; params: min params = 1, max params = 1
 Lines:
+ 1:  db test_db
+ 2:  trash 1
+ 4:  filter all backup
+ 5:    condition type file
+ 6:    condition path_end ~
+ 8:  filter any test_or
+ 9:    condition filter backup
+10:    condition !size< 1000
 12:  client nfs myClient
-14:    config /home/User/hbackup.list
 13:    hostname myClient
+14:    config /home/User/hbackup.list
 16:  client ssh other
+17:    hostname otherClient
 18:    config /home/backup/Backup.list
-28:    expire 1
 20:    filter and subdir
 21:      condition path_start subdir
 22:      condition !size< 100
 24:    filter and bigfile
 25:      condition size>= 10
 26:      condition type file
-17:    hostname otherClient
+28:    expire 1
 30:    path test2//
 32:    path test1
-44:      compress bigfile
 34:      filter and not_object
 35:        condition !path_end .o
 37:      filter or to_be_ignored
@@ -112,27 +119,20 @@ Lines:
 39:        condition filter backup
 40:        condition !filter not_object
 42:      ignore to_be_ignored
+44:      compress bigfile
 46:      parser cvs controlled
 47:      parser svn modified
 48:      parser bzr modified
 50:  client file myhost
+51:    hostname myhost.mynetwork.lan
 52:    config etc/localhost.list
 53:    expire 1
-51:    hostname myhost.mynetwork.lan
 55:  client smb client
-60:    config C:\Backup\Backup.LST
-59:    hostname myClient
 56:    option username Myself
 57:    option password flesyM
 58:    option nocase
- 1:  db test_db
- 4:  filter all backup
- 5:    condition type file
- 6:    condition path_end ~
- 8:  filter any test_or
- 9:    condition filter backup
-10:    condition !size< 1000
- 2:  trash 1
+59:    hostname myClient
+60:    config C:\Backup\Backup.LST
 Test: broken configuration
 Error: after line 0: need at most 1 occurence(s) of keyword 'db'
 Error: at line 3: keyword 'trash' requires 1 parameter(s), found 2
@@ -177,26 +177,31 @@ Items:
     condition, occ.: min = 1, no max; params: min params = 2, max params = 2
   trash, occ.: optional, max = 1; params: min params = 1, max params = 1
 Lines:
+ 1:  db test_db
+ 2:  db blah
+ 3:  trash 1 2
+ 5:  filter all
+ 6:    condition type file
+ 7:    condition path_end ~
+ 9:  filter any test_or
 11:  client nfs myClient
 13:  client ssh other
+14:    hostname otherClient
+15:    hostname 192.168.0.132
+16:    option I am happy
+17:    option
 18:    config /home/backup/Backup.list
 19:    config /home/backup/Backup2.list
-29:    expire 1
-30:    expire 2 3
 21:    filter and subdir
 22:      condition path_start subdir
 23:      condition !size< 100
 25:    filter and bigfile 3
 26:      condition size>= 10 yeah
 27:      condition type
-14:    hostname otherClient
-15:    hostname 192.168.0.132
-16:    option I am happy
-17:    option
+29:    expire 1
+30:    expire 2 3
 32:    path test2//
 34:    path test1
-52:      compress bigfile
-53:      compress bigfile2
 36:      filter and not_object
 37:        condition !path_end .o
 39:      filter or to_be_ignored
@@ -207,31 +212,26 @@ Lines:
 46:      filter or
 49:      ignore to_be_ignored
 50:      ignore to_be_ignored2
+52:      compress bigfile
+53:      compress bigfile2
 55:      parser cvs controlled
 56:      parser svn modified
 57:      parser bzr modified
 59:  client file myhost
+60:    hostname myhost.mynetwork.lan
 61:    config etc/localhost.list
 62:    expire 1
-60:    hostname myhost.mynetwork.lan
 64:    path blah
-66:      compress 4 5
 65:      ignore 2 3
+66:      compress 4 5
 68:  client smb client
-73:    config C:\Backup\Backup.LST
-72:    hostname myClient
 69:    option username Myself
 70:    option password flesyM
 71:    option nocase
+72:    hostname myClient
+73:    config C:\Backup\Backup.LST
 75:    path C:\Crash"
 76:    path C:\Crash
 77:    path blah
-79:      compress
 78:      ignore
- 1:  db test_db
- 2:  db blah
- 5:  filter all
- 6:    condition type file
- 7:    condition path_end ~
- 9:  filter any test_or
- 3:  trash 1 2
+79:      compress

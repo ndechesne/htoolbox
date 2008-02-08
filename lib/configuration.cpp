@@ -41,6 +41,18 @@ void ConfigLine::add(ConfigLine* child) {
   _children.insert(i, child);
 }
 
+// Need comparator to sort back in file order
+struct ConfigLineSorter :
+    public std::binary_function<const ConfigLine*, const ConfigLine*, bool> {
+  bool operator()(const ConfigLine* left, const ConfigLine* right) const {
+    return left->lineNo() < right->lineNo();
+  }
+};
+
+void ConfigLine::sortChildren() {
+  _children.sort(ConfigLineSorter());
+}
+
 void ConfigLine::clear() {
   list<ConfigLine*>::iterator i;
   for (i = _children.begin(); i != _children.end(); i = _children.erase(i)) {
@@ -270,6 +282,7 @@ int Config::read(
           }
           // Keyword not found in children, go up the tree
           items_hierarchy.pop_back();
+          lines_hierarchy.back()->sortChildren();
           lines_hierarchy.pop_back();
           if ((items_hierarchy.size() == 0) && (rc != 0)) {
             if ((*params)[0][0] != '\r'){
@@ -342,7 +355,7 @@ void Config::clear() {
 void Config::debug() const {
   cout << "Items:" << endl;
   _items_top.debug(2);
-  
+
   cout << "Lines:" << endl;
   ConfigLine* params;
   int level;
