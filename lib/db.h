@@ -74,7 +74,7 @@ public:
   int  sendEntry(
     const char*     remote_path,      // Dir where the file resides, remotely
     const Node*     node,             // File metadata
-    Node**          db_node);         // DB File metadata
+    char**          checksum = NULL); // Checksum from current file
   // Add entry to journal/list
   int  add(
     const char*     full_path,        // File path on client

@@ -112,110 +112,35 @@ int ClientPath::recurse(
         char* rem_path = NULL;
         int last = asprintf(&rem_path, "%s%s/", remote_path, (*i)->name()) - 1;
         rem_path[last] = '\0';
-        Node* db_node = NULL;
-        int rc = db.sendEntry(rem_path, *i, &db_node);
-        const char* checksum = NULL;
-        bool        add      = false;
+        char* checksum = NULL;
+        int rc = db.sendEntry(rem_path, *i, &checksum);
         if (rc < 0) {
-          cerr << "Failed to compare entries" << endl;
-        } else
-        if (rc > 0) {
-          if (verbosity() > 0) {
-            cout << "A";
-          }
-          add = true;
-        } else
-        {
-          // Check for differences
-          if (*db_node != **i) {
-            // Metadata differ
+          give_up = true;
+        } else {
+          // Add node
+          if (rc > 0) {
+            int compress = 0;
             if (((*i)->type() == 'f')
-            && (db_node->type() == 'f')
-            && ((*i)->size() == db_node->size())
-            && ((*i)->mtime() == db_node->mtime())) {
-              // If the file data is there, just add new metadata
-              // If the checksum is missing, this shall retry too
-              checksum = ((File*)db_node)->checksum();
-              if (verbosity() > 0) {
-                cout << "~";
-              }
-            } else {
-              // Do it all
-              if (verbosity() > 0) {
-                cout << "M";
-              }
+              && (_compress != NULL) && _compress->match(rel_path, **i)) {
+              compress = 5;
             }
-            add = true;
-          } else
-          // Same metadata, hence same type...
-          {
-            // Compare linked data
-            if (((*i)->type() == 'l')
-            && (strcmp(((Link*)*i)->link(), ((Link*)db_node)->link()) != 0)) {
-              if (verbosity() > 0) {
-                cout << "L";
-              }
-              add = true;
-            } else
-            // Check that file data is present
-            if (((*i)->type() == 'f')
-              && (((File*)db_node)->checksum()[0] == '\0')) {
-              // Checksum missing: retry
-              if (verbosity() > 0) {
-                cout << "!";
-              }
-              checksum = ((File*)db_node)->checksum();
-              add = true;
+            if (db.add(rem_path, *i, checksum, compress) && (errno == EIO)) {
+              give_up = true;
             }
           }
-        }
-        if (add) {
-          if (verbosity() > 0) {
-            cout << " " << rem_path;
-            if ((*i)->type() == 'f') {
-              cout << " (";
-              if ((*i)->size() < 10000) {
-                cout << (*i)->size();
-                cout << " ";
-              } else
-              if ((*i)->size() < 10000000) {
-                cout << (*i)->size() / 1000;
-                cout << " k";
-              } else
-              if ((*i)->size() < 10000000000ll) {
-                cout << (*i)->size() / 1000000;
-                cout << " M";
-              } else
-              {
-                cout << (*i)->size() / 1000000000;
-                cout << " G";
-              }
-              cout << "B)";
+          
+          // For directory, recurse into it
+          if ((*i)->type() == 'd') {
+            rem_path[last] = '/';
+            if (verbosity() > 1) {
+              cout << " -> Dir " << rel_path << (*i)->name() << endl;
             }
-            cout << endl;
-          }
-          int compress = 0;
-          if (((*i)->type() == 'f')
-           && (_compress != NULL) && _compress->match(rel_path, **i)) {
-            compress = 5;
-          }
-          if (db.add(rem_path, *i, checksum, compress) && (errno == EIO)) {
-            give_up = true;
-          }
-        }
-
-        // For directory, recurse into it
-        if ((*i)->type() == 'd') {
-          rem_path[last] = '/';
-          if (verbosity() > 1) {
-            cout << " -> Dir " << rel_path << (*i)->name() << endl;
-          }
-          if (recurse(db, rem_path, (Directory*) *i, parser)) {
-            give_up = true;
+            if (recurse(db, rem_path, (Directory*) *i, parser)) {
+              give_up = true;
+            }
           }
         }
         free(rem_path);
-        delete db_node;
       }
 end:
       delete *i;

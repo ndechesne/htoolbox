@@ -766,7 +766,7 @@ void Database::setClient(
     time_t          expire) {
   // Finish previous client work (removed items at end of list)
   if (_d->client.length() != 0) {
-    sendEntry(NULL, NULL, NULL);
+    sendEntry(NULL, NULL);
   }
   _d->client = client;
   if (expire > 0) {
@@ -791,22 +791,26 @@ void Database::failedClient() {
 int Database::sendEntry(
     const char*     remote_path,
     const Node*     node,
-    Node**          db_node) {
+    char**          checksum) {
   if (! isWriteable()) {
     return -1;
   }
 
   // DB
   char* db_path = NULL;
+  Node* db_node = NULL;
   int   cmp     = 1;
   while (_d->list->search(_d->client.c_str(), NULL, _d->merge, _d->expire,
       &_d->active_data, &_d->expired_data) == 2) {
     if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
+      // Error
+      cerr << "Failed to get entry" << endl;
       return -1;
     }
     if (remote_path != NULL) {
       cmp = Path::compare(db_path, remote_path);
     } else {
+      // Want to get all paths
       cmp = -1;
     }
     // If found or exceeded, break loop
@@ -814,7 +818,7 @@ int Database::sendEntry(
       if (cmp == 0) {
         // Get metadata
         _d->list->getLine();
-        _d->list->getEntry(NULL, NULL, &db_path, db_node, -2);
+        _d->list->getEntry(NULL, NULL, &db_path, &db_node, -2);
         // Do not lose this metadata!
         _d->list->keepLine();
       }
@@ -837,16 +841,97 @@ int Database::sendEntry(
     }
   }
   free(db_path);
-  // Send status back
+  
+  // Compare entries
+  bool add_node = false;
   if (remote_path != NULL) {
     _d->merge->addPath(remote_path);
-    if ((cmp > 0) || (*db_node == NULL)) {
+    if ((cmp > 0) || (db_node == NULL)) {
       // Exceeded, keep line for later
       _d->list->keepLine();
-      return 1;
+      // New file
+      if (verbosity() > 0) {
+        cout << "A";
+      }
+      add_node = true;
+    }
+
+    if (! add_node) {
+      // Existing file: check for differences
+      if (*db_node != *node) {
+        // Metadata differ
+        if ((node->type() == 'f')
+        && (db_node->type() == 'f')
+        && (node->size() == db_node->size())
+        && (node->mtime() == db_node->mtime())) {
+          // If the file data is there, just add new metadata
+          // If the checksum is missing, this shall retry too
+          *checksum = strdup(((File*)db_node)->checksum());
+          if (verbosity() > 0) {
+            cout << "~";
+          }
+        } else {
+          // Do it all
+          if (verbosity() > 0) {
+            cout << "M";
+          }
+        }
+        add_node = true;
+      } else
+      // Same metadata, hence same type...
+      {
+        // Compare linked data
+        if ((node->type() == 'l')
+        && (strcmp(((Link*)node)->link(), ((Link*)db_node)->link()) != 0)) {
+          if (verbosity() > 0) {
+            cout << "L";
+          }
+          add_node = true;
+        } else
+        // Check that file data is present
+        if ((node->type() == 'f')
+          && (((File*)db_node)->checksum()[0] == '\0')) {
+          // Checksum missing: retry
+          if (verbosity() > 0) {
+            cout << "!";
+          }
+          *checksum = strdup("");
+          add_node = true;
+        }
+      }
+    }
+
+    if (add_node) {
+      if (verbosity() > 0) {
+        cout << " " << remote_path;
+        if (node->type() == 'f') {
+          cout << " (";
+          if (node->size() < 10000) {
+            cout << node->size();
+            cout << " ";
+          } else
+          if (node->size() < 10000000) {
+            cout << node->size() / 1000;
+            cout << " k";
+          } else
+          if (node->size() < 10000000000ll) {
+            cout << node->size() / 1000000;
+            cout << " M";
+          } else
+          {
+            cout << node->size() / 1000000000;
+            cout << " G";
+          }
+          cout << "B)";
+        }
+        cout << endl;
+      }
     }
   }
-  return 0;
+  delete db_node;
+  
+  // Send status back
+  return add_node ? 1 : 0;
 }
 
 int Database::add(
