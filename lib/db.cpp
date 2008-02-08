@@ -817,8 +817,7 @@ int Database::sendEntry(
     if (cmp >= 0) {
       if (cmp == 0) {
         // Get metadata
-        _d->list->fetchLine();
-        _d->list->getEntry(NULL, NULL, &db_path, &db_node, -2);
+        _d->list->getEntry(NULL, NULL, &db_path, &db_node, -1);
         // Do not lose this metadata!
         _d->list->keepLine();
       }
@@ -841,7 +840,7 @@ int Database::sendEntry(
     }
   }
   free(db_path);
-  
+
   // Compare entries
   bool add_node = false;
   if (remote_path != NULL) {
@@ -929,7 +928,7 @@ int Database::sendEntry(
     }
   }
   delete db_node;
-  
+
   // Send status back
   return add_node ? 1 : 0;
 }

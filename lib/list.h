@@ -24,6 +24,8 @@ namespace hbackup {
 class List : public Stream {
   struct          Private;
   Private*        _d;
+  // Buffer relevant line
+  ssize_t fetchLine(bool use_found = false);
   // Decode metadata from current line
   int decodeDataLine(
     const string&   line,
@@ -45,8 +47,6 @@ public:
   bool isOldVersion() const;
   // Empty file (check right after opening for read)
   bool isEmpty() const;
-  // Buffer relevant line
-  ssize_t fetchLine(bool use_found = false);
   // Put line into list buffer (will fail and return -1 if buffer in use)
   ssize_t putLine(const char* line);
   // Read a line from file/cache

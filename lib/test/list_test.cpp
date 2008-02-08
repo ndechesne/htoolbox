@@ -380,8 +380,6 @@ int main(void) {
     dblist.getEntry(NULL, NULL, &path, NULL, -2);
     cout << path << endl;
     // Should give the same result twice, then get type
-    dblist.keepLine();
-    dblist.fetchLine();
     dblist.getEntry(NULL, NULL, &path, NULL, -2);
     cout << path << ": " << dblist.getLineType() << endl;
     free(path);
