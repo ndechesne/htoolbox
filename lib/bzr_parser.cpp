@@ -46,7 +46,7 @@ Parser *BzrParser::isControlled(const string& dir_path) const {
   }
 
   // If control directory exists and contains an format file, assume control
-  if (! File((dir_path + control_dir).c_str(), &format[1]).isValid()) {
+  if (! File(Path((dir_path + control_dir).c_str(), &format[1])).isValid()) {
     return NULL;
   } else {
     return new BzrParser(_mode, dir_path);

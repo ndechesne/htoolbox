@@ -55,7 +55,7 @@ int Data::getDir(
   // Two cases: either there are files, or a .nofiles file and directories
   do {
     // If we can find a .nofiles file, then go down one more directory
-    if (File(path.c_str(), ".nofiles").isValid()) {
+    if (File(Path(path.c_str(), ".nofiles")).isValid()) {
       path += "/" + checksum.substr(level, 2);
       level += 2;
       if (create && Directory(path.c_str()).create()) {
@@ -75,7 +75,7 @@ int Data::organise(
     int             number) const {
   DIR           *directory;
   struct dirent *dir_entry;
-  File          nofiles(path.c_str(), ".nofiles");
+  File          nofiles(Path(path.c_str(), ".nofiles"));
   int           failed   = 0;
 
   // Already organised?
@@ -100,7 +100,7 @@ int Data::organise(
        || ! strcmp(dir_entry->d_name, "..")) {
         continue;
       }
-      Node node(path.c_str(), dir_entry->d_name);
+      Node node(Path(path.c_str(), dir_entry->d_name));
       string source_path = path + "/" + dir_entry->d_name;
       if (node.stat()) {
         cerr << "Error: organise: cannot get metadata: " << source_path
@@ -192,13 +192,13 @@ int Data::write(
 
     // Check whether directory already exists
     if (Directory(final_path).isValid()) {
-      Stream* try_file = new Stream(final_path, "data");
+      Stream* try_file = new Stream(Path(final_path, "data"));
 
       if (try_file->isValid()) {
         try_file->open("r");
       } else {
         delete try_file;
-        try_file = new Stream(final_path, "data.gz");
+        try_file = new Stream(Path(final_path, "data.gz"));
         if (! try_file->isValid()) {
           delete try_file;
           // Need to copy file accross: leave index to current value and exit
@@ -420,9 +420,9 @@ int Data::check(
   bool failed = false;
   Stream *data = NULL;
   // Uncompressed data
-  if (File(path.c_str(), "data").isValid()) {
+  if (File(Path(path.c_str(), "data")).isValid()) {
     if (thorough) {
-      data = new Stream(path.c_str(), "data");
+      data = new Stream(Path(path.c_str(), "data"));
       if (data->open("r")) {
         errno = EINVAL;
         failed = true;
@@ -432,9 +432,9 @@ int Data::check(
     }
   } else
   // Compressed data
-  if (File(path.c_str(), "data.gz").isValid()) {
+  if (File(Path(path.c_str(), "data.gz")).isValid()) {
     if (thorough) {
-      data = new Stream(path.c_str(), "data.gz");
+      data = new Stream(Path(path.c_str(), "data.gz"));
       if (data->open("r", 1)) {
         errno = EINVAL;
         failed = true;
@@ -470,10 +470,10 @@ int Data::remove(
     return 1;
   }
   File* f;
-  f = new File(path.c_str(), "data");
+  f = new File(Path(path.c_str(), "data"));
   if (! f->isValid()) {
     delete f;
-    f = new File(path.c_str(), "data.gz");
+    f = new File(Path(path.c_str(), "data.gz"));
     if (! f->isValid()) {
       delete f;
       f = NULL;

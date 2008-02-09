@@ -56,7 +56,7 @@ struct List::Private {
 List::List(
     const char*     dir_path,
     const char*     name) :
-    Stream(dir_path, name) {
+    Stream(Path(dir_path, name)) {
   _d = new Private;
 }
 
@@ -686,7 +686,7 @@ int List::search(
         if (expire >= 0) {
           bool obsolete;
           vector<string> params;
-          
+
           extractParams(_d->line, params, Stream::flags_empty_params, 0,
             "\t\n");
 
@@ -702,7 +702,7 @@ int List::search(
           {
             // Check time
             time_t ts = 0;
-            
+
             if ((params.size() > 3)
             &&  (sscanf(params[2].c_str(), "%ld", &ts) == 1)
             &&  (ts < expire)) {
@@ -725,7 +725,7 @@ int List::search(
               }
             }
           }
-          
+
           // If obsolete, do not copy
           if (obsolete) {
             continue;

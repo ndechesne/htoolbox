@@ -105,8 +105,8 @@ public:
       _type('?'),
       _parsed(false) {}
   // Constructor for path in the VFS
-  Node(const char *dir, const char* name = "") :
-      _path(dir, name),
+  Node(Path path) :
+      _path(path),
       _type('?'),
       _parsed(false) {}
   // Constructor for given file metadata
@@ -179,8 +179,8 @@ public:
     _parsed = true;
   }
   // Constructor for path in the VFS
-  File(const char *path, const char* name = "") :
-      Node(path, name),
+  File(Path path) :
+      Node(path),
       _checksum(strdup("")) {
     stat();
     _parsed = true;
@@ -232,8 +232,8 @@ public:
     _nodes.clear();
   }
   // Constructor for path in the VFS
-  Directory(const char *path, const char* name = "") :
-      Node(path, name) {
+  Directory(Path path) :
+      Node(path) {
     stat();
     _parsed = true;
     _nodes.clear();
@@ -270,8 +270,8 @@ public:
     _link[_size] = '\0';
   }
   // Constructor for path in the VFS
-  Link(const char *dir_path, const char* name = "") :
-      Node(dir_path, name),
+  Link(Path path) :
+      Node(path),
       _link(NULL) {
     stat();
     _parsed = true;
@@ -317,7 +317,7 @@ public:
   // Prototype for progress report function (receives size done and total)
   typedef void (*progress_f)(long long done, long long total);
   // Constructor for path in the VFS
-  Stream(const char *dir_path, const char* name = "");
+  Stream(Path path);
   virtual ~Stream();
   bool isOpen() const;
   bool isWriteable() const;

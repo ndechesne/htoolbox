@@ -46,7 +46,7 @@ Parser *SvnParser::isControlled(const string& dir_path) const {
   }
 
   // If control directory exists and contains an entries file, assume control
-  if (! File((dir_path + control_dir).c_str(), &entries[1]).isValid()) {
+  if (! File(Path((dir_path + control_dir).c_str(), &entries[1])).isValid()) {
     if (! _dummy) {
       cerr << "Directory should be under " << name() << " control: "
         << dir_path << endl;

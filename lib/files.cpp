@@ -279,7 +279,7 @@ int Directory::createList() {
     if (!strcmp(dir_entry->d_name, ".") || !strcmp(dir_entry->d_name, "..")) {
       continue;
     }
-    Node *g = new Node(_path.c_str(), dir_entry->d_name);
+    Node *g = new Node(Path(_path.c_str(), dir_entry->d_name));
     g->stat();
     list<Node*>::iterator i = _nodes.begin();
     while ((i != _nodes.end()) && (*(*i) < *g)) {
@@ -346,7 +346,7 @@ void Stream::md5sum(char* out, const unsigned char* in, int bytes) {
   *out = '\0';
 }
 
-Stream::Stream(const char *dir_path, const char* name) : File(dir_path, name) {
+Stream::Stream(Path path) : File(path) {
   _d = new Private;
   _d->fd                = -1;
   _d->progress_callback = NULL;

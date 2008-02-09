@@ -243,7 +243,7 @@ int Database::open_rw() {
     case 0:
       // Open successful
       if (! list.isValid()) {
-        Stream backup(_d->path.c_str(), "list~");
+        Stream backup(Path(_d->path.c_str(), "list~"));
 
         cerr << "Error: list not accessible...";
         if (backup.isValid()) {
