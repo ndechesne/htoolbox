@@ -448,4 +448,9 @@ option	nocase
 hostname	myClient	
 config	C:\Backup\Backup.LST	
 
+Stream select
+Not found.
+Found (1): data.gz
+Found (0): data
+
 End of tests

@@ -310,8 +310,13 @@ class Stream : public File {
   // Convert MD5 to readable string
   static void md5sum(char* out, const unsigned char* in, int bytes);
 public:
-  // Max buffer size for read/write
+  // Max buffer size for read/write (here for testing purposes)
   static const size_t chunk = 409600;
+  // Magic constructor that auto-selects the extension
+  static Stream* select(
+    Path            path,
+    vector<string>& extensions,
+    unsigned int*   no = NULL);
   // Prototype for cancellation function (true cancels)
   typedef bool (*cancel_f)();
   // Prototype for progress report function (receives size done and total)

@@ -192,22 +192,18 @@ int Data::write(
 
     // Check whether directory already exists
     if (Directory(final_path).isValid()) {
-      Stream* try_file = new Stream(Path(final_path, "data"));
-
-      if (try_file->isValid()) {
-        try_file->open("r");
-      } else {
-        delete try_file;
-        try_file = new Stream(Path(final_path, "data.gz"));
-        if (! try_file->isValid()) {
-          delete try_file;
-          // Need to copy file accross: leave index to current value and exit
-          break;
-        }
-        try_file->open("r", 1);
+      vector<string> extensions;
+      extensions.push_back("");
+      extensions.push_back(".gz");
+      unsigned int no;
+      Stream *data = Stream::select(Path(final_path, "data"), extensions, &no);
+      if (data == NULL) {
+        // Need to copy file accross: leave index to current value and exit
+        break;
       }
+      data->open("r", (no > 0) ? 1 : 0);
       temp.open("r", compress);
-      switch (temp.compare(*try_file, 1024)) {
+      switch (temp.compare(*data, 1024)) {
         case 0:
           present = true;
           break;
@@ -217,8 +213,8 @@ int Data::write(
         default:
           failed = -1;
       }
-      try_file->close();
-      delete try_file;
+      data->close();
+      delete data;
       temp.close();
     } else {
       Directory(final_path).create();
@@ -418,37 +414,24 @@ int Data::check(
     return -1;
   }
   bool failed = false;
-  Stream *data = NULL;
-  // Uncompressed data
-  if (File(Path(path.c_str(), "data")).isValid()) {
-    if (thorough) {
-      data = new Stream(Path(path.c_str(), "data"));
-      if (data->open("r")) {
-        errno = EINVAL;
-        failed = true;
-      }
-    } else {
-      return 0;
-    }
-  } else
-  // Compressed data
-  if (File(Path(path.c_str(), "data.gz")).isValid()) {
-    if (thorough) {
-      data = new Stream(Path(path.c_str(), "data.gz"));
-      if (data->open("r", 1)) {
-        errno = EINVAL;
-        failed = true;
-      }
-    } else {
-      return 0;
-    }
-  } else
+  unsigned int no;
+  vector<string> extensions;
+  extensions.push_back("");
+  extensions.push_back(".gz");
+  Stream *data = Stream::select(Path(path.c_str(), "data"), extensions, &no);
   // Missing data
-  {
+  if (data == NULL) {
     cerr << "Error: data missing for " << checksum << endl;
     errno = ENOENT;
     return -1;
   }
+  if (! thorough) {
+    return 0;
+  }
+  if (data->open("r", (no > 0) ? 1 : 0)) {
+    errno = EINVAL;
+    failed = true;
+  } else
   if (data->computeChecksum() || data->close()) {
     errno = EINVAL;
     failed = true;
@@ -469,22 +452,16 @@ int Data::remove(
   if (getDir(checksum, path)) {
     return 1;
   }
-  File* f;
-  f = new File(Path(path.c_str(), "data"));
-  if (! f->isValid()) {
-    delete f;
-    f = new File(Path(path.c_str(), "data.gz"));
-    if (! f->isValid()) {
-      delete f;
-      f = NULL;
-    }
-  }
-  if (f != NULL) {
-    rc = f->remove();
+  vector<string> extensions;
+  extensions.push_back("");
+  extensions.push_back(".gz");
+  Stream *data = Stream::select(Path(path.c_str(), "data"), extensions);
+  if (data != NULL) {
+    rc = data->remove();
   } else {
     rc = 2;
   }
-  delete f;
+  delete data;
   remove(path.c_str());
   return rc;
 }
