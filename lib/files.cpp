@@ -918,7 +918,7 @@ int Stream::extractParams(
   char* write        = NULL;
   bool no_increment  = true;  // Set to re-use character next time round
   bool skip_delims;           // Set to ignore any incoming blank
-  bool check_comment = false; // Set after a blank was found
+  bool check_comment;         // Set after a blank was found
   bool escaped       = false; // Set after a \ was found
   bool was_escaped   = false; // To deal with quoted paths ending in '\' (DOS!)
   char quote         = -1;    // Last quote when decoding, -1 when not decoding
@@ -926,9 +926,11 @@ int Stream::extractParams(
   bool ended_well    = true;  // Set when all quotes were matched
 
   if (flags & flags_empty_params) {
-    skip_delims = false;
+    skip_delims   = false;
+    check_comment = true;
   } else {
-    skip_delims = true;
+    skip_delims   = true;
+    check_comment = false;
   }
 
   do {
