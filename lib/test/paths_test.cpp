@@ -537,7 +537,10 @@ int main(void) {
   my_time++;
   db.open_rw();
 
+   // Also test that we behave correctly when dir exists but is empty
   system("echo blah > test1/cvs/filenew.c");
+  mkdir("test_db/data/0d599f0ec05c3bda8c3b8a68c32a1b47-0", 0755);
+
   rename("testpipe", "test1/testpipe");
   db.setClient("myClient");
   if (! path->parse(db, "test1")) {

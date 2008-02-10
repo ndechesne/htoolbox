@@ -199,6 +199,7 @@ int Data::write(
       Stream *data = Stream::select(Path(final_path, "data"), extensions, &no);
       if (data == NULL) {
         // Need to copy file accross: leave index to current value and exit
+        dest_path = final_path;
         break;
       }
       data->open("r", (no > 0) ? 1 : 0);
