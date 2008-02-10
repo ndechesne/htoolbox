@@ -116,7 +116,7 @@ int Database::merge() {
   }
 
   // Merge with existing list into new one
-  List merge(_d->path.c_str(), "list.part");
+  List merge(Path(_d->path.c_str(), "list.part"));
   if (! merge.open("w")) {
     if (merge.merge(*_d->list, *_d->journal) && (errno != EBUSY)) {
       cerr << "Error: merge failed" << endl;
@@ -195,7 +195,7 @@ int Database::open_ro() {
   }
 
   bool failed = false;
-  _d->list = new List(_d->path.c_str(), "list.ro");
+  _d->list = new List(Path(_d->path.c_str(), "list.ro"));
   _d->journal = NULL;
   if (_d->list->open("r")) {
     cerr << "Error: cannot open list" << endl;
@@ -236,7 +236,7 @@ int Database::open_rw() {
     return -1;
   }
 
-  List list(_d->path.c_str(), "list");
+  List list(Path(_d->path.c_str(), "list"));
 
   // Check DB dir
   switch (_d->data.open((_d->path + "/data").c_str(), true)) {
@@ -272,7 +272,7 @@ int Database::open_rw() {
 
   // Open list
   if (! failed) {
-    _d->list = new List(_d->path.c_str(), "list");
+    _d->list = new List(Path(_d->path.c_str(), "list"));
     if (_d->list->open("r")) {
       cerr << "Error: cannot open list" << endl;
       failed = true;
@@ -286,7 +286,7 @@ int Database::open_rw() {
 
   // Deal with journal
   if (! failed) {
-    _d->journal = new List(_d->path.c_str(), "journal");
+    _d->journal = new List(Path(_d->path.c_str(), "journal"));
 
     // Check previous crash
     if (! _d->journal->open("r")) {
@@ -324,7 +324,7 @@ int Database::open_rw() {
 
   // Open merged list (can fail)
   if (! failed) {
-    _d->merge = new List(_d->path.c_str(), "list.part");
+    _d->merge = new List(Path(_d->path.c_str(), "list.part"));
     if (_d->merge->open("w")) {
       cerr << "Error: cannot open DB merge list" << endl;
       delete _d->merge;

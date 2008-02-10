@@ -115,9 +115,9 @@ int main(void) {
   ClientPath* path = new ClientPath("/home/User");
   Database    db("test_db");
   // Journal
-  List    real_journal("test_db", "journal");
-  List    journal("test_db", "journal~");
-  List    dblist("test_db", "list");
+  List real_journal(Path("test_db", "journal"));
+  List journal(Path("test_db", "journal~"));
+  List dblist(Path("test_db", "list"));
   // Filter
   Filter* bazaar = path->addFilter("and", "bazaar");
   if ((bazaar == NULL)
@@ -757,7 +757,7 @@ int main(void) {
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
-  
+
   int rc = db.close(0);
   system("chmod 755 test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0");
   if (rc) {

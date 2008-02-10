@@ -53,12 +53,7 @@ struct List::Private {
   bool              old_version;
 };
 
-List::List(
-    const char*     dir_path,
-    const char*     name) :
-    Stream(Path(dir_path, name)) {
-  _d = new Private;
-}
+List::List(Path path) : Stream(path), _d(new Private) {}
 
 List::~List() {
   delete _d;

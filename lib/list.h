@@ -34,8 +34,7 @@ class List : public Stream {
     time_t*         timestamp);
 public:
   List(
-    const char*     dir_path,
-    const char*     name = "");
+    Path            path);
   ~List();
   // Open file, for read or write (no append), with compression (cf. Stream)
   int open(
