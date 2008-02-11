@@ -62,8 +62,8 @@ List::~List() {
 int List::open(
     const char*   req_mode,
     int           compression) {
-  const char old_header[] = "# version 2\n";
-  const char header[]     = "# version 3\n";
+  const char old_header[] = "# version 2";
+  const char header[]     = "# version 3";
   int        rc           = 0;
 
   if (Stream::open(req_mode, compression)) {
@@ -71,7 +71,7 @@ int List::open(
   } else
   // Open for write
   if (isWriteable()) {
-    if (write(header, strlen(header)) < 0) {
+    if (Stream::putLine(header) < 0) {
       Stream::close();
       rc = -1;
     }
@@ -158,13 +158,18 @@ ssize_t List::fetchLine(bool use_found) {
       // Empty list
       return _d->line.length();
     case no_data: {
-      // Line contains no re-usable data,
-      ssize_t length = Stream::getLine(_d->line);
+      // Line contains no re-usable data
+      bool    eol;
+      ssize_t length = Stream::getLine(_d->line, &eol);
       if (length < 0) {
         _d->line_status = error;
       } else
       if (length == 0) {
         _d->line_status = unexpected_eof;
+      } else
+      if (! eol) {
+        // All lines end in end-of-line character
+        _d->line_status = error;
       } else
       if (_d->line[0] == '#') {
         // Signal end of file
@@ -386,16 +391,11 @@ int List::getEntry(
       length = fetchLine(true);
     }
 
-    if (length == 0) {
+    if (length <= 0) {
       errno = EUCLEAN;
-      cerr << "unexpected end of file" << endl;
-      return -1;
-    }
-
-    // Check line
-    length--;
-    if ((length < 2) || (_d->line[length] != '\n')) {
-      errno = EUCLEAN;
+      if (length == 0) {
+        cerr << "unexpected end of file" << endl;
+      }
       return -1;
     }
 
@@ -482,7 +482,7 @@ int List::addData(
   int   rc   = 0;
 
   if (node == NULL) {
-    size = asprintf(&line, "\t\t%ld\t-\n", timestamp);
+    size = asprintf(&line, "\t\t%ld\t-", timestamp);
   } else {
     char* temp = NULL;
     size = asprintf(&temp, "\t\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o",
@@ -491,14 +491,14 @@ int List::addData(
     switch (node->type()) {
       case 'f': {
         const char* extra  = ((File*) node)->checksum();
-        size = asprintf(&line, "%s\t%s\n", temp, extra);
+        size = asprintf(&line, "%s\t%s", temp, extra);
       } break;
       case 'l': {
         const char* extra  = ((Link*) node)->link();
-        size = asprintf(&line, "%s\t%s\n", temp, extra);
+        size = asprintf(&line, "%s\t%s", temp, extra);
       } break;
       default:
-        size = asprintf(&line, "%s\n", temp);
+        size = asprintf(&line, "%s", temp);
     }
     free(temp);
   }
@@ -507,7 +507,7 @@ int List::addData(
     _d->line        = line;
     _d->line_status = new_data;
   } else
-  if (Stream::write(line, size) != size) {
+  if (Stream::putLine(line) != size) {
     rc = -1;
   } else {
     _d->line_status = no_data;
@@ -526,7 +526,6 @@ int List::search(
   int     path_cmp;
   int     rc         = 0;
 
-  size_t  client_len = 0;   // Not set
   size_t  path_len   = 0;   // Not set
 
   // Pre-set client comparison result
@@ -537,13 +536,6 @@ int List::search(
   if (client_l[0] == '\0') {
     // No need to compare clients
     _d->client_cmp = 1;
-  } else {
-    // string or line?
-    int len = strlen(client_l);
-    if ((len > 0) && (client_l[len - 1] != '\n')) {
-      // string: signal it by setting its lengh
-      client_len = len;
-    }
   }
 
   // Pre-set path comparison result
@@ -585,14 +577,6 @@ int List::search(
       return -1;
     }
 
-    // Check line
-    if ((rc < 2) || (_d->line[rc - 1] != '\n')) {
-      // Corrupted line
-      cerr << "Corrupted line in list" << endl;
-      errno = EUCLEAN;
-      return -1;
-    }
-
     // End of file
     if (_d->line[0] == '#') {
       // Future searches will return eof too
@@ -603,11 +587,7 @@ int List::search(
     if (_d->line[0] != '\t') {
       // Compare clientes
       if ((client_l != NULL) && (client_l[0] != '\0')) {
-        if ((client_len > 0) && (_d->line.length() == (client_len + 1))) {
-          _d->client_cmp = Path::compare(client_l, _d->line.c_str(), client_len);
-        } else {
-          _d->client_cmp = Path::compare(client_l, _d->line.c_str());
-        }
+        _d->client_cmp = Path::compare(client_l, _d->line.c_str());
       }
       if (_d->client_cmp <= 0)  {
         if (_d->client_cmp < 0) {
@@ -671,7 +651,7 @@ int List::search(
         // Check for exception
         if (strncmp(_d->line.c_str(), "\t\t0\t", 4) == 0) {
           // Get only end of line
-          list->_d->line = _d->line;
+          list->_d->line        = _d->line;
           list->_d->line_status = new_data;
           // Do not copy: merge with following line
           continue;
@@ -682,8 +662,7 @@ int List::search(
           bool obsolete;
           vector<string> params;
 
-          extractParams(_d->line, params, Stream::flags_empty_params, 0,
-            "\t\n");
+          extractParams(_d->line, params, Stream::flags_empty_params, 0, "\t");
 
           // Check expiration
           if (active_data_line) {
@@ -740,11 +719,7 @@ int List::search(
             // Could not write
             return -1;
           }
-          if (list->write(path_l, strlen(path_l)) < 0) {
-            // Could not write
-            return -1;
-          }
-          if ((path_len != 0) && (list->write("\n", 1) < 0)) {
+          if (list->Stream::putLine(path_l) < 0) {
             // Could not write
             return -1;
           }
@@ -753,18 +728,14 @@ int List::search(
          && (client_l[0] != '\0')
          && (path_l != NULL)) {
           // Write client
-          if (list->write(client_l, strlen(client_l)) < 0) {
-            // Could not write
-            return -1;
-          }
-          if ((client_len != 0) && (list->write("\n", 1) < 0)) {
+          if (list->Stream::putLine(client_l) < 0) {
             // Could not write
             return -1;
           }
         }
       } else
       // Our data is here or after, so let's copy if required
-      if (list->write(_d->line.c_str(), _d->line.length()) < 0) {
+      if (list->Stream::putLine(_d->line.c_str()) < 0) {
         // Could not write
         return -1;
       }
@@ -824,16 +795,6 @@ int List::merge(
     // Failed
     if (rc_journal < 0) {
       cerr << "Error reading journal, line " << j_line_no << endl;
-      rc = -1;
-      break;
-    }
-
-    // Check line
-    if ((rc_journal != 0)
-     && ((rc_journal < 2) || (journal._d->line[rc_journal - 1] != '\n'))) {
-      // Corrupted line
-      cerr << "Corruption in journal, line " << j_line_no << endl;
-      errno = EUCLEAN;
       rc = -1;
       break;
     }
@@ -940,7 +901,7 @@ int List::merge(
       // If exception, try to put in list buffer (will succeed) otherwise write
       if (((strncmp(journal._d->line.c_str(), "\t\t0\t", 4) != 0)
         || (list.putLine(journal._d->line.c_str()) < 0))
-       && (write(journal._d->line.c_str(), journal._d->line.length()) < 0)) {
+       && (Stream::putLine(journal._d->line.c_str()) < 0)) {
         // Could not write
         cerr << "Journal copy failed" << endl;
         rc = -1;

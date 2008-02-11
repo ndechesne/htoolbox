@@ -885,7 +885,7 @@ int main(void) {
   delete readfile;
 
 
-  cout << "\nextractParams" << endl;
+  cout << endl << "extractParams" << endl;
   vector<string> *params;
   vector<string>::iterator i;
 
@@ -1102,8 +1102,20 @@ int main(void) {
   cout << endl;
   delete params;
 
+  // And another one missing with empty last argument
+  line = "\t\tf\tblah\t\t";
+  params = new vector<string>;
+  cout << "readline(" << line << "): "
+    << Stream::extractParams(line, *params, Stream::flags_dos_catch
+      | Stream::flags_empty_params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
 
-  cout << "\nFile types" << endl;
+
+  cout << endl << "File types" << endl;
   // File types
   Node *g;
   g = new Node("test1/testfile");
@@ -1278,7 +1290,7 @@ int main(void) {
   delete l1;
 
 
-  cout << "\ngetParams" << endl;
+  cout << endl << "getParams" << endl;
   Stream config("etc/hbackup.conf");
   if (! config.open("r")) {
     int rc = 1;
@@ -1298,7 +1310,7 @@ int main(void) {
   }
 
 
-  cout << "\nStream select" << endl;
+  cout << endl << "Stream select" << endl;
   Stream* selected;
   unsigned int which;
   vector<string> extensions;

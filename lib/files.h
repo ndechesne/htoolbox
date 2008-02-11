@@ -345,9 +345,10 @@ public:
   ssize_t write(
     const void*     buffer,
     size_t          count);
-  // Read a line of characters from file, end of line character not removed!
+  // Read a line of characters from file until end of line or file
   virtual ssize_t getLine(
-    string&         buffer);
+    string&         buffer,
+    bool*           end_of_line_found = NULL);
   // Write line of characters to file and add end of line character
   ssize_t putLine(
     const char*     buffer);

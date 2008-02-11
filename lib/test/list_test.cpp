@@ -120,21 +120,24 @@ int main(void) {
   my_time++;
 
   node = NULL;
-  journal.open("r");
-  if (journal.isEmpty()) {
-    cout << "Journal is empty" << endl;
-  } else
-  while ((rc = journal.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
-  }
-  journal.close();
-  if (rc < 0) {
-    cerr << "Failed to read journal" << endl;
-  } else
-  // Check that we obtain the end of file again
-  if (rc == 0) {
-    if (journal.getEntry(&ts, &client, &path, &node) != 0) {
-      cerr << "Error reading end of journal again" << endl;
+  if (journal.open("r") < 0) {
+    cerr << "Failed to open journal: " << strerror(errno) << endl;
+  } else {
+    if (journal.isEmpty()) {
+      cout << "Journal is empty" << endl;
+    } else
+    while ((rc = journal.getEntry(&ts, &client, &path, &node)) > 0) {
+      showLine(ts, client, path, node);
+    }
+    journal.close();
+    if (rc < 0) {
+      cerr << "Failed to read journal" << endl;
+    } else
+    // Check that we obtain the end of file again
+    if (rc == 0) {
+      if (journal.getEntry(&ts, &client, &path, &node) != 0) {
+        cerr << "Error reading end of journal again" << endl;
+      }
     }
   }
 
@@ -778,7 +781,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  string client3("client3\n");
+  string client3("client3");
   if (dblist.search(client3.c_str(), "", &merge) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
