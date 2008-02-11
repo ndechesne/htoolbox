@@ -402,6 +402,11 @@ int main(void) {
       cout << "write failed: " << strerror(errno) << endl;
     }
     write_size += size;
+    size = writefile->putLine("line");
+    if (size < 0) {
+      cout << "write failed: " << strerror(errno) << endl;
+    }
+    write_size += size;
     if (writefile->close()) cout << "Error closing file" << endl;
     cout << "write size: " << write_size << " (" << writefile->size()
       << "), checksum: " << writefile->checksum() << endl;

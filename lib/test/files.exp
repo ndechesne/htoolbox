@@ -123,8 +123,9 @@ read size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 
 Test: file write (with cache)
 Progress: 100.0%
-write size: 7 (7), checksum: aa5f704d9a0eccde71070d8697a8c1ff
+write size: 12 (12), checksum: a0c5dee7d6c447468bcb866b0d3210e6
 123abc
+line
 
 Test: file copy (read + write (no cache))
 Progress:   3.9%

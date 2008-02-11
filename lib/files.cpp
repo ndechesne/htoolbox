@@ -736,6 +736,18 @@ ssize_t Stream::getLine(string& buffer) {
   return buffer.length();
 }
 
+ssize_t Stream::putLine(
+    const char*     buffer) {
+  ssize_t size = write(buffer, strlen(buffer));
+  if (buffer < 0) {
+    return -1;
+  }
+  if (write("\n", 1) != 1) {
+    return -1;
+  }
+  return size + 1;
+}
+
 void Stream::setCancelCallback(cancel_f cancel) {
   _d->cancel_callback = cancel;
 }
