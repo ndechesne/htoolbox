@@ -26,18 +26,20 @@
 
 namespace hbackup {
 
+namespace report {
+
+enum Level {
+  // These go to error output
+  alert,        // Your're dead
+  error,        // Big issue, but might recover
+  // These go to standard output
+  warning,      // Non-blocking issue
+  info,         // Normal information, typically if 'quiet' not selected
+  verbose,      // Extra information, typically if 'verbose' selected
+  debug         // Developper information, typically if 'debug' selected
+};
+
 class Report {
-public:
-  enum Level {
-    // These go to error output
-    alert,
-    error,
-    // These go to standard output
-    warning,
-    info,
-    debug
-  };
-private:
   static Report*    _self;
   static Level      _level;
 protected:
@@ -48,8 +50,18 @@ public:
   // Set output verbosity level
   Level operator=(Level level);
   // Report text, at given level
-  static ostream& out(Level level = info);
+  static ostream& out(Level level);
 };
+
+inline void setOutLevel(Level level) {
+  *Report::self() = level;
+}
+
+inline ostream& out(Level level = info) {
+  return Report::self()->out(level);
+}
+
+}
 
 }
 

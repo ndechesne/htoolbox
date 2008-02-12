@@ -24,6 +24,7 @@ using namespace std;
 #include "hbackup.h"
 
 using namespace hbackup;
+using namespace report;
 
 int hbackup::verbosity(void) {
   return 0;
@@ -37,57 +38,57 @@ int main(void) {
   cout << "Report tests" << endl;
 
   cout << endl << "Default behaviour" << endl;
-  Report::out() << "default level" << endl;
-  Report::out(Report::alert) << "alert level" << endl;
-  Report::out(Report::error) << "error level" << endl;
-  Report::out(Report::warning) << "warning level" << endl;
-  Report::out(Report::info) << "info level" << endl;
-  Report::out(Report::debug) << "debug level" << endl;
+  out() << "default level" << endl;
+  out(alert) << "alert level" << endl;
+  out(error) << "error level" << endl;
+  out(warning) << "warning level" << endl;
+  out(info) << "info level" << endl;
+  out(debug) << "debug level" << endl;
 
   cout << endl << "Verbosity level: alert" << endl;
-  *Report::self() = Report::alert;
-  Report::out() << "default level" << endl;
-  Report::out(Report::alert) << "alert level" << endl;
-  Report::out(Report::error) << "error level" << endl;
-  Report::out(Report::warning) << "warning level" << endl;
-  Report::out(Report::info) << "info level" << endl;
-  Report::out(Report::debug) << "debug level" << endl;
+  setOutLevel(alert);
+  out() << "default level" << endl;
+  out(alert) << "alert level" << endl;
+  out(error) << "error level" << endl;
+  out(warning) << "warning level" << endl;
+  out(info) << "info level" << endl;
+  out(debug) << "debug level" << endl;
 
   cout << endl << "Verbosity level: error" << endl;
-  *Report::self() = Report::error;
-  Report::out() << "default level" << endl;
-  Report::out(Report::alert) << "alert level" << endl;
-  Report::out(Report::error) << "error level" << endl;
-  Report::out(Report::warning) << "warning level" << endl;
-  Report::out(Report::info) << "info level" << endl;
-  Report::out(Report::debug) << "debug level" << endl;
+  setOutLevel(error);
+  out() << "default level" << endl;
+  out(alert) << "alert level" << endl;
+  out(error) << "error level" << endl;
+  out(warning) << "warning level" << endl;
+  out(info) << "info level" << endl;
+  out(debug) << "debug level" << endl;
 
   cout << endl << "Verbosity level: warning" << endl;
-  *Report::self() = Report::warning;
-  Report::out() << "default level" << endl;
-  Report::out(Report::alert) << "alert level" << endl;
-  Report::out(Report::error) << "error level" << endl;
-  Report::out(Report::warning) << "warning level" << endl;
-  Report::out(Report::info) << "info level" << endl;
-  Report::out(Report::debug) << "debug level" << endl;
+  setOutLevel(warning);
+  out() << "default level" << endl;
+  out(alert) << "alert level" << endl;
+  out(error) << "error level" << endl;
+  out(warning) << "warning level" << endl;
+  out(info) << "info level" << endl;
+  out(debug) << "debug level" << endl;
 
   cout << endl << "Verbosity level: info" << endl;
-  *Report::self() = Report::info;
-  Report::out() << "default level" << endl;
-  Report::out(Report::alert) << "alert level" << endl;
-  Report::out(Report::error) << "error level" << endl;
-  Report::out(Report::warning) << "warning level" << endl;
-  Report::out(Report::info) << "info level" << endl;
-  Report::out(Report::debug) << "debug level" << endl;
+  setOutLevel(info);
+  out() << "default level" << endl;
+  out(alert) << "alert level" << endl;
+  out(error) << "error level" << endl;
+  out(warning) << "warning level" << endl;
+  out(info) << "info level" << endl;
+  out(debug) << "debug level" << endl;
 
   cout << endl << "Verbosity level: debug" << endl;
-  *Report::self() = Report::debug;
-  Report::out() << "default level" << endl;
-  Report::out(Report::alert) << "alert level" << endl;
-  Report::out(Report::error) << "error level" << endl;
-  Report::out(Report::warning) << "warning level" << endl;
-  Report::out(Report::info) << "info level" << endl;
-  Report::out(Report::debug) << "debug level" << endl;
+  setOutLevel(debug);
+  out() << "default level" << endl;
+  out(alert) << "alert level" << endl;
+  out(error) << "error level" << endl;
+  out(warning) << "warning level" << endl;
+  out(info) << "info level" << endl;
+  out(debug) << "debug level" << endl;
 
   cout << endl << "End of tests" << endl;
 

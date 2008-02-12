@@ -23,6 +23,7 @@ using namespace std;
 #include "report.h"
 
 using namespace hbackup;
+using namespace report;
 
 struct nullstream : std::ostream {
   struct nullbuf : std::streambuf {
@@ -35,9 +36,9 @@ struct nullstream : std::ostream {
 
 static nullstream null;
 
-Report*      Report::_self  = NULL;
+Report* Report::_self  = NULL;
 // Display all non-debug messages
-Report::Level Report::_level = info;
+Level   Report::_level = info;
 
 Report* Report::self() {
   if (_self == NULL) {
@@ -46,7 +47,7 @@ Report* Report::self() {
   return _self;
 }
 
-Report::Level Report::operator=(Level level) {
+Level Report::operator=(Level level) {
   Report* report = Report::self();
   report->_level = level;
   return level;
@@ -65,10 +66,12 @@ ostream& Report::out(Level level) {
         return cout << "Warning: ";
       case info:
         return cout;
+      case verbose:
+        return cout << " -> ";
       case debug:
         return cout << "debug: ";
-      default:
-        return cout << "???: ";
     }
   }
+  // g++ knows I dealt with all cases (no warning for switch), but still warns
+  return null;
 }
