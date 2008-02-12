@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2007  Herve Fache
+     Copyright (C) 2006-2008  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -128,7 +128,7 @@ int ClientPath::recurse(
               give_up = true;
             }
           }
-          
+
           // For directory, recurse into it
           if ((*i)->type() == 'd') {
             rem_path[last] = '/';

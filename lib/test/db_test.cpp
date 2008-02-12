@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2007  Herve Fache
+     Copyright (C) 2006-2008  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -65,8 +65,6 @@ public:
     return Database::crawl(dir, checksumPart, thorough, checksums);
   }
 };
-
-static int verbose = 4;
 
 int hbackup::verbosity(void) {
   return verbose;

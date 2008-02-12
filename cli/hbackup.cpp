@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2007  Herve Fache
+     Copyright (C) 2006-2008  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -100,7 +100,7 @@ int main(int argc, char **argv) {
   // Analyse arguments
   try {
     // Description
-    CmdLine cmd(PACKAGE_NAME " (c) 2006-2007 Hervé Fache", ' ', VERSION);
+    CmdLine cmd(PACKAGE_NAME " (c) 2006-2008 Hervé Fache", ' ', VERSION);
     MyOutput output;
     cmd.setOutput(&output);
 

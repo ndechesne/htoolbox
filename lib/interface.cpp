@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2007  Herve Fache
+     Copyright (C) 2007-2008  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -149,11 +149,11 @@ int HBackup::readConfig(const char* config_path) {
   out(verbose) << "Reading configuration file '" << config_path << "'" << endl;
   int rc = config.read(config_file, Stream::flags_accept_cr_lf);
   config_file.close();
-  
+
   if (rc < 0) {
     return -1;
   }
-  
+
   Client* client = NULL;
   Filter* filter = NULL;
   ConfigLine* params;
