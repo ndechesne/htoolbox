@@ -19,6 +19,8 @@
 #ifndef _HBACKUP_H
 #define _HBACKUP_H
 
+#include <list>
+
 namespace hbackup {
   //! Verbosity level
   extern int verbosity();
