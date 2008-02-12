@@ -24,29 +24,27 @@ using namespace std;
 
 using namespace hbackup;
 
-Report*      Report::_instance = NULL;
+Report*      Report::_self  = NULL;
 // Display all non-debug messages
-Report::Type Report::_verb     = info;
+Report::Type Report::_level = info;
 
-Report* Report::instance() {
-  if (_instance == NULL) {
-    _instance = new Report;
+Report* Report::self() {
+  if (_self == NULL) {
+    _self = new Report;
   }
-  return _instance;
+  return _self;
 }
 
-Report::Type Report::verbosity(Type verb) {
-  Type last = _verb;
-  if (verb != none) {
-    _verb     = verb;
-  }
-  return last;
+Report::Type Report::operator=(Type level) {
+  Report* report = Report::self();
+  report->_level = level;
+  return level;
 }
 
 int Report::report(
     const char*     text,
-    Type            type) const {
-  if (type > _verb) {
+    Type            type) {
+  if (type > _level) {
     // Message not displayed
     return 1;
   }
@@ -70,4 +68,22 @@ int Report::report(
       cout << "???: " << text << endl;
   }
   return 0;
+}
+
+int Report::out(
+    const char*     text,
+    Type            type) {
+  return self()->report(text, type);
+}
+
+int Report::out(
+    string&         text,
+    Type            type) {
+  return out(text.c_str(), type);
+}
+
+int Report::out(
+    stringstream&   text,
+    Type            type) {
+  return out(text.str().c_str(), type);
 }

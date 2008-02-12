@@ -21,6 +21,9 @@
 #ifndef REPORT_H
 #define REPORT_H
 
+#include <string>
+#include <sstream>
+
 namespace hbackup {
 
 class Report {
@@ -37,19 +40,29 @@ public:
     debug
   };
 private:
-  static Report*    _instance;
-  static Type       _verb;
+  static Report*    _self;
+  static Type       _level;
 protected:
   Report() {}
 public:
   // Create/get current instance of this singleton
-  static Report* instance();
+  static Report* self();
   // Set output verbosity level
-  Type verbosity(Type level = none);
-  // Report text
-  int report(
+  Type operator=(Type level);
+  // Report text, giving instance
+  static int report(
     const char*     text,
-    Type            type = info) const;
+    Type            type = info);
+  // Report text
+  static int out(
+    const char*     text,
+    Type            type = info);
+  static int out(
+    string&         text,
+    Type            type = info);
+  static int out(
+    stringstream&   text,
+    Type            type = info);
 };
 
 }

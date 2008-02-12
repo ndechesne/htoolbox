@@ -58,4 +58,36 @@ ALERT! alert level
 Error: error level
 ???: none level
 
+Two instances and direct access
+
+Verbosity level (second instance): debug
+default level
+ALERT! alert level
+Error: error level
+Warning: warning level
+info level
+debug: debug level
+???: none level
+
+Verbosity level (first instance): error
+ALERT! alert level
+Error: error level
+???: none level
+
+Two instances and direct access via out()
+
+Verbosity level (second instance): debug
+default level
+ALERT! alert level
+Error: error level
+Warning: warning level
+info level
+debug: debug level
+???: none level
+
+Verbosity level (no instance): error
+ALERT! alert level
+Error: error level
+???: none level
+
 End of tests
