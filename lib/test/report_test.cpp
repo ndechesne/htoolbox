@@ -20,8 +20,8 @@
 
 using namespace std;
 
-#include "report.h"
 #include "hbackup.h"
+#include "report.h"
 
 using namespace hbackup;
 using namespace report;

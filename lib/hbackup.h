@@ -23,6 +23,17 @@
 
 namespace hbackup {
   //! Verbosity level
+  enum VerbosityLevel {
+    // These go to error output
+    alert,        /*!< Your're dead */
+    error,        /*!< Big issue, but might recover */
+    // These go to standard output
+    warning,      /*!< Non-blocking issue */
+    info,         /*!< Normal information, typically if 'quiet' not selected */
+    verbose,      /*!< Extra information, typically if 'verbose' selected */
+    debug         /*!< Developper information, typically if 'debug' selected */
+  };
+
   extern int verbosity();
 
   //! Termination required (string is for debug purposes only)
@@ -42,6 +53,12 @@ namespace hbackup {
     HBackup();
     //! \brief Destructor
     ~HBackup();
+    //! \brief Set verbosity level
+    /*!
+      Sets the level of messages that the use should see
+      \param level        the verbosity level
+    */
+    void setVerbosityLevel(VerbosityLevel level);
     //! \brief Specify client
     /*!
       - Backup: adds specific client(s) to backup (excludes all non other

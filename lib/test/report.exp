@@ -32,6 +32,6 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
-debug: debug level
+debug level
 
 End of tests

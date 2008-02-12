@@ -15,6 +15,9 @@ HBackup (c) 2006-2007 Hervé Fache
   -r <directory>,  --restore <directory>
     Restore to directory
 
+  -q,  --quiet
+    Be quiet
+
   -P <path>,  --path <path>
     Specify path
 
@@ -64,6 +67,9 @@ HBackup (c) 2006-2007 Hervé Fache
 
   -r <directory>,  --restore <directory>
     Restore to directory
+
+  -q,  --quiet
+    Be quiet
 
   -P <path>,  --path <path>
     Specify path

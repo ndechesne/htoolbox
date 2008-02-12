@@ -28,38 +28,23 @@ namespace hbackup {
 
 namespace report {
 
-enum Level {
-  // These go to error output
-  alert,        // Your're dead
-  error,        // Big issue, but might recover
-  // These go to standard output
-  warning,      // Non-blocking issue
-  info,         // Normal information, typically if 'quiet' not selected
-  verbose,      // Extra information, typically if 'verbose' selected
-  debug         // Developper information, typically if 'debug' selected
-};
-
 class Report {
   static Report*    _self;
-  static Level      _level;
+  static VerbosityLevel      _level;
 protected:
   Report() {}
 public:
   // Create/get current instance of this singleton
   static Report* self();
   // Set output verbosity level
-  Level operator=(Level level);
+  VerbosityLevel operator=(VerbosityLevel level);
   // Report text, at given level
-  static ostream& out(Level level);
+  static ostream& out(VerbosityLevel level);
 };
 
-inline void setOutLevel(Level level) {
-  *Report::self() = level;
-}
+extern void setOutLevel(VerbosityLevel level);
 
-inline ostream& out(Level level = info) {
-  return Report::self()->out(level);
-}
+extern ostream& out(VerbosityLevel level = info);
 
 }
 

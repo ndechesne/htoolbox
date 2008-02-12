@@ -133,6 +133,10 @@ int main(int argc, char **argv) {
     ValueArg<string> pathArg("P", "path", "Specify path",
       false, "", "path", cmd);
 
+    // Quiet
+    SwitchArg quietSwitch("q", "quiet", "Be quiet",
+      cmd, false);
+
     // Restore
     ValueArg<string> restoreArg("r", "restore", "Restore to directory",
       false, "", "directory", cmd);
@@ -156,14 +160,26 @@ int main(int argc, char **argv) {
     // Parse command line
     cmd.parse(argc, argv);
 
+
+    // Set verbosity level to info
+    hbackup.setVerbosityLevel(hbackup::info);
+
+    // Set verbosity level to quiet
+    if (quietSwitch.getValue()) {
+      verbose = 0;
+      hbackup.setVerbosityLevel(hbackup::warning);
+    }
+
     // Set verbosity level to verbose
     if (verboseSwitch.getValue()) {
       verbose = 1;
+      hbackup.setVerbosityLevel(hbackup::verbose);
     }
 
     // Set verbosity level to debug
     if (debugSwitch.getValue()) {
       verbose = 2;
+      hbackup.setVerbosityLevel(hbackup::debug);
     }
 
     // Report specified clients

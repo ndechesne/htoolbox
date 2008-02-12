@@ -22,7 +22,9 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"
@@ -30,9 +32,9 @@ using namespace std;
 #include "db.h"
 #include "paths.h"
 #include "clients.h"
-#include "hbackup.h"
 
 using namespace hbackup;
+using namespace report;
 
 static bool killed  = false;
 static bool killall = false;
@@ -55,6 +57,8 @@ int hbackup::terminating(const char* function) {
 
 int main(void) {
   HBackup* hbackup;
+
+setOutLevel(debug);
 
 #if 0
   cout << endl << "Test: wrong config file" << endl;

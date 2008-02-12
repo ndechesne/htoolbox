@@ -32,7 +32,7 @@ using namespace hbackup;
 
 enum Status {
   unexpected_eof = -2,      // unexpected end of file
-  error,                    // an error occured
+  _error,                    // an error occured
   empty,                    // list is empty
   no_data,                  // line contains no valid data
   cached_data,              // line contains searched-for data
@@ -99,7 +99,7 @@ int List::open(
     }
     _d->line_status = no_data;
     fetchLine();
-    if ((_d->line_status == error) || (_d->line_status == unexpected_eof)) {
+    if ((_d->line_status == _error) ||  (_d->line_status == unexpected_eof)) {
       rc = -1;
     } else
     if (_d->line_status == no_data) {
@@ -162,14 +162,14 @@ ssize_t List::fetchLine(bool use_found) {
       bool    eol;
       ssize_t length = Stream::getLine(_d->line, &eol);
       if (length < 0) {
-        _d->line_status = error;
+        _d->line_status = _error;
       } else
       if (length == 0) {
         _d->line_status = unexpected_eof;
       } else
       if (! eol) {
         // All lines end in end-of-line character
-        _d->line_status = error;
+        _d->line_status = _error;
       } else
       if (_d->line[0] == '#') {
         // Signal end of file
@@ -187,7 +187,7 @@ ssize_t List::fetchLine(bool use_found) {
     default:
       // Error
       _d->line_status = no_data;
-      return error;
+      return _error;
   }
 }
 

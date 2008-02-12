@@ -23,15 +23,17 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "configuration.h"
 #include "conditions.h"
 #include "filters.h"
 #include "db.h"
 #include "clients.h"
-#include "hbackup.h"
 
 using namespace hbackup;
+using namespace report;
 
 #define DEFAULT_DB_PATH "/backup"
 
@@ -65,6 +67,10 @@ HBackup::~HBackup() {
   delete _d;
 }
 
+void HBackup::setVerbosityLevel(VerbosityLevel level) {
+  setOutLevel(level);
+}
+
 int HBackup::addClient(const char* name) {
   int cmp = 1;
   list<string>::iterator client = _d->selected_clients.begin();
@@ -73,7 +79,7 @@ int HBackup::addClient(const char* name) {
     client++;
   }
   if (cmp == 0) {
-    cerr << "Error: client already selected: " << name << endl;
+    out(error) << "Error: client already selected: " << name << endl;
     return -1;
   }
   _d->selected_clients.insert(client, name);
@@ -101,7 +107,7 @@ int HBackup::readConfig(const char* config_path) {
   Stream config_file(config_path);
 
   if (config_file.open("r")) {
-    cerr << strerror(errno) << ": " << config_path << endl;
+    out(error) << strerror(errno) << ": " << config_path << endl;
     return -1;
   }
   // Set up config syntax and grammar
@@ -140,9 +146,7 @@ int HBackup::readConfig(const char* config_path) {
   }
 
   /* Read configuration file */
-  if (verbosity() > 1) {
-    cout << " -> Reading configuration file '" << config_path << "'" << endl;
-  }
+  out(verbose) << "Reading configuration file '" << config_path << "'" << endl;
   int rc = config.read(config_file, Stream::flags_accept_cr_lf);
   config_file.close();
   
@@ -162,12 +166,10 @@ int HBackup::readConfig(const char* config_path) {
     } else
     if ((*params)[0] == "filter") {
       filter = _d->addFilter((*params)[1], (*params)[2]);
-      if (verbosity() > 1) {
-        cout << " --> global filter " << (*params)[1] << " " << (*params)[2]
-          << endl;
-      }
+      out(debug) << " --> global filter " << (*params)[1] << " "
+        << (*params)[2] << endl;
       if (filter == NULL) {
-        cerr << "Error: in file " << config_path << ", line "
+        out(error) << "Error: in file " << config_path << ", line "
           << (*params).lineNo() << " unsupported filter type: "
           << (*params)[1] << endl;
         return -1;
@@ -188,38 +190,32 @@ int HBackup::readConfig(const char* config_path) {
       if (filter_type == "filter") {
         Filter* subfilter = _d->findFilter((*params)[2]);
         if (subfilter == NULL) {
-          cerr << "Error: in file " << config_path << ", line "
+          out(error) << "Error: in file " << config_path << ", line "
             << (*params).lineNo() << " filter not found: " << (*params)[2]
             << endl;
           return -1;
         }
-        if (verbosity() > 1) {
-          cout << " ---> condition ";
-          if (negated) {
-            cout << "not ";
-          }
-          cout << filter_type << " " << subfilter->name() << endl;
-        }
+        out(debug) << " ---> condition ";
+        if (negated) out(debug) << "not ";
+        out(debug) << filter_type << " " << subfilter->name() << endl;
         filter->add(new Condition(Condition::subfilter, subfilter, negated));
       } else {
         switch (filter->add(filter_type, (*params)[2], negated)) {
           case 1:
-            cerr << "Error: in file " << config_path << ", line "
+            out(error) << "Error: in file " << config_path << ", line "
               << (*params).lineNo() << " unsupported condition type: "
               << (*params)[1] << endl;
             return -1;
             break;
           case 2:
-            cerr << "Error: in file " << config_path << ", line "
+            out(error) << "Error: in file " << config_path << ", line "
               << (*params).lineNo() << " no filter defined" << endl;
             return -1;
             break;
           default:
-            if (verbosity() > 1) {
-              cout << " ---> condition ";
-              if (negated) cout << "not ";
-              cout << filter_type << " " << (*params)[2] << endl;
-            }
+            out(debug) << " ---> condition ";
+            if (negated) out(debug) << "not ";
+            out(debug) << filter_type << " " << (*params)[2] << endl;
         }
       }
     } else
@@ -238,7 +234,8 @@ int HBackup::readConfig(const char* config_path) {
         i++;
       }
       if (cmp == 0) {
-        cerr << "Error: client already selected: " << (*params)[2] << endl;
+        out(error) << "Error: client already selected: " << (*params)[2]
+          << endl;
         return -1;
       }
       _d->clients.insert(i, client);
@@ -256,22 +253,18 @@ int HBackup::readConfig(const char* config_path) {
       } else
       if ((*params)[0] == "config") {
         client->setListfile((*params)[1].c_str());
-        if (verbosity() > 1) {
-          cout << " ---> config file: " << (*params)[1] << endl;
-        }
+        out(debug) << " ---> config file: " << (*params)[1] << endl;
       } else
       if ((*params)[0] == "expire") {
         errno = 0;
         int expire = strtol((*params)[1].c_str(), NULL, 10);
         if (errno != 0) {
-          cerr << "Error: in file " << config_path << ", line "
+          out(error) << "Error: in file " << config_path << ", line "
             << (*params).lineNo() << " '" << (*params)[0]
             << "' expects a number as argument" << endl;
           return -1;
         }
-        if (verbosity() > 1) {
-          cout << " ---> expiry: " << expire << " day(s)" << endl;
-        }
+        out(debug) << " ---> expiry: " << expire << " day(s)" << endl;
         client->setExpire(expire * 3600 * 24);
       }
     }

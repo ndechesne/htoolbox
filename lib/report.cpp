@@ -20,6 +20,7 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "report.h"
 
 using namespace hbackup;
@@ -38,7 +39,7 @@ static nullstream null;
 
 Report* Report::_self  = NULL;
 // Display all non-debug messages
-Level   Report::_level = info;
+VerbosityLevel   Report::_level = info;
 
 Report* Report::self() {
   if (_self == NULL) {
@@ -47,13 +48,13 @@ Report* Report::self() {
   return _self;
 }
 
-Level Report::operator=(Level level) {
+VerbosityLevel Report::operator=(VerbosityLevel level) {
   Report* report = Report::self();
   report->_level = level;
   return level;
 }
 
-ostream& Report::out(Level level) {
+ostream& Report::out(VerbosityLevel level) {
   if (level > _level) {
     return null;
   } else {
@@ -69,9 +70,17 @@ ostream& Report::out(Level level) {
       case verbose:
         return cout << " -> ";
       case debug:
-        return cout << "debug: ";
+        return cout;
     }
   }
   // g++ knows I dealt with all cases (no warning for switch), but still warns
   return null;
+}
+
+void report::setOutLevel(VerbosityLevel level) {
+  *Report::self() = level;
+}
+
+ostream& report::out(VerbosityLevel level) {
+  return Report::self()->out(level);
 }
