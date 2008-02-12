@@ -34,13 +34,13 @@ using namespace std;
 // DEFAULTS
 
 // Verbosity
-static int verbose = 0;
+static int verbose_level = 0;
 
 // Signal received?
 static int killed = 0;
 
 int hbackup::verbosity(void) {
-  return verbose;
+  return verbose_level;
 }
 
 int hbackup::terminating(const char* unused) {
@@ -166,19 +166,19 @@ int main(int argc, char **argv) {
 
     // Set verbosity level to quiet
     if (quietSwitch.getValue()) {
-      verbose = 0;
+      verbose_level = 0;
       hbackup.setVerbosityLevel(hbackup::warning);
     }
 
     // Set verbosity level to verbose
     if (verboseSwitch.getValue()) {
-      verbose = 1;
+      verbose_level = 1;
       hbackup.setVerbosityLevel(hbackup::verbose);
     }
 
     // Set verbosity level to debug
     if (debugSwitch.getValue()) {
-      verbose = 2;
+      verbose_level = 2;
       hbackup.setVerbosityLevel(hbackup::debug);
     }
 
