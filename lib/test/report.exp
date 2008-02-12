@@ -1,29 +1,23 @@
 Report tests
 
-One instance
-
 Default behaviour
 default level
 ALERT! alert level
 Error: error level
 Warning: warning level
 info level
-???: none level
 
 Verbosity level: alert
 ALERT! alert level
-???: none level
 
 Verbosity level: error
 ALERT! alert level
 Error: error level
-???: none level
 
 Verbosity level: warning
 ALERT! alert level
 Error: error level
 Warning: warning level
-???: none level
 
 Verbosity level: info
 default level
@@ -31,7 +25,6 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
-???: none level
 
 Verbosity level: debug
 default level
@@ -40,54 +33,5 @@ Error: error level
 Warning: warning level
 info level
 debug: debug level
-???: none level
-
-Two instances
-
-Verbosity level: unchanged
-default level
-ALERT! alert level
-Error: error level
-Warning: warning level
-info level
-debug: debug level
-???: none level
-
-Verbosity level (first instance): error
-ALERT! alert level
-Error: error level
-???: none level
-
-Two instances and direct access
-
-Verbosity level (second instance): debug
-default level
-ALERT! alert level
-Error: error level
-Warning: warning level
-info level
-debug: debug level
-???: none level
-
-Verbosity level (first instance): error
-ALERT! alert level
-Error: error level
-???: none level
-
-Two instances and direct access via out()
-
-Verbosity level (second instance): debug
-default level
-ALERT! alert level
-Error: error level
-Warning: warning level
-info level
-debug: debug level
-???: none level
-
-Verbosity level (no instance): error
-ALERT! alert level
-Error: error level
-???: none level
 
 End of tests

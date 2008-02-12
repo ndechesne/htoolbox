@@ -28,9 +28,7 @@ namespace hbackup {
 
 class Report {
 public:
-  enum Type {
-    // This is the impossible value
-    none,
+  enum Level {
     // These go to error output
     alert,
     error,
@@ -41,28 +39,16 @@ public:
   };
 private:
   static Report*    _self;
-  static Type       _level;
+  static Level      _level;
 protected:
   Report() {}
 public:
   // Create/get current instance of this singleton
   static Report* self();
   // Set output verbosity level
-  Type operator=(Type level);
-  // Report text, giving instance
-  static int report(
-    const char*     text,
-    Type            type = info);
-  // Report text
-  static int out(
-    const char*     text,
-    Type            type = info);
-  static int out(
-    string&         text,
-    Type            type = info);
-  static int out(
-    stringstream&   text,
-    Type            type = info);
+  Level operator=(Level level);
+  // Report text, at given level
+  static ostream& out(Level level = info);
 };
 
 }

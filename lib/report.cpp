@@ -24,9 +24,20 @@ using namespace std;
 
 using namespace hbackup;
 
+struct nullstream : std::ostream {
+  struct nullbuf : std::streambuf {
+    int overflow(int c) {
+      return traits_type::not_eof(c);
+    }
+  } m_sbuf;
+  nullstream() : std::ios(&m_sbuf), std::ostream(&m_sbuf) {}
+};
+
+static nullstream null;
+
 Report*      Report::_self  = NULL;
 // Display all non-debug messages
-Report::Type Report::_level = info;
+Report::Level Report::_level = info;
 
 Report* Report::self() {
   if (_self == NULL) {
@@ -35,55 +46,29 @@ Report* Report::self() {
   return _self;
 }
 
-Report::Type Report::operator=(Type level) {
+Report::Level Report::operator=(Level level) {
   Report* report = Report::self();
   report->_level = level;
   return level;
 }
 
-int Report::report(
-    const char*     text,
-    Type            type) {
-  if (type > _level) {
-    // Message not displayed
-    return 1;
+ostream& Report::out(Level level) {
+  if (level > _level) {
+    return null;
+  } else {
+    switch (level) {
+      case alert:
+        return cerr << "ALERT! ";
+      case error:
+        return cerr << "Error: ";
+      case warning:
+        return cout << "Warning: ";
+      case info:
+        return cout;
+      case debug:
+        return cout << "debug: ";
+      default:
+        return cout << "???: ";
+    }
   }
-  switch (type) {
-    case alert:
-      cerr << "ALERT! " << text << endl;
-      break;
-    case error:
-      cerr << "Error: " << text << endl;
-      break;
-    case warning:
-      cout << "Warning: " << text << endl;
-      break;
-    case info:
-      cout << text << endl;
-      break;
-    case debug:
-      cout << "debug: " << text << endl;
-      break;
-    default:
-      cout << "???: " << text << endl;
-  }
-  return 0;
-}
-
-int Report::out(
-    const char*     text,
-    Type            type) {
-  return self()->report(text, type);
-}
-
-int Report::out(
-    string&         text,
-    Type            type) {
-  return out(text.c_str(), type);
-}
-
-int Report::out(
-    stringstream&   text,
-    Type            type) {
-  return out(text.str().c_str(), type);
 }
