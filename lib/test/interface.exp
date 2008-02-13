@@ -345,7 +345,7 @@ Test: specify clients
  ---> Expiry: 1 day(s)
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
-Backup was interrupted in a previous run, finishing up...
+Warning: Backup was interrupted in a previous run, finishing up...
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'

@@ -24,10 +24,11 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "list.h"
 #include "db.h"
-#include "hbackup.h"
 
 using namespace hbackup;
 
@@ -38,7 +39,7 @@ using namespace hbackup;
 //   unlock:      tested
 //   merge:       tested in paths
 //   path:        tested in paths
-//   open:        tested in paths
+//   open:        tested in paths, but not where DB list is gone
 //   open(ro):    tested
 //   close:       tested in paths
 //   close(ro):   tested
@@ -106,6 +107,7 @@ int main(void) {
   Node*   node   = NULL;
   time_t  ts;
 
+  report::setOutLevel(debug);
   DbTest db("test_db");
 
   if (db.isOpen()) {

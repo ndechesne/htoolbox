@@ -745,7 +745,7 @@ myClient
 [ 3] f 512000 644 
 
 As previous with subdir/testfile readable
-Backup was interrupted in a previous run, finishing up...
+Warning: Backup was interrupted in a previous run, finishing up...
 Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
@@ -4000,7 +4000,7 @@ myClient
 	/home/User/testdir/evolocal.odb
 [19] -
 unexpected end of file
-Backup was interrupted in a previous run, finishing up...
+Warning: Backup was interrupted in a previous run, finishing up...
 Unexpected end of journal, line 29
 Database open in read/write mode
 

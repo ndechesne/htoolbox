@@ -33,13 +33,15 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "list.h"
 #include "data.h"
 #include "db.h"
-#include "hbackup.h"
 
 using namespace hbackup;
+using namespace report;
 
 struct Database::Private {
   string            path;
@@ -73,14 +75,14 @@ int Database::lock() {
       // Find out whether process is still running, if not, reset lock
       kill(pid, 0);
       if (errno == ESRCH) {
-        cerr << "Warning: lock reset" << endl;
+        out(warning) << "Lock reset" << endl;
         std::remove(lock_path.c_str());
       } else {
-        cerr << "Error: lock taken by process with pid " << pid << endl;
+        out(error) << "Lock taken by process with pid " << pid << endl;
         failed = true;
       }
     } else {
-      cerr << "Error: lock taken by an unidentified process!" << endl;
+      out(error) << "Lock taken by an unidentified process!" << endl;
       failed = true;
     }
   }
@@ -93,7 +95,7 @@ int Database::lock() {
       fclose(file);
     } else {
       // Lock cannot be taken
-      cerr << "Error: lock: cannot take lock" << endl;
+      out(error) << "Cannot take lock" << endl;
       failed = true;
     }
   }
@@ -119,12 +121,12 @@ int Database::merge() {
   List merge(Path(_d->path.c_str(), "list.part"));
   if (! merge.open("w")) {
     if (merge.merge(*_d->list, *_d->journal) && (errno != EBUSY)) {
-      cerr << "Error: merge failed" << endl;
+      out(error) << "Merge failed" << endl;
       failed = true;
     }
     merge.close();
   } else {
-    cerr << strerror(errno) << ": failed to open temporary list" << endl;
+    out(error) << strerror(errno) << ": failed to open temporary list" << endl;
     failed = true;
   }
   return failed ? -1 : 0;
@@ -179,18 +181,18 @@ Database::~Database() {
 
 int Database::open_ro() {
   if (! Directory(_d->path.c_str()).isValid()) {
-    cerr << "Error: given DB path does not exist: " << _d->path << endl;
+    out(error) << "Given DB path does not exist: " << _d->path << endl;
     return -1;
   }
 
   if (_d->data.open((_d->path + "/data").c_str())) {
-    cerr << "Error: given DB path does not contain a database: " << _d->path
-      << endl;
+    out(error) << "Given DB path does not contain a database: "
+      << _d->path << endl;
     return -1;
   }
 
   if (link((_d->path + "/list").c_str(), (_d->path + "/list.ro").c_str())) {
-    cerr << "Error: could not create hard link to list" << endl;
+    out(error) << "Could not create hard link to list" << endl;
     return -1;
   }
 
@@ -198,17 +200,16 @@ int Database::open_ro() {
   _d->list = new List(Path(_d->path.c_str(), "list.ro"));
   _d->journal = NULL;
   if (_d->list->open("r")) {
-    cerr << "Error: cannot open list" << endl;
+    out(error) << "Cannot open list" << endl;
     failed = true;
   } else
   if (_d->list->isOldVersion()) {
-    cerr << "Error: list in old format (run hbackup in backup mode to update)"
+    out(error)
+      << "list in old format (run hbackup in backup mode to update)"
       << endl;
     failed = true;
   } else
-  if (verbosity() > 1) {
-    cout << "Database open in read-only mode" << endl;
-  }
+  out(verbose) << "Database open in read-only mode" << endl;
   if (failed) {
     delete _d->list;
     return -1;
@@ -218,7 +219,7 @@ int Database::open_ro() {
 
 int Database::open_rw() {
   if (isOpen()) {
-    cerr << "Error: DB already open!" << endl;
+    out(error) << "DB already open!" << endl;
     return -1;
   }
 
@@ -226,7 +227,7 @@ int Database::open_rw() {
 
   if (! Directory(_d->path.c_str()).isValid()) {
     if (mkdir(_d->path.c_str(), 0755)) {
-      cerr << "Error: cannot create DB base directory" << endl;
+      out(error) << "Cannot create DB base directory" << endl;
       return -1;
     }
   }
@@ -245,12 +246,12 @@ int Database::open_rw() {
       if (! list.isValid()) {
         Stream backup(Path(_d->path.c_str(), "list~"));
 
-        cerr << "Error: list not accessible...";
+        out(error) << "List not accessible...";
         if (backup.isValid()) {
-          cerr << "using backup" << endl;
+          out(error, 0) << "using backup" << endl;
           rename((_d->path + "/list~").c_str(), (_d->path + "/list").c_str());
         } else {
-          cerr << "no backup accessible, aborting.";
+          out(error, 0) << "no backup accessible, aborting." << endl;
           failed = true;
         }
       }
@@ -258,15 +259,15 @@ int Database::open_rw() {
     case 1:
       // Creation successful
       if (list.open("w") || list.close()) {
-        cerr << "Error: cannot create list file" << endl;
+        out(error) << "Cannot create list file" << endl;
         failed = true;
       } else {
-        cout << "Database initialized in " << _d->path << endl;
+        out(info) << "Database initialized in " << _d->path << endl;
       }
       break;
     default:
       // Creation failed
-      cerr << "Error: cannot create data directory" << endl;
+      out(error) << "Cannot create data directory" << endl;
       failed = true;
   }
 
@@ -274,7 +275,7 @@ int Database::open_rw() {
   if (! failed) {
     _d->list = new List(Path(_d->path.c_str(), "list"));
     if (_d->list->open("r")) {
-      cerr << "Error: cannot open list" << endl;
+      out(error) << "Cannot open list" << endl;
       failed = true;
     } else
     if (_d->list->isOldVersion()) {
@@ -290,9 +291,10 @@ int Database::open_rw() {
 
     // Check previous crash
     if (! _d->journal->open("r")) {
-      cout << "Backup was interrupted in a previous run, finishing up..." << endl;
+      out(warning)
+        << "Backup was interrupted in a previous run, finishing up..." << endl;
       if (merge()) {
-        cerr << "Error: failed to recover previous data" << endl;
+        out(error) << "Failed to recover previous data" << endl;
         failed = true;
       }
       _d->journal->close();
@@ -300,14 +302,14 @@ int Database::open_rw() {
 
       if (! failed) {
         if (update("list", true)) {
-          cerr << "Error: cannot rename lists" << endl;
+          out(error) << "Cannot rename lists" << endl;
           failed = true;
         } else {
           update("journal");
         }
         // Re-open list
         if (_d->list->open("r")) {
-          cerr << "Error: cannot re-open DB list" << endl;
+          out(error) << "Cannot re-open DB list" << endl;
           failed = true;
         }
       }
@@ -315,7 +317,7 @@ int Database::open_rw() {
 
     // Create journal (do not cache)
     if (! failed && (_d->journal->open("w", -1))) {
-      cerr << "Error: cannot open DB journal" << endl;
+      out(error) << "Cannot open DB journal" << endl;
       failed = true;
     }
   } else {
@@ -326,7 +328,7 @@ int Database::open_rw() {
   if (! failed) {
     _d->merge = new List(Path(_d->path.c_str(), "list.part"));
     if (_d->merge->open("w")) {
-      cerr << "Error: cannot open DB merge list" << endl;
+      out(error) << "Cannot open DB merge list" << endl;
       delete _d->merge;
       failed = true;
     }
@@ -358,9 +360,7 @@ int Database::open_rw() {
 
   // Setup some data
   _d->client = "";
-  if (verbosity() > 1) {
-    cout << "Database open in read/write mode" << endl;
-  }
+  out(verbose) << "Database open in read/write mode" << endl;
   return 0;
 }
 
@@ -369,7 +369,7 @@ int Database::close(int trash_expire) {
   bool read_only = ! isWriteable();
 
   if (! isOpen()) {
-    cerr << "Error: cannot close DB because not open!" << endl;
+    out(error) << "Cannot close DB because not open!" << endl;
     return -1;
   }
 
@@ -394,9 +394,7 @@ int Database::close(int trash_expire) {
       // See if any data was added
       if (_d->journal->isEmpty()) {
         // Do nothing
-        if (verbosity() > 1) {
-          cout << " -> Journal is empty, not merging" << endl;
-        }
+        out(verbose, 1) << "Journal is empty, not merging" << endl;
         // Close list
         _d->list->close();
         // Close merge
@@ -413,7 +411,7 @@ int Database::close(int trash_expire) {
         _d->merge->close();
         // File names ballet
         if (update("list", true)) {
-          cerr << "Error: cannot rename DB lists" << endl;
+          out(error) << "Cannot rename DB lists" << endl;
           failed = true;
         } else {
           // All merging successful
@@ -441,33 +439,21 @@ int Database::close(int trash_expire) {
           i = _d->expired_data.begin();
           while (i != _d->expired_data.end()) {
             if (i->size() != 0) {
-              if (verbosity() > 1) {
-                cout << " -> Removing data for " << *i << ": ";
-              }
+              out(verbose, 1) << "Removing data for " << *i << ": ";
               switch (_d->data.remove(*i)) {
                 case 0:
-                  if (verbosity() > 1) {
-                    cout << "done";
-                  }
+                  out(verbose) << "done";
                   break;
                 case 1:
-                  if (verbosity() > 1) {
-                    cout << "ALREADY GONE!";
-                  }
+                  out(verbose) << "ALREADY GONE!";
                   break;
                 case 2:
-                  if (verbosity() > 1) {
-                    cout << "DATA GONE!";
-                  }
+                  out(verbose) << "DATA GONE!";
                   break;
                 default:
-                  if (verbosity() > 1) {
-                    cout << "FAILED!";
-                  }
+                  out(verbose) << "FAILED!";
               }
-              if (verbosity() > 1) {
-                cout << endl;
-              }
+              out(verbose) << endl;
             }
             i = _d->expired_data.erase(i);
           }
@@ -490,9 +476,7 @@ int Database::close(int trash_expire) {
   _d->journal = NULL;
   _d->merge   = NULL;
 
-  if (verbosity() > 1) {
-    cout << "Database closed" << endl;
-  }
+  out(verbose) << "Database closed" << endl;
   return failed ? -1 : 0;
 }
 
@@ -509,7 +493,7 @@ int Database::getRecords(
       }
       char *db_client = NULL;
       if (_d->list->getEntry(NULL, &db_client, NULL, NULL) < 0) {
-        cerr << "Error reading from list: " << strerror(errno) << endl;
+        out(error) << strerror(errno) << ": reading from list" << endl;
         return -1;
       }
       records.push_back(db_client);
@@ -538,7 +522,7 @@ int Database::getRecords(
         return -1;
       }
       if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
-        cerr << "Error reading from list: " << strerror(errno) << endl;
+        out(error) << strerror(errno) << ": reading from list" << endl;
         return -1;
       }
       Path db_path2 = db_path;
@@ -561,7 +545,7 @@ int Database::getRecords(
   } else
   // The rest still needs to see the light of day
   {
-    cerr << "Not implemented" << endl;
+    out(error) << "Not implemented" << endl;
   }
   return -1;
 }
@@ -647,22 +631,21 @@ int Database::restore(
         string command = "mkdir -p ";
         command += dir;
         if (system(command.c_str())) {
-          cerr << dir << ": " << strerror(errno) << endl;
+          out(error) << strerror(errno) << ": " << dir << endl;
         }
       }
       free(dir);
-      if (verbosity() > 0) {
-        cout << "U " << base.c_str() << endl;
-      }
+      out(info) << "U " << base.c_str() << endl;
       bool set_permissions = false;
       switch (fnode->type()) {
         case 'f': {
             File* f = (File*) fnode;
             if (f->checksum()[0] == '\0') {
-              cerr << "Failed to restore file: data missing" << endl;
+              out(error) << "Failed to restore file: data missing" << endl;
             } else
             if (_d->data.read(base.c_str(), f->checksum())) {
-              cerr << "Failed to restore file: " << strerror(errno) << endl;
+              out(error) << "Failed to restore file: " << strerror(errno)
+                << endl;
               failed = true;
             } else
             {
@@ -671,7 +654,7 @@ int Database::restore(
           } break;
         case 'd':
           if (mkdir(base.c_str(), fnode->mode())) {
-            cerr << "Failed to restore dir: " << strerror(errno) << endl;
+            out(error) << strerror(errno) << ": restoring dir" << endl;
             failed = true;
           } else
           {
@@ -681,23 +664,21 @@ int Database::restore(
         case 'l': {
             Link* l = (Link*) fnode;
             if (symlink(l->link(), base.c_str())) {
-              cerr << "Failed to restore file: " << strerror(errno) << endl;
+              out(error) << strerror(errno) << ": restoring file" << endl;
               failed = true;
             }
           } break;
         case 'p':
           if (mkfifo(base.c_str(), fnode->mode())) {
-            cerr << "Failed to restore named pipe (FIFO): "
-              << strerror(errno) << endl;
+            out(error) << strerror(errno) << ": restoring pipe (FIFO)" << endl;
             failed = true;
           }
           break;
         default:
-          cerr << "Type '" << fnode->type() << "' not supported" << endl;
+          out(error) << "Type '" << fnode->type() << "' not supported" << endl;
       }
       if (set_permissions && chmod(base.c_str(), fnode->mode())) {
-        cerr << "Failed to restore file permissions: " << strerror(errno)
-          << endl;
+        out(error) << strerror(errno) << ": restoring permissions" << endl;
       }
     }
     if (path_is_not_dir) {
@@ -736,17 +717,15 @@ int Database::scan(
     }
     sums.sort();
     sums.unique();
-    if (verbosity() > 0) {
-      cout << "Scanning database contents";
-      if (thorough) {
-        cout << " thoroughly";
-      }
-      cout << ": " << sums.size() << " file";
-      if (sums.size() != 1) {
-        cout << "s";
-      }
-      cout << endl;
+    out(info) << "Scanning database contents";
+    if (thorough) {
+      out(info) << " thoroughly";
     }
+    out(info) << ": " << sums.size() << " file";
+    if (sums.size() != 1) {
+      out(info) << "s";
+    }
+    out(info) << endl;
     for (list<string>::iterator i = sums.begin(); i != sums.end(); i++) {
       scan(thorough, i->c_str());
       if (terminating()) {
@@ -804,7 +783,7 @@ int Database::sendEntry(
       &_d->active_data, &_d->expired_data) == 2) {
     if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
       // Error
-      cerr << "Failed to get entry" << endl;
+      out(error) << "Failed to get entry" << endl;
       return -1;
     }
     if (remote_path != NULL) {
@@ -834,9 +813,7 @@ int Database::sendEntry(
       _d->journal->addData(time(NULL));
       // Add path and 'removed' entry
       _d->merge->addData(time(NULL));
-      if (verbosity() > 0) {
-        cout << "D " << db_path << endl;
-      }
+      out(info) << "D " << db_path << endl;
     }
   }
   free(db_path);
@@ -849,9 +826,7 @@ int Database::sendEntry(
       // Exceeded, keep line for later
       _d->list->keepLine();
       // New file
-      if (verbosity() > 0) {
-        cout << "A";
-      }
+      out(info) << "A";
       add_node = true;
     }
 
@@ -866,14 +841,10 @@ int Database::sendEntry(
           // If the file data is there, just add new metadata
           // If the checksum is missing, this shall retry too
           *checksum = strdup(((File*)db_node)->checksum());
-          if (verbosity() > 0) {
-            cout << "~";
-          }
+          out(info) << "~";
         } else {
           // Do it all
-          if (verbosity() > 0) {
-            cout << "M";
-          }
+          out(info) << "M";
         }
         add_node = true;
       } else
@@ -882,18 +853,14 @@ int Database::sendEntry(
         // Compare linked data
         if ((node->type() == 'l')
         && (strcmp(((Link*)node)->link(), ((Link*)db_node)->link()) != 0)) {
-          if (verbosity() > 0) {
-            cout << "L";
-          }
+          out(info) << "L";
           add_node = true;
         } else
         // Check that file data is present
         if ((node->type() == 'f')
           && (((File*)db_node)->checksum()[0] == '\0')) {
           // Checksum missing: retry
-          if (verbosity() > 0) {
-            cout << "!";
-          }
+          out(info) << "!";
           *checksum = strdup("");
           add_node = true;
         }
@@ -901,30 +868,28 @@ int Database::sendEntry(
     }
 
     if (add_node) {
-      if (verbosity() > 0) {
-        cout << " " << remote_path;
-        if (node->type() == 'f') {
-          cout << " (";
-          if (node->size() < 10000) {
-            cout << node->size();
-            cout << " ";
-          } else
-          if (node->size() < 10000000) {
-            cout << node->size() / 1000;
-            cout << " k";
-          } else
-          if (node->size() < 10000000000ll) {
-            cout << node->size() / 1000000;
-            cout << " M";
-          } else
-          {
-            cout << node->size() / 1000000000;
-            cout << " G";
-          }
-          cout << "B)";
+      out(info) << " " << remote_path;
+      if (node->type() == 'f') {
+        out(info) << " (";
+        if (node->size() < 10000) {
+          out(info) << node->size();
+          out(info) << " ";
+        } else
+        if (node->size() < 10000000) {
+          out(info) << node->size() / 1000;
+          out(info) << " k";
+        } else
+        if (node->size() < 10000000000ll) {
+          out(info) << node->size() / 1000000;
+          out(info) << " M";
+        } else
+        {
+          out(info) << node->size() / 1000000000;
+          out(info) << " G";
         }
-        cout << endl;
+        out(info) << "B)";
       }
+      out(info) << endl;
     }
   }
   delete db_node;
@@ -945,7 +910,7 @@ int Database::add(
 
   // Add new record to active list
   if ((node->type() == 'l') && ! node->parsed()) {
-    cerr << "Bug in db add: link was not parsed!" << endl;
+    out(error) << "Bug in db add: link was not parsed!" << endl;
     return -1;
   }
 

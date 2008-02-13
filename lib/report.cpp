@@ -60,11 +60,22 @@ ostream& Report::out(VerbosityLevel level, int arrow_length) {
   } else {
     switch (level) {
       case alert:
-        return cerr << "ALERT! ";
+        if (arrow_length < 0) {
+          return cerr << "ALERT! ";
+        } else {
+          return cerr;
+        }
       case error:
-        return cerr << "Error: ";
+        if (arrow_length < 0) {
+          return cerr << "Error: ";
+        } else {
+          return cerr;
+        }
       case warning:
-        return cout << "Warning: ";
+        if (arrow_length < 0) {
+          return cout << "Warning: ";
+        }
+        // No break: allow warnings to use the arrows stuff
       case info:
       case verbose:
       case debug:

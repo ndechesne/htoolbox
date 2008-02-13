@@ -3,8 +3,13 @@ Report tests
 Default behaviour
 default level
 ALERT! alert level
+alert 0 level
 Error: error level
+error 0 level
 Warning: warning level
+warning 0 level
+ -> warning 1 level
+ --> warning 2 level
 info level
 info 0 level
  -> info 1 level
@@ -12,21 +17,34 @@ info 0 level
 
 Verbosity level: alert
 ALERT! alert level
+alert 0 level
 
 Verbosity level: error
 ALERT! alert level
+alert 0 level
 Error: error level
+error 0 level
 
 Verbosity level: warning
 ALERT! alert level
+alert 0 level
 Error: error level
+error 0 level
 Warning: warning level
+warning 0 level
+ -> warning 1 level
+ --> warning 2 level
 
 Verbosity level: info
 default level
 ALERT! alert level
+alert 0 level
 Error: error level
+error 0 level
 Warning: warning level
+warning 0 level
+ -> warning 1 level
+ --> warning 2 level
 info level
 info 0 level
  -> info 1 level
@@ -35,8 +53,13 @@ info 0 level
 Verbosity level: verbose
 default level
 ALERT! alert level
+alert 0 level
 Error: error level
+error 0 level
 Warning: warning level
+warning 0 level
+ -> warning 1 level
+ --> warning 2 level
 info level
 info 0 level
  -> info 1 level
@@ -49,8 +72,13 @@ verbose 0 level
 Verbosity level: debug
 default level
 ALERT! alert level
+alert 0 level
 Error: error level
+error 0 level
 Warning: warning level
+warning 0 level
+ -> warning 1 level
+ --> warning 2 level
 info level
 info 0 level
  -> info 1 level

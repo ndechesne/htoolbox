@@ -15,13 +15,13 @@ Test: lock
 Database open in read/write mode
  -> Journal is empty, not merging
 Database closed
-Warning: lock reset
+Warning: Lock reset
 Database open in read/write mode
  -> Journal is empty, not merging
 Database closed
-Error: lock taken by process with pid 1
-Error: lock taken by an unidentified process!
-Error: lock taken by an unidentified process!
+Error: Lock taken by process with pid 1
+Error: Lock taken by an unidentified process!
+Error: Lock taken by an unidentified process!
 
 Test: read-only mode
 Database open in read-only mode

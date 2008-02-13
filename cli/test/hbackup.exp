@@ -119,7 +119,7 @@ List prefixes (missing DB path)
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Showing list
-Error: given DB path does not exist: test_db
+Error: Given DB path does not exist: test_db
 List prefixes (empty DB path)
  -> Reading configuration file 'etc/hbackup.conf'
  --> Global filter all backup
@@ -138,7 +138,7 @@ List prefixes (empty DB path)
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Showing list
-Error: given DB path does not contain a database: test_db
+Error: Given DB path does not contain a database: test_db
 Typical backup
  -> Reading configuration file 'etc/hbackup.conf'
  --> Global filter all backup
