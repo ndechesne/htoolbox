@@ -25,7 +25,9 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"
@@ -35,9 +37,9 @@ using namespace std;
 #include "list.h"
 #include "db.h"
 #include "paths.h"
-#include "hbackup.h"
 
 using namespace hbackup;
+using namespace report;
 
 int ClientPath::recurse(
     Database&       db,
@@ -132,9 +134,7 @@ int ClientPath::recurse(
           // For directory, recurse into it
           if ((*i)->type() == 'd') {
             rem_path[last] = '/';
-            if (verbosity() > 1) {
-              cout << " -> Dir " << rel_path << (*i)->name() << endl;
-            }
+            out(verbose, 1) << "Dir " << rel_path << (*i)->name() << endl;
             if (recurse(db, rem_path, (Directory*) *i, parser)) {
               give_up = true;
             }
@@ -147,7 +147,7 @@ end:
       i = dir->nodesList().erase(i);
     }
   } else {
-    cerr << strerror(errno) << ": " << remote_path << endl;
+    out(error) << strerror(errno) << ": " << remote_path << endl;
   }
   return give_up ? -1 : 0;
 }
@@ -190,7 +190,8 @@ int ClientPath::addParser(
       mode = Parser::others;
       break;
     default:
-      cerr << "Undefined mode " << type << " for parser " << string << endl;
+      out(error) << "Undefined mode " << type << " for parser " << string
+        << endl;
       return 1;
   }
 
@@ -205,7 +206,7 @@ int ClientPath::addParser(
     _parsers.push_back(new SvnParser(mode));
   } else
   {
-    cerr << "Unsupported parser " << type << endl;
+    out(error) << "Unsupported parser " << type << endl;
     return 2;
   }
   return 0;

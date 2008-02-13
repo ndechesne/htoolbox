@@ -23,14 +23,15 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"
 #include "list.h"
 #include "db.h"
 #include "paths.h"
-#include "hbackup.h"
 
 using namespace hbackup;
 
@@ -112,6 +113,8 @@ static void showList(List& slist) {
 
 int main(void) {
   umask(0022);
+  report::setOutLevel(debug);
+  
   ClientPath* path = new ClientPath("/home/User");
   Database    db("test_db");
   // Journal
