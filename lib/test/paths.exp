@@ -1,7 +1,7 @@
 
 Initial backup, check '/' precedence
 Database initialized in test_db
- -> Database open in read/write mode
+Database open in read/write mode
 first with subdir/testfile NOT readable
 A /home/User/àccénts_test (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
@@ -96,7 +96,7 @@ A /home/User/testfile~ (0 B)
 A /home/User/testlink
 A /home/User/testpipe
 Parsed 59 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -341,7 +341,7 @@ myClient
 [ 1] p     0 644
 
 As previous, with a .hbackup directory
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -363,7 +363,7 @@ Permission denied: test1/subdir/testfile
  -> Dir testdir
 Parsed 59 file(s)
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -608,7 +608,7 @@ myClient
 [ 1] p     0 644
 
 As previous with new big_file, interrupted
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -616,7 +616,7 @@ A /home/User/cvs/big_file (512 kB)
 Killing during write
 Operation canceled: test1/cvs/big_file
 Parsed 9 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -746,7 +746,7 @@ myClient
 
 As previous with subdir/testfile readable
 Backup was interrupted in a previous run, finishing up...
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -768,7 +768,7 @@ Adding file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 60 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -901,7 +901,7 @@ myClient
 [ 0] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
 
 As previous with subdir/testfile in ignore list
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -921,7 +921,7 @@ D /home/User/subdir/testfile
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 59 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -1053,7 +1053,7 @@ myClient
 [ 5] -
 
 As previous with subdir in ignore list
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -1074,7 +1074,7 @@ D /home/User/subdir/testfile2
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 56 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -1213,7 +1213,7 @@ myClient
 [ 6] -
 
 As previous with testlink modified
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -1232,7 +1232,7 @@ As previous with testlink modified
  -> Dir testdir
 M /home/User/testlink
 Parsed 56 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -1368,7 +1368,7 @@ myClient
 [ 7] l     8 777 testnull
 
 As previous with testlink in ignore list
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -1387,7 +1387,7 @@ As previous with testlink in ignore list
  -> Dir testdir
 D /home/User/testlink
 Parsed 55 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -1524,7 +1524,7 @@ myClient
 [ 8] -
 
 As previous with CVS parser (controlled)
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -1559,7 +1559,7 @@ D /home/User/cvs/fileoth
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 45 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -1724,7 +1724,7 @@ myClient
 [ 9] -
 
 As previous
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -1750,7 +1750,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir testdir
 Parsed 45 file(s)
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -1915,7 +1915,7 @@ myClient
 [ 9] -
 
 As previous with Subversion parser (modified)
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -1959,7 +1959,7 @@ D /home/User/svn/fileoth
 D /home/User/svn/fileutd.h
  -> Dir testdir
 Parsed 33 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -2140,7 +2140,7 @@ myClient
 [11] -
 
 As previous with cvs/dirutd in ignore list
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2173,7 +2173,7 @@ Directory should be under Subversion control: test1/svn/dirbad
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 28 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -2345,7 +2345,7 @@ myClient
 [12] -
 
 As previous with svn/dirutd in ignore list
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2372,7 +2372,7 @@ D /home/User/svn/dirutd/.svn/entries
 D /home/User/svn/dirutd/fileutd
  -> Dir testdir
 Parsed 24 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -2546,7 +2546,7 @@ myClient
 [13] -
 
 As previous with testpipe gone
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2570,7 +2570,7 @@ Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Parsed 23 file(s)
 D /home/User/testpipe
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -2739,7 +2739,7 @@ myClient
 [14] -
 
 As previous with testfile mode changed
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2763,7 +2763,7 @@ Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 ~ /home/User/testfile (13 B)
 Parsed 23 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -2933,7 +2933,7 @@ myClient
 [15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 
 As previous with cvs/filenew.c touched and testpipe restored
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2959,7 +2959,7 @@ Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 A /home/User/testpipe
 Parsed 24 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -3133,7 +3133,7 @@ myClient
 [16] p     0 644
 
 Some troublesome past cases
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -3184,7 +3184,7 @@ A /home/User/testdir/biblio/biblio.dbt (0 B)
 A /home/User/testdir/biblio.odb (0 B)
 A /home/User/testdir/evolocal.odb (0 B)
 Parsed 44 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -3434,7 +3434,7 @@ myClient
 [17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 Same again: journal and list left untouched
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -3466,7 +3466,7 @@ Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir/biblio
 Parsed 44 file(s)
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -3716,7 +3716,7 @@ myClient
 [17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 List recovery after crash
- -> Database open in read/write mode
+Database open in read/write mode
 A /home/User/testdir
  -> Dir testdir
 A /home/User/testfile (145 kB)
@@ -3764,7 +3764,7 @@ D /home/User/testdir/biblio/biblio.dbt
 D /home/User/testdir/biblio.odb
 D /home/User/testdir/evolocal.odb
 Parsed 40 file(s)
- -> Database closed
+Database closed
 
 List:
 myClient
@@ -4002,7 +4002,7 @@ myClient
 unexpected end of file
 Backup was interrupted in a previous run, finishing up...
 Unexpected end of journal, line 29
- -> Database open in read/write mode
+Database open in read/write mode
 
 List:
 hisClient
@@ -4259,13 +4259,13 @@ myClient
 [19] -
 unexpected end of file
  -> Journal is empty, not merging
- -> Database closed
- -> Database open in read/write mode
+Database closed
+Database open in read/write mode
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 
 Same again
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
@@ -4296,7 +4296,7 @@ Directory should be under CVS control: test1/cvs/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
 Parsed 40 file(s)
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 
 List:
 hisClient
@@ -4554,11 +4554,11 @@ myClient
 unexpected end of file
 
 Same again
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir testdir
 Parsed 4 file(s)
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 
 List:
 hisClient
@@ -4816,7 +4816,7 @@ myClient
 unexpected end of file
 
 Expiry delay: 18, date: 22
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
@@ -4859,7 +4859,7 @@ Parsed 40 file(s)
  -> Removing data for 9283e2c51868272850bd2d89b63c58e8-0: done
  -> Removing data for caecaacc7fdee8a7667d4f4f315858a9-0: done
  -> Removing data for eb75fb33b2019ef3c840eb5ccdc2e795-0: done
- -> Database closed
+Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
 List:
@@ -5052,7 +5052,7 @@ myClient
 [22] f    13 000 
 
 Prevent data dir from being removed
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
@@ -5085,7 +5085,7 @@ D /home/User/testfile
 M /home/User/testfile~ (0 B)
 Parsed 39 file(s)
  -> Removing data for 59ca0efa9f5633cb0371bbc0355478d8-0: DATA GONE!
- -> Database closed
+Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
 List:
@@ -5274,7 +5274,7 @@ myClient
 [23] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 Add one file
- -> Database open in read/write mode
+Database open in read/write mode
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
@@ -5305,7 +5305,7 @@ Directory should be under CVS control: test1/cvs/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile~ (5 B)
 Parsed 39 file(s)
- -> Database closed
+Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
 List:

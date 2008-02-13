@@ -1,102 +1,94 @@
 >List 0 client(s):
- --> Client: localhost
 >List 1 client(s):
 Client: localhost
--> file://localhost etc/doesnotexist
+ -> Configuration: file://localhost etc/doesnotexist
 Database initialized in test_db
- -> Database open in read/write mode
+Database open in read/write mode
 Backup client 'localhost' using protocol 'file'
-Client configuration file not found etc/doesnotexist
+Error: Client configuration file not found etc/doesnotexist
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 >List 0 client(s):
- --> Client: myClient
 >List 1 client(s):
 Client: myClient
--> nfs://myClient /home/User/hbackup.list
- --> Client: myClient2
+ -> Configuration: nfs://myClient /home/User/hbackup.list
 >List 2 client(s):
 Client: myClient
--> nfs://myClient /home/User/hbackup.list
+ -> Configuration: nfs://myClient /home/User/hbackup.list
 Client: myClient2
--> smb://myClient C:/Backup/Backup.LST
-Options: username=Myself password=flesyM
- --> Client: otherClient
+ -> Configuration: smb://myClient C:/Backup/Backup.LST
+ -> Options: username=Myself password=flesyM
 >List 3 client(s):
 Client: myClient
--> nfs://myClient /home/User/hbackup.list
+ -> Configuration: nfs://myClient /home/User/hbackup.list
 Client: myClient2
--> smb://myClient C:/Backup/Backup.LST
-Options: username=Myself password=flesyM
+ -> Configuration: smb://myClient C:/Backup/Backup.LST
+ -> Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient c:/home/backup/Backup.list
- --> Client: Client
+ -> Configuration: ssh://otherClient c:/home/backup/Backup.list
 >List 4 client(s):
 Client: myClient
--> nfs://myClient /home/User/hbackup.list
+ -> Configuration: nfs://myClient /home/User/hbackup.list
 Client: myClient2
--> smb://myClient C:/Backup/Backup.LST
-Options: username=Myself password=flesyM
+ -> Configuration: smb://myClient C:/Backup/Backup.LST
+ -> Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient c:/home/backup/Backup.list
+ -> Configuration: ssh://otherClient c:/home/backup/Backup.list
 Client: Client
--> smb://Client C:/home/BlaH/Backup.list
-Options: username=user iocharset=utf8
- --> Client: Client2
+ -> Configuration: smb://Client C:/home/BlaH/Backup.list
+ -> Options: username=user iocharset=utf8
 >List 5 client(s):
 Client: myClient
--> nfs://myClient /home/User/hbackup.list
+ -> Configuration: nfs://myClient /home/User/hbackup.list
 Client: myClient2
--> smb://myClient C:/Backup/Backup.LST
-Options: username=Myself password=flesyM
+ -> Configuration: smb://myClient C:/Backup/Backup.LST
+ -> Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient c:/home/backup/Backup.list
+ -> Configuration: ssh://otherClient c:/home/backup/Backup.list
 Client: Client
--> smb://Client C:/home/BlaH/Backup.list
-Options: username=user iocharset=utf8
+ -> Configuration: smb://Client C:/home/BlaH/Backup.list
+ -> Options: username=user iocharset=utf8
 Client: Client2
--> smb://Client C:/home/BlaH/Backup.list
-Options: nocase username=user password=
- --> Client: Client3
+ -> Configuration: smb://Client C:/home/BlaH/Backup.list
+ -> Options: nocase username=user password=
 >List 6 client(s):
 Client: myClient
--> nfs://myClient /home/User/hbackup.list
+ -> Configuration: nfs://myClient /home/User/hbackup.list
 Client: myClient2
--> smb://myClient C:/Backup/Backup.LST
-Options: username=Myself password=flesyM
+ -> Configuration: smb://myClient C:/Backup/Backup.LST
+ -> Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient c:/home/backup/Backup.list
+ -> Configuration: ssh://otherClient c:/home/backup/Backup.list
 Client: Client
--> smb://Client C:/home/BlaH/Backup.list
-Options: username=user iocharset=utf8
+ -> Configuration: smb://Client C:/home/BlaH/Backup.list
+ -> Options: username=user iocharset=utf8
 Client: Client2
--> smb://Client C:/home/BlaH/Backup.list
-Options: nocase username=user password=
+ -> Configuration: smb://Client C:/home/BlaH/Backup.list
+ -> Options: nocase username=user password=
 Client: Client3
--> smb://Client C:/home/BlaH/Backup.list
-Options: username=
- --> Client: Client4
+ -> Configuration: smb://Client C:/home/BlaH/Backup.list
+ -> Options: username=
 >List 7 client(s):
 Client: myClient
--> nfs://myClient /home/User/hbackup.list
+ -> Configuration: nfs://myClient /home/User/hbackup.list
 Client: myClient2
--> smb://myClient C:/Backup/Backup.LST
-Options: username=Myself password=flesyM
+ -> Configuration: smb://myClient C:/Backup/Backup.LST
+ -> Options: username=Myself password=flesyM
 Client: otherClient
--> ssh://otherClient c:/home/backup/Backup.list
+ -> Configuration: ssh://otherClient c:/home/backup/Backup.list
 Client: Client
--> smb://Client C:/home/BlaH/Backup.list
-Options: username=user iocharset=utf8
+ -> Configuration: smb://Client C:/home/BlaH/Backup.list
+ -> Options: username=user iocharset=utf8
 Client: Client2
--> smb://Client C:/home/BlaH/Backup.list
-Options: nocase username=user password=
+ -> Configuration: smb://Client C:/home/BlaH/Backup.list
+ -> Options: nocase username=user password=
 Client: Client3
--> smb://Client C:/home/BlaH/Backup.list
-Options: username=
+ -> Configuration: smb://Client C:/home/BlaH/Backup.list
+ -> Options: username=
 Client: Client4
--> smb://Client C:/home/BlaH/Backup.list
-Options: username= password=
- -> Database open in read/write mode
+ -> Configuration: smb://Client C:/home/BlaH/Backup.list
+ -> Options: username= password=
+Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
@@ -130,46 +122,45 @@ A C:/Test/Dir/another File.TXT (2 B)
 Adding file data to DB in: test_db/data/26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
  -> umount -fl test_db/mount
-Protocol not supported: ssh
+Error: Protocol not supported: ssh
  -> mount -t cifs -o ro,noatime,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
 Backup client 'Client' using protocol 'smb'
-Client configuration file not found test_db/mount/home/BlaH/Backup.list
+Error: Client configuration file not found test_db/mount/home/BlaH/Backup.list
  -> umount -fl test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,nocase,username=user,password= //Client/C$ test_db/mount
 Backup client 'Client2' using protocol 'smb'
-Client configuration file not found test_db/mount/home/BlaH/Backup.list
+Error: Client configuration file not found test_db/mount/home/BlaH/Backup.list
  -> umount -fl test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username= //Client/C$ test_db/mount
 Backup client 'Client3' using protocol 'smb'
-Client configuration file not found test_db/mount/home/BlaH/Backup.list
+Error: Client configuration file not found test_db/mount/home/BlaH/Backup.list
  -> umount -fl test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username=,password= //Client/C$ test_db/mount
 Backup client 'Client4' using protocol 'smb'
-Client configuration file not found test_db/mount/home/BlaH/Backup.list
+Error: Client configuration file not found test_db/mount/home/BlaH/Backup.list
  -> umount -fl test_db/mount
- -> Database closed
- --> Client: testhost
+Database closed
 >List 1 client(s):
 Client: testhost
--> file://localhost etc/localhost.list
- -> Database open in read/write mode
+ -> Configuration: file://localhost etc/localhost.list
+Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
  -> Reading client configuration file
- --> client-wide filter and subdir
- ---> condition path_start subdir
- ---> condition not size< 100
- --> client-wide filter and bigfile
- ---> condition size>= 10
- ---> condition type file
- --> expiry 1 day(s)
+ --> Client-wide filter and subdir
+ ---> Condition path_start subdir
+ ---> Condition not size< 100
+ --> Client-wide filter and bigfile
+ ---> Condition size>= 10
+ ---> Condition type file
+ --> Expiry 1 day(s)
  --> Path: test2
  --> Path: test1
- --> path-wide filter and not_object
- ---> condition not path_end .o
- --> path-wide filter or to_be_ignored
- ---> condition filter subdir
- ---> condition filter backup
- ---> condition not filter not_object
+ --> Path-wide filter and not_object
+ ---> Condition not path_end .o
+ --> Path-wide filter or to_be_ignored
+ ---> Condition filter subdir
+ ---> Condition filter backup
+ ---> Condition not filter not_object
 Backup path 'test1'
 A test1/bzr
  -> Dir bzr
@@ -263,29 +254,28 @@ Adding file data to DB in: test_db/data/fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A test2/testfile~ (524 kB)
 Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
 A test2/testlink
- -> Database closed
- --> Client: testhost
+Database closed
 >List 1 client(s):
 Client: testhost
--> file://testhost etc/localhost.list
- -> Database open in read/write mode
+ -> Configuration: file://testhost etc/localhost.list
+Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
  -> Reading client configuration file
- --> client-wide filter and subdir
- ---> condition path_start subdir
- ---> condition not size< 100
- --> client-wide filter and bigfile
- ---> condition size>= 10
- ---> condition type file
- --> expiry 1 day(s)
+ --> Client-wide filter and subdir
+ ---> Condition path_start subdir
+ ---> Condition not size< 100
+ --> Client-wide filter and bigfile
+ ---> Condition size>= 10
+ ---> Condition type file
+ --> Expiry 1 day(s)
  --> Path: test2
  --> Path: test1
- --> path-wide filter and not_object
- ---> condition not path_end .o
- --> path-wide filter or to_be_ignored
- ---> condition filter subdir
- ---> condition filter backup
- ---> condition not filter not_object
+ --> Path-wide filter and not_object
+ ---> Condition not path_end .o
+ --> Path-wide filter or to_be_ignored
+ ---> Condition filter subdir
+ ---> Condition filter backup
+ ---> Condition not filter not_object
 Backup path 'test1'
  -> Dir bzr
  -> Dir bzr/.bzr
@@ -325,65 +315,62 @@ Directory should be under Subversion control: test1/svn/dirbad
 Backup path 'test2'
  -> Dir testdir
  -> Journal is empty, not merging
- -> Database closed
- --> Client: testhost
+Database closed
 >List 1 client(s):
 Client: testhost
--> file://testhost etc/localhost.list
- -> Database open in read/write mode
+ -> Configuration: file://testhost etc/localhost.list
+Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
  -> Reading client configuration file
- --> client-wide filter and subdir
- ---> condition path_start subdir
- ---> condition not size< 100
- --> client-wide filter and bigfile
- ---> condition size>= 10
- ---> condition type file
- --> expiry 1 day(s)
+ --> Client-wide filter and subdir
+ ---> Condition path_start subdir
+ ---> Condition not size< 100
+ --> Client-wide filter and bigfile
+ ---> Condition size>= 10
+ ---> Condition type file
+ --> Expiry 1 day(s)
  --> Path: test2
  --> Path: test1
- --> path-wide filter and not_object
- ---> condition not path_end .o
- --> path-wide filter or to_be_ignored
- ---> condition filter subdir
- ---> condition filter backup
- ---> condition not filter not_object
+ --> Path-wide filter and not_object
+ ---> Condition not path_end .o
+ --> Path-wide filter or to_be_ignored
+ ---> Condition filter subdir
+ ---> Condition filter backup
+ ---> Condition not filter not_object
  --> Path: test1/subdir
-Path inside another. This is not supported
+Error: Path inside another. This is not supported
  -> Journal is empty, not merging
- -> Database closed
- --> Client: testhost
+Database closed
 >List 1 client(s):
 Client: testhost
--> file://testhost etc/localhost.list2
- -> Database open in read/write mode
+ -> Configuration: file://testhost etc/localhost.list2
+Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
  -> Reading client configuration file
- --> client-wide filter and subdir
- ---> condition path_start subdir
- ---> condition not size< 100
- --> client-wide filter and bigfile
- ---> condition size>= 10
- ---> condition type file
+ --> Client-wide filter and subdir
+ ---> Condition path_start subdir
+ ---> Condition not size< 100
+ --> Client-wide filter and bigfile
+ ---> Condition size>= 10
+ ---> Condition type file
  --> Path: test2/subdir
  --> Path: test2
-Path inside another: this is not supported
+Error: Path inside another: this is not supported
  --> Path: test1
- --> path-wide filter and not_object
- ---> condition not path_end .o
- --> path-wide filter or to_be_ignored
- ---> condition filter subdir
- ---> condition filter backup
- ---> condition not filter not_object
+ --> Path-wide filter and not_object
+ ---> Condition not path_end .o
+ --> Path-wide filter or to_be_ignored
+ ---> Condition filter subdir
+ ---> Condition filter backup
+ ---> Condition not filter not_object
  --> Path: test1/subdir
-Path inside another. This is not supported
+Error: Path inside another. This is not supported
 backup failed
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 
 Test: missing clients
- --> Client: myhost2
- -> Database open in read/write mode
+Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
  -> Reading client configuration file
@@ -395,9 +382,8 @@ A C:/Test/Dir/a File.TXT (2 B)
 A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
  -> umount -fl test_db/mount
- -> Database closed
- --> Client: myhost3
- -> Database open in read/write mode
+Database closed
+Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading client configuration file
@@ -410,9 +396,8 @@ A /home/User/test/dir
  -> Dir dir
 A /home/User/test/dir/file3.txt (2 B)
  -> umount -fl test_db/mount
- -> Database closed
- --> Client: myhost
- -> Database open in read/write mode
+Database closed
+Database open in read/write mode
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Path: test1/cvs
@@ -446,11 +431,11 @@ A test1/cvs/filemod.o (0 B)
 A test1/cvs/filenew.c (0 B)
 A test1/cvs/fileoth (0 B)
 A test1/cvs/fileutd.h (0 B)
- -> Database closed
+Database closed
 
 Clients in DB
- -> Database open in read-only mode
- -> Database closed
+Database open in read-only mode
+Database closed
 Records found: 6
  myClient#
  myClient2$
@@ -460,20 +445,20 @@ Records found: 6
  testhost#
 
 Paths in 'myhost#' client in DB
- -> Database open in read-only mode
- -> Database closed
+Database open in read-only mode
+Database closed
 Records found: 1
  test1
 
 Paths in 'myhost#' client under test1 in DB
- -> Database open in read-only mode
- -> Database closed
+Database open in read-only mode
+Database closed
 Records found: 1
  test1/cvs
 
 Paths in 'myhost#' client under test1/cvs in DB
- -> Database open in read-only mode
- -> Database closed
+Database open in read-only mode
+Database closed
 Records found: 8
  test1/cvs/CVS
  test1/cvs/dirbad
@@ -485,29 +470,26 @@ Records found: 8
  test1/cvs/fileutd.h
 
 Paths in 'myhost#' client under test1/cvs/diroth in DB
- -> Database open in read-only mode
- -> Database closed
+Database open in read-only mode
+Database closed
 Records found: 0
 
 Paths in 'myhost#' client under test1/cvs/dirutd in DB
- -> Database open in read-only mode
- -> Database closed
+Database open in read-only mode
+Database closed
 Records found: 3
  test1/cvs/dirutd/CVS
  test1/cvs/dirutd/fileoth
  test1/cvs/dirutd/fileutd
 Create list of clients
- --> Client: myhost
- --> Client: myhost2
- --> Client: myhost3
 >List 3 client(s):
 Client: myhost
--> file://myhost etc/testhost.list
+ -> Configuration: file://myhost etc/testhost.list
 Client: myhost2
--> smb://myhost2 C:/Backup/testhost2.list
+ -> Configuration: smb://myhost2 C:/Backup/testhost2.list
 Client: myhost3
--> nfs://myhost3 /home/User/testhost3.list
- -> Database open in read/write mode
+ -> Configuration: nfs://myhost3 /home/User/testhost3.list
+Database open in read/write mode
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Path: test1/cvs
@@ -535,16 +517,14 @@ Backup path '/home/User/test'
  -> Dir dir
  -> umount -fl test_db/mount
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 Create list of clients
- --> Client: myhost2
- --> Client: myhost3
 >List 2 client(s):
 Client: myhost2
--> smb://myhost2 C:/Backup/testhost2.list
+ -> Configuration: smb://myhost2 C:/Backup/testhost2.list
 Client: myhost3
--> nfs://myhost3 /home/User/testhost3.list
- -> Database open in read/write mode
+ -> Configuration: nfs://myhost3 /home/User/testhost3.list
+Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
  -> Reading client configuration file
@@ -562,16 +542,14 @@ Backup path '/home/User/test'
  -> Dir dir
  -> umount -fl test_db/mount
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 Create list of clients
- --> Client: myhost
- --> Client: myhost3
 >List 2 client(s):
 Client: myhost
--> file://myhost etc/testhost.list
+ -> Configuration: file://myhost etc/testhost.list
 Client: myhost3
--> nfs://myhost3 /home/User/testhost3.list
- -> Database open in read/write mode
+ -> Configuration: nfs://myhost3 /home/User/testhost3.list
+Database open in read/write mode
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Path: test1/cvs
@@ -592,16 +570,14 @@ Backup path '/home/User/test'
  -> Dir dir
  -> umount -fl test_db/mount
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 Create list of clients
- --> Client: myhost
- --> Client: myhost2
 >List 2 client(s):
 Client: myhost
--> file://myhost etc/testhost.list
+ -> Configuration: file://myhost etc/testhost.list
 Client: myhost2
--> smb://myhost2 C:/Backup/testhost2.list
- -> Database open in read/write mode
+ -> Configuration: smb://myhost2 C:/Backup/testhost2.list
+Database open in read/write mode
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Path: test1/cvs
@@ -620,13 +596,12 @@ Backup path 'C:/Test'
  -> Dir Dir
  -> umount -fl test_db/mount
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 Second mount fails
- --> Client: myClient
 >List 1 client(s):
 Client: myClient
--> nfs://myClient /home/User/hbackup.list
- -> Database open in read/write mode
+ -> Configuration: nfs://myClient /home/User/hbackup.list
+Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
@@ -639,15 +614,14 @@ Backup path '/home/User/test'
 Backup path '/home/User/test2'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
-Warning: mount failed, skipping client backup
+Error: Warning: mount failed, skipping client
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 First mount fails
- --> Client: myClient
 >List 1 client(s):
 Client: myClient
--> nfs://myClient /home/User/hbackup.list
- -> Database open in read/write mode
+ -> Configuration: nfs://myClient /home/User/hbackup.list
+Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
@@ -656,15 +630,14 @@ Backup client 'myClient' using protocol 'nfs'
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
-Warning: mount failed, skipping client backup
+Error: Warning: mount failed, skipping client
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 Works again
- --> Client: myClient
 >List 1 client(s):
 Client: myClient
--> nfs://myClient /home/User/hbackup.list
- -> Database open in read/write mode
+ -> Configuration: nfs://myClient /home/User/hbackup.list
+Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
@@ -679,13 +652,12 @@ Backup path '/home/User/test2'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
  -> umount -fl test_db/mount
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 Test with dual boot client
- --> Client: myClient
 >List 1 client(s):
 Client: myClient
--> smb://myClient C:/Backup/testhost2.list
- -> Database open in read/write mode
+ -> Configuration: smb://myClient C:/Backup/testhost2.list
+Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
@@ -697,11 +669,11 @@ A C:/Test/Dir/a File.TXT (2 B)
 A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
  -> umount -fl test_db/mount
- -> Database closed
+Database closed
 
 Clients in DB
- -> Database open in read-only mode
- -> Database closed
+Database open in read-only mode
+Database closed
 Records found: 7
  myClient#
  myClient$

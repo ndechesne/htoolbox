@@ -207,7 +207,7 @@ int Database::open_ro() {
     failed = true;
   } else
   if (verbosity() > 1) {
-    cout << " -> Database open in read-only mode" << endl;
+    cout << "Database open in read-only mode" << endl;
   }
   if (failed) {
     delete _d->list;
@@ -359,7 +359,7 @@ int Database::open_rw() {
   // Setup some data
   _d->client = "";
   if (verbosity() > 1) {
-    cout << " -> Database open in read/write mode" << endl;
+    cout << "Database open in read/write mode" << endl;
   }
   return 0;
 }
@@ -491,7 +491,7 @@ int Database::close(int trash_expire) {
   _d->merge   = NULL;
 
   if (verbosity() > 1) {
-    cout << " -> Database closed" << endl;
+    cout << "Database closed" << endl;
   }
   return failed ? -1 : 0;
 }

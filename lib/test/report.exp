@@ -26,12 +26,27 @@ Error: error level
 Warning: warning level
 info level
 
+Verbosity level: verbose
+default level
+ALERT! alert level
+Error: error level
+Warning: warning level
+info level
+verbose level
+verbose 0 level
+ -> verbose 1 level
+ --> verbose 2 level
+
 Verbosity level: debug
 default level
 ALERT! alert level
 Error: error level
 Warning: warning level
 info level
+verbose level
+verbose 0 level
+ -> verbose 1 level
+ --> verbose 2 level
 debug level
 
 End of tests

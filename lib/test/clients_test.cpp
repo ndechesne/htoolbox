@@ -22,7 +22,9 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"
@@ -30,9 +32,9 @@ using namespace std;
 #include "db.h"
 #include "paths.h"
 #include "clients.h"
-#include "hbackup.h"
 
 using namespace hbackup;
+using namespace report;
 
 int hbackup::verbosity(void) {
   return 3;
@@ -47,6 +49,8 @@ int main(void) {
   list<Client*> clients;
   Database      db("test_db");
   Filters       filters;
+
+  setOutLevel(debug);
 
   // Create global filter
   Filter* filter = filters.add("and", "backup");

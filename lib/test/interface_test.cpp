@@ -58,7 +58,7 @@ int hbackup::terminating(const char* function) {
 int main(void) {
   HBackup* hbackup;
 
-setOutLevel(debug);
+  setOutLevel(debug);
 
 #if 0
   cout << endl << "Test: wrong config file" << endl;

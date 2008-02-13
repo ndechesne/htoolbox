@@ -54,7 +54,7 @@ VerbosityLevel Report::operator=(VerbosityLevel level) {
   return level;
 }
 
-ostream& Report::out(VerbosityLevel level) {
+ostream& Report::out(VerbosityLevel level, int arrow_length) {
   if (level > _level) {
     return null;
   } else {
@@ -67,8 +67,15 @@ ostream& Report::out(VerbosityLevel level) {
         return cout << "Warning: ";
       case info:
         return cout;
-      case verbose:
-        return cout << " -> ";
+      case verbose: {
+        string arrow;
+        if (arrow_length > 0) {
+          arrow = " ";
+          arrow.append(arrow_length, '-');
+          arrow.append("> ");
+        }
+        return cout << arrow;
+      }
       case debug:
         return cout;
     }
@@ -81,6 +88,6 @@ void report::setOutLevel(VerbosityLevel level) {
   *Report::self() = level;
 }
 
-ostream& report::out(VerbosityLevel level) {
-  return Report::self()->out(level);
+ostream& report::out(VerbosityLevel level, int arrow_length) {
+  return Report::self()->out(level, arrow_length);
 }

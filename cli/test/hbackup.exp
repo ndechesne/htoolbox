@@ -103,62 +103,62 @@ HBackup (c) 2006-2008 Hervé Fache
 
 List prefixes (missing DB path)
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Showing list
 Error: given DB path does not exist: test_db
 List prefixes (empty DB path)
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Showing list
 Error: given DB path does not contain a database: test_db
 Typical backup
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Backing up in server mode
 Database initialized in test_db
- -> Database open in read/write mode
+Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
@@ -188,21 +188,21 @@ Adding file data to DB in: test_db/data/6d7fce9fee471194aa8b5b6e47267f03-0
  -> umount -fl test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
- --> client-wide filter and subdir
- ---> condition path_start subdir
- ---> condition not size< 100
- --> client-wide filter and bigfile
- ---> condition size>= 10
- ---> condition type file
- --> expiry 1 day(s)
+ --> Client-wide filter and subdir
+ ---> Condition path_start subdir
+ ---> Condition not size< 100
+ --> Client-wide filter and bigfile
+ ---> Condition size>= 10
+ ---> Condition type file
+ --> Expiry 1 day(s)
  --> Path: test2
  --> Path: test1
- --> path-wide filter and not_object
- ---> condition not path_end .o
- --> path-wide filter or to_be_ignored
- ---> condition filter subdir
- ---> condition filter backup
- ---> condition not filter not_object
+ --> Path-wide filter and not_object
+ ---> Condition not path_end .o
+ --> Path-wide filter or to_be_ignored
+ ---> Condition filter subdir
+ ---> Condition filter backup
+ ---> Condition not filter not_object
 Backup path 'test1'
 A test1/bzr
  -> Dir bzr
@@ -296,27 +296,27 @@ Adding file data to DB in: test_db/data/fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A test2/testfile~ (524 kB)
 Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
 A test2/testlink
-Protocol not supported: ssh
- -> Database closed
+Error: Protocol not supported: ssh
+Database closed
 Specify clients
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Backing up in server mode
- -> Database open in read/write mode
+Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
@@ -326,21 +326,21 @@ Backup path 'C:/Test'
  -> umount -fl test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
- --> client-wide filter and subdir
- ---> condition path_start subdir
- ---> condition not size< 100
- --> client-wide filter and bigfile
- ---> condition size>= 10
- ---> condition type file
- --> expiry 1 day(s)
+ --> Client-wide filter and subdir
+ ---> Condition path_start subdir
+ ---> Condition not size< 100
+ --> Client-wide filter and bigfile
+ ---> Condition size>= 10
+ ---> Condition type file
+ --> Expiry 1 day(s)
  --> Path: test2
  --> Path: test1
- --> path-wide filter and not_object
- ---> condition not path_end .o
- --> path-wide filter or to_be_ignored
- ---> condition filter subdir
- ---> condition filter backup
- ---> condition not filter not_object
+ --> Path-wide filter and not_object
+ ---> Condition not path_end .o
+ --> Path-wide filter or to_be_ignored
+ ---> Condition filter subdir
+ ---> Condition filter backup
+ ---> Condition not filter not_object
 Backup path 'test1'
  -> Dir bzr
  -> Dir bzr/.bzr
@@ -380,12 +380,11 @@ Directory should be under Subversion control: test1/svn/dirbad
 Backup path 'test2'
  -> Dir testdir
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 User-mode backup
- --> Client: localhost
 Backing up in user mode
 Database initialized in test_user/.hbackup
- -> Database open in read/write mode
+Database open in read/write mode
  -> Reading client configuration file
  --> Path: test_user/testuser
 Backup path 'test_user/testuser'
@@ -401,135 +400,135 @@ A test_user/testuser/subdir2/f3.txt (3 B)
 Adding file data to DB in: test_user/.hbackup/data/d5b4c7d9b06b60a7846c4529834c9812-0
 A test_user/testuser/subdir2/f4.txt (3 B)
 Adding file data to DB in: test_user/.hbackup/data/90e2a51705594d033a3abe9d77b2b7ad-0
- -> Database closed
+Database closed
 Scan DB
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Scanning database
- -> Database open in read/write mode
+Database open in read/write mode
 Scanning database contents: 14 files
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 Check DB
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Checking database
- -> Database open in read/write mode
+Database open in read/write mode
 Scanning database contents thoroughly: 14 files
  -> Journal is empty, not merging
- -> Database closed
+Database closed
 List prefixes
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Showing list
- -> Database open in read-only mode
- -> Database closed
+Database open in read-only mode
+Database closed
  client
  myClient
  myhost
 Try to list paths in both myhost and smb://client (fails)
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Showing list
 Error: maximum one client allowed
 List paths in myhost
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Showing list
- -> Database open in read-only mode
- -> Database closed
+Database open in read-only mode
+Database closed
  test1
  test2
 List paths in myhost under test2/
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Showing list
- -> Database open in read-only mode
- -> Database closed
+Database open in read-only mode
+Database closed
  test2/testdir
  test2/testfile
  test2/testfile2
@@ -537,24 +536,24 @@ Showing list
  test2/testlink
 List paths in myhost under test1/cvs
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Showing list
- -> Database open in read-only mode
- -> Database closed
+Database open in read-only mode
+Database closed
  test1/cvs/CVS
  test1/cvs/dirbad
  test1/cvs/dirutd
@@ -562,44 +561,44 @@ Showing list
  test1/cvs/fileutd.h
 Restore a file
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Restoring
- -> Database open in read-only mode
+Database open in read-only mode
 U test_r/test2/testfile
- -> Database closed
+Database closed
 Restore all data in a prefix/dir path that's not by itself in DB
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Restoring
- -> Database open in read-only mode
+Database open in read-only mode
 U test_r/test1/bzr
 U test_r/test1/bzr/.bzr
 U test_r/test1/bzr/dirbad
@@ -640,26 +639,26 @@ U test_r/test1/testdir
 U test_r/test1/testfile
 U test_r/test1/testlink
 U test_r/test1/testpipe
- -> Database closed
+Database closed
 Restore all data in a prefix/dir path
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Restoring
- -> Database open in read-only mode
+Database open in read-only mode
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
@@ -672,26 +671,26 @@ U test_r/test1/cvs/dirutd/CVS/Root
 U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
- -> Database closed
+Database closed
 Restore all data in a prefix
  -> Reading configuration file 'etc/hbackup.conf'
- --> global filter all backup
- ---> condition type file
- ---> condition path_end ~
- --> global filter any test_or
- ---> condition filter backup
- ---> condition not size< 1000
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
  --> Client: myClient
- ---> config file: /home/User/hbackup.list
+ ---> Config file: /home/User/hbackup.list
  --> Client: other
- ---> config file: /home/backup/Backup.list
+ ---> Config file: /home/backup/Backup.list
  --> Client: myhost
- ---> config file: etc/localhost.list
- ---> expiry: 1 day(s)
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
  --> Client: client
- ---> config file: C:\Backup\Backup.LST
+ ---> Config file: C:\Backup\Backup.LST
 Restoring
- -> Database open in read-only mode
+Database open in read-only mode
 U test_r/test1/bzr
 U test_r/test1/bzr/.bzr
 U test_r/test1/bzr/dirbad
@@ -737,7 +736,7 @@ U test_r/test2/testfile
 U test_r/test2/testfile2
 U test_r/test2/testfile~
 U test_r/test2/testlink
- -> Database closed
+Database closed
 Broken configuration
  -> Reading configuration file 'etc/broken.conf'
 Error: after line 0: need at most 1 occurence(s) of keyword 'db'

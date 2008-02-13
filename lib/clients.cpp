@@ -23,7 +23,9 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "configuration.h"
 #include "conditions.h"
 #include "filters.h"
@@ -31,9 +33,9 @@ using namespace std;
 #include "db.h"
 #include "paths.h"
 #include "clients.h"
-#include "hbackup.h"
 
 using namespace hbackup;
+using namespace report;
 
 struct Client::Private {
   list<ClientPath*> paths;
@@ -99,9 +101,7 @@ int Client::mountPath(
   command += " " + share + " " + _mount_point;
 
   // Issue mount command
-  if (verbosity() > 1) {
-    cout << " -> " << command << endl;
-  }
+  out(verbose, 1) << command << endl;
   command += " > /dev/null 2>&1";
 
   int result = system(command.c_str());
@@ -118,9 +118,7 @@ int Client::umount() {
     string command = "umount -fl ";
 
     command += _mount_point;
-    if (verbosity() > 1) {
-      cout << " -> " << command << endl;
-    }
+    out(verbose, 1) << command << endl;
     _mounted = "";
     return system(command.c_str());
   }
@@ -137,7 +135,7 @@ int Client::readListFile(
 
   // Open client configuration file
   if (config_file.open("r")) {
-    cerr << "Client configuration file not found " << list_path << endl;
+    out(error) << "Client configuration file not found " << list_path << endl;
     return -1;
   }
   // Set up config syntax and grammar
@@ -172,9 +170,7 @@ int Client::readListFile(
     path->add(new ConfigItem("compress", 0, 1, 1));
   }
 
-  if (verbosity() > 1) {
-    cout << " -> Reading client configuration file" << endl;
-  }
+  out(verbose, 1) << "Reading client configuration file" << endl;
   if (config.read(config_file,
       Stream::flags_dos_catch | Stream::flags_accept_cr_lf) >= 0) {
     // Read client configuration file
@@ -184,13 +180,12 @@ int Client::readListFile(
     while (config.line(&params) >= 0) {
       if ((*params)[0] == "expire") {
         int expire;
-        if ((sscanf((*params)[1].c_str(), "%d", &expire) != 0) && (expire >= 0)) {
+        if ((sscanf((*params)[1].c_str(), "%d", &expire) != 0)
+        &&  (expire >= 0)) {
           _expire = expire * 3600 * 24;
-          if (verbosity() > 1) {
-            cout << " --> expiry " << expire << " day(s)" << endl;
-          }
+          out(verbose, 2) << "Expiry " << expire << " day(s)" << endl;
         } else {
-          cerr << "Error: in client configuration file " << list_path
+          out(error) << "Error: in client configuration file " << list_path
             << ", line " << (*params).lineNo() << " wrong expiration value: "
             << (*params)[1] << endl;
           failed = true;
@@ -204,9 +199,7 @@ int Client::readListFile(
         } else {
           path = new ClientPath((*params)[1].c_str());
         }
-        if (verbosity() > 1) {
-          cout << " --> Path: " << path->path() << endl;
-        }
+        out(verbose, 2) << "Path: " << path->path() << endl;
         list<ClientPath*>::iterator i = _d->paths.begin();
         while ((i != _d->paths.end())
             && (Path::compare((*i)->path(), path->path()) < 0)) {
@@ -221,7 +214,7 @@ int Client::readListFile(
           if ((ilen > jlen)
             && (Path::compare((*i)->path(), (*j)->path(), jlen) == 0)) {
             errno = EUCLEAN;
-            cout << "Path inside another: this is not supported" << endl;
+            out(error) << "Path inside another: this is not supported" << endl;
             failed = true;
           }
           i = j;
@@ -232,7 +225,7 @@ int Client::readListFile(
           if ((ilen < jlen)
             && (Path::compare((*i)->path(), (*j)->path(), ilen) == 0)) {
             errno = EUCLEAN;
-            cout << "Path inside another. This is not supported" << endl;
+            out(error) << "Path inside another. This is not supported" << endl;
             failed = true;
           }
         }
@@ -241,20 +234,16 @@ int Client::readListFile(
         if (path == NULL) {
           // Client-wide filter
           filter = addFilter((*params)[1], (*params)[2]);
-          if (verbosity() > 1) {
-            cout << " --> client-wide filter " << (*params)[1] << " " << (*params)[2]
-              << endl;
-          }
+          out(verbose, 2) << "Client-wide filter " << (*params)[1] << " "
+              << (*params)[2] << endl;
         } else {
           // Path-wide filter
           filter = path->addFilter((*params)[1], (*params)[2]);
-          if (verbosity() > 1) {
-            cout << " --> path-wide filter " << (*params)[1] << " " << (*params)[2]
-              << endl;
-          }
+          out(verbose, 2) << "Path-wide filter " << (*params)[1] << " "
+            << (*params)[2] << endl;
         }
         if (filter == NULL) {
-          cerr << "Error: in client configuration file " << list_path
+          out(error) << "Error: in client configuration file " << list_path
             << ", line " << (*params).lineNo() << " unsupported filter type: "
             << (*params)[1] << endl;
           failed = true;
@@ -284,42 +273,32 @@ int Client::readListFile(
             subfilter = global_filters.find((*params)[2]);
           }
           if (subfilter == NULL) {
-            cerr << "Error: in client configuration file " << list_path
+            out(error) << "Error: in client configuration file " << list_path
               << ", line " << (*params).lineNo() << " filter not found: "
               << (*params)[2] << endl;
             failed = 2;
           } else {
-            if (verbosity() > 1) {
-              cout << " ---> condition ";
-              if (negated) {
-                cout << "not ";
-              }
-              cout << filter_type << " " << subfilter->name() << endl;
-            }
+            out(verbose, 3) << "Condition " << (negated ? "not " : "")
+              << filter_type << " " << subfilter->name() << endl;
             filter->add(new Condition(Condition::subfilter, subfilter,
               negated));
           }
         } else {
           switch (filter->add(filter_type, (*params)[2], negated)) {
             case 1:
-              cerr << "Error: in client configuration file " << list_path
+              out(error) << "Error: in client configuration file " << list_path
                 << ", line " << (*params).lineNo()
                 << " unsupported condition type: " << (*params)[1] << endl;
               failed = true;
               break;
             case 2:
-              cerr << "Error: in client configuration file " << list_path
+              out(error) << "Error: in client configuration file " << list_path
                 << ", line " << (*params).lineNo() << " no filter defined" << endl;
               failed = true;
               break;
             default:
-              if (verbosity() > 1) {
-                cout << " ---> condition ";
-                if (negated) {
-                  cout << "not ";
-                }
-                cout << filter_type << " " << (*params)[2] << endl;
-              }
+              out(verbose, 3) << "Condition " << (negated ? "not " : "")
+                << filter_type << " " << (*params)[2] << endl;
           }
         }
       } else
@@ -328,7 +307,7 @@ int Client::readListFile(
         Filter* filter = path->findFilter((*params)[1], &_filters,
           &global_filters);
         if (filter == NULL) {
-          cerr << "Error: in client configuration file " << list_path
+          out(error) << "Error: in client configuration file " << list_path
             << ", line " << (*params).lineNo()
             << ": filter for ignoring not found: " << (*params)[1] << endl;
           failed = true;
@@ -340,7 +319,7 @@ int Client::readListFile(
         Filter* filter = path->findFilter((*params)[1], &_filters,
           &global_filters);
         if (filter == NULL) {
-          cerr << "Error: in client configuration file " << list_path
+          out(error) << "Error: in client configuration file " << list_path
             << ", line " << (*params).lineNo()
             << ": filter for compression not found: " << (*params)[1] << endl;
           failed = true;
@@ -351,13 +330,13 @@ int Client::readListFile(
       if ((*params)[0] == "parser") {
         switch (path->addParser((*params)[1], (*params)[2])) {
           case 1:
-            cerr << "Error: in client configuration file " << list_path
+            out(error) << "Error: in client configuration file " << list_path
               << ", line " << (*params).lineNo() << " unsupported parser type: "
               << (*params)[1] << endl;
             failed = true;
             break;
           case 2:
-            cerr << "Error: in client configuration file " << list_path
+            out(error) << "Error: in client configuration file " << list_path
               << ", line " << (*params).lineNo() << " unsupported parser mode: "
               << (*params)[2] << endl;
             failed = true;
@@ -382,10 +361,6 @@ Client::Client(string value) {
   _mounted      = "";
   _initialised  = false;
   _expire       = -1;
-
-  if (verbosity() > 1) {
-    cout << " --> Client: " << _name << endl;
-  }
 }
 
 Client::~Client() {
@@ -433,14 +408,11 @@ int Client::backup(
   if (mountPath(dir, &list_path)) {
     switch (errno) {
       case EPROTONOSUPPORT:
-        cerr << "Protocol not supported: " << _protocol << endl;
+        out(error) << "Protocol not supported: " << _protocol << endl;
         return 1;
       case ETIMEDOUT:
-        if (verbosity() > 0) {
-          cerr << "Warning: cannot connect to client: " << _name
-            << " (using the " << _protocol << " protocol). "
-            <<  strerror(errno) << endl;
-        }
+        out(warning) << "Cannot connect to client: " << _name << " (using the "
+          << _protocol << " protocol). " <<  strerror(errno) << endl;
         return 0;
     }
   }
@@ -450,9 +422,9 @@ int Client::backup(
   }
   list_path += Path::basename(_list_file);
 
-  if ((_home_path.length() == 0) && (verbosity() > 0)) {
-    cout << "Backup client '" << _name
-      << "' using protocol '" << _protocol << "'" << endl;
+  if (_home_path.length() == 0) {
+    out(info) << "Backup client '" << _name << "' using protocol '"
+      << _protocol << "'" << endl;
   }
 
   if (! readListFile(list_path, global_filters)) {
@@ -468,20 +440,17 @@ int Client::backup(
           break;
         }
         string backup_path;
-
-        if (verbosity() > 0) {
-          cout << "Backup path '" << (*i)->path() << "'" << endl;
-        }
+        out(info) << "Backup path '" << (*i)->path() << "'" << endl;
 
         bool abort = false;
         if (mountPath((*i)->path(), &backup_path)) {
-          cerr << "Warning: mount failed, skipping client backup" << endl;
+          out(error) << "Warning: mount failed, skipping client" << endl;
           abort = true;
         } else
         if ((*i)->parse(db, backup_path.c_str())) {
           // prepare_share sets errno
           if (! terminating()) {
-            cerr << "Error: backup failed, aborting client backup" << endl;
+            out(error) << "Error: backup failed, aborting client" << endl;
           }
           abort  = true;
           failed = true;
@@ -500,22 +469,22 @@ int Client::backup(
 }
 
 void Client::show() {
-  cout << "Client: " << _name << endl;
-  cout << "-> " << _protocol << "://" << _host_or_ip << " " << _list_file
-    << endl;
+  out(verbose) << "Client: " << _name << endl;
+  out(verbose, 1) << "Configuration: " << _protocol << "://" << _host_or_ip
+    << " " << _list_file << endl;
   if (_options.size() > 0) {
-    cout << "Options:";
+    out(verbose, 1) << "Options:";
     for (list<Option>::iterator i = _options.begin(); i != _options.end();
      i++ ) {
-      cout << " " + i->option();
+      out(verbose) << " " + i->option();
     }
-    cout << endl;
+    out(verbose) << endl;
   }
   if (_d->paths.size() > 0) {
-    cout << "Paths:" << endl;
+    out(verbose, 1) << "Paths:" << endl;
     for (list<ClientPath*>::iterator i = _d->paths.begin();
         i != _d->paths.end(); i++) {
-      cout << " -> " << (*i)->path() << endl;
+      out(verbose, 2) << (*i)->path() << endl;
     }
   }
 }
