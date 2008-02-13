@@ -34,7 +34,6 @@ using namespace std;
 #include "clients.h"
 
 using namespace hbackup;
-using namespace report;
 
 int hbackup::verbosity(void) {
   return 3;
@@ -50,7 +49,7 @@ int main(void) {
   Database      db("test_db");
   Filters       filters;
 
-  setOutLevel(debug);
+  report::setOutLevel(debug);
 
   // Create global filter
   Filter* filter = filters.add("and", "backup");

@@ -79,27 +79,9 @@ public:
 
 class Parsers : public list<Parser*> {
 public:
-  ~Parsers() {
-    for (Parsers::iterator i = begin(); i != end(); i++) {
-      delete *i;
-    }
-  }
-  Parser* isControlled(const string& dir_path) const {
-    Parser *parser;
-    for (Parsers::const_iterator i = begin(); i != end(); i++) {
-      parser = (*i)->isControlled(dir_path);
-      if (parser != NULL) {
-        return parser;
-      }
-    }
-    return NULL;
-  }
-  void list() const {
-    cout << "List: " << size() << " parser(s)" << endl;
-    for (Parsers::const_iterator i = begin(); i != end(); i++) {
-      cout << "-> " << (*i)->name() << endl;
-    }
-  }
+  ~Parsers();
+  Parser* isControlled(const string& dir_path) const;
+  void list() const;
 };
 
 }

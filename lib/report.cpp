@@ -66,8 +66,9 @@ ostream& Report::out(VerbosityLevel level, int arrow_length) {
       case warning:
         return cout << "Warning: ";
       case info:
-        return cout;
-      case verbose: {
+      case verbose:
+      case debug:
+      {
         string arrow;
         if (arrow_length > 0) {
           arrow = " ";
@@ -76,8 +77,6 @@ ostream& Report::out(VerbosityLevel level, int arrow_length) {
         }
         return cout << arrow;
       }
-      case debug:
-        return cout;
     }
   }
   // g++ knows I dealt with all cases (no warning for switch), but still warns

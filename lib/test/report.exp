@@ -6,6 +6,9 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
+info 0 level
+ -> info 1 level
+ --> info 2 level
 
 Verbosity level: alert
 ALERT! alert level
@@ -25,6 +28,9 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
+info 0 level
+ -> info 1 level
+ --> info 2 level
 
 Verbosity level: verbose
 default level
@@ -32,6 +38,9 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
+info 0 level
+ -> info 1 level
+ --> info 2 level
 verbose level
 verbose 0 level
  -> verbose 1 level
@@ -43,10 +52,16 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
+info 0 level
+ -> info 1 level
+ --> info 2 level
 verbose level
 verbose 0 level
  -> verbose 1 level
  --> verbose 2 level
 debug level
+debug 0 level
+ -> debug 1 level
+ --> debug 2 level
 
 End of tests

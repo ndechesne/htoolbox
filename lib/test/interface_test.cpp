@@ -34,7 +34,6 @@ using namespace std;
 #include "clients.h"
 
 using namespace hbackup;
-using namespace report;
 
 static bool killed  = false;
 static bool killall = false;
@@ -58,7 +57,7 @@ int hbackup::terminating(const char* function) {
 int main(void) {
   HBackup* hbackup;
 
-  setOutLevel(debug);
+  report::setOutLevel(debug);
 
 #if 0
   cout << endl << "Test: wrong config file" << endl;

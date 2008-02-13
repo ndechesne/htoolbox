@@ -43,11 +43,17 @@ int main(void) {
   out(error) << "error level" << endl;
   out(warning) << "warning level" << endl;
   out(info) << "info level" << endl;
+  out(info, 0) << "info 0 level" << endl;
+  out(info, 1) << "info 1 level" << endl;
+  out(info, 2) << "info 2 level" << endl;
   out(verbose) << "verbose level" << endl;
   out(verbose, 0) << "verbose 0 level" << endl;
   out(verbose, 1) << "verbose 1 level" << endl;
   out(verbose, 2) << "verbose 2 level" << endl;
   out(debug) << "debug level" << endl;
+  out(debug, 0) << "debug 0 level" << endl;
+  out(debug, 1) << "debug 1 level" << endl;
+  out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: alert" << endl;
   setOutLevel(alert);
@@ -56,11 +62,17 @@ int main(void) {
   out(error) << "error level" << endl;
   out(warning) << "warning level" << endl;
   out(info) << "info level" << endl;
+  out(info, 0) << "info 0 level" << endl;
+  out(info, 1) << "info 1 level" << endl;
+  out(info, 2) << "info 2 level" << endl;
   out(verbose) << "verbose level" << endl;
   out(verbose, 0) << "verbose 0 level" << endl;
   out(verbose, 1) << "verbose 1 level" << endl;
   out(verbose, 2) << "verbose 2 level" << endl;
   out(debug) << "debug level" << endl;
+  out(debug, 0) << "debug 0 level" << endl;
+  out(debug, 1) << "debug 1 level" << endl;
+  out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: error" << endl;
   setOutLevel(error);
@@ -69,11 +81,17 @@ int main(void) {
   out(error) << "error level" << endl;
   out(warning) << "warning level" << endl;
   out(info) << "info level" << endl;
+  out(info, 0) << "info 0 level" << endl;
+  out(info, 1) << "info 1 level" << endl;
+  out(info, 2) << "info 2 level" << endl;
   out(verbose) << "verbose level" << endl;
   out(verbose, 0) << "verbose 0 level" << endl;
   out(verbose, 1) << "verbose 1 level" << endl;
   out(verbose, 2) << "verbose 2 level" << endl;
   out(debug) << "debug level" << endl;
+  out(debug, 0) << "debug 0 level" << endl;
+  out(debug, 1) << "debug 1 level" << endl;
+  out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: warning" << endl;
   setOutLevel(warning);
@@ -82,11 +100,17 @@ int main(void) {
   out(error) << "error level" << endl;
   out(warning) << "warning level" << endl;
   out(info) << "info level" << endl;
+  out(info, 0) << "info 0 level" << endl;
+  out(info, 1) << "info 1 level" << endl;
+  out(info, 2) << "info 2 level" << endl;
   out(verbose) << "verbose level" << endl;
   out(verbose, 0) << "verbose 0 level" << endl;
   out(verbose, 1) << "verbose 1 level" << endl;
   out(verbose, 2) << "verbose 2 level" << endl;
   out(debug) << "debug level" << endl;
+  out(debug, 0) << "debug 0 level" << endl;
+  out(debug, 1) << "debug 1 level" << endl;
+  out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: info" << endl;
   setOutLevel(info);
@@ -95,11 +119,17 @@ int main(void) {
   out(error) << "error level" << endl;
   out(warning) << "warning level" << endl;
   out(info) << "info level" << endl;
+  out(info, 0) << "info 0 level" << endl;
+  out(info, 1) << "info 1 level" << endl;
+  out(info, 2) << "info 2 level" << endl;
   out(verbose) << "verbose level" << endl;
   out(verbose, 0) << "verbose 0 level" << endl;
   out(verbose, 1) << "verbose 1 level" << endl;
   out(verbose, 2) << "verbose 2 level" << endl;
   out(debug) << "debug level" << endl;
+  out(debug, 0) << "debug 0 level" << endl;
+  out(debug, 1) << "debug 1 level" << endl;
+  out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: verbose" << endl;
   setOutLevel(verbose);
@@ -108,11 +138,17 @@ int main(void) {
   out(error) << "error level" << endl;
   out(warning) << "warning level" << endl;
   out(info) << "info level" << endl;
+  out(info, 0) << "info 0 level" << endl;
+  out(info, 1) << "info 1 level" << endl;
+  out(info, 2) << "info 2 level" << endl;
   out(verbose) << "verbose level" << endl;
   out(verbose, 0) << "verbose 0 level" << endl;
   out(verbose, 1) << "verbose 1 level" << endl;
   out(verbose, 2) << "verbose 2 level" << endl;
   out(debug) << "debug level" << endl;
+  out(debug, 0) << "debug 0 level" << endl;
+  out(debug, 1) << "debug 1 level" << endl;
+  out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: debug" << endl;
   setOutLevel(debug);
@@ -121,11 +157,17 @@ int main(void) {
   out(error) << "error level" << endl;
   out(warning) << "warning level" << endl;
   out(info) << "info level" << endl;
+  out(info, 0) << "info 0 level" << endl;
+  out(info, 1) << "info 1 level" << endl;
+  out(info, 2) << "info 2 level" << endl;
   out(verbose) << "verbose level" << endl;
   out(verbose, 0) << "verbose 0 level" << endl;
   out(verbose, 1) << "verbose 1 level" << endl;
   out(verbose, 2) << "verbose 2 level" << endl;
   out(debug) << "debug level" << endl;
+  out(debug, 0) << "debug 0 level" << endl;
+  out(debug, 1) << "debug 1 level" << endl;
+  out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "End of tests" << endl;
 

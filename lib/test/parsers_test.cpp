@@ -21,9 +21,10 @@ using namespace std;
 #include <iostream>
 #include <list>
 
+#include "hbackup.h"
+#include "report.h"
 #include "files.h"
 #include "parsers.h"
-#include "hbackup.h"
 
 using namespace hbackup;
 
@@ -73,6 +74,8 @@ public:
 int main(void) {
   Parsers*  parsers;
   Parser*   parser;
+
+  report::setOutLevel(debug);
 
   parsers = new Parsers;
   cout << "Add TestParser to list" << endl;

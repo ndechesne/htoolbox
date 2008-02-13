@@ -31,6 +31,7 @@ libhbackup_la_SOURCES = \
 	filters.cpp \
 	interface.cpp \
 	list.cpp \
+	parsers.cpp \
 	paths.cpp \
 	report.cpp \
 	svn_parser.cpp
