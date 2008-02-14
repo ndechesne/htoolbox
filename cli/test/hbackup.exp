@@ -486,7 +486,7 @@ Try to list paths in both myhost and smb://client (fails)
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Showing list
-Error: maximum one client allowed
+Error: Maximum one client allowed
 List paths in myhost
  -> Reading configuration file 'etc/hbackup.conf'
  --> Global filter all backup

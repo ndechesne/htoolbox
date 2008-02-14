@@ -59,10 +59,6 @@ public:
   }
 };
 
-int hbackup::verbosity(void) {
-  return verbose;
-}
-
 int hbackup::terminating(const char* unused) {
   return 0;
 }

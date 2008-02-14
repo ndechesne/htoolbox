@@ -38,10 +38,6 @@ using namespace hbackup;
 static bool killed  = false;
 static bool killall = false;
 
-int hbackup::verbosity(void) {
-  return 3;
-}
-
 int hbackup::terminating(const char* function) {
   if (killall) {
     return 1;

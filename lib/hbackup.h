@@ -52,8 +52,6 @@ namespace hbackup {
     VerbosityLevel    level,
     int               arrow_length = -1);
 
-  extern int verbosity();
-
   //! Termination required (string is for debug purposes only)
   extern int terminating(const char* string = NULL);
 

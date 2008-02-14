@@ -31,10 +31,6 @@ using namespace std;
 
 using namespace hbackup;
 
-int hbackup::verbosity(void) {
-  return 2;
-}
-
 int hbackup::terminating(const char* function) {
   return 0;
 }

@@ -31,6 +31,8 @@ using namespace std;
 #include "config.h"
 #include "hbackup.h"
 
+using namespace hbackup;
+
 // DEFAULTS
 
 // Verbosity
@@ -39,19 +41,15 @@ static int verbose_level = 0;
 // Signal received?
 static int killed = 0;
 
-int hbackup::verbosity(void) {
-  return verbose_level;
-}
-
 int hbackup::terminating(const char* unused) {
   return killed;
 }
 
 void sighandler(int signal) {
   if (killed) {
-    cerr << "Already aborting..." << endl;
+    cout << "Already aborting..." << endl;
   } else {
-    cerr << "Signal received, aborting..." << endl;
+    out(warning) << "Signal received, aborting..." << endl;
   }
   killed = signal;
 }
@@ -59,7 +57,7 @@ void sighandler(int signal) {
 class MyOutput : public StdOutput {
   public:
     virtual void failure(CmdLineInterface& c, ArgException& e) {
-      cerr << "Error: " << e.what() << endl;
+      out(error) << e.what() << endl;
       usage(c);
     }
 
@@ -74,7 +72,7 @@ class MyOutput : public StdOutput {
     }
 
     virtual void version(CmdLineInterface& c) {
-      cout << c.getMessage() << " version " << c.getVersion() << endl;
+      out(info) << c.getMessage() << " version " << c.getVersion() << endl;
     }
 };
 
@@ -205,31 +203,25 @@ int main(int argc, char **argv) {
     }
     // Check that data referenced in DB exists
     if (scanSwitch.getValue()) {
-      if (hbackup::verbosity() > 0) {
-        cout << "Scanning database" << endl;
-      }
+      out(info) << "Scanning database" << endl;
       if (hbackup.check()) {
         return 3;
       }
     } else
     // Check that data referenced in DB exists and is not corrupted
     if (checkSwitch.getValue()) {
-      if (hbackup::verbosity() > 0) {
-        cout << "Checking database" << endl;
-      }
+      out(info) << "Checking database" << endl;
       if (hbackup.check(true)) {
         return 3;
       }
     } else
     // List DB contents
     if (listSwitch.getValue()) {
-      if (hbackup::verbosity() > 0) {
-        cout << "Showing list" << endl;
-      }
+      out(info) << "Showing list" << endl;
       string client;
       string path;
       if (clientArg.getValue().size() > 1) {
-        cerr << "Error: maximum one client allowed" << endl;
+        out(error) << "Maximum one client allowed" << endl;
         return 1;
       } else
       if (clientArg.getValue().size() != 0) {
@@ -240,18 +232,17 @@ int main(int argc, char **argv) {
           dateArg.getValue())) {
         return 3;
       }
-      for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+      for (list<string>::iterator i = records.begin(); i != records.end();
+          i++) {
         cout << " " << *i << endl;
       }
     } else
     // Restore data
     if (restoreArg.getValue().size() != 0) {
-      if (hbackup::verbosity() > 0) {
-        cout << "Restoring" << endl;
-      }
+      out(info) << "Restoring" << endl;
       string client;
       if (clientArg.getValue().size() > 1) {
-        cerr << "Error: maximum one client allowed" << endl;
+        out(error) << "Maximum one client allowed" << endl;
         return 1;
       } else
       if (clientArg.getValue().size() != 0) {
@@ -264,22 +255,20 @@ int main(int argc, char **argv) {
     } else
     // Backup
     {
-      if (hbackup::verbosity() > 0) {
-        cout << "Backing up in ";
-        if (user_mode) {
-          cout << "user";
-        } else {
-          cout << "server";
-        }
-        cout << " mode" << endl;
+      out(info) << "Backing up in ";
+      if (user_mode) {
+        out(info, 0) << "user";
+      } else {
+        out(info, 0) << "server";
       }
+      out(info, 0) << " mode" << endl;
       if (hbackup.backup()) {
         return 3;
       }
     }
     hbackup.close();
   } catch (ArgException &e) {
-    cerr << "error: " << e.error() << " for arg " << e.argId() << endl;
+    out(error) << e.error() << " for arg " << e.argId() << endl;
   };
   return 0;
 }
