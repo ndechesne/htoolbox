@@ -25,6 +25,7 @@ using namespace std;
 #include "files.h"
 #include "conditions.h"
 #include "filters.h"
+#include "hbackup.h"
 
 using namespace hbackup;
 
@@ -60,7 +61,7 @@ bool Condition::match(const char* npath, const Node& node) const {
         if (! regcomp(&regex, _string.c_str(), REG_EXTENDED)) {
           result = ! regexec(&regex, name.c_str(), 0, NULL, 0);
         } else {
-          cerr << "filters: regex: incorrect expression" << endl;
+          out(error) << "Filters: regex: incorrect expression" << endl;
         }
       } break;
     case Condition::path:
@@ -82,7 +83,7 @@ bool Condition::match(const char* npath, const Node& node) const {
         if (! regcomp(&regex, _string.c_str(), REG_EXTENDED)) {
           result = ! regexec(&regex, path.c_str(), 0, NULL, 0);
         } else {
-          cerr << "filters: regex: incorrect expression" << endl;
+          out(error) << "Filters: regex: incorrect expression" << endl;
         }
       } break;
     case Condition::size_ge:
@@ -104,7 +105,7 @@ bool Condition::match(const char* npath, const Node& node) const {
       result = node.mode() == _value;
       break;
     default:
-      cerr << "filters: match: unknown condition type" << endl;
+      out(error) << "Filters: match: unknown condition type" << endl;
   }
   return _negated ? ! result : result;
 }
@@ -112,7 +113,7 @@ bool Condition::match(const char* npath, const Node& node) const {
 void Condition::show() const {
   switch (_type) {
     case Condition::subfilter:
-      cout << "--> " << _filter->name() << " " << _type << endl;
+      out(verbose, 2) << _filter->name() << " " << _type << endl;
       break;
     case Condition::type:
       break;
@@ -124,19 +125,19 @@ void Condition::show() const {
     case Condition::path_end:
     case Condition::path_start:
     case Condition::path_regex:
-      cout << "--> " << _string << " " << _type << endl;
+      out(verbose, 2) << _string << " " << _type << endl;
       break;
     case Condition::size_ge:
     case Condition::size_gt:
     case Condition::size_le:
     case Condition::size_lt:
-      cout << "--> " << _value << " " << _type << endl;
+      out(verbose, 2) << _value << " " << _type << endl;
       break;
     case Condition::mode_and:
     case Condition::mode_eq:
-      cout << "--> " << hex << _value << dec << " " << _type << endl;
+      out(verbose, 2) << hex << _value << dec << " " << _type << endl;
       break;
     default:
-      cout << "--> unknown condition type " << _type << endl;
+      out(verbose, 2) << "Unknown condition type " << _type << endl;
   }
 }

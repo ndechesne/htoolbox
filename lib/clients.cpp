@@ -23,9 +23,7 @@
 
 using namespace std;
 
-#include "hbackup.h"
 #include "files.h"
-#include "report.h"
 #include "configuration.h"
 #include "conditions.h"
 #include "filters.h"
@@ -33,6 +31,7 @@ using namespace std;
 #include "db.h"
 #include "paths.h"
 #include "clients.h"
+#include "hbackup.h"
 
 using namespace hbackup;
 

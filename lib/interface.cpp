@@ -23,14 +23,14 @@
 
 using namespace std;
 
-#include "hbackup.h"
 #include "files.h"
-#include "report.h"
 #include "configuration.h"
 #include "conditions.h"
 #include "filters.h"
 #include "db.h"
 #include "clients.h"
+#include "hbackup.h"
+#include "report.h"
 
 using namespace hbackup;
 

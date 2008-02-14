@@ -16,14 +16,13 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <iostream>
+#include <string>
 
 using namespace std;
 
 #include "files.h"
 #include "conditions.h"
 #include "filters.h"
-#include "hbackup.h"
 
 using namespace hbackup;
 

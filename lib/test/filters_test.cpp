@@ -38,6 +38,8 @@ int hbackup::terminating(const char* function) {
 int main(void) {
   Node*           node;
 
+  setVerbosityLevel(debug);
+
   cout << "OR filter test" << endl;
   Filter* or_filter = new Filter(Filter::any, "my_filter_or");
   or_filter->add(new Condition(Condition::size_le, (long long) 500, false));
