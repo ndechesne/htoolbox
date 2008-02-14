@@ -124,7 +124,8 @@ int ClientPath::recurse(
               && (_compress != NULL) && _compress->match(rel_path, **i)) {
               compress = 5;
             }
-            if (db.add(rem_path, *i, checksum, compress) && (errno == EIO)) {
+            if (db.add(rem_path, *i, checksum, compress)
+            &&  ((errno == EIO) || (errno == EHOSTDOWN))) {
               give_up = true;
             }
           }
