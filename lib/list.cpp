@@ -24,11 +24,13 @@
 
 using namespace std;
 
-#include "files.h"
-#include "list.h"
 #include "hbackup.h"
+#include "files.h"
+#include "report.h"
+#include "list.h"
 
 using namespace hbackup;
+using namespace report;
 
 enum Status {
   unexpected_eof = -2,      // unexpected end of file
@@ -237,19 +239,20 @@ int List::decodeDataLine(
 
   // Check result
   if (params.size() < 4) {
-    cerr << "Error: wrong number of arguments for line" << endl;
+    out(error) << "Wrong number of arguments for line" << endl;
     return -1;
   }
 
   // DB timestamp
-  if ((timestamp != NULL) && sscanf(params[2].c_str(), "%ld", timestamp) != 1) {
-    cerr << "Error: cannot decode timestamp" << endl;
+  if ((timestamp != NULL)
+  && sscanf(params[2].c_str(), "%ld", timestamp) != 1) {
+    out(error) << "Cannot decode timestamp" << endl;
     return -1;
   }
 
   // Type
   if (params[3].size() != 1) {
-    cerr << "Error: cannot decode type" << endl;
+    out(error) << "Cannot decode type" << endl;
     return -1;
   }
   type = params[3][0];
@@ -257,7 +260,7 @@ int List::decodeDataLine(
   switch (type) {
     case '-':
       if (params.size() != 4) {
-        cerr << "Error: wrong number of arguments for remove line" << endl;
+        out(error) << "Wrong number of arguments for remove line" << endl;
         return -1;
       } else {
         *node = NULL;
@@ -266,44 +269,44 @@ int List::decodeDataLine(
     case 'f':
     case 'l':
       if (params.size() != 10) {
-        cerr << "Error: wrong number of arguments for file/link line" << endl;
+        out(error) << "Wrong number of arguments for file/link line" << endl;
         return -1;
       }
       break;
     default:
       if (params.size() != 9) {
-        cerr << "Error: wrong number of arguments for line" << endl;
+        out(error) << "Wrong number of arguments for line" << endl;
         return -1;
       }
   }
 
   // Size
   if (sscanf(params[4].c_str(), "%lld", &size) != 1) {
-    cerr << "Error: cannot decode size" << endl;
+    out(error) << "Cannot decode size" << endl;
     return -1;
   }
 
   // Modification time
   if (sscanf(params[5].c_str(), "%ld", &mtime) != 1) {
-    cerr << "Error: cannot decode mtime" << endl;
+    out(error) << "Cannot decode mtime" << endl;
     return -1;
   }
 
   // User
   if (sscanf(params[6].c_str(), "%u", &uid) != 1) {
-    cerr << "Error: cannot decode uid" << endl;
+    out(error) << "Cannot decode uid" << endl;
     return -1;
   }
 
   // Group
   if (sscanf(params[7].c_str(), "%u", &gid) != 1) {
-    cerr << "Error: cannot decode gid" << endl;
+    out(error) << "Cannot decode gid" << endl;
     return -1;
   }
 
   // Permissions
   if (sscanf(params[8].c_str(), "%o", &mode) != 1) {
-    cerr << "Error: cannot decode mode" << endl;
+    out(error) << "Cannot decode mode" << endl;
     return -1;
   }
 
@@ -394,7 +397,7 @@ int List::getEntry(
     if (length <= 0) {
       errno = EUCLEAN;
       if (length == 0) {
-        cerr << "unexpected end of file" << endl;
+        out(error) << "Unexpected end of file" << endl;
       }
       return -1;
     }
@@ -572,7 +575,7 @@ int List::search(
     // Failed
     if (rc <= 0) {
       // Unexpected end of file
-      cerr << "Unexpected end of list" << endl;
+      out(error) << "Unexpected end of list" << endl;
       errno = EUCLEAN;
       return -1;
     }
@@ -794,7 +797,7 @@ int List::merge(
 
     // Failed
     if (rc_journal < 0) {
-      cerr << "Error reading journal, line " << j_line_no << endl;
+      out(error) << "Reading journal, line " << j_line_no << endl;
       rc = -1;
       break;
     }
@@ -805,13 +808,13 @@ int List::merge(
         rc_list = list.search("", "", this);
         if (rc_list < 0) {
           // Error copying list
-          cerr << "End of list copy failed" << endl;
+          out(error) << "End of list copy failed" << endl;
           rc = -1;
           break;
         }
       }
       if (rc_journal == 0) {
-        cerr << "Unexpected end of journal, line " << j_line_no << endl;
+        out(warning) << "Unexpected end of journal" << endl;
         errno = EBUSY;
         rc = -1;
       }
@@ -825,13 +828,15 @@ int List::merge(
         int cmp = client.compare(journal._d->line.c_str());
         // If same client, ignore it
         if (cmp == 0) {
-          cerr << "Client duplicated in journal, line " << j_line_no << endl;
+          out(error) << "Client duplicated in journal, line " << j_line_no
+            << endl;
           continue;
         }
         // Check path order
         if (cmp > 0) {
           // Cannot go back
-          cerr << "Client out of order in journal, line " << j_line_no << endl;
+          out(error) << "Client out of order in journal, line " << j_line_no
+            << endl;
           errno = EUCLEAN;
           rc = -1;
           break;
@@ -846,7 +851,7 @@ int List::merge(
         rc_list = list.search(client.c_str(), path.c_str(), this);
         if (rc_list < 0) {
           // Error copying list
-          cerr << "Client search failed" << endl;
+          out(error) << "Client search failed" << endl;
           rc = -1;
           break;
         }
@@ -858,7 +863,7 @@ int List::merge(
       // Must have a client by now
       if (client.length() == 0) {
         // Did not get a client first thing
-        cerr << "Client missing in journal, line " << j_line_no << endl;
+        out(error) << "Client missing in journal, line " << j_line_no << endl;
         errno = EUCLEAN;
         rc = -1;
         break;
@@ -867,7 +872,8 @@ int List::merge(
       if (path.length() != 0) {
         if (path.compare(journal._d->line.c_str()) > 0) {
           // Cannot go back
-          cerr << "Path out of order in journal, line " << j_line_no << endl;
+          out(error) << "Path out of order in journal, line " << j_line_no
+            << endl;
           errno = EUCLEAN;
           rc = -1;
           break;
@@ -880,7 +886,7 @@ int List::merge(
         rc_list = list.search(client.c_str(), path.c_str(), this);
         if (rc_list < 0) {
           // Error copying list
-          cerr << "Path search failed" << endl;
+          out(error) << "Path search failed" << endl;
           rc = -1;
           break;
         }
@@ -892,7 +898,8 @@ int List::merge(
       // Must have a path before then
       if ((client.length() == 0) || (path.length() == 0)) {
         // Did not get anything before data
-        cerr << "Data out of order in journal, line " << j_line_no << endl;
+        out(error) << "Data out of order in journal, line " << j_line_no
+          << endl;
         errno = EUCLEAN;
         rc = -1;
         break;
@@ -903,7 +910,7 @@ int List::merge(
         || (list.putLine(journal._d->line.c_str()) < 0))
        && (Stream::putLine(journal._d->line.c_str()) < 0)) {
         // Could not write
-        cerr << "Journal copy failed" << endl;
+        out(error) << "Journal copy failed" << endl;
         rc = -1;
         break;
       }

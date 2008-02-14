@@ -113,8 +113,8 @@ static void showList(List& slist) {
 
 int main(void) {
   umask(0022);
-  report::setOutLevel(debug);
-  
+  *Report::self() = debug;
+
   ClientPath* path = new ClientPath("/home/User");
   Database    db("test_db");
   // Journal

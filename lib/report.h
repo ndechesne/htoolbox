@@ -26,27 +26,24 @@
 
 namespace hbackup {
 
+class Report {
+  static Report*        _self;
+  static VerbosityLevel _level;
+protected:
+  Report() {}
+public:
+  // Create/get current instance of this singleton
+  static Report* self();
+  // Set output verbosity level
+  VerbosityLevel operator=(
+    VerbosityLevel  level);
+  // Report text, at given level
+  static ostream& out(
+    VerbosityLevel  level,
+    int             arrow_length = -1);
+};
+
 namespace report {
-  class Report {
-    static Report*        _self;
-    static VerbosityLevel _level;
-  protected:
-    Report() {}
-  public:
-    // Create/get current instance of this singleton
-    static Report* self();
-    // Set output verbosity level
-    VerbosityLevel operator=(
-      VerbosityLevel  level);
-    // Report text, at given level
-    static ostream& out(
-      VerbosityLevel  level,
-      int             arrow_length = -1);
-  };
-
-  extern void setOutLevel(
-    VerbosityLevel    level);
-
   extern ostream& out(
     VerbosityLevel    level,
     int               arrow_length = -1);

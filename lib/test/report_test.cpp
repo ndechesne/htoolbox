@@ -61,7 +61,7 @@ int main(void) {
   out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: alert" << endl;
-  setOutLevel(alert);
+  *Report::self() = alert;
   out(info) << "default level" << endl;
   out(alert) << "alert level" << endl;
   out(alert, 0) << "alert 0 level" << endl;
@@ -85,7 +85,7 @@ int main(void) {
   out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: error" << endl;
-  setOutLevel(error);
+  *Report::self() = error;
   out(info) << "default level" << endl;
   out(alert) << "alert level" << endl;
   out(alert, 0) << "alert 0 level" << endl;
@@ -109,7 +109,7 @@ int main(void) {
   out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: warning" << endl;
-  setOutLevel(warning);
+  *Report::self() = warning;
   out(info) << "default level" << endl;
   out(alert) << "alert level" << endl;
   out(alert, 0) << "alert 0 level" << endl;
@@ -133,7 +133,7 @@ int main(void) {
   out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: info" << endl;
-  setOutLevel(info);
+  *Report::self() = info;
   out(info) << "default level" << endl;
   out(alert) << "alert level" << endl;
   out(alert, 0) << "alert 0 level" << endl;
@@ -157,7 +157,7 @@ int main(void) {
   out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: verbose" << endl;
-  setOutLevel(verbose);
+  *Report::self() = verbose;
   out(info) << "default level" << endl;
   out(alert) << "alert level" << endl;
   out(alert, 0) << "alert 0 level" << endl;
@@ -181,7 +181,7 @@ int main(void) {
   out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: debug" << endl;
-  setOutLevel(debug);
+  *Report::self() = debug;
   out(info) << "default level" << endl;
   out(alert) << "alert level" << endl;
   out(alert, 0) << "alert 0 level" << endl;

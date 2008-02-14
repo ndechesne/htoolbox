@@ -75,7 +75,7 @@ int main(void) {
   Parsers*  parsers;
   Parser*   parser;
 
-  report::setOutLevel(debug);
+  *Report::self() = debug;
 
   parsers = new Parsers;
   cout << "Add TestParser to list" << endl;

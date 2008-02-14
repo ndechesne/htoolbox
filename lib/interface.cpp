@@ -68,7 +68,7 @@ HBackup::~HBackup() {
 }
 
 void HBackup::setVerbosityLevel(VerbosityLevel level) {
-  setOutLevel(level);
+  *Report::self() = level;
 }
 
 int HBackup::addClient(const char* name) {

@@ -78,7 +78,7 @@ int main(void) {
   int               status;
   DataTest          db;
 
-  report::setOutLevel(debug);
+  *Report::self() = debug;
 
   /* Test database */
   Directory("test_db").create();

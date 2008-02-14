@@ -49,7 +49,7 @@ int main(void) {
   Database      db("test_db");
   Filters       filters;
 
-  report::setOutLevel(debug);
+  *Report::self() = debug;
 
   // Create global filter
   Filter* filter = filters.add("and", "backup");

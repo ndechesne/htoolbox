@@ -24,7 +24,6 @@ using namespace std;
 #include "report.h"
 
 using namespace hbackup;
-using namespace report;
 
 struct nullstream : std::ostream {
   struct nullbuf : std::streambuf {
@@ -92,10 +91,6 @@ ostream& Report::out(VerbosityLevel level, int arrow_length) {
   }
   // g++ knows I dealt with all cases (no warning for switch), but still warns
   return null;
-}
-
-void report::setOutLevel(VerbosityLevel level) {
-  *Report::self() = level;
 }
 
 ostream& report::out(VerbosityLevel level, int arrow_length) {

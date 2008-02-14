@@ -3999,9 +3999,9 @@ myClient
 [19] -
 	/home/User/testdir/evolocal.odb
 [19] -
-unexpected end of file
+Error: Unexpected end of file
 Warning: Backup was interrupted in a previous run, finishing up...
-Unexpected end of journal, line 29
+Warning: Unexpected end of journal
 Database open in read/write mode
 
 List:
@@ -4257,7 +4257,7 @@ myClient
 [19] -
 	/home/User/testdir/evolocal.odb
 [19] -
-unexpected end of file
+Error: Unexpected end of file
  -> Journal is empty, not merging
 Database closed
 Database open in read/write mode
@@ -4551,7 +4551,7 @@ myClient
 [19] -
 	/home/User/testdir/evolocal.odb
 [19] -
-unexpected end of file
+Error: Unexpected end of file
 
 Same again
 Database open in read/write mode
@@ -4813,7 +4813,7 @@ myClient
 [19] -
 	/home/User/testdir/evolocal.odb
 [19] -
-unexpected end of file
+Error: Unexpected end of file
 
 Expiry delay: 18, date: 22
 Database open in read/write mode

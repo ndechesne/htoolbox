@@ -24,9 +24,10 @@
 
 using namespace std;
 
-#include "files.h"
-#include "list.h"
 #include "hbackup.h"
+#include "files.h"
+#include "report.h"
+#include "list.h"
 
 using namespace hbackup;
 
@@ -72,6 +73,7 @@ int main(void) {
 
   cout << "Test: DB lists" << endl;
   mkdir("test_db", 0755);
+  *Report::self() = debug;
 
   if (dblist.open("w")) {
     cerr << "Failed to open list" << endl;
