@@ -75,7 +75,7 @@ int main(void) {
   Parsers*  parsers;
   Parser*   parser;
 
-  *Report::self() = debug;
+  setVerbosityLevel(debug);
 
   parsers = new Parsers;
   cout << "Add TestParser to list" << endl;

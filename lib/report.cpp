@@ -36,9 +36,9 @@ struct nullstream : std::ostream {
 
 static nullstream null;
 
-Report* Report::_self  = NULL;
+Report*        Report::_self  = NULL;
 // Display all non-debug messages
-VerbosityLevel   Report::_level = info;
+VerbosityLevel Report::_level = info;
 
 Report* Report::self() {
   if (_self == NULL) {
@@ -47,10 +47,8 @@ Report* Report::self() {
   return _self;
 }
 
-VerbosityLevel Report::operator=(VerbosityLevel level) {
-  Report* report = Report::self();
-  report->_level = level;
-  return level;
+void Report::setVerbosityLevel(VerbosityLevel level) {
+  Report::self()->_level = level;
 }
 
 ostream& Report::out(VerbosityLevel level, int arrow_length) {
@@ -91,8 +89,4 @@ ostream& Report::out(VerbosityLevel level, int arrow_length) {
   }
   // g++ knows I dealt with all cases (no warning for switch), but still warns
   return null;
-}
-
-ostream& report::out(VerbosityLevel level, int arrow_length) {
-  return Report::self()->out(level, arrow_length);
 }

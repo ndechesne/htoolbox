@@ -195,7 +195,7 @@ A test1/cvs/CVS/Root (16 B)
 Adding compressed file data to DB in: test_db/data/b90f8fa56ea1d39881d4a199c7a81d35-0
 A test1/cvs/dirbad
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
 A test1/cvs/dirutd
  -> Dir cvs/dirutd
  -> Parsing CVS entries
@@ -225,7 +225,7 @@ A test1/svn/.svn/entries (77 B)
 Adding compressed file data to DB in: test_db/data/0f2ea973d77135dc3d06c8e68da6dc59-0
 A test1/svn/dirbad
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
 A test1/svn/dirutd
  -> Dir svn/dirutd
  -> Parsing Subversion entries
@@ -291,7 +291,7 @@ Backup path 'test1'
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
  --> fileutd	f	1159985080
@@ -305,7 +305,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir svn/dirutd
  -> Parsing Subversion entries
  --> fileutd	m

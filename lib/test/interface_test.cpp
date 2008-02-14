@@ -57,7 +57,7 @@ int hbackup::terminating(const char* function) {
 int main(void) {
   HBackup* hbackup;
 
-  *Report::self() = debug;
+  setVerbosityLevel(debug);
 
 #if 0
   cout << endl << "Test: wrong config file" << endl;

@@ -37,7 +37,6 @@ using namespace std;
 #include "data.h"
 
 using namespace hbackup;
-using namespace report;
 
 static bool cancel() {
   return terminating("write") != 0;

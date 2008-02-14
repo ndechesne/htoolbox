@@ -1538,7 +1538,7 @@ D /home/User/cvs/CVS/Wherever
 D /home/User/cvs/CVS/Wherever/Whichever
 D /home/User/cvs/big_file
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
 D /home/User/cvs/dirbad/fileoth
 D /home/User/cvs/dirbad/fileutd
 D /home/User/cvs/diroth
@@ -1734,7 +1734,7 @@ Database open in read/write mode
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
  --> fileutd	f	1159985080
@@ -1925,7 +1925,7 @@ Database open in read/write mode
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir cvs/dirutd
  -> Parsing CVS entries
  --> fileutd	f	1159985080
@@ -1943,7 +1943,7 @@ D /home/User/svn/.svn/whatever
 D /home/User/svn/.svn/wherever
 D /home/User/svn/.svn/wherever/whichever
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
 D /home/User/svn/dirbad/fileoth
 D /home/User/svn/dirbad/fileutd
 D /home/User/svn/diroth
@@ -2150,7 +2150,7 @@ Database open in read/write mode
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
 D /home/User/cvs/dirutd
 D /home/User/cvs/dirutd/CVS
 D /home/User/cvs/dirutd/CVS/Entries
@@ -2165,7 +2165,7 @@ D /home/User/cvs/dirutd/fileutd
  --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir svn/dirutd
  -> Parsing Subversion entries
  --> fileutd	m
@@ -2355,7 +2355,7 @@ Database open in read/write mode
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir svn
  -> Parsing Subversion entries
@@ -2365,7 +2365,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
 D /home/User/svn/dirutd
 D /home/User/svn/dirutd/.svn
 D /home/User/svn/dirutd/.svn/entries
@@ -2556,7 +2556,7 @@ Database open in read/write mode
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir svn
  -> Parsing Subversion entries
@@ -2566,7 +2566,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Parsed 23 file(s)
 D /home/User/testpipe
@@ -2749,7 +2749,7 @@ Database open in read/write mode
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir svn
  -> Parsing Subversion entries
@@ -2759,7 +2759,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 ~ /home/User/testfile (13 B)
 Parsed 23 file(s)
@@ -2943,7 +2943,7 @@ Database open in read/write mode
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
 M /home/User/cvs/filenew.c (5 B)
 Adding file data to DB in: test_db/data/0d599f0ec05c3bda8c3b8a68c32a1b47-0
  -> Dir dir space
@@ -2955,7 +2955,7 @@ Adding file data to DB in: test_db/data/0d599f0ec05c3bda8c3b8a68c32a1b47-0
  --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 A /home/User/testpipe
 Parsed 24 file(s)
@@ -3143,7 +3143,7 @@ Database open in read/write mode
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
 A /home/User/docbook-xml
  -> Dir docbook-xml
@@ -3175,7 +3175,7 @@ A /home/User/docbook-xml.cat.old (0 B)
  --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 A /home/User/testdir/biblio
  -> Dir testdir/biblio
@@ -3444,7 +3444,7 @@ Database open in read/write mode
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir docbook-xml
  -> Dir docbook-xml/3.1.7
@@ -3461,7 +3461,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
  -> Dir testdir/biblio
 Parsed 44 file(s)
@@ -3738,7 +3738,7 @@ A /home/User/crash/file (0 B)
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir docbook-xml
  -> Dir docbook-xml/3.1.7
@@ -3755,7 +3755,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/test space (0 B)
 D /home/User/testdir
 D /home/User/testdir/biblio
@@ -4276,7 +4276,7 @@ Database open in read/write mode
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir docbook-xml
  -> Dir docbook-xml/3.1.7
@@ -4293,7 +4293,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
 Parsed 40 file(s)
  -> Journal is empty, not merging
 Database closed
@@ -4827,7 +4827,7 @@ Database open in read/write mode
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir docbook-xml
  -> Dir docbook-xml/3.1.7
@@ -4844,7 +4844,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile (13 B)
 Error: Permission denied opening write source file: test1/testfile
 Parsed 40 file(s)
@@ -5063,7 +5063,7 @@ Database open in read/write mode
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir docbook-xml
  -> Dir docbook-xml/3.1.7
@@ -5080,7 +5080,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
 D /home/User/testfile
 M /home/User/testfile~ (0 B)
 Parsed 39 file(s)
@@ -5285,7 +5285,7 @@ Database open in read/write mode
  --> dirutd	d	0
  -> Dir cvs/CVS
  -> Dir cvs/dirbad
-Directory should be under CVS control: test1/cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
  -> Dir docbook-xml
  -> Dir docbook-xml/3.1.7
@@ -5302,7 +5302,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  --> diroth	o
  -> Dir svn/.svn
  -> Dir svn/dirbad
-Directory should be under Subversion control: test1/svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile~ (5 B)
 Parsed 39 file(s)
 Database closed

@@ -24,7 +24,6 @@ using namespace std;
 #include "report.h"
 
 using namespace hbackup;
-using namespace report;
 
 int hbackup::verbosity(void) {
   return 0;
@@ -61,7 +60,7 @@ int main(void) {
   out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: alert" << endl;
-  *Report::self() = alert;
+  setVerbosityLevel(alert);
   out(info) << "default level" << endl;
   out(alert) << "alert level" << endl;
   out(alert, 0) << "alert 0 level" << endl;
@@ -85,7 +84,7 @@ int main(void) {
   out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: error" << endl;
-  *Report::self() = error;
+  setVerbosityLevel(error);
   out(info) << "default level" << endl;
   out(alert) << "alert level" << endl;
   out(alert, 0) << "alert 0 level" << endl;
@@ -109,7 +108,7 @@ int main(void) {
   out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: warning" << endl;
-  *Report::self() = warning;
+  setVerbosityLevel(warning);
   out(info) << "default level" << endl;
   out(alert) << "alert level" << endl;
   out(alert, 0) << "alert 0 level" << endl;
@@ -133,7 +132,7 @@ int main(void) {
   out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: info" << endl;
-  *Report::self() = info;
+  setVerbosityLevel(info);
   out(info) << "default level" << endl;
   out(alert) << "alert level" << endl;
   out(alert, 0) << "alert 0 level" << endl;
@@ -157,7 +156,7 @@ int main(void) {
   out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: verbose" << endl;
-  *Report::self() = verbose;
+  setVerbosityLevel(verbose);
   out(info) << "default level" << endl;
   out(alert) << "alert level" << endl;
   out(alert, 0) << "alert 0 level" << endl;
@@ -181,7 +180,7 @@ int main(void) {
   out(debug, 2) << "debug 2 level" << endl;
 
   cout << endl << "Verbosity level: debug" << endl;
-  *Report::self() = debug;
+  setVerbosityLevel(debug);
   out(info) << "default level" << endl;
   out(alert) << "alert level" << endl;
   out(alert, 0) << "alert 0 level" << endl;

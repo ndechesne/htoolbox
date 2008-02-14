@@ -73,7 +73,7 @@ int main(void) {
 
   cout << "Test: DB lists" << endl;
   mkdir("test_db", 0755);
-  *Report::self() = debug;
+  setVerbosityLevel(debug);
 
   if (dblist.open("w")) {
     cerr << "Failed to open list" << endl;

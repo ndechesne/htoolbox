@@ -78,7 +78,7 @@ int main(void) {
   int               status;
   DataTest          db;
 
-  *Report::self() = debug;
+  setVerbosityLevel(debug);
 
   /* Test database */
   Directory("test_db").create();

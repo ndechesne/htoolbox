@@ -30,7 +30,6 @@ using namespace std;
 #include "list.h"
 
 using namespace hbackup;
-using namespace report;
 
 enum Status {
   unexpected_eof = -2,      // unexpected end of file

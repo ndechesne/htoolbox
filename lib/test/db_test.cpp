@@ -107,7 +107,7 @@ int main(void) {
   Node*   node   = NULL;
   time_t  ts;
 
-  *Report::self() = debug;
+  setVerbosityLevel(debug);
   DbTest db("test_db");
 
   if (db.isOpen()) {

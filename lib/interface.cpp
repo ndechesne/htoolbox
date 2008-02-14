@@ -33,9 +33,18 @@ using namespace std;
 #include "clients.h"
 
 using namespace hbackup;
-using namespace report;
 
 #define DEFAULT_DB_PATH "/backup"
+
+void hbackup::setVerbosityLevel(VerbosityLevel level) {
+  Report::self()->setVerbosityLevel(level);
+}
+
+ostream& hbackup::out(
+    VerbosityLevel  level,
+    int             arrow_length) {
+  return Report::self()->out(level, arrow_length);
+}
 
 struct HBackup::Private {
   Database*         db;
@@ -65,10 +74,6 @@ HBackup::~HBackup() {
   }
   close();
   delete _d;
-}
-
-void HBackup::setVerbosityLevel(VerbosityLevel level) {
-  *Report::self() = level;
 }
 
 int HBackup::addClient(const char* name) {

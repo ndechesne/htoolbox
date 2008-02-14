@@ -35,19 +35,13 @@ public:
   // Create/get current instance of this singleton
   static Report* self();
   // Set output verbosity level
-  VerbosityLevel operator=(
+  void setVerbosityLevel(
     VerbosityLevel  level);
   // Report text, at given level
   static ostream& out(
     VerbosityLevel  level,
     int             arrow_length = -1);
 };
-
-namespace report {
-  extern ostream& out(
-    VerbosityLevel    level,
-    int               arrow_length = -1);
-}
 
 }
 

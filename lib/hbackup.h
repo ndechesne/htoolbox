@@ -34,6 +34,24 @@ namespace hbackup {
     debug         /*!< Developper information, typically if 'debug' selected */
   };
 
+  //! \brief Set verbosity level
+  /*!
+    Sets the level of messages that the use should see
+    \param level        the verbosity level
+  */
+  void setVerbosityLevel(VerbosityLevel level);
+
+  //! \brief Output a string at given verbosity level, preceeded by an arrow
+  /*!
+    \param level        the level of verbosity associated with the message
+    \param arrow_length the length of a preceeding arrow. use 0 to cancel the
+                        default prefix for alert, error and warning
+    \return the output stream
+  */
+  extern ostream& out(
+    VerbosityLevel    level,
+    int               arrow_length = -1);
+
   extern int verbosity();
 
   //! Termination required (string is for debug purposes only)
@@ -53,12 +71,6 @@ namespace hbackup {
     HBackup();
     //! \brief Destructor
     ~HBackup();
-    //! \brief Set verbosity level
-    /*!
-      Sets the level of messages that the use should see
-      \param level        the verbosity level
-    */
-    void setVerbosityLevel(VerbosityLevel level);
     //! \brief Specify client
     /*!
       - Backup: adds specific client(s) to backup (excludes all non other

@@ -48,7 +48,7 @@ Parser *SvnParser::isControlled(const string& dir_path) const {
   // If control directory exists and contains an entries file, assume control
   if (! File(Path((dir_path + control_dir).c_str(), &entries[1])).isValid()) {
     if (! _dummy) {
-      cerr << "Directory should be under " << name() << " control: "
+      out(warning) << "Directory should be under " << name() << " control: "
         << dir_path << endl;
       return new IgnoreParser;
     } else {
@@ -65,7 +65,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) {
 
   /* Fill in list of files */
   if (verbosity() > 1) {
-    cout << " -> Parsing Subversion entries" << endl;
+    out(verbose, 1) << "Parsing Subversion entries" << endl;
   }
   string command = "svn status --no-ignore --non-interactive -N " + dir_path;
   FILE* fd = popen(command.c_str(), "r");
@@ -98,7 +98,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) {
       // Add to list of Nodes, with status
       _files.push_back(Node(&buffer[7], type, 0, 0, 0, 0, 0));
       if (verbosity() > 1) {
-        cout << " --> " << _files.back().name() << "\t" << _files.back().type()
+        out(verbose, 2) << _files.back().name() << "\t" << _files.back().type()
           << endl;
       }
     }
@@ -160,9 +160,9 @@ bool SvnParser::ignore(const Node& node) {
 }
 
 void SvnParser::list() {
-  cout << name() << " list: " << _files.size() << " file(s)" << endl;
+  out(verbose) << name() << " list: " << _files.size() << " file(s)" << endl;
   for (_i = _files.begin(); _i != _files.end(); _i++) {
-    cout << "-> " << _i->name() << " (" << _i->type() << ")" << endl;
+    out(verbose, 1) << _i->name() << " (" << _i->type() << ")" << endl;
   }
 }
 

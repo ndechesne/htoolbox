@@ -22,10 +22,11 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "parsers.h"
 #include "svn_parser.h"
-#include "hbackup.h"
 
 using namespace hbackup;
 
@@ -42,6 +43,8 @@ int main(void) {
   Parser*     parser;
   Parser*     parser2;
   Node*       node;
+
+  setVerbosityLevel(debug);
 
   // Test
   cout << endl << "Only consider controlled files" << endl;

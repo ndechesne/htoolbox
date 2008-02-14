@@ -41,7 +41,6 @@ using namespace std;
 #include "db.h"
 
 using namespace hbackup;
-using namespace report;
 
 struct Database::Private {
   string            path;

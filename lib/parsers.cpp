@@ -29,8 +29,6 @@ using namespace std;
 #include "parsers.h"
 
 using namespace hbackup;
-using namespace report;
-
 
 Parsers::~Parsers() {
   for (Parsers::iterator i = begin(); i != end(); i++) {

@@ -162,24 +162,24 @@ int main(int argc, char **argv) {
 
 
     // Set verbosity level to info
-    hbackup.setVerbosityLevel(hbackup::info);
+    setVerbosityLevel(hbackup::info);
 
     // Set verbosity level to quiet
     if (quietSwitch.getValue()) {
       verbose_level = 0;
-      hbackup.setVerbosityLevel(hbackup::warning);
+      setVerbosityLevel(hbackup::warning);
     }
 
     // Set verbosity level to verbose
     if (verboseSwitch.getValue()) {
       verbose_level = 1;
-      hbackup.setVerbosityLevel(hbackup::verbose);
+      setVerbosityLevel(hbackup::verbose);
     }
 
     // Set verbosity level to debug
     if (debugSwitch.getValue()) {
       verbose_level = 2;
-      hbackup.setVerbosityLevel(hbackup::debug);
+      setVerbosityLevel(hbackup::debug);
     }
 
     // Report specified clients

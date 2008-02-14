@@ -35,7 +35,6 @@ using namespace std;
 #include "clients.h"
 
 using namespace hbackup;
-using namespace report;
 
 struct Client::Private {
   list<ClientPath*> paths;

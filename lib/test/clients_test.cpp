@@ -49,7 +49,7 @@ int main(void) {
   Database      db("test_db");
   Filters       filters;
 
-  *Report::self() = debug;
+  setVerbosityLevel(debug);
 
   // Create global filter
   Filter* filter = filters.add("and", "backup");

@@ -113,7 +113,7 @@ static void showList(List& slist) {
 
 int main(void) {
   umask(0022);
-  *Report::self() = debug;
+  setVerbosityLevel(debug);
 
   ClientPath* path = new ClientPath("/home/User");
   Database    db("test_db");
