@@ -63,6 +63,7 @@ bool Condition::match(const char* npath, const Node& node) const {
         } else {
           out(error) << "Filters: regex: incorrect expression" << endl;
         }
+        regfree(&regex);
       } break;
     case Condition::path:
       result = path == _string;
@@ -85,6 +86,7 @@ bool Condition::match(const char* npath, const Node& node) const {
         } else {
           out(error) << "Filters: regex: incorrect expression" << endl;
         }
+        regfree(&regex);
       } break;
     case Condition::size_ge:
       result = node.size() >= _value;

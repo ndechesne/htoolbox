@@ -118,7 +118,7 @@ public:
       uid_t       uid,
       gid_t       gid,
       mode_t      mode) :
-        _path(strdup(path)),
+        _path(path),
         _type(type),
         _mtime(mtime),
         _size(size),

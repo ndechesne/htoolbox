@@ -156,7 +156,9 @@ ClientPath::ClientPath(const char* path) {
   _ignore             = NULL;
   _compress           = NULL;
   // Change '\' into '/'
-  _path = Path::fromDos(path);
+  char* unix_path = Path::fromDos(path);
+  _path = unix_path;
+  free(unix_path);
   // Remove trailing '/'s
   _path.noTrailingSlashes();
 }
