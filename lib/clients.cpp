@@ -61,7 +61,7 @@ int Client::mountPath(
     *path = _mount_point + "/" +  backup_path.substr(3);
   } else {
     errno = EPROTONOSUPPORT;
-    return 2;
+    return -1;
   }
 
   // Check what is mounted
@@ -80,8 +80,8 @@ int Client::mountPath(
     return 0;
   } else {
     // Check that mount dir exists, if not create it
-    if (Directory(_mount_point.c_str()).create()) {
-      return 2;
+    if (Directory(_mount_point.c_str()).create() < 0) {
+      return -1;
     }
 
     // Set protocol and default options

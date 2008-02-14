@@ -254,11 +254,14 @@ int Node::remove() {
 }
 
 int File::create() {
-  errno = 0;
   if (_type == '?') {
     stat();
   }
-  if (! isValid()) {
+  if (isValid()) {
+    errno = EEXIST;
+    // Only a warning
+    return 1;
+  } else {
     int readfile = open(_path.c_str(), O_WRONLY | O_CREAT, 0666);
     if (readfile < 0) {
       return -1;
@@ -301,11 +304,14 @@ void Directory::deleteList() {
 }
 
 int Directory::create() {
-  errno = 0;
   if (_type == '?') {
     stat();
   }
-  if (! isValid()) {
+  if (isValid()) {
+    errno = EEXIST;
+    // Only a warning
+    return 1;
+  } else {
     if (mkdir(_path.c_str(), 0777)) {
       return -1;
     }

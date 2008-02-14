@@ -325,7 +325,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir dir space
 A test1/dir space/big_file (512 kB)
 Killing during write
-Operation canceled: test1/dir space/big_file
+Error: Operation canceled copying write file: test1/dir space/big_file
 Database closed
 
 Test: specify clients

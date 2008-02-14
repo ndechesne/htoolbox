@@ -123,7 +123,7 @@ int main(void) {
   /* Test database */
   if ((status = db.open_rw())) {
     cout << "db::open error status " << status << endl;
-    if (status == 2) {
+    if (status < 0) {
       return 0;
     }
   }
@@ -203,7 +203,7 @@ int main(void) {
   cout << endl << "Test: read-only mode" << endl;
   if ((status = db.open_ro())) {
     cout << "db::open error status " << status << endl;
-    if (status == 2) {
+    if (status < 0) {
       return 0;
     }
   }
@@ -234,7 +234,7 @@ int main(void) {
   cout << endl << "Test: fill in DB" << endl;
   if ((status = db.open_rw())) {
     cout << "db::open error status " << status << endl;
-    if (status == 2) {
+    if (status < 0) {
       return 0;
     }
   }
@@ -284,7 +284,7 @@ int main(void) {
   cout << endl << "Test: do nothing" << endl;
   if ((status = db.open_rw())) {
     cout << "db::open error status " << status << endl;
-    if (status == 2) {
+    if (status < 0) {
       return 0;
     }
   }
@@ -307,7 +307,7 @@ int main(void) {
   cout << endl << "Test: read clients" << endl;
   if ((status = db.open_ro())) {
     cout << "db::open error status " << status << endl;
-    if (status == 2) {
+    if (status < 0) {
       return 0;
     }
   }
@@ -322,7 +322,7 @@ int main(void) {
   cout << endl << "Test: read paths in myClient" << endl;
   if ((status = db.open_ro())) {
     cout << "db::open error status " << status << endl;
-    if (status == 2) {
+    if (status < 0) {
       return 0;
     }
   }
@@ -338,7 +338,7 @@ int main(void) {
     << endl;
   if ((status = db.open_ro())) {
     cout << "db::open error status " << status << endl;
-    if (status == 2) {
+    if (status < 0) {
       return 0;
     }
   }
@@ -354,7 +354,7 @@ int main(void) {
     << endl;
   if ((status = db.open_ro())) {
     cout << "db::open error status " << status << endl;
-    if (status == 2) {
+    if (status < 0) {
       return 0;
     }
   }
@@ -370,7 +370,7 @@ int main(void) {
     << endl;
   if ((status = db.open_ro())) {
     cout << "db::open error status " << status << endl;
-    if (status == 2) {
+    if (status < 0) {
       return 0;
     }
   }
@@ -387,7 +387,7 @@ int main(void) {
   list<string> checksums;
   if ((status = db.open_rw())) {
     cout << "db::open error status " << status << endl;
-    if (status == 2) {
+    if (status < 0) {
       return 0;
     }
   }

@@ -24,10 +24,11 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "list.h"
 #include "data.h"
-#include "hbackup.h"
 
 using namespace hbackup;
 
@@ -76,6 +77,8 @@ int main(void) {
   string            zchecksum;
   int               status;
   DataTest          db;
+
+  report::setOutLevel(debug);
 
   /* Test database */
   Directory("test_db").create();
@@ -209,7 +212,7 @@ int main(void) {
   cout << endl << "Test: read-only mode" << endl;
   if ((status = db.open("test_db/data"))) {
     cout << "db::open error status " << status << endl;
-    if (status == 2) {
+    if (status < 0) {
       return 0;
     }
   }
@@ -219,7 +222,7 @@ int main(void) {
   cout << endl << "Test: do nothing" << endl;
   if ((status = db.open("test_db/data", true))) {
     cout << "db::open error status " << status << endl;
-    if (status == 2) {
+    if (status < 0) {
       return 0;
     }
   }

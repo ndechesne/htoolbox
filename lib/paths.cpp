@@ -192,7 +192,7 @@ int ClientPath::addParser(
     default:
       out(error) << "Undefined mode " << type << " for parser " << string
         << endl;
-      return 1;
+      return -1;
   }
 
   /* Add specified parser */
@@ -207,7 +207,7 @@ int ClientPath::addParser(
   } else
   {
     out(error) << "Unsupported parser " << type << endl;
-    return 2;
+    return -1;
   }
   return 0;
 }

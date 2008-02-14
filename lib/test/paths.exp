@@ -46,7 +46,7 @@ A /home/User/dir space/file space (0 B)
 A /home/User/subdir
  -> Dir subdir
 A /home/User/subdir/testfile (12 B)
-Permission denied: test1/subdir/testfile
+Error: Permission denied opening write source file: test1/subdir/testfile
 A /home/User/subdir/testfile1 (0 B)
 A /home/User/subdir/testfile2 (12 B)
 Adding file data to DB in: test_db/data/285b35198a5e188b3a0df3ed33f93a26-0
@@ -352,7 +352,7 @@ Database open in read/write mode
  -> Dir dir space
  -> Dir subdir
 ! /home/User/subdir/testfile (12 B)
-Permission denied: test1/subdir/testfile
+Error: Permission denied opening write source file: test1/subdir/testfile
  -> Dir svn
  -> Dir svn/.svn
  -> Dir svn/.svn/wherever
@@ -614,7 +614,7 @@ Database open in read/write mode
  -> Dir cvs/CVS/Wherever
 A /home/User/cvs/big_file (512 kB)
 Killing during write
-Operation canceled: test1/cvs/big_file
+Error: Operation canceled copying write file: test1/cvs/big_file
 Parsed 9 file(s)
 Database closed
 
@@ -4846,7 +4846,7 @@ Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/dirbad
 Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile (13 B)
-Permission denied: test1/testfile
+Error: Permission denied opening write source file: test1/testfile
 Parsed 40 file(s)
  -> Removing data for 06f05055bfb2c8b900459f45826fc8ea-0: done
  -> Removing data for 285b35198a5e188b3a0df3ed33f93a26-0: ALREADY GONE!

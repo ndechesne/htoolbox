@@ -4,10 +4,10 @@ Test: getdir
 Check test_db/data dir: 0
 febatest1 status: 0, getdir_path: test_db/data/fe/ba/test1
 fe98test2 status: 0, getdir_path: test_db/data/fe/98/test2
-fe98test3 status: -1, getdir_path: test_db/data/fe/98/test3
-fetest4 status: -1, getdir_path: test_db/data/fe/te/st4
-fedc76test5 status: -1, getdir_path: test_db/data/fe/dc/76/test5
-fedc76test6 status: -1, getdir_path: test_db/data/fe/dc/76/test6
+fe98test3 status: 1, getdir_path: test_db/data/fe/98/test3
+fetest4 status: 1, getdir_path: test_db/data/fe/te/st4
+fedc76test5 status: 1, getdir_path: test_db/data/fe/dc/76/test5
+fedc76test6 status: 1, getdir_path: test_db/data/fe/dc/76/test6
 fedc76test6 status: 0, getdir_path: test_db/data/fe/dc/76/test6
 
 Test: write and read back

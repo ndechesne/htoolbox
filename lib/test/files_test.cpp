@@ -1178,7 +1178,7 @@ int main(void) {
   if (File("test1/touchedfile").create())
     cout << "failed to create file: " << strerror(errno) << endl;
   if (Directory("test1/toucheddir").create())
-    cout << "failed to create dir" << endl;
+    cout << "failed to create dir: " << strerror(errno) << endl;
 
   cout << "File is file? " << File("test1/touchedfile").isValid() << endl;
   cout << "File is dir? " << Directory("test1/touchedfile").isValid() << endl;

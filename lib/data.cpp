@@ -31,11 +31,13 @@
 
 using namespace std;
 
-#include "files.h"
-#include "data.h"
 #include "hbackup.h"
+#include "files.h"
+#include "report.h"
+#include "data.h"
 
 using namespace hbackup;
+using namespace report;
 
 static bool cancel() {
   return terminating("write") != 0;
@@ -58,8 +60,8 @@ int Data::getDir(
     if (File(Path(path.c_str(), ".nofiles")).isValid()) {
       path += "/" + checksum.substr(level, 2);
       level += 2;
-      if (create && Directory(path.c_str()).create()) {
-        return 1;
+      if (create && (Directory(path.c_str()).create() < 0)) {
+        return -1;
       }
     } else {
       break;
@@ -67,7 +69,7 @@ int Data::getDir(
   } while (true);
   // Return path
   path += "/" + checksum.substr(level);
-  return Directory(path.c_str()).isValid() ? 0 : -1;
+  return Directory(path.c_str()).isValid() ? 0 : 1;
 }
 
 int Data::organise(
@@ -76,7 +78,7 @@ int Data::organise(
   DIR           *directory;
   struct dirent *dir_entry;
   File          nofiles(Path(path.c_str(), ".nofiles"));
-  int           failed   = 0;
+  bool          failed = false;
 
   // Already organised?
   if (nofiles.isValid()) {
@@ -103,9 +105,9 @@ int Data::organise(
       Node node(Path(path.c_str(), dir_entry->d_name));
       string source_path = path + "/" + dir_entry->d_name;
       if (node.stat()) {
-        cerr << "Error: organise: cannot get metadata: " << source_path
-          << endl;
-        failed = 2;
+        out(error) << strerror(errno) << " stating source file: "
+          << source_path << endl;
+        failed = true;
       } else
       if ((node.type() == 'd')
        // If we crashed, we might have some two-letter dirs already
@@ -114,14 +116,14 @@ int Data::organise(
        && (node.name()[2] != '-')) {
         // Create two-letter directory
         string dir_path = path + "/" + node.name()[0] + node.name()[1];
-        if (Directory(dir_path.c_str()).create()) {
-          failed = 2;
+        if (Directory(dir_path.c_str()).create() < 0) {
+          failed = true;
         } else {
           // Create destination path
           string dest_path = dir_path + "/" + &node.name()[2];
           // Move directory accross, changing its name
           if (rename(source_path.c_str(), dest_path.c_str())) {
-            failed = 1;
+            failed = true;
           }
         }
       }
@@ -131,23 +133,19 @@ int Data::organise(
     }
   }
   closedir(directory);
-  return failed;
+  return failed ? -1 : 0;
 }
 
 int Data::write(
     const string&   path,
     char**          dchecksum,
     int             compress) {
-  int failed = 0;
-
-  if (path.empty()) {
-    cerr << "Empty path!?!" << endl;
-    return -1;
-  }
+  bool failed = false;
 
   Stream source(path.c_str());
   if (source.open("r")) {
-    cerr << strerror(errno) << ": " << path << endl;
+    out(error) << strerror(errno) << " opening write source file: " << path
+      << endl;
     return -1;
   }
 
@@ -156,29 +154,29 @@ int Data::write(
   temp_path += "/temp";
   Stream temp(temp_path.c_str());
   if (temp.open("w", compress)) {
-    cerr << strerror(errno) << ": " << temp_path << endl;
-    failed = -1;
+    out(error) << strerror(errno) << " opening write temp file: " << temp_path
+      << endl;
+    failed = true;
   } else
 
   // Copy file locally
   temp.setCancelCallback(cancel);
   if (temp.copy(source)) {
-    cerr << strerror(errno) << ": " << path << endl;
-    failed = -1;
+    out(error) << strerror(errno) << " copying write file: " << path << endl;
+    failed = true;
   }
 
   source.close();
   temp.close();
 
   if (failed) {
-    return failed;
+    return -1;
   }
 
   // Get file final location
   string dest_path;
-  if (getDir(source.checksum(), dest_path, true) == 2) {
-    cerr << "Error: write: failed to get dir for: " << source.checksum()
-      << endl;
+  if (getDir(source.checksum(), dest_path, true) < 0) {
+    out(error) << "Cannot create DB data for: " << source.checksum() << endl;
     return -1;
   }
 
@@ -212,7 +210,7 @@ int Data::write(
           index++;
           break;
         default:
-          failed = -1;
+          failed = true;
       }
       data->close();
       delete data;
@@ -223,17 +221,17 @@ int Data::write(
       missing = true;
     }
     free(final_path);
-  } while ((failed == 0) && (! missing) && (! present));
+  } while (! failed && ! missing && ! present);
 
   // Now move the file in its place
   if (! present && rename(temp_path.c_str(),
         (dest_path + "/data" + ((compress != 0) ? ".gz" : "")).c_str())) {
-    cerr << "Failed to move file " << temp_path << " to "
-      << dest_path << ": " << strerror(errno) << endl;
-    failed = -1;
+    out(error) << "Failed to move file " << temp_path << " to " << dest_path
+      << ": " << strerror(errno) << endl;
+    failed = true;
   } else
-  if (! present && (verbosity() > 1)) {
-    cout << "Adding " << ((compress != 0) ? "compressed " : "")
+  if (! present) {
+    out(verbose) << "Adding " << ((compress != 0) ? "compressed " : "")
       << "file data to DB in: " << dest_path << endl;
   }
 
@@ -246,10 +244,8 @@ int Data::write(
   *dchecksum = NULL;
   if (! failed) {
     asprintf(dchecksum, "%s-%d", source.checksum(), index);
-  }
 
-  // Make sure we won't exceed the file number limit
-  if (! failed) {
+    // Make sure we won't exceed the file number limit
     // dest_path is /path/to/checksum
     unsigned int pos = dest_path.rfind('/');
 
@@ -260,7 +256,7 @@ int Data::write(
     }
   }
 
-  return failed;
+  return failed ? -1 : 0;
 }
 
 int Data::crawl(
@@ -282,9 +278,7 @@ int Data::crawl(
           crawl(*d, checksum, thorough, checksums);
           delete d;
         } else {
-          if (verbosity() > 1) {
-            cout << " -> checking: " << checksum << endl;
-          }
+          out(verbose, 1) << "Checking: " << checksum << endl;
           if (! check(checksum, thorough)) {
             checksums.push_back(checksum);
           }
@@ -327,7 +321,7 @@ int Data::open(const char* path, bool create) {
     if (! create) {
       goto failed;
     }
-    if (dir.create()) {
+    if (dir.create() < 0) {
       goto failed;
     }
   }
@@ -344,11 +338,11 @@ void Data::close() {
 }
 
 int Data::read(const string& path, const string& checksum) {
-  int failed = 0;
+  bool failed = false;
 
   string source_path;
   if (getDir(checksum, source_path)) {
-    cerr << "Error: read: failed to get dir for: " << checksum << endl;
+    out(error) << "Cannot access DB data for: " << checksum << endl;
     return -1;
   }
 
@@ -361,7 +355,8 @@ int Data::read(const string& path, const string& checksum) {
   }
   Stream source(source_path.c_str());
   if (source.open("r", decompress ? 1 : 0)) {
-    cerr << "Error: failed to open read source file: " << source_path << endl;
+    out(error) << strerror(errno) << " opening read source file: "
+      << source_path << endl;
     return -1;
   }
 
@@ -369,15 +364,17 @@ int Data::read(const string& path, const string& checksum) {
   string temp_path = path + ".part";
   Stream temp(temp_path.c_str());
   if (temp.open("w")) {
-    cerr << "Error: failed to open read dest file: " << temp_path << endl;
-    failed = 2;
+    out(error) << strerror(errno) << "opening read temp file: " << temp_path
+      << endl;
+    failed = true;
   } else
 
   // Copy file to temporary name (size not checked: checksum suffices)
   temp.setCancelCallback(cancel);
   if (temp.copy(source)) {
-    cerr << "Error: failed to read file: " << source_path << endl;
-    failed = 2;
+    out(error) << strerror(errno) << " copying read file: " << source_path
+      << endl;
+    failed = true;
   }
 
   source.close();
@@ -386,16 +383,15 @@ int Data::read(const string& path, const string& checksum) {
   if (! failed) {
     // Verify that checksums match before overwriting final destination
     if (strncmp(checksum.c_str(), temp.checksum(), strlen(temp.checksum()))) {
-      cerr << "Error: read checksums don't match: " << checksum << " "
-        << temp.checksum() << endl;
-      failed = 2;
+      out(error) << "read checksums don't match: " << checksum << " != "
+        << temp.checksum() << ", for: " << source_path << endl;
+      failed = true;
     } else
 
     // All done
     if (rename(temp_path.c_str(), path.c_str())) {
-      cerr << "Error: failed to rename read file to " << strerror(errno)
-        << ": " << path << endl;
-      failed = 2;
+      out(error) << strerror(errno) << "renaming read file: " << path << endl;
+      failed = true;
     }
   }
 
@@ -403,7 +399,7 @@ int Data::read(const string& path, const string& checksum) {
     std::remove(temp_path.c_str());
   }
 
-  return failed;
+  return failed ? -1 : 0;
 }
 
 int Data::check(
@@ -422,7 +418,7 @@ int Data::check(
   Stream *data = Stream::select(Path(path.c_str(), "data"), extensions, &no);
   // Missing data
   if (data == NULL) {
-    cerr << "Error: data missing for " << checksum << endl;
+    out(error) << "Data missing for: " << checksum << endl;
     errno = ENOENT;
     return -1;
   }
@@ -438,7 +434,7 @@ int Data::check(
     failed = true;
   } else
   if (strncmp(data->checksum(), checksum.c_str(), strlen(data->checksum()))){
-    cerr << "Error: data corrupted for " << checksum << endl;
+    out(error) << "Data corrupted for: " << checksum << endl;
     errno = EUCLEAN;
     failed = true;
   }
@@ -451,6 +447,7 @@ int Data::remove(
   int rc;
   string path;
   if (getDir(checksum, path)) {
+    // Warn about directory missing
     return 1;
   }
   vector<string> extensions;
@@ -460,10 +457,10 @@ int Data::remove(
   if (data != NULL) {
     rc = data->remove();
   } else {
+    // Warn about data missing
     rc = 2;
   }
   delete data;
   remove(path.c_str());
   return rc;
 }
-
