@@ -29,6 +29,25 @@ using namespace std;
 
 using namespace hbackup;
 
+Condition::Condition(
+    Type            type,
+    const string&   str,
+    bool            negated) :
+      _type(type), _negated(negated), _string(str) {
+  if (((type == Condition::name_regex) || (type == Condition::path_regex))
+  &&  (regcomp(&_regex, _string.c_str(), REG_EXTENDED) == 0)) {
+    _regex_ok = true;
+  } else {
+    _regex_ok = false;
+  }
+}
+
+Condition::~Condition() {
+  if (_regex_ok) {
+    regfree(&_regex);
+  }
+}
+
 bool Condition::match(const char* npath, const Node& node) const {
   // TODO Use char arrays
   string name = node.name();
@@ -56,15 +75,13 @@ bool Condition::match(const char* npath, const Node& node) const {
         result = _string == name.substr(diff); }
       }
       break;
-    case Condition::name_regex: {
-        regex_t regex;
-        if (! regcomp(&regex, _string.c_str(), REG_EXTENDED)) {
-          result = ! regexec(&regex, name.c_str(), 0, NULL, 0);
+    case Condition::name_regex:
+        if (_regex_ok) {
+          result = ! regexec(&_regex, name.c_str(), 0, NULL, 0);
         } else {
           out(error) << "Filters: regex: incorrect expression" << endl;
         }
-        regfree(&regex);
-      } break;
+      break;
     case Condition::path:
       result = path == _string;
       break;
@@ -79,15 +96,13 @@ bool Condition::match(const char* npath, const Node& node) const {
           result = _string == path.substr(diff);
         }
       } break;
-    case Condition::path_regex: {
-        regex_t regex;
-        if (! regcomp(&regex, _string.c_str(), REG_EXTENDED)) {
-          result = ! regexec(&regex, path.c_str(), 0, NULL, 0);
+    case Condition::path_regex:
+        if (_regex_ok) {
+          result = ! regexec(&_regex, path.c_str(), 0, NULL, 0);
         } else {
           out(error) << "Filters: regex: incorrect expression" << endl;
         }
-        regfree(&regex);
-      } break;
+      break;
     case Condition::size_ge:
       result = node.size() >= _value;
       break;

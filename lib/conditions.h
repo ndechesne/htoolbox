@@ -19,6 +19,8 @@
 #ifndef CONDITIONS_H
 #define CONDITIONS_H
 
+#include <regex.h>
+
 namespace hbackup {
 
 /* The filter stores a list of rules, each containing a list of conditions.
@@ -59,36 +61,38 @@ private:
   char              _file_type;
   long long         _value;
   string            _string;
+  regex_t           _regex;
+  bool              _regex_ok;
 public:
   // Sub-filter type-based condition
   Condition(
     Type            type,
     const Filter*   filter,
     bool            negated) :
-      _type(type), _negated(negated), _filter(filter) {}
+      _type(type), _negated(negated), _filter(filter), _regex_ok(false) {}
   // File type-based condition
   Condition(
     Type            type,
     char            file_type,
     bool            negated) :
-      _type(type), _negated(negated), _file_type(file_type) {}
+      _type(type), _negated(negated), _file_type(file_type), _regex_ok(false){}
   // Size-based condition
   Condition(
     Type            type,
     mode_t          value,
     bool            negated) :
-      _type(type), _negated(negated), _value(value) {}
+      _type(type), _negated(negated), _value(value), _regex_ok(false) {}
   Condition(
     Type            type,
     long long       value,
     bool            negated) :
-      _type(type), _negated(negated), _value(value) {}
-  // Path-based condition
+      _type(type), _negated(negated), _value(value), _regex_ok(false) {}
+  // Name- or Path-based condition
   Condition(
     Type            type,
     const string&   str,
-    bool            negated) :
-      _type(type), _negated(negated), _string(str) {}
+    bool            negated);
+  ~Condition();
   bool match(
     const char*     path,
     const Node&     node) const;
