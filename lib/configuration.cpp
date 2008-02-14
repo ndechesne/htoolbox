@@ -25,6 +25,7 @@ using namespace std;
 
 #include <files.h>
 #include <configuration.h>
+#include <hbackup.h>
 
 using namespace hbackup;
 
@@ -83,15 +84,16 @@ bool ConfigError::operator<(const ConfigError& error) const {
 }
 
 void ConfigError::print() const {
-  cerr << "Error: ";
+  out(error);
   if (_line_no >= 0) {
     if (_type != 0) {
-      cerr << "after";
+      out(error, 0) << "after";
     } else {
-      cerr << "at";
+      out(error, 0) << "at";
     }
+    out(error, 0) << " line " << _line_no << ": ";
   }
-  cerr << " line " << _line_no << ": " << _message << endl;
+  out(error, 0) << _message << endl;
 }
 
 ConfigItem::~ConfigItem() {
@@ -360,10 +362,6 @@ void Config::debug() const {
   ConfigLine* params;
   int level;
   while ((level = line(&params)) >= 0) {
-    if (params == NULL) {
-      cerr << "Error: NULL pointer!!!" << endl;
-    } else {
-      params->debug((level + 1) * 2);
-    }
+    params->debug((level + 1) * 2);
   }
 }

@@ -64,9 +64,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) {
   _mode = mode;
 
   /* Fill in list of files */
-  if (verbosity() > 1) {
-    out(verbose, 1) << "Parsing Subversion entries" << endl;
-  }
+  out(verbose, 1) << "Parsing Subversion entries" << endl;
   string command = "svn status --no-ignore --non-interactive -N " + dir_path;
   FILE* fd = popen(command.c_str(), "r");
   if (fd != NULL) {
@@ -97,10 +95,8 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) {
       }
       // Add to list of Nodes, with status
       _files.push_back(Node(&buffer[7], type, 0, 0, 0, 0, 0));
-      if (verbosity() > 1) {
-        out(verbose, 2) << _files.back().name() << "\t" << _files.back().type()
+      out(verbose, 2) << _files.back().name() << "\t" << _files.back().type()
           << endl;
-      }
     }
     pclose(fd);
     _files.sort();

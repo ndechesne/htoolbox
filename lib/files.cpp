@@ -443,14 +443,12 @@ int Stream::open(const char* req_mode, int compression) {
       // Compress
       if (deflateInit2(_d->strm, compression, Z_DEFLATED, 16 + 15, 9,
           Z_DEFAULT_STRATEGY)) {
-        cerr << "stream: deflate init failed" << endl;
-        compression = 0;
+        return -2;
       }
     } else {
       // De-compress
       if (inflateInit2(_d->strm, 32 + 15)) {
-        cerr << "stream: inflate init failed" << endl;
-        compression = 0;
+        return -2;
       }
     }
   } else {
@@ -576,7 +574,7 @@ ssize_t Stream::read(void* buffer, size_t count) {
       case Z_NEED_DICT:
       case Z_DATA_ERROR:
       case Z_MEM_ERROR:
-        cerr << "File::read: inflate failed" << endl;
+        return -2;
     }
     _d->length = (_d->strm->avail_out == 0);
     count -= _d->strm->avail_out;

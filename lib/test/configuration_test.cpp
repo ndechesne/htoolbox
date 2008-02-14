@@ -37,6 +37,8 @@ int hbackup::terminating(const char* function) {
 int main(void) {
   Config*     config;
 
+  setVerbosityLevel(debug);
+
   cout << "Test: server configuration" << endl;
   config = new Config;
 

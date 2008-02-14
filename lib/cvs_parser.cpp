@@ -68,9 +68,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
 
   /* Fill in list of controlled files */
   entries_file.open("r");
-  if (verbosity() > 1) {
-    out(verbose, 1) << "Parsing CVS entries" << endl;
-  }
+  out(verbose, 1) << "Parsing CVS entries" << endl;
   int    line_no = 0;
   string buffer;
   while (entries_file.getLine(buffer) > 0) {
@@ -155,10 +153,8 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
     }
     // Enlist data
     _files.push_back(Node(name.c_str(), type, mtime, 0, 0, 0, 0));
-    if (verbosity() > 1) {
-      out(verbose, 2) << _files.back().name() << "\t" << _files.back().type()
+    out(verbose, 2) << _files.back().name() << "\t" << _files.back().type()
         << "\t" << _files.back().mtime() << endl;
-    }
   }
   /* Close file */
   entries_file.close();
