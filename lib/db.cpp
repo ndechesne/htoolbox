@@ -153,21 +153,6 @@ bool Database::isWriteable() const {
   return (_d->journal != NULL) && _d->journal->isOpen();
 }
 
-int Database::scan2(
-    bool            thorough) const {
-  list<string> checksums;
-  int rc = _d->data.crawl(thorough, checksums);
-  if (rc >= 0) {
-    out(debug) << "List of valid checksums" << endl;
-    for (list<string>::iterator i = checksums.begin(); i != checksums.end();
-        i++) {
-      out(debug, 1) << *i << endl;
-    }
-  }
-  return rc;
-}
-
-
 Database::Database(const string& path) {
   _d          = new Private;
   _d->path    = path;
@@ -694,54 +679,106 @@ int Database::restore(
 
 int Database::scan(
     bool            thorough,
-    const string&   checksum) const {
-  if (! isWriteable()) {
+    bool            rm_corrupt) const {
+  // Get checksums from list
+  out(verbose) << "Reading list" << endl;
+  list<string> list_sums;
+  Node*        node = NULL;
+  while (_d->list->getEntry(NULL, NULL, NULL, &node) > 0) {
+    if (node->type() == 'f') {
+      File* f = (File*) node;
+      if (f->checksum()[0] != '\0') {
+        list_sums.push_back(f->checksum());
+      }
+    }
+    if (terminating()) {
+      break;
+    }
+  }
+  delete node;
+  if (terminating()) {
     return -1;
   }
+  list_sums.sort();
+  list_sums.unique();
+  out(verbose) << "Found " << list_sums.size() << " checksums" << endl;
 
-  // Check entire database for missing/corrupted data
-  if (checksum == "") {
-    list<string> sums;
-    Node*        node = NULL;
-
-    // Get list of checksums
-    while (_d->list->getEntry(NULL, NULL, NULL, &node) > 0) {
-      if (node->type() == 'f') {
-        File* f = (File*) node;
-        if (f->checksum()[0] != '\0') {
-          sums.push_back(f->checksum());
-        }
-      }
-      delete node;
-      node = NULL;
-      if (terminating()) {
-        errno = EINTR;
-        return -1;
-      }
-    }
-    sums.sort();
-    sums.unique();
-    out(info) << "Scanning database contents";
-    if (thorough) {
-      out(info) << " thoroughly";
-    }
-    out(info) << ": " << sums.size() << " file";
-    if (sums.size() != 1) {
-      out(info) << "s";
-    }
-    out(info) << endl;
-    for (list<string>::iterator i = sums.begin(); i != sums.end(); i++) {
-      scan(thorough, i->c_str());
-      if (terminating()) {
-        errno = EINTR;
-        return -1;
-      }
-    }
-  } else {
-    // Check given file data
-    _d->data.check(checksum, thorough);
+  // Get checksums from DB
+  out(verbose) << "Crawling through DB" << endl;
+  list<string> data_sums;
+  int rc = _d->data.crawl(data_sums, thorough, rm_corrupt);
+  if (terminating() || (rc < 0)) {
+    return -1;
   }
-  return 0;
+  data_sums.sort();
+  data_sums.unique();
+  out(verbose) << "Found " << data_sums.size() << " valid checksums" << endl;
+
+  // Separate missing and obsolete checksums
+  list<string> obsolete;
+  list<string> missing;
+  list<string>::iterator l = list_sums.begin();
+  list<string>::iterator d = data_sums.begin();
+  while ((d != data_sums.end()) || (l != list_sums.end())) {
+    int cmp;
+    if (d == data_sums.end()) {
+      cmp = 1;
+    } else
+    if (l == list_sums.end()) {
+      cmp = -1;
+    } else
+    {
+      cmp = d->compare(*l);
+    }
+    if (cmp > 0) {
+      missing.push_back(*l);
+      l++;
+    } else
+    if (cmp < 0) {
+      obsolete.push_back(*d);
+      d++;
+    } else
+    {
+      d++;
+      l++;
+    }
+  }
+
+  if (! list_sums.empty()) {
+    out(debug) << "Checksum(s) from list:" << endl;
+    for (list<string>::iterator i = list_sums.begin(); i != list_sums.end(); i++) {
+      out(debug, 1) << *i << endl;
+    }
+    list_sums.clear();
+  }
+  if (! data_sums.empty()) {
+    out(debug) << "Checksum(s) with data:" << endl;
+    for (list<string>::iterator i = data_sums.begin(); i != data_sums.end(); i++) {
+      out(debug, 1) << *i << endl;
+    }
+    data_sums.clear();
+  }
+  if (! obsolete.empty()) {
+    out(info) << "Removing obsolete checksum(s)" << endl;
+    for (list<string>::iterator i = obsolete.begin(); i != obsolete.end();
+        i++) {
+      if (i->size() != 0) {
+        out(verbose, 1) << *i << ": "
+          << ((_d->data.remove(*i) == 0) ? "done" : "FAILED") << endl;
+      }
+    }
+  }
+  if (! missing.empty()) {
+    out(warning) << "Missing checksum(s):" << endl;
+    for (list<string>::iterator i = missing.begin(); i != missing.end(); i++) {
+      out(warning, 1) << *i << endl;
+    }
+  }
+
+  if (terminating()) {
+    return -1;
+  }
+  return rc;
 }
 
 void Database::setClient(

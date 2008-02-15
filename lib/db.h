@@ -33,9 +33,6 @@ class Database {
 protected: // So I can test them/use them in tests
   bool isOpen() const;
   bool isWriteable() const;
-  // Scan database for missing/corrupted/obsolete data
-  int scan2(
-    bool            thorough) const;  // Whether to do a corruption check
 public:
   Database(const string& path);
   ~Database();
@@ -56,11 +53,10 @@ public:
     const char*     client,           // The client to restore
     const char*     path = NULL,      // The path to restore (all)
     time_t          date = 0);        // The date to restore (latest)
-  // Scan database for missing/corrupted (if thorough) data
-  // If checksum is empty, scan all contents
+  // Scan database for missing/corrupted/obsolete data
   int  scan(
-    bool            thorough = true,
-    const string&   checksum = "") const;
+    bool            thorough = true,  // Whether to do a corruption check
+    bool            rm_corrupt = true) const;// Whether to rmove corrupted data
   // Set the current client and its expiration delay (seconds)
   void setClient(
     const char*     client,

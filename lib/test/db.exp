@@ -2,12 +2,43 @@ Database initialized in test_db
 Database open in read/write mode
 
 Test: check
-Scanning database contents thoroughly: 0 files
+Reading list
+Found 0 checksums
+Crawling through DB
+Found 0 valid checksums
+ -> Journal is empty, not merging
+Database closed
+Database open in read/write mode
 File data gone
+Reading list
+Found 0 checksums
+Crawling through DB
 Error: Data missing for: 59ca0efa9f5633cb0371bbc0355478d8-0
+Found 0 valid checksums
+ -> Journal is empty, not merging
+Database closed
+Database open in read/write mode
 File data corrupted, surficial scan
+ -> Journal is empty, not merging
+Database closed
+Database open in read/write mode
+Reading list
+Found 0 checksums
+Crawling through DB
+Found 1 valid checksums
+Checksum(s) with data:
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+Removing obsolete checksum(s)
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0: done
 File data corrupted, thorough scan
+ -> Journal is empty, not merging
+Database closed
+Database open in read/write mode
+Reading list
+Found 0 checksums
+Crawling through DB
 Error: Data corrupted for: 59ca0efa9f5633cb0371bbc0355478d8-0
+Found 0 valid checksums
  -> Journal is empty, not merging
 Database closed
 
@@ -31,14 +62,14 @@ Test: fill in DB
 Database open in read/write mode
 Adding compressed file data to DB in: test_db/data/285b35198a5e188b3a0df3ed33f93a26-0
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
-Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-1
+Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
 Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
 Database closed
 [ 1] myClient         /client_path/subdir                d     0 755
 [ 2] myClient         /client_path/subdir/testfile       f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 3] myClient         /client_path/subdir/testfile2      f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 4] myClient         /client_path/test space            f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] myClient         /client_path/testfile              f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1
+[ 5] myClient         /client_path/testfile              f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 6] myClient         other_path/testdir                 d     0 755
 [ 7] myClient         other_path/testfile                f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 
@@ -50,7 +81,7 @@ Database closed
 [ 2] myClient         /client_path/subdir/testfile       f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 3] myClient         /client_path/subdir/testfile2      f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 4] myClient         /client_path/test space            f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] myClient         /client_path/testfile              f    13 644 59ca0efa9f5633cb0371bbc0355478d8-1
+[ 5] myClient         /client_path/testfile              f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 6] myClient         other_path/testdir                 d     0 755
 [ 7] myClient         other_path/testfile                f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 
@@ -89,19 +120,27 @@ List of paths: 2
  -> /client_path/subdir/testfile
  -> /client_path/subdir/testfile2
 
-Test: scan2
+Test: scan
 Database open in read/write mode
- -> Checking: 285b35198a5e188b3a0df3ed33f93a26-0
- -> Checking: 3d546a1ce46c6ae10ad34ab8a81c542e-0
+Reading list
+Found 4 checksums
+Crawling through DB
 Error: Data missing for: 3d546a1ce46c6ae10ad34ab8a81c542e-0
- -> Checking: 59ca0efa9f5633cb0371bbc0355478d8-0
-Error: Data corrupted for: 59ca0efa9f5633cb0371bbc0355478d8-0
- -> Checking: 59ca0efa9f5633cb0371bbc0355478d8-1
- -> Checking: d41d8cd98f00b204e9800998ecf8427e-0
-List of valid checksums
+Found 4 valid checksums
+Checksum(s) from list:
  -> 285b35198a5e188b3a0df3ed33f93a26-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-1
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> d41d8cd98f00b204e9800998ecf8427e-0
+Checksum(s) with data:
+ -> 285b35198a5e188b3a0df3ed33f93a26-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> e5ed795e721b69c53a52482d6bdcb149-0
+Removing obsolete checksum(s)
+ -> e5ed795e721b69c53a52482d6bdcb149-0: done
+Warning: Missing checksum(s):
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
  -> Journal is empty, not merging
 Database closed
 

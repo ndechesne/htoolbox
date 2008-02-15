@@ -58,10 +58,6 @@ public:
   bool isWriteable() const {
     return Database::isWriteable();
   }
-  int  scan2(
-      bool            thorough) const {
-    return Database::scan2(thorough);
-  }
 };
 
 int hbackup::terminating(const char* unused) {
@@ -133,40 +129,65 @@ int main(void) {
 
 
   cout << endl << "Test: check" << endl;
-  Directory("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0").create();
-  File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
-  if (db.scan(false, "49ca0efa9f5633cb0371bbc0355678d8-0")) {
-    printf("db.check: %s\n", strerror(errno));
-  }
-  if (db.scan(false, "59ca0efa9f5633cb0371bbc0355678d8-0")) {
-    printf("db.check: %s\n", strerror(errno));
-  }
-  if (db.scan(false, "59ca0efa9f5633cb0371bbc0355478d8")) {
-    printf("db.check: %s\n", strerror(errno));
-  }
-  if (db.scan(false, "59ca0efa9f5633cb0371bbc0355478d8-0")) {
-    printf("db.check: %s\n", strerror(errno));
-  }
   if (db.scan()) {
-    printf("db.check: %s\n", strerror(errno));
+    printf("db.scan: %s\n", strerror(errno));
+  }
+  db.close();
+  if ((status = db.open_rw())) {
+    cout << "db::open error status " << status << endl;
+    if (status < 0) {
+      return 0;
+    }
   }
   cout << "File data gone" << endl;
-  File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").remove();
-  if (db.scan(false, "59ca0efa9f5633cb0371bbc0355478d8-0")) {
-    printf("db.check: %s\n", strerror(errno));
-    fflush(stdout);
+  Directory("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0").create();
+  if (db.scan()) {
+    printf("db.scan: %s\n", strerror(errno));
+  }
+  db.close();
+  if ((status = db.open_rw())) {
+    cout << "db::open error status " << status << endl;
+    if (status < 0) {
+      return 0;
+    }
   }
   cout << "File data corrupted, surficial scan" << endl;
+  if (Directory("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
+    cout << "Directory still exists!" << endl;
+  }
   File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
-  if (db.scan(false, "59ca0efa9f5633cb0371bbc0355478d8-0")) {
-    printf("db.check: %s\n", strerror(errno));
+  db.close();
+  if ((status = db.open_rw())) {
+    cout << "db::open error status " << status << endl;
+    if (status < 0) {
+      return 0;
+    }
+  }
+  if (db.scan(false)) {
+    printf("db.scan: %s\n", strerror(errno));
   }
   cout << "File data corrupted, thorough scan" << endl;
-  File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
-  if (db.scan(true, "59ca0efa9f5633cb0371bbc0355478d8-0")) {
-    printf("db.check: %s\n", strerror(errno));
+  if (Directory("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
+    cout << "Directory still exists!" << endl;
   }
-
+  File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
+  db.close();
+  if ((status = db.open_rw())) {
+    cout << "db::open error status " << status << endl;
+    if (status < 0) {
+      return 0;
+    }
+  }
+  if (db.scan(true)) {
+    printf("db.scan: %s\n", strerror(errno));
+  }
+  if (Directory("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0").isValid()) {
+    cout << "Directory still exists!" << endl;
+    if (File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").isValid())
+    {
+      cout << "File still exists!" << endl;
+    }
+  }
   db.close();
 
 
@@ -376,15 +397,17 @@ int main(void) {
   records.clear();
 
 
-  cout << endl << "Test: scan2" << endl;
+  cout << endl << "Test: scan" << endl;
   File("test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0/data").remove();
+  Directory("test_db/data/e5ed795e721b69c53a52482d6bdcb149-0").create();
+  system("cp test1/bzr/filemod.o test_db/data/e5ed795e721b69c53a52482d6bdcb149-0/data");
   if ((status = db.open_rw())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
     }
   }
-  if (db.scan2(true) != 0) {
+  if (db.scan(true) != 0) {
     cout << "db::scan2 failed" << endl;
   }
   db.close();

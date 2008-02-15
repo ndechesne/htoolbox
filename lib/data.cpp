@@ -137,8 +137,9 @@ int Data::organise(
 int Data::crawl_recurse(
     Directory&      dir,
     const string&   checksumPart,
+    list<string>&   checksums,
     bool            thorough,
-    list<string>&   checksums) const {
+    bool            rm_corrupt) const {
   bool failed = false;
   if (dir.isValid() && ! dir.createList()) {
     bool no_files = false;
@@ -156,15 +157,17 @@ int Data::crawl_recurse(
         string checksum = checksumPart + (*i)->name();
         if (no_files) {
           Directory d(**i);
-          if (crawl_recurse(d, checksum, thorough, checksums) < 0) {
+          if (crawl_recurse(d, checksum, checksums, thorough, rm_corrupt) < 0){
             failed = true;
           }
         } else {
-          out(verbose, 1) << "Checking: " << checksum << endl;
-          if (! check(checksum, thorough)) {
+          if (! check(checksum, thorough, true)) {
             checksums.push_back(checksum);
           }
         }
+      }
+      if (terminating()) {
+        failed = true;
       }
       delete *i;
       i = dir.nodesList().erase(i);
@@ -404,7 +407,8 @@ int Data::write(
 
 int Data::check(
     const string&   checksum,
-    bool            thorough) const {
+    bool            thorough,
+    bool            rm_corrupt) const {
   string path;
   if (getDir(checksum, path)) {
     errno = EUCLEAN;
@@ -419,6 +423,7 @@ int Data::check(
   // Missing data
   if (data == NULL) {
     out(error) << "Data missing for: " << checksum << endl;
+    std::remove(path.c_str());
     errno = ENOENT;
     return -1;
   }
@@ -436,6 +441,10 @@ int Data::check(
   if (strncmp(data->checksum(), checksum.c_str(), strlen(data->checksum()))){
     out(error) << "Data corrupted for: " << checksum << endl;
     failed = true;
+    if (rm_corrupt) {
+      data->remove();
+      std::remove(path.c_str());
+    }
   }
   delete data;
   return failed ? -1 : 0;
@@ -460,13 +469,14 @@ int Data::remove(
     rc = 2;
   }
   delete data;
-  remove(path.c_str());
+  std::remove(path.c_str());
   return rc;
 }
 
 int Data::crawl(
+    list<string>&   checksums,
     bool            thorough,
-    list<string>&   checksums) const {
+    bool            rm_corrupt) const {
   Directory d(_d->path);
-  return crawl_recurse(d, "", thorough, checksums);
+  return crawl_recurse(d, "", checksums, thorough, rm_corrupt);
 }
