@@ -58,12 +58,9 @@ public:
   bool isWriteable() const {
     return Database::isWriteable();
   }
-  int  crawl(
-      Directory&      dir,
-      const string&   checksumPart,
-      bool            thorough,
-      list<string>&   checksums) const {
-    return Database::crawl(dir, checksumPart, thorough, checksums);
+  int  scan2(
+      bool            thorough) const {
+    return Database::scan2(thorough);
   }
 };
 
@@ -379,25 +376,18 @@ int main(void) {
   records.clear();
 
 
-  cout << endl << "Test: crawl" << endl;
-  list<string> checksums;
+  cout << endl << "Test: scan2" << endl;
+  File("test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0/data").remove();
   if ((status = db.open_rw())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
     }
   }
-  d = new Directory("test_db/data");
-  if (db.crawl(*d, "", true, checksums) != 0) {
-    cout << "db::crawl failed" << endl;
+  if (db.scan2(true) != 0) {
+    cout << "db::scan2 failed" << endl;
   }
-  delete d;
   db.close();
-  cout << "List of valid checksums" << endl;
-  for (list<string>::iterator i = checksums.begin(); i != checksums.end(); i++) {
-    cout << " -> " << *i << endl;
-  }
-  checksums.clear();
 
 
   cout << endl << "Test: concurrent access" << endl;

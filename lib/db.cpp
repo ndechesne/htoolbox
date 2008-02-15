@@ -153,12 +153,18 @@ bool Database::isWriteable() const {
   return (_d->journal != NULL) && _d->journal->isOpen();
 }
 
-int Database::crawl(
-    Directory&      dir,
-    const string&   checksumPart,
-    bool            thorough,
-    list<string>&   checksums) const {
-  return _d->data.crawl(dir, checksumPart, thorough, checksums);
+int Database::scan2(
+    bool            thorough) const {
+  list<string> checksums;
+  int rc = _d->data.crawl(thorough, checksums);
+  if (rc >= 0) {
+    out(debug) << "List of valid checksums" << endl;
+    for (list<string>::iterator i = checksums.begin(); i != checksums.end();
+        i++) {
+      out(debug, 1) << *i << endl;
+    }
+  }
+  return rc;
 }
 
 

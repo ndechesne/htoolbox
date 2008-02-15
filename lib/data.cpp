@@ -134,6 +134,151 @@ int Data::organise(
   return failed ? -1 : 0;
 }
 
+int Data::crawl_recurse(
+    Directory&      dir,
+    const string&   checksumPart,
+    bool            thorough,
+    list<string>&   checksums) const {
+  bool failed = false;
+  if (dir.isValid() && ! dir.createList()) {
+    bool no_files = false;
+    list<Node*>::iterator i = dir.nodesList().begin();
+    while (i != dir.nodesList().end()) {
+      if (failed) {
+        // Skip any processing, but remove node from list
+      } else
+      if ((*i)->type() == 'f') {
+        if (strcmp((*i)->name(), ".nofiles") == 0) {
+          no_files = true;
+        }
+      } else
+      if ((*i)->type() == 'd') {
+        string checksum = checksumPart + (*i)->name();
+        if (no_files) {
+          Directory d(**i);
+          if (crawl_recurse(d, checksum, thorough, checksums) < 0) {
+            failed = true;
+          }
+        } else {
+          out(verbose, 1) << "Checking: " << checksum << endl;
+          if (! check(checksum, thorough)) {
+            checksums.push_back(checksum);
+          }
+        }
+      }
+      delete *i;
+      i = dir.nodesList().erase(i);
+    }
+  } else {
+    failed = true;
+  }
+  return failed ? -1 : 0;
+}
+
+Data::Data() {
+  _d       = new Private;
+  _d->path = NULL;
+}
+
+Data::~Data() {
+  close();
+  delete _d;
+}
+
+int Data::open(const char* path, bool create) {
+  _d->path = strdup(path);
+  if (_d->path == NULL) {
+    goto failed;
+  }
+  {
+    Directory dir(path);
+    if (dir.isValid()) {
+      return 0;
+    }
+    if (! create) {
+      goto failed;
+    }
+    if (dir.create() < 0) {
+      goto failed;
+    }
+  }
+  // Signal creation
+  return 1;
+failed:
+  close();
+  return -1;
+}
+
+void Data::close() {
+  free(_d->path);
+  _d->path = NULL;
+}
+
+int Data::read(const string& path, const string& checksum) {
+  bool failed = false;
+
+  string source_path;
+  if (getDir(checksum, source_path)) {
+    out(error) << "Cannot access DB data for: " << checksum << endl;
+    return -1;
+  }
+
+  // Open source
+  bool decompress = false;
+  source_path += "/data";
+  if (! File(source_path.c_str()).isValid()) {
+    source_path += ".gz";
+    decompress = true;
+  }
+  Stream source(source_path.c_str());
+  if (source.open("r", decompress ? 1 : 0)) {
+    out(error) << strerror(errno) << " opening read source file: "
+      << source_path << endl;
+    return -1;
+  }
+
+  // Open temporary file to write to
+  string temp_path = path + ".part";
+  Stream temp(temp_path.c_str());
+  if (temp.open("w")) {
+    out(error) << strerror(errno) << "opening read temp file: " << temp_path
+      << endl;
+    failed = true;
+  } else
+
+  // Copy file to temporary name (size not checked: checksum suffices)
+  temp.setCancelCallback(cancel);
+  if (temp.copy(source)) {
+    out(error) << strerror(errno) << " copying read file: " << source_path
+      << endl;
+    failed = true;
+  }
+
+  source.close();
+  temp.close();
+
+  if (! failed) {
+    // Verify that checksums match before overwriting final destination
+    if (strncmp(checksum.c_str(), temp.checksum(), strlen(temp.checksum()))) {
+      out(error) << "read checksums don't match: " << checksum << " != "
+        << temp.checksum() << ", for: " << source_path << endl;
+      failed = true;
+    } else
+
+    // All done
+    if (rename(temp_path.c_str(), path.c_str())) {
+      out(error) << strerror(errno) << "renaming read file: " << path << endl;
+      failed = true;
+    }
+  }
+
+  if (failed) {
+    std::remove(temp_path.c_str());
+  }
+
+  return failed ? -1 : 0;
+}
+
 int Data::write(
     const string&   path,
     char**          dchecksum,
@@ -257,149 +402,6 @@ int Data::write(
   return failed ? -1 : 0;
 }
 
-int Data::crawl(
-    Directory&      dir,
-    const string&   checksumPart,
-    bool            thorough,
-    list<string>&   checksums) const {
-  if (dir.isValid() && ! dir.createList()) {
-    bool no_files = false;
-    list<Node*>::iterator i = dir.nodesList().begin();
-    while (i != dir.nodesList().end()) {
-      if (((*i)->type() == 'f') && (strcmp((*i)->name(), ".nofiles") == 0)) {
-        no_files = true;
-      }
-      if ((*i)->type() == 'd') {
-        string checksum = checksumPart + (*i)->name();
-        if (no_files) {
-          Directory *d = new Directory(**i);
-          crawl(*d, checksum, thorough, checksums);
-          delete d;
-        } else {
-          out(verbose, 1) << "Checking: " << checksum << endl;
-          if (! check(checksum, thorough)) {
-            checksums.push_back(checksum);
-          }
-        }
-      }
-      delete *i;
-      i = dir.nodesList().erase(i);
-    }
-  } else {
-    return -1;
-  }
-  return 0;
-}
-
-int Data::parseChecksums(
-    list<string>&   checksums) {
-  return -1;
-}
-
-Data::Data() {
-  _d       = new Private;
-  _d->path = NULL;
-}
-
-Data::~Data() {
-  close();
-  delete _d;
-}
-
-int Data::open(const char* path, bool create) {
-  _d->path = strdup(path);
-  if (_d->path == NULL) {
-    goto failed;
-  }
-  {
-    Directory dir(path);
-    if (dir.isValid()) {
-      return 0;
-    }
-    if (! create) {
-      goto failed;
-    }
-    if (dir.create() < 0) {
-      goto failed;
-    }
-  }
-  // Signal creation
-  return 1;
-failed:
-  close();
-  return -1;
-}
-
-void Data::close() {
-  free(_d->path);
-  _d->path = NULL;
-}
-
-int Data::read(const string& path, const string& checksum) {
-  bool failed = false;
-
-  string source_path;
-  if (getDir(checksum, source_path)) {
-    out(error) << "Cannot access DB data for: " << checksum << endl;
-    return -1;
-  }
-
-  // Open source
-  bool decompress = false;
-  source_path += "/data";
-  if (! File(source_path.c_str()).isValid()) {
-    source_path += ".gz";
-    decompress = true;
-  }
-  Stream source(source_path.c_str());
-  if (source.open("r", decompress ? 1 : 0)) {
-    out(error) << strerror(errno) << " opening read source file: "
-      << source_path << endl;
-    return -1;
-  }
-
-  // Open temporary file to write to
-  string temp_path = path + ".part";
-  Stream temp(temp_path.c_str());
-  if (temp.open("w")) {
-    out(error) << strerror(errno) << "opening read temp file: " << temp_path
-      << endl;
-    failed = true;
-  } else
-
-  // Copy file to temporary name (size not checked: checksum suffices)
-  temp.setCancelCallback(cancel);
-  if (temp.copy(source)) {
-    out(error) << strerror(errno) << " copying read file: " << source_path
-      << endl;
-    failed = true;
-  }
-
-  source.close();
-  temp.close();
-
-  if (! failed) {
-    // Verify that checksums match before overwriting final destination
-    if (strncmp(checksum.c_str(), temp.checksum(), strlen(temp.checksum()))) {
-      out(error) << "read checksums don't match: " << checksum << " != "
-        << temp.checksum() << ", for: " << source_path << endl;
-      failed = true;
-    } else
-
-    // All done
-    if (rename(temp_path.c_str(), path.c_str())) {
-      out(error) << strerror(errno) << "renaming read file: " << path << endl;
-      failed = true;
-    }
-  }
-
-  if (failed) {
-    std::remove(temp_path.c_str());
-  }
-
-  return failed ? -1 : 0;
-}
-
 int Data::check(
     const string&   checksum,
     bool            thorough) const {
@@ -424,16 +426,15 @@ int Data::check(
     return 0;
   }
   if (data->open("r", (no > 0) ? 1 : 0)) {
-    errno = EINVAL;
+    out(error) << strerror(errno) << ": " << checksum << endl;
     failed = true;
   } else
   if (data->computeChecksum() || data->close()) {
-    errno = EINVAL;
+    out(error) << strerror(errno) << ": " << checksum << endl;
     failed = true;
   } else
   if (strncmp(data->checksum(), checksum.c_str(), strlen(data->checksum()))){
     out(error) << "Data corrupted for: " << checksum << endl;
-    errno = EUCLEAN;
     failed = true;
   }
   delete data;
@@ -461,4 +462,11 @@ int Data::remove(
   delete data;
   remove(path.c_str());
   return rc;
+}
+
+int Data::crawl(
+    bool            thorough,
+    list<string>&   checksums) const {
+  Directory d(_d->path);
+  return crawl_recurse(d, "", thorough, checksums);
 }

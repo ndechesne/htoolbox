@@ -34,6 +34,12 @@ protected: // So I can test them
   int organise(
     const string&   path,
     int             number) const;
+  // Scan database for missing/corrupted data, return a list of valid checksums
+  int crawl_recurse(
+    Directory&      dir,              // Base directory
+    const string&   checksumPart,     // Checksum part
+    bool            thorough,         // Whether to do a corruption check
+    list<string>&   checksums) const; // List of collected checksums
 public:
   Data();
   ~Data();
@@ -61,13 +67,8 @@ public:
     const string&   checksum);
   // Scan database for missing/corrupted data, return a list of valid checksums
   int crawl(
-    Directory&      dir,              // Base directory
-    const string&   checksumPart,     // Checksum part
     bool            thorough,         // Whether to do a corruption check
     list<string>&   checksums) const; // List of collected checksums
-  // Use crawl's list of checksums to check for missing and obsolete data
-  int parseChecksums(
-    list<string>&   checksums);
 };
 
 }

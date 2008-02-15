@@ -33,12 +33,9 @@ class Database {
 protected: // So I can test them/use them in tests
   bool isOpen() const;
   bool isWriteable() const;
-  // Scan database for missing/corrupted data, return a list of valid checksums
-  int crawl(
-    Directory&      dir,              // Base directory
-    const string&   checksumPart,     // Checksum part
-    bool            thorough,         // Whether to do a corruption check
-    list<string>&   checksums) const; // List of collected checksums
+  // Scan database for missing/corrupted/obsolete data
+  int scan2(
+    bool            thorough) const;  // Whether to do a corruption check
 public:
   Database(const string& path);
   ~Database();
