@@ -362,7 +362,7 @@ Error: Permission denied opening write source file: test1/subdir/testfile
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 59 file(s)
- -> Journal is empty, not merging
+Database not modified
 Database closed
 
 List:
@@ -1749,7 +1749,7 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 45 file(s)
- -> Journal is empty, not merging
+Database not modified
 Database closed
 
 List:
@@ -3465,7 +3465,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
  -> Dir testdir/biblio
 Parsed 44 file(s)
- -> Journal is empty, not merging
+Database not modified
 Database closed
 
 List:
@@ -4258,10 +4258,10 @@ myClient
 	/home/User/testdir/evolocal.odb
 [19] -
 Error: Unexpected end of file
- -> Journal is empty, not merging
+Database not modified
 Database closed
 Database open in read/write mode
- -> Journal is empty, not merging
+Database not modified
 Database closed
 
 Same again
@@ -4295,7 +4295,7 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
 Parsed 40 file(s)
- -> Journal is empty, not merging
+Database not modified
 Database closed
 
 List:
@@ -4557,7 +4557,7 @@ Same again
 Database open in read/write mode
  -> Dir testdir
 Parsed 4 file(s)
- -> Journal is empty, not merging
+Database not modified
 Database closed
 
 List:

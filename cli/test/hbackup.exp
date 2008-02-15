@@ -379,7 +379,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Backup path 'test2'
  -> Dir testdir
- -> Journal is empty, not merging
+Database not modified
 Database closed
 User-mode backup
 Backing up in user mode
@@ -454,7 +454,7 @@ Checksum(s) with data:
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
- -> Journal is empty, not merging
+Database not modified
 Database closed
 Check DB
  -> Reading configuration file 'etc/hbackup.conf'
@@ -509,7 +509,7 @@ Checksum(s) with data:
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
- -> Journal is empty, not merging
+Database not modified
 Database closed
 List prefixes
  -> Reading configuration file 'etc/hbackup.conf'

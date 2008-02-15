@@ -133,7 +133,7 @@ int ClientPath::recurse(
           // For directory, recurse into it
           if ((*i)->type() == 'd') {
             rem_path[last] = '/';
-            out(verbose, 1) << "Dir " << rel_path << (*i)->name() << endl;
+            out(debug, 1) << "Dir " << rel_path << (*i)->name() << endl;
             if (recurse(db, rem_path, (Directory*) *i, parser)) {
               give_up = true;
             }

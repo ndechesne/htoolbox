@@ -161,7 +161,7 @@ int Data::crawl_recurse(
             failed = true;
           }
         } else {
-          if (! check(checksum, thorough, true)) {
+          if (! check(checksum, thorough, rm_corrupt)) {
             checksums.push_back(checksum);
           }
         }

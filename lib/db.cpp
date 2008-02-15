@@ -383,7 +383,7 @@ int Database::close(int trash_expire) {
       // See if any data was added
       if (_d->journal->isEmpty()) {
         // Do nothing
-        out(verbose, 1) << "Journal is empty, not merging" << endl;
+        out(verbose) << "Database not modified" << endl;
         // Close list
         _d->list->close();
         // Close merge
@@ -685,7 +685,7 @@ int Database::scan(
   list<string> list_sums;
   Node*        node = NULL;
   while (_d->list->getEntry(NULL, NULL, NULL, &node) > 0) {
-    if (node->type() == 'f') {
+    if ((node != NULL) && (node->type() == 'f')) {
       File* f = (File*) node;
       if (f->checksum()[0] != '\0') {
         list_sums.push_back(f->checksum());
@@ -769,7 +769,7 @@ int Database::scan(
     }
   }
   if (! missing.empty()) {
-    out(warning) << "Missing checksum(s):" << endl;
+    out(warning) << "Missing or corrupted checksum(s):" << endl;
     for (list<string>::iterator i = missing.begin(); i != missing.end(); i++) {
       out(warning, 1) << *i << endl;
     }

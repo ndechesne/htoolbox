@@ -6,7 +6,7 @@ Reading list
 Found 0 checksums
 Crawling through DB
 Found 0 valid checksums
- -> Journal is empty, not merging
+Database not modified
 Database closed
 Database open in read/write mode
 File data gone
@@ -15,11 +15,11 @@ Found 0 checksums
 Crawling through DB
 Error: Data missing for: 59ca0efa9f5633cb0371bbc0355478d8-0
 Found 0 valid checksums
- -> Journal is empty, not merging
+Database not modified
 Database closed
 Database open in read/write mode
 File data corrupted, surficial scan
- -> Journal is empty, not merging
+Database not modified
 Database closed
 Database open in read/write mode
 Reading list
@@ -31,7 +31,7 @@ Checksum(s) with data:
 Removing obsolete checksum(s)
  -> 59ca0efa9f5633cb0371bbc0355478d8-0: done
 File data corrupted, thorough scan
- -> Journal is empty, not merging
+Database not modified
 Database closed
 Database open in read/write mode
 Reading list
@@ -39,16 +39,16 @@ Found 0 checksums
 Crawling through DB
 Error: Data corrupted for: 59ca0efa9f5633cb0371bbc0355478d8-0
 Found 0 valid checksums
- -> Journal is empty, not merging
+Database not modified
 Database closed
 
 Test: lock
 Database open in read/write mode
- -> Journal is empty, not merging
+Database not modified
 Database closed
 Warning: Lock reset
 Database open in read/write mode
- -> Journal is empty, not merging
+Database not modified
 Database closed
 Error: Lock taken by process with pid 1
 Error: Lock taken by an unidentified process!
@@ -75,7 +75,7 @@ Database closed
 
 Test: do nothing
 Database open in read/write mode
- -> Journal is empty, not merging
+Database not modified
 Database closed
 [ 1] myClient         /client_path/subdir                d     0 755
 [ 2] myClient         /client_path/subdir/testfile       f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
@@ -139,9 +139,9 @@ Checksum(s) with data:
  -> e5ed795e721b69c53a52482d6bdcb149-0
 Removing obsolete checksum(s)
  -> e5ed795e721b69c53a52482d6bdcb149-0: done
-Warning: Missing checksum(s):
+Warning: Missing or corrupted checksum(s):
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
- -> Journal is empty, not merging
+Database not modified
 Database closed
 
 Test: concurrent access

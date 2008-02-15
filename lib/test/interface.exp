@@ -248,7 +248,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 Backup path 'test2'
  -> Dir testdir
 Error: Protocol not supported: ssh
- -> Journal is empty, not merging
+Database not modified
 Database closed
 
 Test: interrupted backup
@@ -467,7 +467,7 @@ Checksum(s) with data:
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
- -> Journal is empty, not merging
+Database not modified
 Database closed
 
 Test: check DB
@@ -524,7 +524,7 @@ Checksum(s) with data:
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
- -> Journal is empty, not merging
+Database not modified
 Database closed
 
 Test: list clients
@@ -925,7 +925,7 @@ Backup client 'myClient' using protocol 'smb'
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount -fl test_db/mount
- -> Journal is empty, not merging
+Database not modified
 Database closed
 
 Test: user-mode backup
