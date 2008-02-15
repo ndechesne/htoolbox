@@ -293,8 +293,8 @@ int HBackup::check(bool thorough) {
   if (! _d->db->open_rw()) {
     bool failed = false;
 
-    // Do not remove corrupted files for now, until this is trusted :)
-    if (_d->db->scan(thorough, false)) {
+    // Corrupted files ge removed from DB
+    if (_d->db->scan(thorough)) {
       failed = true;
     }
     _d->db->close();

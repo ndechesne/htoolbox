@@ -759,7 +759,7 @@ int Database::scan(
     data_sums.clear();
   }
   if (! obsolete.empty()) {
-    out(info) << "Removing obsolete checksum(s)" << endl;
+    out(info) << "Removing obsolete checksum(s): " << obsolete.size() << endl;
     for (list<string>::iterator i = obsolete.begin(); i != obsolete.end();
         i++) {
       if (i->size() != 0) {
@@ -769,7 +769,8 @@ int Database::scan(
     }
   }
   if (! missing.empty()) {
-    out(warning) << "Missing or corrupted checksum(s):" << endl;
+    out(warning) << "Missing or corrupted checksum(s): " << missing.size()
+      << endl;
     for (list<string>::iterator i = missing.begin(); i != missing.end(); i++) {
       out(warning, 1) << *i << endl;
     }
