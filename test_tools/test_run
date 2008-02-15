@@ -22,7 +22,7 @@ export PATH=../../../test_tools:$PATH
 rm -f "$output" "$success"
 
 # Run
-if ! "$executable" > "$output" 2>&1; then
+if ! "$executable" 2>&1 | sed "s/\r/\\\r\n/g" > "$output"; then
 	exit 2
 fi
 

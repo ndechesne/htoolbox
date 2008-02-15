@@ -613,7 +613,7 @@ Database open in read/write mode
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
 A /home/User/cvs/big_file (512 kB)
-Killing during write
+Killing inside data
 Error: Operation canceled copying write file: test1/cvs/big_file
 Parsed 9 file(s)
 Database closed

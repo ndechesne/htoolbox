@@ -38,12 +38,12 @@ using namespace hbackup;
 static bool killed  = false;
 static bool killall = false;
 
-int hbackup::terminating(const char* function) {
+int hbackup::terminating(const char* module) {
   if (killall) {
     return 1;
   }
-  if (killed && (function != NULL) && (! strcmp(function, "write"))) {
-    cout << "Killing during " << function << endl;
+  if (killed && (module != NULL) && (! strcmp(module, "data"))) {
+    cout << "Killing inside " << module << endl;
     killall = true;
     return 1;
   }

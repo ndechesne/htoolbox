@@ -38,7 +38,7 @@ using namespace std;
 using namespace hbackup;
 
 static bool cancel() {
-  return terminating("write") != 0;
+  return terminating("data") != 0;
 }
 
 struct Data::Private {
@@ -161,6 +161,7 @@ int Data::crawl_recurse(
             failed = true;
           }
         } else {
+          out(verbose, 0) << checksum << "\r";
           if (! check(checksum, thorough, rm_corrupt)) {
             checksums.push_back(checksum);
           }
@@ -430,6 +431,7 @@ int Data::check(
   if (! thorough) {
     return 0;
   }
+  data->setCancelCallback(cancel);
   if (data->open("r", (no > 0) ? 1 : 0)) {
     out(error) << strerror(errno) << ": " << checksum << endl;
     failed = true;
@@ -478,5 +480,7 @@ int Data::crawl(
     bool            thorough,
     bool            rm_corrupt) const {
   Directory d(_d->path);
-  return crawl_recurse(d, "", checksums, thorough, rm_corrupt);
+  int rc = crawl_recurse(d, "", checksums, thorough, rm_corrupt);
+  out(verbose, 0) << "                                  \r";
+  return rc;
 }
