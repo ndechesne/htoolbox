@@ -555,11 +555,6 @@ ssize_t Stream::read(void* buffer, size_t count) {
       }
     }
 
-    // Update checksum with chunk
-    if (_d->ctx != NULL) {
-      EVP_DigestUpdate(_d->ctx, _d->buffer, _d->length);
-    }
-
     // Fill decompression input buffer with chunk or just return chunk
     if (_d->strm != NULL) {
       _d->strm->avail_in = _d->length;
@@ -590,6 +585,12 @@ ssize_t Stream::read(void* buffer, size_t count) {
       _d->reader += count;
     }
   }
+
+  // Update checksum
+  if (_d->ctx != NULL) {
+    EVP_DigestUpdate(_d->ctx, buffer, count);
+  }
+
   _d->size += count;
   return count;
 }
@@ -787,7 +788,7 @@ int Stream::computeChecksum() {
       return -1;
     }
   } while (size != 0);
-  if (read_size != _size) {
+  if (read_size != _d->size) {
     errno = EAGAIN;
     return -1;
   }

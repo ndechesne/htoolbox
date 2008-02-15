@@ -736,6 +736,7 @@ int main(void) {
   delete readfile;
   delete writefile;
 
+
   cout << endl << "Test: computeChecksum" << endl;
   readfile = new Stream("test1/testfile");
   if (readfile->open("r")) {
@@ -751,6 +752,22 @@ int main(void) {
   }
   cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
+
+  readfile = new Stream("test1/rwfile_source");
+  if (readfile->open("r", 1)) {
+    return 0;
+  }
+  readfile->setProgressCallback(progress);
+  if (readfile->computeChecksum()) {
+    cout << "Error computing checksum, " << strerror(errno) << endl;
+    return 0;
+  }
+  if (readfile->close()) {
+    return 0;
+  }
+  cout << "Checksum: " << readfile->checksum() << endl;
+  delete readfile;
+
 
   cout << endl << "Test: copy" << endl;
   readfile = new Stream("test1/rwfile_source");
