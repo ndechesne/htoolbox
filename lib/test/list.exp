@@ -129,20 +129,6 @@ Date: 4
 [ 1] client3          link                               l     8 777 testfile
 [ 5] client4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 1] client5          path                               d     0 755
-Active checksums (gross): 4
- 12fec763b7f0a7d6acfc8bfe7606c325
- d41d8cd98f00b204e9800998ecf8427e
- 12fec763b7f0a7d6acfc8bfe7606c325
- d41d8cd98f00b204e9800998ecf8427e
-Active checksums (sorted, uniqued): 2
- 12fec763b7f0a7d6acfc8bfe7606c325
- d41d8cd98f00b204e9800998ecf8427e
-Expired checksums (gross): 1
- 59ca0efa9f5633cb0371bbc0355478d8
-Expired checksums (sorted, uniqued): 1
- 59ca0efa9f5633cb0371bbc0355478d8
-Expired checksums: 1
- 59ca0efa9f5633cb0371bbc0355478d8
 Date: 0
 [ 1] client           file_gone                          [rm]
 [ 5] client           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
@@ -151,23 +137,6 @@ Date: 0
 [ 1] client3          link                               l     8 777 testfile
 [ 5] client4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 1] client5          path                               d     0 755
-Active checksums (gross): 6
- 12fec763b7f0a7d6acfc8bfe7606c325
- d41d8cd98f00b204e9800998ecf8427e
- 12fec763b7f0a7d6acfc8bfe7606c325
- d41d8cd98f00b204e9800998ecf8427e
- 12fec763b7f0a7d6acfc8bfe7606c325
- d41d8cd98f00b204e9800998ecf8427e
-Active checksums (sorted, uniqued): 2
- 12fec763b7f0a7d6acfc8bfe7606c325
- d41d8cd98f00b204e9800998ecf8427e
-Expired checksums (gross): 2
- 59ca0efa9f5633cb0371bbc0355478d8
- 59ca0efa9f5633cb0371bbc0355478d8
-Expired checksums (sorted, uniqued): 1
- 59ca0efa9f5633cb0371bbc0355478d8
-Expired checksums: 1
- 59ca0efa9f5633cb0371bbc0355478d8
 
 Test: copy client data
 List:

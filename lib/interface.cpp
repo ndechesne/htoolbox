@@ -172,7 +172,7 @@ int HBackup::readConfig(const char* config_path) {
     } else
     if ((*params)[0] == "filter") {
       filter = _d->addFilter((*params)[1], (*params)[2]);
-      out(verbose, 2) << "Global filter " << (*params)[1] << " "
+      out(debug, 2) << "Global filter " << (*params)[1] << " "
         << (*params)[2] << endl;
       if (filter == NULL) {
         out(error) << "Error: in file " << config_path << ", line "
@@ -201,7 +201,7 @@ int HBackup::readConfig(const char* config_path) {
             << endl;
           return -1;
         }
-        out(verbose, 3) << "Condition " << (negated ? "not " : "")
+        out(debug, 3) << "Condition " << (negated ? "not " : "")
           << filter_type << " " << subfilter->name() << endl;
         filter->add(new Condition(Condition::subfilter, subfilter, negated));
       } else {
@@ -218,14 +218,14 @@ int HBackup::readConfig(const char* config_path) {
             return -1;
             break;
           default:
-            out(verbose, 3) << "Condition " << (negated ? "not " : "")
+            out(debug, 3) << "Condition " << (negated ? "not " : "")
               << filter_type << " " << (*params)[2] << endl;
         }
       }
     } else
     if ((*params)[0] == "client") {
       client = new Client((*params)[2]);
-      out(verbose, 2) << "Client: " << client->name() << endl;
+      out(debug, 2) << "Client: " << client->name() << endl;
 
       client->setProtocol((*params)[1]);
 
@@ -259,7 +259,7 @@ int HBackup::readConfig(const char* config_path) {
       } else
       if ((*params)[0] == "config") {
         client->setListfile((*params)[1].c_str());
-        out(verbose, 3) << "Config file: " << (*params)[1] << endl;
+        out(debug, 3) << "Config file: " << (*params)[1] << endl;
       } else
       if ((*params)[0] == "expire") {
         errno = 0;
@@ -270,7 +270,7 @@ int HBackup::readConfig(const char* config_path) {
             << "' expects a number as argument" << endl;
           return -1;
         }
-        out(verbose, 3) << "Expiry: " << expire << " day(s)" << endl;
+        out(debug, 3) << "Expiry: " << expire << " day(s)" << endl;
         client->setExpire(expire * 3600 * 24);
       }
     }

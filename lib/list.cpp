@@ -521,9 +521,7 @@ int List::search(
     const char*     client_l,
     const char*     path_l,
     List*           list,
-    time_t          expire,
-    list<string>*   active,
-    list<string>*   expired) {
+    time_t          expire) {
   int     path_cmp;
   int     rc         = 0;
 
@@ -686,21 +684,6 @@ int List::search(
               obsolete = false;
             }
           }
-
-          // Deal with file data removal
-          if ((params[3] == "f")
-          &&  (params.size() == 10)) {
-            if (! obsolete) {
-              if (active != NULL) {
-                active->push_back(params[9]);
-              }
-            } else {
-              if (expired != NULL) {
-                expired->push_back(params[9]);
-              }
-            }
-          }
-
           // If obsolete, do not copy
           if (obsolete) {
             continue;

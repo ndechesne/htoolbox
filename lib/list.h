@@ -98,9 +98,7 @@ public:
     const char*     client  = NULL,   // Client to search
     const char*     path    = NULL,   // Path to search
     List*           list    = NULL,   // List in which to copy, if any
-    time_t          expire  = -1,     // Expiration date
-    list<string>*   active  = NULL,   // List of active checksums
-    list<string>*   expired = NULL);  // List of expired checksums
+    time_t          expire  = -1);    // Expiration date
   // Merge list and backup into this list
   int  merge(
     List&           list,

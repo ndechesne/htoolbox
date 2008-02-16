@@ -45,8 +45,6 @@ struct Database::Private {
   string            path;
   Data              data;
   int               expire;
-  list<string>      active_data;
-  list<string>      expired_data;
   List*             list;
   List*             journal;
   List*             merge;
@@ -392,8 +390,7 @@ int Database::close(int trash_expire) {
         remove((_d->path + "/journal").c_str());
       } else {
         // Finish off merging
-        _d->list->search("", "", _d->merge, -1, &_d->active_data,
-          &_d->expired_data);
+        _d->list->search("", "", _d->merge, -1);
         // Close list
         _d->list->close();
         // Close merge
@@ -405,48 +402,6 @@ int Database::close(int trash_expire) {
         } else {
           // All merging successful
           update("journal");
-
-          // Get rid of expired data
-          _d->active_data.sort();
-          _d->active_data.unique();
-          _d->expired_data.sort();
-          _d->expired_data.unique();
-
-          // Get checksums for removal
-          list<string>::iterator i = _d->expired_data.begin();
-          list<string>::iterator j = _d->active_data.begin();
-          while (i != _d->expired_data.end()) {
-            while ((j != _d->active_data.end()) && (*j < *i)) { j++; }
-            if ((j != _d->active_data.end()) && (*j == *i)) {
-              i = _d->expired_data.erase(i);
-            } else {
-              i++;
-            }
-          }
-          _d->active_data.clear();
-          // Remove obsolete data
-          i = _d->expired_data.begin();
-          while (i != _d->expired_data.end()) {
-            if (i->size() != 0) {
-              out(verbose, 1) << "Removing data for " << *i << ": ";
-              switch (_d->data.remove(*i)) {
-                case 0:
-                  out(verbose) << "done";
-                  break;
-                case 1:
-                  out(verbose) << "ALREADY GONE!";
-                  break;
-                case 2:
-                  out(verbose) << "DATA GONE!";
-                  break;
-                default:
-                  out(verbose) << "FAILED!";
-              }
-              out(verbose) << endl;
-            }
-            i = _d->expired_data.erase(i);
-          }
-          _d->expired_data.clear();
         }
       }
     }
@@ -797,14 +752,12 @@ void Database::setClient(
   }
   _d->clientJournalled = false;
   // This will add the client if not found, copy it if found
-  _d->list->search(client, "", _d->merge, -1, &_d->active_data,
-    &_d->expired_data);
+  _d->list->search(client, "", _d->merge, -1);
 }
 
 void Database::failedClient() {
   // Skip to next client/end of file
-  _d->list->search(NULL, NULL, _d->merge, -1, &_d->active_data,
-    &_d->expired_data);
+  _d->list->search(NULL, NULL, _d->merge, -1);
   // Keep client found
   _d->list->keepLine();
 }
@@ -821,8 +774,8 @@ int Database::sendEntry(
   char* db_path = NULL;
   Node* db_node = NULL;
   int   cmp     = 1;
-  while (_d->list->search(_d->client.c_str(), NULL, _d->merge, _d->expire,
-      &_d->active_data, &_d->expired_data) == 2) {
+  while (_d->list->search(_d->client.c_str(), NULL, _d->merge, _d->expire)
+      == 2) {
     if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
       // Error
       out(error) << "Failed to get entry" << endl;

@@ -4848,17 +4848,6 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile (13 B)
 Error: Permission denied opening write source file: test1/testfile
 Parsed 40 file(s)
- -> Removing data for 06f05055bfb2c8b900459f45826fc8ea-0: done
- -> Removing data for 285b35198a5e188b3a0df3ed33f93a26-0: ALREADY GONE!
- -> Removing data for 3b9ddae5294c8f4850d45073a933f3e6-0: done
- -> Removing data for 3cd6b399f9fa49fd0b137a3de46d83f5-0: done
- -> Removing data for 5252f242d27b8c2c9fdbdcbb33545d07-0: done
- -> Removing data for 60afe8c3ac66cb77a34da116394d9ac8-0: done
- -> Removing data for 816df6f64deba63b029ca19d880ee10a-0: done
- -> Removing data for 8bdef5751e46ed57d237cbe3f4a5061c-0: done
- -> Removing data for 9283e2c51868272850bd2d89b63c58e8-0: done
- -> Removing data for caecaacc7fdee8a7667d4f4f315858a9-0: done
- -> Removing data for eb75fb33b2019ef3c840eb5ccdc2e795-0: done
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
@@ -5084,7 +5073,6 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 D /home/User/testfile
 M /home/User/testfile~ (0 B)
 Parsed 39 file(s)
- -> Removing data for 59ca0efa9f5633cb0371bbc0355478d8-0: DATA GONE!
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
