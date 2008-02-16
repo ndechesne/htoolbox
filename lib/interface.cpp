@@ -289,20 +289,28 @@ void HBackup::close() {
   _d->db = NULL;
 }
 
-int HBackup::check(bool thorough) {
+int HBackup::scan(bool remove) {
+  bool failed = true;
   if (! _d->db->open_rw()) {
-    bool failed = false;
-
     // Corrupted files ge removed from DB
-    if (_d->db->scan(thorough)) {
-      failed = true;
+    if (! _d->db->scan(remove)) {
+      failed = false;
     }
     _d->db->close();
-    if (! failed) {
-      return 0;
-    }
   }
-  return -1;
+  return failed ? -1 : 0;
+}
+
+int HBackup::check(bool remove) {
+  bool failed = true;
+  if (! _d->db->open_ro()) {
+    // Corrupted files ge removed from DB
+    if (! _d->db->check(remove)) {
+      failed = false;
+    }
+    _d->db->close();
+  }
+  return failed ? -1 : 0;
 }
 
 int HBackup::backup(bool config_check) {

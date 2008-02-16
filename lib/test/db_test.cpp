@@ -44,7 +44,7 @@ using namespace hbackup;
 //   close:       tested in paths
 //   close(ro):   tested
 //   getList:     tested in paths
-//   scan:        FIXME broken, not tested
+//   scan:        basically tested, tested in interface test
 //   add:         tested in paths
 //   remove:      tested in paths
 
@@ -163,7 +163,7 @@ int main(void) {
       return 0;
     }
   }
-  if (db.scan(false)) {
+  if (db.scan()) {
     printf("db.scan: %s\n", strerror(errno));
   }
   cout << "File data corrupted, thorough scan" << endl;
@@ -178,7 +178,7 @@ int main(void) {
       return 0;
     }
   }
-  if (db.scan(true)) {
+  if (db.check()) {
     printf("db.scan: %s\n", strerror(errno));
   }
   if (Directory("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0").isValid()) {

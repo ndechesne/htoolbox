@@ -503,10 +503,8 @@ Test: check DB
  ---> Expiry: 1 day(s)
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
-Database open in read/write mode
-Reading list
-Found 15 checksums
-Crawling through DB
+Database open in read-only mode
+Crawling through DB data
 0f2ea973d77135dc3d06c8e68da6dc59-0\r
 26ab0db90d72e28ad0ba1e22ee510510-0\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0\r
@@ -524,39 +522,6 @@ fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
                                   \r
 Found 15 valid checksums
-Checksum(s) from list:
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> 26ab0db90d72e28ad0ba1e22ee510510-0
- -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
- -> 5252f242d27b8c2c9fdbdcbb33545d07-0
- -> 59071590099d21dd439896592338bf95-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
- -> 6d7fce9fee471194aa8b5b6e47267f03-0
- -> 816df6f64deba63b029ca19d880ee10a-0
- -> 8bdef5751e46ed57d237cbe3f4a5061c-0
- -> b026324c6904b2a9cb4b88d6d61c81d1-0
- -> b90f8fa56ea1d39881d4a199c7a81d35-0
- -> d41d8cd98f00b204e9800998ecf8427e-0
- -> eb75fb33b2019ef3c840eb5ccdc2e795-0
- -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
- -> fef51838cd3cfe8ed96355742eb71fbd-0
-Checksum(s) with data:
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> 26ab0db90d72e28ad0ba1e22ee510510-0
- -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
- -> 5252f242d27b8c2c9fdbdcbb33545d07-0
- -> 59071590099d21dd439896592338bf95-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
- -> 6d7fce9fee471194aa8b5b6e47267f03-0
- -> 816df6f64deba63b029ca19d880ee10a-0
- -> 8bdef5751e46ed57d237cbe3f4a5061c-0
- -> b026324c6904b2a9cb4b88d6d61c81d1-0
- -> b90f8fa56ea1d39881d4a199c7a81d35-0
- -> d41d8cd98f00b204e9800998ecf8427e-0
- -> eb75fb33b2019ef3c840eb5ccdc2e795-0
- -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
- -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database not modified
 Database closed
 
 Test: list clients
@@ -1254,4 +1219,625 @@ U test_r/C:/Test/Dir
 U test_r/C:/Test/Dir/a File.TXT
 U test_r/C:/Test/Dir/another File.TXT
 U test_r/C:/Test/File.TXT
+Database closed
+
+Test: check for corrupted data
+ -> Reading configuration file 'etc/hbackup.conf'
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
+ --> Client: myClient
+ ---> Config file: /home/User/hbackup.list
+ --> Client: other
+ ---> Config file: /home/backup/Backup.list
+ --> Client: myhost
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
+ --> Client: client
+ ---> Config file: C:\Backup\Backup.LST
+ --> Client: myClient
+ ---> Config file: C:\Backup\Backup.LST
+Just check
+Database open in read-only mode
+Crawling through DB data
+0f2ea973d77135dc3d06c8e68da6dc59-0\r
+Error: Data corrupted for: 0f2ea973d77135dc3d06c8e68da6dc59-0
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+59ca0efa9f5633cb0371bbc0355478d8-0\r
+Error: Data missing for: 59ca0efa9f5633cb0371bbc0355478d8-0
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+816df6f64deba63b029ca19d880ee10a-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+b90f8fa56ea1d39881d4a199c7a81d35-0\r
+Error: Data corrupted for: b90f8fa56ea1d39881d4a199c7a81d35-0
+d41d8cd98f00b204e9800998ecf8427e-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+fef51838cd3cfe8ed96355742eb71fbd-0\r
+Error: Data corrupted for: fef51838cd3cfe8ed96355742eb71fbd-0
+                                  \r
+Found 11 valid checksums
+Database closed
+Check and remove
+Database open in read-only mode
+Crawling through DB data
+0f2ea973d77135dc3d06c8e68da6dc59-0\r
+Error: Data corrupted for: 0f2ea973d77135dc3d06c8e68da6dc59-0, remove
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+59ca0efa9f5633cb0371bbc0355478d8-0\r
+Error: Data missing for: 59ca0efa9f5633cb0371bbc0355478d8-0
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+816df6f64deba63b029ca19d880ee10a-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+b90f8fa56ea1d39881d4a199c7a81d35-0\r
+Error: Data corrupted for: b90f8fa56ea1d39881d4a199c7a81d35-0, remove
+d41d8cd98f00b204e9800998ecf8427e-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+fef51838cd3cfe8ed96355742eb71fbd-0\r
+Error: Data corrupted for: fef51838cd3cfe8ed96355742eb71fbd-0, remove
+                                  \r
+Found 11 valid checksums
+Database closed
+Just check again
+Database open in read-only mode
+Crawling through DB data
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+59ca0efa9f5633cb0371bbc0355478d8-0\r
+Error: Data missing for: 59ca0efa9f5633cb0371bbc0355478d8-0
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+816df6f64deba63b029ca19d880ee10a-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+b90f8fa56ea1d39881d4a199c7a81d35-0\r
+d41d8cd98f00b204e9800998ecf8427e-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+fef51838cd3cfe8ed96355742eb71fbd-0\r
+                                  \r
+Found 13 valid checksums
+Database closed
+
+Test: scan for missing data
+ -> Reading configuration file 'etc/hbackup.conf'
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
+ --> Client: myClient
+ ---> Config file: /home/User/hbackup.list
+ --> Client: other
+ ---> Config file: /home/backup/Backup.list
+ --> Client: myhost
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
+ --> Client: client
+ ---> Config file: C:\Backup\Backup.LST
+ --> Client: myClient
+ ---> Config file: C:\Backup\Backup.LST
+Just scan
+Database open in read/write mode
+Reading list
+Found 15 checksums
+Crawling through DB
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+59ca0efa9f5633cb0371bbc0355478d8-0\r
+Error: Data missing for: 59ca0efa9f5633cb0371bbc0355478d8-0
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+816df6f64deba63b029ca19d880ee10a-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+b90f8fa56ea1d39881d4a199c7a81d35-0\r
+Error: Data missing for: b90f8fa56ea1d39881d4a199c7a81d35-0
+d41d8cd98f00b204e9800998ecf8427e-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+fef51838cd3cfe8ed96355742eb71fbd-0\r
+Error: Data missing for: fef51838cd3cfe8ed96355742eb71fbd-0
+                                  \r
+Found 11 valid checksums
+Checksum(s) from list:
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Checksum(s) with data:
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+Warning: Missing checksum(s): 4
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database not modified
+Database closed
+Just scan again
+Database open in read/write mode
+Reading list
+Found 15 checksums
+Crawling through DB
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+816df6f64deba63b029ca19d880ee10a-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+d41d8cd98f00b204e9800998ecf8427e-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+                                  \r
+Found 11 valid checksums
+Checksum(s) from list:
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Checksum(s) with data:
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+Warning: Missing checksum(s): 4
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database not modified
+Database closed
+
+Test: scan for obsolete data, case1
+ -> Reading configuration file 'etc/hbackup.conf'
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
+ --> Client: myClient
+ ---> Config file: /home/User/hbackup.list
+ --> Client: other
+ ---> Config file: /home/backup/Backup.list
+ --> Client: myhost
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
+ --> Client: client
+ ---> Config file: C:\Backup\Backup.LST
+ --> Client: myClient
+ ---> Config file: C:\Backup\Backup.LST
+Just scan
+Database open in read/write mode
+Reading list
+Found 15 checksums
+Crawling through DB
+00000000000000000000000000000000-0\r
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+816df6f64deba63b029ca19d880ee10a-0\r
+88888888888888888888888888888888-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+d41d8cd98f00b204e9800998ecf8427e-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+ffffffffffffffffffffffffffffffff-0\r
+                                  \r
+Found 14 valid checksums
+Checksum(s) from list:
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Checksum(s) with data:
+ -> 00000000000000000000000000000000-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 88888888888888888888888888888888-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> ffffffffffffffffffffffffffffffff-0
+Obsolete checksum(s): 3
+ -> 00000000000000000000000000000000-0
+ -> 88888888888888888888888888888888-0
+ -> ffffffffffffffffffffffffffffffff-0
+Warning: Missing checksum(s): 4
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database not modified
+Database closed
+Scan and remove
+Database open in read/write mode
+Reading list
+Found 15 checksums
+Crawling through DB
+00000000000000000000000000000000-0\r
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+816df6f64deba63b029ca19d880ee10a-0\r
+88888888888888888888888888888888-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+d41d8cd98f00b204e9800998ecf8427e-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+ffffffffffffffffffffffffffffffff-0\r
+                                  \r
+Found 14 valid checksums
+Checksum(s) from list:
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Checksum(s) with data:
+ -> 00000000000000000000000000000000-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 88888888888888888888888888888888-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> ffffffffffffffffffffffffffffffff-0
+Obsolete checksum(s): 3
+ -> 00000000000000000000000000000000-0: removed
+ -> 88888888888888888888888888888888-0: removed
+ -> ffffffffffffffffffffffffffffffff-0: removed
+Warning: Missing checksum(s): 4
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database not modified
+Database closed
+Just scan again
+Database open in read/write mode
+Reading list
+Found 15 checksums
+Crawling through DB
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+816df6f64deba63b029ca19d880ee10a-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+d41d8cd98f00b204e9800998ecf8427e-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+                                  \r
+Found 11 valid checksums
+Checksum(s) from list:
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Checksum(s) with data:
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+Warning: Missing checksum(s): 4
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database not modified
+Database closed
+
+Test: scan for obsolete data, case 2
+ -> Reading configuration file 'etc/hbackup.conf'
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
+ --> Client: myClient
+ ---> Config file: /home/User/hbackup.list
+ --> Client: other
+ ---> Config file: /home/backup/Backup.list
+ --> Client: myhost
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
+ --> Client: client
+ ---> Config file: C:\Backup\Backup.LST
+ --> Client: myClient
+ ---> Config file: C:\Backup\Backup.LST
+Just scan
+Database open in read/write mode
+Reading list
+Found 15 checksums
+Crawling through DB
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+33333333333333333333333333333333-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+77777777777777777777777777777777-0\r
+816df6f64deba63b029ca19d880ee10a-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+d41d8cd98f00b204e9800998ecf8427e-0\r
+dddddddddddddddddddddddddddddddd-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+                                  \r
+Found 14 valid checksums
+Checksum(s) from list:
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Checksum(s) with data:
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 33333333333333333333333333333333-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 77777777777777777777777777777777-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> dddddddddddddddddddddddddddddddd-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+Obsolete checksum(s): 3
+ -> 33333333333333333333333333333333-0
+ -> 77777777777777777777777777777777-0
+ -> dddddddddddddddddddddddddddddddd-0
+Warning: Missing checksum(s): 4
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database not modified
+Database closed
+Scan and remove
+Database open in read/write mode
+Reading list
+Found 15 checksums
+Crawling through DB
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+33333333333333333333333333333333-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+77777777777777777777777777777777-0\r
+816df6f64deba63b029ca19d880ee10a-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+d41d8cd98f00b204e9800998ecf8427e-0\r
+dddddddddddddddddddddddddddddddd-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+                                  \r
+Found 14 valid checksums
+Checksum(s) from list:
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Checksum(s) with data:
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 33333333333333333333333333333333-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 77777777777777777777777777777777-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> dddddddddddddddddddddddddddddddd-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+Obsolete checksum(s): 3
+ -> 33333333333333333333333333333333-0: removed
+ -> 77777777777777777777777777777777-0: removed
+ -> dddddddddddddddddddddddddddddddd-0: removed
+Warning: Missing checksum(s): 4
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database not modified
+Database closed
+Just scan again
+Database open in read/write mode
+Reading list
+Found 15 checksums
+Crawling through DB
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+816df6f64deba63b029ca19d880ee10a-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+d41d8cd98f00b204e9800998ecf8427e-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+                                  \r
+Found 11 valid checksums
+Checksum(s) from list:
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Checksum(s) with data:
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+Warning: Missing checksum(s): 4
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database not modified
 Database closed

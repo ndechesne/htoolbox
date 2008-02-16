@@ -108,7 +108,7 @@ int main(void) {
   if (hbackup->readConfig("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->check();
+  hbackup->scan();
   delete hbackup;
 
   cout << endl << "Test: check DB" << endl;
@@ -116,7 +116,7 @@ int main(void) {
   if (hbackup->readConfig("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->check(true);
+  hbackup->check();
   delete hbackup;
 
   list<string> records;
@@ -340,6 +340,79 @@ int main(void) {
   }
   hbackup->restore("test_r", "myClient", "", 0);
   system("rm -rf test_r");
+  delete hbackup;
+
+
+  cout << endl << "Test: check for corrupted data" << endl;
+  system("echo > test_db/data/0f2ea973d77135dc3d06c8e68da6dc59-0/data.gz");
+  system("echo > test_db/data/b90f8fa56ea1d39881d4a199c7a81d35-0/data");
+  system("echo > test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0/data");
+  system("rm -f test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data.gz");
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  cout << "Just check" << endl;
+  hbackup->check(false);
+  cout << "Check and remove" << endl;
+  hbackup->check(true);
+  cout << "Just check again" << endl;
+  hbackup->check(false);
+  delete hbackup;
+
+
+  cout << endl << "Test: scan for missing data" << endl;
+  system("rm -f test_db/data/0f2ea973d77135dc3d06c8e68da6dc59-0/data.gz");
+  system("rm -f test_db/data/b90f8fa56ea1d39881d4a199c7a81d35-0/data.gz");
+  system("rm -f test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0/data.gz");
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  cout << "Just scan" << endl;
+  hbackup->scan(false);
+  cout << "Just scan again" << endl;
+  hbackup->scan(false);
+  delete hbackup;
+
+
+  cout << endl << "Test: scan for obsolete data, case1" << endl;
+  system("mkdir test_db/data/00000000000000000000000000000000-0");
+  system("touch test_db/data/00000000000000000000000000000000-0/data");
+  system("mkdir test_db/data/88888888888888888888888888888888-0");
+  system("touch test_db/data/88888888888888888888888888888888-0/data");
+  system("mkdir test_db/data/ffffffffffffffffffffffffffffffff-0");
+  system("touch test_db/data/ffffffffffffffffffffffffffffffff-0/data");
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  cout << "Just scan" << endl;
+  hbackup->scan(false);
+  cout << "Scan and remove" << endl;
+  hbackup->scan(true);
+  cout << "Just scan again" << endl;
+  hbackup->scan(false);
+  delete hbackup;
+
+
+  cout << endl << "Test: scan for obsolete data, case 2" << endl;
+  system("mkdir test_db/data/33333333333333333333333333333333-0");
+  system("touch test_db/data/33333333333333333333333333333333-0/data");
+  system("mkdir test_db/data/77777777777777777777777777777777-0");
+  system("touch test_db/data/77777777777777777777777777777777-0/data");
+  system("mkdir test_db/data/dddddddddddddddddddddddddddddddd-0");
+  system("touch test_db/data/dddddddddddddddddddddddddddddddd-0/data");
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  cout << "Just scan" << endl;
+  hbackup->scan(false);
+  cout << "Scan and remove" << endl;
+  hbackup->scan(true);
+  cout << "Just scan again" << endl;
+  hbackup->scan(false);
   delete hbackup;
 
   return 0;

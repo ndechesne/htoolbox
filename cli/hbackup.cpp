@@ -204,14 +204,14 @@ int main(int argc, char **argv) {
     // Check that data referenced in DB exists
     if (scanSwitch.getValue()) {
       out(info) << "Scanning database" << endl;
-      if (hbackup.check()) {
+      if (hbackup.scan()) {
         return 3;
       }
     } else
     // Check that data referenced in DB exists and is not corrupted
     if (checkSwitch.getValue()) {
       out(info) << "Checking database" << endl;
-      if (hbackup.check(true)) {
+      if (hbackup.check()) {
         return 3;
       }
     } else

@@ -102,15 +102,23 @@ namespace hbackup {
       Makes sure the lists are up-to-date.
     */
     void close();
+    //! \brief Check database for missing/obsolete files
+    /*!
+      Checks every entry in the database to detect missing and obsolete file
+      data. This requires full DB access.
+      \param remove       remove obsolete data (safe default is false for now)
+      \return 0 on success, -1 on failure
+    */
+    int scan(
+      bool          remove        = false);
     //! \brief Check database for missing/corrupted files
     /*!
-      Checks every entry in the database to detect missing, obsolete and/or
-      corrupted file data.
-      \param thorough     check for data corruption
+      Checks every entry in the database to detect corrupted file data.
+      \param remove       remove corrupted data
       \return 0 on success, -1 on failure
     */
     int check(
-      bool          thorough      = false);
+      bool          remove        = true);
     //! \brief Backup all accessible clients
     /*!
       Backs up all specified clients, using their configuration file. Also

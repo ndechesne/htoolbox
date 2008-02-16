@@ -53,10 +53,12 @@ public:
     const char*     client,           // The client to restore
     const char*     path = NULL,      // The path to restore (all)
     time_t          date = 0);        // The date to restore (latest)
-  // Scan database for missing/corrupted/obsolete data
+  // Scan database for missing/obsolete data
   int  scan(
-    bool            thorough = true,  // Whether to do a corruption check
-    bool            rm_corrupt = true) const;// Whether to rmove corrupted data
+    bool            remove   = true) const; // Whether to remove obsolete data
+  // Scan database for corrupted data
+  int  check(
+    bool            remove   = true) const; // Whether to remove corrupted data
   // Set the current client and its expiration delay (seconds)
   void setClient(
     const char*     client,

@@ -633,8 +633,7 @@ int Database::restore(
 }
 
 int Database::scan(
-    bool            thorough,
-    bool            rm_corrupt) const {
+    bool            rm_obsolete) const {
   // Get checksums from list
   out(verbose) << "Reading list" << endl;
   list<string> list_sums;
@@ -661,12 +660,12 @@ int Database::scan(
   // Get checksums from DB
   out(verbose) << "Crawling through DB" << endl;
   list<string> data_sums;
-  int rc = _d->data.crawl(data_sums, thorough, rm_corrupt);
+  // Check surficially, remove empty dirs
+  int rc = _d->data.crawl(data_sums, false, true);
   if (terminating() || (rc < 0)) {
     return -1;
   }
   data_sums.sort();
-  data_sums.unique();
   out(verbose) << "Found " << data_sums.size() << " valid checksums" << endl;
 
   // Separate missing and obsolete checksums
@@ -701,30 +700,36 @@ int Database::scan(
 
   if (! list_sums.empty()) {
     out(debug) << "Checksum(s) from list:" << endl;
-    for (list<string>::iterator i = list_sums.begin(); i != list_sums.end(); i++) {
+    for (list<string>::iterator i = list_sums.begin(); i != list_sums.end();
+        i++) {
       out(debug, 1) << *i << endl;
     }
     list_sums.clear();
   }
   if (! data_sums.empty()) {
     out(debug) << "Checksum(s) with data:" << endl;
-    for (list<string>::iterator i = data_sums.begin(); i != data_sums.end(); i++) {
+    for (list<string>::iterator i = data_sums.begin(); i != data_sums.end();
+        i++) {
       out(debug, 1) << *i << endl;
     }
     data_sums.clear();
   }
   if (! obsolete.empty()) {
-    out(info) << "Removing obsolete checksum(s): " << obsolete.size() << endl;
+    out(info) << "Obsolete checksum(s): " << obsolete.size() << endl;
     for (list<string>::iterator i = obsolete.begin(); i != obsolete.end();
         i++) {
       if (i->size() != 0) {
-        out(verbose, 1) << *i << ": "
-          << ((_d->data.remove(*i) == 0) ? "done" : "FAILED") << endl;
+        if (rm_obsolete) {
+          out(verbose, 1) << *i << ": "
+            << ((_d->data.remove(*i) == 0) ? "removed" : "FAILED") << endl;
+        } else {
+          out(verbose, 1) << *i << endl;
+        }
       }
     }
   }
   if (! missing.empty()) {
-    out(warning) << "Missing or corrupted checksum(s): " << missing.size()
+    out(warning) << "Missing checksum(s): " << missing.size()
       << endl;
     for (list<string>::iterator i = missing.begin(); i != missing.end(); i++) {
       out(warning, 1) << *i << endl;
@@ -733,6 +738,18 @@ int Database::scan(
 
   if (terminating()) {
     return -1;
+  }
+  return rc;
+}
+
+int Database::check(
+    bool            remove) const {
+  out(verbose) << "Crawling through DB data" << endl;
+  list<string> data_sums;
+  // Check thoroughly, remove corrupted data if told (but not empty dirs)
+  int rc = _d->data.crawl(data_sums, true, remove);
+  if (rc == 0) {
+    out(verbose) << "Found " << data_sums.size() << " valid checksums" << endl;
   }
   return rc;
 }
