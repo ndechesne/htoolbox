@@ -29,7 +29,7 @@ class Database {
   int  merge();
   int  update(
     string          name,
-    bool            new_file = false);
+    bool            new_file = false) const;
 protected: // So I can test them/use them in tests
   bool isOpen() const;
   bool isWriteable() const;

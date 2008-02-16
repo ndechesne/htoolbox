@@ -7,6 +7,7 @@ Found 0 checksums
 Crawling through DB
                                   \r
 Found 0 valid checksums
+Saving list of missing checksums
 Database not modified
 Database closed
 Database open in read/write mode
@@ -18,6 +19,7 @@ Crawling through DB
 Error: Data missing for: 59ca0efa9f5633cb0371bbc0355478d8-0
                                   \r
 Found 0 valid checksums
+Saving list of missing checksums
 Database not modified
 Database closed
 Database open in read/write mode
@@ -31,6 +33,7 @@ Crawling through DB
 59ca0efa9f5633cb0371bbc0355478d8-0\r
                                   \r
 Found 1 valid checksums
+Saving list of missing checksums
 Checksum(s) with data:
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
 Obsolete checksum(s): 1
@@ -138,6 +141,7 @@ d41d8cd98f00b204e9800998ecf8427e-0\r
 e5ed795e721b69c53a52482d6bdcb149-0\r
                                   \r
 Found 4 valid checksums
+Saving list of missing checksums
 Checksum(s) from list:
  -> 285b35198a5e188b3a0df3ed33f93a26-0
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0

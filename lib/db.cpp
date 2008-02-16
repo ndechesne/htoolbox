@@ -130,14 +130,14 @@ int Database::merge() {
 
 int Database::update(
     string          name,
-    bool            new_file) {
+    bool            new_file) const {
   // Simplify writings to avoid mistakes
   string path = _d->path + "/" + name;
 
   // Backup file
   int rc = rename(path.c_str(), (path + "~").c_str());
   // Put new version in place
-  if (new_file && (rc == 0)) {
+  if (new_file && ((rc == 0) || (errno == ENOENT))) {
     rc = rename((path + ".part").c_str(), path.c_str());
   }
   return rc;
@@ -311,7 +311,7 @@ int Database::open_rw() {
     _d->journal = NULL;
   }
 
-  // Open merged list (can fail)
+  // Open merge list
   if (! failed) {
     _d->merge = new List(Path(_d->path.c_str(), "list.part"));
     if (_d->merge->open("w")) {
@@ -697,6 +697,25 @@ int Database::scan(
       l++;
     }
   }
+
+  out(verbose) << "Saving list of missing checksums" << endl;
+  Stream missing_list(Path(_d->path.c_str(), "missing.part"));
+  if (! missing_list.open("w")) {
+    int rc = 0;
+    for (list<string>::iterator i = missing.begin(); i != missing.end(); i++) {
+      rc = missing_list.putLine(i->c_str());
+      if (rc < 0) break;
+    }
+    if (rc >= 0) {
+      rc = missing_list.close();
+    }
+    if (rc >= 0) {
+      update("missing", true);
+    }
+  } else {
+    out(error) << strerror(errno) << " opening missing checksums list" << endl;
+  }
+
 
   if (! list_sums.empty()) {
     out(debug) << "Checksum(s) from list:" << endl;
