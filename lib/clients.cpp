@@ -409,8 +409,8 @@ int Client::backup(
         out(error) << "Protocol not supported: " << _protocol << endl;
         return 1;
       case ETIMEDOUT:
-        out(warning) << "Cannot connect to client: " << _name << " (using the "
-          << _protocol << " protocol). " <<  strerror(errno) << endl;
+        out(info) << strerror(errno) << " connecting to client: " << _name
+          << " (using the " << _protocol << " protocol). " << endl;
         return 0;
     }
   }
