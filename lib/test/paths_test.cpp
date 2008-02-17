@@ -765,7 +765,7 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  int rc = db.close(0);
+  int rc = db.close();
   system("chmod 755 test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0");
   if (rc) {
     return 0;
@@ -790,7 +790,7 @@ int main(void) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
-  if (db.close(0)) {
+  if (db.close()) {
     return 0;
   }
   system("du -sb test_db/data/trash/*");

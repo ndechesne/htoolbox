@@ -36,11 +36,12 @@ protected: // So I can test them/use them in tests
 public:
   Database(const string& path);
   ~Database();
-  // Open database
+  // Open database read-only
   int  open_ro();
-  int  open_rw();
-  // Close database (put removed data into trash)
-  int  close(int trash_expire = -1);
+  // Open database read/write
+  int  open_rw(bool scan = false);    // Need to signal when opening for scan
+  // Close database
+  int  close();
   // Get list of clientes in DB list (close-open to re-use DB!)
   int  getRecords(
       list<string>& records,          // List of elements to display

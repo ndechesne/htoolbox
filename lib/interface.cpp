@@ -291,7 +291,7 @@ void HBackup::close() {
 
 int HBackup::scan(bool remove) {
   bool failed = true;
-  if (! _d->db->open_rw()) {
+  if (! _d->db->open_rw(true)) {
     // Corrupted files ge removed from DB
     if (! _d->db->scan(remove)) {
       failed = false;

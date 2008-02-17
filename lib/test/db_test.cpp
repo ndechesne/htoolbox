@@ -111,7 +111,7 @@ int main(void) {
   }
 
   /* Test database */
-  if ((status = db.open_rw())) {
+  if ((status = db.open_rw(true))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
@@ -129,12 +129,12 @@ int main(void) {
   }
 
 
-  cout << endl << "Test: check" << endl;
+  cout << endl << "Test: scan & check" << endl;
   if (db.scan()) {
     printf("db.scan: %s\n", strerror(errno));
   }
   db.close();
-  if ((status = db.open_rw())) {
+  if ((status = db.open_rw(true))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
@@ -146,7 +146,7 @@ int main(void) {
     printf("db.scan: %s\n", strerror(errno));
   }
   db.close();
-  if ((status = db.open_rw())) {
+  if ((status = db.open_rw(true))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
@@ -157,8 +157,11 @@ int main(void) {
     cout << "Directory still exists!" << endl;
   }
   File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
+  if (db.scan()) {
+    printf("db.scan: %s\n", strerror(errno));
+  }
   db.close();
-  if ((status = db.open_rw())) {
+  if ((status = db.open_rw(true))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
@@ -173,7 +176,7 @@ int main(void) {
   }
   File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
   db.close();
-  if ((status = db.open_rw())) {
+  if ((status = db.open_ro())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
@@ -402,7 +405,7 @@ int main(void) {
   File("test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0/data").remove();
   Directory("test_db/data/e5ed795e721b69c53a52482d6bdcb149-0").create();
   system("cp test1/bzr/filemod.o test_db/data/e5ed795e721b69c53a52482d6bdcb149-0/data");
-  if ((status = db.open_rw())) {
+  if ((status = db.open_rw(true))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;

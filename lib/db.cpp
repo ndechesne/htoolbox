@@ -49,6 +49,7 @@ struct Database::Private {
   List*             journal;
   List*             merge;
   vector<string>    missing;
+  int               missing_id;
   Path              client;
   bool              clientJournalled;
 };
@@ -205,7 +206,7 @@ int Database::open_ro() {
   return 0;
 }
 
-int Database::open_rw() {
+int Database::open_rw(bool scan) {
   if (isOpen()) {
     out(error) << "DB already open!" << endl;
     return -1;
@@ -250,6 +251,7 @@ int Database::open_rw() {
         out(error) << "Cannot create list file" << endl;
         failed = true;
       } else {
+        File(Path(_d->path.c_str(), "missing")).create();
         out(info) << "Database initialized in " << _d->path << endl;
       }
       break;
@@ -350,25 +352,28 @@ int Database::open_rw() {
   _d->client = "";
 
   // Read list of missing checksums (it is ordered and contains no duplicate)
-  out(verbose) << "Reading list of missing checksums" << endl;
-  Stream missing_list(Path(_d->path.c_str(), "missing"));
-  if (! missing_list.open("r")) {
-    string checksum;
-    while (missing_list.getLine(checksum) > 0) {
-      _d->missing.push_back(checksum);
-      out(debug, 1) << checksum << endl;
+  if (! scan) {
+    out(verbose) << "Reading list of missing checksums" << endl;
+    Stream missing_list(Path(_d->path.c_str(), "missing"));
+    if (! missing_list.open("r")) {
+      string checksum;
+      while (missing_list.getLine(checksum) > 0) {
+        _d->missing.push_back(checksum);
+        out(debug, 1) << checksum << endl;
+      }
+      missing_list.close();
+    } else {
+      out(warning) << strerror(errno) << " opening missing checksums list"
+        << endl;
     }
-    missing_list.close();
-  } else {
-    out(warning) << strerror(errno) << " opening missing checksums list"
-      << endl;
   }
+  _d->missing_id = -1;
 
   out(verbose) << "Database open in read/write mode" << endl;
   return 0;
 }
 
-int Database::close(int trash_expire) {
+int Database::close() {
   bool failed = false;
   bool read_only = ! isWriteable();
 
@@ -436,6 +441,34 @@ int Database::close(int trash_expire) {
   _d->main    = NULL;
   _d->journal = NULL;
   _d->merge   = NULL;
+
+  // Save list of missing items
+  Stream missing_list(Path(_d->path.c_str(), "missing.part"));
+  if (! missing_list.open("w")) {
+    int rc    = 0;
+    int count = 0;
+    for (unsigned int i = 0; i < _d->missing.size(); i++) {
+      if (_d->missing[i][_d->missing[i].size() - 1] != '+') {
+        rc = missing_list.putLine(_d->missing[i].c_str());
+        count++;
+      }
+      if (rc < 0) break;
+    }
+     _d->missing.clear();
+    if (count > 0) {
+      out(warning) << "List of missing checksums contains " << count
+        << " item(s)" << endl;
+    }
+    if (rc >= 0) {
+      rc = missing_list.close();
+    }
+    if (rc >= 0) {
+      update("missing", true);
+    }
+  } else {
+    out(error) << strerror(errno) << " opening missing checksums list"
+      << endl;
+  }
 
   out(verbose) << "Database closed" << endl;
   return failed ? -1 : 0;
@@ -692,7 +725,6 @@ int Database::scan(
 
   // Separate missing and obsolete checksums
   list<string> obsolete;
-  list<string> missing;
   list<string>::iterator l = list_sums.begin();
   list<string>::iterator d = data_sums.begin();
   while ((d != data_sums.end()) || (l != list_sums.end())) {
@@ -707,7 +739,7 @@ int Database::scan(
       cmp = d->compare(*l);
     }
     if (cmp > 0) {
-      missing.push_back(*l);
+      _d->missing.push_back(*l);
       l++;
     } else
     if (cmp < 0) {
@@ -719,25 +751,6 @@ int Database::scan(
       l++;
     }
   }
-
-  out(verbose) << "Saving list of missing checksums" << endl;
-  Stream missing_list(Path(_d->path.c_str(), "missing.part"));
-  if (! missing_list.open("w")) {
-    int rc = 0;
-    for (list<string>::iterator i = missing.begin(); i != missing.end(); i++) {
-      rc = missing_list.putLine(i->c_str());
-      if (rc < 0) break;
-    }
-    if (rc >= 0) {
-      rc = missing_list.close();
-    }
-    if (rc >= 0) {
-      update("missing", true);
-    }
-  } else {
-    out(error) << strerror(errno) << " opening missing checksums list" << endl;
-  }
-
 
   if (! list_sums.empty()) {
     out(debug) << "Checksum(s) from list:" << endl;
@@ -769,11 +782,11 @@ int Database::scan(
       }
     }
   }
-  if (! missing.empty()) {
-    out(warning) << "Missing checksum(s): " << missing.size()
+  if (! _d->missing.empty()) {
+    out(warning) << "Missing checksum(s): " << _d->missing.size()
       << endl;
-    for (list<string>::iterator i = missing.begin(); i != missing.end(); i++) {
-      out(warning, 1) << *i << endl;
+    for (unsigned int i = 0; i < _d->missing.size(); i++) {
+      out(warning, 1) << _d->missing[i] << endl;
     }
   }
 
@@ -827,6 +840,9 @@ int Database::sendEntry(
   if (! isWriteable()) {
     return -1;
   }
+
+  // Reset ID of missing checksum
+  _d->missing_id = -1;
 
   // DB
   char* db_path = NULL;
@@ -924,7 +940,6 @@ int Database::sendEntry(
               int start = 0;
               int end   = _d->missing.size() - 1;
               int middle;
-              bool found = false;
               while (start <= end) {
                 middle = (end + start) / 2;
                 int cmp = _d->missing[middle].compare(node_checksum);
@@ -935,13 +950,11 @@ int Database::sendEntry(
                   start = middle + 1;
                 } else
                 {
-                  found = true;
+                  _d->missing_id = middle;
                   break;
                 }
               }
-              if (found) {
-                out(verbose) << "Recovering checksum: " << node_checksum
-                  << endl;
+              if (_d->missing_id >= 0) {
                 add_node = true;
               }
             }
@@ -1013,6 +1026,12 @@ int Database::add(
         char* checksum  = NULL;
         if (! _d->data.write(string(node->path()), &checksum, compress)) {
           ((File*)node2)->setChecksum(checksum);
+          if ((_d->missing_id >= 0)
+          && (_d->missing[_d->missing_id] == checksum)) {
+            out(verbose) << "Recovered checksum: " << checksum << endl;
+            // Mark checksum as already recovered
+            _d->missing[_d->missing_id] += "+";
+          }
           free(checksum);
         } else {
           failed = true;
