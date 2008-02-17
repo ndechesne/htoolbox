@@ -45,6 +45,7 @@ using namespace hbackup;
 //   close(ro):   tested
 //   getList:     tested in paths
 //   scan:        basically tested, tested in interface test
+//   check:       basically tested, tested in interface test
 //   add:         tested in paths
 //   remove:      tested in paths
 

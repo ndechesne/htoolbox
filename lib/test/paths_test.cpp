@@ -152,6 +152,11 @@ int main(void) {
   // Show journal contents
   cout << endl << "Journal:" << endl;
   showList(journal);
+  // Initialize list of missing checksums
+  if (! db.open_rw()) {
+    db.scan();
+    db.close();
+  }
 
   // Next test
   cout << endl << "As previous, with a .hbackup directory" << endl;

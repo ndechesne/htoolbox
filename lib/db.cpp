@@ -45,9 +45,10 @@ struct Database::Private {
   string            path;
   Data              data;
   int               expire;
-  List*             list;
+  List*             main;
   List*             journal;
   List*             merge;
+  vector<string>    missing;
   Path              client;
   bool              clientJournalled;
 };
@@ -116,7 +117,7 @@ int Database::merge() {
   // Merge with existing list into new one
   List merge(Path(_d->path.c_str(), "list.part"));
   if (! merge.open("w")) {
-    if (merge.merge(*_d->list, *_d->journal) && (errno != EBUSY)) {
+    if (merge.merge(*_d->main, *_d->journal) && (errno != EBUSY)) {
       out(error) << "Merge failed" << endl;
       failed = true;
     }
@@ -144,7 +145,7 @@ int Database::update(
 }
 
 bool Database::isOpen() const {
-  return (_d->list != NULL) && _d->list->isOpen();
+  return (_d->main != NULL) && _d->main->isOpen();
 }
 
 bool Database::isWriteable() const {
@@ -154,7 +155,7 @@ bool Database::isWriteable() const {
 Database::Database(const string& path) {
   _d          = new Private;
   _d->path    = path;
-  _d->list    = NULL;
+  _d->main    = NULL;
   _d->journal = NULL;
   _d->expire  = -1;
 }
@@ -184,13 +185,13 @@ int Database::open_ro() {
   }
 
   bool failed = false;
-  _d->list = new List(Path(_d->path.c_str(), "list.ro"));
+  _d->main = new List(Path(_d->path.c_str(), "list.ro"));
   _d->journal = NULL;
-  if (_d->list->open("r")) {
+  if (_d->main->open("r")) {
     out(error) << "Cannot open list" << endl;
     failed = true;
   } else
-  if (_d->list->isOldVersion()) {
+  if (_d->main->isOldVersion()) {
     out(error)
       << "list in old format (run hbackup in backup mode to update)"
       << endl;
@@ -198,7 +199,7 @@ int Database::open_ro() {
   } else
   out(verbose) << "Database open in read-only mode" << endl;
   if (failed) {
-    delete _d->list;
+    delete _d->main;
     return -1;
   }
   return 0;
@@ -260,16 +261,16 @@ int Database::open_rw() {
 
   // Open list
   if (! failed) {
-    _d->list = new List(Path(_d->path.c_str(), "list"));
-    if (_d->list->open("r")) {
+    _d->main = new List(Path(_d->path.c_str(), "list"));
+    if (_d->main->open("r")) {
       out(error) << "Cannot open list" << endl;
       failed = true;
     } else
-    if (_d->list->isOldVersion()) {
+    if (_d->main->isOldVersion()) {
       failed = true;
     }
   } else {
-    _d->list = NULL;
+    _d->main = NULL;
   }
 
   // Deal with journal
@@ -285,7 +286,7 @@ int Database::open_rw() {
         failed = true;
       }
       _d->journal->close();
-      _d->list->close();
+      _d->main->close();
 
       if (! failed) {
         if (update("list", true)) {
@@ -295,7 +296,7 @@ int Database::open_rw() {
           update("journal");
         }
         // Re-open list
-        if (_d->list->open("r")) {
+        if (_d->main->open("r")) {
           out(error) << "Cannot re-open DB list" << endl;
           failed = true;
         }
@@ -322,11 +323,11 @@ int Database::open_rw() {
   }
 
   if (failed) {
-    if (_d->list != NULL) {
+    if (_d->main != NULL) {
         // Close list
-      _d->list->close();
+      _d->main->close();
       // Delete list
-      delete _d->list;
+      delete _d->main;
     }
     if (_d->journal != NULL) {
         // Close journal
@@ -336,7 +337,7 @@ int Database::open_rw() {
     }
 
     // for isOpen and isWriteable
-    _d->list    = NULL;
+    _d->main    = NULL;
     _d->journal = NULL;
     _d->merge   = NULL;
 
@@ -347,6 +348,22 @@ int Database::open_rw() {
 
   // Setup some data
   _d->client = "";
+
+  // Read list of missing checksums (it is ordered and contains no duplicate)
+  out(verbose) << "Reading list of missing checksums" << endl;
+  Stream missing_list(Path(_d->path.c_str(), "missing"));
+  if (! missing_list.open("r")) {
+    string checksum;
+    while (missing_list.getLine(checksum) > 0) {
+      _d->missing.push_back(checksum);
+      out(debug, 1) << checksum << endl;
+    }
+    missing_list.close();
+  } else {
+    out(warning) << strerror(errno) << " opening missing checksums list"
+      << endl;
+  }
+
   out(verbose) << "Database open in read/write mode" << endl;
   return 0;
 }
@@ -362,12 +379,12 @@ int Database::close(int trash_expire) {
 
   if (read_only) {
     // Close list
-    _d->list->close();
+    _d->main->close();
     unlink((_d->path + "/list.ro").c_str());
   } else {
     if (terminating()) {
       // Close list
-      _d->list->close();
+      _d->main->close();
       // Close journal
       _d->journal->close();
       // Close and delete merge
@@ -383,16 +400,16 @@ int Database::close(int trash_expire) {
         // Do nothing
         out(verbose) << "Database not modified" << endl;
         // Close list
-        _d->list->close();
+        _d->main->close();
         // Close merge
         _d->merge->close();
         remove((_d->path + "/list.part").c_str());
         remove((_d->path + "/journal").c_str());
       } else {
         // Finish off merging
-        _d->list->search("", "", _d->merge, -1);
+        _d->main->search("", "", _d->merge, -1);
         // Close list
-        _d->list->close();
+        _d->main->close();
         // Close merge
         _d->merge->close();
         // File names ballet
@@ -413,10 +430,10 @@ int Database::close(int trash_expire) {
     unlock();
   }
   // Delete list
-  delete _d->list;
+  delete _d->main;
 
   // for isOpen and isWriteable
-  _d->list    = NULL;
+  _d->main    = NULL;
   _d->journal = NULL;
   _d->merge   = NULL;
 
@@ -431,12 +448,12 @@ int Database::getRecords(
     time_t          date) {
   // Look for clientes
   if ((client == NULL) || (client[0] == '\0')) {
-    while (_d->list->search() == 2) {
+    while (_d->main->search() == 2) {
       if (terminating()) {
         return -1;
       }
       char *db_client = NULL;
-      if (_d->list->getEntry(NULL, &db_client, NULL, NULL) < 0) {
+      if (_d->main->getEntry(NULL, &db_client, NULL, NULL) < 0) {
         out(error) << strerror(errno) << ": reading from list" << endl;
         return -1;
       }
@@ -456,16 +473,16 @@ int Database::getRecords(
     }
 
     // Skip to given client
-    if (_d->list->search(client, "") != 2) {
+    if (_d->main->search(client, "") != 2) {
       return -1;
     }
 
     char* db_path = NULL;
-    while (_d->list->search(client, NULL) == 2) {
+    while (_d->main->search(client, NULL) == 2) {
       if (terminating()) {
         return -1;
       }
-      if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
+      if (_d->main->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
         out(error) << strerror(errno) << ": reading from list" << endl;
         return -1;
       }
@@ -513,17 +530,17 @@ int Database::restore(
   }
 
   // Skip to given client
-  if (_d->list->search(client, "") != 2) {
+  if (_d->main->search(client, "") != 2) {
     return -1;
   }
 
   // Restore relevant data
-  while (_d->list->search(client, NULL) == 2) {
+  while (_d->main->search(client, NULL) == 2) {
     if (terminating()) {
       failed = true;
       break;
     }
-    if (_d->list->getEntry(&fts, &fclient, &fpath, &fnode, date) <= 0) {
+    if (_d->main->getEntry(&fts, &fclient, &fpath, &fnode, date) <= 0) {
       failed = true;
       break;
     }
@@ -634,11 +651,16 @@ int Database::restore(
 
 int Database::scan(
     bool            rm_obsolete) const {
+  if (! isOpen() || ! isWriteable()) {
+    out(error) << "DB not open for write!" << endl;
+    return -1;
+  }
+
   // Get checksums from list
   out(verbose) << "Reading list" << endl;
   list<string> list_sums;
   Node*        node = NULL;
-  while (_d->list->getEntry(NULL, NULL, NULL, &node) > 0) {
+  while (_d->main->getEntry(NULL, NULL, NULL, &node) > 0) {
     if ((node != NULL) && (node->type() == 'f')) {
       File* f = (File*) node;
       if (f->checksum()[0] != '\0') {
@@ -788,14 +810,14 @@ void Database::setClient(
   }
   _d->clientJournalled = false;
   // This will add the client if not found, copy it if found
-  _d->list->search(client, "", _d->merge, -1);
+  _d->main->search(client, "", _d->merge, -1);
 }
 
 void Database::failedClient() {
   // Skip to next client/end of file
-  _d->list->search(NULL, NULL, _d->merge, -1);
+  _d->main->search(NULL, NULL, _d->merge, -1);
   // Keep client found
-  _d->list->keepLine();
+  _d->main->keepLine();
 }
 
 int Database::sendEntry(
@@ -810,9 +832,9 @@ int Database::sendEntry(
   char* db_path = NULL;
   Node* db_node = NULL;
   int   cmp     = 1;
-  while (_d->list->search(_d->client.c_str(), NULL, _d->merge, _d->expire)
+  while (_d->main->search(_d->client.c_str(), NULL, _d->merge, _d->expire)
       == 2) {
-    if (_d->list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
+    if (_d->main->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
       // Error
       out(error) << "Failed to get entry" << endl;
       return -1;
@@ -827,15 +849,15 @@ int Database::sendEntry(
     if (cmp >= 0) {
       if (cmp == 0) {
         // Get metadata
-        _d->list->getEntry(NULL, NULL, &db_path, &db_node, -1);
+        _d->main->getEntry(NULL, NULL, &db_path, &db_node, -1);
         // Do not lose this metadata!
-        _d->list->keepLine();
+        _d->main->keepLine();
       }
       break;
     }
     // Not reached, mark 'removed' (getLineType keeps line automatically)
     _d->merge->addPath(db_path);
-    if (_d->list->getLineType() != '-') {
+    if (_d->main->getLineType() != '-') {
       if (! _d->clientJournalled) {
         _d->journal->addClient(_d->client.c_str());
         _d->clientJournalled = true;
@@ -855,7 +877,7 @@ int Database::sendEntry(
     _d->merge->addPath(remote_path);
     if ((cmp > 0) || (db_node == NULL)) {
       // Exceeded, keep line for later
-      _d->list->keepLine();
+      _d->main->keepLine();
       // New file
       out(info) << "A";
       add_node = true;
@@ -888,12 +910,42 @@ int Database::sendEntry(
           add_node = true;
         } else
         // Check that file data is present
-        if ((node->type() == 'f')
-          && (((File*)db_node)->checksum()[0] == '\0')) {
-          // Checksum missing: retry
-          out(info) << "!";
-          *checksum = strdup("");
-          add_node = true;
+        if (node->type() == 'f') {
+          const char* node_checksum = ((File*)db_node)->checksum();
+          if (node_checksum[0] == '\0') {
+            // Checksum missing: retry
+            out(info) << "!";
+            *checksum = strdup("");
+            add_node = true;
+          } else {
+            // Same checksum: check in missing list!
+            if (! _d->missing.empty()) {
+              // Look for checksum in missing list (binary search)
+              int start = 0;
+              int end   = _d->missing.size() - 1;
+              int middle;
+              bool found = false;
+              while (start <= end) {
+                middle = (end + start) / 2;
+                int cmp = _d->missing[middle].compare(node_checksum);
+                if (cmp > 0) {
+                  end   = middle - 1;
+                } else
+                if (cmp < 0) {
+                  start = middle + 1;
+                } else
+                {
+                  found = true;
+                  break;
+                }
+              }
+              if (found) {
+                out(verbose) << "Recovering checksum: " << node_checksum
+                  << endl;
+                add_node = true;
+              }
+            }
+          }
         }
       }
     }

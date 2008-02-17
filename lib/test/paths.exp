@@ -1,6 +1,8 @@
 
 Initial backup, check '/' precedence
 Database initialized in test_db
+Reading list of missing checksums
+Warning: No such file or directory opening missing checksums list
 Database open in read/write mode
 first with subdir/testfile NOT readable
 A /home/User/àccénts_test (0 B)
@@ -339,8 +341,67 @@ myClient
 [ 1] l     8 777 testfile
 	/home/User/testpipe
 [ 1] p     0 644
+Reading list of missing checksums
+Warning: No such file or directory opening missing checksums list
+Database open in read/write mode
+Reading list
+Found 15 checksums
+Crawling through DB
+06f05055bfb2c8b900459f45826fc8ea-0\r
+0f2ea973d77135dc3d06c8e68da6dc59-0\r
+285b35198a5e188b3a0df3ed33f93a26-0\r
+3b9ddae5294c8f4850d45073a933f3e6-0\r
+3cd6b399f9fa49fd0b137a3de46d83f5-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59ca0efa9f5633cb0371bbc0355478d8-0\r
+60afe8c3ac66cb77a34da116394d9ac8-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+9283e2c51868272850bd2d89b63c58e8-0\r
+b90f8fa56ea1d39881d4a199c7a81d35-0\r
+caecaacc7fdee8a7667d4f4f315858a9-0\r
+d41d8cd98f00b204e9800998ecf8427e-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+fef51838cd3cfe8ed96355742eb71fbd-0\r
+                                  \r
+Found 15 valid checksums
+Saving list of missing checksums
+Checksum(s) from list:
+ -> 06f05055bfb2c8b900459f45826fc8ea-0
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 285b35198a5e188b3a0df3ed33f93a26-0
+ -> 3b9ddae5294c8f4850d45073a933f3e6-0
+ -> 3cd6b399f9fa49fd0b137a3de46d83f5-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 60afe8c3ac66cb77a34da116394d9ac8-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> 9283e2c51868272850bd2d89b63c58e8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> caecaacc7fdee8a7667d4f4f315858a9-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Checksum(s) with data:
+ -> 06f05055bfb2c8b900459f45826fc8ea-0
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 285b35198a5e188b3a0df3ed33f93a26-0
+ -> 3b9ddae5294c8f4850d45073a933f3e6-0
+ -> 3cd6b399f9fa49fd0b137a3de46d83f5-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 60afe8c3ac66cb77a34da116394d9ac8-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> 9283e2c51868272850bd2d89b63c58e8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> caecaacc7fdee8a7667d4f4f315858a9-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database not modified
+Database closed
 
 As previous, with a .hbackup directory
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
@@ -608,6 +669,7 @@ myClient
 [ 1] p     0 644
 
 As previous with new big_file, interrupted
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
@@ -746,6 +808,7 @@ myClient
 
 As previous with subdir/testfile readable
 Warning: Backup was interrupted in a previous run, finishing up...
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
@@ -901,6 +964,7 @@ myClient
 [ 0] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
 
 As previous with subdir/testfile in ignore list
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
@@ -1053,6 +1117,7 @@ myClient
 [ 5] -
 
 As previous with subdir in ignore list
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
@@ -1213,6 +1278,7 @@ myClient
 [ 6] -
 
 As previous with testlink modified
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
@@ -1368,6 +1434,7 @@ myClient
 [ 7] l     8 777 testnull
 
 As previous with testlink in ignore list
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
@@ -1524,6 +1591,7 @@ myClient
 [ 8] -
 
 As previous with CVS parser (controlled)
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
@@ -1724,6 +1792,7 @@ myClient
 [ 9] -
 
 As previous
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
@@ -1915,6 +1984,7 @@ myClient
 [ 9] -
 
 As previous with Subversion parser (modified)
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
@@ -2140,6 +2210,7 @@ myClient
 [11] -
 
 As previous with cvs/dirutd in ignore list
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
@@ -2345,6 +2416,7 @@ myClient
 [12] -
 
 As previous with svn/dirutd in ignore list
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
@@ -2546,6 +2618,7 @@ myClient
 [13] -
 
 As previous with testpipe gone
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
@@ -2739,6 +2812,7 @@ myClient
 [14] -
 
 As previous with testfile mode changed
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
@@ -2933,6 +3007,7 @@ myClient
 [15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 
 As previous with cvs/filenew.c touched and testpipe restored
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
@@ -3133,6 +3208,7 @@ myClient
 [16] p     0 644
 
 Some troublesome past cases
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
@@ -3434,6 +3510,7 @@ myClient
 [17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 Same again: journal and list left untouched
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
@@ -3716,6 +3793,7 @@ myClient
 [17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 List recovery after crash
+Reading list of missing checksums
 Database open in read/write mode
 A /home/User/testdir
  -> Dir testdir
@@ -4002,6 +4080,7 @@ myClient
 Error: Unexpected end of file
 Warning: Backup was interrupted in a previous run, finishing up...
 Warning: Unexpected end of journal
+Reading list of missing checksums
 Database open in read/write mode
 
 List:
@@ -4260,11 +4339,13 @@ myClient
 Error: Unexpected end of file
 Database not modified
 Database closed
+Reading list of missing checksums
 Database open in read/write mode
 Database not modified
 Database closed
 
 Same again
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir crash
  -> Dir cvs
@@ -4554,6 +4635,7 @@ myClient
 Error: Unexpected end of file
 
 Same again
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir testdir
 Parsed 4 file(s)
@@ -4816,6 +4898,7 @@ myClient
 Error: Unexpected end of file
 
 Expiry delay: 18, date: 22
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir crash
  -> Dir cvs
@@ -5041,6 +5124,7 @@ myClient
 [22] f    13 000 
 
 Prevent data dir from being removed
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir crash
  -> Dir cvs
@@ -5262,6 +5346,7 @@ myClient
 [23] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 Add one file
+Reading list of missing checksums
 Database open in read/write mode
  -> Dir crash
  -> Dir cvs

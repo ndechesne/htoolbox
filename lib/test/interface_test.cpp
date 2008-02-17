@@ -415,5 +415,28 @@ int main(void) {
   hbackup->scan(false);
   delete hbackup;
 
+
+  cout << endl << "Test: backup recovers missing checksums" << endl;
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->backup();
+  delete hbackup;
+
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->scan();
+  delete hbackup;
+
+  hbackup = new HBackup();
+  if (hbackup->readConfig("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->backup();
+  delete hbackup;
+
   return 0;
 }

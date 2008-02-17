@@ -158,6 +158,8 @@ Typical backup
  ---> Config file: C:\Backup\Backup.LST
 Backing up in server mode
 Database initialized in test_db
+Reading list of missing checksums
+Warning: No such file or directory opening missing checksums list
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
@@ -316,6 +318,8 @@ Specify clients
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Backing up in server mode
+Reading list of missing checksums
+Warning: No such file or directory opening missing checksums list
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
@@ -384,6 +388,8 @@ Database closed
 User-mode backup
 Backing up in user mode
 Database initialized in test_user/.hbackup
+Reading list of missing checksums
+Warning: No such file or directory opening missing checksums list
 Database open in read/write mode
  -> Reading client configuration file
  --> Path: test_user/testuser
@@ -419,6 +425,8 @@ Scan DB
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Scanning database
+Reading list of missing checksums
+Warning: No such file or directory opening missing checksums list
 Database open in read/write mode
 Reading list
 Found 14 checksums

@@ -17,6 +17,8 @@ Test: typical backup
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Database initialized in test_db
+Reading list of missing checksums
+Warning: No such file or directory opening missing checksums list
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
@@ -175,6 +177,8 @@ Test: same backup
  ---> Expiry: 1 day(s)
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
+Reading list of missing checksums
+Warning: No such file or directory opening missing checksums list
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
@@ -268,6 +272,8 @@ Test: interrupted backup
  ---> Expiry: 1 day(s)
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
+Reading list of missing checksums
+Warning: No such file or directory opening missing checksums list
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
@@ -346,6 +352,8 @@ Test: specify clients
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Warning: Backup was interrupted in a previous run, finishing up...
+Reading list of missing checksums
+Warning: No such file or directory opening missing checksums list
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
@@ -430,6 +438,8 @@ Test: scan DB
  ---> Expiry: 1 day(s)
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
+Reading list of missing checksums
+Warning: No such file or directory opening missing checksums list
 Database open in read/write mode
 Reading list
 Found 15 checksums
@@ -794,6 +804,7 @@ Test: typical backup
  ---> Config file: C:\Backup\Backup.LST
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
+Reading list of missing checksums
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
@@ -899,6 +910,7 @@ Test: specify clients
  ---> Config file: C:\Backup\Backup.LST
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
+Reading list of missing checksums
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
@@ -928,6 +940,8 @@ Database closed
 
 Test: user-mode backup
 Database initialized in test_user/.hbackup
+Reading list of missing checksums
+Warning: No such file or directory opening missing checksums list
 Database open in read/write mode
  -> Reading client configuration file
  --> Path: test_user/testuser
@@ -1333,6 +1347,7 @@ Test: scan for missing data
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Just scan
+Reading list of missing checksums
 Database open in read/write mode
 Reading list
 Found 15 checksums
@@ -1393,6 +1408,11 @@ Warning: Missing checksum(s): 4
 Database not modified
 Database closed
 Just scan again
+Reading list of missing checksums
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database open in read/write mode
 Reading list
 Found 15 checksums
@@ -1467,6 +1487,11 @@ Test: scan for obsolete data, case1
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Just scan
+Reading list of missing checksums
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database open in read/write mode
 Reading list
 Found 15 checksums
@@ -1531,6 +1556,11 @@ Warning: Missing checksum(s): 4
 Database not modified
 Database closed
 Scan and remove
+Reading list of missing checksums
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database open in read/write mode
 Reading list
 Found 15 checksums
@@ -1595,6 +1625,11 @@ Warning: Missing checksum(s): 4
 Database not modified
 Database closed
 Just scan again
+Reading list of missing checksums
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database open in read/write mode
 Reading list
 Found 15 checksums
@@ -1669,6 +1704,11 @@ Test: scan for obsolete data, case 2
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Just scan
+Reading list of missing checksums
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database open in read/write mode
 Reading list
 Found 15 checksums
@@ -1733,6 +1773,11 @@ Warning: Missing checksum(s): 4
 Database not modified
 Database closed
 Scan and remove
+Reading list of missing checksums
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database open in read/write mode
 Reading list
 Found 15 checksums
@@ -1797,6 +1842,11 @@ Warning: Missing checksum(s): 4
 Database not modified
 Database closed
 Just scan again
+Reading list of missing checksums
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database open in read/write mode
 Reading list
 Found 15 checksums
@@ -1848,5 +1898,303 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database not modified
+Database closed
+
+Test: backup recovers missing checksums
+ -> Reading configuration file 'etc/hbackup.conf'
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
+ --> Client: myClient
+ ---> Config file: /home/User/hbackup.list
+ --> Client: other
+ ---> Config file: /home/backup/Backup.list
+ --> Client: myhost
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
+ --> Client: client
+ ---> Config file: C:\Backup\Backup.LST
+ --> Client: myClient
+ ---> Config file: C:\Backup\Backup.LST
+Reading list of missing checksums
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database open in read/write mode
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+Backup client 'client' using protocol 'smb'
+ -> Reading client configuration file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+ -> Dir Dir
+ -> umount -fl test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
+Backup client 'myClient' using protocol 'nfs'
+ -> Reading client configuration file
+ --> Path: /home/User/test
+Backup path '/home/User/test'
+ -> umount -fl test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
+ -> Dir dir
+ -> umount -fl test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
+Backup client 'myClient' using protocol 'smb'
+ -> Reading client configuration file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+ -> Dir Dir
+ -> umount -fl test_db/mount
+Backup client 'myhost' using protocol 'file'
+ -> Reading client configuration file
+ --> Client-wide filter and subdir
+ ---> Condition path_start subdir
+ ---> Condition not size< 100
+ --> Client-wide filter and bigfile
+ ---> Condition size>= 10
+ ---> Condition type file
+ --> Expiry 1 day(s)
+ --> Path: test2
+ --> Path: test1
+ --> Path-wide filter and not_object
+ ---> Condition not path_end .o
+ --> Path-wide filter or to_be_ignored
+ ---> Condition filter subdir
+ ---> Condition filter backup
+ ---> Condition not filter not_object
+Backup path 'test1'
+ -> Dir bzr
+ -> Dir bzr/.bzr
+ -> Dir bzr/dirbad
+ -> Dir bzr/diroth
+ -> Dir bzr/dirutd
+ -> Dir cvs
+ -> Parsing CVS entries
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
+ -> Dir cvs/CVS
+Recovering checksum: fef51838cd3cfe8ed96355742eb71fbd-0
+ test1/cvs/CVS/Entries (161 B)
+Adding compressed file data to DB in: test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0
+Recovering checksum: b90f8fa56ea1d39881d4a199c7a81d35-0
+ test1/cvs/CVS/Root (16 B)
+Adding compressed file data to DB in: test_db/data/b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Dir cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
+ -> Dir cvs/dirutd
+ -> Parsing CVS entries
+ --> fileutd	f	1159985080
+ -> Dir cvs/dirutd/CVS
+ -> Dir dir space
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
+ -> Dir svn/.svn
+Recovering checksum: 0f2ea973d77135dc3d06c8e68da6dc59-0
+ test1/svn/.svn/entries (77 B)
+Adding compressed file data to DB in: test_db/data/0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> Dir svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
+ -> Dir svn/dirutd
+ -> Parsing Subversion entries
+ --> fileutd	m
+ --> fileoth	o
+ -> Dir svn/dirutd/.svn
+ -> Dir testdir
+Recovering checksum: 59ca0efa9f5633cb0371bbc0355478d8-0
+ test1/testfile (13 B)
+Adding compressed file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
+Backup path 'test2'
+ -> Dir testdir
+Error: Protocol not supported: ssh
+Database closed
+ -> Reading configuration file 'etc/hbackup.conf'
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
+ --> Client: myClient
+ ---> Config file: /home/User/hbackup.list
+ --> Client: other
+ ---> Config file: /home/backup/Backup.list
+ --> Client: myhost
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
+ --> Client: client
+ ---> Config file: C:\Backup\Backup.LST
+ --> Client: myClient
+ ---> Config file: C:\Backup\Backup.LST
+Reading list of missing checksums
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database open in read/write mode
+Reading list
+Found 15 checksums
+Crawling through DB
+0f2ea973d77135dc3d06c8e68da6dc59-0\r
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+59ca0efa9f5633cb0371bbc0355478d8-0\r
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+816df6f64deba63b029ca19d880ee10a-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+b90f8fa56ea1d39881d4a199c7a81d35-0\r
+d41d8cd98f00b204e9800998ecf8427e-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+fef51838cd3cfe8ed96355742eb71fbd-0\r
+                                  \r
+Found 15 valid checksums
+Saving list of missing checksums
+Checksum(s) from list:
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Checksum(s) with data:
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 816df6f64deba63b029ca19d880ee10a-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database not modified
+Database closed
+ -> Reading configuration file 'etc/hbackup.conf'
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
+ --> Client: myClient
+ ---> Config file: /home/User/hbackup.list
+ --> Client: other
+ ---> Config file: /home/backup/Backup.list
+ --> Client: myhost
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
+ --> Client: client
+ ---> Config file: C:\Backup\Backup.LST
+ --> Client: myClient
+ ---> Config file: C:\Backup\Backup.LST
+Reading list of missing checksums
+Database open in read/write mode
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+Backup client 'client' using protocol 'smb'
+ -> Reading client configuration file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+ -> Dir Dir
+ -> umount -fl test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
+Backup client 'myClient' using protocol 'nfs'
+ -> Reading client configuration file
+ --> Path: /home/User/test
+Backup path '/home/User/test'
+ -> umount -fl test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
+ -> Dir dir
+ -> umount -fl test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
+Backup client 'myClient' using protocol 'smb'
+ -> Reading client configuration file
+ --> Path: C:/Test
+Backup path 'C:/Test'
+ -> Dir Dir
+ -> umount -fl test_db/mount
+Backup client 'myhost' using protocol 'file'
+ -> Reading client configuration file
+ --> Client-wide filter and subdir
+ ---> Condition path_start subdir
+ ---> Condition not size< 100
+ --> Client-wide filter and bigfile
+ ---> Condition size>= 10
+ ---> Condition type file
+ --> Expiry 1 day(s)
+ --> Path: test2
+ --> Path: test1
+ --> Path-wide filter and not_object
+ ---> Condition not path_end .o
+ --> Path-wide filter or to_be_ignored
+ ---> Condition filter subdir
+ ---> Condition filter backup
+ ---> Condition not filter not_object
+Backup path 'test1'
+ -> Dir bzr
+ -> Dir bzr/.bzr
+ -> Dir bzr/dirbad
+ -> Dir bzr/diroth
+ -> Dir bzr/dirutd
+ -> Dir cvs
+ -> Parsing CVS entries
+ --> filenew.c	f	0
+ --> filemod.o	f	1159806431
+ --> fileutd.h	f	1159985080
+ --> dirbad	d	0
+ --> dirutd	d	0
+ -> Dir cvs/CVS
+ -> Dir cvs/dirbad
+Warning: Directory should be under CVS control: test1/cvs/dirbad
+ -> Dir cvs/dirutd
+ -> Parsing CVS entries
+ --> fileutd	f	1159985080
+ -> Dir cvs/dirutd/CVS
+ -> Dir dir space
+ -> Dir svn
+ -> Parsing Subversion entries
+ --> filenew.c	m
+ --> filemod.o	m
+ --> fileoth	i
+ --> diroth	o
+ -> Dir svn/.svn
+ -> Dir svn/dirbad
+Warning: Directory should be under Subversion control: test1/svn/dirbad
+ -> Dir svn/dirutd
+ -> Parsing Subversion entries
+ --> fileutd	m
+ --> fileoth	o
+ -> Dir svn/dirutd/.svn
+ -> Dir testdir
+Backup path 'test2'
+ -> Dir testdir
+Error: Protocol not supported: ssh
 Database not modified
 Database closed
