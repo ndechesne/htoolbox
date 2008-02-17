@@ -4,7 +4,7 @@
 AC_PREREQ(2.61)
 
 # This contains version information
-AC_INIT([HBackup],[0.7a],[herve@lucidia.net])
+AC_INIT([HBackup],[0.7b],[herve@lucidia.net])
 AC_SUBST(LIB_VERSION, [0:7:0])
 
 AM_INIT_AUTOMAKE
