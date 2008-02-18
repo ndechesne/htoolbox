@@ -1352,7 +1352,7 @@ Warning: Missing checksum(s): 4
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database not modified
-Warning: List of missing checksums contains 4 item(s)
+List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
@@ -1406,7 +1406,7 @@ Warning: Missing checksum(s): 4
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database not modified
-Warning: List of missing checksums contains 4 item(s)
+List of missing checksums contains 4 item(s)
 Database closed
 
 Test: scan for obsolete data, case1
@@ -1490,7 +1490,7 @@ Warning: Missing checksum(s): 4
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database not modified
-Warning: List of missing checksums contains 4 item(s)
+List of missing checksums contains 4 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
@@ -1554,7 +1554,7 @@ Warning: Missing checksum(s): 4
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database not modified
-Warning: List of missing checksums contains 4 item(s)
+List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
@@ -1608,7 +1608,7 @@ Warning: Missing checksum(s): 4
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database not modified
-Warning: List of missing checksums contains 4 item(s)
+List of missing checksums contains 4 item(s)
 Database closed
 
 Test: scan for obsolete data, case 2
@@ -1692,7 +1692,7 @@ Warning: Missing checksum(s): 4
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database not modified
-Warning: List of missing checksums contains 4 item(s)
+List of missing checksums contains 4 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
@@ -1756,7 +1756,7 @@ Warning: Missing checksum(s): 4
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database not modified
-Warning: List of missing checksums contains 4 item(s)
+List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
@@ -1810,7 +1810,7 @@ Warning: Missing checksum(s): 4
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database not modified
-Warning: List of missing checksums contains 4 item(s)
+List of missing checksums contains 4 item(s)
 Database closed
 
 Test: backup recovers missing checksums
@@ -1927,7 +1927,7 @@ D test1/testfile
 Backup path 'test2'
  -> Dir testdir
 Error: Protocol not supported: ssh
-Warning: List of missing checksums contains 1 item(s)
+List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file 'etc/hbackup.conf'
  --> Global filter all backup
@@ -2030,7 +2030,7 @@ Backup path 'test2'
  -> Dir testdir
 Error: Protocol not supported: ssh
 Database not modified
-Warning: List of missing checksums contains 1 item(s)
+List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file 'etc/hbackup.conf'
  --> Global filter all backup
@@ -2104,7 +2104,7 @@ Checksum(s) with data:
 Warning: Missing checksum(s): 1
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
 Database not modified
-Warning: List of missing checksums contains 1 item(s)
+List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file 'etc/hbackup.conf'
  --> Global filter all backup
@@ -2207,5 +2207,5 @@ Backup path 'test2'
  -> Dir testdir
 Error: Protocol not supported: ssh
 Database not modified
-Warning: List of missing checksums contains 1 item(s)
+List of missing checksums contains 1 item(s)
 Database closed

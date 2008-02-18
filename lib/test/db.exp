@@ -172,7 +172,7 @@ Obsolete checksum(s): 1
 Warning: Missing checksum(s): 1
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
 Database not modified
-Warning: List of missing checksums contains 1 item(s)
+List of missing checksums contains 1 item(s)
 Database closed
 
 Test: concurrent access
@@ -187,7 +187,7 @@ D /client_path/test space
 D /client_path/testfile
 D other_path/testdir
 D other_path/testfile
-Warning: List of missing checksums contains 1 item(s)
+List of missing checksums contains 1 item(s)
 Database closed
 Database closed
 [ 8] myClient         /client_path/new_link              l     8 777 testfile

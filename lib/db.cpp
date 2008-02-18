@@ -456,7 +456,7 @@ int Database::close() {
     }
      _d->missing.clear();
     if (count > 0) {
-      out(warning) << "List of missing checksums contains " << count
+      out(info) << "List of missing checksums contains " << count
         << " item(s)" << endl;
     }
     if (rc >= 0) {
