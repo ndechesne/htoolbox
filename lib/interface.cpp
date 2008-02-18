@@ -301,11 +301,11 @@ int HBackup::scan(bool remove) {
   return failed ? -1 : 0;
 }
 
-int HBackup::check(bool remove) {
+int HBackup::check() {
   bool failed = true;
   if (! _d->db->open_ro()) {
     // Corrupted files ge removed from DB
-    if (! _d->db->check(remove)) {
+    if (! _d->db->check(false)) {
       failed = false;
     }
     _d->db->close();

@@ -63,8 +63,7 @@ public:
   int check(
     const string&   checksum,
     bool            thorough     = true,
-    bool            rm_empty     = false,
-    bool            rm_corrupted = true) const;
+    bool            remove       = false) const;
   // Remove given checksum's data
   int remove(
     const string&   checksum);

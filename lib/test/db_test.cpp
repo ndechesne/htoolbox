@@ -185,7 +185,18 @@ int main(void) {
   if (db.check()) {
     printf("db.scan: %s\n", strerror(errno));
   }
-  if (Directory("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0").isValid()) {
+  db.close();
+  if ((status = db.open_rw(true))) {
+    cout << "db::open error status " << status << endl;
+    if (status < 0) {
+      return 0;
+    }
+  }
+  if (db.scan()) {
+    printf("db.scan: %s\n", strerror(errno));
+  }
+  cout << "Scan again" << endl;
+  if (Directory("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
     cout << "Directory still exists!" << endl;
     if (File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").isValid())
     {

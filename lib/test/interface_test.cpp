@@ -352,12 +352,8 @@ int main(void) {
   if (hbackup->readConfig("etc/hbackup.conf")) {
     return 1;
   }
-  cout << "Just check" << endl;
-  hbackup->check(false);
-  cout << "Check and remove" << endl;
-  hbackup->check(true);
-  cout << "Just check again" << endl;
-  hbackup->check(false);
+  cout << "Check" << endl;
+  hbackup->check();
   delete hbackup;
 
 

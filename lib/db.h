@@ -59,7 +59,7 @@ public:
     bool            remove   = true) const; // Whether to remove obsolete data
   // Scan database for corrupted data
   int  check(
-    bool            remove   = true) const; // Whether to remove corrupted data
+    bool            remove   = false) const;// Whether to remove corrupted data
   // Set the current client and its expiration delay (seconds)
   void setClient(
     const char*     client,

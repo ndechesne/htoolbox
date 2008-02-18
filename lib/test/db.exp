@@ -46,9 +46,20 @@ Database closed
 Database open in read-only mode
 Crawling through DB data
 59ca0efa9f5633cb0371bbc0355478d8-0\r
-Error: Data corrupted for: 59ca0efa9f5633cb0371bbc0355478d8-0, remove
+Error: Data corrupted for: 59ca0efa9f5633cb0371bbc0355478d8-0
                                   \r
 Found 0 valid checksums
+Database closed
+Database open in read/write mode
+Reading list
+Found 0 checksums
+Crawling through DB
+59ca0efa9f5633cb0371bbc0355478d8-0\r
+Corrupted data for: 59ca0efa9f5633cb0371bbc0355478d8-0 removed
+                                  \r
+Found 0 valid checksums
+Scan again
+Database not modified
 Database closed
 
 Test: lock

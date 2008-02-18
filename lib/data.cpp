@@ -162,8 +162,7 @@ int Data::crawl_recurse(
           }
         } else {
           out(verbose, 0) << checksum << "\r";
-          // Do not remove empty dirs in thorough mode, so we can parallelise
-          if (! check(checksum, thorough, thorough ? false : remove, remove)) {
+          if (! check(checksum, thorough, remove)) {
             checksums.push_back(checksum);
           }
         }
@@ -410,8 +409,7 @@ int Data::write(
 int Data::check(
     const string&   checksum,
     bool            thorough,
-    bool            rm_empty,
-    bool            rm_corrupted) const {
+    bool            remove) const {
   string path;
   if (getDir(checksum, path)) {
     errno = EUCLEAN;
@@ -426,31 +424,49 @@ int Data::check(
   // Missing data
   if (data == NULL) {
     out(error) << "Data missing for: " << checksum << endl;
-    if (rm_empty) {
+    if (remove) {
+      File(Path(path.c_str(), "corrupted")).remove();
       std::remove(path.c_str());
     }
     errno = ENOENT;
     return -1;
-  }
-  if (! thorough) {
-    return 0;
-  }
-  data->setCancelCallback(cancel);
-  if (data->open("r", (no > 0) ? 1 : 0)) {
-    out(error) << strerror(errno) << ": " << checksum << endl;
-    failed = true;
   } else
-  if (data->computeChecksum() || data->close()) {
-    out(error) << strerror(errno) << ": " << checksum << endl;
-    failed = true;
+  // Check data for corruption
+  if (thorough) {
+    data->setCancelCallback(cancel);
+    if (data->open("r", (no > 0) ? 1 : 0)) {
+      out(error) << strerror(errno) << ": " << checksum << endl;
+      failed = true;
+    } else
+    if (data->computeChecksum() || data->close()) {
+      out(error) << strerror(errno) << ": " << checksum << endl;
+      failed = true;
+    } else
+    if (strncmp(data->checksum(), checksum.c_str(), strlen(data->checksum()))){
+      out(error) << "Data corrupted for: " << checksum
+        << (remove ? ", remove" : "") << endl;
+      failed = true;
+      if (remove) {
+        data->remove();
+        std::remove(path.c_str());
+      } else {
+        // Mark corrupted
+        File(Path(path.c_str(), "corrupted")).create();
+      }
+    }
   } else
-  if (strncmp(data->checksum(), checksum.c_str(), strlen(data->checksum()))){
-    out(error) << "Data corrupted for: " << checksum
-      << (rm_corrupted ? ", remove" : "") << endl;
-    failed = true;
-    if (rm_corrupted) {
-      data->remove();
-      std::remove(path.c_str());
+  // Remove data marked corrupted
+  if (remove) {
+    File corrupted(Path(path.c_str(), "corrupted"));
+    if (corrupted.isValid()) {
+      if (data->remove() == 0) {
+        corrupted.remove();
+        std::remove(path.c_str());
+        out(info) << "Corrupted data for: " << checksum << " removed" << endl;
+      } else {
+        out(error) << strerror(errno) << ": " << checksum << endl;
+      }
+      failed = true;
     }
   }
   delete data;

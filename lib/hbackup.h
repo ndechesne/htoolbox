@@ -114,11 +114,9 @@ namespace hbackup {
     //! \brief Check database for missing/corrupted files
     /*!
       Checks every entry in the database to detect corrupted file data.
-      \param remove       remove corrupted data
       \return 0 on success, -1 on failure
     */
-    int check(
-      bool          remove        = true);
+    int check();
     //! \brief Backup all accessible clients
     /*!
       Backs up all specified clients, using their configuration file. Also
