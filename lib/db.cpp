@@ -723,8 +723,22 @@ int Database::scan(
   data_sums.sort();
   out(verbose) << "Found " << data_sums.size() << " valid checksums" << endl;
 
+  if (! list_sums.empty()) {
+    out(debug) << "Checksum(s) from list:" << endl;
+    for (list<string>::iterator i = list_sums.begin(); i != list_sums.end();
+        i++) {
+      out(debug, 1) << *i << endl;
+    }
+  }
+  if (! data_sums.empty()) {
+    out(debug) << "Checksum(s) with data:" << endl;
+    for (list<string>::iterator i = data_sums.begin(); i != data_sums.end();
+        i++) {
+      out(debug, 1) << *i << endl;
+    }
+  }
+
   // Separate missing and obsolete checksums
-  list<string> obsolete;
   list<string>::iterator l = list_sums.begin();
   list<string>::iterator d = data_sums.begin();
   while ((d != data_sums.end()) || (l != list_sums.end())) {
@@ -743,34 +757,20 @@ int Database::scan(
       l++;
     } else
     if (cmp < 0) {
-      obsolete.push_back(*d);
+      // Keep checksum
       d++;
     } else
     {
-      d++;
+      // Remove checksum
+      d = data_sums.erase(d);
       l++;
     }
   }
+  list_sums.clear();
 
-  if (! list_sums.empty()) {
-    out(debug) << "Checksum(s) from list:" << endl;
-    for (list<string>::iterator i = list_sums.begin(); i != list_sums.end();
-        i++) {
-      out(debug, 1) << *i << endl;
-    }
-    list_sums.clear();
-  }
   if (! data_sums.empty()) {
-    out(debug) << "Checksum(s) with data:" << endl;
+    out(info) << "Obsolete checksum(s): " << data_sums.size() << endl;
     for (list<string>::iterator i = data_sums.begin(); i != data_sums.end();
-        i++) {
-      out(debug, 1) << *i << endl;
-    }
-    data_sums.clear();
-  }
-  if (! obsolete.empty()) {
-    out(info) << "Obsolete checksum(s): " << obsolete.size() << endl;
-    for (list<string>::iterator i = obsolete.begin(); i != obsolete.end();
         i++) {
       if (i->size() != 0) {
         if (rm_obsolete) {
