@@ -180,14 +180,17 @@ int Database::open_ro() {
     return -1;
   }
 
-  if (link((_d->path + "/list").c_str(), (_d->path + "/list.ro").c_str())) {
+  stringstream name;
+  name << "list." << getpid();
+  Path list_db(_d->path.c_str(), "list");
+  Path list_ro(_d->path.c_str(), name.str().c_str());
+  if (link(list_db.c_str(), list_ro.c_str())) {
     out(error) << "Could not create hard link to list" << endl;
     return -1;
   }
 
   bool failed = false;
-  _d->main = new List(Path(_d->path.c_str(), "list.ro"));
-  _d->journal = NULL;
+  _d->main = new List(list_ro);
   if (_d->main->open("r")) {
     out(error) << "Cannot open list" << endl;
     failed = true;
@@ -201,6 +204,7 @@ int Database::open_ro() {
   out(verbose) << "Database open in read-only mode" << endl;
   if (failed) {
     delete _d->main;
+    _d->main = NULL;
     return -1;
   }
   return 0;
@@ -374,73 +378,85 @@ int Database::open_rw(bool scan) {
 }
 
 int Database::close() {
+  if (isWriteable()) {
+    return close_rw();
+  } else {
+    return close_ro();
+  }
+}
+
+int Database::close_ro() {
   bool failed = false;
-  bool read_only = ! isWriteable();
 
   if (! isOpen()) {
     out(error) << "Cannot close DB because not open!" << endl;
     return -1;
   }
 
-  if (read_only) {
-    // Close list
-    _d->main->close();
-    unlink((_d->path + "/list.ro").c_str());
-  } else {
-    if (terminating()) {
-      // Close list
-      _d->main->close();
-      // Close journal
-      _d->journal->close();
-      // Close and delete merge
-      _d->merge->close();
-      remove((_d->path + "/list.part").c_str());
-    } else {
-      // Finish off list reading/copy
-      setClient("");
-      // Close journal
-      _d->journal->close();
-      // See if any data was added
-      if (_d->journal->isEmpty()) {
-        // Do nothing
-        out(verbose) << "Database not modified" << endl;
-        // Close list
-        _d->main->close();
-        // Close merge
-        _d->merge->close();
-        remove((_d->path + "/list.part").c_str());
-        remove((_d->path + "/journal").c_str());
-      } else {
-        // Finish off merging
-        _d->main->search("", "", _d->merge, -1);
-        // Close list
-        _d->main->close();
-        // Close merge
-        _d->merge->close();
-        // File names ballet
-        if (update("list", true)) {
-          out(error) << "Cannot rename DB lists" << endl;
-          failed = true;
-        } else {
-          // All merging successful
-          update("journal");
-        }
-      }
-    }
-    // Delate lists
-    delete _d->journal;
-    delete _d->merge;
-
-    // Release lock
-    unlock();
-  }
+  // Close list
+  _d->main->close();
+  // Remove link
+  unlink(_d->main->path());
   // Delete list
   delete _d->main;
-
   // for isOpen and isWriteable
-  _d->main    = NULL;
-  _d->journal = NULL;
-  _d->merge   = NULL;
+  _d->main = NULL;
+
+  out(verbose) << "Database closed" << endl;
+  return failed ? -1 : 0;
+}
+
+int Database::close_rw() {
+  bool failed = false;
+
+  if (! isOpen()) {
+    out(error) << "Cannot close DB because not open!" << endl;
+    return -1;
+  }
+
+  if (terminating()) {
+    // Close list
+    _d->main->close();
+    // Close journal
+    _d->journal->close();
+    // Close and delete merge
+    _d->merge->close();
+    remove((_d->path + "/list.part").c_str());
+  } else {
+    // Finish off list reading/copy
+    setClient("");
+    // Close journal
+    _d->journal->close();
+    // See if any data was added
+    if (_d->journal->isEmpty()) {
+      // Do nothing
+      out(verbose) << "Database not modified" << endl;
+      // Close list
+      _d->main->close();
+      // Close merge
+      _d->merge->close();
+      remove((_d->path + "/list.part").c_str());
+      remove((_d->path + "/journal").c_str());
+    } else {
+      // Finish off merging
+      _d->main->search("", "", _d->merge, -1);
+      // Close list
+      _d->main->close();
+      // Close merge
+      _d->merge->close();
+      // File names ballet
+      if (update("list", true)) {
+        out(error) << "Cannot rename DB lists" << endl;
+        failed = true;
+      } else {
+        // All merging successful
+        update("journal");
+      }
+    }
+  }
+  // Delate lists
+  delete _d->journal;
+  delete _d->merge;
 
   // Save list of missing items
   Stream missing_list(Path(_d->path.c_str(), "missing.part"));
@@ -454,7 +470,7 @@ int Database::close() {
       }
       if (rc < 0) break;
     }
-     _d->missing.clear();
+    _d->missing.clear();
     if (count > 0) {
       out(info) << "List of missing checksums contains " << count
         << " item(s)" << endl;
@@ -469,6 +485,17 @@ int Database::close() {
     out(error) << strerror(errno) << " opening missing checksums list"
       << endl;
   }
+
+  // Release lock
+  unlock();
+
+  // Delete list
+  delete _d->main;
+
+  // for isOpen and isWriteable
+  _d->main    = NULL;
+  _d->journal = NULL;
+  _d->merge   = NULL;
 
   out(verbose) << "Database closed" << endl;
   return failed ? -1 : 0;

@@ -30,15 +30,19 @@ class Database {
   int  update(
     string          name,
     bool            new_file = false) const;
+  // Close database in read-only mode
+  int  close_ro();
+  // Close database in read/write mode
+  int  close_rw();
 protected: // So I can test them/use them in tests
   bool isOpen() const;
   bool isWriteable() const;
 public:
   Database(const string& path);
   ~Database();
-  // Open database read-only
+  // Open database in read-only mode
   int  open_ro();
-  // Open database read/write
+  // Open database in read/write mode
   int  open_rw(bool scan = false);    // Need to signal when opening for scan
   // Close database
   int  close();
