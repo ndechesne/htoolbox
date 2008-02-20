@@ -813,7 +813,7 @@ int Database::scan(
     out(warning) << "Missing checksum(s): " << _d->missing.size()
       << endl;
     for (unsigned int i = 0; i < _d->missing.size(); i++) {
-      out(warning, 1) << _d->missing[i] << endl;
+      out(verbose, 1) << _d->missing[i] << endl;
     }
   }
 
