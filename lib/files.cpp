@@ -62,6 +62,10 @@ const char* Path::c_str() const {
   }
 }
 
+string Path::str() const {
+  return string(c_str());
+}
+
 const char* Path::operator=(const char* path) {
   if (_path != NULL) {
     free(_path);
@@ -72,16 +76,36 @@ const char* Path::operator=(const char* path) {
   return _path;
 }
 
-Path::Path(const char* dir_path, const char* name) {
-  if (dir_path[0] == '\0') {
+const char* Path::operator=(const Path& path) {
+  if (_path != NULL) {
+    free(_path);
+  }
+  _path = strdup(path._path);
+  _const_path = _path;
+  _length = path._length;
+  return _path;
+}
+
+Path::Path(const char* dir, const char* name) {
+  if (dir[0] == '\0') {
     _path = strdup(name);
   } else if (name[0] == '\0') {
-    _path = strdup(dir_path);
+    _path = strdup(dir);
   } else {
-    asprintf(&_path, "%s/%s", dir_path, name);
+    asprintf(&_path, "%s/%s", dir, name);
   }
   _const_path = _path;
   _length = strlen(_path);
+}
+
+Path::Path(const Path& path, const char* name) {
+  asprintf(&_path, "%s/%s", path._path, name);
+  _const_path = _path;
+  _length = strlen(_path);
+}
+
+Path::~Path() {
+  free(_path);
 }
 
 const char* Path::basename(const char* path) {

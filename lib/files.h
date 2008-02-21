@@ -53,9 +53,12 @@ public:
     }
   }
   Path(const char *dir, const char* name);
-  ~Path() { free(_path); }
+  Path(const Path& path, const char* name);
+  ~Path();
   const char* operator=(const char* path);
+  const char* operator=(const Path& path);
   const char* c_str() const;
+  string str() const;
   int length() const           { return _length; }
   const char* basename() const { return basename(_const_path); }
   const char* noTrailingSlashes() {

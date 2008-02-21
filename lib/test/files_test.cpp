@@ -245,7 +245,7 @@ int main(void) {
   cout << "blocks separated by '5's: " << pth0->countBlocks('5') << endl;
   cout << "blocks separated by '9's: " << pth0->countBlocks('9') << endl;
   delete pth0;
-  pth0 = new Path("123/456", "789");
+  pth0 = new Path(Path("123", "456"), "789");
   cout << pth0->length() << ": " << pth0->c_str() << endl;
   cout << "blocks separated by '/'s: " << pth0->countBlocks('/') << endl;
   cout << "blocks separated by '1's: " << pth0->countBlocks('1') << endl;
@@ -259,7 +259,8 @@ int main(void) {
   cout << "blocks separated by '5's: " << pth0->countBlocks('5') << endl;
   cout << "blocks separated by '9's: " << pth0->countBlocks('9') << endl;
   delete pth0;
-  pth0 = new Path("//1123//456", "7899//11599//");
+  pth0 = new Path;
+  *pth0 = Path("//1123//456", "7899//11599//");
   cout << pth0->length() << ": " << pth0->c_str() << endl;
   cout << "blocks separated by '/'s: " << pth0->countBlocks('/') << endl;
   cout << "blocks separated by '1's: " << pth0->countBlocks('1') << endl;
