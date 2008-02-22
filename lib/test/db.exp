@@ -16,6 +16,7 @@ Found 0 checksums
 Crawling through DB
                                   \r
 Found 0 valid and 0 broken data files
+Closing database
 Database not modified
 Database closed
 Database open in read/write mode
@@ -27,6 +28,7 @@ Crawling through DB
 Error: Data missing for: 59ca0efa9f5633cb0371bbc0355478d8-0
                                   \r
 Found 0 valid and 1 broken data files
+Closing database
 Database not modified
 Database closed
 Database open in read/write mode
@@ -41,6 +43,7 @@ Checksum(s) with data:
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
 Obsolete checksum(s): 1
  -> 59ca0efa9f5633cb0371bbc0355478d8-0: removed
+Closing database
 Database not modified
 Database closed
 Database open in read/write mode
@@ -50,6 +53,7 @@ Crawling through DB
                                   \r
 Found 0 valid and 0 broken data files
 File data corrupted, thorough scan
+Closing database
 Database not modified
 Database closed
 Database open in read-only mode
@@ -68,15 +72,18 @@ Corrupted data for: 59ca0efa9f5633cb0371bbc0355478d8-0 removed
                                   \r
 Found 0 valid and 1 broken data files
 Scan again
+Closing database
 Database not modified
 Database closed
 
 Test: lock
 Database open in read/write mode
+Closing database
 Database not modified
 Database closed
 Warning: Lock reset
 Database open in read/write mode
+Closing database
 Database not modified
 Database closed
 Error: Lock taken by process with pid 1
@@ -98,6 +105,7 @@ Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
 Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
             \r
 Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
+Closing database
 Database closed
 [ 1] myClient         /client_path/subdir                d     0 755
 [ 2] myClient         /client_path/subdir/testfile       f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
@@ -109,6 +117,7 @@ Database closed
 
 Test: do nothing
 Database open in read/write mode
+Closing database
 Database not modified
 Database closed
 [ 1] myClient         /client_path/subdir                d     0 755
@@ -181,6 +190,7 @@ Obsolete checksum(s): 1
  -> e5ed795e721b69c53a52482d6bdcb149-0: removed
 Warning: Missing checksum(s): 1
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+Closing database
 Database not modified
 List of missing checksums contains 1 item(s)
 Database closed
@@ -190,6 +200,7 @@ Database open in read/write mode
 Database open in read-only mode
 Reading list of missing checksums
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+Closing database
 D /client_path/subdir
 D /client_path/subdir/testfile
 D /client_path/subdir/testfile2

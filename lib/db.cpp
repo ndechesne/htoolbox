@@ -428,6 +428,7 @@ int Database::close_rw() {
     _d->merge->close();
     remove(Path(_d->path, "list.part").c_str());
   } else {
+    out(verbose) << "Closing database" << endl;
     // Finish off list reading/copy
     _d->main->setProgressCallback(progress);
     setClient("");

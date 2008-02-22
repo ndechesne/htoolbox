@@ -377,6 +377,7 @@ Done:  78.1%\r
 Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
 A test2/testlink
 Error: Protocol not supported: ssh
+Closing database
 Database closed
 Specify clients
  -> Reading configuration file 'etc/hbackup.conf'
@@ -463,6 +464,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Backup path 'test2'
  -> Dir testdir
+Closing database
 Database not modified
 Database closed
 User-mode backup
@@ -489,6 +491,7 @@ Adding file data to DB in: test_user/.hbackup/data/d5b4c7d9b06b60a7846c4529834c9
 A test_user/testuser/subdir2/f4.txt (3 B)
             \r
 Adding file data to DB in: test_user/.hbackup/data/90e2a51705594d033a3abe9d77b2b7ad-0
+Closing database
 Database closed
 Scan DB
  -> Reading configuration file 'etc/hbackup.conf'
@@ -564,6 +567,7 @@ Checksum(s) with data:
  -> f1c9645dbc14efddc7d8a322685f26eb-0
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
+Closing database
 Database not modified
 Database closed
 Check DB
