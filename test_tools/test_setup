@@ -62,6 +62,9 @@ touch "$TESTDIR/test space"
 mkdir "$TESTDIR/dir space"
 touch "$TESTDIR/dir space/file space"
 
+# Big file
+dd if=/dev/zero of=test1/big_file bs=1M count=10 status=noxfer 2> /dev/null
+
 # CVS test
 CVSDIR="$TESTDIR/cvs"
 mkdir "$CVSDIR"
@@ -372,10 +375,10 @@ condition !size< 100
 
 filter and bigfile 3
 condition size>= 10 yeah
-condition type 
+condition type
 
 expire 1
-expire 2 3 
+expire 2 3
 
 path test2//
 
@@ -410,7 +413,7 @@ config "$CONFIGDIR/localhost.list"
 expire 1
 
 path blah
-ignore  2 3 
+ignore  2 3
 compress 4 5
 
 client smb client
@@ -429,3 +432,6 @@ compress
 
 what_the_f...?
 EOF
+
+cd ..
+tar --remove-files -c -z -f $1.tar.gz $1

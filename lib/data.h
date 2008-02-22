@@ -32,7 +32,7 @@ protected: // So I can test them
     bool            create = false) const;
   // Make sure we don't have too many files per directory
   int organise(
-    const string&   path,
+    const char*     path,
     int             number) const;
   // Scan database for missing/corrupted data, return a list of valid checksums
   int crawl_recurse(

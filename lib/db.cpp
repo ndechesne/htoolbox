@@ -19,6 +19,7 @@
 // Compression to use when required: gzip -5 (best speed/ratio)
 
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <string>
 #include <list>
@@ -43,9 +44,10 @@ using namespace hbackup;
 
 static void progress(long long done, long long total) {
   if (done < total) {
-    out(verbose) << "Done: " << done << " out of " << total << "\r";
+    out(verbose) << "Done: " << setw(5) << setiosflags(ios::fixed)
+    << setprecision(1) << 100.0 * done /total << "%" << endl;
   } else {
-    out(verbose) << "                                                      \r";
+    out(verbose) << "            \r";
   }
 }
 

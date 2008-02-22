@@ -53,7 +53,7 @@ public:
     return Data::getDir(checksum, path, create);
   }
   int  organise(
-      const string&   path,
+      const char*     path,
       int             number) {
     return Data::organise(path, number);
   }

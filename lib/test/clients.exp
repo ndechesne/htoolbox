@@ -164,6 +164,8 @@ Backup client 'testhost' using protocol 'file'
  ---> Condition not filter not_object
 Reading list of missing checksums
 Backup path 'test1'
+A test1/big_file (10 MB)
+Adding compressed file data to DB in: test_db/data/f1c9645dbc14efddc7d8a322685f26eb-0
 A test1/bzr
  -> Dir bzr
 A test1/bzr/.bzr

@@ -19,6 +19,7 @@
 #ifndef FILES_H
 #define FILES_H
 
+#include <sstream>
 #include <list>
 #include <vector>
 
@@ -56,7 +57,7 @@ public:
   Path(const Path& path, const char* name);
   ~Path();
   const char* operator=(const char* path);
-  const char* operator=(const Path& path);
+  const Path& operator=(const Path& path);
   const char* c_str() const;
   string str() const;
   int length() const           { return _length; }
@@ -80,6 +81,8 @@ public:
   static char* noTrailingSlashes(char* dir_path);
   static int compare(const char* s1, const char* s2, size_t length = -1);
 };
+
+ostream& operator<<(ostream& os, Path const & path);
 
 class Node {
 protected:

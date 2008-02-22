@@ -71,11 +71,11 @@ int Data::getDir(
 }
 
 int Data::organise(
-    const string&   path,
+    const char*     path,
     int             number) const {
   DIR           *directory;
   struct dirent *dir_entry;
-  File          nofiles(Path(path.c_str(), ".nofiles"));
+  File          nofiles(Path(path, ".nofiles"));
   bool          failed = false;
 
   // Already organised?
@@ -83,7 +83,7 @@ int Data::organise(
     return 0;
   }
   // Find out how many entries
-  if ((directory = opendir(path.c_str())) == NULL) {
+  if ((directory = opendir(path)) == NULL) {
     return 1;
   }
   // Skip . and ..
@@ -100,27 +100,28 @@ int Data::organise(
        || ! strcmp(dir_entry->d_name, "..")) {
         continue;
       }
-      Node node(Path(path.c_str(), dir_entry->d_name));
-      string source_path = path + "/" + dir_entry->d_name;
-      if (node.stat()) {
+      Node source_path(Path(path, dir_entry->d_name));
+      if (source_path.stat()) {
         out(error) << strerror(errno) << " stating source file: "
-          << source_path << endl;
+          << source_path.path() << endl;
         failed = true;
       } else
-      if ((node.type() == 'd')
+      if ((source_path.type() == 'd')
        // If we crashed, we might have some two-letter dirs already
-       && (strlen(node.name()) != 2)
+       && (strlen(source_path.name()) != 2)
        // If we've reached the point where the dir is ??-?, stop!
-       && (node.name()[2] != '-')) {
+       && (source_path.name()[2] != '-')) {
         // Create two-letter directory
-        string dir_path = path + "/" + node.name()[0] + node.name()[1];
-        if (Directory(dir_path.c_str()).create() < 0) {
+        char two_letters[3] = {
+          source_path.name()[0], source_path.name()[1], '\0'
+        };
+        Directory dir(Path(path, two_letters));
+        if (dir.create() < 0) {
           failed = true;
         } else {
-          // Create destination path
-          string dest_path = dir_path + "/" + &node.name()[2];
           // Move directory accross, changing its name
-          if (rename(source_path.c_str(), dest_path.c_str())) {
+          if (rename(source_path.path(),
+              Path(dir.path(), &source_path.name()[2]).c_str())) {
             failed = true;
           }
         }
@@ -233,23 +234,24 @@ void Data::close() {
 int Data::read(const string& path, const string& checksum) {
   bool failed = false;
 
-  string source_path;
-  if (getDir(checksum, source_path)) {
+  string source;
+  if (getDir(checksum, source)) {
     out(error) << "Cannot access DB data for: " << checksum << endl;
     return -1;
   }
 
   // Open source
-  bool decompress = false;
-  source_path += "/data";
-  if (! File(source_path.c_str()).isValid()) {
-    source_path += ".gz";
-    decompress = true;
+  vector<string> extensions;
+  extensions.push_back("");
+  extensions.push_back(".gz");
+  unsigned int no;
+  Stream *data = Stream::select(Path(source.c_str(), "data"), extensions, &no);
+  if (data == NULL) {
+    return -1;
   }
-  Stream source(source_path.c_str());
-  if (source.open("r", decompress ? 1 : 0)) {
+  if (data->open("r", (no > 0) ? 1 : 0)) {
     out(error) << strerror(errno) << " opening read source file: "
-      << source_path << endl;
+      << data->path() << endl;
     return -1;
   }
 
@@ -264,20 +266,20 @@ int Data::read(const string& path, const string& checksum) {
 
   // Copy file to temporary name (size not checked: checksum suffices)
   temp.setCancelCallback(cancel);
-  if (temp.copy(source)) {
-    out(error) << strerror(errno) << " copying read file: " << source_path
+  if (temp.copy(*data)) {
+    out(error) << strerror(errno) << " copying read file: " << data->path()
       << endl;
     failed = true;
   }
 
-  source.close();
+  data->close();
   temp.close();
 
   if (! failed) {
     // Verify that checksums match before overwriting final destination
     if (strncmp(checksum.c_str(), temp.checksum(), strlen(temp.checksum()))) {
       out(error) << "read checksums don't match: " << checksum << " != "
-        << temp.checksum() << ", for: " << source_path << endl;
+        << temp.checksum() << ", for: " << data->path() << endl;
       failed = true;
     } else
 
@@ -291,6 +293,7 @@ int Data::read(const string& path, const string& checksum) {
   if (failed) {
     std::remove(temp_path.c_str());
   }
+  delete data;
 
   return failed ? -1 : 0;
 }
@@ -309,12 +312,10 @@ int Data::write(
   }
 
   // Temporary file to write to
-  string temp_path = _d->path;
-  temp_path += "/temp";
-  Stream temp(temp_path.c_str());
+  Stream temp(Path(_d->path, "temp"));
   if (temp.open("w", compress)) {
-    out(error) << strerror(errno) << " opening write temp file: " << temp_path
-      << endl;
+    out(error) << strerror(errno) << " opening write temp file: "
+      << temp.path() << endl;
     failed = true;
   } else
 
@@ -383,9 +384,9 @@ int Data::write(
   } while (! failed && ! missing && ! present);
 
   // Now move the file in its place
-  if (! present && rename(temp_path.c_str(),
+  if (! present && rename(temp.path(),
         (dest_path + "/data" + ((compress != 0) ? ".gz" : "")).c_str())) {
-    out(error) << "Failed to move file " << temp_path << " to " << dest_path
+    out(error) << "Failed to move file " << temp.path() << " to " << dest_path
       << ": " << strerror(errno) << endl;
     failed = true;
   } else
@@ -396,7 +397,7 @@ int Data::write(
 
   // If anything failed, delete temporary file
   if (failed || present) {
-    std::remove(temp_path.c_str());
+    temp.remove();
   }
 
   // Report checksum
@@ -411,7 +412,7 @@ int Data::write(
     if (pos != string::npos) {
       dest_path.erase(pos);
       // Now dest_path is /path/to
-      organise(dest_path, 256);
+      organise(dest_path.c_str(), 256);
     }
   }
 

@@ -6,6 +6,8 @@ first with subdir/testfile NOT readable
 Reading list of missing checksums
 A /home/User/àccénts_test (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
+A /home/User/big_file (10 MB)
+Adding file data to DB in: test_db/data/f1c9645dbc14efddc7d8a322685f26eb-0
 A /home/User/cvs
  -> Dir cvs
 A /home/User/cvs/CVS
@@ -96,13 +98,15 @@ Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
 A /home/User/testfile~ (0 B)
 A /home/User/testlink
 A /home/User/testpipe
-Parsed 59 file(s)
+Parsed 60 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -224,6 +228,8 @@ Journal:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -342,7 +348,7 @@ myClient
 [ 1] p     0 644
 Database open in read/write mode
 Reading list
-Found 15 checksums
+Found 16 checksums
 Crawling through DB
 06f05055bfb2c8b900459f45826fc8ea-0\r
 0f2ea973d77135dc3d06c8e68da6dc59-0\r
@@ -358,9 +364,10 @@ b90f8fa56ea1d39881d4a199c7a81d35-0\r
 caecaacc7fdee8a7667d4f4f315858a9-0\r
 d41d8cd98f00b204e9800998ecf8427e-0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+f1c9645dbc14efddc7d8a322685f26eb-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
                                   \r
-Found 15 valid and 0 broken data files
+Found 16 valid and 0 broken data files
 Checksum(s) from list:
  -> 06f05055bfb2c8b900459f45826fc8ea-0
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
@@ -376,6 +383,7 @@ Checksum(s) from list:
  -> caecaacc7fdee8a7667d4f4f315858a9-0
  -> d41d8cd98f00b204e9800998ecf8427e-0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> f1c9645dbc14efddc7d8a322685f26eb-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Checksum(s) with data:
  -> 06f05055bfb2c8b900459f45826fc8ea-0
@@ -392,6 +400,7 @@ Checksum(s) with data:
  -> caecaacc7fdee8a7667d4f4f315858a9-0
  -> d41d8cd98f00b204e9800998ecf8427e-0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> f1c9645dbc14efddc7d8a322685f26eb-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database not modified
 Database closed
@@ -418,7 +427,7 @@ Error: Permission denied opening write source file: test1/subdir/testfile
  -> Dir svn/dirutd
  -> Dir svn/dirutd/.svn
  -> Dir testdir
-Parsed 59 file(s)
+Parsed 60 file(s)
 Database not modified
 Database closed
 
@@ -426,6 +435,8 @@ List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -547,6 +558,8 @@ Journal:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -673,13 +686,15 @@ Reading list of missing checksums
 A /home/User/cvs/big_file (512 kB)
 Killing inside data
 Error: Operation canceled copying write file: test1/cvs/big_file
-Parsed 9 file(s)
+Parsed 10 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -826,13 +841,15 @@ Adding file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
  -> Dir svn/dirutd
  -> Dir svn/dirutd/.svn
  -> Dir testdir
-Parsed 60 file(s)
+Parsed 61 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -980,13 +997,15 @@ D /home/User/subdir/testfile
  -> Dir svn/dirutd
  -> Dir svn/dirutd/.svn
  -> Dir testdir
-Parsed 59 file(s)
+Parsed 60 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -1134,13 +1153,15 @@ D /home/User/subdir/testfile2
  -> Dir svn/dirutd
  -> Dir svn/dirutd/.svn
  -> Dir testdir
-Parsed 56 file(s)
+Parsed 57 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -1293,13 +1314,15 @@ Reading list of missing checksums
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 M /home/User/testlink
-Parsed 56 file(s)
+Parsed 57 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -1449,13 +1472,15 @@ Reading list of missing checksums
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 D /home/User/testlink
-Parsed 55 file(s)
+Parsed 56 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -1622,13 +1647,15 @@ D /home/User/cvs/fileoth
  -> Dir svn/dirutd
  -> Dir svn/dirutd/.svn
  -> Dir testdir
-Parsed 45 file(s)
+Parsed 46 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -1813,7 +1840,7 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/dirutd
  -> Dir svn/dirutd/.svn
  -> Dir testdir
-Parsed 45 file(s)
+Parsed 46 file(s)
 Database not modified
 Database closed
 
@@ -1821,6 +1848,8 @@ List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -2024,13 +2053,15 @@ D /home/User/svn/dirutd/fileoth
 D /home/User/svn/fileoth
 D /home/User/svn/fileutd.h
  -> Dir testdir
-Parsed 33 file(s)
+Parsed 34 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -2239,13 +2270,15 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  --> fileoth	o
  -> Dir svn/dirutd/.svn
  -> Dir testdir
-Parsed 28 file(s)
+Parsed 29 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -2439,13 +2472,15 @@ D /home/User/svn/dirutd/.svn
 D /home/User/svn/dirutd/.svn/entries
 D /home/User/svn/dirutd/fileutd
  -> Dir testdir
-Parsed 24 file(s)
+Parsed 25 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -2637,7 +2672,7 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
-Parsed 23 file(s)
+Parsed 24 file(s)
 D /home/User/testpipe
 Database closed
 
@@ -2645,6 +2680,8 @@ List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -2832,13 +2869,15 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 ~ /home/User/testfile (13 B)
-Parsed 23 file(s)
+Parsed 24 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -3029,13 +3068,15 @@ Adding file data to DB in: test_db/data/0d599f0ec05c3bda8c3b8a68c32a1b47-0
 Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 A /home/User/testpipe
-Parsed 24 file(s)
+Parsed 25 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -3255,13 +3296,15 @@ A /home/User/testdir/biblio/biblio.dbf (0 B)
 A /home/User/testdir/biblio/biblio.dbt (0 B)
 A /home/User/testdir/biblio.odb (0 B)
 A /home/User/testdir/evolocal.odb (0 B)
-Parsed 44 file(s)
+Parsed 45 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -3537,7 +3580,7 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
  -> Dir testdir/biblio
-Parsed 44 file(s)
+Parsed 45 file(s)
 Database not modified
 Database closed
 
@@ -3545,6 +3588,8 @@ List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -3837,13 +3882,15 @@ D /home/User/testdir/biblio/biblio.dbf
 D /home/User/testdir/biblio/biblio.dbt
 D /home/User/testdir/biblio.odb
 D /home/User/testdir/evolocal.odb
-Parsed 40 file(s)
+Parsed 41 file(s)
 Database closed
 
 List:
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/cvs
 [ 1] d     0 755
 	/home/User/cvs/CVS
@@ -4091,6 +4138,8 @@ hisClient
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/crash
 [19] d     0 755
 	/home/User/crash/file
@@ -4369,7 +4418,7 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/.svn
  -> Dir svn/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
-Parsed 40 file(s)
+Parsed 41 file(s)
 Database not modified
 Database closed
 
@@ -4386,6 +4435,8 @@ hisClient
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/crash
 [19] d     0 755
 	/home/User/crash/file
@@ -4649,6 +4700,8 @@ hisClient
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/crash
 [19] d     0 755
 	/home/User/crash/file
@@ -4924,7 +4977,7 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile (13 B)
 Error: Permission denied opening write source file: test1/testfile
-Parsed 40 file(s)
+Parsed 41 file(s)
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
@@ -4941,6 +4994,8 @@ hisClient
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/crash
 [19] d     0 755
 	/home/User/crash/file
@@ -5150,7 +5205,7 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
 D /home/User/testfile
 M /home/User/testfile~ (0 B)
-Parsed 39 file(s)
+Parsed 40 file(s)
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
@@ -5167,6 +5222,8 @@ hisClient
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/crash
 [19] d     0 755
 	/home/User/crash/file
@@ -5371,7 +5428,7 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile~ (5 B)
-Parsed 39 file(s)
+Parsed 40 file(s)
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
@@ -5388,6 +5445,8 @@ hisClient
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+	/home/User/big_file
+[ 1] f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 	/home/User/crash
 [19] d     0 755
 	/home/User/crash/file

@@ -242,6 +242,8 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter backup
  ---> Condition not filter not_object
 Backup path 'test1'
+A test1/big_file (10 MB)
+Adding compressed file data to DB in: test_db/data/f1c9645dbc14efddc7d8a322685f26eb-0
 A test1/bzr
  -> Dir bzr
 A test1/bzr/.bzr
@@ -467,7 +469,7 @@ version of this software, please remove it from your configuration
 Scanning database
 Database open in read/write mode
 Reading list
-Found 14 checksums
+Found 15 checksums
 Crawling through DB
 0f2ea973d77135dc3d06c8e68da6dc59-0\r
 26ab0db90d72e28ad0ba1e22ee510510-0\r
@@ -481,10 +483,11 @@ b026324c6904b2a9cb4b88d6d61c81d1-0\r
 b90f8fa56ea1d39881d4a199c7a81d35-0\r
 d41d8cd98f00b204e9800998ecf8427e-0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+f1c9645dbc14efddc7d8a322685f26eb-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
                                   \r
-Found 14 valid and 0 broken data files
+Found 15 valid and 0 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 26ab0db90d72e28ad0ba1e22ee510510-0
@@ -498,6 +501,7 @@ Checksum(s) from list:
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> d41d8cd98f00b204e9800998ecf8427e-0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> f1c9645dbc14efddc7d8a322685f26eb-0
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Checksum(s) with data:
@@ -513,6 +517,7 @@ Checksum(s) with data:
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> d41d8cd98f00b204e9800998ecf8427e-0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> f1c9645dbc14efddc7d8a322685f26eb-0
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database not modified
@@ -552,10 +557,11 @@ b026324c6904b2a9cb4b88d6d61c81d1-0\r
 b90f8fa56ea1d39881d4a199c7a81d35-0\r
 d41d8cd98f00b204e9800998ecf8427e-0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+f1c9645dbc14efddc7d8a322685f26eb-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
                                   \r
-Found 14 valid and 0 broken data files
+Found 15 valid and 0 broken data files
 Database closed
 List prefixes
  -> Reading configuration file 'etc/hbackup.conf'
@@ -732,6 +738,7 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Restoring
 Database open in read-only mode
+U test_r/test1/big_file
 U test_r/test1/bzr
 U test_r/test1/bzr/.bzr
 U test_r/test1/bzr/dirbad
@@ -830,6 +837,7 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Restoring
 Database open in read-only mode
+U test_r/test1/big_file
 U test_r/test1/bzr
 U test_r/test1/bzr/.bzr
 U test_r/test1/bzr/dirbad

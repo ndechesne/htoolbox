@@ -17,6 +17,7 @@
 */
 
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <sys/stat.h>
 #include <errno.h>
@@ -194,9 +195,8 @@ bool cancel() {
 }
 
 void progress(long long done, long long total) {
-  cout << "Progress: ";
-  printf("%5.1f%%", 100.0 * done / total);
-  cout << endl;
+  cout << "Progress: " << setw(5) << setiosflags(ios::fixed)
+    << setprecision(1) << 100.0 * done /total << "%" << endl;
 }
 
 int main(void) {
@@ -355,10 +355,9 @@ int main(void) {
 
   Stream* readfile;
   Stream* writefile;
-  system("dd if=/dev/zero of=test1/rwfile_source bs=1M count=10 status=noxfer 2> /dev/null");
 
   cout << endl << "Test: file read (no cache)" << endl;
-  readfile = new Stream("test1/rwfile_source");
+  readfile = new Stream("test1/big_file");
   if (readfile->open("r", -1)) {
     cout << "Error opening source file: " << strerror(errno) << endl;
   } else {
@@ -412,8 +411,7 @@ int main(void) {
   system("cat test1/rwfile_dest");
 
   cout << endl << "Test: file copy (read + write (no cache))" << endl;
-  system("dd if=/dev/zero of=test1/rwfile_source bs=1M count=10 status=noxfer 2> /dev/null");
-  readfile = new Stream("test1/rwfile_source");
+  readfile = new Stream("test1/big_file");
   writefile = new Stream("test1/rwfile_dest");
   if (readfile->open("r")) {
     cout << "Error opening source file: " << strerror(errno) << endl;
@@ -452,7 +450,7 @@ int main(void) {
   delete writefile;
 
   cout << endl << "Test: file compress (read + compress write), with last zero-size write call" << endl;
-  readfile = new Stream("test1/rwfile_source");
+  readfile = new Stream("test1/big_file");
   writefile = new Stream("test1/rwfile_dest");
   if (readfile->open("r")) {
     cout << "Error opening source file: " << strerror(errno) << endl;

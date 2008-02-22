@@ -76,14 +76,18 @@ const char* Path::operator=(const char* path) {
   return _path;
 }
 
-const char* Path::operator=(const Path& path) {
+const Path& Path::operator=(const Path& path) {
   if (_path != NULL) {
     free(_path);
   }
   _path = strdup(path._path);
   _const_path = _path;
   _length = path._length;
-  return _path;
+  return *this;
+}
+
+ostream& hbackup::operator<<(ostream& os, Path const & path) {
+  return os << path.c_str();
 }
 
 Path::Path(const char* dir, const char* name) {
