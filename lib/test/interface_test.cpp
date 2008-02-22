@@ -55,26 +55,30 @@ int main(void) {
 
   setVerbosityLevel(debug);
 
-#if 0
   cout << endl << "Test: wrong config file" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("")) {
-    return 1;
-  }
+  hbackup->open("");
   delete hbackup;
-#endif
 
-  cout << endl << "Test: typical backup" << endl;
+  cout << endl << "Test: backup, not initialized" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->backup();
   delete hbackup;
 
+  cout << endl << "Test: typical backup" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->backup(true);
+  delete hbackup;
+
   cout << endl << "Test: same backup" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->backup();
@@ -85,7 +89,7 @@ int main(void) {
     " > /dev/null 2>&1");
   killed = true;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->backup();
@@ -95,7 +99,7 @@ int main(void) {
 
   cout << endl << "Test: specify clients" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->addClient("myhost");
@@ -105,7 +109,7 @@ int main(void) {
 
   cout << endl << "Test: scan DB" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->scan();
@@ -113,7 +117,7 @@ int main(void) {
 
   cout << endl << "Test: check DB" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->check();
@@ -123,7 +127,7 @@ int main(void) {
 
   cout << endl << "Test: list clients" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->getList(records);
@@ -136,7 +140,7 @@ int main(void) {
 
   cout << endl << "Test: list paths in UNIX client" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->getList(records, "myClient");
@@ -149,7 +153,7 @@ int main(void) {
 
   cout << endl << "Test: list paths in DOS client" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->getList(records, "client");
@@ -162,7 +166,7 @@ int main(void) {
 
   cout << endl << "Test: restore file" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->restore("test_r", "myhost", "test2/testfile", 0);
@@ -171,7 +175,7 @@ int main(void) {
 
   cout << endl << "Test: restore dir" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->restore("test_r", "myhost", "test1", 0);
@@ -180,7 +184,7 @@ int main(void) {
 
   cout << endl << "Test: restore subdir" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->restore("test_r", "myhost", "test1/cvs", 0);
@@ -189,7 +193,7 @@ int main(void) {
 
   cout << endl << "Test: restore client" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->restore("test_r", "myhost", "", 0);
@@ -203,7 +207,7 @@ int main(void) {
 
   cout << endl << "Test: typical backup" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->backup();
@@ -211,7 +215,7 @@ int main(void) {
 
   cout << endl << "Test: specify clients" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->addClient("myClient");
@@ -221,15 +225,15 @@ int main(void) {
 
   cout << endl << "Test: user-mode backup" << endl;
   hbackup = new HBackup();
-  if (hbackup->setUserPath("test_user")) {
+  if (hbackup->open("test_user", true)) {
     return 1;
   }
-  hbackup->backup();
+  hbackup->backup(true);
   delete hbackup;
 
   cout << endl << "Test: list clients" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->getList(records);
@@ -242,7 +246,7 @@ int main(void) {
 
   cout << endl << "Test: list paths in DUAL client" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->getList(records, "myClient");
@@ -255,7 +259,7 @@ int main(void) {
 
   cout << endl << "Test: list sub-paths in UNIX client" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->getList(records, "myClient", "/home");
@@ -268,7 +272,7 @@ int main(void) {
 
   cout << endl << "Test: list sub-paths in DOS client" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->getList(records, "myClient", "C:");
@@ -281,7 +285,7 @@ int main(void) {
 
   cout << endl << "Test: restore file (UNIX)" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->restore("test_r", "myClient", "/home/User/test/File2.txt", 0);
@@ -290,7 +294,7 @@ int main(void) {
 
   cout << endl << "Test: restore subdir (UNIX)" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->restore("test_r", "myClient", "/home/User/test", 0);
@@ -299,7 +303,7 @@ int main(void) {
 
   cout << endl << "Test: restore dir (UNIX)" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->restore("test_r", "myClient", "/", 0);
@@ -308,7 +312,7 @@ int main(void) {
 
   cout << endl << "Test: restore file (DOS)" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->restore("test_r", "myClient", "C:/Test/File.TXT", 0);
@@ -317,7 +321,7 @@ int main(void) {
 
   cout << endl << "Test: restore subdir (DOS)" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->restore("test_r", "myClient", "C:/Test", 0);
@@ -326,7 +330,7 @@ int main(void) {
 
   cout << endl << "Test: restore dir (DOS)" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->restore("test_r", "myClient", "C:", 0);
@@ -335,7 +339,7 @@ int main(void) {
 
   cout << endl << "Test: restore client" << endl;
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->restore("test_r", "myClient", "", 0);
@@ -349,7 +353,7 @@ int main(void) {
   system("echo > test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0/data");
   system("rm -f test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data.gz");
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   cout << "Check" << endl;
@@ -362,7 +366,7 @@ int main(void) {
   system("rm -f test_db/data/b90f8fa56ea1d39881d4a199c7a81d35-0/data.gz");
   system("rm -f test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0/data.gz");
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   cout << "Just scan" << endl;
@@ -380,7 +384,7 @@ int main(void) {
   system("mkdir test_db/data/ffffffffffffffffffffffffffffffff-0");
   system("touch test_db/data/ffffffffffffffffffffffffffffffff-0/data");
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   cout << "Just scan" << endl;
@@ -400,7 +404,7 @@ int main(void) {
   system("mkdir test_db/data/dddddddddddddddddddddddddddddddd-0");
   system("touch test_db/data/dddddddddddddddddddddddddddddddd-0/data");
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   cout << "Just scan" << endl;
@@ -415,28 +419,28 @@ int main(void) {
   cout << endl << "Test: backup recovers missing checksums" << endl;
   remove("test1/testfile");
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->backup();
   delete hbackup;
   // Second backup should not recover again
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->backup();
   delete hbackup;
   // Scan should show the recovered data
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->scan();
   delete hbackup;
   // Again, back up does not need to recover again
   hbackup = new HBackup();
-  if (hbackup->readConfig("etc/hbackup.conf")) {
+  if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->backup();

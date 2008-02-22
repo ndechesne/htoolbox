@@ -65,7 +65,10 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();
   }
-  db.open_rw();
+  if (db.open_rw(true) < 0) {
+    cout << "failed to open DB" << endl;
+    return 0;
+  }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->setMountPoint("test_db/mount");
     (*i)->backup(db, filters, 0);

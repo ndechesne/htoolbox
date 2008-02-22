@@ -1,9 +1,9 @@
 
 Initial backup, check '/' precedence
 Database initialized in test_db
-Reading list of missing checksums
 Database open in read/write mode
 first with subdir/testfile NOT readable
+Reading list of missing checksums
 A /home/User/àccénts_test (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
 A /home/User/cvs
@@ -340,7 +340,6 @@ myClient
 [ 1] l     8 777 testfile
 	/home/User/testpipe
 [ 1] p     0 644
-Reading list of missing checksums
 Database open in read/write mode
 Reading list
 Found 15 checksums
@@ -398,8 +397,8 @@ Database not modified
 Database closed
 
 As previous, with a .hbackup directory
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -666,8 +665,8 @@ myClient
 [ 1] p     0 644
 
 As previous with new big_file, interrupted
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -805,8 +804,8 @@ myClient
 
 As previous with subdir/testfile readable
 Warning: Backup was interrupted in a previous run, finishing up...
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -961,8 +960,8 @@ myClient
 [ 0] f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
 
 As previous with subdir/testfile in ignore list
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -1114,8 +1113,8 @@ myClient
 [ 5] -
 
 As previous with subdir in ignore list
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -1275,8 +1274,8 @@ myClient
 [ 6] -
 
 As previous with testlink modified
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -1431,8 +1430,8 @@ myClient
 [ 7] l     8 777 testnull
 
 As previous with testlink in ignore list
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -1588,8 +1587,8 @@ myClient
 [ 8] -
 
 As previous with CVS parser (controlled)
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -1789,8 +1788,8 @@ myClient
 [ 9] -
 
 As previous
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -1981,8 +1980,8 @@ myClient
 [ 9] -
 
 As previous with Subversion parser (modified)
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2207,8 +2206,8 @@ myClient
 [11] -
 
 As previous with cvs/dirutd in ignore list
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2413,8 +2412,8 @@ myClient
 [12] -
 
 As previous with svn/dirutd in ignore list
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2615,8 +2614,8 @@ myClient
 [13] -
 
 As previous with testpipe gone
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2809,8 +2808,8 @@ myClient
 [14] -
 
 As previous with testfile mode changed
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -3004,8 +3003,8 @@ myClient
 [15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 
 As previous with cvs/filenew.c touched and testpipe restored
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -3205,8 +3204,8 @@ myClient
 [16] p     0 644
 
 Some troublesome past cases
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -3507,8 +3506,8 @@ myClient
 [17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 Same again: journal and list left untouched
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -3790,8 +3789,8 @@ myClient
 [17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 List recovery after crash
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
 A /home/User/testdir
  -> Dir testdir
 A /home/User/testfile (145 kB)
@@ -4077,7 +4076,6 @@ myClient
 Error: Unexpected end of file
 Warning: Backup was interrupted in a previous run, finishing up...
 Warning: Unexpected end of journal
-Reading list of missing checksums
 Database open in read/write mode
 
 List:
@@ -4336,14 +4334,13 @@ myClient
 Error: Unexpected end of file
 Database not modified
 Database closed
-Reading list of missing checksums
 Database open in read/write mode
 Database not modified
 Database closed
 
 Same again
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
@@ -4632,8 +4629,8 @@ myClient
 Error: Unexpected end of file
 
 Same again
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir testdir
 Parsed 4 file(s)
 Database not modified
@@ -4895,8 +4892,8 @@ myClient
 Error: Unexpected end of file
 
 Expiry delay: 18, date: 22
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
@@ -5121,8 +5118,8 @@ myClient
 [22] f    13 000 
 
 Prevent data dir from being removed
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
@@ -5343,8 +5340,8 @@ myClient
 [23] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 
 Add one file
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries

@@ -19,15 +19,18 @@ mkdir test_db
 "$hbackup" -d -c etc/hbackup.conf -l 2>&1
 rmdir test_db
 
-echo "Typical backup"
+echo "Backup, DB missing"
 "$hbackup" -d -c etc/hbackup.conf -- 2>&1
+
+echo "Typical backup, initialize DB"
+"$hbackup" -di -c etc/hbackup.conf -- 2>&1
 
 echo "Specify clients"
 "$hbackup" -d -c etc/hbackup.conf -C myhost -C client 2>&1
 
 echo "User-mode backup"
 export HOME="$TESTDIRUSER"
-"$hbackup" -du -c etc/hbackup.conf -- 2>&1
+"$hbackup" -diu -c etc/hbackup.conf -- 2>&1
 
 echo "Scan DB"
 "$hbackup" -d -c etc/hbackup.conf -s 2>&1

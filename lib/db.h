@@ -28,7 +28,7 @@ class Database {
   void unlock();
   int  merge();
   int  update(
-    string          name,
+    const char*     name,
     bool            new_file = false) const;
   // Close database in read-only mode
   int  close_ro();
@@ -38,12 +38,14 @@ protected: // So I can test them/use them in tests
   bool isOpen() const;
   bool isWriteable() const;
 public:
-  Database(const string& path);
+  Database(
+    const char*     path);                // Path where DB resides
   ~Database();
   // Open database in read-only mode
   int  open_ro();
   // Open database in read/write mode
-  int  open_rw(bool scan = false);    // Need to signal when opening for scan
+  int  open_rw(
+    bool            initialize = false);  // Whether to initialize DB if needed
   // Close database
   int  close();
   // Get list of clientes in DB list (close-open to re-use DB!)

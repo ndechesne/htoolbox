@@ -129,7 +129,10 @@ int main(void) {
   // Initialisation
   cout << endl << "Initial backup, check '/' precedence" << endl;
   my_time++;
-  db.open_rw();
+  if (db.open_rw(true) < 0) {
+    cout << "failed to open DB" << endl;
+    return 0;
+  }
 
   // '-' is before '/' in the ASCII table...
   system("touch test1/subdir-file");

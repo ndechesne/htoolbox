@@ -1,3 +1,12 @@
+Error: Given DB path does not exist: test_db
+db::open error status -1
+Error: Given DB path does not exist: test_db
+db::open error status -1
+Error: Given DB path does not contain a database: test_db
+db::open error status -1
+Error: Given DB path does not contain a database: test_db
+See help for information on how to initialize the DB
+db::open error status -1
 Database initialized in test_db
 Database open in read/write mode
 
@@ -63,12 +72,10 @@ Database not modified
 Database closed
 
 Test: lock
-Reading list of missing checksums
 Database open in read/write mode
 Database not modified
 Database closed
 Warning: Lock reset
-Reading list of missing checksums
 Database open in read/write mode
 Database not modified
 Database closed
@@ -81,8 +88,8 @@ Database open in read-only mode
 Database closed
 
 Test: fill in DB
-Reading list of missing checksums
 Database open in read/write mode
+Reading list of missing checksums
 Adding compressed file data to DB in: test_db/data/285b35198a5e188b3a0df3ed33f93a26-0
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
 Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
@@ -97,7 +104,6 @@ Database closed
 [ 7] myClient         other_path/testfile                f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 
 Test: do nothing
-Reading list of missing checksums
 Database open in read/write mode
 Database not modified
 Database closed
@@ -176,10 +182,10 @@ List of missing checksums contains 1 item(s)
 Database closed
 
 Test: concurrent access
-Reading list of missing checksums
- -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
 Database open in read/write mode
 Database open in read-only mode
+Reading list of missing checksums
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
 D /client_path/subdir
 D /client_path/subdir/testfile
 D /client_path/subdir/testfile2

@@ -64,6 +64,15 @@ namespace hbackup {
   class HBackup {
     struct        Private;
     Private*      _d;
+    //! \brief Read configuration file for server-mode backup, open database
+    /*!
+      Reads the file specified by config_path opens the backup database in
+      read/write mode.
+      \param config_path  the server configuration file
+      \return 0 on success, -1 on failure
+    */
+    int readConfig(
+      const char*   config_path);
   public:
     //! \brief Constructor
     HBackup();
@@ -79,24 +88,17 @@ namespace hbackup {
     */
     int addClient(
       const char*   client);
-    //! \brief Set path for user-mode backup, open database
+    //! \brief Open database
     /*!
-      Sets the user path to use for user-mode backup and opens the backup
-      database in read/write mode.
-      \param home_path    the user's home directory
+      Open and recover database, initialize if told to.
+      \param path         the path to the server configuration file, or
+                          the user's home directory
+      \param user_mode    backup in user mode
       \return 0 on success, -1 on failure
     */
-    int setUserPath(
-      const char*   home_path);
-    //! \brief Read configuration file for server-mode backup, open database
-    /*!
-      Reads the file specified by config_path opens the backup database in
-      read/write mode.
-      \param config_path  the server configuration file
-      \return 0 on success, -1 on failure
-    */
-    int readConfig(
-      const char*   config_path);
+    int open(
+      const char*   path,
+      bool          user_mode     = false);
     //! \brief Close database
     /*!
       Makes sure the lists are up-to-date.
@@ -121,11 +123,13 @@ namespace hbackup {
     /*!
       Backs up all specified clients, using their configuration file. Also
       deals with expired entries.
-      \param config_check do not backup, but check configuration files
+      \param initialize   set-up DB if missing
+      \param pretend      do not backup, just check configuration files
       \return 0 on success, -1 on failure
     */
     int backup(
-      bool          config_check  = false);
+      bool          initialize    = false,
+      bool          pretend       = false);
     //! \brief List database contents selectively
     /*!
       Lists contents, using the given parameters as filters.

@@ -3,7 +3,6 @@
 Client: localhost
  -> Configuration: file://localhost etc/doesnotexist
 Database initialized in test_db
-Reading list of missing checksums
 Database open in read/write mode
 Backup client 'localhost' using protocol 'file'
 Error: Client configuration file not found etc/doesnotexist
@@ -89,13 +88,13 @@ Client: Client3
 Client: Client4
  -> Configuration: smb://Client C:/home/BlaH/Backup.list
  -> Options: username= password=
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
  --> Path: /home/User/test2
+Reading list of missing checksums
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
@@ -145,7 +144,6 @@ Database closed
 >List 1 client(s):
 Client: testhost
  -> Configuration: file://localhost etc/localhost.list
-Reading list of missing checksums
 Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
  -> Reading client configuration file
@@ -164,6 +162,7 @@ Backup client 'testhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Reading list of missing checksums
 Backup path 'test1'
 A test1/bzr
  -> Dir bzr
@@ -261,7 +260,6 @@ Database closed
 >List 1 client(s):
 Client: testhost
  -> Configuration: file://testhost etc/localhost.list
-Reading list of missing checksums
 Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
  -> Reading client configuration file
@@ -280,6 +278,7 @@ Backup client 'testhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Reading list of missing checksums
 Backup path 'test1'
  -> Dir bzr
  -> Dir bzr/.bzr
@@ -323,7 +322,6 @@ Database closed
 >List 1 client(s):
 Client: testhost
  -> Configuration: file://testhost etc/localhost.list
-Reading list of missing checksums
 Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
  -> Reading client configuration file
@@ -349,7 +347,6 @@ Database closed
 >List 1 client(s):
 Client: testhost
  -> Configuration: file://testhost etc/localhost.list2
-Reading list of missing checksums
 Database open in read/write mode
 Backup client 'testhost' using protocol 'file'
  -> Reading client configuration file
@@ -376,12 +373,12 @@ Database not modified
 Database closed
 
 Test: missing clients
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Reading list of missing checksums
 Backup path 'C:/Test'
 A C:/Test/Dir
  -> Dir Dir
@@ -390,12 +387,12 @@ A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
  -> umount -fl test_db/mount
 Database closed
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Reading list of missing checksums
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
@@ -405,11 +402,11 @@ A /home/User/test/dir
 A /home/User/test/dir/file3.txt (2 B)
  -> umount -fl test_db/mount
 Database closed
-Reading list of missing checksums
 Database open in read/write mode
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Path: test1/cvs
+Reading list of missing checksums
 Backup path 'test1/cvs'
 A test1/cvs/CVS
  -> Dir CVS
@@ -498,11 +495,11 @@ Client: myhost2
  -> Configuration: smb://myhost2 C:/Backup/testhost2.list
 Client: myhost3
  -> Configuration: nfs://myhost3 /home/User/testhost3.list
-Reading list of missing checksums
 Database open in read/write mode
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Path: test1/cvs
+Reading list of missing checksums
 Backup path 'test1/cvs'
  -> Dir CVS
  -> Dir CVS/Wherever
@@ -534,12 +531,12 @@ Client: myhost2
  -> Configuration: smb://myhost2 C:/Backup/testhost2.list
 Client: myhost3
  -> Configuration: nfs://myhost3 /home/User/testhost3.list
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Reading list of missing checksums
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount -fl test_db/mount
@@ -560,11 +557,11 @@ Client: myhost
  -> Configuration: file://myhost etc/testhost.list
 Client: myhost3
  -> Configuration: nfs://myhost3 /home/User/testhost3.list
-Reading list of missing checksums
 Database open in read/write mode
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Path: test1/cvs
+Reading list of missing checksums
 Backup path 'test1/cvs'
  -> Dir CVS
  -> Dir CVS/Wherever
@@ -589,11 +586,11 @@ Client: myhost
  -> Configuration: file://myhost etc/testhost.list
 Client: myhost2
  -> Configuration: smb://myhost2 C:/Backup/testhost2.list
-Reading list of missing checksums
 Database open in read/write mode
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Path: test1/cvs
+Reading list of missing checksums
 Backup path 'test1/cvs'
  -> Dir CVS
  -> Dir CVS/Wherever
@@ -614,13 +611,13 @@ Second mount fails
 >List 1 client(s):
 Client: myClient
  -> Configuration: nfs://myClient /home/User/hbackup.list
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
  --> Path: /home/User/test2
+Reading list of missing checksums
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
@@ -635,13 +632,13 @@ First mount fails
 >List 1 client(s):
 Client: myClient
  -> Configuration: nfs://myClient /home/User/hbackup.list
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
  --> Path: /home/User/test2
+Reading list of missing checksums
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
@@ -652,13 +649,13 @@ Works again
 >List 1 client(s):
 Client: myClient
  -> Configuration: nfs://myClient /home/User/hbackup.list
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
  --> Path: /home/User/test2
+Reading list of missing checksums
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
@@ -673,12 +670,12 @@ Test with dual boot client
 >List 1 client(s):
 Client: myClient
  -> Configuration: smb://myClient C:/Backup/testhost2.list
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Reading list of missing checksums
 Backup path 'C:/Test'
 A C:/Test/Dir
  -> Dir Dir

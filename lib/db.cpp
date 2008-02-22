@@ -42,7 +42,7 @@ using namespace std;
 using namespace hbackup;
 
 struct Database::Private {
-  string            path;
+  char*             path;
   Data              data;
   int               expire;
   List*             main;
@@ -55,13 +55,11 @@ struct Database::Private {
 };
 
 int Database::lock() {
-  string  lock_path;
-  FILE    *file;
-  bool    failed = false;
+  Path  lock_path(_d->path, "lock");
+  FILE* file;
+  bool  failed = false;
 
   // Set the database path that we just locked as default
-  lock_path = _d->path + "/lock";
-
   // Try to open lock file for reading: check who's holding the lock
   if ((file = fopen(lock_path.c_str(), "r")) != NULL) {
     pid_t pid = 0;
@@ -104,8 +102,7 @@ int Database::lock() {
 }
 
 void Database::unlock() {
-  string lock_path = _d->path + "/lock";
-  std::remove(lock_path.c_str());
+  File(Path(_d->path, "lock")).remove();
 }
 
 int Database::merge() {
@@ -116,7 +113,7 @@ int Database::merge() {
   }
 
   // Merge with existing list into new one
-  List merge(Path(_d->path.c_str(), "list.part"));
+  List merge(Path(_d->path, "list.part"));
   if (! merge.open("w")) {
     if (merge.merge(*_d->main, *_d->journal) && (errno != EBUSY)) {
       out(error) << "Merge failed" << endl;
@@ -131,16 +128,16 @@ int Database::merge() {
 }
 
 int Database::update(
-    string          name,
+    const char*     name,
     bool            new_file) const {
   // Simplify writings to avoid mistakes
-  string path = _d->path + "/" + name;
+  Path path(_d->path, name);
 
   // Backup file
-  int rc = rename(path.c_str(), (path + "~").c_str());
+  int rc = rename(path.c_str(), (path.str() + "~").c_str());
   // Put new version in place
   if (new_file && ((rc == 0) || (errno == ENOENT))) {
-    rc = rename((path + ".part").c_str(), path.c_str());
+    rc = rename((path.str() + ".part").c_str(), path.c_str());
   }
   return rc;
 }
@@ -153,9 +150,9 @@ bool Database::isWriteable() const {
   return (_d->journal != NULL) && _d->journal->isOpen();
 }
 
-Database::Database(const string& path) {
+Database::Database(const char* path) {
   _d          = new Private;
-  _d->path    = path;
+  _d->path    = strdup(path);
   _d->main    = NULL;
   _d->journal = NULL;
   _d->expire  = -1;
@@ -165,16 +162,17 @@ Database::~Database() {
   if (isOpen()) {
     close();
   }
+  free(_d->path);
   delete _d;
 }
 
 int Database::open_ro() {
-  if (! Directory(_d->path.c_str()).isValid()) {
+  if (! Directory(_d->path).isValid()) {
     out(error) << "Given DB path does not exist: " << _d->path << endl;
     return -1;
   }
 
-  if (_d->data.open((_d->path + "/data").c_str())) {
+  if (_d->data.open(Path(_d->path, "data").c_str())) {
     out(error) << "Given DB path does not contain a database: "
       << _d->path << endl;
     return -1;
@@ -182,8 +180,8 @@ int Database::open_ro() {
 
   stringstream name;
   name << "list." << getpid();
-  Path list_db(_d->path.c_str(), "list");
-  Path list_ro(_d->path.c_str(), name.str().c_str());
+  Path list_db(_d->path, "list");
+  Path list_ro(_d->path, name.str().c_str());
   if (link(list_db.c_str(), list_ro.c_str())) {
     out(error) << "Could not create hard link to list" << endl;
     return -1;
@@ -210,7 +208,7 @@ int Database::open_ro() {
   return 0;
 }
 
-int Database::open_rw(bool scan) {
+int Database::open_rw(bool initialize) {
   if (isOpen()) {
     out(error) << "DB already open!" << endl;
     return -1;
@@ -218,8 +216,12 @@ int Database::open_rw(bool scan) {
 
   bool failed = false;
 
-  if (! Directory(_d->path.c_str()).isValid()) {
-    if (mkdir(_d->path.c_str(), 0755)) {
+  if (! Directory(_d->path).isValid()) {
+    if (! initialize) {
+      out(error) << "Given DB path does not exist: " << _d->path << endl;
+      return -1;
+    } else
+    if (mkdir(_d->path, 0755)) {
       out(error) << "Cannot create DB base directory" << endl;
       return -1;
     }
@@ -230,19 +232,19 @@ int Database::open_rw(bool scan) {
     return -1;
   }
 
-  List list(Path(_d->path.c_str(), "list"));
+  List list(Path(_d->path, "list"));
 
   // Check DB dir
-  switch (_d->data.open((_d->path + "/data").c_str(), true)) {
+  switch (_d->data.open(Path(_d->path, "data").c_str(), initialize)) {
     case 0:
       // Open successful
       if (! list.isValid()) {
-        Stream backup(Path(_d->path.c_str(), "list~"));
+        Stream backup(Path(_d->path, "list~"));
 
         out(error) << "List not accessible...";
         if (backup.isValid()) {
           out(error, 0) << "using backup" << endl;
-          rename((_d->path + "/list~").c_str(), (_d->path + "/list").c_str());
+          rename(backup.path(), list.path());
         } else {
           out(error, 0) << "no backup accessible, aborting." << endl;
           failed = true;
@@ -255,19 +257,27 @@ int Database::open_rw(bool scan) {
         out(error) << "Cannot create list file" << endl;
         failed = true;
       } else {
-        File(Path(_d->path.c_str(), "missing")).create();
+        File(Path(_d->path, "missing")).create();
         out(info) << "Database initialized in " << _d->path << endl;
       }
       break;
     default:
       // Creation failed
-      out(error) << "Cannot create data directory" << endl;
+      if (initialize) {
+        out(error) << strerror(errno)
+          << " creating data directory in given DB path: " << _d->path << endl;
+      } else {
+        out(error) << "Given DB path does not contain a database: "
+          << _d->path << endl;
+        out(info) << "See help for information on how to initialize the DB"
+          << endl;
+      }
       failed = true;
   }
 
   // Open list
   if (! failed) {
-    _d->main = new List(Path(_d->path.c_str(), "list"));
+    _d->main = new List(Path(_d->path, "list"));
     if (_d->main->open("r")) {
       out(error) << "Cannot open list" << endl;
       failed = true;
@@ -281,7 +291,7 @@ int Database::open_rw(bool scan) {
 
   // Deal with journal
   if (! failed) {
-    _d->journal = new List(Path(_d->path.c_str(), "journal"));
+    _d->journal = new List(Path(_d->path, "journal"));
 
     // Check previous crash
     if (! _d->journal->open("r")) {
@@ -320,7 +330,7 @@ int Database::open_rw(bool scan) {
 
   // Open merge list
   if (! failed) {
-    _d->merge = new List(Path(_d->path.c_str(), "list.part"));
+    _d->merge = new List(Path(_d->path, "list.part"));
     if (_d->merge->open("w")) {
       out(error) << "Cannot open DB merge list" << endl;
       delete _d->merge;
@@ -354,23 +364,6 @@ int Database::open_rw(bool scan) {
 
   // Setup some data
   _d->client = "";
-
-  // Read list of missing checksums (it is ordered and contains no duplicate)
-  if (! scan) {
-    out(verbose) << "Reading list of missing checksums" << endl;
-    Stream missing_list(Path(_d->path.c_str(), "missing"));
-    if (! missing_list.open("r")) {
-      string checksum;
-      while (missing_list.getLine(checksum) > 0) {
-        _d->missing.push_back(checksum);
-        out(debug, 1) << checksum << endl;
-      }
-      missing_list.close();
-    } else {
-      out(warning) << strerror(errno) << " opening missing checksums list"
-        << endl;
-    }
-  }
   _d->missing_id = -1;
 
   out(verbose) << "Database open in read/write mode" << endl;
@@ -421,7 +414,7 @@ int Database::close_rw() {
     _d->journal->close();
     // Close and delete merge
     _d->merge->close();
-    remove((_d->path + "/list.part").c_str());
+    remove(Path(_d->path, "list.part").c_str());
   } else {
     // Finish off list reading/copy
     setClient("");
@@ -435,8 +428,8 @@ int Database::close_rw() {
       _d->main->close();
       // Close merge
       _d->merge->close();
-      remove((_d->path + "/list.part").c_str());
-      remove((_d->path + "/journal").c_str());
+      _d->merge->remove();
+      _d->journal->remove();
     } else {
       // Finish off merging
       _d->main->search("", "", _d->merge, -1);
@@ -459,7 +452,7 @@ int Database::close_rw() {
   delete _d->merge;
 
   // Save list of missing items
-  Stream missing_list(Path(_d->path.c_str(), "missing.part"));
+  Stream missing_list(Path(_d->path, "missing.part"));
   if (! missing_list.open("w")) {
     int rc    = 0;
     int count = 0;
@@ -838,9 +831,24 @@ int Database::check(
 void Database::setClient(
     const char*     client,
     time_t          expire) {
-  // Finish previous client work (removed items at end of list)
   if (_d->client.length() != 0) {
+    // Finish previous client work (removed items at end of list)
     sendEntry(NULL, NULL);
+  } else if (client[0] != '\0') {
+    // Read list of missing checksums (it is ordered and contains no duplicate)
+    out(verbose) << "Reading list of missing checksums" << endl;
+    Stream missing_list(Path(_d->path, "missing"));
+    if (! missing_list.open("r")) {
+      string checksum;
+      while (missing_list.getLine(checksum) > 0) {
+        _d->missing.push_back(checksum);
+        out(debug, 1) << checksum << endl;
+      }
+      missing_list.close();
+    } else {
+      out(warning) << strerror(errno) << " opening missing checksums list"
+        << endl;
+    }
   }
   _d->client = client;
   if (expire > 0) {

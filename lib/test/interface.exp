@@ -1,6 +1,34 @@
 
+Test: wrong config file
+Error: No such file or directory: 
+
+Test: backup, not initialized
+ -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
+ --> Client: myClient
+ ---> Config file: /home/User/hbackup.list
+ --> Client: other
+ ---> Config file: /home/backup/Backup.list
+ --> Client: myhost
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
+ --> Client: client
+ ---> Config file: C:\Backup\Backup.LST
+Error: Given DB path does not exist: test_db
+
 Test: typical backup
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -17,12 +45,12 @@ Test: typical backup
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Database initialized in test_db
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Reading list of missing checksums
 Backup path 'C:/Test'
 A C:/Test/Dir
  -> Dir Dir
@@ -161,6 +189,9 @@ Database closed
 
 Test: same backup
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -176,12 +207,12 @@ Test: same backup
  ---> Expiry: 1 day(s)
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Reading list of missing checksums
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount -fl test_db/mount
@@ -255,6 +286,9 @@ Database closed
 
 Test: interrupted backup
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -270,12 +304,12 @@ Test: interrupted backup
  ---> Expiry: 1 day(s)
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Reading list of missing checksums
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount -fl test_db/mount
@@ -333,6 +367,9 @@ Database closed
 
 Test: specify clients
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -349,12 +386,12 @@ Test: specify clients
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Warning: Backup was interrupted in a previous run, finishing up...
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Reading list of missing checksums
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount -fl test_db/mount
@@ -419,6 +456,9 @@ Database closed
 
 Test: scan DB
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -492,6 +532,9 @@ Database closed
 
 Test: check DB
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -530,6 +573,9 @@ Database closed
 
 Test: list clients
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -554,6 +600,9 @@ List of clients: 3
 
 Test: list paths in UNIX client
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -576,6 +625,9 @@ List of paths in 'myClient': 1
 
 Test: list paths in DOS client
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -598,6 +650,9 @@ List of paths in 'client': 1
 
 Test: restore file
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -619,6 +674,9 @@ Database closed
 
 Test: restore dir
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -680,6 +738,9 @@ Database closed
 
 Test: restore subdir
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -712,6 +773,9 @@ Database closed
 
 Test: restore client
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -780,6 +844,9 @@ Test: add dual-boot client
 
 Test: typical backup
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -797,12 +864,12 @@ Test: typical backup
  ---> Config file: C:\Backup\Backup.LST
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Reading list of missing checksums
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount -fl test_db/mount
@@ -886,6 +953,9 @@ Database closed
 
 Test: specify clients
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -903,12 +973,12 @@ Test: specify clients
  ---> Config file: C:\Backup\Backup.LST
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
-Reading list of missing checksums
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Reading list of missing checksums
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount -fl test_db/mount
@@ -933,10 +1003,10 @@ Database closed
 
 Test: user-mode backup
 Database initialized in test_user/.hbackup
-Reading list of missing checksums
 Database open in read/write mode
  -> Reading client configuration file
  --> Path: test_user/testuser
+Reading list of missing checksums
 Backup path 'test_user/testuser'
 A test_user/testuser/f1.txt (3 B)
 Adding file data to DB in: test_user/.hbackup/data/31d30eea8d0968d6458e0ad0027c9f80-0
@@ -954,6 +1024,9 @@ Database closed
 
 Test: list clients
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -980,6 +1053,9 @@ List of clients: 3
 
 Test: list paths in DUAL client
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1005,6 +1081,9 @@ List of paths in 'myClient': 2
 
 Test: list sub-paths in UNIX client
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1029,6 +1108,9 @@ List of paths in 'myClient': 1
 
 Test: list sub-paths in DOS client
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1053,6 +1135,9 @@ List of paths in 'myClient': 1
 
 Test: restore file (UNIX)
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1076,6 +1161,9 @@ Database closed
 
 Test: restore subdir (UNIX)
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1101,6 +1189,9 @@ Database closed
 
 Test: restore dir (UNIX)
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1126,6 +1217,9 @@ Database closed
 
 Test: restore file (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1149,6 +1243,9 @@ Database closed
 
 Test: restore subdir (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1175,6 +1272,9 @@ Database closed
 
 Test: restore dir (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1201,6 +1301,9 @@ Database closed
 
 Test: restore client
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1230,6 +1333,9 @@ Database closed
 
 Test: check for corrupted data
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1275,6 +1381,9 @@ Database closed
 
 Test: scan for missing data
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1411,6 +1520,9 @@ Database closed
 
 Test: scan for obsolete data, case1
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1613,6 +1725,9 @@ Database closed
 
 Test: scan for obsolete data, case 2
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1815,6 +1930,9 @@ Database closed
 
 Test: backup recovers missing checksums
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1832,16 +1950,16 @@ Test: backup recovers missing checksums
  ---> Config file: C:\Backup\Backup.LST
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
-Reading list of missing checksums
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
- -> b90f8fa56ea1d39881d4a199c7a81d35-0
- -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Reading list of missing checksums
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount -fl test_db/mount
@@ -1930,6 +2048,9 @@ Error: Protocol not supported: ssh
 List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -1947,13 +2068,13 @@ Database closed
  ---> Config file: C:\Backup\Backup.LST
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
-Reading list of missing checksums
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Reading list of missing checksums
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount -fl test_db/mount
@@ -2033,6 +2154,9 @@ Database not modified
 List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -2107,6 +2231,9 @@ Database not modified
 List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
  --> Global filter all backup
  ---> Condition type file
  ---> Condition path_end ~
@@ -2124,13 +2251,13 @@ Database closed
  ---> Config file: C:\Backup\Backup.LST
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
-Reading list of missing checksums
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Reading list of missing checksums
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount -fl test_db/mount

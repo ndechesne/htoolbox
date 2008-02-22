@@ -51,7 +51,7 @@ using namespace hbackup;
 
 class DbTest : public Database {
 public:
-  DbTest(const string& path) :
+  DbTest(const char* path) :
     Database::Database(path) {}
   bool isOpen() const {
     return Database::isOpen();
@@ -109,6 +109,85 @@ int main(void) {
     cerr << "db is writeable when it should not be" << endl;
     return 0;
   }
+
+
+  /* Test missing database, open r-o */
+  status = db.open_ro();
+  if (status < 0) {
+    cout << "db::open error status " << status << endl;
+  } else {
+    return 0;
+  }
+
+  if (db.isOpen()) {
+    cerr << "db is open when it should not be" << endl;
+    return 0;
+  }
+
+  if (db.isWriteable()) {
+    cerr << "db is writeable when it should not be" << endl;
+    return 0;
+  }
+
+
+  /* Test missing database, open r/w */
+  status = db.open_rw();
+  if (status < 0) {
+    cout << "db::open error status " << status << endl;
+  } else {
+    return 0;
+  }
+
+  if (db.isOpen()) {
+    cerr << "db is open when it should not be" << endl;
+    return 0;
+  }
+
+  if (db.isWriteable()) {
+    cerr << "db is writeable when it should not be" << endl;
+    return 0;
+  }
+
+
+  mkdir("test_db", 0755);
+  /* Test missing database contents, open r-o */
+  status = db.open_ro();
+  if (status < 0) {
+    cout << "db::open error status " << status << endl;
+  } else {
+    return 0;
+  }
+
+  if (db.isOpen()) {
+    cerr << "db is open when it should not be" << endl;
+    return 0;
+  }
+
+  if (db.isWriteable()) {
+    cerr << "db is writeable when it should not be" << endl;
+    return 0;
+  }
+
+
+  /* Test missing database contents, open r/w */
+  status = db.open_rw(false);
+  if (status < 0) {
+    cout << "db::open error status " << status << endl;
+  } else {
+    return 0;
+  }
+
+  if (db.isOpen()) {
+    cerr << "db is open when it should not be" << endl;
+    return 0;
+  }
+
+  if (db.isWriteable()) {
+    cerr << "db is writeable when it should not be" << endl;
+    return 0;
+  }
+  remove("test_db");
+
 
   /* Test database */
   if ((status = db.open_rw(true))) {

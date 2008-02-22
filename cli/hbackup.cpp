@@ -119,6 +119,10 @@ int main(int argc, char **argv) {
     ValueArg<time_t> dateArg("D", "date", "Specify date",
       false, 0, "UNIX epoch", cmd);
 
+    // Initialize
+    SwitchArg initSwitch("i", "initialize", "Initialize if needed",
+      cmd, false);
+
     // List data
     SwitchArg listSwitch("l", "list", "List available data",
       cmd, false);
@@ -194,11 +198,11 @@ int main(int argc, char **argv) {
     }
     // Read config before using HBackup
     if (user_mode) {
-      if (hbackup.setUserPath(getenv("HOME"))) {
+      if (hbackup.open(getenv("HOME"), true)) {
         return 2;
       }
     } else
-    if (hbackup.readConfig(configArg.getValue().c_str())) {
+    if (hbackup.open(configArg.getValue().c_str(), false)) {
       return 2;
     }
     // Check that data referenced in DB exists
@@ -262,7 +266,7 @@ int main(int argc, char **argv) {
         out(info, 0) << "server";
       }
       out(info, 0) << " mode" << endl;
-      if (hbackup.backup()) {
+      if (hbackup.backup(initSwitch.getValue())) {
         return 3;
       }
     }

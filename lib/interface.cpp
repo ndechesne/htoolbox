@@ -91,22 +91,6 @@ int HBackup::addClient(const char* name) {
   return 0;
 }
 
-int HBackup::setUserPath(const char* home_path) {
-  string path = home_path;
-
-  // Set-up DB
-  _d->db = new Database(path + "/.hbackup");
-
-  // Set-up client info
-  Client* client = new Client("localhost");
-  client->setProtocol("file");
-  client->setListfile((path + "/.hbackup/config").c_str());
-  client->setBasePath(home_path);
-  _d->clients.push_back(client);
-
-  return 0;
-}
-
 int HBackup::readConfig(const char* config_path) {
   /* Open configuration file */
   Stream config_file(config_path);
@@ -165,10 +149,16 @@ int HBackup::readConfig(const char* config_path) {
   ConfigLine* params;
   while (config.line(&params) >= 0) {
     if ((*params)[0] == "db") {
-      _d->db = new Database((*params)[1]);
+      _d->db = new Database((*params)[1].c_str());
+      out(debug, 2) << "Database path: " << (*params)[1] << endl;
       _d->mount_point = (*params)[1] + "/mount";
     } else
     if ((*params)[0] == "trash") {
+      out(warning)
+        << "Keyword trash is deprecated and will be removed in the next"
+        << endl
+        << "version of this software, please remove it from your configuration"
+        << endl;
     } else
     if ((*params)[0] == "filter") {
       filter = _d->addFilter((*params)[1], (*params)[2]);
@@ -284,6 +274,24 @@ int HBackup::readConfig(const char* config_path) {
   return 0;
 }
 
+int HBackup::open(
+    const char*   path,
+    bool          user_mode) {
+  if (user_mode) {
+    // Set-up DB
+    _d->db = new Database(Path(path, ".hbackup").c_str());
+    // Set-up client info
+    Client* client = new Client("localhost");
+    client->setProtocol("file");
+    client->setListfile(Path(path, ".hbackup/config").c_str());
+    client->setBasePath(path);
+    _d->clients.push_back(client);
+  } else {
+    return readConfig(path);
+  }
+  return 0;
+}
+
 void HBackup::close() {
   delete _d->db;
   _d->db = NULL;
@@ -291,7 +299,7 @@ void HBackup::close() {
 
 int HBackup::scan(bool remove) {
   bool failed = true;
-  if (! _d->db->open_rw(true)) {
+  if (! _d->db->open_rw()) {
     // Corrupted files ge removed from DB
     if (! _d->db->scan(remove)) {
       failed = false;
@@ -313,8 +321,10 @@ int HBackup::check() {
   return failed ? -1 : 0;
 }
 
-int HBackup::backup(bool config_check) {
-  if (! _d->db->open_rw()) {
+int HBackup::backup(
+  bool              initialize,
+  bool              config_check) {
+  if (! _d->db->open_rw(initialize)) {
     bool failed = false;
 
     for (list<Client*>::iterator client = _d->clients.begin();
