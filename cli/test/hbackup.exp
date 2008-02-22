@@ -484,7 +484,7 @@ eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
                                   \r
-Found 14 valid checksums
+Found 14 valid and 0 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 26ab0db90d72e28ad0ba1e22ee510510-0
@@ -555,7 +555,7 @@ eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
                                   \r
-Found 14 valid checksums
+Found 14 valid and 0 broken data files
 Database closed
 List prefixes
  -> Reading configuration file 'etc/hbackup.conf'

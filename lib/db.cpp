@@ -41,6 +41,14 @@ using namespace std;
 
 using namespace hbackup;
 
+static void progress(long long done, long long total) {
+  if (done < total) {
+    out(verbose) << "Done: " << done << " out of " << total << "\r";
+  } else {
+    out(verbose) << "                                                      \r";
+  }
+}
+
 struct Database::Private {
   char*             path;
   Data              data;
@@ -297,10 +305,12 @@ int Database::open_rw(bool initialize) {
     if (! _d->journal->open("r")) {
       out(warning)
         << "Backup was interrupted in a previous run, finishing up..." << endl;
+      _d->main->setProgressCallback(progress);
       if (merge()) {
         out(error) << "Failed to recover previous data" << endl;
         failed = true;
       }
+      _d->main->setProgressCallback(NULL);
       _d->journal->close();
       _d->main->close();
 
@@ -417,7 +427,9 @@ int Database::close_rw() {
     remove(Path(_d->path, "list.part").c_str());
   } else {
     // Finish off list reading/copy
+    _d->main->setProgressCallback(progress);
     setClient("");
+    _d->main->setProgressCallback(NULL);
     // Close journal
     _d->journal->close();
     // See if any data was added
@@ -736,12 +748,10 @@ int Database::scan(
   out(verbose) << "Crawling through DB" << endl;
   list<string> data_sums;
   // Check surficially, remove empty dirs
-  int rc = _d->data.crawl(data_sums, false, true);
+  int rc = _d->data.crawl(&data_sums, false, true);
   if (terminating() || (rc < 0)) {
     return -1;
   }
-  data_sums.sort();
-  out(verbose) << "Found " << data_sums.size() << " valid checksums" << endl;
 
   if (! list_sums.empty()) {
     out(debug) << "Checksum(s) from list:" << endl;
@@ -819,13 +829,8 @@ int Database::scan(
 int Database::check(
     bool            remove) const {
   out(verbose) << "Crawling through DB data" << endl;
-  list<string> data_sums;
   // Check thoroughly, remove corrupted data if told (but not empty dirs)
-  int rc = _d->data.crawl(data_sums, true, remove);
-  if (rc == 0) {
-    out(verbose) << "Found " << data_sums.size() << " valid checksums" << endl;
-  }
-  return rc;
+  return _d->data.crawl(NULL, true, remove);
 }
 
 void Database::setClient(

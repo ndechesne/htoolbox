@@ -360,7 +360,7 @@ d41d8cd98f00b204e9800998ecf8427e-0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
                                   \r
-Found 15 valid checksums
+Found 15 valid and 0 broken data files
 Checksum(s) from list:
  -> 06f05055bfb2c8b900459f45826fc8ea-0
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0

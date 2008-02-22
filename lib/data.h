@@ -38,9 +38,11 @@ protected: // So I can test them
   int crawl_recurse(
     Directory&      dir,              // Base directory
     const string&   checksumPart,     // Checksum part
-    list<string>&   checksums,        // List of collected checksums
+    list<string>*   checksums,        // List of collected checksums
     bool            thorough,         // Whether to check for data corruption
-    bool            remove) const;    // Whether to remove damaged data
+    bool            remove,           // Whether to remove damaged data
+    unsigned int*   valid,            // Number of valid data files found
+    unsigned int*   broken) const;    // Number of broken data files found
 public:
   Data();
   ~Data();
@@ -69,7 +71,7 @@ public:
     const string&   checksum);
   // Scan database for missing/corrupted data, return a list of valid checksums
   int crawl(
-    list<string>&   checksums,        // List of collected checksums
+    list<string>*   checksums,        // List of collected checksums
     bool            thorough,         // Whether to check for data corruption
     bool            remove) const;    // Whether to remove damaged data
 };

@@ -494,7 +494,7 @@ eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
                                   \r
-Found 15 valid checksums
+Found 15 valid and 0 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 26ab0db90d72e28ad0ba1e22ee510510-0
@@ -568,7 +568,7 @@ eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
                                   \r
-Found 15 valid checksums
+Found 15 valid and 0 broken data files
 Database closed
 
 Test: list clients
@@ -1376,7 +1376,7 @@ fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
 Error: Data corrupted for: fef51838cd3cfe8ed96355742eb71fbd-0
                                   \r
-Found 11 valid checksums
+Found 11 valid and 4 broken data files
 Database closed
 
 Test: scan for missing data
@@ -1426,7 +1426,7 @@ fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
 Corrupted data for: fef51838cd3cfe8ed96355742eb71fbd-0 removed
                                   \r
-Found 11 valid checksums
+Found 11 valid and 4 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 26ab0db90d72e28ad0ba1e22ee510510-0
@@ -1480,7 +1480,7 @@ d41d8cd98f00b204e9800998ecf8427e-0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
                                   \r
-Found 11 valid checksums
+Found 11 valid and 0 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 26ab0db90d72e28ad0ba1e22ee510510-0
@@ -1560,7 +1560,7 @@ eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 ffffffffffffffffffffffffffffffff-0\r
                                   \r
-Found 14 valid checksums
+Found 14 valid and 0 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 26ab0db90d72e28ad0ba1e22ee510510-0
@@ -1624,7 +1624,7 @@ eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 ffffffffffffffffffffffffffffffff-0\r
                                   \r
-Found 14 valid checksums
+Found 14 valid and 0 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 26ab0db90d72e28ad0ba1e22ee510510-0
@@ -1685,7 +1685,7 @@ d41d8cd98f00b204e9800998ecf8427e-0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
                                   \r
-Found 11 valid checksums
+Found 11 valid and 0 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 26ab0db90d72e28ad0ba1e22ee510510-0
@@ -1765,7 +1765,7 @@ dddddddddddddddddddddddddddddddd-0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
                                   \r
-Found 14 valid checksums
+Found 14 valid and 0 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 26ab0db90d72e28ad0ba1e22ee510510-0
@@ -1829,7 +1829,7 @@ dddddddddddddddddddddddddddddddd-0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
                                   \r
-Found 14 valid checksums
+Found 14 valid and 0 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 26ab0db90d72e28ad0ba1e22ee510510-0
@@ -1890,7 +1890,7 @@ d41d8cd98f00b204e9800998ecf8427e-0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
                                   \r
-Found 11 valid checksums
+Found 11 valid and 0 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 26ab0db90d72e28ad0ba1e22ee510510-0
@@ -2193,7 +2193,7 @@ eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
                                   \r
-Found 14 valid checksums
+Found 14 valid and 0 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 26ab0db90d72e28ad0ba1e22ee510510-0

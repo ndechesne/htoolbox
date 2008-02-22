@@ -137,9 +137,11 @@ int Data::organise(
 int Data::crawl_recurse(
     Directory&      dir,
     const string&   checksumPart,
-    list<string>&   checksums,
+    list<string>*   checksums,
     bool            thorough,
-    bool            remove) const {
+    bool            remove,
+    unsigned int*   valid,
+    unsigned int*   broken) const {
   bool failed = false;
   if (dir.isValid() && ! dir.createList()) {
     bool no_files = false;
@@ -157,13 +159,23 @@ int Data::crawl_recurse(
         string checksum = checksumPart + (*i)->name();
         if (no_files) {
           Directory d(**i);
-          if (crawl_recurse(d, checksum, checksums, thorough, remove) < 0){
+          if (crawl_recurse(d, checksum, checksums, thorough, remove, valid,
+              broken) < 0){
             failed = true;
           }
         } else {
           out(verbose, 0) << checksum << "\r";
           if (! check(checksum, thorough, remove)) {
-            checksums.push_back(checksum);
+            if (checksums != NULL) {
+              checksums->push_back(checksum);
+            }
+            if (valid != NULL) {
+              (*valid)++;
+            }
+          } else {
+            if (broken != NULL) {
+              (*broken)++;
+            }
           }
         }
       }
@@ -497,11 +509,15 @@ int Data::remove(
 }
 
 int Data::crawl(
-    list<string>&   checksums,
+    list<string>*   checksums,
     bool            thorough,
     bool            remove) const {
   Directory d(_d->path);
-  int rc = crawl_recurse(d, "", checksums, thorough, remove);
+  unsigned int valid  = 0;
+  unsigned int broken = 0;
+  int rc = crawl_recurse(d, "", checksums, thorough, remove, &valid, &broken);
   out(verbose, 0) << "                                  \r";
+  out(verbose) << "Found " << valid << " valid and " << broken
+    << " broken data files" << endl;
   return rc;
 }
