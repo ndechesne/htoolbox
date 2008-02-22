@@ -464,7 +464,6 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Backup path 'test2'
  -> Dir testdir
-Closing database
 Database not modified
 Database closed
 User-mode backup
@@ -567,7 +566,6 @@ Checksum(s) with data:
  -> f1c9645dbc14efddc7d8a322685f26eb-0
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Closing database
 Database not modified
 Database closed
 Check DB

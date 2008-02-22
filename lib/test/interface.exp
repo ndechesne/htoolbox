@@ -324,7 +324,6 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 Backup path 'test2'
  -> Dir testdir
 Error: Protocol not supported: ssh
-Closing database
 Database not modified
 Database closed
 
@@ -578,7 +577,6 @@ Checksum(s) with data:
  -> f1c9645dbc14efddc7d8a322685f26eb-0
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Closing database
 Database not modified
 Database closed
 
@@ -1083,7 +1081,6 @@ Backup client 'myClient' using protocol 'smb'
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount -fl test_db/mount
-Closing database
 Database not modified
 Database closed
 
@@ -1564,7 +1561,6 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Closing database
 Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
@@ -1622,7 +1618,6 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Closing database
 Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
@@ -1713,7 +1708,6 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Closing database
 Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
@@ -1781,7 +1775,6 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Closing database
 Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
@@ -1839,7 +1832,6 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Closing database
 Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
@@ -1930,7 +1922,6 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Closing database
 Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
@@ -1998,7 +1989,6 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Closing database
 Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
@@ -2056,7 +2046,6 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Closing database
 Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
@@ -2287,7 +2276,6 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 Backup path 'test2'
  -> Dir testdir
 Error: Protocol not supported: ssh
-Closing database
 Database not modified
 List of missing checksums contains 1 item(s)
 Database closed
@@ -2368,7 +2356,6 @@ Checksum(s) with data:
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Warning: Missing checksum(s): 1
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
-Closing database
 Database not modified
 List of missing checksums contains 1 item(s)
 Database closed
@@ -2475,7 +2462,6 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 Backup path 'test2'
  -> Dir testdir
 Error: Protocol not supported: ssh
-Closing database
 Database not modified
 List of missing checksums contains 1 item(s)
 Database closed

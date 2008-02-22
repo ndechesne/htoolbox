@@ -428,7 +428,6 @@ int Database::close_rw() {
     _d->merge->close();
     remove(Path(_d->path, "list.part").c_str());
   } else {
-    out(verbose) << "Closing database" << endl;
     // Finish off list reading/copy
     _d->main->setProgressCallback(progress);
     setClient("");
@@ -446,6 +445,7 @@ int Database::close_rw() {
       _d->journal->remove();
     } else {
       // Finish off merging
+      out(verbose) << "Closing database" << endl;
       _d->main->search("", "", _d->merge, -1);
       // Close list
       _d->main->close();
@@ -865,7 +865,9 @@ void Database::setClient(
   }
   _d->clientJournalled = false;
   // This will add the client if not found, copy it if found
-  _d->main->search(client, "", _d->merge, -1);
+  if (client[0] != '\0') {
+    _d->main->search(client, "", _d->merge, -1);
+  }
 }
 
 void Database::failedClient() {

@@ -443,7 +443,6 @@ Checksum(s) with data:
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0
  -> f1c9645dbc14efddc7d8a322685f26eb-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Closing database
 Database not modified
 Database closed
 
@@ -470,7 +469,6 @@ Error: Permission denied opening write source file: test1/subdir/testfile
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 60 file(s)
-Closing database
 Database not modified
 Database closed
 
@@ -1894,7 +1892,6 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 46 file(s)
-Closing database
 Database not modified
 Database closed
 
@@ -2730,8 +2727,8 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Parsed 24 file(s)
-Closing database
 D /home/User/testpipe
+Closing database
 Database closed
 
 List:
@@ -3643,7 +3640,6 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
  -> Dir testdir/biblio
 Parsed 45 file(s)
-Closing database
 Database not modified
 Database closed
 
@@ -4449,11 +4445,9 @@ myClient
 	/home/User/testdir/evolocal.odb
 [19] -
 Error: Unexpected end of file
-Closing database
 Database not modified
 Database closed
 Database open in read/write mode
-Closing database
 Database not modified
 Database closed
 
@@ -4489,7 +4483,6 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
 Parsed 41 file(s)
-Closing database
 Database not modified
 Database closed
 
@@ -4755,7 +4748,6 @@ Database open in read/write mode
 Reading list of missing checksums
  -> Dir testdir
 Parsed 4 file(s)
-Closing database
 Database not modified
 Database closed
 

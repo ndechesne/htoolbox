@@ -6,7 +6,6 @@ Database initialized in test_db
 Database open in read/write mode
 Backup client 'localhost' using protocol 'file'
 Error: Client configuration file not found etc/doesnotexist
-Closing database
 Database not modified
 Database closed
 >List 0 client(s):
@@ -362,7 +361,6 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Backup path 'test2'
  -> Dir testdir
-Closing database
 Database not modified
 Database closed
 >List 1 client(s):
@@ -388,7 +386,6 @@ Backup client 'testhost' using protocol 'file'
  ---> Condition not filter not_object
  --> Path: test1/subdir
 Error: Path inside another. This is not supported
-Closing database
 Database not modified
 Database closed
 >List 1 client(s):
@@ -416,7 +413,6 @@ Error: Path inside another: this is not supported
  --> Path: test1/subdir
 Error: Path inside another. This is not supported
 backup failed
-Closing database
 Database not modified
 Database closed
 
@@ -583,7 +579,6 @@ Backup path '/home/User/test'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
  -> Dir dir
  -> umount -fl test_db/mount
-Closing database
 Database not modified
 Database closed
 Create list of clients
@@ -610,7 +605,6 @@ Backup path '/home/User/test'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
  -> Dir dir
  -> umount -fl test_db/mount
-Closing database
 Database not modified
 Database closed
 Create list of clients
@@ -640,7 +634,6 @@ Backup path '/home/User/test'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
  -> Dir dir
  -> umount -fl test_db/mount
-Closing database
 Database not modified
 Database closed
 Create list of clients
@@ -668,7 +661,6 @@ Backup client 'myhost2' using protocol 'smb'
 Backup path 'C:/Test'
  -> Dir Dir
  -> umount -fl test_db/mount
-Closing database
 Database not modified
 Database closed
 Second mount fails
@@ -690,7 +682,6 @@ Backup path '/home/User/test2'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
 Error: Warning: mount failed, skipping client
-Closing database
 Database not modified
 Database closed
 First mount fails
@@ -708,7 +699,6 @@ Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
 Error: Warning: mount failed, skipping client
-Closing database
 Database not modified
 Database closed
 Works again
@@ -730,7 +720,6 @@ Backup path '/home/User/test2'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
  -> umount -fl test_db/mount
-Closing database
 Database not modified
 Database closed
 Test with dual boot client
