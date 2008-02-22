@@ -19,6 +19,7 @@
 // Compression to use when required: gzip -5 (best speed/ratio)
 
 #include <iostream>
+#include <iomanip>
 #include <string>
 
 #include <sys/types.h>
@@ -39,6 +40,15 @@ using namespace hbackup;
 
 static bool cancel() {
   return terminating("data") != 0;
+}
+
+static void progress(long long done, long long total) {
+  if (done != total) {
+    out(verbose) << "Done: " << setw(5) << setiosflags(ios::fixed)
+    << setprecision(1) << 100.0 * done / total << "%\r";
+  } else {
+    out(verbose) << "            \r";
+  }
 }
 
 struct Data::Private {
@@ -266,6 +276,7 @@ int Data::read(const string& path, const string& checksum) {
 
   // Copy file to temporary name (size not checked: checksum suffices)
   temp.setCancelCallback(cancel);
+  data->setProgressCallback(progress);
   if (temp.copy(*data)) {
     out(error) << strerror(errno) << " copying read file: " << data->path()
       << endl;
@@ -321,6 +332,7 @@ int Data::write(
 
   // Copy file locally
   temp.setCancelCallback(cancel);
+  source.setProgressCallback(progress);
   if (temp.copy(source)) {
     out(error) << strerror(errno) << " copying write file: " << path << endl;
     failed = true;
