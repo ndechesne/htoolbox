@@ -45,7 +45,7 @@ using namespace hbackup;
 static void progress(long long done, long long total) {
   if (done < total) {
     out(verbose) << "Done: " << setw(5) << setiosflags(ios::fixed)
-    << setprecision(1) << 100.0 * done /total << "%" << endl;
+      << setprecision(1) << 100.0 * done /total << "%\r" << flush;
   } else {
     out(verbose) << "            \r";
   }
@@ -431,7 +431,6 @@ int Database::close_rw() {
     // Finish off list reading/copy
     _d->main->setProgressCallback(progress);
     setClient("");
-    _d->main->setProgressCallback(NULL);
     // Close journal
     _d->journal->close();
     // See if any data was added

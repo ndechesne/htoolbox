@@ -43,9 +43,9 @@ static bool cancel() {
 }
 
 static void progress(long long done, long long total) {
-  if (done != total) {
+  if (done < total) {
     out(verbose) << "Done: " << setw(5) << setiosflags(ios::fixed)
-    << setprecision(1) << 100.0 * done / total << "%\r";
+      << setprecision(1) << 100.0 * done /total << "%\r" << flush;
   } else {
     out(verbose) << "            \r";
   }
