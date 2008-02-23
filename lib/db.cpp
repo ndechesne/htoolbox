@@ -42,11 +42,11 @@ using namespace std;
 
 using namespace hbackup;
 
-static void progress(long long done, long long total) {
-  if (done < total) {
+static void progress(long long previous, long long current, long long total) {
+  if (current < total) {
     out(verbose) << "Done: " << setw(5) << setiosflags(ios::fixed)
-      << setprecision(1) << 100.0 * done /total << "%\r" << flush;
-  } else {
+      << setprecision(1) << 100.0 * current /total << "%\r" << flush;
+  } else if (previous != 0) {
     out(verbose) << "            \r";
   }
 }
@@ -727,6 +727,7 @@ int Database::scan(
   out(verbose) << "Reading list" << endl;
   list<string> list_sums;
   Node*        node = NULL;
+  _d->main->setProgressCallback(progress);
   while (_d->main->getEntry(NULL, NULL, NULL, &node) > 0) {
     if ((node != NULL) && (node->type() == 'f')) {
       File* f = (File*) node;

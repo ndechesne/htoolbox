@@ -11,18 +11,12 @@ fedc76test6 status: 1, getdir_path: test_db/data/fe/dc/76/test6
 fedc76test6 status: 0, getdir_path: test_db/data/fe/dc/76/test6
 
 Test: write and read back
-            \r
 Adding file data to DB in: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
-            \r
-            \r
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 
 Test: write and read back with compression
-            \r
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
-            \r
-            \r
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 
 Test: organise

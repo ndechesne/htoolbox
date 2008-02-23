@@ -90,13 +90,9 @@ Database closed
 Test: fill in DB
 Database open in read/write mode
 Reading list of missing checksums
-            \r
 Adding compressed file data to DB in: test_db/data/285b35198a5e188b3a0df3ed33f93a26-0
-            \r
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
-            \r
 Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
-            \r
 Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
 Closing database
 Database closed

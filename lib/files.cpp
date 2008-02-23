@@ -577,9 +577,10 @@ ssize_t Stream::read(void* buffer, size_t count) {
 
     // Update progress indicator (size read)
     if (_d->length > 0) {
+      long long previous = _d->progress;
       _d->progress += _d->length;
       if (_d->progress_callback != NULL) {
-        (*_d->progress_callback)(_d->progress, _size);
+        (*_d->progress_callback)(previous, _d->progress, _size);
       }
     }
 
@@ -689,9 +690,10 @@ ssize_t Stream::write(const void* buffer, size_t count) {
 
         // Update progress indicator (size written)
         if (wlength > 0) {
+          long long previous = _d->progress;
           _d->progress += wlength;
           if (_d->progress_callback != NULL) {
-            (*_d->progress_callback)(_d->progress, _size);
+            (*_d->progress_callback)(previous, _d->progress, _size);
           }
         }
 

@@ -39,13 +39,10 @@ A /home/User/cvs
 A /home/User/cvs/CVS
  -> Dir cvs/CVS
 A /home/User/cvs/CVS/Entries (161 B)
-            \r
 Adding file data to DB in: test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0
 A /home/User/cvs/CVS/Root (16 B)
-            \r
 Adding file data to DB in: test_db/data/b90f8fa56ea1d39881d4a199c7a81d35-0
 A /home/User/cvs/CVS/Whatever (17 B)
-            \r
 Adding file data to DB in: test_db/data/9283e2c51868272850bd2d89b63c58e8-0
 A /home/User/cvs/CVS/Wherever
  -> Dir cvs/CVS/Wherever
@@ -61,13 +58,10 @@ A /home/User/cvs/dirutd
 A /home/User/cvs/dirutd/CVS
  -> Dir cvs/dirutd/CVS
 A /home/User/cvs/dirutd/CVS/Entries (42 B)
-            \r
 Adding file data to DB in: test_db/data/5252f242d27b8c2c9fdbdcbb33545d07-0
 A /home/User/cvs/dirutd/CVS/Root (10 B)
-            \r
 Adding file data to DB in: test_db/data/eb75fb33b2019ef3c840eb5ccdc2e795-0
 A /home/User/cvs/dirutd/CVS/Whatever (11 B)
-            \r
 Adding file data to DB in: test_db/data/caecaacc7fdee8a7667d4f4f315858a9-0
 A /home/User/cvs/dirutd/fileoth (0 B)
 A /home/User/cvs/dirutd/fileutd (0 B)
@@ -84,7 +78,6 @@ A /home/User/subdir/testfile (12 B)
 Error: Permission denied opening write source file: test1/subdir/testfile
 A /home/User/subdir/testfile1 (0 B)
 A /home/User/subdir/testfile2 (12 B)
-            \r
 Adding file data to DB in: test_db/data/285b35198a5e188b3a0df3ed33f93a26-0
 A /home/User/subdir-file (0 B)
 A /home/User/subdirfile (0 B)
@@ -93,13 +86,10 @@ A /home/User/svn
 A /home/User/svn/.svn
  -> Dir svn/.svn
 A /home/User/svn/.svn/entries (77 B)
-            \r
 Adding file data to DB in: test_db/data/0f2ea973d77135dc3d06c8e68da6dc59-0
 A /home/User/svn/.svn/format (18 B)
-            \r
 Adding file data to DB in: test_db/data/3cd6b399f9fa49fd0b137a3de46d83f5-0
 A /home/User/svn/.svn/whatever (15 B)
-            \r
 Adding file data to DB in: test_db/data/06f05055bfb2c8b900459f45826fc8ea-0
 A /home/User/svn/.svn/wherever
  -> Dir svn/.svn/wherever
@@ -115,13 +105,10 @@ A /home/User/svn/dirutd
 A /home/User/svn/dirutd/.svn
  -> Dir svn/dirutd/.svn
 A /home/User/svn/dirutd/.svn/entries (30 B)
-            \r
 Adding file data to DB in: test_db/data/8bdef5751e46ed57d237cbe3f4a5061c-0
 A /home/User/svn/dirutd/.svn/format (12 B)
-            \r
 Adding file data to DB in: test_db/data/60afe8c3ac66cb77a34da116394d9ac8-0
 A /home/User/svn/dirutd/.svn/whatever (10 B)
-            \r
 Adding file data to DB in: test_db/data/3b9ddae5294c8f4850d45073a933f3e6-0
 A /home/User/svn/dirutd/fileoth (0 B)
 A /home/User/svn/dirutd/fileutd (0 B)
@@ -133,7 +120,6 @@ A /home/User/test space (0 B)
 A /home/User/testdir
  -> Dir testdir
 A /home/User/testfile (13 B)
-            \r
 Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
 A /home/User/testfile~ (0 B)
 A /home/User/testlink
@@ -877,7 +863,6 @@ Adding file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
  -> Dir dir space
  -> Dir subdir
 ~ /home/User/subdir/testfile (12 B)
-            \r
  -> Dir svn
  -> Dir svn/.svn
  -> Dir svn/.svn/wherever
@@ -3111,7 +3096,6 @@ Reading list of missing checksums
  -> Dir cvs/dirbad
 Warning: Directory should be under CVS control: test1/cvs/dirbad
 M /home/User/cvs/filenew.c (5 B)
-            \r
 Adding file data to DB in: test_db/data/0d599f0ec05c3bda8c3b8a68c32a1b47-0
  -> Dir dir space
  -> Dir svn
@@ -3898,10 +3882,8 @@ Reading list of missing checksums
 A /home/User/testdir
  -> Dir testdir
 A /home/User/testfile (145 kB)
-            \r
 Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
 A /home/User/testfile2 (259 kB)
-            \r
 Adding file data to DB in: test_db/data/fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A /home/User/testfile~ (524 kB)
 Done:  78.1%\r
@@ -5494,7 +5476,6 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile~ (5 B)
-            \r
 Parsed 40 file(s)
 Closing database
 Database closed

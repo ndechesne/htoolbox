@@ -326,7 +326,10 @@ public:
   // Prototype for cancellation function (true cancels)
   typedef bool (*cancel_f)();
   // Prototype for progress report function (receives size done and total)
-  typedef void (*progress_f)(long long done, long long total);
+  typedef void (*progress_f)(
+    long long       previous,
+    long long       current,
+    long long       total);
   // Constructor for path in the VFS
   Stream(Path path);
   virtual ~Stream();
