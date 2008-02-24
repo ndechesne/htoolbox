@@ -92,20 +92,10 @@ int ClientPath::parse_recurse(
         // Count the nodes considered, for info
         _nodes++;
 
-        // For link, find out linked path
-        if ((*i)->type() == 'l') {
-          Link *l = new Link(**i);
-          delete *i;
-          *i = l;
-        }
-
         // Also deal with directory, as some fields should not be considered
         if ((*i)->type() == 'd') {
-          Directory *d = new Directory(**i);
-          d->resetMtime();
-          d->resetSize();
-          delete *i;
-          *i = d;
+          (*i)->resetMtime();
+          (*i)->resetSize();
         }
 
         // Synchronize with DB records

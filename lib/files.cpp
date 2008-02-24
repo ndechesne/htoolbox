@@ -312,6 +312,24 @@ int Directory::createList() {
     }
     Node *g = new Node(Path(_path.c_str(), dir_entry->d_name));
     g->stat();
+    switch (g->type()) {
+      case 'f': {
+        File *f = new File(*g);
+        delete g;
+        g = f;
+      } break;
+      case 'd': {
+        Directory *d = new Directory(*g);
+        delete g;
+        g = d;
+      } break;
+      case 'l': {
+        Link *l = new Link(*g);
+        delete g;
+        g = l;
+      } break;
+      default:;
+    }
     list<Node*>::iterator i = _nodes.begin();
     while ((i != _nodes.end()) && (*(*i) < *g)) {
       i++;

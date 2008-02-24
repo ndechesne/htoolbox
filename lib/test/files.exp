@@ -342,9 +342,9 @@ Name: testfile, path = test1/testfile, type = f, mtime = 1, size = 13, uid = 1, 
 Name: testlink, path = test1/testlink, type = l, mtime = 1, size = 8, uid = 1, gid = 1, mode = 777, link = testfile
  > Dir.: testdir, path = test1/testdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  > Dir.: subdir, path = test1/subdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
- -> Oth.: testfile, path = test1/subdir/testfile, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
- -> Oth.: testfile1, path = test1/subdir/testfile1, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
- -> Oth.: testfile2, path = test1/subdir/testfile2, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
+ -> File: testfile, path = test1/subdir/testfile, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
+ -> File: testfile1, path = test1/subdir/testfile1, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ -> File: testfile2, path = test1/subdir/testfile2, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
 
 Validity tests
 File is file? 1
