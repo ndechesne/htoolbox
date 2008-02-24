@@ -347,7 +347,7 @@ int main(void) {
     }
   }
 
-  db.setClient("myClient");
+  db.openClient("myClient");
 
   Directory* d;
   File* f;
@@ -373,6 +373,8 @@ int main(void) {
   f = new File("test2/testfile");
   db.add("other_path/testfile", f);
   delete f;
+
+  db.closeClient();
 
   db.close();
   rename("test_db/journal~", "test_db/list");
@@ -513,10 +515,11 @@ int main(void) {
     if (db2.open_ro() != 0) {
       return 0;
     }
-    db.setClient("myClient");
+    db.openClient("myClient");
     Link* l = new Link("test1/testlink");
     db.add("/client_path/new_link", l);
     delete l;
+    db.closeClient();
     db.close();
     rename("test_db/journal~", "test_db/list");
     db2.getRecords(records, "myClient", "/client_path");

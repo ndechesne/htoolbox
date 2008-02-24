@@ -431,32 +431,34 @@ int Client::backup(
     if (_d->paths.empty()) {
       failed = true;
     } else if (! config_check) {
-      db.setClient(internal_name().c_str(), _expire);
-      for (list<ClientPath*>::iterator i = _d->paths.begin();
-          i != _d->paths.end(); i++) {
-        if (terminating()) {
-          break;
-        }
-        string backup_path;
-        out(info) << "Backup path '" << (*i)->path() << "'" << endl;
-
+      if (db.openClient(internal_name().c_str(), _expire) >= 0) {
         bool abort = false;
-        if (mountPath((*i)->path(), &backup_path)) {
-          out(error) << "Warning: mount failed, skipping client" << endl;
-          abort = true;
-        } else
-        if ((*i)->parse(db, backup_path.c_str())) {
-          // prepare_share sets errno
-          if (! terminating()) {
-            out(error) << "Error: backup failed, aborting client" << endl;
+        for (list<ClientPath*>::iterator i = _d->paths.begin();
+            i != _d->paths.end(); i++) {
+          if (terminating()) {
+            break;
           }
-          abort  = true;
-          failed = true;
+          string backup_path;
+          out(info) << "Backup path '" << (*i)->path() << "'" << endl;
+
+          if (mountPath((*i)->path(), &backup_path)) {
+            out(error) << strerror(errno)
+              << " mounting client share, skipping client" << endl;
+            abort = true;
+          } else
+          if ((*i)->parse(db, backup_path.c_str())) {
+            // prepare_share sets errno
+            if (! terminating()) {
+              out(error) << "Error: backup failed, aborting client" << endl;
+            }
+            abort  = true;
+            failed = true;
+          }
+          if (abort) {
+            break;
+          }
         }
-        if (abort) {
-          db.failedClient();
-          break;
-        }
+        db.closeClient(abort);
       }
     }
   } else {

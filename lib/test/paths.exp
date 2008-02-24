@@ -714,7 +714,6 @@ A /home/User/cvs/big_file (512 kB)
 Done:  80.0%\r
 Killing inside data
 Error: Operation canceled copying write file: test1/cvs/big_file
-Parsed 10 file(s)
 Database closed
 
 List:

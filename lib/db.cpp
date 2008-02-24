@@ -59,7 +59,7 @@ struct Database::Private {
   List*             journal;
   List*             merge;
   vector<string>    missing;
-  int               missing_id;
+  int               missing_id;       // -2 means list not loaded
   Path              client;
   bool              clientJournalled;
 };
@@ -376,7 +376,7 @@ int Database::open_rw(bool initialize) {
 
   // Setup some data
   _d->client = "";
-  _d->missing_id = -1;
+  _d->missing_id = -2;
 
   out(verbose) << "Database open in read/write mode" << endl;
   return 0;
@@ -430,7 +430,6 @@ int Database::close_rw() {
   } else {
     // Finish off list reading/copy
     _d->main->setProgressCallback(progress);
-    setClient("");
     // Close journal
     _d->journal->close();
     // See if any data was added
@@ -836,13 +835,10 @@ int Database::check(
   return _d->data.crawl(NULL, true, remove);
 }
 
-void Database::setClient(
+int Database::openClient(
     const char*     client,
     time_t          expire) {
-  if (_d->client.length() != 0) {
-    // Finish previous client work (removed items at end of list)
-    sendEntry(NULL, NULL);
-  } else if (client[0] != '\0') {
+  if (_d->missing_id == -2) {
     // Read list of missing checksums (it is ordered and contains no duplicate)
     out(verbose) << "Reading list of missing checksums" << endl;
     Stream missing_list(Path(_d->path, "missing"));
@@ -857,6 +853,7 @@ void Database::setClient(
       out(warning) << strerror(errno) << " opening missing checksums list"
         << endl;
     }
+    _d->missing_id = -1;
   }
   _d->client = client;
   if (expire > 0) {
@@ -866,16 +863,20 @@ void Database::setClient(
   }
   _d->clientJournalled = false;
   // This will add the client if not found, copy it if found
-  if (client[0] != '\0') {
-    _d->main->search(client, "", _d->merge, -1);
-  }
+  return (_d->main->search(client, "", _d->merge, -1) < 0) ? -1 : 0;
 }
 
-void Database::failedClient() {
-  // Skip to next client/end of file
-  _d->main->search(NULL, NULL, _d->merge, -1);
-  // Keep client found
-  _d->main->keepLine();
+void Database::closeClient(
+    bool            abort) {
+  if (abort) {
+    // Skip to next client/end of file
+    _d->main->search(NULL, NULL, _d->merge, -1);
+    // Keep client found
+    _d->main->keepLine();
+  } else {
+    // Finish previous client work (removed items at end of list)
+    sendEntry(NULL, NULL);
+  }
 }
 
 int Database::sendEntry(

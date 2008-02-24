@@ -66,12 +66,13 @@ public:
   // Scan database for corrupted data
   int  check(
     bool            remove   = false) const;// Whether to remove corrupted data
-  // Set the current client and its expiration delay (seconds)
-  void setClient(
-    const char*     client,
-    time_t          expire = -1);
-  // Tell DB that this client failed (skip last records)
-  void failedClient();
+  // Open list / journal for given client
+  int  openClient(
+    const char*     client,           // Client to deal with
+    time_t          expire = -1);     // Client removed data expiration
+  // Close list / journal for current client, can signal if error occurred
+  void closeClient(
+    bool            abort = false);   // Whether to remove remaining items
   // Send data for comparison
   int  sendEntry(
     const char*     remote_path,      // Dir where the file resides, remotely

@@ -660,7 +660,7 @@ Backup path '/home/User/test'
 Backup path '/home/User/test2'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
-Error: Warning: mount failed, skipping client
+Error: Connection timed out mounting client share, skipping client
 Database not modified
 Database closed
 First mount fails
@@ -677,7 +677,7 @@ Reading list of missing checksums
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
-Error: Warning: mount failed, skipping client
+Error: Connection timed out mounting client share, skipping client
 Database not modified
 Database closed
 Works again

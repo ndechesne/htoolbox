@@ -39,10 +39,10 @@ using namespace std;
 
 using namespace hbackup;
 
-int ClientPath::recurse(
+int ClientPath::parse_recurse(
     Database&       db,
     const char*     remote_path,
-    Directory*      dir,
+    Directory&      dir,
     Parser*         parser) {
   if (terminating()) {
     errno = EINTR;
@@ -56,18 +56,18 @@ int ClientPath::recurse(
   if (! _parsers.empty()) {
     // We have a parser, check this directory with it
     if (parser != NULL) {
-      parser = parser->isControlled(dir->path());
+      parser = parser->isControlled(dir.path());
     }
     // We don't have a parser [anymore], check this directory
     if (parser == NULL) {
-      parser = _parsers.isControlled(dir->path());
+      parser = _parsers.isControlled(dir.path());
     }
   }
 
   bool give_up = false;
-  if (dir->isValid() && ! dir->createList()) {
-    list<Node*>::iterator i = dir->nodesList().begin();
-    while (i != dir->nodesList().end()) {
+  if (dir.isValid() && ! dir.createList()) {
+    list<Node*>::iterator i = dir.nodesList().begin();
+    while (i != dir.nodesList().end()) {
       if (! terminating() && ! give_up) {
         // Ignore inaccessible files
         if ((*i)->type() == '?') {
@@ -134,7 +134,7 @@ int ClientPath::recurse(
           if ((*i)->type() == 'd') {
             rem_path[last] = '/';
             out(debug, 1) << "Dir " << rel_path << (*i)->name() << endl;
-            if (recurse(db, rem_path, (Directory*) *i, parser)) {
+            if (parse_recurse(db, rem_path, (Directory&) **i, parser)) {
               give_up = true;
             }
           }
@@ -143,7 +143,7 @@ int ClientPath::recurse(
       }
 end:
       delete *i;
-      i = dir->nodesList().erase(i);
+      i = dir.nodesList().erase(i);
     }
   } else {
     out(error) << strerror(errno) << ": " << remote_path << endl;
@@ -152,7 +152,6 @@ end:
 }
 
 ClientPath::ClientPath(const char* path) {
-  _dir                = NULL;
   _ignore             = NULL;
   _compress           = NULL;
   // Change '\' into '/'
@@ -161,10 +160,6 @@ ClientPath::ClientPath(const char* path) {
   free(unix_path);
   // Remove trailing '/'s
   _path.noTrailingSlashes();
-}
-
-ClientPath::~ClientPath() {
-  delete _dir;
 }
 
 int ClientPath::addParser(
@@ -234,10 +229,8 @@ int ClientPath::parse(
   _nodes = 0;
   char* rem_path = NULL;
   asprintf(&rem_path, "%s/", _path.c_str());
-  _dir = new Directory(backup_path);
-  if (recurse(db, rem_path, _dir, NULL)) {
-    delete _dir;
-    _dir = NULL;
+  Directory dir(backup_path);
+  if (parse_recurse(db, rem_path, dir, NULL) || terminating()) {
     rc = -1;
   }
   free(rem_path);

@@ -23,22 +23,19 @@ namespace hbackup {
 
 class ClientPath {
   Path              _path;
-  Directory*        _dir;
   Parsers           _parsers;
   Filters           _filters;
   const Filter*     _ignore;
   const Filter*     _compress;
   int               _nodes;
-  int recurse(
+  int parse_recurse(
     Database&       db,
     const char*     remote_path,      // Dir where the file resides, remotely
-    Directory*      dir,
+    Directory&      dir,
     Parser*         parser);
 public:
   ClientPath(const char* path);
-  ~ClientPath();
   const char* path() const     { return _path.c_str(); }
-  const Directory* dir() const { return _dir;   }
   int nodes() const            { return _nodes; }
   // Set ignore filter
   void setIgnore(const Filter* filter)   { _ignore   = filter; }
