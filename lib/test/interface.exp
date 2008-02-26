@@ -1094,7 +1094,7 @@ Database closed
 List of clients: 4
  -> client
  -> myClient
- -> myClient:xp_vm
+ -> myClient:xp
  -> myhost
 
 Test: list paths in DOS client
@@ -1121,7 +1121,7 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database closed
-List of paths in 'myClient:xp_vm': 1
+List of paths in 'myClient:xp': 1
  -> C:
 
 Test: list sub-paths in UNIX client
@@ -1175,7 +1175,7 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database closed
-List of paths in 'myClient:xp_vm', 'C:': 1
+List of paths in 'myClient:xp', 'C:': 1
  -> C:/Test
 
 Test: restore file (UNIX)

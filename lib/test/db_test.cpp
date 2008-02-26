@@ -555,12 +555,23 @@ int main(void) {
   records.clear();
 
   cout << endl << "Test: check format" << endl;
-  if (system("cp -a ../../../test_tools/list_v2 test_db/list")) {
+  if (system("cp -a ../../../test_tools/list_v3 test_db/list")) {
     cout << "failed to copy list over" << endl;
     return 0;
   }
   if (db.open_rw() == 0) {
     db.close();
+    dblist.open("r");
+    if (dblist.isEmpty()) {
+      cout << "List is empty" << endl;
+    } else
+    while ((status = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
+      showLine(ts, client, path, node);
+    }
+    dblist.close();
+    if (status < 0) {
+      cerr << "Failed to read list" << endl;
+    }
   } else {
     cerr << "Failed to open DB" << endl;
   }

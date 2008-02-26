@@ -531,7 +531,7 @@ int main(void) {
   db.close();
 
   printf("Test with dual boot client\n");
-  client = new Client("myClient", "xp_vm");
+  client = new Client("myClient", "xp");
   clients.push_back(client);
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\testhost2.list");
