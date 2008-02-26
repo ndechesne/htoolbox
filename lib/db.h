@@ -54,18 +54,21 @@ public:
     bool            initialize = false);  // Whether to initialize DB if needed
   // Close database
   int  close();
-  // Get list of clientes in DB list (close-open to re-use DB!)
+  // Get list of clients in DB
+  int getClients(
+    list<string>&   clients);             // List of clients
+  // Get list of paths and data from DB list (close-open to re-use DB!)
   int  getRecords(
-      list<string>& records,          // List of elements to display
-      const char*   client  = NULL,   // The client (list clientes)
-      const char*   path    = NULL,   // The path (list paths)
-      time_t        date    = 0);     // The date (latest)
+    list<string>&   records,              // List of elements to display
+    const char*     client  = NULL,       // The client (list clients)
+    const char*     path    = NULL,       // The path (list paths)
+    time_t          date    = 0);         // The date (latest)
   // Restore specified data
   int  restore(
-    const char*     dest,             // Where the restored path goes
-    const char*     client,           // The client to restore
-    const char*     path = NULL,      // The path to restore (all)
-    time_t          date = 0);        // The date to restore (latest)
+    const char*     dest,                 // Where the restored path goes
+    const char*     client,               // The client to restore
+    const char*     path = NULL,          // The path to restore (all)
+    time_t          date = 0);            // The date to restore (latest)
   // Scan database for missing/obsolete data
   int  scan(
     bool            remove   = true) const; // Whether to remove obsolete data
@@ -74,11 +77,11 @@ public:
     bool            remove   = false) const;// Whether to remove corrupted data
   // Open list / journal for given client
   int  openClient(
-    const char*     client,           // Client to deal with
-    time_t          expire = -1);     // Client removed data expiration
+    const char*     client,               // Client to deal with
+    time_t          expire = -1);         // Client removed data expiration
   // Close list / journal for current client, can signal if error occurred
   void closeClient(
-    bool            abort = false);   // Whether to remove remaining items
+    bool            abort = false);       // Whether to remove remaining items
   // Send data for comparison
   int  sendEntry(
     const char*     remote_path,      // Dir where the file resides, remotely

@@ -554,7 +554,7 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Test: check format" << endl;
+  cout << endl << "Test: convert list(s) format" << endl;
   if (system("cp -a ../../../test_tools/list_v3 test_db/list")) {
     cout << "failed to copy list over" << endl;
     return 0;
@@ -589,6 +589,18 @@ int main(void) {
   } else {
     cerr << "Failed to open DB" << endl;
   }
+  clients.clear();
+
+  cout << endl << "Test: get list of clients" << endl;
+  if (db.getClients(clients) < 0) {
+    cerr << "Failed to get list of clients" << endl;
+  } else {
+    cout << clients.size() << " clients in list" << endl;
+    for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
+      cout << " -> " << *i << endl;
+    }
+  }
+  clients.clear();
 
   return 0;
 }

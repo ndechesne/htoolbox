@@ -146,16 +146,17 @@ public:
   // Compares names and metadata, not paths
   virtual bool operator!=(const Node&) const;
   // Data read access
-  virtual bool  isValid() const { return _type != '?'; }
-  const char*   path()    const { return _path.c_str(); }
-  const char*   name()    const { return _path.basename(); }
-  char          type()    const { return _type;   }
-  time_t        mtime()   const { return _mtime;  }
-  long long     size()    const { return _size;   }
-  uid_t         uid()     const { return _uid;    }
-  gid_t         gid()     const { return _gid;    }
-  mode_t        mode()    const { return _mode;   }
-  bool          parsed()  const { return _parsed; }
+  virtual bool  isValid()     const { return _type != '?';     }
+  const char*   path()        const { return _path.c_str();    }
+  int           pathLength()  const { return _path.length();   }
+  const char*   name()        const { return _path.basename(); }
+  char          type()        const { return _type;            }
+  time_t        mtime()       const { return _mtime;           }
+  long long     size()        const { return _size;            }
+  uid_t         uid()         const { return _uid;             }
+  gid_t         gid()         const { return _gid;             }
+  mode_t        mode()        const { return _mode;            }
+  bool          parsed()      const { return _parsed;          }
   // Remove node
   int   remove();
 };

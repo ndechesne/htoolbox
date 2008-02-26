@@ -565,6 +565,26 @@ int Database::close_rw() {
   return failed ? -1 : 0;
 }
 
+int Database::getClients(
+    list<string>& clients) {
+  // Clients' lists are in the DB base directory, named *.list
+  Directory dir(_d->path);
+  if (dir.createList() < 0) {
+    return -1;
+  }
+  list<Node*>::iterator i = dir.nodesList().begin();
+  while (i != dir.nodesList().end()) {
+    if (((*i)->type() == 'f') && ((*i)->pathLength() > 5)) {
+      if (strcmp(&(*i)->path()[(*i)->pathLength() - 5], ".list") == 0) {
+        clients.push_back((*i)->name());
+        clients.back().erase(clients.back().size() - 5);
+      }
+    }
+    i++;
+  }
+  return 0;
+}
+
 int Database::getRecords(
     list<string>&   records,
     const char*     client,

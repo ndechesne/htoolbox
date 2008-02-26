@@ -218,7 +218,7 @@ List of paths: 4
  -> /client_path/test space
  -> /client_path/testfile
 
-Test: check format
+Test: convert list(s) format
 Converting database list
 Conversion successful
 Listing client: client
@@ -256,3 +256,12 @@ Listing client: myhost
 [1195557261] myhost           test1/cvs/dirutd/fileutd           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [1195557261] myhost           test1/cvs/filenew.c                f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [1195557261] myhost           test1/cvs/fileutd.h                f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+
+Test: get list of clients
+6 clients in list
+ -> client
+ -> hisClient
+ -> leClient
+ -> leClient:1
+ -> myClient
+ -> myhost
