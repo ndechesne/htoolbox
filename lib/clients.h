@@ -41,6 +41,7 @@ class Client {
   struct            Private;
   Private*          _d;
   string            _name;
+  string            _sub_name;
   string            _host_or_ip;
   char*             _list_file;
   string            _protocol;
@@ -58,7 +59,7 @@ class Client {
     const string&   list_path,
     const Filters&  global_filters);
 public:
-  Client(string name);
+  Client(const string& name, const string& sub_name = "");
   ~Client();
   string name() const   { return _name; }
   string internal_name() const;

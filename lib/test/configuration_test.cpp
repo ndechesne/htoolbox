@@ -55,11 +55,14 @@ int main(void) {
 
   // client
   {
-    ConfigItem* item = new ConfigItem("client", 1, 0, 2);
+    ConfigItem* item = new ConfigItem("client", 1, 0, 1, 2);
     config->add(item);
 
     // hostname
     item->add(new ConfigItem("hostname", 0, 1, 1));
+
+    // protocol
+    item->add(new ConfigItem("protocol", 1, 1, 1));
 
     // option
     item->add(new ConfigItem("option", 0, 0, 1, 2));

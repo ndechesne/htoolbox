@@ -8,30 +8,34 @@ which can be overriden with the <code>-c</code> option.</p>
   <tr>
     <td><b>Keyword</b></td>
     <td><b>Description</b></td>
-    <td><b>Default value</b></td>
     <td><b>Syntax</b></td>
     <td><b>Example</b></td>
+    <td><b>Default value</b></td>
   </tr>
   <tr>
     <td>db</td>
     <td>backup database path</td>
-    <td><code>/hbackup</code></td>
     <td><code>db "&lt;path to backup database&gt;"</code></td>
     <td><code>db "/backup"</code></td>
+    <td><code>/hbackup</code></td>
   </tr>
   <tr>
     <td>client</td>
-    <td>client name</td>
+    <td>client name and sub-name (sub-name required for clients with
+    multiple backups, typically with Linux / MacOS / Windows installs under
+    the same client name)</td>
+    <td><code>client "&lt;client desired name&gt;"
+    ["&lt;client sub-name&gt;"]</code></td>
+    <td><code>client "montblanc"</code>
+      <br><code>client "montblanc" "kubuntu_vm"</code></td>
     <td><code></code></td>
-    <td><code>client "protocol" "&lt;client desired name&gt;"</code></td>
-    <td><code>client file "montblanc"</code></td>
   </tr>
   <tr>
     <td>filter</td>
     <td>filter definition</td>
+    <td>See <a href="filters.html">Filters</a>.</td>
+    <td>See <a href="filters.html">Filters</a>.</td>
     <td><code></code></td>
-    <td>See <a href="filters.html">Filters</a>.</td>
-    <td>See <a href="filters.html">Filters</a>.</td>
   </tr>
 </table>
 
@@ -47,6 +51,17 @@ by the keywords below:</p>
     <td><b>Occurences</b></td>
     <td><b>Syntax(es)</b></td>
     <td><b>Example(s)</b></td>
+    <td><b>Default value</b></td>
+  </tr>
+  <tr>
+    <td>protocol</td>
+    <td>protocol to be used to connect to client</td>
+    <td>1</td>
+    <td><code>protocol "&lt;protocol&gt;"</code></td>
+    <td><code>protocol "file"</code>
+      <br><code>protocol "nfs"</code>
+      <br><code>protocol "smb"</code></td>
+    <td><code></code></td>
   </tr>
   <tr>
     <td>config</td>
@@ -55,6 +70,7 @@ by the keywords below:</p>
     <td><code>config "&lt;path to file&gt;"</code></td>
     <td><code>config "C:/Backup/hbackup.list"</code>
       <br><code>config "/etc/hbackup.list"</code></td>
+    <td><code></code></td>
   </tr>
   <tr>
     <td>hostname</td>
@@ -65,6 +81,7 @@ by the keywords below:</p>
       <br><code>hostname "&lt;client IP address&gt;"</code></td>
     <td><code>hostname "everest"</code>
       <br><code>hostname "192.168.0.2"</code></td>
+    <td><code>&lt;client name&gt;</code></td>
   </tr>
   <tr>
     <td>option</td>
@@ -75,6 +92,7 @@ by the keywords below:</p>
       <br><code>option "&lt;option name&gt;" "&lt;value&gt;"</code></td>
     <td><code>option "nolock"</code>
       <br><code>option iocharset "utf8"</code></td>
+    <td><code></code></td>
   </tr>
 </table>
 

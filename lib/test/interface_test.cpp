@@ -202,7 +202,8 @@ int main(void) {
 
   cout << endl << "Test: add dual-boot client" << endl;
   system("echo >> etc/hbackup.conf");
-  system("echo client smb myClient >> etc/hbackup.conf");
+  system("echo client myClient xp_vm >> etc/hbackup.conf");
+  system("echo protocol smb>> etc/hbackup.conf");
   system("echo config C:\\\\Backup\\\\Backup.LST >> etc/hbackup.conf");
 
   cout << endl << "Test: typical backup" << endl;
@@ -244,14 +245,14 @@ int main(void) {
   }
   records.clear();
 
-  cout << endl << "Test: list paths in DUAL client" << endl;
+  cout << endl << "Test: list paths in DOS client" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->getList(records, "myClient");
+  hbackup->getList(records, "myClient:xp_vm");
   delete hbackup;
-  cout << "List of paths in 'myClient': " << records.size() << endl;
+  cout << "List of paths in 'myClient:xp_vm': " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
   }
@@ -275,9 +276,10 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->getList(records, "myClient", "C:");
+  hbackup->getList(records, "myClient:xp_vm", "C:");
   delete hbackup;
-  cout << "List of paths in 'myClient': " << records.size() << endl;
+  cout << "List of paths in 'myClient:xp_vm', 'C:': " << records.size()
+    << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
   }
@@ -315,7 +317,7 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myClient", "C:/Test/File.TXT", 0);
+  hbackup->restore("test_r", "myClient:xp_vm", "C:/Test/File.TXT", 0);
   system("rm -rf test_r");
   delete hbackup;
 
@@ -324,7 +326,7 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myClient", "C:/Test", 0);
+  hbackup->restore("test_r", "myClient:xp_vm", "C:/Test", 0);
   system("rm -rf test_r");
   delete hbackup;
 
@@ -333,7 +335,7 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myClient", "C:", 0);
+  hbackup->restore("test_r", "myClient:xp_vm", "C:", 0);
   system("rm -rf test_r");
   delete hbackup;
 

@@ -1091,12 +1091,13 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database closed
-List of clients: 3
+List of clients: 4
  -> client
  -> myClient
+ -> myClient:xp_vm
  -> myhost
 
-Test: list paths in DUAL client
+Test: list paths in DOS client
  -> Reading configuration file 'etc/hbackup.conf'
  --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
@@ -1120,8 +1121,7 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database closed
-List of paths in 'myClient': 2
- -> /home
+List of paths in 'myClient:xp_vm': 1
  -> C:
 
 Test: list sub-paths in UNIX client
@@ -1175,7 +1175,7 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database closed
-List of paths in 'myClient': 1
+List of paths in 'myClient:xp_vm', 'C:': 1
  -> C:/Test
 
 Test: restore file (UNIX)
@@ -1370,10 +1370,6 @@ Database open in read-only mode
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir
 U test_r//home/User/test/dir/file3.txt
-U test_r/C:/Test/Dir
-U test_r/C:/Test/Dir/a File.TXT
-U test_r/C:/Test/Dir/another File.TXT
-U test_r/C:/Test/File.TXT
 Database closed
 
 Test: check for corrupted data

@@ -478,26 +478,26 @@ Clients in DB
 Database open in read-only mode
 Database closed
 Records found: 6
- myClient#
- myClient2$
- myhost#
- myhost2$
- myhost3#
- testhost#
+ myClient
+ myClient2
+ myhost
+ myhost2
+ myhost3
+ testhost
 
-Paths in 'myhost#' client in DB
+Paths in 'myhost' client in DB
 Database open in read-only mode
 Database closed
 Records found: 1
  test1
 
-Paths in 'myhost#' client under test1 in DB
+Paths in 'myhost' client under test1 in DB
 Database open in read-only mode
 Database closed
 Records found: 1
  test1/cvs
 
-Paths in 'myhost#' client under test1/cvs in DB
+Paths in 'myhost' client under test1/cvs in DB
 Database open in read-only mode
 Database closed
 Records found: 8
@@ -510,12 +510,12 @@ Records found: 8
  test1/cvs/fileoth
  test1/cvs/fileutd.h
 
-Paths in 'myhost#' client under test1/cvs/diroth in DB
+Paths in 'myhost' client under test1/cvs/diroth in DB
 Database open in read-only mode
 Database closed
 Records found: 0
 
-Paths in 'myhost#' client under test1/cvs/dirutd in DB
+Paths in 'myhost' client under test1/cvs/dirutd in DB
 Database open in read-only mode
 Database closed
 Records found: 3
@@ -725,10 +725,10 @@ Clients in DB
 Database open in read-only mode
 Database closed
 Records found: 7
- myClient#
- myClient$
- myClient2$
- myhost#
- myhost2$
- myhost3#
- testhost#
+ myClient
+ myClient2
+ myClient:xp_vm
+ myhost
+ myhost2
+ myhost3
+ testhost

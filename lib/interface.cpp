@@ -115,10 +115,12 @@ int HBackup::readConfig(const char* config_path) {
   }
   // client
   {
-    ConfigItem* client = new ConfigItem("client", 1, 0, 2);
+    ConfigItem* client = new ConfigItem("client", 1, 0, 1, 2);
     config.add(client);
     // hostname
     client->add(new ConfigItem("hostname", 0, 1, 1));
+    // protocol
+    client->add(new ConfigItem("protocol", 1, 1, 1));
     // option
     client->add(new ConfigItem("option", 0, 0, 1, 2));
     // config
@@ -214,10 +216,9 @@ int HBackup::readConfig(const char* config_path) {
       }
     } else
     if ((*params)[0] == "client") {
-      client = new Client((*params)[2]);
+      client = new Client((*params)[1],
+        (params->size() > 2) ? (*params)[2] : "");
       out(debug, 2) << "Client: " << client->name() << endl;
-
-      client->setProtocol((*params)[1]);
 
       // Clients MUST BE in alphabetic order
       int cmp = 1;
@@ -230,8 +231,8 @@ int HBackup::readConfig(const char* config_path) {
         i++;
       }
       if (cmp == 0) {
-        out(error) << "Error: client already selected: " << (*params)[2]
-          << endl;
+        out(error) << "Error: client already selected: "
+          << client->internal_name() << endl;
         return -1;
       }
       _d->clients.insert(i, client);
@@ -239,6 +240,9 @@ int HBackup::readConfig(const char* config_path) {
     if (client != NULL) {
       if ((*params)[0] == "hostname") {
         client->setHostOrIp((*params)[1]);
+      } else
+      if ((*params)[0] == "protocol") {
+        client->setProtocol((*params)[1]);
       } else
       if ((*params)[0] == "option") {
         if ((*params).size() == 2) {
@@ -369,29 +373,7 @@ int HBackup::getList(
   if (_d->db->open_ro()) {
     return -1;
   }
-  if ((client == NULL) || (client[0] == '\0')) {
-    failed = _d->db->getRecords(records, client, path, date) != 0;
-    if (! failed) {
-      // We got internal client names, get rid of extra character
-      list<string>::iterator i;
-      for (i = records.begin(); i != records.end(); i++) {
-        *i = i->substr(0, i->size() - 1);
-      }
-      records.unique();
-    }
-  } else {
-    bool failed1, failed2;
-    string internal;
-    // Get records for client#
-    internal = client;
-    internal += "#";
-    failed1 = _d->db->getRecords(records, internal.c_str(), path, date) != 0;
-    // Get records for client$
-    internal = client;
-    internal += "$";
-    failed2 = _d->db->getRecords(records, internal.c_str(), path, date) != 0;
-    failed = failed1 && failed2;
-  }
+  failed = (_d->db->getRecords(records, client, path, date) != 0);
   _d->db->close();
   return failed ? -1 : 0;
 }
@@ -407,16 +389,7 @@ int HBackup::restore(
   Path where(dest);
   where.noTrailingSlashes();
 
-  bool failed1, failed2;
-  string internal;
-  // Get records for client#
-  internal = client;
-  internal += "#";
-  failed1 = _d->db->restore(where.c_str(), internal.c_str(), path, date) != 0;
-  // Get records for client$
-  internal = client;
-  internal += "$";
-  failed2 = _d->db->restore(where.c_str(), internal.c_str(), path, date) != 0;
+  bool failed = (_d->db->restore(where.c_str(), client, path, date) != 0);
   _d->db->close();
-  return (failed1 && failed2) ? -1 : 0;
+  return failed ? -1 : 0;
 }

@@ -1,10 +1,11 @@
 Test: server configuration
 Items:
-  client, occ.: min = 1, no max; params: min params = 2, max params = 2
+  client, occ.: min = 1, no max; params: min params = 1, max params = 2
     config, occ.: min = 1, max = 1; params: min params = 1, max params = 1
     expire, occ.: optional, max = 1; params: min params = 1, max params = 1
     hostname, occ.: optional, max = 1; params: min params = 1, max params = 1
     option, occ.: optional, no max; params: min params = 1, max params = 2
+    protocol, occ.: min = 1, max = 1; params: min params = 1, max params = 1
   db, occ.: optional, max = 1; params: min params = 1, max params = 1
   filter, occ.: optional, no max; params: min params = 2, max params = 2
     condition, occ.: min = 1, no max; params: min params = 2, max params = 2
@@ -18,22 +19,26 @@ Lines:
  8:  filter any test_or
  9:    condition filter backup
 10:    condition !size< 1000
-12:  client nfs myClient
-13:    hostname myClient
-14:    config /home/User/hbackup.list
-16:  client ssh other
-17:    hostname otherClient
-18:    config /home/backup/Backup.list
-20:  client file myhost
-21:    hostname myhost.mynetwork.lan
-22:    config etc/localhost.list
-23:    expire 1
-25:  client smb client
-26:    option username Myself
-27:    option password flesyM
-28:    option nocase
-29:    hostname myClient
-30:    config C:\Backup\Backup.LST
+12:  client myClient
+13:    protocol nfs
+14:    hostname myClient
+15:    config /home/User/hbackup.list
+17:  client other
+18:    protocol ssh
+19:    hostname otherClient
+20:    config /home/backup/Backup.list
+22:  client myhost
+23:    protocol file
+24:    hostname myhost.mynetwork.lan
+25:    config etc/localhost.list
+26:    expire 1
+28:  client client
+29:    protocol smb
+30:    option username Myself
+31:    option password flesyM
+32:    option nocase
+33:    hostname myClient
+34:    config C:\Backup\Backup.LST
 
 Test: client configuration
 Error: after line 0: missing keyword 'path'

@@ -226,20 +226,24 @@ filter any test_or
 condition filter backup
 condition !size< 1000
 
-client nfs myClient
+client myClient
+protocol nfs
 hostname myClient
 config $ROOTDIRNFS/hbackup.list
 
-client ssh other
+client other
+protocol ssh
 hostname otherClient
 config /home/backup/Backup.list
 
-client file myhost
+client myhost
+protocol file
 hostname myhost.mynetwork.lan
 config "$CONFIGDIR/localhost.list"
 expire 1
 
-client smb client
+client client
+protocol smb
 option username Myself
 option password flesyM
 option nocase

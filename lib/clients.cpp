@@ -348,17 +348,10 @@ int Client::readListFile(
   return failed ? -1 : 0;
 }
 
-Client::Client(string value) {
-  _d            = new Private;
-  _name         = value;
-  _host_or_ip   = _name;
-  _list_file    = NULL;
-  _protocol     = "";
-  _home_path    = "";
-  _mount_point  = "";
-  _mounted      = "";
-  _initialised  = false;
-  _expire       = -1;
+Client::Client(const string& name, const string& sub_name) :
+    _name(name), _sub_name(sub_name), _host_or_ip(name), _list_file(NULL),
+    _initialised(false), _expire(-1) {
+  _d = new Private;
 }
 
 Client::~Client() {
@@ -371,14 +364,11 @@ Client::~Client() {
 }
 
 string Client::internal_name() const {
-  // Add suffix so that dual booted clients can use the same name twice
-  char suffix;
-  if (_protocol == "smb") {
-    suffix = '$';
+  if (_sub_name.empty()) {
+    return _name;
   } else {
-    suffix = '#';
+    return _name + ":" + _sub_name;
   }
-  return _name + suffix;
 }
 
 void Client::setHostOrIp(string value) {
