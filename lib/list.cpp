@@ -62,7 +62,8 @@ List::~List() {
 int List::open(
     const char*   req_mode,
     int           compression) {
-  const char old_header[] = "# version 2";
+  // Put future as old for now (testing stage)
+  const char old_header[] = "# version 4a";
   const char header[]     = "# version 3";
   int        rc           = 0;
 

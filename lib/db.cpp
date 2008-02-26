@@ -64,6 +64,64 @@ struct Database::Private {
   bool              clientJournalled;
 };
 
+int Database::convertList(list<string>* clients) {
+  out(info) << "Converting database list" << endl;
+  Stream source(Path(_d->path, "list"));
+  if (source.open("r")) {
+    out(error) << strerror(errno) << "opening source file" << endl;
+    return -1;
+  }
+  int     rc;
+  bool    begin = true;
+  string  line;
+  string last_client;
+  Stream* dest = NULL;
+  while ((rc = source.getLine(line)) > 0) {
+    if (line[0] == '#') {
+      if (begin) {
+        begin = false;
+      } else {
+        if (dest != NULL) {
+          dest->putLine("# end");
+          dest->close();
+          delete dest;
+        }
+        break;
+      }
+    } else
+    if (line[0] != '\t') {
+      string client = line.substr(0, line.size() - 1);
+      if (last_client == client) {
+        client += ":1";
+      }
+      last_client = client;
+      if (dest != NULL) {
+        dest->putLine("# end");
+        dest->close();
+        delete dest;
+      }
+      dest = new Stream(Path(_d->path, (client + ".list").c_str()));
+      if (dest->open("w") < 0) {
+        out(alert) << strerror(errno) << "opening destination file" << endl;
+        break;
+      }
+      dest->putLine("# version 4a");
+      dest->putLine(client.c_str());
+      if (clients != NULL) {
+        clients->push_back(client);
+      }
+    } else if (dest != NULL) {
+      dest->putLine(line.c_str());
+    } else {
+      out(alert) << "No destination file!" << endl;
+    }
+  }
+  source.close();
+
+  out(info) << "Conversion successful" << endl;
+  return 0;
+}
+
 int Database::lock() {
   Path  lock_path(_d->path, "lock");
   FILE* file;

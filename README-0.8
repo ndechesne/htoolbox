@@ -1,0 +1,38 @@
+This is very important, so lease read carefully, and do not hesitate to contact
+me in case of doubt at <herve@lucidia.net>.
+
+If you are upgrading an existing DB from 0.7 to 0.8 and have two clients with the
+same name, one using the  file or nfs protocol, and the other using the smb
+protocol, please read this file till the end.
+
+CONVERTING THE SERVER CONFIGURATION FILE
+
+I All clients use different names:
+
+Replace lines like:
+  client smb client1
+  (...)
+
+By two lines like:
+  client client1
+  protocol smb
+  (...)
+
+II Two clients have the same name, one UNIX (file, nfs) the other WINDOWS (smb):
+
+The smb client needs a sub-name, which will be 1 by default (set by the
+automatic list converter).
+
+Replace lines like:
+  client smb client1
+  (...)
+  client nfs client1
+  (...)
+
+By two lines like:
+  client client1 1
+  protocol smb
+  (...)
+  client nfs client1
+  protocol nfs
+  (...)

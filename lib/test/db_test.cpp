@@ -559,18 +559,32 @@ int main(void) {
     cout << "failed to copy list over" << endl;
     return 0;
   }
+  list<string> clients;
+#if 0
   if (db.open_rw() == 0) {
     db.close();
-    dblist.open("r");
-    if (dblist.isEmpty()) {
-      cout << "List is empty" << endl;
-    } else
-    while ((status = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
-      showLine(ts, client, path, node);
-    }
-    dblist.close();
-    if (status < 0) {
-      cerr << "Failed to read list" << endl;
+#else
+  if (db.convertList(&clients) == 0) {
+#endif
+    for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
+      cout << "Listing client: " << *i << endl;
+      List client_list(Path("test_db", (*i + ".list").c_str()));
+      if (client_list.open("r") >= 0) {
+        int status = 0;
+        if (client_list.isEmpty()) {
+          cout << "List is empty" << endl;
+        } else
+        while ((status = client_list.getEntry(&ts, &client, &path, &node))
+            > 0) {
+          showLine(ts, client, path, node);
+        }
+        client_list.close();
+        if (status < 0) {
+          cerr << "Failed to read list" << endl;
+        }
+      } else {
+        cerr << "Failed to open list: " << client_list.path() << endl;
+      }
     }
   } else {
     cerr << "Failed to open DB" << endl;

@@ -24,9 +24,13 @@ namespace hbackup {
 class Database {
   struct        Private;
   Private*      _d;
+  // Try to lock DB
   int  lock();
+  // Unlock DB
   void unlock();
+  // Merge journal in case of failure recovery
   int  merge();
+  // Shuffle file names around
   int  update(
     const char*     name,
     bool            new_file = false) const;
@@ -38,6 +42,8 @@ protected: // So I can test them/use them in tests
   bool isOpen() const;
   bool isWriteable() const;
 public:
+  // Method to convert from version '3' to version '4a' of DB list
+  int convertList(list<string>* clients = NULL);
   Database(
     const char*     path);                // Path where DB resides
   ~Database();

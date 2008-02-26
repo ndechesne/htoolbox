@@ -219,35 +219,40 @@ List of paths: 4
  -> /client_path/testfile
 
 Test: check format
-Database open in read/write mode
-Database not modified
-Database closed
-[1195557261] client$          C:/Test/File.TXT                   f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[1195557261] hisClient#       test1/dir space                    d     0 755
-[1195557261] hisClient#       test1/dir space/file space         f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[1195557261] hisClient#       test1/test space                   f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[1195557261] hisClient#       test1/testdir                      d     0 755
-[1195557261] hisClient#       test1/testfile                     f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
-[1195557261] hisClient#       test1/testlink                     l     8 777 testfile
-[1195557261] hisClient#       test1/testpipe                     p     0 644
-[1195557261] leClient#        test2/testdir                      d     0 755
-[1195557261] leClient#        test2/testfile                     f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
-[1195557261] leClient#        test2/testfile2                    f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
-[1195557261] leClient#        test2/testfile~                    f 524288 644 59071590099d21dd439896592338bf95-0
-[1195557261] leClient#        test2/testlink                     l     8 777 testfile
-[1195557261] leClient$        C:/test2/testdir                   d     0 755
-[1195557261] leClient$        C:/test2/testfile                  f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
-[1195557261] leClient$        C:/test2/testfile2                 f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
-[1195557261] leClient$        C:/test2/testfile~                 f 524288 644 59071590099d21dd439896592338bf95-0
-[1195557261] leClient$        C:/test2/testlink                  l     8 777 testfile
-[1195557261] myClient#        /home/User/test/File2.txt          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[1195557261] myhost#          test1/cvs                          d     0 755
-[1195557261] myhost#          test1/cvs/CVS                      d     0 755
-[1195557261] myhost#          test1/cvs/CVS/Entries              f   141 644 63b52e85e7a255c09df5cca819b74a88-0
-[1195557261] myhost#          test1/cvs/dirbad                   d     0 755
-[1195557261] myhost#          test1/cvs/dirutd                   d     0 755
-[1195557261] myhost#          test1/cvs/dirutd/CVS               d     0 755
-[1195557261] myhost#          test1/cvs/dirutd/CVS/Entries       f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[1195557261] myhost#          test1/cvs/dirutd/fileutd           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[1195557261] myhost#          test1/cvs/filenew.c                f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[1195557261] myhost#          test1/cvs/fileutd.h                f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+Converting database list
+Conversion successful
+Listing client: client
+[1195557261] client           C:/Test/File.TXT                   f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+Listing client: hisClient
+[1195557261] hisClient        test1/dir space                    d     0 755
+[1195557261] hisClient        test1/dir space/file space         f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1195557261] hisClient        test1/test space                   f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1195557261] hisClient        test1/testdir                      d     0 755
+[1195557261] hisClient        test1/testfile                     f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[1195557261] hisClient        test1/testlink                     l     8 777 testfile
+[1195557261] hisClient        test1/testpipe                     p     0 644
+Listing client: leClient
+[1195557261] leClient         test2/testdir                      d     0 755
+[1195557261] leClient         test2/testfile                     f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[1195557261] leClient         test2/testfile2                    f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[1195557261] leClient         test2/testfile~                    f 524288 644 59071590099d21dd439896592338bf95-0
+[1195557261] leClient         test2/testlink                     l     8 777 testfile
+Listing client: leClient:1
+[1195557261] leClient:1       C:/test2/testdir                   d     0 755
+[1195557261] leClient:1       C:/test2/testfile                  f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[1195557261] leClient:1       C:/test2/testfile2                 f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[1195557261] leClient:1       C:/test2/testfile~                 f 524288 644 59071590099d21dd439896592338bf95-0
+[1195557261] leClient:1       C:/test2/testlink                  l     8 777 testfile
+Listing client: myClient
+[1195557261] myClient         /home/User/test/File2.txt          f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+Listing client: myhost
+[1195557261] myhost           test1/cvs                          d     0 755
+[1195557261] myhost           test1/cvs/CVS                      d     0 755
+[1195557261] myhost           test1/cvs/CVS/Entries              f   141 644 63b52e85e7a255c09df5cca819b74a88-0
+[1195557261] myhost           test1/cvs/dirbad                   d     0 755
+[1195557261] myhost           test1/cvs/dirutd                   d     0 755
+[1195557261] myhost           test1/cvs/dirutd/CVS               d     0 755
+[1195557261] myhost           test1/cvs/dirutd/CVS/Entries       f    42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[1195557261] myhost           test1/cvs/dirutd/fileutd           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1195557261] myhost           test1/cvs/filenew.c                f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1195557261] myhost           test1/cvs/fileutd.h                f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
