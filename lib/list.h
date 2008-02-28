@@ -99,7 +99,10 @@ public:
     const char*     path    = NULL,   // Path to search
     List*           list    = NULL,   // List in which to copy, if any
     time_t          expire  = -1);    // Expiration date
-  // Merge list and backup into this list
+  // Merge list and journal into this list
+  //    all lists must be open (checked)
+  // Return code:
+  //    -1: error, 0: success, 1: unexpected end of journal
   int  merge(
     List&           list,
     List&           journal);

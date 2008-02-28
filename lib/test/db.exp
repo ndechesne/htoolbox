@@ -1,3 +1,5 @@
+Error: Cannot initialize in read-only mode
+db::open error status -1
 Error: Given DB path does not exist: test_db
 db::open error status -1
 Error: Given DB path does not exist: test_db
@@ -11,27 +13,22 @@ Database initialized in test_db
 Database open in read/write mode
 
 Test: scan & check
-Reading list
 Found 0 checksums
 Crawling through DB
                                   \r
 Found 0 valid and 0 broken data files
-Database not modified
 Database closed
 Database open in read/write mode
 File data gone
-Reading list
 Found 0 checksums
 Crawling through DB
 59ca0efa9f5633cb0371bbc0355478d8-0\r
 Error: Data missing for: 59ca0efa9f5633cb0371bbc0355478d8-0
                                   \r
 Found 0 valid and 1 broken data files
-Database not modified
 Database closed
 Database open in read/write mode
 File data corrupted, surficial scan
-Reading list
 Found 0 checksums
 Crawling through DB
 59ca0efa9f5633cb0371bbc0355478d8-0\r
@@ -41,16 +38,13 @@ Checksum(s) with data:
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
 Obsolete checksum(s): 1
  -> 59ca0efa9f5633cb0371bbc0355478d8-0: removed
-Database not modified
 Database closed
 Database open in read/write mode
-Reading list
 Found 0 checksums
 Crawling through DB
                                   \r
 Found 0 valid and 0 broken data files
 File data corrupted, thorough scan
-Database not modified
 Database closed
 Database open in read-only mode
 Crawling through DB data
@@ -60,7 +54,6 @@ Error: Data corrupted for: 59ca0efa9f5633cb0371bbc0355478d8-0
 Found 0 valid and 1 broken data files
 Database closed
 Database open in read/write mode
-Reading list
 Found 0 checksums
 Crawling through DB
 59ca0efa9f5633cb0371bbc0355478d8-0\r
@@ -68,16 +61,13 @@ Corrupted data for: 59ca0efa9f5633cb0371bbc0355478d8-0 removed
                                   \r
 Found 0 valid and 1 broken data files
 Scan again
-Database not modified
 Database closed
 
 Test: lock
 Database open in read/write mode
-Database not modified
 Database closed
 Warning: Lock reset
 Database open in read/write mode
-Database not modified
 Database closed
 Error: Lock taken by process with pid 1
 Error: Lock taken by an unidentified process!
@@ -90,11 +80,14 @@ Database closed
 Test: fill in DB
 Database open in read/write mode
 Reading list of missing checksums
+Created myClient's list
+Database client myClient open in read/write mode
 Adding compressed file data to DB in: test_db/data/285b35198a5e188b3a0df3ed33f93a26-0
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
 Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
 Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 [ 1] myClient         /client_path/subdir                d     0 755
 [ 2] myClient         /client_path/subdir/testfile       f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
@@ -106,7 +99,6 @@ Database closed
 
 Test: do nothing
 Database open in read/write mode
-Database not modified
 Database closed
 [ 1] myClient         /client_path/subdir                d     0 755
 [ 2] myClient         /client_path/subdir/testfile       f    12 644 285b35198a5e188b3a0df3ed33f93a26-0
@@ -124,36 +116,38 @@ List of clients: 1
 
 Test: read paths in myClient
 Database open in read-only mode
-Database closed
+Database client myClient open in read-only mode
+Database client myClient closed
 List of paths: 2
  -> /client_path
  -> other_path
 
 Test: read paths in myClient below /client_path
-Database open in read-only mode
-Database closed
+Database client myClient open in read-only mode
+Database client myClient closed
 List of paths: 3
  -> /client_path/subdir
  -> /client_path/test space
  -> /client_path/testfile
 
 Test: read paths in myClient below other_path
-Database open in read-only mode
-Database closed
+Database client myClient open in read-only mode
+Database client myClient closed
 List of paths: 2
  -> other_path/testdir
  -> other_path/testfile
 
 Test: read paths in myClient below /client_path/subdir
-Database open in read-only mode
-Database closed
+Database client myClient open in read-only mode
+Database client myClient closed
 List of paths: 2
  -> /client_path/subdir/testfile
  -> /client_path/subdir/testfile2
+Database closed
 
 Test: scan
 Database open in read/write mode
-Reading list
+Reading myClient's list
 Found 4 checksums
 Crawling through DB
 285b35198a5e188b3a0df3ed33f93a26-0\r
@@ -178,15 +172,16 @@ Obsolete checksum(s): 1
  -> e5ed795e721b69c53a52482d6bdcb149-0: removed
 Warning: Missing checksum(s): 1
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
-Database not modified
 List of missing checksums contains 1 item(s)
 Database closed
 
 Test: concurrent access
 Database open in read/write mode
 Database open in read-only mode
+Database client myClient open in read-only mode
 Reading list of missing checksums
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+Database client myClient open in read/write mode
 D /client_path/subdir
 D /client_path/subdir/testfile
 D /client_path/subdir/testfile2
@@ -194,23 +189,25 @@ D /client_path/test space
 D /client_path/testfile
 D other_path/testdir
 D other_path/testfile
-Closing database
-List of missing checksums contains 1 item(s)
+Closing database client myClient
+Database client myClient closed
+Database client myClient closed
 Database closed
-Database closed
-[ 8] myClient         /client_path/new_link              l     8 777 testfile
-[ 9] myClient         /client_path/subdir                [rm]
-[11] myClient         /client_path/subdir/testfile       [rm]
-[13] myClient         /client_path/subdir/testfile2      [rm]
-[15] myClient         /client_path/test space            [rm]
-[17] myClient         /client_path/testfile              [rm]
-[19] myClient         other_path/testdir                 [rm]
-[21] myClient         other_path/testfile                [rm]
+[ 9] myClient         /client_path/new_link              l     8 777 testfile
+[10] myClient         /client_path/subdir                [rm]
+[12] myClient         /client_path/subdir/testfile       [rm]
+[14] myClient         /client_path/subdir/testfile2      [rm]
+[16] myClient         /client_path/test space            [rm]
+[18] myClient         /client_path/testfile              [rm]
+[20] myClient         other_path/testdir                 [rm]
+[22] myClient         other_path/testfile                [rm]
 List of paths: 3
  -> /client_path/subdir
  -> /client_path/test space
  -> /client_path/testfile
 Database open in read-only mode
+Database client myClient open in read-only mode
+Database client myClient closed
 Database closed
 List of paths: 4
  -> /client_path/new_link
@@ -256,12 +253,3 @@ Listing client: myhost
 [1195557261] myhost           test1/cvs/dirutd/fileutd           f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [1195557261] myhost           test1/cvs/filenew.c                f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [1195557261] myhost           test1/cvs/fileutd.h                f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
-
-Test: get list of clients
-6 clients in list
- -> client
- -> hisClient
- -> leClient
- -> leClient:1
- -> myClient
- -> myhost

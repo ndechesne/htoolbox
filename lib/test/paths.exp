@@ -4,6 +4,8 @@ Database initialized in test_db
 Database open in read/write mode
 first with subdir/testfile NOT readable
 Reading list of missing checksums
+Created myClient's list
+Database client myClient open in read/write mode
 A /home/User/àccénts_test (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
 A /home/User/big_file (10 MB)
@@ -125,7 +127,8 @@ A /home/User/testfile~ (0 B)
 A /home/User/testlink
 A /home/User/testpipe
 Parsed 60 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -374,7 +377,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 Database open in read/write mode
-Reading list
+Reading myClient's list
 Found 16 checksums
 Crawling through DB
 06f05055bfb2c8b900459f45826fc8ea-0\r
@@ -429,12 +432,12 @@ Checksum(s) with data:
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0
  -> f1c9645dbc14efddc7d8a322685f26eb-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database not modified
 Database closed
 
 As previous, with a .hbackup directory
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -455,7 +458,8 @@ Error: Permission denied opening write source file: test1/subdir/testfile
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 60 file(s)
-Database not modified
+Database client myClient not modified
+Database client myClient closed
 Database closed
 
 List:
@@ -707,6 +711,7 @@ myClient
 As previous with new big_file, interrupted
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -714,6 +719,7 @@ A /home/User/cvs/big_file (512 kB)
 Done:  80.0%\r
 Killing inside data
 Error: Operation canceled copying write file: test1/cvs/big_file
+Database client myClient closed
 Database closed
 
 List:
@@ -845,9 +851,10 @@ myClient
 [ 3] f 512000 644 
 
 As previous with subdir/testfile readable
-Warning: Backup was interrupted in a previous run, finishing up...
+Warning: Backup of client myClient was interrupted in a previous run, finishing up...
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -871,7 +878,8 @@ Adding file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 61 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -1009,6 +1017,7 @@ myClient
 As previous with subdir/testfile in ignore list
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -1028,7 +1037,8 @@ D /home/User/subdir/testfile
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 60 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -1165,6 +1175,7 @@ myClient
 As previous with subdir in ignore list
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -1185,7 +1196,8 @@ D /home/User/subdir/testfile2
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 57 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -1329,6 +1341,7 @@ myClient
 As previous with testlink modified
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -1347,7 +1360,8 @@ Reading list of missing checksums
  -> Dir testdir
 M /home/User/testlink
 Parsed 57 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -1488,6 +1502,7 @@ myClient
 As previous with testlink in ignore list
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Dir cvs/CVS
  -> Dir cvs/CVS/Wherever
@@ -1506,7 +1521,8 @@ Reading list of missing checksums
  -> Dir testdir
 D /home/User/testlink
 Parsed 56 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -1648,6 +1664,7 @@ myClient
 As previous with CVS parser (controlled)
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -1682,7 +1699,8 @@ D /home/User/cvs/fileoth
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 46 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -1852,6 +1870,7 @@ myClient
 As previous
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -1876,7 +1895,8 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 46 file(s)
-Database not modified
+Database client myClient not modified
+Database client myClient closed
 Database closed
 
 List:
@@ -2046,6 +2066,7 @@ myClient
 As previous with Subversion parser (modified)
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2089,7 +2110,8 @@ D /home/User/svn/fileoth
 D /home/User/svn/fileutd.h
  -> Dir testdir
 Parsed 34 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -2275,6 +2297,7 @@ myClient
 As previous with cvs/dirutd in ignore list
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2307,7 +2330,8 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 29 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -2484,6 +2508,7 @@ myClient
 As previous with svn/dirutd in ignore list
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2510,7 +2535,8 @@ D /home/User/svn/dirutd/.svn/entries
 D /home/User/svn/dirutd/fileutd
  -> Dir testdir
 Parsed 25 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -2689,6 +2715,7 @@ myClient
 As previous with testpipe gone
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2712,7 +2739,8 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Parsed 24 file(s)
 D /home/User/testpipe
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -2886,6 +2914,7 @@ myClient
 As previous with testfile mode changed
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -2909,7 +2938,8 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 ~ /home/User/testfile (13 B)
 Parsed 24 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -3084,6 +3114,7 @@ myClient
 As previous with cvs/filenew.c touched and testpipe restored
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -3109,7 +3140,8 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 A /home/User/testpipe
 Parsed 25 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -3288,6 +3320,7 @@ myClient
 Some troublesome past cases
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -3338,7 +3371,8 @@ A /home/User/testdir/biblio/biblio.dbt (0 B)
 A /home/User/testdir/biblio.odb (0 B)
 A /home/User/testdir/evolocal.odb (0 B)
 Parsed 45 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
@@ -3593,6 +3627,7 @@ myClient
 Same again: journal and list left untouched
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -3623,7 +3658,8 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
  -> Dir testdir/biblio
 Parsed 45 file(s)
-Database not modified
+Database client myClient not modified
+Database client myClient closed
 Database closed
 
 List:
@@ -3878,6 +3914,8 @@ myClient
 List recovery after crash
 Database open in read/write mode
 Reading list of missing checksums
+Created hisClient's list
+Database client hisClient open in read/write mode
 A /home/User/testdir
  -> Dir testdir
 A /home/User/testfile (145 kB)
@@ -3889,6 +3927,9 @@ Done:  78.1%\r
             \r
 Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
 Parsed 4 file(s)
+Closing database client hisClient
+Database client hisClient closed
+Database client myClient open in read/write mode
 A /home/User/crash
  -> Dir crash
 A /home/User/crash/file (0 B)
@@ -3927,10 +3968,20 @@ D /home/User/testdir/biblio/biblio.dbt
 D /home/User/testdir/biblio.odb
 D /home/User/testdir/evolocal.odb
 Parsed 41 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 
 List:
+hisClient
+	/home/User/testdir
+[19] d     0 755
+	/home/User/testfile
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+	/home/User/testfile2
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+	/home/User/testfile~
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -4166,7 +4217,7 @@ myClient
 	/home/User/testdir/evolocal.odb
 [19] -
 Error: Unexpected end of file
-Warning: Backup was interrupted in a previous run, finishing up...
+Warning: Backup of client myClient was interrupted in a previous run, finishing up...
 Warning: Unexpected end of journal
 Database open in read/write mode
 
@@ -4426,15 +4477,14 @@ myClient
 	/home/User/testdir/evolocal.odb
 [19] -
 Error: Unexpected end of file
-Database not modified
 Database closed
 Database open in read/write mode
-Database not modified
 Database closed
 
 Same again
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
@@ -4464,7 +4514,8 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
 Parsed 41 file(s)
-Database not modified
+Database client myClient not modified
+Database client myClient closed
 Database closed
 
 List:
@@ -4727,9 +4778,11 @@ Error: Unexpected end of file
 Same again
 Database open in read/write mode
 Reading list of missing checksums
+Database client hisClient open in read/write mode
  -> Dir testdir
 Parsed 4 file(s)
-Database not modified
+Database client hisClient not modified
+Database client hisClient closed
 Database closed
 
 List:
@@ -4992,6 +5045,7 @@ Error: Unexpected end of file
 Expiry delay: 18, date: 22
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
@@ -5023,7 +5077,8 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile (13 B)
 Error: Permission denied opening write source file: test1/testfile
 Parsed 41 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
@@ -5214,6 +5269,15 @@ myClient
 [14] -
 
 Journal:
+hisClient
+	/home/User/testdir
+[19] d     0 755
+	/home/User/testfile
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+	/home/User/testfile2
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+	/home/User/testfile~
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/testfile
 [22] f    13 000 
@@ -5221,6 +5285,7 @@ myClient
 Prevent data dir from being removed
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
@@ -5252,7 +5317,8 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 D /home/User/testfile
 M /home/User/testfile~ (0 B)
 Parsed 40 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
@@ -5437,6 +5503,15 @@ myClient
 [16] p     0 644
 
 Journal:
+hisClient
+	/home/User/testdir
+[19] d     0 755
+	/home/User/testfile
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+	/home/User/testfile2
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+	/home/User/testfile~
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/testfile
 [23] -
@@ -5446,6 +5521,7 @@ myClient
 Add one file
 Database open in read/write mode
 Reading list of missing checksums
+Database client myClient open in read/write mode
  -> Dir crash
  -> Dir cvs
  -> Parsing CVS entries
@@ -5476,7 +5552,8 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile~ (5 B)
 Parsed 40 file(s)
-Closing database
+Closing database client myClient
+Database client myClient closed
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
@@ -5660,6 +5737,15 @@ myClient
 [16] p     0 644
 
 Journal:
+hisClient
+	/home/User/testdir
+[19] d     0 755
+	/home/User/testfile
+[19] f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+	/home/User/testfile2
+[19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+	/home/User/testfile~
+[19] f 524288 644 59071590099d21dd439896592338bf95-0
 myClient
 	/home/User/testfile~
 [24] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0

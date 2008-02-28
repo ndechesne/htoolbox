@@ -303,7 +303,7 @@ void HBackup::close() {
 
 int HBackup::scan(bool remove) {
   bool failed = true;
-  if (! _d->db->open_rw()) {
+  if (! _d->db->open()) {
     // Corrupted files ge removed from DB
     if (! _d->db->scan(remove)) {
       failed = false;
@@ -315,9 +315,9 @@ int HBackup::scan(bool remove) {
 
 int HBackup::check() {
   bool failed = true;
-  if (! _d->db->open_ro()) {
+  if (! _d->db->open(true)) {
     // Corrupted files ge removed from DB
-    if (! _d->db->check(false)) {
+    if ((_d->db->check(false) < 0)) {
       failed = false;
     }
     _d->db->close();
@@ -328,7 +328,7 @@ int HBackup::check() {
 int HBackup::backup(
   bool              initialize,
   bool              config_check) {
-  if (! _d->db->open_rw(initialize)) {
+  if (! _d->db->open(false, initialize)) {
     bool failed = false;
 
     for (list<Client*>::iterator client = _d->clients.begin();
@@ -368,12 +368,20 @@ int HBackup::getList(
     const char*     client,
     const char*     path,
     time_t          date) {
-  bool failed;
-
-  if (_d->db->open_ro()) {
+  bool failed = false;
+  if (_d->db->open(true)) {
     return -1;
   }
-  failed = (_d->db->getRecords(records, client, path, date) != 0);
+  if ((client == NULL) || (client[0] == '\0')) {
+    failed = (_d->db->getClients(records) != 0);
+  } else {
+    if (_d->db->openClient(client)) {
+      failed = true;
+    } else {
+      failed = (_d->db->getRecords(records, client, path, date) != 0);
+    }
+    _d->db->closeClient();
+  }
   _d->db->close();
   return failed ? -1 : 0;
 }
@@ -383,13 +391,17 @@ int HBackup::restore(
     const char*     client,
     const char*     path,
     time_t          date) {
-  if (_d->db->open_ro()) {
-    return -1;
-  }
-  Path where(dest);
-  where.noTrailingSlashes();
+  bool failed = true;
+  if (_d->db->open(true) >= 0) {
+    if (_d->db->openClient(client) >= 0) {
+      Path where(dest);
+      where.noTrailingSlashes();
 
-  bool failed = (_d->db->restore(where.c_str(), client, path, date) != 0);
-  _d->db->close();
+      bool failed = (_d->db->restore(where.c_str(), client, path, date) != 0);
+      _d->db->closeClient();
+      failed = false;;
+    }
+    _d->db->close();
+  }
   return failed ? -1 : 0;
 }

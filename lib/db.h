@@ -28,35 +28,25 @@ class Database {
   int  lock();
   // Unlock DB
   void unlock();
-  // Merge journal in case of failure recovery
-  int  merge();
   // Shuffle file names around
   int  update(
     const char*     name,
     bool            new_file = false) const;
-  // Close database in read-only mode
-  int  close_ro();
-  // Close database in read/write mode
-  int  close_rw();
-protected: // So I can test them/use them in tests
-  bool isOpen() const;
-  bool isWriteable() const;
 public:
   // Method to convert from version '3' to version '4a' of DB list
   int convertList(list<string>* clients = NULL);
   Database(
     const char*     path);                // Path where DB resides
   ~Database();
-  // Open database in read-only mode
-  int  open_ro();
-  // Open database in read/write mode
-  int  open_rw(
-    bool            initialize = false);  // Whether to initialize DB if needed
+  // Open database
+  int  open(
+    bool            read_only  = false,   // Open for read only
+    bool            initialize = false);  // Initialize DB if needed
   // Close database
   int  close();
   // Get list of clients in DB
   int getClients(
-    list<string>&   clients);             // List of clients
+    list<string>&   clients) const;       // List of clients
   // Get list of paths and data from DB list (close-open to re-use DB!)
   int  getRecords(
     list<string>&   records,              // List of elements to display
@@ -71,7 +61,7 @@ public:
     time_t          date = 0);            // The date to restore (latest)
   // Scan database for missing/obsolete data
   int  scan(
-    bool            remove   = true) const; // Whether to remove obsolete data
+    bool            remove   = true);     // Whether to remove obsolete data
   // Scan database for corrupted data
   int  check(
     bool            remove   = false) const;// Whether to remove corrupted data
@@ -80,7 +70,7 @@ public:
     const char*     client,               // Client to deal with
     time_t          expire = -1);         // Client removed data expiration
   // Close list / journal for current client, can signal if error occurred
-  void closeClient(
+  int  closeClient(
     bool            abort = false);       // Whether to remove remaining items
   // Send data for comparison
   int  sendEntry(

@@ -161,8 +161,8 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(dblist, journal)) {
-    cerr << "Failed to merge: " << strerror(errno) << endl;
+  if (merge.merge(dblist, journal) < 0) {
+    cerr << "Failed to merge" << endl;
     return 0;
   }
   merge.close();
@@ -270,8 +270,8 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(dblist, journal)) {
-    cerr << "Failed to merge: " << strerror(errno) << endl;
+  if (merge.merge(dblist, journal) < 0) {
+    cerr << "Failed to merge" << endl;
     return 0;
   }
   merge.close();
@@ -480,8 +480,8 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(dblist, journal)) {
-    cerr << "Failed to merge: " << strerror(errno) << endl;
+  if (merge.merge(dblist, journal) < 0) {
+    cerr << "Failed to merge" << endl;
 //     return 0;
   }
   merge.close();
@@ -564,8 +564,8 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(dblist, journal)) {
-    cerr << "Failed to merge: " << strerror(errno) << endl;
+  if (merge.merge(dblist, journal) < 0) {
+    cerr << "Failed to merge" << endl;
 //     return 0;
   }
   merge.close();
@@ -768,8 +768,8 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(dblist, journal)) {
-    cerr << "Failed to merge: " << strerror(errno) << endl;
+  if (merge.merge(dblist, journal) < 0) {
+    cerr << "Failed to merge" << endl;
     return 0;
   }
   merge.close();

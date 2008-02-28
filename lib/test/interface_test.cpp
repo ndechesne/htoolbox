@@ -66,6 +66,7 @@ int main(void) {
     return 1;
   }
   hbackup->backup();
+  hbackup->close();
   delete hbackup;
 
   cout << endl << "Test: typical backup" << endl;
@@ -74,6 +75,7 @@ int main(void) {
     return 1;
   }
   hbackup->backup(true);
+  hbackup->close();
   delete hbackup;
 
   cout << endl << "Test: same backup" << endl;
@@ -82,6 +84,7 @@ int main(void) {
     return 1;
   }
   hbackup->backup();
+  hbackup->close();
   delete hbackup;
 
   cout << endl << "Test: interrupted backup" << endl;
@@ -93,6 +96,7 @@ int main(void) {
     return 1;
   }
   hbackup->backup();
+  hbackup->close();
   delete hbackup;
   killed = false;
   killall = false;
@@ -105,6 +109,7 @@ int main(void) {
   hbackup->addClient("myhost");
   hbackup->addClient("client");
   hbackup->backup();
+  hbackup->close();
   delete hbackup;
 
   cout << endl << "Test: scan DB" << endl;
@@ -113,6 +118,7 @@ int main(void) {
     return 1;
   }
   hbackup->scan();
+  hbackup->close();
   delete hbackup;
 
   cout << endl << "Test: check DB" << endl;
@@ -121,6 +127,7 @@ int main(void) {
     return 1;
   }
   hbackup->check();
+  hbackup->close();
   delete hbackup;
 
   list<string> records;
@@ -131,6 +138,7 @@ int main(void) {
     return 1;
   }
   hbackup->getList(records);
+  hbackup->close();
   delete hbackup;
   cout << "List of clients: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -144,6 +152,7 @@ int main(void) {
     return 1;
   }
   hbackup->getList(records, "myClient");
+  hbackup->close();
   delete hbackup;
   cout << "List of paths in 'myClient': " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -157,6 +166,7 @@ int main(void) {
     return 1;
   }
   hbackup->getList(records, "client");
+  hbackup->close();
   delete hbackup;
   cout << "List of paths in 'client': " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -170,6 +180,7 @@ int main(void) {
     return 1;
   }
   hbackup->restore("test_r", "myhost", "test2/testfile", 0);
+  hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
 
@@ -179,6 +190,7 @@ int main(void) {
     return 1;
   }
   hbackup->restore("test_r", "myhost", "test1", 0);
+  hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
 
@@ -188,6 +200,7 @@ int main(void) {
     return 1;
   }
   hbackup->restore("test_r", "myhost", "test1/cvs", 0);
+  hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
 
@@ -197,6 +210,7 @@ int main(void) {
     return 1;
   }
   hbackup->restore("test_r", "myhost", "", 0);
+  hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
 
@@ -212,6 +226,7 @@ int main(void) {
     return 1;
   }
   hbackup->backup();
+  hbackup->close();
   delete hbackup;
 
   cout << endl << "Test: specify clients" << endl;
@@ -222,6 +237,7 @@ int main(void) {
   hbackup->addClient("myClient");
   hbackup->addClient("client");
   hbackup->backup();
+  hbackup->close();
   delete hbackup;
 
   cout << endl << "Test: user-mode backup" << endl;
@@ -230,6 +246,7 @@ int main(void) {
     return 1;
   }
   hbackup->backup(true);
+  hbackup->close();
   delete hbackup;
 
   cout << endl << "Test: list clients" << endl;
@@ -238,6 +255,7 @@ int main(void) {
     return 1;
   }
   hbackup->getList(records);
+  hbackup->close();
   delete hbackup;
   cout << "List of clients: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -251,6 +269,7 @@ int main(void) {
     return 1;
   }
   hbackup->getList(records, "myClient:xp");
+  hbackup->close();
   delete hbackup;
   cout << "List of paths in 'myClient:xp': " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -264,6 +283,7 @@ int main(void) {
     return 1;
   }
   hbackup->getList(records, "myClient", "/home");
+  hbackup->close();
   delete hbackup;
   cout << "List of paths in 'myClient': " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -277,6 +297,7 @@ int main(void) {
     return 1;
   }
   hbackup->getList(records, "myClient:xp", "C:");
+  hbackup->close();
   delete hbackup;
   cout << "List of paths in 'myClient:xp', 'C:': " << records.size()
     << endl;
@@ -291,6 +312,7 @@ int main(void) {
     return 1;
   }
   hbackup->restore("test_r", "myClient", "/home/User/test/File2.txt", 0);
+  hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
 
@@ -300,6 +322,7 @@ int main(void) {
     return 1;
   }
   hbackup->restore("test_r", "myClient", "/home/User/test", 0);
+  hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
 
@@ -309,6 +332,7 @@ int main(void) {
     return 1;
   }
   hbackup->restore("test_r", "myClient", "/", 0);
+  hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
 
@@ -318,6 +342,7 @@ int main(void) {
     return 1;
   }
   hbackup->restore("test_r", "myClient:xp", "C:/Test/File.TXT", 0);
+  hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
 
@@ -327,6 +352,7 @@ int main(void) {
     return 1;
   }
   hbackup->restore("test_r", "myClient:xp", "C:/Test", 0);
+  hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
 
@@ -336,6 +362,7 @@ int main(void) {
     return 1;
   }
   hbackup->restore("test_r", "myClient:xp", "C:", 0);
+  hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
 
@@ -345,6 +372,7 @@ int main(void) {
     return 1;
   }
   hbackup->restore("test_r", "myClient", "", 0);
+  hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
 
@@ -360,6 +388,7 @@ int main(void) {
   }
   cout << "Check" << endl;
   hbackup->check();
+  hbackup->close();
   delete hbackup;
 
 
@@ -375,6 +404,7 @@ int main(void) {
   hbackup->scan(false);
   cout << "Just scan again" << endl;
   hbackup->scan(false);
+  hbackup->close();
   delete hbackup;
 
 
@@ -395,6 +425,7 @@ int main(void) {
   hbackup->scan(true);
   cout << "Just scan again" << endl;
   hbackup->scan(false);
+  hbackup->close();
   delete hbackup;
 
 
@@ -415,6 +446,7 @@ int main(void) {
   hbackup->scan(true);
   cout << "Just scan again" << endl;
   hbackup->scan(false);
+  hbackup->close();
   delete hbackup;
 
 
@@ -425,6 +457,7 @@ int main(void) {
     return 1;
   }
   hbackup->backup();
+  hbackup->close();
   delete hbackup;
   // Second backup should not recover again
   hbackup = new HBackup();
@@ -432,6 +465,7 @@ int main(void) {
     return 1;
   }
   hbackup->backup();
+  hbackup->close();
   delete hbackup;
   // Scan should show the recovered data
   hbackup = new HBackup();
@@ -439,6 +473,7 @@ int main(void) {
     return 1;
   }
   hbackup->scan();
+  hbackup->close();
   delete hbackup;
   // Again, back up does not need to recover again
   hbackup = new HBackup();
@@ -446,6 +481,7 @@ int main(void) {
     return 1;
   }
   hbackup->backup();
+  hbackup->close();
   delete hbackup;
 
   return 0;

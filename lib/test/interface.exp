@@ -51,6 +51,8 @@ Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
 Reading list of missing checksums
+Created client's list
+Database client client open in read/write mode
 Backup path 'C:/Test'
 A C:/Test/Dir
  -> Dir Dir
@@ -60,11 +62,15 @@ A C:/Test/Dir/another File.TXT (2 B)
 Adding file data to DB in: test_db/data/26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
+Closing database client client
+Database client client closed
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Created myClient's list
+Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
@@ -73,6 +79,8 @@ A /home/User/test/dir
  -> Dir dir
 A /home/User/test/dir/file3.txt (2 B)
 Adding file data to DB in: test_db/data/6d7fce9fee471194aa8b5b6e47267f03-0
+Closing database client myClient
+Database client myClient closed
  -> umount -fl test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -91,6 +99,8 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Created myhost's list
+Database client myhost open in read/write mode
 Backup path 'test1'
 A test1/big_file (10 MB)
 Done:   3.9%\r
@@ -214,8 +224,9 @@ Done:  78.1%\r
             \r
 Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
 A test2/testlink
+Closing database client myhost
+Database client myhost closed
 Error: Protocol not supported: ssh
-Closing database
 Database closed
 
 Test: same backup
@@ -244,17 +255,23 @@ Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
 Reading list of missing checksums
+Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
+Database client client not modified
+Database client client closed
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
  -> Dir dir
+Database client myClient not modified
+Database client myClient closed
  -> umount -fl test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -273,6 +290,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
  -> Dir bzr/.bzr
@@ -311,8 +329,9 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Backup path 'test2'
  -> Dir testdir
+Database client myhost not modified
+Database client myhost closed
 Error: Protocol not supported: ssh
-Database not modified
 Database closed
 
 Test: interrupted backup
@@ -341,17 +360,23 @@ Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
 Reading list of missing checksums
+Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
+Database client client not modified
+Database client client closed
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
  -> Dir dir
+Database client myClient not modified
+Database client myClient closed
  -> umount -fl test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -370,6 +395,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
  -> Dir bzr/.bzr
@@ -395,6 +421,7 @@ A test1/dir space/big_file (512 kB)
 Done:  80.0%\r
 Killing inside data
 Error: Operation canceled copying write file: test1/dir space/big_file
+Database client myhost closed
 Database closed
 
 Test: specify clients
@@ -417,15 +444,18 @@ version of this software, please remove it from your configuration
  ---> Expiry: 1 day(s)
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
-Warning: Backup was interrupted in a previous run, finishing up...
+Warning: Backup of client myhost was interrupted in a previous run, finishing up...
 Database open in read/write mode
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
 Reading list of missing checksums
+Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
+Database client client not modified
+Database client client closed
  -> umount -fl test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -444,6 +474,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
  -> Dir bzr/.bzr
@@ -486,7 +517,8 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Backup path 'test2'
  -> Dir testdir
-Closing database
+Closing database client myhost
+Database client myhost closed
 Database closed
 
 Test: scan DB
@@ -510,7 +542,9 @@ version of this software, please remove it from your configuration
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
-Reading list
+Reading client's list
+Reading myClient's list
+Reading myhost's list
 Found 16 checksums
 Crawling through DB
 0f2ea973d77135dc3d06c8e68da6dc59-0\r
@@ -565,7 +599,6 @@ Checksum(s) with data:
  -> f1c9645dbc14efddc7d8a322685f26eb-0
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database not modified
 Database closed
 
 Test: check DB
@@ -658,6 +691,8 @@ version of this software, please remove it from your configuration
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myClient open in read-only mode
+Database client myClient closed
 Database closed
 List of paths in 'myClient': 1
  -> /home
@@ -683,6 +718,8 @@ version of this software, please remove it from your configuration
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client client open in read-only mode
+Database client client closed
 Database closed
 List of paths in 'client': 1
  -> C:
@@ -708,7 +745,9 @@ version of this software, please remove it from your configuration
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myhost open in read-only mode
 U test_r/test2/testfile
+Database client myhost closed
 Database closed
 
 Test: restore dir
@@ -732,6 +771,7 @@ version of this software, please remove it from your configuration
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myhost open in read-only mode
 U test_r/test1/big_file
 U test_r/test1/bzr
 U test_r/test1/bzr/.bzr
@@ -774,6 +814,7 @@ U test_r/test1/testdir
 U test_r/test1/testfile
 U test_r/test1/testlink
 U test_r/test1/testpipe
+Database client myhost closed
 Database closed
 
 Test: restore subdir
@@ -797,6 +838,7 @@ version of this software, please remove it from your configuration
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myhost open in read-only mode
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
@@ -809,6 +851,7 @@ U test_r/test1/cvs/dirutd/CVS/Root
 U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
+Database client myhost closed
 Database closed
 
 Test: restore client
@@ -832,6 +875,7 @@ version of this software, please remove it from your configuration
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myhost open in read-only mode
 U test_r/test1/big_file
 U test_r/test1/bzr
 U test_r/test1/bzr/.bzr
@@ -881,6 +925,7 @@ U test_r/test2/testfile~
 Done:  78.1%\r
             \r
 U test_r/test2/testlink
+Database client myhost closed
 Database closed
 
 Test: add dual-boot client
@@ -913,28 +958,38 @@ Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
 Reading list of missing checksums
+Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
+Database client client not modified
+Database client client closed
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
  -> Dir dir
+Database client myClient not modified
+Database client myClient closed
  -> umount -fl test_db/mount
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Created myClient:xp's list
+Database client myClient:xp open in read/write mode
 Backup path 'C:/Test'
 A C:/Test/Dir
  -> Dir Dir
 A C:/Test/Dir/a File.TXT (2 B)
 A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
+Closing database client myClient:xp
+Database client myClient:xp closed
  -> umount -fl test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -953,6 +1008,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
  -> Dir bzr/.bzr
@@ -991,8 +1047,9 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Backup path 'test2'
  -> Dir testdir
+Database client myhost not modified
+Database client myhost closed
 Error: Protocol not supported: ssh
-Closing database
 Database closed
 
 Test: specify clients
@@ -1023,26 +1080,34 @@ Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
 Reading list of missing checksums
+Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
+Database client client not modified
+Database client client closed
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
  -> Dir dir
+Database client myClient not modified
+Database client myClient closed
  -> umount -fl test_db/mount
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Database client myClient:xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
+Database client myClient:xp not modified
+Database client myClient:xp closed
  -> umount -fl test_db/mount
-Database not modified
 Database closed
 
 Test: user-mode backup
@@ -1051,6 +1116,8 @@ Database open in read/write mode
  -> Reading client configuration file
  --> Path: test_user/testuser
 Reading list of missing checksums
+Created localhost's list
+Database client localhost open in read/write mode
 Backup path 'test_user/testuser'
 A test_user/testuser/f1.txt (3 B)
 Adding file data to DB in: test_user/.hbackup/data/31d30eea8d0968d6458e0ad0027c9f80-0
@@ -1064,7 +1131,8 @@ A test_user/testuser/subdir2/f3.txt (3 B)
 Adding file data to DB in: test_user/.hbackup/data/d5b4c7d9b06b60a7846c4529834c9812-0
 A test_user/testuser/subdir2/f4.txt (3 B)
 Adding file data to DB in: test_user/.hbackup/data/90e2a51705594d033a3abe9d77b2b7ad-0
-Closing database
+Closing database client localhost
+Database client localhost closed
 Database closed
 
 Test: list clients
@@ -1120,6 +1188,8 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myClient:xp open in read-only mode
+Database client myClient:xp closed
 Database closed
 List of paths in 'myClient:xp': 1
  -> C:
@@ -1147,6 +1217,8 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myClient open in read-only mode
+Database client myClient closed
 Database closed
 List of paths in 'myClient': 1
  -> /home/User
@@ -1174,6 +1246,8 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myClient:xp open in read-only mode
+Database client myClient:xp closed
 Database closed
 List of paths in 'myClient:xp', 'C:': 1
  -> C:/Test
@@ -1201,7 +1275,9 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myClient open in read-only mode
 U test_r//home/User/test/File2.txt
+Database client myClient closed
 Database closed
 
 Test: restore subdir (UNIX)
@@ -1227,9 +1303,11 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myClient open in read-only mode
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir
 U test_r//home/User/test/dir/file3.txt
+Database client myClient closed
 Database closed
 
 Test: restore dir (UNIX)
@@ -1255,9 +1333,11 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myClient open in read-only mode
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir
 U test_r//home/User/test/dir/file3.txt
+Database client myClient closed
 Database closed
 
 Test: restore file (DOS)
@@ -1283,7 +1363,9 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myClient:xp open in read-only mode
 U test_r/C:/Test/File.TXT
+Database client myClient:xp closed
 Database closed
 
 Test: restore subdir (DOS)
@@ -1309,10 +1391,12 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myClient:xp open in read-only mode
 U test_r/C:/Test/Dir
 U test_r/C:/Test/Dir/a File.TXT
 U test_r/C:/Test/Dir/another File.TXT
 U test_r/C:/Test/File.TXT
+Database client myClient:xp closed
 Database closed
 
 Test: restore dir (DOS)
@@ -1338,10 +1422,12 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myClient:xp open in read-only mode
 U test_r/C:/Test/Dir
 U test_r/C:/Test/Dir/a File.TXT
 U test_r/C:/Test/Dir/another File.TXT
 U test_r/C:/Test/File.TXT
+Database client myClient:xp closed
 Database closed
 
 Test: restore client
@@ -1367,9 +1453,11 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
+Database client myClient open in read-only mode
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir
 U test_r//home/User/test/dir/file3.txt
+Database client myClient closed
 Database closed
 
 Test: check for corrupted data
@@ -1445,7 +1533,10 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Just scan
 Database open in read/write mode
-Reading list
+Reading client's list
+Reading myClient's list
+Reading myClient:xp's list
+Reading myhost's list
 Found 16 checksums
 Crawling through DB
 0f2ea973d77135dc3d06c8e68da6dc59-0\r
@@ -1505,12 +1596,14 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
-Reading list
+Reading client's list
+Reading myClient's list
+Reading myClient:xp's list
+Reading myhost's list
 Found 16 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0\r
@@ -1562,7 +1655,6 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
 
@@ -1590,7 +1682,10 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Just scan
 Database open in read/write mode
-Reading list
+Reading client's list
+Reading myClient's list
+Reading myClient:xp's list
+Reading myhost's list
 Found 16 checksums
 Crawling through DB
 00000000000000000000000000000000-0\r
@@ -1652,12 +1747,14 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
-Reading list
+Reading client's list
+Reading myClient's list
+Reading myClient:xp's list
+Reading myhost's list
 Found 16 checksums
 Crawling through DB
 00000000000000000000000000000000-0\r
@@ -1719,12 +1816,14 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
-Reading list
+Reading client's list
+Reading myClient's list
+Reading myClient:xp's list
+Reading myhost's list
 Found 16 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0\r
@@ -1776,7 +1875,6 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
 
@@ -1804,7 +1902,10 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Just scan
 Database open in read/write mode
-Reading list
+Reading client's list
+Reading myClient's list
+Reading myClient:xp's list
+Reading myhost's list
 Found 16 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0\r
@@ -1866,12 +1967,14 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
-Reading list
+Reading client's list
+Reading myClient's list
+Reading myClient:xp's list
+Reading myhost's list
 Found 16 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0\r
@@ -1933,12 +2036,14 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
-Reading list
+Reading client's list
+Reading myClient's list
+Reading myClient:xp's list
+Reading myhost's list
 Found 16 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0\r
@@ -1990,7 +2095,6 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database not modified
 List of missing checksums contains 4 item(s)
 Database closed
 
@@ -2026,24 +2130,33 @@ Reading list of missing checksums
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
+Database client client not modified
+Database client client closed
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
  -> Dir dir
+Database client myClient not modified
+Database client myClient closed
  -> umount -fl test_db/mount
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Database client myClient:xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
+Database client myClient:xp not modified
+Database client myClient:xp closed
  -> umount -fl test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -2062,6 +2175,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
  -> Dir bzr/.bzr
@@ -2110,8 +2224,9 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 D test1/testfile
 Backup path 'test2'
  -> Dir testdir
+Closing database client myhost
+Database client myhost closed
 Error: Protocol not supported: ssh
-Closing database
 List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file 'etc/hbackup.conf'
@@ -2142,24 +2257,33 @@ Backup client 'client' using protocol 'smb'
  --> Path: C:/Test
 Reading list of missing checksums
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
+Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
+Database client client not modified
+Database client client closed
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
  -> Dir dir
+Database client myClient not modified
+Database client myClient closed
  -> umount -fl test_db/mount
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Database client myClient:xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
+Database client myClient:xp not modified
+Database client myClient:xp closed
  -> umount -fl test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -2178,6 +2302,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
  -> Dir bzr/.bzr
@@ -2216,8 +2341,9 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Backup path 'test2'
  -> Dir testdir
+Database client myhost not modified
+Database client myhost closed
 Error: Protocol not supported: ssh
-Database not modified
 List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file 'etc/hbackup.conf'
@@ -2242,7 +2368,10 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
-Reading list
+Reading client's list
+Reading myClient's list
+Reading myClient:xp's list
+Reading myhost's list
 Found 16 checksums
 Crawling through DB
 0f2ea973d77135dc3d06c8e68da6dc59-0\r
@@ -2297,7 +2426,6 @@ Checksum(s) with data:
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Warning: Missing checksum(s): 1
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
-Database not modified
 List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file 'etc/hbackup.conf'
@@ -2328,24 +2456,33 @@ Backup client 'client' using protocol 'smb'
  --> Path: C:/Test
 Reading list of missing checksums
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
+Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
+Database client client not modified
+Database client client closed
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
  -> Dir dir
+Database client myClient not modified
+Database client myClient closed
  -> umount -fl test_db/mount
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Database client myClient:xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
+Database client myClient:xp not modified
+Database client myClient:xp closed
  -> umount -fl test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -2364,6 +2501,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
  -> Dir bzr/.bzr
@@ -2402,7 +2540,8 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Backup path 'test2'
  -> Dir testdir
+Database client myhost not modified
+Database client myhost closed
 Error: Protocol not supported: ssh
-Database not modified
 List of missing checksums contains 1 item(s)
 Database closed

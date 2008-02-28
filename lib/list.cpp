@@ -749,17 +749,16 @@ int List::merge(
     List&         journal) {
   // Check that all files are open
   if (! isOpen() || ! list.isOpen() || ! journal.isOpen()) {
-    errno = EBADF;
+    out(error) << "At least one list is not open" << endl;
     return -1;
   }
 
   // Check open mode
   if (! isWriteable() || list.isWriteable() || journal.isWriteable()) {
-    errno = EINVAL;
+    out(error) << "At least one list is not open correctly" << endl;
     return -1;
   }
 
-  int rc      = 1;
   int rc_list = 1;
 
   // Line read from journal
@@ -773,15 +772,14 @@ int List::merge(
   _d->line_status = no_data;
 
   // Parse journal
-  while (rc > 0) {
+  while (true) {
     int  rc_journal = journal.fetchLine();
     j_line_no++;
 
     // Failed
     if (rc_journal < 0) {
       out(error) << "Reading journal, line " << j_line_no << endl;
-      rc = -1;
-      break;
+      return 1;
     }
 
     // End of file
@@ -791,16 +789,13 @@ int List::merge(
         if (rc_list < 0) {
           // Error copying list
           out(error) << "End of list copy failed" << endl;
-          rc = -1;
-          break;
+          return -1;
         }
       }
       if (rc_journal == 0) {
         out(warning) << "Unexpected end of journal" << endl;
-        errno = EBUSY;
-        rc = -1;
+        return 1;
       }
-      rc = 0;
       break;
     }
 
@@ -819,9 +814,7 @@ int List::merge(
           // Cannot go back
           out(error) << "Client out of order in journal, line " << j_line_no
             << endl;
-          errno = EUCLEAN;
-          rc = -1;
-          break;
+          return -1;
         }
       }
       // Copy new client
@@ -834,8 +827,7 @@ int List::merge(
         if (rc_list < 0) {
           // Error copying list
           out(error) << "Client search failed" << endl;
-          rc = -1;
-          break;
+          return -1;
         }
       }
     } else
@@ -846,9 +838,7 @@ int List::merge(
       if (client.length() == 0) {
         // Did not get a client first thing
         out(error) << "Client missing in journal, line " << j_line_no << endl;
-        errno = EUCLEAN;
-        rc = -1;
-        break;
+        return -1;
       }
       // Check path order
       if (path.length() != 0) {
@@ -856,9 +846,7 @@ int List::merge(
           // Cannot go back
           out(error) << "Path out of order in journal, line " << j_line_no
             << endl;
-          errno = EUCLEAN;
-          rc = -1;
-          break;
+          return -1;
         }
       }
       // Copy new path
@@ -869,8 +857,7 @@ int List::merge(
         if (rc_list < 0) {
           // Error copying list
           out(error) << "Path search failed" << endl;
-          rc = -1;
-          break;
+          return -1;
         }
       }
     } else
@@ -882,9 +869,7 @@ int List::merge(
         // Did not get anything before data
         out(error) << "Data out of order in journal, line " << j_line_no
           << endl;
-        errno = EUCLEAN;
-        rc = -1;
-        break;
+        return -1;
       }
 
       // If exception, try to put in list buffer (will succeed) otherwise write
@@ -893,11 +878,9 @@ int List::merge(
        && (Stream::putLine(journal._d->line.c_str()) < 0)) {
         // Could not write
         out(error) << "Journal copy failed" << endl;
-        rc = -1;
-        break;
+        return -1;
       }
     }
   }
-
-  return rc;
+  return 0;
 }

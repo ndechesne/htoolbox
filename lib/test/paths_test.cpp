@@ -113,10 +113,10 @@ int main(void) {
 
   ClientPath* path = new ClientPath("/home/User");
   Database    db("test_db");
-  // Journal
-  List real_journal(Path("test_db", "journal"));
-  List journal(Path("test_db", "journal~"));
-  List dblist(Path("test_db", "list"));
+  // myClient's lists
+  List real_journal(Path("test_db", "myClient.journal"));
+  List journal(Path("test_db", "myClient.journal~"));
+  List dblist(Path("test_db", "myClient.list"));
   // Filter
   Filter* bazaar = path->addFilter("and", "bazaar");
   if ((bazaar == NULL)
@@ -129,7 +129,7 @@ int main(void) {
   // Initialisation
   cout << endl << "Initial backup, check '/' precedence" << endl;
   my_time++;
-  if (db.open_rw(true) < 0) {
+  if (db.open(false, true) < 0) {
     cout << "failed to open DB" << endl;
     return 0;
   }
@@ -157,7 +157,7 @@ int main(void) {
   cout << endl << "Journal:" << endl;
   showList(journal);
   // Initialize list of missing checksums
-  if (! db.open_rw()) {
+  if (! db.open()) {
     db.scan();
     db.close();
   }
@@ -165,7 +165,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous, with a .hbackup directory" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   mkdir("test1/.hbackup", 0755);
   db.openClient("myClient");
@@ -188,7 +188,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous with new big_file, interrupted" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   system("dd if=/dev/zero of=test1/cvs/big_file bs=1k count=500"
     " > /dev/null 2>&1");
@@ -213,7 +213,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous with subdir/testfile readable" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   killed  = false;
   killall = false;
@@ -238,7 +238,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous with subdir/testfile in ignore list" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   Filter* testfile = path->addFilter("and", "testfile");
   if ((testfile == NULL)
@@ -273,7 +273,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous with subdir in ignore list" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   Filter* subdir = path->addFilter("and", "subdir");
   if ((subdir == NULL)
@@ -308,7 +308,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous with testlink modified" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   system("sleep 1 && ln -sf testnull test1/testlink");
   db.openClient("myClient");
@@ -331,7 +331,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous with testlink in ignore list" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   Filter* testlink = path->addFilter("and", "testlink");
   if ((testlink == NULL)
@@ -367,7 +367,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous with CVS parser (controlled)" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   if (path->addParser("cvs", "controlled")) {
     cout << "Failed to add CVS parser" << endl;
@@ -392,7 +392,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   db.openClient("myClient");
   if (! path->parse(db, "test1")) {
@@ -414,7 +414,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous with Subversion parser (modified)" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   if (path->addParser("cvs", "controlled")) {
     cout << "Failed to add CVS parser" << endl;
@@ -442,7 +442,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous with cvs/dirutd in ignore list" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   Filter* cvs_dirutd = path->addFilter("and", "cvs_dirutd");
   if ((cvs_dirutd == NULL)
@@ -481,7 +481,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous with svn/dirutd in ignore list" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   Filter* svn_dirutd = path->addFilter("and", "svn_dirutd");
   if ((svn_dirutd == NULL)
@@ -511,7 +511,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous with testpipe gone" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   rename("test1/testpipe", "testpipe");
   db.openClient("myClient");
@@ -534,7 +534,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous with testfile mode changed" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   system("chmod 660 test1/testfile");
   db.openClient("myClient");
@@ -557,7 +557,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous with cvs/filenew.c touched and testpipe restored" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
    // Also test that we behave correctly when dir exists but is empty
   system("echo blah > test1/cvs/filenew.c");
@@ -584,7 +584,7 @@ int main(void) {
   // Next test
   cout << endl << "Some troublesome past cases" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   system("mkdir -p test1/docbook-xml/3.1.7");
   system("touch test1/docbook-xml/3.1.7/dbgenent.ent");
@@ -627,7 +627,7 @@ int main(void) {
   // Next test
   cout << endl << "Same again: journal and list left untouched" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   db.openClient("myClient");
   if (! path->parse(db, "test1")) {
@@ -653,7 +653,7 @@ int main(void) {
   system("mkdir test1/crash");
   system("touch test1/crash/file");
   system("rm -rf test1/testdir");
-  db.open_rw();
+  db.open();
 
   db.openClient("hisClient");
   if (! path->parse(db, "test2")) {
@@ -664,42 +664,51 @@ int main(void) {
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
-  db.closeClient();
 
   // Save files to test recovery
-  system("cp test_db/list test_db/list.cp");
-  system("cp test_db/journal test_db/journal.cp");
+  system("cp test_db/myClient.list test_db/myClient.list.cp");
+  system("cp test_db/myClient.journal test_db/myClient.journal.cp");
 
+  db.closeClient();
   if (db.close()) {
     return 0;
   }
 
+  // hisClient's lists
+  List real_journal2(Path("test_db", "hisClient.journal"));
+  List journal2(Path("test_db", "hisClient.journal~"));
+  List dblist2(Path("test_db", "hisClient.list"));
+
   // Replace files to test recovery
-  rename("test_db/list.cp", "test_db/list");
-  rename("test_db/journal.cp", "test_db/journal");
+  rename("test_db/myClient.list.cp", "test_db/myClient.list");
+  rename("test_db/myClient.journal.cp", "test_db/myClient.journal");
 
   // Show list contents
   cout << endl << "List:" << endl;
+  showList(dblist2);
   showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
+  showList(journal2);
   showList(real_journal);
 
   // Recover now
-  db.open_rw();
+  db.open();
 
   // Show list contents
   cout << endl << "List:" << endl;
+  showList(dblist2);
   showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
+  showList(journal2);
   showList(journal);
   if (db.close()) {
     return 0;
   }
 
 
-  db.open_rw();
+  db.open();
 
   if (db.close()) {
     return 0;
@@ -709,7 +718,7 @@ int main(void) {
   // Next test
   cout << endl << "Same again" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   db.openClient("myClient");
   if (! path->parse(db, "test1")) {
@@ -723,15 +732,17 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
+  showList(dblist2);
   showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
+  showList(journal2);
   showList(journal);
 
   // Next test
   cout << endl << "Same again" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   db.openClient("hisClient");
   if (! path->parse(db, "test2")) {
@@ -745,15 +756,17 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
+  showList(dblist2);
   showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
+  showList(journal2);
   showList(journal);
 
   // Next test
   my_time++;
   cout << endl << "Expiry delay: 18, date: " << my_time << endl;
-  db.open_rw();
+  db.open();
 
   system("touch test1/testfile");
   system("chmod 0 test1/testfile");
@@ -772,15 +785,17 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
+  showList(dblist2);
   showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
+  showList(journal2);
   showList(journal);
 
   // Next test
   cout << endl << "Prevent data dir from being removed" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   system("touch test1/testfile~");
   system("rm -f test1/testfile");
@@ -801,15 +816,17 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
+  showList(dblist2);
   showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
+  showList(journal2);
   showList(journal);
 
   // Next test
   cout << endl << "Add one file" << endl;
   my_time++;
-  db.open_rw();
+  db.open();
 
   system("echo blah > test1/testfile~");
   db.openClient("myClient", 0);
@@ -825,9 +842,11 @@ int main(void) {
 
   // Show list contents
   cout << endl << "List:" << endl;
+  showList(dblist2);
   showList(dblist);
   // Show journal contents
   cout << endl << "Journal:" << endl;
+  showList(journal2);
   showList(journal);
 
   delete path;

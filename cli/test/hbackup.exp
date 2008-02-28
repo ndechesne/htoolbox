@@ -107,7 +107,7 @@ HBackup (c) 2006-2008 Hervé Fache
   -h,  --help
     Displays usage information and exits.
 
-List prefixes (missing DB path)
+List clients (missing DB path)
  -> Reading configuration file 'etc/hbackup.conf'
  --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
@@ -129,7 +129,7 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Showing list
 Error: Given DB path does not exist: test_db
-List prefixes (empty DB path)
+List clients (empty DB path)
  -> Reading configuration file 'etc/hbackup.conf'
  --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
@@ -201,6 +201,8 @@ Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
 Reading list of missing checksums
+Created client's list
+Database client client open in read/write mode
 Backup path 'C:/Test'
 A C:/Test/Dir
  -> Dir Dir
@@ -210,11 +212,15 @@ A C:/Test/Dir/another File.TXT (2 B)
 Adding file data to DB in: test_db/data/26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
 Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
+Closing database client client
+Database client client closed
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Created myClient's list
+Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
@@ -223,6 +229,8 @@ A /home/User/test/dir
  -> Dir dir
 A /home/User/test/dir/file3.txt (2 B)
 Adding file data to DB in: test_db/data/6d7fce9fee471194aa8b5b6e47267f03-0
+Closing database client myClient
+Database client myClient closed
  -> umount -fl test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -241,6 +249,8 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Created myhost's list
+Database client myhost open in read/write mode
 Backup path 'test1'
 A test1/big_file (10 MB)
 Done:   3.9%\r
@@ -364,8 +374,9 @@ Done:  78.1%\r
             \r
 Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
 A test2/testlink
+Closing database client myhost
+Database client myhost closed
 Error: Protocol not supported: ssh
-Closing database
 Database closed
 Specify clients
  -> Reading configuration file 'etc/hbackup.conf'
@@ -394,8 +405,11 @@ Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
 Reading list of missing checksums
+Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
+Database client client not modified
+Database client client closed
  -> umount -fl test_db/mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -414,6 +428,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
  -> Dir bzr/.bzr
@@ -452,7 +467,8 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Backup path 'test2'
  -> Dir testdir
-Database not modified
+Database client myhost not modified
+Database client myhost closed
 Database closed
 User-mode backup
 Backing up in user mode
@@ -461,6 +477,8 @@ Database open in read/write mode
  -> Reading client configuration file
  --> Path: test_user/testuser
 Reading list of missing checksums
+Created localhost's list
+Database client localhost open in read/write mode
 Backup path 'test_user/testuser'
 A test_user/testuser/f1.txt (3 B)
 Adding file data to DB in: test_user/.hbackup/data/31d30eea8d0968d6458e0ad0027c9f80-0
@@ -474,7 +492,8 @@ A test_user/testuser/subdir2/f3.txt (3 B)
 Adding file data to DB in: test_user/.hbackup/data/d5b4c7d9b06b60a7846c4529834c9812-0
 A test_user/testuser/subdir2/f4.txt (3 B)
 Adding file data to DB in: test_user/.hbackup/data/90e2a51705594d033a3abe9d77b2b7ad-0
-Closing database
+Closing database client localhost
+Database client localhost closed
 Database closed
 Scan DB
  -> Reading configuration file 'etc/hbackup.conf'
@@ -498,7 +517,9 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Scanning database
 Database open in read/write mode
-Reading list
+Reading client's list
+Reading myClient's list
+Reading myhost's list
 Found 15 checksums
 Crawling through DB
 0f2ea973d77135dc3d06c8e68da6dc59-0\r
@@ -550,7 +571,6 @@ Checksum(s) with data:
  -> f1c9645dbc14efddc7d8a322685f26eb-0
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database not modified
 Database closed
 Check DB
  -> Reading configuration file 'etc/hbackup.conf'
@@ -593,7 +613,7 @@ fef51838cd3cfe8ed96355742eb71fbd-0\r
                                   \r
 Found 15 valid and 0 broken data files
 Database closed
-List prefixes
+List clients
  -> Reading configuration file 'etc/hbackup.conf'
  --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
@@ -663,6 +683,8 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Showing list
 Database open in read-only mode
+Database client myhost open in read-only mode
+Database client myhost closed
 Database closed
  test1
  test2
@@ -688,6 +710,8 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Showing list
 Database open in read-only mode
+Database client myhost open in read-only mode
+Database client myhost closed
 Database closed
  test2/testdir
  test2/testfile
@@ -716,6 +740,8 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Showing list
 Database open in read-only mode
+Database client myhost open in read-only mode
+Database client myhost closed
 Database closed
  test1/cvs/CVS
  test1/cvs/dirbad
@@ -744,9 +770,11 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Restoring
 Database open in read-only mode
+Database client myhost open in read-only mode
 U test_r/test2/testfile
+Database client myhost closed
 Database closed
-Restore all data in a prefix/dir path that's not by itself in DB
+Restore all data in a client/dir path that's not by itself in DB
  -> Reading configuration file 'etc/hbackup.conf'
  --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
@@ -768,6 +796,7 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Restoring
 Database open in read-only mode
+Database client myhost open in read-only mode
 U test_r/test1/big_file
 U test_r/test1/bzr
 U test_r/test1/bzr/.bzr
@@ -809,8 +838,9 @@ U test_r/test1/testdir
 U test_r/test1/testfile
 U test_r/test1/testlink
 U test_r/test1/testpipe
+Database client myhost closed
 Database closed
-Restore all data in a prefix/dir path
+Restore all data in a client/dir path
  -> Reading configuration file 'etc/hbackup.conf'
  --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
@@ -832,6 +862,7 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Restoring
 Database open in read-only mode
+Database client myhost open in read-only mode
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
@@ -844,8 +875,9 @@ U test_r/test1/cvs/dirutd/CVS/Root
 U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
+Database client myhost closed
 Database closed
-Restore all data in a prefix
+Restore all data in a client
  -> Reading configuration file 'etc/hbackup.conf'
  --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
@@ -867,6 +899,7 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Restoring
 Database open in read-only mode
+Database client myhost open in read-only mode
 U test_r/test1/big_file
 U test_r/test1/bzr
 U test_r/test1/bzr/.bzr
@@ -915,6 +948,7 @@ U test_r/test2/testfile~
 Done:  78.1%\r
             \r
 U test_r/test2/testlink
+Database client myhost closed
 Database closed
 Broken configuration
  -> Reading configuration file 'etc/broken.conf'

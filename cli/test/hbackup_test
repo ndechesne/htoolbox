@@ -11,10 +11,10 @@ echo "Version"
 echo "Error"
 "$hbackup" -! -- 2>&1
 
-echo "List prefixes (missing DB path)"
+echo "List clients (missing DB path)"
 "$hbackup" -d -c etc/hbackup.conf -l 2>&1
 
-echo "List prefixes (empty DB path)"
+echo "List clients (empty DB path)"
 mkdir test_db
 "$hbackup" -d -c etc/hbackup.conf -l 2>&1
 rmdir test_db
@@ -38,7 +38,7 @@ echo "Scan DB"
 echo "Check DB"
 "$hbackup" -d -c etc/hbackup.conf -t 2>&1
 
-echo "List prefixes"
+echo "List clients"
 "$hbackup" -d -c etc/hbackup.conf -l 2>&1
 
 echo "Try to list paths in both myhost and smb://client (fails)"
@@ -56,13 +56,13 @@ echo "List paths in myhost under test1/cvs"
 echo "Restore a file"
 rm -rf test_r && "$hbackup" -d -c etc/hbackup.conf -r test_r -C myhost -P test2/testfile 2>&1
 
-echo "Restore all data in a prefix/dir path that's not by itself in DB"
+echo "Restore all data in a client/dir path that's not by itself in DB"
 rm -rf test_r && "$hbackup" -d -c etc/hbackup.conf -r test_r -C myhost -P test1 -D 0 2>&1
 
-echo "Restore all data in a prefix/dir path"
+echo "Restore all data in a client/dir path"
 rm -rf test_r && "$hbackup" -d -c etc/hbackup.conf -r test_r -C myhost -P test1/cvs 2>&1
 
-echo "Restore all data in a prefix"
+echo "Restore all data in a client"
 rm -rf test_r && "$hbackup" -d -c etc/hbackup.conf -r test_r -C myhost 2>&1
 
 echo "Broken configuration"

@@ -84,7 +84,7 @@ Test: journal read
 
 Test: journal merge into list
 Error: Client out of order in journal, line 4
-Failed to merge: Structure needs cleaning
+Failed to merge
 
 Test: merge read
 [ 1] client           file_gone                          [rm]
@@ -103,7 +103,7 @@ Test: journal read
 
 Test: journal merge into list
 Error: Path out of order in journal, line 4
-Failed to merge: Structure needs cleaning
+Failed to merge
 
 Test: merge read
 [ 1] client           file_gone                          [rm]

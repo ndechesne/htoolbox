@@ -33,8 +33,6 @@ using namespace std;
 using namespace hbackup;
 
 // Tests status:
-//   isOpen:      tested
-//   isWriteable: tested
 //   lock:        tested
 //   unlock:      tested
 //   merge:       tested in paths
@@ -49,23 +47,15 @@ using namespace hbackup;
 //   add:         tested in paths
 //   remove:      tested in paths
 
-class DbTest : public Database {
-public:
-  DbTest(const char* path) :
-    Database::Database(path) {}
-  bool isOpen() const {
-    return Database::isOpen();
-  }
-  bool isWriteable() const {
-    return Database::isWriteable();
-  }
-};
-
 int hbackup::terminating(const char* unused) {
   return 0;
 }
 
-static void showLine(time_t timestamp, char* client, char* path, Node* node) {
+static void showLine(
+    time_t          timestamp,
+    const char*     client,
+    const char*     path,
+    const Node*     node) {
   printf("[%2ld] %-16s %-34s", timestamp, client, path);
   if (node != NULL) {
     printf(" %c %5llu %03o", node->type(),
@@ -88,123 +78,72 @@ time_t time(time_t *t) {
 }
 
 int main(void) {
-  string            checksum;
-  string            zchecksum;
-  int               status;
-  List    dblist("test_db/list");
+  string  checksum;
+  string  zchecksum;
+  int     status;
+  List    dblist("test_db/myClient.list");
   char*   client = NULL;
   char*   path   = NULL;
   Node*   node   = NULL;
   time_t  ts;
 
   setVerbosityLevel(debug);
-  DbTest db("test_db");
+  Database db("test_db");
 
-  if (db.isOpen()) {
-    cerr << "db is open when it should not be" << endl;
-    return 0;
-  }
 
-  if (db.isWriteable()) {
-    cerr << "db is writeable when it should not be" << endl;
+  /* Test incompatible arguments, open r-o + initialize */
+  status = db.open(true, true);
+  if (status < 0) {
+    cout << "db::open error status " << status << endl;
+  } else {
     return 0;
   }
 
 
   /* Test missing database, open r-o */
-  status = db.open_ro();
+  status = db.open(true);
   if (status < 0) {
     cout << "db::open error status " << status << endl;
   } else {
-    return 0;
-  }
-
-  if (db.isOpen()) {
-    cerr << "db is open when it should not be" << endl;
-    return 0;
-  }
-
-  if (db.isWriteable()) {
-    cerr << "db is writeable when it should not be" << endl;
     return 0;
   }
 
 
   /* Test missing database, open r/w */
-  status = db.open_rw();
+  status = db.open();
   if (status < 0) {
     cout << "db::open error status " << status << endl;
   } else {
-    return 0;
-  }
-
-  if (db.isOpen()) {
-    cerr << "db is open when it should not be" << endl;
-    return 0;
-  }
-
-  if (db.isWriteable()) {
-    cerr << "db is writeable when it should not be" << endl;
     return 0;
   }
 
 
   mkdir("test_db", 0755);
   /* Test missing database contents, open r-o */
-  status = db.open_ro();
+  status = db.open(true);
   if (status < 0) {
     cout << "db::open error status " << status << endl;
   } else {
-    return 0;
-  }
-
-  if (db.isOpen()) {
-    cerr << "db is open when it should not be" << endl;
-    return 0;
-  }
-
-  if (db.isWriteable()) {
-    cerr << "db is writeable when it should not be" << endl;
     return 0;
   }
 
 
   /* Test missing database contents, open r/w */
-  status = db.open_rw(false);
+  status = db.open(false);
   if (status < 0) {
     cout << "db::open error status " << status << endl;
   } else {
-    return 0;
-  }
-
-  if (db.isOpen()) {
-    cerr << "db is open when it should not be" << endl;
-    return 0;
-  }
-
-  if (db.isWriteable()) {
-    cerr << "db is writeable when it should not be" << endl;
     return 0;
   }
   remove("test_db");
 
 
   /* Test database */
-  if ((status = db.open_rw(true))) {
+  if ((status = db.open(false, true))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
     }
-  }
-
-  if (! db.isOpen()) {
-    cerr << "db is not open when it should be" << endl;
-    return 0;
-  }
-
-  if (! db.isWriteable()) {
-    cerr << "db is not writeable when it should be" << endl;
-    return 0;
   }
 
 
@@ -213,7 +152,7 @@ int main(void) {
     printf("db.scan: %s\n", strerror(errno));
   }
   db.close();
-  if ((status = db.open_rw(true))) {
+  if ((status = db.open())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
@@ -225,7 +164,7 @@ int main(void) {
     printf("db.scan: %s\n", strerror(errno));
   }
   db.close();
-  if ((status = db.open_rw(true))) {
+  if ((status = db.open())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
@@ -240,7 +179,7 @@ int main(void) {
     printf("db.scan: %s\n", strerror(errno));
   }
   db.close();
-  if ((status = db.open_rw(true))) {
+  if ((status = db.open())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
@@ -255,17 +194,19 @@ int main(void) {
   }
   File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
   db.close();
-  if ((status = db.open_ro())) {
+
+  if ((status = db.open(true))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
     }
   }
   if (db.check()) {
-    printf("db.scan: %s\n", strerror(errno));
+    printf("db.check: %s\n", strerror(errno));
   }
   db.close();
-  if ((status = db.open_rw(true))) {
+
+  if ((status = db.open())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
@@ -286,61 +227,40 @@ int main(void) {
 
 
   cout << endl << "Test: lock" << endl;
-  if (! db.open_rw()) {
+  if (! db.open()) {
     db.close();
   }
   system("echo 100000 > test_db/lock");
-  if (! db.open_rw()) {
+  if (! db.open()) {
     db.close();
   }
   system("echo 1 > test_db/lock");
-  if (! db.open_rw()) {
+  if (! db.open()) {
     db.close();
   }
   system("echo 0 > test_db/lock");
-  if (! db.open_rw()) {
+  if (! db.open()) {
     db.close();
   }
   system("touch test_db/lock");
-  if (! db.open_rw()) {
+  if (! db.open()) {
     db.close();
   }
   remove("test_db/lock");
 
 
   cout << endl << "Test: read-only mode" << endl;
-  if ((status = db.open_ro())) {
+  if ((status = db.open(true))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
     }
   }
-
-  if (! db.isOpen()) {
-    cerr << "db is not open when it should be" << endl;
-    return 0;
-  }
-
-  if (db.isWriteable()) {
-    cerr << "db is writeable when it should not be" << endl;
-    return 0;
-  }
-
   db.close();
-
-  if (db.isOpen()) {
-    cerr << "db is open when it should not be" << endl;
-    return 0;
-  }
-
-  if (db.isWriteable()) {
-    cerr << "db is writeable when it should not be" << endl;
-    return 0;
-  }
 
 
   cout << endl << "Test: fill in DB" << endl;
-  if ((status = db.open_rw())) {
+  if ((status = db.open())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
@@ -375,9 +295,9 @@ int main(void) {
   delete f;
 
   db.closeClient();
+  rename("test_db/myClient.journal~", "test_db/myClient.list");
 
   db.close();
-  rename("test_db/journal~", "test_db/list");
 
   dblist.open("r");
   if (dblist.isEmpty()) {
@@ -392,7 +312,7 @@ int main(void) {
   }
 
   cout << endl << "Test: do nothing" << endl;
-  if ((status = db.open_rw())) {
+  if ((status = db.open())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
@@ -415,13 +335,16 @@ int main(void) {
 
   list<string> records;
   cout << endl << "Test: read clients" << endl;
-  if ((status = db.open_ro())) {
+  // No open needed to get clients
+  if ((status = db.open(true))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
     }
   }
-  db.getRecords(records);
+  if (db.getClients(records) < 0) {
+    cerr << "Failed to get list of clients" << endl;
+  }
   db.close();
   cout << "List of clients: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -430,14 +353,20 @@ int main(void) {
   records.clear();
 
   cout << endl << "Test: read paths in myClient" << endl;
-  if ((status = db.open_ro())) {
+  if ((status = db.open(true))) {
+    cout << "db::open error status " << status << endl;
+    if (status < 0) {
+      return 0;
+    }
+  }
+  if ((status = db.openClient("myClient"))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
     }
   }
   db.getRecords(records, "myClient");
-  db.close();
+  db.closeClient();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
@@ -446,14 +375,14 @@ int main(void) {
 
   cout << endl << "Test: read paths in myClient below /client_path"
     << endl;
-  if ((status = db.open_ro())) {
+  if ((status = db.openClient("myClient"))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
     }
   }
   db.getRecords(records, "myClient", "/client_path");
-  db.close();
+  db.closeClient();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
@@ -462,14 +391,14 @@ int main(void) {
 
   cout << endl << "Test: read paths in myClient below other_path"
     << endl;
-  if ((status = db.open_ro())) {
+  if ((status = db.openClient("myClient"))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
     }
   }
   db.getRecords(records, "myClient", "other_path");
-  db.close();
+  db.closeClient();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
@@ -478,26 +407,28 @@ int main(void) {
 
   cout << endl << "Test: read paths in myClient below /client_path/subdir"
     << endl;
-  if ((status = db.open_ro())) {
+  if ((status = db.openClient("myClient"))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
     }
   }
   db.getRecords(records, "myClient", "/client_path/subdir");
-  db.close();
+  db.closeClient();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
   }
   records.clear();
 
+  db.close();
+
 
   cout << endl << "Test: scan" << endl;
   File("test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0/data").remove();
   Directory("test_db/data/e5ed795e721b69c53a52482d6bdcb149-0").create();
   system("cp test1/bzr/filemod.o test_db/data/e5ed795e721b69c53a52482d6bdcb149-0/data");
-  if ((status = db.open_rw(true))) {
+  if ((status = db.open())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
@@ -510,19 +441,20 @@ int main(void) {
 
 
   cout << endl << "Test: concurrent access" << endl;
-  if (db.open_rw() == 0) {
+  if (db.open() == 0) {
     Database db2("test_db");
-    if (db2.open_ro() != 0) {
+    if (db2.open(true) < 0) {
       return 0;
     }
+    db2.openClient("myClient");
     db.openClient("myClient");
     Link* l = new Link("test1/testlink");
     db.add("/client_path/new_link", l);
     delete l;
     db.closeClient();
-    db.close();
-    rename("test_db/journal~", "test_db/list");
+    rename("test_db/myClient.journal~", "test_db/myClient.list");
     db2.getRecords(records, "myClient", "/client_path");
+    db2.closeClient();
     db2.close();
   }
   dblist.open("r");
@@ -542,10 +474,15 @@ int main(void) {
     cout << " -> " << *i << endl;
   }
   records.clear();
-  if (db.open_ro() != 0) {
+
+  if (db.open(true) < 0) {
+    return 0;
+  }
+  if (db.openClient("myClient") != 0) {
     return 0;
   }
   db.getRecords(records, "myClient", "/client_path");
+  db.closeClient();
   db.close();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end();
@@ -559,14 +496,14 @@ int main(void) {
     cout << "failed to copy list over" << endl;
     return 0;
   }
-  list<string> clients;
+
 #if 0
-  if (db.open_rw() == 0) {
+  if (db.open() == 0) {
     db.close();
 #else
-  if (db.convertList(&clients) == 0) {
+  if (db.convertList(&records) == 0) {
 #endif
-    for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
+    for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
       cout << "Listing client: " << *i << endl;
       List client_list(Path("test_db", (*i + ".list").c_str()));
       if (client_list.open("r") >= 0) {
@@ -576,7 +513,7 @@ int main(void) {
         } else
         while ((status = client_list.getEntry(&ts, &client, &path, &node))
             > 0) {
-          showLine(ts, client, path, node);
+          showLine(ts, i->c_str(), path, node);
         }
         client_list.close();
         if (status < 0) {
@@ -589,18 +526,7 @@ int main(void) {
   } else {
     cerr << "Failed to open DB" << endl;
   }
-  clients.clear();
-
-  cout << endl << "Test: get list of clients" << endl;
-  if (db.getClients(clients) < 0) {
-    cerr << "Failed to get list of clients" << endl;
-  } else {
-    cout << clients.size() << " clients in list" << endl;
-    for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
-      cout << " -> " << *i << endl;
-    }
-  }
-  clients.clear();
+  records.clear();
 
   return 0;
 }
