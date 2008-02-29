@@ -62,7 +62,6 @@ struct Database::Private {
   List*             client_journal;
   List*             client_part;
   int               client_expire;
-  bool              client_journalled;
 };
 
 int Database::convertList(list<string>* clients) {
@@ -106,13 +105,12 @@ int Database::convertList(list<string>* clients) {
         out(alert) << strerror(errno) << "opening destination file" << endl;
         break;
       }
-      dest->putLine("# version 3");
-      dest->putLine(client.c_str());
+      dest->putLine("# version 4");
       if (clients != NULL) {
         clients->push_back(client);
       }
     } else if (dest != NULL) {
-      dest->putLine(line.c_str());
+      dest->putLine(&line[1]);
     } else {
       out(alert) << "No destination file!" << endl;
     }
@@ -468,11 +466,11 @@ int Database::getRecords(
     }
 
     char* db_path = NULL;
-    while (_d->client_list->search(client, NULL) == 2) {
+    while (_d->client_list->search() == 2) {
       if (terminating()) {
         return -1;
       }
-      if (_d->client_list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
+      if (_d->client_list->getEntry(NULL, &db_path, NULL, -2) <= 0) {
         out(error) << strerror(errno) << ": reading from list" << endl;
         return -1;
       }
@@ -507,7 +505,6 @@ int Database::restore(
     const char* path,
     time_t      date) {
   bool    failed  = false;
-  char*   fclient = NULL;
   char*   fpath   = NULL;
   Node*   fnode   = NULL;
   time_t  fts;
@@ -520,12 +517,12 @@ int Database::restore(
   }
 
   // Restore relevant data
-  while (_d->client_list->search(client, NULL) == 2) {
+  while (_d->client_list->search() == 2) {
     if (terminating()) {
       failed = true;
       break;
     }
-    if (_d->client_list->getEntry(&fts, &fclient, &fpath, &fnode, date) <= 0) {
+    if (_d->client_list->getEntry(&fts, &fpath, &fnode, date) <= 0) {
       failed = true;
       break;
     }
@@ -652,7 +649,7 @@ int Database::scan(
       failed = true;
     } else {
       _d->client_list->setProgressCallback(progress);
-      while (_d->client_list->getEntry(NULL, NULL, NULL, &node) > 0) {
+      while (_d->client_list->getEntry(NULL, NULL, &node) > 0) {
         if ((node != NULL) && (node->type() == 'f')) {
           File* f = (File*) node;
           if (f->checksum()[0] != '\0') {
@@ -877,7 +874,6 @@ int Database::openClient(
     } else {
       _d->client_expire = expire;
     }
-    _d->client_journalled = false;
     if (_d->mode < 3) {
       out(verbose) << "Database client " << client
         << " open in read/write mode" << endl;
@@ -917,7 +913,7 @@ int Database::openClient(
     out(verbose) << "Database client " << client << " open in read-only mode"
       << endl;
   }
-  return (_d->client_list->search(client, "", _d->client_part, -1) < 0) ? -1:0;
+  return 0;
 }
 
 int Database::closeClient(
@@ -938,7 +934,7 @@ int Database::closeClient(
     if (_d->mode > 1) {
       if (abort) {
         // Skip to next client/end of file
-        _d->client_list->search(NULL, NULL, _d->client_part, -1);
+        _d->client_list->search(NULL, _d->client_part, -1);
         // Keep client found
         _d->client_list->keepLine();
       } else {
@@ -963,7 +959,7 @@ int Database::closeClient(
           _d->client_list->setProgressCallback(progress);
           // Finish off merging
           out(verbose) << "Closing database client " << _d->client << endl;
-          _d->client_list->search("", "", _d->client_part, -1);
+          _d->client_list->search("", _d->client_part, -1);
         }
       }
 
@@ -1019,9 +1015,9 @@ int Database::sendEntry(
   char* db_path = NULL;
   Node* db_node = NULL;
   int   cmp     = 1;
-  while (_d->client_list->search(_d->client, NULL, _d->client_part,
-      _d->client_expire) == 2) {
-    if (_d->client_list->getEntry(NULL, NULL, &db_path, NULL, -2) <= 0) {
+  while (_d->client_list->search(NULL, _d->client_part, _d->client_expire)
+      == 2) {
+    if (_d->client_list->getEntry(NULL, &db_path, NULL, -2) <= 0) {
       // Error
       out(error) << "Failed to get entry" << endl;
       return -1;
@@ -1036,7 +1032,7 @@ int Database::sendEntry(
     if (cmp >= 0) {
       if (cmp == 0) {
         // Get metadata
-        _d->client_list->getEntry(NULL, NULL, &db_path, &db_node, -1);
+        _d->client_list->getEntry(NULL, &db_path, &db_node, -1);
         // Do not lose this metadata!
         _d->client_list->keepLine();
       }
@@ -1045,10 +1041,6 @@ int Database::sendEntry(
     // Not reached, mark 'removed' (getLineType keeps line automatically)
     _d->client_part->addPath(db_path);
     if (_d->client_list->getLineType() != '-') {
-      if (! _d->client_journalled) {
-        _d->client_journal->addClient(_d->client);
-        _d->client_journalled = true;
-      }
       _d->client_journal->addPath(db_path);
       _d->client_journal->addData(time(NULL));
       // Add path and 'removed' entry
@@ -1218,10 +1210,6 @@ int Database::add(
       ts = time(NULL);
     }
     // Add entry info to journal
-    if (! _d->client_journalled) {
-      _d->client_journal->addClient(_d->client);
-      _d->client_journalled = true;
-    }
     _d->client_journal->addPath(remote_path);
     _d->client_journal->addData(ts, node2);
     _d->client_part->addData(ts, node2, true);

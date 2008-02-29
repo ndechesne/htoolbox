@@ -42,13 +42,6 @@ enum Status {
 struct List::Private {
   string            line;
   Status            line_status;
-  // Keep current client and path
-  string            client;
-  string            path;
-  // Need to keep client status for search() (reading)
-  // Also used to set current client and path when writing
-  int               client_cmp;
-  int               path_cmp;
   // Set when a previous version is detected
   bool              old_version;
 };
@@ -63,8 +56,8 @@ int List::open(
     const char*   req_mode,
     int           compression) {
   // Put future as old for now (testing stage)
-  const char old_header[] = "# version 4a";
-  const char header[]     = "# version 3";
+  const char old_header[] = "# version 3";
+  const char header[]     = "# version 4";
   int        rc           = 0;
 
   if (Stream::open(req_mode, compression)) {
@@ -106,10 +99,6 @@ int List::open(
     if (_d->line_status == no_data) {
       _d->line_status = new_data;
     }
-    _d->client     = "";
-    _d->client_cmp = 0;
-    _d->path       = "";
-    _d->path_cmp   = 0;
   }
   return rc;
 }
@@ -237,28 +226,28 @@ int List::decodeDataLine(
   extractParams(line, params, Stream::flags_empty_params, 0, "\t\n");
 
   // Check result
-  if (params.size() < 4) {
+  if (params.size() < 3) {
     out(error) << "Wrong number of arguments for line" << endl;
     return -1;
   }
 
   // DB timestamp
   if ((timestamp != NULL)
-  && sscanf(params[2].c_str(), "%ld", timestamp) != 1) {
+  && sscanf(params[1].c_str(), "%ld", timestamp) != 1) {
     out(error) << "Cannot decode timestamp" << endl;
     return -1;
   }
 
   // Type
-  if (params[3].size() != 1) {
+  if (params[2].size() != 1) {
     out(error) << "Cannot decode type" << endl;
     return -1;
   }
-  type = params[3][0];
+  type = params[2][0];
 
   switch (type) {
     case '-':
-      if (params.size() != 4) {
+      if (params.size() != 3) {
         out(error) << "Wrong number of arguments for remove line" << endl;
         return -1;
       } else {
@@ -267,44 +256,44 @@ int List::decodeDataLine(
       }
     case 'f':
     case 'l':
-      if (params.size() != 10) {
+      if (params.size() != 9) {
         out(error) << "Wrong number of arguments for file/link line" << endl;
         return -1;
       }
       break;
     default:
-      if (params.size() != 9) {
+      if (params.size() != 8) {
         out(error) << "Wrong number of arguments for line" << endl;
         return -1;
       }
   }
 
   // Size
-  if (sscanf(params[4].c_str(), "%lld", &size) != 1) {
+  if (sscanf(params[3].c_str(), "%lld", &size) != 1) {
     out(error) << "Cannot decode size" << endl;
     return -1;
   }
 
   // Modification time
-  if (sscanf(params[5].c_str(), "%ld", &mtime) != 1) {
+  if (sscanf(params[4].c_str(), "%ld", &mtime) != 1) {
     out(error) << "Cannot decode mtime" << endl;
     return -1;
   }
 
   // User
-  if (sscanf(params[6].c_str(), "%u", &uid) != 1) {
+  if (sscanf(params[5].c_str(), "%u", &uid) != 1) {
     out(error) << "Cannot decode uid" << endl;
     return -1;
   }
 
   // Group
-  if (sscanf(params[7].c_str(), "%u", &gid) != 1) {
+  if (sscanf(params[6].c_str(), "%u", &gid) != 1) {
     out(error) << "Cannot decode gid" << endl;
     return -1;
   }
 
   // Permissions
-  if (sscanf(params[8].c_str(), "%o", &mode) != 1) {
+  if (sscanf(params[7].c_str(), "%o", &mode) != 1) {
     out(error) << "Cannot decode mode" << endl;
     return -1;
   }
@@ -312,11 +301,11 @@ int List::decodeDataLine(
   switch (type) {
     case 'f':
       *node = new File(path, type, mtime, size, uid, gid, mode,
-        params[9].c_str());
+        params[8].c_str());
       break;
     case 'l':
       *node = new Link(path, type, mtime, size, uid, gid, mode,
-        params[9].c_str());
+        params[8].c_str());
       break;
     default:
       *node = new Node(path, type, mtime, size, uid, gid, mode);
@@ -343,10 +332,6 @@ char List::getLineType() {
   // Line should be re-used
   _d->line_status = new_data;
   if (_d->line[0] != '\t') {
-    // Client
-    return 'C';
-  } else
-  if (_d->line[1] != '\t') {
     // Path
     return 'P';
   } else
@@ -365,7 +350,6 @@ char List::getLineType() {
 
 int List::getEntry(
     time_t*       timestamp,
-    char**        client,
     char**        path,
     Node**        node,
     time_t        date) {
@@ -408,25 +392,11 @@ int List::getEntry(
       return 0;
     }
 
-    // Client
-    if (_d->line[0] != '\t') {
-      if (client != NULL) {
-        free(*client);
-        *client = NULL;
-        asprintf(client, "%s", &_d->line[0]);
-        // Change end of line
-        (*client)[length] = '\0';
-      }
-    } else
-
     // Path
-    if (_d->line[1] != '\t') {
+    if (_d->line[0] != '\t') {
       if (path != NULL) {
         free(*path);
-        *path = NULL;
-        asprintf(path, "%s", &_d->line[1]);
-        // Change end of line
-        (*path)[length - 1] = '\0';
+        *path = strdup(_d->line.c_str());
       }
       got_path = true;
     } else
@@ -452,23 +422,9 @@ int List::getEntry(
   return 1;
 }
 
-int List::addClient(
-    const char*     client) {
-  ssize_t length = strlen(client);
-  if ((Stream::write(client, length) != length)
-      || (Stream::write("\n", 1) != 1)) {
-    return -1;
-  }
-  _d->line_status = no_data;
-  return 0;
-}
-
 int List::addPath(
     const char*     path) {
-  ssize_t length = strlen(path);
-  if ((Stream::write("\t", 1) != 1)
-      || (Stream::write(path, length) != length)
-      || (Stream::write("\n", 1) != 1)) {
+  if (Stream::putLine(path) != (signed)(strlen(path) + 1)) {
     return -1;
   }
   _d->line_status = no_data;
@@ -484,10 +440,10 @@ int List::addData(
   int   rc   = 0;
 
   if (node == NULL) {
-    size = asprintf(&line, "\t\t%ld\t-", timestamp);
+    size = asprintf(&line, "\t%ld\t-", timestamp);
   } else {
     char* temp = NULL;
-    size = asprintf(&temp, "\t\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o",
+    size = asprintf(&temp, "\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o",
       timestamp, node->type(), node->size(), node->mtime(), node->uid(),
       node->gid(), node->mode());
     switch (node->type()) {
@@ -519,47 +475,24 @@ int List::addData(
 }
 
 int List::search(
-    const char*     client_l,
     const char*     path_l,
     List*           list,
     time_t          expire) {
   int     path_cmp;
   int     rc         = 0;
 
-  size_t  path_len   = 0;   // Not set
-
-  // Pre-set client comparison result
-  if (client_l == NULL) {
-    // Any client will match
-    _d->client_cmp = 0;
-  } else
-  if (client_l[0] == '\0') {
-    // No need to compare clients
-    _d->client_cmp = 1;
-  }
-
   // Pre-set path comparison result
-  if (client_l == NULL) {
-    // No path will match
-    path_cmp = 1;
-  } else
   if (path_l == NULL) {
     // Any path will match
     path_cmp = 0;
   } else
-  if ((_d->client_cmp > 0) || (path_l[0] == '\0')) {
+  if (path_l[0] == '\0') {
     // No need to compare paths
     path_cmp = 1;
   } else
   {
     // Any value will do
     path_cmp = -1;
-    // string or line?
-    int len = strlen(path_l);
-    if ((len > 1) && (path_l[0] != '\t') && (path_l[len - 1] != '\n')) {
-      // string: signal it by setting its lengh
-      path_len = len;
-    }
   }
 
   // Need to know whether line of data is active or not
@@ -583,40 +516,11 @@ int List::search(
       _d->line_status = empty;
     } else
 
-    // Got a client
-    if (_d->line[0] != '\t') {
-      // Compare clientes
-      if ((client_l != NULL) && (client_l[0] != '\0')) {
-        _d->client_cmp = Path::compare(client_l, _d->line.c_str());
-      }
-      if (_d->client_cmp <= 0)  {
-        if (_d->client_cmp < 0) {
-          // Client exceeded
-          _d->line_status = new_data;
-        } else
-        if ((client_l == NULL)
-         || ((path_l != NULL) && (path_l[0] == '\0'))) {
-          // Looking for client, found
-          _d->line_status = cached_data;
-        }
-      }
-      // Next line of data is active
-      active_data_line = true;
-    } else
-
     // Got a path
-    if (_d->line[1] != '\t') {
+    if (_d->line[0] != '\t') {
       // Compare paths
-      if ((_d->client_cmp <= 0) && (path_l != NULL) && (path_l[0] != '\0')) {
-        if (path_len > 0) {
-          if (_d->line.length() == (path_len + 2)) {
-            path_cmp = Path::compare(path_l, &_d->line[1], path_len);
-          } else {
-            path_cmp = Path::compare(path_l, &_d->line[1]);
-          }
-        } else {
-          path_cmp = Path::compare(path_l, _d->line.c_str());
-        }
+      if ((path_l != NULL) && (path_l[0] != '\0')) {
+        path_cmp = Path::compare(path_l, _d->line.c_str());
       }
       if (path_cmp <= 0) {
         if (path_cmp < 0) {
@@ -638,19 +542,18 @@ int List::search(
         if (list->_d->line_status == new_data) {
           list->_d->line_status = no_data;
           // Copy start of line (timestamp)
-          size_t pos = _d->line.substr(2).find('\t');
+          size_t pos = _d->line.substr(1).find('\t');
           if (pos == string::npos) {
             errno = EUCLEAN;
             return -1;
           }
-          pos += 3;
+          pos += 2;
           // Re-create line using previous data
           _d->line.resize(pos);
-          _d->line.append(list->_d->line.substr(4));
+          _d->line.append(list->_d->line.substr(3));
         } else
         // Check for exception
-        if (strncmp(_d->line.c_str(), "\t\t0\t", 4) == 0) {
-          // Get only end of line
+        if (strncmp(_d->line.c_str(), "\t0\t", 3) == 0) {
           list->_d->line        = _d->line;
           list->_d->line_status = new_data;
           // Do not copy: merge with following line
@@ -677,8 +580,8 @@ int List::search(
             // Check time
             time_t ts = 0;
 
-            if ((params.size() > 3)
-            &&  (sscanf(params[2].c_str(), "%ld", &ts) == 1)
+            if ((params.size() >= 2)
+            &&  (sscanf(params[1].c_str(), "%ld", &ts) == 1)
             &&  (ts < expire)) {
               obsolete = true;
             } else {
@@ -700,20 +603,7 @@ int List::search(
       if (_d->line_status != no_data) {
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
-          if ((path_len != 0) && (list->write("\t", 1) < 0)) {
-            // Could not write
-            return -1;
-          }
           if (list->Stream::putLine(path_l) < 0) {
-            // Could not write
-            return -1;
-          }
-        } else
-        if ((client_l != NULL)
-         && (client_l[0] != '\0')
-         && (path_l != NULL)) {
-          // Write client
-          if (list->Stream::putLine(client_l) < 0) {
             // Could not write
             return -1;
           }
@@ -764,8 +654,7 @@ int List::merge(
   // Line read from journal
   int j_line_no = 0;
 
-  // Current client, path and data (from journal)
-  Path client;
+  // Current path and data (from journal)
   Path path;
 
   // Last search status
@@ -785,7 +674,7 @@ int List::merge(
     // End of file
     if ((journal._d->line[0] == '#') || (rc_journal == 0)) {
       if (rc_list > 0) {
-        rc_list = list.search("", "", this);
+        rc_list = list.search("", this);
         if (rc_list < 0) {
           // Error copying list
           out(error) << "End of list copy failed" << endl;
@@ -799,47 +688,8 @@ int List::merge(
       break;
     }
 
-    // Got a client
-    if (journal._d->line[0] != '\t') {
-      if (client.length() != 0) {
-        int cmp = client.compare(journal._d->line.c_str());
-        // If same client, ignore it
-        if (cmp == 0) {
-          out(error) << "Client duplicated in journal, line " << j_line_no
-            << endl;
-          continue;
-        }
-        // Check path order
-        if (cmp > 0) {
-          // Cannot go back
-          out(error) << "Client out of order in journal, line " << j_line_no
-            << endl;
-          return -1;
-        }
-      }
-      // Copy new client
-      client = journal._d->line.c_str();
-      // No path for this entry yet
-      path = "";
-      // Search/copy list
-      if (rc_list >= 0) {
-        rc_list = list.search(client.c_str(), path.c_str(), this);
-        if (rc_list < 0) {
-          // Error copying list
-          out(error) << "Client search failed" << endl;
-          return -1;
-        }
-      }
-    } else
-
     // Got a path
-    if (journal._d->line[1] != '\t') {
-      // Must have a client by now
-      if (client.length() == 0) {
-        // Did not get a client first thing
-        out(error) << "Client missing in journal, line " << j_line_no << endl;
-        return -1;
-      }
+    if (journal._d->line[0] != '\t') {
       // Check path order
       if (path.length() != 0) {
         if (path.compare(journal._d->line.c_str()) > 0) {
@@ -853,7 +703,7 @@ int List::merge(
       path = journal._d->line.c_str();
       // Search/copy list
       if (rc_list >= 0) {
-        rc_list = list.search(client.c_str(), path.c_str(), this);
+        rc_list = list.search(path.c_str(), this);
         if (rc_list < 0) {
           // Error copying list
           out(error) << "Path search failed" << endl;
@@ -865,7 +715,7 @@ int List::merge(
     // Got data
     {
       // Must have a path before then
-      if ((client.length() == 0) || (path.length() == 0)) {
+      if (path.length() == 0) {
         // Did not get anything before data
         out(error) << "Data out of order in journal, line " << j_line_no
           << endl;
@@ -873,7 +723,7 @@ int List::merge(
       }
 
       // If exception, try to put in list buffer (will succeed) otherwise write
-      if (((strncmp(journal._d->line.c_str(), "\t\t0\t", 4) != 0)
+      if (((strncmp(journal._d->line.c_str(), "\t0\t", 3) != 0)
         || (list.putLine(journal._d->line.c_str()) < 0))
        && (Stream::putLine(journal._d->line.c_str()) < 0)) {
         // Could not write

@@ -57,7 +57,6 @@ time_t time(time_t *t) {
 
 static void showLine(
     time_t          timestamp,
-    const char*     client,
     const char*     path,
     const Node*     node) {
   printf("[%2ld]", (timestamp == 0)? 0 : (timestamp - 2000000000) / 24 / 3600);
@@ -78,27 +77,20 @@ static void showLine(
 static void showList(List& slist) {
   if (! slist.open("r")) {
     time_t ts;
-    char*  client = NULL;
     char*  path   = NULL;
     Node*  node   = NULL;
-    string last_client;
     string last_path;
 
-    while (slist.getEntry(&ts, &client, &path, &node) > 0) {
-      if (last_client != client) {
-        cout << client << endl;
-        last_client = client;
-      }
+    while (slist.getEntry(&ts, &path, &node) > 0) {
       if (last_path != path) {
         cout << "\t" << path << endl;
         last_path = path;
       }
-      showLine(ts, client, path, node);
+      showLine(ts, path, node);
     }
     if (node != NULL) {
-      showLine(ts, "", "", node);
+      showLine(ts, "", node);
     }
-    free(client);
     free(path);
     free(node);
     slist.close();
@@ -151,10 +143,10 @@ int main(void) {
     return 0;
   }
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
   // Initialize list of missing checksums
   if (! db.open()) {
@@ -179,10 +171,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -204,10 +196,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's real journal:" << endl;
   showList(real_journal);
 
   // Next test
@@ -229,10 +221,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -264,10 +256,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -299,10 +291,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -322,10 +314,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -358,10 +350,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -383,10 +375,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -405,10 +397,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -433,10 +425,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -472,10 +464,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -502,10 +494,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -525,10 +517,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -548,10 +540,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -575,10 +567,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -618,10 +610,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -640,10 +632,10 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -684,25 +676,30 @@ int main(void) {
   rename("test_db/myClient.journal.cp", "test_db/myClient.journal");
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "hisClient's list:" << endl;
   showList(dblist2);
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "hisClient's journal:" << endl;
   showList(journal2);
+  cout << endl << "myClient's real journal:" << endl;
   showList(real_journal);
 
   // Recover now
   db.open();
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "hisClient's list:" << endl;
   showList(dblist2);
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "hisClient's journal:" << endl;
   showList(journal2);
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
+
   if (db.close()) {
     return 0;
   }
@@ -731,12 +728,14 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "hisClient's list:" << endl;
   showList(dblist2);
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "hisClient's journal:" << endl;
   showList(journal2);
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -755,12 +754,14 @@ int main(void) {
   }
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "hisClient's list:" << endl;
   showList(dblist2);
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "hisClient's journal:" << endl;
   showList(journal2);
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -784,12 +785,14 @@ int main(void) {
   system("du -sb test_db/data/trash/*");
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "hisClient's list:" << endl;
   showList(dblist2);
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "hisClient's journal:" << endl;
   showList(journal2);
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -815,12 +818,14 @@ int main(void) {
   system("du -sb test_db/data/trash/*");
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "hisClient's list:" << endl;
   showList(dblist2);
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "hisClient's journal:" << endl;
   showList(journal2);
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   // Next test
@@ -841,12 +846,14 @@ int main(void) {
   system("du -sb test_db/data/trash/*");
 
   // Show list contents
-  cout << endl << "List:" << endl;
+  cout << endl << "hisClient's list:" << endl;
   showList(dblist2);
+  cout << endl << "myClient's list:" << endl;
   showList(dblist);
   // Show journal contents
-  cout << endl << "Journal:" << endl;
+  cout << endl << "hisClient's journal:" << endl;
   showList(journal2);
+  cout << endl << "myClient's journal:" << endl;
   showList(journal);
 
   delete path;

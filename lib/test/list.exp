@@ -3,179 +3,127 @@ Test: DB lists
 Test: journal write
 
 Test: journal read
-[ 1] client           file_gone                          [rm]
-[ 1] client2          file sp                            f     0 644 
-[ 1] client2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
-[ 1] client3          link                               l     8 777 testfile
-[ 1] client5          path                               d     0 755
+[ 1] file sp          f     0 644 
+[ 1] file_gone        [rm]
+[ 1] file_new         f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] link             l     8 777 testfile
+[ 1] path             d     0 755
 
 Test: journal merge into empty list
 List is empty
 
 Test: merge read
-[ 1] client           file_gone                          [rm]
-[ 1] client2          file sp                            f     0 644 
-[ 1] client2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
-[ 1] client3          link                               l     8 777 testfile
-[ 1] client5          path                               d     0 755
+[ 1] file sp          f     0 644 
+[ 1] file_gone        [rm]
+[ 1] file_new         f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] link             l     8 777 testfile
+[ 1] path             d     0 755
 
 Test: journal write again
 
 Test: journal read
-[ 5] client           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 0] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 5] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 5] client4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 0] file sp          f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] file_new         f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: journal merge into list
 
 Test: merge read
-[ 1] client           file_gone                          [rm]
-[ 5] client           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 5] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
-[ 1] client3          link                               l     8 777 testfile
-[ 5] client4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 1] client5          path                               d     0 755
+[ 1] file sp          f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file_gone        [rm]
+[ 5] file_new         f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] file_new         f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] link             l     8 777 testfile
+[ 1] path             d     0 755
 
-Test: client find
-client 'abcd' not found
-[ 1] client           file_gone                          [rm]
-[ 5] client           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 5] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
-[ 1] client3          link                               l     8 777 testfile
-[ 5] client4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 1] client5          path                               d     0 755
-client 'silly' not found
-client 'client2' found
-[ 1] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 5] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
-[ 1] client3          link                               l     8 777 testfile
-[ 5] client4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 1] client5          path                               d     0 755
-
-Test: get all clients
-client
-client2
-client3
-client4
-client5
-
-Test: get all paths for client
+Test: get all paths
+file sp
+file sp: f
 file_gone
 file_gone: -
 file_new
 file_new: f
-
-file_new: P
-
-
+link
+link: l
+path
 path: d
-
-Test: journal client out of order
-
-Test: journal read
-[10] client4          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[10] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-
-Test: journal merge into list
-Error: Client out of order in journal, line 4
-Failed to merge
-
-Test: merge read
-[ 1] client           file_gone                          [rm]
-[ 5] client           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 5] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
-[ 1] client3          link                               l     8 777 testfile
-[10] client4          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: journal path out of order
 
 Test: journal read
-[14] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[14] client2          file_gone                          f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[10] file_new         f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[10] file_gone        f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: journal merge into list
-Error: Path out of order in journal, line 4
+Error: Path out of order in journal, line 3
 Failed to merge
 
 Test: merge read
-[ 1] client           file_gone                          [rm]
-[ 5] client           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[14] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] file sp          f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file_gone        [rm]
+[10] file_new         f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: expire
 List:
-[ 1] client           file_gone                          [rm]
-[ 5] client           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 5] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
-[ 1] client3          link                               l     8 777 testfile
-[ 5] client4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 1] client5          path                               d     0 755
+[ 1] file sp          f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file_gone        [rm]
+[ 5] file_new         f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] file_new         f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] link             l     8 777 testfile
+[ 1] path             d     0 755
 Date: 4
-[ 1] client           file_gone                          [rm]
-[ 5] client           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 5] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client3          link                               l     8 777 testfile
-[ 5] client4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 1] client5          path                               d     0 755
+[ 1] file sp          f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file_gone        [rm]
+[ 5] file_new         f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] link             l     8 777 testfile
+[ 1] path             d     0 755
 Date: 0
-[ 1] client           file_gone                          [rm]
-[ 5] client           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 5] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client3          link                               l     8 777 testfile
-[ 5] client4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 1] client5          path                               d     0 755
+[ 1] file sp          f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file_gone        [rm]
+[ 5] file_new         f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] link             l     8 777 testfile
+[ 1] path             d     0 755
 
-Test: copy client data
+Test: copy all data
 List:
-[ 1] client           file_gone                          [rm]
-[ 5] client           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 5] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
-[ 1] client3          link                               l     8 777 testfile
-[ 5] client4          file_new                           f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 1] client5          path                               d     0 755
+[ 1] file sp          f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file_gone        [rm]
+[ 5] file_new         f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] file_new         f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] link             l     8 777 testfile
+[ 1] path             d     0 755
 Merge:
-[ 1] client           file_gone                          [rm]
-[ 5] client           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 5] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] file sp          f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file_gone        [rm]
+[ 5] file_new         f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] file_new         f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] link             l     8 777 testfile
+[ 1] path             d     0 755
 Merge tail:
 # end
 
 Test: get latest entry only
 List:
-[ 1] client           file_gone                          [rm]
-[17] client           file_new                           f    22 644 246dccb0301976d765609dfb0efd68f9
-[ 5] client           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 5] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file_new                           f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] file sp          f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file_gone        [rm]
+[13] file_new         f    22 644 246dccb0301976d765609dfb0efd68f9
+[ 5] file_new         f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] file_new         f    13 644 59ca0efa9f5633cb0371bbc0355478d8
+[ 1] link             l     8 777 testfile
+[ 1] path             d     0 755
 
 Test: last entries data
 List:
-[ 1] client           file_gone                          [rm]
-[17] client           file_new                           f    22 644 246dccb0301976d765609dfb0efd68f9
-[ 1] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 5] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] file sp          f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file_gone        [rm]
+[13] file_new         f    22 644 246dccb0301976d765609dfb0efd68f9
+[ 1] link             l     8 777 testfile
+[ 1] path             d     0 755
 
 Test: entries for given date
+Date: 5
 List:
-[ 1] client           file_gone                          [rm]
-[ 5] client           file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
-[ 1] client2          file sp                            f     0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 5] client2          file_new                           f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] file sp          f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file_gone        [rm]
+[ 5] file_new         f    20 644 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] link             l     8 777 testfile
+[ 1] path             d     0 755

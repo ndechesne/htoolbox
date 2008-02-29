@@ -53,12 +53,11 @@ int hbackup::terminating(const char* unused) {
 
 static void showLine(
     time_t          timestamp,
-    const char*     client,
     const char*     path,
     const Node*     node) {
-  printf("[%2ld] %-16s %-34s", timestamp, client, path);
+  printf("[%2ld] %-30s", timestamp, path);
   if (node != NULL) {
-    printf(" %c %5llu %03o", node->type(),
+    printf(" %c %6llu %03o", node->type(),
     (node->type() != 'd') ? node->size() : 0, node->mode());
     if (node->type() == 'f') {
       printf(" %s", ((File*) node)->checksum());
@@ -82,7 +81,6 @@ int main(void) {
   string  zchecksum;
   int     status;
   List    dblist("test_db/myClient.list");
-  char*   client = NULL;
   char*   path   = NULL;
   Node*   node   = NULL;
   time_t  ts;
@@ -303,8 +301,8 @@ int main(void) {
   if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   } else
-  while ((status = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((status = dblist.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   dblist.close();
   if (status < 0) {
@@ -324,8 +322,8 @@ int main(void) {
   if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   } else
-  while ((status = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((status = dblist.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   dblist.close();
   if (status < 0) {
@@ -461,8 +459,8 @@ int main(void) {
   if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   } else
-  while ((status = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((status = dblist.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   dblist.close();
   if (status < 0) {
@@ -511,9 +509,9 @@ int main(void) {
         if (client_list.isEmpty()) {
           cout << "List is empty" << endl;
         } else
-        while ((status = client_list.getEntry(&ts, &client, &path, &node))
+        while ((status = client_list.getEntry(&ts, &path, &node))
             > 0) {
-          showLine(ts, i->c_str(), path, node);
+          showLine(ts, path, node);
         }
         client_list.close();
         if (status < 0) {

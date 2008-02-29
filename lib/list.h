@@ -65,13 +65,9 @@ public:
   //    -1: error, 0: end of file, 1: success
   int getEntry(
     time_t*         timestamp,
-    char**          client,
     char**          path,
     Node**          node,
     time_t          date = -1);
-  // Add client to list
-  int addClient(
-    const char*     client);
   // Add path to list
   int addPath(
     const char*     path);
@@ -82,20 +78,15 @@ public:
     bool            bufferize = false);
   // Search data in list copying contents on the fly if required, and
   // also expiring data and putting checksums in lists!!!
-  // Searches:                        Client      Path        Copy
-  //    end of file                   ""          ""          all
-  //    client                        client      ""          all up to client
-  //    client and path               client      path        all up to path
-  //    any client                    NULL                    all before client
-  //    client and any path           client      NULL        all before path
+  // Searches:             Path        Copy
+  //    end of file        ""          all
+  //    path               path        all up to path
+  //    any path           NULL        all before path
   // Expiration:
   //    -1: no expiration, 0: only keep last, otherwise use given date
   // Return code:
   //    -1: error, 0: end of file, 1: exceeded, 2: found
-  // Caution:
-  //    when merging, search for client on its own before searching for path
   int search(
-    const char*     client  = NULL,   // Client to search
     const char*     path    = NULL,   // Path to search
     List*           list    = NULL,   // List in which to copy, if any
     time_t          expire  = -1);    // Expiration date

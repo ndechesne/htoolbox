@@ -40,8 +40,8 @@ time_t time(time_t *t) {
   return my_time;
 }
 
-static void showLine(time_t timestamp, char* client, char* path, Node* node) {
-  printf("[%2ld] %-16s %-34s", timestamp, client, path);
+static void showLine(time_t timestamp, char* path, Node* node) {
+  printf("[%2ld] %-16s", timestamp, path);
   if (node != NULL) {
     printf(" %c %5llu %03o", node->type(),
     (node->type() != 'd') ? node->size() : 0, node->mode());
@@ -61,7 +61,6 @@ int main(void) {
   List    dblist("test_db/list");
   List    journal("test_db/journal");
   List    merge("test_db/merge");
-  char*   client = NULL;
   char*   path   = NULL;
   Node*   node   = NULL;
   time_t  ts;
@@ -85,15 +84,16 @@ int main(void) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
-  journal.addClient("client");
-  journal.addPath("file_gone");
-  journal.addData(time(NULL));
-  node = new Stream("test1/test space");
+
   // No checksum
-  journal.addClient("client2");
+  node = new Stream("test1/test space");
   journal.addPath("file sp");
   journal.addData(time(NULL), node);
   free(node);
+
+  journal.addPath("file_gone");
+  journal.addData(time(NULL));
+
   node = new Stream("test1/testfile");
   ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
@@ -101,16 +101,17 @@ int main(void) {
   journal.addPath("file_new");
   journal.addData(time(NULL), node);
   free(node);
+
   node = new Link("test1/testlink");
-  journal.addClient("client3");
   journal.addPath("link");
   journal.addData(time(NULL), node);
   free(node);
+
   node = new Directory("test1/testdir");
-  journal.addClient("client5");
   journal.addPath("path");
   journal.addData(time(NULL), node);
   free(node);
+
   journal.close();
 
 
@@ -124,8 +125,8 @@ int main(void) {
     if (journal.isEmpty()) {
       cout << "Journal is empty" << endl;
     } else
-    while ((rc = journal.getEntry(&ts, &client, &path, &node)) > 0) {
-      showLine(ts, client, path, node);
+    while ((rc = journal.getEntry(&ts, &path, &node)) > 0) {
+      showLine(ts, path, node);
     }
     journal.close();
     if (rc < 0) {
@@ -133,7 +134,7 @@ int main(void) {
     } else
     // Check that we obtain the end of file again
     if (rc == 0) {
-      if (journal.getEntry(&ts, &client, &path, &node) != 0) {
+      if (journal.getEntry(&ts, &path, &node) != 0) {
         cerr << "Error reading end of journal again" << endl;
       }
     }
@@ -177,8 +178,8 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   } else
-  while ((rc = merge.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   merge.close();
   if (rc < 0) {
@@ -198,22 +199,15 @@ int main(void) {
     return 0;
   }
   system("echo \"this is my new test\" > test1/testfile");
-  node = new Stream("test1/testfile");
-  ((Stream*) node)->open("r");
-  ((Stream*) node)->computeChecksum();
-  ((Stream*) node)->close();
-  journal.addClient("client");
-  journal.addPath("file_new");
-  journal.addData(time(NULL), node);
-  free(node);
+
   node = new Stream("test1/test space");
   ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
   ((Stream*) node)->close();
-  journal.addClient("client2");
   journal.addPath("file sp");
   journal.addData(0, node);
   free(node);
+
   node = new Stream("test1/testfile");
   ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
@@ -221,14 +215,7 @@ int main(void) {
   journal.addPath("file_new");
   journal.addData(time(NULL), node);
   free(node);
-  node = new Stream("test1/test space");
-  ((Stream*) node)->open("r");
-  ((Stream*) node)->computeChecksum();
-  ((Stream*) node)->close();
-  journal.addClient("client4");
-  journal.addPath("file_new");
-  journal.addData(time(NULL), node);
-  free(node);
+
   journal.close();
 
 
@@ -240,8 +227,8 @@ int main(void) {
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   } else
-  while ((rc = journal.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((rc = journal.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   journal.close();
   if (rc < 0) {
@@ -286,8 +273,8 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   } else
-  while ((rc = merge.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   merge.close();
   if (rc < 0) {
@@ -299,210 +286,22 @@ int main(void) {
   }
 
 
-  cout << endl << "Test: client find" << endl;
+  cout << endl << "Test: get all paths" << endl;
   my_time++;
-
-  dblist.open("r");
-  if (dblist.isEmpty()) {
-    cout << "List is empty" << endl;
-  }
-  if (dblist.search("abcd", "") != 2) {
-    cout << "client 'abcd' not found" << endl;
-  } else {
-    cout << "client 'abcd' found" << endl;
-  }
-  while ((rc = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
-  }
-  dblist.close();
-  if (rc < 0) {
-    cerr << "Failed to read read" << endl;
-  }
-
-  dblist.open("r");
-  if (dblist.isEmpty()) {
-    cout << "List is empty" << endl;
-  }
-  if (dblist.search("silly", "") != 2) {
-    cout << "client 'silly' not found" << endl;
-  } else {
-    cout << "client 'silly' found" << endl;
-  }
-  while ((rc = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
-  }
-  dblist.close();
-  if (rc < 0) {
-    cerr << "Failed to read read" << endl;
-  }
-
-  dblist.open("r");
-  if (dblist.isEmpty()) {
-    cout << "List is empty" << endl;
-  }
-  if (dblist.search("client2", "") != 2) {
-    cout << "client 'client2' not found" << endl;
-  } else {
-    cout << "client 'client2' found" << endl;
-  }
-  while ((rc = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
-  }
-  dblist.close();
-  if (rc < 0) {
-    cerr << "Failed to read read" << endl;
-  }
-
-
-  cout << endl << "Test: get all clients" << endl;
   if (dblist.open("r")) {
     cerr << "Failed to open list" << endl;
     return 0;
   }
   while (dblist.search() == 2) {
-    char *client = NULL;
-    dblist.getEntry(NULL, &client, NULL, NULL);
-    cout << client << endl;
-    free(client);
-  }
-  dblist.close();
-
-
-  cout << endl << "Test: get all paths for client" << endl;
-  if (dblist.open("r")) {
-    cerr << "Failed to open list" << endl;
-    return 0;
-  }
-  if (dblist.search("client", "") != 2) {
-    cout << "client 'client' not found" << endl;
-  } else
-  while (dblist.search("client") == 2) {
     char *path   = NULL;
-    dblist.getEntry(NULL, NULL, &path, NULL, -2);
+    dblist.getEntry(NULL, &path, NULL, -2);
     cout << path << endl;
     // Should give the same result twice, then get type
-    dblist.getEntry(NULL, NULL, &path, NULL, -2);
+    dblist.getEntry(NULL, &path, NULL, -2);
     cout << path << ": " << dblist.getLineType() << endl;
     free(path);
-  }
-  cout << endl;
-  if (dblist.search("client2", "") != 2) {
-    cout << "client 'client2' not found" << endl;
-  } else
-  if (dblist.search("client2", "file_h") == 1) {
-    char *path   = NULL;
-    dblist.getEntry(NULL, NULL, &path, NULL, -2);
-    cout << path << ": " << dblist.getLineType() << endl;
-    free(path);
-  }
-  cout << endl;
-  if (dblist.search("client4", "") != 2) {
-    cout << "client 'client4' not found" << endl;
-  } else
-  if (dblist.search("client4", "path") == 2) {
-    cout << "client 'client4', path 'path' found" << endl;
-  }
-  cout << endl;
-  if (dblist.search("client5", "") != 2) {
-    cout << "client 'client5' not found" << endl;
-  } else
-  if (dblist.search("client5", "path") != 2) {
-    cout << "client 'client5', path 'path' not found" << endl;
-  } else {
-    char *path   = NULL;
-    dblist.getEntry(NULL, NULL, &path, NULL, -2);
-    cout << path << ": " << dblist.getLineType() << endl;
-    free(path);
-  }
-  if (dblist.search() == 2) {
-    cout << "found a client" << endl;
   }
   dblist.close();
-
-
-  cout << endl << "Test: journal client out of order" << endl;
-  my_time++;
-
-  if (journal.open("w")) {
-    cerr << "Failed to open journal" << endl;
-    return 0;
-  }
-  system("echo \"this is my new test\" > test1/testfile");
-  node = new Stream("test1/testfile");
-  ((Stream*) node)->open("r");
-  ((Stream*) node)->computeChecksum();
-  ((Stream*) node)->close();
-  journal.addClient("client4");
-  journal.addPath("file_new");
-  journal.addData(time(NULL), node);
-  journal.addClient("client2");
-  journal.addPath("file_new");
-  journal.addData(time(NULL), node);
-  free(node);
-  journal.close();
-
-
-  cout << endl << "Test: journal read" << endl;
-  my_time++;
-
-  node = NULL;
-  journal.open("r");
-  if (journal.isEmpty()) {
-    cout << "Journal is empty" << endl;
-  } else
-  while ((rc = journal.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
-  }
-  journal.close();
-  if (rc < 0) {
-    cerr << "Failed to read journal" << endl;
-  }
-
-
-  cout << endl << "Test: journal merge into list" << endl;
-  my_time++;
-
-  if (dblist.open("r")) {
-    cerr << "Failed to open list" << endl;
-    return 0;
-  }
-  if (dblist.isEmpty()) {
-    cout << "List is empty" << endl;
-  }
-  if (journal.open("r")) {
-    cerr << "Failed to open journal" << endl;
-    return 0;
-  }
-  if (journal.isEmpty()) {
-    cout << "Journal is empty" << endl;
-  }
-  if (merge.open("w")) {
-    cerr << "Failed to open merge" << endl;
-    return 0;
-  }
-  if (merge.merge(dblist, journal) < 0) {
-    cerr << "Failed to merge" << endl;
-//     return 0;
-  }
-  merge.close();
-  journal.close();
-  dblist.close();
-
-
-  cout << endl << "Test: merge read" << endl;
-  my_time++;
-
-  merge.open("r");
-  if (merge.isEmpty()) {
-    cout << "Merge is empty" << endl;
-  } else
-  while ((rc = merge.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
-  }
-  merge.close();
-  if (rc < 0) {
-    cerr << "Failed to read merge" << endl;
-  }
 
 
   cout << endl << "Test: journal path out of order" << endl;
@@ -517,7 +316,6 @@ int main(void) {
   ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
   ((Stream*) node)->close();
-  journal.addClient("client2");
   journal.addPath("file_new");
   journal.addData(time(NULL), node);
   journal.addPath("file_gone");
@@ -534,8 +332,8 @@ int main(void) {
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   } else
-  while ((rc = journal.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((rc = journal.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   journal.close();
   if (rc < 0) {
@@ -580,8 +378,8 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   } else
-  while ((rc = merge.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   merge.close();
   if (rc < 0) {
@@ -601,8 +399,8 @@ int main(void) {
   } else {
     cout << "List:" << endl;
   }
-  while ((rc = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((rc = dblist.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   dblist.close();
   if (rc < 0) {
@@ -624,7 +422,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist.search("", "", &merge, 4) < 0) {
+  if (dblist.search("", &merge, 4) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -635,8 +433,8 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   }
-  while ((rc = merge.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   merge.close();
   if (rc < 0) {
@@ -656,7 +454,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist.search("", "", &merge, 0) < 0) {
+  if (dblist.search("", &merge, 0) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -667,8 +465,8 @@ int main(void) {
   if (merge.isEmpty()) {
     cout << "Merge is empty" << endl;
   }
-  while ((rc = merge.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   merge.close();
   if (rc < 0) {
@@ -676,7 +474,7 @@ int main(void) {
   }
 
 
-  cout << endl << "Test: copy client data" << endl;
+  cout << endl << "Test: copy all data" << endl;
 
   if (dblist.open("r")) {
     cerr << "Failed to open list" << endl;
@@ -687,8 +485,8 @@ int main(void) {
   } else {
     cout << "List:" << endl;
   }
-  while ((rc = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((rc = dblist.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   dblist.close();
   if (rc < 0) {
@@ -705,8 +503,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  string client3("client3");
-  if (dblist.search(client3.c_str(), "", &merge) < 0) {
+  if (dblist.search("", &merge) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -719,8 +516,8 @@ int main(void) {
   } else {
     cout << "Merge:" << endl;
   }
-  while ((rc = merge.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   merge.close();
   if (rc < 0) {
@@ -743,7 +540,6 @@ int main(void) {
   ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
   ((Stream*) node)->close();
-  journal.addClient("client");
   journal.addPath("file_new");
   journal.addData(time(NULL), node);
   free(node);
@@ -789,8 +585,8 @@ int main(void) {
   } else {
     cout << "List:" << endl;
   }
-  while ((rc = dblist.getEntry(&ts, &client, &path, &node)) > 0) {
-    showLine(ts, client, path, node);
+  while ((rc = dblist.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
   }
   dblist.close();
   if (rc < 0) {
@@ -809,8 +605,8 @@ int main(void) {
   } else {
     cout << "List:" << endl;
   }
-  while ((rc = dblist.getEntry(&ts, &client, &path, &node, 0)) > 0) {
-    showLine(ts, client, path, node);
+  while ((rc = dblist.getEntry(&ts, &path, &node, 0)) > 0) {
+    showLine(ts, path, node);
   }
   dblist.close();
   if (rc < 0) {
@@ -820,6 +616,7 @@ int main(void) {
 
   // Show list with new functionality
   cout << endl << "Test: entries for given date" << endl;
+  cout << "Date: 5" << endl;
   if (dblist.open("r")) {
     cerr << "Failed to open list" << endl;
     return 0;
@@ -829,8 +626,8 @@ int main(void) {
   } else {
     cout << "List:" << endl;
   }
-  while ((rc = dblist.getEntry(&ts, &client, &path, &node, 5)) > 0) {
-    showLine(ts, client, path, node);
+  while ((rc = dblist.getEntry(&ts, &path, &node, 5)) > 0) {
+    showLine(ts, path, node);
   }
   dblist.close();
   if (rc < 0) {

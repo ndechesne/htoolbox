@@ -131,8 +131,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -254,8 +253,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -462,8 +460,7 @@ Database client myClient not modified
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -585,8 +582,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -722,8 +718,7 @@ Error: Operation canceled copying write file: test1/cvs/big_file
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -845,8 +840,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's real journal:
 	/home/User/cvs/big_file
 [ 3] f 512000 644 
 
@@ -882,8 +876,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -1007,8 +1000,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/cvs/big_file
 [ 0] f 512000 644 816df6f64deba63b029ca19d880ee10a-0
 	/home/User/subdir/testfile
@@ -1041,8 +1033,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -1167,8 +1158,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/subdir/testfile
 [ 5] -
 
@@ -1200,8 +1190,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -1329,8 +1318,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/subdir
 [ 6] -
 	/home/User/subdir/testfile1
@@ -1364,8 +1352,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -1494,8 +1481,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/testlink
 [ 7] l     8 777 testnull
 
@@ -1525,8 +1511,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -1656,8 +1641,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/testlink
 [ 8] -
 
@@ -1703,8 +1687,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -1844,8 +1827,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/cvs/CVS/Whatever
 [ 9] -
 	/home/User/cvs/CVS/Wherever
@@ -1899,8 +1881,7 @@ Database client myClient not modified
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -2040,8 +2021,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/cvs/CVS/Whatever
 [ 9] -
 	/home/User/cvs/CVS/Wherever
@@ -2114,8 +2094,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -2267,8 +2246,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/svn/.svn/format
 [11] -
 	/home/User/svn/.svn/whatever
@@ -2334,8 +2312,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -2492,8 +2469,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/cvs/dirutd
 [12] -
 	/home/User/cvs/dirutd/CVS
@@ -2539,8 +2515,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -2701,8 +2676,7 @@ myClient
 	/home/User/testpipe
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/svn/dirutd
 [13] -
 	/home/User/svn/dirutd/.svn
@@ -2743,8 +2717,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -2906,8 +2879,7 @@ myClient
 [14] -
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/testpipe
 [14] -
 
@@ -2942,8 +2914,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -3106,8 +3077,7 @@ myClient
 [14] -
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/testfile
 [15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 
@@ -3144,8 +3114,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -3310,8 +3279,7 @@ myClient
 [14] -
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/cvs/filenew.c
 [16] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 	/home/User/testpipe
@@ -3375,8 +3343,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -3581,8 +3548,7 @@ myClient
 [14] -
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/docbook-xml
 [17] d     0 755
 	/home/User/docbook-xml/3.1.7
@@ -3662,8 +3628,7 @@ Database client myClient not modified
 Database client myClient closed
 Database closed
 
-List:
-myClient
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -3868,8 +3833,7 @@ myClient
 [14] -
 [ 1] p     0 644
 
-Journal:
-myClient
+myClient's journal:
 	/home/User/docbook-xml
 [17] d     0 755
 	/home/User/docbook-xml/3.1.7
@@ -3972,8 +3936,7 @@ Closing database client myClient
 Database client myClient closed
 Database closed
 
-List:
-hisClient
+hisClient's list:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -3982,7 +3945,8 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -4187,8 +4151,7 @@ myClient
 [14] -
 [ 1] p     0 644
 
-Journal:
-hisClient
+hisClient's journal:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -4197,7 +4160,8 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's real journal:
 	/home/User/crash
 [19] d     0 755
 	/home/User/crash/file
@@ -4221,8 +4185,7 @@ Warning: Backup of client myClient was interrupted in a previous run, finishing 
 Warning: Unexpected end of journal
 Database open in read/write mode
 
-List:
-hisClient
+hisClient's list:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -4231,7 +4194,8 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -4447,8 +4411,7 @@ myClient
 [14] -
 [ 1] p     0 644
 
-Journal:
-hisClient
+hisClient's journal:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -4457,7 +4420,8 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's journal:
 	/home/User/crash
 [19] d     0 755
 	/home/User/crash/file
@@ -4518,8 +4482,7 @@ Database client myClient not modified
 Database client myClient closed
 Database closed
 
-List:
-hisClient
+hisClient's list:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -4528,7 +4491,8 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -4744,8 +4708,7 @@ myClient
 [14] -
 [ 1] p     0 644
 
-Journal:
-hisClient
+hisClient's journal:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -4754,7 +4717,8 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's journal:
 	/home/User/crash
 [19] d     0 755
 	/home/User/crash/file
@@ -4785,8 +4749,7 @@ Database client hisClient not modified
 Database client hisClient closed
 Database closed
 
-List:
-hisClient
+hisClient's list:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -4795,7 +4758,8 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -5011,8 +4975,7 @@ myClient
 [14] -
 [ 1] p     0 644
 
-Journal:
-hisClient
+hisClient's journal:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -5021,7 +4984,8 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's journal:
 	/home/User/crash
 [19] d     0 755
 	/home/User/crash/file
@@ -5082,8 +5046,7 @@ Database client myClient closed
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
-List:
-hisClient
+hisClient's list:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -5092,7 +5055,8 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -5268,8 +5232,7 @@ myClient
 [16] p     0 644
 [14] -
 
-Journal:
-hisClient
+hisClient's journal:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -5278,7 +5241,8 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's journal:
 	/home/User/testfile
 [22] f    13 000 
 
@@ -5322,8 +5286,7 @@ Database client myClient closed
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
-List:
-hisClient
+hisClient's list:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -5332,7 +5295,8 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -5502,8 +5466,7 @@ myClient
 	/home/User/testpipe
 [16] p     0 644
 
-Journal:
-hisClient
+hisClient's journal:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -5512,7 +5475,8 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's journal:
 	/home/User/testfile
 [23] -
 	/home/User/testfile~
@@ -5557,8 +5521,7 @@ Database client myClient closed
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
 
-List:
-hisClient
+hisClient's list:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -5567,7 +5530,8 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's list:
 	/home/User/àccénts_test
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/big_file
@@ -5736,8 +5700,7 @@ myClient
 	/home/User/testpipe
 [16] p     0 644
 
-Journal:
-hisClient
+hisClient's journal:
 	/home/User/testdir
 [19] d     0 755
 	/home/User/testfile
@@ -5746,6 +5709,7 @@ hisClient
 [19] f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 	/home/User/testfile~
 [19] f 524288 644 59071590099d21dd439896592338bf95-0
-myClient
+
+myClient's journal:
 	/home/User/testfile~
 [24] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
