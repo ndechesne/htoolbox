@@ -347,18 +347,47 @@ int Database::getRecords(
     list<string>&   records,
     const char*     path,
     time_t          date) {
-  return _d->client->getList(records, path, date);
+  int blocks = 0;
+  Path ls_path;
+  if (path != NULL) {
+    ls_path = path;
+    ls_path.noTrailingSlashes();
+    blocks = ls_path.countBlocks('/');
+  }
+  char* db_path = NULL;
+  int   rc;
+  while ((rc = _d->client->getNextRecord(path, date, &db_path)) > 0) {
+    if (terminating()) {
+      return -1;
+    }
+    Path db_path2 = db_path;
+    if ((db_path2.length() >= ls_path.length())   // Path no shorter
+      && (db_path2.countBlocks('/') > blocks)      // Not less blocks
+      && (ls_path.compare(db_path2.c_str(), ls_path.length()) == 0)) {
+      char* slash = strchr(&db_path[ls_path.length() + 1], '/');
+      if (slash != NULL) {
+        *slash = '\0';
+      }
+
+      if ((records.size() == 0)
+        || (strcmp(records.back().c_str(), db_path) != 0)) {
+        records.push_back(db_path);
+      }
+    }
+  }
+  free(db_path);
+  return (rc < 0) ? -1 : 0;
 }
 
 int Database::restore(
-    const char* dest,
-    const char* path,
-    time_t      date) {
-  bool    failed  = false;
-  char*   fpath   = NULL;
-  Node*   fnode   = NULL;
-
-  while (_d->client->getNextRecord(path, date, &fpath, &fnode) > 0) {
+    const char*     dest,
+    const char*     path,
+    time_t          date) {
+  bool  failed  = false;
+  char* fpath   = NULL;
+  Node* fnode   = NULL;
+  int   rc;
+  while ((rc = _d->client->getNextRecord(path, date, &fpath, &fnode)) > 0) {
     if (fnode != NULL) {
       Path base(dest, fpath);
       char* dir = Path::dirname(base.c_str());
@@ -417,7 +446,7 @@ int Database::restore(
       }
     }
   }
-  return failed ? -1 : 0;
+  return (failed || (rc < 0)) ? -1 : 0;
 }
 
 int Database::scan(

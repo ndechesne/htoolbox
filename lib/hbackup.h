@@ -141,8 +141,8 @@ namespace hbackup {
     */
     int getList(
       list<string>& records,
-      const char*   client        = NULL,
-      const char*   path          = NULL,
+      const char*   client        = "",
+      const char*   path          = "",
       time_t        date          = 0);
     //! \brief Restore specified database contents
     /*!
@@ -156,7 +156,7 @@ namespace hbackup {
     int restore(
       const char*   destination,
       const char*   client,
-      const char*   path          = NULL,
+      const char*   path          = "",
       time_t        date          = 0);
   };
 }

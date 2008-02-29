@@ -50,12 +50,12 @@ public:
   // Get list of paths and data from DB list (close-open to re-use DB!)
   int  getRecords(
     list<string>&   records,              // List of elements to display
-    const char*     path    = NULL,       // The path (list paths)
+    const char*     path    = "",         // The path (list paths)
     time_t          date    = 0);         // The date (latest)
   // Restore specified data
   int  restore(
     const char*     dest,                 // Where the restored path goes
-    const char*     path = NULL,          // The path to restore (all)
+    const char*     path = "",            // The path to restore (all)
     time_t          date = 0);            // The date to restore (latest)
   // Scan database for missing/obsolete data
   int  scan(

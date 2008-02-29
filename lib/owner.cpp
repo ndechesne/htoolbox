@@ -391,77 +391,6 @@ int Owner::add(
   ||      (_d->partial->addData(timestamp, node, true) < 0)) ? -1 : 0;
 }
 
-int Owner::getList(
-    list<string>&   records,
-    const char*     path,
-    time_t          date) const {
-  if (date == 0) {
-    int blocks = 0;
-    Path ls_path;
-    if (path != NULL) {
-      ls_path = path;
-      ls_path.noTrailingSlashes();
-      blocks = ls_path.countBlocks('/');
-    }
-
-    char* db_path = NULL;
-    while (_d->original->search() == 2) {
-      if (terminating()) {
-        return -1;
-      }
-      if (_d->original->getEntry(NULL, &db_path, NULL, -2) <= 0) {
-        out(error) << strerror(errno) << ": reading from list" << endl;
-        return -1;
-      }
-      Path db_path2 = db_path;
-      if ((db_path2.length() >= ls_path.length())   // Path no shorter
-       && (db_path2.countBlocks('/') > blocks)      // Not less blocks
-       && (ls_path.compare(db_path2.c_str(), ls_path.length()) == 0)) {
-        char* slash = strchr(&db_path[ls_path.length() + 1], '/');
-        if (slash != NULL) {
-          *slash = '\0';
-        }
-
-        if ((records.size() == 0)
-         || (strcmp(records.back().c_str(), db_path) != 0)) {
-          records.push_back(db_path);
-        }
-      }
-    }
-    free(db_path);
-    return 0;
-  } else {
-    // The rest still needs to see the light of day
-    out(error) << "Not implemented" << endl;
-    return -1;
-  }
-  return 0;
-}
-
-int Owner::getChecksums(
-    list<string>&   checksums) {
-// Not const because of open, need a r-o open only that'd be const...
-  if (open(true) < 0) {
-    return -1;
-  }
-  _d->original->setProgressCallback(progress);
-  Node* node = NULL;
-  while (_d->original->getEntry(NULL, NULL, &node) > 0) {
-    if ((node != NULL) && (node->type() == 'f')) {
-      File* f = (File*) node;
-      if (f->checksum()[0] != '\0') {
-        checksums.push_back(f->checksum());
-      }
-    }
-    if (terminating()) {
-      break;
-    }
-  }
-  delete node;
-  close(true);
-  return terminating() ? -1 : 0;
-}
-
 int Owner::getNextRecord(
     const char*     path,
     time_t          date,
@@ -499,4 +428,28 @@ int Owner::getNextRecord(
     return 1;
   }
   return failed ? -1 : 0;
+}
+
+int Owner::getChecksums(
+    list<string>&   checksums) {
+// Not const because of open, need a r-o open only that'd be const...
+  if (open(true) < 0) {
+    return -1;
+  }
+  _d->original->setProgressCallback(progress);
+  Node* node = NULL;
+  while (_d->original->getEntry(NULL, NULL, &node) > 0) {
+    if ((node != NULL) && (node->type() == 'f')) {
+      File* f = (File*) node;
+      if (f->checksum()[0] != '\0') {
+        checksums.push_back(f->checksum());
+      }
+    }
+    if (terminating()) {
+      break;
+    }
+  }
+  delete node;
+  close(true);
+  return terminating() ? -1 : 0;
 }
