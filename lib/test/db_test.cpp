@@ -499,7 +499,7 @@ int main(void) {
   if (db.open() == 0) {
     db.close();
 #else
-  if (db.convertList(&records) == 0) {
+  if (db.convert(&records) == 0) {
 #endif
     for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
       cout << "Listing client: " << *i << endl;

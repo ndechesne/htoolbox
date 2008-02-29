@@ -465,7 +465,7 @@ int List::addData(
     _d->line        = line;
     _d->line_status = new_data;
   } else
-  if (Stream::putLine(line) != size) {
+  if (Stream::putLine(line) != (size + 1)) {
     rc = -1;
   } else {
     _d->line_status = no_data;

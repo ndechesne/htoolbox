@@ -33,8 +33,8 @@ class Database {
     const char*     name,
     bool            new_file = false) const;
 public:
-  // Method to convert from version '3' to version '4a' of DB list
-  int convertList(list<string>* clients = NULL);
+  // Method to update the DB organization and list formats
+  int convert(list<string>* clients = NULL);
   Database(
     const char*     path);                // Path where DB resides
   ~Database();

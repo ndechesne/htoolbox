@@ -35,21 +35,13 @@
 using namespace std;
 
 #include "files.h"
-#include "list.h"
 #include "data.h"
+#include "list.h"
+#include "owner.h"
 #include "db.h"
 #include "hbackup.h"
 
 using namespace hbackup;
-
-static void progress(long long previous, long long current, long long total) {
-  if (current < total) {
-    out(verbose) << "Done: " << setw(5) << setiosflags(ios::fixed)
-      << setprecision(1) << 100.0 * current /total << "%\r" << flush;
-  } else if (previous != 0) {
-    out(verbose) << "            \r";
-  }
-}
 
 struct Database::Private {
   char*             path;
@@ -57,14 +49,10 @@ struct Database::Private {
   Data              data;
   vector<string>    missing;
   int               missing_id; // -2: not loaded, -3: do not load
-  char*             client;
-  List*             client_list;
-  List*             client_journal;
-  List*             client_part;
-  int               client_expire;
+  Owner*            client;
 };
 
-int Database::convertList(list<string>* clients) {
+int Database::convert(list<string>* clients) {
   out(info) << "Converting database list" << endl;
   Stream source(Path(_d->path, "list"));
   if (source.open("r")) {
@@ -172,92 +160,6 @@ void Database::unlock() {
   File(Path(_d->path, "lock")).remove();
 }
 
-// The procedure is as follows:
-// ---> step 0: backup running
-//    list      -> list.part  (copy, always discarded)
-//              -> journal    (create, used for recovery)
-// ---> step 1: backup finished
-//    list.part -> list.next  (rename, journal will now be discarded)
-// ---> step 2
-//    journal   ->            (delete, discard journal)
-// ---> step 3
-//    list      -> list~      (rename, overwrite backup)
-// ---> step 4
-//    list.next -> list       (rename, process finished)
-// ---> list ballet finished
-//
-// This allows for a safe recovery:
-//    if list.next:
-//      discard journal
-//      goto ---> step 3
-//    if journal:
-//      merge list + journal -> list.part
-//      goto ---> step 1
-static int finishOff(
-    List&           main,
-    List&           journal,
-    List&           part,
-    bool            recovery) {
-  string name = main.path();
-  File next(Path((name + ".next").c_str()));
-
-  // All files are expected to be closed
-  bool got_next = recovery && next.isValid();
-
-  // Recovering from list and journal (step 0)
-  if (recovery && ! got_next) {
-    if (journal.isValid()) {
-      // Let's recover what we got
-      if (! part.open("w")) {
-        bool failed = false;
-        main.open("r");
-        journal.open("r");
-        if (part.merge(main, journal) < 0) {
-          failed = true;
-        }
-        main.close();
-        journal.close();
-        part.close();
-        if (failed) {
-          return -1;
-        }
-      } else {
-        return -1;
-      }
-    } else {
-      // Nothing to do (no list.next => list exists)
-      return 0;
-    }
-  }
-
-  // list.part -> list.next (step 1)
-  if (! got_next && rename(part.path(), next.path())) {
-    return -1;
-  }
-
-  // Discard journal (step 2)
-  if (! got_next || File(journal).isValid()) {
-    string backup = journal.path();
-    backup += "~";
-    if (rename(journal.path(), backup.c_str())) {
-      return -1;
-    }
-  }
-
-  // list -> list~ (step 3)
-  if (! got_next || File(main).isValid()) {
-    if (rename(main.path(), (name + "~").c_str())) {
-      return -1;
-    }
-  }
-
-  // list.next -> list (step 4)
-  if (rename(next.path(), main.path())) {
-    return -1;
-  }
-  return 0;
-}
-
 int Database::update(
     const char*     name,
     bool            new_file) const {
@@ -277,10 +179,6 @@ Database::Database(const char* path) {
   _d                  = new Private;
   _d->path            = strdup(path);
   _d->mode            = 0;
-  _d->client_list     = NULL;
-  _d->client_journal  = NULL;
-  _d->client_part     = NULL;
-  _d->client_expire   = -1;
 }
 
 Database::~Database() {
@@ -384,7 +282,6 @@ int Database::close() {
     out(alert) << "Cannot close: DB not open!" << endl;
   } else {
     if (_d->client != NULL) {
-cout << "DBG0" << endl;
       closeClient(true);
     }
     if (_d->mode > 1) {
@@ -451,52 +348,13 @@ int Database::getRecords(
     const char*     client,
     const char*     path,
     time_t          date) {
-  // Look for clients
   if ((client == NULL) || (client[0] == '\0')) {
+    // Look for clients
     return getClients(records);
-  } else
-  // Look for paths
-  if (date == 0) {
-    int blocks = 0;
-    Path ls_path;
-    if (path != NULL) {
-      ls_path = path;
-      ls_path.noTrailingSlashes();
-      blocks = ls_path.countBlocks('/');
-    }
-
-    char* db_path = NULL;
-    while (_d->client_list->search() == 2) {
-      if (terminating()) {
-        return -1;
-      }
-      if (_d->client_list->getEntry(NULL, &db_path, NULL, -2) <= 0) {
-        out(error) << strerror(errno) << ": reading from list" << endl;
-        return -1;
-      }
-      Path db_path2 = db_path;
-      if ((db_path2.length() >= ls_path.length())   // Path no shorter
-       && (db_path2.countBlocks('/') > blocks)      // Not less blocks
-       && (ls_path.compare(db_path2.c_str(), ls_path.length()) == 0)) {
-        char* slash = strchr(&db_path[ls_path.length() + 1], '/');
-        if (slash != NULL) {
-          *slash = '\0';
-        }
-
-        if ((records.size() == 0)
-         || (strcmp(records.back().c_str(), db_path) != 0)) {
-          records.push_back(db_path);
-        }
-      }
-    }
-    free(db_path);
-    return 0;
-  } else
-  // The rest still needs to see the light of day
-  {
-    out(error) << "Not implemented" << endl;
+  } else {
+    // Look for paths
+    return _d->client->getList(records, path, date);
   }
-  return -1;
 }
 
 int Database::restore(
@@ -505,6 +363,8 @@ int Database::restore(
     const char* path,
     time_t      date) {
   bool    failed  = false;
+#warning restore is broken
+#if 0
   char*   fpath   = NULL;
   Node*   fnode   = NULL;
   time_t  fts;
@@ -628,6 +488,7 @@ int Database::restore(
       break;
     }
   }
+#endif
   return failed ? -1 : 0;
 }
 
@@ -635,7 +496,6 @@ int Database::scan(
     bool            rm_obsolete) {
   // Get checksums from list
   list<string> list_sums;
-  Node*        node = NULL;
   list<string> clients;
   if (getClients(clients) < 0) {
     return -1;
@@ -645,28 +505,12 @@ int Database::scan(
   bool failed = false;
   for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
     out(verbose) << "Reading " << *i << "'s list" << endl;
-    if (openClient(i->c_str(), true) < 0) {
-      failed = true;
-    } else {
-      _d->client_list->setProgressCallback(progress);
-      while (_d->client_list->getEntry(NULL, NULL, &node) > 0) {
-        if ((node != NULL) && (node->type() == 'f')) {
-          File* f = (File*) node;
-          if (f->checksum()[0] != '\0') {
-            list_sums.push_back(f->checksum());
-          }
-        }
-        if (terminating()) {
-          break;
-        }
-      }
-      closeClient(true);
-    }
+    Owner client(_d->path, i->c_str());
+    client.getChecksums(list_sums);
     if (failed || terminating()) {
       break;
     }
   }
-  delete node;
   if (failed || terminating()) {
     return -1;
   }
@@ -769,7 +613,6 @@ int Database::openClient(
     const char*     client,
     time_t          expire) {
   // Open client list
-  bool   failed = false;
   string name   = Path(_d->path, client).c_str();
 
   if (_d->mode == 0) {
@@ -777,8 +620,9 @@ int Database::openClient(
     return -1;
   }
 
-  // Keep client name
-  _d->client = strdup(client);
+  // Create owner for client
+  _d->client = new Owner(_d->path, client,
+    (expire <= 0) ? expire : (time(NULL) - expire));
 
   if (_d->mode > 1) {
     if (_d->missing_id == -2) {
@@ -798,209 +642,35 @@ int Database::openClient(
       }
       _d->missing_id = -1;
     }
-
-    // Open list
-    _d->client_list = new List((name + ".list").c_str());
-    if (! _d->client_list->isValid()) {
-      File backup((name + ".list~").c_str());
-
-      if (backup.isValid()) {
-        rename(backup.path(), _d->client_list->path());
-        out(warning) << client << "'s list not accessible, using backup"
-          << endl;
-      } else {
-        if (_d->client_list->open("w")) {
-          out(error) << strerror(errno) << " creating " << client << "'s list"
-            << endl;
-          failed = true;
-        } else {
-          _d->client_list->close();
-          out(info) << "Created " << client << "'s list" << endl;
-        }
-      }
-    }
-    if (! failed) {
-      // Check journal
-      _d->client_journal = new List((name + ".journal").c_str());
-      _d->client_part    = new List((name + ".part").c_str());
-      if (_d->client_journal->isValid()) {
-        // Check previous crash
-        out(warning) << "Backup of client " << client
-          << " was interrupted in a previous run, finishing up..." << endl;
-        _d->client_list->setProgressCallback(progress);
-        if (finishOff(*_d->client_list, *_d->client_journal, *_d->client_part,
-            true)) {
-          out(error) << "Failed to recover previous data" << endl;
-          failed = true;
-        }
-        _d->client_list->setProgressCallback(NULL);
-
-      }
-
-      // Create journal (do not cache)
-      if (! failed && (_d->client_journal->open("w", -1))) {
-        out(error) << "Cannot open " << client << "'s journal" << endl;
-        failed = true;
-      }
-    }
-    if (! failed) {
-      // Open list
-      if (_d->client_list->open("r")) {
-        out(error) << "Cannot open " << client << "'s list" << endl;
-        failed = true;
-      } else
-      // Open journal
-      if (_d->client_journal->open("w", -1)) {
-        out(error) << "Cannot open " << client << "'s journal" << endl;
-        failed = true;
-      } else
-      // Open list
-      if (_d->client_part->open("w")) {
-        out(error) << "Cannot open " << client << "'s merge list" << endl;
-        failed = true;
-      }
-    }
-    if (failed) {
-      _d->client_list->close();
-      _d->client_journal->close();
-      _d->client_part->close();
-      delete _d->client_list;
-      delete _d->client_journal;
-      delete _d->client_part;
-      return -1;
-    }
-    if (expire > 0) {
-      _d->client_expire = time(NULL) - expire;
-    } else {
-      _d->client_expire = expire;
-    }
-    if (_d->mode < 3) {
-      out(verbose) << "Database client " << client
-        << " open in read/write mode" << endl;
-    }
-  } else {
-    if (! File((name + ".list").c_str()).isValid()) {
-      out(error) << "Client " << client
-        << "'s list not accessible, aborting" << endl;
-      return -1;
-    }
-
-    string list_db = name + ".list";
-    stringstream file_name;
-    file_name << name << ".list." << getpid();
-    if (link(list_db.c_str(), file_name.str().c_str())) {
-      out(error) << "Could not create hard link to list" << endl;
-      return -1;
-    }
-
-    bool failed = false;
-    _d->client_list = new List(file_name.str().c_str());
-    if (_d->client_list->open("r")) {
-      out(error) << "Cannot open " << client << "'s list" << endl;
-      failed = true;
-    } else
-    if (_d->client_list->isOldVersion()) {
-      out(error)
-        << "list in old format (run hbackup in backup mode to update)"
-        << endl;
-      failed = true;
-    } else
-    if (failed) {
-      delete _d->client_list;
-      _d->client_list = NULL;
-      return -1;
-    }
-    out(verbose) << "Database client " << client << " open in read-only mode"
-      << endl;
+  }
+  if (_d->client->open(_d->mode == 1, _d->mode != 1) < 0) {
+    delete _d->client;
+    _d->client = NULL;
+    return -1;
+  }
+  switch (_d->mode) {
+    case 1:
+      out(verbose)
+        << "Database client " << client << " open in read-only mode" << endl;
+      break;
+    case 2:
+      out(verbose)
+        << "Database client " << client << " open in read/write mode" << endl;
+      break;
+    default:;
   }
   return 0;
 }
 
 int Database::closeClient(
     bool            abort) {
-  bool failed = false;
-
-  if (_d->mode == 1) {
-    // Open read-only
-    // Close list
-    _d->client_list->close();
-    // Remove link
-    unlink(_d->client_list->path());
-    // Delete list
-    delete _d->client_list;
-    // for isOpen and isWriteable
-    _d->client_list = NULL;
-  } else {
-    if (_d->mode > 1) {
-      if (abort) {
-        // Skip to next client/end of file
-        _d->client_list->search(NULL, _d->client_part, -1);
-        // Keep client found
-        _d->client_list->keepLine();
-      } else {
-        // Finish previous client work (removed items at end of list)
-        sendEntry(NULL, NULL);
-      }
-
-      // Open read/write
-      // Close journal
-      _d->client_journal->close();
-
-      if (_d->client_journal->isEmpty()) {
-        _d->client_journal->remove();
-        // Do nothing
-        if (_d->mode < 3) {
-          out(verbose) << "Database client " << _d->client << " not modified"
-            << endl;
-        }
-      } else {
-        if (! terminating()) {
-          // Finish off list reading/copy
-          _d->client_list->setProgressCallback(progress);
-          // Finish off merging
-          out(verbose) << "Closing database client " << _d->client << endl;
-          _d->client_list->search("", _d->client_part, -1);
-        }
-      }
-
-      // Close list
-      _d->client_list->close();
-
-      // Close merge
-      _d->client_part->close();
-      if (terminating() || _d->client_journal->isEmpty()) {
-        _d->client_part->remove();
-      }
-
-      // Deal with new list and journal
-      if (! _d->client_journal->isEmpty()) {
-        if (! terminating()) {
-          if (finishOff(*_d->client_list, *_d->client_journal,
-              *_d->client_part, false)) {
-            out(error) << "Failed to close lists" << endl;
-            failed = true;
-          }
-        }
-      }
-
-      // Free lists
-      delete _d->client_list;
-      delete _d->client_journal;
-      delete _d->client_part;
-      _d->client_list    = NULL;
-      _d->client_journal = NULL;
-      _d->client_part    = NULL;
-    }
-  }
-
+  bool failed = (_d->client->close(abort) < 0);
   if (_d->mode < 3) {
-    out(verbose) << "Database client " << _d->client << " closed" << endl;
+    out(verbose) << "Database client " << _d->client->name() << " closed"
+      << endl;
   }
-
-  // Discard client name
-  free(_d->client);
+  delete _d->client;
   _d->client = NULL;
-
   return failed ? -1 : 0;
 }
 
@@ -1011,55 +681,18 @@ int Database::sendEntry(
   // Reset ID of missing checksum
   _d->missing_id = -1;
 
-  // DB
-  char* db_path = NULL;
   Node* db_node = NULL;
-  int   cmp     = 1;
-  while (_d->client_list->search(NULL, _d->client_part, _d->client_expire)
-      == 2) {
-    if (_d->client_list->getEntry(NULL, &db_path, NULL, -2) <= 0) {
-      // Error
-      out(error) << "Failed to get entry" << endl;
-      return -1;
-    }
-    if (remote_path != NULL) {
-      cmp = Path::compare(db_path, remote_path);
-    } else {
-      // Want to get all paths
-      cmp = -1;
-    }
-    // If found or exceeded, break loop
-    if (cmp >= 0) {
-      if (cmp == 0) {
-        // Get metadata
-        _d->client_list->getEntry(NULL, &db_path, &db_node, -1);
-        // Do not lose this metadata!
-        _d->client_list->keepLine();
-      }
-      break;
-    }
-    // Not reached, mark 'removed' (getLineType keeps line automatically)
-    _d->client_part->addPath(db_path);
-    if (_d->client_list->getLineType() != '-') {
-      _d->client_journal->addPath(db_path);
-      _d->client_journal->addData(time(NULL));
-      // Add path and 'removed' entry
-      _d->client_part->addData(time(NULL));
-      out(info) << "D " << db_path << endl;
-    }
-  }
-  free(db_path);
+  int rc = _d->client->search(remote_path, &db_node);
 
   // Compare entries
   bool add_node = false;
+  bool new_path = false;
   if (remote_path != NULL) {
-    _d->client_part->addPath(remote_path);
-    if ((cmp > 0) || (db_node == NULL)) {
-      // Exceeded, keep line for later
-      _d->client_list->keepLine();
+    if ((rc > 0) || (db_node == NULL)) {
       // New file
       out(info) << "A";
       add_node = true;
+      new_path = true;
     }
 
     if (! add_node) {
@@ -1154,7 +787,7 @@ int Database::sendEntry(
   delete db_node;
 
   // Send status back
-  return add_node ? 1 : 0;
+  return new_path ? 2 : (add_node ? 1 : 0);
 }
 
 int Database::add(
@@ -1210,9 +843,10 @@ int Database::add(
       ts = time(NULL);
     }
     // Add entry info to journal
-    _d->client_journal->addPath(remote_path);
-    _d->client_journal->addData(ts, node2);
-    _d->client_part->addData(ts, node2, true);
+    if (_d->client->add(remote_path, node2, ts) < 0) {
+      out(error) << "Cannot add to client's list" << endl;
+      failed = true;
+    }
   }
   delete node2;
 

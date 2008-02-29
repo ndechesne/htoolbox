@@ -1,0 +1,60 @@
+/*
+     Copyright (C) 2008  Herve Fache
+
+     This program is free software; you can redistribute it and/or modify
+     it under the terms of the GNU General Public License version 2 as
+     published by the Free Software Foundation.
+
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License
+     along with this program; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place - Suite 330,
+     Boston, MA 02111-1307, USA.
+*/
+
+#ifndef _OWNER_H
+#define _OWNER_H
+
+namespace hbackup {
+
+class Owner {
+  struct            Private;
+  Private*          _d;
+  int finishOff(
+    bool            recovery);            // Data is being recovered
+public:
+  Owner(
+    const char*     path,                 // Path to list files
+    const char*     name,                 // Name of owner
+    time_t          expiration = -1);     // Cut-off date for removed data (s)
+  ~Owner();
+  const char* name() const;
+  time_t expiration() const;
+  int open(
+    bool            read_only  = false,   // Open for read only
+    bool            initialize = false);  // Initialize if does not exist
+  int close(
+    bool            teardown);
+  int search(
+    const char*     path,                 // Path to look for, NULL for all
+    Node**          node) const;          // Node found
+  // Add entry info to journal
+  int add(
+    const char*     path,
+    const Node*     node,
+    time_t          timestamp);
+  int getList(
+    list<string>&   records,              // List of elements to display
+    const char*     path    = NULL,       // The path (list paths)
+    time_t          date    = 0) const;   // The date (latest)
+  int getChecksums(
+    list<string>&   checksums);           // List to add checksums
+};
+
+}
+
+#endif

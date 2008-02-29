@@ -127,7 +127,7 @@ A /home/User/testfile~ (0 B)
 A /home/User/testlink
 A /home/User/testpipe
 Parsed 60 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -456,7 +456,6 @@ Error: Permission denied opening write source file: test1/subdir/testfile
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 60 file(s)
-Database client myClient not modified
 Database client myClient closed
 Database closed
 
@@ -872,7 +871,7 @@ Adding file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 61 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -1029,7 +1028,7 @@ D /home/User/subdir/testfile
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 60 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -1186,7 +1185,7 @@ D /home/User/subdir/testfile2
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 57 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -1348,7 +1347,7 @@ Database client myClient open in read/write mode
  -> Dir testdir
 M /home/User/testlink
 Parsed 57 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -1507,7 +1506,7 @@ Database client myClient open in read/write mode
  -> Dir testdir
 D /home/User/testlink
 Parsed 56 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -1683,7 +1682,7 @@ D /home/User/cvs/fileoth
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 46 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -1877,7 +1876,6 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 46 file(s)
-Database client myClient not modified
 Database client myClient closed
 Database closed
 
@@ -2090,7 +2088,7 @@ D /home/User/svn/fileoth
 D /home/User/svn/fileutd.h
  -> Dir testdir
 Parsed 34 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -2308,7 +2306,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir svn/dirutd/.svn
  -> Dir testdir
 Parsed 29 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -2511,7 +2509,7 @@ D /home/User/svn/dirutd/.svn/entries
 D /home/User/svn/dirutd/fileutd
  -> Dir testdir
 Parsed 25 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -2713,7 +2711,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Parsed 24 file(s)
 D /home/User/testpipe
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -2910,7 +2908,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 ~ /home/User/testfile (13 B)
 Parsed 24 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -3110,7 +3108,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 A /home/User/testpipe
 Parsed 25 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -3339,7 +3337,7 @@ A /home/User/testdir/biblio/biblio.dbt (0 B)
 A /home/User/testdir/biblio.odb (0 B)
 A /home/User/testdir/evolocal.odb (0 B)
 Parsed 45 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -3624,7 +3622,6 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
  -> Dir testdir/biblio
 Parsed 45 file(s)
-Database client myClient not modified
 Database client myClient closed
 Database closed
 
@@ -3891,7 +3888,7 @@ Done:  78.1%\r
             \r
 Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
 Parsed 4 file(s)
-Closing database client hisClient
+Database client hisClient modified
 Database client hisClient closed
 Database client myClient open in read/write mode
 A /home/User/crash
@@ -3932,7 +3929,7 @@ D /home/User/testdir/biblio/biblio.dbt
 D /home/User/testdir/biblio.odb
 D /home/User/testdir/evolocal.odb
 Parsed 41 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 
@@ -4478,7 +4475,6 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  -> Dir svn/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
 Parsed 41 file(s)
-Database client myClient not modified
 Database client myClient closed
 Database closed
 
@@ -4745,7 +4741,6 @@ Reading list of missing checksums
 Database client hisClient open in read/write mode
  -> Dir testdir
 Parsed 4 file(s)
-Database client hisClient not modified
 Database client hisClient closed
 Database closed
 
@@ -5041,7 +5036,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile (13 B)
 Error: Permission denied opening write source file: test1/testfile
 Parsed 41 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
@@ -5281,7 +5276,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 D /home/User/testfile
 M /home/User/testfile~ (0 B)
 Parsed 40 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory
@@ -5516,7 +5511,7 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
 M /home/User/testfile~ (5 B)
 Parsed 40 file(s)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
 Database closed
 du: cannot access `test_db/data/trash/*': No such file or directory

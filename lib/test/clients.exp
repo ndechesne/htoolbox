@@ -110,7 +110,7 @@ Backup path '/home/User/test2'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
 A /home/User/test2/File3.txt (0 B)
 A /home/User/test2/File4.txt (0 B)
-Closing database client myClient
+Database client myClient modified
 Database client myClient closed
  -> umount -fl test_db/mount
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM //myClient/C$ test_db/mount
@@ -127,7 +127,7 @@ Adding file data to DB in: test_db/data/b026324c6904b2a9cb4b88d6d61c81d1-0
 A C:/Test/Dir/another File.TXT (2 B)
 Adding file data to DB in: test_db/data/26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
-Closing database client myClient2
+Database client myClient2 modified
 Database client myClient2 closed
  -> umount -fl test_db/mount
 Error: Protocol not supported: ssh
@@ -295,7 +295,7 @@ Done:  78.1%\r
             \r
 Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
 A test2/testlink
-Closing database client testhost
+Database client testhost modified
 Database client testhost closed
 Database closed
 >List 1 client(s):
@@ -359,7 +359,6 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
  -> Dir testdir
 Backup path 'test2'
  -> Dir testdir
-Database client testhost not modified
 Database client testhost closed
 Database closed
 >List 1 client(s):
@@ -428,7 +427,7 @@ A C:/Test/Dir
 A C:/Test/Dir/a File.TXT (2 B)
 A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
-Closing database client myhost2
+Database client myhost2 modified
 Database client myhost2 closed
  -> umount -fl test_db/mount
 Database closed
@@ -447,7 +446,7 @@ A /home/User/test/File2.txt (0 B)
 A /home/User/test/dir
  -> Dir dir
 A /home/User/test/dir/file3.txt (2 B)
-Closing database client myhost3
+Database client myhost3 modified
 Database client myhost3 closed
  -> umount -fl test_db/mount
 Database closed
@@ -488,7 +487,7 @@ A test1/cvs/filemod.o (0 B)
 A test1/cvs/filenew.c (0 B)
 A test1/cvs/fileoth (0 B)
 A test1/cvs/fileutd.h (0 B)
-Closing database client myhost
+Database client myhost modified
 Database client myhost closed
 Database closed
 Database open in read-only mode
@@ -561,7 +560,6 @@ Backup path 'test1/cvs'
  -> Dir diroth
  -> Dir dirutd
  -> Dir dirutd/CVS
-Database client myhost not modified
 Database client myhost closed
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
@@ -570,7 +568,6 @@ Backup client 'myhost2' using protocol 'smb'
 Database client myhost2 open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client myhost2 not modified
 Database client myhost2 closed
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
@@ -582,7 +579,6 @@ Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
  -> Dir dir
-Database client myhost3 not modified
 Database client myhost3 closed
  -> umount -fl test_db/mount
 Database closed
@@ -601,7 +597,6 @@ Reading list of missing checksums
 Database client myhost2 open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client myhost2 not modified
 Database client myhost2 closed
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
@@ -613,7 +608,6 @@ Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
  -> Dir dir
-Database client myhost3 not modified
 Database client myhost3 closed
  -> umount -fl test_db/mount
 Database closed
@@ -636,7 +630,6 @@ Backup path 'test1/cvs'
  -> Dir diroth
  -> Dir dirutd
  -> Dir dirutd/CVS
-Database client myhost not modified
 Database client myhost closed
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
 Backup client 'myhost3' using protocol 'nfs'
@@ -647,7 +640,6 @@ Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
  -> Dir dir
-Database client myhost3 not modified
 Database client myhost3 closed
  -> umount -fl test_db/mount
 Database closed
@@ -670,7 +662,6 @@ Backup path 'test1/cvs'
  -> Dir diroth
  -> Dir dirutd
  -> Dir dirutd/CVS
-Database client myhost not modified
 Database client myhost closed
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
 Backup client 'myhost2' using protocol 'smb'
@@ -679,7 +670,6 @@ Backup client 'myhost2' using protocol 'smb'
 Database client myhost2 open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client myhost2 not modified
 Database client myhost2 closed
  -> umount -fl test_db/mount
 Database closed
@@ -703,7 +693,6 @@ Backup path '/home/User/test2'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
 Error: Connection timed out mounting client share, skipping client
-Database client myClient not modified
 Database client myClient closed
 Database closed
 First mount fails
@@ -722,7 +711,6 @@ Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
 Error: Connection timed out mounting client share, skipping client
-Database client myClient not modified
 Database client myClient closed
 Database closed
 Works again
@@ -744,7 +732,6 @@ Backup path '/home/User/test'
 Backup path '/home/User/test2'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
-Database client myClient not modified
 Database client myClient closed
  -> umount -fl test_db/mount
 Database closed
@@ -766,7 +753,7 @@ A C:/Test/Dir
 A C:/Test/Dir/a File.TXT (2 B)
 A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
-Closing database client myClient:xp
+Database client myClient:xp modified
 Database client myClient:xp closed
  -> umount -fl test_db/mount
 Database closed
