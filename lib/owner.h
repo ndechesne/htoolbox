@@ -51,6 +51,12 @@ public:
     list<string>&   records,              // List of elements to display
     const char*     path    = NULL,       // The path (list paths)
     time_t          date    = 0) const;   // The date (latest)
+  // Get next record matching path and date
+  int getNextRecord(                      // -1: error, 0: eof, 1: success
+    const char*     path,                 // The base path
+    time_t          date,                 // The date (epoch, -1 for latest)
+    char**          db_path,              // The path found
+    Node**          db_node) const;       // The metadata returned
   int getChecksums(
     list<string>&   checksums);           // List to add checksums
 };

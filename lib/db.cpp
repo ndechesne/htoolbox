@@ -241,7 +241,7 @@ int Database::open(
       return -1;
   }
 
-  // Reset client's name
+  // Reset client's data
   _d->client = NULL;
 
   // Do not load list of missing items for now
@@ -345,88 +345,20 @@ int Database::getClients(
 
 int Database::getRecords(
     list<string>&   records,
-    const char*     client,
     const char*     path,
     time_t          date) {
-  if ((client == NULL) || (client[0] == '\0')) {
-    // Look for clients
-    return getClients(records);
-  } else {
-    // Look for paths
-    return _d->client->getList(records, path, date);
-  }
+  return _d->client->getList(records, path, date);
 }
 
 int Database::restore(
     const char* dest,
-    const char* client,
     const char* path,
     time_t      date) {
   bool    failed  = false;
-#warning restore is broken
-#if 0
   char*   fpath   = NULL;
   Node*   fnode   = NULL;
-  time_t  fts;
-  int     len = strlen(path);
-  bool    path_is_dir     = false;
-  bool    path_is_not_dir = false;
 
-  if ((len == 0) || (path[len - 1] == '/')) {
-    path_is_dir = true;
-  }
-
-  // Restore relevant data
-  while (_d->client_list->search() == 2) {
-    if (terminating()) {
-      failed = true;
-      break;
-    }
-    if (_d->client_list->getEntry(&fts, &fpath, &fnode, date) <= 0) {
-      failed = true;
-      break;
-    }
-    if (path_is_dir) {
-      if (Path::compare(fpath, path, len) > 0) {
-        break;
-      }
-    } else {
-      int cmp;
-      int flen = strlen(fpath);
-      if (flen < len) {
-        // Not even close
-        continue;
-      } else
-      if (flen == len) {
-        cmp = Path::compare(fpath, path);
-        if (cmp < 0) {
-          continue;
-        } else
-        if (cmp > 0) {
-          break;
-        } else
-        // Perfect match
-        if (fnode->type() == 'd') {
-          path_is_dir = true;
-        } else {
-          path_is_not_dir = true;
-        }
-      } else
-      if (fpath[len] == '/') {
-        // Contained?
-        cmp = Path::compare(fpath, path, len);
-        if (cmp < 0) {
-          continue;
-        } else
-        if (cmp > 0) {
-          break;
-        }
-        // Yes indeed! Accept
-        path_is_dir = true;
-      } else {
-        continue;
-      }
-    }
+  while (_d->client->getNextRecord(path, date, &fpath, &fnode) > 0) {
     if (fnode != NULL) {
       Path base(dest, fpath);
       char* dir = Path::dirname(base.c_str());
@@ -484,11 +416,7 @@ int Database::restore(
         out(error) << strerror(errno) << ": restoring permissions" << endl;
       }
     }
-    if (path_is_not_dir) {
-      break;
-    }
   }
-#endif
   return failed ? -1 : 0;
 }
 

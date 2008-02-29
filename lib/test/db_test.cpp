@@ -363,7 +363,7 @@ int main(void) {
       return 0;
     }
   }
-  db.getRecords(records, "myClient");
+  db.getRecords(records);
   db.closeClient();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -379,7 +379,7 @@ int main(void) {
       return 0;
     }
   }
-  db.getRecords(records, "myClient", "/client_path");
+  db.getRecords(records, "/client_path");
   db.closeClient();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -395,7 +395,7 @@ int main(void) {
       return 0;
     }
   }
-  db.getRecords(records, "myClient", "other_path");
+  db.getRecords(records, "other_path");
   db.closeClient();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -411,7 +411,7 @@ int main(void) {
       return 0;
     }
   }
-  db.getRecords(records, "myClient", "/client_path/subdir");
+  db.getRecords(records, "/client_path/subdir");
   db.closeClient();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -451,7 +451,7 @@ int main(void) {
     delete l;
     db.closeClient();
     rename("test_db/myClient.journal~", "test_db/myClient.list");
-    db2.getRecords(records, "myClient", "/client_path");
+    db2.getRecords(records, "/client_path");
     db2.closeClient();
     db2.close();
   }
@@ -479,7 +479,7 @@ int main(void) {
   if (db.openClient("myClient") != 0) {
     return 0;
   }
-  db.getRecords(records, "myClient", "/client_path");
+  db.getRecords(records, "/client_path");
   db.closeClient();
   db.close();
   cout << "List of paths: " << records.size() << endl;

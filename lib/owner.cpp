@@ -440,7 +440,7 @@ int Owner::getList(
 
 int Owner::getChecksums(
     list<string>&   checksums) {
-// Not const because of open, need a r-o only that'd be const...
+// Not const because of open, need a r-o open only that'd be const...
   if (open(true) < 0) {
     return -1;
   }
@@ -460,4 +460,43 @@ int Owner::getChecksums(
   delete node;
   close(true);
   return terminating() ? -1 : 0;
+}
+
+int Owner::getNextRecord(
+    const char*     path,
+    time_t          date,
+    char**          fpath,
+    Node**          fnode) const {
+  if (date < 0) date = 0;
+  int  len = strlen(path);
+  bool path_is_dir = false;
+  if ((len > 0) && (path[len - 1] == '/')) {
+    path_is_dir = true;
+    len--;
+  }
+  bool failed = false;
+  while (_d->original->search() == 2) {
+    if (terminating()) {
+      failed = true;
+      return -1;
+    }
+    if (_d->original->getEntry(NULL, fpath, fnode, date) <= 0) {
+      failed = true;
+      return -1;
+    }
+    // Start of path must match
+    if (len == 0) return 1;
+    int cmp = Path::compare(*fpath, path, len);
+    // Not reached
+    if (cmp < 0) continue;
+    // Exceeded
+    if (cmp > 0) return 0;
+    int flen = strlen(*fpath);
+    // Not reached, but on the right path
+    if (flen < len) continue;
+    if ((flen > len) && ((*fpath)[len] != '/')) return 0;
+    // Match
+    return 1;
+  }
+  return failed ? -1 : 0;
 }

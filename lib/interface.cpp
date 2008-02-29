@@ -378,7 +378,7 @@ int HBackup::getList(
     if (_d->db->openClient(client)) {
       failed = true;
     } else {
-      failed = (_d->db->getRecords(records, client, path, date) != 0);
+      failed = (_d->db->getRecords(records, path, date) != 0);
     }
     _d->db->closeClient();
   }
@@ -397,7 +397,7 @@ int HBackup::restore(
       Path where(dest);
       where.noTrailingSlashes();
 
-      bool failed = (_d->db->restore(where.c_str(), client, path, date) != 0);
+      bool failed = (_d->db->restore(where.c_str(), path, date) != 0);
       _d->db->closeClient();
       failed = false;;
     }

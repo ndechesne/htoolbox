@@ -285,7 +285,7 @@ int main(void) {
   db.open(true);
 
   cout << endl << "Clients in DB" << endl;
-  db.getRecords(records);
+  db.getClients(records);
   cout << "Records found: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " " << *i << endl;
@@ -294,7 +294,7 @@ int main(void) {
 
   cout << endl << "Paths in 'myhost' client in DB" << endl;
   db.openClient("myhost", false);
-  db.getRecords(records, "myhost");
+  db.getRecords(records);
   db.closeClient();
   cout << "Records found: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -304,7 +304,7 @@ int main(void) {
 
   cout << endl << "Paths in 'myhost' client under test1 in DB" << endl;
   db.openClient("myhost", false);
-  db.getRecords(records, "myhost", "test1");
+  db.getRecords(records, "test1");
   db.closeClient();
   cout << "Records found: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -314,7 +314,7 @@ int main(void) {
 
   cout << endl << "Paths in 'myhost' client under test1/cvs in DB" << endl;
   db.openClient("myhost", false);
-  db.getRecords(records, "myhost", "test1/cvs");
+  db.getRecords(records, "test1/cvs");
   db.closeClient();
   cout << "Records found: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -325,7 +325,7 @@ int main(void) {
   cout << endl << "Paths in 'myhost' client under test1/cvs/diroth in DB"
     << endl;
   db.openClient("myhost", false);
-  db.getRecords(records, "myhost", "test1/cvs/diroth");
+  db.getRecords(records, "test1/cvs/diroth");
   db.closeClient();
   cout << "Records found: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -336,7 +336,7 @@ int main(void) {
   cout << endl << "Paths in 'myhost' client under test1/cvs/dirutd in DB"
     << endl;
   db.openClient("myhost", false);
-  db.getRecords(records, "myhost", "test1/cvs/dirutd");
+  db.getRecords(records, "test1/cvs/dirutd");
   db.closeClient();
   cout << "Records found: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
@@ -553,7 +553,7 @@ int main(void) {
   db.close();
 
   cout << endl << "Clients in DB" << endl;
-  db.getRecords(records);
+  db.getClients(records);
   cout << "Records found: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " " << *i << endl;

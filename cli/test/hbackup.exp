@@ -769,6 +769,7 @@ version of this software, please remove it from your configuration
 Restoring
 Database open in read-only mode
 Database client myhost open in read-only mode
+U test_r/test2/testfile
 Database client myhost closed
 Database closed
 Restore all data in a client/dir path that's not by itself in DB
@@ -794,6 +795,47 @@ version of this software, please remove it from your configuration
 Restoring
 Database open in read-only mode
 Database client myhost open in read-only mode
+U test_r/test1/big_file
+U test_r/test1/bzr
+U test_r/test1/bzr/.bzr
+U test_r/test1/bzr/dirbad
+U test_r/test1/bzr/dirbad/fileoth
+U test_r/test1/bzr/dirbad/fileutd
+U test_r/test1/bzr/diroth
+U test_r/test1/bzr/dirutd
+U test_r/test1/bzr/dirutd/fileoth
+U test_r/test1/bzr/dirutd/fileutd
+U test_r/test1/bzr/filenew.c
+U test_r/test1/bzr/fileoth
+U test_r/test1/bzr/fileutd.h
+U test_r/test1/cvs
+U test_r/test1/cvs/CVS
+U test_r/test1/cvs/CVS/Entries
+U test_r/test1/cvs/CVS/Root
+U test_r/test1/cvs/dirbad
+U test_r/test1/cvs/dirutd
+U test_r/test1/cvs/dirutd/CVS
+U test_r/test1/cvs/dirutd/CVS/Entries
+U test_r/test1/cvs/dirutd/CVS/Root
+U test_r/test1/cvs/dirutd/fileutd
+U test_r/test1/cvs/filenew.c
+U test_r/test1/cvs/fileutd.h
+U test_r/test1/dir space
+U test_r/test1/dir space/file space
+U test_r/test1/svn
+U test_r/test1/svn/.svn
+U test_r/test1/svn/.svn/entries
+U test_r/test1/svn/dirbad
+U test_r/test1/svn/dirutd
+U test_r/test1/svn/dirutd/.svn
+U test_r/test1/svn/dirutd/.svn/entries
+U test_r/test1/svn/dirutd/fileutd
+U test_r/test1/svn/filenew.c
+U test_r/test1/test space
+U test_r/test1/testdir
+U test_r/test1/testfile
+U test_r/test1/testlink
+U test_r/test1/testpipe
 Database client myhost closed
 Database closed
 Restore all data in a client/dir path
@@ -819,6 +861,18 @@ version of this software, please remove it from your configuration
 Restoring
 Database open in read-only mode
 Database client myhost open in read-only mode
+U test_r/test1/cvs
+U test_r/test1/cvs/CVS
+U test_r/test1/cvs/CVS/Entries
+U test_r/test1/cvs/CVS/Root
+U test_r/test1/cvs/dirbad
+U test_r/test1/cvs/dirutd
+U test_r/test1/cvs/dirutd/CVS
+U test_r/test1/cvs/dirutd/CVS/Entries
+U test_r/test1/cvs/dirutd/CVS/Root
+U test_r/test1/cvs/dirutd/fileutd
+U test_r/test1/cvs/filenew.c
+U test_r/test1/cvs/fileutd.h
 Database client myhost closed
 Database closed
 Restore all data in a client
@@ -844,6 +898,54 @@ version of this software, please remove it from your configuration
 Restoring
 Database open in read-only mode
 Database client myhost open in read-only mode
+U test_r/test1/big_file
+U test_r/test1/bzr
+U test_r/test1/bzr/.bzr
+U test_r/test1/bzr/dirbad
+U test_r/test1/bzr/dirbad/fileoth
+U test_r/test1/bzr/dirbad/fileutd
+U test_r/test1/bzr/diroth
+U test_r/test1/bzr/dirutd
+U test_r/test1/bzr/dirutd/fileoth
+U test_r/test1/bzr/dirutd/fileutd
+U test_r/test1/bzr/filenew.c
+U test_r/test1/bzr/fileoth
+U test_r/test1/bzr/fileutd.h
+U test_r/test1/cvs
+U test_r/test1/cvs/CVS
+U test_r/test1/cvs/CVS/Entries
+U test_r/test1/cvs/CVS/Root
+U test_r/test1/cvs/dirbad
+U test_r/test1/cvs/dirutd
+U test_r/test1/cvs/dirutd/CVS
+U test_r/test1/cvs/dirutd/CVS/Entries
+U test_r/test1/cvs/dirutd/CVS/Root
+U test_r/test1/cvs/dirutd/fileutd
+U test_r/test1/cvs/filenew.c
+U test_r/test1/cvs/fileutd.h
+U test_r/test1/dir space
+U test_r/test1/dir space/file space
+U test_r/test1/svn
+U test_r/test1/svn/.svn
+U test_r/test1/svn/.svn/entries
+U test_r/test1/svn/dirbad
+U test_r/test1/svn/dirutd
+U test_r/test1/svn/dirutd/.svn
+U test_r/test1/svn/dirutd/.svn/entries
+U test_r/test1/svn/dirutd/fileutd
+U test_r/test1/svn/filenew.c
+U test_r/test1/test space
+U test_r/test1/testdir
+U test_r/test1/testfile
+U test_r/test1/testlink
+U test_r/test1/testpipe
+U test_r/test2/testdir
+U test_r/test2/testfile
+U test_r/test2/testfile2
+U test_r/test2/testfile~
+Done:  78.1%\r
+            \r
+U test_r/test2/testlink
 Database client myhost closed
 Database closed
 Broken configuration
