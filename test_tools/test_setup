@@ -133,34 +133,6 @@ echo "Someotherthing" > "$SVNDIR/.svn/whatever"
 mkdir "$SVNDIR/.svn/wherever"
 touch "$SVNDIR/.svn/wherever/whichever"
 
-# Bazaar test
-BZRDIR="$TESTDIR/bzr"
-mkdir "$BZRDIR"
-touch "$BZRDIR/filemod.o"
-touch "$BZRDIR/filenew.c"
-touch "$BZRDIR/fileoth"
-touch "$BZRDIR/fileutd.h"
-mkdir "$BZRDIR/dirbad"
-touch "$BZRDIR/dirbad/fileoth"
-touch "$BZRDIR/dirbad/fileutd"
-mkdir "$BZRDIR/diroth"
-mkdir "$BZRDIR/dirutd"
-touch "$BZRDIR/dirutd/fileoth"
-touch "$BZRDIR/dirutd/fileutd"
-BZROLDDIR=`pwd`
-cd "$BZRDIR"
-bzr init
-bzr -q add filemod.o
-bzr -q add fileutd.h
-bzr -q add dirbad
-bzr -q add dirbad/fileutd
-bzr -q add dirutd
-bzr -q add dirutd/fileutd
-bzr -q commit -m "Initial import"
-bzr -q add filenew.c
-echo "bzr 1" > filemod.o
-cd "$BZROLDDIR"
-
 # Multiple backup
 mkdir "$TESTDIR2"
 mkdir "$TESTDIR2/testdir"

@@ -290,23 +290,6 @@ Done:  93.8%\r
 Done:  97.7%\r
             \r
 Adding compressed file data to DB for f1c9645dbc14efddc7d8a322685f26eb-0
-A test1/bzr
- -> Dir bzr
-A test1/bzr/.bzr
- -> Dir bzr/.bzr
-A test1/bzr/dirbad
- -> Dir bzr/dirbad
-A test1/bzr/dirbad/fileoth (0 B)
-A test1/bzr/dirbad/fileutd (0 B)
-A test1/bzr/diroth
- -> Dir bzr/diroth
-A test1/bzr/dirutd
- -> Dir bzr/dirutd
-A test1/bzr/dirutd/fileoth (0 B)
-A test1/bzr/dirutd/fileutd (0 B)
-A test1/bzr/filenew.c (0 B)
-A test1/bzr/fileoth (0 B)
-A test1/bzr/fileutd.h (0 B)
 A test1/cvs
  -> Dir cvs
  -> Parsing CVS entries
@@ -443,11 +426,6 @@ Trying client 'myhost' using protocol 'file'
 Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
- -> Dir bzr
- -> Dir bzr/.bzr
- -> Dir bzr/dirbad
- -> Dir bzr/diroth
- -> Dir bzr/dirutd
  -> Dir cvs
  -> Parsing CVS entries
  --> filenew.c	f	0
@@ -834,18 +812,6 @@ Restoring
 Database open in read-only mode
 Database client myhost open in read-only mode
 U test_r/test1/big_file
-U test_r/test1/bzr
-U test_r/test1/bzr/.bzr
-U test_r/test1/bzr/dirbad
-U test_r/test1/bzr/dirbad/fileoth
-U test_r/test1/bzr/dirbad/fileutd
-U test_r/test1/bzr/diroth
-U test_r/test1/bzr/dirutd
-U test_r/test1/bzr/dirutd/fileoth
-U test_r/test1/bzr/dirutd/fileutd
-U test_r/test1/bzr/filenew.c
-U test_r/test1/bzr/fileoth
-U test_r/test1/bzr/fileutd.h
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
@@ -937,18 +903,6 @@ Restoring
 Database open in read-only mode
 Database client myhost open in read-only mode
 U test_r/test1/big_file
-U test_r/test1/bzr
-U test_r/test1/bzr/.bzr
-U test_r/test1/bzr/dirbad
-U test_r/test1/bzr/dirbad/fileoth
-U test_r/test1/bzr/dirbad/fileutd
-U test_r/test1/bzr/diroth
-U test_r/test1/bzr/dirutd
-U test_r/test1/bzr/dirutd/fileoth
-U test_r/test1/bzr/dirutd/fileutd
-U test_r/test1/bzr/filenew.c
-U test_r/test1/bzr/fileoth
-U test_r/test1/bzr/fileutd.h
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries

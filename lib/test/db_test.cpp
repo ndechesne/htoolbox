@@ -424,8 +424,8 @@ int main(void) {
 
   cout << endl << "Test: scan" << endl;
   File("test_db/.data/3d546a1ce46c6ae10ad34ab8a81c542e-0/data").remove();
-  Directory("test_db/.data/e5ed795e721b69c53a52482d6bdcb149-0").create();
-  system("cp test1/bzr/filemod.o test_db/.data/e5ed795e721b69c53a52482d6bdcb149-0/data");
+  Directory("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0").create();
+  system("echo '3' > test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
   if ((status = db.open())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {

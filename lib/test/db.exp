@@ -154,8 +154,8 @@ Crawling through DB
 3d546a1ce46c6ae10ad34ab8a81c542e-0\r
 Error: Data missing for: 3d546a1ce46c6ae10ad34ab8a81c542e-0
 59ca0efa9f5633cb0371bbc0355478d8-0\r
+6d7fce9fee471194aa8b5b6e47267f03-0\r
 d41d8cd98f00b204e9800998ecf8427e-0\r
-e5ed795e721b69c53a52482d6bdcb149-0\r
                                   \r
 Found 4 valid and 1 broken data files
 Checksum(s) from list:
@@ -166,10 +166,10 @@ Checksum(s) from list:
 Checksum(s) with data:
  -> 285b35198a5e188b3a0df3ed33f93a26-0
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
  -> d41d8cd98f00b204e9800998ecf8427e-0
- -> e5ed795e721b69c53a52482d6bdcb149-0
 Obsolete checksum(s): 1
- -> e5ed795e721b69c53a52482d6bdcb149-0: removed
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0: removed
 Warning: Missing checksum(s): 1
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
 List of missing checksums contains 1 item(s)
