@@ -535,7 +535,7 @@ int main(void) {
   client = new Client("myClient", "xp");
   clients.push_back(client);
   client->setProtocol("smb");
-  client->setListfile("C:\\Backup\\testhost2.list");
+  client->setListfile("C:\\Backup\\Backup.LST");
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {

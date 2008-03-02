@@ -4,7 +4,7 @@ Client: localhost
  -> Configuration: file://localhost etc/doesnotexist
 Database initialized in test_db
 Database open in read/write mode
-Backup client 'localhost' using protocol 'file'
+Trying client 'localhost' using protocol 'file'
 Error: Client configuration file not found etc/doesnotexist
 Database closed
 >List 0 client(s):
@@ -88,11 +88,12 @@ Client: Client4
  -> Configuration: smb://Client C:/home/BlaH/Backup.list
  -> Options: username= password=
 Database open in read/write mode
+Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
-Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
  --> Path: /home/User/test2
+Backing up client
 Reading list of missing checksums
 Created myClient's list
 Database client myClient open in read/write mode
@@ -113,38 +114,29 @@ A /home/User/test2/File4.txt (0 B)
 Database client myClient modified
 Database client myClient closed
  -> umount -fl test_db/mount
+Trying client 'myClient2' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM //myClient/C$ test_db/mount
-Backup client 'myClient2' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
-Created myClient2's list
-Database client myClient2 open in read/write mode
-Backup path 'C:/Test'
-A C:/Test/Dir
- -> Dir Dir
-A C:/Test/Dir/a File.TXT (2 B)
-Adding file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
-A C:/Test/Dir/another File.TXT (2 B)
-Adding file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
-A C:/Test/File.TXT (0 B)
-Database client myClient2 modified
-Database client myClient2 closed
+Subsets don't match in server and client configuration files: '' != 'xp', skipping
  -> umount -fl test_db/mount
+Trying client 'otherClient' using protocol 'ssh'
 Error: Protocol not supported: ssh
+Trying client 'Client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
-Backup client 'Client' using protocol 'smb'
 Error: Client configuration file not found test_db/mount/home/BlaH/Backup.list
  -> umount -fl test_db/mount
+Trying client 'Client2' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,nocase,username=user,password= //Client/C$ test_db/mount
-Backup client 'Client2' using protocol 'smb'
 Error: Client configuration file not found test_db/mount/home/BlaH/Backup.list
  -> umount -fl test_db/mount
+Trying client 'Client3' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username= //Client/C$ test_db/mount
-Backup client 'Client3' using protocol 'smb'
 Error: Client configuration file not found test_db/mount/home/BlaH/Backup.list
  -> umount -fl test_db/mount
+Trying client 'Client4' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=,password= //Client/C$ test_db/mount
-Backup client 'Client4' using protocol 'smb'
 Error: Client configuration file not found test_db/mount/home/BlaH/Backup.list
  -> umount -fl test_db/mount
 Database closed
@@ -152,7 +144,7 @@ Database closed
 Client: testhost
  -> Configuration: file://localhost etc/localhost.list
 Database open in read/write mode
-Backup client 'testhost' using protocol 'file'
+Trying client 'testhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -169,6 +161,7 @@ Backup client 'testhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Backing up client
 Reading list of missing checksums
 Created testhost's list
 Database client testhost open in read/write mode
@@ -302,7 +295,7 @@ Database closed
 Client: testhost
  -> Configuration: file://testhost etc/localhost.list
 Database open in read/write mode
-Backup client 'testhost' using protocol 'file'
+Trying client 'testhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -319,6 +312,7 @@ Backup client 'testhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Backing up client
 Reading list of missing checksums
 Database client testhost open in read/write mode
 Backup path 'test1'
@@ -365,7 +359,7 @@ Database closed
 Client: testhost
  -> Configuration: file://testhost etc/localhost.list
 Database open in read/write mode
-Backup client 'testhost' using protocol 'file'
+Trying client 'testhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -389,7 +383,7 @@ Database closed
 Client: testhost
  -> Configuration: file://testhost etc/localhost.list2
 Database open in read/write mode
-Backup client 'testhost' using protocol 'file'
+Trying client 'testhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -414,10 +408,11 @@ Database closed
 
 Test: missing clients
 Database open in read/write mode
+Trying client 'myhost2' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
-Backup client 'myhost2' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
 Created myhost2's list
 Database client myhost2 open in read/write mode
@@ -425,17 +420,20 @@ Backup path 'C:/Test'
 A C:/Test/Dir
  -> Dir Dir
 A C:/Test/Dir/a File.TXT (2 B)
+Adding file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
 A C:/Test/Dir/another File.TXT (2 B)
+Adding file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
 Database client myhost2 modified
 Database client myhost2 closed
  -> umount -fl test_db/mount
 Database closed
 Database open in read/write mode
+Trying client 'myhost3' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
-Backup client 'myhost3' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Backing up client
 Reading list of missing checksums
 Created myhost3's list
 Database client myhost3 open in read/write mode
@@ -451,9 +449,10 @@ Database client myhost3 closed
  -> umount -fl test_db/mount
 Database closed
 Database open in read/write mode
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Path: test1/cvs
+Backing up client
 Reading list of missing checksums
 Created myhost's list
 Database client myhost open in read/write mode
@@ -493,9 +492,8 @@ Database closed
 Database open in read-only mode
 
 Clients in DB
-Records found: 6
+Records found: 5
  myClient
- myClient2
  myhost
  myhost2
  myhost3
@@ -548,9 +546,10 @@ Client: myhost2
 Client: myhost3
  -> Configuration: nfs://myhost3 /home/User/testhost3.list
 Database open in read/write mode
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Path: test1/cvs
+Backing up client
 Reading list of missing checksums
 Database client myhost open in read/write mode
 Backup path 'test1/cvs'
@@ -561,19 +560,21 @@ Backup path 'test1/cvs'
  -> Dir dirutd
  -> Dir dirutd/CVS
 Database client myhost closed
+Trying client 'myhost2' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
-Backup client 'myhost2' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Backing up client
 Database client myhost2 open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client myhost2 closed
  -> umount -fl test_db/mount
+Trying client 'myhost3' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
-Backup client 'myhost3' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Backing up client
 Database client myhost3 open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
@@ -589,20 +590,22 @@ Client: myhost2
 Client: myhost3
  -> Configuration: nfs://myhost3 /home/User/testhost3.list
 Database open in read/write mode
+Trying client 'myhost2' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
-Backup client 'myhost2' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
 Database client myhost2 open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client myhost2 closed
  -> umount -fl test_db/mount
+Trying client 'myhost3' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
-Backup client 'myhost3' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Backing up client
 Database client myhost3 open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
@@ -618,9 +621,10 @@ Client: myhost
 Client: myhost3
  -> Configuration: nfs://myhost3 /home/User/testhost3.list
 Database open in read/write mode
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Path: test1/cvs
+Backing up client
 Reading list of missing checksums
 Database client myhost open in read/write mode
 Backup path 'test1/cvs'
@@ -631,10 +635,11 @@ Backup path 'test1/cvs'
  -> Dir dirutd
  -> Dir dirutd/CVS
 Database client myhost closed
+Trying client 'myhost3' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
-Backup client 'myhost3' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Backing up client
 Database client myhost3 open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/mount
@@ -650,9 +655,10 @@ Client: myhost
 Client: myhost2
  -> Configuration: smb://myhost2 C:/Backup/testhost2.list
 Database open in read/write mode
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Path: test1/cvs
+Backing up client
 Reading list of missing checksums
 Database client myhost open in read/write mode
 Backup path 'test1/cvs'
@@ -663,10 +669,11 @@ Backup path 'test1/cvs'
  -> Dir dirutd
  -> Dir dirutd/CVS
 Database client myhost closed
+Trying client 'myhost2' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
-Backup client 'myhost2' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
+Backing up client
 Database client myhost2 open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
@@ -678,11 +685,12 @@ Second mount fails
 Client: myClient
  -> Configuration: nfs://myClient /home/User/hbackup.list
 Database open in read/write mode
+Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
-Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
  --> Path: /home/User/test2
+Backing up client
 Reading list of missing checksums
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
@@ -700,11 +708,12 @@ First mount fails
 Client: myClient
  -> Configuration: nfs://myClient /home/User/hbackup.list
 Database open in read/write mode
+Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
-Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
  --> Path: /home/User/test2
+Backing up client
 Reading list of missing checksums
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
@@ -718,11 +727,12 @@ Works again
 Client: myClient
  -> Configuration: nfs://myClient /home/User/hbackup.list
 Database open in read/write mode
+Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
-Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
  --> Path: /home/User/test2
+Backing up client
 Reading list of missing checksums
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
@@ -738,12 +748,14 @@ Database closed
 Test with dual boot client
 >List 1 client(s):
 Client: myClient
- -> Configuration: smb://myClient C:/Backup/testhost2.list
+ -> Configuration: smb://myClient C:/Backup/Backup.LST
 Database open in read/write mode
+Trying client 'myClient' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
-Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
 Created myClient.xp's list
 Database client myClient.xp open in read/write mode
@@ -759,10 +771,9 @@ Database client myClient.xp closed
 Database closed
 
 Clients in DB
-Records found: 7
+Records found: 6
  myClient
  myClient.xp
- myClient2
  myhost
  myhost2
  myhost3

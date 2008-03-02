@@ -107,7 +107,7 @@ int main(void) {
     return 1;
   }
   hbackup->addClient("myhost");
-  hbackup->addClient("client");
+  hbackup->addClient("client.xp");
   hbackup->backup();
   hbackup->close();
   delete hbackup;
@@ -165,10 +165,10 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->getList(records, "client");
+  hbackup->getList(records, "client.xp");
   hbackup->close();
   delete hbackup;
-  cout << "List of paths in 'client': " << records.size() << endl;
+  cout << "List of paths in 'client.xp': " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
   }
@@ -235,7 +235,7 @@ int main(void) {
     return 1;
   }
   hbackup->addClient("myClient");
-  hbackup->addClient("client");
+  hbackup->addClient("client.xp");
   hbackup->backup();
   hbackup->close();
   delete hbackup;

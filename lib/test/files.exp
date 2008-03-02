@@ -452,7 +452,7 @@ hostname	myhost.mynetwork.lan
 config	etc/localhost.list	
 expire	1	
 
-client	client	
+client	client	xp	
 protocol	smb	
 option	username	Myself	
 option	password	flesyM	

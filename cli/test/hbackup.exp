@@ -131,7 +131,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Showing list
 Error: Given DB path does not exist: test_db
@@ -153,7 +153,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Showing list
 Error: Given DB path does not contain a database: test_db
@@ -175,7 +175,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Backing up in server mode
 Error: Given DB path does not exist: test_db
@@ -197,18 +197,20 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Backing up in server mode
 Database initialized in test_db
 Database open in read/write mode
+Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
-Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
-Created client's list
-Database client client open in read/write mode
+Created client.xp's list
+Database client client.xp open in read/write mode
 Backup path 'C:/Test'
 A C:/Test/Dir
  -> Dir Dir
@@ -218,13 +220,14 @@ A C:/Test/Dir/another File.TXT (2 B)
 Adding file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
 Adding file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
-Database client client modified
-Database client client closed
+Database client client.xp modified
+Database client client.xp closed
  -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
-Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Backing up client
 Created myClient's list
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
@@ -238,7 +241,7 @@ Adding file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
 Database client myClient modified
 Database client myClient closed
  -> umount -fl test_db/.mount
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -255,6 +258,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Backing up client
 Created myhost's list
 Database client myhost open in read/write mode
 Backup path 'test1'
@@ -382,6 +386,7 @@ Adding file data to DB for 59071590099d21dd439896592338bf95-0
 A test2/testlink
 Database client myhost modified
 Database client myhost closed
+Trying client 'other' using protocol 'ssh'
 Error: Protocol not supported: ssh
 Database closed
 Specify clients
@@ -402,21 +407,23 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Backing up in server mode
 Database open in read/write mode
+Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
-Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
-Database client client open in read/write mode
+Database client client.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client client closed
+Database client client.xp closed
  -> umount -fl test_db/.mount
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -433,6 +440,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
@@ -480,6 +488,7 @@ Database initialized in test_user/.hbackup
 Database open in read/write mode
  -> Reading client configuration file
  --> Path: test_user/testuser
+Backing up client
 Reading list of missing checksums
 Created localhost's list
 Database client localhost open in read/write mode
@@ -517,7 +526,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Fixing database
 Database open in read/write mode
@@ -540,11 +549,11 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Scanning database
 Database open in read/write mode
-Reading client's list
+Reading client.xp's list
 Reading myClient's list
 Reading myhost's list
 Found 15 checksums
@@ -617,7 +626,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Checking database
 Database open in read-only mode
@@ -658,12 +667,12 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Showing list
 Database open in read-only mode
 Database closed
- client
+ client.xp
  myClient
  myhost
 Try to list paths in both myhost and smb://client (fails)
@@ -684,7 +693,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Showing list
 Error: Maximum one client allowed
@@ -706,7 +715,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Showing list
 Database open in read-only mode
@@ -733,7 +742,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Showing list
 Database open in read-only mode
@@ -763,7 +772,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Showing list
 Database open in read-only mode
@@ -793,7 +802,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Restoring
 Database open in read-only mode
@@ -819,7 +828,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Restoring
 Database open in read-only mode
@@ -885,7 +894,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Restoring
 Database open in read-only mode
@@ -922,7 +931,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Restoring
 Database open in read-only mode

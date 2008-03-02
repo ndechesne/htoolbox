@@ -55,7 +55,7 @@ class Client {
   Filters           _filters;
   int mountPath(string  backup_path, string  *path);
   int umount();
-  int readListFile(
+  int readConfig(
     const string&   list_path,
     const Filters&  global_filters);
 public:

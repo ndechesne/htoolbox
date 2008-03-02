@@ -37,6 +37,7 @@ using namespace hbackup;
 
 struct Client::Private {
   list<ClientPath*> paths;
+  string            subset;
 };
 
 int Client::mountPath(
@@ -123,7 +124,7 @@ int Client::umount() {
   return 0;
 }
 
-int Client::readListFile(
+int Client::readConfig(
     const string&   list_path,
     const Filters&  global_filters) {
   bool   failed  = false;
@@ -139,6 +140,8 @@ int Client::readListFile(
   // Set up config syntax and grammar
   Config config;
 
+  // subset
+  config.add(new ConfigItem("subset", 0, 1, 1));
   // expire
   config.add(new ConfigItem("expire", 0, 1, 1));
   // filter
@@ -176,6 +179,10 @@ int Client::readListFile(
     Filter*     filter = NULL;
     ConfigLine* params;
     while (config.line(&params) >= 0) {
+      if ((*params)[0] == "subset") {
+        _d->subset = (*params)[1];
+        out(verbose, 2) << "Subset: " << _d->subset << endl;
+      } else
       if ((*params)[0] == "expire") {
         int expire;
         if ((sscanf((*params)[1].c_str(), "%d", &expire) != 0)
@@ -393,14 +400,18 @@ int Client::backup(
   string  list_path;
   char*   dir = Path::dirname(_list_file);
 
+  if (_home_path.length() == 0) {
+    out(info) << "Trying client '" << _name << "' using protocol '"
+      << _protocol << "'" << endl;
+  }
+
   if (mountPath(dir, &list_path)) {
     switch (errno) {
       case EPROTONOSUPPORT:
         out(error) << "Protocol not supported: " << _protocol << endl;
         return 1;
       case ETIMEDOUT:
-        out(info) << strerror(errno) << " connecting to client: " << _name
-          << " (using the " << _protocol << " protocol). " << endl;
+        out(info) << strerror(errno) << " connecting to client" << endl;
         return 0;
     }
   }
@@ -410,12 +421,14 @@ int Client::backup(
   }
   list_path += Path::basename(_list_file);
 
-  if (_home_path.length() == 0) {
-    out(info) << "Backup client '" << _name << "' using protocol '"
-      << _protocol << "'" << endl;
-  }
-
-  if (! readListFile(list_path, global_filters)) {
+  if (readConfig(list_path, global_filters) != 0) {
+    failed = true;
+  } else if (_d->subset !=  _sub_name) {
+    out(info)
+      << "Subsets don't match in server and client configuration files: '"
+      << _sub_name << "' != '" << _d->subset << "', skipping" << endl;
+  } else {
+    out(info) << "Backing up client" << endl;
     setInitialised();
     // Backup
     if (_d->paths.empty()) {
@@ -451,8 +464,6 @@ int Client::backup(
         db.closeClient(abort);
       }
     }
-  } else {
-    failed = true;
   }
   umount(); // does not change errno
   return failed ? -1 : 0;

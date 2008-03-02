@@ -218,7 +218,7 @@ int HBackup::readConfig(const char* config_path) {
     if ((*params)[0] == "client") {
       client = new Client((*params)[1],
         (params->size() > 2) ? (*params)[2] : "");
-      out(debug, 2) << "Client: " << client->name() << endl;
+      out(debug, 2) << "Client: " << client->internal_name() << endl;
 
       // Clients MUST BE in alphabetic order
       int cmp = 1;
@@ -351,7 +351,7 @@ int HBackup::backup(
         bool found = false;
         for (list<string>::iterator i = _d->selected_clients.begin();
           i != _d->selected_clients.end(); i++) {
-          if (*i == (*client)->name().c_str()) {
+          if (*i == (*client)->internal_name()) {
             found = true;
             break;
           }

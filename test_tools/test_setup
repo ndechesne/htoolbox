@@ -178,6 +178,7 @@ mkdir -p "$TESTDIRCIFS/Test/Dir"
 echo 1 > "$TESTDIRCIFS/Test/Dir/a File.TXT"
 echo 2 > "$TESTDIRCIFS/Test/Dir/another File.TXT"
 cat << EOF > "$TESTDIRCIFS/Backup/Backup.LST"
+subset 'xp'
 # Ends in \", but should not fail
 path "C:\Test\"
 EOF
@@ -242,7 +243,7 @@ hostname myhost.mynetwork.lan
 config "$CONFIGDIR/localhost.list"
 expire 1
 
-client client
+client client xp
 protocol smb
 option username Myself
 option password flesyM

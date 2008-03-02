@@ -20,7 +20,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Error: Given DB path does not exist: test_db
 
@@ -42,17 +42,19 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Database initialized in test_db
 Database open in read/write mode
+Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
-Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
-Created client's list
-Database client client open in read/write mode
+Created client.xp's list
+Database client client.xp open in read/write mode
 Backup path 'C:/Test'
 A C:/Test/Dir
  -> Dir Dir
@@ -62,13 +64,14 @@ A C:/Test/Dir/another File.TXT (2 B)
 Adding file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
 Adding file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
-Database client client modified
-Database client client closed
+Database client client.xp modified
+Database client client.xp closed
  -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
-Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Backing up client
 Created myClient's list
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
@@ -82,7 +85,7 @@ Adding file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
 Database client myClient modified
 Database client myClient closed
  -> umount -fl test_db/.mount
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -99,6 +102,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Backing up client
 Created myhost's list
 Database client myhost open in read/write mode
 Backup path 'test1'
@@ -226,6 +230,7 @@ Adding file data to DB for 59071590099d21dd439896592338bf95-0
 A test2/testlink
 Database client myhost modified
 Database client myhost closed
+Trying client 'other' using protocol 'ssh'
 Error: Protocol not supported: ssh
 Database closed
 
@@ -247,23 +252,26 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
+Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
-Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
-Database client client open in read/write mode
+Database client client.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client client closed
+Database client client.xp closed
  -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
-Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/.mount
@@ -271,7 +279,7 @@ Backup path '/home/User/test'
  -> Dir dir
 Database client myClient closed
  -> umount -fl test_db/.mount
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -288,6 +296,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
@@ -328,6 +337,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 Backup path 'test2'
  -> Dir testdir
 Database client myhost closed
+Trying client 'other' using protocol 'ssh'
 Error: Protocol not supported: ssh
 Database closed
 
@@ -349,23 +359,26 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
+Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
-Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
-Database client client open in read/write mode
+Database client client.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client client closed
+Database client client.xp closed
  -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
-Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/.mount
@@ -373,7 +386,7 @@ Backup path '/home/User/test'
  -> Dir dir
 Database client myClient closed
  -> umount -fl test_db/.mount
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -390,6 +403,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
@@ -437,21 +451,23 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Warning: Backup of client myhost was interrupted in a previous run, finishing up...
 Database open in read/write mode
+Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
-Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
-Database client client open in read/write mode
+Database client client.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client client closed
+Database client client.xp closed
  -> umount -fl test_db/.mount
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -468,6 +484,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
@@ -533,10 +550,10 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
-Reading client's list
+Reading client.xp's list
 Reading myClient's list
 Reading myhost's list
 Found 16 checksums
@@ -613,7 +630,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Crawling through DB data
@@ -655,12 +672,12 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database closed
 List of clients: 3
- -> client
+ -> client.xp
  -> myClient
  -> myhost
 
@@ -682,7 +699,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myClient open in read-only mode
@@ -709,13 +726,13 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
-Database client client open in read-only mode
-Database client client closed
+Database client client.xp open in read-only mode
+Database client client.xp closed
 Database closed
-List of paths in 'client': 1
+List of paths in 'client.xp': 1
  -> C:
 
 Test: restore file
@@ -736,7 +753,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myhost open in read-only mode
@@ -762,7 +779,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myhost open in read-only mode
@@ -829,7 +846,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myhost open in read-only mode
@@ -866,7 +883,7 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myhost open in read-only mode
@@ -942,25 +959,28 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
+Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
-Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
-Database client client open in read/write mode
+Database client client.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client client closed
+Database client client.xp closed
  -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
-Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/.mount
@@ -968,10 +988,12 @@ Backup path '/home/User/test'
  -> Dir dir
 Database client myClient closed
  -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
-Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Created myClient.xp's list
 Database client myClient.xp open in read/write mode
 Backup path 'C:/Test'
@@ -983,7 +1005,7 @@ A C:/Test/File.TXT (0 B)
 Database client myClient.xp modified
 Database client myClient.xp closed
  -> umount -fl test_db/.mount
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -1000,6 +1022,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
@@ -1040,6 +1063,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 Backup path 'test2'
  -> Dir testdir
 Database client myhost closed
+Trying client 'other' using protocol 'ssh'
 Error: Protocol not supported: ssh
 Database closed
 
@@ -1061,40 +1085,34 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
+Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
-Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
-Database client client open in read/write mode
+Database client client.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client client closed
+Database client client.xp closed
  -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
-Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/.mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
 Database client myClient closed
- -> umount -fl test_db/.mount
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
-Backup client 'myClient' using protocol 'smb'
- -> Reading client configuration file
- --> Path: C:/Test
-Database client myClient.xp open in read/write mode
-Backup path 'C:/Test'
- -> Dir Dir
-Database client myClient.xp closed
  -> umount -fl test_db/.mount
 Database closed
 
@@ -1103,6 +1121,7 @@ Database initialized in test_user/.hbackup
 Database open in read/write mode
  -> Reading client configuration file
  --> Path: test_user/testuser
+Backing up client
 Reading list of missing checksums
 Created localhost's list
 Database client localhost open in read/write mode
@@ -1141,14 +1160,14 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database closed
 List of clients: 4
- -> client
+ -> client.xp
  -> myClient
  -> myClient.xp
  -> myhost
@@ -1171,9 +1190,9 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myClient.xp open in read-only mode
@@ -1200,9 +1219,9 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myClient open in read-only mode
@@ -1229,9 +1248,9 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myClient.xp open in read-only mode
@@ -1258,9 +1277,9 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myClient open in read-only mode
@@ -1286,9 +1305,9 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myClient open in read-only mode
@@ -1316,9 +1335,9 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myClient open in read-only mode
@@ -1346,9 +1365,9 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myClient.xp open in read-only mode
@@ -1374,9 +1393,9 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myClient.xp open in read-only mode
@@ -1405,9 +1424,9 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myClient.xp open in read-only mode
@@ -1436,9 +1455,9 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
 Database client myClient open in read-only mode
@@ -1466,9 +1485,9 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Check
 Database open in read-only mode
@@ -1515,13 +1534,13 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Just scan
 Database open in read/write mode
-Reading client's list
+Reading client.xp's list
 Reading myClient's list
 Reading myClient.xp's list
 Reading myhost's list
@@ -1588,7 +1607,7 @@ List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
-Reading client's list
+Reading client.xp's list
 Reading myClient's list
 Reading myClient.xp's list
 Reading myhost's list
@@ -1664,13 +1683,13 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Just scan
 Database open in read/write mode
-Reading client's list
+Reading client.xp's list
 Reading myClient's list
 Reading myClient.xp's list
 Reading myhost's list
@@ -1739,7 +1758,7 @@ List of missing checksums contains 4 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
-Reading client's list
+Reading client.xp's list
 Reading myClient's list
 Reading myClient.xp's list
 Reading myhost's list
@@ -1808,7 +1827,7 @@ List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
-Reading client's list
+Reading client.xp's list
 Reading myClient's list
 Reading myClient.xp's list
 Reading myhost's list
@@ -1884,13 +1903,13 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Just scan
 Database open in read/write mode
-Reading client's list
+Reading client.xp's list
 Reading myClient's list
 Reading myClient.xp's list
 Reading myhost's list
@@ -1959,7 +1978,7 @@ List of missing checksums contains 4 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
-Reading client's list
+Reading client.xp's list
 Reading myClient's list
 Reading myClient.xp's list
 Reading myhost's list
@@ -2028,7 +2047,7 @@ List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
-Reading client's list
+Reading client.xp's list
 Reading myClient's list
 Reading myClient.xp's list
 Reading myhost's list
@@ -2104,29 +2123,32 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
+Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
-Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database client client open in read/write mode
+Database client client.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client client closed
+Database client client.xp closed
  -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
-Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/.mount
@@ -2134,16 +2156,18 @@ Backup path '/home/User/test'
  -> Dir dir
 Database client myClient closed
  -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
-Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Database client myClient.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client myClient.xp closed
  -> umount -fl test_db/.mount
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -2160,6 +2184,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
@@ -2211,6 +2236,7 @@ Backup path 'test2'
  -> Dir testdir
 Database client myhost modified
 Database client myhost closed
+Trying client 'other' using protocol 'ssh'
 Error: Protocol not supported: ssh
 List of missing checksums contains 1 item(s)
 Database closed
@@ -2231,26 +2257,29 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
+Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
-Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
-Database client client open in read/write mode
+Database client client.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client client closed
+Database client client.xp closed
  -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
-Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/.mount
@@ -2258,16 +2287,18 @@ Backup path '/home/User/test'
  -> Dir dir
 Database client myClient closed
  -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
-Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Database client myClient.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client myClient.xp closed
  -> umount -fl test_db/.mount
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -2284,6 +2315,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
@@ -2324,6 +2356,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 Backup path 'test2'
  -> Dir testdir
 Database client myhost closed
+Trying client 'other' using protocol 'ssh'
 Error: Protocol not supported: ssh
 List of missing checksums contains 1 item(s)
 Database closed
@@ -2344,12 +2377,12 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
-Reading client's list
+Reading client.xp's list
 Reading myClient's list
 Reading myClient.xp's list
 Reading myhost's list
@@ -2426,26 +2459,29 @@ version of this software, please remove it from your configuration
  --> Client: myhost
  ---> Config file: etc/localhost.list
  ---> Expiry: 1 day(s)
- --> Client: client
+ --> Client: client.xp
  ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient
+ --> Client: myClient.xp
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
+Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
-Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Reading list of missing checksums
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
-Database client client open in read/write mode
+Database client client.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client client closed
+Database client client.xp closed
  -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
-Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
+Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
  -> umount -fl test_db/.mount
@@ -2453,16 +2489,18 @@ Backup path '/home/User/test'
  -> Dir dir
 Database client myClient closed
  -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
-Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
+ --> Subset: xp
  --> Path: C:/Test
+Backing up client
 Database client myClient.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client myClient.xp closed
  -> umount -fl test_db/.mount
-Backup client 'myhost' using protocol 'file'
+Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
  ---> Condition path_start subdir
@@ -2479,6 +2517,7 @@ Backup client 'myhost' using protocol 'file'
  ---> Condition filter subdir
  ---> Condition filter backup
  ---> Condition not filter not_object
+Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
  -> Dir bzr
@@ -2519,6 +2558,7 @@ Warning: Directory should be under Subversion control: test1/svn/dirbad
 Backup path 'test2'
  -> Dir testdir
 Database client myhost closed
+Trying client 'other' using protocol 'ssh'
 Error: Protocol not supported: ssh
 List of missing checksums contains 1 item(s)
 Database closed

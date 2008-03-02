@@ -32,7 +32,7 @@ Lines:
 24:    hostname myhost.mynetwork.lan
 25:    config etc/localhost.list
 26:    expire 1
-28:  client client
+28:  client client xp
 29:    protocol smb
 30:    option username Myself
 31:    option password flesyM

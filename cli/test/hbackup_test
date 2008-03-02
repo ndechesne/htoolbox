@@ -26,7 +26,7 @@ echo "Typical backup, initialize DB"
 "$hbackup" -di -c etc/hbackup.conf -- 2>&1
 
 echo "Specify clients"
-"$hbackup" -d -c etc/hbackup.conf -C myhost -C client 2>&1
+"$hbackup" -d -c etc/hbackup.conf -C myhost -C client.xp 2>&1
 
 echo "User-mode backup"
 export HOME="$TESTDIRUSER"
