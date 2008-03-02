@@ -20,7 +20,7 @@ By two lines like:
 
 II Two clients have the same name, one UNIX (file, nfs) the other WINDOWS (smb):
 
-The smb client needs a sub-name, which will be 1 by default (set by the
+The smb client needs a subset name, which will be 2 by default (set by the
 automatic list converter).
 
 Replace lines like:
@@ -30,9 +30,11 @@ Replace lines like:
   (...)
 
 By two lines like:
-  client client1 1
+  client client1 2
   protocol smb
   (...)
   client nfs client1
   protocol nfs
   (...)
+
+Note the string '2' following client1 in the smb case.

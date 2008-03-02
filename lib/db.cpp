@@ -83,7 +83,7 @@ int Database::convert() {
     if (line[0] != '\t') {
       string client = line.substr(0, line.size() - 1);
       if (last_client == client) {
-        client += ":1";
+        client += ".2";
       }
       last_client = client;
       if (dest != NULL) {

@@ -972,16 +972,16 @@ Database client myClient closed
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
-Created myClient:xp's list
-Database client myClient:xp open in read/write mode
+Created myClient.xp's list
+Database client myClient.xp open in read/write mode
 Backup path 'C:/Test'
 A C:/Test/Dir
  -> Dir Dir
 A C:/Test/Dir/a File.TXT (2 B)
 A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
-Database client myClient:xp modified
-Database client myClient:xp closed
+Database client myClient.xp modified
+Database client myClient.xp closed
  -> umount -fl test_db/.mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -1091,10 +1091,10 @@ Database client myClient closed
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
-Database client myClient:xp open in read/write mode
+Database client myClient.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client myClient:xp closed
+Database client myClient.xp closed
  -> umount -fl test_db/.mount
 Database closed
 
@@ -1150,7 +1150,7 @@ Database closed
 List of clients: 4
  -> client
  -> myClient
- -> myClient:xp
+ -> myClient.xp
  -> myhost
 
 Test: list paths in DOS client
@@ -1176,10 +1176,10 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
-Database client myClient:xp open in read-only mode
-Database client myClient:xp closed
+Database client myClient.xp open in read-only mode
+Database client myClient.xp closed
 Database closed
-List of paths in 'myClient:xp': 1
+List of paths in 'myClient.xp': 1
  -> C:
 
 Test: list sub-paths in UNIX client
@@ -1234,10 +1234,10 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
-Database client myClient:xp open in read-only mode
-Database client myClient:xp closed
+Database client myClient.xp open in read-only mode
+Database client myClient.xp closed
 Database closed
-List of paths in 'myClient:xp', 'C:': 1
+List of paths in 'myClient.xp', 'C:': 1
  -> C:/Test
 
 Test: restore file (UNIX)
@@ -1351,9 +1351,9 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
-Database client myClient:xp open in read-only mode
+Database client myClient.xp open in read-only mode
 U test_r/C:/Test/File.TXT
-Database client myClient:xp closed
+Database client myClient.xp closed
 Database closed
 
 Test: restore subdir (DOS)
@@ -1379,12 +1379,12 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
-Database client myClient:xp open in read-only mode
+Database client myClient.xp open in read-only mode
 U test_r/C:/Test/Dir
 U test_r/C:/Test/Dir/a File.TXT
 U test_r/C:/Test/Dir/another File.TXT
 U test_r/C:/Test/File.TXT
-Database client myClient:xp closed
+Database client myClient.xp closed
 Database closed
 
 Test: restore dir (DOS)
@@ -1410,12 +1410,12 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read-only mode
-Database client myClient:xp open in read-only mode
+Database client myClient.xp open in read-only mode
 U test_r/C:/Test/Dir
 U test_r/C:/Test/Dir/a File.TXT
 U test_r/C:/Test/Dir/another File.TXT
 U test_r/C:/Test/File.TXT
-Database client myClient:xp closed
+Database client myClient.xp closed
 Database closed
 
 Test: restore client
@@ -1523,7 +1523,7 @@ Just scan
 Database open in read/write mode
 Reading client's list
 Reading myClient's list
-Reading myClient:xp's list
+Reading myClient.xp's list
 Reading myhost's list
 Found 16 checksums
 Crawling through DB
@@ -1590,7 +1590,7 @@ Just scan again
 Database open in read/write mode
 Reading client's list
 Reading myClient's list
-Reading myClient:xp's list
+Reading myClient.xp's list
 Reading myhost's list
 Found 16 checksums
 Crawling through DB
@@ -1672,7 +1672,7 @@ Just scan
 Database open in read/write mode
 Reading client's list
 Reading myClient's list
-Reading myClient:xp's list
+Reading myClient.xp's list
 Reading myhost's list
 Found 16 checksums
 Crawling through DB
@@ -1741,7 +1741,7 @@ Scan and remove
 Database open in read/write mode
 Reading client's list
 Reading myClient's list
-Reading myClient:xp's list
+Reading myClient.xp's list
 Reading myhost's list
 Found 16 checksums
 Crawling through DB
@@ -1810,7 +1810,7 @@ Just scan again
 Database open in read/write mode
 Reading client's list
 Reading myClient's list
-Reading myClient:xp's list
+Reading myClient.xp's list
 Reading myhost's list
 Found 16 checksums
 Crawling through DB
@@ -1892,7 +1892,7 @@ Just scan
 Database open in read/write mode
 Reading client's list
 Reading myClient's list
-Reading myClient:xp's list
+Reading myClient.xp's list
 Reading myhost's list
 Found 16 checksums
 Crawling through DB
@@ -1961,7 +1961,7 @@ Scan and remove
 Database open in read/write mode
 Reading client's list
 Reading myClient's list
-Reading myClient:xp's list
+Reading myClient.xp's list
 Reading myhost's list
 Found 16 checksums
 Crawling through DB
@@ -2030,7 +2030,7 @@ Just scan again
 Database open in read/write mode
 Reading client's list
 Reading myClient's list
-Reading myClient:xp's list
+Reading myClient.xp's list
 Reading myhost's list
 Found 16 checksums
 Crawling through DB
@@ -2138,10 +2138,10 @@ Database client myClient closed
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
-Database client myClient:xp open in read/write mode
+Database client myClient.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client myClient:xp closed
+Database client myClient.xp closed
  -> umount -fl test_db/.mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -2262,10 +2262,10 @@ Database client myClient closed
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
-Database client myClient:xp open in read/write mode
+Database client myClient.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client myClient:xp closed
+Database client myClient.xp closed
  -> umount -fl test_db/.mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -2351,7 +2351,7 @@ version of this software, please remove it from your configuration
 Database open in read/write mode
 Reading client's list
 Reading myClient's list
-Reading myClient:xp's list
+Reading myClient.xp's list
 Reading myhost's list
 Found 16 checksums
 Crawling through DB
@@ -2457,10 +2457,10 @@ Database client myClient closed
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
-Database client myClient:xp open in read/write mode
+Database client myClient.xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
-Database client myClient:xp closed
+Database client myClient.xp closed
  -> umount -fl test_db/.mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file

@@ -367,7 +367,7 @@ string Client::internal_name() const {
   if (_sub_name.empty()) {
     return _name;
   } else {
-    return _name + ":" + _sub_name;
+    return _name + "." + _sub_name;
   }
 }
 

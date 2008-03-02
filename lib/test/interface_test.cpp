@@ -268,10 +268,10 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->getList(records, "myClient:xp");
+  hbackup->getList(records, "myClient.xp");
   hbackup->close();
   delete hbackup;
-  cout << "List of paths in 'myClient:xp': " << records.size() << endl;
+  cout << "List of paths in 'myClient.xp': " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
   }
@@ -296,10 +296,10 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->getList(records, "myClient:xp", "C:");
+  hbackup->getList(records, "myClient.xp", "C:");
   hbackup->close();
   delete hbackup;
-  cout << "List of paths in 'myClient:xp', 'C:': " << records.size()
+  cout << "List of paths in 'myClient.xp', 'C:': " << records.size()
     << endl;
   for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
@@ -341,7 +341,7 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myClient:xp", "C:/Test/File.TXT", 0);
+  hbackup->restore("test_r", "myClient.xp", "C:/Test/File.TXT", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -351,7 +351,7 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myClient:xp", "C:/Test", 0);
+  hbackup->restore("test_r", "myClient.xp", "C:/Test", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -361,7 +361,7 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myClient:xp", "C:", 0);
+  hbackup->restore("test_r", "myClient.xp", "C:", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;

@@ -745,24 +745,24 @@ Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
 Reading list of missing checksums
-Created myClient:xp's list
-Database client myClient:xp open in read/write mode
+Created myClient.xp's list
+Database client myClient.xp open in read/write mode
 Backup path 'C:/Test'
 A C:/Test/Dir
  -> Dir Dir
 A C:/Test/Dir/a File.TXT (2 B)
 A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
-Database client myClient:xp modified
-Database client myClient:xp closed
+Database client myClient.xp modified
+Database client myClient.xp closed
  -> umount -fl test_db/mount
 Database closed
 
 Clients in DB
 Records found: 7
  myClient
+ myClient.xp
  myClient2
- myClient:xp
  myhost
  myhost2
  myhost3

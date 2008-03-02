@@ -240,7 +240,7 @@ Listing client: leClient
 [1195557261] test2/testfile2                f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
 [1195557261] test2/testfile~                f 524288 644 59071590099d21dd439896592338bf95-0
 [1195557261] test2/testlink                 l      8 777 testfile
-Listing client: leClient:1
+Listing client: leClient.2
 [1195557261] C:/test2/testdir               d      0 755
 [1195557261] C:/test2/testfile              f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [1195557261] C:/test2/testfile2             f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
