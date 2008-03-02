@@ -257,7 +257,6 @@ compress bigfile
 
 parser cvs controlled
 parser svn modified
-parser bzr modified
 EOF
 
 # General config
@@ -309,7 +308,6 @@ compress bigfile
 
 parser cvs controlled
 parser svn modified
-parser bzr modified
 
 client file myhost
 hostname myhost.mynetwork.lan
@@ -382,7 +380,6 @@ compress bigfile2
 
 parser cvs controlled
 parser svn modified
-parser bzr modified
 
 client file myhost
 hostname myhost.mynetwork.lan

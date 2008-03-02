@@ -73,7 +73,6 @@ Lines:
 26:    compress bigfile
 28:    parser cvs controlled
 29:    parser svn modified
-30:    parser bzr modified
 Test: general configuration
 Items:
   client, occ.: min = 1, no max; params: min params = 2, max params = 2
@@ -127,17 +126,16 @@ Lines:
 44:      compress bigfile
 46:      parser cvs controlled
 47:      parser svn modified
-48:      parser bzr modified
-50:  client file myhost
-51:    hostname myhost.mynetwork.lan
-52:    config etc/localhost.list
-53:    expire 1
-55:  client smb client
-56:    option username Myself
-57:    option password flesyM
-58:    option nocase
-59:    hostname myClient
-60:    config C:\Backup\Backup.LST
+49:  client file myhost
+50:    hostname myhost.mynetwork.lan
+51:    config etc/localhost.list
+52:    expire 1
+54:  client smb client
+55:    option username Myself
+56:    option password flesyM
+57:    option nocase
+58:    hostname myClient
+59:    config C:\Backup\Backup.LST
 Test: broken configuration
 Error: after line 0: need at most 1 occurence(s) of keyword 'db'
 Error: at line 3: keyword 'trash' requires 1 parameter(s), found 2
@@ -158,11 +156,11 @@ Error: after line 34: need at most 1 occurence(s) of keyword 'ignore'
 Error: after line 44: missing keyword 'condition'
 Error: at line 46: keyword 'filter' requires 2 parameter(s), found 1
 Error: after line 46: missing keyword 'condition'
-Error: at line 65: keyword 'ignore' requires 1 parameter(s), found 2
-Error: at line 66: keyword 'compress' requires 1 parameter(s), found 2
-Error: at line 78: keyword 'ignore' requires 1 parameter(s), found 0
-Error: at line 79: keyword 'compress' requires 1 parameter(s), found 0
-Error: at line 81: keyword 'what_the_f...?' incorrect or misplaced, aborting
+Error: at line 64: keyword 'ignore' requires 1 parameter(s), found 2
+Error: at line 65: keyword 'compress' requires 1 parameter(s), found 2
+Error: at line 77: keyword 'ignore' requires 1 parameter(s), found 0
+Error: at line 78: keyword 'compress' requires 1 parameter(s), found 0
+Error: at line 80: keyword 'what_the_f...?' incorrect or misplaced, aborting
 Items:
   client, occ.: min = 1, no max; params: min params = 2, max params = 2
     config, occ.: min = 1, max = 1; params: min params = 1, max params = 1
@@ -221,22 +219,21 @@ Lines:
 53:      compress bigfile2
 55:      parser cvs controlled
 56:      parser svn modified
-57:      parser bzr modified
-59:  client file myhost
-60:    hostname myhost.mynetwork.lan
-61:    config etc/localhost.list
-62:    expire 1
-64:    path blah
-65:      ignore 2 3
-66:      compress 4 5
-68:  client smb client
-69:    option username Myself
-70:    option password flesyM
-71:    option nocase
-72:    hostname myClient
-73:    config C:\Backup\Backup.LST
-75:    path C:\Crash"
-76:    path C:\Crash
-77:    path blah
-78:      ignore
-79:      compress
+58:  client file myhost
+59:    hostname myhost.mynetwork.lan
+60:    config etc/localhost.list
+61:    expire 1
+63:    path blah
+64:      ignore 2 3
+65:      compress 4 5
+67:  client smb client
+68:    option username Myself
+69:    option password flesyM
+70:    option nocase
+71:    hostname myClient
+72:    config C:\Backup\Backup.LST
+74:    path C:\Crash"
+75:    path C:\Crash
+76:    path blah
+77:      ignore
+78:      compress

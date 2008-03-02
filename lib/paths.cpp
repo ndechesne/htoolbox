@@ -29,7 +29,6 @@ using namespace std;
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"
-#include "bzr_parser.h"
 #include "cvs_parser.h"
 #include "svn_parser.h"
 #include "list.h"
@@ -182,9 +181,6 @@ int ClientPath::addParser(
   }
 
   /* Add specified parser */
-  if (type == "bzr") {
-    _parsers.push_back(new BzrParser(mode));
-  } else
   if (type == "cvs") {
     _parsers.push_back(new CvsParser(mode));
   } else
