@@ -41,8 +41,8 @@ static void progress(long long previous, long long current, long long total) {
 }
 
 struct Owner::Private {
-  string            path;
-  string            name;
+  char*             path;
+  char*             name;
   List*             original;
   List*             journal;
   List*             partial;
@@ -73,7 +73,7 @@ struct Owner::Private {
 int Owner::finishOff(
     bool            recovery) {
   string name = _d->original->path();
-  File next(Path((name + ".next").c_str()));
+  File next((name + ".next").c_str());
 
   // All files are expected to be closed
   bool got_next = recovery && next.isValid();
@@ -139,8 +139,8 @@ Owner::Owner(
     const char*     name,
     time_t          expiration) {
   _d             = new Private;
-  _d->path       = path;
-  _d->name       = name;
+  _d->path       = strdup(Path(path, name).c_str());
+  _d->name       = strdup(name);
   _d->original   = NULL;
   _d->journal    = NULL;
   _d->partial    = NULL;
@@ -151,11 +151,13 @@ Owner::~Owner() {
   if (_d->original != NULL) {
     close(true);
   }
+  free(_d->path);
+  free(_d->name);
   delete _d;
 }
 
 const char* Owner::name() const {
-  return _d->name.c_str();
+  return _d->name;
 }
 
 time_t Owner::expiration() const {
@@ -169,20 +171,35 @@ int Owner::open(
     out(error) << "Cannot initialize in read-only mode" << endl;
     return -1;
   }
-  string prefix = Path(_d->path.c_str(), _d->name.c_str()).str();
+  Directory owner_dir(_d->path);
+  if (! owner_dir.isValid()) {
+    if (initialize) {
+      if (owner_dir.create() < 0) {
+        out(error) << "Client " << _d->name
+          << "'s directory cannot be created, aborting" << endl;
+        return -1;
+      }
+    } else {
+      out(error) << "Client " << _d->name
+        << "'s directory does not exist, aborting" << endl;
+      return -1;
+    }
+  }
+  string owner_path = owner_dir.path();
+  owner_path += "/";
+  File owner_list((owner_path + "list").c_str());
 
   bool failed = false;
   if (read_only) {
-    if (! File((prefix + ".list").c_str()).isValid()) {
+    if (! owner_list.isValid()) {
       out(error) << "Client " << _d->name
         << "'s list not accessible, aborting" << endl;
       return -1;
     }
 
-    string list_db = prefix + ".list";
     stringstream file_name;
-    file_name << prefix << ".list." << getpid();
-    if (link(list_db.c_str(), file_name.str().c_str())) {
+    file_name << owner_list.path() << "." << getpid();
+    if (link(owner_list.path(), file_name.str().c_str())) {
       out(error) << "Could not create hard link to list" << endl;
       return -1;
     }
@@ -204,9 +221,9 @@ int Owner::open(
     }
   } else {
     // Open list
-    _d->original = new List((prefix + ".list").c_str());
+    _d->original = new List(owner_list.path());
     if (! _d->original->isValid()) {
-      File backup((prefix + ".list~").c_str());
+      File backup((owner_path + "list~").c_str());
 
       if (backup.isValid()) {
         rename(backup.path(), _d->original->path());
@@ -225,8 +242,8 @@ int Owner::open(
     }
     if (! failed) {
       // Check journal
-      _d->journal = new List((prefix + ".journal").c_str());
-      _d->partial = new List((prefix + ".part").c_str());
+      _d->journal = new List((owner_path + "journal").c_str());
+      _d->partial = new List((owner_path + "partial").c_str());
       if (_d->journal->isValid()) {
         // Check previous crash
         out(warning) << "Backup of client " << _d->name

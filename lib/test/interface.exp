@@ -46,7 +46,7 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Database initialized in test_db
 Database open in read/write mode
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -57,31 +57,31 @@ Backup path 'C:/Test'
 A C:/Test/Dir
  -> Dir Dir
 A C:/Test/Dir/a File.TXT (2 B)
-Adding file data to DB in: test_db/data/b026324c6904b2a9cb4b88d6d61c81d1-0
+Adding file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
 A C:/Test/Dir/another File.TXT (2 B)
-Adding file data to DB in: test_db/data/26ab0db90d72e28ad0ba1e22ee510510-0
+Adding file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
-Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
+Adding file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
 Database client client modified
 Database client client closed
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
 Created myClient's list
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
 A /home/User/test/File2.txt (0 B)
 A /home/User/test/dir
  -> Dir dir
 A /home/User/test/dir/file3.txt (2 B)
-Adding file data to DB in: test_db/data/6d7fce9fee471194aa8b5b6e47267f03-0
+Adding file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
 Database client myClient modified
 Database client myClient closed
- -> umount -fl test_db/mount
+ -> umount -fl test_db/.mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
@@ -129,7 +129,7 @@ Done:  89.8%\r
 Done:  93.8%\r
 Done:  97.7%\r
             \r
-Adding compressed file data to DB in: test_db/data/f1c9645dbc14efddc7d8a322685f26eb-0
+Adding compressed file data to DB for f1c9645dbc14efddc7d8a322685f26eb-0
 A test1/bzr
  -> Dir bzr
 A test1/bzr/.bzr
@@ -158,9 +158,9 @@ A test1/cvs
 A test1/cvs/CVS
  -> Dir cvs/CVS
 A test1/cvs/CVS/Entries (161 B)
-Adding compressed file data to DB in: test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0
+Adding compressed file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
 A test1/cvs/CVS/Root (16 B)
-Adding compressed file data to DB in: test_db/data/b90f8fa56ea1d39881d4a199c7a81d35-0
+Adding compressed file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
 A test1/cvs/dirbad
  -> Dir cvs/dirbad
 Warning: Directory should be under CVS control: test1/cvs/dirbad
@@ -171,9 +171,9 @@ A test1/cvs/dirutd
 A test1/cvs/dirutd/CVS
  -> Dir cvs/dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries (42 B)
-Adding compressed file data to DB in: test_db/data/5252f242d27b8c2c9fdbdcbb33545d07-0
+Adding compressed file data to DB for 5252f242d27b8c2c9fdbdcbb33545d07-0
 A test1/cvs/dirutd/CVS/Root (10 B)
-Adding compressed file data to DB in: test_db/data/eb75fb33b2019ef3c840eb5ccdc2e795-0
+Adding compressed file data to DB for eb75fb33b2019ef3c840eb5ccdc2e795-0
 A test1/cvs/dirutd/fileutd (0 B)
 A test1/cvs/filenew.c (0 B)
 A test1/cvs/fileutd.h (0 B)
@@ -190,7 +190,7 @@ A test1/svn
 A test1/svn/.svn
  -> Dir svn/.svn
 A test1/svn/.svn/entries (77 B)
-Adding compressed file data to DB in: test_db/data/0f2ea973d77135dc3d06c8e68da6dc59-0
+Adding compressed file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A test1/svn/dirbad
  -> Dir svn/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
@@ -202,27 +202,27 @@ A test1/svn/dirutd
 A test1/svn/dirutd/.svn
  -> Dir svn/dirutd/.svn
 A test1/svn/dirutd/.svn/entries (30 B)
-Adding compressed file data to DB in: test_db/data/8bdef5751e46ed57d237cbe3f4a5061c-0
+Adding compressed file data to DB for 8bdef5751e46ed57d237cbe3f4a5061c-0
 A test1/svn/dirutd/fileutd (0 B)
 A test1/svn/filenew.c (0 B)
 A test1/test space (0 B)
 A test1/testdir
  -> Dir testdir
 A test1/testfile (13 B)
-Adding compressed file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
+Adding compressed file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
 A test1/testlink
 A test1/testpipe
 Backup path 'test2'
 A test2/testdir
  -> Dir testdir
 A test2/testfile (145 kB)
-Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
+Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
 A test2/testfile2 (259 kB)
-Adding file data to DB in: test_db/data/fb00cd74a5f35e89a7fbdd3c1d05375a-0
+Adding file data to DB for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A test2/testfile~ (524 kB)
 Done:  78.1%\r
             \r
-Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
+Adding file data to DB for 59071590099d21dd439896592338bf95-0
 A test2/testlink
 Database client myhost modified
 Database client myhost closed
@@ -250,7 +250,7 @@ version of this software, please remove it from your configuration
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -259,18 +259,18 @@ Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client client closed
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
 Database client myClient closed
- -> umount -fl test_db/mount
+ -> umount -fl test_db/.mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
@@ -352,7 +352,7 @@ version of this software, please remove it from your configuration
  --> Client: client
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -361,18 +361,18 @@ Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client client closed
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
 Database client myClient closed
- -> umount -fl test_db/mount
+ -> umount -fl test_db/.mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
@@ -441,7 +441,7 @@ version of this software, please remove it from your configuration
  ---> Config file: C:\Backup\Backup.LST
 Warning: Backup of client myhost was interrupted in a previous run, finishing up...
 Database open in read/write mode
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -450,7 +450,7 @@ Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client client closed
- -> umount -fl test_db/mount
+ -> umount -fl test_db/.mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
@@ -493,7 +493,7 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
 ! test1/dir space/big_file (512 kB)
 Done:  80.0%\r
             \r
-Adding compressed file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
+Adding compressed file data to DB for 816df6f64deba63b029ca19d880ee10a-0
  -> Dir svn
  -> Parsing Subversion entries
  --> filenew.c	m
@@ -947,7 +947,7 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -956,19 +956,19 @@ Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client client closed
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
 Database client myClient closed
- -> umount -fl test_db/mount
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -982,7 +982,7 @@ A C:/Test/Dir/another File.TXT (2 B)
 A C:/Test/File.TXT (0 B)
 Database client myClient:xp modified
 Database client myClient:xp closed
- -> umount -fl test_db/mount
+ -> umount -fl test_db/.mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
@@ -1066,7 +1066,7 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -1075,19 +1075,19 @@ Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client client closed
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
 Database client myClient closed
- -> umount -fl test_db/mount
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -1095,7 +1095,7 @@ Database client myClient:xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client myClient:xp closed
- -> umount -fl test_db/mount
+ -> umount -fl test_db/.mount
 Database closed
 
 Test: user-mode backup
@@ -1108,17 +1108,17 @@ Created localhost's list
 Database client localhost open in read/write mode
 Backup path 'test_user/testuser'
 A test_user/testuser/f1.txt (3 B)
-Adding file data to DB in: test_user/.hbackup/data/31d30eea8d0968d6458e0ad0027c9f80-0
+Adding file data to DB for 31d30eea8d0968d6458e0ad0027c9f80-0
 A test_user/testuser/subdir
  -> Dir subdir
 A test_user/testuser/subdir/f2.txt (3 B)
-Adding file data to DB in: test_user/.hbackup/data/dbbf8220893d497d403bb9cdf49db7a4-0
+Adding file data to DB for dbbf8220893d497d403bb9cdf49db7a4-0
 A test_user/testuser/subdir2
  -> Dir subdir2
 A test_user/testuser/subdir2/f3.txt (3 B)
-Adding file data to DB in: test_user/.hbackup/data/d5b4c7d9b06b60a7846c4529834c9812-0
+Adding file data to DB for d5b4c7d9b06b60a7846c4529834c9812-0
 A test_user/testuser/subdir2/f4.txt (3 B)
-Adding file data to DB in: test_user/.hbackup/data/90e2a51705594d033a3abe9d77b2b7ad-0
+Adding file data to DB for 90e2a51705594d033a3abe9d77b2b7ad-0
 Database client localhost modified
 Database client localhost closed
 Database closed
@@ -2109,7 +2109,7 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -2122,19 +2122,19 @@ Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client client closed
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
 Database client myClient closed
- -> umount -fl test_db/mount
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -2142,7 +2142,7 @@ Database client myClient:xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client myClient:xp closed
- -> umount -fl test_db/mount
+ -> umount -fl test_db/.mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
@@ -2176,10 +2176,10 @@ Backup path 'test1'
  --> dirutd	d	0
  -> Dir cvs/CVS
  test1/cvs/CVS/Entries (161 B)
-Adding compressed file data to DB in: test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0
+Adding compressed file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
 Recovered checksum: fef51838cd3cfe8ed96355742eb71fbd-0
  test1/cvs/CVS/Root (16 B)
-Adding compressed file data to DB in: test_db/data/b90f8fa56ea1d39881d4a199c7a81d35-0
+Adding compressed file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
 Recovered checksum: b90f8fa56ea1d39881d4a199c7a81d35-0
  -> Dir cvs/dirbad
 Warning: Directory should be under CVS control: test1/cvs/dirbad
@@ -2196,7 +2196,7 @@ Warning: Directory should be under CVS control: test1/cvs/dirbad
  --> diroth	o
  -> Dir svn/.svn
  test1/svn/.svn/entries (77 B)
-Adding compressed file data to DB in: test_db/data/0f2ea973d77135dc3d06c8e68da6dc59-0
+Adding compressed file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
 Recovered checksum: 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> Dir svn/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
@@ -2236,7 +2236,7 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -2246,19 +2246,19 @@ Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client client closed
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
 Database client myClient closed
- -> umount -fl test_db/mount
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -2266,7 +2266,7 @@ Database client myClient:xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client myClient:xp closed
- -> umount -fl test_db/mount
+ -> umount -fl test_db/.mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir
@@ -2431,7 +2431,7 @@ version of this software, please remove it from your configuration
  --> Client: myClient
  ---> Config file: C:\Backup\Backup.LST
 Database open in read/write mode
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
 Backup client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -2441,19 +2441,19 @@ Database client client open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client client closed
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
 Backup client 'myClient' using protocol 'nfs'
  -> Reading client configuration file
  --> Path: /home/User/test
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
 Database client myClient closed
- -> umount -fl test_db/mount
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
+ -> umount -fl test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
 Backup client 'myClient' using protocol 'smb'
  -> Reading client configuration file
  --> Path: C:/Test
@@ -2461,7 +2461,7 @@ Database client myClient:xp open in read/write mode
 Backup path 'C:/Test'
  -> Dir Dir
 Database client myClient:xp closed
- -> umount -fl test_db/mount
+ -> umount -fl test_db/.mount
 Backup client 'myhost' using protocol 'file'
  -> Reading client configuration file
  --> Client-wide filter and subdir

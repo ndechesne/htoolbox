@@ -11,7 +11,7 @@ fedc76test6 status: 1, getdir_path: test_db/data/fe/dc/76/test6
 fedc76test6 status: 0, getdir_path: test_db/data/fe/dc/76/test6
 
 Test: write and read back
-Adding file data to DB in: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0
+Adding file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 

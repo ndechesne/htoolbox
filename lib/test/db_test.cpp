@@ -80,7 +80,7 @@ int main(void) {
   string  checksum;
   string  zchecksum;
   int     status;
-  List    dblist("test_db/myClient.list");
+  List    dblist("test_db/myClient/list");
   char*   path   = NULL;
   Node*   node   = NULL;
   time_t  ts;
@@ -157,7 +157,7 @@ int main(void) {
     }
   }
   cout << "File data gone" << endl;
-  Directory("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0").create();
+  Directory("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").create();
   if (db.scan()) {
     printf("db.scan: %s\n", strerror(errno));
   }
@@ -169,10 +169,10 @@ int main(void) {
     }
   }
   cout << "File data corrupted, surficial scan" << endl;
-  if (Directory("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
+  if (Directory("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
     cout << "Directory still exists!" << endl;
   }
-  File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
+  File("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
   if (db.scan()) {
     printf("db.scan: %s\n", strerror(errno));
   }
@@ -187,10 +187,10 @@ int main(void) {
     printf("db.scan: %s\n", strerror(errno));
   }
   cout << "File data corrupted, thorough scan" << endl;
-  if (Directory("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
+  if (Directory("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
     cout << "Directory still exists!" << endl;
   }
-  File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
+  File("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
   db.close();
 
   if ((status = db.open(true))) {
@@ -214,9 +214,9 @@ int main(void) {
     printf("db.scan: %s\n", strerror(errno));
   }
   cout << "Scan again" << endl;
-  if (Directory("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
+  if (Directory("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
     cout << "Directory still exists!" << endl;
-    if (File("test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0/data").isValid())
+    if (File("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data").isValid())
     {
       cout << "File still exists!" << endl;
     }
@@ -293,7 +293,7 @@ int main(void) {
   delete f;
 
   db.closeClient();
-  rename("test_db/myClient.journal~", "test_db/myClient.list");
+  rename("test_db/myClient/journal~", "test_db/myClient/list");
 
   db.close();
 
@@ -423,9 +423,9 @@ int main(void) {
 
 
   cout << endl << "Test: scan" << endl;
-  File("test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0/data").remove();
-  Directory("test_db/data/e5ed795e721b69c53a52482d6bdcb149-0").create();
-  system("cp test1/bzr/filemod.o test_db/data/e5ed795e721b69c53a52482d6bdcb149-0/data");
+  File("test_db/.data/3d546a1ce46c6ae10ad34ab8a81c542e-0/data").remove();
+  Directory("test_db/.data/e5ed795e721b69c53a52482d6bdcb149-0").create();
+  system("cp test1/bzr/filemod.o test_db/.data/e5ed795e721b69c53a52482d6bdcb149-0/data");
   if ((status = db.open())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
@@ -450,10 +450,11 @@ int main(void) {
     db.add("/client_path/new_link", l);
     delete l;
     db.closeClient();
-    rename("test_db/myClient.journal~", "test_db/myClient.list");
+    rename("test_db/myClient/journal~", "test_db/myClient/list");
     db2.getRecords(records, "/client_path");
     db2.closeClient();
     db2.close();
+    db.close();
   }
   dblist.open("r");
   if (dblist.isEmpty()) {
@@ -494,16 +495,21 @@ int main(void) {
     cout << "failed to copy list over" << endl;
     return 0;
   }
+  if (system("mv test_db/.data test_db/data")) {
+    cout << "failed to rename data dir" << endl;
+    return 0;
+  }
+  if (system("mkdir test_db/mount")) {
+    cout << "failed to create mount point" << endl;
+    return 0;
+  }
 
-#if 0
   if (db.open() == 0) {
     db.close();
-#else
-  if (db.convert(&records) == 0) {
-#endif
+    db.getClients(records);
     for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
       cout << "Listing client: " << *i << endl;
-      List client_list(Path("test_db", (*i + ".list").c_str()));
+      List client_list(Path("test_db", (*i + "/list").c_str()));
       if (client_list.open("r") >= 0) {
         int status = 0;
         if (client_list.isEmpty()) {

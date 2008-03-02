@@ -100,11 +100,11 @@ Backup path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
 A /home/User/test/File2.txt (0 B)
-Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
+Adding file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
 A /home/User/test/dir
  -> Dir dir
 A /home/User/test/dir/file3.txt (2 B)
-Adding file data to DB in: test_db/data/6d7fce9fee471194aa8b5b6e47267f03-0
+Adding file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
 Backup path '/home/User/test2'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
@@ -123,9 +123,9 @@ Backup path 'C:/Test'
 A C:/Test/Dir
  -> Dir Dir
 A C:/Test/Dir/a File.TXT (2 B)
-Adding file data to DB in: test_db/data/b026324c6904b2a9cb4b88d6d61c81d1-0
+Adding file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
 A C:/Test/Dir/another File.TXT (2 B)
-Adding file data to DB in: test_db/data/26ab0db90d72e28ad0ba1e22ee510510-0
+Adding file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test/File.TXT (0 B)
 Database client myClient2 modified
 Database client myClient2 closed
@@ -200,7 +200,7 @@ Done:  89.8%\r
 Done:  93.8%\r
 Done:  97.7%\r
             \r
-Adding compressed file data to DB in: test_db/data/f1c9645dbc14efddc7d8a322685f26eb-0
+Adding compressed file data to DB for f1c9645dbc14efddc7d8a322685f26eb-0
 A test1/bzr
  -> Dir bzr
 A test1/bzr/.bzr
@@ -229,9 +229,9 @@ A test1/cvs
 A test1/cvs/CVS
  -> Dir cvs/CVS
 A test1/cvs/CVS/Entries (161 B)
-Adding compressed file data to DB in: test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0
+Adding compressed file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
 A test1/cvs/CVS/Root (16 B)
-Adding compressed file data to DB in: test_db/data/b90f8fa56ea1d39881d4a199c7a81d35-0
+Adding compressed file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
 A test1/cvs/dirbad
  -> Dir cvs/dirbad
 Warning: Directory should be under CVS control: test1/cvs/dirbad
@@ -242,9 +242,9 @@ A test1/cvs/dirutd
 A test1/cvs/dirutd/CVS
  -> Dir cvs/dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries (42 B)
-Adding compressed file data to DB in: test_db/data/5252f242d27b8c2c9fdbdcbb33545d07-0
+Adding compressed file data to DB for 5252f242d27b8c2c9fdbdcbb33545d07-0
 A test1/cvs/dirutd/CVS/Root (10 B)
-Adding compressed file data to DB in: test_db/data/eb75fb33b2019ef3c840eb5ccdc2e795-0
+Adding compressed file data to DB for eb75fb33b2019ef3c840eb5ccdc2e795-0
 A test1/cvs/dirutd/fileutd (0 B)
 A test1/cvs/filenew.c (0 B)
 A test1/cvs/fileutd.h (0 B)
@@ -261,7 +261,7 @@ A test1/svn
 A test1/svn/.svn
  -> Dir svn/.svn
 A test1/svn/.svn/entries (77 B)
-Adding compressed file data to DB in: test_db/data/0f2ea973d77135dc3d06c8e68da6dc59-0
+Adding compressed file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A test1/svn/dirbad
  -> Dir svn/dirbad
 Warning: Directory should be under Subversion control: test1/svn/dirbad
@@ -273,27 +273,27 @@ A test1/svn/dirutd
 A test1/svn/dirutd/.svn
  -> Dir svn/dirutd/.svn
 A test1/svn/dirutd/.svn/entries (30 B)
-Adding compressed file data to DB in: test_db/data/8bdef5751e46ed57d237cbe3f4a5061c-0
+Adding compressed file data to DB for 8bdef5751e46ed57d237cbe3f4a5061c-0
 A test1/svn/dirutd/fileutd (0 B)
 A test1/svn/filenew.c (0 B)
 A test1/test space (0 B)
 A test1/testdir
  -> Dir testdir
 A test1/testfile (13 B)
-Adding compressed file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
+Adding compressed file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
 A test1/testlink
 A test1/testpipe
 Backup path 'test2'
 A test2/testdir
  -> Dir testdir
 A test2/testfile (145 kB)
-Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
+Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
 A test2/testfile2 (259 kB)
-Adding file data to DB in: test_db/data/fb00cd74a5f35e89a7fbdd3c1d05375a-0
+Adding file data to DB for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A test2/testfile~ (524 kB)
 Done:  78.1%\r
             \r
-Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
+Adding file data to DB for 59071590099d21dd439896592338bf95-0
 A test2/testlink
 Database client testhost modified
 Database client testhost closed
@@ -463,7 +463,7 @@ A test1/cvs/CVS
 A test1/cvs/CVS/Entries (161 B)
 A test1/cvs/CVS/Root (16 B)
 A test1/cvs/CVS/Whatever (17 B)
-Adding file data to DB in: test_db/data/9283e2c51868272850bd2d89b63c58e8-0
+Adding file data to DB for 9283e2c51868272850bd2d89b63c58e8-0
 A test1/cvs/CVS/Wherever
  -> Dir CVS/Wherever
 A test1/cvs/CVS/Wherever/Whichever (0 B)
@@ -480,7 +480,7 @@ A test1/cvs/dirutd/CVS
 A test1/cvs/dirutd/CVS/Entries (42 B)
 A test1/cvs/dirutd/CVS/Root (10 B)
 A test1/cvs/dirutd/CVS/Whatever (11 B)
-Adding file data to DB in: test_db/data/caecaacc7fdee8a7667d4f4f315858a9-0
+Adding file data to DB for caecaacc7fdee8a7667d4f4f315858a9-0
 A test1/cvs/dirutd/fileoth (0 B)
 A test1/cvs/dirutd/fileutd (0 B)
 A test1/cvs/filemod.o (0 B)

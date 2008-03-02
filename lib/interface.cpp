@@ -153,7 +153,7 @@ int HBackup::readConfig(const char* config_path) {
     if ((*params)[0] == "db") {
       _d->db = new Database((*params)[1].c_str());
       out(debug, 2) << "Database path: " << (*params)[1] << endl;
-      _d->mount_point = (*params)[1] + "/mount";
+      _d->mount_point = (*params)[1] + "/.mount";
     } else
     if ((*params)[0] == "trash") {
       out(warning)
@@ -273,7 +273,7 @@ int HBackup::readConfig(const char* config_path) {
   // Use default DB path if none specified
   if (_d->db == NULL) {
     _d->db = new Database(DEFAULT_DB_PATH);
-    _d->mount_point = DEFAULT_DB_PATH "/mount";
+    _d->mount_point = DEFAULT_DB_PATH "/.mount";
   }
   return 0;
 }

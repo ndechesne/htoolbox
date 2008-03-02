@@ -7,7 +7,7 @@ Reading list of missing checksums
 Created myClient's list
 Database client myClient open in read/write mode
 A /home/User/àccénts_test (0 B)
-Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
+Adding file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
 A /home/User/big_file (10 MB)
 Done:   3.9%\r
 Done:   7.8%\r
@@ -35,17 +35,17 @@ Done:  89.8%\r
 Done:  93.8%\r
 Done:  97.7%\r
             \r
-Adding file data to DB in: test_db/data/f1c9645dbc14efddc7d8a322685f26eb-0
+Adding file data to DB for f1c9645dbc14efddc7d8a322685f26eb-0
 A /home/User/cvs
  -> Dir cvs
 A /home/User/cvs/CVS
  -> Dir cvs/CVS
 A /home/User/cvs/CVS/Entries (161 B)
-Adding file data to DB in: test_db/data/fef51838cd3cfe8ed96355742eb71fbd-0
+Adding file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
 A /home/User/cvs/CVS/Root (16 B)
-Adding file data to DB in: test_db/data/b90f8fa56ea1d39881d4a199c7a81d35-0
+Adding file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
 A /home/User/cvs/CVS/Whatever (17 B)
-Adding file data to DB in: test_db/data/9283e2c51868272850bd2d89b63c58e8-0
+Adding file data to DB for 9283e2c51868272850bd2d89b63c58e8-0
 A /home/User/cvs/CVS/Wherever
  -> Dir cvs/CVS/Wherever
 A /home/User/cvs/CVS/Wherever/Whichever (0 B)
@@ -60,11 +60,11 @@ A /home/User/cvs/dirutd
 A /home/User/cvs/dirutd/CVS
  -> Dir cvs/dirutd/CVS
 A /home/User/cvs/dirutd/CVS/Entries (42 B)
-Adding file data to DB in: test_db/data/5252f242d27b8c2c9fdbdcbb33545d07-0
+Adding file data to DB for 5252f242d27b8c2c9fdbdcbb33545d07-0
 A /home/User/cvs/dirutd/CVS/Root (10 B)
-Adding file data to DB in: test_db/data/eb75fb33b2019ef3c840eb5ccdc2e795-0
+Adding file data to DB for eb75fb33b2019ef3c840eb5ccdc2e795-0
 A /home/User/cvs/dirutd/CVS/Whatever (11 B)
-Adding file data to DB in: test_db/data/caecaacc7fdee8a7667d4f4f315858a9-0
+Adding file data to DB for caecaacc7fdee8a7667d4f4f315858a9-0
 A /home/User/cvs/dirutd/fileoth (0 B)
 A /home/User/cvs/dirutd/fileutd (0 B)
 A /home/User/cvs/filemod.o (0 B)
@@ -80,7 +80,7 @@ A /home/User/subdir/testfile (12 B)
 Error: Permission denied opening write source file: test1/subdir/testfile
 A /home/User/subdir/testfile1 (0 B)
 A /home/User/subdir/testfile2 (12 B)
-Adding file data to DB in: test_db/data/285b35198a5e188b3a0df3ed33f93a26-0
+Adding file data to DB for 285b35198a5e188b3a0df3ed33f93a26-0
 A /home/User/subdir-file (0 B)
 A /home/User/subdirfile (0 B)
 A /home/User/svn
@@ -88,11 +88,11 @@ A /home/User/svn
 A /home/User/svn/.svn
  -> Dir svn/.svn
 A /home/User/svn/.svn/entries (77 B)
-Adding file data to DB in: test_db/data/0f2ea973d77135dc3d06c8e68da6dc59-0
+Adding file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A /home/User/svn/.svn/format (18 B)
-Adding file data to DB in: test_db/data/3cd6b399f9fa49fd0b137a3de46d83f5-0
+Adding file data to DB for 3cd6b399f9fa49fd0b137a3de46d83f5-0
 A /home/User/svn/.svn/whatever (15 B)
-Adding file data to DB in: test_db/data/06f05055bfb2c8b900459f45826fc8ea-0
+Adding file data to DB for 06f05055bfb2c8b900459f45826fc8ea-0
 A /home/User/svn/.svn/wherever
  -> Dir svn/.svn/wherever
 A /home/User/svn/.svn/wherever/whichever (0 B)
@@ -107,11 +107,11 @@ A /home/User/svn/dirutd
 A /home/User/svn/dirutd/.svn
  -> Dir svn/dirutd/.svn
 A /home/User/svn/dirutd/.svn/entries (30 B)
-Adding file data to DB in: test_db/data/8bdef5751e46ed57d237cbe3f4a5061c-0
+Adding file data to DB for 8bdef5751e46ed57d237cbe3f4a5061c-0
 A /home/User/svn/dirutd/.svn/format (12 B)
-Adding file data to DB in: test_db/data/60afe8c3ac66cb77a34da116394d9ac8-0
+Adding file data to DB for 60afe8c3ac66cb77a34da116394d9ac8-0
 A /home/User/svn/dirutd/.svn/whatever (10 B)
-Adding file data to DB in: test_db/data/3b9ddae5294c8f4850d45073a933f3e6-0
+Adding file data to DB for 3b9ddae5294c8f4850d45073a933f3e6-0
 A /home/User/svn/dirutd/fileoth (0 B)
 A /home/User/svn/dirutd/fileutd (0 B)
 A /home/User/svn/filemod.o (0 B)
@@ -122,7 +122,7 @@ A /home/User/test space (0 B)
 A /home/User/testdir
  -> Dir testdir
 A /home/User/testfile (13 B)
-Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
+Adding file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
 A /home/User/testfile~ (0 B)
 A /home/User/testlink
 A /home/User/testpipe
@@ -854,7 +854,7 @@ Database client myClient open in read/write mode
 ! /home/User/cvs/big_file (512 kB)
 Done:  80.0%\r
             \r
-Adding file data to DB in: test_db/data/816df6f64deba63b029ca19d880ee10a-0
+Adding file data to DB for 816df6f64deba63b029ca19d880ee10a-0
  -> Dir cvs/dirbad
  -> Dir cvs/diroth
  -> Dir cvs/dirutd
@@ -3094,7 +3094,7 @@ Database client myClient open in read/write mode
  -> Dir cvs/dirbad
 Warning: Directory should be under CVS control: test1/cvs/dirbad
 M /home/User/cvs/filenew.c (5 B)
-Adding file data to DB in: test_db/data/0d599f0ec05c3bda8c3b8a68c32a1b47-0
+Adding file data to DB for 0d599f0ec05c3bda8c3b8a68c32a1b47-0
  -> Dir dir space
  -> Dir svn
  -> Parsing Subversion entries
@@ -3880,13 +3880,13 @@ Database client hisClient open in read/write mode
 A /home/User/testdir
  -> Dir testdir
 A /home/User/testfile (145 kB)
-Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
+Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
 A /home/User/testfile2 (259 kB)
-Adding file data to DB in: test_db/data/fb00cd74a5f35e89a7fbdd3c1d05375a-0
+Adding file data to DB for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A /home/User/testfile~ (524 kB)
 Done:  78.1%\r
             \r
-Adding file data to DB in: test_db/data/59071590099d21dd439896592338bf95-0
+Adding file data to DB for 59071590099d21dd439896592338bf95-0
 Parsed 4 file(s)
 Database client hisClient modified
 Database client hisClient closed
@@ -5039,7 +5039,6 @@ Parsed 41 file(s)
 Database client myClient modified
 Database client myClient closed
 Database closed
-du: cannot access `test_db/data/trash/*': No such file or directory
 
 hisClient's list:
 	/home/User/testdir
@@ -5279,7 +5278,6 @@ Parsed 40 file(s)
 Database client myClient modified
 Database client myClient closed
 Database closed
-du: cannot access `test_db/data/trash/*': No such file or directory
 
 hisClient's list:
 	/home/User/testdir
@@ -5514,7 +5512,6 @@ Parsed 40 file(s)
 Database client myClient modified
 Database client myClient closed
 Database closed
-du: cannot access `test_db/data/trash/*': No such file or directory
 
 hisClient's list:
 	/home/User/testdir

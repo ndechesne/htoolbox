@@ -52,7 +52,7 @@ struct Database::Private {
   Owner*            client;
 };
 
-int Database::convert(list<string>* clients) {
+int Database::convert() {
   out(info) << "Converting database list" << endl;
   Stream source(Path(_d->path, "list"));
   if (source.open("r")) {
@@ -70,8 +70,11 @@ int Database::convert(list<string>* clients) {
         begin = false;
       } else {
         if (dest != NULL) {
-          dest->putLine("# end");
-          dest->close();
+          if ((dest->putLine("# end") < 0) || (dest->close() < 0)) {
+            out(alert) << strerror(errno) << " closing client's list (2)"
+              << endl;
+            return -1;
+          }
           delete dest;
         }
         break;
@@ -84,26 +87,38 @@ int Database::convert(list<string>* clients) {
       }
       last_client = client;
       if (dest != NULL) {
-        dest->putLine("# end");
-        dest->close();
+        if ((dest->putLine("# end") < 0) || (dest->close() < 0)) {
+          out(alert) << strerror(errno) << " closing client's list" << endl;
+          return -1;
+        }
         delete dest;
       }
-      dest = new Stream(Path(_d->path, (client + ".list").c_str()));
-      if (dest->open("w") < 0) {
-        out(alert) << strerror(errno) << "opening destination file" << endl;
-        break;
+      Directory client_dir(Path(_d->path, client.c_str()));
+      if (client_dir.create() < 0) {
+        out(alert) << strerror(errno) << " creating client dir" << endl;
+        return -1;
       }
-      dest->putLine("# version 4");
-      if (clients != NULL) {
-        clients->push_back(client);
+      dest = new Stream(Path(client_dir.path(), "list"));
+      if (dest->open("w") < 0) {
+        out(alert) << strerror(errno) << " opening destination file" << endl;
+        return -1;
+      }
+      if (dest->putLine("# version 4") < 0) {
+        out(alert) << strerror(errno) << " writing client's list" << endl;
+        return -1;
       }
     } else if (dest != NULL) {
-      dest->putLine(&line[1]);
+      if (dest->putLine(&line[1]) < 0) {
+        out(alert) << strerror(errno) << " writing client's list (2)" << endl;
+        return -1;
+      }
     } else {
       out(alert) << "No destination file!" << endl;
     }
   }
-  source.close();
+  if (source.close()) {
+    return -1;
+  }
 
   out(info) << "Conversion successful" << endl;
   return 0;
@@ -208,13 +223,38 @@ int Database::open(
       return -1;
     }
   }
+  // Deal with DB format conversion
+  {
+    // Mount point
+    Directory(Path(_d->path, "mount")).remove();
+    // Data path name
+    Path old_data(_d->path, "data");
+    Path new_data(_d->path, ".data");
+    if (Directory(old_data).isValid() && ! Directory(new_data).isValid()) {
+      if (rename(old_data.c_str(), new_data.c_str())) {
+        return -1;
+      } else {
+        out(info) << "Changed DB data dir name" << endl;
+      }
+    }
+    // Lists
+    Path old_list(_d->path, "list");
+    Path new_list(_d->path, "list.converted");
+    if (File(old_list).isValid() && (convert() >= 0)) {
+      if (rename(old_list.c_str(), new_list.c_str())) {
+        return -1;
+      } else {
+        out(info) << "DB format update successful" << endl;
+      }
+    }
+  }
   // Try to take lock
   if (! read_only && lock()) {
     return -1;
   }
 
   // Check DB dir
-  switch (_d->data.open(Path(_d->path, "data").c_str(), initialize)) {
+  switch (_d->data.open(Path(_d->path, ".data").c_str(), initialize)) {
     case 1:
       // Creation successful
       File(Path(_d->path, "missing")).create();
@@ -325,17 +365,15 @@ int Database::close() {
 
 int Database::getClients(
     list<string>& clients) const {
-  // Clients' lists are in the DB base directory, named *.list
   Directory dir(_d->path);
   if (dir.createList() < 0) {
     return -1;
   }
   list<Node*>::iterator i = dir.nodesList().begin();
   while (i != dir.nodesList().end()) {
-    if (((*i)->type() == 'f') && ((*i)->pathLength() > 5)) {
-      if (strcmp(&(*i)->path()[(*i)->pathLength() - 5], ".list") == 0) {
+    if ((*i)->type() == 'd') {
+      if (File(Path((*i)->path(), "list")).isValid()) {
         clients.push_back((*i)->name());
-        clients.back().erase(clients.back().size() - 5);
       }
     }
     i++;

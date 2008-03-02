@@ -404,7 +404,8 @@ int Data::write(
   } else
   if (! present) {
     out(verbose) << "Adding " << ((compress != 0) ? "compressed " : "")
-      << "file data to DB in: " << dest_path << endl;
+      << "file data to DB for " << source.checksum() << "-" << index
+      << endl;
   }
 
   // If anything failed, delete temporary file

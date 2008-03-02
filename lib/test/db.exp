@@ -82,10 +82,10 @@ Database open in read/write mode
 Reading list of missing checksums
 Created myClient's list
 Database client myClient open in read/write mode
-Adding compressed file data to DB in: test_db/data/285b35198a5e188b3a0df3ed33f93a26-0
-Adding file data to DB in: test_db/data/d41d8cd98f00b204e9800998ecf8427e-0
-Adding file data to DB in: test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0
-Adding file data to DB in: test_db/data/3d546a1ce46c6ae10ad34ab8a81c542e-0
+Adding compressed file data to DB for 285b35198a5e188b3a0df3ed33f93a26-0
+Adding file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
+Adding file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
+Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
 Database client myClient modified
 Database client myClient closed
 Database closed
@@ -193,6 +193,8 @@ Database client myClient modified
 Database client myClient closed
 Database client myClient closed
 Database closed
+List of missing checksums contains 1 item(s)
+Database closed
 [ 8] /client_path/new_link          l      8 777 testfile
 [ 9] /client_path/subdir            [rm]
 [11] /client_path/subdir/testfile   [rm]
@@ -216,8 +218,12 @@ List of paths: 4
  -> /client_path/testfile
 
 Test: convert list(s) format
+Changed DB data dir name
 Converting database list
 Conversion successful
+DB format update successful
+Database open in read/write mode
+Database closed
 Listing client: client
 [1195557261] C:/Test/File.TXT               f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 Listing client: hisClient

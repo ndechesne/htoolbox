@@ -34,7 +34,7 @@ class Database {
     bool            new_file = false) const;
 public:
   // Method to update the DB organization and list formats
-  int convert(list<string>* clients = NULL);
+  int convert();
   Database(
     const char*     path);                // Path where DB resides
   ~Database();

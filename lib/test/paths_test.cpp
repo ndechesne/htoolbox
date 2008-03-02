@@ -106,9 +106,9 @@ int main(void) {
   ClientPath* path = new ClientPath("/home/User");
   Database    db("test_db");
   // myClient's lists
-  List real_journal(Path("test_db", "myClient.journal"));
-  List journal(Path("test_db", "myClient.journal~"));
-  List dblist(Path("test_db", "myClient.list"));
+  List real_journal(Path("test_db", "myClient/journal"));
+  List journal(Path("test_db", "myClient/journal~"));
+  List dblist(Path("test_db", "myClient/list"));
   // Filter
   Filter* bazaar = path->addFilter("and", "bazaar");
   if ((bazaar == NULL)
@@ -553,7 +553,7 @@ int main(void) {
 
    // Also test that we behave correctly when dir exists but is empty
   system("echo blah > test1/cvs/filenew.c");
-  mkdir("test_db/data/0d599f0ec05c3bda8c3b8a68c32a1b47-0", 0755);
+  mkdir("test_db/.data/0d599f0ec05c3bda8c3b8a68c32a1b47-0", 0755);
 
   rename("testpipe", "test1/testpipe");
   db.openClient("myClient");
@@ -658,8 +658,8 @@ int main(void) {
   }
 
   // Save files to test recovery
-  system("cp test_db/myClient.list test_db/myClient.list.cp");
-  system("cp test_db/myClient.journal test_db/myClient.journal.cp");
+  system("cp test_db/myClient/list test_db/myClient/list.cp");
+  system("cp test_db/myClient/journal test_db/myClient/journal.cp");
 
   db.closeClient();
   if (db.close()) {
@@ -667,13 +667,13 @@ int main(void) {
   }
 
   // hisClient's lists
-  List real_journal2(Path("test_db", "hisClient.journal"));
-  List journal2(Path("test_db", "hisClient.journal~"));
-  List dblist2(Path("test_db", "hisClient.list"));
+  List real_journal2(Path("test_db", "hisClient/journal"));
+  List journal2(Path("test_db", "hisClient/journal~"));
+  List dblist2(Path("test_db", "hisClient/list"));
 
   // Replace files to test recovery
-  rename("test_db/myClient.list.cp", "test_db/myClient.list");
-  rename("test_db/myClient.journal.cp", "test_db/myClient.journal");
+  rename("test_db/myClient/list.cp", "test_db/myClient/list");
+  rename("test_db/myClient/journal.cp", "test_db/myClient/journal");
 
   // Show list contents
   cout << endl << "hisClient's list:" << endl;
@@ -772,7 +772,7 @@ int main(void) {
   system("touch test1/testfile");
   system("chmod 0 test1/testfile");
   // Make removal complain
-  system("rm -r test_db/data/285b35198a5e188b3a0df3ed33f93a26-0");
+  system("rm -r test_db/.data/285b35198a5e188b3a0df3ed33f93a26-0");
   db.openClient("myClient", 18 * 24 * 3600);
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
@@ -782,7 +782,6 @@ int main(void) {
   if (db.close()) {
     return 0;
   }
-  system("du -sb test_db/data/trash/*");
 
   // Show list contents
   cout << endl << "hisClient's list:" << endl;
@@ -803,7 +802,7 @@ int main(void) {
   system("touch test1/testfile~");
   system("rm -f test1/testfile");
   // Make removal fail
-  system("chmod 0 test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0");
+  system("chmod 0 test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0");
   db.openClient("myClient", 0);
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
@@ -811,11 +810,10 @@ int main(void) {
   db.closeClient();
 
   int rc = db.close();
-  system("chmod 755 test_db/data/59ca0efa9f5633cb0371bbc0355478d8-0");
+  system("chmod 755 test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0");
   if (rc) {
     return 0;
   }
-  system("du -sb test_db/data/trash/*");
 
   // Show list contents
   cout << endl << "hisClient's list:" << endl;
@@ -843,7 +841,6 @@ int main(void) {
   if (db.close()) {
     return 0;
   }
-  system("du -sb test_db/data/trash/*");
 
   // Show list contents
   cout << endl << "hisClient's list:" << endl;
