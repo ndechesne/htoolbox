@@ -114,11 +114,11 @@ namespace hbackup {
     /*!
       Checks every entry in the database to detect missing and obsolete file
       data. This requires full DB access.
-      \param remove       remove obsolete data (safe default is false for now)
+      \param remove       remove obsolete data
       \return 0 on success, -1 on failure
     */
     int scan(
-      bool          remove        = false);
+      bool          remove        = true);
     //! \brief Check database for missing/corrupted files
     /*!
       Checks every entry in the database to detect corrupted file data.
