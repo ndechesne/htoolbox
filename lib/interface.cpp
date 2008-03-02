@@ -301,6 +301,16 @@ void HBackup::close() {
   _d->db = NULL;
 }
 
+int HBackup::fix() {
+  if (_d->db->open()) {
+    return -1;
+  }
+  if (_d->db->close()) {
+    return -1;
+  }
+  return 0;
+}
+
 int HBackup::scan(bool remove) {
   bool failed = true;
   if (! _d->db->open()) {

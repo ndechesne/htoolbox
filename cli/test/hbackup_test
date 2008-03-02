@@ -32,6 +32,9 @@ echo "User-mode backup"
 export HOME="$TESTDIRUSER"
 "$hbackup" -diu -c etc/hbackup.conf -- 2>&1
 
+echo "Fix DB"
+"$hbackup" -d -c etc/hbackup.conf -f 2>&1
+
 echo "Scan DB"
 "$hbackup" -d -c etc/hbackup.conf -s 2>&1
 

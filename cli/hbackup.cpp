@@ -119,6 +119,10 @@ int main(int argc, char **argv) {
     ValueArg<time_t> dateArg("D", "date", "Specify date",
       false, 0, "UNIX epoch", cmd);
 
+    // Debug
+    SwitchArg fixSwitch("f", "fix", "Fix backup database",
+      cmd, false);
+
     // Initialize
     SwitchArg initSwitch("i", "initialize", "Initialize if needed",
       cmd, false);
@@ -205,6 +209,13 @@ int main(int argc, char **argv) {
     if (hbackup.open(configArg.getValue().c_str(), false)) {
       return 2;
     }
+    // Fix any interrupted backup
+    if (fixSwitch.getValue()) {
+      out(info) << "Fixing database" << endl;
+      if (hbackup.fix()) {
+        return 3;
+      }
+    } else
     // Check that data referenced in DB exists
     if (scanSwitch.getValue()) {
       out(info) << "Scanning database" << endl;
@@ -212,7 +223,7 @@ int main(int argc, char **argv) {
         return 3;
       }
     } else
-    // Check that data referenced in DB exists and is not corrupted
+    // Check that data in DB is not corrupted
     if (checkSwitch.getValue()) {
       out(info) << "Checking database" << endl;
       if (hbackup.check()) {

@@ -104,6 +104,12 @@ namespace hbackup {
       Makes sure the lists are up-to-date.
     */
     void close();
+    //! \brief Check database lists for interrupted backup
+    /*!
+      Checks every client for interrupted backup.
+      \return 0 on success, -1 on failure
+    */
+    int fix();
     //! \brief Check database for missing/obsolete files
     /*!
       Checks every entry in the database to detect missing and obsolete file

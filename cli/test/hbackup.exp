@@ -30,6 +30,9 @@ HBackup (c) 2006-2008 Hervé Fache
   -i,  --initialize
     Initialize if needed
 
+  -f,  --fix
+    Fix backup database
+
   -D <UNIX epoch>,  --date <UNIX epoch>
     Specify date
 
@@ -85,6 +88,9 @@ HBackup (c) 2006-2008 Hervé Fache
 
   -i,  --initialize
     Initialize if needed
+
+  -f,  --fix
+    Fix backup database
 
   -D <UNIX epoch>,  --date <UNIX epoch>
     Specify date
@@ -492,6 +498,29 @@ A test_user/testuser/subdir2/f4.txt (3 B)
 Adding file data to DB for 90e2a51705594d033a3abe9d77b2b7ad-0
 Database client localhost modified
 Database client localhost closed
+Database closed
+Fix DB
+ -> Reading configuration file 'etc/hbackup.conf'
+ --> Database path: test_db
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
+ --> Global filter all backup
+ ---> Condition type file
+ ---> Condition path_end ~
+ --> Global filter any test_or
+ ---> Condition filter backup
+ ---> Condition not size< 1000
+ --> Client: myClient
+ ---> Config file: /home/User/hbackup.list
+ --> Client: other
+ ---> Config file: /home/backup/Backup.list
+ --> Client: myhost
+ ---> Config file: etc/localhost.list
+ ---> Expiry: 1 day(s)
+ --> Client: client
+ ---> Config file: C:\Backup\Backup.LST
+Fixing database
+Database open in read/write mode
 Database closed
 Scan DB
  -> Reading configuration file 'etc/hbackup.conf'
