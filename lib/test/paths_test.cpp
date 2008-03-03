@@ -547,7 +547,8 @@ int main(void) {
   showList(journal);
 
   // Next test
-  cout << endl << "As previous with cvs/filenew.c touched and testpipe restored" << endl;
+  cout << endl
+    << "As previous with cvs/filenew.c touched and testpipe restored" << endl;
   my_time++;
   db.open();
 

@@ -48,7 +48,7 @@ EOF
 mkdir "$TESTDIR"
 mkdir "$TESTDIR/testdir"
 echo "Hello world!" > "$TESTDIR/testfile"
-touch -d 20061022 "$TESTDIR/testfile"
+touch -d "20061022 GMT" "$TESTDIR/testfile"
 chgrp cdrom "$TESTDIR/testfile"
 chmod 750 "$TESTDIR/testfile"
 touch "$TESTDIR/testfile~"
