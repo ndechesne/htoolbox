@@ -128,6 +128,7 @@ int ClientPath::parse_recurse(
             }
           }
         }
+        free(checksum);
         free(rem_path);
       }
 end:

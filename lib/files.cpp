@@ -439,6 +439,11 @@ bool Stream::isWriteable() const {
 }
 
 int Stream::open(const char* req_mode, int compression) {
+  if (isOpen()) {
+    errno = EBUSY;
+    return -1;
+  }
+
   _d->mode = O_NOATIME | O_LARGEFILE;
 
   switch (req_mode[0]) {

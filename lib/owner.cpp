@@ -253,12 +253,6 @@ int Owner::open(
           failed = true;
         }
       }
-
-      // Create journal (do not cache)
-      if (! failed && (_d->journal->open("w", -1))) {
-        out(error) << "Cannot open " << _d->name << "'s journal" << endl;
-        failed = true;
-      }
     }
     if (! failed) {
       // Open list
