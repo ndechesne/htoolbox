@@ -1,0 +1,56 @@
+0.8 - not released yet
+  * list/restore: properly handle given date, accept negative date for relative time
+  * restore: restore uid/gid, mtime and permissions for files, dirs and pipes
+  * new subset concept for multi-backup clients (typically multi-boot)
+  * new fix option to do nothing else than fix the DB (and update it if necessary)
+  * new DB lists, per client, to dramatically improve speed when listing
+  * report progress where relevant (big file copy, list merging)
+  * DB creation must be required explicitely via initialize option
+
+0.7 - 2008-02-19 (SVN r326)
+  * db check can be run in the background and checks for corrupted data
+  * db scan collects missing/corrupted/obsolete items and updates DB and list of missing items accordingly
+  * parsing adds reported missing/corrupted items
+  * verbosity is now managed centrally
+
+0.6.1 - 2008-02-08 (SVN r278)
+  * re-order configuration items in original file order
+
+0.6 - 2008-02-05 (SVN r266)
+  * NFS mounts now time out, causing client backup to properly abort
+  * CVS parser completed
+  * Subversion parser completed
+  * improved documentation
+  * unified configuration files parsing
+  * improved test framework, now supports 'make -j'
+
+0.5 - 2007-11-24 (SVN r192)
+  * new DB list format v3 (client name instead of prefix)
+  * restoration list works for clients/paths
+  * many new tests
+  * install will create a 'hubackup' link which works like 'hbackup -u'
+  * some doxygen documentation
+
+0.4 - 2007-11-09 (SVN r147)
+  * improved command line parsing (thanks TCLAP)
+  * expiration of backup database records
+  * fix bug where canceling a backup would mark remaining records removed
+  * fix bug where a global or client-wide filter cannot be used directly as ignore or compress filter
+  * fix memory leaks (thanks Valgrind)
+
+0.3 - 2007-10-27 (SVN r121)
+  * user mode backup
+  * low memory usage
+  * on-the-fly merge of lists
+  * new flexible filtering system with global, client-specific and path-specific filters, sub-filters
+  * new HTML documentation
+  * compression support
+
+0.2 - 2007-09-27 (SVN r52)
+  * buffered write when no compression
+  * restoration of last revision of directories
+
+0.1 - 2007-09-05 (SVN r19)
+  * backup
+  * basic CVS parsing
+  * file filtering
