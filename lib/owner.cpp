@@ -351,11 +351,13 @@ int Owner::search(
   char* db_path = NULL;
   // If we don't enter the loop (no records), we want to add
   int   cmp     = 1;
+  bool  failed  = false;
   while (_d->original->search(NULL, _d->partial, _d->expiration) == 2) {
     if (_d->original->getEntry(NULL, &db_path, NULL, -2) <= 0) {
       // Error
       out(error) << "Failed to get entry" << endl;
-      return -1;
+      failed = true;
+      break;
     }
     if (path != NULL) {
       cmp = Path::compare(db_path, path);
@@ -375,7 +377,8 @@ int Owner::search(
     }
     // Make sure we are not terminating
     if (terminating()) {
-      return -1;
+      failed = true;
+      break;
     }
     // Not reached, mark 'removed' (getLineType keeps line automatically)
     _d->partial->addPath(db_path);
@@ -388,6 +391,9 @@ int Owner::search(
     }
   }
   free(db_path);
+  if (failed) {
+    return -1;
+  }
   if (path != NULL) {
     _d->partial->addPath(path);
     if ((cmp > 0) || (*node == NULL)) {
