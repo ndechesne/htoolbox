@@ -373,6 +373,10 @@ int Owner::search(
       // Want to get all paths
       cmp = -1;
     }
+    // Make sure we are not terminating
+    if (terminating()) {
+      return -1;
+    }
     // Not reached, mark 'removed' (getLineType keeps line automatically)
     _d->partial->addPath(db_path);
     if (_d->original->getLineType() != '-') {
