@@ -783,7 +783,6 @@ U test_r/test1/testlink
 U test_r/test1/testpipe
 Database client myhost closed
 Database closed
-test1/testfile metadata: gid = 24, mtime = 1161468000, perms = 0750
 
 Test: restore subdir
  -> Reading configuration file 'etc/hbackup.conf'
