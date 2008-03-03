@@ -93,7 +93,7 @@ Database closed
 [ 2] /client_path/subdir/testfile   f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 3] /client_path/subdir/testfile2  f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 4] /client_path/test space        f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] /client_path/testfile          f     13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 5] /client_path/testfile          f     13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 6] other_path/testdir             d      0 755
 [ 7] other_path/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 
@@ -104,7 +104,7 @@ Database closed
 [ 2] /client_path/subdir/testfile   f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 3] /client_path/subdir/testfile2  f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 4] /client_path/test space        f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 5] /client_path/testfile          f     13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 5] /client_path/testfile          f     13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 6] other_path/testdir             d      0 755
 [ 7] other_path/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 

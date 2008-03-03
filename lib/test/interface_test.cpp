@@ -191,6 +191,10 @@ int main(void) {
   }
   hbackup->restore("test_r", "myhost", "test1", 0);
   hbackup->close();
+  // Show test1/testfile's metadata
+  File meta("test_r/test1/testfile");
+  printf("test1/testfile metadata: gid = %u, mtime = %lu, perms = 0%o\n",
+    meta.gid(), meta.mtime(), meta.mode());
   system("rm -rf test_r");
   delete hbackup;
 

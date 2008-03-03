@@ -245,13 +245,13 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/àccénts_test
@@ -367,13 +367,13 @@ myClient's journal:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 Database open in read/write mode
 Reading myClient's list
 Found 16 checksums
@@ -573,13 +573,13 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/àccénts_test
@@ -695,13 +695,13 @@ myClient's journal:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 As previous with new big_file, interrupted
 Database open in read/write mode
@@ -831,13 +831,13 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's real journal:
 	/home/User/cvs/big_file
@@ -991,13 +991,13 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/cvs/big_file
@@ -1149,13 +1149,13 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/subdir/testfile
@@ -1309,13 +1309,13 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/subdir
@@ -1471,14 +1471,14 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/testlink
@@ -1630,7 +1630,7 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -1638,7 +1638,7 @@ myClient's list:
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/testlink
@@ -1816,7 +1816,7 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -1824,7 +1824,7 @@ myClient's list:
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/cvs/CVS/Whatever
@@ -2009,7 +2009,7 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -2017,7 +2017,7 @@ myClient's list:
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/cvs/CVS/Whatever
@@ -2234,7 +2234,7 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -2242,7 +2242,7 @@ myClient's list:
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/svn/.svn/format
@@ -2457,7 +2457,7 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -2465,7 +2465,7 @@ myClient's list:
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/cvs/dirutd
@@ -2664,7 +2664,7 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -2672,7 +2672,7 @@ myClient's list:
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/svn/dirutd
@@ -2866,7 +2866,7 @@ myClient's list:
 	/home/User/testdir
 [ 1] d     0 755
 	/home/User/testfile
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -2875,7 +2875,7 @@ myClient's list:
 [ 1] l     8 777 testfile
 	/home/User/testpipe
 [14] -
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/testpipe
@@ -3064,7 +3064,7 @@ myClient's list:
 [ 1] d     0 755
 	/home/User/testfile
 [15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -3073,7 +3073,7 @@ myClient's list:
 [ 1] l     8 777 testfile
 	/home/User/testpipe
 [14] -
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/testfile
@@ -3265,7 +3265,7 @@ myClient's list:
 [ 1] d     0 755
 	/home/User/testfile
 [15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -3273,15 +3273,15 @@ myClient's list:
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[16] p     0 644
+[16] p     0 600
 [14] -
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/cvs/filenew.c
 [16] f     5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 	/home/User/testpipe
-[16] p     0 644
+[16] p     0 600
 
 Some troublesome past cases
 Database open in read/write mode
@@ -3534,7 +3534,7 @@ myClient's list:
 [17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
 [15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -3542,9 +3542,9 @@ myClient's list:
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[16] p     0 644
+[16] p     0 600
 [14] -
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/docbook-xml
@@ -3818,7 +3818,7 @@ myClient's list:
 [17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
 [15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -3826,9 +3826,9 @@ myClient's list:
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[16] p     0 644
+[16] p     0 600
 [14] -
-[ 1] p     0 644
+[ 1] p     0 600
 
 myClient's journal:
 	/home/User/docbook-xml
@@ -4136,7 +4136,7 @@ myClient's list:
 [17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
 [15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -4144,9 +4144,9 @@ myClient's list:
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[16] p     0 644
+[16] p     0 600
 [14] -
-[ 1] p     0 644
+[ 1] p     0 600
 
 hisClient's journal:
 	/home/User/testdir
@@ -4396,7 +4396,7 @@ myClient's list:
 [17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
 [15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -4404,9 +4404,9 @@ myClient's list:
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[16] p     0 644
+[16] p     0 600
 [14] -
-[ 1] p     0 644
+[ 1] p     0 600
 
 hisClient's journal:
 	/home/User/testdir
@@ -4692,7 +4692,7 @@ myClient's list:
 [17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
 [15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -4700,9 +4700,9 @@ myClient's list:
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[16] p     0 644
+[16] p     0 600
 [14] -
-[ 1] p     0 644
+[ 1] p     0 600
 
 hisClient's journal:
 	/home/User/testdir
@@ -4958,7 +4958,7 @@ myClient's list:
 [17] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testfile
 [15] f    13 660 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] f    13 644 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] f    13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 	/home/User/testfile~
 [ 1] f     0 644 d41d8cd98f00b204e9800998ecf8427e-0
 	/home/User/testlink
@@ -4966,9 +4966,9 @@ myClient's list:
 [ 7] l     8 777 testnull
 [ 1] l     8 777 testfile
 	/home/User/testpipe
-[16] p     0 644
+[16] p     0 600
 [14] -
-[ 1] p     0 644
+[ 1] p     0 600
 
 hisClient's journal:
 	/home/User/testdir
@@ -5223,7 +5223,7 @@ myClient's list:
 [ 8] -
 [ 7] l     8 777 testnull
 	/home/User/testpipe
-[16] p     0 644
+[16] p     0 600
 [14] -
 
 hisClient's journal:
@@ -5457,7 +5457,7 @@ myClient's list:
 	/home/User/testlink
 [ 8] -
 	/home/User/testpipe
-[16] p     0 644
+[16] p     0 600
 
 hisClient's journal:
 	/home/User/testdir
@@ -5690,7 +5690,7 @@ myClient's list:
 	/home/User/testlink
 [ 8] -
 	/home/User/testpipe
-[16] p     0 644
+[16] p     0 600
 
 hisClient's journal:
 	/home/User/testdir

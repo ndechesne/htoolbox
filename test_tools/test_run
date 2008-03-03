@@ -4,7 +4,7 @@ target="$1"
 test_dir="${target}_test_dir"
 
 # Create test directory, enter it
-rm -rf "$test_dir" && mkdir "$test_dir" && tar --strip-components 1 -x -z -f test_dir.tar.gz -C "$test_dir" && cd "$test_dir" || exit 1
+rm -rf "$test_dir" && mkdir "$test_dir" && tar --strip-components 1 --same-owner -x -z -f test_dir.tar.gz -C "$test_dir" && cd "$test_dir" || exit 1
 
 # Get environment variables
 . ./test_env || exit 1

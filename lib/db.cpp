@@ -27,6 +27,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <utime.h>
 #include <signal.h>
 #include <time.h>
 #include <dirent.h>
@@ -426,62 +427,88 @@ int Database::restore(
   Node* fnode   = NULL;
   int   rc;
   while ((rc = _d->client->getNextRecord(path, date, &fpath, &fnode)) > 0) {
-    if (fnode != NULL) {
-      Path base(dest, fpath);
-      char* dir = Path::dirname(base.c_str());
-      if (! Directory(dir).isValid()) {
-        string command = "mkdir -p ";
-        command += dir;
-        if (system(command.c_str())) {
-          out(error) << strerror(errno) << ": " << dir << endl;
-        }
+    if (fnode == NULL) {
+      continue;
+    }
+    bool this_failed = false;
+    Path base(dest, fpath);
+    char* dir = Path::dirname(base.c_str());
+    if (! Directory(dir).isValid()) {
+      string command = "mkdir -p ";
+      command += dir;
+      if (system(command.c_str())) {
+        out(error) << strerror(errno) << ": " << dir << endl;
       }
-      free(dir);
-      out(info) << "U " << base.c_str() << endl;
-      bool set_permissions = false;
-      switch (fnode->type()) {
-        case 'f': {
-            File* f = (File*) fnode;
-            if (f->checksum()[0] == '\0') {
-              out(error) << "Failed to restore file: data missing" << endl;
-            } else
-            if (_d->data.read(base.c_str(), f->checksum())) {
-              out(error) << "Failed to restore file: " << strerror(errno)
-                << endl;
-              failed = true;
-            } else
-            {
-              set_permissions = true;
-            }
-          } break;
-        case 'd':
-          if (mkdir(base.c_str(), fnode->mode())) {
-            out(error) << strerror(errno) << ": restoring dir" << endl;
-            failed = true;
+    }
+    free(dir);
+    out(info) << "U " << base.c_str() << endl;
+    switch (fnode->type()) {
+      case 'f': {
+          File* f = (File*) fnode;
+          if (f->checksum()[0] == '\0') {
+            out(error) << "Failed to restore file: data missing" << endl;
+            this_failed = true;
           } else
-          {
-            set_permissions = true;
+          if (_d->data.read(base.c_str(), f->checksum())) {
+            out(error) << "Failed to restore file: " << strerror(errno)
+              << endl;
+            this_failed = true;
           }
-          break;
-        case 'l': {
-            Link* l = (Link*) fnode;
-            if (symlink(l->link(), base.c_str())) {
-              out(error) << strerror(errno) << ": restoring file" << endl;
-              failed = true;
-            }
-          } break;
-        case 'p':
-          if (mkfifo(base.c_str(), fnode->mode())) {
-            out(error) << strerror(errno) << ": restoring pipe (FIFO)" << endl;
-            failed = true;
+        } break;
+      case 'd':
+        if (mkdir(base.c_str(), fnode->mode())) {
+          out(error) << strerror(errno) << ": restoring dir" << endl;
+          this_failed = true;
+        }
+        break;
+      case 'l': {
+          Link* l = (Link*) fnode;
+          if (symlink(l->link(), base.c_str())) {
+            out(error) << strerror(errno) << ": restoring file" << endl;
+            this_failed = true;
           }
-          break;
-        default:
-          out(error) << "Type '" << fnode->type() << "' not supported" << endl;
+        } break;
+      case 'p':
+        if (mkfifo(base.c_str(), fnode->mode())) {
+          out(error) << strerror(errno) << ": restoring pipe (FIFO)" << endl;
+          this_failed = true;
+        }
+        break;
+      default:
+        out(error) << "Type '" << fnode->type() << "' not supported" << endl;
+        this_failed = true;
+    }
+    // Report error and go on
+    if (this_failed) {
+      failed = true;
+      continue;
+    }
+    // Nothing more to do for links
+    if (fnode->type() == 'l') {
+      continue;
+    }
+    // Restore modification time
+    {
+      struct utimbuf times = { -1, fnode->mtime() };
+      if (utime(base.c_str(), &times)) {
+        out(error) << strerror(errno) << ": restoring modification time"
+          << endl;
+        this_failed = true;
       }
-      if (set_permissions && chmod(base.c_str(), fnode->mode())) {
-        out(error) << strerror(errno) << ": restoring permissions" << endl;
-      }
+    }
+    // Restore permissions
+    if (chmod(base.c_str(), fnode->mode())) {
+      out(error) << strerror(errno) << ": restoring permissions" << endl;
+      this_failed = true;
+    }
+    // Restore owner and group
+    if (chown(base.c_str(), fnode->uid(), fnode->gid())) {
+      out(error) << strerror(errno) << ": restoring owner/group" << endl;
+      this_failed = true;
+    }
+    // Report error and go on
+    if (this_failed) {
+      failed = true;
     }
   }
   return (failed || (rc < 0)) ? -1 : 0;

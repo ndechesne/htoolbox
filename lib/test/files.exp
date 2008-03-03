@@ -338,7 +338,7 @@ blah
 
 
 File types
-Name: testfile, path = test1/testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 644
+Name: testfile, path = test1/testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 750
 Name: testlink, path = test1/testlink, type = l, mtime = 1, size = 8, uid = 1, gid = 1, mode = 777, link = testfile
  > Dir.: testdir, path = test1/testdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  > Dir.: subdir, path = test1/subdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
@@ -403,10 +403,10 @@ Parsing test
  --> File: testfile2, path = test1/subdir/testfile2, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
  -> File: test space, path = test1/test space, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
  -> Dir.: testdir, path = test1/testdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
- -> File: testfile, path = test1/testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 644
+ -> File: testfile, path = test1/testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 750
  -> File: testfile~, path = test1/testfile~, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
  -> Link: testlink, path = test1/testlink, type = l, mtime = 1, size = 8, uid = 1, gid = 1, mode = 777, link = testfile
- -> Oth.: testpipe, path = test1/testpipe, type = p, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
+ -> Oth.: testpipe, path = test1/testpipe, type = p, mtime = 1, size = 0, uid = 1, gid = 1, mode = 600
  -> Dir.: toucheddir, path = test1/toucheddir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  -> File: touchedfile, path = test1/touchedfile, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
 
