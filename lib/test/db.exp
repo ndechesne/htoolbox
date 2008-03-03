@@ -216,6 +216,33 @@ List of paths: 4
  -> /client_path/subdir
  -> /client_path/test space
  -> /client_path/testfile
+Date: 0
+Database open in read-only mode
+Database client myClient open in read-only mode
+Database client myClient closed
+Database closed
+List of paths: 4
+ -> /client_path/new_link
+ -> /client_path/subdir
+ -> /client_path/test space
+ -> /client_path/testfile
+Date: -8 from 22 (+1)
+Database open in read-only mode
+Database client myClient open in read-only mode
+Database client myClient closed
+Database closed
+List of paths: 3
+ -> /client_path/new_link
+ -> /client_path/subdir
+ -> /client_path/test space
+Date: 14
+Database open in read-only mode
+Database client myClient open in read-only mode
+Database client myClient closed
+Database closed
+List of paths: 2
+ -> /client_path/new_link
+ -> /client_path/subdir
 
 Test: convert list(s) format
 Changed DB data dir name
@@ -259,3 +286,22 @@ Listing client: myhost
 [1195557261] test1/cvs/dirutd/fileutd       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [1195557261] test1/cvs/filenew.c            f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [1195557261] test1/cvs/fileutd.h            f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+Database open in read-only mode
+Database closed
+List of clients: 6
+ -> client
+ -> hisClient
+ -> leClient
+ -> leClient.2
+ -> myClient
+ -> myhost
+Database open in read-only mode
+Database client leClient.2 open in read-only mode
+Database client leClient.2 closed
+Database closed
+List of paths: 5
+ -> C:/test2/testdir
+ -> C:/test2/testfile
+ -> C:/test2/testfile2
+ -> C:/test2/testfile~
+ -> C:/test2/testlink

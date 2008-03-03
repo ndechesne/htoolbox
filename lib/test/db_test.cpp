@@ -71,8 +71,8 @@ static void showLine(
   cout << endl;
 }
 
+static time_t my_time = 0;
 time_t time(time_t *t) {
-  static time_t my_time = 0;
   return ++my_time;
 }
 
@@ -490,6 +490,59 @@ int main(void) {
   }
   records.clear();
 
+  cout << "Date: " << 0 << endl;
+  if (db.open(true) < 0) {
+    return 0;
+  }
+  if (db.openClient("myClient") != 0) {
+    return 0;
+  }
+  db.getRecords(records, "/client_path", 0);
+  db.closeClient();
+  db.close();
+  cout << "List of paths: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end();
+      i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+
+  cout << "Date: " << -8 << " from " << my_time << " (+1)" << endl;
+  if (db.open(true) < 0) {
+    return 0;
+  }
+  if (db.openClient("myClient") != 0) {
+    return 0;
+  }
+  db.getRecords(records, "/client_path", -8);
+  db.closeClient();
+  db.close();
+  cout << "List of paths: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end();
+      i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+
+  cout << "Date: " << 14 << endl;
+  if (db.open(true) < 0) {
+    return 0;
+  }
+  if (db.openClient("myClient") != 0) {
+    return 0;
+  }
+  db.getRecords(records, "/client_path", 14);
+  db.closeClient();
+  db.close();
+  cout << "List of paths: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end();
+      i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+
+
+
   cout << endl << "Test: convert list(s) format" << endl;
   if (system("cp -a ../../../test_tools/list_v3 test_db/list")) {
     cout << "failed to copy list over" << endl;
@@ -529,6 +582,34 @@ int main(void) {
     }
   } else {
     cerr << "Failed to open DB" << endl;
+  }
+  records.clear();
+
+  if (db.open(true) < 0) {
+    return 0;
+  }
+  db.getClients(records);
+  db.close();
+  cout << "List of clients: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end();
+      i++) {
+    cout << " -> " << *i << endl;
+  }
+  records.clear();
+
+  if (db.open(true) < 0) {
+    return 0;
+  }
+  if (db.openClient("leClient.2") != 0) {
+    return 0;
+  }
+  db.getRecords(records, "C:/test2");
+  db.closeClient();
+  db.close();
+  cout << "List of paths: " << records.size() << endl;
+  for (list<string>::iterator i = records.begin(); i != records.end();
+      i++) {
+    cout << " -> " << *i << endl;
   }
   records.clear();
 

@@ -413,7 +413,6 @@ int Owner::getNextRecord(
     time_t          date,
     char**          fpath,
     Node**          fnode) const {
-  if (date < 0) date = 0;
   int  len = strlen(path);
   bool path_is_dir = false;
   if ((len > 0) && (path[len - 1] == '/')) {

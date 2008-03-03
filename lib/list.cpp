@@ -238,77 +238,79 @@ int List::decodeDataLine(
     return -1;
   }
 
-  // Type
-  if (params[2].size() != 1) {
-    out(error) << "Cannot decode type" << endl;
-    return -1;
-  }
-  type = params[2][0];
+  if (node != NULL) {
+    // Type
+    if (params[2].size() != 1) {
+      out(error) << "Cannot decode type" << endl;
+      return -1;
+    }
+    type = params[2][0];
 
-  switch (type) {
-    case '-':
-      if (params.size() != 3) {
-        out(error) << "Wrong number of arguments for remove line" << endl;
-        return -1;
-      } else {
-        *node = NULL;
-        return 0;
-      }
-    case 'f':
-    case 'l':
-      if (params.size() != 9) {
-        out(error) << "Wrong number of arguments for file/link line" << endl;
-        return -1;
-      }
-      break;
-    default:
-      if (params.size() != 8) {
-        out(error) << "Wrong number of arguments for line" << endl;
-        return -1;
-      }
-  }
+    switch (type) {
+      case '-':
+        if (params.size() != 3) {
+          out(error) << "Wrong number of arguments for remove line" << endl;
+          return -1;
+        } else {
+          *node = NULL;
+          return 0;
+        }
+      case 'f':
+      case 'l':
+        if (params.size() != 9) {
+          out(error) << "Wrong number of arguments for file/link line" << endl;
+          return -1;
+        }
+        break;
+      default:
+        if (params.size() != 8) {
+          out(error) << "Wrong number of arguments for line" << endl;
+          return -1;
+        }
+    }
 
-  // Size
-  if (sscanf(params[3].c_str(), "%lld", &size) != 1) {
-    out(error) << "Cannot decode size" << endl;
-    return -1;
-  }
+    // Size
+    if (sscanf(params[3].c_str(), "%lld", &size) != 1) {
+      out(error) << "Cannot decode size" << endl;
+      return -1;
+    }
 
-  // Modification time
-  if (sscanf(params[4].c_str(), "%ld", &mtime) != 1) {
-    out(error) << "Cannot decode mtime" << endl;
-    return -1;
-  }
+    // Modification time
+    if (sscanf(params[4].c_str(), "%ld", &mtime) != 1) {
+      out(error) << "Cannot decode mtime" << endl;
+      return -1;
+    }
 
-  // User
-  if (sscanf(params[5].c_str(), "%u", &uid) != 1) {
-    out(error) << "Cannot decode uid" << endl;
-    return -1;
-  }
+    // User
+    if (sscanf(params[5].c_str(), "%u", &uid) != 1) {
+      out(error) << "Cannot decode uid" << endl;
+      return -1;
+    }
 
-  // Group
-  if (sscanf(params[6].c_str(), "%u", &gid) != 1) {
-    out(error) << "Cannot decode gid" << endl;
-    return -1;
-  }
+    // Group
+    if (sscanf(params[6].c_str(), "%u", &gid) != 1) {
+      out(error) << "Cannot decode gid" << endl;
+      return -1;
+    }
 
-  // Permissions
-  if (sscanf(params[7].c_str(), "%o", &mode) != 1) {
-    out(error) << "Cannot decode mode" << endl;
-    return -1;
-  }
+    // Permissions
+    if (sscanf(params[7].c_str(), "%o", &mode) != 1) {
+      out(error) << "Cannot decode mode" << endl;
+      return -1;
+    }
 
-  switch (type) {
-    case 'f':
-      *node = new File(path, type, mtime, size, uid, gid, mode,
-        params[8].c_str());
-      break;
-    case 'l':
-      *node = new Link(path, type, mtime, size, uid, gid, mode,
-        params[8].c_str());
-      break;
-    default:
-      *node = new Node(path, type, mtime, size, uid, gid, mode);
+    switch (type) {
+      case 'f':
+        *node = new File(path, type, mtime, size, uid, gid, mode,
+          params[8].c_str());
+        break;
+      case 'l':
+        *node = new Link(path, type, mtime, size, uid, gid, mode,
+          params[8].c_str());
+        break;
+      default:
+        *node = new Node(path, type, mtime, size, uid, gid, mode);
+    }
   }
   return 0;
 }
@@ -404,7 +406,7 @@ int List::getEntry(
     // Data
     if (got_path) {
       time_t ts;
-      if (node != NULL) {
+      if ((node != NULL) || (timestamp != NULL) || (date > 0)) {
         // Will set errno if an error is found
         decodeDataLine(_d->line, path == NULL ? "" : *path, node, &ts);
         if (timestamp != NULL) {

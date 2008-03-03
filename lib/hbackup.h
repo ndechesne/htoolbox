@@ -142,7 +142,7 @@ namespace hbackup {
       \param records      list of elements to display
       \param client       client (if none given, list all clients)
       \param path         path (if none given, list all client's paths)
-      \param date         date (if none given, show latest)
+      \param date         date (if zero/negative, use relative time from now)
       \return 0 on success, -1 on failure
     */
     int getList(
@@ -156,7 +156,7 @@ namespace hbackup {
       \param destination  path where to restore the data
       \param client       client
       \param path         path (if none given, restore all client's paths)
-      \param date         date (if none given, get latest)
+      \param date         date (if zero/negative, use relative time from now)
       \return 0 on success, -1 on failure
     */
     int restore(

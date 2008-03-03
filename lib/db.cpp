@@ -393,6 +393,9 @@ int Database::getRecords(
     ls_path.noTrailingSlashes();
     blocks = ls_path.countBlocks('/');
   }
+  if (date < 0) {
+    date = time(NULL) + date;
+  }
   char* db_path = NULL;
   int   rc;
   while ((rc = _d->client->getNextRecord(path, date, &db_path)) > 0) {
@@ -422,6 +425,9 @@ int Database::restore(
     const char*     dest,
     const char*     path,
     time_t          date) {
+  if (date < 0) {
+    date = time(NULL) - date;
+  }
   bool  failed  = false;
   char* fpath   = NULL;
   Node* fnode   = NULL;
