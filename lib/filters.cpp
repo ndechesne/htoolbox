@@ -23,6 +23,7 @@ using namespace std;
 #include "files.h"
 #include "conditions.h"
 #include "filters.h"
+#include "hbackup.h"
 
 using namespace hbackup;
 
@@ -38,6 +39,59 @@ int Filter::add(
     const string&   value,
     bool            negated) {
   /* Add specified filter */
+  bool    failed = false;
+  off64_t size;
+
+  if (type.substr(0, 4) == "size") {
+    char    unit[4] = { '\0', '\0', '\0', '\0' };
+    int     rc = sscanf(value.c_str(), "%lld%3s", &size, unit);
+    unit[3] = '\0';
+    if (rc < 1) {
+      failed = true;
+      out(error) << "Cannot decode decimal value" << endl;
+    } else {
+      int kilo;
+      if (rc > 1) {
+        // *iB or *i
+        if ((unit[1] == 'i') && ((unit[2] == 'B') || (unit[2] == '\0'))) {
+          kilo = 1024;
+        } else if ((unit[1] == 'B') || (unit[1] == '\0')) {
+          kilo = 1000;
+        } else {
+          out(error) << "Cannot decode unit, must be 'iB' or 'B'" << endl;
+          failed = true;
+        }
+      }
+      if (! failed) {
+        switch (unit[0]) {
+          case 'Y':
+            size *= kilo;
+          case 'Z':
+            size *= kilo;
+          case 'E':
+            size *= kilo;
+          case 'P':
+            size *= kilo;
+          case 'T':
+            size *= kilo;
+          case 'G':
+            size *= kilo;
+          case 'M':
+            size *= kilo;
+          case 'k':
+          // Accept capital K too, even though it's incorrect ;)
+          case 'K':
+            size *= kilo;
+          case '\0':
+            break;
+          default:
+            failed = true;
+            out(error) << "Cannot decode multiplier" << endl;
+        }
+      }
+    }
+  }
+
   if (type == "type") {
     add(new Condition(Condition::type, value[0], negated));
   } else
@@ -51,7 +105,14 @@ int Filter::add(
     add(new Condition(Condition::name_end, value, negated));
   } else
   if (type == "name_regex") {
-    add(new Condition(Condition::name_regex, value, negated));
+    Condition* cond = new Condition(Condition::name_regex, value, negated);
+    Node test("");
+    if (cond->match("", test) >= 0) {
+      add(cond);
+    } else {
+      out(error) << "Cannot create regex" << endl;
+      failed = true;
+    }
   } else
   if (type == "path") {
     add(new Condition(Condition::path, value, negated));
@@ -63,29 +124,58 @@ int Filter::add(
     add(new Condition(Condition::path_end, value, negated));
   } else
   if (type == "path_regex") {
-    add(new Condition(Condition::path_regex, value, negated));
+    Condition* cond = new Condition(Condition::name_regex, value, negated);
+    Node test("");
+    if (cond->match("", test) >= 0) {
+      add(cond);
+    } else {
+      out(error) << "Cannot create regex" << endl;
+      failed = true;
+    }
   } else
   if (type == "size<") {
-    off64_t size = strtoul(value.c_str(), NULL, 10);
-    add(new Condition(Condition::size_lt, size, negated));
+    if (! failed) {
+      add(new Condition(Condition::size_lt, size, negated));
+    }
   } else
   if (type == "size<=") {
-    off64_t size = strtoul(value.c_str(), NULL, 10);
-    add(new Condition(Condition::size_le, size, negated));
+    if (! failed) {
+      add(new Condition(Condition::size_le, size, negated));
+    }
   } else
   if (type == "size>=") {
-    off64_t size = strtoul(value.c_str(), NULL, 10);
-    add(new Condition(Condition::size_ge, size, negated));
+    if (! failed) {
+      add(new Condition(Condition::size_ge, size, negated));
+    }
   } else
   if (type == "size>") {
-    off64_t size = strtoul(value.c_str(), NULL, 10);
-    add(new Condition(Condition::size_gt, size, negated));
+    if (! failed) {
+      add(new Condition(Condition::size_gt, size, negated));
+    }
+  } else
+  if (type == "mode&") {
+    mode_t mode;
+    failed = (sscanf(value.c_str(), "%o", &mode) != 1);
+    if (failed) {
+      out(error) << "Cannot decode octal value" << endl;
+    } else {
+      add(new Condition(Condition::mode_and, mode, negated));
+    }
+  } else
+  if (type == "mode=") {
+    mode_t mode;
+    failed = (sscanf(value.c_str(), "%o", &mode) != 1);
+    if (failed) {
+      out(error) << "Cannot decode octal value" << endl;
+    } else {
+      add(new Condition(Condition::mode_eq, mode, negated));
+    }
   } else
   {
     // Wrong type
-    return 1;
+    return -2;
   }
-  return 0;
+  return failed ? -1 : 0;
 }
 
 bool Filter::match(const char* path, const Node& node) const {
@@ -108,6 +198,16 @@ bool Filter::match(const char* path, const Node& node) const {
     return false;
   } else {  // filter_and
     return true;
+  }
+}
+
+void Filter::show(int level) const {
+  out(verbose, level) << "Filter " << ((_type == any) ? "or" : "and") << " "
+    << _name <<  endl;
+  // Show all conditions
+  list<Condition*>::const_iterator condition;
+  for (condition = begin(); condition != end(); condition++) {
+    (*condition)->show(level + 1);
   }
 }
 
@@ -146,4 +246,12 @@ Filter* Filters::add(
   Filter* filter = new Filter(ftype, name.c_str());
   push_back(filter);
   return filter;
+}
+
+void Filters::show(int level) const {
+  // Show all filters
+  list<Filter*>::const_iterator filter;
+  for (filter = begin(); filter != end(); filter++) {
+    (*filter)->show(level);
+  }
 }

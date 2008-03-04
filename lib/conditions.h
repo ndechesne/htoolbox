@@ -68,25 +68,22 @@ public:
   Condition(
     Type            type,
     const Filter*   filter,
-    bool            negated) :
-      _type(type), _negated(negated), _filter(filter), _regex_ok(false) {}
+    bool            negated);
   // File type-based condition
   Condition(
     Type            type,
     char            file_type,
-    bool            negated) :
-      _type(type), _negated(negated), _file_type(file_type), _regex_ok(false){}
-  // Size-based condition
+    bool            negated);
+  // Mode-based condition
   Condition(
     Type            type,
     mode_t          value,
-    bool            negated) :
-      _type(type), _negated(negated), _value(value), _regex_ok(false) {}
+    bool            negated);
+  // Size-based condition
   Condition(
     Type            type,
     long long       value,
-    bool            negated) :
-      _type(type), _negated(negated), _value(value), _regex_ok(false) {}
+    bool            negated);
   // Name- or Path-based condition
   Condition(
     Type            type,
@@ -96,8 +93,8 @@ public:
   bool match(
     const char*     path,
     const Node&     node) const;
-  /* Debug only */
-  void show() const;
+  /* For verbosity */
+  void show(int level = 0) const;
 };
 
 }

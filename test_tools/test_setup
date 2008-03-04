@@ -168,11 +168,30 @@ condition path_start  f
 condition path_end    g
 condition path_regex  h
 condition size>=      1
-condition size>       2
-condition size<=      3
-condition size<       4
-#condition mode_and    0777
-#condition mode_eq     0644
+condition size>       2ki
+condition size<=      3MB
+condition size<       4GiB
+condition mode&       0777
+condition mode=       0644
+EOF
+cat << EOF > "$TESTDIRCIFS/Backup/Backup2.LST"
+subset 'xp'
+# Ends in \", but should not fail
+path "C:\Test\"
+
+filter or crazy
+condition name_regex  '$^what is an impossible regex?'
+condition path_regex  '$^what is an impossible regex?'
+condition size>=      a
+condition size>       b
+condition size<=      c
+condition size<       d
+condition mode&       e
+condition mode=       f
+condition size>=      1Kb
+condition size>       2MiC
+condition size<=      3GB.
+condition size<       4iB
 EOF
 
 # NFS test

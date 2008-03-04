@@ -81,7 +81,8 @@ class Parsers : public list<Parser*> {
 public:
   ~Parsers();
   Parser* isControlled(const string& dir_path) const;
-  void list() const;
+  /* For verbosity */
+  void show(int level = 0) const;
 };
 
 }

@@ -223,3 +223,15 @@ int ClientPath::parse(
   free(rem_path);
   return rc;
 }
+
+void ClientPath::show(int level) const {
+  out(verbose, level) << "Path: " << _path << endl;
+  if (_filters.size() > 0) {
+    out(verbose, level + 1) << "Filters:" << endl;
+    _filters.show(level + 2);
+  }
+  if (_parsers.size() > 0) {
+    out(verbose, level + 1) << "Parsers:" << endl;
+    _parsers.show(level + 2);
+  }
+}

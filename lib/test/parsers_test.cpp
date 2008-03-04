@@ -84,7 +84,8 @@ int main(void) {
     parser->list();
     delete parser;
   }
-  parsers->list();
+  cout << "List: " << parsers->size() << " parser(s)" << endl;
+  parsers->show(1);
   delete parsers;
 
   return 0;

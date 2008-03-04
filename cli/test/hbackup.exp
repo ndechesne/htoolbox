@@ -205,23 +205,33 @@ Database open in read/write mode
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
- --> Subset: xp
+Client: client
+ -> Subset:   xp
+ -> Protocol: smb
+ -> Hostname: myClient
+ -> Options:  username=Myself password=flesyM nocase
+ -> Config:   C:/Backup/Backup.LST
+ -> No expiry
+ -> Paths:
  --> Path: C:/Test
- --> Path-wide filter and silly
- ---> Condition filter backup
- ---> Condition type pipe
- ---> Condition name a
- ---> Condition name_start b
- ---> Condition name_end c
- ---> Condition name_regex d
- ---> Condition path e
- ---> Condition path_start f
- ---> Condition path_end g
- ---> Condition path_regex h
- ---> Condition size>= 1
- ---> Condition size> 2
- ---> Condition size<= 3
- ---> Condition size< 4
+ ---> Filters:
+ ----> Filter and silly
+ -----> Condition filter backup
+ -----> Condition type p
+ -----> Condition name a
+ -----> Condition name_start b
+ -----> Condition name_end c
+ -----> Condition name_regex d
+ -----> Condition path e
+ -----> Condition path_start f
+ -----> Condition path_end g
+ -----> Condition name_regex h
+ -----> Condition size>= 1
+ -----> Condition size> 2048
+ -----> Condition size<= 3000000
+ -----> Condition size< 4294967296
+ -----> Condition mode& 777
+ -----> Condition mode= 644
 Backing up client
 Reading list of missing checksums
 Created client.xp's list
@@ -241,6 +251,12 @@ Database client client.xp closed
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
  -> Reading client configuration file
+Client: myClient
+ -> Protocol: nfs
+ -> Hostname: myClient
+ -> Config:   /home/User/hbackup.list
+ -> No expiry
+ -> Paths:
  --> Path: /home/User/test
 Backing up client
 Created myClient's list
@@ -258,21 +274,31 @@ Database client myClient closed
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
- --> Client-wide filter and subdir
+Client: myhost
+ -> Protocol: file
+ -> Hostname: myhost.mynetwork.lan
+ -> Config:   etc/localhost.list
+ -> Expiry:   86400s (1d)
+ -> Filters:
+ --> Filter and subdir
  ---> Condition path_start subdir
  ---> Condition not size< 100
- --> Client-wide filter and bigfile
+ --> Filter and bigfile
  ---> Condition size>= 10
- ---> Condition type file
- --> Expiry 1 day(s)
- --> Path: test2
+ ---> Condition type f
+ -> Paths:
  --> Path: test1
- --> Path-wide filter and not_object
- ---> Condition not path_end .o
- --> Path-wide filter or to_be_ignored
- ---> Condition filter subdir
- ---> Condition filter backup
- ---> Condition not filter not_object
+ ---> Filters:
+ ----> Filter and not_object
+ -----> Condition not path_end .o
+ ----> Filter or to_be_ignored
+ -----> Condition filter subdir
+ -----> Condition filter backup
+ -----> Condition not filter not_object
+ ---> Parsers:
+ ----> CVS
+ ----> Subversion
+ --> Path: test2
 Backing up client
 Created myhost's list
 Database client myhost open in read/write mode
@@ -412,23 +438,33 @@ Database open in read/write mode
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
- --> Subset: xp
+Client: client
+ -> Subset:   xp
+ -> Protocol: smb
+ -> Hostname: myClient
+ -> Options:  username=Myself password=flesyM nocase
+ -> Config:   C:/Backup/Backup.LST
+ -> No expiry
+ -> Paths:
  --> Path: C:/Test
- --> Path-wide filter and silly
- ---> Condition filter backup
- ---> Condition type pipe
- ---> Condition name a
- ---> Condition name_start b
- ---> Condition name_end c
- ---> Condition name_regex d
- ---> Condition path e
- ---> Condition path_start f
- ---> Condition path_end g
- ---> Condition path_regex h
- ---> Condition size>= 1
- ---> Condition size> 2
- ---> Condition size<= 3
- ---> Condition size< 4
+ ---> Filters:
+ ----> Filter and silly
+ -----> Condition filter backup
+ -----> Condition type p
+ -----> Condition name a
+ -----> Condition name_start b
+ -----> Condition name_end c
+ -----> Condition name_regex d
+ -----> Condition path e
+ -----> Condition path_start f
+ -----> Condition path_end g
+ -----> Condition name_regex h
+ -----> Condition size>= 1
+ -----> Condition size> 2048
+ -----> Condition size<= 3000000
+ -----> Condition size< 4294967296
+ -----> Condition mode& 777
+ -----> Condition mode= 644
 Backing up client
 Reading list of missing checksums
 Database client client.xp open in read/write mode
@@ -438,21 +474,31 @@ Database client client.xp closed
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
- --> Client-wide filter and subdir
+Client: myhost
+ -> Protocol: file
+ -> Hostname: myhost.mynetwork.lan
+ -> Config:   etc/localhost.list
+ -> Expiry:   86400s (1d)
+ -> Filters:
+ --> Filter and subdir
  ---> Condition path_start subdir
  ---> Condition not size< 100
- --> Client-wide filter and bigfile
+ --> Filter and bigfile
  ---> Condition size>= 10
- ---> Condition type file
- --> Expiry 1 day(s)
- --> Path: test2
+ ---> Condition type f
+ -> Paths:
  --> Path: test1
- --> Path-wide filter and not_object
- ---> Condition not path_end .o
- --> Path-wide filter or to_be_ignored
- ---> Condition filter subdir
- ---> Condition filter backup
- ---> Condition not filter not_object
+ ---> Filters:
+ ----> Filter and not_object
+ -----> Condition not path_end .o
+ ----> Filter or to_be_ignored
+ -----> Condition filter subdir
+ -----> Condition filter backup
+ -----> Condition not filter not_object
+ ---> Parsers:
+ ----> CVS
+ ----> Subversion
+ --> Path: test2
 Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
@@ -495,6 +541,12 @@ Backing up in user mode
 Database initialized in test_user/.hbackup
 Database open in read/write mode
  -> Reading client configuration file
+Client: localhost
+ -> Protocol: file
+ -> Hostname: localhost
+ -> Config:   test_user/.hbackup/config
+ -> No expiry
+ -> Paths:
  --> Path: test_user/testuser
 Backing up client
 Reading list of missing checksums

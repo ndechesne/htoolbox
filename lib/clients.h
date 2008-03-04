@@ -29,7 +29,7 @@ public:
     _name(name), _value(value) {}
   string name()   { return _name;  }
   string value()  { return _value; }
-  string option() {
+  string option() const {
     if (_name.empty())
       return _value;
     else
@@ -92,7 +92,7 @@ public:
     Database&       db,
     const Filters&  global_filters,
     bool            config_check = false);
-  void show();
+  void show(int level = 0) const;
 };
 
 }

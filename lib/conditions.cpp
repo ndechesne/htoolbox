@@ -31,6 +31,30 @@ using namespace hbackup;
 
 Condition::Condition(
     Type            type,
+    const Filter*   filter,
+    bool            negated) :
+      _type(type), _negated(negated), _filter(filter), _regex_ok(false) {}
+
+Condition::Condition(
+    Type            type,
+    char            file_type,
+    bool            negated) :
+      _type(type), _negated(negated), _file_type(file_type), _regex_ok(false){}
+
+Condition::Condition(
+    Type            type,
+    mode_t          value,
+    bool            negated) :
+      _type(type), _negated(negated), _value(value), _regex_ok(false) {}
+
+Condition::Condition(
+    Type            type,
+    long long       value,
+    bool            negated) :
+      _type(type), _negated(negated), _value(value), _regex_ok(false) {}
+
+Condition::Condition(
+    Type            type,
     const string&   str,
     bool            negated) :
       _type(type), _negated(negated), _string(str) {
@@ -50,9 +74,10 @@ Condition::~Condition() {
 
 bool Condition::match(const char* npath, const Node& node) const {
   // TODO Use char arrays
-  string name = node.name();
-  string path = npath + name;
-  bool  result = false;
+  string name   = node.name();
+  string path   = npath + name;
+  bool   result = false;
+  bool   failed = false;
 
   switch(_type) {
     case Condition::filter: {
@@ -80,6 +105,7 @@ bool Condition::match(const char* npath, const Node& node) const {
           result = ! regexec(&_regex, name.c_str(), 0, NULL, 0);
         } else {
           out(error) << "Filters: regex: incorrect expression" << endl;
+          failed = true;
         }
       break;
     case Condition::path:
@@ -101,6 +127,7 @@ bool Condition::match(const char* npath, const Node& node) const {
           result = ! regexec(&_regex, path.c_str(), 0, NULL, 0);
         } else {
           out(error) << "Filters: regex: incorrect expression" << endl;
+          failed = true;
         }
       break;
     case Condition::size_ge:
@@ -124,15 +151,18 @@ bool Condition::match(const char* npath, const Node& node) const {
     default:
       out(error) << "Filters: match: unknown condition type" << endl;
   }
-  return _negated ? ! result : result;
+  return failed ? -1 : (_negated ? ! result : result);
 }
 
-void Condition::show() const {
+void Condition::show(int level) const {
   switch (_type) {
     case Condition::filter:
-      out(verbose, 2) << _filter->name() << " " << _type << endl;
+      out(verbose, level) << "Condition " << (_negated ? "not " : "")
+        << "filter " << _filter->name() << endl;
       break;
     case Condition::type:
+      out(verbose, level) << "Condition " << (_negated ? "not " : "")
+        << "type " << _file_type << endl;
       break;
     case Condition::name:
     case Condition::name_end:
@@ -141,20 +171,80 @@ void Condition::show() const {
     case Condition::path:
     case Condition::path_end:
     case Condition::path_start:
-    case Condition::path_regex:
-      out(verbose, 2) << _string << " " << _type << endl;
-      break;
+    case Condition::path_regex: {
+      string type;
+      switch (_type) {
+        case Condition::name:
+          type = "name";
+          break;
+        case Condition::name_end:
+          type = "name_end";
+          break;
+        case Condition::name_start:
+          type = "name_start";
+          break;
+        case Condition::name_regex:
+          type = "name_regex";
+          break;
+        case Condition::path:
+          type = "path";
+          break;
+        case Condition::path_end:
+          type = "path_end";
+          break;
+        case Condition::path_start:
+          type = "path_start";
+          break;
+        case Condition::path_regex:
+          type = "path_regex";
+          break;
+        default:
+          type = "unknown";
+      }
+      out(verbose, level) << "Condition " << (_negated ? "not " : "")
+        << type << " " << _string << endl;
+      } break;
     case Condition::size_ge:
     case Condition::size_gt:
     case Condition::size_le:
-    case Condition::size_lt:
-      out(verbose, 2) << _value << " " << _type << endl;
-      break;
+    case Condition::size_lt: {
+      string type;
+      switch (_type) {
+        case Condition::size_ge:
+          type = "size>=";
+          break;
+        case Condition::size_gt:
+          type = "size>";
+          break;
+        case Condition::size_le:
+          type = "size<=";
+          break;
+        case Condition::size_lt:
+          type = "size<";
+          break;
+        default:
+          type = "unknown";
+      }
+      out(verbose, level) << "Condition " << (_negated ? "not " : "")
+        << type << " " << _value << endl;
+      } break;
     case Condition::mode_and:
-    case Condition::mode_eq:
-      out(verbose, 2) << hex << _value << dec << " " << _type << endl;
-      break;
+    case Condition::mode_eq: {
+      string type;
+      switch (_type) {
+        case Condition::mode_and:
+          type = "mode&";
+          break;
+        case Condition::mode_eq:
+          type = "mode=";
+          break;
+        default:
+          type = "unknown";
+      }
+      out(verbose, level) << "Condition " << (_negated ? "not " : "")
+        << type << " " << oct << _value << dec << endl;
+      } break;
     default:
-      out(verbose, 2) << "Unknown condition type " << _type << endl;
+      out(verbose, level) << "Unknown condition type " << _type << endl;
   }
 }

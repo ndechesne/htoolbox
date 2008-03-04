@@ -6,6 +6,8 @@
   * new DB lists, per client, to dramatically improve speed when listing
   * report progress where relevant (big file copy, list merging)
   * DB creation must be required explicitely via initialize option
+  * accept units (kB, MiB, ...) for file size in filters
+  * add filter on permissions
 
 0.7 - 2008-02-19 (SVN r326)
   * db check can be run in the background and checks for corrupted data

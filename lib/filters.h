@@ -48,6 +48,8 @@ public:
   bool match(
     const char*     path,
     const Node&     node) const;
+  /* For verbosity */
+  void show(int level = 0) const;
 };
 
 class Filters : public list<Filter*> {
@@ -58,6 +60,8 @@ public:
   Filter* add(
     const string&   type,
     const string&   name);
+  /* For verbosity */
+  void show(int level = 0) const;
 };
 
 }

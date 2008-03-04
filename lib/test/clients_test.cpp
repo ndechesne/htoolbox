@@ -48,9 +48,11 @@ int main(void) {
   setVerbosityLevel(debug);
 
   // Create global filter
+  cout << "Global filter" << endl;
   Filter* filter = filters.add("and", "backup");
   filter->add("type", "file", false);
   filter->add("path_end", "~", false);
+  filter->show(1);
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -99,7 +101,7 @@ int main(void) {
   client->setHostOrIp("myClient");
   client->addOption("username", "Myself");
   client->addOption("password", "flesyM");
-  client->setListfile("C:\\Backup\\Backup.LST");
+  client->setListfile("C:\\Backup\\Backup2.LST");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show();

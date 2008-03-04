@@ -54,10 +54,8 @@ public:
   int parse(
     Database&       db,
     const char*     backup_path);
-  // Information
-  void showParsers() {
-    _parsers.list();
-  }
+  /* For verbosity */
+  void show(int level = 0) const;
 };
 
 }

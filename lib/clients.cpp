@@ -181,14 +181,12 @@ int Client::readConfig(
     while (config.line(&params) >= 0) {
       if ((*params)[0] == "subset") {
         _d->subset = (*params)[1];
-        out(verbose, 2) << "Subset: " << _d->subset << endl;
       } else
       if ((*params)[0] == "expire") {
         int expire;
         if ((sscanf((*params)[1].c_str(), "%d", &expire) != 0)
         &&  (expire >= 0)) {
           _expire = expire * 3600 * 24;
-          out(verbose, 2) << "Expiry " << expire << " day(s)" << endl;
         } else {
           out(error) << "Error: in client configuration file " << list_path
             << ", line " << (*params).lineNo() << " wrong expiration value: "
@@ -204,7 +202,6 @@ int Client::readConfig(
         } else {
           path = new ClientPath((*params)[1].c_str());
         }
-        out(verbose, 2) << "Path: " << path->path() << endl;
         list<ClientPath*>::iterator i = _d->paths.begin();
         while ((i != _d->paths.end())
             && (Path::compare((*i)->path(), path->path()) < 0)) {
@@ -239,13 +236,9 @@ int Client::readConfig(
         if (path == NULL) {
           // Client-wide filter
           filter = addFilter((*params)[1], (*params)[2]);
-          out(verbose, 2) << "Client-wide filter " << (*params)[1] << " "
-              << (*params)[2] << endl;
         } else {
           // Path-wide filter
           filter = path->addFilter((*params)[1], (*params)[2]);
-          out(verbose, 2) << "Path-wide filter " << (*params)[1] << " "
-            << (*params)[2] << endl;
         }
         if (filter == NULL) {
           out(error) << "Error: in client configuration file " << list_path
@@ -283,27 +276,21 @@ int Client::readConfig(
               << (*params)[2] << endl;
             failed = 2;
           } else {
-            out(verbose, 3) << "Condition " << (negated ? "not " : "")
-              << filter_type << " " << subfilter->name() << endl;
             filter->add(new Condition(Condition::filter, subfilter,
               negated));
           }
         } else {
           switch (filter->add(filter_type, (*params)[2], negated)) {
-            case 1:
+            case -2:
               out(error) << "Error: in client configuration file " << list_path
                 << ", line " << (*params).lineNo()
                 << " unsupported condition type: " << (*params)[1] << endl;
               failed = true;
               break;
-            case 2:
+            case -1:
               out(error) << "Error: in client configuration file " << list_path
-                << ", line " << (*params).lineNo() << " no filter defined" << endl;
+                << ", line " << (*params).lineNo() << endl;
               failed = true;
-              break;
-            default:
-              out(verbose, 3) << "Condition " << (negated ? "not " : "")
-                << filter_type << " " << (*params)[2] << endl;
           }
         }
       } else
@@ -351,6 +338,9 @@ int Client::readConfig(
     }
     // Close client configuration file
     config_file.close();
+  }
+  if (! failed) {
+    show();
   }
   return failed ? -1 : 0;
 }
@@ -469,23 +459,37 @@ int Client::backup(
   return failed ? -1 : 0;
 }
 
-void Client::show() {
-  out(verbose) << "Client: " << _name << endl;
-  out(verbose, 1) << "Configuration: " << _protocol << "://" << _host_or_ip
-    << " " << _list_file << endl;
+void Client::show(int level) const {
+  out(verbose, level) << "Client: " << _name << endl;
+  if (! _d->subset.empty()) {
+    out(verbose, level + 1) << "Subset:   " << _d->subset << endl;
+  }
+  out(verbose, level + 1) << "Protocol: " << _protocol << endl;
+  out(verbose, level + 1) << "Hostname: " << _host_or_ip << endl;
   if (_options.size() > 0) {
-    out(verbose, 1) << "Options:";
-    for (list<Option>::iterator i = _options.begin(); i != _options.end();
-     i++ ) {
-      out(verbose) << " " + i->option();
+    out(verbose, level + 1) << "Options: ";
+    for (list<Option>::const_iterator i = _options.begin();
+        i != _options.end(); i++ ) {
+      out(verbose, 0) << " " + i->option();
     }
-    out(verbose) << endl;
+    out(verbose, 0) << endl;
+  }
+  out(verbose, level + 1) << "Config:   " << _list_file << endl;
+  if (_expire >= 0) {
+    out(verbose, level + 1) << "Expiry:   " << _expire << "s ("
+      << _expire / 86400 << "d)" << endl;
+  } else {
+    out(verbose, level + 1) << "No expiry" << endl;
+  }
+  if (_filters.size() > 0) {
+    out(verbose, 1) << "Filters:" << endl;
+    _filters.show(2);
   }
   if (_d->paths.size() > 0) {
-    out(verbose, 1) << "Paths:" << endl;
+    out(verbose, level + 1) << "Paths:" << endl;
     for (list<ClientPath*>::iterator i = _d->paths.begin();
         i != _d->paths.end(); i++) {
-      out(verbose, 2) << (*i)->path() << endl;
+      (*i)->show(level + 2);
     }
   }
 }
