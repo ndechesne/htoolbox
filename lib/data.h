@@ -52,23 +52,26 @@ public:
     bool            create = false);
   // Close
   void close();
+  // Set the path to the temporary data (default is $(path)/temp)
+  // Note: this path MUST be on the same filesystem as $(path)
+  int setTemp(const char* path);
   // Read file with given checksum, extract it to path
   int read(
     const string&   path,
-    const string&   checksum);
+    const char*     checksum);
   // Add new item to database
   int write(
-    const string&   path,
+    const char*     path,
     char**          checksum,
     int             compress = 0);
   // Check existence/consistence of given checksum's data
   int check(
-    const string&   checksum,
+    const char*     checksum,
     bool            thorough     = true,
     bool            remove       = false) const;
   // Remove given checksum's data
   int remove(
-    const string&   checksum);
+    const char*     checksum);
   // Scan database for missing/corrupted data, return a list of valid checksums
   int crawl(
     list<string>*   checksums,        // List of collected checksums

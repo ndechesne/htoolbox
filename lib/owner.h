@@ -28,15 +28,17 @@ class Owner {
     bool            recovery);            // Data is being recovered
 public:
   Owner(
-    const char*     path,                 // Path to list files
+    const char*     path,                 // DB base path
     const char*     name,                 // Name of owner
     time_t          expiration = -1);     // Cut-off date for removed data (s)
   ~Owner();
   const char* name() const;
+  const char* path() const;
   time_t expiration() const;
   int open(
     bool            read_only  = false,   // Open for read only
-    bool            initialize = false);  // Initialize if does not exist
+    bool            initialize = false,   // Initialize if does not exist
+    bool            check      = false);  // Check only (no need to close)
   int close(
     bool            teardown);
   int search(

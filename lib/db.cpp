@@ -192,9 +192,9 @@ int Database::update(
 }
 
 Database::Database(const char* path) {
-  _d                  = new Private;
-  _d->path            = strdup(path);
-  _d->mode            = 0;
+  _d        = new Private;
+  _d->path  = strdup(path);
+  _d->mode  = 0;
 }
 
 Database::~Database() {
@@ -292,7 +292,7 @@ int Database::open(
     _d->mode = 1;
     out(verbose) << "Database open in read-only mode" << endl;
   } else {
-    // Set mode to quietly call openClient below
+    // Set mode to call openClient for checking only
     _d->mode = 3;
     // Finish off any previous backup
     list<string> clients;
@@ -300,15 +300,21 @@ int Database::open(
       unlock();
       return -1;
     }
+    bool failed = false;
     for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
       if (openClient(i->c_str()) >= 0) {
         closeClient(true);
+      } else {
+        failed = true;
       }
       if (terminating()) {
         break;
       }
     }
-    _d->mode       = 2;
+    if (failed) {
+      return -1;
+    }
+    _d->mode = 2;
     // Load list of missing items if/when required
     _d->missing_id = -2;
     out(verbose) << "Database open in read/write mode" << endl;
@@ -528,7 +534,6 @@ int Database::scan(
   if (getClients(clients) < 0) {
     return -1;
   }
-  _d->mode       = 3;
   _d->missing_id = -3;
   bool failed = false;
   for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -607,7 +612,8 @@ int Database::scan(
       if (i->size() != 0) {
         if (rm_obsolete) {
           out(verbose, 1) << *i << ": "
-            << ((_d->data.remove(*i) == 0) ? "removed" : "FAILED") << endl;
+            << ((_d->data.remove(i->c_str()) == 0) ? "removed" : "FAILED")
+            << endl;
         } else {
           out(verbose, 1) << *i << endl;
         }
@@ -640,9 +646,6 @@ int Database::check(
 int Database::openClient(
     const char*     client,
     time_t          expire) {
-  // Open client list
-  string name   = Path(_d->path, client).c_str();
-
   if (_d->mode == 0) {
     out(alert) << "Open DB before opening client!" << endl;
     return -1;
@@ -652,6 +655,7 @@ int Database::openClient(
   _d->client = new Owner(_d->path, client,
     (expire <= 0) ? expire : (time(NULL) - expire));
 
+  // Read/write open
   if (_d->mode > 1) {
     if (_d->missing_id == -2) {
       // Read list of missing checksums (it is ordered and contains no dup)
@@ -671,11 +675,13 @@ int Database::openClient(
       _d->missing_id = -1;
     }
   }
-  if (_d->client->open(_d->mode == 1, _d->mode != 1) < 0) {
+  // Open
+  if (_d->client->open(_d->mode == 1, _d->mode != 1, _d->mode == 3) < 0) {
     delete _d->client;
     _d->client = NULL;
     return -1;
   }
+  // Report and set temporary data path
   switch (_d->mode) {
     case 1:
       out(verbose)
@@ -684,6 +690,8 @@ int Database::openClient(
     case 2:
       out(verbose)
         << "Database client " << client << " open in read/write mode" << endl;
+      // Set temp path inside client's directory
+      _d->data.setTemp(Path(_d->client->path(), "data").c_str());
       break;
     default:;
   }
@@ -845,7 +853,7 @@ int Database::add(
       } else {
         // Copy data
         char* checksum  = NULL;
-        if (! _d->data.write(string(node->path()), &checksum, compress)) {
+        if (! _d->data.write(node->path(), &checksum, compress)) {
           ((File*)node2)->setChecksum(checksum);
           if ((_d->missing_id >= 0)
           && (_d->missing[_d->missing_id] == checksum)) {

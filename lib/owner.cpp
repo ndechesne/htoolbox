@@ -160,15 +160,24 @@ const char* Owner::name() const {
   return _d->name;
 }
 
+const char* Owner::path() const {
+  return _d->path;
+}
+
 time_t Owner::expiration() const {
   return _d->expiration;
 }
 
 int Owner::open(
     bool            read_only,
-    bool            initialize) {
+    bool            initialize,
+    bool            check) {
   if (read_only && initialize) {
     out(error) << "Cannot initialize in read-only mode" << endl;
+    return -1;
+  }
+  if (read_only && check) {
+    out(error) << "Cannot check in read-only mode" << endl;
     return -1;
   }
   Directory owner_dir(_d->path);
@@ -179,7 +188,12 @@ int Owner::open(
           << "'s directory cannot be created, aborting" << endl;
         return -1;
       }
-    } else {
+    } else
+    if (check) {
+      // No need to check if not initialized and not required to initialize
+      return 0;
+    } else
+    {
       out(error) << "Client " << _d->name
         << "'s directory does not exist, aborting" << endl;
       return -1;
@@ -254,7 +268,7 @@ int Owner::open(
         }
       }
     }
-    if (! failed) {
+    if (! failed && ! check) {
       // Open list
       if (_d->original->open("r")) {
         out(error) << "Cannot open " << _d->name << "'s list" << endl;
@@ -271,13 +285,22 @@ int Owner::open(
         failed = true;
       }
     }
-    if (failed) {
-      _d->original->close();
-      _d->journal->close();
-      _d->partial->close();
+    if (failed || check) {
+      if (_d->original->isOpen()) {
+        _d->original->close();
+      }
+      if (_d->journal->isOpen()) {
+        _d->journal->close();
+      }
+      if (_d->partial->isOpen()) {
+        _d->partial->close();
+      }
       delete _d->original;
       delete _d->journal;
       delete _d->partial;
+      _d->original = NULL;
+      _d->journal  = NULL;
+      _d->partial  = NULL;
     }
   }
   return failed ? -1 : 0;
@@ -286,6 +309,9 @@ int Owner::open(
 int Owner::close(
     bool            teardown) {
   bool failed = false;
+  if (_d->original == NULL) {
+    // Not open, maybe just checked
+  } else
   if (_d->journal == NULL) {
     // Open read-only
     // Close list
@@ -452,7 +478,7 @@ int Owner::getNextRecord(
 
 int Owner::getChecksums(
     list<string>&   checksums) {
-// Not const because of open, need a r-o open only that'd be const...
+// Not const because of open, need a read-only open that'd be const...
   if (open(true) < 0) {
     return -1;
   }

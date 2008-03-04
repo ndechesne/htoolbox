@@ -52,7 +52,8 @@ static void progress(long long previous, long long current, long long total) {
 }
 
 struct Data::Private {
-  char* path;
+  char*   path;
+  char*   temp;
 };
 
 int Data::getDir(
@@ -176,7 +177,7 @@ int Data::crawl_recurse(
           }
         } else {
           out(verbose, 0) << checksum << "\r";
-          if (! check(checksum, thorough, remove)) {
+          if (! check(checksum.c_str(), thorough, remove)) {
             if (checksums != NULL) {
               checksums->push_back(checksum);
             }
@@ -205,6 +206,7 @@ int Data::crawl_recurse(
 Data::Data() {
   _d       = new Private;
   _d->path = NULL;
+  _d->temp = NULL;
 }
 
 Data::~Data() {
@@ -214,7 +216,8 @@ Data::~Data() {
 
 int Data::open(const char* path, bool create) {
   _d->path = strdup(path);
-  if (_d->path == NULL) {
+  asprintf(&_d->temp, "%s/%s", _d->path, "temp");
+  if ((_d->path == NULL) || (_d->temp == NULL)) {
     goto failed;
   }
   {
@@ -237,11 +240,15 @@ failed:
 }
 
 void Data::close() {
+  free(_d->temp);
+  _d->temp = NULL;
   free(_d->path);
   _d->path = NULL;
 }
 
-int Data::read(const string& path, const string& checksum) {
+int Data::read(
+    const string&   path,
+    const char*     checksum) {
   bool failed = false;
 
   string source;
@@ -266,7 +273,7 @@ int Data::read(const string& path, const string& checksum) {
   }
 
   // Open temporary file to write to
-  string temp_path = path + ".part";
+  string temp_path = path + ".hbackup-part";
   Stream temp(temp_path.c_str());
   if (temp.open("w")) {
     out(error) << strerror(errno) << "opening read temp file: " << temp_path
@@ -288,7 +295,7 @@ int Data::read(const string& path, const string& checksum) {
 
   if (! failed) {
     // Verify that checksums match before overwriting final destination
-    if (strncmp(checksum.c_str(), temp.checksum(), strlen(temp.checksum()))) {
+    if (strncmp(checksum, temp.checksum(), strlen(temp.checksum()))) {
       out(error) << "read checksums don't match: " << checksum << " != "
         << temp.checksum() << ", for: " << data->path() << endl;
       failed = true;
@@ -309,13 +316,19 @@ int Data::read(const string& path, const string& checksum) {
   return failed ? -1 : 0;
 }
 
+int Data::setTemp(const char* path) {
+  free(_d->temp);
+  _d->temp = strdup(path);
+  return (_d->temp == NULL) ? -1 : 0;
+}
+
 int Data::write(
-    const string&   path,
+    const char*     path,
     char**          dchecksum,
     int             compress) {
   bool failed = false;
 
-  Stream source(path.c_str());
+  Stream source(path);
   if (source.open("r")) {
     out(error) << strerror(errno) << " opening write source file: " << path
       << endl;
@@ -323,7 +336,7 @@ int Data::write(
   }
 
   // Temporary file to write to
-  Stream temp(Path(_d->path, "temp"));
+  Stream temp(_d->temp);
   if (temp.open("w", compress)) {
     out(error) << strerror(errno) << " opening write temp file: "
       << temp.path() << endl;
@@ -433,7 +446,7 @@ int Data::write(
 }
 
 int Data::check(
-    const string&   checksum,
+    const char*     checksum,
     bool            thorough,
     bool            remove) const {
   string path;
@@ -468,7 +481,7 @@ int Data::check(
       out(error) << strerror(errno) << ": " << checksum << endl;
       failed = true;
     } else
-    if (strncmp(data->checksum(), checksum.c_str(), strlen(data->checksum()))){
+    if (strncmp(data->checksum(), checksum, strlen(data->checksum()))) {
       out(error) << "Data corrupted for: " << checksum
         << (remove ? ", remove" : "") << endl;
       failed = true;
@@ -500,7 +513,7 @@ int Data::check(
 }
 
 int Data::remove(
-    const string&   checksum) {
+    const char*     checksum) {
   int rc;
   string path;
   if (getDir(checksum, path)) {
