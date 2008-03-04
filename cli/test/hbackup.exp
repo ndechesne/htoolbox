@@ -1,3 +1,5 @@
+Version
+HBackup (c) 2006-2008 Hervé Fache version 0.8b
 Help
 HBackup (c) 2006-2008 Hervé Fache
   -v,  --verbose
@@ -54,8 +56,6 @@ HBackup (c) 2006-2008 Hervé Fache
   -h,  --help
     Displays usage information and exits.
 
-Version
-HBackup (c) 2006-2008 Hervé Fache version 0.8a
 Error
 Error: -! -- Couldn't find match for argument
 HBackup (c) 2006-2008 Hervé Fache

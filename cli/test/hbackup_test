@@ -2,11 +2,11 @@
 
 hbackup="../../hbackup"
 
-echo "Help"
-"$hbackup" -h -- 2>&1
-
 echo "Version"
 "$hbackup" --version -- 2>&1
+
+echo "Help"
+"$hbackup" -h -- 2>&1
 
 echo "Error"
 "$hbackup" -! -- 2>&1
