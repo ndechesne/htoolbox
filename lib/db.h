@@ -38,6 +38,8 @@ public:
   Database(
     const char*     path);                // Path where DB resides
   ~Database();
+  // Get DB path
+  const char* path() const;
   // Open database
   int  open(
     bool            read_only  = false,   // Open for read only

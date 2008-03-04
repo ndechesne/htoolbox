@@ -249,7 +249,6 @@ Filter* Filters::add(
 }
 
 void Filters::show(int level) const {
-  // Show all filters
   list<Filter*>::const_iterator filter;
   for (filter = begin(); filter != end(); filter++) {
     (*filter)->show(level);

@@ -226,12 +226,13 @@ int ClientPath::parse(
 
 void ClientPath::show(int level) const {
   out(verbose, level) << "Path: " << _path << endl;
-  if (_filters.size() > 0) {
-    out(verbose, level + 1) << "Filters:" << endl;
-    _filters.show(level + 2);
+  _filters.show(level + 1);
+  _parsers.show(level + 1);
+  if (_compress != NULL) {
+    out(verbose, level + 1) << "Compress filter: " << _compress->name()
+      << endl;
   }
-  if (_parsers.size() > 0) {
-    out(verbose, level + 1) << "Parsers:" << endl;
-    _parsers.show(level + 2);
+  if (_ignore != NULL) {
+    out(verbose, level + 1) << "Ignore filter:   " << _ignore->name() << endl;
   }
 }

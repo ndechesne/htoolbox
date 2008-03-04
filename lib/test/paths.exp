@@ -3,6 +3,11 @@ Initial backup, check '/' precedence
 Database initialized in test_db
 Database open in read/write mode
 first with subdir/testfile NOT readable
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Ignore filter:   bazaar
 Reading list of missing checksums
 Created myClient's list
 Database client myClient open in read/write mode
@@ -434,6 +439,11 @@ Database closed
 
 As previous, with a .hbackup directory
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Ignore filter:   bazaar
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -705,6 +715,11 @@ myClient's journal:
 
 As previous with new big_file, interrupted
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Ignore filter:   bazaar
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -846,6 +861,11 @@ myClient's real journal:
 As previous with subdir/testfile readable
 Warning: Backup of client myClient was interrupted in a previous run, finishing up...
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Ignore filter:   bazaar
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -1007,6 +1027,17 @@ myClient's journal:
 
 As previous with subdir/testfile in ignore list
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Ignore filter:   ignore1
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -1163,6 +1194,23 @@ myClient's journal:
 
 As previous with subdir in ignore list
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Ignore filter:   ignore1
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -1327,6 +1375,23 @@ myClient's journal:
 
 As previous with testlink modified
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Ignore filter:   ignore1
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -1486,6 +1551,30 @@ myClient's journal:
 
 As previous with testlink in ignore list
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Ignore filter:   ignore1
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -1646,6 +1735,31 @@ myClient's journal:
 
 As previous with CVS parser (controlled)
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Parser CVS
+ -> Ignore filter:   ignore1
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -1850,6 +1964,31 @@ myClient's journal:
 
 As previous
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Parser CVS
+ -> Ignore filter:   ignore1
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -2043,6 +2182,33 @@ myClient's journal:
 
 As previous with Subversion parser (modified)
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore1
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -2272,6 +2438,43 @@ myClient's journal:
 
 As previous with cvs/dirutd in ignore list
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -2481,6 +2684,48 @@ myClient's journal:
 
 As previous with svn/dirutd in ignore list
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ --> Condition filter bazaar
+ --> Condition filter svn_dirutd
+ -> Filter and svn_dirutd
+ --> Condition type d
+ --> Condition path svn/dirutd
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -2686,6 +2931,48 @@ myClient's journal:
 
 As previous with testpipe gone
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ --> Condition filter bazaar
+ --> Condition filter svn_dirutd
+ -> Filter and svn_dirutd
+ --> Condition type d
+ --> Condition path svn/dirutd
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -2883,6 +3170,48 @@ myClient's journal:
 
 As previous with testfile mode changed
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ --> Condition filter bazaar
+ --> Condition filter svn_dirutd
+ -> Filter and svn_dirutd
+ --> Condition type d
+ --> Condition path svn/dirutd
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -3081,6 +3410,48 @@ myClient's journal:
 
 As previous with cvs/filenew.c touched and testpipe restored
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ --> Condition filter bazaar
+ --> Condition filter svn_dirutd
+ -> Filter and svn_dirutd
+ --> Condition type d
+ --> Condition path svn/dirutd
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -3285,6 +3656,48 @@ myClient's journal:
 
 Some troublesome past cases
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ --> Condition filter bazaar
+ --> Condition filter svn_dirutd
+ -> Filter and svn_dirutd
+ --> Condition type d
+ --> Condition path svn/dirutd
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -3590,6 +4003,48 @@ myClient's journal:
 
 Same again: journal and list left untouched
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ --> Condition filter bazaar
+ --> Condition filter svn_dirutd
+ -> Filter and svn_dirutd
+ --> Condition type d
+ --> Condition path svn/dirutd
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir cvs
@@ -3874,6 +4329,48 @@ myClient's journal:
 
 List recovery after crash
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ --> Condition filter bazaar
+ --> Condition filter svn_dirutd
+ -> Filter and svn_dirutd
+ --> Condition type d
+ --> Condition path svn/dirutd
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Reading list of missing checksums
 Created hisClient's list
 Database client hisClient open in read/write mode
@@ -3890,6 +4387,48 @@ Adding file data to DB for 59071590099d21dd439896592338bf95-0
 Parsed 4 file(s)
 Database client hisClient modified
 Database client hisClient closed
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ --> Condition filter bazaar
+ --> Condition filter svn_dirutd
+ -> Filter and svn_dirutd
+ --> Condition type d
+ --> Condition path svn/dirutd
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Database client myClient open in read/write mode
 A /home/User/crash
  -> Dir crash
@@ -4444,6 +4983,48 @@ Database closed
 
 Same again
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ --> Condition filter bazaar
+ --> Condition filter svn_dirutd
+ -> Filter and svn_dirutd
+ --> Condition type d
+ --> Condition path svn/dirutd
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir crash
@@ -4737,6 +5318,48 @@ Error: Unexpected end of file
 
 Same again
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ --> Condition filter bazaar
+ --> Condition filter svn_dirutd
+ -> Filter and svn_dirutd
+ --> Condition type d
+ --> Condition path svn/dirutd
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Reading list of missing checksums
 Database client hisClient open in read/write mode
  -> Dir testdir
@@ -5003,6 +5626,48 @@ Error: Unexpected end of file
 
 Expiry delay: 18, date: 22
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ --> Condition filter bazaar
+ --> Condition filter svn_dirutd
+ -> Filter and svn_dirutd
+ --> Condition type d
+ --> Condition path svn/dirutd
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir crash
@@ -5242,6 +5907,48 @@ myClient's journal:
 
 Prevent data dir from being removed
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ --> Condition filter bazaar
+ --> Condition filter svn_dirutd
+ -> Filter and svn_dirutd
+ --> Condition type d
+ --> Condition path svn/dirutd
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir crash
@@ -5477,6 +6184,48 @@ myClient's journal:
 
 Add one file
 Database open in read/write mode
+Path: /home/User
+ -> Filter and bazaar
+ --> Condition type d
+ --> Condition path bzr
+ -> Filter and testfile
+ --> Condition type f
+ --> Condition path subdir/testfile
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter testfile
+ -> Filter and subdir
+ --> Condition type d
+ --> Condition path subdir
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ -> Filter and testlink
+ --> Condition type l
+ --> Condition path_start testlink
+ -> Filter or ignore1
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ -> Filter and cvs_dirutd
+ --> Condition type d
+ --> Condition path cvs/dirutd
+ -> Filter or empty
+ -> Filter or ignore2
+ --> Condition filter bazaar
+ --> Condition filter subdir
+ --> Condition filter testlink
+ --> Condition filter cvs_dirutd
+ --> Condition filter empty
+ --> Condition filter bazaar
+ --> Condition filter svn_dirutd
+ -> Filter and svn_dirutd
+ --> Condition type d
+ --> Condition path svn/dirutd
+ -> Parser CVS
+ -> Parser CVS
+ -> Parser Subversion
+ -> Ignore filter:   ignore2
 Reading list of missing checksums
 Database client myClient open in read/write mode
  -> Dir crash

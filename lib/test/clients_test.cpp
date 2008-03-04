@@ -56,7 +56,7 @@ int main(void) {
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   client = new Client("localhost");
   clients.push_back(client);
@@ -65,7 +65,7 @@ int main(void) {
   client->setListfile("etc/doesnotexist");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   if (db.open(false, true) < 0) {
     cout << "failed to open DB" << endl;
@@ -83,7 +83,7 @@ int main(void) {
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   client = new Client("myClient");
   clients.push_back(client);
@@ -93,7 +93,7 @@ int main(void) {
   system("echo path /home/User/test2 >> test_nfs/hbackup.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   client = new Client("myClient2");
   clients.push_back(client);
@@ -104,7 +104,7 @@ int main(void) {
   client->setListfile("C:\\Backup\\Backup2.LST");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   client = new Client("otherClient");
   clients.push_back(client);
@@ -113,7 +113,7 @@ int main(void) {
   client->setListfile("c:/home/backup/Backup.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   client = new Client("Client");
   clients.push_back(client);
@@ -124,7 +124,7 @@ int main(void) {
   client->setListfile("c:\\home\\BlaH\\Backup.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   client = new Client("Client2");
   clients.push_back(client);
@@ -136,7 +136,7 @@ int main(void) {
   client->setListfile("c:\\home\\BlaH\\Backup.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   client = new Client("Client3");
   clients.push_back(client);
@@ -146,7 +146,7 @@ int main(void) {
   client->setListfile("c:\\home\\BlaH\\Backup.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   client = new Client("Client4");
   clients.push_back(client);
@@ -157,7 +157,7 @@ int main(void) {
   client->setListfile("c:\\home\\BlaH\\Backup.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -177,7 +177,7 @@ int main(void) {
   client->setListfile("etc/localhost.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -196,7 +196,7 @@ int main(void) {
   client->setListfile("etc/localhost.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -216,7 +216,7 @@ int main(void) {
   system("echo path test1/subdir >> etc/localhost.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -236,7 +236,7 @@ int main(void) {
   client->setListfile("etc/localhost.list2");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -369,7 +369,7 @@ int main(void) {
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -397,7 +397,7 @@ int main(void) {
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -425,7 +425,7 @@ int main(void) {
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -453,7 +453,7 @@ int main(void) {
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -475,7 +475,7 @@ int main(void) {
   system("touch test_nfs/test2/fail");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -498,7 +498,7 @@ int main(void) {
   system("rm -f test_nfs/test2/fail");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -520,7 +520,7 @@ int main(void) {
   system("rm -f test_nfs/test/fail");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -541,7 +541,7 @@ int main(void) {
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->show();
+    (*i)->show(1);
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {

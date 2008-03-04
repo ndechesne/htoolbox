@@ -205,6 +205,10 @@ Database::~Database() {
   delete _d;
 }
 
+const char* Database::path() const {
+  return _d->path;
+}
+
 int Database::open(
     bool            read_only,
     bool            initialize) {

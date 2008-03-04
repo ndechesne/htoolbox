@@ -164,6 +164,13 @@ namespace hbackup {
       const char*   client,
       const char*   path          = "",
       time_t        date          = 0);
+    //! \brief Show configuration
+    /*!
+      Lists recursively all configuration data. Only works if verbosity level
+      is at least verbose.
+      \param level        Length of arrow for top level items
+    */
+    void show(int level = 0) const;
   };
 }
 

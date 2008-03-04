@@ -340,7 +340,8 @@ int Client::readConfig(
     config_file.close();
   }
   if (! failed) {
-    show();
+    out(verbose) << "Configuration:" << endl;
+    show(1);
   }
   return failed ? -1 : 0;
 }
@@ -465,7 +466,9 @@ void Client::show(int level) const {
     out(verbose, level + 1) << "Subset:   " << _d->subset << endl;
   }
   out(verbose, level + 1) << "Protocol: " << _protocol << endl;
-  out(verbose, level + 1) << "Hostname: " << _host_or_ip << endl;
+  if (_host_or_ip != _name) {
+    out(verbose, level + 1) << "Hostname: " << _host_or_ip << endl;
+  }
   if (_options.size() > 0) {
     out(verbose, level + 1) << "Options: ";
     for (list<Option>::const_iterator i = _options.begin();
@@ -481,10 +484,7 @@ void Client::show(int level) const {
   } else {
     out(verbose, level + 1) << "No expiry" << endl;
   }
-  if (_filters.size() > 0) {
-    out(verbose, 1) << "Filters:" << endl;
-    _filters.show(2);
-  }
+  _filters.show(level + 1);
   if (_d->paths.size() > 0) {
     out(verbose, level + 1) << "Paths:" << endl;
     for (list<ClientPath*>::iterator i = _d->paths.begin();

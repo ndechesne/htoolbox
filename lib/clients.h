@@ -63,6 +63,7 @@ public:
   ~Client();
   string name() const   { return _name; }
   string internal_name() const;
+  string sub_name() const { return _sub_name; }
   void addOption(const string& value) {
     _options.push_back(Option("", value));
   }

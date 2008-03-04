@@ -4,61 +4,89 @@ Error: No such file or directory:
 
 Test: backup, not initialized
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Error: Given DB path does not exist: test_db
 
 Test: typical backup
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database initialized in test_db
 Database open in read/write mode
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
-Client: client
- -> Subset:   xp
- -> Protocol: smb
- -> Hostname: myClient
- -> Options:  username=Myself password=flesyM nocase
- -> Config:   C:/Backup/Backup.LST
- -> No expiry
- -> Paths:
- --> Path: C:/Test
- ---> Filters:
+Configuration:
+ -> Client: client
+ --> Subset:   xp
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options:  username=Myself password=flesyM nocase
+ --> Config:   C:/Backup/Backup.LST
+ --> No expiry
+ --> Paths:
+ ---> Path: C:/Test
  ----> Filter and silly
  -----> Condition filter backup
  -----> Condition type p
@@ -95,13 +123,13 @@ Database client client.xp closed
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
  -> Reading client configuration file
-Client: myClient
- -> Protocol: nfs
- -> Hostname: myClient
- -> Config:   /home/User/hbackup.list
- -> No expiry
- -> Paths:
- --> Path: /home/User/test
+Configuration:
+ -> Client: myClient
+ --> Protocol: nfs
+ --> Config:   /home/User/hbackup.list
+ --> No expiry
+ --> Paths:
+ ---> Path: /home/User/test
 Backing up client
 Created myClient's list
 Database client myClient open in read/write mode
@@ -118,31 +146,31 @@ Database client myClient closed
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
-Client: myhost
- -> Protocol: file
- -> Hostname: myhost.mynetwork.lan
- -> Config:   etc/localhost.list
- -> Expiry:   86400s (1d)
- -> Filters:
+Configuration:
+ -> Client: myhost
+ --> Protocol: file
+ --> Hostname: myhost.mynetwork.lan
+ --> Config:   etc/localhost.list
+ --> Expiry:   86400s (1d)
  --> Filter and subdir
  ---> Condition path_start subdir
  ---> Condition not size< 100
  --> Filter and bigfile
  ---> Condition size>= 10
  ---> Condition type f
- -> Paths:
- --> Path: test1
- ---> Filters:
+ --> Paths:
+ ---> Path: test1
  ----> Filter and not_object
  -----> Condition not path_end .o
  ----> Filter or to_be_ignored
  -----> Condition filter subdir
  -----> Condition filter backup
  -----> Condition not filter not_object
- ---> Parsers:
- ----> CVS
- ----> Subversion
- --> Path: test2
+ ----> Parser CVS
+ ----> Parser Subversion
+ ----> Compress filter: bigfile
+ ----> Ignore filter:   to_be_ignored
+ ---> Path: test2
 Backing up client
 Created myhost's list
 Database client myhost open in read/write mode
@@ -260,38 +288,52 @@ Database closed
 
 Test: same backup
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read/write mode
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
-Client: client
- -> Subset:   xp
- -> Protocol: smb
- -> Hostname: myClient
- -> Options:  username=Myself password=flesyM nocase
- -> Config:   C:/Backup/Backup.LST
- -> No expiry
- -> Paths:
- --> Path: C:/Test
- ---> Filters:
+Configuration:
+ -> Client: client
+ --> Subset:   xp
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options:  username=Myself password=flesyM nocase
+ --> Config:   C:/Backup/Backup.LST
+ --> No expiry
+ --> Paths:
+ ---> Path: C:/Test
  ----> Filter and silly
  -----> Condition filter backup
  -----> Condition type p
@@ -319,13 +361,13 @@ Database client client.xp closed
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
  -> Reading client configuration file
-Client: myClient
- -> Protocol: nfs
- -> Hostname: myClient
- -> Config:   /home/User/hbackup.list
- -> No expiry
- -> Paths:
- --> Path: /home/User/test
+Configuration:
+ -> Client: myClient
+ --> Protocol: nfs
+ --> Config:   /home/User/hbackup.list
+ --> No expiry
+ --> Paths:
+ ---> Path: /home/User/test
 Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
@@ -336,31 +378,31 @@ Database client myClient closed
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
-Client: myhost
- -> Protocol: file
- -> Hostname: myhost.mynetwork.lan
- -> Config:   etc/localhost.list
- -> Expiry:   86400s (1d)
- -> Filters:
+Configuration:
+ -> Client: myhost
+ --> Protocol: file
+ --> Hostname: myhost.mynetwork.lan
+ --> Config:   etc/localhost.list
+ --> Expiry:   86400s (1d)
  --> Filter and subdir
  ---> Condition path_start subdir
  ---> Condition not size< 100
  --> Filter and bigfile
  ---> Condition size>= 10
  ---> Condition type f
- -> Paths:
- --> Path: test1
- ---> Filters:
+ --> Paths:
+ ---> Path: test1
  ----> Filter and not_object
  -----> Condition not path_end .o
  ----> Filter or to_be_ignored
  -----> Condition filter subdir
  -----> Condition filter backup
  -----> Condition not filter not_object
- ---> Parsers:
- ----> CVS
- ----> Subversion
- --> Path: test2
+ ----> Parser CVS
+ ----> Parser Subversion
+ ----> Compress filter: bigfile
+ ----> Ignore filter:   to_be_ignored
+ ---> Path: test2
 Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
@@ -403,38 +445,52 @@ Database closed
 
 Test: interrupted backup
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read/write mode
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
-Client: client
- -> Subset:   xp
- -> Protocol: smb
- -> Hostname: myClient
- -> Options:  username=Myself password=flesyM nocase
- -> Config:   C:/Backup/Backup.LST
- -> No expiry
- -> Paths:
- --> Path: C:/Test
- ---> Filters:
+Configuration:
+ -> Client: client
+ --> Subset:   xp
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options:  username=Myself password=flesyM nocase
+ --> Config:   C:/Backup/Backup.LST
+ --> No expiry
+ --> Paths:
+ ---> Path: C:/Test
  ----> Filter and silly
  -----> Condition filter backup
  -----> Condition type p
@@ -462,13 +518,13 @@ Database client client.xp closed
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
  -> Reading client configuration file
-Client: myClient
- -> Protocol: nfs
- -> Hostname: myClient
- -> Config:   /home/User/hbackup.list
- -> No expiry
- -> Paths:
- --> Path: /home/User/test
+Configuration:
+ -> Client: myClient
+ --> Protocol: nfs
+ --> Config:   /home/User/hbackup.list
+ --> No expiry
+ --> Paths:
+ ---> Path: /home/User/test
 Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
@@ -479,31 +535,31 @@ Database client myClient closed
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
-Client: myhost
- -> Protocol: file
- -> Hostname: myhost.mynetwork.lan
- -> Config:   etc/localhost.list
- -> Expiry:   86400s (1d)
- -> Filters:
+Configuration:
+ -> Client: myhost
+ --> Protocol: file
+ --> Hostname: myhost.mynetwork.lan
+ --> Config:   etc/localhost.list
+ --> Expiry:   86400s (1d)
  --> Filter and subdir
  ---> Condition path_start subdir
  ---> Condition not size< 100
  --> Filter and bigfile
  ---> Condition size>= 10
  ---> Condition type f
- -> Paths:
- --> Path: test1
- ---> Filters:
+ --> Paths:
+ ---> Path: test1
  ----> Filter and not_object
  -----> Condition not path_end .o
  ----> Filter or to_be_ignored
  -----> Condition filter subdir
  -----> Condition filter backup
  -----> Condition not filter not_object
- ---> Parsers:
- ----> CVS
- ----> Subversion
- --> Path: test2
+ ----> Parser CVS
+ ----> Parser Subversion
+ ----> Compress filter: bigfile
+ ----> Ignore filter:   to_be_ignored
+ ---> Path: test2
 Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
@@ -531,39 +587,53 @@ Database closed
 
 Test: specify clients
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Warning: Backup of client myhost was interrupted in a previous run, finishing up...
 Database open in read/write mode
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
-Client: client
- -> Subset:   xp
- -> Protocol: smb
- -> Hostname: myClient
- -> Options:  username=Myself password=flesyM nocase
- -> Config:   C:/Backup/Backup.LST
- -> No expiry
- -> Paths:
- --> Path: C:/Test
- ---> Filters:
+Configuration:
+ -> Client: client
+ --> Subset:   xp
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options:  username=Myself password=flesyM nocase
+ --> Config:   C:/Backup/Backup.LST
+ --> No expiry
+ --> Paths:
+ ---> Path: C:/Test
  ----> Filter and silly
  -----> Condition filter backup
  -----> Condition type p
@@ -590,31 +660,31 @@ Database client client.xp closed
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
-Client: myhost
- -> Protocol: file
- -> Hostname: myhost.mynetwork.lan
- -> Config:   etc/localhost.list
- -> Expiry:   86400s (1d)
- -> Filters:
+Configuration:
+ -> Client: myhost
+ --> Protocol: file
+ --> Hostname: myhost.mynetwork.lan
+ --> Config:   etc/localhost.list
+ --> Expiry:   86400s (1d)
  --> Filter and subdir
  ---> Condition path_start subdir
  ---> Condition not size< 100
  --> Filter and bigfile
  ---> Condition size>= 10
  ---> Condition type f
- -> Paths:
- --> Path: test1
- ---> Filters:
+ --> Paths:
+ ---> Path: test1
  ----> Filter and not_object
  -----> Condition not path_end .o
  ----> Filter or to_be_ignored
  -----> Condition filter subdir
  -----> Condition filter backup
  -----> Condition not filter not_object
- ---> Parsers:
- ----> CVS
- ----> Subversion
- --> Path: test2
+ ----> Parser CVS
+ ----> Parser Subversion
+ ----> Compress filter: bigfile
+ ----> Ignore filter:   to_be_ignored
+ ---> Path: test2
 Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
@@ -660,24 +730,38 @@ Database closed
 
 Test: scan DB
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read/write mode
 Reading client.xp's list
 Reading myClient's list
@@ -740,24 +824,38 @@ Database closed
 
 Test: check DB
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Crawling through DB data
 0f2ea973d77135dc3d06c8e68da6dc59-0\r
@@ -782,24 +880,38 @@ Database closed
 
 Test: list clients
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database closed
 List of clients: 3
@@ -809,24 +921,38 @@ List of clients: 3
 
 Test: list paths in UNIX client
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myClient open in read-only mode
 Database client myClient closed
@@ -836,24 +962,38 @@ List of paths in 'myClient': 1
 
 Test: list paths in DOS client
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client client.xp open in read-only mode
 Database client client.xp closed
@@ -863,24 +1003,38 @@ List of paths in 'client.xp': 1
 
 Test: restore file
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myhost open in read-only mode
 U test_r/test2/testfile
@@ -889,24 +1043,38 @@ Database closed
 
 Test: restore dir
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myhost open in read-only mode
 U test_r/test1/big_file
@@ -945,24 +1113,38 @@ test1/testfile metadata: gid = 24, mtime = 1161475200, perms = 0750
 
 Test: restore subdir
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myhost open in read-only mode
 U test_r/test1/cvs
@@ -982,24 +1164,38 @@ Database closed
 
 Test: restore client
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myhost open in read-only mode
 U test_r/test1/big_file
@@ -1046,40 +1242,57 @@ Test: add dual-boot client
 
 Test: typical backup
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read/write mode
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
-Client: client
- -> Subset:   xp
- -> Protocol: smb
- -> Hostname: myClient
- -> Options:  username=Myself password=flesyM nocase
- -> Config:   C:/Backup/Backup.LST
- -> No expiry
- -> Paths:
- --> Path: C:/Test
- ---> Filters:
+Configuration:
+ -> Client: client
+ --> Subset:   xp
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options:  username=Myself password=flesyM nocase
+ --> Config:   C:/Backup/Backup.LST
+ --> No expiry
+ --> Paths:
+ ---> Path: C:/Test
  ----> Filter and silly
  -----> Condition filter backup
  -----> Condition type p
@@ -1107,13 +1320,13 @@ Database client client.xp closed
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
  -> Reading client configuration file
-Client: myClient
- -> Protocol: nfs
- -> Hostname: myClient
- -> Config:   /home/User/hbackup.list
- -> No expiry
- -> Paths:
- --> Path: /home/User/test
+Configuration:
+ -> Client: myClient
+ --> Protocol: nfs
+ --> Config:   /home/User/hbackup.list
+ --> No expiry
+ --> Paths:
+ ---> Path: /home/User/test
 Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
@@ -1125,15 +1338,14 @@ Database client myClient closed
 Trying client 'myClient' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
-Client: myClient
- -> Subset:   xp
- -> Protocol: smb
- -> Hostname: myClient
- -> Config:   C:/Backup/Backup.LST
- -> No expiry
- -> Paths:
- --> Path: C:/Test
- ---> Filters:
+Configuration:
+ -> Client: myClient
+ --> Subset:   xp
+ --> Protocol: smb
+ --> Config:   C:/Backup/Backup.LST
+ --> No expiry
+ --> Paths:
+ ---> Path: C:/Test
  ----> Filter and silly
  -----> Condition filter backup
  -----> Condition type p
@@ -1165,31 +1377,31 @@ Database client myClient.xp closed
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
-Client: myhost
- -> Protocol: file
- -> Hostname: myhost.mynetwork.lan
- -> Config:   etc/localhost.list
- -> Expiry:   86400s (1d)
- -> Filters:
+Configuration:
+ -> Client: myhost
+ --> Protocol: file
+ --> Hostname: myhost.mynetwork.lan
+ --> Config:   etc/localhost.list
+ --> Expiry:   86400s (1d)
  --> Filter and subdir
  ---> Condition path_start subdir
  ---> Condition not size< 100
  --> Filter and bigfile
  ---> Condition size>= 10
  ---> Condition type f
- -> Paths:
- --> Path: test1
- ---> Filters:
+ --> Paths:
+ ---> Path: test1
  ----> Filter and not_object
  -----> Condition not path_end .o
  ----> Filter or to_be_ignored
  -----> Condition filter subdir
  -----> Condition filter backup
  -----> Condition not filter not_object
- ---> Parsers:
- ----> CVS
- ----> Subversion
- --> Path: test2
+ ----> Parser CVS
+ ----> Parser Subversion
+ ----> Compress filter: bigfile
+ ----> Ignore filter:   to_be_ignored
+ ---> Path: test2
 Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
@@ -1232,40 +1444,57 @@ Database closed
 
 Test: specify clients
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read/write mode
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
-Client: client
- -> Subset:   xp
- -> Protocol: smb
- -> Hostname: myClient
- -> Options:  username=Myself password=flesyM nocase
- -> Config:   C:/Backup/Backup.LST
- -> No expiry
- -> Paths:
- --> Path: C:/Test
- ---> Filters:
+Configuration:
+ -> Client: client
+ --> Subset:   xp
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options:  username=Myself password=flesyM nocase
+ --> Config:   C:/Backup/Backup.LST
+ --> No expiry
+ --> Paths:
+ ---> Path: C:/Test
  ----> Filter and silly
  -----> Condition filter backup
  -----> Condition type p
@@ -1293,13 +1522,13 @@ Database client client.xp closed
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
  -> Reading client configuration file
-Client: myClient
- -> Protocol: nfs
- -> Hostname: myClient
- -> Config:   /home/User/hbackup.list
- -> No expiry
- -> Paths:
- --> Path: /home/User/test
+Configuration:
+ -> Client: myClient
+ --> Protocol: nfs
+ --> Config:   /home/User/hbackup.list
+ --> No expiry
+ --> Paths:
+ ---> Path: /home/User/test
 Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
@@ -1314,13 +1543,13 @@ Test: user-mode backup
 Database initialized in test_user/.hbackup
 Database open in read/write mode
  -> Reading client configuration file
-Client: localhost
- -> Protocol: file
- -> Hostname: localhost
- -> Config:   test_user/.hbackup/config
- -> No expiry
- -> Paths:
- --> Path: test_user/testuser
+Configuration:
+ -> Client: localhost
+ --> Protocol: file
+ --> Config:   test_user/.hbackup/config
+ --> No expiry
+ --> Paths:
+ ---> Path: test_user/testuser
 Backing up client
 Reading list of missing checksums
 Created localhost's list
@@ -1344,26 +1573,43 @@ Database closed
 
 Test: list clients
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database closed
 List of clients: 4
@@ -1374,26 +1620,43 @@ List of clients: 4
 
 Test: list paths in DOS client
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myClient.xp open in read-only mode
 Database client myClient.xp closed
@@ -1403,26 +1666,43 @@ List of paths in 'myClient.xp': 1
 
 Test: list sub-paths in UNIX client
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myClient open in read-only mode
 Database client myClient closed
@@ -1432,26 +1712,43 @@ List of paths in 'myClient': 1
 
 Test: list sub-paths in DOS client
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myClient.xp open in read-only mode
 Database client myClient.xp closed
@@ -1461,26 +1758,43 @@ List of paths in 'myClient.xp', 'C:': 1
 
 Test: restore file (UNIX)
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myClient open in read-only mode
 U test_r//home/User/test/File2.txt
@@ -1489,26 +1803,43 @@ Database closed
 
 Test: restore subdir (UNIX)
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myClient open in read-only mode
 U test_r//home/User/test/File2.txt
@@ -1519,26 +1850,43 @@ Database closed
 
 Test: restore dir (UNIX)
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myClient open in read-only mode
 U test_r//home/User/test/File2.txt
@@ -1549,26 +1897,43 @@ Database closed
 
 Test: restore file (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myClient.xp open in read-only mode
 U test_r/C:/Test/File.TXT
@@ -1577,26 +1942,43 @@ Database closed
 
 Test: restore subdir (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myClient.xp open in read-only mode
 U test_r/C:/Test/Dir
@@ -1608,26 +1990,43 @@ Database closed
 
 Test: restore dir (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myClient.xp open in read-only mode
 U test_r/C:/Test/Dir
@@ -1639,26 +2038,43 @@ Database closed
 
 Test: restore client
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read-only mode
 Database client myClient open in read-only mode
 U test_r//home/User/test/File2.txt
@@ -1669,26 +2085,43 @@ Database closed
 
 Test: check for corrupted data
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Check
 Database open in read-only mode
 Crawling through DB data
@@ -1718,26 +2151,43 @@ Database closed
 
 Test: scan for missing data
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Just scan
 Database open in read/write mode
 Reading client.xp's list
@@ -1867,26 +2317,43 @@ Database closed
 
 Test: scan for obsolete data, case1
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Just scan
 Database open in read/write mode
 Reading client.xp's list
@@ -2087,26 +2554,43 @@ Database closed
 
 Test: scan for obsolete data, case 2
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Just scan
 Database open in read/write mode
 Reading client.xp's list
@@ -2307,40 +2791,57 @@ Database closed
 
 Test: backup recovers missing checksums
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read/write mode
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
-Client: client
- -> Subset:   xp
- -> Protocol: smb
- -> Hostname: myClient
- -> Options:  username=Myself password=flesyM nocase
- -> Config:   C:/Backup/Backup.LST
- -> No expiry
- -> Paths:
- --> Path: C:/Test
- ---> Filters:
+Configuration:
+ -> Client: client
+ --> Subset:   xp
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options:  username=Myself password=flesyM nocase
+ --> Config:   C:/Backup/Backup.LST
+ --> No expiry
+ --> Paths:
+ ---> Path: C:/Test
  ----> Filter and silly
  -----> Condition filter backup
  -----> Condition type p
@@ -2372,13 +2873,13 @@ Database client client.xp closed
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
  -> Reading client configuration file
-Client: myClient
- -> Protocol: nfs
- -> Hostname: myClient
- -> Config:   /home/User/hbackup.list
- -> No expiry
- -> Paths:
- --> Path: /home/User/test
+Configuration:
+ -> Client: myClient
+ --> Protocol: nfs
+ --> Config:   /home/User/hbackup.list
+ --> No expiry
+ --> Paths:
+ ---> Path: /home/User/test
 Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
@@ -2390,15 +2891,14 @@ Database client myClient closed
 Trying client 'myClient' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
-Client: myClient
- -> Subset:   xp
- -> Protocol: smb
- -> Hostname: myClient
- -> Config:   C:/Backup/Backup.LST
- -> No expiry
- -> Paths:
- --> Path: C:/Test
- ---> Filters:
+Configuration:
+ -> Client: myClient
+ --> Subset:   xp
+ --> Protocol: smb
+ --> Config:   C:/Backup/Backup.LST
+ --> No expiry
+ --> Paths:
+ ---> Path: C:/Test
  ----> Filter and silly
  -----> Condition filter backup
  -----> Condition type p
@@ -2424,31 +2924,31 @@ Database client myClient.xp closed
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
-Client: myhost
- -> Protocol: file
- -> Hostname: myhost.mynetwork.lan
- -> Config:   etc/localhost.list
- -> Expiry:   86400s (1d)
- -> Filters:
+Configuration:
+ -> Client: myhost
+ --> Protocol: file
+ --> Hostname: myhost.mynetwork.lan
+ --> Config:   etc/localhost.list
+ --> Expiry:   86400s (1d)
  --> Filter and subdir
  ---> Condition path_start subdir
  ---> Condition not size< 100
  --> Filter and bigfile
  ---> Condition size>= 10
  ---> Condition type f
- -> Paths:
- --> Path: test1
- ---> Filters:
+ --> Paths:
+ ---> Path: test1
  ----> Filter and not_object
  -----> Condition not path_end .o
  ----> Filter or to_be_ignored
  -----> Condition filter subdir
  -----> Condition filter backup
  -----> Condition not filter not_object
- ---> Parsers:
- ----> CVS
- ----> Subversion
- --> Path: test2
+ ----> Parser CVS
+ ----> Parser Subversion
+ ----> Compress filter: bigfile
+ ----> Ignore filter:   to_be_ignored
+ ---> Path: test2
 Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
@@ -2501,40 +3001,57 @@ Error: Protocol not supported: ssh
 List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read/write mode
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
-Client: client
- -> Subset:   xp
- -> Protocol: smb
- -> Hostname: myClient
- -> Options:  username=Myself password=flesyM nocase
- -> Config:   C:/Backup/Backup.LST
- -> No expiry
- -> Paths:
- --> Path: C:/Test
- ---> Filters:
+Configuration:
+ -> Client: client
+ --> Subset:   xp
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options:  username=Myself password=flesyM nocase
+ --> Config:   C:/Backup/Backup.LST
+ --> No expiry
+ --> Paths:
+ ---> Path: C:/Test
  ----> Filter and silly
  -----> Condition filter backup
  -----> Condition type p
@@ -2563,13 +3080,13 @@ Database client client.xp closed
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
  -> Reading client configuration file
-Client: myClient
- -> Protocol: nfs
- -> Hostname: myClient
- -> Config:   /home/User/hbackup.list
- -> No expiry
- -> Paths:
- --> Path: /home/User/test
+Configuration:
+ -> Client: myClient
+ --> Protocol: nfs
+ --> Config:   /home/User/hbackup.list
+ --> No expiry
+ --> Paths:
+ ---> Path: /home/User/test
 Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
@@ -2581,15 +3098,14 @@ Database client myClient closed
 Trying client 'myClient' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
-Client: myClient
- -> Subset:   xp
- -> Protocol: smb
- -> Hostname: myClient
- -> Config:   C:/Backup/Backup.LST
- -> No expiry
- -> Paths:
- --> Path: C:/Test
- ---> Filters:
+Configuration:
+ -> Client: myClient
+ --> Subset:   xp
+ --> Protocol: smb
+ --> Config:   C:/Backup/Backup.LST
+ --> No expiry
+ --> Paths:
+ ---> Path: C:/Test
  ----> Filter and silly
  -----> Condition filter backup
  -----> Condition type p
@@ -2615,31 +3131,31 @@ Database client myClient.xp closed
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
-Client: myhost
- -> Protocol: file
- -> Hostname: myhost.mynetwork.lan
- -> Config:   etc/localhost.list
- -> Expiry:   86400s (1d)
- -> Filters:
+Configuration:
+ -> Client: myhost
+ --> Protocol: file
+ --> Hostname: myhost.mynetwork.lan
+ --> Config:   etc/localhost.list
+ --> Expiry:   86400s (1d)
  --> Filter and subdir
  ---> Condition path_start subdir
  ---> Condition not size< 100
  --> Filter and bigfile
  ---> Condition size>= 10
  ---> Condition type f
- -> Paths:
- --> Path: test1
- ---> Filters:
+ --> Paths:
+ ---> Path: test1
  ----> Filter and not_object
  -----> Condition not path_end .o
  ----> Filter or to_be_ignored
  -----> Condition filter subdir
  -----> Condition filter backup
  -----> Condition not filter not_object
- ---> Parsers:
- ----> CVS
- ----> Subversion
- --> Path: test2
+ ----> Parser CVS
+ ----> Parser Subversion
+ ----> Compress filter: bigfile
+ ----> Ignore filter:   to_be_ignored
+ ---> Path: test2
 Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'
@@ -2681,26 +3197,43 @@ Error: Protocol not supported: ssh
 List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read/write mode
 Reading client.xp's list
 Reading myClient's list
@@ -2763,40 +3296,57 @@ Warning: Missing checksum(s): 1
 List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file 'etc/hbackup.conf'
- --> Database path: test_db
 Warning: Keyword trash is deprecated and will be removed in the next
 version of this software, please remove it from your configuration
- --> Global filter all backup
- ---> Condition type file
- ---> Condition path_end ~
- --> Global filter any test_or
- ---> Condition filter backup
- ---> Condition not size< 1000
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myClient
- ---> Config file: /home/User/hbackup.list
- --> Client: other
- ---> Config file: /home/backup/Backup.list
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
  --> Client: myhost
- ---> Config file: etc/localhost.list
- ---> Expiry: 1 day(s)
- --> Client: client.xp
- ---> Config file: C:\Backup\Backup.LST
- --> Client: myClient.xp
- ---> Config file: C:\Backup\Backup.LST
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
 Database open in read/write mode
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
-Client: client
- -> Subset:   xp
- -> Protocol: smb
- -> Hostname: myClient
- -> Options:  username=Myself password=flesyM nocase
- -> Config:   C:/Backup/Backup.LST
- -> No expiry
- -> Paths:
- --> Path: C:/Test
- ---> Filters:
+Configuration:
+ -> Client: client
+ --> Subset:   xp
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options:  username=Myself password=flesyM nocase
+ --> Config:   C:/Backup/Backup.LST
+ --> No expiry
+ --> Paths:
+ ---> Path: C:/Test
  ----> Filter and silly
  -----> Condition filter backup
  -----> Condition type p
@@ -2825,13 +3375,13 @@ Database client client.xp closed
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
  -> Reading client configuration file
-Client: myClient
- -> Protocol: nfs
- -> Hostname: myClient
- -> Config:   /home/User/hbackup.list
- -> No expiry
- -> Paths:
- --> Path: /home/User/test
+Configuration:
+ -> Client: myClient
+ --> Protocol: nfs
+ --> Config:   /home/User/hbackup.list
+ --> No expiry
+ --> Paths:
+ ---> Path: /home/User/test
 Backing up client
 Database client myClient open in read/write mode
 Backup path '/home/User/test'
@@ -2843,15 +3393,14 @@ Database client myClient closed
 Trying client 'myClient' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
-Client: myClient
- -> Subset:   xp
- -> Protocol: smb
- -> Hostname: myClient
- -> Config:   C:/Backup/Backup.LST
- -> No expiry
- -> Paths:
- --> Path: C:/Test
- ---> Filters:
+Configuration:
+ -> Client: myClient
+ --> Subset:   xp
+ --> Protocol: smb
+ --> Config:   C:/Backup/Backup.LST
+ --> No expiry
+ --> Paths:
+ ---> Path: C:/Test
  ----> Filter and silly
  -----> Condition filter backup
  -----> Condition type p
@@ -2877,31 +3426,31 @@ Database client myClient.xp closed
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
-Client: myhost
- -> Protocol: file
- -> Hostname: myhost.mynetwork.lan
- -> Config:   etc/localhost.list
- -> Expiry:   86400s (1d)
- -> Filters:
+Configuration:
+ -> Client: myhost
+ --> Protocol: file
+ --> Hostname: myhost.mynetwork.lan
+ --> Config:   etc/localhost.list
+ --> Expiry:   86400s (1d)
  --> Filter and subdir
  ---> Condition path_start subdir
  ---> Condition not size< 100
  --> Filter and bigfile
  ---> Condition size>= 10
  ---> Condition type f
- -> Paths:
- --> Path: test1
- ---> Filters:
+ --> Paths:
+ ---> Path: test1
  ----> Filter and not_object
  -----> Condition not path_end .o
  ----> Filter or to_be_ignored
  -----> Condition filter subdir
  -----> Condition filter backup
  -----> Condition not filter not_object
- ---> Parsers:
- ----> CVS
- ----> Subversion
- --> Path: test2
+ ----> Parser CVS
+ ----> Parser Subversion
+ ----> Compress filter: bigfile
+ ----> Ignore filter:   to_be_ignored
+ ---> Path: test2
 Backing up client
 Database client myhost open in read/write mode
 Backup path 'test1'

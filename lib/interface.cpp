@@ -52,12 +52,6 @@ struct HBackup::Private {
   list<string>      selected_clients;
   list<Client*>     clients;
   Filters           filters;
-  Filter* addFilter(const string& type, const string& name) {
-    return filters.add(type, name);
-  }
-  Filter* findFilter(const string& name) const {
-    return filters.find(name);
-  }
 };
 
 HBackup::HBackup() {
@@ -152,7 +146,6 @@ int HBackup::readConfig(const char* config_path) {
   while (config.line(&params) >= 0) {
     if ((*params)[0] == "db") {
       _d->db = new Database((*params)[1].c_str());
-      out(debug, 2) << "Database path: " << (*params)[1] << endl;
       _d->mount_point = (*params)[1] + "/.mount";
     } else
     if ((*params)[0] == "trash") {
@@ -163,9 +156,7 @@ int HBackup::readConfig(const char* config_path) {
         << endl;
     } else
     if ((*params)[0] == "filter") {
-      filter = _d->addFilter((*params)[1], (*params)[2]);
-      out(debug, 2) << "Global filter " << (*params)[1] << " "
-        << (*params)[2] << endl;
+      filter = _d->filters.add((*params)[1], (*params)[2]);
       if (filter == NULL) {
         out(error) << "Error: in file " << config_path << ", line "
           << (*params).lineNo() << " unsupported filter type: "
@@ -186,15 +177,13 @@ int HBackup::readConfig(const char* config_path) {
 
       /* Add specified filter */
       if (filter_type == "filter") {
-        Filter* subfilter = _d->findFilter((*params)[2]);
+        Filter* subfilter = _d->filters.find((*params)[2]);
         if (subfilter == NULL) {
           out(error) << "Error: in file " << config_path << ", line "
             << (*params).lineNo() << " filter not found: " << (*params)[2]
             << endl;
           return -1;
         }
-        out(debug, 3) << "Condition " << (negated ? "not " : "")
-          << filter_type << " " << subfilter->name() << endl;
         filter->add(new Condition(Condition::filter, subfilter, negated));
       } else {
         switch (filter->add(filter_type, (*params)[2], negated)) {
@@ -208,17 +197,12 @@ int HBackup::readConfig(const char* config_path) {
             out(error) << "Error: in file " << config_path << ", line "
               << (*params).lineNo() << " no filter defined" << endl;
             return -1;
-            break;
-          default:
-            out(debug, 3) << "Condition " << (negated ? "not " : "")
-              << filter_type << " " << (*params)[2] << endl;
         }
       }
     } else
     if ((*params)[0] == "client") {
       client = new Client((*params)[1],
         (params->size() > 2) ? (*params)[2] : "");
-      out(debug, 2) << "Client: " << client->internal_name() << endl;
 
       // Clients MUST BE in alphabetic order
       int cmp = 1;
@@ -253,7 +237,6 @@ int HBackup::readConfig(const char* config_path) {
       } else
       if ((*params)[0] == "config") {
         client->setListfile((*params)[1].c_str());
-        out(debug, 3) << "Config file: " << (*params)[1] << endl;
       } else
       if ((*params)[0] == "expire") {
         errno = 0;
@@ -264,7 +247,6 @@ int HBackup::readConfig(const char* config_path) {
             << "' expects a number as argument" << endl;
           return -1;
         }
-        out(debug, 3) << "Expiry: " << expire << " day(s)" << endl;
         client->setExpire(expire * 3600 * 24);
       }
     }
@@ -275,6 +257,8 @@ int HBackup::readConfig(const char* config_path) {
     _d->db = new Database(DEFAULT_DB_PATH);
     _d->mount_point = DEFAULT_DB_PATH "/.mount";
   }
+  out(verbose) << "Configuration:" << endl;
+  show(1);
   return 0;
 }
 
@@ -414,4 +398,31 @@ int HBackup::restore(
     _d->db->close();
   }
   return failed ? -1 : 0;
+}
+
+void HBackup::show(int level) const {
+  if (_d->db == NULL) {
+    out(verbose, level) << "DB path not set" << endl;
+  } else {
+    out(verbose, level) << "DB path: " << _d->db->path() << endl;
+  }
+  if (! _d->selected_clients.empty()) {
+    out(verbose, level) << "Selected clients:" << endl;
+    for (list<string>::iterator client = _d->selected_clients.begin();
+        client != _d->selected_clients.end(); client++) {
+      out(verbose, level + 1) << *client << endl;
+    }
+  }
+  if (! _d->clients.empty()) {
+    out(verbose, level) << "Clients:" << endl;
+    for (list<Client*>::iterator client = _d->clients.begin();
+        client != _d->clients.end(); client++) {
+      (*client)->show(level + 1);
+      if (! (*client)->sub_name().empty()) {
+        out(verbose, level + 2) << "Required subset: " << (*client)->sub_name()
+          << endl;
+      }
+    }
+  }
+  _d->filters.show(level);
 }
