@@ -285,7 +285,7 @@ int Client::readConfig(
           } else {
             out(verbose, 3) << "Condition " << (negated ? "not " : "")
               << filter_type << " " << subfilter->name() << endl;
-            filter->add(new Condition(Condition::subfilter, subfilter,
+            filter->add(new Condition(Condition::filter, subfilter,
               negated));
           }
         } else {

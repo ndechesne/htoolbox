@@ -37,7 +37,7 @@ class Filter;
 class Condition {
 public:
   enum Type {
-    subfilter   = 1,    //!< subfilter
+    filter      = 1,    //!< sub-filter
     type        = 11,   //!< file type
     name        = 21,   //!< exact file name
     name_start,         //!< start of file name

@@ -207,6 +207,21 @@ Trying client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Subset: xp
  --> Path: C:/Test
+ --> Path-wide filter and silly
+ ---> Condition filter backup
+ ---> Condition type pipe
+ ---> Condition name a
+ ---> Condition name_start b
+ ---> Condition name_end c
+ ---> Condition name_regex d
+ ---> Condition path e
+ ---> Condition path_start f
+ ---> Condition path_end g
+ ---> Condition path_regex h
+ ---> Condition size>= 1
+ ---> Condition size> 2
+ ---> Condition size<= 3
+ ---> Condition size< 4
 Backing up client
 Reading list of missing checksums
 Created client.xp's list
@@ -399,6 +414,21 @@ Trying client 'client' using protocol 'smb'
  -> Reading client configuration file
  --> Subset: xp
  --> Path: C:/Test
+ --> Path-wide filter and silly
+ ---> Condition filter backup
+ ---> Condition type pipe
+ ---> Condition name a
+ ---> Condition name_start b
+ ---> Condition name_end c
+ ---> Condition name_regex d
+ ---> Condition path e
+ ---> Condition path_start f
+ ---> Condition path_end g
+ ---> Condition path_regex h
+ ---> Condition size>= 1
+ ---> Condition size> 2
+ ---> Condition size<= 3
+ ---> Condition size< 4
 Backing up client
 Reading list of missing checksums
 Database client client.xp open in read/write mode

@@ -55,7 +55,7 @@ bool Condition::match(const char* npath, const Node& node) const {
   bool  result = false;
 
   switch(_type) {
-    case Condition::subfilter: {
+    case Condition::filter: {
         result = _filter->match(npath, node);
       } break;
     case Condition::type:
@@ -129,7 +129,7 @@ bool Condition::match(const char* npath, const Node& node) const {
 
 void Condition::show() const {
   switch (_type) {
-    case Condition::subfilter:
+    case Condition::filter:
       out(verbose, 2) << _filter->name() << " " << _type << endl;
       break;
     case Condition::type:

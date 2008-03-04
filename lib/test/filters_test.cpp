@@ -112,7 +112,7 @@ int main(void) {
     false));
   and_filter = new Filter(Filter::all, "my_filter_and");
   and_filter->add(new Condition(Condition::type, 'f', false));
-  and_filter->add(new Condition(Condition::subfilter, sub_filter, true));
+  and_filter->add(new Condition(Condition::filter, sub_filter, true));
   // Show names
   cout << sub_filter->name() << endl;
   cout << and_filter->name() << endl;

@@ -195,7 +195,7 @@ int HBackup::readConfig(const char* config_path) {
         }
         out(debug, 3) << "Condition " << (negated ? "not " : "")
           << filter_type << " " << subfilter->name() << endl;
-        filter->add(new Condition(Condition::subfilter, subfilter, negated));
+        filter->add(new Condition(Condition::filter, subfilter, negated));
       } else {
         switch (filter->add(filter_type, (*params)[2], negated)) {
           case 1:

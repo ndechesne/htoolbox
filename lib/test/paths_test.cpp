@@ -242,8 +242,8 @@ int main(void) {
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
-  filter->add(new Condition(Condition::subfilter, bazaar, false));
-  filter->add(new Condition(Condition::subfilter, testfile, false));
+  filter->add(new Condition(Condition::filter, bazaar, false));
+  filter->add(new Condition(Condition::filter, testfile, false));
   path->setIgnore(filter);
   db.openClient("myClient");
   if (! path->parse(db, "test1")) {
@@ -277,8 +277,8 @@ int main(void) {
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
-  filter->add(new Condition(Condition::subfilter, bazaar, false));
-  filter->add(new Condition(Condition::subfilter, subdir, false));
+  filter->add(new Condition(Condition::filter, bazaar, false));
+  filter->add(new Condition(Condition::filter, subdir, false));
   path->setIgnore(filter);
   db.openClient("myClient");
   if (! path->parse(db, "test1")) {
@@ -335,9 +335,9 @@ int main(void) {
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
-  filter->add(new Condition(Condition::subfilter, bazaar, false));
-  filter->add(new Condition(Condition::subfilter, subdir, false));
-  filter->add(new Condition(Condition::subfilter, testlink, false));
+  filter->add(new Condition(Condition::filter, bazaar, false));
+  filter->add(new Condition(Condition::filter, subdir, false));
+  filter->add(new Condition(Condition::filter, testlink, false));
   path->setIgnore(filter);
   db.openClient("myClient");
   if (! path->parse(db, "test1")) {
@@ -447,11 +447,11 @@ int main(void) {
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
-  filter->add(new Condition(Condition::subfilter, bazaar, false));
-  filter->add(new Condition(Condition::subfilter, subdir, false));
-  filter->add(new Condition(Condition::subfilter, testlink, false));
-  filter->add(new Condition(Condition::subfilter, cvs_dirutd, false));
-  filter->add(new Condition(Condition::subfilter, empty, false));
+  filter->add(new Condition(Condition::filter, bazaar, false));
+  filter->add(new Condition(Condition::filter, subdir, false));
+  filter->add(new Condition(Condition::filter, testlink, false));
+  filter->add(new Condition(Condition::filter, cvs_dirutd, false));
+  filter->add(new Condition(Condition::filter, empty, false));
   path->setIgnore(filter);
   db.openClient("myClient");
   if (! path->parse(db, "test1")) {
@@ -481,8 +481,8 @@ int main(void) {
    || svn_dirutd->add("path", "svn/dirutd", false)) {
     cout << "Failed to add 'and' filter" << endl;
   }
-  filter->add(new Condition(Condition::subfilter, bazaar, false));
-  filter->add(new Condition(Condition::subfilter, svn_dirutd, false));
+  filter->add(new Condition(Condition::filter, bazaar, false));
+  filter->add(new Condition(Condition::filter, svn_dirutd, false));
   db.openClient("myClient");
   if (! path->parse(db, "test1")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
