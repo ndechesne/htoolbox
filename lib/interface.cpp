@@ -418,8 +418,8 @@ void HBackup::show(int level) const {
     for (list<Client*>::iterator client = _d->clients.begin();
         client != _d->clients.end(); client++) {
       (*client)->show(level + 1);
-      if (! (*client)->sub_name().empty()) {
-        out(verbose, level + 2) << "Required subset: " << (*client)->sub_name()
+      if (! (*client)->subset().empty()) {
+        out(verbose, level + 2) << "Required subset: " << (*client)->subset()
           << endl;
       }
     }

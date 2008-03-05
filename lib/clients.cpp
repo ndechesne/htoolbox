@@ -37,7 +37,7 @@ using namespace hbackup;
 
 struct Client::Private {
   list<ClientPath*> paths;
-  string            subset;
+  string            subset_client;
 };
 
 int Client::mountPath(
@@ -180,7 +180,7 @@ int Client::readConfig(
     ConfigLine* params;
     while (config.line(&params) >= 0) {
       if ((*params)[0] == "subset") {
-        _d->subset = (*params)[1];
+        _d->subset_client = (*params)[1];
       } else
       if ((*params)[0] == "expire") {
         int expire;
@@ -346,8 +346,8 @@ int Client::readConfig(
   return failed ? -1 : 0;
 }
 
-Client::Client(const string& name, const string& sub_name) :
-    _name(name), _sub_name(sub_name), _host_or_ip(name), _list_file(NULL),
+Client::Client(const string& name, const string& subset) :
+    _name(name), _subset_server(subset), _host_or_ip(name), _list_file(NULL),
     _initialised(false), _expire(-1) {
   _d = new Private;
 }
@@ -362,10 +362,10 @@ Client::~Client() {
 }
 
 string Client::internal_name() const {
-  if (_sub_name.empty()) {
+  if (_subset_server.empty()) {
     return _name;
   } else {
-    return _name + "." + _sub_name;
+    return _name + "." + _subset_server;
   }
 }
 
@@ -414,10 +414,10 @@ int Client::backup(
 
   if (readConfig(list_path, global_filters) != 0) {
     failed = true;
-  } else if (_d->subset !=  _sub_name) {
+  } else if (_d->subset_client !=  _subset_server) {
     out(info)
       << "Subsets don't match in server and client configuration files: '"
-      << _sub_name << "' != '" << _d->subset << "', skipping" << endl;
+      << _subset_server << "' != '" << _d->subset_client << "', skipping" << endl;
   } else {
     out(info) << "Backing up client" << endl;
     setInitialised();
@@ -462,8 +462,8 @@ int Client::backup(
 
 void Client::show(int level) const {
   out(verbose, level) << "Client: " << _name << endl;
-  if (! _d->subset.empty()) {
-    out(verbose, level + 1) << "Subset:   " << _d->subset << endl;
+  if (! _d->subset_client.empty()) {
+    out(verbose, level + 1) << "Subset:   " << _d->subset_client << endl;
   }
   out(verbose, level + 1) << "Protocol: " << _protocol << endl;
   if (_host_or_ip != _name) {

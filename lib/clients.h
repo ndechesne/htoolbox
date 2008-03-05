@@ -41,7 +41,7 @@ class Client {
   struct            Private;
   Private*          _d;
   string            _name;
-  string            _sub_name;
+  string            _subset_server;
   string            _host_or_ip;
   char*             _list_file;
   string            _protocol;
@@ -63,7 +63,7 @@ public:
   ~Client();
   string name() const   { return _name; }
   string internal_name() const;
-  string sub_name() const { return _sub_name; }
+  string subset() const { return _subset_server; }
   void addOption(const string& value) {
     _options.push_back(Option("", value));
   }
