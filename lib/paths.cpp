@@ -114,7 +114,10 @@ int ClientPath::parse_recurse(
               compress = 5;
             }
             if (db.add(rem_path, *i, checksum, compress)
-            &&  ((errno == EIO) || (errno == EHOSTDOWN))) {
+            &&  (  (errno != EBUSY)       // Ignore busy files
+                && (errno != ENOENT)      // Ignore files gone
+                && (errno != EACCES))) {  // Ignore access refused
+              // All the rest results in a cease and desist order
               give_up = true;
             }
           }
@@ -123,7 +126,7 @@ int ClientPath::parse_recurse(
           if ((*i)->type() == 'd') {
             rem_path[last] = '/';
             out(debug, 1) << "Dir " << rel_path << (*i)->name() << endl;
-            if (parse_recurse(db, rem_path, (Directory&) **i, parser)) {
+            if (parse_recurse(db, rem_path, (Directory&) **i, parser) < 0) {
               give_up = true;
             }
           }
