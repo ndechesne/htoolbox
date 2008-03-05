@@ -8,16 +8,14 @@ which can be overriden with the <code>-c</code> option.</p>
   <tr>
     <td><b>Keyword</b></td>
     <td><b>Description</b></td>
-    <td><b>Syntax</b></td>
-    <td><b>Example</b></td>
-    <td><b>Default value</b></td>
+    <td width="25%"><b>Syntax</b></td>
+    <td width="25%"><b>Example</b></td>
   </tr>
   <tr>
     <td>db</td>
-    <td>backup database path</td>
+    <td>backup database path (default: "/hbackup")</td>
     <td><code>db "&lt;path to backup database&gt;"</code></td>
     <td><code>db "/backup"</code></td>
-    <td><code>/hbackup</code></td>
   </tr>
   <tr>
     <td>client</td>
@@ -29,14 +27,12 @@ which can be overriden with the <code>-c</code> option.</p>
     ["&lt;client subset&gt;"]</code></td>
     <td><code>client "montblanc"</code>
       <br><code>client "montblanc" "kubuntu"</code></td>
-    <td><code></code></td>
   </tr>
   <tr>
     <td>filter</td>
     <td>filter definition</td>
     <td>See <a href="filters.html">Filters</a>.</td>
     <td>See <a href="filters.html">Filters</a>.</td>
-    <td><code></code></td>
   </tr>
 </table>
 
@@ -49,51 +45,41 @@ by the keywords below:</p>
   <tr>
     <td><b>Keyword</b></td>
     <td><b>Description</b></td>
-    <td><b>Occurences</b></td>
-    <td><b>Syntax(es)</b></td>
-    <td><b>Example(s)</b></td>
-    <td><b>Default value</b></td>
+    <td width="25%"><b>Syntax</b></td>
+    <td width="25%"><b>Example</b></td>
   </tr>
   <tr>
     <td>protocol</td>
-    <td>protocol to be used to connect to client</td>
-    <td>1</td>
+    <td>protocol to be used to connect to client (mandatory)</td>
     <td><code>protocol "&lt;protocol&gt;"</code></td>
     <td><code>protocol "file"</code>
       <br><code>protocol "nfs"</code>
       <br><code>protocol "smb"</code></td>
-    <td><code></code></td>
   </tr>
   <tr>
     <td>config</td>
-    <td>path to the client's configuration file</td>
-    <td>1</td>
+    <td>path to the client's configuration file (mandatory)</td>
     <td><code>config "&lt;path to file&gt;"</code></td>
     <td><code>config "C:/Backup/hbackup.list"</code>
       <br><code>config "/etc/hbackup.list"</code></td>
-    <td><code></code></td>
   </tr>
   <tr>
     <td>hostname</td>
-    <td>network host name
+    <td>network host name (default: client name)
       <br>network address (e.g. IP address)</td>
-    <td>0 or 1</td>
     <td><code>hostname "&lt;client host name&gt;"</code>
       <br><code>hostname "&lt;client IP address&gt;"</code></td>
     <td><code>hostname "everest"</code>
       <br><code>hostname "192.168.0.2"</code></td>
-    <td><code>&lt;client name&gt;</code></td>
   </tr>
   <tr>
     <td>option</td>
     <td>file system option
       <br>file system option value</td>
-    <td>any</td>
     <td><code>option "&lt;option name&gt;"</code>
       <br><code>option "&lt;option name&gt;" "&lt;value&gt;"</code></td>
     <td><code>option "nolock"</code>
       <br><code>option iocharset "utf8"</code></td>
-    <td><code></code></td>
   </tr>
 </table>
 
@@ -162,18 +148,26 @@ condition name NTUSER.DAT.LOG
 
 
 # Client everest (local)
-client file everest
+client everest
+protocol file
 config /etc/hbackup/list
 
 # Client montblanc (Microsoft network)
-client smb montblanc
-option iocharset utf8
+client montblanc
+protocol smb
 option username Administrator
 option password "A6ug9^;k"
 config C:/backup/hbackup.list
 
 # Client mckinley (Unix network)
-client nfs mckinley
+client mckinley
+protocol nfs
 option nolock
+config /etc/hbackup/list
+
+# Client mckinley (Microsoft network)
+client mckinley xp
+protocol smb
+option username Administrator
 config /etc/hbackup/list
 </pre></code></p>

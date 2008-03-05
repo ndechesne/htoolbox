@@ -45,14 +45,18 @@ include <a href="filters.html">filters</a> and expiration delay.</p>
   <tr>
     <td><b>Keyword</b></td>
     <td><b>Description</b></td>
-    <td><b>Default</b></td>
-    <td><b>Syntax</b></td>
-    <td><b>Example</b></td>
+    <td width="25%"><b>Syntax</b></td>
+    <td width="25%"><b>Example</b></td>
+  </tr>
+  <tr>
+    <td>subset</td>
+    <td>subset name matching that in the server configuration</td>
+    <td><code>subset "&lt;name&gt;"</code></td>
+    <td><code>subset "xp"</code></td>
   </tr>
   <tr>
     <td>expire</td>
     <td>expiration delay (days) for removed items to be deleted</td>
-    <td><i>no expiration</i></td>
     <td><code>expire "&lt;delay&gt;"</code></td>
     <td><code>expire "180"</code></td>
   </tr>
@@ -68,14 +72,12 @@ of the client section. Path-wide definitions include
   <tr>
     <td><b>Keyword</b></td>
     <td><b>Description</b></td>
-    <td><b>Default</b></td>
-    <td><b>Syntax</b></td>
-    <td><b>Example</b></td>
+    <td width="25%"><b>Syntax</b></td>
+    <td width="25%"><b>Example</b></td>
   </tr>
   <tr>
     <td>path</td>
     <td>path to backup, starts a new path section</td>
-    <td><i>none</i></td>
     <td><code>path "&lt;path to backup&gt;"</code>
       <br>Note: must not end with a '\'</td>
     <td><code>path "/home"</code>
@@ -85,7 +87,6 @@ of the client section. Path-wide definitions include
     <td>parser</td>
     <td>version control parser to use, see
       <a href="parsers.html">Parsers</a></td>
-    <td><i>none</i></td>
     <td><code>parser "&lt;parser name&gt;" "&lt;mode&gt;"</code></td>
     <td><code>parser "cvs" "modified"</code></td>
   </tr>
@@ -93,7 +94,6 @@ of the client section. Path-wide definitions include
     <td>ignore</td>
     <td>filter to use to determine which files to ignore, see
       <a href="filters.html">Filters</a></td>
-    <td><i>none</i></td>
     <td><code>ignore "&lt;filter name&gt;"</code></td>
     <td><code>ignore "ignore_filter"</code></td>
   </tr>
@@ -101,7 +101,6 @@ of the client section. Path-wide definitions include
     <td>compress</td>
     <td>filter to use to determine which files to compress, see
       <a href="filters.html">Filters</a></td>
-    <td><i>none</i></td>
     <td><code>compress "&lt;filter name&gt;"</code></td>
     <td><code>compress "ignore_filter"</code></td>
   </tr>
@@ -124,6 +123,9 @@ they are only available to that path.</p>
 <h3>Example of complex client configuration file</h3>
 
 <p><code><pre>
+# Has this subset required by server configuration
+subset xp
+
 # Files removed 6 months ago can be deleted from DB
 expire 180
 
