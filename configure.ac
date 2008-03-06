@@ -47,7 +47,7 @@ fi
 # Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC
-AC_CHECK_HEADERS([fcntl.h stdlib.h string.h unistd.h])
+AC_CHECK_HEADERS([fcntl.h stdlib.h string.h unistd.h utime.h])
 AC_CHECK_HEADERS(sstream)
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -64,7 +64,14 @@ AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
+AC_FUNC_CHOWN
+AC_FUNC_MKTIME
+AC_FUNC_SELECT_ARGTYPES
+AC_FUNC_STAT
+AC_FUNC_UTIME_NULL
+AC_STRUCT_TM
 AC_CHECK_FUNCS([mkdir mkfifo regcomp strchr strdup strerror strrchr strtoul])
+AC_CHECK_FUNCS([select setenv strtol tzset utime strerror strrchr strtoul])
 
 # Define test tools
 AC_PATH_PROG(TEST_TOOL, test_tools/test_setup, test_tools/test_setup)
@@ -76,6 +83,7 @@ AC_PATH_PROG(MAKE, hmake, make)
 AC_CONFIG_FILES([Makefile
                  cli/Makefile
                  cli/test/Makefile
+                 gui/Makefile
                  lib/Makefile
                  lib/test/Makefile
                  man/Makefile])
