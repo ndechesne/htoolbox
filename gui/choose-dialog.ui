@@ -29,13 +29,13 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QWidget" name="" >
+  <widget class="QWidget" name="layoutWidget" >
    <property name="geometry" >
     <rect>
      <x>10</x>
      <y>10</y>
      <width>371</width>
-     <height>73</height>
+     <height>76</height>
     </rect>
    </property>
    <layout class="QGridLayout" >
@@ -83,6 +83,16 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QToolButton" name="browse" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>
@@ -99,8 +109,12 @@
     </item>
    </layout>
   </widget>
+  <action name="actionBrowsefiles" >
+   <property name="text" >
+    <string>browsefiles</string>
+   </property>
+  </action>
  </widget>
- <includes/>
  <resources/>
  <connections>
   <connection>
@@ -164,6 +178,22 @@
     <hint type="destinationlabel" >
      <x>73</x>
      <y>69</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>servermode</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>browse</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>195</x>
+     <y>41</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>365</x>
+     <y>71</y>
     </hint>
    </hints>
   </connection>

@@ -17,15 +17,17 @@
 */
 
 #include <QtGui/qapplication.h>
-#include "choose-dialog.h"
+#include "choose-dialog.uih"
 
 int main(int argc, char* argv[]) {
-  QApplication app(argc, argv);
-  QDialog      dialog;
-  Ui_choose    choice;
+  QApplication  app(argc, argv);
+  QDialog       dialog;
+  Ui_choose     choice;
 
   choice.setupUi(&dialog);
-  dialog.show();
+/*  QObject::connect(choice->browse, SIGNAL(released()), actionBrowsefiles,
+    SLOT(trigger()));*/
 
+  dialog.show();
   return app.exec();
 }
