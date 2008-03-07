@@ -81,6 +81,12 @@
           <property name="enabled" >
            <bool>false</bool>
           </property>
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
          </widget>
         </item>
         <item>
@@ -109,11 +115,6 @@
     </item>
    </layout>
   </widget>
-  <action name="actionBrowsefiles" >
-   <property name="text" >
-    <string>browsefiles</string>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections>

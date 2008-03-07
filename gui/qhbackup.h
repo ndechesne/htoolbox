@@ -16,27 +16,20 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <QtGui/qfiledialog.h>
-#include "qhbackup.h"
+#include <QtGui/QDialog>
+#include <QtGui/QApplication>
+#include "choose-dialog.uih"
 
-void ChooseDialog::setOpenFileName() {
-  QFileDialog::Options options;
-  QString selectedFilter;
-  QString fileName = QFileDialog::getOpenFileName(this,
-                          tr("QFileDialog::getOpenFileName()"),
-                          choice.configpath->text(),
-                          tr("Conf Files (*.conf)"),
-                          NULL,
-                          0);
-  if (!fileName.isEmpty()) {
-    choice.configpath->setText(fileName);
+class ChooseDialog : public QDialog {
+  Q_OBJECT
+private:
+  Ui_choose choice;
+private slots:
+  void setOpenFileName();
+public:
+  ChooseDialog(QWidget *parent = 0) : QDialog(parent) {
+    choice.setupUi(this);
+    QObject::connect(choice.browse, SIGNAL(clicked()), this,
+      SLOT(setOpenFileName()));
   }
-}
-
-int main(int argc, char* argv[]) {
-  QApplication app(argc, argv);
-  ChooseDialog dialog;
-
-  dialog.show();
-  return app.exec();
-}
+};
