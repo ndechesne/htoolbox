@@ -26,7 +26,7 @@ void ChooseDialog::setOpenFileName() {
   QString fileName = QFileDialog::getOpenFileName(this,
                           tr("Choose configuration file"),
                           choice.configpath->text(),
-                          tr("Conf Files (*.conf)"));
+                          tr("Configuration Files (*.conf);;All files (*)"));
   if (!fileName.isEmpty()) {
     choice.configpath->setText(fileName);
   }
