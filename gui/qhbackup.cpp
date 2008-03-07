@@ -15,28 +15,38 @@
      Foundation, Inc., 59 Temple Place - Suite 330,
      Boston, MA 02111-1307, USA.
 */
-
-#include <QtGui/qfiledialog.h>
+#include <stdlib.h> // getenv
+#include <QtGui/QApplication>
+#include <QtGui/QFileDialog>
 #include "qhbackup.h"
 
 void ChooseDialog::setOpenFileName() {
   QFileDialog::Options options;
   QString selectedFilter;
   QString fileName = QFileDialog::getOpenFileName(this,
-                          tr("QFileDialog::getOpenFileName()"),
+                          tr("Choose configuration file"),
                           choice.configpath->text(),
-                          tr("Conf Files (*.conf)"),
-                          NULL,
-                          0);
+                          tr("Conf Files (*.conf)"));
   if (!fileName.isEmpty()) {
     choice.configpath->setText(fileName);
   }
 }
 
+QString ChooseDialog::getConfig() {
+  if (choice.servermode->isChecked())
+    return choice.configpath->text();
+  QString path = getenv("HOME");
+  path += "/.hbackup/config";
+  return path;
+}
+
 int main(int argc, char* argv[]) {
   QApplication app(argc, argv);
   ChooseDialog dialog;
+  ViewPath message(dialog);
 
   dialog.show();
+  QObject::connect(&dialog, SIGNAL(accepted()), &message, SLOT(show()));
+
   return app.exec();
 }

@@ -17,19 +17,33 @@
 */
 
 #include <QtGui/QDialog>
-#include <QtGui/QApplication>
+#include <QtGui/QMessageBox>
 #include "choose-dialog.uih"
 
 class ChooseDialog : public QDialog {
   Q_OBJECT
 private:
-  Ui_choose choice;
-private slots:
+  Ui_choose   choice;
+private Q_SLOTS:
   void setOpenFileName();
 public:
   ChooseDialog(QWidget *parent = 0) : QDialog(parent) {
     choice.setupUi(this);
     QObject::connect(choice.browse, SIGNAL(clicked()), this,
       SLOT(setOpenFileName()));
+  }
+  QString getConfig();
+};
+
+class ViewPath : public QMessageBox {
+  Q_OBJECT
+  ChooseDialog& _dialog;
+public:
+  ViewPath(ChooseDialog& dialog) :
+      QMessageBox::QMessageBox(), _dialog(dialog) {}
+public Q_SLOTS:
+  void show() {
+    setText(_dialog.getConfig());
+    QMessageBox::show();
   }
 };
