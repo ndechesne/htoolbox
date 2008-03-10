@@ -16,8 +16,11 @@
      Boston, MA 02111-1307, USA.
 */
 
+#ifndef CHOOSE_H
+#define CHOOSE_H
+
+#include <stdlib.h>             // getenv
 #include <QtGui/QDialog>
-#include <QtGui/QMessageBox>
 #include "choose-dialog.uih"
 
 class ChooseDialog : public QDialog {
@@ -35,15 +38,4 @@ public:
   QString getConfig();
 };
 
-class ViewPath : public QMessageBox {
-  Q_OBJECT
-  ChooseDialog& _dialog;
-public:
-  ViewPath(ChooseDialog& dialog) :
-      QMessageBox::QMessageBox(), _dialog(dialog) {}
-public Q_SLOTS:
-  void show() {
-    setText(_dialog.getConfig());
-    QMessageBox::show();
-  }
-};
+#endif

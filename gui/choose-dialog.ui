@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>392</width>
-    <height>173</height>
+    <height>147</height>
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Choose Backup Mode</string>
+   <string>Choose configuration</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox" >
    <property name="geometry" >
@@ -42,7 +42,7 @@
     <item row="2" column="0" >
      <widget class="QRadioButton" name="servermode" >
       <property name="text" >
-       <string>Server Mode</string>
+       <string>Server</string>
       </property>
      </widget>
     </item>
@@ -103,7 +103,7 @@
     <item row="1" column="0" >
      <widget class="QRadioButton" name="clientmode" >
       <property name="text" >
-       <string>Client Mode</string>
+       <string>Client</string>
       </property>
      </widget>
     </item>

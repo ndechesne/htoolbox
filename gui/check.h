@@ -16,17 +16,23 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <QtGui/QApplication>
+#ifndef CHECK_H
+#define CHECK_H
+
+#include <QtGui/QMessageBox>
 #include "choose.h"
-#include "check.h"
 
-int main(int argc, char* argv[]) {
-  QApplication    app(argc, argv);
-  ChooseDialog    dialog;
-  CheckMessageBox message(dialog);
+class CheckMessageBox : public QMessageBox {
+  Q_OBJECT
+  ChooseDialog& _dialog;
+public:
+  CheckMessageBox(ChooseDialog& dialog) :
+      QMessageBox::QMessageBox(), _dialog(dialog) {}
+public Q_SLOTS:
+  void check() {
+    setText(_dialog.getConfig());
+    QMessageBox::show();
+  }
+};
 
-  QObject::connect(&dialog, SIGNAL(accepted()), &message, SLOT(check()));
-  dialog.show();
-
-  return app.exec();
-}
+#endif

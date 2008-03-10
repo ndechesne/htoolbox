@@ -16,17 +16,25 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <QtGui/QApplication>
 #include "choose.h"
-#include "check.h"
+#include <QtGui/QFileDialog>
 
-int main(int argc, char* argv[]) {
-  QApplication    app(argc, argv);
-  ChooseDialog    dialog;
-  CheckMessageBox message(dialog);
+void ChooseDialog::setOpenFileName() {
+  QFileDialog::Options options;
+  QString selectedFilter;
+  QString fileName = QFileDialog::getOpenFileName(this,
+                          tr("Choose configuration file"),
+                          choice.configpath->text(),
+                          tr("Configuration Files (*.conf);;All files (*)"));
+  if (!fileName.isEmpty()) {
+    choice.configpath->setText(fileName);
+  }
+}
 
-  QObject::connect(&dialog, SIGNAL(accepted()), &message, SLOT(check()));
-  dialog.show();
-
-  return app.exec();
+QString ChooseDialog::getConfig() {
+  if (! choice.usermode->isChecked())
+    return choice.configpath->text();
+  QString path = getenv("HOME");
+  path += "/.hbackup/config";
+  return path;
 }
