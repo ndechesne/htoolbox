@@ -19,6 +19,7 @@
 #ifndef _HBACKUP_H
 #define _HBACKUP_H
 
+#include <ostream>
 #include <list>
 
 namespace hbackup {
@@ -48,7 +49,7 @@ namespace hbackup {
                         default prefix for alert, error and warning
     \return the output stream
   */
-  extern ostream& out(
+  extern std::ostream& out(
     VerbosityLevel    level,
     int               arrow_length = -1);
 
@@ -146,7 +147,8 @@ namespace hbackup {
       \return 0 on success, -1 on failure
     */
     int getList(
-      list<string>& records,
+      std::list<std::string>&
+                    records,
       const char*   client        = "",
       const char*   path          = "",
       time_t        date          = 0);

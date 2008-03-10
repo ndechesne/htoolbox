@@ -4,7 +4,6 @@ bin_PROGRAMS = hbackup
 hbackup_SOURCES = hbackup.cpp
 LDADD = @top_srcdir@/lib/libhbackup.la
 AM_CXXFLAGS = -I@top_srcdir@/lib
-AM_LDFLAGS = -lssl -lz
 
 install-exec-local:
 	rm -f '$(DESTDIR)$(bindir)/hubackup'
