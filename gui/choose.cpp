@@ -32,9 +32,17 @@ void ChooseDialog::setOpenFileName() {
 }
 
 QString ChooseDialog::getConfig() {
-  if (! choice.usermode->isChecked())
-    return choice.configpath->text();
-  QString path = getenv("HOME");
-  path += "/.hbackup/config";
-  return path;
+  if (choice.usermode->isChecked())
+    return getenv("HOME");
+  return choice.configpath->text();
+}
+
+ChooseDialog::Mode ChooseDialog::getMode() {
+  if (choice.usermode->isChecked())
+    return user;
+  if (choice.clientmode->isChecked())
+    return client;
+  if (choice.servermode->isChecked())
+    return server;
+  return none;
 }

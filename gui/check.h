@@ -20,19 +20,20 @@
 #define CHECK_H
 
 #include <QtGui/QMessageBox>
+#include "hbackup.h"
 #include "choose.h"
 
 class CheckMessageBox : public QMessageBox {
   Q_OBJECT
-  ChooseDialog& _dialog;
+  hbackup::HBackup& _backup;
+  ChooseDialog&     _dialog;
 public:
-  CheckMessageBox(ChooseDialog& dialog) :
-      QMessageBox::QMessageBox(), _dialog(dialog) {}
+  CheckMessageBox(
+    hbackup::HBackup& backup,
+    ChooseDialog&     dialog) :
+      QMessageBox::QMessageBox(), _backup(backup), _dialog(dialog) {}
 public Q_SLOTS:
-  void check() {
-    setText(_dialog.getConfig());
-    QMessageBox::show();
-  }
+  void check();
 };
 
 #endif

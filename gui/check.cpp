@@ -17,22 +17,30 @@
 */
 
 #include "hbackup.h"
-#include <QtGui/QApplication>
 #include "choose.h"
-#include "check.h"
+#include <check.h>
 
-int hbackup::terminating(const char* unused) {
-  return 0;
-}
-
-int main(int argc, char* argv[]) {
-  hbackup::HBackup  backup;
-  QApplication      app(argc, argv);
-  ChooseDialog      dialog;
-  CheckMessageBox   message(backup, dialog);
-
-  QObject::connect(&dialog, SIGNAL(accepted()), &message, SLOT(check()));
-  dialog.show();
-
-  return app.exec();
+void CheckMessageBox::check() {
+  QString config = _dialog.getConfig();
+  bool    failed = false;
+  switch (_dialog.getMode()) {
+    case ChooseDialog::user:
+      failed = _backup.open(config.toAscii().constData(), true, true);
+      break;
+    case ChooseDialog::client:
+      failed = true;
+      break;
+    case ChooseDialog::server:
+      failed = _backup.open(config.toAscii().constData(), false, true);
+      break;
+    default:
+      failed = true;
+  }
+  if (failed) {
+    QMessageBox::critical(this, tr("Error reading configuration file"),
+      tr("Get message from library!"));
+  } else {
+    setText(config);
+    QMessageBox::show();
+  }
 }

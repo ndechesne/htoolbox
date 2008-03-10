@@ -30,12 +30,19 @@ private:
 private Q_SLOTS:
   void setOpenFileName();
 public:
+  enum Mode {
+    none,
+    user,
+    client,
+    server
+  };
   ChooseDialog(QWidget *parent = 0) : QDialog(parent) {
     choice.setupUi(this);
     QObject::connect(choice.browse, SIGNAL(clicked()), this,
       SLOT(setOpenFileName()));
   }
   QString getConfig();
+  Mode getMode();
 };
 
 #endif

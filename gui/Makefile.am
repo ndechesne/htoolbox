@@ -8,6 +8,7 @@ qhbackup_SOURCES = \
 	moc_choose.cpp \
 	moc_check.cpp \
 	choose.cpp \
+	check.cpp \
 	qhbackup.cpp
 
 LDADD = @top_srcdir@/lib/libhbackup.la -lQtGui
