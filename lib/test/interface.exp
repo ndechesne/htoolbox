@@ -38,6 +38,49 @@ Configuration:
  --> Condition not size< 1000
 Error: Given DB path does not exist: test_db
 
+Test: check config
+ -> Reading configuration file 'etc/hbackup.conf'
+Warning: Keyword trash is deprecated and will be removed in the next
+version of this software, please remove it from your configuration
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options:  username=Myself password=flesyM nocase
+ ---> Config:   C:/Backup/Backup.LST
+ ---> No expiry
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config:   /home/User/hbackup.list
+ ---> No expiry
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config:   etc/localhost.list
+ ---> Expiry:   86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config:   /home/backup/Backup.list
+ ---> No expiry
+ -> Filter and backup
+ --> Condition type f
+ --> Condition path_end ~
+ -> Filter or test_or
+ --> Condition filter backup
+ --> Condition not size< 1000
+ -> Reading client configuration file
+Configuration:
+ -> Client: localhost
+ --> Protocol: file
+ --> Config:   test_user/.hbackup/config
+ --> No expiry
+ --> Paths:
+ ---> Path: test_user/testuser
+
 Test: typical backup
  -> Reading configuration file 'etc/hbackup.conf'
 Warning: Keyword trash is deprecated and will be removed in the next

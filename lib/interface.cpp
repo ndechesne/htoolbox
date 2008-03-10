@@ -264,20 +264,26 @@ int HBackup::readConfig(const char* config_path) {
 
 int HBackup::open(
     const char*   path,
-    bool          user_mode) {
+    bool          user_mode,
+    bool          check_config) {
+  bool failed = false;
   if (user_mode) {
-    // Set-up DB
-    _d->db = new Database(Path(path, ".hbackup").c_str());
     // Set-up client info
     Client* client = new Client("localhost");
     client->setProtocol("file");
     client->setListfile(Path(path, ".hbackup/config").c_str());
     client->setBasePath(path);
-    _d->clients.push_back(client);
+    if (check_config) {
+      failed = (client->readConfig(client->listfile(), _d->filters) < 0);
+    } else {
+      _d->clients.push_back(client);
+      // Set-up DB
+      _d->db = new Database(Path(path, ".hbackup").c_str());
+    }
   } else {
-    return readConfig(path);
+    failed = (readConfig(path) < 0);
   }
-  return 0;
+  return failed ? -1 : 0;
 }
 
 void HBackup::close() {
@@ -320,8 +326,7 @@ int HBackup::check() {
 }
 
 int HBackup::backup(
-  bool              initialize,
-  bool              config_check) {
+  bool              initialize) {
   if (! _d->db->open(false, initialize)) {
     bool failed = false;
 
@@ -345,7 +350,7 @@ int HBackup::backup(
         }
       }
       (*client)->setMountPoint(_d->mount_point);
-      if ((*client)->backup(*_d->db, _d->filters, config_check)) {
+      if ((*client)->backup(*_d->db, _d->filters)) {
         failed = true;
       }
     }

@@ -94,11 +94,13 @@ namespace hbackup {
       \param path         the path to the server configuration file, or
                           the user's home directory
       \param user_mode    backup in user mode
+      \param check_config just check given configuration file
       \return 0 on success, -1 on failure
     */
     int open(
       const char*   path,
-      bool          user_mode     = false);
+      bool          user_mode     = false,
+      bool          check_config  = false);
     //! \brief Close database
     /*!
       Makes sure the lists are up-to-date.
@@ -130,12 +132,10 @@ namespace hbackup {
       Backs up all specified clients, using their configuration file. Also
       deals with expired entries.
       \param initialize   set-up DB if missing
-      \param pretend      do not backup, just check configuration files
       \return 0 on success, -1 on failure
     */
     int backup(
-      bool          initialize    = false,
-      bool          pretend       = false);
+      bool          initialize    = false);
     //! \brief List database contents selectively
     /*!
       Lists contents, using the given parameters as filters.

@@ -55,9 +55,6 @@ class Client {
   Filters           _filters;
   int mountPath(string  backup_path, string  *path);
   int umount();
-  int readConfig(
-    const string&   list_path,
-    const Filters&  global_filters);
 public:
   Client(const string& name, const string& sub_name = "");
   ~Client();
@@ -73,7 +70,8 @@ public:
   void setHostOrIp(string value);
   void setProtocol(string value);
   void setListfile(const char* value);
-  void setExpire(int expire) { _expire = expire; };
+  const char* listfile() const { return _list_file; }
+  void setExpire(int expire) { _expire = expire; }
   //
   bool initialised() const { return _initialised; }
   void setInitialised() { _initialised = true; }
@@ -89,6 +87,9 @@ public:
   Filter* findFilter(const string& name) const {
     return _filters.find(name);
   }
+  int  readConfig(
+    const string&   list_path,
+    const Filters&  global_filters);
   int  backup(
     Database&       db,
     const Filters&  global_filters,

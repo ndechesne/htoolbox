@@ -69,6 +69,17 @@ int main(void) {
   hbackup->close();
   delete hbackup;
 
+  cout << endl << "Test: check config" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf", false, true)) {
+    return 1;
+  }
+  if (hbackup->open("test_user", true, true)) {
+    return 1;
+  }
+  hbackup->close();
+  delete hbackup;
+
   cout << endl << "Test: typical backup" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
