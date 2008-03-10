@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>392</width>
-    <height>156</height>
+    <height>173</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -35,37 +35,21 @@
      <x>10</x>
      <y>10</y>
      <width>371</width>
-     <height>95</height>
+     <height>97</height>
     </rect>
    </property>
    <layout class="QGridLayout" >
-    <item row="1" column="0" >
+    <item row="2" column="0" >
      <widget class="QRadioButton" name="servermode" >
       <property name="text" >
        <string>Server Mode</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="0" >
+    <item row="3" column="0" >
      <layout class="QHBoxLayout" >
       <item>
        <layout class="QHBoxLayout" >
-        <item>
-         <spacer>
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType" >
-           <enum>QSizePolicy::Maximum</enum>
-          </property>
-          <property name="sizeHint" >
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item>
          <widget class="QLabel" name="config" >
           <property name="enabled" >
@@ -116,6 +100,13 @@
       </property>
      </widget>
     </item>
+    <item row="1" column="0" >
+     <widget class="QRadioButton" name="clientmode" >
+      <property name="text" >
+       <string>Client Mode</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
  </widget>
@@ -154,14 +145,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>servermode</sender>
+   <sender>usermode</sender>
    <signal>toggled(bool)</signal>
    <receiver>configpath</receiver>
-   <slot>setEnabled(bool)</slot>
+   <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>60</x>
-     <y>39</y>
+     <x>195</x>
+     <y>20</y>
     </hint>
     <hint type="destinationlabel" >
      <x>247</x>
@@ -170,14 +161,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>servermode</sender>
+   <sender>usermode</sender>
    <signal>toggled(bool)</signal>
    <receiver>config</receiver>
-   <slot>setEnabled(bool)</slot>
+   <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
      <x>195</x>
-     <y>41</y>
+     <y>20</y>
     </hint>
     <hint type="destinationlabel" >
      <x>73</x>
@@ -186,14 +177,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>servermode</sender>
+   <sender>usermode</sender>
    <signal>toggled(bool)</signal>
    <receiver>browse</receiver>
-   <slot>setEnabled(bool)</slot>
+   <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
      <x>195</x>
-     <y>41</y>
+     <y>20</y>
     </hint>
     <hint type="destinationlabel" >
      <x>365</x>
