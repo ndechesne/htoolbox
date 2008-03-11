@@ -100,7 +100,7 @@ int Client::mountPath(
   command += " " + share + " " + _mount_point;
 
   // Issue mount command
-  out(verbose, 1) << command << endl;
+  out(verbose, msg_standard, command.c_str(), 1);
   command += " > /dev/null 2>&1";
 
   int result = system(command.c_str());
@@ -117,7 +117,7 @@ int Client::umount() {
     string command = "umount -fl ";
 
     command += _mount_point;
-    out(verbose, 1) << command << endl;
+    out(verbose, msg_standard, command.c_str(), 1);
     _mounted = "";
     return system(command.c_str());
   }
@@ -134,7 +134,8 @@ int Client::readConfig(
 
   // Open client configuration file
   if (config_file.open("r")) {
-    out(error) << "Client configuration file not found " << list_path << endl;
+    out(error, msg_standard, "Client configuration file not found", -1,
+      list_path.c_str());
     return -1;
   }
   // Set up config syntax and grammar
@@ -171,7 +172,7 @@ int Client::readConfig(
     path->add(new ConfigItem("compress", 0, 1, 1));
   }
 
-  out(verbose, 1) << "Reading client configuration file" << endl;
+  out(verbose, msg_standard, "Reading client configuration file", 1);
   if (config.read(config_file,
       Stream::flags_dos_catch | Stream::flags_accept_cr_lf) >= 0) {
     // Read client configuration file
@@ -188,9 +189,8 @@ int Client::readConfig(
         &&  (expire >= 0)) {
           _expire = expire * 3600 * 24;
         } else {
-          out(error) << "Error: in client configuration file " << list_path
-            << ", line " << (*params).lineNo() << " wrong expiration value: "
-            << (*params)[1] << endl;
+          out(error, msg_line_no, "Wrong expiration value",
+            (*params).lineNo(), list_path.c_str());
           failed = true;
         }
       } else
@@ -215,8 +215,8 @@ int Client::readConfig(
           int ilen = strlen((*i)->path());
           if ((ilen > jlen)
             && (Path::compare((*i)->path(), (*j)->path(), jlen) == 0)) {
-            errno = EUCLEAN;
-            out(error) << "Path inside another: this is not supported" << endl;
+            out(error, msg_line_no, "Path inside another", (*params).lineNo(),
+              list_path.c_str());
             failed = true;
           }
           i = j;
@@ -226,8 +226,8 @@ int Client::readConfig(
           int ilen = strlen((*i)->path());
           if ((ilen < jlen)
             && (Path::compare((*i)->path(), (*j)->path(), ilen) == 0)) {
-            errno = EUCLEAN;
-            out(error) << "Path inside another. This is not supported" << endl;
+            out(error, msg_line_no, "Path inside another", (*params).lineNo(),
+              list_path.c_str());
             failed = true;
           }
         }
@@ -241,9 +241,8 @@ int Client::readConfig(
           filter = path->addFilter((*params)[1], (*params)[2]);
         }
         if (filter == NULL) {
-          out(error) << "Error: in client configuration file " << list_path
-            << ", line " << (*params).lineNo() << " unsupported filter type: "
-            << (*params)[1] << endl;
+          out(error, msg_line_no, "Unsupported filter type",
+            (*params).lineNo(), list_path.c_str());
           failed = true;
         }
       } else
@@ -271,9 +270,8 @@ int Client::readConfig(
             subfilter = global_filters.find((*params)[2]);
           }
           if (subfilter == NULL) {
-            out(error) << "Error: in client configuration file " << list_path
-              << ", line " << (*params).lineNo() << " filter not found: "
-              << (*params)[2] << endl;
+            out(error, msg_line_no, "Filter not found", (*params).lineNo(),
+              list_path.c_str());
             failed = 2;
           } else {
             filter->add(new Condition(Condition::filter, subfilter,
@@ -282,14 +280,13 @@ int Client::readConfig(
         } else {
           switch (filter->add(filter_type, (*params)[2], negated)) {
             case -2:
-              out(error) << "Error: in client configuration file " << list_path
-                << ", line " << (*params).lineNo()
-                << " unsupported condition type: " << (*params)[1] << endl;
+              out(error, msg_line_no, "Unsupported condition type",
+                (*params).lineNo(), list_path.c_str());
               failed = true;
               break;
             case -1:
-              out(error) << "Error: in client configuration file " << list_path
-                << ", line " << (*params).lineNo() << endl;
+              out(error, msg_line_no, "Failed to add condition",
+                (*params).lineNo(), list_path.c_str());
               failed = true;
           }
         }
@@ -299,9 +296,8 @@ int Client::readConfig(
         Filter* filter = path->findFilter((*params)[1], &_filters,
           &global_filters);
         if (filter == NULL) {
-          out(error) << "Error: in client configuration file " << list_path
-            << ", line " << (*params).lineNo()
-            << ": filter for ignoring not found: " << (*params)[1] << endl;
+          out(error, msg_line_no, "Filter not found", (*params).lineNo(),
+            list_path.c_str());
           failed = true;
         } else {
           path->setIgnore(filter);
@@ -311,9 +307,8 @@ int Client::readConfig(
         Filter* filter = path->findFilter((*params)[1], &_filters,
           &global_filters);
         if (filter == NULL) {
-          out(error) << "Error: in client configuration file " << list_path
-            << ", line " << (*params).lineNo()
-            << ": filter for compression not found: " << (*params)[1] << endl;
+          out(error, msg_line_no, "Filter not found", (*params).lineNo(),
+            list_path.c_str());
           failed = true;
         } else {
           path->setCompress(filter);
@@ -322,15 +317,13 @@ int Client::readConfig(
       if ((*params)[0] == "parser") {
         switch (path->addParser((*params)[1], (*params)[2])) {
           case 1:
-            out(error) << "Error: in client configuration file " << list_path
-              << ", line " << (*params).lineNo() << " unsupported parser type: "
-              << (*params)[1] << endl;
+            out(error, msg_line_no, "Unsupported parser type",
+              (*params).lineNo(), list_path.c_str());
             failed = true;
             break;
           case 2:
-            out(error) << "Error: in client configuration file " << list_path
-              << ", line " << (*params).lineNo() << " unsupported parser mode: "
-              << (*params)[2] << endl;
+            out(error, msg_line_no, "Unsupported parser mode",
+              (*params).lineNo(), list_path.c_str());
             failed = true;
             break;
         }
@@ -340,7 +333,7 @@ int Client::readConfig(
     config_file.close();
   }
   if (! failed) {
-    out(verbose) << "Configuration:" << endl;
+    out(verbose, msg_standard, "Configuration:");
     show(1);
   }
   return failed ? -1 : 0;
@@ -392,17 +385,18 @@ int Client::backup(
   char*   dir = Path::dirname(_list_file);
 
   if (_home_path.length() == 0) {
-    out(info) << "Trying client '" << _name << "' using protocol '"
-      << _protocol << "'" << endl;
+    stringstream s;
+    s <<"Trying client '" << _name << "' using protocol '" << _protocol << "'";
+    out(info, msg_standard, s.str().c_str());
   }
 
   if (mountPath(dir, &list_path)) {
     switch (errno) {
       case EPROTONOSUPPORT:
-        out(error) << "Protocol not supported: " << _protocol << endl;
+        out(error, msg_errno, _protocol.c_str(), errno);
         return 1;
       case ETIMEDOUT:
-        out(info) << strerror(errno) << " connecting to client" << endl;
+        out(error, msg_errno, "Connecting to client", errno);
         return 0;
     }
   }
@@ -415,11 +409,12 @@ int Client::backup(
   if (readConfig(list_path, global_filters) != 0) {
     failed = true;
   } else if (_d->subset_client !=  _subset_server) {
-    out(info)
-      << "Subsets don't match in server and client configuration files: '"
-      << _subset_server << "' != '" << _d->subset_client << "', skipping" << endl;
+    stringstream s;
+    s << "Subsets don't match in server and client configuration files: '"
+      << _subset_server << "' != '" << _d->subset_client << "', skipping";
+    out(info, msg_standard, s.str().c_str());
   } else {
-    out(info) << "Backing up client" << endl;
+    out(info, msg_standard, "Backing up client");
     setInitialised();
     // Backup
     if (_d->paths.empty()) {
@@ -433,17 +428,16 @@ int Client::backup(
             break;
           }
           string backup_path;
-          out(info) << "Backup path '" << (*i)->path() << "'" << endl;
+          out(info, msg_standard, (*i)->path(), -1, "Backup path");
 
           if (mountPath((*i)->path(), &backup_path)) {
-            out(error) << strerror(errno)
-              << " mounting client share, skipping client" << endl;
+            out(error, msg_errno, "Skipping client", errno);
             abort = true;
           } else
           if ((*i)->parse(db, backup_path.c_str())) {
             // prepare_share sets errno
             if (! terminating()) {
-              out(error) << "Error: backup failed, aborting client" << endl;
+              out(error, msg_standard, "Aborting client");
             }
             abort  = true;
             failed = true;
@@ -461,32 +455,35 @@ int Client::backup(
 }
 
 void Client::show(int level) const {
-  out(verbose, level) << "Client: " << _name << endl;
+  out(verbose, msg_standard, _name.c_str(), level, "Client");
   if (! _d->subset_client.empty()) {
-    out(verbose, level + 1) << "Subset:   " << _d->subset_client << endl;
+    out(verbose, msg_standard, _d->subset_client.c_str(), level + 1, "Subset");
   }
-  out(verbose, level + 1) << "Protocol: " << _protocol << endl;
+  out(verbose, msg_standard, _protocol.c_str(), level + 1, "Protocol");
   if (_host_or_ip != _name) {
-    out(verbose, level + 1) << "Hostname: " << _host_or_ip << endl;
+    out(verbose, msg_standard, _host_or_ip.c_str(), level + 1, "Hostname");
   }
   if (_options.size() > 0) {
-    out(verbose, level + 1) << "Options: ";
+    stringstream s;
     for (list<Option>::const_iterator i = _options.begin();
         i != _options.end(); i++ ) {
-      out(verbose, 0) << " " + i->option();
+      s << i->option() << " ";
     }
-    out(verbose, 0) << endl;
+    out(verbose, msg_standard, s.str().c_str(), level + 1, "Options");
   }
-  out(verbose, level + 1) << "Config:   " << _list_file << endl;
-  if (_expire >= 0) {
-    out(verbose, level + 1) << "Expiry:   " << _expire << "s ("
-      << _expire / 86400 << "d)" << endl;
-  } else {
-    out(verbose, level + 1) << "No expiry" << endl;
+  out(verbose, msg_standard, _list_file, level + 1, "Config");
+  {
+    stringstream s;
+    if (_expire >= 0) {
+      s << _expire << "s (" << _expire / 86400 << "d)";
+    } else {
+      s << "none";
+    }
+    out(verbose, msg_standard, s.str().c_str(), level + 1, "Expiry");
   }
   _filters.show(level + 1);
   if (_d->paths.size() > 0) {
-    out(verbose, level + 1) << "Paths:" << endl;
+    out(verbose, msg_standard, "", level + 1, "Paths");
     for (list<ClientPath*>::iterator i = _d->paths.begin();
         i != _d->paths.end(); i++) {
       (*i)->show(level + 2);

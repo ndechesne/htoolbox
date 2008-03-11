@@ -41,8 +41,8 @@ Lines:
 34:    config C:\Backup\Backup.LST
 
 Test: client configuration
-Error: after line 0: missing keyword 'path'
-Error: at line 5: found CR character, aborting
+Error: after line: 0: missing keyword 'path'
+Error: at line: 5: found CR character, aborting
 Items:
   expire, occ.: optional, max = 1; params: min params = 1, max params = 1
   filter, occ.: optional, no max; params: min params = 2, max params = 2
@@ -137,30 +137,30 @@ Lines:
 58:    hostname myClient
 59:    config C:\Backup\Backup.LST
 Test: broken configuration
-Error: after line 0: need at most 1 occurence(s) of keyword 'db'
-Error: at line 3: keyword 'trash' requires 1 parameter(s), found 2
-Error: at line 5: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line 9: missing keyword 'condition'
-Error: after line 11: missing keyword 'config'
-Error: after line 13: need at most 1 occurence(s) of keyword 'config'
-Error: after line 13: need at most 1 occurence(s) of keyword 'expire'
-Error: after line 13: need at most 1 occurence(s) of keyword 'hostname'
-Error: at line 16: keyword 'option' requires at most 2 parameter(s), found 3
-Error: at line 17: keyword 'option' requires at least 1 parameter(s), found 0
-Error: at line 25: keyword 'filter' requires 2 parameter(s), found 3
-Error: at line 26: keyword 'condition' requires 2 parameter(s), found 3
-Error: at line 27: keyword 'condition' requires 2 parameter(s), found 1
-Error: at line 30: keyword 'expire' requires 1 parameter(s), found 2
-Error: after line 34: need at most 1 occurence(s) of keyword 'compress'
-Error: after line 34: need at most 1 occurence(s) of keyword 'ignore'
-Error: after line 44: missing keyword 'condition'
-Error: at line 46: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line 46: missing keyword 'condition'
-Error: at line 64: keyword 'ignore' requires 1 parameter(s), found 2
-Error: at line 65: keyword 'compress' requires 1 parameter(s), found 2
-Error: at line 77: keyword 'ignore' requires 1 parameter(s), found 0
-Error: at line 78: keyword 'compress' requires 1 parameter(s), found 0
-Error: at line 80: keyword 'what_the_f...?' incorrect or misplaced, aborting
+Error: after line: 0: need at most 1 occurence(s) of keyword 'db'
+Error: at line: 3: keyword 'trash' requires 1 parameter(s), found 2
+Error: at line: 5: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line: 9: missing keyword 'condition'
+Error: after line: 11: missing keyword 'config'
+Error: after line: 13: need at most 1 occurence(s) of keyword 'config'
+Error: after line: 13: need at most 1 occurence(s) of keyword 'expire'
+Error: after line: 13: need at most 1 occurence(s) of keyword 'hostname'
+Error: at line: 16: keyword 'option' requires at most 2 parameter(s), found 3
+Error: at line: 17: keyword 'option' requires at least 1 parameter(s), found 0
+Error: at line: 25: keyword 'filter' requires 2 parameter(s), found 3
+Error: at line: 26: keyword 'condition' requires 2 parameter(s), found 3
+Error: at line: 27: keyword 'condition' requires 2 parameter(s), found 1
+Error: at line: 30: keyword 'expire' requires 1 parameter(s), found 2
+Error: after line: 34: need at most 1 occurence(s) of keyword 'compress'
+Error: after line: 34: need at most 1 occurence(s) of keyword 'ignore'
+Error: after line: 44: missing keyword 'condition'
+Error: at line: 46: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line: 46: missing keyword 'condition'
+Error: at line: 64: keyword 'ignore' requires 1 parameter(s), found 2
+Error: at line: 65: keyword 'compress' requires 1 parameter(s), found 2
+Error: at line: 77: keyword 'ignore' requires 1 parameter(s), found 0
+Error: at line: 78: keyword 'compress' requires 1 parameter(s), found 0
+Error: at line: 80: keyword 'what_the_f...?' incorrect or misplaced, aborting
 Items:
   client, occ.: min = 1, no max; params: min params = 2, max params = 2
     config, occ.: min = 1, max = 1; params: min params = 1, max params = 1

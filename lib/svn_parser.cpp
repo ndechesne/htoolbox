@@ -48,8 +48,8 @@ Parser *SvnParser::isControlled(const string& dir_path) const {
   // If control directory exists and contains an entries file, assume control
   if (! File(Path((dir_path + control_dir).c_str(), &entries[1])).isValid()) {
     if (! _dummy) {
-      out(warning) << "Directory should be under " << name() << " control: "
-        << dir_path << endl;
+      out(warning, msg_standard,
+        "Directory should be under Subversion control", -1, dir_path.c_str());
       return new IgnoreParser;
     } else {
       return NULL;
@@ -64,7 +64,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) {
   _mode = mode;
 
   /* Fill in list of files */
-  out(verbose, 1) << "Parsing Subversion entries" << endl;
+  out(verbose, msg_standard, "Parsing Subversion entries", 1);
   string command = "svn status --no-ignore --non-interactive -N " + dir_path;
   FILE* fd = popen(command.c_str(), "r");
   if (fd != NULL) {
@@ -95,11 +95,10 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) {
       }
       // Add to list of Nodes, with status
       _files.push_back(Node(&buffer[7], type, 0, 0, 0, 0, 0));
-      out(verbose, 2) << _files.back().name() << "\t" << _files.back().type()
-          << endl;
     }
     pclose(fd);
     _files.sort();
+    show(2);
   }
 }
 
@@ -155,10 +154,11 @@ bool SvnParser::ignore(const Node& node) {
   return true;
 }
 
-void SvnParser::list() {
-  out(verbose) << name() << " list: " << _files.size() << " file(s)" << endl;
+void SvnParser::show(int level) {
   for (_i = _files.begin(); _i != _files.end(); _i++) {
-    out(verbose, 1) << _i->name() << " (" << _i->type() << ")" << endl;
+    stringstream type;
+    type << _i->type();
+    out(verbose, msg_standard, type.str().c_str(), level, _i->name());
   }
 }
 

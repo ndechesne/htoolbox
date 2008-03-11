@@ -62,7 +62,7 @@ public:
   // That tells use whether to ignore the file, i.e. not back it up
   bool ignore(const Node& node) { return false; }
   // For debug purposes
-  void list() {
+  void show(int level) {
     cout << "Displaying list" << endl;
   }
 };
@@ -81,7 +81,7 @@ int main(void) {
   cout << "Check parsers against test directory" << endl;
   parser = parsers->isControlled("test");
   if (parser != NULL) {
-    parser->list();
+    parser->show();
     delete parser;
   }
   cout << "List: " << parsers->size() << " parser(s)" << endl;

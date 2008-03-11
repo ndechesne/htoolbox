@@ -104,7 +104,8 @@ bool Condition::match(const char* npath, const Node& node) const {
         if (_regex_ok) {
           result = ! regexec(&_regex, name.c_str(), 0, NULL, 0);
         } else {
-          out(error) << "Filters: regex: incorrect expression" << endl;
+          out(error, msg_standard, "incorrect regular expression", -1,
+            "Filters");
           failed = true;
         }
       break;
@@ -126,7 +127,8 @@ bool Condition::match(const char* npath, const Node& node) const {
         if (_regex_ok) {
           result = ! regexec(&_regex, path.c_str(), 0, NULL, 0);
         } else {
-          out(error) << "Filters: regex: incorrect expression" << endl;
+          out(error, msg_standard, "incorrect regular expression", -1,
+            "Filters");
           failed = true;
         }
       break;
@@ -149,20 +151,20 @@ bool Condition::match(const char* npath, const Node& node) const {
       result = node.mode() == _value;
       break;
     default:
-      out(error) << "Filters: match: unknown condition type" << endl;
+      out(error, msg_standard, "unknown condition type to match", -1,
+        "Filters");
   }
   return failed ? -1 : (_negated ? ! result : result);
 }
 
 void Condition::show(int level) const {
+  stringstream s;
   switch (_type) {
     case Condition::filter:
-      out(verbose, level) << "Condition " << (_negated ? "not " : "")
-        << "filter " << _filter->name() << endl;
+      s << (_negated ? "not " : "") << "filter " << _filter->name();
       break;
     case Condition::type:
-      out(verbose, level) << "Condition " << (_negated ? "not " : "")
-        << "type " << _file_type << endl;
+      s << (_negated ? "not " : "") << "type " << _file_type;
       break;
     case Condition::name:
     case Condition::name_end:
@@ -201,8 +203,7 @@ void Condition::show(int level) const {
         default:
           type = "unknown";
       }
-      out(verbose, level) << "Condition " << (_negated ? "not " : "")
-        << type << " " << _string << endl;
+      s << (_negated ? "not " : "") << type << " " << _string;
       } break;
     case Condition::size_ge:
     case Condition::size_gt:
@@ -225,8 +226,7 @@ void Condition::show(int level) const {
         default:
           type = "unknown";
       }
-      out(verbose, level) << "Condition " << (_negated ? "not " : "")
-        << type << " " << _value << endl;
+      s << (_negated ? "not " : "") << type << " " << _value;
       } break;
     case Condition::mode_and:
     case Condition::mode_eq: {
@@ -241,10 +241,11 @@ void Condition::show(int level) const {
         default:
           type = "unknown";
       }
-      out(verbose, level) << "Condition " << (_negated ? "not " : "")
-        << type << " " << oct << _value << dec << endl;
+      s << (_negated ? "not " : "") << type << " " << oct << _value << dec;
       } break;
     default:
-      out(verbose, level) << "Unknown condition type " << _type << endl;
+      out(error, msg_standard, "Unknown type", -1, "Condition");
+      return;
   }
+  out(verbose, msg_standard, s.str().c_str(), level, "Condition");
 }

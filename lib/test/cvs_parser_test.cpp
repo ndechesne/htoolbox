@@ -52,7 +52,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1")) == NULL) {
     cout << "test1" << " is not controlled" << endl;
   } else {
-    parser->list();
     delete parser;
   }
 
@@ -60,7 +59,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs")) == NULL) {
     cout << "test1/cvs" << " is not controlled" << endl;
   } else {
-    parser->list();
     /* Nodes */
     node = new File("test1/cvs/nofile");
     cout << node->path() << " will";
@@ -157,7 +155,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs/dirutd")) == NULL) {
     cout << "test1/cvs/dirutd" << " is not controlled" << endl;
   } else {
-    parser->list();
     /* Nodes */
     node = new File("test1/cvs/dirutd/fileutd");
     cout << node->path() << " will";
@@ -180,7 +177,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs/diroth")) == NULL) {
     cout << "test1/cvs/diroth" << " is not controlled" << endl;
   } else {
-    parser->list();
     /* Nodes */
     node = new File("test1/cvs/diroth/fileutd");
     cout << node->path() << " will";
@@ -203,7 +199,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs/CVS")) == NULL) {
     cout << "test1/cvs/CVS" << " is not controlled" << endl;
   } else {
-    parser->list();
     node = new File("test1/cvs/CVS/Entries");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
@@ -238,7 +233,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1")) == NULL) {
     cout << "test1" << " is not controlled" << endl;
   } else {
-    parser->list();
     delete parser;
   }
 
@@ -246,7 +240,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs")) == NULL) {
     cout << "test1/cvs" << " is not controlled" << endl;
   } else {
-    parser->list();
     /* Nodes */
     node = new File("test1/cvs/nofile");
     cout << node->path() << " will";
@@ -343,7 +336,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs/dirutd")) == NULL) {
     cout << "test1/cvs/dirutd" << " is not controlled" << endl;
   } else {
-    parser->list();
     /* Nodes */
     node = new File("test1/cvs/dirutd/fileutd");
     cout << node->path() << " will";
@@ -366,7 +358,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs/diroth")) == NULL) {
     cout << "test1/cvs/diroth" << " is not controlled" << endl;
   } else {
-    parser->list();
     /* Nodes */
     node = new File("test1/cvs/diroth/fileutd");
     cout << node->path() << " will";
@@ -389,7 +380,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs/CVS")) == NULL) {
     cout << "test1/cvs/CVS" << " is not controlled" << endl;
   } else {
-    parser->list();
     node = new File("test1/cvs/CVS/Entries");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
@@ -425,7 +415,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1")) == NULL) {
     cout << "test1" << " is not controlled" << endl;
   } else {
-    parser->list();
     delete parser;
   }
 
@@ -433,7 +422,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs")) == NULL) {
     cout << "test1/cvs" << " is not controlled" << endl;
   } else {
-    parser->list();
     /* Nodes */
     node = new File("test1/cvs/nofile");
     cout << node->path() << " will";
@@ -530,7 +518,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs/dirutd")) == NULL) {
     cout << "test1/cvs/dirutd" << " is not controlled" << endl;
   } else {
-    parser->list();
     /* Nodes */
     node = new File("test1/cvs/dirutd/fileutd");
     cout << node->path() << " will";
@@ -553,7 +540,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs/diroth")) == NULL) {
     cout << "test1/cvs/diroth" << " is not controlled" << endl;
   } else {
-    parser->list();
     /* Nodes */
     node = new File("test1/cvs/diroth/fileutd");
     cout << node->path() << " will";
@@ -576,7 +562,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs/CVS")) == NULL) {
     cout << "test1/cvs/CVS" << " is not controlled" << endl;
   } else {
-    parser->list();
     node = new File("test1/cvs/CVS/Entries");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
@@ -612,7 +597,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1")) == NULL) {
     cout << "test1" << " is not controlled" << endl;
   } else {
-    parser->list();
     delete parser;
   }
 
@@ -620,7 +604,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs")) == NULL) {
     cout << "test1/cvs" << " is not controlled" << endl;
   } else {
-    parser->list();
     /* Nodes */
     node = new File("test1/cvs/nofile");
     cout << node->path() << " will";
@@ -717,7 +700,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs/dirutd")) == NULL) {
     cout << "test1/cvs/dirutd" << " is not controlled" << endl;
   } else {
-    parser->list();
     /* Nodes */
     node = new File("test1/cvs/dirutd/fileutd");
     cout << node->path() << " will";
@@ -740,7 +722,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs/diroth")) == NULL) {
     cout << "test1/cvs/diroth" << " is not controlled" << endl;
   } else {
-    parser->list();
     /* Nodes */
     node = new File("test1/cvs/diroth/fileutd");
     cout << node->path() << " will";
@@ -763,7 +744,6 @@ int main(void) {
   if ((parser = parser_list->isControlled("test1/cvs/CVS")) == NULL) {
     cout << "test1/cvs/CVS" << " is not controlled" << endl;
   } else {
-    parser->list();
     node = new File("test1/cvs/CVS/Entries");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {

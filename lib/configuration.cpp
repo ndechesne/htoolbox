@@ -84,16 +84,16 @@ bool ConfigError::operator<(const ConfigError& error) const {
 }
 
 void ConfigError::print() const {
-  out(error);
+  stringstream s;
   if (_line_no >= 0) {
     if (_type != 0) {
-      out(error, 0) << "after";
+      s << "after";
     } else {
-      out(error, 0) << "at";
+      s << "at";
     }
-    out(error, 0) << " line " << _line_no << ": ";
+    s << " line";
   }
-  out(error, 0) << _message << endl;
+  out(error, msg_line_no, _message.c_str(), _line_no, s.str().c_str());
 }
 
 ConfigItem::~ConfigItem() {

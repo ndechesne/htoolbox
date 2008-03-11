@@ -37,8 +37,6 @@ struct nullstream : std::ostream {
 static nullstream null;
 
 Report*        Report::_self  = NULL;
-// Display all non-debug messages
-VerbosityLevel Report::_level = info;
 
 Report* Report::self() {
   if (_self == NULL) {
@@ -89,4 +87,57 @@ ostream& Report::out(VerbosityLevel level, int arrow_length) {
   }
   // g++ knows I dealt with all cases (no warning for switch), but still warns
   return null;
+}
+
+void Report::out(
+    VerbosityLevel  level,
+    MessageType     type,
+    const char*     message,
+    int             number,
+    const char*     prepend) {
+  stringstream s;
+  if ((type != msg_standard) || (number < 0)) {
+    switch (level) {
+      case alert:
+        s << "ALERT! ";
+        break;
+      case error:
+        s << "Error: ";
+        break;
+      case warning:
+        s << "Warning: ";
+        break;
+      default:;
+    }
+  } else if (number > 0) {
+    string arrow;
+    arrow = " ";
+    arrow.append(number, '-');
+    arrow.append("> ");
+    s << arrow;
+  }
+  if (prepend != NULL) {
+    s << prepend << ": ";
+  }
+  switch (type) {
+    case msg_errno:
+      s << strerror(number) << ": ";
+      break;
+    case msg_line_no:
+      s << number << ": ";
+      break;
+    default:;
+  }
+  s << message;
+  switch (level) {
+    case alert:
+    case error:
+      cerr << s.str() << endl;
+      break;
+    case warning:
+    case info:
+    case verbose:
+    case debug:
+      cout << s.str() << endl;
+  }
 }

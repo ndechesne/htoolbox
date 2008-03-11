@@ -48,6 +48,6 @@ Parser* Parsers::isControlled(const string& dir_path) const {
 
 void Parsers::show(int level) const {
   for (Parsers::const_iterator i = begin(); i != end(); i++) {
-    out(verbose, level) << "Parser " << (*i)->name() << endl;
+    out(verbose, msg_standard, (*i)->name().c_str(), level, "Parser");
   }
 }

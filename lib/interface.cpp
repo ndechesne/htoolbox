@@ -46,6 +46,15 @@ ostream& hbackup::out(
   return Report::self()->out(level, arrow_length);
 }
 
+void hbackup::out(
+    VerbosityLevel  level,
+    MessageType     type,
+    const char*     message,
+    int             number,
+    const char*     prepend) {
+  Report::self()->out(level, type, message, number, prepend);
+}
+
 struct HBackup::Private {
   Database*         db;
   string            mount_point;

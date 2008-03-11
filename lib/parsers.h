@@ -54,7 +54,7 @@ public:
   // That tells use whether to ignore the file, i.e. not back it up
   virtual bool ignore(const Node& node) = 0;
   // For debug purposes
-  virtual void list() = 0;
+  virtual void show(int level = 0) = 0;
 };
 
 class IgnoreParser : public Parser {
@@ -74,7 +74,7 @@ public:
   // Ignore all files
   bool ignore(const Node& node) { return true; };
   // For debug purposes
-  void list() {}
+  void show(int level = 0) {}
 };
 
 class Parsers : public list<Parser*> {

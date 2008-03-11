@@ -6,6 +6,6 @@ Contructing for use, mode: 2, dummy: 0, path: test
 Displaying list
 Destroying (index 2)
 List: 2 parser(s)
- -> Parser test
- -> Parser ignore
+ -> Parser: test
+ -> Parser: ignore
 Destroying (index 1)

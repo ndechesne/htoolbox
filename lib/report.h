@@ -27,10 +27,12 @@
 namespace hbackup {
 
 class Report {
-  static Report*        _self;
-  static VerbosityLevel _level;
-protected:
-  Report() {}
+  static Report*    _self;
+  VerbosityLevel    _level;
+  Report() {
+    // Display all non-debug messages
+    _level = info;
+  }
 public:
   // Create/get current instance of this singleton
   static Report* self();
@@ -38,9 +40,16 @@ public:
   void setVerbosityLevel(
     VerbosityLevel  level);
   // Report text, at given level
-  static ostream& out(
+  ostream& out(
     VerbosityLevel  level,
     int             arrow_length = -1);
+  // Report message, at given level
+  void out(
+    VerbosityLevel  level,
+    MessageType     type,
+    const char*     message,
+    int             number  = -1, // Either line no or error no or arrow length
+    const char*     prepend = NULL);
 };
 
 }

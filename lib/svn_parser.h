@@ -34,7 +34,7 @@ public:
   // That tells us whether to ignore the file, i.e. not back it up
   bool ignore(const Node& node);
   // For debug purposes
-  void list();
+  void show(int level = 0);
 };
 
 // Parser for Subversion control directory '.svn'
@@ -49,7 +49,7 @@ public:
   // That tells us whether to ignore the file, i.e. not back it up
   bool ignore(const Node& node);
   // For debug purposes
-  void list() {}
+  void show(int level = 0) {}
 };
 
 }

@@ -50,7 +50,7 @@ int Filter::add(
       failed = true;
       out(error) << "Cannot decode decimal value" << endl;
     } else {
-      int kilo;
+      int kilo = 0;
       if (rc > 1) {
         // *iB or *i
         if ((unit[1] == 'i') && ((unit[2] == 'B') || (unit[2] == '\0'))) {

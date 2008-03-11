@@ -48,8 +48,8 @@ Parser *CvsParser::isControlled(const string& dir_path) const {
   // If control directory exists and contains an entries file, assume control
   if (! File(Path((dir_path + control_dir).c_str(), &entries[1])).isValid()) {
     if (! _dummy) {
-      out(warning) << "Directory should be under " << name() << " control: "
-        << dir_path << endl;
+      out(warning, msg_standard, "Directory should be under CVS control", -1,
+        dir_path.c_str());
       return new IgnoreParser;
     } else {
       return NULL;
@@ -68,7 +68,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
 
   /* Fill in list of controlled files */
   entries_file.open("r");
-  out(verbose, 1) << "Parsing CVS entries" << endl;
+  out(verbose, msg_standard, "Parsing CVS entries", 1);
   int    line_no = 0;
   string buffer;
   while (entries_file.getLine(buffer) > 0) {
@@ -96,16 +96,18 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
     }
     // We expect a separator
     if (*reader != '/') {
-      out(error) << "Parsing CVS entries file for " << dir_path
-        << ", line " << line_no << ": can't find first delimiter" << endl;
+      out(error, msg_line_no,
+        "Can't find first delimiter parsing CVS entries file", line_no,
+        dir_path.c_str());
       continue;
     }
     reader++;
     // Get name
     pos = strchr(reader, '/');
     if (pos == NULL) {
-      out(error) << "Parsing CVS entries file for " << dir_path
-        << ", line " << line_no << ": can't find second delimiter" << endl;
+      out(error, msg_line_no,
+        "Can't find second delimiter parsing CVS entries file", line_no,
+        dir_path.c_str());
       continue;
     }
     string name = reader;
@@ -116,16 +118,18 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
       reader = pos + 1;
       pos = strchr(reader, '/');
       if (pos == NULL) {
-        out(error) << "Parsing CVS entries file for " << dir_path
-          << ", line " << line_no << ": can't find third delimiter" << endl;
+      out(error, msg_line_no,
+        "Can't find third delimiter parsing CVS entries file", line_no,
+        dir_path.c_str());
         continue;
       }
       // Get date
       reader = pos + 1;
       pos = strchr(reader, '/');
       if (pos == NULL) {
-        out(error) << "Parsing CVS entries file for " << dir_path
-          << ", line " << line_no << ": can't find fourth delimiter" << endl;
+      out(error, msg_line_no,
+        "Can't find fourth delimiter parsing CVS entries file", line_no,
+        dir_path.c_str());
         continue;
       }
       string date = reader;
@@ -153,12 +157,11 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
     }
     // Enlist data
     _files.push_back(Node(name.c_str(), type, mtime, 0, 0, 0, 0));
-    out(verbose, 2) << _files.back().name() << "\t" << _files.back().type()
-        << "\t" << _files.back().mtime() << endl;
   }
   /* Close file */
   entries_file.close();
   _files.sort();
+  show(2);
 }
 
 bool CvsParser::ignore(const Node& node) {
@@ -208,16 +211,15 @@ bool CvsParser::ignore(const Node& node) {
   return true;
 }
 
-void CvsParser::list() {
-  out(verbose) << name() << " list: " << _files.size() << " file(s)" << endl;
+void CvsParser::show(int level) {
   for (_i = _files.begin(); _i != _files.end(); _i++) {
-    out(verbose, 1) << _i->name() << " (";
     if (_i->type() == 'd') {
-      out(verbose) << "D";
+      out(verbose, msg_standard, "D", level, _i->name());
     } else {
-      out(verbose) << _i->mtime();
+      stringstream mtime;
+      mtime << _i->mtime();
+      out(verbose, msg_standard, mtime.str().c_str(), level, _i->name());
     }
-    out(verbose) << ")" << endl;
   }
 }
 
