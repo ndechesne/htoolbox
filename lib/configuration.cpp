@@ -23,9 +23,10 @@
 
 using namespace std;
 
-#include <files.h>
+#include "hbackup.h"
+#include "files.h"
+#include "report.h"
 #include <configuration.h>
-#include <hbackup.h>
 
 using namespace hbackup;
 
@@ -61,18 +62,18 @@ void ConfigLine::clear() {
   }
 }
 
-void ConfigLine::debug(int level) const {
-  printf("%2u:", lineNo());
+void ConfigLine::show(int level) const {
+  stringstream s;
   for (int j = 0; j < level; j++) {
-    cout << " ";
+    s << " ";
   }
   for (unsigned int j = 0; j < size(); j++) {
     if (j != 0) {
-      cout << " ";
+      s << " ";
     }
-    cout << (*this)[j];
+    s << (*this)[j];
   }
-  cout << endl;
+  out(debug, msg_line_no, s.str().c_str(), lineNo());
 }
 
 bool ConfigCounter::operator<(const ConfigCounter& counter) const {
@@ -83,7 +84,7 @@ bool ConfigError::operator<(const ConfigError& error) const {
   return _line_no < error._line_no;
 }
 
-void ConfigError::print() const {
+void ConfigError::output() const {
   stringstream s;
   if (_line_no >= 0) {
     if (_type != 0) {
@@ -163,39 +164,40 @@ bool ConfigItem::isValid(
   return is_valid;
 }
 
-void ConfigItem::debug(int level) const {
+void ConfigItem::show(int level) const {
   list<ConfigItem*>::const_iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
+    stringstream s;
     for (int j = 0; j < level; j++) {
-      cout << " ";
+      s << " ";
     }
-    cout << (*i)->_keyword;
-    cout << ", occ.: ";
+    s << (*i)->_keyword;
+    s << ", occ.: ";
     if ((*i)->_min_occurrences != 0) {
-      cout << "min = " << (*i)->_min_occurrences;
+      s << "min = " << (*i)->_min_occurrences;
     } else {
-      cout << "optional";
+      s << "optional";
     }
-    cout << ", ";
+    s << ", ";
     if ((*i)->_max_occurrences != 0) {
-      cout << "max = " << (*i)->_max_occurrences;
+      s << "max = " << (*i)->_max_occurrences;
     } else {
-      cout << "no max";
+      s << "no max";
     }
-    cout << "; params: ";
+    s << "; params: ";
     if ((*i)->_min_params != 0) {
-      cout << "min params = " << (*i)->_min_params;
+      s << "min params = " << (*i)->_min_params;
     } else {
-      cout << "no min";
+      s << "no min";
     }
-    cout << ", ";
+    s << ", ";
     if ((*i)->_max_params != 0) {
-      cout << "max params = " << (*i)->_max_params;
+      s << "max params = " << (*i)->_max_params;
     } else {
-      cout << "no max";
+      s << "no max";
     }
-    cout << endl;
-    (*i)->debug(level + 2);
+    out(verbose, msg_standard, s.str().c_str());
+    (*i)->show(level + 2);
   }
 }
 
@@ -306,7 +308,7 @@ end:
   errors.sort();
   for (list<ConfigError>::const_iterator i = errors.begin(); i != errors.end();
       i++) {
-    i->print();
+    i->output();
   }
   delete params;
   return failed ? -1 : 0;
@@ -354,14 +356,14 @@ void Config::clear() {
   _lines_top.clear();
 }
 
-void Config::debug() const {
-  cout << "Items:" << endl;
-  _items_top.debug(2);
+void Config::show() const {
+  out(verbose, msg_standard, "Items:");
+  _items_top.show(2);
 
-  cout << "Lines:" << endl;
+  out(verbose, msg_standard, "Lines:");
   ConfigLine* params;
   int level;
   while ((level = line(&params)) >= 0) {
-    params->debug((level + 1) * 2);
+    params->show((level + 1) * 2);
   }
 }

@@ -83,7 +83,7 @@ int main(void) {
   }
 
   // show debug
-  config->debug();
+  config->show();
 
   delete config;
 
@@ -142,7 +142,7 @@ int main(void) {
   }
 
   // show debug
-  config->debug();
+  config->show();
 
   delete config;
 
@@ -224,7 +224,7 @@ int main(void) {
   }
 
   // show debug
-  config->debug();
+  config->show();
 
   // clear list
   config->clear();
@@ -239,7 +239,7 @@ int main(void) {
   }
 
   // show debug
-  config->debug();
+  config->show();
 
   delete config;
 

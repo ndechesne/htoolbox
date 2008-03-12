@@ -26,12 +26,34 @@
 
 namespace hbackup {
 
+//! \brief Function called throughout the code to output data
+/*!
+  \param level        the level of verbosity associated with the message
+  \param type         type of message (meaning of number)
+  \param message      text of the message
+  \param number       either line no or error no or arrow length or size
+                      special cases:
+                        -1: default
+                        -2: do not print a colon (':') after the prepended text
+                        -3: overwritable string
+  \param prepend      prepended text (often the name of the file concerned)
+  \return the output stream
+*/
+extern void out(
+  VerbosityLevel  level,
+  MessageType     type,
+  const char*     message,
+  int             number        = -1,
+  const char*     prepend       = NULL);
+
 class Report {
   static Report*    _self;
   VerbosityLevel    _level;
+  unsigned int      _size_to_overwrite;
   Report() {
     // Display all non-debug messages
-    _level = info;
+    _level             = info;
+    _size_to_overwrite = 0;
   }
 public:
   // Create/get current instance of this singleton
@@ -39,10 +61,6 @@ public:
   // Set output verbosity level
   void setVerbosityLevel(
     VerbosityLevel  level);
-  // Report text, at given level
-  ostream& out(
-    VerbosityLevel  level,
-    int             arrow_length = -1);
   // Report message, at given level
   void out(
     VerbosityLevel  level,

@@ -32,9 +32,10 @@
 
 using namespace std;
 
-#include "files.h"
-#include "data.h"
 #include "hbackup.h"
+#include "files.h"
+#include "report.h"
+#include "data.h"
 
 using namespace hbackup;
 
@@ -44,10 +45,10 @@ static bool cancel() {
 
 static void progress(long long previous, long long current, long long total) {
   if (current < total) {
-    out(verbose) << "Done: " << setw(5) << setiosflags(ios::fixed)
-      << setprecision(1) << 100.0 * current /total << "%\r" << flush;
+    cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
+      << 100.0 * current /total << "%\r" << flush;
   } else if (previous != 0) {
-    out(verbose) << "            \r";
+    cout << "            \r";
   }
 }
 
@@ -113,8 +114,8 @@ int Data::organise(
       }
       Node source_path(Path(path, dir_entry->d_name));
       if (source_path.stat()) {
-        out(error) << strerror(errno) << " stating source file: "
-          << source_path.path() << endl;
+        out(error, msg_errno, "Stating source file", errno,
+          source_path.path());
         failed = true;
       } else
       if ((source_path.type() == 'd')
@@ -176,7 +177,7 @@ int Data::crawl_recurse(
             failed = true;
           }
         } else {
-          out(verbose, 0) << checksum << "\r";
+          out(verbose, msg_standard, checksum.c_str(), -3);
           if (! check(checksum.c_str(), thorough, remove)) {
             if (checksums != NULL) {
               checksums->push_back(checksum);
@@ -253,7 +254,7 @@ int Data::read(
 
   string source;
   if (getDir(checksum, source)) {
-    out(error) << "Cannot access DB data for: " << checksum << endl;
+    out(error, msg_standard, "Cannot access DB data for", -1, checksum);
     return -1;
   }
 
@@ -267,8 +268,7 @@ int Data::read(
     return -1;
   }
   if (data->open("r", (no > 0) ? 1 : 0)) {
-    out(error) << strerror(errno) << " opening read source file: "
-      << data->path() << endl;
+    out(error, msg_errno, "Opening read source file", errno, data->path());
     return -1;
   }
 
@@ -276,8 +276,7 @@ int Data::read(
   string temp_path = path + ".hbackup-part";
   Stream temp(temp_path.c_str());
   if (temp.open("w")) {
-    out(error) << strerror(errno) << "opening read temp file: " << temp_path
-      << endl;
+    out(error, msg_errno, "Opening read temp file", errno, data->path());
     failed = true;
   } else
 
@@ -285,8 +284,7 @@ int Data::read(
   temp.setCancelCallback(cancel);
   data->setProgressCallback(progress);
   if (temp.copy(*data)) {
-    out(error) << strerror(errno) << " copying read file: " << data->path()
-      << endl;
+    out(error, msg_errno, "Copying read file", errno, data->path());
     failed = true;
   }
 
@@ -296,14 +294,13 @@ int Data::read(
   if (! failed) {
     // Verify that checksums match before overwriting final destination
     if (strncmp(checksum, temp.checksum(), strlen(temp.checksum()))) {
-      out(error) << "read checksums don't match: " << checksum << " != "
-        << temp.checksum() << ", for: " << data->path() << endl;
+      out(error, msg_standard, "Read checksums don't match");
       failed = true;
     } else
 
     // All done
     if (rename(temp_path.c_str(), path.c_str())) {
-      out(error) << strerror(errno) << "renaming read file: " << path << endl;
+      out(error, msg_errno, "Renaming read file", errno, path.c_str());
       failed = true;
     }
   }
@@ -330,16 +327,14 @@ int Data::write(
 
   Stream source(path);
   if (source.open("r")) {
-    out(error) << strerror(errno) << " opening write source file: " << path
-      << endl;
+    out(error, msg_errno, "Opening write source file", errno, path);
     return -1;
   }
 
   // Temporary file to write to
   Stream temp(_d->temp);
   if (temp.open("w", compress)) {
-    out(error) << strerror(errno) << " opening write temp file: "
-      << temp.path() << endl;
+    out(error, msg_errno, "Opening write temp file", errno, temp.path());
     failed = true;
   } else
 
@@ -347,7 +342,7 @@ int Data::write(
   temp.setCancelCallback(cancel);
   source.setProgressCallback(progress);
   if (temp.copy(source)) {
-    out(error) << strerror(errno) << " copying write file: " << path << endl;
+    out(error, msg_errno, "Copying write file", errno, temp.path());
     failed = true;
   }
 
@@ -361,7 +356,7 @@ int Data::write(
   // Get file final location
   string dest_path;
   if (getDir(source.checksum(), dest_path, true) < 0) {
-    out(error) << "Cannot create DB data for: " << source.checksum() << endl;
+    out(error, msg_standard, "Cannot create DB data", -1, source.checksum());
     return -1;
   }
 
@@ -410,15 +405,18 @@ int Data::write(
 
   // Now move the file in its place
   if (! present && rename(temp.path(),
-        (dest_path + "/data" + ((compress != 0) ? ".gz" : "")).c_str())) {
-    out(error) << "Failed to move file " << temp.path() << " to " << dest_path
-      << ": " << strerror(errno) << endl;
+      (dest_path + "/data" + ((compress != 0) ? ".gz" : "")).c_str())) {
+    stringstream s;
+    s << "Failed to move file " << temp.path() << " to " << dest_path << ": "
+      << strerror(errno);
+    out(error, msg_standard, s.str().c_str());
     failed = true;
   } else
   if (! present) {
-    out(verbose) << "Adding " << ((compress != 0) ? "compressed " : "")
-      << "file data to DB for " << source.checksum() << "-" << index
-      << endl;
+    stringstream s;
+    s << "Adding " << ((compress != 0) ? "compressed " : "")
+      << "file data to DB for " << source.checksum() << "-" << index;
+    out(verbose, msg_standard, s.str().c_str());
   }
 
   // If anything failed, delete temporary file
@@ -462,7 +460,7 @@ int Data::check(
   Stream *data = Stream::select(Path(path.c_str(), "data"), extensions, &no);
   // Missing data
   if (data == NULL) {
-    out(error) << "Data missing for: " << checksum << endl;
+    out(error, msg_standard, "Data missing", -1, checksum);
     if (remove) {
       File(Path(path.c_str(), "corrupted")).remove();
       std::remove(path.c_str());
@@ -474,16 +472,17 @@ int Data::check(
   if (thorough) {
     data->setCancelCallback(cancel);
     if (data->open("r", (no > 0) ? 1 : 0)) {
-      out(error) << strerror(errno) << ": " << checksum << endl;
+      out(error, msg_errno, "Opening file", errno, data->path());
       failed = true;
     } else
     if (data->computeChecksum() || data->close()) {
-      out(error) << strerror(errno) << ": " << checksum << endl;
+      out(error, msg_errno, "Reading file", errno, data->path());
       failed = true;
     } else
     if (strncmp(data->checksum(), checksum, strlen(data->checksum()))) {
-      out(error) << "Data corrupted for: " << checksum
-        << (remove ? ", remove" : "") << endl;
+      stringstream s;
+      s << "Data corrupted" << (remove ? ", remove" : "");
+      out(error, msg_standard, s.str().c_str(), -1, checksum);
       failed = true;
       if (remove) {
         data->remove();
@@ -501,9 +500,9 @@ int Data::check(
       if (data->remove() == 0) {
         corrupted.remove();
         std::remove(path.c_str());
-        out(info) << "Corrupted data for: " << checksum << " removed" << endl;
+        out(info, msg_standard, "Remove corrupted data", -1, checksum);
       } else {
-        out(error) << strerror(errno) << ": " << checksum << endl;
+        out(error, msg_errno, "Removing data", errno, checksum);
       }
       failed = true;
     }
@@ -543,8 +542,8 @@ int Data::crawl(
   unsigned int valid  = 0;
   unsigned int broken = 0;
   int rc = crawl_recurse(d, "", checksums, thorough, remove, &valid, &broken);
-  out(verbose, 0) << "                                  \r";
-  out(verbose) << "Found " << valid << " valid and " << broken
-    << " broken data files" << endl;
+  stringstream s;
+  s << "Found " << valid << " valid and " << broken << " broken data files";
+  out(verbose, msg_standard, s.str().c_str());
   return rc;
 }

@@ -54,7 +54,7 @@ Test: journal read
 [10] file_gone        f    20 750 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: journal merge into list
-Error: Path out of order in journal, line 3
+Error: journal: 3: Path out of order
 Failed to merge
 
 Test: merge read

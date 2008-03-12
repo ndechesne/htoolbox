@@ -226,7 +226,6 @@ mkdir -p "$TESTRESTORE"
 mkdir "$CONFIGDIR"
 cat << EOF > "$CONFIGDIR/hbackup.conf"
 db "$TESTDBDIR"
-trash 1
 EOF
 echo "\r" >> "$CONFIGDIR/hbackup.conf"
 cat << EOF >> "$CONFIGDIR/hbackup.conf"
@@ -301,7 +300,6 @@ EOF
 # General config
 cat << EOF > "$CONFIGDIR/general.conf"
 db "$TESTDBDIR"
-trash 1
 
 filter all backup
 condition type file
@@ -365,7 +363,6 @@ EOF
 cat << EOF > "$CONFIGDIR/broken.conf"
 db "$TESTDBDIR"
 db blah
-trash 1 2
 
 filter all
 condition type file

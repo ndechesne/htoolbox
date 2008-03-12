@@ -36,7 +36,7 @@ using namespace hbackup;
 // DEFAULTS
 
 // Verbosity
-static int verbose_level = 0;
+static int verbose_level = 1;
 
 // Signal received?
 static int killed = 0;
@@ -49,7 +49,7 @@ void sighandler(int signal) {
   if (killed) {
     cout << "Already aborting..." << endl;
   } else {
-    out(warning) << "Signal received, aborting..." << endl;
+    cout << "Warning: signal received, aborting..." << endl;
   }
   killed = signal;
 }
@@ -57,7 +57,7 @@ void sighandler(int signal) {
 class MyOutput : public StdOutput {
   public:
     virtual void failure(CmdLineInterface& c, ArgException& e) {
-      out(error) << e.what() << endl;
+      cerr << "Error: " << e.what() << endl;
       usage(c);
     }
 
@@ -72,7 +72,7 @@ class MyOutput : public StdOutput {
     }
 
     virtual void version(CmdLineInterface& c) {
-      out(info) << c.getMessage() << " version " << c.getVersion() << endl;
+      cout << c.getMessage() << " version " << c.getVersion() << endl;
     }
 };
 
@@ -178,13 +178,13 @@ int main(int argc, char **argv) {
 
     // Set verbosity level to verbose
     if (verboseSwitch.getValue()) {
-      verbose_level = 1;
+      verbose_level = 2;
       setVerbosityLevel(hbackup::verbose);
     }
 
     // Set verbosity level to debug
     if (debugSwitch.getValue()) {
-      verbose_level = 2;
+      verbose_level = 3;
       setVerbosityLevel(hbackup::debug);
     }
 
@@ -211,32 +211,40 @@ int main(int argc, char **argv) {
     }
     // Fix any interrupted backup
     if (fixSwitch.getValue()) {
-      out(info) << "Fixing database" << endl;
+      if (verbose_level >= 1) {
+        cout << "Fixing database" << endl;
+      }
       if (hbackup.fix()) {
         return 3;
       }
     } else
     // Check that data referenced in DB exists
     if (scanSwitch.getValue()) {
-      out(info) << "Scanning database" << endl;
+      if (verbose_level >= 1) {
+        cout << "Scanning database" << endl;
+      }
       if (hbackup.scan()) {
         return 3;
       }
     } else
     // Check that data in DB is not corrupted
     if (checkSwitch.getValue()) {
-      out(info) << "Checking database" << endl;
+      if (verbose_level >= 1) {
+        cout << "Checking database" << endl;
+      }
       if (hbackup.check()) {
         return 3;
       }
     } else
     // List DB contents
     if (listSwitch.getValue()) {
-      out(info) << "Showing list" << endl;
+      if (verbose_level >= 1) {
+        cout << "Showing list" << endl;
+      }
       string client;
       string path;
       if (clientArg.getValue().size() > 1) {
-        out(error) << "Maximum one client allowed" << endl;
+        cerr << "Error: Maximum one client allowed" << endl;
         return 1;
       } else
       if (clientArg.getValue().size() != 0) {
@@ -254,10 +262,12 @@ int main(int argc, char **argv) {
     } else
     // Restore data
     if (restoreArg.getValue().size() != 0) {
-      out(info) << "Restoring" << endl;
+      if (verbose_level >= 1) {
+        cout << "Restoring" << endl;
+      }
       string client;
       if (clientArg.getValue().size() > 1) {
-        out(error) << "Maximum one client allowed" << endl;
+        cerr << "Error: Maximum one client allowed" << endl;
         return 1;
       } else
       if (clientArg.getValue().size() != 0) {
@@ -270,20 +280,17 @@ int main(int argc, char **argv) {
     } else
     // Backup
     {
-      out(info) << "Backing up in ";
-      if (user_mode) {
-        out(info, 0) << "user";
-      } else {
-        out(info, 0) << "server";
+      if (verbose_level >= 1) {
+        cout << "Backing up in " << (user_mode ? "user" : "server") << " mode"
+          << endl;
       }
-      out(info, 0) << " mode" << endl;
       if (hbackup.backup(initSwitch.getValue())) {
         return 3;
       }
     }
     hbackup.close();
   } catch (ArgException &e) {
-    out(error) << e.error() << " for arg " << e.argId() << endl;
+    cerr << "Error: " << e.error() << " for arg " << e.argId() << endl;
   };
   return 0;
 }

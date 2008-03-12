@@ -40,21 +40,6 @@ void hbackup::setVerbosityLevel(VerbosityLevel level) {
   Report::self()->setVerbosityLevel(level);
 }
 
-ostream& hbackup::out(
-    VerbosityLevel  level,
-    int             arrow_length) {
-  return Report::self()->out(level, arrow_length);
-}
-
-void hbackup::out(
-    VerbosityLevel  level,
-    MessageType     type,
-    const char*     message,
-    int             number,
-    const char*     prepend) {
-  Report::self()->out(level, type, message, number, prepend);
-}
-
 struct HBackup::Private {
   Database*         db;
   string            mount_point;
@@ -87,7 +72,7 @@ int HBackup::addClient(const char* name) {
     client++;
   }
   if (cmp == 0) {
-    out(error) << "Error: client already selected: " << name << endl;
+    out(error, msg_standard, "Client already selected", -1, name);
     return -1;
   }
   _d->selected_clients.insert(client, name);
@@ -99,7 +84,7 @@ int HBackup::readConfig(const char* config_path) {
   Stream config_file(config_path);
 
   if (config_file.open("r")) {
-    out(error) << strerror(errno) << ": " << config_path << endl;
+    out(error, msg_errno, "Opening file", errno, config_path);
     return -1;
   }
   // Set up config syntax and grammar
@@ -107,8 +92,6 @@ int HBackup::readConfig(const char* config_path) {
 
   // db
   config.add(new ConfigItem("db", 0, 1, 1));
-  // trash
-  config.add(new ConfigItem("trash", 0, 1, 1));
   // filter
   {
     ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
@@ -140,8 +123,7 @@ int HBackup::readConfig(const char* config_path) {
   }
 
   /* Read configuration file */
-  out(verbose, 1) << "Reading configuration file '" << config_path << "'"
-    << endl;
+  out(verbose, msg_standard, config_path, 1, "Reading configuration file");
   int rc = config.read(config_file, Stream::flags_accept_cr_lf);
   config_file.close();
 
@@ -157,19 +139,11 @@ int HBackup::readConfig(const char* config_path) {
       _d->db = new Database((*params)[1].c_str());
       _d->mount_point = (*params)[1] + "/.mount";
     } else
-    if ((*params)[0] == "trash") {
-      out(warning)
-        << "Keyword trash is deprecated and will be removed in the next"
-        << endl
-        << "version of this software, please remove it from your configuration"
-        << endl;
-    } else
     if ((*params)[0] == "filter") {
       filter = _d->filters.add((*params)[1], (*params)[2]);
       if (filter == NULL) {
-        out(error) << "Error: in file " << config_path << ", line "
-          << (*params).lineNo() << " unsupported filter type: "
-          << (*params)[1] << endl;
+        out(error, msg_line_no, "Unsupported filter type", (*params).lineNo(),
+          config_path);
         return -1;
       }
     } else
@@ -188,23 +162,21 @@ int HBackup::readConfig(const char* config_path) {
       if (filter_type == "filter") {
         Filter* subfilter = _d->filters.find((*params)[2]);
         if (subfilter == NULL) {
-          out(error) << "Error: in file " << config_path << ", line "
-            << (*params).lineNo() << " filter not found: " << (*params)[2]
-            << endl;
+          out(error, msg_line_no, "Filter not found",
+            (*params).lineNo(), config_path);
           return -1;
         }
         filter->add(new Condition(Condition::filter, subfilter, negated));
       } else {
         switch (filter->add(filter_type, (*params)[2], negated)) {
           case 1:
-            out(error) << "Error: in file " << config_path << ", line "
-              << (*params).lineNo() << " unsupported condition type: "
-              << (*params)[1] << endl;
+            out(error, msg_line_no, "Unsupported condition type",
+              (*params).lineNo(), config_path);
             return -1;
             break;
           case 2:
-            out(error) << "Error: in file " << config_path << ", line "
-              << (*params).lineNo() << " no filter defined" << endl;
+            out(error, msg_line_no, "No filter defined",
+              (*params).lineNo(), config_path);
             return -1;
         }
       }
@@ -224,8 +196,8 @@ int HBackup::readConfig(const char* config_path) {
         i++;
       }
       if (cmp == 0) {
-        out(error) << "Error: client already selected: "
-          << client->internal_name() << endl;
+        out(error, msg_standard, "Client already selected", -1,
+          client->internal_name().c_str());
         return -1;
       }
       _d->clients.insert(i, client);
@@ -251,9 +223,8 @@ int HBackup::readConfig(const char* config_path) {
         errno = 0;
         int expire = strtol((*params)[1].c_str(), NULL, 10);
         if (errno != 0) {
-          out(error) << "Error: in file " << config_path << ", line "
-            << (*params).lineNo() << " '" << (*params)[0]
-            << "' expects a number as argument" << endl;
+          out(error, msg_line_no, "Expected decimal argument",
+            (*params).lineNo(), config_path);
           return -1;
         }
         client->setExpire(expire * 3600 * 24);
@@ -266,7 +237,7 @@ int HBackup::readConfig(const char* config_path) {
     _d->db = new Database(DEFAULT_DB_PATH);
     _d->mount_point = DEFAULT_DB_PATH "/.mount";
   }
-  out(verbose) << "Configuration:" << endl;
+  out(verbose, msg_standard, "Configuration:");
   show(1);
   return 0;
 }
@@ -416,25 +387,25 @@ int HBackup::restore(
 
 void HBackup::show(int level) const {
   if (_d->db == NULL) {
-    out(verbose, level) << "DB path not set" << endl;
+    out(verbose, msg_standard, "DB path not set", level);
   } else {
-    out(verbose, level) << "DB path: " << _d->db->path() << endl;
+    out(verbose, msg_standard, _d->db->path(), level, "DB path");
   }
   if (! _d->selected_clients.empty()) {
-    out(verbose, level) << "Selected clients:" << endl;
+    out(verbose, msg_standard, "Selected clients:", level);
     for (list<string>::iterator client = _d->selected_clients.begin();
         client != _d->selected_clients.end(); client++) {
-      out(verbose, level + 1) << *client << endl;
+      out(verbose, msg_standard, client->c_str(), level + 1);
     }
   }
   if (! _d->clients.empty()) {
-    out(verbose, level) << "Clients:" << endl;
+    out(verbose, msg_standard, "Clients:", level);
     for (list<Client*>::iterator client = _d->clients.begin();
         client != _d->clients.end(); client++) {
       (*client)->show(level + 1);
       if (! (*client)->subset().empty()) {
-        out(verbose, level + 2) << "Required subset: " << (*client)->subset()
-          << endl;
+        out(verbose, msg_standard, (*client)->subset().c_str(), level + 2,
+          "Required subset");
       }
     }
   }

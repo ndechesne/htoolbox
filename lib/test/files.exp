@@ -425,7 +425,6 @@ l1 and l2 differ
 
 getParams
 db	test_db	
-trash	1	
 \r
 	
 filter	all	backup	

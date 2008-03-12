@@ -1,11 +1,9 @@
 
 Test: wrong config file
-Error: No such file or directory: 
+Error: : No such file or directory: Opening file
 
 Test: backup, not initialized
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -30,18 +28,16 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Error: Given DB path does not exist: test_db
 
 Test: check config
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -66,10 +62,10 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
  -> Reading client configuration file
@@ -82,9 +78,7 @@ Configuration:
  ---> Path: test_user/testuser
 
 Test: typical backup
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -109,13 +103,13 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
-Database initialized in test_db
+Database initialized: test_db
 Database open in read/write mode
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
@@ -130,7 +124,7 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test
- ----> Filter and silly
+ ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
  -----> Condition: name a
@@ -149,19 +143,19 @@ Configuration:
  -----> Condition: mode= 644
 Backing up client
 Reading list of missing checksums
-Created client.xp's list
-Database client client.xp open in read/write mode
+List created: client.xp
+Database open r/w: client.xp
 Backup path: C:/Test
 A C:/Test/Dir
  -> Dir Dir
-A C:/Test/Dir/a File.TXT (2 B)
+A C:/Test/Dir/a File.TXT	(2 B)
 Adding file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
-A C:/Test/Dir/another File.TXT (2 B)
+A C:/Test/Dir/another File.TXT	(2 B)
 Adding file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
-A C:/Test/File.TXT (0 B)
+A C:/Test/File.TXT	(0 B)
 Adding file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
-Database client client.xp modified
-Database client client.xp closed
+Database modified: client.xp
+Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
@@ -174,18 +168,18 @@ Configuration:
  --> Paths: 
  ---> Path: /home/User/test
 Backing up client
-Created myClient's list
-Database client myClient open in read/write mode
+List created: myClient
+Database open r/w: myClient
 Backup path: /home/User/test
  -> umount -fl test_db/.mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
-A /home/User/test/File2.txt (0 B)
+A /home/User/test/File2.txt	(0 B)
 A /home/User/test/dir
  -> Dir dir
-A /home/User/test/dir/file3.txt (2 B)
+A /home/User/test/dir/file3.txt	(2 B)
 Adding file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
-Database client myClient modified
-Database client myClient closed
+Database modified: myClient
+Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -195,30 +189,30 @@ Configuration:
  --> Hostname: myhost.mynetwork.lan
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
- --> Filter and subdir
+ --> Filter: and subdir
  ---> Condition: path_start subdir
  ---> Condition: not size< 100
- --> Filter and bigfile
+ --> Filter: and bigfile
  ---> Condition: size>= 10
  ---> Condition: type f
  --> Paths: 
  ---> Path: test1
- ----> Filter and not_object
+ ----> Filter: and not_object
  -----> Condition: not path_end .o
- ----> Filter or to_be_ignored
+ ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
- ----> Ignore filter:   to_be_ignored
+ ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client
-Created myhost's list
-Database client myhost open in read/write mode
+List created: myhost
+Database open r/w: myhost
 Backup path: test1
-A test1/big_file (10 MB)
+A test1/big_file	(10 MB)
 Done:   3.9%\r
 Done:   7.8%\r
 Done:  11.7%\r
@@ -256,9 +250,9 @@ A test1/cvs
  --> fileutd.h: 1159985080
 A test1/cvs/CVS
  -> Dir cvs/CVS
-A test1/cvs/CVS/Entries (161 B)
+A test1/cvs/CVS/Entries	(161 B)
 Adding compressed file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
-A test1/cvs/CVS/Root (16 B)
+A test1/cvs/CVS/Root	(16 B)
 Adding compressed file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
 A test1/cvs/dirbad
  -> Dir cvs/dirbad
@@ -269,16 +263,16 @@ A test1/cvs/dirutd
  --> fileutd: 1159985080
 A test1/cvs/dirutd/CVS
  -> Dir cvs/dirutd/CVS
-A test1/cvs/dirutd/CVS/Entries (42 B)
+A test1/cvs/dirutd/CVS/Entries	(42 B)
 Adding compressed file data to DB for 5252f242d27b8c2c9fdbdcbb33545d07-0
-A test1/cvs/dirutd/CVS/Root (10 B)
+A test1/cvs/dirutd/CVS/Root	(10 B)
 Adding compressed file data to DB for eb75fb33b2019ef3c840eb5ccdc2e795-0
-A test1/cvs/dirutd/fileutd (0 B)
-A test1/cvs/filenew.c (0 B)
-A test1/cvs/fileutd.h (0 B)
+A test1/cvs/dirutd/fileutd	(0 B)
+A test1/cvs/filenew.c	(0 B)
+A test1/cvs/fileutd.h	(0 B)
 A test1/dir space
  -> Dir dir space
-A test1/dir space/file space (0 B)
+A test1/dir space/file space	(0 B)
 A test1/svn
  -> Dir svn
  -> Parsing Subversion entries
@@ -288,7 +282,7 @@ A test1/svn
  --> fileoth: i
 A test1/svn/.svn
  -> Dir svn/.svn
-A test1/svn/.svn/entries (77 B)
+A test1/svn/.svn/entries	(77 B)
 Adding compressed file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A test1/svn/dirbad
  -> Dir svn/dirbad
@@ -300,39 +294,37 @@ A test1/svn/dirutd
  --> fileutd: m
 A test1/svn/dirutd/.svn
  -> Dir svn/dirutd/.svn
-A test1/svn/dirutd/.svn/entries (30 B)
+A test1/svn/dirutd/.svn/entries	(30 B)
 Adding compressed file data to DB for 8bdef5751e46ed57d237cbe3f4a5061c-0
-A test1/svn/dirutd/fileutd (0 B)
-A test1/svn/filenew.c (0 B)
-A test1/test space (0 B)
+A test1/svn/dirutd/fileutd	(0 B)
+A test1/svn/filenew.c	(0 B)
+A test1/test space	(0 B)
 A test1/testdir
  -> Dir testdir
-A test1/testfile (13 B)
+A test1/testfile	(13 B)
 Adding compressed file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
 A test1/testlink
 A test1/testpipe
 Backup path: test2
 A test2/testdir
  -> Dir testdir
-A test2/testfile (145 kB)
+A test2/testfile	(145 kB)
 Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
-A test2/testfile2 (259 kB)
+A test2/testfile2	(259 kB)
 Adding file data to DB for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-A test2/testfile~ (524 kB)
+A test2/testfile~	(524 kB)
 Done:  78.1%\r
             \r
 Adding file data to DB for 59071590099d21dd439896592338bf95-0
 A test2/testlink
-Database client myhost modified
-Database client myhost closed
+Database modified: myhost
+Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: Protocol not supported: ssh
 Database closed
 
 Test: same backup
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -357,10 +349,10 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
@@ -377,7 +369,7 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test
- ----> Filter and silly
+ ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
  -----> Condition: name a
@@ -396,10 +388,10 @@ Configuration:
  -----> Condition: mode= 644
 Backing up client
 Reading list of missing checksums
-Database client client.xp open in read/write mode
+Database open r/w: client.xp
 Backup path: C:/Test
  -> Dir Dir
-Database client client.xp closed
+Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
@@ -412,12 +404,12 @@ Configuration:
  --> Paths: 
  ---> Path: /home/User/test
 Backing up client
-Database client myClient open in read/write mode
+Database open r/w: myClient
 Backup path: /home/User/test
  -> umount -fl test_db/.mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
-Database client myClient closed
+Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -427,27 +419,27 @@ Configuration:
  --> Hostname: myhost.mynetwork.lan
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
- --> Filter and subdir
+ --> Filter: and subdir
  ---> Condition: path_start subdir
  ---> Condition: not size< 100
- --> Filter and bigfile
+ --> Filter: and bigfile
  ---> Condition: size>= 10
  ---> Condition: type f
  --> Paths: 
  ---> Path: test1
- ----> Filter and not_object
+ ----> Filter: and not_object
  -----> Condition: not path_end .o
- ----> Filter or to_be_ignored
+ ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
- ----> Ignore filter:   to_be_ignored
+ ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client
-Database client myhost open in read/write mode
+Database open r/w: myhost
 Backup path: test1
  -> Dir cvs
  -> Parsing CVS entries
@@ -481,15 +473,13 @@ Warning: test1/svn/dirbad: Directory should be under Subversion control
  -> Dir testdir
 Backup path: test2
  -> Dir testdir
-Database client myhost closed
+Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: Protocol not supported: ssh
 Database closed
 
 Test: interrupted backup
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -514,10 +504,10 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
@@ -534,7 +524,7 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test
- ----> Filter and silly
+ ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
  -----> Condition: name a
@@ -553,10 +543,10 @@ Configuration:
  -----> Condition: mode= 644
 Backing up client
 Reading list of missing checksums
-Database client client.xp open in read/write mode
+Database open r/w: client.xp
 Backup path: C:/Test
  -> Dir Dir
-Database client client.xp closed
+Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
@@ -569,12 +559,12 @@ Configuration:
  --> Paths: 
  ---> Path: /home/User/test
 Backing up client
-Database client myClient open in read/write mode
+Database open r/w: myClient
 Backup path: /home/User/test
  -> umount -fl test_db/.mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
-Database client myClient closed
+Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -584,27 +574,27 @@ Configuration:
  --> Hostname: myhost.mynetwork.lan
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
- --> Filter and subdir
+ --> Filter: and subdir
  ---> Condition: path_start subdir
  ---> Condition: not size< 100
- --> Filter and bigfile
+ --> Filter: and bigfile
  ---> Condition: size>= 10
  ---> Condition: type f
  --> Paths: 
  ---> Path: test1
- ----> Filter and not_object
+ ----> Filter: and not_object
  -----> Condition: not path_end .o
- ----> Filter or to_be_ignored
+ ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
- ----> Ignore filter:   to_be_ignored
+ ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client
-Database client myhost open in read/write mode
+Database open r/w: myhost
 Backup path: test1
  -> Dir cvs
  -> Parsing CVS entries
@@ -621,17 +611,15 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
  --> fileutd: 1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
-A test1/dir space/big_file (512 kB)
+A test1/dir space/big_file	(512 kB)
 Done:  80.0%\r
 Killing inside data
-Error: Operation canceled copying write file: test1/dir space/big_file
-Database client myhost closed
+Error: test_db/myhost/data: Operation canceled: Copying write file
+Database closed: myhost
 Database closed
 
 Test: specify clients
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -656,13 +644,13 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
-Warning: Backup of client myhost was interrupted in a previous run, finishing up...
+Warning: Previous backup interrupted: myhost
 Database open in read/write mode
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
@@ -677,7 +665,7 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test
- ----> Filter and silly
+ ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
  -----> Condition: name a
@@ -696,10 +684,10 @@ Configuration:
  -----> Condition: mode= 644
 Backing up client
 Reading list of missing checksums
-Database client client.xp open in read/write mode
+Database open r/w: client.xp
 Backup path: C:/Test
  -> Dir Dir
-Database client client.xp closed
+Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -709,27 +697,27 @@ Configuration:
  --> Hostname: myhost.mynetwork.lan
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
- --> Filter and subdir
+ --> Filter: and subdir
  ---> Condition: path_start subdir
  ---> Condition: not size< 100
- --> Filter and bigfile
+ --> Filter: and bigfile
  ---> Condition: size>= 10
  ---> Condition: type f
  --> Paths: 
  ---> Path: test1
- ----> Filter and not_object
+ ----> Filter: and not_object
  -----> Condition: not path_end .o
- ----> Filter or to_be_ignored
+ ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
- ----> Ignore filter:   to_be_ignored
+ ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client
-Database client myhost open in read/write mode
+Database open r/w: myhost
 Backup path: test1
  -> Dir cvs
  -> Parsing CVS entries
@@ -746,7 +734,7 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
  --> fileutd: 1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
-! test1/dir space/big_file (512 kB)
+! test1/dir space/big_file	(512 kB)
 Done:  80.0%\r
             \r
 Adding compressed file data to DB for 816df6f64deba63b029ca19d880ee10a-0
@@ -767,14 +755,12 @@ Warning: test1/svn/dirbad: Directory should be under Subversion control
  -> Dir testdir
 Backup path: test2
  -> Dir testdir
-Database client myhost modified
-Database client myhost closed
+Database modified: myhost
+Database closed: myhost
 Database closed
 
 Test: scan DB
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -799,16 +785,16 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
-Reading client.xp's list
-Reading myClient's list
-Reading myhost's list
+Reading list: client.xp
+Reading list: myClient
+Reading list: myhost
 Found 16 checksums
 Crawling through DB
 0f2ea973d77135dc3d06c8e68da6dc59-0\r
@@ -866,9 +852,7 @@ Checksum(s) with data:
 Database closed
 
 Test: check DB
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -893,10 +877,10 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
@@ -922,9 +906,7 @@ Found 16 valid and 0 broken data files
 Database closed
 
 Test: list clients
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -949,10 +931,10 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
@@ -963,9 +945,7 @@ List of clients: 3
  -> myhost
 
 Test: list paths in UNIX client
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -990,23 +970,21 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myClient open in read-only mode
-Database client myClient closed
+Database open r-o: myClient
+Database closed: myClient
 Database closed
 List of paths in 'myClient': 1
  -> /home
 
 Test: list paths in DOS client
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1031,23 +1009,21 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client client.xp open in read-only mode
-Database client client.xp closed
+Database open r-o: client.xp
+Database closed: client.xp
 Database closed
 List of paths in 'client.xp': 1
  -> C:
 
 Test: restore file
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1072,22 +1048,20 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myhost open in read-only mode
+Database open r-o: myhost
 U test_r/test2/testfile
-Database client myhost closed
+Database closed: myhost
 Database closed
 
 Test: restore dir
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1112,14 +1086,14 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myhost open in read-only mode
+Database open r-o: myhost
 U test_r/test1/big_file
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
@@ -1150,14 +1124,12 @@ U test_r/test1/testdir
 U test_r/test1/testfile
 U test_r/test1/testlink
 U test_r/test1/testpipe
-Database client myhost closed
+Database closed: myhost
 Database closed
 test1/testfile metadata: gid = 24, mtime = 1161475200, perms = 0750
 
 Test: restore subdir
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1182,14 +1154,14 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myhost open in read-only mode
+Database open r-o: myhost
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
 U test_r/test1/cvs/CVS/Entries
@@ -1202,13 +1174,11 @@ U test_r/test1/cvs/dirutd/CVS/Root
 U test_r/test1/cvs/dirutd/fileutd
 U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
-Database client myhost closed
+Database closed: myhost
 Database closed
 
 Test: restore client
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1233,14 +1203,14 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myhost open in read-only mode
+Database open r-o: myhost
 U test_r/test1/big_file
 U test_r/test1/cvs
 U test_r/test1/cvs/CVS
@@ -1278,15 +1248,13 @@ U test_r/test2/testfile~
 Done:  78.1%\r
             \r
 U test_r/test2/testlink
-Database client myhost closed
+Database closed: myhost
 Database closed
 
 Test: add dual-boot client
 
 Test: typical backup
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1316,10 +1284,10 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
@@ -1336,7 +1304,7 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test
- ----> Filter and silly
+ ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
  -----> Condition: name a
@@ -1355,10 +1323,10 @@ Configuration:
  -----> Condition: mode= 644
 Backing up client
 Reading list of missing checksums
-Database client client.xp open in read/write mode
+Database open r/w: client.xp
 Backup path: C:/Test
  -> Dir Dir
-Database client client.xp closed
+Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
@@ -1371,12 +1339,12 @@ Configuration:
  --> Paths: 
  ---> Path: /home/User/test
 Backing up client
-Database client myClient open in read/write mode
+Database open r/w: myClient
 Backup path: /home/User/test
  -> umount -fl test_db/.mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
-Database client myClient closed
+Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
@@ -1389,7 +1357,7 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test
- ----> Filter and silly
+ ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
  -----> Condition: name a
@@ -1407,16 +1375,16 @@ Configuration:
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client
-Created myClient.xp's list
-Database client myClient.xp open in read/write mode
+List created: myClient.xp
+Database open r/w: myClient.xp
 Backup path: C:/Test
 A C:/Test/Dir
  -> Dir Dir
-A C:/Test/Dir/a File.TXT (2 B)
-A C:/Test/Dir/another File.TXT (2 B)
-A C:/Test/File.TXT (0 B)
-Database client myClient.xp modified
-Database client myClient.xp closed
+A C:/Test/Dir/a File.TXT	(2 B)
+A C:/Test/Dir/another File.TXT	(2 B)
+A C:/Test/File.TXT	(0 B)
+Database modified: myClient.xp
+Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -1426,27 +1394,27 @@ Configuration:
  --> Hostname: myhost.mynetwork.lan
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
- --> Filter and subdir
+ --> Filter: and subdir
  ---> Condition: path_start subdir
  ---> Condition: not size< 100
- --> Filter and bigfile
+ --> Filter: and bigfile
  ---> Condition: size>= 10
  ---> Condition: type f
  --> Paths: 
  ---> Path: test1
- ----> Filter and not_object
+ ----> Filter: and not_object
  -----> Condition: not path_end .o
- ----> Filter or to_be_ignored
+ ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
- ----> Ignore filter:   to_be_ignored
+ ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client
-Database client myhost open in read/write mode
+Database open r/w: myhost
 Backup path: test1
  -> Dir cvs
  -> Parsing CVS entries
@@ -1480,15 +1448,13 @@ Warning: test1/svn/dirbad: Directory should be under Subversion control
  -> Dir testdir
 Backup path: test2
  -> Dir testdir
-Database client myhost closed
+Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: Protocol not supported: ssh
 Database closed
 
 Test: specify clients
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1518,10 +1484,10 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
@@ -1538,7 +1504,7 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test
- ----> Filter and silly
+ ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
  -----> Condition: name a
@@ -1557,10 +1523,10 @@ Configuration:
  -----> Condition: mode= 644
 Backing up client
 Reading list of missing checksums
-Database client client.xp open in read/write mode
+Database open r/w: client.xp
 Backup path: C:/Test
  -> Dir Dir
-Database client client.xp closed
+Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
@@ -1573,17 +1539,17 @@ Configuration:
  --> Paths: 
  ---> Path: /home/User/test
 Backing up client
-Database client myClient open in read/write mode
+Database open r/w: myClient
 Backup path: /home/User/test
  -> umount -fl test_db/.mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
-Database client myClient closed
+Database closed: myClient
  -> umount -fl test_db/.mount
 Database closed
 
 Test: user-mode backup
-Database initialized in test_user/.hbackup
+Database initialized: test_user/.hbackup
 Database open in read/write mode
  -> Reading client configuration file
 Configuration:
@@ -1595,29 +1561,27 @@ Configuration:
  ---> Path: test_user/testuser
 Backing up client
 Reading list of missing checksums
-Created localhost's list
-Database client localhost open in read/write mode
+List created: localhost
+Database open r/w: localhost
 Backup path: test_user/testuser
-A test_user/testuser/f1.txt (3 B)
+A test_user/testuser/f1.txt	(3 B)
 Adding file data to DB for 31d30eea8d0968d6458e0ad0027c9f80-0
 A test_user/testuser/subdir
  -> Dir subdir
-A test_user/testuser/subdir/f2.txt (3 B)
+A test_user/testuser/subdir/f2.txt	(3 B)
 Adding file data to DB for dbbf8220893d497d403bb9cdf49db7a4-0
 A test_user/testuser/subdir2
  -> Dir subdir2
-A test_user/testuser/subdir2/f3.txt (3 B)
+A test_user/testuser/subdir2/f3.txt	(3 B)
 Adding file data to DB for d5b4c7d9b06b60a7846c4529834c9812-0
-A test_user/testuser/subdir2/f4.txt (3 B)
+A test_user/testuser/subdir2/f4.txt	(3 B)
 Adding file data to DB for 90e2a51705594d033a3abe9d77b2b7ad-0
-Database client localhost modified
-Database client localhost closed
+Database modified: localhost
+Database closed: localhost
 Database closed
 
 Test: list clients
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1647,10 +1611,10 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
@@ -1662,9 +1626,7 @@ List of clients: 4
  -> myhost
 
 Test: list paths in DOS client
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1694,23 +1656,21 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myClient.xp open in read-only mode
-Database client myClient.xp closed
+Database open r-o: myClient.xp
+Database closed: myClient.xp
 Database closed
 List of paths in 'myClient.xp': 1
  -> C:
 
 Test: list sub-paths in UNIX client
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1740,23 +1700,21 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myClient open in read-only mode
-Database client myClient closed
+Database open r-o: myClient
+Database closed: myClient
 Database closed
 List of paths in 'myClient': 1
  -> /home/User
 
 Test: list sub-paths in DOS client
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1786,23 +1744,21 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myClient.xp open in read-only mode
-Database client myClient.xp closed
+Database open r-o: myClient.xp
+Database closed: myClient.xp
 Database closed
 List of paths in 'myClient.xp', 'C:': 1
  -> C:/Test
 
 Test: restore file (UNIX)
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1832,22 +1788,20 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myClient open in read-only mode
+Database open r-o: myClient
 U test_r//home/User/test/File2.txt
-Database client myClient closed
+Database closed: myClient
 Database closed
 
 Test: restore subdir (UNIX)
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1877,24 +1831,22 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myClient open in read-only mode
+Database open r-o: myClient
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir
 U test_r//home/User/test/dir/file3.txt
-Database client myClient closed
+Database closed: myClient
 Database closed
 
 Test: restore dir (UNIX)
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1924,24 +1876,22 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myClient open in read-only mode
+Database open r-o: myClient
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir
 U test_r//home/User/test/dir/file3.txt
-Database client myClient closed
+Database closed: myClient
 Database closed
 
 Test: restore file (DOS)
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -1971,22 +1921,20 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myClient.xp open in read-only mode
+Database open r-o: myClient.xp
 U test_r/C:/Test/File.TXT
-Database client myClient.xp closed
+Database closed: myClient.xp
 Database closed
 
 Test: restore subdir (DOS)
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -2016,25 +1964,23 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myClient.xp open in read-only mode
+Database open r-o: myClient.xp
 U test_r/C:/Test/Dir
 U test_r/C:/Test/Dir/a File.TXT
 U test_r/C:/Test/Dir/another File.TXT
 U test_r/C:/Test/File.TXT
-Database client myClient.xp closed
+Database closed: myClient.xp
 Database closed
 
 Test: restore dir (DOS)
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -2064,25 +2010,23 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myClient.xp open in read-only mode
+Database open r-o: myClient.xp
 U test_r/C:/Test/Dir
 U test_r/C:/Test/Dir/a File.TXT
 U test_r/C:/Test/Dir/another File.TXT
 U test_r/C:/Test/File.TXT
-Database client myClient.xp closed
+Database closed: myClient.xp
 Database closed
 
 Test: restore client
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -2112,24 +2056,22 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
-Database client myClient open in read-only mode
+Database open r-o: myClient
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir
 U test_r//home/User/test/dir/file3.txt
-Database client myClient closed
+Database closed: myClient
 Database closed
 
 Test: check for corrupted data
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -2159,43 +2101,44 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Check
 Database open in read-only mode
 Crawling through DB data
 0f2ea973d77135dc3d06c8e68da6dc59-0\r
-Error: Data corrupted for: 0f2ea973d77135dc3d06c8e68da6dc59-0
+                                  \r
+Error: 0f2ea973d77135dc3d06c8e68da6dc59-0: Data corrupted
 26ab0db90d72e28ad0ba1e22ee510510-0\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0\r
 5252f242d27b8c2c9fdbdcbb33545d07-0\r
 59071590099d21dd439896592338bf95-0\r
 59ca0efa9f5633cb0371bbc0355478d8-0\r
-Error: Data missing for: 59ca0efa9f5633cb0371bbc0355478d8-0
+                                  \r
+Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Data missing
 6d7fce9fee471194aa8b5b6e47267f03-0\r
 816df6f64deba63b029ca19d880ee10a-0\r
 8bdef5751e46ed57d237cbe3f4a5061c-0\r
 b026324c6904b2a9cb4b88d6d61c81d1-0\r
 b90f8fa56ea1d39881d4a199c7a81d35-0\r
-Error: Data corrupted for: b90f8fa56ea1d39881d4a199c7a81d35-0
+                                  \r
+Error: b90f8fa56ea1d39881d4a199c7a81d35-0: Data corrupted
 d41d8cd98f00b204e9800998ecf8427e-0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 f1c9645dbc14efddc7d8a322685f26eb-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
-Error: Data corrupted for: fef51838cd3cfe8ed96355742eb71fbd-0
                                   \r
+Error: fef51838cd3cfe8ed96355742eb71fbd-0: Data corrupted
 Found 12 valid and 4 broken data files
 Database closed
 
 Test: scan for missing data
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -2225,41 +2168,44 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Just scan
 Database open in read/write mode
-Reading client.xp's list
-Reading myClient's list
-Reading myClient.xp's list
-Reading myhost's list
+Reading list: client.xp
+Reading list: myClient
+Reading list: myClient.xp
+Reading list: myhost
 Found 16 checksums
 Crawling through DB
 0f2ea973d77135dc3d06c8e68da6dc59-0\r
-Error: Data missing for: 0f2ea973d77135dc3d06c8e68da6dc59-0
+                                  \r
+Error: 0f2ea973d77135dc3d06c8e68da6dc59-0: Data missing
 26ab0db90d72e28ad0ba1e22ee510510-0\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0\r
 5252f242d27b8c2c9fdbdcbb33545d07-0\r
 59071590099d21dd439896592338bf95-0\r
 59ca0efa9f5633cb0371bbc0355478d8-0\r
-Error: Data missing for: 59ca0efa9f5633cb0371bbc0355478d8-0
+                                  \r
+Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Data missing
 6d7fce9fee471194aa8b5b6e47267f03-0\r
 816df6f64deba63b029ca19d880ee10a-0\r
 8bdef5751e46ed57d237cbe3f4a5061c-0\r
 b026324c6904b2a9cb4b88d6d61c81d1-0\r
 b90f8fa56ea1d39881d4a199c7a81d35-0\r
-Corrupted data for: b90f8fa56ea1d39881d4a199c7a81d35-0 removed
+                                  \r
+b90f8fa56ea1d39881d4a199c7a81d35-0: Remove corrupted data
 d41d8cd98f00b204e9800998ecf8427e-0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0\r
 f1c9645dbc14efddc7d8a322685f26eb-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
-Corrupted data for: fef51838cd3cfe8ed96355742eb71fbd-0 removed
                                   \r
+fef51838cd3cfe8ed96355742eb71fbd-0: Remove corrupted data
 Found 12 valid and 4 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
@@ -2300,10 +2246,10 @@ List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
-Reading client.xp's list
-Reading myClient's list
-Reading myClient.xp's list
-Reading myhost's list
+Reading list: client.xp
+Reading list: myClient
+Reading list: myClient.xp
+Reading list: myhost
 Found 16 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0\r
@@ -2359,9 +2305,7 @@ List of missing checksums contains 4 item(s)
 Database closed
 
 Test: scan for obsolete data, case1
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -2391,18 +2335,18 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Just scan
 Database open in read/write mode
-Reading client.xp's list
-Reading myClient's list
-Reading myClient.xp's list
-Reading myhost's list
+Reading list: client.xp
+Reading list: myClient
+Reading list: myClient.xp
+Reading list: myhost
 Found 16 checksums
 Crawling through DB
 00000000000000000000000000000000-0\r
@@ -2468,10 +2412,10 @@ List of missing checksums contains 4 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
-Reading client.xp's list
-Reading myClient's list
-Reading myClient.xp's list
-Reading myhost's list
+Reading list: client.xp
+Reading list: myClient
+Reading list: myClient.xp
+Reading list: myhost
 Found 16 checksums
 Crawling through DB
 00000000000000000000000000000000-0\r
@@ -2537,10 +2481,10 @@ List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
-Reading client.xp's list
-Reading myClient's list
-Reading myClient.xp's list
-Reading myhost's list
+Reading list: client.xp
+Reading list: myClient
+Reading list: myClient.xp
+Reading list: myhost
 Found 16 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0\r
@@ -2596,9 +2540,7 @@ List of missing checksums contains 4 item(s)
 Database closed
 
 Test: scan for obsolete data, case 2
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -2628,18 +2570,18 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Just scan
 Database open in read/write mode
-Reading client.xp's list
-Reading myClient's list
-Reading myClient.xp's list
-Reading myhost's list
+Reading list: client.xp
+Reading list: myClient
+Reading list: myClient.xp
+Reading list: myhost
 Found 16 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0\r
@@ -2705,10 +2647,10 @@ List of missing checksums contains 4 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
-Reading client.xp's list
-Reading myClient's list
-Reading myClient.xp's list
-Reading myhost's list
+Reading list: client.xp
+Reading list: myClient
+Reading list: myClient.xp
+Reading list: myhost
 Found 16 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0\r
@@ -2774,10 +2716,10 @@ List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
-Reading client.xp's list
-Reading myClient's list
-Reading myClient.xp's list
-Reading myhost's list
+Reading list: client.xp
+Reading list: myClient
+Reading list: myClient.xp
+Reading list: myhost
 Found 16 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0\r
@@ -2833,9 +2775,7 @@ List of missing checksums contains 4 item(s)
 Database closed
 
 Test: backup recovers missing checksums
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -2865,10 +2805,10 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
@@ -2885,7 +2825,7 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test
- ----> Filter and silly
+ ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
  -----> Condition: name a
@@ -2908,10 +2848,10 @@ Reading list of missing checksums
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Database client client.xp open in read/write mode
+Database open r/w: client.xp
 Backup path: C:/Test
  -> Dir Dir
-Database client client.xp closed
+Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
@@ -2924,12 +2864,12 @@ Configuration:
  --> Paths: 
  ---> Path: /home/User/test
 Backing up client
-Database client myClient open in read/write mode
+Database open r/w: myClient
 Backup path: /home/User/test
  -> umount -fl test_db/.mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
-Database client myClient closed
+Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
@@ -2942,7 +2882,7 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test
- ----> Filter and silly
+ ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
  -----> Condition: name a
@@ -2960,10 +2900,10 @@ Configuration:
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client
-Database client myClient.xp open in read/write mode
+Database open r/w: myClient.xp
 Backup path: C:/Test
  -> Dir Dir
-Database client myClient.xp closed
+Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -2973,27 +2913,27 @@ Configuration:
  --> Hostname: myhost.mynetwork.lan
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
- --> Filter and subdir
+ --> Filter: and subdir
  ---> Condition: path_start subdir
  ---> Condition: not size< 100
- --> Filter and bigfile
+ --> Filter: and bigfile
  ---> Condition: size>= 10
  ---> Condition: type f
  --> Paths: 
  ---> Path: test1
- ----> Filter and not_object
+ ----> Filter: and not_object
  -----> Condition: not path_end .o
- ----> Filter or to_be_ignored
+ ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
- ----> Ignore filter:   to_be_ignored
+ ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client
-Database client myhost open in read/write mode
+Database open r/w: myhost
 Backup path: test1
  -> Dir cvs
  -> Parsing CVS entries
@@ -3003,10 +2943,10 @@ Backup path: test1
  --> filenew.c: 0
  --> fileutd.h: 1159985080
  -> Dir cvs/CVS
- test1/cvs/CVS/Entries (161 B)
+R test1/cvs/CVS/Entries	(161 B)
 Adding compressed file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
 Recovered checksum: fef51838cd3cfe8ed96355742eb71fbd-0
- test1/cvs/CVS/Root (16 B)
+R test1/cvs/CVS/Root	(16 B)
 Adding compressed file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
 Recovered checksum: b90f8fa56ea1d39881d4a199c7a81d35-0
  -> Dir cvs/dirbad
@@ -3023,7 +2963,7 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
  --> filenew.c: m
  --> fileoth: i
  -> Dir svn/.svn
- test1/svn/.svn/entries (77 B)
+R test1/svn/.svn/entries	(77 B)
 Adding compressed file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
 Recovered checksum: 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> Dir svn/dirbad
@@ -3037,15 +2977,13 @@ Warning: test1/svn/dirbad: Directory should be under Subversion control
 D test1/testfile
 Backup path: test2
  -> Dir testdir
-Database client myhost modified
-Database client myhost closed
+Database modified: myhost
+Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: Protocol not supported: ssh
 List of missing checksums contains 1 item(s)
 Database closed
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -3075,10 +3013,10 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
@@ -3095,7 +3033,7 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test
- ----> Filter and silly
+ ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
  -----> Condition: name a
@@ -3115,10 +3053,10 @@ Configuration:
 Backing up client
 Reading list of missing checksums
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
-Database client client.xp open in read/write mode
+Database open r/w: client.xp
 Backup path: C:/Test
  -> Dir Dir
-Database client client.xp closed
+Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
@@ -3131,12 +3069,12 @@ Configuration:
  --> Paths: 
  ---> Path: /home/User/test
 Backing up client
-Database client myClient open in read/write mode
+Database open r/w: myClient
 Backup path: /home/User/test
  -> umount -fl test_db/.mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
-Database client myClient closed
+Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
@@ -3149,7 +3087,7 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test
- ----> Filter and silly
+ ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
  -----> Condition: name a
@@ -3167,10 +3105,10 @@ Configuration:
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client
-Database client myClient.xp open in read/write mode
+Database open r/w: myClient.xp
 Backup path: C:/Test
  -> Dir Dir
-Database client myClient.xp closed
+Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -3180,27 +3118,27 @@ Configuration:
  --> Hostname: myhost.mynetwork.lan
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
- --> Filter and subdir
+ --> Filter: and subdir
  ---> Condition: path_start subdir
  ---> Condition: not size< 100
- --> Filter and bigfile
+ --> Filter: and bigfile
  ---> Condition: size>= 10
  ---> Condition: type f
  --> Paths: 
  ---> Path: test1
- ----> Filter and not_object
+ ----> Filter: and not_object
  -----> Condition: not path_end .o
- ----> Filter or to_be_ignored
+ ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
- ----> Ignore filter:   to_be_ignored
+ ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client
-Database client myhost open in read/write mode
+Database open r/w: myhost
 Backup path: test1
  -> Dir cvs
  -> Parsing CVS entries
@@ -3234,14 +3172,12 @@ Warning: test1/svn/dirbad: Directory should be under Subversion control
  -> Dir testdir
 Backup path: test2
  -> Dir testdir
-Database client myhost closed
+Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: Protocol not supported: ssh
 List of missing checksums contains 1 item(s)
 Database closed
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -3271,17 +3207,17 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
-Reading client.xp's list
-Reading myClient's list
-Reading myClient.xp's list
-Reading myhost's list
+Reading list: client.xp
+Reading list: myClient
+Reading list: myClient.xp
+Reading list: myhost
 Found 16 checksums
 Crawling through DB
 0f2ea973d77135dc3d06c8e68da6dc59-0\r
@@ -3338,9 +3274,7 @@ Warning: Missing checksum(s): 1
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
 List of missing checksums contains 1 item(s)
 Database closed
- -> Reading configuration file 'etc/hbackup.conf'
-Warning: Keyword trash is deprecated and will be removed in the next
-version of this software, please remove it from your configuration
+ -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
  -> Clients:
@@ -3370,10 +3304,10 @@ Configuration:
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
  ---> Expiry: none
- -> Filter and backup
+ -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
- -> Filter or test_or
+ -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
@@ -3390,7 +3324,7 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test
- ----> Filter and silly
+ ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
  -----> Condition: name a
@@ -3410,10 +3344,10 @@ Configuration:
 Backing up client
 Reading list of missing checksums
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
-Database client client.xp open in read/write mode
+Database open r/w: client.xp
 Backup path: C:/Test
  -> Dir Dir
-Database client client.xp closed
+Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
@@ -3426,12 +3360,12 @@ Configuration:
  --> Paths: 
  ---> Path: /home/User/test
 Backing up client
-Database client myClient open in read/write mode
+Database open r/w: myClient
 Backup path: /home/User/test
  -> umount -fl test_db/.mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
  -> Dir dir
-Database client myClient closed
+Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
@@ -3444,7 +3378,7 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test
- ----> Filter and silly
+ ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
  -----> Condition: name a
@@ -3462,10 +3396,10 @@ Configuration:
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client
-Database client myClient.xp open in read/write mode
+Database open r/w: myClient.xp
 Backup path: C:/Test
  -> Dir Dir
-Database client myClient.xp closed
+Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -3475,27 +3409,27 @@ Configuration:
  --> Hostname: myhost.mynetwork.lan
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
- --> Filter and subdir
+ --> Filter: and subdir
  ---> Condition: path_start subdir
  ---> Condition: not size< 100
- --> Filter and bigfile
+ --> Filter: and bigfile
  ---> Condition: size>= 10
  ---> Condition: type f
  --> Paths: 
  ---> Path: test1
- ----> Filter and not_object
+ ----> Filter: and not_object
  -----> Condition: not path_end .o
- ----> Filter or to_be_ignored
+ ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
- ----> Ignore filter:   to_be_ignored
+ ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client
-Database client myhost open in read/write mode
+Database open r/w: myhost
 Backup path: test1
  -> Dir cvs
  -> Parsing CVS entries
@@ -3529,7 +3463,7 @@ Warning: test1/svn/dirbad: Directory should be under Subversion control
  -> Dir testdir
 Backup path: test2
  -> Dir testdir
-Database client myhost closed
+Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: Protocol not supported: ssh
 List of missing checksums contains 1 item(s)

@@ -24,19 +24,20 @@
 
 using namespace std;
 
-#include <files.h>
+#include "hbackup.h"
+#include "files.h"
+#include "report.h"
 #include <list.h>
 #include <owner.h>
-#include "hbackup.h"
 
 using namespace hbackup;
 
 static void progress(long long previous, long long current, long long total) {
   if (current < total) {
-    out(verbose) << "Done: " << setw(5) << setiosflags(ios::fixed)
-      << setprecision(1) << 100.0 * current /total << "%\r" << flush;
+    cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
+      << 100.0 * current /total << "%\r" << flush;
   } else if (previous != 0) {
-    out(verbose) << "            \r";
+    cout << "            \r";
   }
 }
 
@@ -173,19 +174,19 @@ int Owner::open(
     bool            initialize,
     bool            check) {
   if (read_only && initialize) {
-    out(error) << "Cannot initialize in read-only mode" << endl;
+    out(error, msg_standard, "Cannot initialize in read-only mode");
     return -1;
   }
   if (read_only && check) {
-    out(error) << "Cannot check in read-only mode" << endl;
+    out(error, msg_standard, "Cannot check in read-only mode");
     return -1;
   }
   Directory owner_dir(_d->path);
   if (! owner_dir.isValid()) {
     if (initialize) {
       if (owner_dir.create() < 0) {
-        out(error) << "Client " << _d->name
-          << "'s directory cannot be created, aborting" << endl;
+        out(error, msg_standard, "Directory cannot be created, aborting", -1,
+          _d->name);
         return -1;
       }
     } else
@@ -194,8 +195,8 @@ int Owner::open(
       return 0;
     } else
     {
-      out(error) << "Client " << _d->name
-        << "'s directory does not exist, aborting" << endl;
+      out(error, msg_standard, "Directory does not exist, aborting", -1,
+        _d->name);
       return -1;
     }
   }
@@ -206,27 +207,27 @@ int Owner::open(
   bool failed = false;
   if (read_only) {
     if (! owner_list.isValid()) {
-      out(error) << "Client " << _d->name
-        << "'s list not accessible, aborting" << endl;
+      out(error, msg_standard, "List not accessible, aborting", -1,
+        _d->name);
       return -1;
     }
 
     stringstream file_name;
     file_name << owner_list.path() << "." << getpid();
     if (link(owner_list.path(), file_name.str().c_str())) {
-      out(error) << "Could not create hard link to list" << endl;
+      out(error, msg_standard, "Could not create hard link to list, aborting");
       return -1;
     }
 
     _d->original = new List(file_name.str().c_str());
     if (_d->original->open("r")) {
-      out(error) << "Cannot open " << _d->name << "'s list" << endl;
+      out(error, msg_standard, "Cannot open list, aborting", -1, _d->name);
       failed = true;
     } else
     if (_d->original->isOldVersion()) {
-      out(error)
-        << "list in old format (run hbackup in backup mode to update)"
-        << endl;
+      out(error, msg_standard,
+        "List in old format (try running hbackup in backup mode to update)"
+        ", aborting");
       failed = true;
     } else
     if (failed) {
@@ -241,16 +242,15 @@ int Owner::open(
 
       if (backup.isValid()) {
         rename(backup.path(), _d->original->path());
-        out(warning) << _d->name << "'s list not accessible, using backup"
-          << endl;
+        out(warning, msg_standard, "List not accessible, using backup", -1,
+          _d->name);
       } else if (initialize) {
         if (_d->original->open("w")) {
-          out(error) << strerror(errno) << " creating " << _d->name
-            << "'s list" << endl;
+          out(error, msg_errno, "Creating list", errno, _d->name);
           failed = true;
         } else {
           _d->original->close();
-          out(info) << "Created " << _d->name << "'s list" << endl;
+          out(info, msg_standard, _d->name, -1, "List created");
         }
       }
     }
@@ -260,10 +260,10 @@ int Owner::open(
       _d->partial = new List((owner_path + "partial").c_str());
       if (_d->journal->isValid()) {
         // Check previous crash
-        out(warning) << "Backup of client " << _d->name
-          << " was interrupted in a previous run, finishing up..." << endl;
+        out(warning, msg_standard, _d->name, -1,
+          "Previous backup interrupted");
         if (finishOff(true)) {
-          out(error) << "Failed to recover previous data" << endl;
+          out(error, msg_standard, "Failed to recover previous data");
           failed = true;
         }
       }
@@ -271,17 +271,17 @@ int Owner::open(
     if (! failed && ! check) {
       // Open list
       if (_d->original->open("r")) {
-        out(error) << "Cannot open " << _d->name << "'s list" << endl;
+        out(error, msg_errno, "Opening list", errno, _d->name);
         failed = true;
       } else
       // Open journal
       if (_d->journal->open("w", -1)) {
-        out(error) << "Cannot open " << _d->name << "'s journal" << endl;
+        out(error, msg_errno, "Opening journal", errno, _d->name);
         failed = true;
       } else
       // Open list
       if (_d->partial->open("w")) {
-        out(error) << "Cannot open " << _d->name << "'s merge list" << endl;
+        out(error, msg_errno, "Opening merge list", errno, _d->name);
         failed = true;
       }
     }
@@ -339,7 +339,7 @@ int Owner::close(
         // Finish off list reading/copy
         _d->original->setProgressCallback(progress);
         // Finish off merging
-        out(verbose) << "Database client " << _d->name << " modified" << endl;
+        out(verbose, msg_standard, _d->name, -1, "Database modified");
         _d->original->search("", _d->partial, -1);
       }
     }
@@ -355,7 +355,7 @@ int Owner::close(
     if (! _d->journal->isEmpty()) {
       if (! terminating()) {
         if (finishOff(false)) {
-          out(error) << "Failed to close lists" << endl;
+          out(error, msg_standard, "Failed to close lists");
           failed = true;
         }
       }
@@ -381,7 +381,7 @@ int Owner::search(
   while (_d->original->search(NULL, _d->partial, _d->expiration) == 2) {
     if (_d->original->getEntry(NULL, &db_path, NULL, -2) <= 0) {
       // Error
-      out(error) << "Failed to get entry" << endl;
+      out(error, msg_standard, "Failed to get entry");
       failed = true;
       break;
     }
@@ -413,7 +413,7 @@ int Owner::search(
       _d->journal->addData(time(NULL));
       // Add path and 'removed' entry
       _d->partial->addData(time(NULL));
-      out(info) << "D " << db_path << endl;
+      out(info, msg_standard, db_path, -2, "D");
     }
   }
   free(db_path);

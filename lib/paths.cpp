@@ -25,7 +25,9 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"
@@ -34,7 +36,6 @@ using namespace std;
 #include "list.h"
 #include "db.h"
 #include "paths.h"
-#include "hbackup.h"
 
 using namespace hbackup;
 
@@ -125,7 +126,9 @@ int ClientPath::parse_recurse(
           // For directory, recurse into it
           if ((*i)->type() == 'd') {
             rem_path[last] = '/';
-            out(debug, 1) << "Dir " << rel_path << (*i)->name() << endl;
+            stringstream s;
+            s << "Dir " << rel_path << (*i)->name();
+            out(debug, msg_standard, s.str().c_str(), 1);
             if (parse_recurse(db, rem_path, (Directory&) **i, parser) < 0) {
               give_up = true;
             }
@@ -139,7 +142,7 @@ end:
       i = dir.nodesList().erase(i);
     }
   } else {
-    out(error) << strerror(errno) << ": " << remote_path << endl;
+    out(error, msg_errno, "Reading directory", errno, remote_path);
   }
   return give_up ? -1 : 0;
 }
@@ -179,8 +182,7 @@ int ClientPath::addParser(
       mode = Parser::others;
       break;
     default:
-      out(error) << "Undefined mode " << type << " for parser " << string
-        << endl;
+      out(error, msg_standard, "Undefined parser mode", -1, string.c_str());
       return -1;
   }
 
@@ -192,7 +194,7 @@ int ClientPath::addParser(
     _parsers.push_back(new SvnParser(mode));
   } else
   {
-    out(error) << "Unsupported parser " << type << endl;
+    out(error, msg_standard, "Unsupported parser", -1, type.c_str());
     return -1;
   }
   return 0;
@@ -228,14 +230,15 @@ int ClientPath::parse(
 }
 
 void ClientPath::show(int level) const {
-  out(verbose, level) << "Path: " << _path << endl;
+  out(verbose, msg_standard, _path.c_str(), level, "Path");
   _filters.show(level + 1);
   _parsers.show(level + 1);
   if (_compress != NULL) {
-    out(verbose, level + 1) << "Compress filter: " << _compress->name()
-      << endl;
+    out(verbose, msg_standard, _compress->name().c_str(), level + 1,
+      "Compress filter");
   }
   if (_ignore != NULL) {
-    out(verbose, level + 1) << "Ignore filter:   " << _ignore->name() << endl;
+    out(verbose, msg_standard, _ignore->name().c_str(), level + 1,
+      "Ignore filter");
   }
 }

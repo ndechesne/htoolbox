@@ -196,10 +196,10 @@ bool cancel() {
 
 static void progress(long long previous, long long current, long long total) {
   if (current < total) {
-    out(verbose) << "Done: " << setw(5) << setiosflags(ios::fixed)
+    cout << "Done: " << setw(5) << setiosflags(ios::fixed)
       << setprecision(1) << 100.0 * current /total << "%\r" << flush;
   } else if (previous != 0) {
-    out(verbose) << "            \r";
+    cout << "            \r";
   }
 }
 

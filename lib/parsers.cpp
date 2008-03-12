@@ -23,9 +23,10 @@
 
 using namespace std;
 
-#include "files.h"
-#include "parsers.h"
 #include "hbackup.h"
+#include "files.h"
+#include "report.h"
+#include "parsers.h"
 
 using namespace hbackup;
 

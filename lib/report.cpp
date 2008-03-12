@@ -36,7 +36,16 @@ struct nullstream : std::ostream {
 
 static nullstream null;
 
-Report*        Report::_self  = NULL;
+void hbackup::out(
+    VerbosityLevel  level,
+    MessageType     type,
+    const char*     message,
+    int             number,
+    const char*     prepend) {
+  Report::self()->out(level, type, message, number, prepend);
+}
+
+Report* Report::_self = NULL;
 
 Report* Report::self() {
   if (_self == NULL) {
@@ -49,52 +58,15 @@ void Report::setVerbosityLevel(VerbosityLevel level) {
   Report::self()->_level = level;
 }
 
-ostream& Report::out(VerbosityLevel level, int arrow_length) {
-  if (level > _level) {
-    return null;
-  } else {
-    switch (level) {
-      case alert:
-        if (arrow_length < 0) {
-          return cerr << "ALERT! ";
-        } else {
-          return cerr;
-        }
-      case error:
-        if (arrow_length < 0) {
-          return cerr << "Error: ";
-        } else {
-          return cerr;
-        }
-      case warning:
-        if (arrow_length < 0) {
-          return cout << "Warning: ";
-        }
-        // No break: allow warnings to use the arrows stuff
-      case info:
-      case verbose:
-      case debug:
-      {
-        string arrow;
-        if (arrow_length > 0) {
-          arrow = " ";
-          arrow.append(arrow_length, '-');
-          arrow.append("> ");
-        }
-        return cout << arrow;
-      }
-    }
-  }
-  // g++ knows I dealt with all cases (no warning for switch), but still warns
-  return null;
-}
-
 void Report::out(
     VerbosityLevel  level,
     MessageType     type,
     const char*     message,
     int             number,
     const char*     prepend) {
+  if (level > _level) {
+    return;
+  }
   stringstream s;
   if ((type != msg_standard) || (number < 0)) {
     switch (level) {
@@ -117,27 +89,53 @@ void Report::out(
     s << arrow;
   }
   if (prepend != NULL) {
-    s << prepend << ": ";
+    s << prepend;
+    if (number >= -1) {
+      s << ":";
+    }
+    s << " ";
   }
+  bool add_colon = false;
   switch (type) {
     case msg_errno:
-      s << strerror(number) << ": ";
+      s << strerror(number);
+      add_colon = true;
       break;
     case msg_line_no:
-      s << number << ": ";
+      s << number;
+      add_colon = true;
       break;
     default:;
   }
-  s << message;
+  if (message != NULL) {
+    if (add_colon) {
+      s << ": ";
+    }
+    s << message;
+  }
+  if (number == -3) {
+    if (s.str().size() > _size_to_overwrite) {
+      _size_to_overwrite = s.str().size();
+    }
+    s << '\r';
+  } else {
+    if (_size_to_overwrite > 0) {
+      string blank;
+      blank.append(_size_to_overwrite, ' ');
+      cout << blank << '\r' << flush;
+      _size_to_overwrite = 0;
+    }
+    s << endl;
+  }
   switch (level) {
     case alert:
     case error:
-      cerr << s.str() << endl;
+      cerr << s.str() << flush;
       break;
     case warning:
     case info:
     case verbose:
     case debug:
-      cout << s.str() << endl;
+      cout << s.str() << flush;
   }
 }

@@ -47,33 +47,6 @@ namespace hbackup {
   */
   void setVerbosityLevel(VerbosityLevel level);
 
-  //! \brief Output a string at given verbosity level, preceeded by an arrow
-  /*!
-    \param level        the level of verbosity associated with the message
-    \param arrow_length the length of a preceeding arrow. use 0 to cancel the
-                        default prefix for alert, error and warning
-    \return the output stream
-  */
-  extern std::ostream& out(
-    VerbosityLevel    level,
-    int               arrow_length = -1);
-
-  //! \brief Function called throughout the code to output data
-  /*!
-    \param level        the level of verbosity associated with the message
-    \param type         type of message (meaning of number)
-    \param message      text of the message
-    \param number       either line no or error no or arrow length
-    \param prepend      prepended text (often the name of the file concerned)
-    \return the output stream
-  */
-  extern void out(
-    VerbosityLevel  level,
-    MessageType     type,
-    const char*     message,
-    int             number        = -1,
-    const char*     prepend       = NULL);
-
   //! Termination required (string is for debug purposes only)
   extern int terminating(const char* string = NULL);
 

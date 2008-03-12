@@ -24,9 +24,10 @@
 
 using namespace std;
 
-#include "files.h"
-#include "list.h"
 #include "hbackup.h"
+#include "files.h"
+#include "report.h"
+#include "list.h"
 
 using namespace hbackup;
 
@@ -227,21 +228,21 @@ int List::decodeDataLine(
 
   // Check result
   if (params.size() < 3) {
-    out(error) << "Wrong number of arguments for line" << endl;
+    out(error, msg_standard, "Wrong number of arguments for line");
     return -1;
   }
 
   // DB timestamp
   if ((timestamp != NULL)
   && sscanf(params[1].c_str(), "%ld", timestamp) != 1) {
-    out(error) << "Cannot decode timestamp" << endl;
+    out(error, msg_standard, "Cannot decode timestamp");
     return -1;
   }
 
   if (node != NULL) {
     // Type
     if (params[2].size() != 1) {
-      out(error) << "Cannot decode type" << endl;
+      out(error, msg_standard, "Cannot decode type");
       return -1;
     }
     type = params[2][0];
@@ -249,7 +250,8 @@ int List::decodeDataLine(
     switch (type) {
       case '-':
         if (params.size() != 3) {
-          out(error) << "Wrong number of arguments for remove line" << endl;
+          out(error, msg_standard,
+            "Wrong number of arguments for remove line");
           return -1;
         } else {
           *node = NULL;
@@ -258,44 +260,45 @@ int List::decodeDataLine(
       case 'f':
       case 'l':
         if (params.size() != 9) {
-          out(error) << "Wrong number of arguments for file/link line" << endl;
+          out(error, msg_standard,
+            "Wrong number of arguments for file/link line");
           return -1;
         }
         break;
       default:
         if (params.size() != 8) {
-          out(error) << "Wrong number of arguments for line" << endl;
+          out(error, msg_standard, "Wrong number of arguments for line");
           return -1;
         }
     }
 
     // Size
     if (sscanf(params[3].c_str(), "%lld", &size) != 1) {
-      out(error) << "Cannot decode size" << endl;
+      out(error, msg_standard, "Cannot decode size");
       return -1;
     }
 
     // Modification time
     if (sscanf(params[4].c_str(), "%ld", &mtime) != 1) {
-      out(error) << "Cannot decode mtime" << endl;
+      out(error, msg_standard, "Cannot decode mtime");
       return -1;
     }
 
     // User
     if (sscanf(params[5].c_str(), "%u", &uid) != 1) {
-      out(error) << "Cannot decode uid" << endl;
+      out(error, msg_standard, "Cannot decode uid");
       return -1;
     }
 
     // Group
     if (sscanf(params[6].c_str(), "%u", &gid) != 1) {
-      out(error) << "Cannot decode gid" << endl;
+      out(error, msg_standard, "Cannot decode gid");
       return -1;
     }
 
     // Permissions
     if (sscanf(params[7].c_str(), "%o", &mode) != 1) {
-      out(error) << "Cannot decode mode" << endl;
+      out(error, msg_standard, "Cannot decode mode");
       return -1;
     }
 
@@ -382,7 +385,7 @@ int List::getEntry(
     if (length <= 0) {
       errno = EUCLEAN;
       if (length == 0) {
-        out(error) << "Unexpected end of file" << endl;
+        out(error, msg_standard, "Unexpected end of file");
       }
       return -1;
     }
@@ -507,7 +510,7 @@ int List::search(
     // Failed
     if (rc <= 0) {
       // Unexpected end of file
-      out(error) << "Unexpected end of list" << endl;
+      out(error, msg_standard, "Unexpected end of list");
       errno = EUCLEAN;
       return -1;
     }
@@ -641,13 +644,13 @@ int List::merge(
     List&         journal) {
   // Check that all files are open
   if (! isOpen() || ! list.isOpen() || ! journal.isOpen()) {
-    out(error) << "At least one list is not open" << endl;
+    out(error, msg_standard, "At least one list is not open");
     return -1;
   }
 
   // Check open mode
   if (! isWriteable() || list.isWriteable() || journal.isWriteable()) {
-    out(error) << "At least one list is not open correctly" << endl;
+    out(error, msg_standard, "At least one list is not open correctly");
     return -1;
   }
 
@@ -669,7 +672,7 @@ int List::merge(
 
     // Failed
     if (rc_journal < 0) {
-      out(error) << "Reading journal, line " << j_line_no << endl;
+      out(error, msg_line_no, "Reading line", j_line_no, "journal");
       return 1;
     }
 
@@ -679,12 +682,12 @@ int List::merge(
         rc_list = list.search("", this);
         if (rc_list < 0) {
           // Error copying list
-          out(error) << "End of list copy failed" << endl;
+          out(error, msg_standard, "End of list copy failed");
           return -1;
         }
       }
       if (rc_journal == 0) {
-        out(warning) << "Unexpected end of journal" << endl;
+        out(warning, msg_standard, "Unexpected end of journal");
         return 1;
       }
       break;
@@ -696,8 +699,7 @@ int List::merge(
       if (path.length() != 0) {
         if (path.compare(journal._d->line.c_str()) > 0) {
           // Cannot go back
-          out(error) << "Path out of order in journal, line " << j_line_no
-            << endl;
+          out(error, msg_line_no, "Path out of order", j_line_no, "journal");
           return -1;
         }
       }
@@ -708,7 +710,7 @@ int List::merge(
         rc_list = list.search(path.c_str(), this);
         if (rc_list < 0) {
           // Error copying list
-          out(error) << "Path search failed" << endl;
+          out(error, msg_standard, "Path search failed");
           return -1;
         }
       }
@@ -719,8 +721,7 @@ int List::merge(
       // Must have a path before then
       if (path.length() == 0) {
         // Did not get anything before data
-        out(error) << "Data out of order in journal, line " << j_line_no
-          << endl;
+        out(error, msg_line_no, "Data out of order", j_line_no, "journal");
         return -1;
       }
 
@@ -729,7 +730,7 @@ int List::merge(
         || (list.putLine(journal._d->line.c_str()) < 0))
        && (Stream::putLine(journal._d->line.c_str()) < 0)) {
         // Could not write
-        out(error) << "Journal copy failed" << endl;
+        out(error, msg_standard, "Journal copy failed");
         return -1;
       }
     }

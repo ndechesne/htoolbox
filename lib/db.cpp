@@ -35,12 +35,13 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "data.h"
 #include "list.h"
 #include "owner.h"
 #include "db.h"
-#include "hbackup.h"
 
 using namespace hbackup;
 
@@ -52,78 +53,6 @@ struct Database::Private {
   int               missing_id; // -2: not loaded, -3: do not load
   Owner*            client;
 };
-
-int Database::convert() {
-  out(info) << "Converting database list" << endl;
-  Stream source(Path(_d->path, "list"));
-  if (source.open("r")) {
-    out(error) << strerror(errno) << "opening source file" << endl;
-    return -1;
-  }
-  int     rc;
-  bool    begin = true;
-  string  line;
-  string last_client;
-  Stream* dest = NULL;
-  while ((rc = source.getLine(line)) > 0) {
-    if (line[0] == '#') {
-      if (begin) {
-        begin = false;
-      } else {
-        if (dest != NULL) {
-          if ((dest->putLine("# end") < 0) || (dest->close() < 0)) {
-            out(alert) << strerror(errno) << " closing client's list (2)"
-              << endl;
-            return -1;
-          }
-          delete dest;
-        }
-        break;
-      }
-    } else
-    if (line[0] != '\t') {
-      string client = line.substr(0, line.size() - 1);
-      if (last_client == client) {
-        client += ".2";
-      }
-      last_client = client;
-      if (dest != NULL) {
-        if ((dest->putLine("# end") < 0) || (dest->close() < 0)) {
-          out(alert) << strerror(errno) << " closing client's list" << endl;
-          return -1;
-        }
-        delete dest;
-      }
-      Directory client_dir(Path(_d->path, client.c_str()));
-      if (client_dir.create() < 0) {
-        out(alert) << strerror(errno) << " creating client dir" << endl;
-        return -1;
-      }
-      dest = new Stream(Path(client_dir.path(), "list"));
-      if (dest->open("w") < 0) {
-        out(alert) << strerror(errno) << " opening destination file" << endl;
-        return -1;
-      }
-      if (dest->putLine("# version 4") < 0) {
-        out(alert) << strerror(errno) << " writing client's list" << endl;
-        return -1;
-      }
-    } else if (dest != NULL) {
-      if (dest->putLine(&line[1]) < 0) {
-        out(alert) << strerror(errno) << " writing client's list (2)" << endl;
-        return -1;
-      }
-    } else {
-      out(alert) << "No destination file!" << endl;
-    }
-  }
-  if (source.close()) {
-    return -1;
-  }
-
-  out(info) << "Conversion successful" << endl;
-  return 0;
-}
 
 int Database::lock() {
   Path  lock_path(_d->path, "lock");
@@ -142,14 +71,16 @@ int Database::lock() {
       // Find out whether process is still running, if not, reset lock
       kill(pid, 0);
       if (errno == ESRCH) {
-        out(warning) << "Lock reset" << endl;
+        out(warning, msg_standard, "Lock reset");
         std::remove(lock_path.c_str());
       } else {
-        out(error) << "Lock taken by process with pid " << pid << endl;
+        stringstream s;
+        s << "Lock taken by process with pid " << pid;
+        out(error, msg_standard, s.str().c_str());
         failed = true;
       }
     } else {
-      out(error) << "Lock taken by an unidentified process!" << endl;
+      out(error, msg_standard, "Lock taken by an unidentified process!");
       failed = true;
     }
   }
@@ -162,7 +93,7 @@ int Database::lock() {
       fclose(file);
     } else {
       // Lock cannot be taken
-      out(error) << "Cannot take lock" << endl;
+      out(error, msg_standard, "Cannot take lock");
       failed = true;
     }
   }
@@ -214,43 +145,18 @@ int Database::open(
     bool            initialize) {
 
   if (read_only && initialize) {
-    out(error) << "Cannot initialize in read-only mode" << endl;
+    out(error, msg_standard, "Cannot initialize in read-only mode");
     return -1;
   }
 
   if (! Directory(_d->path).isValid()) {
     if (read_only || ! initialize) {
-      out(error) << "Given DB path does not exist: " << _d->path << endl;
+      out(error, msg_standard, _d->path, -1, "Given DB path does not exist");
       return -1;
     } else
     if (mkdir(_d->path, 0755)) {
-      out(error) << "Cannot create DB base directory" << endl;
+      out(error, msg_standard, "Cannot create DB base directory");
       return -1;
-    }
-  }
-  // Deal with DB format conversion
-  {
-    // Mount point
-    Directory(Path(_d->path, "mount")).remove();
-    // Data path name
-    Path old_data(_d->path, "data");
-    Path new_data(_d->path, ".data");
-    if (Directory(old_data).isValid() && ! Directory(new_data).isValid()) {
-      if (rename(old_data.c_str(), new_data.c_str())) {
-        return -1;
-      } else {
-        out(info) << "Changed DB data dir name" << endl;
-      }
-    }
-    // Lists
-    Path old_list(_d->path, "list");
-    Path new_list(_d->path, "list.converted");
-    if (File(old_list).isValid() && (convert() >= 0)) {
-      if (rename(old_list.c_str(), new_list.c_str())) {
-        return -1;
-      } else {
-        out(info) << "DB format update successful" << endl;
-      }
     }
   }
   // Try to take lock
@@ -263,21 +169,21 @@ int Database::open(
     case 1:
       // Creation successful
       File(Path(_d->path, "missing")).create();
-      out(info) << "Database initialized in " << _d->path << endl;
+      out(info, msg_standard, _d->path, -1, "Database initialized");
     case 0:
       // Open successful
       break;
     default:
       // Creation failed
       if (initialize) {
-        out(error) << strerror(errno)
-          << " creating data directory in given DB path: " << _d->path << endl;
+        out(error, msg_errno, "Create data directory in given DB path", errno,
+          _d->path);
       } else {
-        out(error) << "Given DB path does not contain a database: "
-          << _d->path << endl;
+        out(error, msg_standard, _d->path, -1,
+          "Given DB path does not contain a database");
         if (! read_only) {
-          out(info) << "See help for information on how to initialize the DB"
-            << endl;
+          out(info, msg_standard,
+            "See help for information on how to initialize the DB");
         }
       }
       if (! read_only) {
@@ -294,7 +200,7 @@ int Database::open(
 
   if (read_only) {
     _d->mode = 1;
-    out(verbose) << "Database open in read-only mode" << endl;
+    out(verbose, msg_standard, "Database open in read-only mode");
   } else {
     // Set mode to call openClient for checking only
     _d->mode = 3;
@@ -321,7 +227,7 @@ int Database::open(
     _d->mode = 2;
     // Load list of missing items if/when required
     _d->missing_id = -2;
-    out(verbose) << "Database open in read/write mode" << endl;
+    out(verbose, msg_standard, "Database open in read/write mode");
   }
   return 0;
 }
@@ -330,7 +236,7 @@ int Database::close() {
   bool failed = false;
 
   if (_d->mode == 0) {
-    out(alert) << "Cannot close: DB not open!" << endl;
+    out(alert, msg_standard, "Cannot close: DB not open!");
   } else {
     if (_d->client != NULL) {
       closeClient(true);
@@ -351,8 +257,9 @@ int Database::close() {
           }
           _d->missing.clear();
           if (count > 0) {
-            out(info) << "List of missing checksums contains " << count
-              << " item(s)" << endl;
+            stringstream s;
+            s << "List of missing checksums contains " << count << " item(s)";
+            out(info, msg_standard, s.str().c_str());
           }
           if (rc >= 0) {
             rc = missing_list.close();
@@ -361,15 +268,14 @@ int Database::close() {
             update("missing", true);
           }
         } else {
-          out(error) << strerror(errno) << " opening missing checksums list"
-            << endl;
+          out(error, msg_errno, "Opening missing checksums list", errno);
         }
       }
       // Release lock
       unlock();
     }
   }
-  out(verbose) << "Database closed" << endl;
+  out(verbose, msg_standard, "Database closed");
   _d->mode = 0;
   return failed ? -1 : 0;
 }
@@ -453,45 +359,45 @@ int Database::restore(
       string command = "mkdir -p ";
       command += dir;
       if (system(command.c_str())) {
-        out(error) << strerror(errno) << ": " << dir << endl;
+        out(error, msg_errno, "Creating path", errno, dir);
       }
     }
     free(dir);
-    out(info) << "U " << base.c_str() << endl;
+    out(info, msg_standard, base.c_str(), -2, "U");
     switch (fnode->type()) {
       case 'f': {
           File* f = (File*) fnode;
           if (f->checksum()[0] == '\0') {
-            out(error) << "Failed to restore file: data missing" << endl;
+            out(error, msg_standard, "Failed to restore file: data missing");
             this_failed = true;
           } else
           if (_d->data.read(base.c_str(), f->checksum())) {
-            out(error) << "Failed to restore file: " << strerror(errno)
-              << endl;
+            out(error, msg_errno, "Restoring file", errno);
             this_failed = true;
           }
         } break;
       case 'd':
         if (mkdir(base.c_str(), fnode->mode())) {
-          out(error) << strerror(errno) << ": restoring dir" << endl;
+          out(error, msg_errno, "Restoring dir", errno);
           this_failed = true;
         }
         break;
       case 'l': {
           Link* l = (Link*) fnode;
           if (symlink(l->link(), base.c_str())) {
-            out(error) << strerror(errno) << ": restoring file" << endl;
+            out(error, msg_errno, "Restoring file", errno);
             this_failed = true;
           }
         } break;
       case 'p':
         if (mkfifo(base.c_str(), fnode->mode())) {
-          out(error) << strerror(errno) << ": restoring pipe (FIFO)" << endl;
+          out(error, msg_errno, "Restoring pipe (FIFO)", errno);
           this_failed = true;
         }
         break;
       default:
-        out(error) << "Type '" << fnode->type() << "' not supported" << endl;
+        char type[2] = { fnode->type(), '\0' };
+        out(error, msg_errno, "Type not supported", -1, type);
         this_failed = true;
     }
     // Report error and go on
@@ -507,19 +413,18 @@ int Database::restore(
     {
       struct utimbuf times = { -1, fnode->mtime() };
       if (utime(base.c_str(), &times)) {
-        out(error) << strerror(errno) << ": restoring modification time"
-          << endl;
+        out(error, msg_errno, "Restoring modification time");
         this_failed = true;
       }
     }
     // Restore permissions
     if (chmod(base.c_str(), fnode->mode())) {
-      out(error) << strerror(errno) << ": restoring permissions" << endl;
+      out(error, msg_errno, "Restoring permissions");
       this_failed = true;
     }
     // Restore owner and group
     if (chown(base.c_str(), fnode->uid(), fnode->gid())) {
-      out(error) << strerror(errno) << ": restoring owner/group" << endl;
+      out(error, msg_errno, "Restoring owner/group");
       this_failed = true;
     }
     // Report error and go on
@@ -541,7 +446,7 @@ int Database::scan(
   _d->missing_id = -3;
   bool failed = false;
   for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
-    out(verbose) << "Reading " << *i << "'s list" << endl;
+    out(verbose, msg_standard, i->c_str(), -1, "Reading list");
     Owner client(_d->path, i->c_str());
     client.getChecksums(list_sums);
     if (failed || terminating()) {
@@ -553,10 +458,14 @@ int Database::scan(
   }
   list_sums.sort();
   list_sums.unique();
-  out(verbose) << "Found " << list_sums.size() << " checksums" << endl;
+  {
+    stringstream s;
+    s << "Found " << list_sums.size() << " checksums";
+    out(verbose, msg_standard, s.str().c_str());
+  }
 
   // Get checksums from DB
-  out(verbose) << "Crawling through DB" << endl;
+  out(verbose, msg_standard, "Crawling through DB");
   list<string> data_sums;
   // Check surficially, remove empty dirs
   int rc = _d->data.crawl(&data_sums, false, true);
@@ -565,17 +474,17 @@ int Database::scan(
   }
 
   if (! list_sums.empty()) {
-    out(debug) << "Checksum(s) from list:" << endl;
+    out(debug, msg_standard, "Checksum(s) from list:");
     for (list<string>::iterator i = list_sums.begin(); i != list_sums.end();
         i++) {
-      out(debug, 1) << *i << endl;
+      out(debug, msg_standard, i->c_str(), 1);
     }
   }
   if (! data_sums.empty()) {
-    out(debug) << "Checksum(s) with data:" << endl;
+    out(debug, msg_standard, "Checksum(s) with data:");
     for (list<string>::iterator i = data_sums.begin(); i != data_sums.end();
         i++) {
-      out(debug, 1) << *i << endl;
+      out(debug, msg_standard, i->c_str(), 1);
     }
   }
 
@@ -610,25 +519,25 @@ int Database::scan(
   list_sums.clear();
 
   if (! data_sums.empty()) {
-    out(info) << "Obsolete checksum(s): " << data_sums.size() << endl;
+    out(info, msg_line_no, NULL, data_sums.size(), "Obsolete checksum(s)");
     for (list<string>::iterator i = data_sums.begin(); i != data_sums.end();
         i++) {
       if (i->size() != 0) {
         if (rm_obsolete) {
-          out(verbose, 1) << *i << ": "
-            << ((_d->data.remove(i->c_str()) == 0) ? "removed" : "FAILED")
-            << endl;
+          out(verbose, msg_standard, (_d->data.remove(i->c_str()) == 0) ?
+            "removed" : "FAILED", 1, i->c_str());
         } else {
-          out(verbose, 1) << *i << endl;
+          out(verbose, msg_standard, i->c_str(), 1);
         }
       }
     }
   }
   if (! _d->missing.empty()) {
-    out(warning) << "Missing checksum(s): " << _d->missing.size()
-      << endl;
+    stringstream s;
+    s << "Missing checksum(s): " << _d->missing.size();
+    out(warning, msg_standard, s.str().c_str());
     for (unsigned int i = 0; i < _d->missing.size(); i++) {
-      out(verbose, 1) << _d->missing[i] << endl;
+      out(verbose, msg_standard, _d->missing[i].c_str(), 1);
     }
   }
 
@@ -642,7 +551,7 @@ int Database::scan(
 
 int Database::check(
     bool            remove) const {
-  out(verbose) << "Crawling through DB data" << endl;
+  out(verbose, msg_standard, "Crawling through DB data");
   // Check thoroughly, remove corrupted data if told (but not empty dirs)
   return _d->data.crawl(NULL, true, remove);
 }
@@ -651,7 +560,7 @@ int Database::openClient(
     const char*     client,
     time_t          expire) {
   if (_d->mode == 0) {
-    out(alert) << "Open DB before opening client!" << endl;
+    out(alert, msg_standard, "Open DB before opening client!");
     return -1;
   }
 
@@ -663,18 +572,17 @@ int Database::openClient(
   if (_d->mode > 1) {
     if (_d->missing_id == -2) {
       // Read list of missing checksums (it is ordered and contains no dup)
-      out(verbose) << "Reading list of missing checksums" << endl;
+      out(verbose, msg_standard, "Reading list of missing checksums");
       Stream missing_list(Path(_d->path, "missing"));
       if (! missing_list.open("r")) {
         string checksum;
         while (missing_list.getLine(checksum) > 0) {
           _d->missing.push_back(checksum);
-          out(debug, 1) << checksum << endl;
+          out(debug, msg_standard, checksum.c_str(), 1);
         }
         missing_list.close();
       } else {
-        out(warning) << strerror(errno) << " opening missing checksums list"
-          << endl;
+        out(warning, msg_errno, "Opening" , errno, "Missing checksums list");
       }
       _d->missing_id = -1;
     }
@@ -688,12 +596,10 @@ int Database::openClient(
   // Report and set temporary data path
   switch (_d->mode) {
     case 1:
-      out(verbose)
-        << "Database client " << client << " open in read-only mode" << endl;
+      out(verbose, msg_standard, _d->client->name(), -1, "Database open r-o");
       break;
     case 2:
-      out(verbose)
-        << "Database client " << client << " open in read/write mode" << endl;
+      out(verbose, msg_standard, _d->client->name(), -1, "Database open r/w");
       // Set temp path inside client's directory
       _d->data.setTemp(Path(_d->client->path(), "data").c_str());
       break;
@@ -706,8 +612,7 @@ int Database::closeClient(
     bool            abort) {
   bool failed = (_d->client->close(abort) < 0);
   if (_d->mode < 3) {
-    out(verbose) << "Database client " << _d->client->name() << " closed"
-      << endl;
+    out(verbose, msg_standard, _d->client->name(), -1, "Database closed");
   }
   delete _d->client;
   _d->client = NULL;
@@ -725,17 +630,16 @@ int Database::sendEntry(
   int rc = _d->client->search(remote_path, &db_node);
 
   // Compare entries
-  bool add_node = false;
+  char letter = 0;
   bool new_path = false;
   if (remote_path != NULL) {
     if ((rc > 0) || (db_node == NULL)) {
       // New file
-      out(info) << "A";
-      add_node = true;
+      letter = 'A';
       new_path = true;
     }
 
-    if (! add_node) {
+    if (letter == 0) {
       // Existing file: check for differences
       if (*db_node != *node) {
         // Metadata differ
@@ -746,29 +650,26 @@ int Database::sendEntry(
           // If the file data is there, just add new metadata
           // If the checksum is missing, this shall retry too
           *checksum = strdup(((File*)db_node)->checksum());
-          out(info) << "~";
+          letter = '~';
         } else {
           // Do it all
-          out(info) << "M";
+          letter = 'M';
         }
-        add_node = true;
       } else
       // Same metadata, hence same type...
       {
         // Compare linked data
         if ((node->type() == 'l')
         && (strcmp(((Link*)node)->link(), ((Link*)db_node)->link()) != 0)) {
-          out(info) << "L";
-          add_node = true;
+          letter = 'L';
         } else
         // Check that file data is present
         if (node->type() == 'f') {
           const char* node_checksum = ((File*)db_node)->checksum();
           if (node_checksum[0] == '\0') {
             // Checksum missing: retry
-            out(info) << "!";
             *checksum = strdup("");
-            add_node = true;
+            letter = '!';
           } else {
             // Same checksum: check in missing list!
             if (! _d->missing.empty()) {
@@ -791,7 +692,7 @@ int Database::sendEntry(
                 }
               }
               if (_d->missing_id >= 0) {
-                add_node = true;
+                letter = 'R';
               }
             }
           }
@@ -799,35 +700,39 @@ int Database::sendEntry(
       }
     }
 
-    if (add_node) {
-      out(info) << " " << remote_path;
+    if (letter != 0) {
+      stringstream s;
+      s << remote_path;
+      long long size = -1;
       if (node->type() == 'f') {
-        out(info) << " (";
+        size = node->size();
+        s << "\t(";
         if (node->size() < 10000) {
-          out(info) << node->size();
-          out(info) << " ";
+          s << node->size();
+          s << " ";
         } else
         if (node->size() < 10000000) {
-          out(info) << node->size() / 1000;
-          out(info) << " k";
+          s << node->size() / 1000;
+          s << " k";
         } else
         if (node->size() < 10000000000ll) {
-          out(info) << node->size() / 1000000;
-          out(info) << " M";
+          s << node->size() / 1000000;
+          s << " M";
         } else
         {
-          out(info) << node->size() / 1000000000;
-          out(info) << " G";
+          s << node->size() / 1000000000;
+          s << " G";
         }
-        out(info) << "B)";
+        s << "B)";
       }
-      out(info) << endl;
+      char cletter[2] = { letter, '\0' };
+      out(info, msg_standard, s.str().c_str(), -2, cletter);
     }
   }
   delete db_node;
 
   // Send status back
-  return new_path ? 2 : (add_node ? 1 : 0);
+  return new_path ? 2 : ((letter != 0) ? 1 : 0);
 }
 
 int Database::add(
@@ -839,7 +744,7 @@ int Database::add(
 
   // Add new record to active list
   if ((node->type() == 'l') && ! node->parsed()) {
-    out(error) << "Bug in db add: link was not parsed!" << endl;
+    out(error, msg_standard, "Bug in db add: link was not parsed!");
     return -1;
   }
 
@@ -861,7 +766,7 @@ int Database::add(
           ((File*)node2)->setChecksum(checksum);
           if ((_d->missing_id >= 0)
           && (_d->missing[_d->missing_id] == checksum)) {
-            out(verbose) << "Recovered checksum: " << checksum << endl;
+            out(verbose, msg_standard, checksum, -1, "Recovered checksum");
             // Mark checksum as already recovered
             _d->missing[_d->missing_id] += "+";
           }
@@ -884,7 +789,7 @@ int Database::add(
     }
     // Add entry info to journal
     if (_d->client->add(remote_path, node2, ts) < 0) {
-      out(error) << "Cannot add to client's list" << endl;
+      out(error, msg_standard, "Cannot add to client's list");
       failed = true;
     }
   }

@@ -22,10 +22,11 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "conditions.h"
 #include "filters.h"
-#include "hbackup.h"
 
 using namespace hbackup;
 

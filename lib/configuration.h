@@ -39,7 +39,7 @@ public:
   // Clear config lines
   void clear();
   // Debug
-  void debug(int level = 0) const;
+  void show(int level = 0) const;
   // Iterator boundaries
   list<ConfigLine*>::const_iterator begin() const { return _children.begin(); }
   list<ConfigLine*>::const_iterator end() const   { return _children.end();   }
@@ -71,7 +71,7 @@ public:
         _line_no(line_no),
         _type(type) {}
   bool operator<(const ConfigError& error) const;
-  void print() const;
+  void output() const;
 };
 
 class ConfigItem {
@@ -115,7 +115,7 @@ public:
     list<ConfigError>&        errors,
     int                       line_no = -1) const;
   // Debug
-  void debug(int level = 0) const;
+  void show(int level = 0) const;
 };
 
 class Config {
@@ -136,7 +136,7 @@ public:
   // Clear config lines
   void clear();
   // Debug
-  void debug() const;
+  void show() const;
 };
 
 }

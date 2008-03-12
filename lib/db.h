@@ -33,8 +33,6 @@ class Database {
     const char*     name,
     bool            new_file = false) const;
 public:
-  // Method to update the DB organization and list formats
-  int convert();
   Database(
     const char*     path);                // Path where DB resides
   ~Database();

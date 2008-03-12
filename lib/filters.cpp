@@ -20,10 +20,11 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "conditions.h"
 #include "filters.h"
-#include "hbackup.h"
 
 using namespace hbackup;
 
@@ -48,7 +49,7 @@ int Filter::add(
     unit[3] = '\0';
     if (rc < 1) {
       failed = true;
-      out(error) << "Cannot decode decimal value" << endl;
+      out(error, msg_standard, "Cannot decode decimal value");
     } else {
       int kilo = 0;
       if (rc > 1) {
@@ -58,7 +59,7 @@ int Filter::add(
         } else if ((unit[1] == 'B') || (unit[1] == '\0')) {
           kilo = 1000;
         } else {
-          out(error) << "Cannot decode unit, must be 'iB' or 'B'" << endl;
+          out(error, msg_standard, "Cannot decode unit, must be 'iB' or 'B'");
           failed = true;
         }
       }
@@ -86,7 +87,7 @@ int Filter::add(
             break;
           default:
             failed = true;
-            out(error) << "Cannot decode multiplier" << endl;
+            out(error, msg_standard, "Cannot decode multiplier");
         }
       }
     }
@@ -110,7 +111,7 @@ int Filter::add(
     if (cond->match("", test) >= 0) {
       add(cond);
     } else {
-      out(error) << "Cannot create regex" << endl;
+      out(error, msg_standard, "Cannot create regex");
       failed = true;
     }
   } else
@@ -129,7 +130,7 @@ int Filter::add(
     if (cond->match("", test) >= 0) {
       add(cond);
     } else {
-      out(error) << "Cannot create regex" << endl;
+      out(error, msg_standard, "Cannot create regex");
       failed = true;
     }
   } else
@@ -157,7 +158,7 @@ int Filter::add(
     mode_t mode;
     failed = (sscanf(value.c_str(), "%o", &mode) != 1);
     if (failed) {
-      out(error) << "Cannot decode octal value" << endl;
+      out(error, msg_standard, "Cannot decode octal value");
     } else {
       add(new Condition(Condition::mode_and, mode, negated));
     }
@@ -166,7 +167,7 @@ int Filter::add(
     mode_t mode;
     failed = (sscanf(value.c_str(), "%o", &mode) != 1);
     if (failed) {
-      out(error) << "Cannot decode octal value" << endl;
+      out(error, msg_standard, "Cannot decode octal value");
     } else {
       add(new Condition(Condition::mode_eq, mode, negated));
     }
@@ -202,8 +203,9 @@ bool Filter::match(const char* path, const Node& node) const {
 }
 
 void Filter::show(int level) const {
-  out(verbose, level) << "Filter " << ((_type == any) ? "or" : "and") << " "
-    << _name <<  endl;
+  stringstream s;
+  s << ((_type == any) ? "or" : "and") << " " << _name;
+  out(verbose, msg_standard, s.str().c_str(), level, "Filter");
   // Show all conditions
   list<Condition*>::const_iterator condition;
   for (condition = begin(); condition != end(); condition++) {
