@@ -32,15 +32,6 @@ using namespace std;
 
 using namespace hbackup;
 
-static void progress(long long previous, long long current, long long total) {
-  if (current < total) {
-    cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
-      << 100.0 * current /total << "%\r" << flush;
-  } else if (previous != 0) {
-    cout << "            \r";
-  }
-}
-
 struct Owner::Private {
   char*             path;
   char*             name;
@@ -48,6 +39,7 @@ struct Owner::Private {
   List*             journal;
   List*             partial;
   int               expiration;
+  progress_f        progress;
 };
 
 // The procedure is as follows:
@@ -87,7 +79,7 @@ int Owner::finishOff(
         bool failed = false;
         _d->original->open("r");
         _d->journal->open("r");
-        _d->original->setProgressCallback(progress);
+        _d->original->setProgressCallback(_d->progress);
         if (_d->partial->merge(*_d->original, *_d->journal) < 0) {
           failed = true;
         }
@@ -146,6 +138,8 @@ Owner::Owner(
   _d->journal    = NULL;
   _d->partial    = NULL;
   _d->expiration = expiration;
+  // Reset progress callback function
+  _d->progress   = NULL;
 }
 
 Owner::~Owner() {
@@ -335,9 +329,9 @@ int Owner::close(
       // Do nothing
       _d->journal->remove();
     } else {
-      if (! terminating()) {
+      if (! aborting()) {
         // Finish off list reading/copy
-        _d->original->setProgressCallback(progress);
+        _d->original->setProgressCallback(_d->progress);
         // Finish off merging
         out(verbose, msg_standard, _d->name, -1, "Database modified");
         _d->original->search("", _d->partial, -1);
@@ -348,12 +342,12 @@ int Owner::close(
     // Close merge
     _d->partial->close();
     // Decide what to do with merge
-    if (terminating() || _d->journal->isEmpty()) {
+    if (aborting() || _d->journal->isEmpty()) {
       _d->partial->remove();
     }
     // Deal with new list and journal
     if (! _d->journal->isEmpty()) {
-      if (! terminating()) {
+      if (! aborting()) {
         if (finishOff(false)) {
           out(error, msg_standard, "Failed to close lists");
           failed = true;
@@ -369,6 +363,10 @@ int Owner::close(
     _d->partial    = NULL;
   }
   return failed ? -1 : 0;
+}
+
+void Owner::setProgressCallback(progress_f progress) {
+  _d->progress = progress;
 }
 
 int Owner::search(
@@ -402,7 +400,7 @@ int Owner::search(
       cmp = -1;
     }
     // Make sure we are not terminating
-    if (terminating()) {
+    if (aborting()) {
       failed = true;
       break;
     }
@@ -451,7 +449,7 @@ int Owner::getNextRecord(
   }
   bool failed = false;
   while (_d->original->search() == 2) {
-    if (terminating()) {
+    if (aborting()) {
       failed = true;
       return -1;
     }
@@ -482,7 +480,7 @@ int Owner::getChecksums(
   if (open(true) < 0) {
     return -1;
   }
-  _d->original->setProgressCallback(progress);
+  _d->original->setProgressCallback(_d->progress);
   Node* node = NULL;
   while (_d->original->getEntry(NULL, NULL, &node) > 0) {
     if ((node != NULL) && (node->type() == 'f')) {
@@ -491,11 +489,11 @@ int Owner::getChecksums(
         checksums.push_back(f->checksum());
       }
     }
-    if (terminating()) {
+    if (aborting()) {
       break;
     }
   }
   delete node;
   close(true);
-  return terminating() ? -1 : 0;
+  return aborting() ? -1 : 0;
 }

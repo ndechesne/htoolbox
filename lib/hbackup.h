@@ -40,15 +40,45 @@ namespace hbackup {
     msg_line_no   /*!< number represents line no */
   };
 
+  //! \brief Type for progress callback function
+  /*!
+    \param previous     the previous reported size
+    \param current      the current size
+    \param total        the total size
+  */
+  typedef void (*progress_f)(
+    long long       previous,
+    long long       current,
+    long long       total);
+
+  //! \brief Set the progress callback
+  /*!
+    \param progress     the function to be called
+  */
+  void setProgressCallback(
+    progress_f      progress);
+
   //! \brief Set verbosity level
   /*!
     Sets the level of messages that the use should see
     \param level        the verbosity level
   */
-  void setVerbosityLevel(VerbosityLevel level);
+  void setVerbosityLevel(
+    VerbosityLevel  level);
 
-  //! Termination required (string is for debug purposes only)
-  extern int terminating(const char* string = NULL);
+  //! \brief Tell any process to stop
+  /*!
+    \param test         this parameter is for testing purposes only, DO NOT USE
+  */
+  void abort(
+    unsigned short  test = 0);
+
+  //! \brief We were told to abort
+  /*!
+    \param test         this parameter is for testing purposes only, DO NOT USE
+  */
+  bool aborting(
+    unsigned short  test = 0);
 
   //! \brief The HBackup class provides the full functionality of HBackup.
   /*!

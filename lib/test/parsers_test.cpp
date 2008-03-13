@@ -28,10 +28,6 @@ using namespace std;
 
 using namespace hbackup;
 
-int hbackup::terminating(const char* function) {
-  return 0;
-}
-
 class TestParser : public Parser {
   int           _index;
 public:

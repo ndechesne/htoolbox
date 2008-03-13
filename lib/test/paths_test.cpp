@@ -17,6 +17,7 @@
 */
 
 #include <iostream>
+#include <iomanip>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -35,19 +36,13 @@ using namespace std;
 
 using namespace hbackup;
 
-static bool killed  = false;
-static bool killall = false;
-
-int hbackup::terminating(const char* module) {
-  if (killall) {
-    return 1;
+static void progress(long long previous, long long current, long long total) {
+  if (current < total) {
+    cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
+      << 100.0 * current /total << "%\r" << flush;
+  } else if (previous != 0) {
+    cout << "            \r";
   }
-  if (killed && (module != NULL) && (! strcmp(module, "data"))) {
-    cout << "Killing inside " << module << endl;
-    killall = true;
-    return 1;
-  }
-  return 0;
 }
 
 static time_t my_time = 0;
@@ -105,6 +100,7 @@ int main(void) {
 
   ClientPath* path = new ClientPath("/home/User");
   Database    db("test_db");
+  db.setProgressCallback(progress);
   // myClient's lists
   List real_journal(Path("test_db", "myClient/journal"));
   List journal(Path("test_db", "myClient/journal~"));
@@ -186,7 +182,7 @@ int main(void) {
 
   system("dd if=/dev/zero of=test1/cvs/big_file bs=1k count=500"
     " > /dev/null 2>&1");
-  killed = true;
+  abort(2);
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1")) {
@@ -197,6 +193,7 @@ int main(void) {
   if (db.close()) {
     return 0;
   }
+  abort(0xffff);
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
@@ -210,8 +207,6 @@ int main(void) {
   my_time++;
   db.open();
 
-  killed  = false;
-  killall = false;
   system("chmod 644 test1/subdir/testfile");
   path->show();
   db.openClient("myClient");

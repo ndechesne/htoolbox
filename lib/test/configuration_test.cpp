@@ -26,10 +26,6 @@ using namespace std;
 
 using namespace hbackup;
 
-int hbackup::terminating(const char* function) {
-  return 0;
-}
-
 int main(void) {
   Config*     config;
 

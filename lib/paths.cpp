@@ -44,7 +44,7 @@ int ClientPath::parse_recurse(
     const char*     remote_path,
     Directory&      dir,
     Parser*         parser) {
-  if (terminating()) {
+  if (aborting()) {
     errno = EINTR;
     return -1;
   }
@@ -68,7 +68,7 @@ int ClientPath::parse_recurse(
   if (dir.isValid() && ! dir.createList()) {
     list<Node*>::iterator i = dir.nodesList().begin();
     while (i != dir.nodesList().end()) {
-      if (! terminating() && ! give_up) {
+      if (! aborting() && ! give_up) {
         // Ignore inaccessible files
         if ((*i)->type() == '?') {
           goto end;
@@ -222,7 +222,7 @@ int ClientPath::parse(
   char* rem_path = NULL;
   asprintf(&rem_path, "%s/", _path.c_str());
   Directory dir(backup_path);
-  if (parse_recurse(db, rem_path, dir, NULL) || terminating()) {
+  if (parse_recurse(db, rem_path, dir, NULL) || aborting()) {
     rc = -1;
   }
   free(rem_path);

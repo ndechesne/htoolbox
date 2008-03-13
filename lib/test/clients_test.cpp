@@ -17,6 +17,7 @@
 */
 
 #include <iostream>
+#include <iomanip>
 #include <list>
 #include <errno.h>
 
@@ -35,8 +36,13 @@ using namespace std;
 
 using namespace hbackup;
 
-int hbackup::terminating(const char* unused) {
-  return 0;
+static void progress(long long previous, long long current, long long total) {
+  if (current < total) {
+    cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
+      << 100.0 * current /total << "%\r" << flush;
+  } else if (previous != 0) {
+    cout << "            \r";
+  }
 }
 
 int main(void) {
@@ -46,6 +52,7 @@ int main(void) {
   Filters       filters;
 
   setVerbosityLevel(debug);
+  db.setProgressCallback(progress);
 
   // Create global filter
   cout << "Global filter" << endl;

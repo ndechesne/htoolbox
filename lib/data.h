@@ -52,6 +52,8 @@ public:
     bool            create = false);
   // Close
   void close();
+  // Set progress callback function
+  void setProgressCallback(progress_f progress);
   // Set the path to the temporary data (default is $(path)/temp)
   // Note: this path MUST be on the same filesystem as $(path)
   int setTemp(const char* path);

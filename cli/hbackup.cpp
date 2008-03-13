@@ -38,20 +38,22 @@ using namespace hbackup;
 // Verbosity
 static int verbose_level = 1;
 
-// Signal received?
-static int killed = 0;
-
-int hbackup::terminating(const char* unused) {
-  return killed;
+static void progress(long long previous, long long current, long long total) {
+  if (current < total) {
+    cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
+      << 100.0 * current /total << "%\r" << flush;
+  } else if (previous != 0) {
+    cout << "            \r";
+  }
 }
 
 void sighandler(int signal) {
-  if (killed) {
+  if (hbackup::aborting()) {
     cout << "Already aborting..." << endl;
   } else {
     cout << "Warning: signal received, aborting..." << endl;
-  }
-  killed = signal;
+    hbackup::abort();
+ }
 }
 
 class MyOutput : public StdOutput {
@@ -78,6 +80,9 @@ class MyOutput : public StdOutput {
 
 int main(int argc, char **argv) {
   hbackup::HBackup hbackup;
+
+  // Set progress callback function
+  hbackup::setProgressCallback(progress);
 
   // Accept hubackup as a replacement for hbackup -u
   bool   user_mode = false;

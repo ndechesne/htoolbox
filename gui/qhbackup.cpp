@@ -21,10 +21,6 @@
 #include "choose.h"
 #include "check.h"
 
-int hbackup::terminating(const char* unused) {
-  return 0;
-}
-
 int main(int argc, char* argv[]) {
   hbackup::HBackup  backup;
   QApplication      app(argc, argv);

@@ -17,6 +17,7 @@
 */
 
 #include <iostream>
+#include <iomanip>
 #include <list>
 #include <errno.h>
 
@@ -35,25 +36,20 @@ using namespace std;
 
 using namespace hbackup;
 
-static bool killed  = false;
-static bool killall = false;
-
-int hbackup::terminating(const char* module) {
-  if (killall) {
-    return 1;
+static void progress(long long previous, long long current, long long total) {
+  if (current < total) {
+    cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
+      << 100.0 * current /total << "%\r" << flush;
+  } else if (previous != 0) {
+    cout << "            \r";
   }
-  if (killed && (module != NULL) && (! strcmp(module, "data"))) {
-    cout << "Killing inside " << module << endl;
-    killall = true;
-    return 1;
-  }
-  return 0;
 }
 
 int main(void) {
   HBackup* hbackup;
 
   setVerbosityLevel(debug);
+  hbackup::setProgressCallback(progress);
 
   cout << endl << "Test: wrong config file" << endl;
   hbackup = new HBackup();
@@ -101,7 +97,7 @@ int main(void) {
   cout << endl << "Test: interrupted backup" << endl;
   system("dd if=/dev/zero of=test1/dir\\ space/big_file bs=1k count=500"
     " > /dev/null 2>&1");
-  killed = true;
+  abort(2);
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
@@ -109,8 +105,7 @@ int main(void) {
   hbackup->backup();
   hbackup->close();
   delete hbackup;
-  killed = false;
-  killall = false;
+  abort(0xffff);
 
   cout << endl << "Test: specify clients" << endl;
   hbackup = new HBackup();

@@ -727,7 +727,7 @@ Database open r/w: myClient
  -> Dir cvs/CVS/Wherever
 A /home/User/cvs/big_file	(512 kB)
 Done:  80.0%\r
-Killing inside data
+Killing trigger reached: 2
 Error: test_db/myClient/data: Operation canceled: Copying write file
 Database closed: myClient
 Database closed

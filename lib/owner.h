@@ -41,6 +41,8 @@ public:
     bool            check      = false);  // Check only (no need to close)
   int close(
     bool            teardown);
+  // Set progress callback function
+  void setProgressCallback(progress_f progress);
   int search(
     const char*     path,                 // Path to look for, NULL for all
     Node**          node) const;          // Node found

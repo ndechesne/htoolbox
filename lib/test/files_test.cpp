@@ -29,10 +29,6 @@ using namespace std;
 
 using namespace hbackup;
 
-int hbackup::terminating(const char* function) {
-  return 0;
-}
-
 static int parseList(Directory *d, const char* cur_dir) {
   list<Node*>::iterator i = d->nodesList().begin();
   while (i != d->nodesList().end()) {
@@ -190,7 +186,7 @@ static void createNshowFile(const Node &g) {
   }
 }
 
-bool cancel() {
+bool cancel(unsigned short __unused) {
   return true;
 }
 

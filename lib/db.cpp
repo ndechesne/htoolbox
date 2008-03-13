@@ -52,6 +52,7 @@ struct Database::Private {
   vector<string>    missing;
   int               missing_id; // -2: not loaded, -3: do not load
   Owner*            client;
+  progress_f        progress;
 };
 
 int Database::lock() {
@@ -123,9 +124,11 @@ int Database::update(
 }
 
 Database::Database(const char* path) {
-  _d        = new Private;
-  _d->path  = strdup(path);
-  _d->mode  = 0;
+  _d           = new Private;
+  _d->path     = strdup(path);
+  _d->mode     = 0;
+  // Reset progress callback function
+  _d->progress = NULL;
 }
 
 Database::~Database() {
@@ -194,7 +197,6 @@ int Database::open(
 
   // Reset client's data
   _d->client = NULL;
-
   // Do not load list of missing items for now
   _d->missing_id = -3;
 
@@ -217,7 +219,7 @@ int Database::open(
       } else {
         failed = true;
       }
-      if (terminating()) {
+      if (aborting()) {
         break;
       }
     }
@@ -243,7 +245,7 @@ int Database::close() {
     }
     if (_d->mode > 1) {
       // Save list of missing items
-      if ((_d->missing_id > -2) && ! terminating()) {
+      if ((_d->missing_id > -2) && ! aborting()) {
         Stream missing_list(Path(_d->path, "missing.part"));
         if (! missing_list.open("w")) {
           int rc    = 0;
@@ -278,6 +280,11 @@ int Database::close() {
   out(verbose, msg_standard, "Database closed");
   _d->mode = 0;
   return failed ? -1 : 0;
+}
+
+void Database::setProgressCallback(progress_f progress) {
+  _d->progress = progress;
+  _d->data.setProgressCallback(progress);
 }
 
 int Database::getClients(
@@ -315,7 +322,7 @@ int Database::getRecords(
   char* db_path = NULL;
   int   rc;
   while ((rc = _d->client->getNextRecord(path, date, &db_path)) > 0) {
-    if (terminating()) {
+    if (aborting()) {
       return -1;
     }
     Path db_path2 = db_path;
@@ -449,11 +456,11 @@ int Database::scan(
     out(verbose, msg_standard, i->c_str(), -1, "Reading list");
     Owner client(_d->path, i->c_str());
     client.getChecksums(list_sums);
-    if (failed || terminating()) {
+    if (failed || aborting()) {
       break;
     }
   }
-  if (failed || terminating()) {
+  if (failed || aborting()) {
     return -1;
   }
   list_sums.sort();
@@ -469,7 +476,7 @@ int Database::scan(
   list<string> data_sums;
   // Check surficially, remove empty dirs
   int rc = _d->data.crawl(&data_sums, false, true);
-  if (terminating() || (rc < 0)) {
+  if (aborting() || (rc < 0)) {
     return -1;
   }
 
@@ -541,7 +548,7 @@ int Database::scan(
     }
   }
 
-  if (terminating()) {
+  if (aborting()) {
     return -1;
   }
   // Make sure we save the list
@@ -567,6 +574,7 @@ int Database::openClient(
   // Create owner for client
   _d->client = new Owner(_d->path, client,
     (expire <= 0) ? expire : (time(NULL) - expire));
+  _d->client->setProgressCallback(_d->progress);
 
   // Read/write open
   if (_d->mode > 1) {

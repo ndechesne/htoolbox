@@ -836,7 +836,7 @@ int Stream::computeChecksum() {
       break;
     }
     read_size += size;
-    if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)())) {
+    if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)(1))) {
       errno = ECANCELED;
       return -1;
     }
@@ -871,7 +871,7 @@ int Stream::copy(Stream& source) {
       break;
     }
     write_size += size;
-    if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)())) {
+    if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)(2))) {
       errno = ECANCELED;
       return -1;
     }
@@ -958,7 +958,7 @@ int Stream::compare(Stream& source, long long length) {
         }
       }
     }
-    if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)())) {
+    if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)(3))) {
       errno = ECANCELED;
       return -1;
     }

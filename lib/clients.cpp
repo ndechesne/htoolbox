@@ -425,7 +425,7 @@ int Client::backup(
         bool abort = false;
         for (list<ClientPath*>::iterator i = _d->paths.begin();
             i != _d->paths.end(); i++) {
-          if (terminating()) {
+          if (aborting()) {
             break;
           }
           string backup_path;
@@ -437,7 +437,7 @@ int Client::backup(
           } else
           if ((*i)->parse(db, backup_path.c_str())) {
             // prepare_share sets errno
-            if (! terminating()) {
+            if (! aborting()) {
               out(error, msg_standard, "Aborting client");
             }
             abort  = true;

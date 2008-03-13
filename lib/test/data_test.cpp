@@ -59,10 +59,6 @@ public:
   }
 };
 
-int hbackup::terminating(const char* unused) {
-  return 0;
-}
-
 time_t time(time_t *t) {
   static time_t my_time = 0;
   return ++my_time;

@@ -47,10 +47,6 @@ using namespace hbackup;
 //   add:         tested in paths
 //   remove:      tested in paths
 
-int hbackup::terminating(const char* unused) {
-  return 0;
-}
-
 static void showLine(
     time_t          timestamp,
     const char*     path,

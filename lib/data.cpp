@@ -39,22 +39,10 @@ using namespace std;
 
 using namespace hbackup;
 
-static bool cancel() {
-  return terminating("data") != 0;
-}
-
-static void progress(long long previous, long long current, long long total) {
-  if (current < total) {
-    cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
-      << 100.0 * current /total << "%\r" << flush;
-  } else if (previous != 0) {
-    cout << "            \r";
-  }
-}
-
 struct Data::Private {
-  char*   path;
-  char*   temp;
+  char*             path;
+  char*             temp;
+  progress_f        progress;
 };
 
 int Data::getDir(
@@ -192,7 +180,7 @@ int Data::crawl_recurse(
           }
         }
       }
-      if (terminating()) {
+      if (aborting()) {
         failed = true;
       }
       delete *i;
@@ -208,6 +196,8 @@ Data::Data() {
   _d       = new Private;
   _d->path = NULL;
   _d->temp = NULL;
+  // Reset progress callback function
+  _d->progress = NULL;
 }
 
 Data::~Data() {
@@ -247,6 +237,10 @@ void Data::close() {
   _d->path = NULL;
 }
 
+void Data::setProgressCallback(progress_f progress) {
+  _d->progress = progress;
+}
+
 int Data::read(
     const string&   path,
     const char*     checksum) {
@@ -281,8 +275,8 @@ int Data::read(
   } else
 
   // Copy file to temporary name (size not checked: checksum suffices)
-  temp.setCancelCallback(cancel);
-  data->setProgressCallback(progress);
+  temp.setCancelCallback(aborting);
+  data->setProgressCallback(_d->progress);
   if (temp.copy(*data)) {
     out(error, msg_errno, "Copying read file", errno, data->path());
     failed = true;
@@ -339,8 +333,8 @@ int Data::write(
   } else
 
   // Copy file locally
-  temp.setCancelCallback(cancel);
-  source.setProgressCallback(progress);
+  temp.setCancelCallback(aborting);
+  source.setProgressCallback(_d->progress);
   if (temp.copy(source)) {
     out(error, msg_errno, "Copying write file", errno, temp.path());
     failed = true;
@@ -470,7 +464,7 @@ int Data::check(
   } else
   // Check data for corruption
   if (thorough) {
-    data->setCancelCallback(cancel);
+    data->setCancelCallback(aborting);
     if (data->open("r", (no > 0) ? 1 : 0)) {
       out(error, msg_errno, "Opening file", errno, data->path());
       failed = true;

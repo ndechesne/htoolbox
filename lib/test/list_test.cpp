@@ -31,10 +31,6 @@ using namespace std;
 
 using namespace hbackup;
 
-int hbackup::terminating(const char* function) {
-  return 0;
-}
-
 static time_t my_time = 0;
 time_t time(time_t *t) {
   return my_time;

@@ -23,21 +23,53 @@
 
 using namespace std;
 
+#include "hbackup.h"
 #include "files.h"
+#include "report.h"
 #include "configuration.h"
 #include "conditions.h"
 #include "filters.h"
 #include "db.h"
 #include "clients.h"
-#include "hbackup.h"
-#include "report.h"
 
 using namespace hbackup;
 
 #define DEFAULT_DB_PATH "/backup"
 
+static int        _aborted  = 0;
+static progress_f _progress = NULL;
+
+void hbackup::setProgressCallback(progress_f progress) {
+  _progress = progress;
+}
+
 void hbackup::setVerbosityLevel(VerbosityLevel level) {
   Report::self()->setVerbosityLevel(level);
+}
+
+void hbackup::abort(unsigned short test) {
+  if (test == 0xffff) {
+    // Reset
+    _aborted = 0;
+  } else {
+    // Set
+    _aborted = (test << 16) + 1;
+  }
+}
+
+bool hbackup::aborting(unsigned short test) {
+  unsigned short _test = _aborted >> 16;
+  // Normal case
+  if (_test == 0) {
+    return _aborted != 0;
+  }
+  // Test case
+  if (_test == test) {
+    out(debug, msg_line_no, NULL, _test, "Killing trigger reached");
+    _aborted = 1;
+    return true;
+  }
+  return false;
 }
 
 struct HBackup::Private {
@@ -259,9 +291,13 @@ int HBackup::open(
       _d->clients.push_back(client);
       // Set-up DB
       _d->db = new Database(Path(path, ".hbackup").c_str());
+      _d->db->setProgressCallback(_progress);
     }
   } else {
     failed = (readConfig(path) < 0);
+    if (! failed) {
+      _d->db->setProgressCallback(_progress);
+    }
   }
   return failed ? -1 : 0;
 }
@@ -312,7 +348,7 @@ int HBackup::backup(
 
     for (list<Client*>::iterator client = _d->clients.begin();
         client != _d->clients.end(); client++) {
-      if (terminating()) {
+      if (aborting()) {
         break;
       }
       // Skip unrequested clients
