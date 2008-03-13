@@ -17,6 +17,7 @@
 */
 
 #include "choose.h"
+#include "choose-dialog.uih"
 #include <QtGui/QFileDialog>
 
 void ChooseDialog::setOpenFileName() {
