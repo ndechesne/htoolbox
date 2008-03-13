@@ -18,7 +18,7 @@
 
 #include "hbackup.h"
 #include "choose.h"
-#include <check.h>
+#include "check.h"
 
 void CheckMessageBox::check() {
   QString config = _dialog.getConfig();

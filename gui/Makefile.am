@@ -21,5 +21,5 @@ clean-local:
 %.uih: %.ui
 	uic -o $@ $<
 
-moc_%.cpp: %.h
+moc_%.cpp: %.h choose-dialog.uih
 	moc $< -o $@

@@ -21,6 +21,7 @@
 
 #include <stdlib.h>             // getenv
 #include <QtGui/QDialog>
+#include "hbackup.h"
 #include "choose-dialog.uih"
 
 class ChooseDialog : public QDialog {
