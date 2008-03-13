@@ -1,1 +1,8 @@
-svn st | grep -e "^M" | sed "s/.......//" | xargs -l tkdiff &
+#!/bin/sh
+
+if [ -n "$1" ]; then
+  letter="$1"
+else
+  letter="M"
+fi
+svn st | grep -e "^$letter" | sed "s/.......//" | xargs -l tkdiff &
