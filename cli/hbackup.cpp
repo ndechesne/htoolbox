@@ -31,13 +31,10 @@ using namespace std;
 #include "config.h"
 #include "hbackup.h"
 
-using namespace hbackup;
-
-// DEFAULTS
-
 // Verbosity
-static int verbose_level = 1;
+static hbackup::VerbosityLevel verbose_level = hbackup::info;
 
+// Progress
 static void progress(long long previous, long long current, long long total) {
   if (current < total) {
     cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
@@ -47,6 +44,7 @@ static void progress(long long previous, long long current, long long total) {
   }
 }
 
+// Signals
 void sighandler(int signal) {
   if (hbackup::aborting()) {
     cout << "Already aborting..." << endl;
@@ -54,6 +52,90 @@ void sighandler(int signal) {
     cout << "Warning: signal received, aborting..." << endl;
     hbackup::abort();
  }
+}
+
+// Messages
+static void output(
+    hbackup::VerbosityLevel  level,
+    hbackup::MessageType     type,
+    const char*     message,
+    int             number,
+    const char*     prepend) {
+  static unsigned int _size_to_overwrite = 0;
+  if (level > verbose_level) {
+    return;
+  }
+  stringstream s;
+  if ((type != hbackup::msg_standard) || (number < 0)) {
+    switch (level) {
+      case hbackup::alert:
+        s << "ALERT! ";
+        break;
+      case hbackup::error:
+        s << "Error: ";
+        break;
+      case hbackup::warning:
+        s << "Warning: ";
+        break;
+      default:;
+    }
+  } else if (number > 0) {
+    string arrow;
+    arrow = " ";
+    arrow.append(number, '-');
+    arrow.append("> ");
+    s << arrow;
+  }
+  if (prepend != NULL) {
+    s << prepend;
+    if (number >= -1) {
+      s << ":";
+    }
+    s << " ";
+  }
+  bool add_colon = false;
+  switch (type) {
+    case hbackup::msg_errno:
+      s << strerror(number);
+      add_colon = true;
+      break;
+    case hbackup::msg_line_no:
+      s << number;
+      add_colon = true;
+      break;
+    default:;
+  }
+  if (message != NULL) {
+    if (add_colon) {
+      s << ": ";
+    }
+    s << message;
+  }
+  if (number == -3) {
+    if (s.str().size() > _size_to_overwrite) {
+      _size_to_overwrite = s.str().size();
+    }
+    s << '\r';
+  } else {
+    if (_size_to_overwrite > 0) {
+      string blank;
+      blank.append(_size_to_overwrite, ' ');
+      cout << blank << '\r' << flush;
+      _size_to_overwrite = 0;
+    }
+    s << endl;
+  }
+  switch (level) {
+    case hbackup::alert:
+    case hbackup::error:
+      cerr << s.str() << flush;
+      break;
+    case hbackup::warning:
+    case hbackup::info:
+    case hbackup::verbose:
+    case hbackup::debug:
+      cout << s.str() << flush;
+  }
 }
 
 class MyOutput : public StdOutput {
@@ -83,6 +165,7 @@ int main(int argc, char **argv) {
 
   // Set progress callback function
   hbackup::setProgressCallback(progress);
+  setMessageCallback(output);
 
   // Accept hubackup as a replacement for hbackup -u
   bool   user_mode = false;
@@ -177,20 +260,17 @@ int main(int argc, char **argv) {
 
     // Set verbosity level to quiet
     if (quietSwitch.getValue()) {
-      verbose_level = 0;
-      setVerbosityLevel(hbackup::warning);
+      verbose_level = hbackup::warning;
     }
 
     // Set verbosity level to verbose
     if (verboseSwitch.getValue()) {
-      verbose_level = 2;
-      setVerbosityLevel(hbackup::verbose);
+      verbose_level = hbackup::verbose;
     }
 
     // Set verbosity level to debug
     if (debugSwitch.getValue()) {
-      verbose_level = 3;
-      setVerbosityLevel(hbackup::debug);
+      verbose_level = hbackup::debug;
     }
 
     // Report specified clients

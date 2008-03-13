@@ -39,6 +39,10 @@ using namespace hbackup;
 static int        _aborted  = 0;
 static progress_f _progress = NULL;
 
+void hbackup::setMessageCallback(message_f message) {
+  Report::self()->setMessageCallback(message);
+}
+
 void hbackup::setProgressCallback(progress_f progress) {
   _progress = progress;
 }

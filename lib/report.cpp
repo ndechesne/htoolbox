@@ -55,7 +55,11 @@ Report* Report::self() {
 }
 
 void Report::setVerbosityLevel(VerbosityLevel level) {
-  Report::self()->_level = level;
+  _level = level;
+}
+
+void Report::setMessageCallback(message_f message) {
+  _message = message;
 }
 
 void Report::out(
@@ -64,6 +68,10 @@ void Report::out(
     const char*     message,
     int             number,
     const char*     prepend) {
+  if (_message != NULL) {
+    (*_message)(level, type, message, number, prepend);
+    return;
+  }
   if (level > _level) {
     return;
   }

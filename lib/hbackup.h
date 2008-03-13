@@ -39,6 +39,27 @@ namespace hbackup {
     msg_errno,    /*!< number represents error no */
     msg_line_no   /*!< number represents line no */
   };
+  //! \brief Type for message callback function
+  /*!
+    \param level        the verbosity level
+    \param type         the message type
+    \param message      the message
+    \param number       the arrows/error/line number
+    \param prepend      the prepended text/file name
+  */
+  typedef void (*message_f)(
+    VerbosityLevel  level,
+    MessageType     type,
+    const char*     message,
+    int             number,
+    const char*     prepend);
+
+  //! \brief Set the message callback
+  /*!
+    \param message      the function to be called
+  */
+  void setMessageCallback(
+    message_f       message);
 
   //! \brief Type for progress callback function
   /*!

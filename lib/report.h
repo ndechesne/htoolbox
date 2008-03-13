@@ -50,10 +50,12 @@ class Report {
   static Report*    _self;
   VerbosityLevel    _level;
   unsigned int      _size_to_overwrite;
+  message_f         _message;
   Report() {
     // Display all non-debug messages
     _level             = info;
     _size_to_overwrite = 0;
+    _message           = NULL;
   }
 public:
   // Create/get current instance of this singleton
@@ -61,7 +63,9 @@ public:
   // Set output verbosity level
   void setVerbosityLevel(
     VerbosityLevel  level);
-  // Report message, at given level
+  void setMessageCallback(
+    message_f       message);
+  // Report message
   void out(
     VerbosityLevel  level,
     MessageType     type,
