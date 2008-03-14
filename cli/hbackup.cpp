@@ -34,16 +34,6 @@ using namespace std;
 // Verbosity
 static hbackup::VerbosityLevel verbose_level = hbackup::info;
 
-// Progress
-static void progress(long long previous, long long current, long long total) {
-  if (current < total) {
-    cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
-      << 100.0 * current /total << "%\r" << flush;
-  } else if (previous != 0) {
-    cout << "            \r";
-  }
-}
-
 // Signals
 void sighandler(int signal) {
   if (hbackup::aborting()) {
@@ -58,9 +48,9 @@ void sighandler(int signal) {
 static void output(
     hbackup::VerbosityLevel  level,
     hbackup::MessageType     type,
-    const char*     message,
-    int             number,
-    const char*     prepend) {
+    const char*     message = NULL,
+    int             number  = -1,
+    const char*     prepend = NULL) {
   static unsigned int _size_to_overwrite = 0;
   if (level > verbose_level) {
     return;
@@ -114,6 +104,12 @@ static void output(
   if (number == -3) {
     if (s.str().size() > _size_to_overwrite) {
       _size_to_overwrite = s.str().size();
+    } else
+    if (s.str().size() < _size_to_overwrite) {
+      string blank;
+      blank.append(_size_to_overwrite - s.str().size(), ' ');
+      _size_to_overwrite = s.str().size();
+      s << blank;
     }
     s << '\r';
   } else {
@@ -135,6 +131,16 @@ static void output(
     case hbackup::verbose:
     case hbackup::debug:
       cout << s.str() << flush;
+  }
+}
+
+// Progress
+static void progress(long long previous, long long current, long long total) {
+  if ((current != total) || (previous != 0)) {
+    stringstream s;
+    s << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
+      << 100.0 * current /total << "%";
+    output(hbackup::info, hbackup::msg_standard, s.str().c_str(), -3);
   }
 }
 

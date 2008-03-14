@@ -195,6 +195,17 @@ int main(void) {
   out(debug, msg_standard, "debug 1 level", 1);
   out(debug, msg_standard, "debug 2 level", 2);
 
+  cout << endl << "Line autoblanking" << endl;
+  out(hbackup::info, hbackup::msg_standard, "", -3);
+  out(hbackup::info, hbackup::msg_standard, "Short line", -3);
+  out(hbackup::info, hbackup::msg_standard, "A longer line", -3);
+  out(hbackup::info, hbackup::msg_standard, "Tiny one", -3);
+  out(hbackup::info, hbackup::msg_standard, ".", -3);
+  out(hbackup::info, hbackup::msg_standard, "A longer line", -3);
+  out(hbackup::info, hbackup::msg_standard, "An even longer line", -3);
+  out(hbackup::info, hbackup::msg_standard, "A normal line");
+
+
   cout << endl << "End of tests" << endl;
 
   return 0;

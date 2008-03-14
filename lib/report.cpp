@@ -124,6 +124,12 @@ void Report::out(
   if (number == -3) {
     if (s.str().size() > _size_to_overwrite) {
       _size_to_overwrite = s.str().size();
+    } else
+    if (s.str().size() < _size_to_overwrite) {
+      string blank;
+      blank.append(_size_to_overwrite - s.str().size(), ' ');
+      _size_to_overwrite = s.str().size();
+      s << blank;
     }
     s << '\r';
   } else {

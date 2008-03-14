@@ -377,6 +377,7 @@ Done:  85.9%\r
 Done:  89.8%\r
 Done:  93.8%\r
 Done:  97.7%\r
+Done: 100.0%\r
             \r
 Adding compressed file data to DB for f1c9645dbc14efddc7d8a322685f26eb-0
 A test1/cvs
@@ -453,6 +454,7 @@ A test2/testfile2	(259 kB)
 Adding file data to DB for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A test2/testfile~	(524 kB)
 Done:  78.1%\r
+Done: 100.0%\r
             \r
 Adding file data to DB for 59071590099d21dd439896592338bf95-0
 A test2/testlink
@@ -1242,6 +1244,7 @@ U test_r/test2/testfile
 U test_r/test2/testfile2
 U test_r/test2/testfile~
 Done:  78.1%\r
+Done: 100.0%\r
             \r
 U test_r/test2/testlink
 Database closed: myhost

@@ -92,4 +92,15 @@ debug 0 level
  -> debug 1 level
  --> debug 2 level
 
+Line autoblanking
+\r
+Short line\r
+A longer line\r
+Tiny one     \r
+.       \r
+A longer line\r
+An even longer line\r
+                   \r
+A normal line
+
 End of tests
