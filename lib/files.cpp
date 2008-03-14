@@ -455,7 +455,7 @@ int Stream::open(const char* req_mode, int compression) {
     _d->mode = O_RDONLY;
     break;
   default:
-    errno = EACCES;
+    errno = EPERM;
     return -1;
   }
 
@@ -573,7 +573,7 @@ ssize_t Stream::read(void* buffer, size_t count) {
   }
 
   if (isWriteable()) {
-    errno = EINVAL;
+    errno = EPERM;
     return -1;
   }
 
@@ -656,7 +656,7 @@ ssize_t Stream::write(const void* buffer, size_t count) {
   }
 
   if (! isWriteable()) {
-    errno = EINVAL;
+    errno = EPERM;
     return -1;
   }
 

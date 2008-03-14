@@ -443,7 +443,6 @@ int Data::check(
     bool            remove) const {
   string path;
   if (getDir(checksum, path)) {
-    errno = EUCLEAN;
     return -1;
   }
   bool failed = false;
@@ -459,7 +458,6 @@ int Data::check(
       File(Path(path.c_str(), "corrupted")).remove();
       std::remove(path.c_str());
     }
-    errno = ENOENT;
     return -1;
   } else
   // Check data for corruption

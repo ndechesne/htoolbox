@@ -256,9 +256,8 @@ int HBackup::readConfig(const char* config_path) {
         client->setListfile((*params)[1].c_str());
       } else
       if ((*params)[0] == "expire") {
-        errno = 0;
-        int expire = strtol((*params)[1].c_str(), NULL, 10);
-        if (errno != 0) {
+        unsigned int expire;
+        if (sscanf((*params)[1].c_str(), "%u", &expire) != 1) {
           out(error, msg_line_no, "Expected decimal argument",
             (*params).lineNo(), config_path);
           return -1;

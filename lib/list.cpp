@@ -89,7 +89,6 @@ int List::open(
     } else
     // Unknown header
     {
-      errno = EUCLEAN;
       rc = -1;
     }
     _d->line_status = no_data;
@@ -359,7 +358,6 @@ int List::getEntry(
     Node**        node,
     time_t        date) {
   // Initialise
-  errno = 0;
   if (node != NULL) {
     free(*node);
     *node = NULL;
@@ -383,7 +381,6 @@ int List::getEntry(
     }
 
     if (length <= 0) {
-      errno = EUCLEAN;
       if (length == 0) {
         out(error, msg_standard, "Unexpected end of file");
       }
@@ -511,7 +508,6 @@ int List::search(
     if (rc <= 0) {
       // Unexpected end of file
       out(error, msg_standard, "Unexpected end of list");
-      errno = EUCLEAN;
       return -1;
     }
 
@@ -549,7 +545,6 @@ int List::search(
           // Copy start of line (timestamp)
           size_t pos = _d->line.substr(1).find('\t');
           if (pos == string::npos) {
-            errno = EUCLEAN;
             return -1;
           }
           pos += 2;

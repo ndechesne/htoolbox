@@ -45,7 +45,6 @@ int ClientPath::parse_recurse(
     Directory&      dir,
     Parser*         parser) {
   if (aborting()) {
-    errno = EINTR;
     return -1;
   }
 
