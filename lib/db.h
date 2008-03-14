@@ -76,13 +76,15 @@ public:
   int  sendEntry(
     const char*     remote_path,      // Dir where the file resides, remotely
     const Node*     node,             // File metadata
-    char**          checksum = NULL); // Checksum from current file
+    char**          checksum = NULL,  // Checksum from current file
+    int*            id       = NULL); // Need to pass an integer to be used by add
   // Add entry to journal/list
   int  add(
     const char*     full_path,        // File path on client
     const Node*     node,             // File metadata
     const char*     checksum = NULL,  // Do not copy data, use given checksum
-    int             compress = 0);    // Compression level for regular files
+    int             compress = 0,     // Compression level for regular files
+    int             id       = -1);   // Need to pass the integer from sendEntry
 };
 
 }

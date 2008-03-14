@@ -102,7 +102,8 @@ int ClientPath::parse_recurse(
         int last = asprintf(&rem_path, "%s%s/", remote_path, (*i)->name()) - 1;
         rem_path[last] = '\0';
         char* checksum = NULL;
-        int rc = db.sendEntry(rem_path, *i, &checksum);
+        int id;
+        int rc = db.sendEntry(rem_path, *i, &checksum, &id);
         if (rc < 0) {
           give_up = true;
         } else {
@@ -113,7 +114,7 @@ int ClientPath::parse_recurse(
               && (_compress != NULL) && _compress->match(rel_path, **i)) {
               compress = 5;
             }
-            if (db.add(rem_path, *i, checksum, compress)
+            if (db.add(rem_path, *i, checksum, compress, id)
             &&  (  (errno != EBUSY)       // Ignore busy files
                 && (errno != ENOENT)      // Ignore files gone
                 && (errno != EACCES))) {  // Ignore access refused

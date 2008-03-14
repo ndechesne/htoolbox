@@ -37,6 +37,7 @@ using namespace std;
 #include "files.h"
 #include "report.h"
 #include "data.h"
+#include "missing.h"
 #include "list.h"
 #include "owner.h"
 #include "db.h"
@@ -47,8 +48,8 @@ struct Database::Private {
   char*             path;
   int               mode;       // 0: closed, 1: r-o, 2: r/w, 3: r/w, quiet
   Data              data;
-  vector<string>    missing;
-  int               missing_id; // -2: not loaded, -3: do not load
+  Missing           missing;
+  bool              load_missing;
   Owner*            client;
   progress_f        progress;
 };
@@ -104,21 +105,6 @@ int Database::lock() {
 
 void Database::unlock() {
   File(Path(_d->path, "lock")).remove();
-}
-
-int Database::update(
-    const char*     name,
-    bool            new_file) const {
-  // Simplify writings to avoid mistakes
-  Path path(_d->path, name);
-
-  // Backup file
-  int rc = rename(path.c_str(), (path.str() + "~").c_str());
-  // Put new version in place
-  if (new_file && ((rc == 0) || (errno == ENOENT))) {
-    rc = rename((path.str() + ".part").c_str(), path.c_str());
-  }
-  return rc;
 }
 
 Database::Database(const char* path) {
@@ -196,12 +182,13 @@ int Database::open(
   // Reset client's data
   _d->client = NULL;
   // Do not load list of missing items for now
-  _d->missing_id = -3;
+  _d->load_missing = false;
 
   if (read_only) {
     _d->mode = 1;
     out(verbose, msg_standard, "Database open in read-only mode");
   } else {
+    _d->missing.open(Path(_d->path, "missing").c_str());
     // Set mode to call openClient for checking only
     _d->mode = 3;
     // Finish off any previous backup
@@ -226,7 +213,7 @@ int Database::open(
     }
     _d->mode = 2;
     // Load list of missing items if/when required
-    _d->missing_id = -2;
+    _d->load_missing = true;
     out(verbose, msg_standard, "Database open in read/write mode");
   }
   return 0;
@@ -243,34 +230,7 @@ int Database::close() {
     }
     if (_d->mode > 1) {
       // Save list of missing items
-      if ((_d->missing_id > -2) && ! aborting()) {
-        Stream missing_list(Path(_d->path, "missing.part"));
-        if (! missing_list.open("w")) {
-          int rc    = 0;
-          int count = 0;
-          for (unsigned int i = 0; i < _d->missing.size(); i++) {
-            if (_d->missing[i][_d->missing[i].size() - 1] != '+') {
-              rc = missing_list.putLine(_d->missing[i].c_str());
-              count++;
-            }
-            if (rc < 0) break;
-          }
-          _d->missing.clear();
-          if (count > 0) {
-            stringstream s;
-            s << "List of missing checksums contains " << count << " item(s)";
-            out(info, msg_standard, s.str().c_str());
-          }
-          if (rc >= 0) {
-            rc = missing_list.close();
-          }
-          if (rc >= 0) {
-            update("missing", true);
-          }
-        } else {
-          out(error, msg_errno, "Opening missing checksums list", errno);
-        }
-      }
+      _d->missing.close();
       // Release lock
       unlock();
     }
@@ -448,7 +408,8 @@ int Database::scan(
   if (getClients(clients) < 0) {
     return -1;
   }
-  _d->missing_id = -3;
+  // Do not load list of missing items for now
+  _d->load_missing = false;
   bool failed = false;
   for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
     out(verbose, msg_standard, i->c_str(), -1, "Reading list");
@@ -537,20 +498,11 @@ int Database::scan(
       }
     }
   }
-  if (! _d->missing.empty()) {
-    stringstream s;
-    s << "Missing checksum(s): " << _d->missing.size();
-    out(warning, msg_standard, s.str().c_str());
-    for (unsigned int i = 0; i < _d->missing.size(); i++) {
-      out(verbose, msg_standard, _d->missing[i].c_str(), 1);
-    }
-  }
+  _d->missing.show();
 
   if (aborting()) {
     return -1;
   }
-  // Make sure we save the list
-  _d->missing_id = -1;
   return rc;
 }
 
@@ -576,21 +528,9 @@ int Database::openClient(
 
   // Read/write open
   if (_d->mode > 1) {
-    if (_d->missing_id == -2) {
-      // Read list of missing checksums (it is ordered and contains no dup)
-      out(verbose, msg_standard, "Reading list of missing checksums");
-      Stream missing_list(Path(_d->path, "missing"));
-      if (! missing_list.open("r")) {
-        string checksum;
-        while (missing_list.getLine(checksum) > 0) {
-          _d->missing.push_back(checksum);
-          out(debug, msg_standard, checksum.c_str(), 1);
-        }
-        missing_list.close();
-      } else {
-        out(warning, msg_errno, "Opening" , errno, "Missing checksums list");
-      }
-      _d->missing_id = -1;
+    if (_d->load_missing) {
+      _d->missing.load();
+      _d->load_missing = false;
     }
   }
   // Open
@@ -628,9 +568,12 @@ int Database::closeClient(
 int Database::sendEntry(
     const char*     remote_path,
     const Node*     node,
-    char**          checksum) {
+    char**          checksum,
+    int*            id) {
   // Reset ID of missing checksum
-  _d->missing_id = -1;
+  if (id != NULL) {
+    *id = -1;
+  }
 
   Node* db_node = NULL;
   int rc = _d->client->search(remote_path, &db_node);
@@ -676,30 +619,12 @@ int Database::sendEntry(
             // Checksum missing: retry
             *checksum = strdup("");
             letter = '!';
-          } else {
-            // Same checksum: check in missing list!
-            if (! _d->missing.empty()) {
-              // Look for checksum in missing list (binary search)
-              int start = 0;
-              int end   = _d->missing.size() - 1;
-              int middle;
-              while (start <= end) {
-                middle = (end + start) / 2;
-                int cmp = _d->missing[middle].compare(node_checksum);
-                if (cmp > 0) {
-                  end   = middle - 1;
-                } else
-                if (cmp < 0) {
-                  start = middle + 1;
-                } else
-                {
-                  _d->missing_id = middle;
-                  break;
-                }
-              }
-              if (_d->missing_id >= 0) {
-                letter = 'R';
-              }
+          } else
+          if (id != NULL) {
+            // Same checksum: look for checksum in missing list (binary search)
+            *id = _d->missing.search(node_checksum);
+            if (*id >= 0) {
+              letter = 'R';
             }
           }
         }
@@ -745,7 +670,8 @@ int Database::add(
     const char*     remote_path,
     const Node*     node,
     const char*     old_checksum,
-    int             compress) {
+    int             compress,
+    int             id) {
   bool failed = false;
 
   // Add new record to active list
@@ -770,11 +696,11 @@ int Database::add(
         char* checksum  = NULL;
         if (! _d->data.write(node->path(), &checksum, compress)) {
           ((File*)node2)->setChecksum(checksum);
-          if ((_d->missing_id >= 0)
-          && (_d->missing[_d->missing_id] == checksum)) {
+          if ((id >= 0)
+          && (_d->missing[id] == checksum)) {
             out(verbose, msg_standard, checksum, -1, "Recovered checksum");
             // Mark checksum as already recovered
-            _d->missing[_d->missing_id] += "+";
+            _d->missing.setRecovered(id);
           }
           free(checksum);
         } else {
