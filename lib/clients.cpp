@@ -16,9 +16,9 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <iostream>
 #include <list>
 #include <string>
+#include <sstream>
 #include <errno.h>
 
 using namespace std;

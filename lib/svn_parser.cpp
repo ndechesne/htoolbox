@@ -16,8 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <iostream>
-#include <string>
+#include <sstream>
 #include <list>
 #include <sys/stat.h>
 
@@ -34,7 +33,7 @@ using namespace hbackup;
 static const string control_dir = "/.svn";
 static const char* entries = "/entries";
 
-string SvnParser::name() const {
+const char* SvnParser::name() const {
   return "Subversion";
 }
 
@@ -163,7 +162,7 @@ void SvnParser::show(int level) {
   }
 }
 
-string SvnControlParser::name() const {
+const char* SvnControlParser::name() const {
   return "Subversion Control";
 }
 

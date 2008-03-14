@@ -28,7 +28,7 @@ public:
   // Constructor for directory parsing (uses default base constructor)
   SvnParser(Mode mode, const string& dir_path);
   // Just to know the parser used
-  string name() const;
+  const char* name() const;
   // This will create an appropriate parser for the directory if relevant
   Parser* isControlled(const string& dir_path) const;
   // That tells us whether to ignore the file, i.e. not back it up
@@ -41,7 +41,7 @@ public:
 class SvnControlParser : public Parser {
 public:
   // Just to know the parser used
-  string name() const;
+  const char* name() const;
   // This directory has no controlled children
   Parser* isControlled(const string& dir_path) const {
     return new IgnoreParser;

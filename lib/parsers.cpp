@@ -16,11 +16,6 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <iostream>
-#include <list>
-// #include <string>
-// #include <errno.h>
-
 using namespace std;
 
 #include "hbackup.h"
@@ -49,6 +44,6 @@ Parser* Parsers::isControlled(const string& dir_path) const {
 
 void Parsers::show(int level) const {
   for (Parsers::const_iterator i = begin(); i != end(); i++) {
-    out(verbose, msg_standard, (*i)->name().c_str(), level, "Parser");
+    out(verbose, msg_standard, (*i)->name(), level, "Parser");
   }
 }

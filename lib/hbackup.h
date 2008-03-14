@@ -19,7 +19,6 @@
 #ifndef _HBACKUP_H
 #define _HBACKUP_H
 
-#include <ostream>
 #include <list>
 
 namespace hbackup {

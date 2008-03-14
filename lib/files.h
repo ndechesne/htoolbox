@@ -19,7 +19,6 @@
 #ifndef FILES_H
 #define FILES_H
 
-#include <sstream>
 #include <list>
 #include <vector>
 

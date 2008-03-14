@@ -21,9 +21,6 @@
 #ifndef REPORT_H
 #define REPORT_H
 
-#include <string>
-#include <sstream>
-
 namespace hbackup {
 
 //! \brief Function called throughout the code to output data

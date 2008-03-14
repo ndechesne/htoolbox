@@ -16,8 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <iostream>
-#include <string>
+#include <sstream>
 #include <list>
 #include <sys/stat.h>
 
@@ -34,7 +33,7 @@ using namespace hbackup;
 static const string control_dir = "/CVS";
 static const char* entries = "/Entries";
 
-string CvsParser::name() const {
+const char* CvsParser::name() const {
   return "CVS";
 }
 
@@ -224,7 +223,7 @@ void CvsParser::show(int level) {
   }
 }
 
-string CvsControlParser::name() const {
+const char* CvsControlParser::name() const {
   return "CVS Control";
 }
 

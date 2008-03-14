@@ -19,6 +19,8 @@
 #ifndef PARSERS_H
 #define PARSERS_H
 
+#include <list>
+
 namespace hbackup {
 
 class Parser {
@@ -48,7 +50,7 @@ public:
   // Need a virtual destructor
   virtual ~Parser() {};
   // Just to know the parser used
-  virtual string name() const = 0;
+  virtual const char* name() const = 0;
   // This will create an appropriate parser for the directory if relevant
   virtual Parser* isControlled(const string& dir_path) const = 0;
   // That tells use whether to ignore the file, i.e. not back it up
@@ -64,7 +66,7 @@ public:
   // Useless here as IgnoreParser never gets enlisted, but rules are rules.
   IgnoreParser(Mode mode) : Parser(mode) {}
   // Tell them who we are
-  string name() const {
+  const char* name() const {
     return "ignore";
   };
   // Fail on directory

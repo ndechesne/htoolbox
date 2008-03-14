@@ -48,7 +48,7 @@ public:
     cout << "Destroying (index " << _index << ")" << endl;
   }
   // Just to know the parser used
-  string name() const {
+  const char* name() const {
     return "test";
   }
   // This will create an appropriate parser for the directory if relevant

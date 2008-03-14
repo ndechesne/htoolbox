@@ -18,8 +18,7 @@
 
 // Compression to use when required: gzip -5 (best speed/ratio)
 
-#include <iostream>
-#include <iomanip>
+#include <sstream>
 #include <string>
 
 #include <sys/types.h>
