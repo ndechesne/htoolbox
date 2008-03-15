@@ -388,7 +388,7 @@ struct Stream::Private {
 };
 
 void Stream::md5sum(char* out, const unsigned char* in, int bytes) {
-  char* hex   = "0123456789abcdef";
+  const char* hex = "0123456789abcdef";
 
   while (bytes-- != 0) {
     *out++ = hex[*in >> 4];
