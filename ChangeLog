@@ -1,4 +1,7 @@
-0.8 - not released yet
+0.8.1 - 2008-03-17 (SVN r402)
+  * fix list corruption when no space left on backup device
+
+0.8 - 2008-03-07 (SVN r377)
   * list/restore: properly handle given date, accept negative date for relative time
   * restore: restore uid/gid, mtime and permissions for files, dirs and pipes
   * new subset concept for multi-backup clients (typically multi-boot)
@@ -9,7 +12,7 @@
   * accept units (kB, MiB, ...) for file size in filters
   * add filter on permissions
 
-0.7 - 2008-02-19 (SVN r326)
+0.7.0 - 2008-02-19 (SVN r326)
   * db check can be run in the background and checks for corrupted data
   * db scan collects missing/corrupted/obsolete items and updates DB and list of missing items accordingly
   * parsing adds reported missing/corrupted items

@@ -514,10 +514,13 @@ int Stream::close() {
     errno = EBADF;
     return -1;
   }
+  bool failed = false;
 
   // Write last few bytes in case of compressed write
   if (isWriteable()) {
-    write(NULL, 0);
+    if (write(NULL, 0) < 0) {
+      failed = true;
+    }
   }
 
   // Compute checksum
@@ -544,7 +547,9 @@ int Stream::close() {
     _d->strm = NULL;
   }
 
-  int rc = std::close(_d->fd);
+  if (std::close(_d->fd)) {
+    failed = true;
+  }
   _d->fd = -1;
 
   // Destroy buffer if any
@@ -555,7 +560,7 @@ int Stream::close() {
 
   // Update metadata
   stat();
-  return rc;
+  return failed ? -1 : 0;
 }
 
 long long Stream::progress() const {

@@ -74,22 +74,30 @@ int Owner::finishOff(
   if (recovery && ! got_next) {
     if (_d->journal->isValid()) {
       // Let's recover what we got
+      bool failed = false;
       if (! _d->partial->open("w")) {
-        bool failed = false;
-        _d->original->open("r");
-        _d->journal->open("r");
-        _d->original->setProgressCallback(_d->progress);
-        if (_d->partial->merge(*_d->original, *_d->journal) < 0) {
+        if (! _d->original->open("r")) {
+          if (! _d->journal->open("r")) {
+            _d->original->setProgressCallback(_d->progress);
+            if (_d->partial->merge(*_d->original, *_d->journal) < 0) {
+              failed = true;
+            }
+            _d->original->setProgressCallback(NULL);
+            _d->original->close();
+          } else {
+            failed = true;
+          }
+          _d->journal->close();
+        } else {
           failed = true;
         }
-        _d->original->setProgressCallback(NULL);
-        _d->original->close();
-        _d->journal->close();
-        _d->partial->close();
-        if (failed) {
-          return -1;
+        if (_d->partial->close()) {
+          failed = true;
         }
       } else {
+        failed = true;
+      }
+      if (failed) {
         return -1;
       }
     } else {
@@ -301,6 +309,10 @@ int Owner::open(
 
 int Owner::close(
     bool            teardown) {
+  // Only check for termination once
+  if (aborting()) {
+    teardown = true;
+  }
   bool failed = false;
   if (_d->original == NULL) {
     // Not open, maybe just checked
@@ -317,7 +329,7 @@ int Owner::close(
     _d->original = NULL;
   } else {
     // Open read/write
-    // Finish previous client work (removed items at end of list)
+    // Finish work (removed items at end of list)
     if (! teardown) {
       search(NULL, NULL);
     }
@@ -328,7 +340,7 @@ int Owner::close(
       // Do nothing
       _d->journal->remove();
     } else {
-      if (! aborting()) {
+      if (! teardown) {
         // Finish off list reading/copy
         _d->original->setProgressCallback(_d->progress);
         // Finish off merging
@@ -341,12 +353,12 @@ int Owner::close(
     // Close merge
     _d->partial->close();
     // Decide what to do with merge
-    if (aborting() || _d->journal->isEmpty()) {
+    if (teardown || _d->journal->isEmpty()) {
       _d->partial->remove();
     }
     // Deal with new list and journal
     if (! _d->journal->isEmpty()) {
-      if (! aborting()) {
+      if (! teardown) {
         if (finishOff(false)) {
           out(error, msg_standard, "Failed to close lists");
           failed = true;
