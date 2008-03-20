@@ -113,11 +113,13 @@ int Missing::load() {
   Stream missing_list(_d->path);
   if (! missing_list.open("r")) {
     missing_list.setProgressCallback(_d->progress);
-    string checksum;
-    while (missing_list.getLine(checksum) > 0) {
+    char* checksum = NULL;
+    int   checksum_capacity = 0;
+    while (missing_list.getLine(&checksum, &checksum_capacity) > 0) {
       _d->data.push_back(checksum);
-      out(debug, msg_standard, checksum.c_str(), 1);
+      out(debug, msg_standard, checksum, 1);
     }
+    free(checksum);
     missing_list.close();
   } else {
     out(warning, msg_errno, "Opening" , errno, "Missing checksums list");

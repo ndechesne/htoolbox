@@ -310,11 +310,44 @@ public:
   const char* link()    const { return _link;  }
 };
 
+class Buffer {
+  struct          Private;
+  Private*        _d;
+public:
+  Buffer(size_t size = 0);
+  ~Buffer();
+  // Management
+  void create(size_t size = 102400);
+  void destroy();
+  void empty();
+  bool exists() const;
+  size_t capacity() const;
+  // Status
+  bool isEmpty() const;
+  bool isFull() const;
+  // Writing
+  char* writer();
+  size_t writeable() const;
+  void written(size_t size);
+  ssize_t write(const void* buffer, size_t size);
+  // Reading
+  const char* reader() const;
+  size_t readable() const;
+  void readn(size_t size);
+  ssize_t read(void* buffer, size_t size);
+};
+
 class Stream : public File {
   struct          Private;
   Private*        _d;
   // Convert MD5 to readable string
   static void md5sum(char* out, const unsigned char* in, int bytes);
+  ssize_t write_all(
+    const void*     buffer,
+    size_t          count) const;
+  int digest_update_all(
+    const void*     buffer,
+    size_t          count);
 public:
   // Max buffer size for read/write (here for testing purposes)
   static const size_t chunk = 409600;
@@ -337,10 +370,12 @@ public:
   bool isOpen() const;
   bool isWriteable() const;
   // Open file, for read or write (no append), with or without compression
-  // A negative value for compression disables the read/write cache
+  // A negative value for compression will disbable the cache for write operations
+  // Checksum determines whether to compute the checksum as we read
   int open(
     const char*     req_mode,
-    int             compression = 0);
+    int             compression = 0,
+    bool            checksum    = true);
   // Close file, for read or write (no append), with or without compression
   int close();
   // Get progress indicator (size read/written)
@@ -357,7 +392,8 @@ public:
     size_t          count);
   // Read a line of characters from file until end of line or file
   virtual ssize_t getLine(
-    string&         buffer,
+    char**          buffer,
+    int*            buffer_capacity,
     bool*           end_of_line_found = NULL);
   // Write line of characters to file and add end of line character
   ssize_t putLine(

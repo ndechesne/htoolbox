@@ -366,6 +366,7 @@ int Directory::create() {
   return 0;
 }
 
+
 bool Link::operator!=(const Link& right) const {
   if (*((Node*)this) != (Node)right) {
     return true;
@@ -373,14 +374,169 @@ bool Link::operator!=(const Link& right) const {
   return strcmp(_link, right._link) != 0;
 }
 
+
+struct Buffer::Private {
+  char* buffer;
+  char* writer;
+  const char* reader;
+  const char* end;
+  bool empty;
+  bool full;
+};
+
+Buffer::Buffer(size_t size) {
+  if (size > 0) {
+    create(size);
+  } else {
+    _d = NULL;
+  }
+}
+
+Buffer::~Buffer() {
+  if (exists()) {
+    destroy();
+  }
+}
+
+void Buffer::create(size_t size) {
+  _d = new Private;
+  _d->buffer = (char*) malloc(size);
+  _d->end    = &_d->buffer[size];
+  _d->writer = _d->buffer;
+  _d->reader = _d->buffer;
+  _d->empty  = true;
+  _d->full   = false;
+}
+
+void Buffer::destroy() {
+  free(_d->buffer);
+  delete _d;
+  _d = NULL;
+}
+
+void Buffer::empty() {
+  _d->writer = _d->buffer;
+  _d->reader = _d->buffer;
+}
+
+bool Buffer::exists() const {
+  return _d != NULL;
+}
+
+size_t Buffer::capacity() const {
+  return _d->end - _d->buffer;
+}
+
+bool Buffer::isEmpty() const {
+  return _d->empty;
+}
+
+bool Buffer::isFull() const {
+  return _d->full;
+}
+
+char* Buffer::writer() {
+  return _d->writer;
+}
+
+size_t Buffer::writeable() const {
+  if (_d->writer < _d->reader) {
+    return _d->reader - _d->writer;
+  } else
+  if ((_d->writer > _d->reader) || ! _d->full) {
+    return _d->end - _d->writer;
+  } else
+  {
+    return 0;
+  }
+}
+
+void Buffer::written(size_t size) {
+  if (size == 0) return;
+  _d->empty = false;
+  _d->writer += size;
+  if (_d->writer >= _d->end) {
+    _d->writer = _d->buffer;
+  }
+  if (_d->writer == _d->reader) {
+    _d->full = true;
+  }
+}
+
+ssize_t Buffer::write(const void* buffer, size_t size) {
+  size_t really = 0;
+  const char* next = (const char*) buffer;
+  while ((size > 0) && (writeable() > 0)) {
+    size_t can;
+    if (size > writeable()) {
+      can = writeable();
+    } else {
+      can = size;
+    }
+    memcpy(writer(), next, can);
+    next += can;
+    written(can);
+    really += can;
+    size -= really;
+  }
+  return really;
+}
+
+const char* Buffer::reader() const {
+  return _d->reader;
+}
+
+size_t Buffer::readable() const {
+  if (_d->reader < _d->writer) {
+    return _d->writer - _d->reader;
+  } else
+  if ((_d->reader > _d->writer) || _d->full) {
+    return _d->end - _d->reader;
+  } else
+  {
+    return 0;
+  }
+}
+
+void Buffer::readn(size_t size) {
+  if (size == 0) return;
+  _d->full = false;
+  _d->reader += size;
+  if (_d->reader >= _d->end) {
+    _d->reader = _d->buffer;
+  }
+  if (_d->writer == _d->reader) {
+    _d->empty = true;
+  }
+}
+
+ssize_t Buffer::read(void* buffer, size_t size) {
+  size_t really = 0;
+  void* next = buffer;
+  while ((size > 0) && (readable() > 0)) {
+    size_t can;
+    if (size > readable()) {
+      can = readable();
+    } else {
+      can = size;
+    }
+    next = mempcpy(next, reader(), can);
+    readn(can);
+    really += can;
+    size -= really;
+  }
+  return really;
+}
+
+
 struct Stream::Private {
   int               fd;                 // file descriptor
   mode_t            mode;               // file open mode
   long long         size;               // uncompressed file data size (bytes)
   long long         progress;           // transfered size, for progress
-  unsigned char*    buffer;             // buffer for read/write operations
-  unsigned char*    reader;             // buffer read pointer
-  ssize_t           length;             // buffer length
+  Buffer            buffer_in;          // Buffer where data cones
+  Buffer            buffer_out;         // Buffer from which data go
+  Buffer*           buffer;             // Buffer to use to get read data
   EVP_MD_CTX*       ctx;                // openssl resources
   z_stream*         strm;               // zlib resources
   progress_f        progress_callback;  // function to report progress
@@ -438,7 +594,10 @@ bool Stream::isWriteable() const {
   return (_d->mode & O_WRONLY) != 0;
 }
 
-int Stream::open(const char* req_mode, int compression) {
+int Stream::open(
+    const char*     req_mode,
+    int             compression,
+    bool            checksum) {
   if (isOpen()) {
     errno = EBUSY;
     return -1;
@@ -461,7 +620,6 @@ int Stream::open(const char* req_mode, int compression) {
 
   _d->size     = 0;
   _d->progress = 0;
-  _d->length   = 0;
   _d->fd = std::open64(_path.c_str(), _d->mode, 0666);
   if (! isOpen()) {
     // errno set by open
@@ -469,21 +627,32 @@ int Stream::open(const char* req_mode, int compression) {
   }
 
   // Create buffer if not told not to
-  if (compression >= 0) {
-    _d->buffer = (unsigned char*) malloc(chunk);
-    _d->reader = _d->buffer;
+  if (isWriteable()) {
+    if (compression >= 0) {
+      _d->buffer_out.create();
+    }
+    _d->buffer = &_d->buffer_out;
   } else {
-    _d->reader = NULL;
+    if (compression > 0) {
+      _d->buffer_in.create();
+      _d->buffer = &_d->buffer_out;
+    } else {
+      _d->buffer = &_d->buffer_in;
+    }
   }
 
   // Create openssl resources
-  _d->ctx = new EVP_MD_CTX;
-  if (_d->ctx != NULL) {
-    EVP_DigestInit(_d->ctx, EVP_md5());
+  if (checksum) {
+    _d->ctx = new EVP_MD_CTX;
+    if (_d->ctx != NULL) {
+      EVP_DigestInit(_d->ctx, EVP_md5());
+    }
+  } else {
+    _d->ctx = NULL;
   }
 
   // Create zlib resources
-  if ((compression > 0) && (_d->reader != NULL)) {
+  if (compression > 0) {
     _d->strm           = new z_stream;
     _d->strm->zalloc   = Z_NULL;
     _d->strm->zfree    = Z_NULL;
@@ -505,7 +674,6 @@ int Stream::open(const char* req_mode, int compression) {
   } else {
     _d->strm = NULL;
   }
-
   return 0;
 }
 
@@ -553,9 +721,11 @@ int Stream::close() {
   _d->fd = -1;
 
   // Destroy buffer if any
-  if (_d->reader != NULL) {
-    free(_d->buffer);
-    _d->buffer = NULL;
+  if (_d->buffer_in.exists()) {
+    _d->buffer_in.destroy();
+  }
+  if (_d->buffer_out.exists()) {
+    _d->buffer_out.destroy();
   }
 
   // Update metadata
@@ -571,7 +741,28 @@ void Stream::setProgressCallback(progress_f progress) {
   _d->progress_callback = progress;
 }
 
-ssize_t Stream::read(void* buffer, size_t count) {
+int Stream::digest_update_all(
+    const void*     buffer,
+    size_t          size) {
+  size_t      max = 409600; // That's as much as openssl/md5 accepts
+  const char* reader = (const char*) buffer;
+  while (size > 0) {
+    size_t length;
+    if (size > max) {
+      length = max;
+    } else {
+      length = size;
+    }
+    if (EVP_DigestUpdate(_d->ctx, reader, length)) {
+      return -1;
+    }
+    reader += length;
+    size   -= length;
+  }
+  return 0;
+}
+
+ssize_t Stream::read(void* buffer, size_t asked) {
   if (! isOpen()) {
     errno = EBADF;
     return -1;
@@ -582,31 +773,30 @@ ssize_t Stream::read(void* buffer, size_t count) {
     return -1;
   }
 
-  if (count > chunk) count = chunk;
-  if (count == 0) return 0;
+  if (asked > chunk) asked = chunk;
+  ssize_t size;
 
   // Read new data
-  if (_d->length == 0) {
-    if (_d->reader == NULL) {
+  if (! _d->buffer_in.exists() || _d->buffer_in.isEmpty()) {
+    if (! _d->buffer_in.exists()) {
       // No buffer: just read
-      _d->buffer = (unsigned char*) buffer;
-      _d->length = std::read(_d->fd, _d->buffer, count);
+      size = std::read(_d->fd, buffer, asked);
     } else {
       // Fill in buffer
-      _d->length = std::read(_d->fd, _d->buffer, chunk);
-      _d->reader = _d->buffer;
+      size = std::read(_d->fd, _d->buffer_in.writer(),
+        _d->buffer_in.writeable());
     }
 
     // Check result
-    if (_d->length < 0) {
+    if (size < 0) {
       // errno set by read
       return -1;
     }
 
     // Update progress indicator (size read)
-    if (_d->length > 0) {
+    if (size > 0) {
       long long previous = _d->progress;
-      _d->progress += _d->length;
+      _d->progress += size;
       if (_d->progress_callback != NULL) {
         (*_d->progress_callback)(previous, _d->progress, _size);
       }
@@ -614,42 +804,88 @@ ssize_t Stream::read(void* buffer, size_t count) {
 
     // Fill decompression input buffer with chunk or just return chunk
     if (_d->strm != NULL) {
-      _d->strm->avail_in = _d->length;
-      _d->strm->next_in  = _d->buffer;
+      _d->buffer_in.written(size);
+      _d->strm->avail_in = _d->buffer_in.readable();
+      _d->strm->next_in  = (unsigned char*) _d->buffer_in.reader();
+    } else if (_d->buffer_in.exists()) {
+      // Update checksum
+      if (_d->ctx != NULL) {
+        digest_update_all(_d->buffer_in.writer(), size);
+      }
+      _d->buffer_in.written(size);
     }
   }
+
+  // Return data
   if (_d->strm != NULL) {
     // Continue decompression of previous data
-    _d->strm->avail_out = count;
-    _d->strm->next_out  = (unsigned char*) buffer;
+    if (_d->buffer_out.exists()) {
+      _d->strm->avail_out = _d->buffer_out.writeable();
+      _d->strm->next_out  = (unsigned char*) _d->buffer_out.writer();
+    } else {
+      _d->strm->avail_out = asked;
+      _d->strm->next_out  = (unsigned char*) buffer;
+    }
     switch (inflate(_d->strm, Z_NO_FLUSH)) {
       case Z_NEED_DICT:
       case Z_DATA_ERROR:
       case Z_MEM_ERROR:
         return -2;
     }
-    _d->length = (_d->strm->avail_out == 0);
-    count -= _d->strm->avail_out;
-  } else {
-    if ((unsigned) _d->length < count) {
-      count = _d->length;
-    }
-    if (_d->reader == NULL) {
-      _d->length = 0;
+    if (_d->buffer_out.exists()) {
+      size = _d->buffer_out.writeable() - _d->strm->avail_out;
+      // Update checksum
+      if (_d->ctx != NULL) {
+        digest_update_all(_d->buffer_out.writer(), size);
+      }
+      _d->buffer_out.written(size);
+      // Special case for getLine
+      if ((asked == 0) && (buffer == NULL)) {
+        return _d->buffer_out.readable();
+      }
+      size = _d->buffer_out.read(buffer, asked);
     } else {
-      memcpy(buffer, _d->reader, count);
-      _d->length -= count;
-      _d->reader += count;
+      size = asked - _d->strm->avail_out;
+      // Update checksum
+      if (_d->ctx != NULL) {
+        digest_update_all(buffer, size);
+      }
+    }
+  } else
+  if (_d->buffer_in.exists()) {
+    // Special case for getLine
+    if ((asked == 0) && (buffer == NULL)) {
+      return _d->buffer_in.readable();
+    }
+    size = _d->buffer_in.read(buffer, asked);
+  } else
+  {
+    // Update checksum
+    if (_d->ctx != NULL) {
+      digest_update_all(buffer, size);
     }
   }
 
-  // Update checksum
-  if (_d->ctx != NULL) {
-    EVP_DigestUpdate(_d->ctx, buffer, count);
-  }
+  _d->size += size;
+  return size;
+}
 
-  _d->size += count;
-  return count;
+ssize_t Stream::write_all(
+    const void*     buffer,
+    size_t          count) const {
+  const char* reader = (const char*) buffer;
+  size_t  size = count;
+  ssize_t wlength;
+  do {
+    wlength = std::write(_d->fd, reader, size);
+    if (wlength < 0) {
+      // errno set by write
+      return -1;
+    }
+    reader += wlength;
+    size    -= wlength;
+  } while ((size != 0) && (wlength != 0));
+  return count - size;
 }
 
 ssize_t Stream::write(const void* buffer, size_t count) {
@@ -682,59 +918,37 @@ ssize_t Stream::write(const void* buffer, size_t count) {
   if (_d->strm == NULL) {
     // Checksum computation
     if (_d->ctx != NULL) {
-      EVP_DigestUpdate(_d->ctx, buffer, count);
+      digest_update_all(buffer, count);
     }
 
-    size_t blength  = count;
-    bool   write_it = finish;
-
-    if (_d->reader == NULL) {
-      // No buffer: just write
-      write_it = true;
-      _d->length = count;
-      _d->buffer = (unsigned char*) buffer;
-    } else {
-      // Fill in buffer
-      write_it = finish;
-      if (count > chunk - _d->length) {
-        blength = chunk - _d->length;
-        write_it = true;
+    if (! _d->buffer_in.exists()) {
+      // Just write
+      if ((ssize_t) count != write_all(buffer, count)) {
+        return -1;
       }
-      memcpy(_d->reader, buffer, blength);
-      _d->length += blength;
-      _d->reader += blength;
-    }
+    } else {
+      // If told to finish or buffer is [going to be] full, flush it to file
+      if (finish || (count > _d->buffer_in.writeable())) {
+        if (_d->buffer_in.readable() > 0) {
+          ssize_t size = write_all(_d->buffer_in.reader(),
+            _d->buffer_in.readable());
+          if (size != (ssize_t) _d->buffer_in.readable()) {
+            return -1;
+          }
+          _d->buffer_in.readn(size);
+        }
+      }
 
-    // Write data
-    if (write_it) {
-      ssize_t length = _d->length;
-      ssize_t wlength;
-      do {
-        wlength = std::write(_d->fd, _d->buffer, length);
-        if (wlength < 0) {
-          // errno set by write
+      // If told to finish or buffer is [going to be] full, just write
+      if (finish || (count > _d->buffer_in.writeable())) {
+        if ((ssize_t) count != write_all(buffer, count)) {
           return -1;
         }
-
-        // Update progress indicator (size written)
-        if (wlength > 0) {
-          long long previous = _d->progress;
-          _d->progress += wlength;
-          if (_d->progress_callback != NULL) {
-            (*_d->progress_callback)(previous, _d->progress, _size);
-          }
-        }
-
-        length -= wlength;
-      } while ((length != 0) && (wlength != 0));
-    }
-
-    // Refill buffer
-    if (blength < count) {
-      char* cbuffer = (char*) buffer;
-      memcpy(_d->buffer, &cbuffer[blength], count - blength);
-      _d->length = count - blength;
-      _d->reader = _d->buffer + _d->length;
+      } else
+      // Refill buffer
+      {
+        _d->buffer_in.write(buffer, count);
+      }
     }
   } else {
     // Compress data
@@ -744,27 +958,33 @@ ssize_t Stream::write(const void* buffer, size_t count) {
 
     ssize_t length;
     do {
-      _d->strm->avail_out = chunk;
-      _d->strm->next_out  = _d->buffer;
+      _d->strm->avail_out = _d->buffer_out.writeable();
+      _d->strm->next_out  = (unsigned char*) _d->buffer_out.writer();
       deflate(_d->strm, finish ? Z_FINISH : Z_NO_FLUSH);
-      length = chunk - _d->strm->avail_out;
-      count += length;
+      length = _d->buffer_out.writeable() - _d->strm->avail_out;
+      _d->buffer_out.written(length);
 
       // Checksum computation (on compressed data)
+      length = _d->buffer_out.readable();
       if (_d->ctx != NULL) {
-        EVP_DigestUpdate(_d->ctx, _d->buffer, length);
+        digest_update_all(_d->buffer_out.reader(), length);
       }
 
-      ssize_t wlength;
-      do {
-        wlength = std::write(_d->fd, _d->buffer, length);
-        if (wlength < 0) {
-          // errno set by write
-          return -1;
-        }
-        length -= wlength;
-      } while ((length != 0) && (wlength != 0));
+      if (length != write_all(_d->buffer_out.reader(), length)) {
+        return -1;
+      }
+      _d->buffer_out.readn(length);
+      count += length;
     } while (_d->strm->avail_out == 0);
+  }
+
+  // Update progress indicator (size written)
+  if (count > 0) {
+    long long previous = _d->progress;
+    _d->progress += count;
+    if (_d->progress_callback != NULL) {
+      (*_d->progress_callback)(previous, _d->progress, _size);
+    }
   }
 
   _size += count;
@@ -772,42 +992,62 @@ ssize_t Stream::write(const void* buffer, size_t count) {
 }
 
 ssize_t Stream::getLine(
-    string&         buffer,
+    char**          buffer,
+    int*            buffer_capacity,
     bool*           end_of_line_found) {
-  char reader[2];
 
-  // Initialize return values
-  buffer = "";
-  if (end_of_line_found != NULL) {
-    *end_of_line_found = false;
+  // Need a buffer to speed things up
+  if (! _d->buffer->exists()) {
+    _d->buffer->create();
   }
 
+  // Initialize return values
+  bool  found = false;
+  int   count  = 0;
+  char* writer = &(*buffer)[count];
+
   // Find end of line or end of file
-  reader[1] = '\0';
   do {
-    // Read one character at a time
-    ssize_t size = read(reader, 1);
-    // Error
+    // Make read fill up the buffer
+    ssize_t size = read(NULL, 0);
     if (size < 0) {
-      // errno set by read
       return -1;
     }
-    // End of file
+    // Make sure we have a buffer
+    if (*buffer == NULL) {
+      *buffer_capacity = 100;
+      *buffer = (char*) malloc(*buffer_capacity);
+      writer = *buffer;
+    }
     if (size == 0) {
       break;
     }
-    // End of line
-    if (*reader == '\n') {
-      if (end_of_line_found != NULL) {
-        *end_of_line_found = true;
+    const char* reader = _d->buffer->reader();
+    size_t      length = size;
+    while (length > 0) {
+      length--;
+      // Check for space
+      if (count >= *buffer_capacity) {
+        *buffer_capacity += 100;
+        *buffer = (char*) realloc(*buffer, *buffer_capacity);
+        writer = &(*buffer)[count];
       }
-      break;
-    }
-    // Add to buffer
-    buffer += reader;
-  } while (true);
 
-  return buffer.length();
+      if (*reader == '\n') {
+        found = true;
+        break;
+      }
+      *writer++ = *reader++;
+      count++;
+    }
+    _d->buffer->readn(size - length);
+  } while (! found);
+  *writer = '\0';
+
+  if (end_of_line_found != NULL) {
+    *end_of_line_found = found;
+  }
+  return count;
 }
 
 ssize_t Stream::putLine(
@@ -979,11 +1219,12 @@ int Stream::getParams(
     const char*     delims,
     const char*     quotes,
     const char*     comments) {
-  string buffer;
-  bool   eol;
+  char* buffer = NULL;
+  int   buffer_capacity = 0;
+  bool  eol;
 
   params.clear();
-  int rc = getLine(buffer, &eol);
+  int rc = getLine(&buffer, &buffer_capacity, &eol);
   if (rc < 0) {
     return -1;
   }
@@ -995,10 +1236,11 @@ int Stream::getParams(
       return -1;
     }
   }
-  if ((flags & flags_accept_cr_lf) && (buffer[buffer.size() - 1] == '\r')) {
-    buffer.erase(buffer.size() - 1);
+  if ((flags & flags_accept_cr_lf) && (buffer[rc - 1] == '\r')) {
+    buffer[rc - 1] = '\0';
   }
   rc = extractParams(buffer, params, flags, 0, delims, quotes, comments);
+  free(buffer);
   if (rc < 0) {
     return -1;
   }

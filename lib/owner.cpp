@@ -369,9 +369,9 @@ int Owner::close(
     delete _d->original;
     delete _d->journal;
     delete _d->partial;
-    _d->original    = NULL;
-    _d->journal = NULL;
-    _d->partial    = NULL;
+    _d->original = NULL;
+    _d->journal  = NULL;
+    _d->partial  = NULL;
   }
   return failed ? -1 : 0;
 }

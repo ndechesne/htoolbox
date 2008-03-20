@@ -354,6 +354,162 @@ int main(void) {
   cout << "abcd <> abce, 4: " << Path::compare("abcd", "abce", 4) << endl;
   cout << "abcd <> abce, 5: " << Path::compare("abcd", "abce", 5) << endl;
 
+
+  cout << endl << "Test: buffer" << endl;
+  {
+    Buffer buffer(10);
+    const char* string1;
+    char string2[10];
+    int number;
+
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    string1 = "123456";
+    memcpy(buffer.writer(), string1, strlen(string1));
+    buffer.written(strlen(string1));
+    cout << endl << "write: " << string1 << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    number = 3;
+    string2[number] = '\0';
+    memcpy(string2, buffer.reader(), number);
+    buffer.readn(number);
+    cout << endl << "read: " << number << ": " << string2 << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    number = 3;
+    string2[number] = '\0';
+    memcpy(string2, buffer.reader(), number);
+    buffer.readn(number);
+    cout << endl << "read: " << number << ": " << string2 << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    string1 = "ABCD";
+    buffer.write(string1, strlen(string1));
+    cout << endl << "write: " << string1 << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    number = 3;
+    string2[number] = '\0';
+    number = buffer.read(string2, number);
+    cout << endl << "read: " << number << ": " << string2 << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    number = 1;
+    string2[number] = '\0';
+    memcpy(string2, buffer.reader(), number);
+    buffer.readn(number);
+    cout << endl << "read: " << number << ": " << string2 << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    string1 = "abcdefghij";
+    memcpy(buffer.writer(), string1, strlen(string1));
+    buffer.written(strlen(string1));
+    cout << endl << "write: " << string1 << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    number = 6;
+    string2[number] = '\0';
+    memcpy(string2, buffer.reader(), number);
+    buffer.readn(number);
+    cout << endl << "read: " << number << ": " << string2 << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    string1 = "!@#$%^";
+    memcpy(buffer.writer(), string1, strlen(string1));
+    buffer.written(strlen(string1));
+    cout << endl << "write: " << string1 << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    string1 = "klmn";
+    number = buffer.write(string1, strlen(string1));
+    cout << endl << "wrote: " << number << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    number = 100;
+    string2[number] = '\0';
+    number = buffer.read(string2, number);
+    cout << endl << "read: " << number << ": " << string2 << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    number = 100;
+    string2[number] = '\0';
+    number = buffer.read(string2, number);
+    cout << endl << "read: " << number << ": " << string2 << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    string1 = "nopqrstuvwxyz";
+    number = buffer.write(string1, strlen(string1));
+    cout << endl << "wrote: " << number << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+
+    string1 = "nopqrstuvwxyz";
+    number = buffer.write(string1, strlen(string1));
+    cout << endl << "wrote: " << number << endl;
+    cout << "Buffer capacity = " << buffer.capacity() << endl;
+    cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+    cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+    cout << "Buffer writeable = " << buffer.writeable() << endl;
+    cout << "Buffer readable = " << buffer.readable() << endl;
+  }
+
+
   Stream* readfile;
   Stream* writefile;
 
@@ -606,6 +762,7 @@ int main(void) {
   delete readfile;
   delete writefile;
 
+
   cout << endl
     << "Test: file compare (both compressed)"
     << endl;
@@ -820,15 +977,18 @@ int main(void) {
     writefile->write(NULL, 0);
     if (writefile->close()) cout << "Error closing write file" << endl;
   }
+  cout << "Checksum: " << writefile->checksum() << endl;
   delete writefile;
   readfile = new Stream("test2/testfile");
-  string line_test;
+  char* line_test = NULL;
+  int   line_test_capacity = 0;
   readfile->open("r", 0);
   cout << "Reading empty file:" << endl;
-  while (readfile->getLine(line_test) > 0) {
-    cout << "Line: " << line_test.c_str() << endl;
+  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
+    cout << "Line: " << line_test << endl;
   }
   if (readfile->close()) cout << "Error closing read file" << endl;
+  cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
 
   writefile = new Stream("test2/testfile");
@@ -839,17 +999,18 @@ int main(void) {
     writefile->write(NULL, 0);
     if (writefile->close()) cout << "Error closing write file" << endl;
   }
+  cout << "Checksum: " << writefile->checksum() << endl;
   delete writefile;
   readfile = new Stream("test2/testfile");
-  line_test = "";
   if (readfile->open("r")) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
   cout << "Reading uncompressed file:" << endl;
-  while (readfile->getLine(line_test) > 0) {
-    cout << "Line: " << line_test.c_str() << endl;
+  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
+    cout << "Line: " << line_test << endl;
   }
   if (readfile->close()) cout << "Error closing read file" << endl;
+  cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
 
   writefile = new Stream("test2/testfile");
@@ -860,17 +1021,18 @@ int main(void) {
     writefile->write(NULL, 0);
     if (writefile->close()) cout << "Error closing write file" << endl;
   }
+  cout << "Checksum: " << writefile->checksum() << endl;
   delete writefile;
   readfile = new Stream("test2/testfile");
-  line_test = "";
   if (readfile->open("r", 1)) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
   cout << "Reading compressed file:" << endl;
-  while (readfile->getLine(line_test) > 0) {
-    cout << "Line: " << line_test.c_str() << endl;
+  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
+    cout << "Line: " << line_test << endl;
   }
   if (readfile->close()) cout << "Error closing read file" << endl;
+  cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
 
   writefile = new Stream("test2/testfile");
@@ -884,17 +1046,18 @@ int main(void) {
     writefile->write(NULL, 0);
     if (writefile->close()) cout << "Error closing write file" << endl;
   }
+  cout << "Checksum: " << writefile->checksum() << endl;
   delete writefile;
   readfile = new Stream("test2/testfile");
-  line_test = "";
   if (readfile->open("r", 1)) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
   cout << "Reading compressed file (line length = 600):" << endl;
-  while (readfile->getLine(line_test) > 0) {
-    cout << "Line: " << line_test.c_str() << endl;
+  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
+    cout << "Line: " << line_test << endl;
   }
   if (readfile->close()) cout << "Error closing read file" << endl;
+  cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
 
 

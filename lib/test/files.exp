@@ -92,6 +92,111 @@ abcd <> abce, 3: 0
 abcd <> abce, 4: -1
 abcd <> abce, 5: -1
 
+Test: buffer
+Buffer capacity = 10
+Buffer empty? yes
+Buffer full? no
+Buffer writeable = 10
+Buffer readable = 0
+
+write: 123456
+Buffer capacity = 10
+Buffer empty? no
+Buffer full? no
+Buffer writeable = 4
+Buffer readable = 6
+
+read: 3: 123
+Buffer capacity = 10
+Buffer empty? no
+Buffer full? no
+Buffer writeable = 4
+Buffer readable = 3
+
+read: 3: 456
+Buffer capacity = 10
+Buffer empty? yes
+Buffer full? no
+Buffer writeable = 4
+Buffer readable = 0
+
+write: ABCD
+Buffer capacity = 10
+Buffer empty? no
+Buffer full? no
+Buffer writeable = 6
+Buffer readable = 4
+
+read: 3: ABC
+Buffer capacity = 10
+Buffer empty? no
+Buffer full? no
+Buffer writeable = 9
+Buffer readable = 1
+
+read: 1: D
+Buffer capacity = 10
+Buffer empty? yes
+Buffer full? no
+Buffer writeable = 10
+Buffer readable = 0
+
+write: abcdefghij
+Buffer capacity = 10
+Buffer empty? no
+Buffer full? yes
+Buffer writeable = 0
+Buffer readable = 10
+
+read: 6: abcdef
+Buffer capacity = 10
+Buffer empty? no
+Buffer full? no
+Buffer writeable = 6
+Buffer readable = 4
+
+write: !@#$%^
+Buffer capacity = 10
+Buffer empty? no
+Buffer full? yes
+Buffer writeable = 0
+Buffer readable = 4
+
+wrote: 0
+Buffer capacity = 10
+Buffer empty? no
+Buffer full? yes
+Buffer writeable = 0
+Buffer readable = 4
+
+read: 10: ghij!@#$%^
+Buffer capacity = 10
+Buffer empty? yes
+Buffer full? no
+Buffer writeable = 4
+Buffer readable = 0
+
+read: 0: ghij!@#$%^
+Buffer capacity = 10
+Buffer empty? yes
+Buffer full? no
+Buffer writeable = 4
+Buffer readable = 0
+
+wrote: 10
+Buffer capacity = 10
+Buffer empty? no
+Buffer full? yes
+Buffer writeable = 0
+Buffer readable = 4
+
+wrote: 0
+Buffer capacity = 10
+Buffer empty? no
+Buffer full? yes
+Buffer writeable = 0
+Buffer readable = 4
+
 Test: file read (no cache)
 Done:   3.9%\r
 Done:   7.8%\r
@@ -122,6 +227,9 @@ Done:  97.7%\r
 read size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 
 Test: file write (with cache)
+            \r
+            \r
+            \r
 write size: 12 (12), checksum: a0c5dee7d6c447468bcb866b0d3210e6
 123abc
 line
@@ -204,16 +312,24 @@ Test: interrupted copy
 Error copying file: Operation canceled
 
 Test: getLine
+Checksum: d41d8cd98f00b204e9800998ecf8427e
 Reading empty file:
+Checksum: d41d8cd98f00b204e9800998ecf8427e
+Checksum: caf39f98439e467d895585e0740f015e
 Reading uncompressed file:
 Line: abcdef
 Line: ghi
+Checksum: caf39f98439e467d895585e0740f015e
+Checksum: 6bb64092bb3d5dc7d3b2d4932f77199e
 Reading compressed file:
 Line: abcdef
 Line: ghi
+Checksum: caf39f98439e467d895585e0740f015e
+Checksum: c118d6329b1675a9a72c296c2c58f0f4
 Reading compressed file (line length = 600):
 Line: 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 Line: 123456789
+Checksum: 56a8cc63a390016b292f117c17addb5c
 
 extractParams
 readline(a): 0

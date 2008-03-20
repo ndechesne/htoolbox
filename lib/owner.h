@@ -54,7 +54,7 @@ public:
   // Get next record matching path and date
   int getNextRecord(                      // -1: error, 0: eof, 1: success
     const char*     path,                 // The base path
-    time_t          date,                 // The date (epoch)
+    time_t          date,                 // The date (epoch, 0: all, <0: relative)
     char**          db_path,              // The path found
     Node**          db_node = NULL) const;// The metadata returned
   int getChecksums(

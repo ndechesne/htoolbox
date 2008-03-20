@@ -39,7 +39,8 @@ public:
   // Open file, for read or write (no append), with compression (cf. Stream)
   int open(
     const char*     req_mode,
-    int             compression = 0);
+    int             compression = 0,
+    bool            checksum    = false);
   // Close file
   int close();
   // Version

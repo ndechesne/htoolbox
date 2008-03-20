@@ -70,9 +70,10 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
   entries_file.open("r");
   out(verbose, msg_standard, "Parsing CVS entries", 1);
   int    line_no = 0;
-  string buffer;
-  while (entries_file.getLine(buffer) > 0) {
-    const char* reader = buffer.c_str();
+  char* buffer = NULL;
+  int   buffer_capacity = 0;
+  while (entries_file.getLine(&buffer, &buffer_capacity) > 0) {
+    const char* reader = buffer;
     const char* pos;
 
     // Empty line
@@ -158,6 +159,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
     // Enlist data
     _files.push_back(Node(name.c_str(), type, mtime, 0, 0, 0, 0));
   }
+  free(buffer);
   /* Close file */
   entries_file.close();
   _files.sort();

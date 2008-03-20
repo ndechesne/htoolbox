@@ -41,27 +41,33 @@ enum Status {
 };
 
 struct List::Private {
-  string            line;
+  char*             line;
+  int               line_capacity;
   Status            line_status;
   // Set when a previous version is detected
   bool              old_version;
 };
 
-List::List(Path path) : Stream(path), _d(new Private) {}
+List::List(Path path) : Stream(path), _d(new Private) {
+  _d->line          = NULL;
+  _d->line_capacity = 0;
+}
 
 List::~List() {
+  free(_d->line);
   delete _d;
 }
 
 int List::open(
-    const char*   req_mode,
-    int           compression) {
+    const char*     req_mode,
+    int             compression,
+    bool            checksum) {
   // Put future as old for now (testing stage)
   const char old_header[] = "# version 3";
   const char header[]     = "# version 4";
   int        rc           = 0;
 
-  if (Stream::open(req_mode, compression)) {
+  if (Stream::open(req_mode, compression, checksum)) {
     rc = -1;
   } else
   // Open for write
@@ -75,16 +81,16 @@ int List::open(
   // Open for read
   {
     // Check rights
-    if (Stream::getLine(_d->line) < 0) {
+    if (Stream::getLine(&_d->line, &_d->line_capacity) < 0) {
       Stream::close();
       rc = -1;
     } else
     // Expected header?
-    if (_d->line == header) {
+    if (strcmp(_d->line, header) == 0) {
       _d->old_version = false;
     } else
     // Old header?
-    if (_d->line == old_header) {
+    if (strcmp(_d->line, old_header) == 0) {
       _d->old_version = true;
     } else
     // Unknown header
@@ -148,11 +154,11 @@ ssize_t List::fetchLine(bool use_found) {
       return empty;
     case empty:
       // Empty list
-      return _d->line.length();
+      return strlen(_d->line);
     case no_data: {
       // Line contains no re-usable data
       bool    eol;
-      ssize_t length = Stream::getLine(_d->line, &eol);
+      ssize_t length = Stream::getLine(&_d->line, &_d->line_capacity, &eol);
       if (length < 0) {
         _d->line_status = _error;
       } else
@@ -175,7 +181,7 @@ ssize_t List::fetchLine(bool use_found) {
     case new_data:
       // Line contains data to be re-used
       _d->line_status = no_data;
-      return _d->line.length();
+      return strlen(_d->line);
     default:
       // Error
       _d->line_status = no_data;
@@ -186,9 +192,15 @@ ssize_t List::fetchLine(bool use_found) {
 // Insert line into buffer
 ssize_t List::putLine(const char* line) {
   if ((_d->line_status == no_data) || (_d->line_status == cached_data)) {
-    _d->line        = line;
+    int length = strlen(line);
+    if ((length + 1) > _d->line_capacity) {
+      _d->line_capacity = length + 1;
+      _d->line          = strdup(line);
+    } else {
+      strcpy(_d->line, line);
+    }
     _d->line_status = new_data;
-    return _d->line.length();
+    return length;
   }
   return -1;
 }
@@ -202,7 +214,7 @@ ssize_t List::getLine(
   }
   buffer          = _d->line;
   _d->line_status = no_data;
-  return _d->line.length();
+  return strlen(_d->line);
 }
 
 void List::keepLine() {
@@ -377,7 +389,7 @@ int List::getEntry(
   while (true) {
     // Get line
     if (date == -2) {
-      length = _d->line.length();
+      length = strlen(_d->line);
     } else {
       length = fetchLine(true);
     }
@@ -400,7 +412,7 @@ int List::getEntry(
     if (_d->line[0] != '\t') {
       if (path != NULL) {
         free(*path);
-        *path = strdup(_d->line.c_str());
+        *path = strdup(_d->line);
       }
       got_path = true;
     } else
@@ -466,8 +478,7 @@ int List::addData(
   }
   if ((timestamp == 0) && bufferize) {
     // Send line to search method, so it can deal with exception
-    _d->line        = line;
-    _d->line_status = new_data;
+    putLine(line);
   } else
   if (Stream::putLine(line) != (size + 1)) {
     rc = -1;
@@ -523,7 +534,7 @@ int List::search(
     if (_d->line[0] != '\t') {
       // Compare paths
       if ((path_l != NULL) && (path_l[0] != '\0')) {
-        path_cmp = Path::compare(path_l, _d->line.c_str());
+        path_cmp = Path::compare(path_l, _d->line);
       }
       if (path_cmp <= 0) {
         if (path_cmp < 0) {
@@ -544,20 +555,18 @@ int List::search(
         // Deal with exception
         if (list->_d->line_status == new_data) {
           list->_d->line_status = no_data;
-          // Copy start of line (timestamp)
-          size_t pos = _d->line.substr(1).find('\t');
-          if (pos == string::npos) {
+          // Point to character just after the timestamp
+          char* pos = strchr(&_d->line[1], '\t');
+          if (pos == NULL) {
             return -1;
           }
-          pos += 2;
           // Re-create line using previous data
-          _d->line.resize(pos);
-          _d->line.append(list->_d->line.substr(3));
+          strcpy(pos, &list->_d->line[2]);
         } else
         // Check for exception
-        if (strncmp(_d->line.c_str(), "\t0\t", 3) == 0) {
-          list->_d->line        = _d->line;
-          list->_d->line_status = new_data;
+        if (strncmp(_d->line, "\t0\t", 3) == 0) {
+          list->putLine(_d->line);
+
           // Do not copy: merge with following line
           continue;
         }
@@ -612,7 +621,7 @@ int List::search(
         }
       } else
       // Our data is here or after, so let's copy if required
-      if (list->Stream::putLine(_d->line.c_str()) < 0) {
+      if (list->Stream::putLine(_d->line) < 0) {
         // Could not write
         return -1;
       }
@@ -694,14 +703,14 @@ int List::merge(
     if (journal._d->line[0] != '\t') {
       // Check path order
       if (path.length() != 0) {
-        if (path.compare(journal._d->line.c_str()) > 0) {
+        if (path.compare(journal._d->line) > 0) {
           // Cannot go back
           out(error, msg_line_no, "Path out of order", j_line_no, "journal");
           return -1;
         }
       }
       // Copy new path
-      path = journal._d->line.c_str();
+      path = journal._d->line;
       // Search/copy list
       if (rc_list >= 0) {
         rc_list = list.search(path.c_str(), this);
@@ -723,9 +732,9 @@ int List::merge(
       }
 
       // If exception, try to put in list buffer (will succeed) otherwise write
-      if (((strncmp(journal._d->line.c_str(), "\t0\t", 3) != 0)
-        || (list.putLine(journal._d->line.c_str()) < 0))
-       && (Stream::putLine(journal._d->line.c_str()) < 0)) {
+      if (((strncmp(journal._d->line, "\t0\t", 3) != 0)
+        || (list.putLine(journal._d->line) < 0))
+       && (Stream::putLine(journal._d->line) < 0)) {
         // Could not write
         out(error, msg_standard, "Journal copy failed");
         return -1;
