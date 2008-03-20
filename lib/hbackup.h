@@ -185,7 +185,6 @@ namespace hbackup {
     /*!
       Lists contents, using the given parameters as filters.
       \param records      list of elements to display
-      \param client       client (if none given, list all clients)
       \param path         path (if none given, list all client's paths)
       \param date         date (negative: use relative time from now, zero: all)
       \return 0 on success, -1 on failure
@@ -193,21 +192,18 @@ namespace hbackup {
     int getList(
       std::list<std::string>&
                     records,
-      const char*   client        = "",
       const char*   path          = "",
       time_t        date          = 0);
     //! \brief Restore specified database contents
     /*!
       Lists contents, using the given parameters as filters.
       \param destination  path where to restore the data
-      \param client       client
       \param path         path (if none given, restore all client's paths)
       \param date         date (negative: use relative time from now, zero: all)
       \return 0 on success, -1 on failure
     */
     int restore(
       const char*   destination,
-      const char*   client,
       const char*   path          = "",
       time_t        date          = 0);
     //! \brief Show configuration

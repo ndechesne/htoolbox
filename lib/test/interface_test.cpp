@@ -157,7 +157,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->getList(records, "myClient");
+  hbackup->addClient("myClient");
+  hbackup->getList(records);
   hbackup->close();
   delete hbackup;
   cout << "List of paths in 'myClient': " << records.size() << endl;
@@ -171,7 +172,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->getList(records, "client.xp");
+  hbackup->addClient("client.xp");
+  hbackup->getList(records);
   hbackup->close();
   delete hbackup;
   cout << "List of paths in 'client.xp': " << records.size() << endl;
@@ -185,7 +187,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myhost", "test2/testfile", 0);
+  hbackup->addClient("myhost");
+  hbackup->restore("test_r", "test2/testfile", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -195,7 +198,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myhost", "test1", 0);
+  hbackup->addClient("myhost");
+  hbackup->restore("test_r", "test1", 0);
   hbackup->close();
   // Show test1/testfile's metadata
   File meta("test_r/test1/testfile");
@@ -209,7 +213,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myhost", "test1/cvs", 0);
+  hbackup->addClient("myhost");
+  hbackup->restore("test_r", "test1/cvs", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -219,7 +224,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myhost", "", 0);
+  hbackup->addClient("myhost");
+  hbackup->restore("test_r", "", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -278,7 +284,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->getList(records, "myClient.xp");
+  hbackup->addClient("myClient.xp");
+  hbackup->getList(records);
   hbackup->close();
   delete hbackup;
   cout << "List of paths in 'myClient.xp': " << records.size() << endl;
@@ -292,7 +299,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->getList(records, "myClient", "/home");
+  hbackup->addClient("myClient");
+  hbackup->getList(records, "/home");
   hbackup->close();
   delete hbackup;
   cout << "List of paths in 'myClient': " << records.size() << endl;
@@ -306,7 +314,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->getList(records, "myClient.xp", "C:");
+  hbackup->addClient("myClient.xp");
+  hbackup->getList(records, "C:");
   hbackup->close();
   delete hbackup;
   cout << "List of paths in 'myClient.xp', 'C:': " << records.size()
@@ -321,7 +330,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myClient", "/home/User/test/File2.txt", 0);
+  hbackup->addClient("myClient");
+  hbackup->restore("test_r", "/home/User/test/File2.txt", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -331,7 +341,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myClient", "/home/User/test", 0);
+  hbackup->addClient("myClient");
+  hbackup->restore("test_r", "/home/User/test", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -341,7 +352,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myClient", "/", 0);
+  hbackup->addClient("myClient");
+  hbackup->restore("test_r", "/", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -351,7 +363,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myClient.xp", "C:/Test/File.TXT", 0);
+  hbackup->addClient("myClient.xp");
+  hbackup->restore("test_r", "C:/Test/File.TXT", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -361,7 +374,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myClient.xp", "C:/Test", 0);
+  hbackup->addClient("myClient.xp");
+  hbackup->restore("test_r", "C:/Test", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -371,7 +385,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myClient.xp", "C:", 0);
+  hbackup->addClient("myClient.xp");
+  hbackup->restore("test_r", "C:", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -381,7 +396,8 @@ int main(void) {
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->restore("test_r", "myClient", "", 0);
+  hbackup->addClient("myClient");
+  hbackup->restore("test_r", "", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;

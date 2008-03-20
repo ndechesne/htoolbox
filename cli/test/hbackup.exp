@@ -884,7 +884,7 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Showing list
-Error: Maximum one client allowed
+Error: Wrong number of clients
 List paths in myhost
  -> Reading configuration file: etc/hbackup.conf
 Configuration:

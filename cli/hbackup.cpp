@@ -280,11 +280,9 @@ int main(int argc, char **argv) {
     }
 
     // Report specified clients
-    if (clientArg.getValue().size() != 0) {
-      for (vector<string>::const_iterator i = clientArg.getValue().begin();
-          i != clientArg.getValue().end(); i++) {
-        hbackup.addClient(i->c_str());
-      }
+    for (vector<string>::const_iterator i = clientArg.getValue().begin();
+        i != clientArg.getValue().end(); i++) {
+      hbackup.addClient(i->c_str());
     }
 
     // Check backup mode
@@ -332,17 +330,13 @@ int main(int argc, char **argv) {
       if (verbose_level >= hbackup::info) {
         cout << "Showing list" << endl;
       }
-      string client;
       string path;
-      if (clientArg.getValue().size() > 1) {
-        cerr << "Error: Maximum one client allowed" << endl;
+      if (clientArg.getValue().size() > (user_mode ? 0 : 1)) {
+        cerr << "Error: Wrong number of clients" << endl;
         return 1;
-      } else
-      if (clientArg.getValue().size() != 0) {
-        client = clientArg.getValue()[0];
       }
       list<string> records;
-      if (hbackup.getList(records, client.c_str(), pathArg.getValue().c_str(),
+      if (hbackup.getList(records, pathArg.getValue().c_str(),
           dateArg.getValue())) {
         return 3;
       }
@@ -356,16 +350,12 @@ int main(int argc, char **argv) {
       if (verbose_level >= hbackup::info) {
         cout << "Restoring" << endl;
       }
-      string client;
-      if (clientArg.getValue().size() > 1) {
-        cerr << "Error: Maximum one client allowed" << endl;
+      if (clientArg.getValue().size() != (user_mode ? 0 : 1)) {
+        cerr << "Error: Wrong number of clients" << endl;
         return 1;
-      } else
-      if (clientArg.getValue().size() != 0) {
-        client = clientArg.getValue()[0];
       }
-      if (hbackup.restore(restoreArg.getValue().c_str(), client.c_str(),
-        pathArg.getValue().c_str(), dateArg.getValue())) {
+      if (hbackup.restore(restoreArg.getValue().c_str(),
+          pathArg.getValue().c_str(), dateArg.getValue())) {
         return 3;
       }
     } else

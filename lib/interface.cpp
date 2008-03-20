@@ -282,6 +282,8 @@ int HBackup::open(
     bool          check_config) {
   bool failed = false;
   if (user_mode) {
+    // Give 'selected' client name
+    addClient("localhost");
     // Set-up client info
     Client* client = new Client("localhost");
     client->setProtocol("file");
@@ -382,17 +384,16 @@ int HBackup::backup(
 
 int HBackup::getList(
     list<string>&   records,
-    const char*     client,
     const char*     path,
     time_t          date) {
   bool failed = false;
-  if (_d->db->open(true)) {
+  if (_d->db->open(true) < 0) {
     return -1;
   }
-  if ((client == NULL) || (client[0] == '\0')) {
+  if (_d->selected_clients.empty()) {
     failed = (_d->db->getClients(records) != 0);
   } else {
-    if (_d->db->openClient(client)) {
+    if (_d->db->openClient(_d->selected_clients.front().c_str())) {
       failed = true;
     } else {
       failed = (_d->db->getRecords(records, path, date) != 0);
@@ -405,21 +406,25 @@ int HBackup::getList(
 
 int HBackup::restore(
     const char*     dest,
-    const char*     client,
     const char*     path,
     time_t          date) {
   bool failed = true;
-  if (_d->db->open(true) >= 0) {
-    if (_d->db->openClient(client) >= 0) {
-      Path where(dest);
-      where.noTrailingSlashes();
-
-      bool failed = (_d->db->restore(where.c_str(), path, date) != 0);
-      _d->db->closeClient();
-      failed = false;;
-    }
-    _d->db->close();
+  if (_d->selected_clients.empty()) {
+    out(error, msg_standard, "No client given");
+    return -1;
   }
+  if (_d->db->open(true) < 0) {
+    return -1;
+  }
+  if (_d->db->openClient(_d->selected_clients.front().c_str()) >= 0) {
+    Path where(dest);
+    where.noTrailingSlashes();
+
+    bool failed = (_d->db->restore(where.c_str(), path, date) != 0);
+    _d->db->closeClient();
+    failed = false;;
+  }
+  _d->db->close();
   return failed ? -1 : 0;
 }
 
