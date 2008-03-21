@@ -81,10 +81,10 @@ AC_PATH_PROG(TEST_RUN, test_tools/test_run, test_tools/test_run)
 AC_PATH_PROG(MAKE, hmake, make)
 
 AC_CONFIG_FILES([Makefile
-                 cli/Makefile
-                 cli/test/Makefile
-                 gui/Makefile
                  lib/Makefile
                  lib/test/Makefile
-                 man/Makefile])
+                 gui/Makefile
+                 cli/Makefile
+                 cli/test/Makefile
+                 cli/man/Makefile])
 AC_OUTPUT

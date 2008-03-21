@@ -1,4 +1,4 @@
-SUBDIRS = . test
+SUBDIRS = . test man
 
 bin_PROGRAMS = hbackup
 hbackup_SOURCES = hbackup.cpp
