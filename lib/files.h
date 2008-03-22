@@ -310,33 +310,6 @@ public:
   const char* link()    const { return _link;  }
 };
 
-class Buffer {
-  struct          Private;
-  Private*        _d;
-public:
-  Buffer(size_t size = 0);
-  ~Buffer();
-  // Management
-  void create(size_t size = 102400);
-  void destroy();
-  void empty();
-  bool exists() const;
-  size_t capacity() const;
-  // Status
-  bool isEmpty() const;
-  bool isFull() const;
-  // Writing
-  char* writer();
-  size_t writeable() const;
-  void written(size_t size);
-  ssize_t write(const void* buffer, size_t size);
-  // Reading
-  const char* reader() const;
-  size_t readable() const;
-  void readn(size_t size);
-  ssize_t read(void* buffer, size_t size);
-};
-
 class Stream : public File {
   struct          Private;
   Private*        _d;

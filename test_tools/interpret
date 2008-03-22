@@ -6,6 +6,10 @@
 #   2: the complete name
 
 case $1 in
+  "bf" )
+    export DIR="lib"
+    export NAME="buffer"
+    ;;
   "bzr" )
     export DIR="lib"
     export NAME="bzr_parser"

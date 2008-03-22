@@ -3,6 +3,7 @@ include $(top_srcdir)/test_tools/test.mak
 AM_CXXFLAGS = -I$(top_srcdir)/lib
 
 check_PROGRAMS = \
+	buffer_test \
 	clients_test \
 	conditions_test \
 	configuration_test \
@@ -18,6 +19,7 @@ check_PROGRAMS = \
 	report_test \
 	svn_parser_test
 
+buffer_test_SOURCES = buffer_test.cpp
 clients_test_SOURCES = clients_test.cpp
 conditions_test_SOURCES = conditions_test.cpp
 configuration_test_SOURCES = configuration_test.cpp
@@ -36,6 +38,7 @@ svn_parser_test_SOURCES = svn_parser_test.cpp
 LDADD = $(top_srcdir)/lib/libhbackup.la
 
 check_SUCCESSES = \
+	buffer.done \
 	files.done \
 	report.done \
 	configuration.done \

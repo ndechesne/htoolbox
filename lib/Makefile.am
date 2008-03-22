@@ -5,6 +5,7 @@ lib_LTLIBRARIES = libhbackup.la
 libhbackup_la_LDFLAGS= -version-info $(LIB_VERSION)
 
 libhbackup_la_SOURCES = \
+	buffer.h \
 	clients.h \
 	conditions.h \
 	configuration.h \
@@ -21,6 +22,7 @@ libhbackup_la_SOURCES = \
 	paths.h \
 	report.h \
 	svn_parser.h \
+	buffer.cpp \
 	clients.cpp \
 	conditions.cpp \
 	configuration.cpp \
