@@ -621,7 +621,7 @@ ssize_t Stream::read(void* buffer, size_t asked) {
   }
 
   if (asked > chunk) asked = chunk;
-  ssize_t size;
+  ssize_t size = -1;
 
   // Read new data
   if (! _d->buffer_in.exists() || _d->buffer_in.isEmpty()) {

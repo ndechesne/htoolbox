@@ -397,7 +397,7 @@ int Client::backup(
         out(error, msg_errno, _protocol.c_str(), errno);
         return 1;
       case ETIMEDOUT:
-        out(error, msg_errno, "Connecting to client", errno);
+        out(info, msg_errno, "Connecting to client", errno);
         return 0;
     }
   }
