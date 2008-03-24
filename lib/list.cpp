@@ -210,8 +210,12 @@ ssize_t List::getLine(
     string&         buffer) {
   int status = fetchLine(true);
   if (status <= 0) {
-    return status;
+    return -1;
   }
+  if (_d->line[0] == '#') {
+    return 0;
+  }
+
   buffer          = _d->line;
   _d->line_status = no_data;
   return strlen(_d->line);
