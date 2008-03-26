@@ -28,7 +28,7 @@ class List : public Stream {
   ssize_t fetchLine(bool use_found = false);
   // Decode metadata from current line
   int decodeDataLine(
-    const string&   line,
+    const char*     line,
     const char*     path,
     Node**          node,
     time_t*         timestamp);

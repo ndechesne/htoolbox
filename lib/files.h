@@ -368,6 +368,13 @@ public:
     char**          buffer,
     int*            buffer_capacity,
     bool*           end_of_line_found = NULL);
+#ifdef HAVE_LINE_H
+  virtual ssize_t getLine(
+    Line&           line,
+    bool*           end_of_line_found = NULL) {
+      return getLine(line.bufferPtr(), line.capacityPtr(), end_of_line_found);
+    }
+#endif
   // Write line of characters to file and add end of line character
   ssize_t putLine(
     const char*     buffer);
@@ -400,7 +407,7 @@ public:
   // Extract parameters from given line
   // Returns 1 if missing ending quote, 0 otherwise
   static int extractParams(
-    const string&   line,
+    const char*     line,
     vector<string>& params,
     char            flags      = 0,
     unsigned int    max_params = 0,     // Number of parameters to decode

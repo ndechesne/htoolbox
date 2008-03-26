@@ -58,6 +58,10 @@ case $1 in
     export DIR="lib"
     export NAME="list"
     ;;
+  "ln" )
+    export DIR="lib"
+    export NAME="line"
+    ;;
   "pr" )
     export DIR="lib"
     export NAME="parsers"

@@ -25,6 +25,7 @@
 using namespace std;
 
 #include "hbackup.h"
+#include "line.h"
 #include "files.h"
 #include "report.h"
 #include "list.h"
@@ -41,20 +42,15 @@ enum Status {
 };
 
 struct List::Private {
-  char*             line;
-  int               line_capacity;
+  Line              line;
   Status            line_status;
   // Set when a previous version is detected
   bool              old_version;
 };
 
-List::List(Path path) : Stream(path), _d(new Private) {
-  _d->line          = NULL;
-  _d->line_capacity = 0;
-}
+List::List(Path path) : Stream(path), _d(new Private) {}
 
 List::~List() {
-  free(_d->line);
   delete _d;
 }
 
@@ -81,7 +77,7 @@ int List::open(
   // Open for read
   {
     // Check rights
-    if (Stream::getLine(&_d->line, &_d->line_capacity) < 0) {
+    if (Stream::getLine(_d->line) < 0) {
       Stream::close();
       rc = -1;
     } else
@@ -158,7 +154,7 @@ ssize_t List::fetchLine(bool use_found) {
     case no_data: {
       // Line contains no re-usable data
       bool    eol;
-      ssize_t length = Stream::getLine(&_d->line, &_d->line_capacity, &eol);
+      ssize_t length = Stream::getLine(_d->line, &eol);
       if (length < 0) {
         _d->line_status = _error;
       } else
@@ -192,15 +188,9 @@ ssize_t List::fetchLine(bool use_found) {
 // Insert line into buffer
 ssize_t List::putLine(const char* line) {
   if ((_d->line_status == no_data) || (_d->line_status == cached_data)) {
-    int length = strlen(line);
-    if ((length + 1) > _d->line_capacity) {
-      _d->line_capacity = length + 1;
-      _d->line          = strdup(line);
-    } else {
-      strcpy(_d->line, line);
-    }
+    _d->line = line;
     _d->line_status = new_data;
-    return length;
+    return 0;
   }
   return -1;
 }
@@ -216,7 +206,7 @@ ssize_t List::getLine(
     return 0;
   }
 
-  buffer          = _d->line;
+  buffer           = _d->line;
   _d->line_status = no_data;
   return strlen(_d->line);
 }
@@ -226,7 +216,7 @@ void List::keepLine() {
 }
 
 int List::decodeDataLine(
-    const string&   line,
+    const char*     line,
     const char*     path,
     Node**          node,
     time_t*         timestamp) {
@@ -559,13 +549,13 @@ int List::search(
         // Deal with exception
         if (list->_d->line_status == new_data) {
           list->_d->line_status = no_data;
-          // Point to character just after the timestamp
-          char* pos = strchr(&_d->line[1], '\t');
-          if (pos == NULL) {
+          // Find tab just after the timestamp
+          int pos = _d->line.find('\t', 1);
+          if (pos < 0) {
             return -1;
           }
           // Re-create line using previous data
-          strcpy(pos, &list->_d->line[2]);
+          _d->line.append(&list->_d->line[2], pos);
         } else
         // Check for exception
         if (strncmp(_d->line, "\t0\t", 3) == 0) {

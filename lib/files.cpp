@@ -1100,15 +1100,15 @@ int Stream::getParams(
 
 // Public functions
 int Stream::extractParams(
-    const string&   line,
+    const char*     line,
     vector<string>& params,
     char            flags,
     unsigned int    max_params,
     const char*     delims,
     const char*     quotes,
     const char*     comments) {
-  const char* read   = line.c_str();
-  char* param        = (char*) malloc(line.size() + 1);
+  const char* read   = line;
+  char* param        = (char*) malloc(strlen(line) + 1);
   char* write        = NULL;
   bool no_increment  = true;  // Set to re-use character next time round
   bool skip_delims;           // Set to ignore any incoming blank

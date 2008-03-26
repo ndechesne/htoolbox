@@ -1,0 +1,23 @@
+const char* constructor: abc
+const char* constructor: def
+copy constructor: abc
+copy: def
+copy: g
+copy: hijklmn
+operator[0]: hijklmn
+operator[3]: klmn
+erase(5): hijkl
+find('j'): 2
+find('z'): -1
+find('j', 1): 2
+find('j', 4): -1
+append("op"): hijklop
+append("qr", 3): hijqr
+append("stuv", 4): hijqstuv
+append("wxyz", 6, 3): hijqstwxy
+replace end of line
+new line: 	0	new line
+old line: 	12345	old line
+second tab: 6
+end line: 	12345	new line
+end of tests

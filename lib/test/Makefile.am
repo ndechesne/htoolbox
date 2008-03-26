@@ -13,6 +13,7 @@ check_PROGRAMS = \
 	files_test \
 	filters_test \
 	interface_test \
+	line_test \
 	list_test \
 	parsers_test \
 	paths_test \
@@ -29,6 +30,7 @@ db_test_SOURCES = db_test.cpp
 files_test_SOURCES = files_test.cpp
 filters_test_SOURCES = filters_test.cpp
 interface_test_SOURCES = interface_test.cpp
+line_test_SOURCES = line_test.cpp
 list_test_SOURCES = list_test.cpp
 parsers_test_SOURCES = parsers_test.cpp
 paths_test_SOURCES = paths_test.cpp
@@ -47,6 +49,7 @@ check_SUCCESSES = \
 	parsers.done \
 	cvs_parser.done \
 	svn_parser.done \
+	line.done \
 	list.done \
 	data.done \
 	db.done \

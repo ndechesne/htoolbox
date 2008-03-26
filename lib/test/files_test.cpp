@@ -913,8 +913,8 @@ int main(void) {
   // Start simple: one argument
   line = "a";
   params = new vector<string>;
-  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
-    << endl;
+  cout << "readline(" << line << "): " <<
+    Stream::extractParams(line.c_str(), *params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -924,8 +924,8 @@ int main(void) {
   // Two arguments, test blanks
   line = " \ta \tb";
   params = new vector<string>;
-  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
-    << endl;
+  cout << "readline(" << line << "): " <<
+    Stream::extractParams(line.c_str(), *params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -935,8 +935,8 @@ int main(void) {
   // Not single character argument
   line = "\t ab";
   params = new vector<string>;
-  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
-    << endl;
+  cout << "readline(" << line << "): " <<
+    Stream::extractParams(line.c_str(), *params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -946,8 +946,8 @@ int main(void) {
   // Two of them
   line = "\t ab cd";
   params = new vector<string>;
-  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
-    << endl;
+  cout << "readline(" << line << "): " <<
+    Stream::extractParams(line.c_str(), *params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -957,8 +957,8 @@ int main(void) {
   // Three, with comment
   line = "\t ab cd\tef # blah";
   params = new vector<string>;
-  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
-    << endl;
+  cout << "readline(" << line << "): " <<
+    Stream::extractParams(line.c_str(), *params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -968,8 +968,8 @@ int main(void) {
   // Single quotes
   line = "\t 'ab' 'cd'\t'ef' # blah";
   params = new vector<string>;
-  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
-    << endl;
+  cout << "readline(" << line << "): " <<
+    Stream::extractParams(line.c_str(), *params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -979,8 +979,8 @@ int main(void) {
   // And double quotes
   line = "\t \"ab\" 'cd'\t\"ef\" # blah";
   params = new vector<string>;
-  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
-    << endl;
+  cout << "readline(" << line << "): " <<
+    Stream::extractParams(line.c_str(), *params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -990,8 +990,8 @@ int main(void) {
   // With blanks in quotes
   line = "\t ab cd\tef 'gh ij\tkl' \"mn op\tqr\" \t# blah";
   params = new vector<string>;
-  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
-    << endl;
+  cout << "readline(" << line << "): " <<
+    Stream::extractParams(line.c_str(), *params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -1001,8 +1001,8 @@ int main(void) {
   // With quotes in quotes
   line = "\t ab cd\tef 'gh \"ij\\\'\tkl' \"mn 'op\\\"\tqr\" \t# blah";
   params = new vector<string>;
-  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
-    << endl;
+  cout << "readline(" << line << "): " <<
+    Stream::extractParams(line.c_str(), *params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -1012,8 +1012,8 @@ int main(void) {
   // With escape characters
   line = "\t a\\b cd\tef 'g\\h \"ij\\\'\tkl' \"m\\n 'op\\\"\tqr\" \t# blah";
   params = new vector<string>;
-  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
-    << endl;
+  cout << "readline(" << line << "): " <<
+    Stream::extractParams(line.c_str(), *params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -1023,8 +1023,8 @@ int main(void) {
   // Missing ending single quote
   line = "\t a\\b cd\tef 'g\\h \"ij\\\'\tkl";
   params = new vector<string>;
-  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
-    << endl;
+  cout << "readline(" << line << "): " <<
+    Stream::extractParams(line.c_str(), *params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -1034,8 +1034,8 @@ int main(void) {
   // Missing ending double quote
   line = "\t a\\b cd\tef 'g\\h \"ij\\\'\tkl' \"m\\n 'op\\\"\tqr";
   params = new vector<string>;
-  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
-    << endl;
+  cout << "readline(" << line << "): " <<
+    Stream::extractParams(line.c_str(), *params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -1045,8 +1045,8 @@ int main(void) {
   // The DOS catch: undealt with
   line = "path \"C:\\Backup\\\"";
   params = new vector<string>;
-  cout << "readline(" << line << "): " << Stream::extractParams(line, *params)
-    << endl;
+  cout << "readline(" << line << "): " <<
+    Stream::extractParams(line.c_str(), *params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -1057,7 +1057,8 @@ int main(void) {
   line = "path \"C:\\Backup\\\"";
   params = new vector<string>;
   cout << "readline(" << line << "): "
-    << Stream::extractParams(line, *params, Stream::flags_no_escape) << endl;
+    << Stream::extractParams(line.c_str(), *params, Stream::flags_no_escape)
+    << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -1068,7 +1069,8 @@ int main(void) {
   line = "path \"C:\\Backup\\\"";
   params = new vector<string>;
   cout << "readline(" << line << "): "
-    << Stream::extractParams(line, *params, Stream::flags_dos_catch) << endl;
+    << Stream::extractParams(line.c_str(), *params, Stream::flags_dos_catch)
+    << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
   }
@@ -1079,7 +1081,7 @@ int main(void) {
   line = " this is a path \"C:\\Backup\"   and  spaces matter ";
   params = new vector<string>;
   cout << "readline(" << line << "): "
-    << Stream::extractParams(line, *params, Stream::flags_dos_catch
+    << Stream::extractParams(line.c_str(), *params, Stream::flags_dos_catch
       | Stream::flags_empty_params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -1091,7 +1093,7 @@ int main(void) {
   line = " this is a path \"C:\\Backup\"   and  spaces matter ";
   params = new vector<string>;
   cout << "readline(" << line << "): "
-    << Stream::extractParams(line, *params, Stream::flags_dos_catch
+    << Stream::extractParams(line.c_str(), *params, Stream::flags_dos_catch
       | Stream::flags_empty_params, 5) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -1103,7 +1105,7 @@ int main(void) {
   line = "\t\tf\tblah\t''";
   params = new vector<string>;
   cout << "readline(" << line << "): "
-    << Stream::extractParams(line, *params, Stream::flags_dos_catch
+    << Stream::extractParams(line.c_str(), *params, Stream::flags_dos_catch
       | Stream::flags_empty_params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -1115,7 +1117,7 @@ int main(void) {
   line = "\t\tf\tblah\t'";
   params = new vector<string>;
   cout << "readline(" << line << "): "
-    << Stream::extractParams(line, *params, Stream::flags_dos_catch
+    << Stream::extractParams(line.c_str(), *params, Stream::flags_dos_catch
       | Stream::flags_empty_params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;
@@ -1127,7 +1129,7 @@ int main(void) {
   line = "\t\tf\tblah\t\t";
   params = new vector<string>;
   cout << "readline(" << line << "): "
-    << Stream::extractParams(line, *params, Stream::flags_dos_catch
+    << Stream::extractParams(line.c_str(), *params, Stream::flags_dos_catch
       | Stream::flags_empty_params) << endl;
   for (i = params->begin(); i != params->end(); i++) {
     cout << *i << endl;

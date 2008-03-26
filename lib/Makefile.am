@@ -15,6 +15,7 @@ libhbackup_la_SOURCES = \
 	files.h \
 	filters.h \
 	hbackup.h \
+	line.h \
 	list.h \
 	missing.h \
 	owner.h \
@@ -32,6 +33,7 @@ libhbackup_la_SOURCES = \
 	files.cpp \
 	filters.cpp \
 	interface.cpp \
+	line.cpp \
 	list.cpp \
 	missing.cpp \
 	owner.cpp \
