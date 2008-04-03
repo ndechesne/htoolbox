@@ -1,13 +1,16 @@
-#!/bin/sh
+#!/bin/sh -e
 
 target="$1"
 test_dir="${target}_test_dir"
+
+# Set default trap
+trap 'echo "$1: test CRASHED" >&2' 0
 
 # Create test directory, enter it
 rm -rf "$test_dir" && mkdir "$test_dir" && tar --strip-components 1 --same-owner -x -z -f test_dir.tar.gz -C "$test_dir" && cd "$test_dir" || exit 1
 
 # Get environment variables
-. ./test_env || exit 1
+. ./test_env
 
 expected="../$target".exp
 output="../$target".all
@@ -22,22 +25,24 @@ export PATH=../../../test_tools:$PATH
 rm -f "$output" "$success"
 
 # Run
-if ! "$executable" 2>&1 | sed "s/\r/\\\r\n/g" > "$output"; then
-	exit 2
-fi
+"$executable" 2>&1 | sed "s/\r/\\\r\n/g" > "$output"
 
 # Revert path
 PATH=$OLD_PATH
 
+# Update default trap
+trap 'echo "$1: test FAILED" >&2' 0
+
 # Check
-if ! diff -q "$expected" "$output" > /dev/null; then
-	echo "$target: error: test output is different from expected" >&2
-	exit 3
-fi
+diff -q "$expected" "$output" > /dev/null
 
 # Cleanup
 rm -f "$output"
 
 # Success
 touch "$success"
+
+# Update default trap
+trap 'echo "$1: test passed"' 0
+
 exit 0
