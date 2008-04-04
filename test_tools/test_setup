@@ -309,11 +309,13 @@ filter any test_or
 condition filter backup
 condition !size< 1000
 
-client nfs myClient
+client myClient
+protocol nfs
 hostname myClient
 config $ROOTDIRNFS/hbackup.list
 
-client ssh other
+client other
+protocol ssh
 hostname otherClient
 config /home/backup/Backup.list
 # This is a comment
@@ -346,12 +348,14 @@ compress bigfile
 parser cvs controlled
 parser svn modified
 
-client file myhost
+client myhost
+protocol file
 hostname myhost.mynetwork.lan
 config "$CONFIGDIR/localhost.list"
 expire 1
 
-client smb client
+client client xp
+protocol smb
 option username Myself
 option password flesyM
 option nocase
@@ -370,9 +374,11 @@ condition path_end ~
 
 filter any test_or
 
-client nfs myClient
+client myClient
+protocol nfs
 
-client ssh other
+client other
+protocol ssh
 hostname otherClient
 hostname 192.168.0.132
 option I am happy
@@ -417,7 +423,7 @@ compress bigfile2
 parser cvs controlled
 parser svn modified
 
-client file myhost
+client myhost
 hostname myhost.mynetwork.lan
 config "$CONFIGDIR/localhost.list"
 expire 1
@@ -426,7 +432,8 @@ path blah
 ignore  2 3
 compress 4 5
 
-client smb client
+client client xp
+protocol smb
 option username Myself
 option password flesyM
 option nocase

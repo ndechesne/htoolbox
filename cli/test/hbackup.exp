@@ -1255,15 +1255,13 @@ Error: after line: 0: need at most 1 occurence(s) of keyword 'db'
 Error: at line: 4: keyword 'filter' requires 2 parameter(s), found 1
 Error: after line: 8: missing keyword 'condition'
 Error: after line: 10: missing keyword 'config'
-Error: after line: 10: missing keyword 'protocol'
-Error: after line: 12: need at most 1 occurence(s) of keyword 'config'
-Error: after line: 12: need at most 1 occurence(s) of keyword 'expire'
-Error: after line: 12: need at most 1 occurence(s) of keyword 'hostname'
-Error: after line: 12: missing keyword 'protocol'
-Error: at line: 15: keyword 'option' requires at most 2 parameter(s), found 3
-Error: at line: 16: keyword 'option' requires at least 1 parameter(s), found 0
-Error: at line: 24: keyword 'filter' requires 2 parameter(s), found 3
-Error: at line: 25: keyword 'condition' requires 2 parameter(s), found 3
-Error: at line: 26: keyword 'condition' requires 2 parameter(s), found 1
-Error: at line: 29: keyword 'expire' requires 1 parameter(s), found 2
-Error: at line: 31: keyword 'path' incorrect or misplaced, aborting
+Error: after line: 13: need at most 1 occurence(s) of keyword 'config'
+Error: after line: 13: need at most 1 occurence(s) of keyword 'expire'
+Error: after line: 13: need at most 1 occurence(s) of keyword 'hostname'
+Error: at line: 17: keyword 'option' requires at most 2 parameter(s), found 3
+Error: at line: 18: keyword 'option' requires at least 1 parameter(s), found 0
+Error: at line: 26: keyword 'filter' requires 2 parameter(s), found 3
+Error: at line: 27: keyword 'condition' requires 2 parameter(s), found 3
+Error: at line: 28: keyword 'condition' requires 2 parameter(s), found 1
+Error: at line: 31: keyword 'expire' requires 1 parameter(s), found 2
+Error: at line: 33: keyword 'path' incorrect or misplaced, aborting
