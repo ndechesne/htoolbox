@@ -262,7 +262,7 @@ int main(void) {
 
   client = new Client("myhost2");
   client->setProtocol("smb");
-  system("echo \"path C:\\Test\" > test_cifs/Backup/testhost2.list");
+  system("echo \"path 'C:\\Test Dir'\" > test_cifs/Backup/testhost2.list");
   client->setListfile("C:\\Backup\\testhost2.list");
   db.open();
   client->setMountPoint("test_db/mount");
@@ -365,7 +365,6 @@ int main(void) {
   client = new Client("myhost2");
   clients.push_back(client);
   client->setProtocol("smb");
-  system("echo \"path C:\\Test\" > test_cifs/Backup/testhost2.list");
   client->setListfile("C:\\Backup\\testhost2.list");
 
   client = new Client("myhost3");
@@ -393,7 +392,6 @@ int main(void) {
   client = new Client("myhost2");
   clients.push_back(client);
   client->setProtocol("smb");
-  system("echo \"path C:\\Test\" > test_cifs/Backup/testhost2.list");
   client->setListfile("C:\\Backup\\testhost2.list");
 
   client = new Client("myhost3");
@@ -455,7 +453,6 @@ int main(void) {
   client = new Client("myhost2");
   clients.push_back(client);
   client->setProtocol("smb");
-  system("echo \"path C:\\Test\" > test_cifs/Backup/testhost2.list");
   client->setListfile("C:\\Backup\\testhost2.list");
 
   printf(">List %u client(s):\n", clients.size());

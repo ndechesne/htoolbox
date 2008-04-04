@@ -364,7 +364,7 @@ int main(void) {
     return 1;
   }
   hbackup->addClient("myClient.xp");
-  hbackup->restore("test_r", "C:/Test/File.TXT", 0);
+  hbackup->restore("test_r", "C:/Test Dir/My File.TXT", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -375,7 +375,7 @@ int main(void) {
     return 1;
   }
   hbackup->addClient("myClient.xp");
-  hbackup->restore("test_r", "C:/Test", 0);
+  hbackup->restore("test_r", "C:/Test Dir/", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;

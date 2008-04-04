@@ -486,19 +486,19 @@ Configuration:
  --> Config: C:/Backup/testhost2.list
  --> Expiry: none
  --> Paths: 
- ---> Path: C:/Test
+ ---> Path: C:/Test Dir
 Backing up client
 Reading list of missing checksums
 List created: myhost2
 Database open r/w: myhost2
-Backup path: C:/Test
-A C:/Test/Dir
- -> Dir Dir
-A C:/Test/Dir/a File.TXT	(2 B)
+Backup path: C:/Test Dir
+A C:/Test Dir/My Dir
+ -> Dir My Dir
+A C:/Test Dir/My Dir/a File.TXT	(2 B)
 Adding file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
-A C:/Test/Dir/another File.TXT	(2 B)
+A C:/Test Dir/My Dir/another File.TXT	(2 B)
 Adding file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
-A C:/Test/File.TXT	(0 B)
+A C:/Test Dir/My File.TXT	(0 B)
 Database modified: myhost2
 Database closed: myhost2
  -> umount -fl test_db/mount
@@ -668,11 +668,11 @@ Configuration:
  --> Config: C:/Backup/testhost2.list
  --> Expiry: none
  --> Paths: 
- ---> Path: C:/Test
+ ---> Path: C:/Test Dir
 Backing up client
 Database open r/w: myhost2
-Backup path: C:/Test
- -> Dir Dir
+Backup path: C:/Test Dir
+ -> Dir My Dir
 Database closed: myhost2
  -> umount -fl test_db/mount
 Trying client 'myhost3' using protocol 'nfs'
@@ -714,12 +714,12 @@ Configuration:
  --> Config: C:/Backup/testhost2.list
  --> Expiry: none
  --> Paths: 
- ---> Path: C:/Test
+ ---> Path: C:/Test Dir
 Backing up client
 Reading list of missing checksums
 Database open r/w: myhost2
-Backup path: C:/Test
- -> Dir Dir
+Backup path: C:/Test Dir
+ -> Dir My Dir
 Database closed: myhost2
  -> umount -fl test_db/mount
 Trying client 'myhost3' using protocol 'nfs'
@@ -831,11 +831,11 @@ Configuration:
  --> Config: C:/Backup/testhost2.list
  --> Expiry: none
  --> Paths: 
- ---> Path: C:/Test
+ ---> Path: C:/Test Dir
 Backing up client
 Database open r/w: myhost2
-Backup path: C:/Test
- -> Dir Dir
+Backup path: C:/Test Dir
+ -> Dir My Dir
 Database closed: myhost2
  -> umount -fl test_db/mount
 Database closed
@@ -945,7 +945,7 @@ Configuration:
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
- ---> Path: C:/Test
+ ---> Path: C:/Test Dir
  ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
@@ -967,12 +967,12 @@ Backing up client
 Reading list of missing checksums
 List created: myClient.xp
 Database open r/w: myClient.xp
-Backup path: C:/Test
-A C:/Test/Dir
- -> Dir Dir
-A C:/Test/Dir/a File.TXT	(2 B)
-A C:/Test/Dir/another File.TXT	(2 B)
-A C:/Test/File.TXT	(0 B)
+Backup path: C:/Test Dir
+A C:/Test Dir/My Dir
+ -> Dir My Dir
+A C:/Test Dir/My Dir/a File.TXT	(2 B)
+A C:/Test Dir/My Dir/another File.TXT	(2 B)
+A C:/Test Dir/My File.TXT	(0 B)
 Database modified: myClient.xp
 Database closed: myClient.xp
  -> umount -fl test_db/mount

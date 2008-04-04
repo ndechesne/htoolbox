@@ -321,8 +321,9 @@ int Database::restore(
     Path base(dest, fpath);
     char* dir = Path::dirname(base.c_str());
     if (! Directory(dir).isValid()) {
-      string command = "mkdir -p ";
+      string command = "mkdir -p \"";
       command += dir;
+      command += "\"";
       if (system(command.c_str())) {
         out(error, msg_errno, "Creating path", errno, dir);
       }

@@ -146,15 +146,15 @@ ln -s "testfile" "$TESTDIR2/testlink"
 
 # CIFS test
 mkdir -p "$TESTDIRCIFS/Backup"
-mkdir -p "$TESTDIRCIFS/Test"
-touch "$TESTDIRCIFS/Test/File.TXT"
-mkdir -p "$TESTDIRCIFS/Test/Dir"
-echo 1 > "$TESTDIRCIFS/Test/Dir/a File.TXT"
-echo 2 > "$TESTDIRCIFS/Test/Dir/another File.TXT"
+mkdir -p "$TESTDIRCIFS/Test Dir"
+touch "$TESTDIRCIFS/Test Dir/My File.TXT"
+mkdir -p "$TESTDIRCIFS/Test Dir/My Dir"
+echo 1 > "$TESTDIRCIFS/Test Dir/My Dir/a File.TXT"
+echo 2 > "$TESTDIRCIFS/Test Dir/My Dir/another File.TXT"
 cat << EOF > "$TESTDIRCIFS/Backup/Backup.LST"
 subset 'xp'
 # Ends in \", but should not fail
-path "C:\Test\"
+path "C:\Test Dir\"
 
 filter and silly
 condition filter      backup

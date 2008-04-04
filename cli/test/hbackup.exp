@@ -262,7 +262,7 @@ Configuration:
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
- ---> Path: C:/Test
+ ---> Path: C:/Test Dir
  ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
@@ -284,14 +284,14 @@ Backing up client
 Reading list of missing checksums
 List created: client.xp
 Database open r/w: client.xp
-Backup path: C:/Test
-A C:/Test/Dir
- -> Dir Dir
-A C:/Test/Dir/a File.TXT	(2 B)
+Backup path: C:/Test Dir
+A C:/Test Dir/My Dir
+ -> Dir My Dir
+A C:/Test Dir/My Dir/a File.TXT	(2 B)
 Adding file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
-A C:/Test/Dir/another File.TXT	(2 B)
+A C:/Test Dir/My Dir/another File.TXT	(2 B)
 Adding file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
-A C:/Test/File.TXT	(0 B)
+A C:/Test Dir/My File.TXT	(0 B)
 Adding file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
 Database modified: client.xp
 Database closed: client.xp
@@ -512,7 +512,7 @@ Configuration:
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
- ---> Path: C:/Test
+ ---> Path: C:/Test Dir
  ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
@@ -533,8 +533,8 @@ Configuration:
 Backing up client
 Reading list of missing checksums
 Database open r/w: client.xp
-Backup path: C:/Test
- -> Dir Dir
+Backup path: C:/Test Dir
+ -> Dir My Dir
 Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
