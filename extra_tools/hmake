@@ -15,6 +15,9 @@ colorize() {
     elif echo "$REPLY" | grep -i "warning[: ]" > /dev/null; then
       # Print warnings in orange
       echo -e "\033[33m$REPLY\033[0m"
+    elif echo "$REPLY" | grep -i "\(success[: ]\|passed\)" > /dev/null; then
+      # Print successes in green
+      echo -e "\033[32m$REPLY\033[0m"
     elif echo "$REPLY" | grep -e "^make" > /dev/null; then
       # Print make commands in light grey
       echo -e "\033[37m$REPLY\033[0m"
