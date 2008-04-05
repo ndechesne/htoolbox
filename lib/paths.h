@@ -35,19 +35,17 @@ class ClientPath {
     Parser*         parser);
 public:
   ClientPath(const char* path);
-  const char* path() const     { return _path.c_str(); }
-  int nodes() const            { return _nodes; }
+  const char* path() const               { return _path.c_str(); }
+  int nodes() const                      { return _nodes; }
   // Set ignore filter
   void setIgnore(const Filter* filter)   { _ignore   = filter; }
   // Set compress filter
   void setCompress(const Filter* filter) { _compress = filter; }
-  Filter* addFilter(const string& type, const string& name) {
-    return _filters.add(type, name);
-  }
+  Filter* addFilter(
+    const string&   type,
+    const string&   name);
   Filter* findFilter(
-    const string&   name,
-    const Filters*  local = NULL,
-    const Filters*  global = NULL) const;
+    const string&   name) const;
   int addParser(
     const string&   type,
     const string&   string);

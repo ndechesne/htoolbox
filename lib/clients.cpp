@@ -307,26 +307,24 @@ int Client::readConfig(
         }
       } else
       // Path attributes
-      if ((*params)[0] == "ignore") {
-        Filter* filter = path->findFilter((*params)[1], &_d->filters,
-          &global_filters);
+      if (((*params)[0] == "ignore") || ((*params)[0] == "compress")) {
+        Filter* filter = path->findFilter((*params)[1]);
         if (filter == NULL) {
-          out(error, msg_line_no, "Filter not found", (*params).lineNo(),
-            list_path.c_str());
-          failed = true;
-        } else {
-          path->setIgnore(filter);
+          filter = _d->filters.find((*params)[1]);
         }
-      } else
-      if ((*params)[0] == "compress") {
-        Filter* filter = path->findFilter((*params)[1], &_d->filters,
-          &global_filters);
+        if (filter == NULL) {
+          filter = global_filters.find((*params)[1]);
+        }
         if (filter == NULL) {
           out(error, msg_line_no, "Filter not found", (*params).lineNo(),
             list_path.c_str());
           failed = true;
         } else {
-          path->setCompress(filter);
+          if ((*params)[0] == "ignore") {
+            path->setIgnore(filter);
+          } else {
+            path->setCompress(filter);
+          }
         }
       } else
       if ((*params)[0] == "parser") {

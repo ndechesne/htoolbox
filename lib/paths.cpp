@@ -200,18 +200,15 @@ int ClientPath::addParser(
   return 0;
 }
 
+Filter* ClientPath::addFilter(
+    const string&   type,
+    const string&   name) {
+  return _filters.add(type, name);
+}
+
 Filter* ClientPath::findFilter(
-    const string&   name,
-    const Filters*  local,
-    const Filters*  global) const {
-  Filter* filter = _filters.find(name);
-  if ((filter == NULL) && (local != NULL)) {
-    filter = local->find(name);
-  }
-  if ((filter == NULL) && (global != NULL)) {
-    filter = global->find(name);
-  }
-  return filter;
+    const string&   name) const {
+  return _filters.find(name);
 }
 
 int ClientPath::parse(

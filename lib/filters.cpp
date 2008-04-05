@@ -223,7 +223,7 @@ Filters::~Filters() {
 }
 
 Filter* Filters::find(
-    const string& name) const {
+    const string&   name) const {
   list<Filter*>::const_iterator filter;
   for (filter = begin(); filter != end(); filter++) {
     if ((*filter)->name() == name) {
