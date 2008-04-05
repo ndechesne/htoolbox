@@ -19,8 +19,6 @@
 #ifndef CONDITIONS_H
 #define CONDITIONS_H
 
-#include <regex.h>
-
 namespace hbackup {
 
 /* The filter stores a list of rules, each containing a list of conditions.
@@ -55,14 +53,8 @@ public:
     mode_eq,            //!< mode contains all of the given mode bits
   };
 private:
-  Type              _type;
-  bool              _negated;
-  const Filter*     _filter;
-  char              _file_type;
-  long long         _value;
-  string            _string;
-  regex_t           _regex;
-  bool              _regex_ok;
+  struct            Private;
+  Private*          _d;
 public:
   // Sub-filter type-based condition
   Condition(

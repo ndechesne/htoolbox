@@ -29,46 +29,88 @@ using namespace std;
 
 using namespace hbackup;
 
+struct Condition::Private {
+  Type              type;
+  bool              negated;
+  const Filter*     filter;
+  char              file_type;
+  long long         value;
+  char*             string;
+  regex_t*          regex;
+};
+
 Condition::Condition(
     Type            type,
     const Filter*   filter,
-    bool            negated) :
-      _type(type), _negated(negated), _filter(filter), _regex_ok(false) {}
+    bool            negated) {
+  _d            = new Private;
+  _d->type      = type;
+  _d->negated   = negated;
+  _d->filter    = filter;
+  _d->string    = NULL;
+  _d->regex     = NULL;
+}
 
 Condition::Condition(
     Type            type,
     char            file_type,
-    bool            negated) :
-      _type(type), _negated(negated), _file_type(file_type), _regex_ok(false){}
+    bool            negated) {
+  _d            = new Private;
+  _d->type      = type;
+  _d->negated   = negated;
+  _d->string    = NULL;
+  _d->file_type = file_type;
+  _d->regex     = NULL;
+}
 
 Condition::Condition(
     Type            type,
     mode_t          value,
-    bool            negated) :
-      _type(type), _negated(negated), _value(value), _regex_ok(false) {}
+    bool            negated) {
+  _d            = new Private;
+  _d->type      = type;
+  _d->negated   = negated;
+  _d->string    = NULL;
+  _d->value     = value;
+  _d->regex     = NULL;
+}
 
 Condition::Condition(
     Type            type,
     long long       value,
-    bool            negated) :
-      _type(type), _negated(negated), _value(value), _regex_ok(false) {}
+    bool            negated) {
+  _d            = new Private;
+  _d->type      = type;
+  _d->negated   = negated;
+  _d->string    = NULL;
+  _d->value     = value;
+  _d->regex     = NULL;
+}
 
 Condition::Condition(
     Type            type,
-    const string&   str,
-    bool            negated) :
-      _type(type), _negated(negated), _string(str) {
-  if (((type == Condition::name_regex) || (type == Condition::path_regex))
-  &&  (regcomp(&_regex, _string.c_str(), REG_EXTENDED) == 0)) {
-    _regex_ok = true;
+    const string&   string,
+    bool            negated) {
+  _d            = new Private;
+  _d->type      = type;
+  _d->negated   = negated;
+  _d->string    = strdup(string.c_str());
+  if ((type == Condition::name_regex) || (type == Condition::path_regex)) {
+    _d->regex = new regex_t;
+    if (regcomp(_d->regex, _d->string, REG_EXTENDED)) {
+      free(_d->regex);
+      _d->regex = NULL;
+    }
   } else {
-    _regex_ok = false;
+    _d->regex = NULL;
   }
 }
 
 Condition::~Condition() {
-  if (_regex_ok) {
-    regfree(&_regex);
+  free(_d->string);
+  if (_d->regex != NULL) {
+    regfree(_d->regex);
+    delete _d->regex;
   }
 }
 
@@ -79,30 +121,30 @@ bool Condition::match(const char* npath, const Node& node) const {
   bool   result = false;
   bool   failed = false;
 
-  switch(_type) {
+  switch(_d->type) {
     case Condition::filter: {
-        result = _filter->match(npath, node);
+        result = _d->filter->match(npath, node);
       } break;
     case Condition::type:
-      result = _file_type == node.type();
+      result = _d->file_type == node.type();
       break;
     case Condition::name:
-      result = strcmp(node.name(), _string.c_str()) == 0;
+      result = strcmp(node.name(), _d->string) == 0;
       break;
     case Condition::name_start:
-      result = name.substr(0, _string.size()) == _string;
+      result = strncmp(name.c_str(), _d->string, strlen(_d->string)) == 0;
       break;
     case Condition::name_end: {
-      signed int diff = name.size() - _string.size();
+      signed int diff = name.size() - strlen(_d->string);
       if (diff < 0) {
         result = false;
       } else {
-        result = _string == name.substr(diff); }
+        result = strcmp(_d->string, name.substr(diff).c_str()) == 0;
       }
-      break;
+    } break;
     case Condition::name_regex:
-        if (_regex_ok) {
-          result = ! regexec(&_regex, name.c_str(), 0, NULL, 0);
+        if (_d->regex != NULL) {
+          result = ! regexec(_d->regex, name.c_str(), 0, NULL, 0);
         } else {
           out(error, msg_standard, "incorrect regular expression", -1,
             "Filters");
@@ -110,22 +152,22 @@ bool Condition::match(const char* npath, const Node& node) const {
         }
       break;
     case Condition::path:
-      result = path == _string;
+      result = strcmp(path.c_str(), _d->string) == 0;
       break;
     case Condition::path_start:
-      result = path.substr(0, _string.size()) == _string;
+      result = strncmp(path.c_str(), _d->string, strlen(_d->string)) == 0;
       break;
     case Condition::path_end: {
-        signed int diff = path.size() - _string.size();
+        signed int diff = path.size() - strlen(_d->string);
         if (diff < 0) {
           result = false;
         } else {
-          result = _string == path.substr(diff);
+          result = strcmp(_d->string, path.substr(diff).c_str()) == 0;
         }
       } break;
     case Condition::path_regex:
-        if (_regex_ok) {
-          result = ! regexec(&_regex, path.c_str(), 0, NULL, 0);
+        if (_d->regex != NULL) {
+          result = ! regexec(_d->regex, path.c_str(), 0, NULL, 0);
         } else {
           out(error, msg_standard, "incorrect regular expression", -1,
             "Filters");
@@ -133,38 +175,38 @@ bool Condition::match(const char* npath, const Node& node) const {
         }
       break;
     case Condition::size_ge:
-      result = node.size() >= _value;
+      result = node.size() >= _d->value;
       break;
     case Condition::size_gt:
-      result = node.size() > _value;
+      result = node.size() > _d->value;
       break;
     case Condition::size_le:
-      result = node.size() <= _value;
+      result = node.size() <= _d->value;
       break;
     case Condition::size_lt:
-      result = node.size() < _value;
+      result = node.size() < _d->value;
       break;
     case Condition::mode_and:
-      result = (node.mode() & _value) != 0;
+      result = (node.mode() & _d->value) != 0;
       break;
     case Condition::mode_eq:
-      result = node.mode() == _value;
+      result = node.mode() == _d->value;
       break;
     default:
       out(error, msg_standard, "unknown condition type to match", -1,
         "Filters");
   }
-  return failed ? -1 : (_negated ? ! result : result);
+  return failed ? -1 : (_d->negated ? ! result : result);
 }
 
 void Condition::show(int level) const {
   stringstream s;
-  switch (_type) {
+  switch (_d->type) {
     case Condition::filter:
-      s << (_negated ? "not " : "") << "filter " << _filter->name();
+      s << (_d->negated ? "not " : "") << "filter " << _d->filter->name();
       break;
     case Condition::type:
-      s << (_negated ? "not " : "") << "type " << _file_type;
+      s << (_d->negated ? "not " : "") << "type " << _d->file_type;
       break;
     case Condition::name:
     case Condition::name_end:
@@ -175,7 +217,7 @@ void Condition::show(int level) const {
     case Condition::path_start:
     case Condition::path_regex: {
       string type;
-      switch (_type) {
+      switch (_d->type) {
         case Condition::name:
           type = "name";
           break;
@@ -203,14 +245,14 @@ void Condition::show(int level) const {
         default:
           type = "unknown";
       }
-      s << (_negated ? "not " : "") << type << " " << _string;
+      s << (_d->negated ? "not " : "") << type << " " << _d->string;
       } break;
     case Condition::size_ge:
     case Condition::size_gt:
     case Condition::size_le:
     case Condition::size_lt: {
       string type;
-      switch (_type) {
+      switch (_d->type) {
         case Condition::size_ge:
           type = "size>=";
           break;
@@ -226,12 +268,12 @@ void Condition::show(int level) const {
         default:
           type = "unknown";
       }
-      s << (_negated ? "not " : "") << type << " " << _value;
+      s << (_d->negated ? "not " : "") << type << " " << _d->value;
       } break;
     case Condition::mode_and:
     case Condition::mode_eq: {
       string type;
-      switch (_type) {
+      switch (_d->type) {
         case Condition::mode_and:
           type = "mode&";
           break;
@@ -241,7 +283,8 @@ void Condition::show(int level) const {
         default:
           type = "unknown";
       }
-      s << (_negated ? "not " : "") << type << " " << oct << _value << dec;
+      s << (_d->negated ? "not " : "") << type << " " << oct << _d->value
+        << dec;
       } break;
     default:
       out(error, msg_standard, "Unknown type", -1, "Condition");
