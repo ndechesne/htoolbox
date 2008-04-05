@@ -39,6 +39,19 @@ using namespace hbackup;
 struct Client::Private {
   list<ClientPath*> paths;
   string            subset_client;
+  string            name;
+  string            subset_server;
+  string            host_or_ip;
+  char*             list_file;
+  string            protocol;
+  list<Option>      options;
+  //
+  bool              initialised;
+  int               expire;
+  string            home_path;
+  string            mount_point;
+  string            mounted;
+  Filters           filters;
 };
 
 int Client::mountPath(
@@ -48,25 +61,25 @@ int Client::mountPath(
   string share;
 
   // Determine share and path
-  if (_protocol == "file") {
+  if (_d->protocol == "file") {
     share = "";
     *path = backup_path;
   } else
-  if (_protocol == "nfs") {
-    share = _host_or_ip + ":" + backup_path;
-    *path = _mount_point;
+  if (_d->protocol == "nfs") {
+    share = _d->host_or_ip + ":" + backup_path;
+    *path = _d->mount_point;
   } else
-  if (_protocol == "smb") {
-    share = "//" + _host_or_ip + "/" + backup_path.substr(0,1) + "$";
-    *path = _mount_point + "/" +  backup_path.substr(3);
+  if (_d->protocol == "smb") {
+    share = "//" + _d->host_or_ip + "/" + backup_path.substr(0,1) + "$";
+    *path = _d->mount_point + "/" +  backup_path.substr(3);
   } else {
     errno = EPROTONOSUPPORT;
     return -1;
   }
 
   // Check what is mounted
-  if (_mounted != "") {
-    if (_mounted != share) {
+  if (_d->mounted != "") {
+    if (_d->mounted != share) {
       // Different share mounted: unmount
       umount();
     } else {
@@ -76,29 +89,29 @@ int Client::mountPath(
   }
 
   // Build mount command
-  if (_protocol == "file") {
+  if (_d->protocol == "file") {
     return 0;
   } else {
     // Check that mount dir exists, if not create it
-    if (Directory(_mount_point.c_str()).create() < 0) {
+    if (Directory(_d->mount_point.c_str()).create() < 0) {
       return -1;
     }
 
     // Set protocol and default options
-    if (_protocol == "nfs") {
+    if (_d->protocol == "nfs") {
       command += "-t nfs -o ro,noatime,nolock,soft,timeo=30,intr";
     } else
-    if (_protocol == "smb") {
+    if (_d->protocol == "smb") {
       // codepage=858
       command += "-t cifs -o ro,noatime,nocase";
     }
   }
   // Additional options
-  for (list<Option>::iterator i = _options.begin(); i != _options.end(); i++ ){
+  for (list<Option>::iterator i = _d->options.begin(); i != _d->options.end(); i++ ){
     command += "," + i->option();
   }
   // Paths
-  command += " " + share + " " + _mount_point;
+  command += " " + share + " " + _d->mount_point;
 
   // Issue mount command
   out(verbose, msg_standard, command.c_str(), 1);
@@ -108,18 +121,18 @@ int Client::mountPath(
   if (result != 0) {
     errno = ETIMEDOUT;
   } else {
-    _mounted = share;
+    _d->mounted = share;
   }
   return result;
 }
 
 int Client::umount() {
-  if (_mounted != "") {
+  if (_d->mounted != "") {
     string command = "umount -fl ";
 
-    command += _mount_point;
+    command += _d->mount_point;
     out(verbose, msg_standard, command.c_str(), 1);
-    _mounted = "";
+    _d->mounted = "";
     return system(command.c_str());
   }
   return 0;
@@ -188,7 +201,7 @@ int Client::readConfig(
         int expire;
         if ((sscanf((*params)[1].c_str(), "%d", &expire) != 0)
         &&  (expire >= 0)) {
-          _expire = expire * 3600 * 24;
+          _d->expire = expire * 3600 * 24;
         } else {
           out(error, msg_line_no, "Wrong expiration value",
             (*params).lineNo(), list_path.c_str());
@@ -199,7 +212,7 @@ int Client::readConfig(
         filter = NULL;
         // New backup path
         if ((*params)[1][0] == '~') {
-          path = new ClientPath((_home_path + &(*params)[1][1]).c_str());
+          path = new ClientPath((_d->home_path + &(*params)[1][1]).c_str());
         } else {
           path = new ClientPath((*params)[1].c_str());
         }
@@ -294,7 +307,7 @@ int Client::readConfig(
       } else
       // Path attributes
       if ((*params)[0] == "ignore") {
-        Filter* filter = path->findFilter((*params)[1], &_filters,
+        Filter* filter = path->findFilter((*params)[1], &_d->filters,
           &global_filters);
         if (filter == NULL) {
           out(error, msg_line_no, "Filter not found", (*params).lineNo(),
@@ -305,7 +318,7 @@ int Client::readConfig(
         }
       } else
       if ((*params)[0] == "compress") {
-        Filter* filter = path->findFilter((*params)[1], &_filters,
+        Filter* filter = path->findFilter((*params)[1], &_d->filters,
           &global_filters);
         if (filter == NULL) {
           out(error, msg_line_no, "Filter not found", (*params).lineNo(),
@@ -340,14 +353,18 @@ int Client::readConfig(
   return failed ? -1 : 0;
 }
 
-Client::Client(const string& name, const string& subset) :
-    _name(name), _subset_server(subset), _host_or_ip(name), _list_file(NULL),
-    _initialised(false), _expire(-1) {
+Client::Client(const string& name, const string& subset) {
   _d = new Private;
+  _d->name          = name;
+  _d->subset_server = subset;
+  _d->host_or_ip    = name;
+  _d->list_file     = NULL;
+  _d->initialised   = false;
+  _d->expire        = -1;
 }
 
 Client::~Client() {
-  free(_list_file);
+  free(_d->list_file);
   for (list<ClientPath*>::iterator i = _d->paths.begin(); i != _d->paths.end();
       i++) {
     delete *i;
@@ -355,25 +372,73 @@ Client::~Client() {
   delete _d;
 }
 
+string Client::name() const {
+  return _d->name;
+}
+
 string Client::internal_name() const {
-  if (_subset_server.empty()) {
-    return _name;
+  if (_d->subset_server.empty()) {
+    return _d->name;
   } else {
-    return _name + "." + _subset_server;
+    return _d->name + "." + _d->subset_server;
   }
 }
 
+string Client::subset() const {
+  return _d->subset_server;
+}
+
+void Client::addOption(const string& value) {
+  _d->options.push_back(Option("", value));
+}
+
+void Client::addOption(const string& name, const string& value) {
+  _d->options.push_back(Option(name, value));
+}
+
 void Client::setHostOrIp(string value) {
-  _host_or_ip = value;
+  _d->host_or_ip = value;
 }
 
 void Client::setProtocol(string value) {
-  _protocol = value;
+  _d->protocol = value;
 }
 
 void Client::setListfile(const char* value) {
-  _list_file = Path::fromDos(value);
-  _list_file = Path::noTrailingSlashes(_list_file);
+  _d->list_file = Path::fromDos(value);
+  _d->list_file = Path::noTrailingSlashes(_d->list_file);
+}
+
+const char* Client::listfile() const {
+  return _d->list_file;
+}
+
+void Client::setExpire(int expire) {
+  _d->expire = expire;
+}
+
+bool Client::initialised() const {
+  return _d->initialised;
+}
+
+void Client::setInitialised() {
+  _d->initialised = true;
+}
+
+void Client::setBasePath(const string& home_path) {
+  _d->home_path = home_path;
+}
+
+void Client::setMountPoint(const string& mount_point) {
+  _d->mount_point = mount_point;
+}
+
+Filter* Client::addFilter(const string& type, const string& name) {
+  return _d->filters.add(type, name);
+}
+
+Filter* Client::findFilter(const string& name) const {
+  return _d->filters.find(name);
 }
 
 int Client::backup(
@@ -383,18 +448,18 @@ int Client::backup(
   bool    failed = false;
   string  share;
   string  list_path;
-  char*   dir = Path::dirname(_list_file);
+  char*   dir = Path::dirname(_d->list_file);
 
-  if (_home_path.length() == 0) {
+  if (_d->home_path.length() == 0) {
     stringstream s;
-    s <<"Trying client '" << _name << "' using protocol '" << _protocol << "'";
+    s <<"Trying client '" << _d->name << "' using protocol '" << _d->protocol << "'";
     out(info, msg_standard, s.str().c_str());
   }
 
   if (mountPath(dir, &list_path)) {
     switch (errno) {
       case EPROTONOSUPPORT:
-        out(error, msg_errno, _protocol.c_str(), errno);
+        out(error, msg_errno, _d->protocol.c_str(), errno);
         return 1;
       case ETIMEDOUT:
         out(info, msg_errno, "Connecting to client", errno);
@@ -405,14 +470,14 @@ int Client::backup(
   if (list_path.size() != 0) {
     list_path += "/";
   }
-  list_path += Path::basename(_list_file);
+  list_path += Path::basename(_d->list_file);
 
   if (readConfig(list_path, global_filters) != 0) {
     failed = true;
-  } else if (_d->subset_client !=  _subset_server) {
+  } else if (_d->subset_client !=  _d->subset_server) {
     stringstream s;
     s << "Subsets don't match in server and client configuration files: '"
-      << _subset_server << "' != '" << _d->subset_client << "', skipping";
+      << _d->subset_server << "' != '" << _d->subset_client << "', skipping";
     out(info, msg_standard, s.str().c_str());
   } else {
     out(info, msg_standard, "Backing up client");
@@ -421,7 +486,7 @@ int Client::backup(
     if (_d->paths.empty()) {
       failed = true;
     } else if (! config_check) {
-      if (db.openClient(internal_name().c_str(), _expire) >= 0) {
+      if (db.openClient(internal_name().c_str(), _d->expire) >= 0) {
         bool abort = false;
         for (list<ClientPath*>::iterator i = _d->paths.begin();
             i != _d->paths.end(); i++) {
@@ -456,33 +521,33 @@ int Client::backup(
 }
 
 void Client::show(int level) const {
-  out(verbose, msg_standard, _name.c_str(), level, "Client");
+  out(verbose, msg_standard, _d->name.c_str(), level, "Client");
   if (! _d->subset_client.empty()) {
     out(verbose, msg_standard, _d->subset_client.c_str(), level + 1, "Subset");
   }
-  out(verbose, msg_standard, _protocol.c_str(), level + 1, "Protocol");
-  if (_host_or_ip != _name) {
-    out(verbose, msg_standard, _host_or_ip.c_str(), level + 1, "Hostname");
+  out(verbose, msg_standard, _d->protocol.c_str(), level + 1, "Protocol");
+  if (_d->host_or_ip != _d->name) {
+    out(verbose, msg_standard, _d->host_or_ip.c_str(), level + 1, "Hostname");
   }
-  if (_options.size() > 0) {
+  if (_d->options.size() > 0) {
     stringstream s;
-    for (list<Option>::const_iterator i = _options.begin();
-        i != _options.end(); i++ ) {
+    for (list<Option>::const_iterator i = _d->options.begin();
+        i != _d->options.end(); i++ ) {
       s << i->option() << " ";
     }
     out(verbose, msg_standard, s.str().c_str(), level + 1, "Options");
   }
-  out(verbose, msg_standard, _list_file, level + 1, "Config");
+  out(verbose, msg_standard, _d->list_file, level + 1, "Config");
   {
     stringstream s;
-    if (_expire >= 0) {
-      s << _expire << "s (" << _expire / 86400 << "d)";
+    if (_d->expire >= 0) {
+      s << _d->expire << "s (" << _d->expire / 86400 << "d)";
     } else {
       s << "none";
     }
     out(verbose, msg_standard, s.str().c_str(), level + 1, "Expiry");
   }
-  _filters.show(level + 1);
+  _d->filters.show(level + 1);
   if (_d->paths.size() > 0) {
     out(verbose, msg_standard, "", level + 1, "Paths");
     for (list<ClientPath*>::iterator i = _d->paths.begin();

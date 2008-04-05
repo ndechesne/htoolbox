@@ -40,53 +40,28 @@ public:
 class Client {
   struct            Private;
   Private*          _d;
-  string            _name;
-  string            _subset_server;
-  string            _host_or_ip;
-  char*             _list_file;
-  string            _protocol;
-  list<Option>      _options;
-  //
-  bool              _initialised;
-  int               _expire;
-  string            _home_path;
-  string            _mount_point;
-  string            _mounted;
-  Filters           _filters;
   int mountPath(string  backup_path, string  *path);
   int umount();
 public:
   Client(const string& name, const string& sub_name = "");
   ~Client();
-  string name() const   { return _name; }
+  string name() const;
   string internal_name() const;
-  string subset() const { return _subset_server; }
-  void addOption(const string& value) {
-    _options.push_back(Option("", value));
-  }
-  void addOption(const string& name, const string& value) {
-    _options.push_back(Option(name, value));
-  }
+  string subset() const;
+  void addOption(const string& value);
+  void addOption(const string& name, const string& value);
   void setHostOrIp(string value);
   void setProtocol(string value);
   void setListfile(const char* value);
-  const char* listfile() const { return _list_file; }
-  void setExpire(int expire) { _expire = expire; }
+  const char* listfile() const;
+  void setExpire(int expire);
   //
-  bool initialised() const { return _initialised; }
-  void setInitialised() { _initialised = true; }
-  void setBasePath(const string& home_path) {
-    _home_path = home_path;
-  }
-  void setMountPoint(const string& mount_point) {
-    _mount_point = mount_point;
-  }
-  Filter* addFilter(const string& type, const string& name) {
-    return _filters.add(type, name);
-  }
-  Filter* findFilter(const string& name) const {
-    return _filters.find(name);
-  }
+  bool initialised() const;
+  void setInitialised();
+  void setBasePath(const string& home_path);
+  void setMountPoint(const string& mount_point);
+  Filter* addFilter(const string& type, const string& name);
+  Filter* findFilter(const string& name) const;
   int  readConfig(
     const string&   list_path,
     const Filters&  global_filters);
