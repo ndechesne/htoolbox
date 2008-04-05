@@ -203,7 +203,7 @@ int HBackup::readConfig(const char* config_path) {
         }
         filter->add(new Condition(Condition::filter, subfilter, negated));
       } else {
-        switch (filter->add(filter_type, (*params)[2], negated)) {
+        switch (filter->add(filter_type, (*params)[2].c_str(), negated)) {
           case 1:
             out(error, msg_line_no, "Unsupported condition type",
               (*params).lineNo(), config_path);

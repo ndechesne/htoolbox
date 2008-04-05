@@ -43,7 +43,7 @@ public:
   void add(Condition* condition) { push_back(condition); }
   int add(
     const string&   type,
-    const string&   value,
+    const char*     value,
     bool            negated);
   bool match(
     const char*     path,

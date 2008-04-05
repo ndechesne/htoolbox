@@ -79,7 +79,7 @@ public:
   // Name- or Path-based condition
   Condition(
     Type            type,
-    const string&   str,
+    const char*     string,
     bool            negated);
   ~Condition();
   bool match(

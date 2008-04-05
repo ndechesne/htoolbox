@@ -89,12 +89,12 @@ Condition::Condition(
 
 Condition::Condition(
     Type            type,
-    const string&   string,
+    const char*     string,
     bool            negated) {
   _d            = new Private;
   _d->type      = type;
   _d->negated   = negated;
-  _d->string    = strdup(string.c_str());
+  _d->string    = strdup(string);
   if ((type == Condition::name_regex) || (type == Condition::path_regex)) {
     _d->regex = new regex_t;
     if (regcomp(_d->regex, _d->string, REG_EXTENDED)) {
@@ -114,7 +114,9 @@ Condition::~Condition() {
   }
 }
 
-bool Condition::match(const char* npath, const Node& node) const {
+bool Condition::match(
+    const char*     npath,
+    const Node&     node) const {
   // TODO Use char arrays
   string name   = node.name();
   string path   = npath + name;

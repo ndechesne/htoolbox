@@ -38,7 +38,7 @@ Filter::~Filter() {
 
 int Filter::add(
     const string&   type,
-    const string&   value,
+    const char*     value,
     bool            negated) {
   /* Add specified filter */
   bool    failed = false;
@@ -46,7 +46,7 @@ int Filter::add(
 
   if (type.substr(0, 4) == "size") {
     char    unit[4] = { '\0', '\0', '\0', '\0' };
-    int     rc = sscanf(value.c_str(), "%lld%3s", &size, unit);
+    int     rc = sscanf(value, "%lld%3s", &size, unit);
     unit[3] = '\0';
     if (rc < 1) {
       failed = true;
@@ -157,7 +157,7 @@ int Filter::add(
   } else
   if (type == "mode&") {
     mode_t mode;
-    failed = (sscanf(value.c_str(), "%o", &mode) != 1);
+    failed = (sscanf(value, "%o", &mode) != 1);
     if (failed) {
       out(error, msg_standard, "Cannot decode octal value");
     } else {
@@ -166,7 +166,7 @@ int Filter::add(
   } else
   if (type == "mode=") {
     mode_t mode;
-    failed = (sscanf(value.c_str(), "%o", &mode) != 1);
+    failed = (sscanf(value, "%o", &mode) != 1);
     if (failed) {
       out(error, msg_standard, "Cannot decode octal value");
     } else {

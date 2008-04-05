@@ -107,7 +107,8 @@ int Client::mountPath(
     }
   }
   // Additional options
-  for (list<Option>::iterator i = _d->options.begin(); i != _d->options.end(); i++ ){
+  for (list<Option>::iterator i = _d->options.begin(); i != _d->options.end();
+      i++ ){
     command += "," + i->option();
   }
   // Paths
@@ -292,7 +293,7 @@ int Client::readConfig(
               negated));
           }
         } else {
-          switch (filter->add(filter_type, (*params)[2], negated)) {
+          switch (filter->add(filter_type, (*params)[2].c_str(), negated)) {
             case -2:
               out(error, msg_line_no, "Unsupported condition type",
                 (*params).lineNo(), list_path.c_str());
@@ -452,7 +453,8 @@ int Client::backup(
 
   if (_d->home_path.length() == 0) {
     stringstream s;
-    s <<"Trying client '" << _d->name << "' using protocol '" << _d->protocol << "'";
+    s <<"Trying client '" << _d->name << "' using protocol '"
+      << _d->protocol << "'";
     out(info, msg_standard, s.str().c_str());
   }
 
