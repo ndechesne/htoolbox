@@ -70,7 +70,14 @@ int Client::mountPath(
     *path = _d->mount_point;
   } else
   if (_d->protocol == "smb") {
-    share = "//" + _d->host_or_ip + "/" + backup_path.substr(0,1) + "$";
+    if (backup_path.size() < 3) {
+      return -1;
+    }
+    char drive_letter = backup_path[0];
+    if ((drive_letter < 'A') || (drive_letter > 'Z')) {
+      return -1;
+    }
+    share = "//" + _d->host_or_ip + "/" + drive_letter + "$";
     *path = _d->mount_point + "/" +  backup_path.substr(3);
   } else {
     errno = EPROTONOSUPPORT;
@@ -140,17 +147,17 @@ int Client::umount() {
 }
 
 int Client::readConfig(
-    const string&   list_path,
+    const char*     list_path,
     const Filters&  global_filters) {
   bool   failed  = false;
 
   // Open client configuration file
-  Stream config_file(list_path.c_str());
+  Stream config_file(list_path);
 
   // Open client configuration file
   if (config_file.open("r")) {
     out(error, msg_standard, "Client configuration file not found", -1,
-      list_path.c_str());
+      list_path);
     return -1;
   }
   // Set up config syntax and grammar
@@ -205,46 +212,18 @@ int Client::readConfig(
           _d->expire = expire * 3600 * 24;
         } else {
           out(error, msg_line_no, "Wrong expiration value",
-            (*params).lineNo(), list_path.c_str());
+            (*params).lineNo(), list_path);
           failed = true;
         }
       } else
       if ((*params)[0] == "path") {
         filter = NULL;
         // New backup path
-        if ((*params)[1][0] == '~') {
-          path = new ClientPath((_d->home_path + &(*params)[1][1]).c_str());
-        } else {
-          path = new ClientPath((*params)[1].c_str());
-        }
-        list<ClientPath*>::iterator i = _d->paths.begin();
-        while ((i != _d->paths.end())
-            && (Path::compare((*i)->path(), path->path()) < 0)) {
-          i++;
-        }
-        list<ClientPath*>::iterator j = _d->paths.insert(i, path);
-        // Check that we don't have a path inside another, such as
-        // '/home' and '/home/user'
-        int jlen = strlen((*j)->path());
-        if (i != _d->paths.end()) {
-          int ilen = strlen((*i)->path());
-          if ((ilen > jlen)
-            && (Path::compare((*i)->path(), (*j)->path(), jlen) == 0)) {
-            out(error, msg_line_no, "Path inside another", (*params).lineNo(),
-              list_path.c_str());
-            failed = true;
-          }
-          i = j;
-          i--;
-        }
-        if (i != _d->paths.end()) {
-          int ilen = strlen((*i)->path());
-          if ((ilen < jlen)
-            && (Path::compare((*i)->path(), (*j)->path(), ilen) == 0)) {
-            out(error, msg_line_no, "Path inside another", (*params).lineNo(),
-              list_path.c_str());
-            failed = true;
-          }
+        path = addClientPath((*params)[1]);
+        if (path == NULL) {
+          out(error, msg_line_no, "Path inside another", (*params).lineNo(),
+            list_path);
+          failed = true;
         }
       } else
       if ((*params)[0] == "filter") {
@@ -257,7 +236,7 @@ int Client::readConfig(
         }
         if (filter == NULL) {
           out(error, msg_line_no, "Unsupported filter type",
-            (*params).lineNo(), list_path.c_str());
+            (*params).lineNo(), list_path);
           failed = true;
         }
       } else
@@ -286,7 +265,7 @@ int Client::readConfig(
           }
           if (subfilter == NULL) {
             out(error, msg_line_no, "Filter not found", (*params).lineNo(),
-              list_path.c_str());
+              list_path);
             failed = 2;
           } else {
             filter->add(new Condition(Condition::filter, subfilter,
@@ -296,12 +275,12 @@ int Client::readConfig(
           switch (filter->add(filter_type, (*params)[2].c_str(), negated)) {
             case -2:
               out(error, msg_line_no, "Unsupported condition type",
-                (*params).lineNo(), list_path.c_str());
+                (*params).lineNo(), list_path);
               failed = true;
               break;
             case -1:
               out(error, msg_line_no, "Failed to add condition",
-                (*params).lineNo(), list_path.c_str());
+                (*params).lineNo(), list_path);
               failed = true;
           }
         }
@@ -317,7 +296,7 @@ int Client::readConfig(
         }
         if (filter == NULL) {
           out(error, msg_line_no, "Filter not found", (*params).lineNo(),
-            list_path.c_str());
+            list_path);
           failed = true;
         } else {
           if ((*params)[0] == "ignore") {
@@ -331,12 +310,12 @@ int Client::readConfig(
         switch (path->addParser((*params)[1], (*params)[2])) {
           case 1:
             out(error, msg_line_no, "Unsupported parser type",
-              (*params).lineNo(), list_path.c_str());
+              (*params).lineNo(), list_path);
             failed = true;
             break;
           case 2:
             out(error, msg_line_no, "Unsupported parser mode",
-              (*params).lineNo(), list_path.c_str());
+              (*params).lineNo(), list_path);
             failed = true;
             break;
         }
@@ -432,6 +411,41 @@ void Client::setMountPoint(const string& mount_point) {
   _d->mount_point = mount_point;
 }
 
+ClientPath* Client::addClientPath(const string& name) {
+  ClientPath* path;
+  if (name[0] == '~') {
+    path = new ClientPath((_d->home_path + &name[1]).c_str());
+  } else {
+    path = new ClientPath(name.c_str());
+  }
+  list<ClientPath*>::iterator i = _d->paths.begin();
+  while ((i != _d->paths.end())
+      && (Path::compare((*i)->path(), path->path()) < 0)) {
+    i++;
+  }
+  list<ClientPath*>::iterator j = _d->paths.insert(i, path);
+  // Check that we don't have a path inside another, such as
+  // '/home' and '/home/user'
+  int jlen = strlen((*j)->path());
+  if (i != _d->paths.end()) {
+    int ilen = strlen((*i)->path());
+    if ((ilen > jlen)
+    && (Path::compare((*i)->path(), (*j)->path(), jlen) == 0)) {
+      return NULL;
+    }
+    i = j;
+    i--;
+  }
+  if (i != _d->paths.end()) {
+    int ilen = strlen((*i)->path());
+    if ((ilen < jlen)
+    && (Path::compare((*i)->path(), (*j)->path(), ilen) == 0)) {
+      return NULL;
+    }
+  }
+  return path;
+}
+
 Filter* Client::addFilter(const string& type, const string& name) {
   return _d->filters.add(type, name);
 }
@@ -446,8 +460,6 @@ int Client::backup(
     bool            config_check) {
   bool    failed = false;
   string  share;
-  string  list_path;
-  char*   dir = Path::dirname(_d->list_file);
 
   if (_d->home_path.length() == 0) {
     stringstream s;
@@ -456,34 +468,44 @@ int Client::backup(
     out(info, msg_standard, s.str().c_str());
   }
 
-  if (mountPath(dir, &list_path)) {
-    switch (errno) {
-      case EPROTONOSUPPORT:
-        out(error, msg_errno, _d->protocol.c_str(), errno);
-        return 1;
-      case ETIMEDOUT:
-        out(info, msg_errno, "Connecting to client", errno);
-        return 0;
+  if (_d->list_file != NULL) {
+    char*  dir = Path::dirname(_d->list_file);
+    string list_path;
+    if (mountPath(dir, &list_path)) {
+      switch (errno) {
+        case EPROTONOSUPPORT:
+          out(error, msg_errno, _d->protocol.c_str(), errno);
+          return 1;
+        case ETIMEDOUT:
+          out(info, msg_errno, "Connecting to client", errno);
+          return 0;
+      }
+    }
+    free(dir);
+    if (list_path.size() != 0) {
+      list_path += "/";
+    }
+    list_path += Path::basename(_d->list_file);
+
+    if (readConfig(list_path.c_str(), global_filters) != 0) {
+      failed = true;
+    } else if (_d->subset_client !=  _d->subset_server) {
+      stringstream s;
+      s << "Subsets don't match in server and client configuration files: '"
+        << _d->subset_server << "' != '" << _d->subset_client << "', skipping";
+      out(info, msg_standard, s.str().c_str());
+      failed = true;
     }
   }
-  free(dir);
-  if (list_path.size() != 0) {
-    list_path += "/";
-  }
-  list_path += Path::basename(_d->list_file);
-
-  if (readConfig(list_path, global_filters) != 0) {
-    failed = true;
-  } else if (_d->subset_client !=  _d->subset_server) {
-    stringstream s;
-    s << "Subsets don't match in server and client configuration files: '"
-      << _d->subset_server << "' != '" << _d->subset_client << "', skipping";
-    out(info, msg_standard, s.str().c_str());
-  } else {
+  if (! failed) {
     out(info, msg_standard, "Backing up client");
     setInitialised();
     // Backup
     if (_d->paths.empty()) {
+      stringstream s;
+      s << _d->name << (_d->subset_server.empty() ? "" : ".")
+        << _d->subset_server;
+      out(warning, msg_standard, "No paths specified", -1, s.str().c_str());
       failed = true;
     } else if (! config_check) {
       if (db.openClient(internal_name().c_str(), _d->expire) >= 0) {
@@ -537,7 +559,9 @@ void Client::show(int level) const {
     }
     out(verbose, msg_standard, s.str().c_str(), level + 1, "Options");
   }
-  out(verbose, msg_standard, _d->list_file, level + 1, "Config");
+  if (_d->list_file != NULL) {
+    out(verbose, msg_standard, _d->list_file, level + 1, "Config");
+  }
   {
     stringstream s;
     if (_d->expire >= 0) {

@@ -7,6 +7,20 @@ Test: backup, not initialized
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -27,7 +41,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -41,6 +74,20 @@ Test: check config
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -61,7 +108,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -82,6 +148,20 @@ Test: typical backup
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -102,7 +182,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -111,6 +210,24 @@ Configuration:
  --> Condition: not size< 1000
 Database initialized: test_db
 Database open in read/write mode
+Trying client 'aClient' using protocol 'smb'
+Backing up client
+Reading list of missing checksums
+List created: aClient.vista
+Database open r/w: aClient.vista
+Backup path: C:/Test Dir
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+A C:/Test Dir/My Dir
+ -> Dir My Dir
+A C:/Test Dir/My Dir/a File.TXT	(2 B)
+Adding compressed file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
+A C:/Test Dir/My Dir/another File.TXT	(2 B)
+Adding compressed file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
+A C:/Test Dir/My File.TXT	(0 B)
+Adding compressed file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
+Database modified: aClient.vista
+Database closed: aClient.vista
+ -> umount -fl test_db/.mount
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
@@ -142,18 +259,14 @@ Configuration:
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client
-Reading list of missing checksums
 List created: client.xp
 Database open r/w: client.xp
 Backup path: C:/Test Dir
 A C:/Test Dir/My Dir
  -> Dir My Dir
 A C:/Test Dir/My Dir/a File.TXT	(2 B)
-Adding file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
 A C:/Test Dir/My Dir/another File.TXT	(2 B)
-Adding file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
 A C:/Test Dir/My File.TXT	(0 B)
-Adding file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
 Database modified: client.xp
 Database closed: client.xp
  -> umount -fl test_db/.mount
@@ -328,6 +441,20 @@ Test: same backup
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -348,7 +475,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -356,6 +502,15 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
+Trying client 'aClient' using protocol 'smb'
+Backing up client
+Reading list of missing checksums
+Database open r/w: aClient.vista
+Backup path: C:/Test Dir
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+ -> Dir My Dir
+Database closed: aClient.vista
+ -> umount -fl test_db/.mount
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
@@ -387,7 +542,6 @@ Configuration:
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client
-Reading list of missing checksums
 Database open r/w: client.xp
 Backup path: C:/Test Dir
  -> Dir My Dir
@@ -483,6 +637,20 @@ Test: interrupted backup
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -503,7 +671,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -511,6 +698,15 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
+Trying client 'aClient' using protocol 'smb'
+Backing up client
+Reading list of missing checksums
+Database open r/w: aClient.vista
+Backup path: C:/Test Dir
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+ -> Dir My Dir
+Database closed: aClient.vista
+ -> umount -fl test_db/.mount
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
@@ -542,7 +738,6 @@ Configuration:
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client
-Reading list of missing checksums
 Database open r/w: client.xp
 Backup path: C:/Test Dir
  -> Dir My Dir
@@ -623,6 +818,20 @@ Test: specify clients
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -643,7 +852,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -764,6 +992,20 @@ Test: scan DB
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -784,7 +1026,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -792,6 +1053,7 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
+Reading list: aClient.vista
 Reading list: client.xp
 Reading list: myClient
 Reading list: myhost
@@ -856,6 +1118,20 @@ Test: check DB
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -876,7 +1152,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -910,6 +1205,20 @@ Test: list clients
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -930,7 +1239,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -939,7 +1267,8 @@ Configuration:
  --> Condition: not size< 1000
 Database open in read-only mode
 Database closed
-List of clients: 3
+List of clients: 4
+ -> aClient.vista
  -> client.xp
  -> myClient
  -> myhost
@@ -949,6 +1278,20 @@ Test: list paths in UNIX client
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -969,7 +1312,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -988,6 +1350,20 @@ Test: list paths in DOS client
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1008,7 +1384,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1027,6 +1422,20 @@ Test: restore file
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1047,7 +1456,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1065,6 +1493,20 @@ Test: restore dir
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1085,7 +1527,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1133,6 +1594,20 @@ Test: restore subdir
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1153,7 +1628,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1182,6 +1676,20 @@ Test: restore client
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1202,7 +1710,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1258,6 +1785,20 @@ Test: typical backup
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1283,7 +1824,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1291,6 +1851,15 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
+Trying client 'aClient' using protocol 'smb'
+Backing up client
+Reading list of missing checksums
+Database open r/w: aClient.vista
+Backup path: C:/Test Dir
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+ -> Dir My Dir
+Database closed: aClient.vista
+ -> umount -fl test_db/.mount
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
@@ -1322,7 +1891,6 @@ Configuration:
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client
-Reading list of missing checksums
 Database open r/w: client.xp
 Backup path: C:/Test Dir
  -> Dir My Dir
@@ -1458,6 +2026,20 @@ Test: specify clients
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1483,7 +2065,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1585,6 +2186,20 @@ Test: list clients
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1610,7 +2225,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1619,7 +2253,8 @@ Configuration:
  --> Condition: not size< 1000
 Database open in read-only mode
 Database closed
-List of clients: 4
+List of clients: 5
+ -> aClient.vista
  -> client.xp
  -> myClient
  -> myClient.xp
@@ -1630,6 +2265,20 @@ Test: list paths in DOS client
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1655,7 +2304,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1674,6 +2342,20 @@ Test: list sub-paths in UNIX client
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1699,7 +2381,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1718,6 +2419,20 @@ Test: list sub-paths in DOS client
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1743,7 +2458,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1762,6 +2496,20 @@ Test: restore file (UNIX)
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1787,7 +2535,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1805,6 +2572,20 @@ Test: restore subdir (UNIX)
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1830,7 +2611,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1850,6 +2650,20 @@ Test: restore dir (UNIX)
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1875,7 +2689,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1895,6 +2728,20 @@ Test: restore file (DOS)
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1920,7 +2767,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1938,6 +2804,20 @@ Test: restore subdir (DOS)
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -1963,7 +2843,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -1984,6 +2883,20 @@ Test: restore dir (DOS)
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -2009,7 +2922,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -2030,6 +2962,20 @@ Test: restore client
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -2055,7 +3001,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -2075,6 +3040,20 @@ Test: check for corrupted data
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -2100,7 +3079,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -2142,6 +3140,20 @@ Test: scan for missing data
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -2167,7 +3179,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -2176,6 +3207,7 @@ Configuration:
  --> Condition: not size< 1000
 Just scan
 Database open in read/write mode
+Reading list: aClient.vista
 Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
@@ -2247,6 +3279,7 @@ List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
+Reading list: aClient.vista
 Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
@@ -2311,6 +3344,20 @@ Test: scan for obsolete data, case1
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -2336,7 +3383,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -2345,6 +3411,7 @@ Configuration:
  --> Condition: not size< 1000
 Just scan
 Database open in read/write mode
+Reading list: aClient.vista
 Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
@@ -2415,6 +3482,7 @@ List of missing checksums contains 4 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
+Reading list: aClient.vista
 Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
@@ -2485,6 +3553,7 @@ List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
+Reading list: aClient.vista
 Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
@@ -2549,6 +3618,20 @@ Test: scan for obsolete data, case 2
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -2574,7 +3657,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -2583,6 +3685,7 @@ Configuration:
  --> Condition: not size< 1000
 Just scan
 Database open in read/write mode
+Reading list: aClient.vista
 Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
@@ -2653,6 +3756,7 @@ List of missing checksums contains 4 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
+Reading list: aClient.vista
 Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
@@ -2723,6 +3827,7 @@ List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
+Reading list: aClient.vista
 Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
@@ -2787,6 +3892,20 @@ Test: backup recovers missing checksums
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -2812,7 +3931,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -2820,6 +3958,19 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
+Trying client 'aClient' using protocol 'smb'
+Backing up client
+Reading list of missing checksums
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database open r/w: aClient.vista
+Backup path: C:/Test Dir
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+ -> Dir My Dir
+Database closed: aClient.vista
+ -> umount -fl test_db/.mount
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
@@ -2851,11 +4002,6 @@ Configuration:
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client
-Reading list of missing checksums
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
- -> b90f8fa56ea1d39881d4a199c7a81d35-0
- -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database open r/w: client.xp
 Backup path: C:/Test Dir
  -> Dir My Dir
@@ -2996,6 +4142,20 @@ Database closed
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -3021,7 +4181,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -3029,6 +4208,16 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
+Trying client 'aClient' using protocol 'smb'
+Backing up client
+Reading list of missing checksums
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+Database open r/w: aClient.vista
+Backup path: C:/Test Dir
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+ -> Dir My Dir
+Database closed: aClient.vista
+ -> umount -fl test_db/.mount
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
@@ -3060,8 +4249,6 @@ Configuration:
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client
-Reading list of missing checksums
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
 Database open r/w: client.xp
 Backup path: C:/Test Dir
  -> Dir My Dir
@@ -3190,6 +4377,20 @@ Database closed
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -3215,7 +4416,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -3223,6 +4443,7 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
+Reading list: aClient.vista
 Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
@@ -3288,6 +4509,20 @@ Database closed
 Configuration:
  -> DB path: test_db
  -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
@@ -3313,7 +4548,26 @@ Configuration:
  ---> Protocol: ssh
  ---> Hostname: otherClient
  ---> Config: /home/backup/Backup.list
- ---> Expiry: none
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
  -> Filter: and backup
  --> Condition: type f
  --> Condition: path_end ~
@@ -3321,6 +4575,16 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
+Trying client 'aClient' using protocol 'smb'
+Backing up client
+Reading list of missing checksums
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+Database open r/w: aClient.vista
+Backup path: C:/Test Dir
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+ -> Dir My Dir
+Database closed: aClient.vista
+ -> umount -fl test_db/.mount
 Trying client 'client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
@@ -3352,8 +4616,6 @@ Configuration:
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client
-Reading list of missing checksums
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
 Database open r/w: client.xp
 Backup path: C:/Test Dir
  -> Dir My Dir

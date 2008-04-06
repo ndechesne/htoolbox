@@ -31,58 +31,6 @@ int main(void) {
 
   setVerbosityLevel(debug);
 
-  cout << "Test: server configuration" << endl;
-  config = new Config;
-
-  // db
-  config->add(new ConfigItem("db", 0, 1, 1));
-
-  // trash
-  config->add(new ConfigItem("trash", 0, 1, 1));
-
-  // filter
-  {
-    ConfigItem* item = new ConfigItem("filter", 0, 0, 2);
-    config->add(item);
-
-    // condition
-    item->add(new ConfigItem("condition", 1, 0, 2));
-  }
-
-  // client
-  {
-    ConfigItem* item = new ConfigItem("client", 1, 0, 1, 2);
-    config->add(item);
-
-    // hostname
-    item->add(new ConfigItem("hostname", 0, 1, 1));
-
-    // protocol
-    item->add(new ConfigItem("protocol", 1, 1, 1));
-
-    // option
-    item->add(new ConfigItem("option", 0, 0, 1, 2));
-
-    // config
-    item->add(new ConfigItem("config", 1, 1, 1));
-
-    // expire
-    item->add(new ConfigItem("expire", 0, 1, 1));
-  }
-
-  Stream server_config("etc/hbackup.conf");
-  if (server_config.open("r") == 0) {
-    config->read(server_config, Stream::flags_accept_cr_lf);
-    server_config.close();
-  } else {
-    cout << "failed to open it!" << endl;
-  }
-
-  // show debug
-  config->show();
-
-  delete config;
-
   cout << endl << "Test: client configuration" << endl;
   config = new Config;
 
@@ -142,7 +90,7 @@ int main(void) {
 
   delete config;
 
-  cout << "Test: general configuration" << endl;
+  cout << "Test: server configuration" << endl;
   config = new Config;
 
   // db
@@ -214,7 +162,7 @@ int main(void) {
     }
   }
 
-  Stream general_config("etc/general.conf");
+  Stream general_config("etc/hbackup.conf");
   if (general_config.open("r") == 0) {
     config->read(general_config);
     general_config.close();

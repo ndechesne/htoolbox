@@ -226,9 +226,7 @@ mkdir -p "$TESTRESTORE"
 mkdir "$CONFIGDIR"
 cat << EOF > "$CONFIGDIR/hbackup.conf"
 db "$TESTDBDIR"
-EOF
-echo "\r" >> "$CONFIGDIR/hbackup.conf"
-cat << EOF >> "$CONFIGDIR/hbackup.conf"
+
 filter all backup
 condition type file
 condition path_end ~
@@ -246,6 +244,35 @@ client other
 protocol ssh
 hostname otherClient
 config /home/backup/Backup.list
+# This is a comment
+filter and subdir
+condition path_start subdir
+condition !size< 100
+
+filter and bigfile
+condition size>= 10
+condition type file
+
+expire 1
+
+path test2//
+
+path "test1" # should work
+
+filter and not_object
+condition !path_end ".o"
+
+filter or to_be_ignored
+condition filter subdir
+condition filter backup
+condition !filter not_object
+
+ignore to_be_ignored
+
+compress bigfile
+
+parser cvs controlled
+parser svn modified
 
 client myhost
 protocol file
@@ -260,6 +287,19 @@ option password flesyM
 option nocase
 hostname myClient
 config "C:\Backup\Backup.LST"
+
+client aClient vista
+protocol smb
+filter and huge_file
+condition !filter backup
+condition !size< 100
+# Cannot end in \", would fail
+path "C:\Test Dir"
+filter and compress_m
+condition !filter huge_file
+compress compress_m
+ignore backup
+parser svn modified
 EOF
 
 # Client config
@@ -295,72 +335,6 @@ compress bigfile
 
 parser cvs controlled
 parser svn modified
-EOF
-
-# General config
-cat << EOF > "$CONFIGDIR/general.conf"
-db "$TESTDBDIR"
-
-filter all backup
-condition type file
-condition path_end ~
-
-filter any test_or
-condition filter backup
-condition !size< 1000
-
-client myClient
-protocol nfs
-hostname myClient
-config $ROOTDIRNFS/hbackup.list
-
-client other
-protocol ssh
-hostname otherClient
-config /home/backup/Backup.list
-# This is a comment
-filter and subdir
-condition path_start subdir
-condition !size< 100
-
-filter and bigfile
-condition size>= 10
-condition type file
-
-expire 1
-
-path test2//
-
-path "test1" # should work
-
-filter and not_object
-condition !path_end ".o"
-
-filter or to_be_ignored
-condition filter subdir
-condition filter backup
-condition !filter not_object
-
-ignore to_be_ignored
-
-compress bigfile
-
-parser cvs controlled
-parser svn modified
-
-client myhost
-protocol file
-hostname myhost.mynetwork.lan
-config "$CONFIGDIR/localhost.list"
-expire 1
-
-client client xp
-protocol smb
-option username Myself
-option password flesyM
-option nocase
-hostname myClient
-config "C:\Backup\Backup.LST"
 EOF
 
 # Broken config

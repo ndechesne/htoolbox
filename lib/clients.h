@@ -60,10 +60,11 @@ public:
   void setInitialised();
   void setBasePath(const string& home_path);
   void setMountPoint(const string& mount_point);
+  ClientPath* addClientPath(const string& path);
   Filter* addFilter(const string& type, const string& name);
   Filter* findFilter(const string& name) const;
   int  readConfig(
-    const string&   list_path,
+    const char*     list_path,
     const Filters&  global_filters);
   int  backup(
     Database&       db,

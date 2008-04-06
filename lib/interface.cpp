@@ -28,7 +28,9 @@ using namespace std;
 #include "configuration.h"
 #include "conditions.h"
 #include "filters.h"
+#include "parsers.h"
 #include "db.h"
+#include "paths.h"
 #include "clients.h"
 
 using namespace hbackup;
@@ -145,7 +147,7 @@ int HBackup::readConfig(const char* config_path) {
     // option
     client->add(new ConfigItem("option", 0, 0, 1, 2));
     // config
-    client->add(new ConfigItem("config", 1, 1, 1));
+    client->add(new ConfigItem("config", 0, 1, 1));
     // expire
     client->add(new ConfigItem("expire", 0, 1, 1));
     // filter
@@ -154,6 +156,29 @@ int HBackup::readConfig(const char* config_path) {
       client->add(filter);
       // condition
       filter->add(new ConfigItem("condition", 1, 0, 2));
+    }
+    // path
+    {
+      ConfigItem* path = new ConfigItem("path", 0, 0, 1);
+      client->add(path);
+
+      // parser
+      path->add(new ConfigItem("parser", 0, 0, 1, 2));
+
+      // filter
+      {
+        ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
+        path->add(filter);
+
+        // condition
+        filter->add(new ConfigItem("condition", 1, 0, 2));
+      }
+
+      // ignore
+      path->add(new ConfigItem("ignore", 0, 1, 1));
+
+      // compress
+      path->add(new ConfigItem("compress", 0, 1, 1));
     }
   }
 
@@ -166,8 +191,9 @@ int HBackup::readConfig(const char* config_path) {
     return -1;
   }
 
-  Client* client = NULL;
-  Filter* filter = NULL;
+  Client*     client = NULL;
+  ClientPath* c_path = NULL;
+  Filter*     filter = NULL;
   ConfigLine* params;
   while (config.line(&params) >= 0) {
     if ((*params)[0] == "db") {
@@ -175,7 +201,17 @@ int HBackup::readConfig(const char* config_path) {
       _d->mount_point = (*params)[1] + "/.mount";
     } else
     if ((*params)[0] == "filter") {
-      filter = _d->filters.add((*params)[1], (*params)[2]);
+      if (client == NULL) {
+        // Global filter
+        filter = _d->filters.add((*params)[1], (*params)[2]);
+      } else
+      if (c_path == NULL) {
+        // Client filter
+        filter = client->addFilter((*params)[1], (*params)[2]);
+      } else {
+        // Path filter
+        filter = c_path->addFilter((*params)[1], (*params)[2]);
+      }
       if (filter == NULL) {
         out(error, msg_line_no, "Unsupported filter type", (*params).lineNo(),
           config_path);
@@ -195,13 +231,24 @@ int HBackup::readConfig(const char* config_path) {
 
       /* Add specified filter */
       if (filter_type == "filter") {
-        Filter* subfilter = _d->filters.find((*params)[2]);
-        if (subfilter == NULL) {
-          out(error, msg_line_no, "Filter not found",
-            (*params).lineNo(), config_path);
-          return -1;
+        Filter* subfilter = NULL;
+        if (c_path != NULL) {
+          subfilter = c_path->findFilter((*params)[2]);
         }
-        filter->add(new Condition(Condition::filter, subfilter, negated));
+        if ((subfilter == NULL) && (client != NULL)) {
+          subfilter = client->findFilter((*params)[2]);
+        }
+        if (subfilter == NULL) {
+          subfilter = _d->filters.find((*params)[2]);
+        }
+        if (subfilter == NULL) {
+          out(error, msg_line_no, "Filter not found", (*params).lineNo(),
+            config_path);
+          return -1;
+        } else {
+          filter->add(new Condition(Condition::filter, subfilter,
+            negated));
+        }
       } else {
         switch (filter->add(filter_type, (*params)[2].c_str(), negated)) {
           case 1:
@@ -217,6 +264,8 @@ int HBackup::readConfig(const char* config_path) {
       }
     } else
     if ((*params)[0] == "client") {
+      c_path = NULL;
+      filter = NULL;
       client = new Client((*params)[1],
         (params->size() > 2) ? (*params)[2] : "");
 
@@ -262,6 +311,44 @@ int HBackup::readConfig(const char* config_path) {
           return -1;
         }
         client->setExpire(expire * 3600 * 24);
+      } else
+      if ((*params)[0] == "path") {
+        filter = NULL;
+        c_path = client->addClientPath((*params)[1]);
+      } else
+      if (c_path != NULL) {
+        if (((*params)[0] == "ignore") || ((*params)[0] == "compress")) {
+          Filter* filter = c_path->findFilter((*params)[1]);
+          if (filter == NULL) {
+            filter = client->findFilter((*params)[1]);
+          }
+          if (filter == NULL) {
+            filter = _d->filters.find((*params)[1]);
+          }
+          if (filter == NULL) {
+            out(error, msg_line_no, "Filter not found", (*params).lineNo(),
+              config_path);
+            return -1;
+          } else {
+            if ((*params)[0] == "ignore") {
+              c_path->setIgnore(filter);
+            } else {
+              c_path->setCompress(filter);
+            }
+          }
+        } else
+        if ((*params)[0] == "parser") {
+          switch (c_path->addParser((*params)[1], (*params)[2])) {
+            case 1:
+              out(error, msg_line_no, "Unsupported parser type",
+                (*params).lineNo(), config_path);
+              return -1;
+            case 2:
+              out(error, msg_line_no, "Unsupported parser mode",
+                (*params).lineNo(), config_path);
+              return -1;
+          }
+        }
       }
     }
   }
