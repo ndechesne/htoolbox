@@ -1,10 +1,5 @@
 #!/bin/sh
 
-# From test_setup
-TESTDIRCIFS="$PWD/test_cifs"
-TESTDIRNFS="$PWD/test_nfs"
-ROOTDIRNFS="/home/User"
-
 # Expect -t
 case "$1" in
 "-t" )
