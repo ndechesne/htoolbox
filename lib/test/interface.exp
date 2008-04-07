@@ -433,7 +433,7 @@ A test2/testlink
 Database modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
-Error: Protocol not supported: ssh
+Error: other: Protocol not supported: ssh
 Database closed
 
 Test: same backup
@@ -629,7 +629,7 @@ Backup path: test2
  -> Dir testdir
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
-Error: Protocol not supported: ssh
+Error: other: Protocol not supported: ssh
 Database closed
 
 Test: interrupted backup
@@ -2018,7 +2018,7 @@ Backup path: test2
  -> Dir testdir
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
-Error: Protocol not supported: ssh
+Error: other: Protocol not supported: ssh
 Database closed
 
 Test: specify clients
@@ -4134,7 +4134,7 @@ Backup path: test2
 Database modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
-Error: Protocol not supported: ssh
+Error: other: Protocol not supported: ssh
 Missing checksums list modified
 List of missing checksums contains 1 item(s)
 Database closed
@@ -4370,7 +4370,7 @@ Backup path: test2
  -> Dir testdir
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
-Error: Protocol not supported: ssh
+Error: other: Protocol not supported: ssh
 List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file: etc/hbackup.conf
@@ -4737,6 +4737,6 @@ Backup path: test2
  -> Dir testdir
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
-Error: Protocol not supported: ssh
+Error: other: Protocol not supported: ssh
 List of missing checksums contains 1 item(s)
 Database closed

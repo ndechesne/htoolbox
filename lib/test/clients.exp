@@ -217,7 +217,7 @@ Error: Cannot decode multiplier
 Error: test_db/mount/Backup/Backup2.LST: 17: Failed to add condition
  -> umount -fl test_db/mount
 Trying client 'otherClient' using protocol 'ssh'
-Error: Protocol not supported: ssh
+Error: otherClient: Protocol not supported: ssh
 Trying client 'Client' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
 Error: test_db/mount/home/BlaH/Backup.list: Client configuration file not found
@@ -867,7 +867,7 @@ Backup path: /home/User/test
 Backup path: /home/User/test2
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
-Error: Connection timed out: Aborting client
+Error: myClient: Connection timed out: Aborting client
 Database closed: myClient
 Database closed
 First mount fails
@@ -894,7 +894,7 @@ Database open r/w: myClient
 Backup path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
-Error: Connection timed out: Aborting client
+Error: myClient: Connection timed out: Aborting client
 Database closed: myClient
 Database closed
 Works again

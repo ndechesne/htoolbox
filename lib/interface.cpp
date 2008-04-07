@@ -275,7 +275,7 @@ int HBackup::readConfig(const char* config_path) {
       int cmp = 1;
       list<Client*>::iterator i = _d->clients.begin();
       while (i != _d->clients.end()) {
-        cmp = client->internal_name().compare((*i)->internal_name());
+        cmp = client->internalName().compare((*i)->internalName());
         if (cmp <= 0) {
           break;
         }
@@ -283,7 +283,7 @@ int HBackup::readConfig(const char* config_path) {
       }
       if (cmp == 0) {
         out(error, msg_standard, "Client already selected", -1,
-          client->internal_name().c_str());
+          client->internalName().c_str());
         return -1;
       }
       _d->clients.insert(i, client);
@@ -452,7 +452,7 @@ int HBackup::backup(
         bool found = false;
         for (list<string>::iterator i = _d->selected_clients.begin();
           i != _d->selected_clients.end(); i++) {
-          if (*i == (*client)->internal_name()) {
+          if (*i == (*client)->internalName()) {
             found = true;
             break;
           }

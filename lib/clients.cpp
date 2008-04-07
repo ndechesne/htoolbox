@@ -359,7 +359,7 @@ string Client::name() const {
   return _d->name;
 }
 
-string Client::internal_name() const {
+string Client::internalName() const {
   if (_d->subset_server.empty()) {
     return _d->name;
   } else {
@@ -473,8 +473,8 @@ int Client::backup(
 
   if (_d->home_path.length() == 0) {
     stringstream s;
-    s <<"Trying client '" << _d->name << (_d->subset_server.empty() ? "" : ".")
-      << _d->subset_server<< "' using protocol '" << _d->protocol << "'";
+    s << "Trying client '" << internalName() << "' using protocol '"
+      << _d->protocol << "'";
     out(info, msg_standard, s.str().c_str());
   }
 
@@ -484,13 +484,16 @@ int Client::backup(
     if (mountPath(dir, &list_path)) {
       switch (errno) {
         case EPROTONOSUPPORT:
-          out(error, msg_errno, _d->protocol.c_str(), errno);
+          out(error, msg_errno, _d->protocol.c_str(), errno,
+            internalName().c_str());
           return 1;
         case ETIMEDOUT:
           if (! _d->timeout_nowarning) {
-            out(warning, msg_errno, "Connecting to client", errno);
+            out(warning, msg_errno, "Connecting to client", errno,
+              internalName().c_str());
           } else {
-            out(info, msg_errno, "Connecting to client", errno);
+            out(info, msg_errno, "Connecting to client", errno,
+              internalName().c_str());
           }
           return 0;
       }
@@ -517,13 +520,11 @@ int Client::backup(
     setInitialised();
     // Backup
     if (_d->paths.empty()) {
-      stringstream s;
-      s << _d->name << (_d->subset_server.empty() ? "" : ".")
-        << _d->subset_server;
-      out(warning, msg_standard, "No paths specified", -1, s.str().c_str());
+      out(warning, msg_standard, "No paths specified", -1,
+        internalName().c_str());
       failed = true;
     } else if (! config_check) {
-      if (db.openClient(internal_name().c_str(), _d->expire) >= 0) {
+      if (db.openClient(internalName().c_str(), _d->expire) >= 0) {
         bool abort = false;
         for (list<ClientPath*>::iterator i = _d->paths.begin();
             i != _d->paths.end(); i++) {
@@ -535,12 +536,15 @@ int Client::backup(
 
           if (mountPath((*i)->path(), &backup_path)) {
             if (! first_mount_try) {
-              out(error, msg_errno, "Aborting client", errno);
+              out(error, msg_errno, "Aborting client", errno,
+                internalName().c_str());
             } else
             if (! _d->timeout_nowarning) {
-              out(warning, msg_errno, "Connecting to client", errno);
+              out(warning, msg_errno, "Connecting to client", errno,
+                internalName().c_str());
             } else {
-              out(info, msg_errno, "Connecting to client", errno);
+              out(info, msg_errno, "Connecting to client", errno,
+                internalName().c_str());
             }
             abort = true;
           } else {
