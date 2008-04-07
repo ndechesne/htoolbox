@@ -382,7 +382,7 @@ Configuration:
 Backing up in server mode
 Database initialized: test_db
 Database open in read/write mode
-Trying client 'aClient' using protocol 'smb'
+Trying client 'aClient.vista' using protocol 'smb'
 Backing up client
 Reading list of missing checksums
 List created: aClient.vista
@@ -400,7 +400,7 @@ Adding compressed file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
 Database modified: aClient.vista
 Database closed: aClient.vista
  -> umount -fl test_db/.mount
-Trying client 'client' using protocol 'smb'
+Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:
@@ -679,7 +679,7 @@ Configuration:
  --> Condition: not size< 1000
 Backing up in server mode
 Database open in read/write mode
-Trying client 'client' using protocol 'smb'
+Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:

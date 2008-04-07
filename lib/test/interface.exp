@@ -210,7 +210,7 @@ Configuration:
  --> Condition: not size< 1000
 Database initialized: test_db
 Database open in read/write mode
-Trying client 'aClient' using protocol 'smb'
+Trying client 'aClient.vista' using protocol 'smb'
 Backing up client
 Reading list of missing checksums
 List created: aClient.vista
@@ -228,7 +228,7 @@ Adding compressed file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
 Database modified: aClient.vista
 Database closed: aClient.vista
  -> umount -fl test_db/.mount
-Trying client 'client' using protocol 'smb'
+Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:
@@ -502,7 +502,7 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
-Trying client 'aClient' using protocol 'smb'
+Trying client 'aClient.vista' using protocol 'smb'
 Backing up client
 Reading list of missing checksums
 Database open r/w: aClient.vista
@@ -511,7 +511,7 @@ Backup path: C:/Test Dir
  -> Dir My Dir
 Database closed: aClient.vista
  -> umount -fl test_db/.mount
-Trying client 'client' using protocol 'smb'
+Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:
@@ -698,7 +698,7 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
-Trying client 'aClient' using protocol 'smb'
+Trying client 'aClient.vista' using protocol 'smb'
 Backing up client
 Reading list of missing checksums
 Database open r/w: aClient.vista
@@ -707,7 +707,7 @@ Backup path: C:/Test Dir
  -> Dir My Dir
 Database closed: aClient.vista
  -> umount -fl test_db/.mount
-Trying client 'client' using protocol 'smb'
+Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:
@@ -880,7 +880,7 @@ Configuration:
  --> Condition: not size< 1000
 Warning: Previous backup interrupted: myhost
 Database open in read/write mode
-Trying client 'client' using protocol 'smb'
+Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:
@@ -1851,7 +1851,7 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
-Trying client 'aClient' using protocol 'smb'
+Trying client 'aClient.vista' using protocol 'smb'
 Backing up client
 Reading list of missing checksums
 Database open r/w: aClient.vista
@@ -1860,7 +1860,7 @@ Backup path: C:/Test Dir
  -> Dir My Dir
 Database closed: aClient.vista
  -> umount -fl test_db/.mount
-Trying client 'client' using protocol 'smb'
+Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:
@@ -1914,7 +1914,7 @@ Backup path: /home/User/test
  -> Dir dir
 Database closed: myClient
  -> umount -fl test_db/.mount
-Trying client 'myClient' using protocol 'smb'
+Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:
@@ -2092,7 +2092,7 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
-Trying client 'client' using protocol 'smb'
+Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:
@@ -3958,7 +3958,7 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
-Trying client 'aClient' using protocol 'smb'
+Trying client 'aClient.vista' using protocol 'smb'
 Backing up client
 Reading list of missing checksums
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
@@ -3971,7 +3971,7 @@ Backup path: C:/Test Dir
  -> Dir My Dir
 Database closed: aClient.vista
  -> umount -fl test_db/.mount
-Trying client 'client' using protocol 'smb'
+Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:
@@ -4025,7 +4025,7 @@ Backup path: /home/User/test
  -> Dir dir
 Database closed: myClient
  -> umount -fl test_db/.mount
-Trying client 'myClient' using protocol 'smb'
+Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:
@@ -4208,7 +4208,7 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
-Trying client 'aClient' using protocol 'smb'
+Trying client 'aClient.vista' using protocol 'smb'
 Backing up client
 Reading list of missing checksums
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
@@ -4218,7 +4218,7 @@ Backup path: C:/Test Dir
  -> Dir My Dir
 Database closed: aClient.vista
  -> umount -fl test_db/.mount
-Trying client 'client' using protocol 'smb'
+Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:
@@ -4272,7 +4272,7 @@ Backup path: /home/User/test
  -> Dir dir
 Database closed: myClient
  -> umount -fl test_db/.mount
-Trying client 'myClient' using protocol 'smb'
+Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:
@@ -4575,7 +4575,7 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read/write mode
-Trying client 'aClient' using protocol 'smb'
+Trying client 'aClient.vista' using protocol 'smb'
 Backing up client
 Reading list of missing checksums
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
@@ -4585,7 +4585,7 @@ Backup path: C:/Test Dir
  -> Dir My Dir
 Database closed: aClient.vista
  -> umount -fl test_db/.mount
-Trying client 'client' using protocol 'smb'
+Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:
@@ -4639,7 +4639,7 @@ Backup path: /home/User/test
  -> Dir dir
 Database closed: myClient
  -> umount -fl test_db/.mount
-Trying client 'myClient' using protocol 'smb'
+Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
  -> Reading client configuration file
 Configuration:

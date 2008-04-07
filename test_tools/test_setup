@@ -277,6 +277,7 @@ parser svn modified
 client myhost
 protocol file
 hostname myhost.mynetwork.lan
+timeout_nowarning
 config "$CONFIGDIR/localhost.list"
 expire 1
 

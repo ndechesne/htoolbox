@@ -40,7 +40,9 @@ public:
 class Client {
   struct            Private;
   Private*          _d;
-  int mountPath(string  backup_path, string  *path);
+  int mountPath(
+    string          backup_path,
+    string*         path);
   int umount();
 public:
   Client(const string& name, const string& sub_name = "");
@@ -52,6 +54,7 @@ public:
   void addOption(const string& name, const string& value);
   void setHostOrIp(string value);
   void setProtocol(string value);
+  void setTimeOutNoWarning();
   void setListfile(const char* value);
   const char* listfile() const;
   void setExpire(int expire);

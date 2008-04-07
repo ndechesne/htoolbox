@@ -122,6 +122,9 @@ int main(void) {
     // option
     item->add(new ConfigItem("option", 0, 0, 1, 2));
 
+    // timeout_nowarning
+    item->add(new ConfigItem("timeout_nowarning", 0, 1));
+
     // config
     item->add(new ConfigItem("config", 0, 1, 1));
 

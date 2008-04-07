@@ -867,7 +867,7 @@ Backup path: /home/User/test
 Backup path: /home/User/test2
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
-Error: Connection timed out: Skipping client
+Error: Connection timed out: Aborting client
 Database closed: myClient
 Database closed
 First mount fails
@@ -894,7 +894,7 @@ Database open r/w: myClient
 Backup path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
-Error: Connection timed out: Skipping client
+Error: Connection timed out: Aborting client
 Database closed: myClient
 Database closed
 Works again
@@ -935,7 +935,7 @@ Test with dual boot client
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
 Database open in read/write mode
-Trying client 'myClient' using protocol 'smb'
+Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
  -> Reading client configuration file
 Configuration:

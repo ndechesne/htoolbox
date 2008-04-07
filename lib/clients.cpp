@@ -44,6 +44,7 @@ struct Client::Private {
   string            host_or_ip;
   char*             list_file;
   string            protocol;
+  bool              timeout_nowarning;
   list<Option>      options;
   //
   bool              initialised;
@@ -55,10 +56,11 @@ struct Client::Private {
 };
 
 int Client::mountPath(
-    string        backup_path,
-    string        *path) {
+    string          backup_path,
+    string*         path) {
   string command = "mount ";
   string share;
+  errno = EINVAL;
 
   // Determine share and path
   if (_d->protocol == "file") {
@@ -83,6 +85,7 @@ int Client::mountPath(
     errno = EPROTONOSUPPORT;
     return -1;
   }
+  errno = 0;
 
   // Check what is mounted
   if (_d->mounted != "") {
@@ -129,6 +132,7 @@ int Client::mountPath(
   if (result != 0) {
     errno = ETIMEDOUT;
   } else {
+    errno = 0;
     _d->mounted = share;
   }
   return result;
@@ -333,12 +337,13 @@ int Client::readConfig(
 
 Client::Client(const string& name, const string& subset) {
   _d = new Private;
-  _d->name          = name;
-  _d->subset_server = subset;
-  _d->host_or_ip    = name;
-  _d->list_file     = NULL;
-  _d->initialised   = false;
-  _d->expire        = -1;
+  _d->name              = name;
+  _d->subset_server     = subset;
+  _d->host_or_ip        = name;
+  _d->list_file         = NULL;
+  _d->initialised       = false;
+  _d->expire            = -1;
+  _d->timeout_nowarning = false;
 }
 
 Client::~Client() {
@@ -380,6 +385,10 @@ void Client::setHostOrIp(string value) {
 
 void Client::setProtocol(string value) {
   _d->protocol = value;
+}
+
+void Client::setTimeOutNoWarning() {
+  _d->timeout_nowarning = true;
 }
 
 void Client::setListfile(const char* value) {
@@ -458,13 +467,14 @@ int Client::backup(
     Database&       db,
     const Filters&  global_filters,
     bool            config_check) {
+  bool    first_mount_try = true;
   bool    failed = false;
   string  share;
 
   if (_d->home_path.length() == 0) {
     stringstream s;
-    s <<"Trying client '" << _d->name << "' using protocol '"
-      << _d->protocol << "'";
+    s <<"Trying client '" << _d->name << (_d->subset_server.empty() ? "" : ".")
+      << _d->subset_server<< "' using protocol '" << _d->protocol << "'";
     out(info, msg_standard, s.str().c_str());
   }
 
@@ -477,10 +487,15 @@ int Client::backup(
           out(error, msg_errno, _d->protocol.c_str(), errno);
           return 1;
         case ETIMEDOUT:
-          out(info, msg_errno, "Connecting to client", errno);
+          if (! _d->timeout_nowarning) {
+            out(warning, msg_errno, "Connecting to client", errno);
+          } else {
+            out(info, msg_errno, "Connecting to client", errno);
+          }
           return 0;
       }
     }
+    first_mount_try = false;
     free(dir);
     if (list_path.size() != 0) {
       list_path += "/";
@@ -519,16 +534,25 @@ int Client::backup(
           out(info, msg_standard, (*i)->path(), -1, "Backup path");
 
           if (mountPath((*i)->path(), &backup_path)) {
-            out(error, msg_errno, "Skipping client", errno);
-            abort = true;
-          } else
-          if ((*i)->parse(db, backup_path.c_str())) {
-            // prepare_share sets errno
-            if (! aborting()) {
-              out(error, msg_standard, "Aborting client");
+            if (! first_mount_try) {
+              out(error, msg_errno, "Aborting client", errno);
+            } else
+            if (! _d->timeout_nowarning) {
+              out(warning, msg_errno, "Connecting to client", errno);
+            } else {
+              out(info, msg_errno, "Connecting to client", errno);
             }
-            abort  = true;
-            failed = true;
+            abort = true;
+          } else {
+            first_mount_try = false;
+            if ((*i)->parse(db, backup_path.c_str())) {
+              // prepare_share sets errno
+              if (! aborting()) {
+                out(error, msg_standard, "Aborting client");
+              }
+              abort  = true;
+              failed = true;
+            }
           }
           if (abort) {
             break;

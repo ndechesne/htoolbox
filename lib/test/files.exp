@@ -487,6 +487,7 @@ parser	svn	modified
 client	myhost	
 protocol	file	
 hostname	myhost.mynetwork.lan	
+timeout_nowarning	
 config	etc/localhost.list	
 expire	1	
 

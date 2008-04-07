@@ -48,6 +48,7 @@ Items:
       ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
       parser, occ.: optional, no max; params: min params = 1, max params = 2
     protocol, occ.: min = 1, max = 1; params: min params = 1, max params = 1
+    timeout_nowarning, occ.: optional, max = 1; params: min params = 0, max params = 0
   db, occ.: optional, max = 1; params: min params = 1, max params = 1
   filter, occ.: optional, no max; params: min params = 2, max params = 2
     condition, occ.: min = 1, no max; params: min params = 2, max params = 2
@@ -90,26 +91,27 @@ Lines:
 50:   client myhost
 51:     protocol file
 52:     hostname myhost.mynetwork.lan
-53:     config etc/localhost.list
-54:     expire 1
-56:   client client xp
-57:     protocol smb
-58:     option username Myself
-59:     option password flesyM
-60:     option nocase
-61:     hostname myClient
-62:     config C:\Backup\Backup.LST
-64:   client aClient vista
-65:     protocol smb
-66:     filter and huge_file
-67:       condition !filter backup
-68:       condition !size< 100
-70:     path C:\Test Dir
-71:       filter and compress_m
-72:         condition !filter huge_file
-73:       compress compress_m
-74:       ignore backup
-75:       parser svn modified
+53:     timeout_nowarning
+54:     config etc/localhost.list
+55:     expire 1
+57:   client client xp
+58:     protocol smb
+59:     option username Myself
+60:     option password flesyM
+61:     option nocase
+62:     hostname myClient
+63:     config C:\Backup\Backup.LST
+65:   client aClient vista
+66:     protocol smb
+67:     filter and huge_file
+68:       condition !filter backup
+69:       condition !size< 100
+71:     path C:\Test Dir
+72:       filter and compress_m
+73:         condition !filter huge_file
+74:       compress compress_m
+75:       ignore backup
+76:       parser svn modified
 Test: broken configuration
 Error: after line: 0: need at most 1 occurence(s) of keyword 'db'
 Error: at line: 4: keyword 'filter' requires 2 parameter(s), found 1
@@ -149,6 +151,7 @@ Items:
       ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
       parser, occ.: optional, no max; params: min params = 1, max params = 2
     protocol, occ.: min = 1, max = 1; params: min params = 1, max params = 1
+    timeout_nowarning, occ.: optional, max = 1; params: min params = 0, max params = 0
   db, occ.: optional, max = 1; params: min params = 1, max params = 1
   filter, occ.: optional, no max; params: min params = 2, max params = 2
     condition, occ.: min = 1, no max; params: min params = 2, max params = 2

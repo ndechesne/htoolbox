@@ -146,6 +146,8 @@ int HBackup::readConfig(const char* config_path) {
     client->add(new ConfigItem("protocol", 1, 1, 1));
     // option
     client->add(new ConfigItem("option", 0, 0, 1, 2));
+    // timeout_nowarning
+    client->add(new ConfigItem("timeout_nowarning", 0, 1));
     // config
     client->add(new ConfigItem("config", 0, 1, 1));
     // expire
@@ -299,6 +301,9 @@ int HBackup::readConfig(const char* config_path) {
         } else {
           client->addOption((*params)[1], (*params)[2]);
         }
+      } else
+      if ((*params)[0] == "timeout_nowarning") {
+        client->setTimeOutNoWarning();
       } else
       if ((*params)[0] == "config") {
         client->setListfile((*params)[1].c_str());
