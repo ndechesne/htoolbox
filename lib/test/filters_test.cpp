@@ -28,7 +28,7 @@ using namespace std;
 using namespace hbackup;
 
 int main(void) {
-  Node*           node;
+  Node* node;
 
   setVerbosityLevel(debug);
 
@@ -39,26 +39,26 @@ int main(void) {
   // Show name
   cout << or_filter->name() << endl;
   // Both match
-  node = new Node("to a file.txt", 'f', 0, 400, 0, 0, 0);
-  if (! or_filter->match("/", *node)) {
+  node = new Node("/to a file.txt", 'f', 0, 400, 0, 0, 0);
+  if (! or_filter->match(*node)) {
     cout << "Not matching 1" << endl;
   }
   delete node;
   // Size match
   node = new Node("to a file.tst", 'f', 0, 400, 0, 0, 0);
-  if (! or_filter->match("/", *node)) {
+  if (! or_filter->match(*node)) {
     cout << "Not matching 2" << endl;
   }
   delete node;
   // Name match
-  node = new Node("to a file.txt", 'f', 0, 600, 0, 0, 0);
-  if (! or_filter->match("/", *node)) {
+  node = new Node("/to a file.txt", 'f', 0, 600, 0, 0, 0);
+  if (! or_filter->match(*node)) {
     cout << "Not matching 3" << endl;
   }
   delete node;
   // None match
   node = new Node("to a file.tst", 'f', 0, 600, 0, 0, 0);
-  if (! or_filter->match("/", *node)) {
+  if (! or_filter->match(*node)) {
     cout << "Not matching 4" << endl;
   }
   delete node;
@@ -74,26 +74,26 @@ int main(void) {
   // Show name
   cout << and_filter->name() << endl;
   // Both match
-  node = new Node("to a file.txt", 'f', 0, 400, 0, 0, 0);
-  if (! and_filter->match("/", *node)) {
+  node = new Node("/to a file.txt", 'f', 0, 400, 0, 0, 0);
+  if (! and_filter->match(*node)) {
     cout << "Not matching 1" << endl;
   }
   delete node;
   // Size match
   node = new Node("to a file.tst", 'f', 0, 400, 0, 0, 0);
-  if (! and_filter->match("/", *node)) {
+  if (! and_filter->match(*node)) {
     cout << "Not matching 2" << endl;
   }
   delete node;
   // Name match
-  node = new Node("to a file.txt", 'f', 0, 600, 0, 0, 0);
-  if (! and_filter->match("/", *node)) {
+  node = new Node("/to a file.txt", 'f', 0, 600, 0, 0, 0);
+  if (! and_filter->match(*node)) {
     cout << "Not matching 3" << endl;
   }
   delete node;
   // None match
   node = new Node("to a file.tst", 'f', 0, 600, 0, 0, 0);
-  if (! and_filter->match("/", *node)) {
+  if (! and_filter->match(*node)) {
     cout << "Not matching 4" << endl;
   }
   delete node;
@@ -113,50 +113,50 @@ int main(void) {
   cout << sub_filter->name() << endl;
   cout << and_filter->name() << endl;
   // Both in subfilter match, filter condition matches
-  node = new Node("to a file.txt", 'f', 0, 400, 0, 0, 0);
-  if (! and_filter->match("/", *node)) {
+  node = new Node("/to a file.txt", 'f', 0, 400, 0, 0, 0);
+  if (! and_filter->match(*node)) {
     cout << "Not matching 1" << endl;
   }
   delete node;
   // Size in subfilter match, filter condition matches
   node = new Node("to a file.tst", 'f', 0, 400, 0, 0, 0);
-  if (! and_filter->match("/", *node)) {
+  if (! and_filter->match(*node)) {
     cout << "Not matching 2" << endl;
   }
   delete node;
   // Name in subfilter match, filter condition matches
-  node = new Node("to a file.txt", 'f', 0, 600, 0, 0, 0);
-  if (! and_filter->match("/", *node)) {
+  node = new Node("/to a file.txt", 'f', 0, 600, 0, 0, 0);
+  if (! and_filter->match(*node)) {
     cout << "Not matching 3" << endl;
   }
   delete node;
   // None in subfilter match, filter condition matches
   node = new Node("to a file.tst", 'f', 0, 600, 0, 0, 0);
-  if (! and_filter->match("/", *node)) {
+  if (! and_filter->match(*node)) {
     cout << "Not matching 4" << endl;
   }
   delete node;
   // Both in subfilter match, filter condition does not match
-  node = new Node("to a file.txt", 'l', 0, 400, 0, 0, 0);
-  if (! and_filter->match("/", *node)) {
+  node = new Node("/to a file.txt", 'l', 0, 400, 0, 0, 0);
+  if (! and_filter->match(*node)) {
     cout << "Not matching 1" << endl;
   }
   delete node;
   // Size in subfilter match, filter condition does not match
   node = new Node("to a file.tst", 'l', 0, 400, 0, 0, 0);
-  if (! and_filter->match("/", *node)) {
+  if (! and_filter->match(*node)) {
     cout << "Not matching 2" << endl;
   }
   delete node;
   // Name in subfilter match, filter condition does not match
-  node = new Node("to a file.txt", 'l', 0, 600, 0, 0, 0);
-  if (! and_filter->match("/", *node)) {
+  node = new Node("/to a file.txt", 'l', 0, 600, 0, 0, 0);
+  if (! and_filter->match(*node)) {
     cout << "Not matching 3" << endl;
   }
   delete node;
   // None in subfilter match, filter condition does not match
   node = new Node("to a file.tst", 'l', 0, 600, 0, 0, 0);
-  if (! and_filter->match("/", *node)) {
+  if (! and_filter->match(*node)) {
     cout << "Not matching 4" << endl;
   }
   delete node;

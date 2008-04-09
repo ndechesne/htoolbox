@@ -109,7 +109,7 @@ int Filter::add(
   if (type == "name_regex") {
     Condition* cond = new Condition(Condition::name_regex, value, negated);
     Node test("");
-    if (cond->match("", test) >= 0) {
+    if (cond->match(test) >= 0) {
       add(cond);
     } else {
       out(error, msg_standard, "Cannot create regex");
@@ -128,7 +128,7 @@ int Filter::add(
   if (type == "path_regex") {
     Condition* cond = new Condition(Condition::name_regex, value, negated);
     Node test("");
-    if (cond->match("", test) >= 0) {
+    if (cond->match(test) >= 0) {
       add(cond);
     } else {
       out(error, msg_standard, "Cannot create regex");
@@ -180,11 +180,13 @@ int Filter::add(
   return failed ? -1 : 0;
 }
 
-bool Filter::match(const char* path, const Node& node) const {
+bool Filter::match(
+    const Node&     node,
+    int             start) const {
   // Test all conditions
   list<Condition*>::const_iterator condition;
   for (condition = begin(); condition != end(); condition++) {
-    bool matches = (*condition)->match(path, node);
+    bool matches = (*condition)->match(node, start);
     if (_type == any) {
       if (matches) {
         return true;

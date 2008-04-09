@@ -42,14 +42,12 @@ using namespace hbackup;
 int ClientPath::parse_recurse(
     Database&       db,
     const char*     remote_path,
+    int             start,
     Directory&      dir,
     Parser*         parser) {
   if (aborting()) {
     return -1;
   }
-
-  // Get relative path
-  const char* rel_path = &remote_path[_path.length() + 1];
 
   // Check whether directory is under SCM control
   if (! _parsers.empty()) {
@@ -84,7 +82,7 @@ int ClientPath::parse_recurse(
         }
 
         // Now pass it through the filters
-        if ((_ignore != NULL) && _ignore->match(rel_path, **i)) {
+        if ((_ignore != NULL) && _ignore->match(**i, start)) {
           goto end;
         }
 
@@ -98,9 +96,7 @@ int ClientPath::parse_recurse(
         }
 
         // Synchronize with DB records
-        char* rem_path = NULL;
-        int last = asprintf(&rem_path, "%s%s/", remote_path, (*i)->name()) - 1;
-        rem_path[last] = '\0';
+        Path rem_path(remote_path, (*i)->name());
         char* checksum = NULL;
         int id;
         int rc = db.sendEntry(rem_path, *i, &checksum, &id);
@@ -111,7 +107,7 @@ int ClientPath::parse_recurse(
           if (rc > 0) {
             int compress = 0;
             if (((*i)->type() == 'f')
-              && (_compress != NULL) && _compress->match(rel_path, **i)) {
+            && (_compress != NULL) && _compress->match(**i, start)) {
               compress = 5;
             }
             if (db.add(rem_path, *i, checksum, compress, id)
@@ -125,17 +121,16 @@ int ClientPath::parse_recurse(
 
           // For directory, recurse into it
           if ((*i)->type() == 'd') {
-            rem_path[last] = '/';
             stringstream s;
-            s << "Dir " << rel_path << (*i)->name();
+            s << "Dir " << &rem_path[_path.length() + 1];
             out(debug, msg_standard, s.str().c_str(), 1);
-            if (parse_recurse(db, rem_path, (Directory&) **i, parser) < 0) {
+            if (parse_recurse(db, rem_path, start,
+                static_cast<Directory&>(**i), parser) < 0) {
               give_up = true;
             }
           }
         }
         free(checksum);
-        free(rem_path);
       }
 end:
       delete *i;
@@ -216,15 +211,11 @@ int ClientPath::parse(
     const char*     backup_path) {
   int rc = 0;
   _nodes = 0;
-  char* rem_path = (char*) malloc(strlen(_path) + 2);
-  memcpy(rem_path, _path, strlen(_path));
-  rem_path[strlen(_path)] = '/';
-  rem_path[strlen(_path) + 1] = '\0';
   Directory dir(backup_path);
-  if (parse_recurse(db, rem_path, dir, NULL) || aborting()) {
+  if (parse_recurse(db, _path, strlen(backup_path) + 1, dir, NULL)
+  || aborting()) {
     rc = -1;
   }
-  free(rem_path);
   return rc;
 }
 

@@ -83,8 +83,8 @@ public:
     bool            negated);
   ~Condition();
   bool match(
-    const char*     path,
-    const Node&     node) const;
+    const Node&     node,
+    int             start = 0) const;
   /* For verbosity */
   void show(int level = 0) const;
 };

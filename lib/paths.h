@@ -31,6 +31,7 @@ class ClientPath {
   int parse_recurse(
     Database&       db,
     const char*     remote_path,      // Dir where the file resides, remotely
+    int             start,
     Directory&      dir,
     Parser*         parser);
 public:

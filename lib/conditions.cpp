@@ -115,17 +115,15 @@ Condition::~Condition() {
 }
 
 bool Condition::match(
-    const char*     npath,
-    const Node&     node) const {
-  // TODO Use char arrays
-  string name   = node.name();
-  string path   = npath + name;
-  bool   result = false;
-  bool   failed = false;
+    const Node&     node,
+    int             start) const {
+  const char* path = &node.path()[start];
+  bool result = false;
+  bool failed = false;
 
   switch(_d->type) {
     case Condition::filter: {
-        result = _d->filter->match(npath, node);
+        result = _d->filter->match(node, start);
       } break;
     case Condition::type:
       result = _d->file_type == node.type();
@@ -134,19 +132,19 @@ bool Condition::match(
       result = strcmp(node.name(), _d->string) == 0;
       break;
     case Condition::name_start:
-      result = strncmp(name.c_str(), _d->string, strlen(_d->string)) == 0;
+      result = strncmp(node.name(), _d->string, strlen(_d->string)) == 0;
       break;
     case Condition::name_end: {
-      signed int diff = name.size() - strlen(_d->string);
+      signed int diff = strlen(node.name()) - strlen(_d->string);
       if (diff < 0) {
         result = false;
       } else {
-        result = strcmp(_d->string, name.substr(diff).c_str()) == 0;
+        result = strcmp(_d->string, &node.name()[diff]) == 0;
       }
     } break;
     case Condition::name_regex:
         if (_d->regex != NULL) {
-          result = ! regexec(_d->regex, name.c_str(), 0, NULL, 0);
+          result = ! regexec(_d->regex, node.name(), 0, NULL, 0);
         } else {
           out(error, msg_standard, "incorrect regular expression", -1,
             "Filters");
@@ -154,22 +152,22 @@ bool Condition::match(
         }
       break;
     case Condition::path:
-      result = strcmp(path.c_str(), _d->string) == 0;
+      result = strcmp(path, _d->string) == 0;
       break;
     case Condition::path_start:
-      result = strncmp(path.c_str(), _d->string, strlen(_d->string)) == 0;
+      result = strncmp(path, _d->string, strlen(_d->string)) == 0;
       break;
     case Condition::path_end: {
-        signed int diff = path.size() - strlen(_d->string);
+        signed int diff = strlen(path) - strlen(_d->string);
         if (diff < 0) {
           result = false;
         } else {
-          result = strcmp(_d->string, path.substr(diff).c_str()) == 0;
+          result = strcmp(_d->string, &path[diff]) == 0;
         }
       } break;
     case Condition::path_regex:
         if (_d->regex != NULL) {
-          result = ! regexec(_d->regex, path.c_str(), 0, NULL, 0);
+          result = ! regexec(_d->regex, path, 0, NULL, 0);
         } else {
           out(error, msg_standard, "incorrect regular expression", -1,
             "Filters");
