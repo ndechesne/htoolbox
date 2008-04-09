@@ -84,9 +84,7 @@ const Path& Path::operator=(const Path& path) {
 }
 
 Path::Path(const char* dir, const char* name) {
-  if (dir[0] == '\0') {
-    _path = strdup(name);
-  } else if (name[0] == '\0') {
+  if (name[0] == '\0') {
     _path = strdup(dir);
   } else {
     asprintf(&_path, "%s/%s", dir, name);
