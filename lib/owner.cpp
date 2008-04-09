@@ -139,7 +139,7 @@ Owner::Owner(
     const char*     name,
     time_t          expiration) {
   _d             = new Private;
-  _d->path       = strdup(Path(path, name).c_str());
+  _d->path       = strdup(Path(path, name));
   _d->name       = strdup(name);
   _d->original   = NULL;
   _d->journal    = NULL;

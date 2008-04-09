@@ -216,8 +216,10 @@ int ClientPath::parse(
     const char*     backup_path) {
   int rc = 0;
   _nodes = 0;
-  char* rem_path = NULL;
-  asprintf(&rem_path, "%s/", _path.c_str());
+  char* rem_path = (char*) malloc(strlen(_path) + 2);
+  memcpy(rem_path, _path, strlen(_path));
+  rem_path[strlen(_path)] = '/';
+  rem_path[strlen(_path) + 1] = '\0';
   Directory dir(backup_path);
   if (parse_recurse(db, rem_path, dir, NULL) || aborting()) {
     rc = -1;
@@ -227,7 +229,7 @@ int ClientPath::parse(
 }
 
 void ClientPath::show(int level) const {
-  out(verbose, msg_standard, _path.c_str(), level, "Path");
+  out(verbose, msg_standard, _path, level, "Path");
   _filters.show(level + 1);
   _parsers.show(level + 1);
   if (_compress != NULL) {

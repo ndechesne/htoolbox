@@ -57,8 +57,7 @@ public:
   ~Path();
   const char* operator=(const char* path);
   const Path& operator=(const Path& path);
-  const char* c_str() const;
-  string str() const;
+  operator const char*() const;
   int length() const           { return _length; }
   const char* basename() const { return basename(_const_path); }
   const char* noTrailingSlashes() {
@@ -70,7 +69,7 @@ public:
     return compare(_const_path, s, length);
   }
   int compare(const Path& p, size_t length = -1) const {
-    return compare(_const_path, p.c_str(), length);
+    return compare(_const_path, p, length);
   }
   int countBlocks(char c) const;
   // Some generic methods
@@ -80,8 +79,6 @@ public:
   static char* noTrailingSlashes(char* dir_path);
   static int compare(const char* s1, const char* s2, size_t length = -1);
 };
-
-ostream& operator<<(ostream& os, Path const & path);
 
 class Node {
 protected:
@@ -146,7 +143,7 @@ public:
   virtual bool operator!=(const Node&) const;
   // Data read access
   virtual bool  isValid()     const { return _type != '?';     }
-  const char*   path()        const { return _path.c_str();    }
+  const char*   path()        const { return _path;            }
   int           pathLength()  const { return _path.length();   }
   const char*   name()        const { return _path.basename(); }
   char          type()        const { return _type;            }
@@ -272,7 +269,7 @@ public:
       _link(NULL) {
     _parsed = true;
     _link = (char*) malloc(_size + 1);
-    readlink(_path.c_str(), _link, _size);
+    readlink(_path, _link, _size);
     _link[_size] = '\0';
   }
   // Constructor for path in the VFS
@@ -282,7 +279,7 @@ public:
     stat();
     _parsed = true;
     _link = (char*) malloc(_size + 1);
-    readlink(_path.c_str(), _link, _size);
+    readlink(_path, _link, _size);
     _link[_size] = '\0';
   }
   // Constructor for given file metadata

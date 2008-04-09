@@ -55,16 +55,12 @@ using namespace std;
 
 using namespace hbackup;
 
-const char* Path::c_str() const {
+Path::operator const char*() const {
   if (_length > 0) {
     return _const_path;
   } else {
     return "";
   }
-}
-
-string Path::str() const {
-  return string(c_str());
 }
 
 const char* Path::operator=(const char* path) {
@@ -85,10 +81,6 @@ const Path& Path::operator=(const Path& path) {
   _const_path = _path;
   _length = path._length;
   return *this;
-}
-
-ostream& hbackup::operator<<(ostream& os, Path const & path) {
-  return os << path.c_str();
 }
 
 Path::Path(const char* dir, const char* name) {
@@ -244,7 +236,7 @@ int Path::countBlocks(char c) const {
 
 int Node::stat() {
   struct stat64 metadata;
-  int rc = lstat64(_path.c_str(), &metadata);
+  int rc = lstat64(_path, &metadata);
   if (rc) {
     // errno set by lstat
     _type = '?';
@@ -275,7 +267,7 @@ bool Node::operator!=(const Node& right) const {
 }
 
 int Node::remove() {
-  int rc = std::remove(_path.c_str());
+  int rc = std::remove(_path);
   if (! rc) {
     _type = '?';
   }
@@ -291,7 +283,7 @@ int File::create() {
     // Only a warning
     return 1;
   } else {
-    int readfile = open(_path.c_str(), O_WRONLY | O_CREAT, 0666);
+    int readfile = open(_path, O_WRONLY | O_CREAT, 0666);
     if (readfile < 0) {
       return -1;
     }
@@ -302,7 +294,7 @@ int File::create() {
 }
 
 int Directory::createList() {
-  DIR* directory = opendir(_path.c_str());
+  DIR* directory = opendir(_path);
   if (directory == NULL) return -1;
 
   struct dirent *dir_entry;
@@ -311,7 +303,7 @@ int Directory::createList() {
     if (!strcmp(dir_entry->d_name, ".") || !strcmp(dir_entry->d_name, "..")) {
       continue;
     }
-    Node *g = new Node(Path(_path.c_str(), dir_entry->d_name));
+    Node *g = new Node(Path(_path, dir_entry->d_name));
     g->stat();
     switch (g->type()) {
       case 'f': {
@@ -359,7 +351,7 @@ int Directory::create() {
     // Only a warning
     return 1;
   } else {
-    if (mkdir(_path.c_str(), 0777)) {
+    if (mkdir(_path, 0777)) {
       return -1;
     }
     stat();
@@ -405,7 +397,8 @@ Stream* Stream::select(
     Path            path,
     vector<string>& extensions,
     unsigned int*   no) {
-  string base = path.c_str();
+  const char* char_base = path;
+  string base = char_base;
   for (unsigned int i = 0; i < extensions.size(); i++) {
     Stream* stream = new Stream((base + extensions[i]).c_str());
     if (stream->isValid()) {
@@ -467,7 +460,7 @@ int Stream::open(
 
   _d->size     = 0;
   _d->progress = 0;
-  _d->fd = std::open64(_path.c_str(), _d->mode, 0666);
+  _d->fd = std::open64(_path, _d->mode, 0666);
   if (! isOpen()) {
     // errno set by open
     return -1;

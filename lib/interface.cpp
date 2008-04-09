@@ -379,14 +379,14 @@ int HBackup::open(
     // Set-up client info
     Client* client = new Client("localhost");
     client->setProtocol("file");
-    client->setListfile(Path(path, ".hbackup/config").c_str());
+    client->setListfile(Path(path, ".hbackup/config"));
     client->setBasePath(path);
     if (check_config) {
       failed = (client->readConfig(client->listfile(), _d->filters) < 0);
     } else {
       _d->clients.push_back(client);
       // Set-up DB
-      _d->db = new Database(Path(path, ".hbackup").c_str());
+      _d->db = new Database(Path(path, ".hbackup"));
       _d->db->setProgressCallback(_progress);
     }
   } else {
@@ -512,7 +512,7 @@ int HBackup::restore(
     Path where(dest);
     where.noTrailingSlashes();
 
-    bool failed = (_d->db->restore(where.c_str(), path, date) != 0);
+    bool failed = (_d->db->restore(where, path, date) != 0);
     _d->db->closeClient();
     failed = false;;
   }

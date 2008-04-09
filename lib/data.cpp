@@ -120,7 +120,7 @@ int Data::organise(
         } else {
           // Move directory accross, changing its name
           if (rename(source_path.path(),
-              Path(dir.path(), &source_path.name()[2]).c_str())) {
+              Path(dir.path(), &source_path.name()[2]))) {
             failed = true;
           }
         }
@@ -241,7 +241,7 @@ void Data::setProgressCallback(progress_f progress) {
 }
 
 int Data::read(
-    const string&   path,
+    const char*     path,
     const char*     checksum) {
   bool failed = false;
 
@@ -266,7 +266,8 @@ int Data::read(
   }
 
   // Open temporary file to write to
-  string temp_path = path + ".hbackup-part";
+  string temp_path = path;
+  temp_path += ".hbackup-part";
   Stream temp(temp_path.c_str());
   if (temp.open("w")) {
     out(error, msg_errno, "Opening read temp file", errno, data->path());
@@ -292,8 +293,8 @@ int Data::read(
     } else
 
     // All done
-    if (rename(temp_path.c_str(), path.c_str())) {
-      out(error, msg_errno, "Renaming read file", errno, path.c_str());
+    if (rename(temp_path.c_str(), path)) {
+      out(error, msg_errno, "Renaming read file", errno, path);
       failed = true;
     }
   }

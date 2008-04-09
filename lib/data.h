@@ -59,7 +59,7 @@ public:
   int setTemp(const char* path);
   // Read file with given checksum, extract it to path
   int read(
-    const string&   path,
+    const char*     path,
     const char*     checksum);
   // Add new item to database
   int write(

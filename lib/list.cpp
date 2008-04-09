@@ -707,7 +707,7 @@ int List::merge(
       path = journal._d->line;
       // Search/copy list
       if (rc_list >= 0) {
-        rc_list = list.search(path.c_str(), this);
+        rc_list = list.search(path, this);
         if (rc_list < 0) {
           // Error copying list
           out(error, msg_standard, "Path search failed");

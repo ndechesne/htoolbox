@@ -61,7 +61,7 @@ int Database::lock() {
 
   // Set the database path that we just locked as default
   // Try to open lock file for reading: check who's holding the lock
-  if ((file = fopen(lock_path.c_str(), "r")) != NULL) {
+  if ((file = fopen(lock_path, "r")) != NULL) {
     pid_t pid = 0;
 
     // Lock already taken
@@ -72,7 +72,7 @@ int Database::lock() {
       kill(pid, 0);
       if (errno == ESRCH) {
         out(warning, msg_standard, "Lock reset");
-        std::remove(lock_path.c_str());
+        std::remove(lock_path);
       } else {
         stringstream s;
         s << "Lock taken by process with pid " << pid;
@@ -87,7 +87,7 @@ int Database::lock() {
 
   // Try to open lock file for writing: lock
   if (! failed) {
-    if ((file = fopen(lock_path.c_str(), "w")) != NULL) {
+    if ((file = fopen(lock_path, "w")) != NULL) {
       // Lock taken
       fprintf(file, "%u\n", getpid());
       fclose(file);
@@ -152,7 +152,7 @@ int Database::open(
   }
 
   // Check DB dir
-  switch (_d->data.open(Path(_d->path, ".data").c_str(), initialize)) {
+  switch (_d->data.open(Path(_d->path, ".data"), initialize)) {
     case 1:
       // Creation successful
       File(Path(_d->path, "missing")).create();
@@ -188,7 +188,7 @@ int Database::open(
     _d->mode = 1;
     out(verbose, msg_standard, "Database open in read-only mode");
   } else {
-    _d->missing.open(Path(_d->path, "missing").c_str());
+    _d->missing.open(Path(_d->path, "missing"));
     // Set mode to call openClient for checking only
     _d->mode = 3;
     // Finish off any previous backup
@@ -286,7 +286,7 @@ int Database::getRecords(
     Path db_path2 = db_path;
     if ((db_path2.length() >= ls_path.length())   // Path no shorter
       && (db_path2.countBlocks('/') > blocks)      // Not less blocks
-      && (ls_path.compare(db_path2.c_str(), ls_path.length()) == 0)) {
+      && (ls_path.compare(db_path2, ls_path.length()) == 0)) {
       char* slash = strchr(&db_path[ls_path.length() + 1], '/');
       if (slash != NULL) {
         *slash = '\0';
@@ -319,7 +319,7 @@ int Database::restore(
     }
     bool this_failed = false;
     Path base(dest, fpath);
-    char* dir = Path::dirname(base.c_str());
+    char* dir = Path::dirname(base);
     if (! Directory(dir).isValid()) {
       string command = "mkdir -p \"";
       command += dir;
@@ -329,7 +329,7 @@ int Database::restore(
       }
     }
     free(dir);
-    out(info, msg_standard, base.c_str(), -2, "U");
+    out(info, msg_standard, base, -2, "U");
     switch (fnode->type()) {
       case 'f': {
           File* f = (File*) fnode;
@@ -337,26 +337,26 @@ int Database::restore(
             out(error, msg_standard, "Failed to restore file: data missing");
             this_failed = true;
           } else
-          if (_d->data.read(base.c_str(), f->checksum())) {
+          if (_d->data.read(base, f->checksum())) {
             out(error, msg_errno, "Restoring file", errno);
             this_failed = true;
           }
         } break;
       case 'd':
-        if (mkdir(base.c_str(), fnode->mode())) {
+        if (mkdir(base, fnode->mode())) {
           out(error, msg_errno, "Restoring dir", errno);
           this_failed = true;
         }
         break;
       case 'l': {
           Link* l = (Link*) fnode;
-          if (symlink(l->link(), base.c_str())) {
+          if (symlink(l->link(), base)) {
             out(error, msg_errno, "Restoring file", errno);
             this_failed = true;
           }
         } break;
       case 'p':
-        if (mkfifo(base.c_str(), fnode->mode())) {
+        if (mkfifo(base, fnode->mode())) {
           out(error, msg_errno, "Restoring pipe (FIFO)", errno);
           this_failed = true;
         }
@@ -378,18 +378,18 @@ int Database::restore(
     // Restore modification time
     {
       struct utimbuf times = { -1, fnode->mtime() };
-      if (utime(base.c_str(), &times)) {
+      if (utime(base, &times)) {
         out(error, msg_errno, "Restoring modification time");
         this_failed = true;
       }
     }
     // Restore permissions
-    if (chmod(base.c_str(), fnode->mode())) {
+    if (chmod(base, fnode->mode())) {
       out(error, msg_errno, "Restoring permissions");
       this_failed = true;
     }
     // Restore owner and group
-    if (chown(base.c_str(), fnode->uid(), fnode->gid())) {
+    if (chown(base, fnode->uid(), fnode->gid())) {
       out(error, msg_errno, "Restoring owner/group");
       this_failed = true;
     }
@@ -548,7 +548,7 @@ int Database::openClient(
     case 2:
       out(verbose, msg_standard, _d->client->name(), -1, "Database open r/w");
       // Set temp path inside client's directory
-      _d->data.setTemp(Path(_d->client->path(), "data").c_str());
+      _d->data.setTemp(Path(_d->client->path(), "data"));
       break;
     default:;
   }

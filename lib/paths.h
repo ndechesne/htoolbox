@@ -35,7 +35,7 @@ class ClientPath {
     Parser*         parser);
 public:
   ClientPath(const char* path);
-  const char* path() const               { return _path.c_str(); }
+  const char* path() const               { return _path;  }
   int nodes() const                      { return _nodes; }
   // Set ignore filter
   void setIgnore(const Filter* filter)   { _ignore   = filter; }
