@@ -280,6 +280,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
 Backing up client
 List created: myClient
 Database open r/w: myClient
@@ -290,7 +294,7 @@ A /home/User/test/File2.txt	(0 B)
 A /home/User/test/dir
  -> Dir dir
 A /home/User/test/dir/file3.txt	(2 B)
-Adding file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
+Adding compressed file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
 Database modified: myClient
 Database closed: myClient
  -> umount -fl test_db/.mount
@@ -557,6 +561,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
 Backing up client
 Database open r/w: myClient
 Backup path: /home/User/test
@@ -753,6 +761,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
 Backing up client
 Database open r/w: myClient
 Backup path: /home/User/test
@@ -1906,6 +1918,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
 Backing up client
 Database open r/w: myClient
 Backup path: /home/User/test
@@ -2139,6 +2155,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
 Backing up client
 Database open r/w: myClient
 Backup path: /home/User/test
@@ -4017,6 +4037,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
 Backing up client
 Database open r/w: myClient
 Backup path: /home/User/test
@@ -4264,6 +4288,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
 Backing up client
 Database open r/w: myClient
 Backup path: /home/User/test
@@ -4631,6 +4659,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
 Backing up client
 Database open r/w: myClient
 Backup path: /home/User/test

@@ -172,6 +172,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
  ---> Path: /home/User/test2
 Backing up client
 Reading list of missing checksums
@@ -181,11 +185,11 @@ Backup path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
 A /home/User/test/File2.txt	(0 B)
-Adding file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
+Adding compressed file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
 A /home/User/test/dir
  -> Dir dir
 A /home/User/test/dir/file3.txt	(2 B)
-Adding file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
+Adding compressed file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
 Backup path: /home/User/test2
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
@@ -856,6 +860,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
  ---> Path: /home/User/test2
 Backing up client
 Reading list of missing checksums
@@ -887,6 +895,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
  ---> Path: /home/User/test2
 Backing up client
 Reading list of missing checksums
@@ -914,6 +926,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
  ---> Path: /home/User/test2
 Backing up client
 Reading list of missing checksums

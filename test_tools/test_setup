@@ -204,6 +204,12 @@ touch "$TESTDIRNFS/test2/File3.txt"
 touch "$TESTDIRNFS/test2/File4.txt"
 cat << EOF > "$TESTDIRNFS/hbackup.list"
 path "$ROOTDIRNFS/test/"
+
+filter or compress
+condition name File2.txt
+condition path dir/file3.txt
+
+compress compress
 EOF
 
 # User-mode test
