@@ -34,8 +34,9 @@ using namespace hbackup;
 
 enum Status {
   unexpected_eof = -2,      // unexpected end of file
-  _error,                    // an error occured
+  _error,                   // an error occured
   empty,                    // list is empty
+  eof,                      // end of file reached
   no_data,                  // line contains no valid data
   cached_data,              // line contains searched-for data
   new_data                  // line contains new data
@@ -95,8 +96,11 @@ int List::open(
     }
     _d->line_status = no_data;
     fetchLine();
-    if ((_d->line_status == _error) ||  (_d->line_status == unexpected_eof)) {
+    if (_d->line_status == _error) {
       rc = -1;
+    } else
+    if ((_d->line_status == eof) || (_d->line_status == unexpected_eof)) {
+      _d->line_status = empty;
     } else
     if (_d->line_status == no_data) {
       _d->line_status = new_data;
@@ -147,9 +151,10 @@ ssize_t List::fetchLine(bool use_found) {
   switch (_d->line_status) {
     case unexpected_eof:
       // Unexpected end of file
-      return empty;
+      return eof;
+    case eof:
     case empty:
-      // Empty list
+      // End of list
       return strlen(_d->line);
     case no_data: {
       // Line contains no re-usable data
@@ -167,7 +172,7 @@ ssize_t List::fetchLine(bool use_found) {
       } else
       if (_d->line[0] == '#') {
         // Signal end of file
-        _d->line_status = empty;
+        _d->line_status = eof;
       } else
       {
         _d->line_status = no_data;
@@ -332,6 +337,7 @@ char List::getLineType() {
     case unexpected_eof:
       // Unexpected eof
       return 'U';
+    case eof:
     case empty:
       // Eof
       return 'E';
@@ -398,7 +404,7 @@ int List::getEntry(
     // End of file
     if (_d->line[0] == '#') {
       // Make sure we return end of file also if called again
-      _d->line_status = empty;
+      _d->line_status = eof;
       return 0;
     }
 
@@ -520,7 +526,7 @@ int List::search(
     // End of file
     if (_d->line[0] == '#') {
       // Future searches will return eof too
-      _d->line_status = empty;
+      _d->line_status = eof;
     } else
 
     // Got a path
@@ -627,7 +633,7 @@ int List::search(
       case new_data:
         // Exceeded
         return 1;
-      case empty:
+      case eof:
         // EOF
         return 0;
       default:
@@ -672,7 +678,7 @@ int List::merge(
     // Failed
     if (rc_journal < 0) {
       out(error, msg_line_no, "Reading line", j_line_no, "journal");
-      return 1;
+      return -1;
     }
 
     // End of file

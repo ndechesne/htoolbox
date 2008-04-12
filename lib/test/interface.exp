@@ -891,6 +891,7 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Warning: Previous backup interrupted: myhost
+Database modified: myhost
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount

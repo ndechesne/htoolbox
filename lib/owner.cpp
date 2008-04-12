@@ -75,26 +75,39 @@ int Owner::finishOff(
     if (_d->journal->isValid()) {
       // Let's recover what we got
       bool failed = false;
-      if (! _d->partial->open("w")) {
-        if (! _d->original->open("r")) {
-          if (! _d->journal->open("r")) {
-            _d->original->setProgressCallback(_d->progress);
-            if (_d->partial->merge(*_d->original, *_d->journal) < 0) {
+      if (! _d->journal->open("r")) {
+        if (! _d->journal->isEmpty()) {
+          out(verbose, msg_standard, _d->name, -1, "Database modified");
+          if (! _d->partial->open("w")) {
+            if (! _d->original->open("r")) {
+              _d->original->setProgressCallback(_d->progress);
+              if (_d->partial->merge(*_d->original, *_d->journal) < 0) {
+                out(error, msg_standard, "Merge failed");
+                failed = true;
+              }
+              _d->original->setProgressCallback(NULL);
+              _d->original->close();
+            } else {
+              out(error, msg_standard, "Open list failed");
               failed = true;
             }
-            _d->original->setProgressCallback(NULL);
-            _d->original->close();
+            if (_d->partial->close()) {
+              out(error, msg_standard, "Close merge failed");
+              failed = true;
+            }
           } else {
+            out(error, msg_standard, "Open merge failed");
             failed = true;
           }
-          _d->journal->close();
-        } else {
-          failed = true;
         }
-        if (_d->partial->close()) {
-          failed = true;
+        _d->journal->close();
+        if (_d->journal->isEmpty()) {
+          // Nothing to do (journal is empty)
+          _d->journal->remove();
+          return 0;
         }
       } else {
+        out(error, msg_standard, "Open journal failed");
         failed = true;
       }
       if (failed) {
@@ -108,6 +121,7 @@ int Owner::finishOff(
 
   // list._d->partial -> list.next (step 1)
   if (! got_next && rename(_d->partial->path(), next.path())) {
+    out(error, msg_errno, "Rename next list failed", errno);
     return -1;
   }
 
@@ -116,6 +130,7 @@ int Owner::finishOff(
     string backup = _d->journal->path();
     backup += "~";
     if (rename(_d->journal->path(), backup.c_str())) {
+      out(error, msg_errno, "Rename journal failed", errno);
       return -1;
     }
   }
@@ -123,12 +138,14 @@ int Owner::finishOff(
   // list -> list~ (step 3)
   if (! got_next || _d->original->isValid()) {
     if (rename(_d->original->path(), (name + "~").c_str())) {
+      out(error, msg_errno, "Rename backup list failed", errno);
       return -1;
     }
   }
 
   // list.next -> list (step 4)
   if (rename(next.path(), _d->original->path())) {
+    out(error, msg_errno, "Rename list failed", errno);
     return -1;
   }
   return 0;
@@ -308,11 +325,7 @@ int Owner::open(
 }
 
 int Owner::close(
-    bool            teardown) {
-  // Only check for termination once
-  if (aborting()) {
-    teardown = true;
-  }
+    bool            abort) {
   bool failed = false;
   if (_d->original == NULL) {
     // Not open, maybe just checked
@@ -329,41 +342,40 @@ int Owner::close(
     _d->original = NULL;
   } else {
     // Open read/write
-    // Finish work (removed items at end of list)
-    if (! teardown) {
-      search(NULL, NULL);
-    }
-    // Close journal
-    _d->journal->close();
-    // Decide what to do with journal
-    if (_d->journal->isEmpty()) {
-      // Do nothing
-      _d->journal->remove();
-    } else {
-      if (! teardown) {
-        // Finish off list reading/copy
-        _d->original->setProgressCallback(_d->progress);
+    _d->original->setProgressCallback(_d->progress);
+    if (! aborting()) {
+      // Leave things clean
+      if (! abort) {
+        // Finish work (remove items at end of list)
+        search(NULL, NULL);
+      } else {
         // Finish off merging
-        out(verbose, msg_standard, _d->name, -1, "Database modified");
-        _d->original->search("", _d->partial, -1);
+        _d->original->search("", _d->partial, _d->expiration);
       }
+    }
+    // Now we can close the journal
+    _d->journal->close();
+    // Check whether any work was done
+    if (_d->journal->isEmpty()) {
+      // No modification done, don't need journal anymore
+      _d->journal->remove();
+    } else
+    if (! aborting()) {
+      out(verbose, msg_standard, _d->name, -1, "Database modified");
     }
     // Close list
     _d->original->close();
     // Close merge
     _d->partial->close();
-    // Decide what to do with merge
-    if (teardown || _d->journal->isEmpty()) {
+    // Check whether we need to merge now
+    if (aborting() || _d->journal->isEmpty()) {
+      // Merging will occur at next read/write open, if journal exists
       _d->partial->remove();
-    }
-    // Deal with new list and journal
-    if (! _d->journal->isEmpty()) {
-      if (! teardown) {
-        if (finishOff(false)) {
-          out(error, msg_standard, "Failed to close lists");
-          failed = true;
-        }
-      }
+    } else
+    // Merge now
+    if (finishOff(false)) {
+      out(error, msg_standard, "Failed to close lists");
+      failed = true;
     }
     // Free lists
     delete _d->original;

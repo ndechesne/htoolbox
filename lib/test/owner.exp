@@ -7,7 +7,7 @@ First operation
 List created: client
 Database modified: client
 List:
-[ 1] /remote/path/testfile          f     13 750 
+[11] /remote/path/testfile          f     13 750 
 Dir contents:
 test_db:
 client
@@ -20,8 +20,8 @@ list~
 Update
 Database modified: client
 List:
-[ 2] /remote/path/testfile          f 145408 644 
-[ 1] /remote/path/testfile          f     13 750 
+[12] /remote/path/testfile          f 145408 644 
+[11] /remote/path/testfile          f     13 750 
 Dir contents:
 test_db:
 client
@@ -32,25 +32,11 @@ list
 list~
 
 Abort client
+Database modified: client
 List:
-[ 2] /remote/path/testfile          f 145408 644 
-[ 1] /remote/path/testfile          f     13 750 
-Dir contents:
-test_db:
-client
-
-test_db/client:
-journal
-journal~
-list
-list~
-
-Recover client
-Warning: Previous backup interrupted: client
-List:
-[ 3] /remote/path/testfile          f     13 750 
-[ 2] /remote/path/testfile          f 145408 644 
-[ 1] /remote/path/testfile          f     13 750 
+[13] /remote/path/testfile          f     13 750 
+[12] /remote/path/testfile          f 145408 644 
+[11] /remote/path/testfile          f     13 750 
 Dir contents:
 test_db:
 client
@@ -62,9 +48,9 @@ list~
 
 Abort backup
 List:
-[ 3] /remote/path/testfile          f     13 750 
-[ 2] /remote/path/testfile          f 145408 644 
-[ 1] /remote/path/testfile          f     13 750 
+[13] /remote/path/testfile          f     13 750 
+[12] /remote/path/testfile          f 145408 644 
+[11] /remote/path/testfile          f     13 750 
 Dir contents:
 test_db:
 client
@@ -77,11 +63,44 @@ list~
 
 Recover client
 Warning: Previous backup interrupted: client
+Database modified: client
 List:
-[ 4] /remote/path/testfile          f 145408 644 checksum test
-[ 3] /remote/path/testfile          f     13 750 
-[ 2] /remote/path/testfile          f 145408 644 
-[ 1] /remote/path/testfile          f     13 750 
+[14] /remote/path/testfile          f 145408 644 checksum test
+[13] /remote/path/testfile          f     13 750 
+[12] /remote/path/testfile          f 145408 644 
+[11] /remote/path/testfile          f     13 750 
+Dir contents:
+test_db:
+client
+
+test_db/client:
+journal~
+list
+list~
+
+Recover client (empty journal)
+Warning: Previous backup interrupted: client
+List:
+[14] /remote/path/testfile          f 145408 644 checksum test
+[13] /remote/path/testfile          f     13 750 
+[12] /remote/path/testfile          f 145408 644 
+[11] /remote/path/testfile          f     13 750 
+Dir contents:
+test_db:
+client
+
+test_db/client:
+journal~
+list
+list~
+
+Recover client (empty, not closed journal)
+Warning: Previous backup interrupted: client
+List:
+[14] /remote/path/testfile          f 145408 644 checksum test
+[13] /remote/path/testfile          f     13 750 
+[12] /remote/path/testfile          f 145408 644 
+[11] /remote/path/testfile          f     13 750 
 Dir contents:
 test_db:
 client

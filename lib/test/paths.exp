@@ -860,6 +860,7 @@ myClient's real journal:
 
 As previous with subdir/testfile readable
 Warning: Previous backup interrupted: myClient
+Database modified: myClient
 Database open in read/write mode
 Path: /home/User
  -> Filter: and bazaar
@@ -4718,6 +4719,7 @@ myClient's real journal:
 [19] -
 Error: Unexpected end of file
 Warning: Previous backup interrupted: myClient
+Database modified: myClient
 Warning: Unexpected end of journal
 Database open in read/write mode
 

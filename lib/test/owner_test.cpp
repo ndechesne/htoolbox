@@ -93,6 +93,11 @@ static void show_list(List& l) {
   }
 }
 
+static time_t my_time = 10;
+time_t time(time_t *t) {
+  return my_time;
+}
+
 int main(void) {
   cout << "Owner tests" << endl;
   setVerbosityLevel(debug);
@@ -121,7 +126,7 @@ int main(void) {
   list_node = NULL;
   rc = o.search((remote_path + node->name()).c_str(), &list_node);
   delete list_node;
-  rc = o.add((remote_path + node->name()).c_str(), node, 1);
+  rc = o.add((remote_path + node->name()).c_str(), node, ++my_time);
   delete node;
   if (rc) {
     cout << "Failed to add: " << rc << endl;
@@ -149,7 +154,7 @@ int main(void) {
   list_node = NULL;
   rc = o.search((remote_path + node->name()).c_str(), &list_node);
   delete list_node;
-  rc = o.add((remote_path + node->name()).c_str(), node, 2);
+  rc = o.add((remote_path + node->name()).c_str(), node, ++my_time);
   delete node;
   if (rc) {
     cout << "Failed to add: " << rc << endl;
@@ -177,26 +182,10 @@ int main(void) {
   list_node = NULL;
   rc = o.search((remote_path + node->name()).c_str(), &list_node);
   delete list_node;
-  rc = o.add((remote_path + node->name()).c_str(), node, 3);
+  rc = o.add((remote_path + node->name()).c_str(), node, ++my_time);
   delete node;
   if (rc) {
     cout << "Failed to add: " << rc << endl;
-    return 0;
-  }
-  rc = o.close(true);
-  if (rc) {
-    cout << "Failed to close: " << rc << endl;
-    return 0;
-  }
-  cout << "List:" << endl;
-  show_list(owner_list);
-  cout << "Dir contents:" << endl;
-  system("ls -R test_db");
-
-  cout << endl << "Recover client" << endl;
-  rc = o.open(false, true, false);
-  if (rc) {
-    cout << "Failed to open: " << rc << endl;
     return 0;
   }
   rc = o.close(true);
@@ -222,7 +211,7 @@ int main(void) {
   rc = o.search((remote_path + node->name()).c_str(), &list_node);
   delete list_node;
   dynamic_cast<File*>(node)->setChecksum("checksum test");
-  rc = o.add((remote_path + node->name()).c_str(), node, 4);
+  rc = o.add((remote_path + node->name()).c_str(), node, ++my_time);
   delete node;
   if (rc) {
     cout << "Failed to add: " << rc << endl;
@@ -241,6 +230,52 @@ int main(void) {
   hbackup::abort(0xffff);
 
   cout << endl << "Recover client" << endl;
+  rc = o.open(false, false, false);
+  if (rc) {
+    cout << "Failed to open: " << rc << endl;
+    return 0;
+  }
+  rc = o.close(true);
+  if (rc) {
+    cout << "Failed to close: " << rc << endl;
+    return 0;
+  }
+  cout << "List:" << endl;
+  show_list(owner_list);
+  cout << "Dir contents:" << endl;
+  system("ls -R test_db");
+
+
+  cout << endl << "Recover client (empty journal)" << endl;
+  {
+    List journal("test_db/client/journal");
+    journal.open("w");
+    journal.close();
+  }
+  rc = o.open(false, false, false);
+  if (rc) {
+    cout << "Failed to open: " << rc << endl;
+    return 0;
+  }
+  rc = o.close(true);
+  if (rc) {
+    cout << "Failed to close: " << rc << endl;
+    return 0;
+  }
+  cout << "List:" << endl;
+  show_list(owner_list);
+  cout << "Dir contents:" << endl;
+  system("ls -R test_db");
+
+
+  cout << endl << "Recover client (empty, not closed journal)" << endl;
+  {
+    List journal("test_db/client/journal2");
+    journal.open("w");
+    journal.close();
+    system("head -1 test_db/client/journal2 > test_db/client/journal");
+    system("rm test_db/client/journal2");
+  }
   rc = o.open(false, false, false);
   if (rc) {
     cout << "Failed to open: " << rc << endl;
