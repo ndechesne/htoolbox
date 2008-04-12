@@ -492,15 +492,14 @@ int List::search(
 
   // Pre-set path comparison result
   if (path_l == NULL) {
-    // Any path will match
+    // Any path will match (search for next path)
     path_cmp = 0;
   } else
   if (path_l[0] == '\0') {
-    // No need to compare paths
+    // No path will match (search for end of list)
     path_cmp = 1;
-  } else
-  {
-    // Any value will do
+  } else {
+    // Only given path will match (search for given path)
     path_cmp = -1;
   }
 

@@ -80,9 +80,9 @@ public:
   // Search data in list copying contents on the fly if required, and
   // also expiring data and putting checksums in lists!!!
   // Searches:             Path        Copy
+  //    given path         path        all up to path (appended if not found)
+  //    next path          NULL        all before path
   //    end of file        ""          all
-  //    path               path        all up to path
-  //    any path           NULL        all before path
   // Expiration:
   //    -1: no expiration, 0: only keep last, otherwise use given date
   // Return code:
