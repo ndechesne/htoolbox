@@ -1,0 +1,106 @@
+Owner tests
+Name: client
+Path: test_db/client
+Expiration: 10
+
+First operation
+List created: client
+Database modified: client
+List:
+[ 1] /remote/path/testfile          f     13 750 
+Dir contents:
+test_db:
+client
+
+test_db/client:
+journal~
+list
+list~
+
+Update
+Database modified: client
+List:
+[ 2] /remote/path/testfile          f 145408 644 
+[ 1] /remote/path/testfile          f     13 750 
+Dir contents:
+test_db:
+client
+
+test_db/client:
+journal~
+list
+list~
+
+Abort client
+List:
+[ 2] /remote/path/testfile          f 145408 644 
+[ 1] /remote/path/testfile          f     13 750 
+Dir contents:
+test_db:
+client
+
+test_db/client:
+journal
+journal~
+list
+list~
+
+Recover client
+Warning: Previous backup interrupted: client
+List:
+[ 3] /remote/path/testfile          f     13 750 
+[ 2] /remote/path/testfile          f 145408 644 
+[ 1] /remote/path/testfile          f     13 750 
+Dir contents:
+test_db:
+client
+
+test_db/client:
+journal~
+list
+list~
+
+Abort backup
+List:
+[ 3] /remote/path/testfile          f     13 750 
+[ 2] /remote/path/testfile          f 145408 644 
+[ 1] /remote/path/testfile          f     13 750 
+Dir contents:
+test_db:
+client
+
+test_db/client:
+journal
+journal~
+list
+list~
+
+Recover client
+Warning: Previous backup interrupted: client
+List:
+[ 4] /remote/path/testfile          f 145408 644 checksum test
+[ 3] /remote/path/testfile          f     13 750 
+[ 2] /remote/path/testfile          f 145408 644 
+[ 1] /remote/path/testfile          f     13 750 
+Dir contents:
+test_db:
+client
+
+test_db/client:
+journal~
+list
+list~
+
+Get checksums
+List:
+ -> checksum test
+Dir contents:
+test_db:
+client
+
+test_db/client:
+journal~
+list
+list~
+
+End of tests

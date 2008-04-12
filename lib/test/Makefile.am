@@ -15,6 +15,7 @@ check_PROGRAMS = \
 	interface_test \
 	line_test \
 	list_test \
+	owner_test \
 	parsers_test \
 	paths_test \
 	report_test \
@@ -32,6 +33,7 @@ filters_test_SOURCES = filters_test.cpp
 interface_test_SOURCES = interface_test.cpp
 line_test_SOURCES = line_test.cpp
 list_test_SOURCES = list_test.cpp
+owner_test_SOURCES = owner_test.cpp
 parsers_test_SOURCES = parsers_test.cpp
 paths_test_SOURCES = paths_test.cpp
 report_test_SOURCES = report_test.cpp
@@ -51,6 +53,7 @@ check_SUCCESSES = \
 	svn_parser.done \
 	line.done \
 	list.done \
+	owner.done \
 	data.done \
 	db.done \
 	paths.done \

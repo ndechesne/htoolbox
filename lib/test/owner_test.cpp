@@ -1,0 +1,280 @@
+/*
+     Copyright (C) 2008  Herve Fache
+
+     This program is free software; you can redistribute it and/or modify
+     it under the terms of the GNU General Public License version 2 as
+     published by the Free Software Foundation.
+
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License
+     along with this program; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place - Suite 330,
+     Boston, MA 02111-1307, USA.
+*/
+
+#include <iostream>
+
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <errno.h>
+
+using namespace std;
+
+#include "hbackup.h"
+#include "files.h"
+#include "list.h"
+#include "owner.h"
+
+using namespace hbackup;
+
+// Owner:               tested
+// ~Owner:              tested
+// name:                tested
+// path:                tested
+// expiration:          tested
+// open:                somewhat tested
+// close:               hopefully tested
+// setProgressCallback: not visibly tested
+// search:              hardly tested
+// add:                 tested
+// getNextRecord:       not tested
+// getChecksums:        tested
+
+// Progress
+static void progress(long long previous, long long current, long long total) {
+  cout << "Done: " << 100 * current / total << "%" << endl;
+}
+
+static void show_line(
+    time_t          timestamp,
+    const char*     path,
+    const Node*     node) {
+  printf("[%2ld] %-30s", timestamp, path);
+  if (node != NULL) {
+    printf(" %c %6llu %03o", node->type(),
+    (node->type() != 'd') ? node->size() : 0, node->mode());
+    if (node->type() == 'f') {
+      printf(" %s", ((File*) node)->checksum());
+    }
+    if (node->type() == 'l') {
+      printf(" %s", ((Link*) node)->link());
+    }
+  } else {
+    printf(" [rm]");
+  }
+  cout << endl;
+}
+
+static void show_list(List& l) {
+  time_t  ts;
+  char*   path = NULL;
+  Node*   node = NULL;
+  int     rc;
+
+  if (l.open("r")) {
+    cout << strerror(errno) << endl;
+    return;
+  }
+  if (l.isEmpty()) {
+    cout << "List is empty" << endl;
+    rc = 0;
+  } else {
+    while ((rc = l.getEntry(&ts, &path, &node)) > 0) {
+      show_line(ts, path, node);
+    }
+  }
+  l.close();
+  if (rc < 0) {
+    cerr << "Failed to read list" << endl;
+  }
+}
+
+int main(void) {
+  cout << "Owner tests" << endl;
+  setVerbosityLevel(debug);
+
+  mkdir("test_db", 0755);
+  Owner o("test_db", "client", 10);
+  List owner_list("test_db/client/list");
+  string remote_path = "/remote/path/";
+  cout << "Name: " << o.name() << endl;
+  cout << "Path: " << o.path() << endl;
+  cout << "Expiration: " << o.expiration() << endl;
+  o.setProgressCallback(progress);
+
+  int   rc;
+  Node* node;
+  Node* list_node;
+
+  cout << endl << "First operation" << endl;
+  rc = o.open(false, true, false);
+  if (rc) {
+    cout << "Failed to open: " << rc << endl;
+    return 0;
+  }
+  node = new File(Path("test1/testfile"));
+  node->stat();
+  list_node = NULL;
+  rc = o.search((remote_path + node->name()).c_str(), &list_node);
+  delete list_node;
+  rc = o.add((remote_path + node->name()).c_str(), node, 1);
+  delete node;
+  if (rc) {
+    cout << "Failed to add: " << rc << endl;
+    return 0;
+  }
+  rc = o.close(false);
+  if (rc) {
+    cout << "Failed to close: " << rc << endl;
+    return 0;
+  }
+  cout << "List:" << endl;
+  show_list(owner_list);
+  cout << "Dir contents:" << endl;
+  system("ls -R test_db");
+
+
+  cout << endl << "Update" << endl;
+  rc = o.open(false, true, false);
+  if (rc) {
+    cout << "Failed to open: " << rc << endl;
+    return 0;
+  }
+  node = new File(Path("test2/testfile"));
+  node->stat();
+  list_node = NULL;
+  rc = o.search((remote_path + node->name()).c_str(), &list_node);
+  delete list_node;
+  rc = o.add((remote_path + node->name()).c_str(), node, 2);
+  delete node;
+  if (rc) {
+    cout << "Failed to add: " << rc << endl;
+    return 0;
+  }
+  rc = o.close(false);
+  if (rc) {
+    cout << "Failed to close: " << rc << endl;
+    return 0;
+  }
+  cout << "List:" << endl;
+  show_list(owner_list);
+  cout << "Dir contents:" << endl;
+  system("ls -R test_db");
+
+
+  cout << endl << "Abort client" << endl;
+  rc = o.open(false, true, false);
+  if (rc) {
+    cout << "Failed to open: " << rc << endl;
+    return 0;
+  }
+  node = new File(Path("test1/testfile"));
+  node->stat();
+  list_node = NULL;
+  rc = o.search((remote_path + node->name()).c_str(), &list_node);
+  delete list_node;
+  rc = o.add((remote_path + node->name()).c_str(), node, 3);
+  delete node;
+  if (rc) {
+    cout << "Failed to add: " << rc << endl;
+    return 0;
+  }
+  rc = o.close(true);
+  if (rc) {
+    cout << "Failed to close: " << rc << endl;
+    return 0;
+  }
+  cout << "List:" << endl;
+  show_list(owner_list);
+  cout << "Dir contents:" << endl;
+  system("ls -R test_db");
+
+  cout << endl << "Recover client" << endl;
+  rc = o.open(false, true, false);
+  if (rc) {
+    cout << "Failed to open: " << rc << endl;
+    return 0;
+  }
+  rc = o.close(true);
+  if (rc) {
+    cout << "Failed to close: " << rc << endl;
+    return 0;
+  }
+  cout << "List:" << endl;
+  show_list(owner_list);
+  cout << "Dir contents:" << endl;
+  system("ls -R test_db");
+
+
+  cout << endl << "Abort backup" << endl;
+  rc = o.open(false, true, false);
+  if (rc) {
+    cout << "Failed to open: " << rc << endl;
+    return 0;
+  }
+  node = new File(Path("test2/testfile"));
+  node->stat();
+  list_node = NULL;
+  rc = o.search((remote_path + node->name()).c_str(), &list_node);
+  delete list_node;
+  dynamic_cast<File*>(node)->setChecksum("checksum test");
+  rc = o.add((remote_path + node->name()).c_str(), node, 4);
+  delete node;
+  if (rc) {
+    cout << "Failed to add: " << rc << endl;
+    return 0;
+  }
+  hbackup::abort();
+  rc = o.close(false);
+  if (rc) {
+    cout << "Failed to close: " << rc << endl;
+    return 0;
+  }
+  cout << "List:" << endl;
+  show_list(owner_list);
+  cout << "Dir contents:" << endl;
+  system("ls -R test_db");
+  hbackup::abort(0xffff);
+
+  cout << endl << "Recover client" << endl;
+  rc = o.open(false, false, false);
+  if (rc) {
+    cout << "Failed to open: " << rc << endl;
+    return 0;
+  }
+  rc = o.close(true);
+  if (rc) {
+    cout << "Failed to close: " << rc << endl;
+    return 0;
+  }
+  cout << "List:" << endl;
+  show_list(owner_list);
+  cout << "Dir contents:" << endl;
+  system("ls -R test_db");
+
+
+  cout << endl << "Get checksums" << endl;
+  list<string> checksums;
+  rc = o.getChecksums(checksums);
+  if (rc) {
+    cout << "Failed to get checksums: " << rc << endl;
+    return 0;
+  }
+  cout << "List:" << endl;
+  if (checksums.empty()) {
+    cout << "...is empty" << endl;
+  } else
+  for (list<string>::iterator i = checksums.begin(); i != checksums.end(); i++) {
+    cout << " -> " << *i << endl;
+  }
+  cout << "Dir contents:" << endl;
+  system("ls -R test_db");
+
+
+  cout << endl << "End of tests" << endl;
+  return 0;
+}
