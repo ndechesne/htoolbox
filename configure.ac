@@ -80,7 +80,6 @@ AC_PATH_PROG(TEST_RUN, test_tools/test_run, test_tools/test_run)
 AC_CONFIG_FILES([Makefile
                  lib/Makefile
                  lib/test/Makefile
-                 gui/Makefile
                  cli/Makefile
                  cli/test/Makefile
                  cli/man/Makefile])
