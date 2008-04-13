@@ -77,9 +77,6 @@ AC_CHECK_FUNCS([select setenv strtol tzset utime strerror strrchr strtoul])
 AC_PATH_PROG(TEST_TOOL, test_tools/test_setup, test_tools/test_setup)
 AC_PATH_PROG(TEST_RUN, test_tools/test_run, test_tools/test_run)
 
-# Use colormake if available
-AC_PATH_PROG(MAKE, hmake, make)
-
 AC_CONFIG_FILES([Makefile
                  lib/Makefile
                  lib/test/Makefile
