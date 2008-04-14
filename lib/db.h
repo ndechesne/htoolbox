@@ -78,21 +78,21 @@ public:
     char            _letter;          // Letter showing current operation
     int             _id;              // Missing checksum ID
     int             _compression;     // Compression level for regular files
-    char*           _checksum;        // Checksum to use
     const char*     _path;            // Real file path, on client
-    const Node&     _node;            // File metadata
+    Node&           _node;            // File metadata
+    bool            _get_checksum;    // Metadata exists but checksum missing
   public:
     // Pointers given to the constructor MUST remain valid during operation!
     OpData(
       const char*   path,             // Real file path, on client
-      const Node&   node)             // File metadata
-     : _letter(0), _id(-1), _compression(0), _checksum(NULL), _path(path),
-       _node(node) {}
-    ~OpData() { free(_checksum); }
+      Node&         node)             // File metadata
+     : _letter(0), _id(-1), _compression(0), _path(path), _node(node),
+       _get_checksum(false) {}
     void setCompression(int compression) { _compression = compression; }
+    bool needsAdding() { return _letter != 0; }
   };
   // Send data for comparison
-  int  sendEntry(
+  void sendEntry(
     OpData&         operation);       // Operation data
   // Add entry to journal/list
   int  add(

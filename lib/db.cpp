@@ -566,77 +566,64 @@ int Database::closeClient(
   return failed ? -1 : 0;
 }
 
-int Database::sendEntry(
+void Database::sendEntry(
     OpData&         op) {
   Node* db_node = NULL;
   int rc = _d->client->search(op._path, &db_node);
 
   // Compare entries
-  bool new_path = false;
-  if (op._path != NULL) {
-    if ((rc > 0) || (db_node == NULL)) {
-      // New file
-      op._letter = 'A';
-      new_path = true;
+  if ((rc > 0) || (db_node == NULL)) {
+    // New file
+    op._letter = 'A';
+  } else
+  // Existing file: check for differences
+  if (*db_node != op._node) {
+    // Metadata differ
+    if ((op._node.type() == 'f') && (db_node->type() == 'f')
+    && (op._node.size() == db_node->size())
+    && (op._node.mtime() == db_node->mtime())) {
+      // If the file data is there, just add new metadata
+      const char* node_checksum = static_cast<File*>(db_node)->checksum();
+      if (node_checksum[0] == '\0') {
+        // Checksum missing: retry
+        op._get_checksum = true;
+      } else {
+        static_cast<File&>(op._node).setChecksum(node_checksum);
+      }
+      op._letter = '~';
+    } else {
+      // Do it all
+      op._letter = 'M';
     }
-
-    if (op._letter == 0) {
-      // Existing file: check for differences
-      if (*db_node != op._node) {
-        // Metadata differ
-        if ((op._node.type() == 'f')
-        && (db_node->type() == 'f')
-        && (op._node.size() == db_node->size())
-        && (op._node.mtime() == db_node->mtime())) {
-          // If the file data is there, just add new metadata
-          // If the checksum is missing, this shall retry too
-          op._checksum = strdup(static_cast<File*>(db_node)->checksum());
-          op._letter   = '~';
-        } else {
-          // Do it all
-          op._letter = 'M';
-        }
-      } else
-      // Same metadata, hence same type...
-      {
-        // Compare linked data
-        if ((op._node.type() == 'l')
-        && (strcmp(static_cast<const Link&>(op._node).link(),
-            static_cast<Link*>(db_node)->link()) != 0)) {
-          op._letter = 'L';
-        } else
-        // Check that file data is present
-        if (op._node.type() == 'f') {
-          const char* node_checksum = static_cast<File*>(db_node)->checksum();
-          if (node_checksum[0] == '\0') {
-            // Checksum missing: retry
-            op._checksum = strdup("");
-            op._letter   = '!';
-          } else {
-            // Same checksum: look for checksum in missing list (binary search)
-            op._id = _d->missing.search(node_checksum);
-            if (op._id >= 0) {
-              op._letter = 'R';
-            }
-          }
-        }
+  } else
+  // Same metadata, hence same type...
+  if (op._node.type() == 'f') {
+    // Check that file data is present
+    const char* node_checksum = static_cast<File*>(db_node)->checksum();
+    if (node_checksum[0] == '\0') {
+      // Checksum missing: retry
+      op._get_checksum = true;
+      op._letter = '!';
+    } else {
+      // Same checksum: look for checksum in missing list (binary search)
+      op._id = _d->missing.search(node_checksum);
+      if (op._id >= 0) {
+        op._letter = 'R';
       }
     }
-
-    if (op._letter != 0) {
-      char cletter[2] = { op._letter, '\0' };
-      out(info, msg_standard, op._path, -2, cletter);
-    }
+  } else
+  if ((op._node.type() == 'l')
+  && (strcmp(static_cast<const Link&>(op._node).link(),
+      static_cast<Link*>(db_node)->link()) != 0)) {
+    op._letter = 'L';
   }
   delete db_node;
-
-  // Send status back
-  return new_path ? 2 : ((op._letter != 0) ? 1 : 0);
 }
 
 int Database::add(
     const OpData&   op) {
   bool failed = false;
+  time_t ts = time(NULL);
 
   // Add new record to active list
   if ((op._node.type() == 'l') && ! op._node.parsed()) {
@@ -644,52 +631,47 @@ int Database::add(
     return -1;
   }
 
-  // Create data
-  Node* node2 = NULL;
-  switch (op._node.type()) {
-    case 'l':
-      node2 = new Link(static_cast<const Link&>(op._node));
-      break;
-    case 'f':
-      node2 = new File(op._node);
-      if ((op._checksum != NULL) && (op._checksum[0] != '\0')) {
-        // Use same checksum
-        ((File*)node2)->setChecksum(op._checksum);
-      } else {
-        // Copy data
-        char* checksum  = NULL;
-        if (! _d->data.write(op._node.path(), &checksum, op._compression)) {
-          (static_cast<File*>(node2))->setChecksum(checksum);
-          if ((op._id >= 0)
-          && (_d->missing[op._id] == checksum)) {
-            out(verbose, msg_standard, checksum, -1, "Recovered checksum");
-            // Mark checksum as already recovered
-            _d->missing.setRecovered(op._id);
-          }
-          free(checksum);
+  char code[] = "       ";
+  code[0] = op._letter;
+
+  if ((op._node.type() == 'f')
+  && (static_cast<File&>(op._node).checksum()[0] == '\0')) {
+    // Only missing the checksum
+    if (op._get_checksum) {
+      ts = 0;
+    }
+    // Copy data
+    char* checksum = NULL;
+    int rc = _d->data.write(op._node.path(), &checksum, op._compression);
+    if (rc >= 0) {
+      if (rc > 0) {
+        if (op._compression > 0) {
+          code[2] = 'z';
         } else {
-          failed = true;
+          code[2] = 'f';
         }
       }
-      break;
-    default:
-      node2 = new Node(op._node);
+      static_cast<File&>(op._node).setChecksum(checksum);
+      if ((op._id >= 0) && (_d->missing[op._id] == checksum)) {
+        // Mark checksum as recovered
+        _d->missing.setRecovered(op._id);
+      }
+    } else {
+      code[2] = '!';
+      failed = true;
+    }
+    free(checksum);
   }
 
-  if (! failed || (op._checksum == NULL)) {
-    time_t ts;
-    if ((op._checksum != NULL) && (op._checksum[0] == '\0')) {
-      ts = 0;
-    } else {
-      ts = time(NULL);
-    }
+  // Even if failed, add data if new
+  if (! failed || ! op._get_checksum) {
     // Add entry info to journal
-    if (_d->client->add(op._path, node2, ts) < 0) {
+    if (_d->client->add(op._path, &op._node, ts) < 0) {
       out(error, msg_standard, "Cannot add to client's list");
       failed = true;
     }
   }
-  delete node2;
+  out(info, msg_standard, op._path, -2, code);
 
   return failed ? -1 : 0;
 }

@@ -117,7 +117,7 @@ int main(void) {
   cout << endl << "Test: write and read back" << endl;
   /* Write */
   char* chksm = NULL;
-  if ((status = db.write("test1/testfile", &chksm))) {
+  if ((status = db.write("test1/testfile", &chksm)) < 0) {
     printf("db.write error status %d\n", status);
     db.close();
     return 0;
@@ -136,7 +136,7 @@ int main(void) {
   }
   /* Write again */
   chksm = NULL;
-  if ((status = db.write("test_db/blah", &chksm))) {
+  if ((status = db.write("test_db/blah", &chksm)) < 0) {
     printf("db.write error status %d\n", status);
     db.close();
     return 0;
@@ -151,7 +151,7 @@ int main(void) {
   cout << endl << "Test: write and read back with compression" << endl;
   /* Write */
   chksm = NULL;
-  if ((status = db.write("test1/testfile", &chksm, 5))) {
+  if ((status = db.write("test1/testfile", &chksm, 5)) < 0) {
     printf("db.write error status %d\n", status);
     db.close();
     return 0;
@@ -170,7 +170,7 @@ int main(void) {
   }
   /* Write again */
   chksm = NULL;
-  if ((status = db.write("test_db/blah", &chksm))) {
+  if ((status = db.write("test_db/blah", &chksm)) < 0) {
     printf("db.write error status %d\n", status);
     db.close();
     return 0;

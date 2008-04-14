@@ -317,7 +317,7 @@ int Data::write(
     const char*     path,
     char**          dchecksum,
     int             compress) {
-  bool failed = false;
+  bool failed  = false;
 
   Stream source(path);
   if (source.open("r")) {
@@ -410,7 +410,7 @@ int Data::write(
     stringstream s;
     s << "Adding " << ((compress != 0) ? "compressed " : "")
       << "file data to DB for " << source.checksum() << "-" << index;
-    out(verbose, msg_standard, s.str().c_str());
+    out(debug, msg_standard, s.str().c_str());
   }
 
   // If anything failed, delete temporary file
@@ -434,7 +434,7 @@ int Data::write(
     }
   }
 
-  return failed ? -1 : 0;
+  return failed ? -1 : (present ? 0 : 1);
 }
 
 int Data::check(

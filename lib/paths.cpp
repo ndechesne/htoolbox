@@ -16,11 +16,8 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <sstream>
 #include <string>
 #include <list>
-#include <dirent.h>
-#include <sys/stat.h>
 #include <errno.h>
 
 using namespace std;
@@ -98,34 +95,28 @@ int ClientPath::parse_recurse(
         // Synchronize with DB records
         Path rem_path(remote_path, (*i)->name());
         Database::OpData op(rem_path, **i);
-        int rc = db.sendEntry(op);
-        if (rc < 0) {
-          give_up = true;
-        } else {
-          // Add node
-          if (rc > 0) {
-            if (((*i)->type() == 'f')
-            && (_compress != NULL) && _compress->match(**i, start)) {
-              op.setCompression(5);
-            }
-            if (db.add(op)
-            &&  (  (errno != EBUSY)       // Ignore busy files
-                && (errno != ENOENT)      // Ignore files gone
-                && (errno != EACCES))) {  // Ignore access refused
-              // All the rest results in a cease and desist order
-              give_up = true;
-            }
+        db.sendEntry(op);
+        // Add node
+        if (op.needsAdding()) {
+          if (((*i)->type() == 'f')
+          && (_compress != NULL) && _compress->match(**i, start)) {
+            op.setCompression(5);
           }
+          if (db.add(op)
+          &&  (  (errno != EBUSY)       // Ignore busy files
+              && (errno != ENOENT)      // Ignore files gone
+              && (errno != EACCES))) {  // Ignore access refused
+            // All the rest results in a cease and desist order
+            give_up = true;
+          }
+        }
 
-          // For directory, recurse into it
-          if ((*i)->type() == 'd') {
-            stringstream s;
-            s << "Dir " << &rem_path[_path.length() + 1];
-            out(debug, msg_standard, s.str().c_str(), 1);
-            if (parse_recurse(db, rem_path, start,
-                static_cast<Directory&>(**i), parser) < 0) {
-              give_up = true;
-            }
+        // For directory, recurse into it
+        if ((*i)->type() == 'd') {
+          out(debug, msg_standard, &rem_path[_path.length() + 1], 1, "Dir");
+          if (parse_recurse(db, rem_path, start,
+              static_cast<Directory&>(**i), parser) < 0) {
+            give_up = true;
           }
         }
       }

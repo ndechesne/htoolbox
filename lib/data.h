@@ -62,10 +62,10 @@ public:
     const char*     path,
     const char*     checksum);
   // Add new item to database
-  int write(
-    const char*     path,
-    char**          checksum,
-    int             compress = 0);
+  int write(                          // <0: error, >0: written, =0: no need
+    const char*     path,             // Path to read from
+    char**          checksum,         // Copy checksum here
+    int             compress = 0);    // Compression to apply
   // Check existence/consistence of given checksum's data
   int check(
     const char*     checksum,
