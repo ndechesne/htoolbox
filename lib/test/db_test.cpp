@@ -265,27 +265,42 @@ int main(void) {
 
   Directory* d;
   File* f;
+  Database::OpData* op;
   d = new Directory("test1/subdir");
-  db.add("/client_path/subdir", d);
+  op = new Database::OpData("/client_path/subdir", *d);
+  db.add(*op);
+  delete op;
   delete d;
   f = new File("test1/subdir/testfile");
-  db.add("/client_path/subdir/testfile", f, NULL, 5);
+  op = new Database::OpData("/client_path/subdir/testfile", *f);
+  op->setCompression(5);
+  db.add(*op);
+  delete op;
   delete f;
   f = new File("test1/subdir/testfile2");
-  db.add("/client_path/subdir/testfile2", f);
+  op = new Database::OpData("/client_path/subdir/testfile2", *f);
+  db.add(*op);
+  delete op;
   delete f;
   f = new File("test1/test space");
-  db.add("/client_path/test space", f);
+  op = new Database::OpData("/client_path/test space", *f);
+  db.add(*op);
+  delete op;
   delete f;
   f = new File("test1/testfile");
-  db.add("/client_path/testfile", f);
+  op = new Database::OpData("/client_path/testfile", *f);
+  db.add(*op);
+  delete op;
   delete f;
-
   d = new Directory("test1/testdir");
-  db.add("other_path/testdir", d);
+  op = new Database::OpData("other_path/testdir", *d);
+  db.add(*op);
+  delete op;
   delete d;
   f = new File("test2/testfile");
-  db.add("other_path/testfile", f);
+  op = new Database::OpData("other_path/testfile", *f);
+  db.add(*op);
+  delete op;
   delete f;
 
   db.closeClient();
@@ -442,9 +457,10 @@ int main(void) {
     }
     db2.openClient("myClient");
     db.openClient("myClient");
-    Link* l = new Link("test1/testlink");
-    db.add("/client_path/new_link", l);
-    delete l;
+
+    Link l("test1/testlink");
+    Database::OpData o("/client_path/new_link", l);
+    db.add(o);
     db.closeClient();
     rename("test_db/myClient/journal~", "test_db/myClient/list");
     db2.getRecords(records, "/client_path");

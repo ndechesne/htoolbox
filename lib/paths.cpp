@@ -63,27 +63,27 @@ int ClientPath::parse_recurse(
 
   bool give_up = false;
   if (dir.isValid() && ! dir.createList()) {
-    list<Node*>::iterator i = dir.nodesList().begin();
-    while (i != dir.nodesList().end()) {
+    for (list<Node*>::iterator i = dir.nodesList().begin();
+        i != dir.nodesList().end(); delete *i, i = dir.nodesList().erase(i)) {
       if (! aborting() && ! give_up) {
         // Ignore inaccessible files
         if ((*i)->type() == '?') {
-          goto end;
+          continue;
         }
 
         // Always ignore a dir named '.hbackup'
         if (((*i)->type() == 'd') && (strcmp((*i)->name(), ".hbackup") == 0)) {
-          goto end;
+          continue;
         }
 
         // Let the parser analyse the file data to know whether to back it up
         if ((parser != NULL) && (parser->ignore(**i))) {
-          goto end;
+          continue;
         }
 
         // Now pass it through the filters
         if ((_ignore != NULL) && _ignore->match(**i, start)) {
-          goto end;
+          continue;
         }
 
         // Count the nodes considered, for info
@@ -97,20 +97,18 @@ int ClientPath::parse_recurse(
 
         // Synchronize with DB records
         Path rem_path(remote_path, (*i)->name());
-        char* checksum = NULL;
-        int id;
-        int rc = db.sendEntry(rem_path, *i, &checksum, &id);
+        Database::OpData op(rem_path, **i);
+        int rc = db.sendEntry(op);
         if (rc < 0) {
           give_up = true;
         } else {
           // Add node
           if (rc > 0) {
-            int compress = 0;
             if (((*i)->type() == 'f')
             && (_compress != NULL) && _compress->match(**i, start)) {
-              compress = 5;
+              op.setCompression(5);
             }
-            if (db.add(rem_path, *i, checksum, compress, id)
+            if (db.add(op)
             &&  (  (errno != EBUSY)       // Ignore busy files
                 && (errno != ENOENT)      // Ignore files gone
                 && (errno != EACCES))) {  // Ignore access refused
@@ -130,11 +128,7 @@ int ClientPath::parse_recurse(
             }
           }
         }
-        free(checksum);
       }
-end:
-      delete *i;
-      i = dir.nodesList().erase(i);
     }
   } else {
     out(error, msg_errno, "Reading directory", errno, remote_path);

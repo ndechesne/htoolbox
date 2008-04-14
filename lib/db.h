@@ -72,19 +72,31 @@ public:
   // Close list / journal for current client, can signal if error occurred
   int  closeClient(
     bool            abort = false);       // Whether to remove remaining items
+  // Data for operation
+  class OpData {
+    friend class Database;
+    char            _letter;          // Letter showing current operation
+    int             _id;              // Missing checksum ID
+    int             _compression;     // Compression level for regular files
+    char*           _checksum;        // Checksum to use
+    const char*     _path;            // Real file path, on client
+    const Node&     _node;            // File metadata
+  public:
+    // Pointers given to the constructor MUST remain valid during operation!
+    OpData(
+      const char*   path,             // Real file path, on client
+      const Node&   node)             // File metadata
+     : _letter(0), _id(-1), _compression(0), _checksum(NULL), _path(path),
+       _node(node) {}
+    ~OpData() { free(_checksum); }
+    void setCompression(int compression) { _compression = compression; }
+  };
   // Send data for comparison
   int  sendEntry(
-    const char*     remote_path,      // Dir where the file resides, remotely
-    const Node*     node,             // File metadata
-    char**          checksum = NULL,  // Checksum from current file
-    int*            id       = NULL); // Need to pass an integer to be used by add
+    OpData&         operation);       // Operation data
   // Add entry to journal/list
   int  add(
-    const char*     full_path,        // File path on client
-    const Node*     node,             // File metadata
-    const char*     checksum = NULL,  // Do not copy data, use given checksum
-    int             compress = 0,     // Compression level for regular files
-    int             id       = -1);   // Need to pass the integer from sendEntry
+    const OpData&   operation);       // Operation data
 };
 
 }

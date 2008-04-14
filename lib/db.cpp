@@ -567,117 +567,104 @@ int Database::closeClient(
 }
 
 int Database::sendEntry(
-    const char*     remote_path,
-    const Node*     node,
-    char**          checksum,
-    int*            id) {
-  // Reset ID of missing checksum
-  if (id != NULL) {
-    *id = -1;
-  }
-
+    OpData&         op) {
   Node* db_node = NULL;
-  int rc = _d->client->search(remote_path, &db_node);
+  int rc = _d->client->search(op._path, &db_node);
 
   // Compare entries
-  char letter = 0;
   bool new_path = false;
-  if (remote_path != NULL) {
+  if (op._path != NULL) {
     if ((rc > 0) || (db_node == NULL)) {
       // New file
-      letter = 'A';
+      op._letter = 'A';
       new_path = true;
     }
 
-    if (letter == 0) {
+    if (op._letter == 0) {
       // Existing file: check for differences
-      if (*db_node != *node) {
+      if (*db_node != op._node) {
         // Metadata differ
-        if ((node->type() == 'f')
+        if ((op._node.type() == 'f')
         && (db_node->type() == 'f')
-        && (node->size() == db_node->size())
-        && (node->mtime() == db_node->mtime())) {
+        && (op._node.size() == db_node->size())
+        && (op._node.mtime() == db_node->mtime())) {
           // If the file data is there, just add new metadata
           // If the checksum is missing, this shall retry too
-          *checksum = strdup(((File*)db_node)->checksum());
-          letter = '~';
+          op._checksum = strdup(static_cast<File*>(db_node)->checksum());
+          op._letter   = '~';
         } else {
           // Do it all
-          letter = 'M';
+          op._letter = 'M';
         }
       } else
       // Same metadata, hence same type...
       {
         // Compare linked data
-        if ((node->type() == 'l')
-        && (strcmp(((Link*)node)->link(), ((Link*)db_node)->link()) != 0)) {
-          letter = 'L';
+        if ((op._node.type() == 'l')
+        && (strcmp(static_cast<const Link&>(op._node).link(),
+            static_cast<Link*>(db_node)->link()) != 0)) {
+          op._letter = 'L';
         } else
         // Check that file data is present
-        if (node->type() == 'f') {
-          const char* node_checksum = ((File*)db_node)->checksum();
+        if (op._node.type() == 'f') {
+          const char* node_checksum = static_cast<File*>(db_node)->checksum();
           if (node_checksum[0] == '\0') {
             // Checksum missing: retry
-            *checksum = strdup("");
-            letter = '!';
-          } else
-          if (id != NULL) {
+            op._checksum = strdup("");
+            op._letter   = '!';
+          } else {
             // Same checksum: look for checksum in missing list (binary search)
-            *id = _d->missing.search(node_checksum);
-            if (*id >= 0) {
-              letter = 'R';
+            op._id = _d->missing.search(node_checksum);
+            if (op._id >= 0) {
+              op._letter = 'R';
             }
           }
         }
       }
     }
 
-    if (letter != 0) {
-      char cletter[2] = { letter, '\0' };
-      out(info, msg_standard, remote_path, -2, cletter);
+    if (op._letter != 0) {
+      char cletter[2] = { op._letter, '\0' };
+      out(info, msg_standard, op._path, -2, cletter);
     }
   }
   delete db_node;
 
   // Send status back
-  return new_path ? 2 : ((letter != 0) ? 1 : 0);
+  return new_path ? 2 : ((op._letter != 0) ? 1 : 0);
 }
 
 int Database::add(
-    const char*     remote_path,
-    const Node*     node,
-    const char*     old_checksum,
-    int             compress,
-    int             id) {
+    const OpData&   op) {
   bool failed = false;
 
   // Add new record to active list
-  if ((node->type() == 'l') && ! node->parsed()) {
+  if ((op._node.type() == 'l') && ! op._node.parsed()) {
     out(error, msg_standard, "Bug in db add: link was not parsed!");
     return -1;
   }
 
   // Create data
   Node* node2 = NULL;
-  switch (node->type()) {
+  switch (op._node.type()) {
     case 'l':
-      node2 = new Link(*(Link*)node);
+      node2 = new Link(static_cast<const Link&>(op._node));
       break;
     case 'f':
-      node2 = new File(*node);
-      if ((old_checksum != NULL) && (old_checksum[0] != '\0')) {
+      node2 = new File(op._node);
+      if ((op._checksum != NULL) && (op._checksum[0] != '\0')) {
         // Use same checksum
-        ((File*)node2)->setChecksum(old_checksum);
+        ((File*)node2)->setChecksum(op._checksum);
       } else {
         // Copy data
         char* checksum  = NULL;
-        if (! _d->data.write(node->path(), &checksum, compress)) {
-          ((File*)node2)->setChecksum(checksum);
-          if ((id >= 0)
-          && (_d->missing[id] == checksum)) {
+        if (! _d->data.write(op._node.path(), &checksum, op._compression)) {
+          (static_cast<File*>(node2))->setChecksum(checksum);
+          if ((op._id >= 0)
+          && (_d->missing[op._id] == checksum)) {
             out(verbose, msg_standard, checksum, -1, "Recovered checksum");
             // Mark checksum as already recovered
-            _d->missing.setRecovered(id);
+            _d->missing.setRecovered(op._id);
           }
           free(checksum);
         } else {
@@ -686,18 +673,18 @@ int Database::add(
       }
       break;
     default:
-      node2 = new Node(*node);
+      node2 = new Node(op._node);
   }
 
-  if (! failed || (old_checksum == NULL)) {
+  if (! failed || (op._checksum == NULL)) {
     time_t ts;
-    if ((old_checksum != NULL) && (old_checksum[0] == '\0')) {
+    if ((op._checksum != NULL) && (op._checksum[0] == '\0')) {
       ts = 0;
     } else {
       ts = time(NULL);
     }
     // Add entry info to journal
-    if (_d->client->add(remote_path, node2, ts) < 0) {
+    if (_d->client->add(op._path, node2, ts) < 0) {
       out(error, msg_standard, "Cannot add to client's list");
       failed = true;
     }
