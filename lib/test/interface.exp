@@ -219,11 +219,11 @@ Backup path: C:/Test Dir
  -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
 A C:/Test Dir/My Dir
  -> Dir My Dir
-A C:/Test Dir/My Dir/a File.TXT	(2 B)
+A C:/Test Dir/My Dir/a File.TXT
 Adding compressed file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
-A C:/Test Dir/My Dir/another File.TXT	(2 B)
+A C:/Test Dir/My Dir/another File.TXT
 Adding compressed file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
-A C:/Test Dir/My File.TXT	(0 B)
+A C:/Test Dir/My File.TXT
 Adding compressed file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
 Database modified: aClient.vista
 Database closed: aClient.vista
@@ -264,9 +264,9 @@ Database open r/w: client.xp
 Backup path: C:/Test Dir
 A C:/Test Dir/My Dir
  -> Dir My Dir
-A C:/Test Dir/My Dir/a File.TXT	(2 B)
-A C:/Test Dir/My Dir/another File.TXT	(2 B)
-A C:/Test Dir/My File.TXT	(0 B)
+A C:/Test Dir/My Dir/a File.TXT
+A C:/Test Dir/My Dir/another File.TXT
+A C:/Test Dir/My File.TXT
 Database modified: client.xp
 Database closed: client.xp
  -> umount -fl test_db/.mount
@@ -290,10 +290,10 @@ Database open r/w: myClient
 Backup path: /home/User/test
  -> umount -fl test_db/.mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
-A /home/User/test/File2.txt	(0 B)
+A /home/User/test/File2.txt
 A /home/User/test/dir
  -> Dir dir
-A /home/User/test/dir/file3.txt	(2 B)
+A /home/User/test/dir/file3.txt
 Adding compressed file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
 Database modified: myClient
 Database closed: myClient
@@ -329,7 +329,7 @@ Backing up client
 List created: myhost
 Database open r/w: myhost
 Backup path: test1
-A test1/big_file	(10 MB)
+A test1/big_file
 Done:   3.9%\r
 Done:   7.8%\r
 Done:  11.7%\r
@@ -367,9 +367,9 @@ A test1/cvs
  --> fileutd.h: 1159985080
 A test1/cvs/CVS
  -> Dir cvs/CVS
-A test1/cvs/CVS/Entries	(161 B)
+A test1/cvs/CVS/Entries
 Adding compressed file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
-A test1/cvs/CVS/Root	(16 B)
+A test1/cvs/CVS/Root
 Adding compressed file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
 A test1/cvs/dirbad
  -> Dir cvs/dirbad
@@ -380,16 +380,16 @@ A test1/cvs/dirutd
  --> fileutd: 1159985080
 A test1/cvs/dirutd/CVS
  -> Dir cvs/dirutd/CVS
-A test1/cvs/dirutd/CVS/Entries	(42 B)
+A test1/cvs/dirutd/CVS/Entries
 Adding compressed file data to DB for 5252f242d27b8c2c9fdbdcbb33545d07-0
-A test1/cvs/dirutd/CVS/Root	(10 B)
+A test1/cvs/dirutd/CVS/Root
 Adding compressed file data to DB for eb75fb33b2019ef3c840eb5ccdc2e795-0
-A test1/cvs/dirutd/fileutd	(0 B)
-A test1/cvs/filenew.c	(0 B)
-A test1/cvs/fileutd.h	(0 B)
+A test1/cvs/dirutd/fileutd
+A test1/cvs/filenew.c
+A test1/cvs/fileutd.h
 A test1/dir space
  -> Dir dir space
-A test1/dir space/file space	(0 B)
+A test1/dir space/file space
 A test1/svn
  -> Dir svn
  -> Parsing Subversion entries
@@ -399,7 +399,7 @@ A test1/svn
  --> fileoth: i
 A test1/svn/.svn
  -> Dir svn/.svn
-A test1/svn/.svn/entries	(77 B)
+A test1/svn/.svn/entries
 Adding compressed file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A test1/svn/dirbad
  -> Dir svn/dirbad
@@ -411,25 +411,25 @@ A test1/svn/dirutd
  --> fileutd: m
 A test1/svn/dirutd/.svn
  -> Dir svn/dirutd/.svn
-A test1/svn/dirutd/.svn/entries	(30 B)
+A test1/svn/dirutd/.svn/entries
 Adding compressed file data to DB for 8bdef5751e46ed57d237cbe3f4a5061c-0
-A test1/svn/dirutd/fileutd	(0 B)
-A test1/svn/filenew.c	(0 B)
-A test1/test space	(0 B)
+A test1/svn/dirutd/fileutd
+A test1/svn/filenew.c
+A test1/test space
 A test1/testdir
  -> Dir testdir
-A test1/testfile	(13 B)
+A test1/testfile
 Adding compressed file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
 A test1/testlink
 A test1/testpipe
 Backup path: test2
 A test2/testdir
  -> Dir testdir
-A test2/testfile	(145 kB)
+A test2/testfile
 Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
-A test2/testfile2	(259 kB)
+A test2/testfile2
 Adding file data to DB for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-A test2/testfile~	(524 kB)
+A test2/testfile~
 Done:  78.1%\r
             \r
 Adding file data to DB for 59071590099d21dd439896592338bf95-0
@@ -818,7 +818,7 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
  --> fileutd: 1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
-A test1/dir space/big_file	(512 kB)
+A test1/dir space/big_file
 Done:  80.0%\r
 Killing trigger reached: 2
 Error: test_db/myhost/data: Operation canceled: Copying write file
@@ -975,7 +975,7 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
  --> fileutd: 1159985080
  -> Dir cvs/dirutd/CVS
  -> Dir dir space
-! test1/dir space/big_file	(512 kB)
+! test1/dir space/big_file
 Done:  80.0%\r
             \r
 Adding compressed file data to DB for 816df6f64deba63b029ca19d880ee10a-0
@@ -1965,9 +1965,9 @@ Database open r/w: myClient.xp
 Backup path: C:/Test Dir
 A C:/Test Dir/My Dir
  -> Dir My Dir
-A C:/Test Dir/My Dir/a File.TXT	(2 B)
-A C:/Test Dir/My Dir/another File.TXT	(2 B)
-A C:/Test Dir/My File.TXT	(0 B)
+A C:/Test Dir/My Dir/a File.TXT
+A C:/Test Dir/My Dir/another File.TXT
+A C:/Test Dir/My File.TXT
 Database modified: myClient.xp
 Database closed: myClient.xp
  -> umount -fl test_db/.mount
@@ -2186,17 +2186,17 @@ Reading list of missing checksums
 List created: localhost
 Database open r/w: localhost
 Backup path: test_user/testuser
-A test_user/testuser/f1.txt	(3 B)
+A test_user/testuser/f1.txt
 Adding file data to DB for 31d30eea8d0968d6458e0ad0027c9f80-0
 A test_user/testuser/subdir
  -> Dir subdir
-A test_user/testuser/subdir/f2.txt	(3 B)
+A test_user/testuser/subdir/f2.txt
 Adding file data to DB for dbbf8220893d497d403bb9cdf49db7a4-0
 A test_user/testuser/subdir2
  -> Dir subdir2
-A test_user/testuser/subdir2/f3.txt	(3 B)
+A test_user/testuser/subdir2/f3.txt
 Adding file data to DB for d5b4c7d9b06b60a7846c4529834c9812-0
-A test_user/testuser/subdir2/f4.txt	(3 B)
+A test_user/testuser/subdir2/f4.txt
 Adding file data to DB for 90e2a51705594d033a3abe9d77b2b7ad-0
 Database modified: localhost
 Database closed: localhost
@@ -4122,10 +4122,10 @@ Backup path: test1
  --> filenew.c: 0
  --> fileutd.h: 1159985080
  -> Dir cvs/CVS
-R test1/cvs/CVS/Entries	(161 B)
+R test1/cvs/CVS/Entries
 Adding compressed file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
 Recovered checksum: fef51838cd3cfe8ed96355742eb71fbd-0
-R test1/cvs/CVS/Root	(16 B)
+R test1/cvs/CVS/Root
 Adding compressed file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
 Recovered checksum: b90f8fa56ea1d39881d4a199c7a81d35-0
  -> Dir cvs/dirbad
@@ -4142,7 +4142,7 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
  --> filenew.c: m
  --> fileoth: i
  -> Dir svn/.svn
-R test1/svn/.svn/entries	(77 B)
+R test1/svn/.svn/entries
 Adding compressed file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
 Recovered checksum: 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> Dir svn/dirbad

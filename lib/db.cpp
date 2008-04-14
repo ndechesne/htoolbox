@@ -633,32 +633,8 @@ int Database::sendEntry(
     }
 
     if (letter != 0) {
-      stringstream s;
-      s << remote_path;
-      long long size = -1;
-      if (node->type() == 'f') {
-        size = node->size();
-        s << "\t(";
-        if (node->size() < 10000) {
-          s << node->size();
-          s << " ";
-        } else
-        if (node->size() < 10000000) {
-          s << node->size() / 1000;
-          s << " k";
-        } else
-        if (node->size() < 10000000000ll) {
-          s << node->size() / 1000000;
-          s << " M";
-        } else
-        {
-          s << node->size() / 1000000000;
-          s << " G";
-        }
-        s << "B)";
-      }
       char cletter[2] = { letter, '\0' };
-      out(info, msg_standard, s.str().c_str(), -2, cletter);
+      out(info, msg_standard, remote_path, -2, cletter);
     }
   }
   delete db_node;
