@@ -38,7 +38,6 @@ using namespace std;
 #include "report.h"
 #include "data.h"
 #include "missing.h"
-#include "list.h"
 #include "owner.h"
 #include "db.h"
 

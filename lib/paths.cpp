@@ -30,7 +30,6 @@ using namespace std;
 #include "parsers.h"
 #include "cvs_parser.h"
 #include "svn_parser.h"
-#include "list.h"
 #include "db.h"
 #include "paths.h"
 

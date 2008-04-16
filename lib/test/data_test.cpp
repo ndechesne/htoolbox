@@ -27,7 +27,6 @@ using namespace std;
 #include "hbackup.h"
 #include "files.h"
 #include "report.h"
-#include "list.h"
 #include "data.h"
 
 using namespace hbackup;

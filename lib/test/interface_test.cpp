@@ -29,7 +29,6 @@ using namespace std;
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"
-#include "list.h"
 #include "db.h"
 #include "paths.h"
 #include "clients.h"
