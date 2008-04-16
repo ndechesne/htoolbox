@@ -25,6 +25,7 @@ namespace hbackup {
 
 class Line {
   int               _capacity;
+  int               _size;
   char*             _buffer;
 public:
   // Big four
@@ -36,6 +37,7 @@ public:
   const Line& operator=(const char* line);
   const char& operator[](int pos) const { return _buffer[pos] ; }
   operator const char* () const         { return _buffer; }
+  int size() const                      { return _size; }
   const Line& erase(int pos = 0);
   int find(char c, int pos = 0) const;
   const Line& append(const Line& line, int pos = -1, int num = -1);

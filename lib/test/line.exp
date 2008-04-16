@@ -1,23 +1,25 @@
-const char* constructor: abc
-const char* constructor: def
-copy constructor: abc
-copy: def
-copy: g
-copy: hijklmn
+default c'tor: size = 0
+copy c'tor: size = 0
+const char* constructor: abc, size = 3
+const char* constructor: def, size = 3
+copy constructor: abc, size = 3
+copy: def, size = 3
+copy: g, size = 1
+copy: hijklmn, size = 7
 operator[0]: hijklmn
 operator[3]: klmn
-erase(5): hijkl
-find('j'): 2
-find('z'): -1
-find('j', 1): 2
-find('j', 4): -1
-append("op"): hijklop
-append("qr", 3): hijqr
-append("stuv", 4): hijqstuv
-append("wxyz", 6, 3): hijqstwxy
+erase(5): hijkl, size = 5
+find('j'): 2, size = 5
+find('z'): -1, size = 5
+find('j', 1): 2, size = 5
+find('j', 4): -1, size = 5
+append("op"): hijklop, size = 7
+append("qr", 3): hijqr, size = 5
+append("stuv", 4): hijqstuv, size = 8
+append("wxyz", 6, 3): hijqstwxy, size = 9
 replace end of line
-new line: 	0	new line
-old line: 	12345	old line
+new line: 	0	new line, size = 11
+old line: 	12345	old line, size = 15
 second tab: 6
-end line: 	12345	new line
+end line: 	12345	new line, size = 15
 end of tests

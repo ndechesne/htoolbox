@@ -28,6 +28,8 @@ using namespace hbackup;
 Line::Line(const char* line) : _capacity(0), _buffer(NULL) {
   if (line != NULL) {
     operator=(line);
+  } else {
+    _size = 0;
   }
 }
 
@@ -35,6 +37,8 @@ Line::Line(const char* line) : _capacity(0), _buffer(NULL) {
 Line::Line(const Line& line) : _capacity(0), _buffer(NULL) {
   if (line._buffer != NULL) {
     operator=(line._buffer);
+  } else {
+    _size = 0;
   }
 }
 
@@ -47,10 +51,10 @@ const Line& Line::operator=(const Line& line) {
 }
 
 const Line& Line::operator=(const char* line) {
-  int size = strlen(line) + 1;
-  if (size > _capacity) {
+  _size = strlen(line);
+  if ((_size + 1) > _capacity) {
     free(_buffer);
-    _capacity = size;
+    _capacity = _size + 1;
     _buffer   = strdup(line);
   } else {
     strcpy(_buffer, line);
@@ -59,6 +63,7 @@ const Line& Line::operator=(const char* line) {
 }
 
 const Line& Line::erase(int pos) {
+  _size = pos;
   _buffer[pos] = 0;
   return *this;
 }
@@ -84,13 +89,13 @@ const Line& Line::append(const char* line, int pos, int num) {
     pos = strlen(_buffer);
   }
   if (num > 0) {
-    int size = pos + num + 1;
-    if (_capacity < size) {
-      _capacity = size;
+    _size = pos + num;
+    if ((_size + 1) > _capacity) {
+      _capacity = _size + 1;
       _buffer   = (char*) realloc(_buffer, _capacity);
     }
     strncpy(&_buffer[pos], line, num);
-    _buffer[size - 1] = 0;
+    _buffer[_size] = 0;
   }
   return *this;
 }
