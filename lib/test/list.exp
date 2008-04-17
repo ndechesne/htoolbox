@@ -127,3 +127,31 @@ List:
 [ 5] file_new         f    20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] link             l     8 777 testfile
 [ 1] path             d     0 755
+
+Test: journal write
+
+Test: journal read
+[14] file sp          f     0 644 
+[14] file_gone        [rm]
+[14] file_new         f    22 750 246dccb0301976d765609dfb0efd68f9
+[14] link             l     8 777 testfile
+[14] path             d     0 755
+Error: Unexpected end of file
+Failed to read journal
+
+Test: broken journal merge
+Warning: Unexpected end of journal
+
+Test: merge read
+[14] file sp          f     0 644 
+[ 1] file sp          f     0 644 d41d8cd98f00b204e9800998ecf8427e
+[14] file_gone        [rm]
+[ 1] file_gone        [rm]
+[14] file_new         f    22 750 246dccb0301976d765609dfb0efd68f9
+[13] file_new         f    22 750 246dccb0301976d765609dfb0efd68f9
+[ 5] file_new         f    20 750 12fec763b7f0a7d6acfc8bfe7606c325
+[ 1] file_new         f    13 750 59ca0efa9f5633cb0371bbc0355478d8
+[14] link             l     8 777 testfile
+[ 1] link             l     8 777 testfile
+[14] path             d     0 755
+[ 1] path             d     0 755

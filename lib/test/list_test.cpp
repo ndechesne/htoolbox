@@ -84,7 +84,13 @@ int main(void) {
   // No checksum
   node = new Stream("test1/test space");
   journal.addPath("file sp");
+  if (journal.isEmpty()) {
+    cout << "Journal is empty" << endl;
+  }
   journal.addData(time(NULL), node);
+  if (journal.isEmpty()) {
+    cout << "Journal is empty" << endl;
+  }
   free(node);
 
   journal.addPath("file_gone");
@@ -109,6 +115,9 @@ int main(void) {
   free(node);
 
   journal.close();
+  if (journal.isEmpty()) {
+    cout << "Journal is empty" << endl;
+  }
 
 
   cout << endl << "Test: journal read" << endl;
@@ -161,6 +170,9 @@ int main(void) {
   if (merge.merge(dblist, journal) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
+  }
+  if (merge.isEmpty()) {
+    cout << "Merge is empty" << endl;
   }
   merge.close();
   journal.close();
@@ -628,6 +640,135 @@ int main(void) {
   dblist.close();
   if (rc < 0) {
     cerr << "Failed to read list" << endl;
+  }
+
+
+  // Recovery
+  cout << endl << "Test: journal write" << endl;
+  my_time++;
+
+  if (journal.open("w", -1)) {
+    cerr << "Failed to open journal" << endl;
+    return 0;
+  }
+
+  // No checksum
+  node = new Stream("test1/test space");
+  journal.addPath("file sp");
+  if (journal.isEmpty()) {
+    cout << "Journal is empty" << endl;
+  }
+  journal.addData(time(NULL), node);
+  if (journal.isEmpty()) {
+    cout << "Journal is empty" << endl;
+  }
+  free(node);
+
+  journal.addPath("file_gone");
+  journal.addData(time(NULL));
+
+  node = new Stream("test1/testfile");
+  ((Stream*) node)->open("r");
+  ((Stream*) node)->computeChecksum();
+  ((Stream*) node)->close();
+  journal.addPath("file_new");
+  journal.addData(time(NULL), node);
+  free(node);
+
+  node = new Link("test1/testlink");
+  journal.addPath("link");
+  journal.addData(time(NULL), node);
+  free(node);
+
+  node = new Directory("test1/testdir");
+  journal.addPath("path");
+  journal.addData(time(NULL), node);
+  free(node);
+
+  journal.close();
+  if (journal.isEmpty()) {
+    cout << "Journal is empty" << endl;
+  }
+  system("grep -v '# end' test_db/journal > test_db/journal.1");
+  system("mv test_db/journal.1 test_db/journal");
+
+
+  cout << endl << "Test: journal read" << endl;
+  my_time++;
+
+  node = NULL;
+  if (journal.open("r") < 0) {
+    cerr << "Failed to open journal: " << strerror(errno) << endl;
+  } else {
+    if (journal.isEmpty()) {
+      cout << "Journal is empty" << endl;
+    } else
+    while ((rc = journal.getEntry(&ts, &path, &node)) > 0) {
+      showLine(ts, path, node);
+    }
+    journal.close();
+    if (rc < 0) {
+      cerr << "Failed to read journal" << endl;
+    } else
+    // Check that we obtain the end of file again
+    if (rc == 0) {
+      if (journal.getEntry(&ts, &path, &node) != 0) {
+        cerr << "Error reading end of journal again" << endl;
+      }
+    }
+  }
+
+
+  cout << endl << "Test: broken journal merge" << endl;
+  my_time++;
+
+  if (dblist.open("r")) {
+    cerr << "Failed to open list" << endl;
+    return 0;
+  }
+  if (dblist.isEmpty()) {
+    cout << "List is empty" << endl;
+  }
+  if (journal.open("r")) {
+    cerr << "Failed to open journal" << endl;
+    return 0;
+  }
+  if (journal.isEmpty()) {
+    cout << "Journal is empty" << endl;
+  }
+  if (merge.open("w")) {
+    cerr << "Failed to open merge" << endl;
+    return 0;
+  }
+  if (merge.merge(dblist, journal) < 0) {
+    cerr << "Failed to merge" << endl;
+    return 0;
+  }
+  if (merge.isEmpty()) {
+    cout << "Merge is empty" << endl;
+  }
+  merge.close();
+  journal.close();
+  dblist.close();
+
+
+  cout << endl << "Test: merge read" << endl;
+  my_time++;
+
+  merge.open("r");
+  if (merge.isEmpty()) {
+    cout << "Merge is empty" << endl;
+  } else
+  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
+    showLine(ts, path, node);
+  }
+  merge.close();
+  if (rc < 0) {
+    cerr << "Failed to read merge" << endl;
+  }
+
+  if (rename("test_db/merge", "test_db/list")) {
+    cerr << "Failed to rename merge into list" << endl;
   }
 
   return 0;
