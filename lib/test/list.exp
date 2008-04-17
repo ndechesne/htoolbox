@@ -136,7 +136,7 @@ Test: journal read
 [14] file_new         f    22 750 246dccb0301976d765609dfb0efd68f9
 [14] link             l     8 777 testfile
 [14] path             d     0 755
-Error: Unexpected end of file
+Error: Unexpected end of list
 Failed to read journal
 
 Test: broken journal merge

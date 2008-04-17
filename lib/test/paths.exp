@@ -4717,7 +4717,7 @@ myClient's real journal:
 [19] -
 	/home/User/testdir/evolocal.odb
 [19] -
-Error: Unexpected end of file
+Error: Unexpected end of list
 Warning: Previous backup interrupted: myClient
 Database modified: myClient
 Warning: Unexpected end of journal
@@ -4978,7 +4978,7 @@ myClient's journal:
 [19] -
 	/home/User/testdir/evolocal.odb
 [19] -
-Error: Unexpected end of file
+Error: Unexpected end of list
 Database closed
 Database open in read/write mode
 Database closed
@@ -5316,7 +5316,7 @@ myClient's journal:
 [19] -
 	/home/User/testdir/evolocal.odb
 [19] -
-Error: Unexpected end of file
+Error: Unexpected end of list
 
 Same again
 Database open in read/write mode
@@ -5624,7 +5624,7 @@ myClient's journal:
 [19] -
 	/home/User/testdir/evolocal.odb
 [19] -
-Error: Unexpected end of file
+Error: Unexpected end of list
 
 Expiry delay: 18, date: 22
 Database open in read/write mode
