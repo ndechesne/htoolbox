@@ -676,7 +676,7 @@ int main(void) {
   free(node);
 
   node = new Link("test1/testlink");
-  journal.addPath("link");
+  journal.addPath("link2");
   journal.addData(time(NULL), node);
   free(node);
 
@@ -689,8 +689,8 @@ int main(void) {
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
-  system("grep -v '# end' test_db/journal > test_db/journal.1");
-  system("mv test_db/journal.1 test_db/journal");
+  system("head -c 190 test_db/journal > test_db/journal.1");
+  system("cp -f test_db/journal.1 test_db/journal");
 
 
   cout << endl << "Test: journal read" << endl;

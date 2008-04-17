@@ -178,8 +178,7 @@ ssize_t List::fetchLine(bool use_found) {
     // Incorrect end of line
     if (! eol) {
       // All lines MUST end in end-of-line character
-      // FIXME this is too harsh! what if recovering a broken journal?
-      _d->status = _error;
+      _d->status = eof;
     } else
     // End of list
     if (_d->line[0] == '#') {
