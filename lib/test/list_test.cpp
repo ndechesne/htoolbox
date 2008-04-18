@@ -182,17 +182,7 @@ int main(void) {
   cout << endl << "Test: merge read" << endl;
   my_time++;
 
-  merge.open("r");
-  if (merge.isEmpty()) {
-    cout << "Merge is empty" << endl;
-  } else
-  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  merge.close();
-  if (rc < 0) {
-    cerr << "Failed to read merge" << endl;
-  }
+  merge.show();
 
   if (rename("test_db/merge", "test_db/list")) {
     cerr << "Failed to rename merge into list" << endl;
@@ -231,17 +221,7 @@ int main(void) {
   my_time++;
 
   node = NULL;
-  journal.open("r");
-  if (journal.isEmpty()) {
-    cout << "Journal is empty" << endl;
-  } else
-  while ((rc = journal.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  journal.close();
-  if (rc < 0) {
-    cerr << "Failed to read journal" << endl;
-  }
+  journal.show();
 
 
   cout << endl << "Test: journal merge into list" << endl;
@@ -277,17 +257,7 @@ int main(void) {
   cout << endl << "Test: merge read" << endl;
   my_time++;
 
-  merge.open("r");
-  if (merge.isEmpty()) {
-    cout << "Merge is empty" << endl;
-  } else
-  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  merge.close();
-  if (rc < 0) {
-    cerr << "Failed to read merge" << endl;
-  }
+  merge.show();
 
   if (rename("test_db/merge", "test_db/list")) {
     cerr << "Failed to rename merge into list" << endl;
@@ -336,17 +306,7 @@ int main(void) {
   my_time++;
 
   node = NULL;
-  journal.open("r");
-  if (journal.isEmpty()) {
-    cout << "Journal is empty" << endl;
-  } else
-  while ((rc = journal.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  journal.close();
-  if (rc < 0) {
-    cerr << "Failed to read journal" << endl;
-  }
+  journal.show();
 
 
   cout << endl << "Test: journal merge into list" << endl;
@@ -382,38 +342,14 @@ int main(void) {
   cout << endl << "Test: merge read" << endl;
   my_time++;
 
-  merge.open("r");
-  if (merge.isEmpty()) {
-    cout << "Merge is empty" << endl;
-  } else
-  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  merge.close();
-  if (rc < 0) {
-    cerr << "Failed to read merge" << endl;
-  }
+  merge.show();
 
 
   cout << endl << "Test: expire" << endl;
 
   // Show current list
-  if (dblist.open("r")) {
-    cerr << "Failed to open list" << endl;
-    return 0;
-  }
-  if (dblist.isEmpty()) {
-    cout << "List is empty" << endl;
-  } else {
-    cout << "List:" << endl;
-  }
-  while ((rc = dblist.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  dblist.close();
-  if (rc < 0) {
-    cerr << "Failed to read list" << endl;
-  }
+  cout << "List:" << endl;
+  dblist.show();
 
   list<string>::iterator i;
   list<string>::iterator j;
@@ -437,17 +373,7 @@ int main(void) {
   merge.close();
   dblist.close();
 
-  merge.open("r");
-  if (merge.isEmpty()) {
-    cout << "Merge is empty" << endl;
-  }
-  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  merge.close();
-  if (rc < 0) {
-    cerr << "Failed to read merge" << endl;
-  }
+  merge.show();
 
   // All but last
   cout << "Date: 0" << endl;
@@ -469,37 +395,13 @@ int main(void) {
   merge.close();
   dblist.close();
 
-  merge.open("r");
-  if (merge.isEmpty()) {
-    cout << "Merge is empty" << endl;
-  }
-  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  merge.close();
-  if (rc < 0) {
-    cerr << "Failed to read merge" << endl;
-  }
+  merge.show();
 
 
   cout << endl << "Test: copy all data" << endl;
 
-  if (dblist.open("r")) {
-    cerr << "Failed to open list" << endl;
-    return 0;
-  }
-  if (dblist.isEmpty()) {
-    cout << "List is empty" << endl;
-  } else {
-    cout << "List:" << endl;
-  }
-  while ((rc = dblist.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  dblist.close();
-  if (rc < 0) {
-    cerr << "Failed to read list" << endl;
-  }
+  cout << "List:" << endl;
+  dblist.show();
   if (dblist.open("r")) {
     cerr << "Failed to open list" << endl;
     return 0;
@@ -518,19 +420,8 @@ int main(void) {
   merge.close();
   dblist.close();
 
-  merge.open("r");
-  if (merge.isEmpty()) {
-    cout << "Merge is empty" << endl;
-  } else {
-    cout << "Merge:" << endl;
-  }
-  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  merge.close();
-  if (rc < 0) {
-    cerr << "Failed to read merge" << endl;
-  }
+  cout << "Merge:" << endl;
+  merge.show();
   cout << "Merge tail:" << endl;
   system("tail -2 test_db/merge | grep -v 1");
   rename("test_db/merge", "test_db/list");
@@ -584,63 +475,21 @@ int main(void) {
     cerr << "Failed to rename merge into list" << endl;
   }
   // Show list
-  if (dblist.open("r")) {
-    cerr << "Failed to open list" << endl;
-    return 0;
-  }
-  if (dblist.isEmpty()) {
-    cout << "List is empty" << endl;
-  } else {
-    cout << "List:" << endl;
-  }
-  while ((rc = dblist.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  dblist.close();
-  if (rc < 0) {
-    cerr << "Failed to read list" << endl;
-  }
+  cout << "List:" << endl;
+  dblist.show();
 
 
   // Show list with new functionality
   cout << endl << "Test: last entries data" << endl;
-  if (dblist.open("r")) {
-    cerr << "Failed to open list" << endl;
-    return 0;
-  }
-  if (dblist.isEmpty()) {
-    cout << "List is empty" << endl;
-  } else {
-    cout << "List:" << endl;
-  }
-  while ((rc = dblist.getEntry(&ts, &path, &node, 0)) > 0) {
-    showLine(ts, path, node);
-  }
-  dblist.close();
-  if (rc < 0) {
-    cerr << "Failed to read list" << endl;
-  }
+  cout << "List:" << endl;
+  dblist.show(0);
 
 
   // Show list with new functionality
   cout << endl << "Test: entries for given date" << endl;
   cout << "Date: 5" << endl;
-  if (dblist.open("r")) {
-    cerr << "Failed to open list" << endl;
-    return 0;
-  }
-  if (dblist.isEmpty()) {
-    cout << "List is empty" << endl;
-  } else {
-    cout << "List:" << endl;
-  }
-  while ((rc = dblist.getEntry(&ts, &path, &node, 5)) > 0) {
-    showLine(ts, path, node);
-  }
-  dblist.close();
-  if (rc < 0) {
-    cerr << "Failed to read list" << endl;
-  }
+  cout << "List:" << endl;
+  dblist.show(5);
 
 
   // Recovery
@@ -755,17 +604,7 @@ int main(void) {
   cout << endl << "Test: merge read" << endl;
   my_time++;
 
-  merge.open("r");
-  if (merge.isEmpty()) {
-    cout << "Merge is empty" << endl;
-  } else
-  while ((rc = merge.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  merge.close();
-  if (rc < 0) {
-    cerr << "Failed to read merge" << endl;
-  }
+  merge.show();
 
   if (rename("test_db/merge", "test_db/list")) {
     cerr << "Failed to rename merge into list" << endl;

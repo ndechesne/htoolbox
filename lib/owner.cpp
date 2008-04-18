@@ -399,10 +399,12 @@ int Owner::search(
   // If we don't enter the loop (no records), we want to add
   int   cmp     = 1;
   bool  failed  = false;
+  // For each path
   while (_d->original->search(NULL, _d->partial, _d->expiration) == 2) {
+    // Get path
     if (_d->original->getEntry(NULL, &db_path, NULL, -2) <= 0) {
       // Error
-      out(error, msg_standard, "Failed to get entry");
+      out(error, msg_standard, "Failed to get path");
       failed = true;
       break;
     }
@@ -412,8 +414,8 @@ int Owner::search(
       if (cmp >= 0) {
         if (cmp == 0) {
           // Get metadata
-          _d->original->getEntry(NULL, &db_path, node, -1);
-          // Do not lose this metadata!
+          _d->original->getEntry(NULL, &db_path, node);
+          // This metadata needs to be kept, as it will be added after any new
           _d->original->keepLine();
         }
         break;

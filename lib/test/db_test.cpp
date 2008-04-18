@@ -47,26 +47,6 @@ using namespace hbackup;
 //   add:         tested in paths
 //   remove:      tested in paths
 
-static void showLine(
-    time_t          timestamp,
-    const char*     path,
-    const Node*     node) {
-  printf("[%2ld] %-30s", timestamp, path);
-  if (node != NULL) {
-    printf(" %c %6llu %03o", node->type(),
-    (node->type() != 'd') ? node->size() : 0, node->mode());
-    if (node->type() == 'f') {
-      printf(" %s", ((File*) node)->checksum());
-    }
-    if (node->type() == 'l') {
-      printf(" %s", ((Link*) node)->link());
-    }
-  } else {
-    printf(" [rm]");
-  }
-  cout << endl;
-}
-
 static time_t my_time = 0;
 time_t time(time_t *t) {
   return ++my_time;
@@ -77,9 +57,6 @@ int main(void) {
   string  zchecksum;
   int     status;
   List    dblist("test_db/myClient/list");
-  char*   path   = NULL;
-  Node*   node   = NULL;
-  time_t  ts;
 
   setVerbosityLevel(debug);
   Database db("test_db");
@@ -308,17 +285,7 @@ int main(void) {
 
   db.close();
 
-  dblist.open("r");
-  if (dblist.isEmpty()) {
-    cout << "List is empty" << endl;
-  } else
-  while ((status = dblist.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  dblist.close();
-  if (status < 0) {
-    cerr << "Failed to read list" << endl;
-  }
+  dblist.show();
 
   cout << endl << "Test: do nothing" << endl;
   if ((status = db.open())) {
@@ -329,18 +296,7 @@ int main(void) {
   }
   db.close();
 
-  dblist.open("r");
-  if (dblist.isEmpty()) {
-    cout << "List is empty" << endl;
-  } else
-  while ((status = dblist.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  dblist.close();
-  if (status < 0) {
-    cerr << "Failed to read list" << endl;
-  }
-
+  dblist.show();
 
   list<string> records;
   cout << endl << "Test: read clients" << endl;
@@ -468,17 +424,7 @@ int main(void) {
     db2.close();
     db.close();
   }
-  dblist.open("r");
-  if (dblist.isEmpty()) {
-    cout << "List is empty" << endl;
-  } else
-  while ((status = dblist.getEntry(&ts, &path, &node)) > 0) {
-    showLine(ts, path, node);
-  }
-  dblist.close();
-  if (status < 0) {
-    cerr << "Failed to read list" << endl;
-  }
+  dblist.show();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end();
       i++) {

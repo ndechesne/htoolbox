@@ -98,6 +98,11 @@ public:
   int  merge(
     List&           list,
     List&           journal);
+  // Show the list
+  void show(
+    time_t          date       = -1,  // Date to select
+    time_t          time_start = 0,   // Origin of time
+    time_t          time_base  = 1);  // Time base
 };
 
 }

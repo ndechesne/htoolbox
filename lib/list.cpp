@@ -744,3 +744,50 @@ int List::merge(
   }
   return 0;
 }
+
+void List::show(
+    time_t          date,
+    time_t          time_start,
+    time_t          time_base) {
+  if (! open("r")) {
+    if (isEmpty()) {
+      printf("List is empty\n");
+      return;
+    }
+    time_t ts;
+    char*  path = NULL;
+    Node*  node = NULL;
+    int rc = 0;
+    while ((rc = getEntry(&ts, &path, &node, date)) > 0) {
+      time_t timestamp = 0;
+      if (ts != 0) {
+        timestamp = ts - time_start;
+        if (time_base > 1) {
+          timestamp /= time_base;
+        }
+      }
+      printf("[%2ld] %-30s", timestamp, path);
+      if (node != NULL) {
+        printf(" %c %6llu %03o", node->type(),
+        (node->type() != 'd') ? node->size() : 0, node->mode());
+        if (node->type() == 'f') {
+          printf(" %s", ((File*) node)->checksum());
+        }
+        if (node->type() == 'l') {
+          printf(" %s", ((Link*) node)->link());
+        }
+      } else {
+        printf(" [rm]");
+      }
+      printf("\n");
+    }
+    free(path);
+    free(node);
+    close();
+    if (rc < 0) {
+      out(error, msg_standard, "Failed to read list");
+    }
+  } else {
+    out(error, msg_standard, "Failed to open list");
+  }
+}

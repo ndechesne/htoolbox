@@ -50,50 +50,6 @@ time_t time(time_t *t) {
   return 2000000000 + (my_time * 24 * 3600);
 }
 
-static void showLine(
-    time_t          timestamp,
-    const char*     path,
-    const Node*     node) {
-  printf("[%2ld]", (timestamp == 0)? 0 : (timestamp - 2000000000) / 24 / 3600);
-  if (node != NULL) {
-    printf(" %c %5llu %03o", node->type(), node->size(), node->mode());
-    if (node->type() == 'f') {
-      printf(" %s", ((File*) node)->checksum());
-    }
-    if (node->type() == 'l') {
-      printf(" %s", ((Link*) node)->link());
-    }
-  } else {
-    printf(" -");
-  }
-  cout << endl;
-}
-
-static void showList(List& slist) {
-  if (! slist.open("r")) {
-    time_t ts;
-    char*  path   = NULL;
-    Node*  node   = NULL;
-    string last_path;
-
-    while (slist.getEntry(&ts, &path, &node) > 0) {
-      if (last_path != path) {
-        cout << "\t" << path << endl;
-        last_path = path;
-      }
-      showLine(ts, path, node);
-    }
-    if (node != NULL) {
-      showLine(ts, "", node);
-    }
-    free(path);
-    free(node);
-    slist.close();
-  } else {
-    cerr << "Failed to open list" << endl;
-  }
-}
-
 int main(void) {
   umask(0022);
   setVerbosityLevel(debug);
@@ -141,10 +97,10 @@ int main(void) {
   }
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
   // Initialize list of missing checksums
   if (! db.open()) {
     db.scan();
@@ -170,10 +126,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "As previous with new big_file, interrupted" << endl;
@@ -197,10 +153,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's real journal:" << endl;
-  showList(real_journal);
+  real_journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "As previous with subdir/testfile readable" << endl;
@@ -221,10 +177,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "As previous with subdir/testfile in ignore list" << endl;
@@ -257,10 +213,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "As previous with subdir in ignore list" << endl;
@@ -293,10 +249,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "As previous with testlink modified" << endl;
@@ -317,10 +273,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "As previous with testlink in ignore list" << endl;
@@ -354,10 +310,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "As previous with CVS parser (controlled)" << endl;
@@ -380,10 +336,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "As previous" << endl;
@@ -403,10 +359,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "As previous with Subversion parser (modified)" << endl;
@@ -432,10 +388,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "As previous with cvs/dirutd in ignore list" << endl;
@@ -472,10 +428,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "As previous with svn/dirutd in ignore list" << endl;
@@ -503,10 +459,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "As previous with testpipe gone" << endl;
@@ -527,10 +483,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "As previous with testfile mode changed" << endl;
@@ -551,10 +507,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl
@@ -580,10 +536,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "Some troublesome past cases" << endl;
@@ -624,10 +580,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "Same again: journal and list left untouched" << endl;
@@ -647,10 +603,10 @@ int main(void) {
 
   // Show list contents
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "List recovery after crash" << endl;
@@ -693,28 +649,28 @@ int main(void) {
 
   // Show list contents
   cout << endl << "hisClient's list:" << endl;
-  showList(dblist2);
+  dblist2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "hisClient's journal:" << endl;
-  showList(journal2);
+  journal2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's real journal:" << endl;
-  showList(real_journal);
+  real_journal.show(-1, 2000000000, 24 * 3600);
 
   // Recover now
   db.open();
 
   // Show list contents
   cout << endl << "hisClient's list:" << endl;
-  showList(dblist2);
+  dblist2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "hisClient's journal:" << endl;
-  showList(journal2);
+  journal2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   if (db.close()) {
     return 0;
@@ -746,14 +702,14 @@ int main(void) {
 
   // Show list contents
   cout << endl << "hisClient's list:" << endl;
-  showList(dblist2);
+  dblist2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "hisClient's journal:" << endl;
-  showList(journal2);
+  journal2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "Same again" << endl;
@@ -773,14 +729,14 @@ int main(void) {
 
   // Show list contents
   cout << endl << "hisClient's list:" << endl;
-  showList(dblist2);
+  dblist2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "hisClient's journal:" << endl;
-  showList(journal2);
+  journal2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   my_time++;
@@ -804,14 +760,14 @@ int main(void) {
 
   // Show list contents
   cout << endl << "hisClient's list:" << endl;
-  showList(dblist2);
+  dblist2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "hisClient's journal:" << endl;
-  showList(journal2);
+  journal2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "Prevent data dir from being removed" << endl;
@@ -837,14 +793,14 @@ int main(void) {
 
   // Show list contents
   cout << endl << "hisClient's list:" << endl;
-  showList(dblist2);
+  dblist2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "hisClient's journal:" << endl;
-  showList(journal2);
+  journal2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
   cout << endl << "Add one file" << endl;
@@ -865,14 +821,14 @@ int main(void) {
 
   // Show list contents
   cout << endl << "hisClient's list:" << endl;
-  showList(dblist2);
+  dblist2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's list:" << endl;
-  showList(dblist);
+  dblist.show(-1, 2000000000, 24 * 3600);
   // Show journal contents
   cout << endl << "hisClient's journal:" << endl;
-  showList(journal2);
+  journal2.show(-1, 2000000000, 24 * 3600);
   cout << endl << "myClient's journal:" << endl;
-  showList(journal);
+  journal.show(-1, 2000000000, 24 * 3600);
 
   delete path;
   return 0;

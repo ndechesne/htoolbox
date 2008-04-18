@@ -49,50 +49,6 @@ static void progress(long long previous, long long current, long long total) {
   cout << "Done: " << 100 * current / total << "%" << endl;
 }
 
-static void show_line(
-    time_t          timestamp,
-    const char*     path,
-    const Node*     node) {
-  printf("[%2ld] %-30s", timestamp, path);
-  if (node != NULL) {
-    printf(" %c %6llu %03o", node->type(),
-    (node->type() != 'd') ? node->size() : 0, node->mode());
-    if (node->type() == 'f') {
-      printf(" %s", ((File*) node)->checksum());
-    }
-    if (node->type() == 'l') {
-      printf(" %s", ((Link*) node)->link());
-    }
-  } else {
-    printf(" [rm]");
-  }
-  cout << endl;
-}
-
-static void show_list(List& l) {
-  time_t  ts;
-  char*   path = NULL;
-  Node*   node = NULL;
-  int     rc;
-
-  if (l.open("r")) {
-    cout << strerror(errno) << endl;
-    return;
-  }
-  if (l.isEmpty()) {
-    cout << "List is empty" << endl;
-    rc = 0;
-  } else {
-    while ((rc = l.getEntry(&ts, &path, &node)) > 0) {
-      show_line(ts, path, node);
-    }
-  }
-  l.close();
-  if (rc < 0) {
-    cerr << "Failed to read list" << endl;
-  }
-}
-
 static time_t my_time = 10;
 time_t time(time_t *t) {
   return my_time;
@@ -138,7 +94,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  show_list(owner_list);
+  owner_list.show();
   cout << "Dir contents:" << endl;
   system("ls -R test_db");
 
@@ -166,7 +122,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  show_list(owner_list);
+  owner_list.show();
   cout << "Dir contents:" << endl;
   system("ls -R test_db");
 
@@ -194,7 +150,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  show_list(owner_list);
+  owner_list.show();
   cout << "Dir contents:" << endl;
   system("ls -R test_db");
 
@@ -224,7 +180,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  show_list(owner_list);
+  owner_list.show();
   cout << "Dir contents:" << endl;
   system("ls -R test_db");
   hbackup::abort(0xffff);
@@ -241,7 +197,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  show_list(owner_list);
+  owner_list.show();
   cout << "Dir contents:" << endl;
   system("ls -R test_db");
 
@@ -263,7 +219,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  show_list(owner_list);
+  owner_list.show();
   cout << "Dir contents:" << endl;
   system("ls -R test_db");
 
@@ -287,7 +243,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  show_list(owner_list);
+  owner_list.show();
   cout << "Dir contents:" << endl;
   system("ls -R test_db");
 
