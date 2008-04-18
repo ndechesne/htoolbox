@@ -375,7 +375,7 @@ int List::getEntry(
     time_t        date) {
   // Initialise
   if (node != NULL) {
-    free(*node);
+    delete *node;
     *node = NULL;
   }
 
