@@ -112,6 +112,7 @@ Condition::~Condition() {
     regfree(_d->regex);
     delete _d->regex;
   }
+  delete _d;
 }
 
 bool Condition::match(
