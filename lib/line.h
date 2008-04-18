@@ -45,6 +45,7 @@ public:
   // For getLine operations
   char** bufferPtr()                    { return &_buffer; }
   int* capacityPtr()                    { return &_capacity; }
+  int* sizePtr()                        { return &_size; }
 };
 
 }

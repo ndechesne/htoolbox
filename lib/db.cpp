@@ -308,9 +308,9 @@ int Database::restore(
   if (date < 0) {
     date = time(NULL) - date;
   }
-  bool  failed  = false;
-  char* fpath   = NULL;
-  Node* fnode   = NULL;
+  bool  failed = false;
+  char* fpath  = NULL;
+  Node* fnode  = NULL;
   int   rc;
   while ((rc = _d->client->getNextRecord(path, date, &fpath, &fnode)) > 0) {
     if (fnode == NULL) {
@@ -318,7 +318,7 @@ int Database::restore(
     }
     bool this_failed = false;
     Path base(dest, fpath);
-    char* dir = Path::dirname(base);
+    Path dir = base.dirname();
     if (! Directory(dir).isValid()) {
       string command = "mkdir -p \"";
       command += dir;
@@ -327,7 +327,6 @@ int Database::restore(
         out(error, msg_errno, "Creating path", errno, dir);
       }
     }
-    free(dir);
     out(info, msg_standard, base, -2, "U");
     switch (fnode->type()) {
       case 'f': {
@@ -397,6 +396,8 @@ int Database::restore(
       failed = true;
     }
   }
+  free(fpath);
+  delete fnode;
   return (failed || (rc < 0)) ? -1 : 0;
 }
 

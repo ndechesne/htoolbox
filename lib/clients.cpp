@@ -42,7 +42,7 @@ struct Client::Private {
   string            name;
   string            subset_server;
   string            host_or_ip;
-  char*             list_file;
+  Path              list_file;
   string            protocol;
   bool              timeout_nowarning;
   list<Option>      options;
@@ -56,8 +56,8 @@ struct Client::Private {
 };
 
 int Client::mountPath(
-    string          backup_path,
-    string*         path) {
+    const string&   backup_path,
+    string&         path) {
   string command = "mount ";
   string share;
   errno = EINVAL;
@@ -65,11 +65,11 @@ int Client::mountPath(
   // Determine share and path
   if (_d->protocol == "file") {
     share = "";
-    *path = backup_path;
+    path  = backup_path;
   } else
   if (_d->protocol == "nfs") {
     share = _d->host_or_ip + ":" + backup_path;
-    *path = _d->mount_point;
+    path  = _d->mount_point;
   } else
   if (_d->protocol == "smb") {
     if (backup_path.size() < 3) {
@@ -80,7 +80,7 @@ int Client::mountPath(
       return -1;
     }
     share = "//" + _d->host_or_ip + "/" + drive_letter + "$";
-    *path = _d->mount_point + "/" +  backup_path.substr(3);
+    path  = _d->mount_point + "/" +  backup_path.substr(3);
   } else {
     errno = EPROTONOSUPPORT;
     return -1;
@@ -340,14 +340,12 @@ Client::Client(const string& name, const string& subset) {
   _d->name              = name;
   _d->subset_server     = subset;
   _d->host_or_ip        = name;
-  _d->list_file         = NULL;
   _d->initialised       = false;
   _d->expire            = -1;
   _d->timeout_nowarning = false;
 }
 
 Client::~Client() {
-  free(_d->list_file);
   for (list<ClientPath*>::iterator i = _d->paths.begin(); i != _d->paths.end();
       i++) {
     delete *i;
@@ -392,8 +390,9 @@ void Client::setTimeOutNoWarning() {
 }
 
 void Client::setListfile(const char* value) {
-  _d->list_file = Path::fromDos(value);
-  _d->list_file = Path::noTrailingSlashes(_d->list_file);
+  _d->list_file = value;
+  _d->list_file.fromDos();
+  _d->list_file.noTrailingSlashes();
 }
 
 const char* Client::listfile() const {
@@ -478,10 +477,9 @@ int Client::backup(
     out(info, msg_standard, s.str().c_str());
   }
 
-  if (_d->list_file != NULL) {
-    char*  dir = Path::dirname(_d->list_file);
+  if (_d->list_file.length() != 0) {
     string list_path;
-    if (mountPath(dir, &list_path)) {
+    if (mountPath(string(_d->list_file.dirname()), list_path)) {
       switch (errno) {
         case EPROTONOSUPPORT:
           out(error, msg_errno, _d->protocol.c_str(), errno,
@@ -499,7 +497,6 @@ int Client::backup(
       }
     }
     first_mount_try = false;
-    free(dir);
     if (list_path.size() != 0) {
       list_path += "/";
     }
@@ -534,7 +531,7 @@ int Client::backup(
           string backup_path;
           out(info, msg_standard, (*i)->path(), -1, "Backup path");
 
-          if (mountPath((*i)->path(), &backup_path)) {
+          if (mountPath((*i)->path(), backup_path)) {
             if (! first_mount_try) {
               out(error, msg_errno, "Aborting client", errno,
                 internalName().c_str());
@@ -587,7 +584,7 @@ void Client::show(int level) const {
     }
     out(verbose, msg_standard, s.str().c_str(), level + 1, "Options");
   }
-  if (_d->list_file != NULL) {
+  if (_d->list_file.length() != 0) {
     out(verbose, msg_standard, _d->list_file, level + 1, "Config");
   }
   {

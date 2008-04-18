@@ -51,6 +51,7 @@ namespace std {
 using namespace std;
 
 #include "buffer.h"
+#include "line.h"
 #include "files.h"
 
 using namespace hbackup;
@@ -113,55 +114,48 @@ const char* Path::basename(const char* path) {
   return name;
 }
 
-char* Path::dirname(const char* path) {
-  const char* end = strrchr(path, '/');
-  char*       dir;
+Path Path::dirname() const {
+  const char* end = strrchr(_path, '/');
   if (end == NULL) {
-    dir = strdup(".");
-  } else {
-    int length = end - path;
-    dir = (char*) malloc(length + 1);
-    strncpy(dir, path, length);
-    dir[length] = '\0';
+    return ".";
   }
-  return dir;
+  int   length = end - _path;
+  char* dir    = (char*) malloc(length + 1);
+  strncpy(dir, _path, length);
+  dir[length] = '\0';
+  Path rc = dir;
+  free(dir);
+  return rc;
 }
 
-char* Path::fromDos(const char* dos_path) {
-  char* unix_path = strdup(dos_path);
-  int   length    = strlen(dos_path);
-  if (length > 0) {
-    int         count  = length;
-    bool        proven = false;
-    const char* reader = dos_path;
-    char*       writer = unix_path;
-    while (count--) {
-      if (*reader == '\\') {
-        proven = true;
-        *writer = '/';
-      } else {
-        *writer = *reader;
-      }
-      reader++;
-      writer++;
+const Path& Path::fromDos() {
+  int   count  = _length;
+  bool  proven = false;
+  char* reader = _path;
+  while (count--) {
+    if (*reader == '\\') {
+      *reader = '/';
+      proven = true;
     }
-    // Upper case drive letter
-    if (proven && (length >= 2)) {
-      if ((dos_path[1] == ':') && (dos_path[2] == '\\')
-        && (dos_path[0] >= 'a') && (dos_path[0] <= 'z')) {
-        unix_path[0] -= 0x20;
-      }
+    reader++;
+  }
+  // Upper case drive letter
+  if (proven && (_length >= 2)) {
+    if ((_path[1] == ':') && (_path[2] == '/')
+      && (_path[0] >= 'a') && (_path[0] <= 'z')) {
+      _path[0] -= 0x20;
     }
   }
-  return unix_path;
+  return *this;
 }
 
-char* Path::noTrailingSlashes(char* dir_path) {
-  char* end = &dir_path[strlen(dir_path)];
-  while ((--end >= dir_path) && (*end == '/')) {
+const Path& Path::noTrailingSlashes() {
+  char* end = &_path[_length];
+  while ((--end >= _path) && (*end == '/')) {
     *end = '\0';
+    _length--;
   }
-  return dir_path;
+  return *this;
 }
 
 int Path::compare(const char* s1, const char* s2, size_t length) {
@@ -1057,28 +1051,28 @@ int Stream::getParams(
     const char*     delims,
     const char*     quotes,
     const char*     comments) {
-  char* buffer = NULL;
-  int   buffer_capacity = 0;
-  bool  eol;
+  Line line;
+  bool eol;
 
   params.clear();
-  int rc = getLine(&buffer, &buffer_capacity, &eol);
+  int rc = getLine(line, &eol);
   if (rc < 0) {
     return -1;
-  }
+  } else
   if (! eol) {
     if (rc == 0) {
       return 0;
-    }
+    } else
     if ((flags & flags_need_lf) != 0) {
       return -1;
     }
   }
-  if ((flags & flags_accept_cr_lf) && (buffer[rc - 1] == '\r')) {
-    buffer[rc - 1] = '\0';
+  if ((flags & flags_accept_cr_lf)
+  && (line.size() > 0)
+  && (line[line.size() - 1] == '\r')) {
+    line.erase(line.size() - 1);
   }
-  rc = extractParams(buffer, params, flags, 0, delims, quotes, comments);
-  free(buffer);
+  rc = extractParams(line, params, flags, 0, delims, quotes, comments);
   if (rc < 0) {
     return -1;
   }

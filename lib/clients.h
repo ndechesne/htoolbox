@@ -41,8 +41,8 @@ class Client {
   struct            Private;
   Private*          _d;
   int mountPath(
-    string          backup_path,
-    string*         path);
+    const string&   backup_path,
+    string&         path);
   int umount();
 public:
   Client(const string& name, const string& sub_name = "");

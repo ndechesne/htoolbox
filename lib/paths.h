@@ -33,7 +33,7 @@ class ClientPath {
     const char*     remote_path,      // Dir where the file resides, remotely
     int             start,
     Directory&      dir,
-    Parser*         parser);
+    const Parser*   parser);
 public:
   ClientPath(const char* path);
   const char* path() const               { return _path;  }

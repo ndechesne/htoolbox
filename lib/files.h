@@ -57,14 +57,12 @@ public:
   ~Path();
   const char* operator=(const char* path);
   const Path& operator=(const Path& path);
+  const Path& fromDos();
+  const Path& noTrailingSlashes();
   operator const char*() const;
   int length() const           { return _length; }
+  Path dirname() const;
   const char* basename() const { return basename(_const_path); }
-  const char* noTrailingSlashes() {
-    noTrailingSlashes(_path);
-    _length = strlen(_path);
-    return _path;
-  }
   int compare(const char* s, size_t length = -1) const {
     return compare(_const_path, s, length);
   }
@@ -74,9 +72,6 @@ public:
   int countBlocks(char c) const;
   // Some generic methods
   static const char* basename(const char* path);
-  static char* dirname(const char* path);
-  static char* fromDos(const char* dos_path);
-  static char* noTrailingSlashes(char* dir_path);
   static int compare(const char* s1, const char* s2, size_t length = -1);
 };
 
@@ -369,7 +364,9 @@ public:
   virtual ssize_t getLine(
     Line&           line,
     bool*           end_of_line_found = NULL) {
-      return getLine(line.bufferPtr(), line.capacityPtr(), end_of_line_found);
+      *line.sizePtr() = getLine(line.bufferPtr(), line.capacityPtr(),
+        end_of_line_found);
+      return *line.sizePtr();
     }
 #endif
   // Write line of characters to file and add end of line character

@@ -40,16 +40,17 @@ int ClientPath::parse_recurse(
     const char*     remote_path,
     int             start,
     Directory&      dir,
-    Parser*         parser) {
+    const Parser*   current_parser) {
   if (aborting()) {
     return -1;
   }
 
   // Check whether directory is under SCM control
+  Parser* parser = NULL;
   if (! _parsers.empty()) {
     // We have a parser, check this directory with it
-    if (parser != NULL) {
-      parser = parser->isControlled(dir.path());
+    if (current_parser != NULL) {
+      parser = current_parser->isControlled(dir.path());
     }
     // We don't have a parser [anymore], check this directory
     if (parser == NULL) {
@@ -123,16 +124,16 @@ int ClientPath::parse_recurse(
   } else {
     out(error, msg_errno, "Reading directory", errno, remote_path);
   }
+  delete parser;
   return give_up ? -1 : 0;
 }
 
 ClientPath::ClientPath(const char* path) {
   _ignore             = NULL;
   _compress           = NULL;
+  _path = path;
   // Change '\' into '/'
-  char* unix_path = Path::fromDos(path);
-  _path = unix_path;
-  free(unix_path);
+  _path.fromDos();
   // Remove trailing '/'s
   _path.noTrailingSlashes();
 }
