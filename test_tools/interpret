@@ -62,6 +62,10 @@ case $1 in
     export DIR="lib"
     export NAME="line"
     ;;
+  "ml" | "memleak" )
+    export DIR="cli"
+    export NAME="memleak"
+    ;;
   "ow" )
     export DIR="lib"
     export NAME="owner"

@@ -4,3 +4,4 @@ check_SUCCESSES = \
 	hbackup.done
 
 hbackup.done: ../hbackup
+memleak.done: ../hbackup

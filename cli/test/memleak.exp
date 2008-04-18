@@ -1,0 +1,2319 @@
+Version
+HBackup (c) 2006-2008 Hervé Fache version 0.9a
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 2 of 13
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+ 
+ 
+ 1,923 bytes in 83 blocks are possibly lost in loss record 13 of 13
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x412A750: std::string::_Rep::_S_create(unsigned, unsigned, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
+    by 0x412B984: (within /usr/lib/libstdc++.so.6.0.9)
+    by 0x412BB36: std::string::string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
+    by 0x804BFF2: main (hbackup.cpp:178)
+Help
+HBackup (c) 2006-2008 Hervé Fache
+  -v,  --verbose
+    Be verbose about actions
+
+  -u,  --user
+    Perform user-mode backup
+
+  -t,  --check
+    Check DB for corrupted data
+
+  -s,  --scan
+    Scan DB for missing data
+
+  -r <directory>,  --restore <directory>
+    Restore to directory
+
+  -q,  --quiet
+    Be quiet
+
+  -P <path>,  --path <path>
+    Specify path
+
+  -p,  --pretend
+    Only check configuration
+
+  -l,  --list
+    List available data
+
+  -i,  --initialize
+    Initialize if needed
+
+  -f,  --fix
+    Fix backup database
+
+  -D <UNIX epoch>,  --date <UNIX epoch>
+    Specify date
+
+  -d,  --debug
+    Print debug information
+
+  -C <client>,  --client <client>  (accepted multiple times)
+    Specify client name
+
+  -c <file name>,  --config <file name>
+    Specify configuration file
+
+  --,  --ignore_rest
+    Ignores the rest of the labeled arguments following this flag.
+
+  --version
+    Displays version information and exits.
+
+  -h,  --help
+    Displays usage information and exits.
+
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 2 of 13
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+ 
+ 
+ 1,916 bytes in 83 blocks are possibly lost in loss record 13 of 13
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x412A750: std::string::_Rep::_S_create(unsigned, unsigned, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
+    by 0x412B984: (within /usr/lib/libstdc++.so.6.0.9)
+    by 0x412BB36: std::string::string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
+    by 0x804BFF2: main (hbackup.cpp:178)
+Error
+Error: -! -- Couldn't find match for argument
+HBackup (c) 2006-2008 Hervé Fache
+  -v,  --verbose
+    Be verbose about actions
+
+  -u,  --user
+    Perform user-mode backup
+
+  -t,  --check
+    Check DB for corrupted data
+
+  -s,  --scan
+    Scan DB for missing data
+
+  -r <directory>,  --restore <directory>
+    Restore to directory
+
+  -q,  --quiet
+    Be quiet
+
+  -P <path>,  --path <path>
+    Specify path
+
+  -p,  --pretend
+    Only check configuration
+
+  -l,  --list
+    List available data
+
+  -i,  --initialize
+    Initialize if needed
+
+  -f,  --fix
+    Fix backup database
+
+  -D <UNIX epoch>,  --date <UNIX epoch>
+    Specify date
+
+  -d,  --debug
+    Print debug information
+
+  -C <client>,  --client <client>  (accepted multiple times)
+    Specify client name
+
+  -c <file name>,  --config <file name>
+    Specify configuration file
+
+  --,  --ignore_rest
+    Ignores the rest of the labeled arguments following this flag.
+
+  --version
+    Displays version information and exits.
+
+  -h,  --help
+    Displays usage information and exits.
+
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 2 of 13
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+ 
+ 
+ 2,060 bytes in 84 blocks are possibly lost in loss record 13 of 13
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x412A750: std::string::_Rep::_S_create(unsigned, unsigned, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
+    by 0x412B984: (within /usr/lib/libstdc++.so.6.0.9)
+    by 0x412BB36: std::string::string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
+    by 0x804BFF2: main (hbackup.cpp:178)
+List clients (missing DB path)
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Showing list
+Error: Given DB path does not exist: test_db
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+List clients (empty DB path)
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Showing list
+Error: Given DB path does not contain a database: test_db
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+Backup, DB missing
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Backing up in server mode
+Error: Given DB path does not exist: test_db
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+Typical backup, initialize DB
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Backing up in server mode
+Database initialized: test_db
+Database open in read/write mode
+Trying client 'aClient.vista' using protocol 'smb'
+Backing up client
+Reading list of missing checksums
+List created: aClient.vista
+Database open r/w: aClient.vista
+Backup path: C:/Test Dir
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+A       C:/Test Dir/My Dir
+ -> Dir: My Dir
+Adding compressed file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
+A z     C:/Test Dir/My Dir/a File.TXT
+Adding compressed file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
+A z     C:/Test Dir/My Dir/another File.TXT
+Adding compressed file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
+A z     C:/Test Dir/My File.TXT
+Database modified: aClient.vista
+Database closed: aClient.vista
+ -> umount -fl test_db/.mount
+Trying client 'client.xp' using protocol 'smb'
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
+ -> Reading client configuration file
+Configuration:
+ -> Client: client
+ --> Subset: xp
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options: username=Myself password=flesyM nocase 
+ --> Config: C:/Backup/Backup.LST
+ --> Expiry: none
+ --> Paths: 
+ ---> Path: C:/Test Dir
+ ----> Filter: and silly
+ -----> Condition: filter backup
+ -----> Condition: type p
+ -----> Condition: name a
+ -----> Condition: name_start b
+ -----> Condition: name_end c
+ -----> Condition: name_regex d
+ -----> Condition: path e
+ -----> Condition: path_start f
+ -----> Condition: path_end g
+ -----> Condition: name_regex h
+ -----> Condition: size>= 1
+ -----> Condition: size> 2048
+ -----> Condition: size<= 3000000
+ -----> Condition: size< 4294967296
+ -----> Condition: mode& 777
+ -----> Condition: mode= 644
+Backing up client
+List created: client.xp
+Database open r/w: client.xp
+Backup path: C:/Test Dir
+A       C:/Test Dir/My Dir
+ -> Dir: My Dir
+A       C:/Test Dir/My Dir/a File.TXT
+A       C:/Test Dir/My Dir/another File.TXT
+A       C:/Test Dir/My File.TXT
+Database modified: client.xp
+Database closed: client.xp
+ -> umount -fl test_db/.mount
+Trying client 'myClient' using protocol 'nfs'
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
+ -> Reading client configuration file
+Configuration:
+ -> Client: myClient
+ --> Protocol: nfs
+ --> Config: /home/User/hbackup.list
+ --> Expiry: none
+ --> Paths: 
+ ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
+Backing up client
+List created: myClient
+Database open r/w: myClient
+Backup path: /home/User/test
+ -> umount -fl test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
+A       /home/User/test/File2.txt
+A       /home/User/test/dir
+ -> Dir: dir
+Adding compressed file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
+A z     /home/User/test/dir/file3.txt
+Database modified: myClient
+Database closed: myClient
+ -> umount -fl test_db/.mount
+Trying client 'myhost' using protocol 'file'
+ -> Reading client configuration file
+Configuration:
+ -> Client: myhost
+ --> Protocol: file
+ --> Hostname: myhost.mynetwork.lan
+ --> Config: etc/localhost.list
+ --> Expiry: 86400s (1d)
+ --> Filter: and subdir
+ ---> Condition: path_start subdir
+ ---> Condition: not size< 100
+ --> Filter: and bigfile
+ ---> Condition: size>= 10
+ ---> Condition: type f
+ --> Paths: 
+ ---> Path: test1
+ ----> Filter: and not_object
+ -----> Condition: not path_end .o
+ ----> Filter: or to_be_ignored
+ -----> Condition: filter subdir
+ -----> Condition: filter backup
+ -----> Condition: not filter not_object
+ ----> Parser: CVS
+ ----> Parser: Subversion
+ ----> Compress filter: bigfile
+ ----> Ignore filter: to_be_ignored
+ ---> Path: test2
+Backing up client
+List created: myhost
+Database open r/w: myhost
+Backup path: test1
+Done:   3.9%\r
+Done:   7.8%\r
+Done:  11.7%\r
+Done:  15.6%\r
+Done:  19.5%\r
+Done:  23.4%\r
+Done:  27.3%\r
+Done:  31.2%\r
+Done:  35.2%\r
+Done:  39.1%\r
+Done:  43.0%\r
+Done:  46.9%\r
+Done:  50.8%\r
+Done:  54.7%\r
+Done:  58.6%\r
+Done:  62.5%\r
+Done:  66.4%\r
+Done:  70.3%\r
+Done:  74.2%\r
+Done:  78.1%\r
+Done:  82.0%\r
+Done:  85.9%\r
+Done:  89.8%\r
+Done:  93.8%\r
+Done:  97.7%\r
+Done: 100.0%\r
+            \r
+Adding compressed file data to DB for f1c9645dbc14efddc7d8a322685f26eb-0
+A z     test1/big_file
+A       test1/cvs
+ -> Dir: cvs
+ -> Parsing CVS entries
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x423FC14: (within /lib/tls/i686/cmov/libc-2.7.so)
+    by 0x4240085: mktime (in /lib/tls/i686/cmov/libc-2.7.so)
+    by 0x807298D: hbackup::CvsParser::CvsParser(hbackup::Parser::Mode, std::string const&) (cvs_parser.cpp:148)
+    by 0x80734FB: hbackup::CvsParser::isControlled(std::string const&) const (cvs_parser.cpp:58)
+    by 0x8080128: hbackup::Parsers::isControlled(std::string const&) const (parsers.cpp:37)
+    by 0x80628C5: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:57)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+    by 0x804EFA4: main (hbackup.cpp:368)
+ --> dirbad: D
+ --> dirutd: D
+ --> filemod.o: 1159806431
+ --> filenew.c: 0
+ --> fileutd.h: 1159985080
+A       test1/cvs/CVS
+ -> Dir: cvs/CVS
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045CB9: deflate_slow (deflate.c:1141)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045D0A: deflate_slow (deflate.c:1184)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045D19: deflate_slow (deflate.c:1187)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045D41: deflate_slow (deflate.c:1627)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045D4F: deflate_slow (deflate.c:1633)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045D61: deflate_slow (deflate.c:1633)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045B5A: deflate_slow (deflate.c:1620)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Use of uninitialised value of size 4
+    at 0x4045BFA: deflate_slow (deflate.c:1083)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045BFF: deflate_slow (deflate.c:1096)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Use of uninitialised value of size 4
+    at 0x4045C64: deflate_slow (deflate.c:1122)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045C73: deflate_slow (deflate.c:1122)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045D73: deflate_slow (deflate.c:1649)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045D7C: deflate_slow (deflate.c:1649)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Use of uninitialised value of size 4
+    at 0x4045DD0: deflate_slow (deflate.c:1655)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045E93: deflate_slow (deflate.c:1669)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045ADF: deflate_slow (deflate.c:1600)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x404604D: deflate_slow (deflate.c:1602)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4046062: deflate_slow (deflate.c:1605)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+ 
+ Use of uninitialised value of size 4
+    at 0x4047655: compress_block (trees.c:1094)
+    by 0x4049491: _tr_flush_block (trees.c:1000)
+    by 0x40460A2: deflate_slow (deflate.c:1704)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+Adding compressed file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
+A z     test1/cvs/CVS/Entries
+Adding compressed file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
+A z     test1/cvs/CVS/Root
+A       test1/cvs/dirbad
+ -> Dir: cvs/dirbad
+Warning: test1/cvs/dirbad: Directory should be under CVS control
+A       test1/cvs/dirutd
+ -> Dir: cvs/dirutd
+ -> Parsing CVS entries
+ --> fileutd: 1159985080
+A       test1/cvs/dirutd/CVS
+ -> Dir: cvs/dirutd/CVS
+Adding compressed file data to DB for 5252f242d27b8c2c9fdbdcbb33545d07-0
+A z     test1/cvs/dirutd/CVS/Entries
+Adding compressed file data to DB for eb75fb33b2019ef3c840eb5ccdc2e795-0
+A z     test1/cvs/dirutd/CVS/Root
+A       test1/cvs/dirutd/fileutd
+A       test1/cvs/filenew.c
+A       test1/cvs/fileutd.h
+A       test1/dir space
+ -> Dir: dir space
+A       test1/dir space/file space
+A       test1/svn
+ -> Dir: svn
+ -> Parsing Subversion entries
+ --> diroth: o
+ --> filemod.o: m
+ --> filenew.c: m
+ --> fileoth: i
+A       test1/svn/.svn
+ -> Dir: svn/.svn
+ 
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x4045CA6: deflate_slow (deflate.c:1141)
+    by 0x4044BE6: deflate (deflate.c:822)
+    by 0x8077E1B: hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
+    by 0x8079373: hbackup::Stream::close() (files.cpp:521)
+    by 0x8082C4F: hbackup::Data::write(char const*, char**, int) (data.cpp:344)
+    by 0x80738AD: hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+    by 0x8062C21: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+Adding compressed file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
+A z     test1/svn/.svn/entries
+A       test1/svn/dirbad
+ -> Dir: svn/dirbad
+Warning: test1/svn/dirbad: Directory should be under Subversion control
+A       test1/svn/dirutd
+ -> Dir: svn/dirutd
+ -> Parsing Subversion entries
+ --> fileoth: o
+ --> fileutd: m
+A       test1/svn/dirutd/.svn
+ -> Dir: svn/dirutd/.svn
+Adding compressed file data to DB for 8bdef5751e46ed57d237cbe3f4a5061c-0
+A z     test1/svn/dirutd/.svn/entries
+A       test1/svn/dirutd/fileutd
+A       test1/svn/filenew.c
+A       test1/test space
+A       test1/testdir
+ -> Dir: testdir
+Adding compressed file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
+A z     test1/testfile
+A       test1/testlink
+A       test1/testpipe
+Backup path: test2
+A       test2/testdir
+ -> Dir: testdir
+Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
+A f     test2/testfile
+Adding file data to DB for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+A f     test2/testfile2
+Done:  78.1%\r
+Done: 100.0%\r
+            \r
+Adding file data to DB for 59071590099d21dd439896592338bf95-0
+A f     test2/testfile~
+A       test2/testlink
+Database modified: myhost
+Database closed: myhost
+Trying client 'other' using protocol 'ssh'
+Error: other: Protocol not supported: ssh
+Database closed
+ 
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+Specify clients
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Selected clients:
+ --> client.xp
+ --> myhost
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Backing up in server mode
+Database open in read/write mode
+Trying client 'client.xp' using protocol 'smb'
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
+ -> Reading client configuration file
+Configuration:
+ -> Client: client
+ --> Subset: xp
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options: username=Myself password=flesyM nocase 
+ --> Config: C:/Backup/Backup.LST
+ --> Expiry: none
+ --> Paths: 
+ ---> Path: C:/Test Dir
+ ----> Filter: and silly
+ -----> Condition: filter backup
+ -----> Condition: type p
+ -----> Condition: name a
+ -----> Condition: name_start b
+ -----> Condition: name_end c
+ -----> Condition: name_regex d
+ -----> Condition: path e
+ -----> Condition: path_start f
+ -----> Condition: path_end g
+ -----> Condition: name_regex h
+ -----> Condition: size>= 1
+ -----> Condition: size> 2048
+ -----> Condition: size<= 3000000
+ -----> Condition: size< 4294967296
+ -----> Condition: mode& 777
+ -----> Condition: mode= 644
+Backing up client
+Reading list of missing checksums
+Database open r/w: client.xp
+Backup path: C:/Test Dir
+ -> Dir: My Dir
+Database closed: client.xp
+ -> umount -fl test_db/.mount
+Trying client 'myhost' using protocol 'file'
+ -> Reading client configuration file
+Configuration:
+ -> Client: myhost
+ --> Protocol: file
+ --> Hostname: myhost.mynetwork.lan
+ --> Config: etc/localhost.list
+ --> Expiry: 86400s (1d)
+ --> Filter: and subdir
+ ---> Condition: path_start subdir
+ ---> Condition: not size< 100
+ --> Filter: and bigfile
+ ---> Condition: size>= 10
+ ---> Condition: type f
+ --> Paths: 
+ ---> Path: test1
+ ----> Filter: and not_object
+ -----> Condition: not path_end .o
+ ----> Filter: or to_be_ignored
+ -----> Condition: filter subdir
+ -----> Condition: filter backup
+ -----> Condition: not filter not_object
+ ----> Parser: CVS
+ ----> Parser: Subversion
+ ----> Compress filter: bigfile
+ ----> Ignore filter: to_be_ignored
+ ---> Path: test2
+Backing up client
+Database open r/w: myhost
+Backup path: test1
+ -> Dir: cvs
+ -> Parsing CVS entries
+ Conditional jump or move depends on uninitialised value(s)
+    at 0x423FC14: (within /lib/tls/i686/cmov/libc-2.7.so)
+    by 0x4240085: mktime (in /lib/tls/i686/cmov/libc-2.7.so)
+    by 0x807298D: hbackup::CvsParser::CvsParser(hbackup::Parser::Mode, std::string const&) (cvs_parser.cpp:148)
+    by 0x80734FB: hbackup::CvsParser::isControlled(std::string const&) const (cvs_parser.cpp:58)
+    by 0x8080128: hbackup::Parsers::isControlled(std::string const&) const (parsers.cpp:37)
+    by 0x80628C5: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:57)
+    by 0x8062D0D: hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
+    by 0x8062EF4: hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
+    by 0x8069B77: hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
+    by 0x805EEA8: hbackup::HBackup::backup(bool) (interface.cpp:465)
+    by 0x804EFA4: main (hbackup.cpp:368)
+ --> dirbad: D
+ --> dirutd: D
+ --> filemod.o: 1159806431
+ --> filenew.c: 0
+ --> fileutd.h: 1159985080
+ -> Dir: cvs/CVS
+ -> Dir: cvs/dirbad
+Warning: test1/cvs/dirbad: Directory should be under CVS control
+ -> Dir: cvs/dirutd
+ -> Parsing CVS entries
+ --> fileutd: 1159985080
+ -> Dir: cvs/dirutd/CVS
+ -> Dir: dir space
+ -> Dir: svn
+ -> Parsing Subversion entries
+ --> diroth: o
+ --> filemod.o: m
+ --> filenew.c: m
+ --> fileoth: i
+ -> Dir: svn/.svn
+ -> Dir: svn/dirbad
+Warning: test1/svn/dirbad: Directory should be under Subversion control
+ -> Dir: svn/dirutd
+ -> Parsing Subversion entries
+ --> fileoth: o
+ --> fileutd: m
+ -> Dir: svn/dirutd/.svn
+ -> Dir: testdir
+Backup path: test2
+ -> Dir: testdir
+Database closed: myhost
+Database closed
+ 
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+User-mode backup
+Backing up in user mode
+Database initialized: test_user/.hbackup
+Database open in read/write mode
+ -> Reading client configuration file
+Configuration:
+ -> Client: localhost
+ --> Protocol: file
+ --> Config: test_user/.hbackup/config
+ --> Expiry: none
+ --> Paths: 
+ ---> Path: test_user/testuser
+Backing up client
+Reading list of missing checksums
+List created: localhost
+Database open r/w: localhost
+Backup path: test_user/testuser
+Adding file data to DB for 31d30eea8d0968d6458e0ad0027c9f80-0
+A f     test_user/testuser/f1.txt
+A       test_user/testuser/subdir
+ -> Dir: subdir
+Adding file data to DB for dbbf8220893d497d403bb9cdf49db7a4-0
+A f     test_user/testuser/subdir/f2.txt
+A       test_user/testuser/subdir2
+ -> Dir: subdir2
+Adding file data to DB for d5b4c7d9b06b60a7846c4529834c9812-0
+A f     test_user/testuser/subdir2/f3.txt
+Adding file data to DB for 90e2a51705594d033a3abe9d77b2b7ad-0
+A f     test_user/testuser/subdir2/f4.txt
+Database modified: localhost
+Database closed: localhost
+Database closed
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+Fix DB
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Fixing database
+Database open in read/write mode
+Database closed
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+Scan DB
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Scanning database
+Database open in read/write mode
+Reading list: aClient.vista
+Reading list: client.xp
+Reading list: myClient
+Reading list: myhost
+Found 15 checksums
+Crawling through DB
+0f2ea973d77135dc3d06c8e68da6dc59-0\r
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+59ca0efa9f5633cb0371bbc0355478d8-0\r
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+b90f8fa56ea1d39881d4a199c7a81d35-0\r
+d41d8cd98f00b204e9800998ecf8427e-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+f1c9645dbc14efddc7d8a322685f26eb-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+fef51838cd3cfe8ed96355742eb71fbd-0\r
+                                  \r
+Found 15 valid and 0 broken data files
+Checksum(s) from list:
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> f1c9645dbc14efddc7d8a322685f26eb-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Checksum(s) with data:
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> 26ab0db90d72e28ad0ba1e22ee510510-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0
+ -> 59071590099d21dd439896592338bf95-0
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6d7fce9fee471194aa8b5b6e47267f03-0
+ -> 8bdef5751e46ed57d237cbe3f4a5061c-0
+ -> b026324c6904b2a9cb4b88d6d61c81d1-0
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> d41d8cd98f00b204e9800998ecf8427e-0
+ -> eb75fb33b2019ef3c840eb5ccdc2e795-0
+ -> f1c9645dbc14efddc7d8a322685f26eb-0
+ -> fb00cd74a5f35e89a7fbdd3c1d05375a-0
+ -> fef51838cd3cfe8ed96355742eb71fbd-0
+Database closed
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+Check DB
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Checking database
+Database open in read-only mode
+Crawling through DB data
+0f2ea973d77135dc3d06c8e68da6dc59-0\r
+26ab0db90d72e28ad0ba1e22ee510510-0\r
+3d546a1ce46c6ae10ad34ab8a81c542e-0\r
+5252f242d27b8c2c9fdbdcbb33545d07-0\r
+59071590099d21dd439896592338bf95-0\r
+59ca0efa9f5633cb0371bbc0355478d8-0\r
+6d7fce9fee471194aa8b5b6e47267f03-0\r
+8bdef5751e46ed57d237cbe3f4a5061c-0\r
+b026324c6904b2a9cb4b88d6d61c81d1-0\r
+b90f8fa56ea1d39881d4a199c7a81d35-0\r
+d41d8cd98f00b204e9800998ecf8427e-0\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0\r
+f1c9645dbc14efddc7d8a322685f26eb-0\r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
+fef51838cd3cfe8ed96355742eb71fbd-0\r
+                                  \r
+Found 15 valid and 0 broken data files
+Database closed
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+List clients
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Showing list
+Database open in read-only mode
+Database closed
+ aClient.vista
+ client.xp
+ myClient
+ myhost
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+Try to list paths in both myhost and smb://client (fails)
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Selected clients:
+ --> myhost
+ --> smb://client
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Showing list
+Error: Wrong number of clients
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+List paths in myhost
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Selected clients:
+ --> myhost
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Showing list
+Database open in read-only mode
+Database open r-o: myhost
+Database closed: myhost
+Database closed
+ test1
+ test2
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+List paths in myhost under test2/
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Selected clients:
+ --> myhost
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Showing list
+Database open in read-only mode
+Database open r-o: myhost
+Database closed: myhost
+Database closed
+ test2/testdir
+ test2/testfile
+ test2/testfile2
+ test2/testfile~
+ test2/testlink
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+List paths in myhost under test1/cvs
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Selected clients:
+ --> myhost
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Showing list
+Database open in read-only mode
+Database open r-o: myhost
+Database closed: myhost
+Database closed
+ test1/cvs/CVS
+ test1/cvs/dirbad
+ test1/cvs/dirutd
+ test1/cvs/filenew.c
+ test1/cvs/fileutd.h
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+Restore a file
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Selected clients:
+ --> myhost
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Restoring
+Database open in read-only mode
+Database open r-o: myhost
+U test_r/test2/testfile
+Database closed: myhost
+Database closed
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+Restore all data in a client/dir path that's not by itself in DB
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Selected clients:
+ --> myhost
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Restoring
+Database open in read-only mode
+Database open r-o: myhost
+U test_r/test1/big_file
+U test_r/test1/cvs
+U test_r/test1/cvs/CVS
+U test_r/test1/cvs/CVS/Entries
+U test_r/test1/cvs/CVS/Root
+U test_r/test1/cvs/dirbad
+U test_r/test1/cvs/dirutd
+U test_r/test1/cvs/dirutd/CVS
+U test_r/test1/cvs/dirutd/CVS/Entries
+U test_r/test1/cvs/dirutd/CVS/Root
+U test_r/test1/cvs/dirutd/fileutd
+U test_r/test1/cvs/filenew.c
+U test_r/test1/cvs/fileutd.h
+U test_r/test1/dir space
+U test_r/test1/dir space/file space
+U test_r/test1/svn
+U test_r/test1/svn/.svn
+U test_r/test1/svn/.svn/entries
+U test_r/test1/svn/dirbad
+U test_r/test1/svn/dirutd
+U test_r/test1/svn/dirutd/.svn
+U test_r/test1/svn/dirutd/.svn/entries
+U test_r/test1/svn/dirutd/fileutd
+U test_r/test1/svn/filenew.c
+U test_r/test1/test space
+U test_r/test1/testdir
+U test_r/test1/testfile
+U test_r/test1/testlink
+U test_r/test1/testpipe
+Database closed: myhost
+Database closed
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+Restore all data in a client/dir path
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Selected clients:
+ --> myhost
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Restoring
+Database open in read-only mode
+Database open r-o: myhost
+U test_r/test1/cvs
+U test_r/test1/cvs/CVS
+U test_r/test1/cvs/CVS/Entries
+U test_r/test1/cvs/CVS/Root
+U test_r/test1/cvs/dirbad
+U test_r/test1/cvs/dirutd
+U test_r/test1/cvs/dirutd/CVS
+U test_r/test1/cvs/dirutd/CVS/Entries
+U test_r/test1/cvs/dirutd/CVS/Root
+U test_r/test1/cvs/dirutd/fileutd
+U test_r/test1/cvs/filenew.c
+U test_r/test1/cvs/fileutd.h
+Database closed: myhost
+Database closed
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+Restore all data in a client
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Selected clients:
+ --> myhost
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Restoring
+Database open in read-only mode
+Database open r-o: myhost
+U test_r/test1/big_file
+U test_r/test1/cvs
+U test_r/test1/cvs/CVS
+U test_r/test1/cvs/CVS/Entries
+U test_r/test1/cvs/CVS/Root
+U test_r/test1/cvs/dirbad
+U test_r/test1/cvs/dirutd
+U test_r/test1/cvs/dirutd/CVS
+U test_r/test1/cvs/dirutd/CVS/Entries
+U test_r/test1/cvs/dirutd/CVS/Root
+U test_r/test1/cvs/dirutd/fileutd
+U test_r/test1/cvs/filenew.c
+U test_r/test1/cvs/fileutd.h
+U test_r/test1/dir space
+U test_r/test1/dir space/file space
+U test_r/test1/svn
+U test_r/test1/svn/.svn
+U test_r/test1/svn/.svn/entries
+U test_r/test1/svn/dirbad
+U test_r/test1/svn/dirutd
+U test_r/test1/svn/dirutd/.svn
+U test_r/test1/svn/dirutd/.svn/entries
+U test_r/test1/svn/dirutd/fileutd
+U test_r/test1/svn/filenew.c
+U test_r/test1/test space
+U test_r/test1/testdir
+U test_r/test1/testfile
+U test_r/test1/testlink
+U test_r/test1/testpipe
+U test_r/test2/testdir
+U test_r/test2/testfile
+U test_r/test2/testfile2
+U test_r/test2/testfile~
+Done:  78.1%\r
+Done: 100.0%\r
+            \r
+U test_r/test2/testlink
+Database closed: myhost
+Database closed
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
+Broken configuration
+ -> Reading configuration file: etc/broken.conf
+Error: after line: 0: need at most 1 occurence(s) of keyword 'db'
+Error: at line: 4: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line: 8: missing keyword 'condition'
+Error: after line: 13: need at most 1 occurence(s) of keyword 'config'
+Error: after line: 13: need at most 1 occurence(s) of keyword 'expire'
+Error: after line: 13: need at most 1 occurence(s) of keyword 'hostname'
+Error: at line: 17: keyword 'option' requires at most 2 parameter(s), found 3
+Error: at line: 18: keyword 'option' requires at least 1 parameter(s), found 0
+Error: at line: 26: keyword 'filter' requires 2 parameter(s), found 3
+Error: at line: 27: keyword 'condition' requires 2 parameter(s), found 3
+Error: at line: 28: keyword 'condition' requires 2 parameter(s), found 1
+Error: at line: 31: keyword 'expire' requires 1 parameter(s), found 2
+Error: after line: 35: need at most 1 occurence(s) of keyword 'compress'
+Error: after line: 35: need at most 1 occurence(s) of keyword 'ignore'
+Error: after line: 45: missing keyword 'condition'
+Error: at line: 47: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line: 47: missing keyword 'condition'
+Error: after line: 59: missing keyword 'protocol'
+Error: at line: 65: keyword 'ignore' requires 1 parameter(s), found 2
+Error: at line: 66: keyword 'compress' requires 1 parameter(s), found 2
+Error: at line: 79: keyword 'ignore' requires 1 parameter(s), found 0
+Error: at line: 80: keyword 'compress' requires 1 parameter(s), found 0
+Error: at line: 82: keyword 'what_the_f...?' incorrect or misplaced, aborting
+ 
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+    at 0x4023294: operator new(unsigned) (vg_replace_malloc.c:224)
+    by 0x8058E8D: TCLAP::CmdLine::_constructor() (CmdLine.h:299)
+    by 0x80595D6: TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
+    by 0x804C13E: main (hbackup.cpp:195)
