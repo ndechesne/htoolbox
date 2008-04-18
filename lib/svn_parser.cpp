@@ -96,6 +96,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) {
       // Add to list of Nodes, with status
       _files.push_back(Node(&buffer[7], type, 0, 0, 0, 0, 0));
     }
+    free(buffer);
     pclose(fd);
     _files.sort();
     show(2);
