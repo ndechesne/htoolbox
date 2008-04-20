@@ -293,6 +293,22 @@ int main(void) {
   }
   records.clear();
 
+  cout << endl << "Test: list paths in dual-boot client" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  if (hbackup->addClient("myClient*") == 0) {
+    hbackup->getList(records);
+    cout << "List of paths in 'myClient*': " << records.size() << endl;
+    for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+      cout << " -> " << *i << endl;
+    }
+    records.clear();
+  }
+  hbackup->close();
+  delete hbackup;
+
   cout << endl << "Test: list sub-paths in UNIX client" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
@@ -357,6 +373,17 @@ int main(void) {
   system("rm -rf test_r");
   delete hbackup;
 
+  cout << endl << "Test: restore client (UNIX)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient");
+  hbackup->restore("test_r", "", 0);
+  hbackup->close();
+  system("rm -rf test_r");
+  delete hbackup;
+
   cout << endl << "Test: restore file (DOS)" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
@@ -374,7 +401,7 @@ int main(void) {
     return 1;
   }
   hbackup->addClient("myClient.xp");
-  hbackup->restore("test_r", "C:/Test Dir/", 0);
+  hbackup->restore("test_r", "C:/Test Dir/My Dir", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -390,12 +417,23 @@ int main(void) {
   system("rm -rf test_r");
   delete hbackup;
 
-  cout << endl << "Test: restore client" << endl;
+  cout << endl << "Test: restore client (DOS)" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
-  hbackup->addClient("myClient");
+  hbackup->addClient("myClient.xp");
+  hbackup->restore("test_r", "", 0);
+  hbackup->close();
+  system("rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore client (dual-boot)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient*");
   hbackup->restore("test_r", "", 0);
   hbackup->close();
   system("rm -rf test_r");

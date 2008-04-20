@@ -102,17 +102,31 @@ HBackup::~HBackup() {
 }
 
 int HBackup::addClient(const char* name) {
-  int cmp = 1;
-  list<string>::iterator client = _d->selected_clients.begin();
-  while ((client != _d->selected_clients.end())
-      && ((cmp = client->compare(name)) < 0)) {
-    client++;
+  // Length of name excluding last character
+  int length = strlen(name) - 1;
+  if (name[length] == '*') {
+    list<string> clients;
+    getList(clients);
+    for (list<string>::iterator client = clients.begin();
+        client != clients.end(); client++) {
+      if (strncmp(name, client->c_str(), length) == 0) {
+        out(debug, msg_standard, client->c_str(), -1, "Selected client");
+        addClient(client->c_str());
+      }
+    }
+  } else {
+    int cmp = 1;
+    list<string>::iterator client = _d->selected_clients.begin();
+    while ((client != _d->selected_clients.end())
+        && ((cmp = client->compare(name)) < 0)) {
+      client++;
+    }
+    if (cmp == 0) {
+      out(error, msg_standard, "Client already selected", -1, name);
+      return -1;
+    }
+    _d->selected_clients.insert(client, name);
   }
-  if (cmp == 0) {
-    out(error, msg_standard, "Client already selected", -1, name);
-    return -1;
-  }
-  _d->selected_clients.insert(client, name);
   return 0;
 }
 
@@ -485,12 +499,17 @@ int HBackup::getList(
   if (_d->selected_clients.empty()) {
     failed = (_d->db->getClients(records) != 0);
   } else {
-    if (_d->db->openClient(_d->selected_clients.front().c_str())) {
-      failed = true;
-    } else {
-      failed = (_d->db->getRecords(records, path, date) != 0);
+    for (list<string>::iterator client = _d->selected_clients.begin();
+        client != _d->selected_clients.end(); client++) {
+      if (_d->db->openClient(client->c_str())) {
+        failed = true;
+      } else {
+        if (_d->db->getRecords(records, path, date) != 0) {
+          failed = true;
+        }
+        _d->db->closeClient();
+      }
     }
-    _d->db->closeClient();
   }
   _d->db->close();
   return failed ? -1 : 0;
@@ -500,21 +519,25 @@ int HBackup::restore(
     const char*     dest,
     const char*     path,
     time_t          date) {
-  bool failed = true;
-  if (_d->selected_clients.empty()) {
-    out(error, msg_standard, "No client given");
-    return -1;
-  }
+  bool failed = false;
   if (_d->db->open(true) < 0) {
     return -1;
   }
-  if (_d->db->openClient(_d->selected_clients.front().c_str()) >= 0) {
-    Path where(dest);
-    where.noTrailingSlashes();
-
-    bool failed = (_d->db->restore(where, path, date) != 0);
-    _d->db->closeClient();
-    failed = false;;
+  if (_d->selected_clients.empty()) {
+    out(error, msg_standard, "No client given");
+    failed = true;
+  } else {
+    for (list<string>::iterator client = _d->selected_clients.begin();
+        client != _d->selected_clients.end(); client++) {
+      if (_d->db->openClient(client->c_str())) {
+        failed = true;
+      } else {
+        if (_d->db->restore(dest, path, date) != 0) {
+          failed = true;
+        }
+        _d->db->closeClient();
+      }
+    }
   }
   _d->db->close();
   return failed ? -1 : 0;

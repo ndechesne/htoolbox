@@ -2358,6 +2358,90 @@ Database closed
 List of paths in 'myClient.xp': 1
  -> C:
 
+Test: list paths in dual-boot client
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Database open in read-only mode
+Database closed
+Selected client: myClient
+Selected client: myClient.xp
+Database open in read-only mode
+Database open r-o: myClient
+Database closed: myClient
+Database open r-o: myClient.xp
+Database closed: myClient.xp
+Database closed
+List of paths in 'myClient*': 2
+ -> /home
+ -> C:
+
 Test: list sub-paths in UNIX client
  -> Reading configuration file: etc/hbackup.conf
 Configuration:
@@ -2744,6 +2828,84 @@ U test_r//home/User/test/dir/file3.txt
 Database closed: myClient
 Database closed
 
+Test: restore client (UNIX)
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Database open in read-only mode
+Database open r-o: myClient
+U test_r//home/User/test/File2.txt
+U test_r//home/User/test/dir
+U test_r//home/User/test/dir/file3.txt
+Database closed: myClient
+Database closed
+
 Test: restore file (DOS)
  -> Reading configuration file: etc/hbackup.conf
 Configuration:
@@ -2895,7 +3057,6 @@ Database open r-o: myClient.xp
 U test_r/C:/Test Dir/My Dir
 U test_r/C:/Test Dir/My Dir/a File.TXT
 U test_r/C:/Test Dir/My Dir/another File.TXT
-U test_r/C:/Test Dir/My File.TXT
 Database closed: myClient.xp
 Database closed
 
@@ -2978,7 +3139,7 @@ U test_r/C:/Test Dir/My File.TXT
 Database closed: myClient.xp
 Database closed
 
-Test: restore client
+Test: restore client (DOS)
  -> Reading configuration file: etc/hbackup.conf
 Configuration:
  -> DB path: test_db
@@ -3049,11 +3210,100 @@ Configuration:
  --> Condition: filter backup
  --> Condition: not size< 1000
 Database open in read-only mode
+Database open r-o: myClient.xp
+U test_r/C:/Test Dir/My Dir
+U test_r/C:/Test Dir/My Dir/a File.TXT
+U test_r/C:/Test Dir/My Dir/another File.TXT
+U test_r/C:/Test Dir/My File.TXT
+Database closed: myClient.xp
+Database closed
+
+Test: restore client (dual-boot)
+ -> Reading configuration file: etc/hbackup.conf
+Configuration:
+ -> DB path: test_db
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Database open in read-only mode
+Database closed
+Selected client: myClient
+Selected client: myClient.xp
+Database open in read-only mode
 Database open r-o: myClient
 U test_r//home/User/test/File2.txt
 U test_r//home/User/test/dir
 U test_r//home/User/test/dir/file3.txt
 Database closed: myClient
+Database open r-o: myClient.xp
+U test_r/C:/Test Dir/My Dir
+U test_r/C:/Test Dir/My Dir/a File.TXT
+U test_r/C:/Test Dir/My Dir/another File.TXT
+U test_r/C:/Test Dir/My File.TXT
+Database closed: myClient.xp
 Database closed
 
 Test: check for corrupted data
