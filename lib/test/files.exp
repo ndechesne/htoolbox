@@ -445,6 +445,10 @@ filter	any	test_or
 condition	filter	backup	
 condition	!size<	1000	
 
+client	myClient	xp	
+protocol	smb	
+config	C:\Backup\Backup.LST	
+
 client	myClient	
 protocol	nfs	
 hostname	myClient	

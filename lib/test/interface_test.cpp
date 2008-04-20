@@ -229,12 +229,6 @@ int main(void) {
   system("rm -rf test_r");
   delete hbackup;
 
-  cout << endl << "Test: add dual-boot client" << endl;
-  system("echo >> etc/hbackup.conf");
-  system("echo client myClient xp >> etc/hbackup.conf");
-  system("echo protocol smb>> etc/hbackup.conf");
-  system("echo config C:\\\\Backup\\\\Backup.LST >> etc/hbackup.conf");
-
   cout << endl << "Test: typical backup" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {

@@ -143,6 +143,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -210,6 +215,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -277,6 +287,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -344,6 +359,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -469,6 +489,46 @@ Adding compressed file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
 A z     /home/User/test/dir/file3.txt
 Database modified: myClient
 Database closed: myClient
+ -> umount -fl test_db/.mount
+Trying client 'myClient.xp' using protocol 'smb'
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
+ -> Reading client configuration file
+Configuration:
+ -> Client: myClient
+ --> Subset: xp
+ --> Protocol: smb
+ --> Config: C:/Backup/Backup.LST
+ --> Expiry: none
+ --> Paths: 
+ ---> Path: C:/Test Dir
+ ----> Filter: and silly
+ -----> Condition: filter backup
+ -----> Condition: type p
+ -----> Condition: name a
+ -----> Condition: name_start b
+ -----> Condition: name_end c
+ -----> Condition: name_regex d
+ -----> Condition: path e
+ -----> Condition: path_start f
+ -----> Condition: path_end g
+ -----> Condition: name_regex h
+ -----> Condition: size>= 1
+ -----> Condition: size> 2048
+ -----> Condition: size<= 3000000
+ -----> Condition: size< 4294967296
+ -----> Condition: mode& 777
+ -----> Condition: mode= 644
+Backing up client
+List created: myClient.xp
+Database open r/w: myClient.xp
+Backup path: C:/Test Dir
+A       C:/Test Dir/My Dir
+ -> Dir: My Dir
+A       C:/Test Dir/My Dir/a File.TXT
+A       C:/Test Dir/My Dir/another File.TXT
+A       C:/Test Dir/My File.TXT
+Database modified: myClient.xp
+Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file
@@ -646,6 +706,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -846,6 +911,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -914,6 +984,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -954,6 +1029,7 @@ Database open in read/write mode
 Reading list: aClient.vista
 Reading list: client.xp
 Reading list: myClient
+Reading list: myClient.xp
 Reading list: myhost
 Found 15 checksums
 Crawling through DB
@@ -1037,6 +1113,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -1123,6 +1204,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -1164,6 +1250,7 @@ Database closed
  aClient.vista
  client.xp
  myClient
+ myClient.xp
  myhost
 Try to list paths in both myhost and smb://client (fails)
  -> Reading configuration file: etc/hbackup.conf
@@ -1198,6 +1285,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -1267,6 +1359,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -1341,6 +1438,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -1418,6 +1520,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -1495,6 +1602,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -1568,6 +1680,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -1669,6 +1786,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
@@ -1753,6 +1875,11 @@ Configuration:
  ---> Protocol: nfs
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan

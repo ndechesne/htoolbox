@@ -61,57 +61,60 @@ Lines:
 7:   filter any test_or
 8:     condition filter backup
 9:     condition !size< 1000
-11:   client myClient
-12:     protocol nfs
-13:     hostname myClient
-14:     config /home/User/hbackup.list
-16:   client other
-17:     protocol ssh
-18:     hostname otherClient
-19:     config /home/backup/Backup.list
-21:     filter and subdir
-22:       condition path_start subdir
-23:       condition !size< 100
-25:     filter and bigfile
-26:       condition size>= 10
-27:       condition type file
-29:     expire 1
-31:     path test2//
-33:     path test1
-35:       filter and not_object
-36:         condition !path_end .o
-38:       filter or to_be_ignored
-39:         condition filter subdir
-40:         condition filter backup
-41:         condition !filter not_object
-43:       ignore to_be_ignored
-45:       compress bigfile
-47:       parser cvs controlled
-48:       parser svn modified
-50:   client myhost
-51:     protocol file
-52:     hostname myhost.mynetwork.lan
-53:     timeout_nowarning
-54:     config etc/localhost.list
-55:     expire 1
-57:   client client xp
-58:     protocol smb
-59:     option username Myself
-60:     option password flesyM
-61:     option nocase
-62:     hostname myClient
-63:     config C:\Backup\Backup.LST
-65:   client aClient vista
-66:     protocol smb
-67:     filter and huge_file
-68:       condition !filter backup
-69:       condition !size< 100
-71:     path C:\Test Dir
-72:       filter and compress_m
-73:         condition !filter huge_file
-74:       compress compress_m
-75:       ignore backup
-76:       parser svn modified
+11:   client myClient xp
+12:     protocol smb
+13:     config C:\Backup\Backup.LST
+15:   client myClient
+16:     protocol nfs
+17:     hostname myClient
+18:     config /home/User/hbackup.list
+20:   client other
+21:     protocol ssh
+22:     hostname otherClient
+23:     config /home/backup/Backup.list
+25:     filter and subdir
+26:       condition path_start subdir
+27:       condition !size< 100
+29:     filter and bigfile
+30:       condition size>= 10
+31:       condition type file
+33:     expire 1
+35:     path test2//
+37:     path test1
+39:       filter and not_object
+40:         condition !path_end .o
+42:       filter or to_be_ignored
+43:         condition filter subdir
+44:         condition filter backup
+45:         condition !filter not_object
+47:       ignore to_be_ignored
+49:       compress bigfile
+51:       parser cvs controlled
+52:       parser svn modified
+54:   client myhost
+55:     protocol file
+56:     hostname myhost.mynetwork.lan
+57:     timeout_nowarning
+58:     config etc/localhost.list
+59:     expire 1
+61:   client client xp
+62:     protocol smb
+63:     option username Myself
+64:     option password flesyM
+65:     option nocase
+66:     hostname myClient
+67:     config C:\Backup\Backup.LST
+69:   client aClient vista
+70:     protocol smb
+71:     filter and huge_file
+72:       condition !filter backup
+73:       condition !size< 100
+75:     path C:\Test Dir
+76:       filter and compress_m
+77:         condition !filter huge_file
+78:       compress compress_m
+79:       ignore backup
+80:       parser svn modified
 Test: broken configuration
 Error: after line: 0: need at most 1 occurence(s) of keyword 'db'
 Error: at line: 4: keyword 'filter' requires 2 parameter(s), found 1
