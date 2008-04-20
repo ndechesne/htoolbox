@@ -353,8 +353,12 @@ Client::~Client() {
   delete _d;
 }
 
-string Client::name() const {
+const string& Client::name() const {
   return _d->name;
+}
+
+const string& Client::subset() const {
+  return _d->subset_server;
 }
 
 string Client::internalName() const {
@@ -363,10 +367,6 @@ string Client::internalName() const {
   } else {
     return _d->name + "." + _d->subset_server;
   }
-}
-
-string Client::subset() const {
-  return _d->subset_server;
 }
 
 void Client::addOption(const string& value) {

@@ -47,9 +47,9 @@ class Client {
 public:
   Client(const string& name, const string& sub_name = "");
   ~Client();
-  string name() const;
+  const string& name() const;
+  const string& subset() const;
   string internalName() const;
-  string subset() const;
   void addOption(const string& value);
   void addOption(const string& name, const string& value);
   void setHostOrIp(string value);
