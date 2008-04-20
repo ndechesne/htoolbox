@@ -3,72 +3,72 @@
 hbackup='valgrind --quiet --leak-check=full ../../hbackup'
 
 echo "Version"
-$hbackup --version -- 2>&1 | sed "s/.*==//"
+$hbackup --version -- 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Help"
-$hbackup -h -- 2>&1 | sed "s/.*==//"
+$hbackup -h -- 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Error"
-$hbackup -! -- 2>&1 | sed "s/.*==//"
+$hbackup -! -- 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "List clients (missing DB path)"
-$hbackup -d -c etc/hbackup.conf -l 2>&1 | sed "s/.*==//"
+$hbackup -d -c etc/hbackup.conf -l 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "List clients (empty DB path)"
 mkdir test_db
-$hbackup -d -c etc/hbackup.conf -l 2>&1 | sed "s/.*==//"
+$hbackup -d -c etc/hbackup.conf -l 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 rmdir test_db
 
 echo "Backup, DB missing"
-$hbackup -d -c etc/hbackup.conf -- 2>&1 | sed "s/.*==//"
+$hbackup -d -c etc/hbackup.conf -- 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Typical backup, initialize DB"
-$hbackup -di -c etc/hbackup.conf -- 2>&1 | sed "s/.*==//"
+$hbackup -di -c etc/hbackup.conf -- 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Specify clients"
-$hbackup -d -c etc/hbackup.conf -C myhost -C client.xp 2>&1 | sed "s/.*==//"
+$hbackup -d -c etc/hbackup.conf -C myhost -C client.xp 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "User-mode backup"
 export HOME="$TESTDIRUSER"
-$hbackup -diu -c etc/hbackup.conf -- 2>&1 | sed "s/.*==//"
+$hbackup -diu -c etc/hbackup.conf -- 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Fix DB"
-$hbackup -d -c etc/hbackup.conf -f 2>&1 | sed "s/.*==//"
+$hbackup -d -c etc/hbackup.conf -f 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Scan DB"
-$hbackup -d -c etc/hbackup.conf -s 2>&1 | sed "s/.*==//"
+$hbackup -d -c etc/hbackup.conf -s 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Check DB"
-$hbackup -d -c etc/hbackup.conf -t 2>&1 | sed "s/.*==//"
+$hbackup -d -c etc/hbackup.conf -t 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "List clients"
-$hbackup -d -c etc/hbackup.conf -l 2>&1 | sed "s/.*==//"
+$hbackup -d -c etc/hbackup.conf -l 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Try to list paths in both myhost and smb://client (fails)"
-$hbackup -d -c etc/hbackup.conf -l -C myhost -C smb://client 2>&1 | sed "s/.*==//"
+$hbackup -d -c etc/hbackup.conf -l -C myhost -C smb://client 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "List paths in myhost"
-$hbackup -d -c etc/hbackup.conf -l -C myhost 2>&1 | sed "s/.*==//"
+$hbackup -d -c etc/hbackup.conf -l -C myhost 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "List paths in myhost under test2/"
-$hbackup -d -c etc/hbackup.conf -l -C myhost -P test2/ 2>&1 | sed "s/.*==//"
+$hbackup -d -c etc/hbackup.conf -l -C myhost -P test2/ 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "List paths in myhost under test1/cvs"
-$hbackup -d -c etc/hbackup.conf -l -C myhost -P test1/cvs 2>&1 | sed "s/.*==//"
+$hbackup -d -c etc/hbackup.conf -l -C myhost -P test1/cvs 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Restore a file"
-rm -rf test_r && $hbackup -d -c etc/hbackup.conf -r test_r -C myhost -P test2/testfile 2>&1 | sed "s/.*==//"
+rm -rf test_r && $hbackup -d -c etc/hbackup.conf -r test_r -C myhost -P test2/testfile 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Restore all data in a client/dir path that's not by itself in DB"
-rm -rf test_r && $hbackup -d -c etc/hbackup.conf -r test_r -C myhost -P test1 -D 0 2>&1 | sed "s/.*==//"
+rm -rf test_r && $hbackup -d -c etc/hbackup.conf -r test_r -C myhost -P test1 -D 0 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Restore all data in a client/dir path"
-rm -rf test_r && $hbackup -d -c etc/hbackup.conf -r test_r -C myhost -P test1/cvs 2>&1 | sed "s/.*==//"
+rm -rf test_r && $hbackup -d -c etc/hbackup.conf -r test_r -C myhost -P test1/cvs 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Restore all data in a client"
-rm -rf test_r && $hbackup -d -c etc/hbackup.conf -r test_r -C myhost 2>&1 | sed "s/.*==//"
+rm -rf test_r && $hbackup -d -c etc/hbackup.conf -r test_r -C myhost 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Broken configuration"
-$hbackup -d -c etc/broken.conf -- 2>&1 | sed "s/.*==//"
+$hbackup -d -c etc/broken.conf -- 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 exit 0
