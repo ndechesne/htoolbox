@@ -4400,7 +4400,7 @@ Warning: test1/svn/dirbad: Directory should be under Subversion control
  --> fileutd: m
  -> Dir: svn/dirutd/.svn
  -> Dir: testdir
-D test1/testfile
+D       test1/testfile
 Backup path: test2
  -> Dir: testdir
 Database modified: myhost

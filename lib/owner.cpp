@@ -436,7 +436,7 @@ int Owner::search(
       _d->journal->addData(time(NULL));
       // Add path and 'removed' entry
       _d->partial->addData(time(NULL));
-      out(info, msg_standard, db_path, -2, "D");
+      out(info, msg_standard, db_path, -2, "D      ");
     }
   }
   free(db_path);

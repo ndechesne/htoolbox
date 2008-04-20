@@ -686,7 +686,7 @@ Database open r/w: myClient
  -> Dir: cvs/dirutd/CVS
  -> Dir: dir space
  -> Dir: subdir
-D /home/User/subdir/testfile
+D       /home/User/subdir/testfile
  -> Dir: svn
  -> Dir: svn/.svn
  -> Dir: svn/.svn/wherever
@@ -796,9 +796,9 @@ Database open r/w: myClient
  -> Dir: cvs/dirutd
  -> Dir: cvs/dirutd/CVS
  -> Dir: dir space
-D /home/User/subdir
-D /home/User/subdir/testfile1
-D /home/User/subdir/testfile2
+D       /home/User/subdir
+D       /home/User/subdir/testfile1
+D       /home/User/subdir/testfile2
  -> Dir: svn
  -> Dir: svn/.svn
  -> Dir: svn/.svn/wherever
@@ -1042,7 +1042,7 @@ Database open r/w: myClient
  -> Dir: svn/dirutd
  -> Dir: svn/dirutd/.svn
  -> Dir: testdir
-D /home/User/testlink
+D       /home/User/testlink
 Parsed 56 file(s)
 Database modified: myClient
 Database closed: myClient
@@ -1157,22 +1157,22 @@ Database open r/w: myClient
  --> filenew.c: 0
  --> fileutd.h: 1159985080
  -> Dir: cvs/CVS
-D /home/User/cvs/CVS/Whatever
-D /home/User/cvs/CVS/Wherever
-D /home/User/cvs/CVS/Wherever/Whichever
-D /home/User/cvs/big_file
+D       /home/User/cvs/CVS/Whatever
+D       /home/User/cvs/CVS/Wherever
+D       /home/User/cvs/CVS/Wherever/Whichever
+D       /home/User/cvs/big_file
  -> Dir: cvs/dirbad
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-D /home/User/cvs/dirbad/fileoth
-D /home/User/cvs/dirbad/fileutd
-D /home/User/cvs/diroth
+D       /home/User/cvs/dirbad/fileoth
+D       /home/User/cvs/dirbad/fileutd
+D       /home/User/cvs/diroth
  -> Dir: cvs/dirutd
  -> Parsing CVS entries
  --> fileutd: 1159985080
  -> Dir: cvs/dirutd/CVS
-D /home/User/cvs/dirutd/CVS/Whatever
-D /home/User/cvs/dirutd/fileoth
-D /home/User/cvs/fileoth
+D       /home/User/cvs/dirutd/CVS/Whatever
+D       /home/User/cvs/dirutd/fileoth
+D       /home/User/cvs/fileoth
  -> Dir: dir space
  -> Dir: svn
  -> Dir: svn/.svn
@@ -1478,25 +1478,25 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
  --> filenew.c: m
  --> fileoth: i
  -> Dir: svn/.svn
-D /home/User/svn/.svn/format
-D /home/User/svn/.svn/whatever
-D /home/User/svn/.svn/wherever
-D /home/User/svn/.svn/wherever/whichever
+D       /home/User/svn/.svn/format
+D       /home/User/svn/.svn/whatever
+D       /home/User/svn/.svn/wherever
+D       /home/User/svn/.svn/wherever/whichever
  -> Dir: svn/dirbad
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-D /home/User/svn/dirbad/fileoth
-D /home/User/svn/dirbad/fileutd
-D /home/User/svn/diroth
+D       /home/User/svn/dirbad/fileoth
+D       /home/User/svn/dirbad/fileutd
+D       /home/User/svn/diroth
  -> Dir: svn/dirutd
  -> Parsing Subversion entries
  --> fileoth: o
  --> fileutd: m
  -> Dir: svn/dirutd/.svn
-D /home/User/svn/dirutd/.svn/format
-D /home/User/svn/dirutd/.svn/whatever
-D /home/User/svn/dirutd/fileoth
-D /home/User/svn/fileoth
-D /home/User/svn/fileutd.h
+D       /home/User/svn/dirutd/.svn/format
+D       /home/User/svn/dirutd/.svn/whatever
+D       /home/User/svn/dirutd/fileoth
+D       /home/User/svn/fileoth
+D       /home/User/svn/fileutd.h
  -> Dir: testdir
 Parsed 34 file(s)
 Database modified: myClient
@@ -1659,11 +1659,11 @@ Database open r/w: myClient
  -> Dir: cvs/CVS
  -> Dir: cvs/dirbad
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-D /home/User/cvs/dirutd
-D /home/User/cvs/dirutd/CVS
-D /home/User/cvs/dirutd/CVS/Entries
-D /home/User/cvs/dirutd/CVS/Root
-D /home/User/cvs/dirutd/fileutd
+D       /home/User/cvs/dirutd
+D       /home/User/cvs/dirutd/CVS
+D       /home/User/cvs/dirutd/CVS/Entries
+D       /home/User/cvs/dirutd/CVS/Root
+D       /home/User/cvs/dirutd/fileutd
  -> Dir: dir space
  -> Dir: svn
  -> Parsing Subversion entries
@@ -1854,10 +1854,10 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
  -> Dir: svn/.svn
  -> Dir: svn/dirbad
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-D /home/User/svn/dirutd
-D /home/User/svn/dirutd/.svn
-D /home/User/svn/dirutd/.svn/entries
-D /home/User/svn/dirutd/fileutd
+D       /home/User/svn/dirutd
+D       /home/User/svn/dirutd/.svn
+D       /home/User/svn/dirutd/.svn/entries
+D       /home/User/svn/dirutd/fileutd
  -> Dir: testdir
 Parsed 25 file(s)
 Database modified: myClient
@@ -2038,7 +2038,7 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
 Warning: test1/svn/dirbad: Directory should be under Subversion control
  -> Dir: testdir
 Parsed 24 file(s)
-D /home/User/testpipe
+D       /home/User/testpipe
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -3113,12 +3113,12 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
  -> Dir: svn/dirbad
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 M       /home/User/test space
-D /home/User/testdir
-D /home/User/testdir/biblio
-D /home/User/testdir/biblio/biblio.dbf
-D /home/User/testdir/biblio/biblio.dbt
-D /home/User/testdir/biblio.odb
-D /home/User/testdir/evolocal.odb
+D       /home/User/testdir
+D       /home/User/testdir/biblio
+D       /home/User/testdir/biblio/biblio.dbf
+D       /home/User/testdir/biblio/biblio.dbt
+D       /home/User/testdir/biblio.odb
+D       /home/User/testdir/evolocal.odb
 Parsed 41 file(s)
 Database modified: myClient
 Database closed: myClient
@@ -4146,7 +4146,7 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
  -> Dir: svn/.svn
  -> Dir: svn/dirbad
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-D /home/User/testfile
+D       /home/User/testfile
 M       /home/User/testfile~
 Parsed 40 file(s)
 Database modified: myClient

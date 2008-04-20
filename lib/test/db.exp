@@ -190,13 +190,13 @@ Reading list of missing checksums
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
 Database open r/w: myClient
  /client_path/new_link
-D /client_path/subdir
-D /client_path/subdir/testfile
-D /client_path/subdir/testfile2
-D /client_path/test space
-D /client_path/testfile
-D other_path/testdir
-D other_path/testfile
+D       /client_path/subdir
+D       /client_path/subdir/testfile
+D       /client_path/subdir/testfile2
+D       /client_path/test space
+D       /client_path/testfile
+D       other_path/testdir
+D       other_path/testfile
 Database modified: myClient
 Database closed: myClient
 Database closed: myClient
