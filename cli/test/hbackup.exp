@@ -1459,6 +1459,90 @@ Database closed
  C:
  test1
  test2
+List paths in dual-boot client myClient
+ -> Reading configuration file: etc/hbackup.conf
+Database open in read-only mode
+Database closed
+Configuration:
+ -> DB path: test_db
+ -> Selected clients:
+ --> myClient
+ --> myClient.xp
+ -> Clients:
+ --> Client: aClient
+ ---> Protocol: smb
+ ---> Expiry: none
+ ---> Filter: and huge_file
+ ----> Condition: not filter backup
+ ----> Condition: not size< 100
+ ---> Paths: 
+ ----> Path: C:/Test Dir
+ -----> Filter: and compress_m
+ ------> Condition: not filter huge_file
+ -----> Parser: Subversion
+ -----> Compress filter: compress_m
+ -----> Ignore filter: backup
+ ---> Required subset: vista
+ --> Client: client
+ ---> Protocol: smb
+ ---> Hostname: myClient
+ ---> Options: username=Myself password=flesyM nocase 
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myClient
+ ---> Protocol: nfs
+ ---> Config: /home/User/hbackup.list
+ ---> Expiry: none
+ --> Client: myClient
+ ---> Protocol: smb
+ ---> Config: C:/Backup/Backup.LST
+ ---> Expiry: none
+ ---> Required subset: xp
+ --> Client: myhost
+ ---> Protocol: file
+ ---> Hostname: myhost.mynetwork.lan
+ ---> Config: etc/localhost.list
+ ---> Expiry: 86400s (1d)
+ --> Client: other
+ ---> Protocol: ssh
+ ---> Hostname: otherClient
+ ---> Config: /home/backup/Backup.list
+ ---> Expiry: 86400s (1d)
+ ---> Filter: and subdir
+ ----> Condition: path_start subdir
+ ----> Condition: not size< 100
+ ---> Filter: and bigfile
+ ----> Condition: size>= 10
+ ----> Condition: type f
+ ---> Paths: 
+ ----> Path: test1
+ -----> Filter: and not_object
+ ------> Condition: not path_end .o
+ -----> Filter: or to_be_ignored
+ ------> Condition: filter subdir
+ ------> Condition: filter backup
+ ------> Condition: not filter not_object
+ -----> Parser: CVS
+ -----> Parser: Subversion
+ -----> Compress filter: bigfile
+ -----> Ignore filter: to_be_ignored
+ ----> Path: test2
+ -> Filter: and backup
+ --> Condition: type f
+ --> Condition: path_end ~
+ -> Filter: or test_or
+ --> Condition: filter backup
+ --> Condition: not size< 1000
+Showing list
+Database open in read-only mode
+Database open r-o: myClient
+Database closed: myClient
+Database open r-o: myClient.xp
+Database closed: myClient.xp
+Database closed
+ /home
+ C:
 List paths in all clients
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode

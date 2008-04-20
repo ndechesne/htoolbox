@@ -56,6 +56,9 @@ echo "List paths in myhost under test1/cvs"
 echo "List paths in both myhost and aClient.vista"
 "$hbackup" -d -c etc/hbackup.conf -l -C myhost -C aClient.vista 2>&1
 
+echo "List paths in dual-boot client myClient"
+"$hbackup" -d -c etc/hbackup.conf -l -C "myClient*" 2>&1
+
 echo "List paths in all clients"
 "$hbackup" -d -c etc/hbackup.conf -l -C "*" 2>&1
 
