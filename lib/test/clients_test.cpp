@@ -352,6 +352,17 @@ int main(void) {
   }
   records.clear();
 
+  cout << endl << "Paths in 'not_here' client" << endl;
+  if (db.openClient("not_here", false) == 0) {
+    db.getRecords(records);
+    db.closeClient();
+    cout << "Records found: " << records.size() << endl;
+    for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
+      cout << " " << *i << endl;
+    }
+    records.clear();
+  }
+
   db.close();
 
   printf("Create list of clients\n");

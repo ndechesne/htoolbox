@@ -627,6 +627,9 @@ Records found: 3
  test1/cvs/dirutd/CVS
  test1/cvs/dirutd/fileoth
  test1/cvs/dirutd/fileutd
+
+Paths in 'not_here' client
+Error: not_here: Directory does not exist, aborting
 Database closed
 Create list of clients
 >List 3 client(s):
