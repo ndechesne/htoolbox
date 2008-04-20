@@ -44,9 +44,6 @@ echo "Check DB"
 echo "List clients"
 "$hbackup" -d -c etc/hbackup.conf -l 2>&1
 
-echo "Try to list paths in both myhost and smb://client (fails)"
-"$hbackup" -d -c etc/hbackup.conf -l -C myhost -C smb://client 2>&1
-
 echo "List paths in myhost"
 "$hbackup" -d -c etc/hbackup.conf -l -C myhost 2>&1
 
@@ -55,6 +52,12 @@ echo "List paths in myhost under test2/"
 
 echo "List paths in myhost under test1/cvs"
 "$hbackup" -d -c etc/hbackup.conf -l -C myhost -P test1/cvs 2>&1
+
+echo "List paths in both myhost and aClient.vista"
+"$hbackup" -d -c etc/hbackup.conf -l -C myhost -C aClient.vista 2>&1
+
+echo "List paths in all clients"
+"$hbackup" -d -c etc/hbackup.conf -l -C "*" 2>&1
 
 echo "Restore a file"
 rm -rf test_r && "$hbackup" -d -c etc/hbackup.conf -r test_r -C myhost -P test2/testfile 2>&1

@@ -166,6 +166,9 @@ class MyOutput : public StdOutput {
     }
 };
 
+static bool         use_clients = false;
+static list<string> clients;
+
 int main(int argc, char **argv) {
   hbackup::HBackup hbackup;
 
@@ -279,13 +282,7 @@ int main(int argc, char **argv) {
       verbose_level = hbackup::debug;
     }
 
-    // Report specified clients
-    for (vector<string>::const_iterator i = clientArg.getValue().begin();
-        i != clientArg.getValue().end(); i++) {
-      hbackup.addClient(i->c_str());
-    }
-
-    // Check backup mode
+    // Check mode
     if (userSwitch.getValue()) {
       user_mode = true;
     }
@@ -294,9 +291,51 @@ int main(int argc, char **argv) {
       if (hbackup.open(getenv("HOME"), true)) {
         return 2;
       }
-    } else
-    if (hbackup.open(configArg.getValue().c_str(), false)) {
-      return 2;
+    } else {
+      if (hbackup.open(configArg.getValue().c_str(), false)) {
+        return 2;
+      }
+    }
+    // If listing or restoring., need list of clients
+    if ((restoreArg.getValue().size() != 0)
+    ||  (listSwitch.getValue())) {
+      if (hbackup.getList(clients) != 0) {
+        return -1;
+      } else {
+        use_clients = true;
+      }
+    }
+    // Report specified clients
+    for (vector<string>::const_iterator i = clientArg.getValue().begin();
+        i != clientArg.getValue().end(); i++) {
+      if (use_clients) {
+        // Length of name excluding last character
+        int length = strlen(i->c_str()) - 1;
+        if (length < 0) {
+          cerr << "Error: Empty client name" << endl;
+          return -1;
+        }
+        bool wildcard = false;
+        if ((*i)[length] == '*') {
+          wildcard = true;
+        }
+        // Make sure we know this client
+        for (list<string>::iterator client = clients.begin();
+            client != clients.end(); client++) {
+          if ((wildcard && ((length == 0)
+            || (strncmp(i->c_str(), client->c_str(), length) == 0)))
+          || (strcmp(i->c_str(), client->c_str()) == 0)) {
+            hbackup.addClient(client->c_str());
+          }
+        }
+      } else {
+        // Just add
+        hbackup.addClient(i->c_str());
+      }
+    }
+    if (verbose_level >= hbackup::verbose) {
+      cout << "Configuration:" << endl;
+      hbackup.show(1);
     }
     // Fix any interrupted backup
     if (fixSwitch.getValue()) {
@@ -331,7 +370,7 @@ int main(int argc, char **argv) {
         cout << "Showing list" << endl;
       }
       string path;
-      if (clientArg.getValue().size() > (user_mode ? 0 : 1)) {
+      if (user_mode && (clientArg.getValue().size() > 0)) {
         cerr << "Error: Wrong number of clients" << endl;
         return 1;
       }

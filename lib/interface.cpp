@@ -102,31 +102,17 @@ HBackup::~HBackup() {
 }
 
 int HBackup::addClient(const char* name) {
-  // Length of name excluding last character
-  int length = strlen(name) - 1;
-  if (name[length] == '*') {
-    list<string> clients;
-    getList(clients);
-    for (list<string>::iterator client = clients.begin();
-        client != clients.end(); client++) {
-      if (strncmp(name, client->c_str(), length) == 0) {
-        out(debug, msg_standard, client->c_str(), -1, "Selected client");
-        addClient(client->c_str());
-      }
-    }
-  } else {
-    int cmp = 1;
-    list<string>::iterator client = _d->selected_clients.begin();
-    while ((client != _d->selected_clients.end())
-        && ((cmp = client->compare(name)) < 0)) {
-      client++;
-    }
-    if (cmp == 0) {
-      out(error, msg_standard, "Client already selected", -1, name);
-      return -1;
-    }
-    _d->selected_clients.insert(client, name);
+  int cmp = 1;
+  list<string>::iterator client = _d->selected_clients.begin();
+  while ((client != _d->selected_clients.end())
+      && ((cmp = client->compare(name)) < 0)) {
+    client++;
   }
+  if (cmp == 0) {
+    out(error, msg_standard, "Client already selected", -1, name);
+    return -1;
+  }
+  _d->selected_clients.insert(client, name);
   return 0;
 }
 
@@ -377,8 +363,6 @@ int HBackup::readConfig(const char* config_path) {
     _d->db = new Database(DEFAULT_DB_PATH);
     _d->mount_point = DEFAULT_DB_PATH "/.mount";
   }
-  out(verbose, msg_standard, "Configuration:");
-  show(1);
   return 0;
 }
 
