@@ -6,7 +6,16 @@ DEPENDENCIES
 
 COMPILATION/TEST
 
-Type: './autogen.sh && make'
+There should be a 'configure' script, and all you need to type is:
+'./configure && make'
+
+Otherwise, type:
+'./autogen.sh && make'
+
+To run the tests, type:
+'make check'
+
+Note: the tests require some extra packages to be installed, such as Subversion.
 
 INSTALLATION
 
