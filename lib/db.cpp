@@ -663,7 +663,7 @@ int Database::add(
         _d->missing.setRecovered(op._id);
       }
     } else {
-      out(warning, msg_errno, "Backing up file", errno, op._path);
+      out(error, msg_errno, "Backing up file", errno, op._path);
       code[2] = '!';
       failed = true;
     }
