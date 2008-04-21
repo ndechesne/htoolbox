@@ -430,13 +430,13 @@ int Owner::search(
       break;
     }
     // Not reached, mark 'removed' (getLineType keeps line automatically)
-    _d->partial->addPath(db_path);
     if (_d->original->getLineType() != '-') {
-      _d->journal->addPath(db_path);
-      _d->journal->addData(time(NULL));
       // Add path and 'removed' entry
-      _d->partial->addData(time(NULL));
+      _d->journal->add(db_path, time(NULL));
+      _d->partial->add(db_path, time(NULL));
       out(info, msg_standard, db_path, -2, "D      ");
+    } else {
+      _d->partial->add(db_path);
     }
   }
   free(db_path);
@@ -444,7 +444,7 @@ int Owner::search(
     return -1;
   }
   if (path != NULL) {
-    _d->partial->addPath(path);
+    _d->partial->add(path);
     if ((cmp > 0) || (*node == NULL)) {
       _d->original->keepLine();
     }
@@ -456,9 +456,8 @@ int Owner::add(
     const char*     path,
     const Node*     node,
     time_t          timestamp) {
-  return ((_d->journal->addPath(path) < 0)
-  ||      (_d->journal->addData(timestamp, node) < 0)
-  ||      (_d->partial->addData(timestamp, node, true) < 0)) ? -1 : 0;
+  return ((_d->journal->add(path, timestamp, node) < 0)
+  ||      (_d->partial->add(NULL, timestamp, node, true) < 0)) ? -1 : 0;
 }
 
 int Owner::getNextRecord(

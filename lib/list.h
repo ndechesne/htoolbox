@@ -69,13 +69,11 @@ public:
     char**          path,
     Node**          node,
     time_t          date = -1);
-  // Add path to list
-  int addPath(
-    const char*     path);
-  // Add data to list
-  int addData(
-    time_t          timestamp,
-    const Node*     node = NULL,
+  // Add entry to list
+  int add(
+    const char*     path,
+    time_t          timestamp = -1,
+    const Node*     node      = NULL,
     bool            bufferize = false);
   // Search data in list copying contents on the fly if required, and
   // also expiring data and putting checksums in lists!!!

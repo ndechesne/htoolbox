@@ -83,35 +83,27 @@ int main(void) {
 
   // No checksum
   node = new Stream("test1/test space");
-  journal.addPath("file sp");
-  if (journal.isEmpty()) {
-    cout << "Journal is empty" << endl;
-  }
-  journal.addData(time(NULL), node);
+  journal.add("file sp", time(NULL), node);
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
   free(node);
 
-  journal.addPath("file_gone");
-  journal.addData(time(NULL));
+  journal.add("file_gone", time(NULL));
 
   node = new Stream("test1/testfile");
   ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
   ((Stream*) node)->close();
-  journal.addPath("file_new");
-  journal.addData(time(NULL), node);
+  journal.add("file_new", time(NULL), node);
   free(node);
 
   node = new Link("test1/testlink");
-  journal.addPath("link");
-  journal.addData(time(NULL), node);
+  journal.add("link", time(NULL), node);
   free(node);
 
   node = new Directory("test1/testdir");
-  journal.addPath("path");
-  journal.addData(time(NULL), node);
+  journal.add("path", time(NULL), node);
   free(node);
 
   journal.close();
@@ -202,16 +194,14 @@ int main(void) {
   ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
   ((Stream*) node)->close();
-  journal.addPath("file sp");
-  journal.addData(0, node);
+  journal.add("file sp", 0, node);
   free(node);
 
   node = new Stream("test1/testfile");
   ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
   ((Stream*) node)->close();
-  journal.addPath("file_new");
-  journal.addData(time(NULL), node);
+  journal.add("file_new", time(NULL), node);
   free(node);
 
   journal.close();
@@ -294,10 +284,8 @@ int main(void) {
   ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
   ((Stream*) node)->close();
-  journal.addPath("file_new");
-  journal.addData(time(NULL), node);
-  journal.addPath("file_gone");
-  journal.addData(time(NULL), node);
+  journal.add("file_new", time(NULL), node);
+  journal.add("file_gone", time(NULL), node);
   free(node);
   journal.close();
 
@@ -439,8 +427,7 @@ int main(void) {
   ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
   ((Stream*) node)->close();
-  journal.addPath("file_new");
-  journal.addData(time(NULL), node);
+  journal.add("file_new", time(NULL), node);
   free(node);
   node = NULL;
   journal.close();
@@ -503,35 +490,27 @@ int main(void) {
 
   // No checksum
   node = new Stream("test1/test space");
-  journal.addPath("file sp");
-  if (journal.isEmpty()) {
-    cout << "Journal is empty" << endl;
-  }
-  journal.addData(time(NULL), node);
+  journal.add("file sp", time(NULL), node);
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
   free(node);
 
-  journal.addPath("file_gone");
-  journal.addData(time(NULL));
+  journal.add("file_gone", time(NULL));
 
   node = new Stream("test1/testfile");
   ((Stream*) node)->open("r");
   ((Stream*) node)->computeChecksum();
   ((Stream*) node)->close();
-  journal.addPath("file_new");
-  journal.addData(time(NULL), node);
+  journal.add("file_new", time(NULL), node);
   free(node);
 
   node = new Link("test1/testlink");
-  journal.addPath("link2");
-  journal.addData(time(NULL), node);
+  journal.add("link2", time(NULL), node);
   free(node);
 
   node = new Directory("test1/testdir");
-  journal.addPath("path");
-  journal.addData(time(NULL), node);
+  journal.add("path", time(NULL), node);
   free(node);
 
   journal.close();

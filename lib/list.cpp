@@ -438,20 +438,21 @@ int List::getEntry(
   return 1;
 }
 
-int List::addPath(
-    const char*     path) {
-  if (Stream::putLine(path) != (signed)(strlen(path) + 1)) {
-    return -1;
-  }
-  // Remove empty status
-  _d->status = ok;
-  return 0;
-}
-
-int List::addData(
+int List::add(
+    const char*     path,
     time_t          timestamp,
     const Node*     node,
     bool            bufferize) {
+  if (path != NULL) {
+    if (Stream::putLine(path) != (signed)(strlen(path) + 1)) {
+      return -1;
+    }
+    // Remove empty status
+    _d->status = ok;
+  }
+  if (timestamp < 0) {
+    return 0;
+  }
   char* line = NULL;
   int   size;
   int   rc   = 0;
