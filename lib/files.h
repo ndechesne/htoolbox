@@ -27,9 +27,9 @@ using namespace std;
 namespace hbackup {
 
 class Path {
-  char*       _path;
-  const char* _const_path;
-  int         _length;
+  char*             _path;
+  const char*       _const_path;
+  unsigned int      _length;
 public:
   Path() :
       _path(NULL),
@@ -52,7 +52,7 @@ public:
       _length = length;
     }
   }
-  Path(const char *dir, const char* name);
+  Path(const char* dir, const char* name);
   Path(const Path& path, const char* name);
   ~Path();
   const char* operator=(const char* path);
@@ -60,7 +60,7 @@ public:
   const Path& fromDos();
   const Path& noTrailingSlashes();
   operator const char*() const;
-  int length() const           { return _length; }
+  unsigned int length() const  { return _length; }
   Path dirname() const;
   const char* basename() const { return basename(_const_path); }
   int compare(const char* s, size_t length = -1) const {

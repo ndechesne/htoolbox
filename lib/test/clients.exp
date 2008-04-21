@@ -594,22 +594,22 @@ Paths in 'myhost' client in DB
 Database open r-o: myhost
 Database closed: myhost
 Records found: 1
- test1
+ test1/
 
 Paths in 'myhost' client under test1 in DB
 Database open r-o: myhost
 Database closed: myhost
 Records found: 1
- test1/cvs
+ test1/cvs/
 
 Paths in 'myhost' client under test1/cvs in DB
 Database open r-o: myhost
 Database closed: myhost
 Records found: 8
- test1/cvs/CVS
- test1/cvs/dirbad
- test1/cvs/diroth
- test1/cvs/dirutd
+ test1/cvs/CVS/
+ test1/cvs/dirbad/
+ test1/cvs/diroth/
+ test1/cvs/dirutd/
  test1/cvs/filemod.o
  test1/cvs/filenew.c
  test1/cvs/fileoth
@@ -624,7 +624,7 @@ Paths in 'myhost' client under test1/cvs/dirutd in DB
 Database open r-o: myhost
 Database closed: myhost
 Records found: 3
- test1/cvs/dirutd/CVS
+ test1/cvs/dirutd/CVS/
  test1/cvs/dirutd/fileoth
  test1/cvs/dirutd/fileutd
 

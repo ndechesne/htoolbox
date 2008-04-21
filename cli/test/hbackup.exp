@@ -1204,8 +1204,8 @@ Database open in read-only mode
 Database open r-o: myhost
 Database closed: myhost
 Database closed
- test1
- test2
+ test1/
+ test2/
 List paths in myhost under test2/
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1285,7 +1285,7 @@ Database open in read-only mode
 Database open r-o: myhost
 Database closed: myhost
 Database closed
- test2/testdir
+ test2/testdir/
  test2/testfile
  test2/testfile2
  test2/testfile~
@@ -1369,9 +1369,9 @@ Database open in read-only mode
 Database open r-o: myhost
 Database closed: myhost
 Database closed
- test1/cvs/CVS
- test1/cvs/dirbad
- test1/cvs/dirutd
+ test1/cvs/CVS/
+ test1/cvs/dirbad/
+ test1/cvs/dirutd/
  test1/cvs/filenew.c
  test1/cvs/fileutd.h
 List paths in both myhost and aClient.vista
@@ -1456,9 +1456,9 @@ Database closed: aClient.vista
 Database open r-o: myhost
 Database closed: myhost
 Database closed
- C:
- test1
- test2
+ C:/
+ test1/
+ test2/
 List paths in dual-boot client myClient
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1541,8 +1541,8 @@ Database closed: myClient
 Database open r-o: myClient.xp
 Database closed: myClient.xp
 Database closed
- /home
- C:
+ /home/
+ C:/
 List paths in all clients
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1634,11 +1634,12 @@ Database closed: myClient.xp
 Database open r-o: myhost
 Database closed: myhost
 Database closed
- C:
- /home
- C:
- test1
- test2
+ C:/
+ C:/
+ /home/
+ C:/
+ test1/
+ test2/
 Restore a file
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode

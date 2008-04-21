@@ -276,28 +276,36 @@ int Database::getRecords(
   if (date < 0) {
     date = time(NULL) + date;
   }
-  char* db_path = NULL;
+  char*  db_path = NULL;
+  Node*  db_node = NULL;
+  string last_record;
   int   rc;
-  while ((rc = _d->client->getNextRecord(path, date, &db_path)) > 0) {
+  while ((rc = _d->client->getNextRecord(path, date, &db_path, &db_node)) >0) {
     if (aborting()) {
       return -1;
     }
     Path db_path2 = db_path;
     if ((db_path2.length() >= ls_path.length())   // Path no shorter
-      && (db_path2.countBlocks('/') > blocks)      // Not less blocks
-      && (ls_path.compare(db_path2, ls_path.length()) == 0)) {
+    &&  (db_path2.countBlocks('/') > blocks)      // Not less blocks
+    &&  (ls_path.compare(db_path2, ls_path.length()) == 0)) {
       char* slash = strchr(&db_path[ls_path.length() + 1], '/');
       if (slash != NULL) {
         *slash = '\0';
       }
 
-      if ((records.size() == 0)
-        || (strcmp(records.back().c_str(), db_path) != 0)) {
-        records.push_back(db_path);
+      if (last_record != db_path) {
+        last_record = db_path;
+        string record = last_record;
+        if ((slash != NULL)   // Was shortened, therefore is dir
+        || ((db_node != NULL) && (db_node->type() == 'd'))) {
+          record += '/';
+        }
+        records.push_back(record);
       }
     }
   }
   free(db_path);
+  free(db_node);
   return (rc < 0) ? -1 : 0;
 }
 

@@ -124,14 +124,14 @@ Database open in read-only mode
 Database open r-o: myClient
 Database closed: myClient
 List of paths: 2
- -> /client_path
- -> other_path
+ -> /client_path/
+ -> other_path/
 
 Test: read paths in myClient below /client_path
 Database open r-o: myClient
 Database closed: myClient
 List of paths: 3
- -> /client_path/subdir
+ -> /client_path/subdir/
  -> /client_path/test space
  -> /client_path/testfile
 
@@ -139,7 +139,7 @@ Test: read paths in myClient below other_path
 Database open r-o: myClient
 Database closed: myClient
 List of paths: 2
- -> other_path/testdir
+ -> other_path/testdir/
  -> other_path/testfile
 
 Test: read paths in myClient below /client_path/subdir
@@ -212,7 +212,7 @@ Database closed
 [19] other_path/testdir             [rm]
 [21] other_path/testfile            [rm]
 List of paths: 3
- -> /client_path/subdir
+ -> /client_path/subdir/
  -> /client_path/test space
  -> /client_path/testfile
 Database open in read-only mode

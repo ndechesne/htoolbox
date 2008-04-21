@@ -1506,7 +1506,7 @@ Database open r-o: myClient
 Database closed: myClient
 Database closed
 List of paths in 'myClient': 1
- -> /home
+ -> /home/
 
 Test: list paths in DOS client
  -> Reading configuration file: etc/hbackup.conf
@@ -1582,7 +1582,7 @@ Database open r-o: client.xp
 Database closed: client.xp
 Database closed
 List of paths in 'client.xp': 1
- -> C:
+ -> C:/
 
 Test: restore file
  -> Reading configuration file: etc/hbackup.conf
@@ -2522,7 +2522,7 @@ Database open r-o: myClient.xp
 Database closed: myClient.xp
 Database closed
 List of paths in 'myClient.xp': 1
- -> C:
+ -> C:/
 
 Test: list paths in dual-boot client
  -> Reading configuration file: etc/hbackup.conf
@@ -2603,8 +2603,8 @@ Database open r-o: myClient.xp
 Database closed: myClient.xp
 Database closed
 List of paths in 'myClient*': 2
- -> /home
- -> C:
+ -> /home/
+ -> C:/
 
 Test: list sub-paths in UNIX client
  -> Reading configuration file: etc/hbackup.conf
@@ -2680,7 +2680,7 @@ Database open r-o: myClient
 Database closed: myClient
 Database closed
 List of paths in 'myClient': 1
- -> /home/User
+ -> /home/User/
 
 Test: list sub-paths in DOS client
  -> Reading configuration file: etc/hbackup.conf
@@ -2758,7 +2758,7 @@ Database open r-o: myClient.xp
 Database closed: myClient.xp
 Database closed
 List of paths in 'myClient.xp', 'C:': 1
- -> C:/Test Dir
+ -> C:/Test Dir/
 
 Test: restore file (UNIX)
  -> Reading configuration file: etc/hbackup.conf
