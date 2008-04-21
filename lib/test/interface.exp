@@ -948,7 +948,7 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
  -> Dir: dir space
 Done:  80.0%\r
 Killing trigger reached: 2
-Error: test_db/myhost/data: Operation canceled: Copying write file
+Warning: test1/dir space/big_file: Operation canceled: Backing up file
 A !     test1/dir space/big_file
 Database closed: myhost
 Database closed

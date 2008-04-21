@@ -321,7 +321,6 @@ int Data::write(
 
   Stream source(path);
   if (source.open("r")) {
-    out(error, msg_errno, "Opening write source file", errno, path);
     return -1;
   }
 
@@ -335,8 +334,11 @@ int Data::write(
   // Copy file locally
   temp.setCancelCallback(aborting);
   source.setProgressCallback(_d->progress);
-  if (temp.copy(source)) {
-    out(error, msg_errno, "Copying write file", errno, temp.path());
+  errno = 0;
+  if (temp.copy(source) != 0) {
+    if (errno != ECANCELED) {
+      out(error, msg_errno, "Copying write file", errno, temp.path());
+    }
     failed = true;
   }
 
