@@ -602,7 +602,7 @@ Database closed: myhost
 Records found: 1
  test1/cvs/
 
-Paths in 'myhost' client under test1/cvs in DB
+Paths in 'myhost' client under test1/cvs/ in DB
 Database open r-o: myhost
 Database closed: myhost
 Records found: 8
