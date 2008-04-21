@@ -69,7 +69,6 @@ public:
   int compare(const Path& p, size_t length = -1) const {
     return compare(_const_path, p, length);
   }
-  int countBlocks(char c) const;
   // Some generic methods
   static const char* basename(const char* path);
   static int compare(const char* s1, const char* s2, size_t length = -1);

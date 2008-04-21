@@ -538,10 +538,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1141)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -552,10 +552,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1184)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -566,10 +566,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1187)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -580,10 +580,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1627)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -594,10 +594,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1633)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -608,10 +608,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1633)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -622,10 +622,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1620)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -636,10 +636,10 @@ A       test1/cvs/CVS
  Use of uninitialised value of size 4
    deflate_slow (deflate.c:1083)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -650,10 +650,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1096)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -664,10 +664,10 @@ A       test1/cvs/CVS
  Use of uninitialised value of size 4
    deflate_slow (deflate.c:1122)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -678,10 +678,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1122)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -692,10 +692,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1649)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -706,10 +706,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1649)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -720,10 +720,10 @@ A       test1/cvs/CVS
  Use of uninitialised value of size 4
    deflate_slow (deflate.c:1655)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -734,10 +734,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1669)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -748,10 +748,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1600)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -762,10 +762,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1602)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -776,10 +776,10 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1605)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -792,10 +792,10 @@ A       test1/cvs/CVS
    _tr_flush_block (trees.c:1000)
    deflate_slow (deflate.c:1704)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -836,10 +836,10 @@ A       test1/svn/.svn
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1141)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:795)
-   hbackup::Stream::close() (files.cpp:521)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:779)
+   hbackup::Stream::close() (files.cpp:505)
    hbackup::Data::write(char const*, char**, int) (data.cpp:346)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:645)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:651)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -1631,8 +1631,8 @@ Database open in read-only mode
 Database open r-o: myhost
 Database closed: myhost
 Database closed
- test1
- test2
+ test1/
+ test2/
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 4
    operator new(unsigned) (vg_replace_malloc.c:224)
@@ -1737,8 +1737,8 @@ Database open in read-only mode
 Database open r-o: myhost
 Database closed: myhost
 Database closed
- test1
- test2
+ test1/
+ test2/
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 4
    operator new(unsigned) (vg_replace_malloc.c:224)
@@ -1843,7 +1843,7 @@ Database open in read-only mode
 Database open r-o: myhost
 Database closed: myhost
 Database closed
- test2/testdir
+ test2/testdir/
  test2/testfile
  test2/testfile2
  test2/testfile~
@@ -1952,9 +1952,9 @@ Database open in read-only mode
 Database open r-o: myhost
 Database closed: myhost
 Database closed
- test1/cvs/CVS
- test1/cvs/dirbad
- test1/cvs/dirutd
+ test1/cvs/CVS/
+ test1/cvs/dirbad/
+ test1/cvs/dirutd/
  test1/cvs/filenew.c
  test1/cvs/fileutd.h
  

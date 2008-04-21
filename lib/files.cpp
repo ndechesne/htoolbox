@@ -210,22 +210,6 @@ int Path::compare(const char* s1, const char* s2, size_t length) {
   }
 }
 
-int Path::countBlocks(char c) const {
-  const char* reader = _path;
-  size_t      length = _length;
-  int         blocks = 0;
-  bool        just_seen_one = true;
-  while (length-- > 0) {
-    if (*reader++ == c) {
-      just_seen_one = true;
-    } else if (just_seen_one) {
-      blocks++;
-      just_seen_one = false;
-    }
-  }
-  return blocks;
-}
-
 int Node::stat() {
   struct stat64 metadata;
   int rc = lstat64(_path, &metadata);

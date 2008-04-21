@@ -266,13 +266,13 @@ int Database::getRecords(
     list<string>&   records,
     const char*     path,
     time_t          date) {
-  int blocks = 0;
-  Path ls_path;
+  unsigned int path_len = 0;
   if (path != NULL) {
-    ls_path = path;
-    ls_path.noTrailingSlashes();
-    blocks = ls_path.countBlocks('/');
+    path_len = strlen(path);
+    // Make sure we compare excluding any trailing slashes
+    while ((path_len > 0) && (path[path_len - 1] == '/')) path_len--;
   }
+  // Treat negative dates as relative from now (leave 0 alone as it's faster)
   if (date < 0) {
     date = time(NULL) + date;
   }
@@ -284,11 +284,9 @@ int Database::getRecords(
     if (aborting()) {
       return -1;
     }
-    Path db_path2 = db_path;
-    if ((db_path2.length() >= ls_path.length())   // Path no shorter
-    &&  (db_path2.countBlocks('/') > blocks)      // Not less blocks
-    &&  (ls_path.compare(db_path2, ls_path.length()) == 0)) {
-      char* slash = strchr(&db_path[ls_path.length() + 1], '/');
+    if ((strncmp(path, db_path, path_len) == 0)
+    &&  ((db_path[path_len] == '/') || (path_len == 0))) {
+      char* slash = strchr(&db_path[path_len + 1], '/');
       if (slash != NULL) {
         *slash = '\0';
       }
@@ -305,7 +303,7 @@ int Database::getRecords(
     }
   }
   free(db_path);
-  free(db_node);
+  delete db_node;
   return (rc < 0) ? -1 : 0;
 }
 
