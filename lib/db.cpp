@@ -312,7 +312,7 @@ int Database::restore(
     const char*     path,
     time_t          date) {
   if (date < 0) {
-    date = time(NULL) - date;
+    date = time(NULL) + date;
   }
   bool  failed = false;
   char* fpath  = NULL;
