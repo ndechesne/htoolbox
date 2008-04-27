@@ -8,7 +8,7 @@ HBackup (c) 2006-2008 Hervé Fache version 0.9a
    main (hbackup.cpp:198)
  
  
- 1,923 bytes in 83 blocks are possibly lost in loss record 13 of 13
+ 1,831 bytes in 79 blocks are possibly lost in loss record 13 of 13
    operator new(unsigned) (vg_replace_malloc.c:224)
    std::string::_Rep::_S_create(unsigned, unsigned, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
    (within /usr/lib/libstdc++.so.6.0.9)
@@ -36,9 +36,6 @@ HBackup (c) 2006-2008 Hervé Fache
 
   -P <path>,  --path <path>
     Specify path
-
-  -p,  --pretend
-    Only check configuration
 
   -l,  --list
     List available data
@@ -78,7 +75,7 @@ HBackup (c) 2006-2008 Hervé Fache
    main (hbackup.cpp:198)
  
  
- 1,916 bytes in 83 blocks are possibly lost in loss record 13 of 13
+ 1,824 bytes in 79 blocks are possibly lost in loss record 13 of 13
    operator new(unsigned) (vg_replace_malloc.c:224)
    std::string::_Rep::_S_create(unsigned, unsigned, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
    (within /usr/lib/libstdc++.so.6.0.9)
@@ -108,9 +105,6 @@ HBackup (c) 2006-2008 Hervé Fache
   -P <path>,  --path <path>
     Specify path
 
-  -p,  --pretend
-    Only check configuration
-
   -l,  --list
     List available data
 
@@ -149,7 +143,7 @@ HBackup (c) 2006-2008 Hervé Fache
    main (hbackup.cpp:198)
  
  
- 2,060 bytes in 84 blocks are possibly lost in loss record 13 of 13
+ 1,968 bytes in 80 blocks are possibly lost in loss record 13 of 13
    operator new(unsigned) (vg_replace_malloc.c:224)
    std::string::_Rep::_S_create(unsigned, unsigned, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
    (within /usr/lib/libstdc++.so.6.0.9)
@@ -526,7 +520,7 @@ A       test1/cvs
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
    hbackup::HBackup::backup(bool) (interface.cpp:463)
-   main (hbackup.cpp:407)
+   main (hbackup.cpp:403)
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
@@ -1049,7 +1043,7 @@ Backup path: test1
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:549)
    hbackup::HBackup::backup(bool) (interface.cpp:463)
-   main (hbackup.cpp:407)
+   main (hbackup.cpp:403)
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
@@ -1541,7 +1535,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:208)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
  
  
  19 bytes in 1 blocks are definitely lost in loss record 4 of 4
@@ -1551,7 +1545,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:209)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
 Try to list paths in both myhost and smb://client (fails)
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1647,7 +1641,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:208)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
  
  
  19 bytes in 1 blocks are definitely lost in loss record 4 of 4
@@ -1657,7 +1651,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:209)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
 List paths in myhost
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1753,7 +1747,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:208)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
  
  
  19 bytes in 1 blocks are definitely lost in loss record 4 of 4
@@ -1763,7 +1757,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:209)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
 List paths in myhost under test2/
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1862,7 +1856,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:208)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
  
  
  19 bytes in 1 blocks are definitely lost in loss record 4 of 4
@@ -1872,7 +1866,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:209)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
 List paths in myhost under test1/cvs
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1971,7 +1965,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:208)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
  
  
  19 bytes in 1 blocks are definitely lost in loss record 4 of 4
@@ -1981,7 +1975,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:209)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
 Restore a file
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -2076,7 +2070,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:208)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
  
  
  19 bytes in 1 blocks are definitely lost in loss record 4 of 4
@@ -2086,7 +2080,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:209)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
 Restore all data in a client/dir path that's not by itself in DB
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -2209,7 +2203,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:208)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
  
  
  19 bytes in 1 blocks are definitely lost in loss record 4 of 4
@@ -2219,7 +2213,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:209)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
 Restore all data in a client/dir path
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -2325,7 +2319,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:208)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
  
  
  19 bytes in 1 blocks are definitely lost in loss record 4 of 4
@@ -2335,7 +2329,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:209)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
 Restore all data in a client
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -2466,7 +2460,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:208)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
  
  
  19 bytes in 1 blocks are definitely lost in loss record 4 of 4
@@ -2476,7 +2470,7 @@ Database closed
    hbackup::Data::open(char const*, bool) (data.cpp:209)
    hbackup::Database::open(bool, bool) (db.cpp:154)
    hbackup::HBackup::getList(std::list<std::string, std::allocator<std::string> >&, char const*, long) (interface.cpp:480)
-   main (hbackup.cpp:302)
+   main (hbackup.cpp:298)
 Broken configuration
  -> Reading configuration file: etc/broken.conf
 Error: after line: 0: need at most 1 occurence(s) of keyword 'db'

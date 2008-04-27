@@ -228,10 +228,6 @@ int main(int argc, char **argv) {
     SwitchArg listSwitch("l", "list", "List available data",
       cmd, false);
 
-    // Check configuration
-    SwitchArg pretendSwitch("p", "pretend", "Only check configuration",
-      cmd, false);
-
     // Specify path
     ValueArg<string> pathArg("P", "path", "Specify path",
       false, "", "path", cmd);

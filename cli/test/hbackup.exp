@@ -23,9 +23,6 @@ HBackup (c) 2006-2008 Hervé Fache
   -P <path>,  --path <path>
     Specify path
 
-  -p,  --pretend
-    Only check configuration
-
   -l,  --list
     List available data
 
@@ -79,9 +76,6 @@ HBackup (c) 2006-2008 Hervé Fache
 
   -P <path>,  --path <path>
     Specify path
-
-  -p,  --pretend
-    Only check configuration
 
   -l,  --list
     List available data
