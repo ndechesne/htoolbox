@@ -568,39 +568,24 @@ int List::search(
           }
 
           // Check for expiry
-          if (expire >= 0) {
-            bool obsolete;
-            vector<string> params;
-
-            extractParams(_d->line, params, Stream::flags_empty_params, 0,
-              "\t");
-
-            // Check expiration
-            if (active_data_line) {
-              // Active line, never obsolete
-              obsolete = false;
-            } else
-            if (expire == 0) {
-              // Always obsolete
-              obsolete = true;
-            } else
-            {
-              // Check time
+          if (! active_data_line && (expire >= 0)) {
+            if (expire != 0) {
+              // Check timestamp for expiration
+              vector<string> params;
+              extractParams(_d->line, params, Stream::flags_empty_params, 2,
+                "\t");
               time_t ts = 0;
 
               if ((params.size() >= 2)
               &&  (sscanf(params[1].c_str(), "%ld", &ts) == 1)
               &&  (ts < expire)) {
-                obsolete = true;
-              } else {
-                obsolete = false;
+                continue;
               }
-            }
-            // If obsolete, do not copy
-            if (obsolete) {
+            } else {
+              // Always obsolete
               continue;
             }
-          } // expire >= 0
+          } // ! active_data_line && (expire >= 0)
         } // list != NULL
         // Next line of data is not active
         active_data_line = false;
