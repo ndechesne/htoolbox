@@ -177,11 +177,11 @@ Configuration:
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
  ---> Path: /home/User/test2
-Backing up client
+Backing up client: myClient
 Reading list of missing checksums
 List created: myClient
 Database open r/w: myClient
-Backup path: /home/User/test
+Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
 Adding compressed file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
@@ -190,7 +190,7 @@ A       /home/User/test/dir
  -> Dir: dir
 Adding compressed file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
 A z     /home/User/test/dir/file3.txt
-Backup path: /home/User/test2
+Backing up path: /home/User/test2
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
 A       /home/User/test2/File3.txt
@@ -273,11 +273,11 @@ Configuration:
  ----> Compress filter: bigfile
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
-Backing up client
+Backing up client: testhost
 Reading list of missing checksums
 List created: testhost
 Database open r/w: testhost
-Backup path: test1
+Backing up path: test1
 Done:   3.9%\r
 Done:   7.8%\r
 Done:  11.7%\r
@@ -371,7 +371,7 @@ Adding compressed file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
 A z     test1/testfile
 A       test1/testlink
 A       test1/testpipe
-Backup path: test2
+Backing up path: test2
 A       test2/testdir
  -> Dir: testdir
 Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
@@ -418,10 +418,10 @@ Configuration:
  ----> Compress filter: bigfile
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
-Backing up client
+Backing up client: testhost
 Reading list of missing checksums
 Database open r/w: testhost
-Backup path: test1
+Backing up path: test1
  -> Dir: cvs
  -> Parsing CVS entries
  --> dirbad: D
@@ -452,7 +452,7 @@ Warning: test1/svn/dirbad: Directory should be under Subversion control
  --> fileutd: m
  -> Dir: svn/dirutd/.svn
  -> Dir: testdir
-Backup path: test2
+Backing up path: test2
  -> Dir: testdir
 Database closed: testhost
 Database closed
@@ -491,11 +491,11 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test Dir
-Backing up client
+Backing up client: myhost2
 Reading list of missing checksums
 List created: myhost2
 Database open r/w: myhost2
-Backup path: C:/Test Dir
+Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
  -> Dir: My Dir
 Adding file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
@@ -518,11 +518,11 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
-Backing up client
+Backing up client: myhost3
 Reading list of missing checksums
 List created: myhost3
 Database open r/w: myhost3
-Backup path: /home/User/test
+Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
 A       /home/User/test/File2.txt
@@ -543,11 +543,11 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: test1/cvs
-Backing up client
+Backing up client: myhost
 Reading list of missing checksums
 List created: myhost
 Database open r/w: myhost
-Backup path: test1/cvs
+Backing up path: test1/cvs
 A       test1/cvs/CVS
  -> Dir: CVS
 A       test1/cvs/CVS/Entries
@@ -655,10 +655,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: test1/cvs
-Backing up client
+Backing up client: myhost
 Reading list of missing checksums
 Database open r/w: myhost
-Backup path: test1/cvs
+Backing up path: test1/cvs
  -> Dir: CVS
  -> Dir: CVS/Wherever
  -> Dir: dirbad
@@ -676,9 +676,9 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test Dir
-Backing up client
+Backing up client: myhost2
 Database open r/w: myhost2
-Backup path: C:/Test Dir
+Backing up path: C:/Test Dir
  -> Dir: My Dir
 Database closed: myhost2
  -> umount -fl test_db/mount
@@ -692,9 +692,9 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
-Backing up client
+Backing up client: myhost3
 Database open r/w: myhost3
-Backup path: /home/User/test
+Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
  -> Dir: dir
@@ -722,10 +722,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test Dir
-Backing up client
+Backing up client: myhost2
 Reading list of missing checksums
 Database open r/w: myhost2
-Backup path: C:/Test Dir
+Backing up path: C:/Test Dir
  -> Dir: My Dir
 Database closed: myhost2
  -> umount -fl test_db/mount
@@ -739,9 +739,9 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
-Backing up client
+Backing up client: myhost3
 Database open r/w: myhost3
-Backup path: /home/User/test
+Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
  -> Dir: dir
@@ -768,10 +768,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: test1/cvs
-Backing up client
+Backing up client: myhost
 Reading list of missing checksums
 Database open r/w: myhost
-Backup path: test1/cvs
+Backing up path: test1/cvs
  -> Dir: CVS
  -> Dir: CVS/Wherever
  -> Dir: dirbad
@@ -789,9 +789,9 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
-Backing up client
+Backing up client: myhost3
 Database open r/w: myhost3
-Backup path: /home/User/test
+Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
  -> Dir: dir
@@ -818,10 +818,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: test1/cvs
-Backing up client
+Backing up client: myhost
 Reading list of missing checksums
 Database open r/w: myhost
-Backup path: test1/cvs
+Backing up path: test1/cvs
  -> Dir: CVS
  -> Dir: CVS/Wherever
  -> Dir: dirbad
@@ -839,9 +839,9 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test Dir
-Backing up client
+Backing up client: myhost2
 Database open r/w: myhost2
-Backup path: C:/Test Dir
+Backing up path: C:/Test Dir
  -> Dir: My Dir
 Database closed: myhost2
  -> umount -fl test_db/mount
@@ -868,14 +868,14 @@ Configuration:
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
  ---> Path: /home/User/test2
-Backing up client
+Backing up client: myClient
 Reading list of missing checksums
 Database open r/w: myClient
-Backup path: /home/User/test
+Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
  -> Dir: dir
-Backup path: /home/User/test2
+Backing up path: /home/User/test2
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
 Error: myClient: Connection timed out: Aborting client
@@ -903,10 +903,10 @@ Configuration:
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
  ---> Path: /home/User/test2
-Backing up client
+Backing up client: myClient
 Reading list of missing checksums
 Database open r/w: myClient
-Backup path: /home/User/test
+Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
 Error: myClient: Connection timed out: Aborting client
@@ -934,14 +934,14 @@ Configuration:
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
  ---> Path: /home/User/test2
-Backing up client
+Backing up client: myClient
 Reading list of missing checksums
 Database open r/w: myClient
-Backup path: /home/User/test
+Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
  -> Dir: dir
-Backup path: /home/User/test2
+Backing up path: /home/User/test2
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
 Database closed: myClient
@@ -982,11 +982,11 @@ Configuration:
  -----> Condition: size< 4294967296
  -----> Condition: mode& 777
  -----> Condition: mode= 644
-Backing up client
+Backing up client: myClient.xp
 Reading list of missing checksums
 List created: myClient.xp
 Database open r/w: myClient.xp
-Backup path: C:/Test Dir
+Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
  -> Dir: My Dir
 A       C:/Test Dir/My Dir/a File.TXT

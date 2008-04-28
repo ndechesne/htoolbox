@@ -470,6 +470,7 @@ int Client::backup(
   bool    failed = false;
   string  share;
 
+  // Do not print this if in user-mode backup
   if (_d->home_path.length() == 0) {
     stringstream s;
     s << "Trying client '" << internalName() << "' using protocol '"
@@ -513,7 +514,10 @@ int Client::backup(
     }
   }
   if (! failed) {
-    out(info, msg_standard, "Backing up client");
+    // Do not print this if in user-mode backup
+    if (_d->home_path.length() == 0) {
+      out(info, msg_standard, internalName().c_str(), -1, "Backing up client");
+    }
     setInitialised();
     // Backup
     if (_d->paths.empty()) {
@@ -529,7 +533,7 @@ int Client::backup(
             break;
           }
           string backup_path;
-          out(info, msg_standard, (*i)->path(), -1, "Backup path");
+          out(info, msg_standard, (*i)->path(), -1, "Backing up path");
 
           if (mountPath((*i)->path(), backup_path)) {
             if (! first_mount_try) {
