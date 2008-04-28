@@ -28,9 +28,21 @@ echo "Typical backup, initialize DB"
 echo "Specify clients"
 "$hbackup" -d -c etc/hbackup.conf -C myhost -C client.xp 2>&1
 
-echo "User-mode backup"
 export HOME="$TESTDIRUSER"
-"$hbackup" -diu -c etc/hbackup.conf -- 2>&1
+echo "User-mode backup"
+"$hbackup" -diu -- 2>&1
+
+echo "User-mode backup: upper verbosity level"
+rm -r "$TESTDIRUSER/.hbackup/localhost"
+"$hbackup" -uv -- 2>&1
+
+echo "User-mode backup: standard verbosity level"
+rm -r "$TESTDIRUSER/.hbackup/localhost"
+"$hbackup" -u -- 2>&1
+
+echo "User-mode backup: quiet"
+rm -r "$TESTDIRUSER/.hbackup/localhost"
+"$hbackup" -uq -- 2>&1
 
 echo "Fix DB"
 "$hbackup" -d -c etc/hbackup.conf -f 2>&1

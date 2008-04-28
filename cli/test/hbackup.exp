@@ -259,11 +259,11 @@ Backing up in server mode
 Database initialized: test_db
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
-Backing up client
+Backing up client: aClient.vista
 Reading list of missing checksums
 List created: aClient.vista
 Database open r/w: aClient.vista
-Backup path: C:/Test Dir
+Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
 A       C:/Test Dir/My Dir
  -> Dir: My Dir
@@ -306,10 +306,10 @@ Configuration:
  -----> Condition: size< 4294967296
  -----> Condition: mode& 777
  -----> Condition: mode= 644
-Backing up client
+Backing up client: client.xp
 List created: client.xp
 Database open r/w: client.xp
-Backup path: C:/Test Dir
+Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
  -> Dir: My Dir
 A       C:/Test Dir/My Dir/a File.TXT
@@ -332,10 +332,10 @@ Configuration:
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
-Backing up client
+Backing up client: myClient
 List created: myClient
 Database open r/w: myClient
-Backup path: /home/User/test
+Backing up path: /home/User/test
  -> umount -fl test_db/.mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
 A       /home/User/test/File2.txt
@@ -374,10 +374,10 @@ Configuration:
  -----> Condition: size< 4294967296
  -----> Condition: mode& 777
  -----> Condition: mode= 644
-Backing up client
+Backing up client: myClient.xp
 List created: myClient.xp
 Database open r/w: myClient.xp
-Backup path: C:/Test Dir
+Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
  -> Dir: My Dir
 A       C:/Test Dir/My Dir/a File.TXT
@@ -413,10 +413,10 @@ Configuration:
  ----> Compress filter: bigfile
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
-Backing up client
+Backing up client: myhost
 List created: myhost
 Database open r/w: myhost
-Backup path: test1
+Backing up path: test1
 Done:   3.9%\r
 Done:   7.8%\r
 Done:  11.7%\r
@@ -511,7 +511,7 @@ Adding compressed file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
 A z     test1/testfile
 A       test1/testlink
 A       test1/testpipe
-Backup path: test2
+Backing up path: test2
 A       test2/testdir
  -> Dir: testdir
 Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
@@ -634,10 +634,10 @@ Configuration:
  -----> Condition: size< 4294967296
  -----> Condition: mode& 777
  -----> Condition: mode= 644
-Backing up client
+Backing up client: client.xp
 Reading list of missing checksums
 Database open r/w: client.xp
-Backup path: C:/Test Dir
+Backing up path: C:/Test Dir
  -> Dir: My Dir
 Database closed: client.xp
  -> umount -fl test_db/.mount
@@ -668,9 +668,9 @@ Configuration:
  ----> Compress filter: bigfile
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
-Backing up client
+Backing up client: myhost
 Database open r/w: myhost
-Backup path: test1
+Backing up path: test1
  -> Dir: cvs
  -> Parsing CVS entries
  --> dirbad: D
@@ -701,7 +701,7 @@ Warning: test1/svn/dirbad: Directory should be under Subversion control
  --> fileutd: m
  -> Dir: svn/dirutd/.svn
  -> Dir: testdir
-Backup path: test2
+Backing up path: test2
  -> Dir: testdir
 Database closed: myhost
 Database closed
@@ -726,11 +726,10 @@ Configuration:
  --> Expiry: none
  --> Paths: 
  ---> Path: test_user/testuser
-Backing up client
 Reading list of missing checksums
 List created: localhost
 Database open r/w: localhost
-Backup path: test_user/testuser
+Backing up path: test_user/testuser
 Adding file data to DB for 31d30eea8d0968d6458e0ad0027c9f80-0
 A f     test_user/testuser/f1.txt
 A       test_user/testuser/subdir
@@ -746,6 +745,50 @@ A f     test_user/testuser/subdir2/f4.txt
 Database modified: localhost
 Database closed: localhost
 Database closed
+User-mode backup: upper verbosity level
+Configuration:
+ -> DB path: test_user/.hbackup
+ -> Selected clients:
+ --> localhost
+ -> Clients:
+ --> Client: localhost
+ ---> Protocol: file
+ ---> Config: test_user/.hbackup/config
+ ---> Expiry: none
+Backing up in user mode
+Database open in read/write mode
+ -> Reading client configuration file
+Configuration:
+ -> Client: localhost
+ --> Protocol: file
+ --> Config: test_user/.hbackup/config
+ --> Expiry: none
+ --> Paths: 
+ ---> Path: test_user/testuser
+Reading list of missing checksums
+List created: localhost
+Database open r/w: localhost
+Backing up path: test_user/testuser
+A       test_user/testuser/f1.txt
+A       test_user/testuser/subdir
+A       test_user/testuser/subdir/f2.txt
+A       test_user/testuser/subdir2
+A       test_user/testuser/subdir2/f3.txt
+A       test_user/testuser/subdir2/f4.txt
+Database modified: localhost
+Database closed: localhost
+Database closed
+User-mode backup: standard verbosity level
+Backing up in user mode
+List created: localhost
+Backing up path: test_user/testuser
+A       test_user/testuser/f1.txt
+A       test_user/testuser/subdir
+A       test_user/testuser/subdir/f2.txt
+A       test_user/testuser/subdir2
+A       test_user/testuser/subdir2/f3.txt
+A       test_user/testuser/subdir2/f4.txt
+User-mode backup: quiet
 Fix DB
  -> Reading configuration file: etc/hbackup.conf
 Configuration:
