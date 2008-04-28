@@ -225,8 +225,8 @@ void List::keepLine() {
   _d->line_status = new_data;
 }
 
-int List::decodeDataLine(
-    const char*     line,
+int List::decodeData(
+    const vector<string> params,
     const char*     path,
     Node**          node,
     time_t*         timestamp) {
@@ -237,14 +237,9 @@ int List::decodeDataLine(
   uid_t       uid;              // user ID of owner
   gid_t       gid;              // group ID of owner
   mode_t      mode;             // permissions
-  // Arguments
-  vector<string> params;
 
-  // Get all arguments from line
-  extractParams(line, params, Stream::flags_empty_params, 0, "\t\n");
-
-  // Check result
-  if (params.size() < 3) {
+  // Check number of params
+  if (params.size() < ((node != NULL) ? 3 : 2)) {
     out(error, msg_standard, "Wrong number of arguments for line");
     return -1;
   }
@@ -421,8 +416,10 @@ int List::getEntry(
     if (got_path) {
       time_t ts;
       if ((node != NULL) || (timestamp != NULL) || (date > 0)) {
-        // Will set errno if an error is found
-        decodeDataLine(_d->line, path == NULL ? "" : *path, node, &ts);
+        // Get all arguments from line
+        vector<string> params;
+        extractParams(_d->line, params, Stream::flags_empty_params, 0, "\t\n");
+        decodeData(params, path == NULL ? "" : *path, node, &ts);
         if (timestamp != NULL) {
           *timestamp = ts;
         }
@@ -576,9 +573,7 @@ int List::search(
                 "\t");
               time_t ts = 0;
 
-              if ((params.size() >= 2)
-              &&  (sscanf(params[1].c_str(), "%ld", &ts) == 1)
-              &&  (ts < expire)) {
+              if (! decodeData(params, NULL, NULL, &ts) && (ts < expire)) {
                 continue;
               }
             } else {

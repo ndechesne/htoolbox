@@ -27,8 +27,8 @@ class List : public Stream {
   // Buffer relevant line
   ssize_t fetchLine(bool use_found = false);
   // Decode metadata from current line
-  int decodeDataLine(
-    const char*     line,
+  int decodeData(
+    const vector<string> params,
     const char*     path,
     Node**          node,
     time_t*         timestamp);
@@ -87,7 +87,7 @@ public:
   //    -1: error, 0: end of file, 1: exceeded, 2: found
   int search(
     const char*     path    = NULL,   // Path to search
-    List*           list    = NULL,   // List in which to copy, if any
+    List*           list    = NULL,   // List in which to merge changes
     time_t          expire  = -1);    // Expiration date
   // Merge list and journal into this list
   //    all lists must be open (checked)
