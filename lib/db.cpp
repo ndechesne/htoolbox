@@ -492,7 +492,7 @@ int Database::scan(
   list_sums.clear();
 
   if (! data_sums.empty()) {
-    out(info, msg_line_no, NULL, data_sums.size(), "Obsolete checksum(s)");
+    out(info, msg_number, NULL, data_sums.size(), "Obsolete checksum(s)");
     for (list<string>::iterator i = data_sums.begin(); i != data_sums.end();
         i++) {
       if (i->size() != 0) {

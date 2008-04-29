@@ -70,7 +70,7 @@ bool hbackup::aborting(unsigned short test) {
   }
   // Test case
   if (_test == test) {
-    out(debug, msg_line_no, NULL, _test, "Killing trigger reached");
+    out(debug, msg_number, NULL, _test, "Killing trigger reached");
     _aborted = 1;
     return true;
   }
@@ -215,7 +215,7 @@ int HBackup::readConfig(const char* config_path) {
         filter = c_path->addFilter((*params)[1], (*params)[2]);
       }
       if (filter == NULL) {
-        out(error, msg_line_no, "Unsupported filter type", (*params).lineNo(),
+        out(error, msg_number, "Unsupported filter type", (*params).lineNo(),
           config_path);
         return -1;
       }
@@ -244,7 +244,7 @@ int HBackup::readConfig(const char* config_path) {
           subfilter = _d->filters.find((*params)[2]);
         }
         if (subfilter == NULL) {
-          out(error, msg_line_no, "Filter not found", (*params).lineNo(),
+          out(error, msg_number, "Filter not found", (*params).lineNo(),
             config_path);
           return -1;
         } else {
@@ -254,12 +254,12 @@ int HBackup::readConfig(const char* config_path) {
       } else {
         switch (filter->add(filter_type, (*params)[2].c_str(), negated)) {
           case 1:
-            out(error, msg_line_no, "Unsupported condition type",
+            out(error, msg_number, "Unsupported condition type",
               (*params).lineNo(), config_path);
             return -1;
             break;
           case 2:
-            out(error, msg_line_no, "No filter defined",
+            out(error, msg_number, "No filter defined",
               (*params).lineNo(), config_path);
             return -1;
         }
@@ -311,7 +311,7 @@ int HBackup::readConfig(const char* config_path) {
       if ((*params)[0] == "expire") {
         unsigned int expire;
         if (sscanf((*params)[1].c_str(), "%u", &expire) != 1) {
-          out(error, msg_line_no, "Expected decimal argument",
+          out(error, msg_number, "Expected decimal argument",
             (*params).lineNo(), config_path);
           return -1;
         }
@@ -331,7 +331,7 @@ int HBackup::readConfig(const char* config_path) {
             filter = _d->filters.find((*params)[1]);
           }
           if (filter == NULL) {
-            out(error, msg_line_no, "Filter not found", (*params).lineNo(),
+            out(error, msg_number, "Filter not found", (*params).lineNo(),
               config_path);
             return -1;
           } else {
@@ -345,11 +345,11 @@ int HBackup::readConfig(const char* config_path) {
         if ((*params)[0] == "parser") {
           switch (c_path->addParser((*params)[1], (*params)[2])) {
             case 1:
-              out(error, msg_line_no, "Unsupported parser type",
+              out(error, msg_number, "Unsupported parser type",
                 (*params).lineNo(), config_path);
               return -1;
             case 2:
-              out(error, msg_line_no, "Unsupported parser mode",
+              out(error, msg_number, "Unsupported parser mode",
                 (*params).lineNo(), config_path);
               return -1;
           }

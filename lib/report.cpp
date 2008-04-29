@@ -110,7 +110,7 @@ void Report::out(
       s << strerror(number);
       add_colon = true;
       break;
-    case msg_line_no:
+    case msg_number:
       s << number;
       add_colon = true;
       break;

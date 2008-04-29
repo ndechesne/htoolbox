@@ -89,7 +89,7 @@ static void output(
       s << strerror(number);
       add_colon = true;
       break;
-    case hbackup::msg_line_no:
+    case hbackup::msg_number:
       s << number;
       add_colon = true;
       break;

@@ -215,7 +215,7 @@ int Client::readConfig(
         &&  (expire >= 0)) {
           _d->expire = expire * 3600 * 24;
         } else {
-          out(error, msg_line_no, "Wrong expiration value",
+          out(error, msg_number, "Wrong expiration value",
             (*params).lineNo(), list_path);
           failed = true;
         }
@@ -225,7 +225,7 @@ int Client::readConfig(
         // New backup path
         path = addClientPath((*params)[1]);
         if (path == NULL) {
-          out(error, msg_line_no, "Path inside another", (*params).lineNo(),
+          out(error, msg_number, "Path inside another", (*params).lineNo(),
             list_path);
           failed = true;
         }
@@ -239,7 +239,7 @@ int Client::readConfig(
           filter = path->addFilter((*params)[1], (*params)[2]);
         }
         if (filter == NULL) {
-          out(error, msg_line_no, "Unsupported filter type",
+          out(error, msg_number, "Unsupported filter type",
             (*params).lineNo(), list_path);
           failed = true;
         }
@@ -268,7 +268,7 @@ int Client::readConfig(
             subfilter = global_filters.find((*params)[2]);
           }
           if (subfilter == NULL) {
-            out(error, msg_line_no, "Filter not found", (*params).lineNo(),
+            out(error, msg_number, "Filter not found", (*params).lineNo(),
               list_path);
             failed = 2;
           } else {
@@ -278,12 +278,12 @@ int Client::readConfig(
         } else {
           switch (filter->add(filter_type, (*params)[2].c_str(), negated)) {
             case -2:
-              out(error, msg_line_no, "Unsupported condition type",
+              out(error, msg_number, "Unsupported condition type",
                 (*params).lineNo(), list_path);
               failed = true;
               break;
             case -1:
-              out(error, msg_line_no, "Failed to add condition",
+              out(error, msg_number, "Failed to add condition",
                 (*params).lineNo(), list_path);
               failed = true;
           }
@@ -299,7 +299,7 @@ int Client::readConfig(
           filter = global_filters.find((*params)[1]);
         }
         if (filter == NULL) {
-          out(error, msg_line_no, "Filter not found", (*params).lineNo(),
+          out(error, msg_number, "Filter not found", (*params).lineNo(),
             list_path);
           failed = true;
         } else {
@@ -313,12 +313,12 @@ int Client::readConfig(
       if ((*params)[0] == "parser") {
         switch (path->addParser((*params)[1], (*params)[2])) {
           case 1:
-            out(error, msg_line_no, "Unsupported parser type",
+            out(error, msg_number, "Unsupported parser type",
               (*params).lineNo(), list_path);
             failed = true;
             break;
           case 2:
-            out(error, msg_line_no, "Unsupported parser mode",
+            out(error, msg_number, "Unsupported parser mode",
               (*params).lineNo(), list_path);
             failed = true;
             break;

@@ -97,7 +97,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
     }
     // We expect a separator
     if (*reader != '/') {
-      out(error, msg_line_no,
+      out(error, msg_number,
         "Can't find first delimiter parsing CVS entries file", line_no,
         dir_path.c_str());
       continue;
@@ -106,7 +106,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
     // Get name
     pos = strchr(reader, '/');
     if (pos == NULL) {
-      out(error, msg_line_no,
+      out(error, msg_number,
         "Can't find second delimiter parsing CVS entries file", line_no,
         dir_path.c_str());
       continue;
@@ -119,7 +119,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
       reader = pos + 1;
       pos = strchr(reader, '/');
       if (pos == NULL) {
-      out(error, msg_line_no,
+      out(error, msg_number,
         "Can't find third delimiter parsing CVS entries file", line_no,
         dir_path.c_str());
         continue;
@@ -128,7 +128,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
       reader = pos + 1;
       pos = strchr(reader, '/');
       if (pos == NULL) {
-      out(error, msg_line_no,
+      out(error, msg_number,
         "Can't find fourth delimiter parsing CVS entries file", line_no,
         dir_path.c_str());
         continue;

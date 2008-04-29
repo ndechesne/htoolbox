@@ -24,10 +24,10 @@
 namespace hbackup {
   //! Verbosity level
   enum VerbosityLevel {
-    // These go to error output
+    // These should go to error output
     alert,        /*!< Your're dead */
     error,        /*!< Big issue, but might recover */
-    // These go to standard output
+    // These should go to standard output
     warning,      /*!< Non-blocking issue */
     info,         /*!< Normal information, typically if 'quiet' not selected */
     verbose,      /*!< Extra information, typically if 'verbose' selected */
@@ -36,7 +36,7 @@ namespace hbackup {
   enum MessageType {
     msg_standard, /*!< number represents arrow length */
     msg_errno,    /*!< number represents error no */
-    msg_line_no   /*!< number represents line no */
+    msg_number    /*!< number represents a number (often a line number) */
   };
   //! \brief Type for message callback function
   /*!

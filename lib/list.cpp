@@ -663,7 +663,7 @@ int List::merge(
         out(warning, msg_standard, "Unexpected end of journal");
         rc_journal = 0;
       } else {
-        out(error, msg_line_no, "Reading line", j_line_no, "journal");
+        out(error, msg_number, "Reading line", j_line_no, "journal");
         return -1;
       }
     }
@@ -687,7 +687,7 @@ int List::merge(
       if (path.length() != 0) {
         if (path.compare(journal._d->line) > 0) {
           // Cannot go back
-          out(error, msg_line_no, "Path out of order", j_line_no, "journal");
+          out(error, msg_number, "Path out of order", j_line_no, "journal");
           return -1;
         }
       }
@@ -709,7 +709,7 @@ int List::merge(
       // Must have a path before then
       if (path.length() == 0) {
         // Did not get anything before data
-        out(error, msg_line_no, "Data out of order", j_line_no, "journal");
+        out(error, msg_number, "Data out of order", j_line_no, "journal");
         return -1;
       }
 

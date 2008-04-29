@@ -72,7 +72,7 @@ void ConfigLine::show(int level) const {
     }
     s << (*this)[j];
   }
-  out(debug, msg_line_no, s.str().c_str(), lineNo());
+  out(debug, msg_number, s.str().c_str(), lineNo());
 }
 
 bool ConfigCounter::operator<(const ConfigCounter& counter) const {
@@ -93,7 +93,7 @@ void ConfigError::output() const {
     }
     s << " line";
   }
-  out(error, msg_line_no, _message.c_str(), _line_no, s.str().c_str());
+  out(error, msg_number, _message.c_str(), _line_no, s.str().c_str());
 }
 
 ConfigItem::~ConfigItem() {
