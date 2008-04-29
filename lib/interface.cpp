@@ -473,13 +473,13 @@ int HBackup::backup(
 }
 
 int HBackup::getList(
-    list<string>&   records,
     const char*     path,
     time_t          date) {
   bool failed = false;
   if (_d->db->open(true) < 0) {
     return -1;
   }
+  list<string> records;
   if (_d->selected_clients.empty()) {
     failed = (_d->db->getClients(records) != 0);
   } else {
@@ -493,6 +493,12 @@ int HBackup::getList(
         }
         _d->db->closeClient();
       }
+    }
+  }
+  if (! failed) {
+    for (list<string>::iterator record = records.begin();
+        record != records.end(); record++) {
+      out(value, msg_standard, record->c_str());
     }
   }
   _d->db->close();

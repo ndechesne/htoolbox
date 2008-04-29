@@ -19,11 +19,13 @@
 #ifndef _HBACKUP_H
 #define _HBACKUP_H
 
-#include <list>
+#include <time.h>
 
 namespace hbackup {
   //! Verbosity level
   enum VerbosityLevel {
+    // This is to return string data
+    value,        /*!< Data is to be used in a specific way */
     // These should go to error output
     alert,        /*!< Your're dead */
     error,        /*!< Big issue, but might recover */
@@ -184,14 +186,11 @@ namespace hbackup {
     //! \brief List database contents selectively
     /*!
       Lists contents, using the given parameters as filters.
-      \param records      list of elements to display
       \param path         path (if none given, list all client's paths)
       \param date         date (negative: use relative time from now, zero: all)
       \return 0 on success, -1 on failure
     */
     int getList(
-      std::list<std::string>&
-                    records,
       const char*   path          = "",
       time_t        date          = 0);
     //! \brief Restore specified database contents

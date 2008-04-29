@@ -143,6 +143,9 @@ void Report::out(
     s << endl;
   }
   switch (level) {
+    case value:
+      cout << "Value: " << s.str() << flush;
+      break;
     case alert:
     case error:
       cerr << s.str() << flush;

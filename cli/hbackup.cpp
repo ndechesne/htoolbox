@@ -44,6 +44,16 @@ void sighandler(int signal) {
  }
 }
 
+static list<string>* _records = NULL;
+
+static void setValueReceiver(list<string>* values) {
+  _records = values;
+}
+
+static void resetValueReceiver() {
+  _records = NULL;
+}
+
 // Messages
 static void output(
     hbackup::VerbosityLevel  level,
@@ -122,6 +132,15 @@ static void output(
     s << endl;
   }
   switch (level) {
+    case hbackup::value:
+      if (_records != NULL) {
+        string value = s.str();
+        value.erase(value.size() - 1);
+        _records->push_back(value);
+      } else {
+        cout << '\t' << s.str() << flush;
+      }
+      break;
     case hbackup::alert:
     case hbackup::error:
       cerr << s.str() << flush;
@@ -293,13 +312,14 @@ int main(int argc, char **argv) {
       }
     }
     // If listing or restoring., need list of clients
-    if ((restoreArg.getValue().size() != 0)
-    ||  (listSwitch.getValue())) {
-      if (hbackup.getList(clients) != 0) {
-        return -1;
+    if ((restoreArg.getValue().size() != 0) || (listSwitch.getValue())) {
+      setValueReceiver(&clients);
+      if (hbackup.getList() != 0) {
+        return 1;
       } else {
         use_clients = true;
       }
+      resetValueReceiver();
     }
     // Report specified clients
     for (vector<string>::const_iterator i = clientArg.getValue().begin();
@@ -309,7 +329,7 @@ int main(int argc, char **argv) {
         int length = strlen(i->c_str()) - 1;
         if (length < 0) {
           cerr << "Error: Empty client name" << endl;
-          return -1;
+          return 1;
         }
         bool wildcard = false;
         if ((*i)[length] == '*') {
@@ -370,14 +390,8 @@ int main(int argc, char **argv) {
         cerr << "Error: Wrong number of clients" << endl;
         return 1;
       }
-      list<string> records;
-      if (hbackup.getList(records, pathArg.getValue().c_str(),
-          dateArg.getValue())) {
+      if (hbackup.getList(pathArg.getValue().c_str(), dateArg.getValue())) {
         return 3;
-      }
-      for (list<string>::iterator i = records.begin(); i != records.end();
-          i++) {
-        cout << " " << *i << endl;
       }
     } else
     // Restore data

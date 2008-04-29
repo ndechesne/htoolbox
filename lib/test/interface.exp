@@ -1424,15 +1424,14 @@ Test: list clients
  ---> Condition: filter backup
  ---> Condition: not size< 1000
 Database open in read-only mode
+Value: aClient.vista
+Value: client.xp
+Value: myClient
+Value: myClient.xp
+Value: myhost
 Database closed
-List of clients: 5
- -> aClient.vista
- -> client.xp
- -> myClient
- -> myClient.xp
- -> myhost
 
-Test: list paths in UNIX client
+Test: list paths in UNIX client 'myClient'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Clients:
@@ -1504,11 +1503,10 @@ Test: list paths in UNIX client
 Database open in read-only mode
 Database open r-o: myClient
 Database closed: myClient
+Value: /home/
 Database closed
-List of paths in 'myClient': 1
- -> /home/
 
-Test: list paths in DOS client
+Test: list paths in DOS client 'client.xp'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Clients:
@@ -1580,9 +1578,8 @@ Test: list paths in DOS client
 Database open in read-only mode
 Database open r-o: client.xp
 Database closed: client.xp
+Value: C:/
 Database closed
-List of paths in 'client.xp': 1
- -> C:/
 
 Test: restore file
  -> Reading configuration file: etc/hbackup.conf
@@ -2439,15 +2436,14 @@ Test: list clients
  ---> Condition: filter backup
  ---> Condition: not size< 1000
 Database open in read-only mode
+Value: aClient.vista
+Value: client.xp
+Value: myClient
+Value: myClient.xp
+Value: myhost
 Database closed
-List of clients: 5
- -> aClient.vista
- -> client.xp
- -> myClient
- -> myClient.xp
- -> myhost
 
-Test: list paths in DOS client
+Test: list paths in DOS client 'myClient.xp'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Clients:
@@ -2519,11 +2515,10 @@ Test: list paths in DOS client
 Database open in read-only mode
 Database open r-o: myClient.xp
 Database closed: myClient.xp
+Value: C:/
 Database closed
-List of paths in 'myClient.xp': 1
- -> C:/
 
-Test: list paths in dual-boot client
+Test: list paths in dual-boot client 'myClient*'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Selected clients:
@@ -2600,12 +2595,11 @@ Database open r-o: myClient
 Database closed: myClient
 Database open r-o: myClient.xp
 Database closed: myClient.xp
+Value: /home/
+Value: C:/
 Database closed
-List of paths in 'myClient*': 2
- -> /home/
- -> C:/
 
-Test: list sub-paths in UNIX client
+Test: list sub-paths in UNIX client 'myClient'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Clients:
@@ -2677,11 +2671,10 @@ Test: list sub-paths in UNIX client
 Database open in read-only mode
 Database open r-o: myClient
 Database closed: myClient
+Value: /home/User/
 Database closed
-List of paths in 'myClient': 1
- -> /home/User/
 
-Test: list sub-paths in DOS client
+Test: list sub-paths in DOS client 'myClient.xp', 'C:'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Selected clients:
@@ -2755,9 +2748,8 @@ Test: list sub-paths in DOS client
 Database open in read-only mode
 Database open r-o: myClient.xp
 Database closed: myClient.xp
+Value: C:/Test Dir/
 Database closed
-List of paths in 'myClient.xp', 'C:': 1
- -> C:/Test Dir/
 
 Test: restore file (UNIX)
  -> Reading configuration file: etc/hbackup.conf

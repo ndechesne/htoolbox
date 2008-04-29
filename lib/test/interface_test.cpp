@@ -143,54 +143,37 @@ int main(void) {
   hbackup->close();
   delete hbackup;
 
-  list<string> records;
-
   cout << endl << "Test: list clients" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->show(2);
-  hbackup->getList(records);
+  hbackup->getList();
   hbackup->close();
   delete hbackup;
-  cout << "List of clients: " << records.size() << endl;
-  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
-    cout << " -> " << *i << endl;
-  }
-  records.clear();
 
-  cout << endl << "Test: list paths in UNIX client" << endl;
+  cout << endl << "Test: list paths in UNIX client 'myClient'" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->show(2);
   hbackup->addClient("myClient");
-  hbackup->getList(records);
+  hbackup->getList();
   hbackup->close();
   delete hbackup;
-  cout << "List of paths in 'myClient': " << records.size() << endl;
-  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
-    cout << " -> " << *i << endl;
-  }
-  records.clear();
 
-  cout << endl << "Test: list paths in DOS client" << endl;
+  cout << endl << "Test: list paths in DOS client 'client.xp'" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->show(2);
   hbackup->addClient("client.xp");
-  hbackup->getList(records);
+  hbackup->getList();
   hbackup->close();
   delete hbackup;
-  cout << "List of paths in 'client.xp': " << records.size() << endl;
-  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
-    cout << " -> " << *i << endl;
-  }
-  records.clear();
 
   cout << endl << "Test: restore file" << endl;
   hbackup = new HBackup();
@@ -282,32 +265,22 @@ int main(void) {
     return 1;
   }
   hbackup->show(2);
-  hbackup->getList(records);
+  hbackup->getList();
   hbackup->close();
   delete hbackup;
-  cout << "List of clients: " << records.size() << endl;
-  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
-    cout << " -> " << *i << endl;
-  }
-  records.clear();
 
-  cout << endl << "Test: list paths in DOS client" << endl;
+  cout << endl << "Test: list paths in DOS client 'myClient.xp'" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->show(2);
   hbackup->addClient("myClient.xp");
-  hbackup->getList(records);
+  hbackup->getList();
   hbackup->close();
   delete hbackup;
-  cout << "List of paths in 'myClient.xp': " << records.size() << endl;
-  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
-    cout << " -> " << *i << endl;
-  }
-  records.clear();
 
-  cout << endl << "Test: list paths in dual-boot client" << endl;
+  cout << endl << "Test: list paths in dual-boot client 'myClient*'" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
@@ -315,48 +288,33 @@ int main(void) {
   if ((hbackup->addClient("myClient") == 0)
   && (hbackup->addClient("myClient.xp") == 0)) {
     hbackup->show(2);
-    hbackup->getList(records);
-    cout << "List of paths in 'myClient*': " << records.size() << endl;
-    for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
-      cout << " -> " << *i << endl;
-    }
-    records.clear();
+    hbackup->getList();
   }
   hbackup->close();
   delete hbackup;
 
-  cout << endl << "Test: list sub-paths in UNIX client" << endl;
+  cout << endl << "Test: list sub-paths in UNIX client 'myClient'" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->show(2);
   hbackup->addClient("myClient");
-  hbackup->getList(records, "/home");
+  hbackup->getList("/home");
   hbackup->close();
   delete hbackup;
-  cout << "List of paths in 'myClient': " << records.size() << endl;
-  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
-    cout << " -> " << *i << endl;
-  }
-  records.clear();
 
-  cout << endl << "Test: list sub-paths in DOS client" << endl;
+  cout << endl << "Test: list sub-paths in DOS client 'myClient.xp', 'C:'"
+    << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
   }
   hbackup->addClient("myClient.xp");
   hbackup->show(2);
-  hbackup->getList(records, "C:");
+  hbackup->getList("C:");
   hbackup->close();
   delete hbackup;
-  cout << "List of paths in 'myClient.xp', 'C:': " << records.size()
-    << endl;
-  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
-    cout << " -> " << *i << endl;
-  }
-  records.clear();
 
   cout << endl << "Test: restore file (UNIX)" << endl;
   hbackup = new HBackup();
