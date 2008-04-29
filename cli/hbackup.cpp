@@ -314,7 +314,7 @@ int main(int argc, char **argv) {
     // If listing or restoring., need list of clients
     if ((restoreArg.getValue().size() != 0) || (listSwitch.getValue())) {
       setValueReceiver(&clients);
-      if (hbackup.getList() != 0) {
+      if (hbackup.restore() != 0) {
         return 1;
       } else {
         use_clients = true;
@@ -390,7 +390,8 @@ int main(int argc, char **argv) {
         cerr << "Error: Wrong number of clients" << endl;
         return 1;
       }
-      if (hbackup.getList(pathArg.getValue().c_str(), dateArg.getValue())) {
+      if (hbackup.restore(NULL, pathArg.getValue().c_str(),
+          dateArg.getValue())) {
         return 3;
       }
     } else

@@ -149,7 +149,7 @@ int main(void) {
     return 1;
   }
   hbackup->show(2);
-  hbackup->getList();
+  hbackup->restore();
   hbackup->close();
   delete hbackup;
 
@@ -160,7 +160,7 @@ int main(void) {
   }
   hbackup->show(2);
   hbackup->addClient("myClient");
-  hbackup->getList();
+  hbackup->restore();
   hbackup->close();
   delete hbackup;
 
@@ -171,7 +171,7 @@ int main(void) {
   }
   hbackup->show(2);
   hbackup->addClient("client.xp");
-  hbackup->getList();
+  hbackup->restore();
   hbackup->close();
   delete hbackup;
 
@@ -265,7 +265,7 @@ int main(void) {
     return 1;
   }
   hbackup->show(2);
-  hbackup->getList();
+  hbackup->restore();
   hbackup->close();
   delete hbackup;
 
@@ -276,7 +276,7 @@ int main(void) {
   }
   hbackup->show(2);
   hbackup->addClient("myClient.xp");
-  hbackup->getList();
+  hbackup->restore();
   hbackup->close();
   delete hbackup;
 
@@ -288,7 +288,7 @@ int main(void) {
   if ((hbackup->addClient("myClient") == 0)
   && (hbackup->addClient("myClient.xp") == 0)) {
     hbackup->show(2);
-    hbackup->getList();
+    hbackup->restore();
   }
   hbackup->close();
   delete hbackup;
@@ -300,7 +300,7 @@ int main(void) {
   }
   hbackup->show(2);
   hbackup->addClient("myClient");
-  hbackup->getList("/home");
+  hbackup->restore(NULL, "/home");
   hbackup->close();
   delete hbackup;
 
@@ -312,7 +312,7 @@ int main(void) {
   }
   hbackup->addClient("myClient.xp");
   hbackup->show(2);
-  hbackup->getList("C:");
+  hbackup->restore(NULL, "C:");
   hbackup->close();
   delete hbackup;
 

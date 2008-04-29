@@ -183,26 +183,16 @@ namespace hbackup {
     */
     int backup(
       bool          initialize    = false);
-    //! \brief List database contents selectively
+    //! \brief List or restore specified database contents
     /*!
       Lists contents, using the given parameters as filters.
-      \param path         path (if none given, list all client's paths)
-      \param date         date (negative: use relative time from now, zero: all)
-      \return 0 on success, -1 on failure
-    */
-    int getList(
-      const char*   path          = "",
-      time_t        date          = 0);
-    //! \brief Restore specified database contents
-    /*!
-      Lists contents, using the given parameters as filters.
-      \param destination  path where to restore the data
+      \param destination  path where to restore the data (NULL to list only)
       \param path         path (if none given, restore all client's paths)
       \param date         date (negative: use relative time from now, zero: all)
       \return 0 on success, -1 on failure
     */
     int restore(
-      const char*   destination,
+      const char*   destination   = NULL,
       const char*   path          = "",
       time_t        date          = 0);
     //! \brief Show configuration

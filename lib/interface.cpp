@@ -472,39 +472,6 @@ int HBackup::backup(
   return -1;
 }
 
-int HBackup::getList(
-    const char*     path,
-    time_t          date) {
-  bool failed = false;
-  if (_d->db->open(true) < 0) {
-    return -1;
-  }
-  list<string> records;
-  if (_d->selected_clients.empty()) {
-    failed = (_d->db->getClients(records) != 0);
-  } else {
-    for (list<string>::iterator client = _d->selected_clients.begin();
-        client != _d->selected_clients.end(); client++) {
-      if (_d->db->openClient(client->c_str())) {
-        failed = true;
-      } else {
-        if (_d->db->getRecords(records, path, date) != 0) {
-          failed = true;
-        }
-        _d->db->closeClient();
-      }
-    }
-  }
-  if (! failed) {
-    for (list<string>::iterator record = records.begin();
-        record != records.end(); record++) {
-      out(value, msg_standard, record->c_str());
-    }
-  }
-  _d->db->close();
-  return failed ? -1 : 0;
-}
-
 int HBackup::restore(
     const char*     dest,
     const char*     path,
@@ -513,20 +480,37 @@ int HBackup::restore(
   if (_d->db->open(true) < 0) {
     return -1;
   }
+  list<string> records;
   if (_d->selected_clients.empty()) {
-    out(error, msg_standard, "No client given");
-    failed = true;
+    if (dest == NULL) {
+      failed = (_d->db->getClients(records) != 0);
+    } else {
+      out(error, msg_standard, "No client given");
+      failed = true;
+    }
   } else {
     for (list<string>::iterator client = _d->selected_clients.begin();
         client != _d->selected_clients.end(); client++) {
       if (_d->db->openClient(client->c_str())) {
         failed = true;
       } else {
-        if (_d->db->restore(dest, path, date) != 0) {
-          failed = true;
+        if (dest == NULL) {
+          if (_d->db->getRecords(records, path, date) != 0) {
+            failed = true;
+          }
+        } else {
+          if (_d->db->restore(dest, path, date) != 0) {
+            failed = true;
+          }
         }
         _d->db->closeClient();
       }
+    }
+  }
+  if (! failed && (dest == NULL)) {
+    for (list<string>::iterator record = records.begin();
+        record != records.end(); record++) {
+      out(value, msg_standard, record->c_str());
     }
   }
   _d->db->close();
