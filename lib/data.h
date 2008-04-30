@@ -57,10 +57,15 @@ public:
   // Set the path to the temporary data (default is $(path)/temp)
   // Note: this path MUST be on the same filesystem as $(path)
   int setTemp(const char* path);
+  // Get file name for given checksum
+  int name(
+    const char*     checksum,
+    string&         path,
+    string&         extension) const;
   // Read file with given checksum, extract it to path
   int read(
     const char*     path,
-    const char*     checksum);
+    const char*     checksum) const;
   // Add new item to database
   int write(                          // <0: error, >0: written, =0: no need
     const char*     path,             // Path to read from

@@ -474,6 +474,7 @@ int HBackup::backup(
 
 int HBackup::restore(
     const char*     dest,
+    LinkType        links,
     const char*     path,
     time_t          date) {
   bool failed = false;
@@ -499,7 +500,7 @@ int HBackup::restore(
             failed = true;
           }
         } else {
-          if (_d->db->restore(dest, path, date) != 0) {
+          if (_d->db->restore(dest, links, path, date) != 0) {
             failed = true;
           }
         }

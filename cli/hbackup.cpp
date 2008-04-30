@@ -390,8 +390,8 @@ int main(int argc, char **argv) {
         cerr << "Error: Wrong number of clients" << endl;
         return 1;
       }
-      if (hbackup.restore(NULL, pathArg.getValue().c_str(),
-          dateArg.getValue())) {
+      if (hbackup.restore(NULL, hbackup::HBackup::none,
+          pathArg.getValue().c_str(), dateArg.getValue())) {
         return 3;
       }
     } else
@@ -404,7 +404,7 @@ int main(int argc, char **argv) {
         cerr << "Error: Wrong number of clients" << endl;
         return 1;
       }
-      if (hbackup.restore(restoreArg.getValue().c_str(),
+      if (hbackup.restore(restoreArg.getValue().c_str(), hbackup::HBackup::none,
           pathArg.getValue().c_str(), dateArg.getValue())) {
         return 3;
       }

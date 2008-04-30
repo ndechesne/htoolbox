@@ -49,7 +49,7 @@ struct Database::Private {
   Data              data;
   Missing           missing;
   bool              load_missing;
-  Owner*            client;
+  Owner*            owner;
   progress_f        progress;
 };
 
@@ -179,7 +179,7 @@ int Database::open(
   }
 
   // Reset client's data
-  _d->client = NULL;
+  _d->owner = NULL;
   // Do not load list of missing items for now
   _d->load_missing = false;
 
@@ -224,7 +224,7 @@ int Database::close() {
   if (_d->mode == 0) {
     out(alert, msg_standard, "Cannot close: DB not open!");
   } else {
-    if (_d->client != NULL) {
+    if (_d->owner != NULL) {
       closeClient(true);
     }
     if (_d->mode > 1) {
@@ -280,7 +280,7 @@ int Database::getRecords(
   Node*  db_node = NULL;
   string last_record;
   int   rc;
-  while ((rc = _d->client->getNextRecord(path, date, &db_path, &db_node)) >0) {
+  while ((rc = _d->owner->getNextRecord(path, date, &db_path, &db_node)) > 0) {
     if (aborting()) {
       return -1;
     }
@@ -309,21 +309,22 @@ int Database::getRecords(
 
 int Database::restore(
     const char*     dest,
+    HBackup::LinkType links,
     const char*     path,
     time_t          date) {
   if (date < 0) {
     date = time(NULL) + date;
   }
   bool  failed = false;
-  char* fpath  = NULL;
-  Node* fnode  = NULL;
+  char* db_path  = NULL;
+  Node* db_node  = NULL;
   int   rc;
-  while ((rc = _d->client->getNextRecord(path, date, &fpath, &fnode)) > 0) {
-    if (fnode == NULL) {
+  while ((rc = _d->owner->getNextRecord(path, date, &db_path, &db_node)) > 0) {
+    if (db_node == NULL) {
       continue;
     }
     bool this_failed = false;
-    Path base(dest, fpath);
+    Path base(dest, db_path);
     Path dir = base.dirname();
     if (! Directory(dir).isValid()) {
       string command = "mkdir -p \"";
@@ -333,40 +334,75 @@ int Database::restore(
         out(error, msg_errno, "Creating path", errno, dir);
       }
     }
-    out(info, msg_standard, base, -2, "U");
-    switch (fnode->type()) {
+    if (db_node->type() == 'f') {
+      switch (links) {
+        case HBackup::none:
+          out(info, msg_standard, base, -2, "U");
+          break;
+        case HBackup::symbolic:
+          out(info, msg_standard, base, -2, "L");
+          break;
+        case HBackup::hard:
+          out(info, msg_standard, base, -2, "H");
+      }
+    } else {
+      out(info, msg_standard, base, -2, "U");
+    }
+    switch (db_node->type()) {
       case 'f': {
-          File* f = (File*) fnode;
+          File* f = (File*) db_node;
           if (f->checksum()[0] == '\0') {
             out(error, msg_standard, "Failed to restore file: data missing");
             this_failed = true;
           } else
-          if (_d->data.read(base, f->checksum())) {
-            out(error, msg_errno, "Restoring file", errno);
-            this_failed = true;
+          if (links == HBackup::none) {
+            if (_d->data.read(base, f->checksum())) {
+              out(error, msg_errno, "Restoring file", errno);
+              this_failed = true;
+            }
+          } else {
+            string path;
+            string extension;
+            string dest(base);
+            if (_d->data.name(f->checksum(), path, extension)) {
+              this_failed = true;
+            } else {
+              dest += extension;
+              if (links == HBackup::symbolic) {
+                if (symlink(path.c_str(), dest.c_str())) {
+                  out(error, msg_errno, "Sym-linking file", errno);
+                  this_failed = true;
+                }
+              } else {
+                if (link(path.c_str(), dest.c_str())) {
+                  out(error, msg_errno, "Hard-linking file", errno);
+                  this_failed = true;
+                }
+              }
+            }
           }
         } break;
       case 'd':
-        if (mkdir(base, fnode->mode())) {
+        if (mkdir(base, db_node->mode())) {
           out(error, msg_errno, "Restoring dir", errno);
           this_failed = true;
         }
         break;
       case 'l': {
-          Link* l = (Link*) fnode;
+          Link* l = (Link*) db_node;
           if (symlink(l->link(), base)) {
             out(error, msg_errno, "Restoring file", errno);
             this_failed = true;
           }
         } break;
       case 'p':
-        if (mkfifo(base, fnode->mode())) {
+        if (mkfifo(base, db_node->mode())) {
           out(error, msg_errno, "Restoring pipe (FIFO)", errno);
           this_failed = true;
         }
         break;
       default:
-        char type[2] = { fnode->type(), '\0' };
+        char type[2] = { db_node->type(), '\0' };
         out(error, msg_errno, "Type not supported", -1, type);
         this_failed = true;
     }
@@ -376,24 +412,24 @@ int Database::restore(
       continue;
     }
     // Nothing more to do for links
-    if (fnode->type() == 'l') {
+    if ((db_node->type() == 'l') || (links != HBackup::none)) {
       continue;
     }
     // Restore modification time
     {
-      struct utimbuf times = { -1, fnode->mtime() };
+      struct utimbuf times = { -1, db_node->mtime() };
       if (utime(base, &times)) {
         out(error, msg_errno, "Restoring modification time");
         this_failed = true;
       }
     }
     // Restore permissions
-    if (chmod(base, fnode->mode())) {
+    if (chmod(base, db_node->mode())) {
       out(error, msg_errno, "Restoring permissions");
       this_failed = true;
     }
     // Restore owner and group
-    if (chown(base, fnode->uid(), fnode->gid())) {
+    if (chown(base, db_node->uid(), db_node->gid())) {
       out(error, msg_errno, "Restoring owner/group");
       this_failed = true;
     }
@@ -402,8 +438,8 @@ int Database::restore(
       failed = true;
     }
   }
-  free(fpath);
-  delete fnode;
+  free(db_path);
+  delete db_node;
   return (failed || (rc < 0)) ? -1 : 0;
 }
 
@@ -529,9 +565,9 @@ int Database::openClient(
   }
 
   // Create owner for client
-  _d->client = new Owner(_d->path, client,
+  _d->owner = new Owner(_d->path, client,
     (expire <= 0) ? expire : (time(NULL) - expire));
-  _d->client->setProgressCallback(_d->progress);
+  _d->owner->setProgressCallback(_d->progress);
 
   // Read/write open
   if (_d->mode > 1) {
@@ -541,20 +577,20 @@ int Database::openClient(
     }
   }
   // Open
-  if (_d->client->open(_d->mode == 1, _d->mode != 1, _d->mode == 3) < 0) {
-    delete _d->client;
-    _d->client = NULL;
+  if (_d->owner->open(_d->mode == 1, _d->mode != 1, _d->mode == 3) < 0) {
+    delete _d->owner;
+    _d->owner = NULL;
     return -1;
   }
   // Report and set temporary data path
   switch (_d->mode) {
     case 1:
-      out(verbose, msg_standard, _d->client->name(), -1, "Database open r-o");
+      out(verbose, msg_standard, _d->owner->name(), -1, "Database open r-o");
       break;
     case 2:
-      out(verbose, msg_standard, _d->client->name(), -1, "Database open r/w");
+      out(verbose, msg_standard, _d->owner->name(), -1, "Database open r/w");
       // Set temp path inside client's directory
-      _d->data.setTemp(Path(_d->client->path(), "data"));
+      _d->data.setTemp(Path(_d->owner->path(), "data"));
       break;
     default:;
   }
@@ -563,19 +599,19 @@ int Database::openClient(
 
 int Database::closeClient(
     bool            abort) {
-  bool failed = (_d->client->close(abort) < 0);
+  bool failed = (_d->owner->close(abort) < 0);
   if (_d->mode < 3) {
-    out(verbose, msg_standard, _d->client->name(), -1, "Database closed");
+    out(verbose, msg_standard, _d->owner->name(), -1, "Database closed");
   }
-  delete _d->client;
-  _d->client = NULL;
+  delete _d->owner;
+  _d->owner = NULL;
   return failed ? -1 : 0;
 }
 
 void Database::sendEntry(
     OpData&         op) {
   Node* db_node = NULL;
-  int rc = _d->client->search(op._path, &db_node);
+  int rc = _d->owner->search(op._path, &db_node);
 
   // Compare entries
   if ((rc > 0) || (db_node == NULL)) {
@@ -673,7 +709,7 @@ int Database::add(
   // Even if failed, add data if new
   if (! failed || ! op._get_checksum) {
     // Add entry info to journal
-    if (_d->client->add(op._path, &op._node, ts) < 0) {
+    if (_d->owner->add(op._path, &op._node, ts) < 0) {
       out(error, msg_standard, "Cannot add to client's list");
       failed = true;
     }

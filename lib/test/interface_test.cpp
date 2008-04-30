@@ -182,7 +182,7 @@ int main(void) {
   }
   hbackup->show(2);
   hbackup->addClient("myhost");
-  hbackup->restore("test_r", "test2/testfile", 0);
+  hbackup->restore("test_r", HBackup::none, "test2/testfile", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -194,7 +194,7 @@ int main(void) {
   }
   hbackup->show(2);
   hbackup->addClient("myhost");
-  hbackup->restore("test_r", "test1", 0);
+  hbackup->restore("test_r", HBackup::none, "test1", 0);
   hbackup->close();
   // Show test1/testfile's metadata
   File meta("test_r/test1/testfile");
@@ -210,7 +210,7 @@ int main(void) {
   }
   hbackup->show(2);
   hbackup->addClient("myhost");
-  hbackup->restore("test_r", "test1/cvs", 0);
+  hbackup->restore("test_r", HBackup::none, "test1/cvs", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -222,7 +222,7 @@ int main(void) {
   }
   hbackup->show(2);
   hbackup->addClient("myhost");
-  hbackup->restore("test_r", "", 0);
+  hbackup->restore("test_r", HBackup::none, "", 0);
   hbackup->close();
   system("rm -rf test_r");
   delete hbackup;
@@ -300,7 +300,7 @@ int main(void) {
   }
   hbackup->show(2);
   hbackup->addClient("myClient");
-  hbackup->restore(NULL, "/home");
+  hbackup->restore(NULL, HBackup::none, "/home");
   hbackup->close();
   delete hbackup;
 
@@ -312,7 +312,7 @@ int main(void) {
   }
   hbackup->addClient("myClient.xp");
   hbackup->show(2);
-  hbackup->restore(NULL, "C:");
+  hbackup->restore(NULL, HBackup::none, "C:");
   hbackup->close();
   delete hbackup;
 
@@ -323,9 +323,9 @@ int main(void) {
   }
   hbackup->addClient("myClient");
   hbackup->show(2);
-  hbackup->restore("test_r", "/home/User/test/File2.txt", 0);
+  hbackup->restore("test_r", HBackup::none, "/home/User/test/File2.txt", 0);
   hbackup->close();
-  system("rm -rf test_r");
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
   delete hbackup;
 
   cout << endl << "Test: restore subdir (UNIX)" << endl;
@@ -335,9 +335,9 @@ int main(void) {
   }
   hbackup->addClient("myClient");
   hbackup->show(2);
-  hbackup->restore("test_r", "/home/User/test", 0);
+  hbackup->restore("test_r", HBackup::none, "/home/User/test", 0);
   hbackup->close();
-  system("rm -rf test_r");
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
   delete hbackup;
 
   cout << endl << "Test: restore dir (UNIX)" << endl;
@@ -347,9 +347,9 @@ int main(void) {
   }
   hbackup->addClient("myClient");
   hbackup->show(2);
-  hbackup->restore("test_r", "/", 0);
+  hbackup->restore("test_r", HBackup::none, "/", 0);
   hbackup->close();
-  system("rm -rf test_r");
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
   delete hbackup;
 
   cout << endl << "Test: restore client (UNIX)" << endl;
@@ -359,9 +359,9 @@ int main(void) {
   }
   hbackup->addClient("myClient");
   hbackup->show(2);
-  hbackup->restore("test_r", "", 0);
+  hbackup->restore("test_r", HBackup::none, "", 0);
   hbackup->close();
-  system("rm -rf test_r");
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
   delete hbackup;
 
   cout << endl << "Test: restore file (DOS)" << endl;
@@ -371,9 +371,9 @@ int main(void) {
   }
   hbackup->addClient("myClient.xp");
   hbackup->show(2);
-  hbackup->restore("test_r", "C:/Test Dir/My File.TXT", 0);
+  hbackup->restore("test_r", HBackup::none, "C:/Test Dir/My File.TXT", 0);
   hbackup->close();
-  system("rm -rf test_r");
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
   delete hbackup;
 
   cout << endl << "Test: restore subdir (DOS)" << endl;
@@ -383,9 +383,9 @@ int main(void) {
   }
   hbackup->addClient("myClient.xp");
   hbackup->show(2);
-  hbackup->restore("test_r", "C:/Test Dir/My Dir", 0);
+  hbackup->restore("test_r", HBackup::none, "C:/Test Dir/My Dir", 0);
   hbackup->close();
-  system("rm -rf test_r");
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
   delete hbackup;
 
   cout << endl << "Test: restore dir (DOS)" << endl;
@@ -395,9 +395,9 @@ int main(void) {
   }
   hbackup->addClient("myClient.xp");
   hbackup->show(2);
-  hbackup->restore("test_r", "C:", 0);
+  hbackup->restore("test_r", HBackup::none, "C:", 0);
   hbackup->close();
-  system("rm -rf test_r");
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
   delete hbackup;
 
   cout << endl << "Test: restore client (DOS)" << endl;
@@ -407,9 +407,9 @@ int main(void) {
   }
   hbackup->addClient("myClient.xp");
   hbackup->show(2);
-  hbackup->restore("test_r", "", 0);
+  hbackup->restore("test_r", HBackup::none, "", 0);
   hbackup->close();
-  system("rm -rf test_r");
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
   delete hbackup;
 
   cout << endl << "Test: restore client (dual-boot)" << endl;
@@ -420,9 +420,230 @@ int main(void) {
   hbackup->addClient("myClient");
   hbackup->addClient("myClient.xp");
   hbackup->show(2);
-  hbackup->restore("test_r", "", 0);
+  hbackup->restore("test_r", HBackup::none, "", 0);
   hbackup->close();
-  system("rm -rf test_r");
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+
+  cout << endl << "Test: restore (symlinks) file (UNIX)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::symbolic, "/home/User/test/File2.txt", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (symlinks) subdir (UNIX)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::symbolic, "/home/User/test", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (symlinks) dir (UNIX)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::symbolic, "/", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (symlinks) client (UNIX)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::symbolic, "", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (symlinks) file (DOS)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient.xp");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::symbolic, "C:/Test Dir/My File.TXT", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (symlinks) subdir (DOS)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient.xp");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::symbolic, "C:/Test Dir/My Dir", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (symlinks) dir (DOS)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient.xp");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::symbolic, "C:", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (symlinks) client (DOS)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient.xp");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::symbolic, "", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (symlinks) client (dual-boot)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient");
+  hbackup->addClient("myClient.xp");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::symbolic, "", 0);
+  hbackup->close();
+  system("ls -l test_r/home/User/test/dir/file3.txt.gz | sed \"s/.*-> //\"");
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+
+  cout << endl << "Test: restore (hard links) file (UNIX)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::hard, "/home/User/test/File2.txt", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (hard links) subdir (UNIX)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::hard, "/home/User/test", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (hard links) dir (UNIX)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::hard, "/", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (hard links) client (UNIX)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::hard, "", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (hard links) file (DOS)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient.xp");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::hard, "C:/Test Dir/My File.TXT", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (hard links) subdir (DOS)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient.xp");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::hard, "C:/Test Dir/My Dir", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (hard links) dir (DOS)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient.xp");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::hard, "C:", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (hard links) client (DOS)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient.xp");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::hard, "", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
+  delete hbackup;
+
+  cout << endl << "Test: restore (hard links) client (dual-boot)" << endl;
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->addClient("myClient");
+  hbackup->addClient("myClient.xp");
+  hbackup->show(2);
+  hbackup->restore("test_r", HBackup::hard, "", 0);
+  hbackup->close();
+  system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
   delete hbackup;
 
 

@@ -35,17 +35,18 @@ using namespace hbackup;
 // Tests status:
 //   lock:        tested
 //   unlock:      tested
-//   merge:       tested in paths
-//   path:        tested in paths
-//   open:        tested in paths, but not where DB list is gone
+//   merge:       tested in paths test
+//   path:        tested in paths test
+//   open:        tested in paths test, but not where DB list is gone
 //   open(ro):    tested
-//   close:       tested in paths
+//   close:       tested in paths test
 //   close(ro):   tested
-//   getList:     tested in paths
+//   getRecords:  tested in paths test
+//   restore:     tested in interface test
 //   scan:        basically tested, tested in interface test
 //   check:       basically tested, tested in interface test
-//   add:         tested in paths
-//   remove:      tested in paths
+//   add:         tested in paths test
+//   remove:      tested in paths test
 
 static time_t my_time = 0;
 time_t time(time_t *t) {

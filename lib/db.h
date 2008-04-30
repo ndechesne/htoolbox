@@ -57,8 +57,9 @@ public:
   // Restore specified data
   int  restore(
     const char*     dest,                 // Where the restored path goes
-    const char*     path = "",            // The path to restore (all)
-    time_t          date = 0);            // The date to restore (all)
+    HBackup::LinkType links = HBackup::none, // Link type
+    const char*     path  = "",           // The path to restore (all)
+    time_t          date  = 0);           // The date to restore (all)
   // Scan database for missing/obsolete data
   int  scan(
     bool            remove   = true);     // Whether to remove obsolete data

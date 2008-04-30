@@ -183,16 +183,24 @@ namespace hbackup {
     */
     int backup(
       bool          initialize    = false);
+    //! Type of UNIX link
+    enum LinkType {
+      none,         /*!< Do not create links */
+      symbolic,     /*!< Create a symbolic link */
+      hard          /*!< Create a hard link */
+    };
     //! \brief List or restore specified database contents
     /*!
       Lists contents, using the given parameters as filters.
       \param destination  path where to restore the data (NULL to list only)
+      \param hard_links   whether to create hard links to DB insted of new files
       \param path         path (if none given, restore all client's paths)
       \param date         date (negative: use relative time from now, zero: all)
       \return 0 on success, -1 on failure
     */
     int restore(
       const char*   destination   = NULL,
+      LinkType      links         = none,
       const char*   path          = "",
       time_t        date          = 0);
     //! \brief Show configuration

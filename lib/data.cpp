@@ -240,9 +240,29 @@ void Data::setProgressCallback(progress_f progress) {
   _d->progress = progress;
 }
 
+int Data::name(
+    const char*     checksum,
+    string&         path,
+    string&         extension) const {
+  if (getDir(checksum, path)) {
+    return -1;
+  }
+  unsigned int    no;
+  vector<string>  extensions;
+  extensions.push_back("");
+  extensions.push_back(".gz");
+  Stream *data = Stream::select(Path(path.c_str(), "data"), extensions, &no);
+  if (data == NULL) {
+    return -1;
+  }
+  path      = data->path();
+  extension = extensions[no];
+  return 0;
+}
+
 int Data::read(
     const char*     path,
-    const char*     checksum) {
+    const char*     checksum) const {
   bool failed = false;
 
   string source;
