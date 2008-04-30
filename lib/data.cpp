@@ -484,26 +484,32 @@ int Data::check(
   } else
   // Check data for corruption
   if (thorough) {
-    data->setCancelCallback(aborting);
-    if (data->open("r", (no > 0) ? 1 : 0)) {
-      out(error, msg_errno, "Opening file", errno, data->path());
+    // Already marked corrupted?
+    if (File(Path(path.c_str(), "corrupted")).isValid()) {
+      out(error, msg_standard, "Data corruption reported", -1, checksum);
       failed = true;
-    } else
-    if (data->computeChecksum() || data->close()) {
-      out(error, msg_errno, "Reading file", errno, data->path());
-      failed = true;
-    } else
-    if (strncmp(data->checksum(), checksum, strlen(data->checksum()))) {
-      stringstream s;
-      s << "Data corrupted" << (remove ? ", remove" : "");
-      out(error, msg_standard, s.str().c_str(), -1, checksum);
-      failed = true;
-      if (remove) {
-        data->remove();
-        std::remove(path.c_str());
-      } else {
-        // Mark corrupted
-        File(Path(path.c_str(), "corrupted")).create();
+    } else {
+      data->setCancelCallback(aborting);
+      if (data->open("r", (no > 0) ? 1 : 0)) {
+        out(error, msg_errno, "Opening file", errno, data->path());
+        failed = true;
+      } else
+      if (data->computeChecksum() || data->close()) {
+        out(error, msg_errno, "Reading file", errno, data->path());
+        failed = true;
+      } else
+      if (strncmp(data->checksum(), checksum, strlen(data->checksum()))) {
+        stringstream s;
+        s << "Data corrupted" << (remove ? ", remove" : "");
+        out(error, msg_standard, s.str().c_str(), -1, checksum);
+        failed = true;
+        if (remove) {
+          data->remove();
+          std::remove(path.c_str());
+        } else {
+          // Mark corrupted
+          File(Path(path.c_str(), "corrupted")).create();
+        }
       }
     }
   } else
