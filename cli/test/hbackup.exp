@@ -23,11 +23,17 @@ HBackup (c) 2006-2008 Hervé Fache
   -P <path>,  --path <path>
     Specify path
 
+  -L,  --symlinks
+    Create hierarchy of symlinks
+
   -l,  --list
     List available data
 
   -i,  --initialize
     Initialize if needed
+
+  -H,  --hardlinks
+    Create hierarchy of hard links
 
   -f,  --fix
     Fix backup database
@@ -77,11 +83,17 @@ HBackup (c) 2006-2008 Hervé Fache
   -P <path>,  --path <path>
     Specify path
 
+  -L,  --symlinks
+    Create hierarchy of symlinks
+
   -l,  --list
     List available data
 
   -i,  --initialize
     Initialize if needed
+
+  -H,  --hardlinks
+    Create hierarchy of hard links
 
   -f,  --fix
     Fix backup database

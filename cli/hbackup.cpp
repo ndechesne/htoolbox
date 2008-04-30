@@ -239,12 +239,20 @@ int main(int argc, char **argv) {
     SwitchArg fixSwitch("f", "fix", "Fix backup database",
       cmd, false);
 
+    // Hard links
+    SwitchArg hardSwitch("H", "hardlinks", "Create hierarchy of hard links",
+      cmd, false);
+
     // Initialize
     SwitchArg initSwitch("i", "initialize", "Initialize if needed",
       cmd, false);
 
     // List data
     SwitchArg listSwitch("l", "list", "List available data",
+      cmd, false);
+
+    // Symbolic links
+    SwitchArg symSwitch("L", "symlinks", "Create hierarchy of symlinks",
       cmd, false);
 
     // Specify path
@@ -404,7 +412,21 @@ int main(int argc, char **argv) {
         cerr << "Error: Wrong number of clients" << endl;
         return 1;
       }
-      if (hbackup.restore(restoreArg.getValue().c_str(), hbackup::HBackup::none,
+      if (hardSwitch.getValue() && symSwitch.getValue()) {
+        cerr << "Error: Cannot create both hard and symbolic links" << endl;
+        return 1;
+      }
+      hbackup::HBackup::LinkType links;
+      if (symSwitch.getValue()) {
+        links = hbackup::HBackup::symbolic;
+      } else
+      if (hardSwitch.getValue()) {
+        links = hbackup::HBackup::hard;
+      } else
+      {
+        links = hbackup::HBackup::none;
+      }
+      if (hbackup.restore(restoreArg.getValue().c_str(), links,
           pathArg.getValue().c_str(), dateArg.getValue())) {
         return 3;
       }
