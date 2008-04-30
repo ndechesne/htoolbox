@@ -139,6 +139,8 @@ touch "$SVNDIR/.svn/wherever/whichever"
 mkdir "$TESTDIR2"
 mkdir "$TESTDIR2/testdir"
 dd if=/dev/zero of="$TESTDIR2/testfile" bs=142 count=1024 2> /dev/null
+dd if=/dev/urandom of="$TESTDIR2/testfile2" bs=142 count=1024 2> /dev/null
+gzip "$TESTDIR2/testfile2"
 touch -t 200610221134.56 "$TESTDIR2/testfile"
 dd if=/dev/zero of="$TESTDIR2/testfile~" bs=512 count=1024 2> /dev/null
 dd if=/dev/zero of="$TESTDIR2/testfile2" bs=253 count=1024 2> /dev/null

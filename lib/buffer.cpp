@@ -65,6 +65,8 @@ void Buffer::destroy() {
 void Buffer::empty() {
   _d->writer = _d->buffer;
   _d->reader = _d->buffer;
+  _d->empty  = true;
+  _d->full   = false;
 }
 
 bool Buffer::exists() const {

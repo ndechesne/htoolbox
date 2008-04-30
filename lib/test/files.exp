@@ -61,69 +61,66 @@ abcd <> abce, 4: -1
 abcd <> abce, 5: -1
 
 Test: file read (no cache)
-Done:   3.9%\r
-Done:   7.8%\r
-Done:  11.7%\r
-Done:  15.6%\r
-Done:  19.5%\r
-Done:  23.4%\r
-Done:  27.3%\r
-Done:  31.2%\r
-Done:  35.2%\r
-Done:  39.1%\r
-Done:  43.0%\r
-Done:  46.9%\r
-Done:  50.8%\r
-Done:  54.7%\r
-Done:  58.6%\r
-Done:  62.5%\r
-Done:  66.4%\r
-Done:  70.3%\r
-Done:  74.2%\r
-Done:  78.1%\r
-Done:  82.0%\r
-Done:  85.9%\r
-Done:  89.8%\r
-Done:  93.8%\r
-Done:  97.7%\r
-            \r
+Done:   3.9%
+Done:   7.8%
+Done:  11.7%
+Done:  15.6%
+Done:  19.5%
+Done:  23.4%
+Done:  27.3%
+Done:  31.2%
+Done:  35.2%
+Done:  39.1%
+Done:  43.0%
+Done:  46.9%
+Done:  50.8%
+Done:  54.7%
+Done:  58.6%
+Done:  62.5%
+Done:  66.4%
+Done:  70.3%
+Done:  74.2%
+Done:  78.1%
+Done:  82.0%
+Done:  85.9%
+Done:  89.8%
+Done:  93.8%
+Done:  97.7%
+Done: 100.0%
 read size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 
 Test: file write (with cache)
-            \r
-            \r
-            \r
 write size: 12 (12), checksum: a0c5dee7d6c447468bcb866b0d3210e6
 123abc
 line
 
 Test: file copy (read + write (no cache))
-Done:   3.9%\r
-Done:   7.8%\r
-Done:  11.7%\r
-Done:  15.6%\r
-Done:  19.5%\r
-Done:  23.4%\r
-Done:  27.3%\r
-Done:  31.2%\r
-Done:  35.2%\r
-Done:  39.1%\r
-Done:  43.0%\r
-Done:  46.9%\r
-Done:  50.8%\r
-Done:  54.7%\r
-Done:  58.6%\r
-Done:  62.5%\r
-Done:  66.4%\r
-Done:  70.3%\r
-Done:  74.2%\r
-Done:  78.1%\r
-Done:  82.0%\r
-Done:  85.9%\r
-Done:  89.8%\r
-Done:  93.8%\r
-Done:  97.7%\r
-            \r
+Done:   3.9%
+Done:   7.8%
+Done:  11.7%
+Done:  15.6%
+Done:  19.5%
+Done:  23.4%
+Done:  27.3%
+Done:  31.2%
+Done:  35.2%
+Done:  39.1%
+Done:  43.0%
+Done:  46.9%
+Done:  50.8%
+Done:  54.7%
+Done:  58.6%
+Done:  62.5%
+Done:  66.4%
+Done:  70.3%
+Done:  74.2%
+Done:  78.1%
+Done:  82.0%
+Done:  85.9%
+Done:  89.8%
+Done:  93.8%
+Done:  97.7%
+Done: 100.0%
 read size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 write size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 
@@ -165,6 +162,18 @@ files differ
 
 Test: computeChecksum
 Checksum: 59ca0efa9f5633cb0371bbc0355478d8
+Checksum: f81f70dceaca8b0cec354f33fa3f0909
+Done:  70.4%
+Done: 100.0%
+Checksum: 81db27b3763d3c48ea035c54b8ebeaa3
+Done:  70.4%
+Done: 100.0%
+Checksum: f81f70dceaca8b0cec354f33fa3f0909
+Size: 145461
+Done:  70.4%
+Done: 100.0%
+Checksum: 81db27b3763d3c48ea035c54b8ebeaa3
+Size: 145408
 Checksum: f1c9645dbc14efddc7d8a322685f26eb
 
 Test: copy

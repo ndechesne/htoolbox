@@ -176,5 +176,13 @@ int main(void) {
   cout << "Buffer writeable = " << buffer.writeable() << endl;
   cout << "Buffer readable = " << buffer.readable() << endl;
 
+  buffer.empty();
+  cout << endl << "emptied" << endl;
+  cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
+  cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
+  cout << "Buffer writeable = " << buffer.writeable() << endl;
+  cout << "Buffer readable = " << buffer.readable() << endl;
+
   return 0;
 }

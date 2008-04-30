@@ -530,6 +530,8 @@ Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
 A f     test2/testfile
 Adding file data to DB for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A f     test2/testfile2
+Adding file data to DB for 6cfbb1e9f04d0bb258cc158d62fd51af-0
+A f     test2/testfile2.gz
 Done:  78.1%\r
 Done: 100.0%\r
             \r
@@ -951,7 +953,7 @@ Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
 Reading list: myhost
-Found 15 checksums
+Found 16 checksums
 Crawling through DB
 0f2ea973d77135dc3d06c8e68da6dc59-0\r
 26ab0db90d72e28ad0ba1e22ee510510-0\r
@@ -959,6 +961,7 @@ Crawling through DB
 5252f242d27b8c2c9fdbdcbb33545d07-0\r
 59071590099d21dd439896592338bf95-0\r
 59ca0efa9f5633cb0371bbc0355478d8-0\r
+6cfbb1e9f04d0bb258cc158d62fd51af-0\r
 6d7fce9fee471194aa8b5b6e47267f03-0\r
 8bdef5751e46ed57d237cbe3f4a5061c-0\r
 b026324c6904b2a9cb4b88d6d61c81d1-0\r
@@ -969,7 +972,7 @@ f1c9645dbc14efddc7d8a322685f26eb-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
                                   \r
-Found 15 valid and 0 broken data files
+Found 16 valid and 0 broken data files
 Checksum(s) from list:
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> 26ab0db90d72e28ad0ba1e22ee510510-0
@@ -977,6 +980,7 @@ Checksum(s) from list:
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0
  -> 59071590099d21dd439896592338bf95-0
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6cfbb1e9f04d0bb258cc158d62fd51af-0
  -> 6d7fce9fee471194aa8b5b6e47267f03-0
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0
  -> b026324c6904b2a9cb4b88d6d61c81d1-0
@@ -993,6 +997,7 @@ Checksum(s) with data:
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0
  -> 59071590099d21dd439896592338bf95-0
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> 6cfbb1e9f04d0bb258cc158d62fd51af-0
  -> 6d7fce9fee471194aa8b5b6e47267f03-0
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0
  -> b026324c6904b2a9cb4b88d6d61c81d1-0
@@ -1082,6 +1087,7 @@ Crawling through DB data
 5252f242d27b8c2c9fdbdcbb33545d07-0\r
 59071590099d21dd439896592338bf95-0\r
 59ca0efa9f5633cb0371bbc0355478d8-0\r
+6cfbb1e9f04d0bb258cc158d62fd51af-0\r
 6d7fce9fee471194aa8b5b6e47267f03-0\r
 8bdef5751e46ed57d237cbe3f4a5061c-0\r
 b026324c6904b2a9cb4b88d6d61c81d1-0\r
@@ -1092,7 +1098,7 @@ f1c9645dbc14efddc7d8a322685f26eb-0\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0\r
 fef51838cd3cfe8ed96355742eb71fbd-0\r
                                   \r
-Found 15 valid and 0 broken data files
+Found 16 valid and 0 broken data files
 Database closed
 List clients
  -> Reading configuration file: etc/hbackup.conf
@@ -1336,6 +1342,7 @@ Database closed: myhost
 	test2/testdir/
 	test2/testfile
 	test2/testfile2
+	test2/testfile2.gz
 	test2/testfile~
 	test2/testlink
 Database closed
@@ -2077,6 +2084,7 @@ U test_r/test1/testpipe
 U test_r/test2/testdir
 U test_r/test2/testfile
 U test_r/test2/testfile2
+U test_r/test2/testfile2.gz
 U test_r/test2/testfile~
 Done:  78.1%\r
 Done: 100.0%\r

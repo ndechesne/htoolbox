@@ -648,6 +648,10 @@ ssize_t Stream::read(void* buffer, size_t asked) {
       case Z_MEM_ERROR:
         return -2;
     }
+    // Used all decompression buffer
+    if (_d->strm->avail_out != 0) {
+      _d->buffer_in.empty();
+    }
     if (_d->buffer_out.exists()) {
       size = _d->buffer_out.writeable() - _d->strm->avail_out;
       // Update checksum
@@ -825,9 +829,12 @@ ssize_t Stream::getLine(
   // Find end of line or end of file
   do {
     // Make read fill up the buffer
-    ssize_t size = read(NULL, 0);
-    if (size < 0) {
-      return -1;
+    ssize_t size = 1;
+    if (_d->buffer->isEmpty()) {
+      size = read(NULL, 0);
+      if (size < 0) {
+        return -1;
+      }
     }
     // Make sure we have a buffer
     if (*buffer == NULL) {
@@ -839,7 +846,7 @@ ssize_t Stream::getLine(
       break;
     }
     const char* reader = _d->buffer->reader();
-    size_t      length = size;
+    size_t      length = _d->buffer->readable();
     while (length > 0) {
       length--;
       // Check for space
@@ -856,7 +863,7 @@ ssize_t Stream::getLine(
       *writer++ = *reader++;
       count++;
     }
-    _d->buffer->readn(size - length);
+    _d->buffer->readn(_d->buffer->readable() - length);
   } while (! found);
   *writer = '\0';
 

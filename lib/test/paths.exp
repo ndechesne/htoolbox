@@ -3032,11 +3032,13 @@ Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
 A f     /home/User/testfile
 Adding file data to DB for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A f     /home/User/testfile2
+Adding file data to DB for f81f70dceaca8b0cec354f33fa3f0909-0
+A f     /home/User/testfile2.gz
 Done:  78.1%\r
             \r
 Adding file data to DB for 59071590099d21dd439896592338bf95-0
 A f     /home/User/testfile~
-Parsed 4 file(s)
+Parsed 5 file(s)
 Database modified: hisClient
 Database closed: hisClient
 Path: /home/User
@@ -3128,6 +3130,7 @@ hisClient's list:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's list:
@@ -3258,6 +3261,7 @@ hisClient's journal:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's real journal:
@@ -3281,6 +3285,7 @@ hisClient's list:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's list:
@@ -3420,6 +3425,7 @@ hisClient's journal:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's journal:
@@ -3520,6 +3526,7 @@ hisClient's list:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's list:
@@ -3659,6 +3666,7 @@ hisClient's journal:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's journal:
@@ -3721,7 +3729,7 @@ Path: /home/User
 Reading list of missing checksums
 Database open r/w: hisClient
  -> Dir: testdir
-Parsed 4 file(s)
+Parsed 5 file(s)
 Database closed: hisClient
 Database closed
 
@@ -3729,6 +3737,7 @@ hisClient's list:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's list:
@@ -3868,6 +3877,7 @@ hisClient's journal:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's journal:
@@ -3968,6 +3978,7 @@ hisClient's list:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's list:
@@ -4067,6 +4078,7 @@ hisClient's journal:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's journal:
@@ -4157,6 +4169,7 @@ hisClient's list:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's list:
@@ -4250,6 +4263,7 @@ hisClient's journal:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's journal:
@@ -4340,6 +4354,7 @@ hisClient's list:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's list:
@@ -4432,6 +4447,7 @@ hisClient's journal:
 [19] /home/User/testdir             d      0 755
 [19] /home/User/testfile            f 145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
 [19] /home/User/testfile2           f 259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[19] /home/User/testfile2.gz        f 145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
 [19] /home/User/testfile~           f 524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's journal:

@@ -24,6 +24,7 @@
 
 using namespace std;
 
+#include "line.h"
 #include "files.h"
 #include "hbackup.h"
 
@@ -191,11 +192,9 @@ bool cancel(unsigned short __unused) {
 }
 
 static void progress(long long previous, long long current, long long total) {
-  if (current < total) {
+  if ((current <= total) && ((current < total) || (previous != 0))) {
     cout << "Done: " << setw(5) << setiosflags(ios::fixed)
-      << setprecision(1) << 100.0 * current /total << "%\r" << flush;
-  } else if (previous != 0) {
-    cout << "            \r";
+      << setprecision(1) << 100.0 * current /total << "%" << endl;
   }
 }
 
@@ -745,6 +744,90 @@ int main(void) {
     return 0;
   }
   cout << "Checksum: " << readfile->checksum() << endl;
+  delete readfile;
+
+  readfile = new Stream("test2/testfile2.gz");
+  if (readfile->open("r")) {
+    return 0;
+  }
+  readfile->setProgressCallback(progress);
+  if (readfile->computeChecksum()) {
+    cout << "Error computing checksum, " << strerror(errno) << endl;
+    return 0;
+  }
+  if (readfile->close()) {
+    return 0;
+  }
+  cout << "Checksum: " << readfile->checksum() << endl;
+  delete readfile;
+
+  readfile = new Stream("test2/testfile2.gz");
+  if (readfile->open("r", 1)) {
+    return 0;
+  }
+  readfile->setProgressCallback(progress);
+  if (readfile->computeChecksum()) {
+    cout << "Error computing checksum, " << strerror(errno) << endl;
+    return 0;
+  }
+  if (readfile->close()) {
+    return 0;
+  }
+  cout << "Checksum: " << readfile->checksum() << endl;
+  delete readfile;
+
+  readfile = new Stream("test2/testfile2.gz");
+  ssize_t read_size = 0;
+  if (readfile->open("r")) {
+    return 0;
+  }
+  readfile->setProgressCallback(progress);
+  while (true) {
+    Line line;
+    bool eol;
+    int rc = readfile->getLine(line, &eol);
+    if (rc < 0) {
+      cout << "Error reading line, " << strerror(errno) << endl;
+      return 0;
+    }
+    read_size += rc + 1;
+    if (! eol) {
+      read_size--;
+      break;
+    }
+  }
+  if (readfile->close()) {
+    return 0;
+  }
+  cout << "Checksum: " << readfile->checksum() << endl;
+  cout << "Size: " << read_size << endl;
+  delete readfile;
+
+  readfile = new Stream("test2/testfile2.gz");
+  read_size = 0;
+  if (readfile->open("r", 1)) {
+    return 0;
+  }
+  readfile->setProgressCallback(progress);
+  while (true) {
+    Line line;
+    bool eol;
+    int rc = readfile->getLine(line, &eol);
+    if (rc < 0) {
+      cout << "Error reading line, " << strerror(errno) << endl;
+      return 0;
+    }
+    read_size += rc + 1;
+    if (! eol) {
+      read_size--;
+      break;
+    }
+  }
+  if (readfile->close()) {
+    return 0;
+  }
+  cout << "Checksum: " << readfile->checksum() << endl;
+  cout << "Size: " << read_size << endl;
   delete readfile;
 
   readfile = new Stream("test1/rwfile_source");

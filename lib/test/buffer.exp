@@ -101,3 +101,10 @@ Buffer empty? no
 Buffer full? yes
 Buffer writeable = 0
 Buffer readable = 4
+
+emptied
+Buffer capacity = 10
+Buffer empty? yes
+Buffer full? no
+Buffer writeable = 10
+Buffer readable = 0
