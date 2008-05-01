@@ -2,122 +2,122 @@ Version
 HBackup (c) 2006-2008 Hervé Fache version 0.9b
 Help
 HBackup (c) 2006-2008 Hervé Fache
-  -v,  --verbose
-    Be verbose about actions
-
-  -u,  --user
-    Perform user-mode backup
-
-  -t,  --check
-    Check DB for corrupted data
-
-  -s,  --scan
-    Scan DB for missing data
-
-  -r <directory>,  --restore <directory>
-    Restore to directory
-
-  -q,  --quiet
-    Be quiet
-
-  -P <path>,  --path <path>
-    Specify path
-
-  -L,  --symlinks
-    Create hierarchy of symlinks
-
-  -l,  --list
-    List available data
-
-  -i,  --initialize
-    Initialize if needed
-
-  -H,  --hardlinks
-    Create hierarchy of hard links
-
-  -f,  --fix
-    Fix backup database
-
-  -D <UNIX epoch>,  --date <UNIX epoch>
-    Specify date
-
-  -d,  --debug
-    Print debug information
-
-  -C <client>,  --client <client>  (accepted multiple times)
-    Specify client name
-
-  -c <file name>,  --config <file name>
-    Specify configuration file
-
-  --,  --ignore_rest
-    Ignores the rest of the labeled arguments following this flag.
+  -h,  --help
+    Displays usage information and exits.
 
   --version
     Displays version information and exits.
 
-  -h,  --help
-    Displays usage information and exits.
+  --,  --ignore_rest
+    Ignores the rest of the labeled arguments following this flag.
+
+  -c <file name>,  --config <file name>
+    Specify configuration file
+
+  -C <client>,  --client <client>  (accepted multiple times)
+    Specify client name
+
+  -d,  --debug
+    Print debug information
+
+  -D <UNIX epoch>,  --date <UNIX epoch>
+    Specify date
+
+  -f,  --fix
+    Fix backup database
+
+  -H,  --hardlinks
+    Create hierarchy of hard links
+
+  -i,  --initialize
+    Initialize if needed
+
+  -l,  --list
+    List available data
+
+  -L,  --symlinks
+    Create hierarchy of symlinks
+
+  -P <path>,  --path <path>
+    Specify path
+
+  -q,  --quiet
+    Be quiet
+
+  -r <directory>,  --restore <directory>
+    Restore to directory
+
+  -s,  --scan
+    Scan DB for missing data
+
+  -t,  --check
+    Check DB for corrupted data
+
+  -u,  --user
+    Perform user-mode backup
+
+  -v,  --verbose
+    Be verbose about actions
 
 Error
 Error: -! -- Couldn't find match for argument
 HBackup (c) 2006-2008 Hervé Fache
-  -v,  --verbose
-    Be verbose about actions
-
-  -u,  --user
-    Perform user-mode backup
-
-  -t,  --check
-    Check DB for corrupted data
-
-  -s,  --scan
-    Scan DB for missing data
-
-  -r <directory>,  --restore <directory>
-    Restore to directory
-
-  -q,  --quiet
-    Be quiet
-
-  -P <path>,  --path <path>
-    Specify path
-
-  -L,  --symlinks
-    Create hierarchy of symlinks
-
-  -l,  --list
-    List available data
-
-  -i,  --initialize
-    Initialize if needed
-
-  -H,  --hardlinks
-    Create hierarchy of hard links
-
-  -f,  --fix
-    Fix backup database
-
-  -D <UNIX epoch>,  --date <UNIX epoch>
-    Specify date
-
-  -d,  --debug
-    Print debug information
-
-  -C <client>,  --client <client>  (accepted multiple times)
-    Specify client name
-
-  -c <file name>,  --config <file name>
-    Specify configuration file
-
-  --,  --ignore_rest
-    Ignores the rest of the labeled arguments following this flag.
+  -h,  --help
+    Displays usage information and exits.
 
   --version
     Displays version information and exits.
 
-  -h,  --help
-    Displays usage information and exits.
+  --,  --ignore_rest
+    Ignores the rest of the labeled arguments following this flag.
+
+  -c <file name>,  --config <file name>
+    Specify configuration file
+
+  -C <client>,  --client <client>  (accepted multiple times)
+    Specify client name
+
+  -d,  --debug
+    Print debug information
+
+  -D <UNIX epoch>,  --date <UNIX epoch>
+    Specify date
+
+  -f,  --fix
+    Fix backup database
+
+  -H,  --hardlinks
+    Create hierarchy of hard links
+
+  -i,  --initialize
+    Initialize if needed
+
+  -l,  --list
+    List available data
+
+  -L,  --symlinks
+    Create hierarchy of symlinks
+
+  -P <path>,  --path <path>
+    Specify path
+
+  -q,  --quiet
+    Be quiet
+
+  -r <directory>,  --restore <directory>
+    Restore to directory
+
+  -s,  --scan
+    Scan DB for missing data
+
+  -t,  --check
+    Check DB for corrupted data
+
+  -u,  --user
+    Perform user-mode backup
+
+  -v,  --verbose
+    Be verbose about actions
 
 List clients (missing DB path)
  -> Reading configuration file: etc/hbackup.conf

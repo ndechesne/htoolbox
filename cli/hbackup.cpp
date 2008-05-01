@@ -173,7 +173,8 @@ class MyOutput : public StdOutput {
     virtual void usage(CmdLineInterface& c) {
       cout << c.getMessage() << endl;
       list<Arg*> args = c.getArgList();
-      for (ArgListIterator i = args.begin(); i != args.end(); i++) {
+      ArgListIterator i = args.end();
+      while (i-- != args.begin()) {
         cout << "  " << (*i)->longID() << endl;
         cout << "    " << (*i)->getDescription() << endl;
         cout << endl;
