@@ -187,18 +187,63 @@ time_t Owner::expiration() const {
   return _d->expiration;
 }
 
+int Owner::hold() const {
+  Directory owner_dir(_d->path);
+  if (! owner_dir.isValid()) {
+    out(error, msg_standard, "Directory does not exist, aborting", -1,
+      _d->name);
+    return -1;
+  }
+
+  bool failed = false;
+  File owner_list(Path(owner_dir.path(), "list"));
+  if (! owner_list.isValid()) {
+    out(error, msg_standard, "List not accessible, aborting", -1, _d->name);
+    return -1;
+  }
+
+  stringstream file_name;
+  file_name << owner_list.path() << "." << getpid();
+  if (link(owner_list.path(), file_name.str().c_str())) {
+    out(error, msg_standard, "Could not create hard link to list, aborting");
+    return -1;
+  }
+
+  _d->original = new List(file_name.str().c_str());
+  if (_d->original->open("r")) {
+    out(error, msg_standard, "Cannot open list, aborting", -1, _d->name);
+    failed = true;
+  } else
+  if (_d->original->isOldVersion()) {
+    out(error, msg_standard,
+      "List in old format (try running hbackup in backup mode to update)"
+      ", aborting");
+    failed = true;
+  }
+  if (failed) {
+    release();
+    return -1;
+  }
+  return 0;
+}
+
+int Owner::release() const {
+  // Close list
+  if (_d->original->isOpen()) {
+    _d->original->close();
+  }
+  // Remove link
+  _d->original->remove();
+  // Delete list
+  delete _d->original;
+  // for isOpen and isWriteable
+  _d->original = NULL;
+  return 0;
+}
+
 int Owner::open(
-    bool            read_only,
     bool            initialize,
     bool            check) {
-  if (read_only && initialize) {
-    out(error, msg_standard, "Cannot initialize in read-only mode");
-    return -1;
-  }
-  if (read_only && check) {
-    out(error, msg_standard, "Cannot check in read-only mode");
-    return -1;
-  }
   Directory owner_dir(_d->path);
   if (! owner_dir.isValid()) {
     if (initialize) {
@@ -223,103 +268,72 @@ int Owner::open(
   File owner_list((owner_path + "list").c_str());
 
   bool failed = false;
-  if (read_only) {
-    if (! owner_list.isValid()) {
-      out(error, msg_standard, "List not accessible, aborting", -1,
+  // Open list
+  _d->original = new List(owner_list.path());
+  if (! _d->original->isValid()) {
+    File backup((owner_path + "list~").c_str());
+
+    if (backup.isValid()) {
+      rename(backup.path(), _d->original->path());
+      out(warning, msg_standard, "List not accessible, using backup", -1,
         _d->name);
-      return -1;
-    }
-
-    stringstream file_name;
-    file_name << owner_list.path() << "." << getpid();
-    if (link(owner_list.path(), file_name.str().c_str())) {
-      out(error, msg_standard, "Could not create hard link to list, aborting");
-      return -1;
-    }
-
-    _d->original = new List(file_name.str().c_str());
-    if (_d->original->open("r")) {
-      out(error, msg_standard, "Cannot open list, aborting", -1, _d->name);
-      failed = true;
-    } else
-    if (_d->original->isOldVersion()) {
-      out(error, msg_standard,
-        "List in old format (try running hbackup in backup mode to update)"
-        ", aborting");
-      failed = true;
-    } else
-    if (failed) {
-      delete _d->original;
-      _d->original = NULL;
-    }
-  } else {
-    // Open list
-    _d->original = new List(owner_list.path());
-    if (! _d->original->isValid()) {
-      File backup((owner_path + "list~").c_str());
-
-      if (backup.isValid()) {
-        rename(backup.path(), _d->original->path());
-        out(warning, msg_standard, "List not accessible, using backup", -1,
-          _d->name);
-      } else if (initialize) {
-        if (_d->original->open("w")) {
-          out(error, msg_errno, "Creating list", errno, _d->name);
-          failed = true;
-        } else {
-          _d->original->close();
-          out(info, msg_standard, _d->name, -1, "List created");
-        }
-      }
-    }
-    if (! failed) {
-      // Check journal
-      _d->journal = new List((owner_path + "journal").c_str());
-      _d->partial = new List((owner_path + "partial").c_str());
-      if (_d->journal->isValid()) {
-        // Check previous crash
-        out(warning, msg_standard, _d->name, -1,
-          "Previous backup interrupted");
-        if (finishOff(true)) {
-          out(error, msg_standard, "Failed to recover previous data");
-          failed = true;
-        }
-      }
-    }
-    if (! failed && ! check) {
-      // Open list
-      if (_d->original->open("r")) {
-        out(error, msg_errno, "Opening list", errno, _d->name);
+    } else if (initialize) {
+      if (_d->original->open("w")) {
+        out(error, msg_errno, "Creating list", errno, _d->name);
         failed = true;
-      } else
-      // Open journal
-      if (_d->journal->open("w", -1)) {
-        out(error, msg_errno, "Opening journal", errno, _d->name);
-        failed = true;
-      } else
-      // Open list
-      if (_d->partial->open("w")) {
-        out(error, msg_errno, "Opening merge list", errno, _d->name);
-        failed = true;
-      }
-    }
-    if (failed || check) {
-      if (_d->original->isOpen()) {
+      } else {
         _d->original->close();
+        out(info, msg_standard, _d->name, -1, "List created");
       }
-      if (_d->journal->isOpen()) {
-        _d->journal->close();
-      }
-      if (_d->partial->isOpen()) {
-        _d->partial->close();
-      }
-      delete _d->original;
-      delete _d->journal;
-      delete _d->partial;
-      _d->original = NULL;
-      _d->journal  = NULL;
-      _d->partial  = NULL;
     }
+  }
+  if (! failed) {
+    // Check journal
+    _d->journal = new List((owner_path + "journal").c_str());
+    _d->partial = new List((owner_path + "partial").c_str());
+    if (_d->journal->isValid()) {
+      // Check previous crash
+      out(warning, msg_standard, _d->name, -1,
+        "Previous backup interrupted");
+      if (finishOff(true)) {
+        out(error, msg_standard, "Failed to recover previous data");
+        failed = true;
+      }
+    }
+  }
+  if (! failed && ! check) {
+    // Open list
+    if (_d->original->open("r")) {
+      out(error, msg_errno, "Opening list", errno, _d->name);
+      failed = true;
+    } else
+    // Open journal
+    if (_d->journal->open("w", -1)) {
+      out(error, msg_errno, "Opening journal", errno, _d->name);
+      failed = true;
+    } else
+    // Open list
+    if (_d->partial->open("w")) {
+      out(error, msg_errno, "Opening merge list", errno, _d->name);
+      failed = true;
+    }
+  }
+  if (failed || check) {
+    if (_d->original->isOpen()) {
+      _d->original->close();
+    }
+    if (_d->journal->isOpen()) {
+      _d->journal->close();
+    }
+    if (_d->partial->isOpen()) {
+      _d->partial->close();
+    }
+    delete _d->original;
+    delete _d->journal;
+    delete _d->partial;
+    _d->original = NULL;
+    _d->journal  = NULL;
+    _d->partial  = NULL;
   }
   return failed ? -1 : 0;
 }
@@ -332,14 +346,7 @@ int Owner::close(
   } else
   if (_d->journal == NULL) {
     // Open read-only
-    // Close list
-    _d->original->close();
-    // Remove link
-    unlink(_d->original->path());
-    // Delete list
-    delete _d->original;
-    // for isOpen and isWriteable
-    _d->original = NULL;
+    release();
   } else {
     // Open read/write
     _d->original->setProgressCallback(_d->progress);
@@ -499,9 +506,8 @@ int Owner::getNextRecord(
 }
 
 int Owner::getChecksums(
-    list<string>&   checksums) {
-// Not const because of open, need a read-only open that'd be const...
-  if (open(true) < 0) {
+    list<string>&   checksums) const {
+  if (hold() < 0) {
     return -1;
   }
   _d->original->setProgressCallback(_d->progress);
@@ -518,6 +524,6 @@ int Owner::getChecksums(
     }
   }
   delete node;
-  close(true);
+  release();
   return aborting() ? -1 : 0;
 }

@@ -41,11 +41,20 @@ using namespace std;
 #include "owner.h"
 #include "db.h"
 
+namespace hbackup {
+  typedef enum {
+    no,
+    ro,
+    rw,
+    quiet_rw
+  } Access;
+};
+
 using namespace hbackup;
 
 struct Database::Private {
   char*             path;
-  int               mode;       // 0: closed, 1: r-o, 2: r/w, 3: r/w, quiet
+  Access            access;
   Data              data;
   Missing           missing;
   bool              load_missing;
@@ -109,13 +118,13 @@ void Database::unlock() {
 Database::Database(const char* path) {
   _d           = new Private;
   _d->path     = strdup(path);
-  _d->mode     = 0;
+  _d->access   = no;
   // Reset progress callback function
   _d->progress = NULL;
 }
 
 Database::~Database() {
-  if (_d->mode > 0) {
+  if (_d->access != no) {
     close();
   }
   free(_d->path);
@@ -184,12 +193,12 @@ int Database::open(
   _d->load_missing = false;
 
   if (read_only) {
-    _d->mode = 1;
+    _d->access = ro;
     out(verbose, msg_standard, "Database open in read-only mode");
   } else {
     _d->missing.open(Path(_d->path, "missing"));
     // Set mode to call openClient for checking only
-    _d->mode = 3;
+    _d->access = quiet_rw;
     // Finish off any previous backup
     list<string> clients;
     if (getClients(clients) < 0) {
@@ -210,7 +219,7 @@ int Database::open(
     if (failed) {
       return -1;
     }
-    _d->mode = 2;
+    _d->access = rw;
     // Load list of missing items if/when required
     _d->load_missing = true;
     out(verbose, msg_standard, "Database open in read/write mode");
@@ -221,13 +230,13 @@ int Database::open(
 int Database::close() {
   bool failed = false;
 
-  if (_d->mode == 0) {
+  if (_d->access == no) {
     out(alert, msg_standard, "Cannot close: DB not open!");
   } else {
     if (_d->owner != NULL) {
       closeClient(true);
     }
-    if (_d->mode > 1) {
+    if (_d->access >= rw) {
       // Save list of missing items
       _d->missing.close();
       // Release lock
@@ -235,7 +244,7 @@ int Database::close() {
     }
   }
   out(verbose, msg_standard, "Database closed");
-  _d->mode = 0;
+  _d->access = no;
   return failed ? -1 : 0;
 }
 
@@ -559,7 +568,7 @@ int Database::check(
 int Database::openClient(
     const char*     client,
     time_t          expire) {
-  if (_d->mode == 0) {
+  if (_d->access == no) {
     out(alert, msg_standard, "Open DB before opening client!");
     return -1;
   }
@@ -570,24 +579,31 @@ int Database::openClient(
   _d->owner->setProgressCallback(_d->progress);
 
   // Read/write open
-  if (_d->mode > 1) {
+  if (_d->access >= rw) {
     if (_d->load_missing) {
       _d->missing.load();
       _d->load_missing = false;
     }
-  }
-  // Open
-  if (_d->owner->open(_d->mode == 1, _d->mode != 1, _d->mode == 3) < 0) {
-    delete _d->owner;
-    _d->owner = NULL;
-    return -1;
+    if (_d->owner->open(true, _d->access == quiet_rw) < 0) {
+      delete _d->owner;
+      _d->owner = NULL;
+      return -1;
+    }
+  } else
+  // Read-only open
+  {
+    if (_d->owner->hold() < 0) {
+      delete _d->owner;
+      _d->owner = NULL;
+      return -1;
+    }
   }
   // Report and set temporary data path
-  switch (_d->mode) {
-    case 1:
+  switch (_d->access) {
+    case ro:
       out(verbose, msg_standard, _d->owner->name(), -1, "Database open r-o");
       break;
-    case 2:
+    case rw:
       out(verbose, msg_standard, _d->owner->name(), -1, "Database open r/w");
       // Set temp path inside client's directory
       _d->data.setTemp(Path(_d->owner->path(), "data"));
@@ -600,7 +616,7 @@ int Database::openClient(
 int Database::closeClient(
     bool            abort) {
   bool failed = (_d->owner->close(abort) < 0);
-  if (_d->mode < 3) {
+  if (_d->access < quiet_rw) {
     out(verbose, msg_standard, _d->owner->name(), -1, "Database closed");
   }
   delete _d->owner;

@@ -72,7 +72,7 @@ int main(void) {
   Node* list_node;
 
   cout << endl << "First operation" << endl;
-  rc = o.open(false, true, false);
+  rc = o.open(true, false);
   if (rc) {
     cout << "Failed to open: " << rc << endl;
     return 0;
@@ -100,7 +100,7 @@ int main(void) {
 
 
   cout << endl << "Update" << endl;
-  rc = o.open(false, true, false);
+  rc = o.open(true, false);
   if (rc) {
     cout << "Failed to open: " << rc << endl;
     return 0;
@@ -128,7 +128,7 @@ int main(void) {
 
 
   cout << endl << "Abort client" << endl;
-  rc = o.open(false, true, false);
+  rc = o.open(true, false);
   if (rc) {
     cout << "Failed to open: " << rc << endl;
     return 0;
@@ -156,7 +156,7 @@ int main(void) {
 
 
   cout << endl << "Abort backup" << endl;
-  rc = o.open(false, true, false);
+  rc = o.open(true, false);
   if (rc) {
     cout << "Failed to open: " << rc << endl;
     return 0;
@@ -186,7 +186,7 @@ int main(void) {
   hbackup::abort(0xffff);
 
   cout << endl << "Recover client" << endl;
-  rc = o.open(false, false, false);
+  rc = o.open(false, false);
   if (rc) {
     cout << "Failed to open: " << rc << endl;
     return 0;
@@ -208,7 +208,7 @@ int main(void) {
     journal.open("w");
     journal.close();
   }
-  rc = o.open(false, false, false);
+  rc = o.open(false, false);
   if (rc) {
     cout << "Failed to open: " << rc << endl;
     return 0;
@@ -232,7 +232,7 @@ int main(void) {
     system("head -1 test_db/client/journal2 > test_db/client/journal");
     system("rm test_db/client/journal2");
   }
-  rc = o.open(false, false, false);
+  rc = o.open(false, false);
   if (rc) {
     cout << "Failed to open: " << rc << endl;
     return 0;

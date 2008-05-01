@@ -35,11 +35,12 @@ public:
   const char* name() const;
   const char* path() const;
   time_t expiration() const;
-  int open(
-    bool            read_only  = false,   // Open for read only
+  int hold() const;                       // Open for read only
+  int release() const;                    // Close when open for read only
+  int open(                               // Open for read and write
     bool            initialize = false,   // Initialize if does not exist
     bool            check      = false);  // Check only (no need to close)
-  int close(
+  int close(                              // Close, whatever how open
     bool            teardown);
   // Set progress callback function
   void setProgressCallback(progress_f progress);
@@ -58,7 +59,7 @@ public:
     char**          db_path,              // The path found
     Node**          db_node = NULL) const;// The metadata returned
   int getChecksums(
-    list<string>&   checksums);           // List to add checksums
+    list<string>&   checksums) const;     // List to add checksums
 };
 
 }
