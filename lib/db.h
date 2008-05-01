@@ -62,7 +62,7 @@ public:
     time_t          date  = 0);           // The date to restore (all)
   // Scan database for missing/obsolete data
   int  scan(
-    bool            remove   = true);     // Whether to remove obsolete data
+    bool            remove   = true) const; // Whether to remove obsolete data
   // Scan database for corrupted data
   int  check(
     bool            remove   = false) const;// Whether to remove corrupted data

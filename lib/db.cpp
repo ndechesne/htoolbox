@@ -453,7 +453,7 @@ int Database::restore(
 }
 
 int Database::scan(
-    bool            rm_obsolete) {
+    bool            rm_obsolete) const {
   // Get checksums from list
   list<string> list_sums;
   list<string> clients;
