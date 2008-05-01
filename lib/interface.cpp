@@ -85,8 +85,7 @@ struct HBackup::Private {
   Filters           filters;
 };
 
-HBackup::HBackup() {
-  _d               = new Private;
+HBackup::HBackup() : _d(new Private) {
   _d->db           = NULL;
   _d->selected_clients.clear();
   _d->clients.clear();

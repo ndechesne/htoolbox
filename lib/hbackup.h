@@ -109,8 +109,8 @@ namespace hbackup {
     configuration files to behave as expected.
   */
   class HBackup {
-    struct        Private;
-    Private*      _d;
+    struct          Private;
+    Private* const  _d;
     //! \brief Read configuration file for server-mode backup, open database
     /*!
       Reads the file specified by config_path opens the backup database in

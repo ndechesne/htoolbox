@@ -191,8 +191,7 @@ int Data::crawl_recurse(
   return failed ? -1 : 0;
 }
 
-Data::Data() {
-  _d       = new Private;
+Data::Data() : _d(new Private) {
   _d->path = NULL;
   _d->temp = NULL;
   // Reset progress callback function

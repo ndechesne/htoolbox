@@ -302,8 +302,8 @@ public:
 };
 
 class Stream : public File {
-  struct          Private;
-  Private*        _d;
+  struct            Private;
+  Private* const    _d;
   // Convert MD5 to readable string
   static void md5sum(char* out, const unsigned char* in, int bytes);
   ssize_t write_all(

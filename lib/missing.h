@@ -23,7 +23,7 @@ namespace hbackup {
 
 class Missing {
   struct            Private;
-  Private*          _d;
+  Private* const    _d;
 public:
   Missing();
   ~Missing();

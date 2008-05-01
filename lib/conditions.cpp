@@ -42,8 +42,7 @@ struct Condition::Private {
 Condition::Condition(
     Type            type,
     const Filter*   filter,
-    bool            negated) {
-  _d            = new Private;
+    bool            negated) : _d(new Private) {
   _d->type      = type;
   _d->negated   = negated;
   _d->filter    = filter;
@@ -54,8 +53,7 @@ Condition::Condition(
 Condition::Condition(
     Type            type,
     char            file_type,
-    bool            negated) {
-  _d            = new Private;
+    bool            negated) : _d(new Private) {
   _d->type      = type;
   _d->negated   = negated;
   _d->string    = NULL;
@@ -66,8 +64,7 @@ Condition::Condition(
 Condition::Condition(
     Type            type,
     mode_t          value,
-    bool            negated) {
-  _d            = new Private;
+    bool            negated) : _d(new Private) {
   _d->type      = type;
   _d->negated   = negated;
   _d->string    = NULL;
@@ -78,8 +75,7 @@ Condition::Condition(
 Condition::Condition(
     Type            type,
     long long       value,
-    bool            negated) {
-  _d            = new Private;
+    bool            negated) : _d(new Private) {
   _d->type      = type;
   _d->negated   = negated;
   _d->string    = NULL;
@@ -90,8 +86,7 @@ Condition::Condition(
 Condition::Condition(
     Type            type,
     const char*     string,
-    bool            negated) {
-  _d            = new Private;
+    bool            negated) : _d(new Private) {
   _d->type      = type;
   _d->negated   = negated;
   _d->string    = strdup(string);

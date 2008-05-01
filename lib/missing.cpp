@@ -37,8 +37,7 @@ struct Missing::Private {
   progress_f        progress;
 };
 
-Missing::Missing() {
-  _d           = new Private;
+Missing::Missing() : _d(new Private) {
   _d->path     = NULL;
   _d->progress = NULL;
 }

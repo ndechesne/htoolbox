@@ -54,7 +54,7 @@ public:
   };
 private:
   struct            Private;
-  Private*          _d;
+  Private* const    _d;
 public:
   // Sub-filter type-based condition
   Condition(

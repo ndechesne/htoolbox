@@ -22,8 +22,8 @@
 namespace hbackup {
 
 class Database {
-  struct        Private;
-  Private*      _d;
+  struct            Private;
+  Private* const    _d;
   // Try to lock DB
   int  lock();
   // Unlock DB

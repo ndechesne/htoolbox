@@ -23,7 +23,7 @@ namespace hbackup {
 
 class Owner {
   struct            Private;
-  Private*          _d;
+  Private* const    _d;
   int finishOff(
     bool            recovery);            // Data is being recovered
 public:

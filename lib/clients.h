@@ -39,7 +39,7 @@ public:
 
 class Client {
   struct            Private;
-  Private*          _d;
+  Private* const    _d;
   int mountPath(
     const string&   backup_path,
     string&         path);

@@ -388,8 +388,7 @@ Stream* Stream::select(
   return NULL;
 }
 
-Stream::Stream(Path path) : File(path) {
-  _d = new Private;
+Stream::Stream(Path path) : File(path), _d(new Private) {
   _d->fd                = -1;
   _d->progress_callback = NULL;
   _d->cancel_callback   = NULL;

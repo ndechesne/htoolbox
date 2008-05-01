@@ -115,8 +115,7 @@ void Database::unlock() {
   File(Path(_d->path, "lock")).remove();
 }
 
-Database::Database(const char* path) {
-  _d           = new Private;
+Database::Database(const char* path) : _d(new Private) {
   _d->path     = strdup(path);
   _d->access   = no;
   // Reset progress callback function

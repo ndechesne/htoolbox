@@ -154,8 +154,7 @@ int Owner::finishOff(
 Owner::Owner(
     const char*     path,
     const char*     name,
-    time_t          expiration) {
-  _d             = new Private;
+    time_t          expiration) : _d(new Private) {
   _d->path       = strdup(Path(path, name));
   _d->name       = strdup(name);
   _d->original   = NULL;

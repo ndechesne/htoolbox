@@ -22,8 +22,8 @@
 namespace hbackup {
 
 class Data {
-  struct        Private;
-  Private*      _d;
+  struct            Private;
+  Private* const    _d;
 protected: // So I can test them
   // Get path for given checksum
   int getDir(

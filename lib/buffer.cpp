@@ -32,11 +32,11 @@ struct Buffer::Private {
   bool full;
 };
 
-Buffer::Buffer(size_t size) {
+Buffer::Buffer(size_t size) : _d(new Private) {
   if (size > 0) {
     create(size);
   } else {
-    _d = NULL;
+    _d->buffer = NULL;
   }
 }
 
@@ -44,10 +44,10 @@ Buffer::~Buffer() {
   if (exists()) {
     destroy();
   }
+  delete _d;
 }
 
 void Buffer::create(size_t size) {
-  _d = new Private;
   _d->buffer = (char*) malloc(size);
   _d->end    = &_d->buffer[size];
   _d->writer = _d->buffer;
@@ -58,8 +58,7 @@ void Buffer::create(size_t size) {
 
 void Buffer::destroy() {
   free(_d->buffer);
-  delete _d;
-  _d = NULL;
+  _d->buffer = NULL;
 }
 
 void Buffer::empty() {
@@ -70,7 +69,7 @@ void Buffer::empty() {
 }
 
 bool Buffer::exists() const {
-  return _d != NULL;
+  return _d->buffer != NULL;
 }
 
 size_t Buffer::capacity() const {

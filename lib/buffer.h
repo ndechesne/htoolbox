@@ -24,8 +24,8 @@
 namespace hbackup {
 
 class Buffer {
-  struct          Private;
-  Private*        _d;
+  struct            Private;
+  Private* const    _d;
 public:
   Buffer(size_t size = 0);
   ~Buffer();

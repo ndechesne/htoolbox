@@ -335,8 +335,7 @@ int Client::readConfig(
   return failed ? -1 : 0;
 }
 
-Client::Client(const string& name, const string& subset) {
-  _d = new Private;
+Client::Client(const string& name, const string& subset) : _d(new Private) {
   _d->name              = name;
   _d->subset_server     = subset;
   _d->host_or_ip        = name;

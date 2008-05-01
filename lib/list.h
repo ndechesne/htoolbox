@@ -22,8 +22,8 @@
 namespace hbackup {
 
 class List : public Stream {
-  struct          Private;
-  Private*        _d;
+  struct            Private;
+  Private* const    _d;
   // Buffer relevant line
   ssize_t fetchLine(bool use_found = false);
   // Decode metadata from current line
