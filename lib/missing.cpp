@@ -62,7 +62,7 @@ int Missing::close() {
   int  count  = _d->data.size();
   if (_d->modified) {
     // Save list of missing items
-    out(info, msg_standard, "Missing checksums list modified");
+    out(info, msg_standard, "Missing checksums list updated");
     Stream missing_list((path + ".part").c_str());
     if (missing_list.open("w")) {
       out(error, msg_errno, "Saving missing checksums list", errno);

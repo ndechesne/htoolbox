@@ -5437,7 +5437,7 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Missing checksums list modified
+Missing checksums list updated
 List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
@@ -5501,7 +5501,7 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Missing checksums list modified
+Missing checksums list updated
 List of missing checksums contains 4 item(s)
 Database closed
 
@@ -5645,7 +5645,7 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Missing checksums list modified
+Missing checksums list updated
 List of missing checksums contains 4 item(s)
 Database closed
 Scan and remove
@@ -5719,7 +5719,7 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Missing checksums list modified
+Missing checksums list updated
 List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
@@ -5783,7 +5783,7 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Missing checksums list modified
+Missing checksums list updated
 List of missing checksums contains 4 item(s)
 Database closed
 
@@ -5927,7 +5927,7 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Missing checksums list modified
+Missing checksums list updated
 List of missing checksums contains 4 item(s)
 Database closed
 Scan and remove
@@ -6001,7 +6001,7 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Missing checksums list modified
+Missing checksums list updated
 List of missing checksums contains 4 item(s)
 Database closed
 Just scan again
@@ -6065,7 +6065,7 @@ Warning: Missing checksum(s): 4
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
  -> b90f8fa56ea1d39881d4a199c7a81d35-0
  -> fef51838cd3cfe8ed96355742eb71fbd-0
-Missing checksums list modified
+Missing checksums list updated
 List of missing checksums contains 4 item(s)
 Database closed
 
@@ -6317,7 +6317,7 @@ Database modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported: ssh
-Missing checksums list modified
+Missing checksums list updated
 List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file: etc/hbackup.conf
@@ -6689,7 +6689,7 @@ Checksum(s) with data:
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Warning: Missing checksum(s): 1
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
-Missing checksums list modified
+Missing checksums list updated
 List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file: etc/hbackup.conf
