@@ -127,7 +127,6 @@ List clients (empty DB path)
 Error: Given DB path does not contain a database: test_db
 Backup, DB missing
  -> Reading configuration file: etc/hbackup.conf
-Configuration:
  -> DB path: test_db
  -> Clients:
  --> Client: aClient
@@ -199,7 +198,6 @@ Backing up in server mode
 Error: Given DB path does not exist: test_db
 Typical backup, initialize DB
  -> Reading configuration file: etc/hbackup.conf
-Configuration:
  -> DB path: test_db
  -> Clients:
  --> Client: aClient
@@ -290,8 +288,7 @@ Database closed: aClient.vista
  -> umount -fl test_db/.mount
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
@@ -332,8 +329,7 @@ Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -360,8 +356,7 @@ Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
@@ -399,8 +394,7 @@ Database modified: myClient.xp
 Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
@@ -545,7 +539,6 @@ Error: other: Protocol not supported: ssh
 Database closed
 Specify clients
  -> Reading configuration file: etc/hbackup.conf
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> client.xp
@@ -620,8 +613,7 @@ Backing up in server mode
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
@@ -656,8 +648,7 @@ Backing up path: C:/Test Dir
 Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
@@ -720,7 +711,6 @@ Backing up path: test2
 Database closed: myhost
 Database closed
 User-mode backup
-Configuration:
  -> DB path: test_user/.hbackup
  -> Selected clients:
  --> localhost
@@ -732,8 +722,7 @@ Configuration:
 Backing up in user mode
 Database initialized: test_user/.hbackup
 Database open in read/write mode
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: localhost
  -> Client: localhost
  --> Protocol: file
  --> Config: test_user/.hbackup/config
@@ -760,25 +749,9 @@ Database modified: localhost
 Database closed: localhost
 Database closed
 User-mode backup: upper verbosity level
-Configuration:
- -> DB path: test_user/.hbackup
- -> Selected clients:
- --> localhost
- -> Clients:
- --> Client: localhost
- ---> Protocol: file
- ---> Config: test_user/.hbackup/config
- ---> Expiry: none
 Backing up in user mode
 Database open in read/write mode
- -> Reading client configuration file
-Configuration:
- -> Client: localhost
- --> Protocol: file
- --> Config: test_user/.hbackup/config
- --> Expiry: none
- --> Paths: 
- ---> Path: test_user/testuser
+ -> Reading client configuration file: localhost
 Reading list of missing checksums
 List created: localhost
 Database open r/w: localhost
@@ -805,7 +778,6 @@ A       test_user/testuser/subdir2/f4.txt
 User-mode backup: quiet
 Fix DB
  -> Reading configuration file: etc/hbackup.conf
-Configuration:
  -> DB path: test_db
  -> Clients:
  --> Client: aClient
@@ -878,7 +850,6 @@ Database open in read/write mode
 Database closed
 Scan DB
  -> Reading configuration file: etc/hbackup.conf
-Configuration:
  -> DB path: test_db
  -> Clients:
  --> Client: aClient
@@ -1010,7 +981,6 @@ Checksum(s) with data:
 Database closed
 Check DB
  -> Reading configuration file: etc/hbackup.conf
-Configuration:
  -> DB path: test_db
  -> Clients:
  --> Client: aClient
@@ -1104,7 +1074,6 @@ List clients
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Clients:
  --> Client: aClient
@@ -1184,7 +1153,6 @@ List paths in myhost
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -1265,7 +1233,6 @@ List paths in myhost under test2/
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -1350,7 +1317,6 @@ List paths in myhost under test1/cvs
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -1434,7 +1400,6 @@ List paths in both myhost and aClient.vista
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> aClient.vista
@@ -1519,7 +1484,6 @@ List paths in dual-boot client myClient
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myClient
@@ -1603,7 +1567,6 @@ List paths in all clients
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> aClient.vista
@@ -1700,7 +1663,6 @@ Restore a file
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -1780,7 +1742,6 @@ Restore all data in a client/dir path that's not by itself in DB
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -1888,7 +1849,6 @@ Restore all data in a client/dir path
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -1979,7 +1939,6 @@ Restore all data in a client
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost

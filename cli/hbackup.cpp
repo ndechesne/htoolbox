@@ -358,10 +358,7 @@ int main(int argc, char **argv) {
         hbackup.addClient(i->c_str());
       }
     }
-    if (verbose_level >= hbackup::verbose) {
-      cout << "Configuration:" << endl;
-      hbackup.show(1);
-    }
+    hbackup.show(1);
     // Fix any interrupted backup
     if (fixSwitch.getValue()) {
       if (verbose_level >= hbackup::info) {

@@ -178,7 +178,7 @@ void Missing::show() const {
     s << "Missing checksum(s): " << _d->data.size();
     out(warning, msg_standard, s.str().c_str());
     for (unsigned int i = 0; i < _d->data.size(); i++) {
-      out(verbose, msg_standard, _d->data[i].c_str(), 1);
+      out(debug, msg_standard, _d->data[i].c_str(), 1);
     }
   }
 }

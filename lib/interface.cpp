@@ -519,24 +519,24 @@ int HBackup::restore(
 
 void HBackup::show(int level) const {
   if (_d->db == NULL) {
-    out(verbose, msg_standard, "DB path not set", level);
+    out(debug, msg_standard, "DB path not set", level);
   } else {
-    out(verbose, msg_standard, _d->db->path(), level, "DB path");
+    out(debug, msg_standard, _d->db->path(), level, "DB path");
   }
   if (! _d->selected_clients.empty()) {
-    out(verbose, msg_standard, "Selected clients:", level);
+    out(debug, msg_standard, "Selected clients:", level);
     for (list<string>::iterator client = _d->selected_clients.begin();
         client != _d->selected_clients.end(); client++) {
-      out(verbose, msg_standard, client->c_str(), level + 1);
+      out(debug, msg_standard, client->c_str(), level + 1);
     }
   }
   if (! _d->clients.empty()) {
-    out(verbose, msg_standard, "Clients:", level);
+    out(debug, msg_standard, "Clients:", level);
     for (list<Client*>::iterator client = _d->clients.begin();
         client != _d->clients.end(); client++) {
       (*client)->show(level + 1);
       if (! (*client)->subset().empty()) {
-        out(verbose, msg_standard, (*client)->subset().c_str(), level + 2,
+        out(debug, msg_standard, (*client)->subset().c_str(), level + 2,
           "Required subset");
       }
     }

@@ -164,8 +164,7 @@ Database closed
 Database open in read/write mode
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -200,7 +199,7 @@ Database closed: myClient
  -> umount -fl test_db/mount
 Trying client 'myClient2' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM //myClient/C$ test_db/mount
- -> Reading client configuration file
+ -> Reading client configuration file: myClient2
 Error: Cannot decode decimal value
 Error: test_db/mount/Backup/Backup2.LST: 8: Failed to add condition
 Error: Cannot decode decimal value
@@ -247,8 +246,7 @@ Database closed
  --> Expiry: none
 Database open in read/write mode
 Trying client 'testhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: testhost
  -> Client: testhost
  --> Protocol: file
  --> Hostname: localhost
@@ -395,8 +393,7 @@ Database closed
  --> Expiry: none
 Database open in read/write mode
 Trying client 'testhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: testhost
  -> Client: testhost
  --> Protocol: file
  --> Config: etc/localhost.list
@@ -465,7 +462,7 @@ Database closed
  --> Expiry: none
 Database open in read/write mode
 Trying client 'testhost' using protocol 'file'
- -> Reading client configuration file
+ -> Reading client configuration file: testhost
 Error: etc/localhost.list: 30: Path inside another
 Database closed
 >List 1 client(s):
@@ -475,7 +472,7 @@ Database closed
  --> Expiry: none
 Database open in read/write mode
 Trying client 'testhost' using protocol 'file'
- -> Reading client configuration file
+ -> Reading client configuration file: testhost
 Error: etc/localhost.list2: 12: Path inside another
 Error: etc/localhost.list2: 30: Path inside another
 backup failed
@@ -485,8 +482,7 @@ Test: missing clients
 Database open in read/write mode
 Trying client 'myhost2' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost2
  -> Client: myhost2
  --> Protocol: smb
  --> Config: C:/Backup/testhost2.list
@@ -512,8 +508,7 @@ Database closed
 Database open in read/write mode
 Trying client 'myhost3' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost3
  -> Client: myhost3
  --> Protocol: nfs
  --> Config: /home/User/testhost3.list
@@ -537,8 +532,7 @@ Database closed: myhost3
 Database closed
 Database open in read/write mode
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Config: etc/testhost.list
@@ -649,8 +643,7 @@ Create list of clients
  --> Expiry: none
 Database open in read/write mode
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Config: etc/testhost.list
@@ -670,8 +663,7 @@ Backing up path: test1/cvs
 Database closed: myhost
 Trying client 'myhost2' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost2
  -> Client: myhost2
  --> Protocol: smb
  --> Config: C:/Backup/testhost2.list
@@ -686,8 +678,7 @@ Database closed: myhost2
  -> umount -fl test_db/mount
 Trying client 'myhost3' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost3
  -> Client: myhost3
  --> Protocol: nfs
  --> Config: /home/User/testhost3.list
@@ -716,8 +707,7 @@ Create list of clients
 Database open in read/write mode
 Trying client 'myhost2' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost2
  -> Client: myhost2
  --> Protocol: smb
  --> Config: C:/Backup/testhost2.list
@@ -733,8 +723,7 @@ Database closed: myhost2
  -> umount -fl test_db/mount
 Trying client 'myhost3' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost3
  -> Client: myhost3
  --> Protocol: nfs
  --> Config: /home/User/testhost3.list
@@ -762,8 +751,7 @@ Create list of clients
  --> Expiry: none
 Database open in read/write mode
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Config: etc/testhost.list
@@ -783,8 +771,7 @@ Backing up path: test1/cvs
 Database closed: myhost
 Trying client 'myhost3' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost3
  -> Client: myhost3
  --> Protocol: nfs
  --> Config: /home/User/testhost3.list
@@ -812,8 +799,7 @@ Create list of clients
  --> Expiry: none
 Database open in read/write mode
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Config: etc/testhost.list
@@ -833,8 +819,7 @@ Backing up path: test1/cvs
 Database closed: myhost
 Trying client 'myhost2' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost2
  -> Client: myhost2
  --> Protocol: smb
  --> Config: C:/Backup/testhost2.list
@@ -857,8 +842,7 @@ Second mount fails
 Database open in read/write mode
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -892,8 +876,7 @@ First mount fails
 Database open in read/write mode
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -923,8 +906,7 @@ Works again
 Database open in read/write mode
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -958,8 +940,7 @@ Test with dual boot client
 Database open in read/write mode
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb

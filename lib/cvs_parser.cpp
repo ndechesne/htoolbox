@@ -216,11 +216,11 @@ bool CvsParser::ignore(const Node& node) {
 void CvsParser::show(int level) {
   for (_i = _files.begin(); _i != _files.end(); _i++) {
     if (_i->type() == 'd') {
-      out(verbose, msg_standard, "D", level, _i->name());
+      out(debug, msg_standard, "D", level, _i->name());
     } else {
       stringstream mtime;
       mtime << _i->mtime();
-      out(verbose, msg_standard, mtime.str().c_str(), level, _i->name());
+      out(debug, msg_standard, mtime.str().c_str(), level, _i->name());
     }
   }
 }

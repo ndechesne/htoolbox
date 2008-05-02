@@ -286,5 +286,5 @@ void Condition::show(int level) const {
       out(error, msg_standard, "Unknown type", -1, "Condition");
       return;
   }
-  out(verbose, msg_standard, s.str().c_str(), level, "Condition");
+  out(debug, msg_standard, s.str().c_str(), level, "Condition");
 }

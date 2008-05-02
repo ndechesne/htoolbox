@@ -159,7 +159,7 @@ void SvnParser::show(int level) {
   for (_i = _files.begin(); _i != _files.end(); _i++) {
     stringstream type;
     type << _i->type();
-    out(verbose, msg_standard, type.str().c_str(), level, _i->name());
+    out(debug, msg_standard, type.str().c_str(), level, _i->name());
   }
 }
 

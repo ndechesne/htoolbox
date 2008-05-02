@@ -205,15 +205,15 @@ int ClientPath::parse(
 }
 
 void ClientPath::show(int level) const {
-  out(verbose, msg_standard, _path, level, "Path");
+  out(debug, msg_standard, _path, level, "Path");
   _filters.show(level + 1);
   _parsers.show(level + 1);
   if (_compress != NULL) {
-    out(verbose, msg_standard, _compress->name().c_str(), level + 1,
+    out(debug, msg_standard, _compress->name().c_str(), level + 1,
       "Compress filter");
   }
   if (_ignore != NULL) {
-    out(verbose, msg_standard, _ignore->name().c_str(), level + 1,
+    out(debug, msg_standard, _ignore->name().c_str(), level + 1,
       "Ignore filter");
   }
 }

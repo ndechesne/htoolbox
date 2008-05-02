@@ -346,10 +346,10 @@ void Config::clear() {
 }
 
 void Config::show() const {
-  out(verbose, msg_standard, "Items:");
+  out(debug, msg_standard, "Items:");
   _items_top.show(2);
 
-  out(verbose, msg_standard, "Lines:");
+  out(debug, msg_standard, "Lines:");
   ConfigLine* params;
   int level;
   while ((level = line(&params)) >= 0) {

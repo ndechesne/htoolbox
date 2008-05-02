@@ -198,7 +198,8 @@ int Client::readConfig(
     path->add(new ConfigItem("compress", 0, 1, 1));
   }
 
-  out(verbose, msg_standard, "Reading client configuration file", 1);
+  out(verbose, msg_standard, internalName().c_str(), 1,
+    "Reading client configuration file");
   if (config.read(config_file,
       Stream::flags_dos_catch | Stream::flags_accept_cr_lf) >= 0) {
     // Read client configuration file
@@ -329,7 +330,6 @@ int Client::readConfig(
     config_file.close();
   }
   if (! failed) {
-    out(verbose, msg_standard, "Configuration:");
     show(1);
   }
   return failed ? -1 : 0;
@@ -571,13 +571,13 @@ int Client::backup(
 }
 
 void Client::show(int level) const {
-  out(verbose, msg_standard, _d->name.c_str(), level, "Client");
+  out(debug, msg_standard, _d->name.c_str(), level++, "Client");
   if (! _d->subset_client.empty()) {
-    out(verbose, msg_standard, _d->subset_client.c_str(), level + 1, "Subset");
+    out(debug, msg_standard, _d->subset_client.c_str(), level, "Subset");
   }
-  out(verbose, msg_standard, _d->protocol.c_str(), level + 1, "Protocol");
+  out(debug, msg_standard, _d->protocol.c_str(), level, "Protocol");
   if (_d->host_or_ip != _d->name) {
-    out(verbose, msg_standard, _d->host_or_ip.c_str(), level + 1, "Hostname");
+    out(debug, msg_standard, _d->host_or_ip.c_str(), level, "Hostname");
   }
   if (_d->options.size() > 0) {
     stringstream s;
@@ -585,10 +585,10 @@ void Client::show(int level) const {
         i != _d->options.end(); i++ ) {
       s << i->option() << " ";
     }
-    out(verbose, msg_standard, s.str().c_str(), level + 1, "Options");
+    out(debug, msg_standard, s.str().c_str(), level, "Options");
   }
   if (_d->list_file.length() != 0) {
-    out(verbose, msg_standard, _d->list_file, level + 1, "Config");
+    out(debug, msg_standard, _d->list_file, level, "Config");
   }
   {
     stringstream s;
@@ -597,14 +597,14 @@ void Client::show(int level) const {
     } else {
       s << "none";
     }
-    out(verbose, msg_standard, s.str().c_str(), level + 1, "Expiry");
+    out(debug, msg_standard, s.str().c_str(), level, "Expiry");
   }
-  _d->filters.show(level + 1);
+  _d->filters.show(level);
   if (_d->paths.size() > 0) {
-    out(verbose, msg_standard, "", level + 1, "Paths");
+    out(debug, msg_standard, "", level++, "Paths");
     for (list<ClientPath*>::iterator i = _d->paths.begin();
         i != _d->paths.end(); i++) {
-      (*i)->show(level + 2);
+      (*i)->show(level);
     }
   }
 }

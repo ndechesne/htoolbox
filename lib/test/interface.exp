@@ -142,8 +142,7 @@ Test: check config
  --> Filter: or test_or
  ---> Condition: filter backup
  ---> Condition: not size< 1000
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: localhost
  -> Client: localhost
  --> Protocol: file
  --> Config: test_user/.hbackup/config
@@ -242,8 +241,7 @@ Database closed: aClient.vista
  -> umount -fl test_db/.mount
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
@@ -284,8 +282,7 @@ Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -312,8 +309,7 @@ Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
@@ -351,8 +347,7 @@ Database modified: myClient.xp
 Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
@@ -575,8 +570,7 @@ Database closed: aClient.vista
  -> umount -fl test_db/.mount
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
@@ -611,8 +605,7 @@ Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -633,8 +626,7 @@ Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
@@ -666,8 +658,7 @@ Backing up path: C:/Test Dir
 Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
@@ -813,8 +804,7 @@ Database closed: aClient.vista
  -> umount -fl test_db/.mount
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
@@ -849,8 +839,7 @@ Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -871,8 +860,7 @@ Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
@@ -904,8 +892,7 @@ Backing up path: C:/Test Dir
 Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
@@ -1029,8 +1016,7 @@ Database modified: myhost
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
@@ -1065,8 +1051,7 @@ Backing up path: C:/Test Dir
 Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
@@ -2046,8 +2031,7 @@ Database closed: aClient.vista
  -> umount -fl test_db/.mount
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
@@ -2082,8 +2066,7 @@ Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -2104,8 +2087,7 @@ Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
@@ -2137,8 +2119,7 @@ Backing up path: C:/Test Dir
 Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
@@ -2275,8 +2256,7 @@ Test: specify clients
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
@@ -2312,8 +2292,7 @@ Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -2345,8 +2324,7 @@ Test: user-mode backup
  ----> Expiry: none
 Database initialized: test_user/.hbackup
 Database open in read/write mode
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: localhost
  -> Client: localhost
  --> Protocol: file
  --> Config: test_user/.hbackup/config
@@ -6154,8 +6132,7 @@ Database closed: aClient.vista
  -> umount -fl test_db/.mount
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
@@ -6190,8 +6167,7 @@ Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -6212,8 +6188,7 @@ Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
@@ -6245,8 +6220,7 @@ Backing up path: C:/Test Dir
 Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
@@ -6401,8 +6375,7 @@ Database closed: aClient.vista
  -> umount -fl test_db/.mount
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
@@ -6437,8 +6410,7 @@ Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -6459,8 +6431,7 @@ Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
@@ -6492,8 +6463,7 @@ Backing up path: C:/Test Dir
 Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
@@ -6773,8 +6743,7 @@ Database closed: aClient.vista
  -> umount -fl test_db/.mount
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
@@ -6809,8 +6778,7 @@ Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -6831,8 +6799,7 @@ Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
@@ -6864,8 +6831,7 @@ Backing up path: C:/Test Dir
 Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
