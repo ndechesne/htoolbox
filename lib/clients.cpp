@@ -125,7 +125,7 @@ int Client::mountPath(
   command += " " + share + " " + _d->mount_point;
 
   // Issue mount command
-  out(verbose, msg_standard, command.c_str(), 1);
+  out(debug, msg_standard, command.c_str(), 1);
   command += " > /dev/null 2>&1";
 
   int result = system(command.c_str());
@@ -143,7 +143,7 @@ int Client::umount() {
     string command = "umount -fl ";
 
     command += _d->mount_point;
-    out(verbose, msg_standard, command.c_str(), 1);
+    out(debug, msg_standard, command.c_str(), 1);
     _d->mounted = "";
     return system(command.c_str());
   }
@@ -198,7 +198,7 @@ int Client::readConfig(
     path->add(new ConfigItem("compress", 0, 1, 1));
   }
 
-  out(verbose, msg_standard, internalName().c_str(), 1,
+  out(debug, msg_standard, internalName().c_str(), 1,
     "Reading client configuration file");
   if (config.read(config_file,
       Stream::flags_dos_catch | Stream::flags_accept_cr_lf) >= 0) {

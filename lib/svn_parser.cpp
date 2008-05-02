@@ -64,7 +64,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) {
   _mode = mode;
 
   /* Fill in list of files */
-  out(verbose, msg_standard, "Parsing Subversion entries", 1);
+  out(debug, msg_standard, "Parsing Subversion entries", 1);
   string command = "svn status --no-ignore --non-interactive -N " + dir_path;
   FILE* fd = popen(command.c_str(), "r");
   if (fd != NULL) {

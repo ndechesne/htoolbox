@@ -184,7 +184,7 @@ int HBackup::readConfig(const char* config_path) {
   }
 
   /* Read configuration file */
-  out(verbose, msg_standard, config_path, 1, "Reading configuration file");
+  out(debug, msg_standard, config_path, 1, "Reading configuration file");
   int rc = config.read(config_file, Stream::flags_accept_cr_lf);
   config_file.close();
 

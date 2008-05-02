@@ -541,10 +541,10 @@ int Database::scan(
         i++) {
       if (i->size() != 0) {
         if (rm_obsolete) {
-          out(verbose, msg_standard, (_d->data.remove(i->c_str()) == 0) ?
+          out(debug, msg_standard, (_d->data.remove(i->c_str()) == 0) ?
             "removed" : "FAILED", 1, i->c_str());
         } else {
-          out(verbose, msg_standard, i->c_str(), 1);
+          out(debug, msg_standard, i->c_str(), 1);
         }
       }
     }

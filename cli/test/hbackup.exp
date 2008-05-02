@@ -751,7 +751,6 @@ Database closed
 User-mode backup: upper verbosity level
 Backing up in user mode
 Database open in read/write mode
- -> Reading client configuration file: localhost
 Reading list of missing checksums
 List created: localhost
 Database open r/w: localhost
