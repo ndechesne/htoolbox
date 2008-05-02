@@ -297,7 +297,6 @@ int Data::read(
   temp.setCancelCallback(aborting);
   data->setProgressCallback(_d->progress);
   if (temp.copy(*data)) {
-    out(error, msg_errno, "Copying read file", errno, data->path());
     failed = true;
   }
 
