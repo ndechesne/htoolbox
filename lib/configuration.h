@@ -127,6 +127,9 @@ public:
   int read(
     Stream&         stream,
     unsigned char   flags = 0);
+  // Write configuration to file
+  int write(
+    Stream&         stream) const;
   // Add a config item
   void add(ConfigItem* child)    { _items_top.add(child); }
   // Lines tree accessor

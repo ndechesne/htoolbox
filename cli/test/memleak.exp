@@ -181,7 +181,6 @@ Error: Given DB path does not contain a database: test_db
    main (hbackup.cpp:218)
 Backup, DB missing
  -> Reading configuration file: etc/hbackup.conf
-Configuration:
  -> DB path: test_db
  -> Clients:
  --> Client: aClient
@@ -259,7 +258,6 @@ Error: Given DB path does not exist: test_db
    main (hbackup.cpp:218)
 Typical backup, initialize DB
  -> Reading configuration file: etc/hbackup.conf
-Configuration:
  -> DB path: test_db
  -> Clients:
  --> Client: aClient
@@ -350,8 +348,7 @@ Database closed: aClient.vista
  -> umount -fl test_db/.mount
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
@@ -392,8 +389,7 @@ Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -420,8 +416,7 @@ Database closed: myClient
  -> umount -fl test_db/.mount
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
@@ -459,8 +454,7 @@ Database modified: myClient.xp
 Database closed: myClient.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
@@ -530,9 +524,9 @@ A       test1/cvs
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:57)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
-   main (hbackup.cpp:441)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
+   main (hbackup.cpp:438)
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
@@ -544,264 +538,264 @@ A       test1/cvs/CVS
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1141)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1184)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1187)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1627)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1633)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1633)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1620)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Use of uninitialised value of size 4
    deflate_slow (deflate.c:1083)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1096)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Use of uninitialised value of size 4
    deflate_slow (deflate.c:1122)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1122)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1649)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1649)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Use of uninitialised value of size 4
    deflate_slow (deflate.c:1655)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1669)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1600)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1602)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1605)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
  
  Use of uninitialised value of size 4
    compress_block (trees.c:1094)
    _tr_flush_block (trees.c:1000)
    deflate_slow (deflate.c:1704)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
@@ -842,16 +836,16 @@ A       test1/svn/.svn
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1141)
    deflate (deflate.c:822)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:783)
-   hbackup::Stream::close() (files.cpp:505)
-   hbackup::Data::write(char const*, char**, int) (data.cpp:366)
-   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:687)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:786)
+   hbackup::Stream::close() (files.cpp:506)
+   hbackup::Data::write(char const*, char**, int) (data.cpp:364)
+   hbackup::Database::add(hbackup::Database::OpData const&) (db.cpp:702)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:105)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
 Adding compressed file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A z     test1/svn/.svn/entries
 A       test1/svn/dirbad
@@ -904,7 +898,6 @@ Database closed
    main (hbackup.cpp:218)
 Specify clients
  -> Reading configuration file: etc/hbackup.conf
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> client.xp
@@ -979,8 +972,7 @@ Backing up in server mode
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
@@ -1015,8 +1007,7 @@ Backing up path: C:/Test Dir
 Database closed: client.xp
  -> umount -fl test_db/.mount
 Trying client 'myhost' using protocol 'file'
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
@@ -1055,9 +1046,9 @@ Backing up path: test1
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:57)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:117)
    hbackup::ClientPath::parse(hbackup::Database&, char const*) (paths.cpp:200)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:553)
-   hbackup::HBackup::backup(bool) (interface.cpp:463)
-   main (hbackup.cpp:441)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, bool) (clients.cpp:552)
+   hbackup::HBackup::backup(bool) (interface.cpp:462)
+   main (hbackup.cpp:438)
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
@@ -1098,7 +1089,6 @@ Database closed
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:218)
 User-mode backup
-Configuration:
  -> DB path: test_user/.hbackup
  -> Selected clients:
  --> localhost
@@ -1110,8 +1100,7 @@ Configuration:
 Backing up in user mode
 Database initialized: test_user/.hbackup
 Database open in read/write mode
- -> Reading client configuration file
-Configuration:
+ -> Reading client configuration file: localhost
  -> Client: localhost
  --> Protocol: file
  --> Config: test_user/.hbackup/config
@@ -1145,7 +1134,6 @@ Database closed
    main (hbackup.cpp:218)
 Fix DB
  -> Reading configuration file: etc/hbackup.conf
-Configuration:
  -> DB path: test_db
  -> Clients:
  --> Client: aClient
@@ -1224,7 +1212,6 @@ Database closed
    main (hbackup.cpp:218)
 Scan DB
  -> Reading configuration file: etc/hbackup.conf
-Configuration:
  -> DB path: test_db
  -> Clients:
  --> Client: aClient
@@ -1362,7 +1349,6 @@ Database closed
    main (hbackup.cpp:218)
 Check DB
  -> Reading configuration file: etc/hbackup.conf
-Configuration:
  -> DB path: test_db
  -> Clients:
  --> Client: aClient
@@ -1462,7 +1448,6 @@ List clients
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Clients:
  --> Client: aClient
@@ -1549,9 +1534,9 @@ Database closed
  14 bytes in 1 blocks are definitely lost in loss record 3 of 4
    malloc (vg_replace_malloc.c:207)
    strdup (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:208)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:207)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
  
  
@@ -1559,15 +1544,14 @@ Database closed
    malloc (vg_replace_malloc.c:207)
    vasprintf (in /lib/tls/i686/cmov/libc-2.7.so)
    asprintf (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:209)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:208)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
 Try to list paths in both myhost and smb://client (fails)
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -1655,9 +1639,9 @@ Database closed
  14 bytes in 1 blocks are definitely lost in loss record 3 of 4
    malloc (vg_replace_malloc.c:207)
    strdup (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:208)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:207)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
  
  
@@ -1665,15 +1649,14 @@ Database closed
    malloc (vg_replace_malloc.c:207)
    vasprintf (in /lib/tls/i686/cmov/libc-2.7.so)
    asprintf (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:209)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:208)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
 List paths in myhost
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -1761,9 +1744,9 @@ Database closed
  14 bytes in 1 blocks are definitely lost in loss record 3 of 4
    malloc (vg_replace_malloc.c:207)
    strdup (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:208)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:207)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
  
  
@@ -1771,15 +1754,14 @@ Database closed
    malloc (vg_replace_malloc.c:207)
    vasprintf (in /lib/tls/i686/cmov/libc-2.7.so)
    asprintf (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:209)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:208)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
 List paths in myhost under test2/
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -1871,9 +1853,9 @@ Database closed
  14 bytes in 1 blocks are definitely lost in loss record 3 of 4
    malloc (vg_replace_malloc.c:207)
    strdup (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:208)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:207)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
  
  
@@ -1881,15 +1863,14 @@ Database closed
    malloc (vg_replace_malloc.c:207)
    vasprintf (in /lib/tls/i686/cmov/libc-2.7.so)
    asprintf (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:209)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:208)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
 List paths in myhost under test1/cvs
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -1980,9 +1961,9 @@ Database closed
  14 bytes in 1 blocks are definitely lost in loss record 3 of 4
    malloc (vg_replace_malloc.c:207)
    strdup (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:208)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:207)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
  
  
@@ -1990,15 +1971,14 @@ Database closed
    malloc (vg_replace_malloc.c:207)
    vasprintf (in /lib/tls/i686/cmov/libc-2.7.so)
    asprintf (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:209)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:208)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
 Restore a file
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -2085,9 +2065,9 @@ Database closed
  14 bytes in 1 blocks are definitely lost in loss record 3 of 4
    malloc (vg_replace_malloc.c:207)
    strdup (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:208)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:207)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
  
  
@@ -2095,15 +2075,14 @@ Database closed
    malloc (vg_replace_malloc.c:207)
    vasprintf (in /lib/tls/i686/cmov/libc-2.7.so)
    asprintf (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:209)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:208)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
 Restore all data in a client/dir path that's not by itself in DB
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -2218,9 +2197,9 @@ Database closed
  14 bytes in 1 blocks are definitely lost in loss record 3 of 4
    malloc (vg_replace_malloc.c:207)
    strdup (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:208)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:207)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
  
  
@@ -2228,15 +2207,14 @@ Database closed
    malloc (vg_replace_malloc.c:207)
    vasprintf (in /lib/tls/i686/cmov/libc-2.7.so)
    asprintf (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:209)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:208)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
 Restore all data in a client/dir path
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -2334,9 +2312,9 @@ Database closed
  14 bytes in 1 blocks are definitely lost in loss record 3 of 4
    malloc (vg_replace_malloc.c:207)
    strdup (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:208)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:207)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
  
  
@@ -2344,15 +2322,14 @@ Database closed
    malloc (vg_replace_malloc.c:207)
    vasprintf (in /lib/tls/i686/cmov/libc-2.7.so)
    asprintf (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:209)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:208)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
 Restore all data in a client
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
-Configuration:
  -> DB path: test_db
  -> Selected clients:
  --> myhost
@@ -2476,9 +2453,9 @@ Database closed
  14 bytes in 1 blocks are definitely lost in loss record 3 of 4
    malloc (vg_replace_malloc.c:207)
    strdup (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:208)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:207)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
  
  
@@ -2486,9 +2463,9 @@ Database closed
    malloc (vg_replace_malloc.c:207)
    vasprintf (in /lib/tls/i686/cmov/libc-2.7.so)
    asprintf (in /lib/tls/i686/cmov/libc-2.7.so)
-   hbackup::Data::open(char const*, bool) (data.cpp:209)
-   hbackup::Database::open(bool, bool) (db.cpp:154)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:481)
+   hbackup::Data::open(char const*, bool) (data.cpp:208)
+   hbackup::Database::open(bool, bool) (db.cpp:162)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:480)
    main (hbackup.cpp:326)
 Broken configuration
  -> Reading configuration file: etc/broken.conf

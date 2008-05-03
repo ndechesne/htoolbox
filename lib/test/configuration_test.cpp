@@ -176,6 +176,32 @@ int main(void) {
   // show debug
   config->show();
 
+  cout << "Test: configuration save" << endl;
+
+  // save configuration
+  Stream save_config("etc/config.gz");
+  if (save_config.open("w", 5) == 0) {
+    if (config->write(save_config)) {
+      cout << "failed to save it!" << endl;
+    }
+    save_config.close();
+  } else {
+    cout << "failed to open it!" << endl;
+  }
+
+  // clear list
+  config->clear();
+
+  if (save_config.open("r", 1) == 0) {
+    config->read(save_config);
+    save_config.close();
+  } else {
+    cout << "failed to open it!" << endl;
+  }
+
+  // show debug
+  config->show();
+
   // clear list
   config->clear();
 

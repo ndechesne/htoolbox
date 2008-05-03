@@ -115,6 +115,89 @@ Lines:
 78:       compress compress_m
 79:       ignore backup
 80:       parser svn modified
+Test: configuration save
+Items:
+  client, occ.: min = 1, no max; params: min params = 1, max params = 2
+    config, occ.: optional, max = 1; params: min params = 1, max params = 1
+    expire, occ.: optional, max = 1; params: min params = 1, max params = 1
+    filter, occ.: optional, no max; params: min params = 2, max params = 2
+      condition, occ.: min = 1, no max; params: min params = 2, max params = 2
+    hostname, occ.: optional, max = 1; params: min params = 1, max params = 1
+    option, occ.: optional, no max; params: min params = 1, max params = 2
+    path, occ.: optional, no max; params: min params = 1, max params = 1
+      compress, occ.: optional, max = 1; params: min params = 1, max params = 1
+      filter, occ.: optional, no max; params: min params = 2, max params = 2
+        condition, occ.: min = 1, no max; params: min params = 2, max params = 2
+      ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
+      parser, occ.: optional, no max; params: min params = 1, max params = 2
+    protocol, occ.: min = 1, max = 1; params: min params = 1, max params = 1
+    timeout_nowarning, occ.: optional, max = 1; params: min params = 0, max params = 0
+  db, occ.: optional, max = 1; params: min params = 1, max params = 1
+  filter, occ.: optional, no max; params: min params = 2, max params = 2
+    condition, occ.: min = 1, no max; params: min params = 2, max params = 2
+  trash, occ.: optional, max = 1; params: min params = 1, max params = 1
+Lines:
+1:   db test_db
+2:   filter all backup
+3:     condition type file
+4:     condition path_end ~
+5:   filter any test_or
+6:     condition filter backup
+7:     condition !size< 1000
+8:   client myClient xp
+9:     protocol smb
+10:     config C:\Backup\Backup.LST
+11:   client myClient
+12:     protocol nfs
+13:     hostname myClient
+14:     config /home/User/hbackup.list
+15:   client other
+16:     protocol ssh
+17:     hostname otherClient
+18:     config /home/backup/Backup.list
+19:     filter and subdir
+20:       condition path_start subdir
+21:       condition !size< 100
+22:     filter and bigfile
+23:       condition size>= 10
+24:       condition type file
+25:     expire 1
+26:     path test2//
+27:     path test1
+28:       filter and not_object
+29:         condition !path_end .o
+30:       filter or to_be_ignored
+31:         condition filter subdir
+32:         condition filter backup
+33:         condition !filter not_object
+34:       ignore to_be_ignored
+35:       compress bigfile
+36:       parser cvs controlled
+37:       parser svn modified
+38:   client myhost
+39:     protocol file
+40:     hostname myhost.mynetwork.lan
+41:     timeout_nowarning
+42:     config etc/localhost.list
+43:     expire 1
+44:   client client xp
+45:     protocol smb
+46:     option username Myself
+47:     option password flesyM
+48:     option nocase
+49:     hostname myClient
+50:     config C:\Backup\Backup.LST
+51:   client aClient vista
+52:     protocol smb
+53:     filter and huge_file
+54:       condition !filter backup
+55:       condition !size< 100
+56:     path C:\Test Dir
+57:       filter and compress_m
+58:         condition !filter huge_file
+59:       compress compress_m
+60:       ignore backup
+61:       parser svn modified
 Test: broken configuration
 Error: after line: 0: need at most 1 occurence(s) of keyword 'db'
 Error: at line: 4: keyword 'filter' requires 2 parameter(s), found 1

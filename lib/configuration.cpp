@@ -303,6 +303,31 @@ end:
   return failed ? -1 : 0;
 }
 
+int Config::write(
+    Stream&         stream) const {
+  ConfigLine* params;
+  int level;
+  while ((level = line(&params)) >= 0) {
+    stringstream s;
+    for (int j = 0; j < level << 1; j++) {
+      s << " ";
+    }
+    for (unsigned int j = 0; j < params->size(); j++) {
+      if (j != 0) {
+        s << " \"";
+      }
+      s << (*params)[j];
+      if (j != 0) {
+        s << "\"";
+      }
+    }
+    if (stream.putLine(s.str().c_str()) < 0) {
+      return -1;
+    }
+  }
+  return 0;
+}
+
 int Config::line(
     ConfigLine**    params,
     bool            reset) const {
