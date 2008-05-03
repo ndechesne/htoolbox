@@ -308,7 +308,7 @@ class Stream : public File {
   static void md5sum(char* out, const unsigned char* in, int bytes);
   ssize_t write_all(
     const void*     buffer,
-    size_t          count) const;
+    size_t          count);
   int digest_update_all(
     const void*     buffer,
     size_t          count);

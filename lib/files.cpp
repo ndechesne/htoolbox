@@ -444,16 +444,21 @@ int Stream::open(
   // Create buffer if not told not to
   if (isWriteable()) {
     if (compression > 0) {
+      // Create buffer for compression
       _d->buffer_out.create();
     } else
     if (compression == 0) {
+      // Create buffer to cache input data
       _d->buffer_in.create();
     }
   } else {
     if (compression > 0) {
+      // Create buffer for compression
       _d->buffer_in.create();
+      // Data buffer on compression output, for getLine (created there)
       _d->buffer = &_d->buffer_out;
     } else {
+      // Data buffer on read input, for getLine (created there)
       _d->buffer = &_d->buffer_in;
     }
   }
@@ -693,7 +698,12 @@ ssize_t Stream::read(void* buffer, size_t asked) {
 
 ssize_t Stream::write_all(
     const void*     buffer,
-    size_t          count) const {
+    size_t          count) {
+  // Checksum computation
+  if (_d->ctx != NULL) {
+    digest_update_all(buffer, count);
+  }
+
   const char* reader = (const char*) buffer;
   size_t  size = count;
   ssize_t wlength;
@@ -705,8 +715,8 @@ ssize_t Stream::write_all(
     }
     reader += wlength;
     size    -= wlength;
-  } while ((size != 0) && (wlength != 0));
-  return count - size;
+  } while ((size != 0) && (errno == 0));  // errno maybe set with wlength == 0
+  return size != 0 ? -1 : count;
 }
 
 ssize_t Stream::write(const void* buffer, size_t given) {
@@ -738,11 +748,6 @@ ssize_t Stream::write(const void* buffer, size_t given) {
 
   ssize_t size = 0;
   if (_d->strm == NULL) {
-    // Checksum computation
-    if (_d->ctx != NULL) {
-      digest_update_all(buffer, given);
-    }
-
     if (! _d->buffer_in.exists()) {
       // Just write
       size = write_all(buffer, given);
@@ -794,10 +799,6 @@ ssize_t Stream::write(const void* buffer, size_t given) {
 
       // Checksum computation (on compressed data)
       length = _d->buffer_out.readable();
-      if (_d->ctx != NULL) {
-        digest_update_all(_d->buffer_out.reader(), length);
-      }
-
       if (length != write_all(_d->buffer_out.reader(), length)) {
         return -1;
       }
