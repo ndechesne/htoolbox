@@ -50,10 +50,7 @@ Buffer::~Buffer() {
 void Buffer::create(size_t size) {
   _d->buffer = (char*) malloc(size);
   _d->end    = &_d->buffer[size];
-  _d->writer = _d->buffer;
-  _d->reader = _d->buffer;
-  _d->empty  = true;
-  _d->full   = false;
+  empty();
 }
 
 void Buffer::destroy() {
@@ -155,6 +152,7 @@ void Buffer::readn(size_t size) {
     _d->reader = _d->buffer;
   }
   if (_d->writer == _d->reader) {
+    // Do not call empty here in case of concurrent read/write access
     _d->empty = true;
   }
 }

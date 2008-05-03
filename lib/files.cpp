@@ -750,19 +750,23 @@ ssize_t Stream::write(const void* buffer, size_t given) {
         return -1;
       }
     } else {
-      // If told to finish or buffer is [going to be] full, flush it to file
+      // If told to finish or buffer is going to overflow, flush it to file
       if (finish || (given > _d->buffer_in.writeable())) {
-        if (_d->buffer_in.readable() > 0) {
-          size = write_all(_d->buffer_in.reader(), _d->buffer_in.readable());
-          if (size != (ssize_t) _d->buffer_in.readable()) {
+        // One or two writes (if end of buffer + beginning of it)
+        while (_d->buffer_in.readable() > 0) {
+          ssize_t length = _d->buffer_in.readable();
+          if (length != write_all(_d->buffer_in.reader(), length)) {
             return -1;
           }
-          _d->buffer_in.readn(size);
+          _d->buffer_in.readn(length);
+          size += length;
         }
+        // Buffer is now flushed, restore full writeable capacity
+        _d->buffer_in.empty();
       }
 
-      // If told to finish or buffer is [going to be] full, just write
-      if (finish || (given > _d->buffer_in.writeable())) {
+      // If told to finish or more data than buffer can handle, just write
+      if (finish || (given >= _d->buffer_in.writeable())) {
         ssize_t length = write_all(buffer, given);
         if ((ssize_t) given != length) {
           return -1;
@@ -779,6 +783,7 @@ ssize_t Stream::write(const void* buffer, size_t given) {
     _d->strm->avail_in = given;
     _d->strm->next_in  = (unsigned char*) buffer;
 
+    // Flush result to file (no real cacheing)
     ssize_t length;
     do {
       _d->strm->avail_out = _d->buffer_out.writeable();
