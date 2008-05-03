@@ -192,7 +192,7 @@ void ConfigItem::show(int level) const {
 
 int Config::read(
     Stream&         stream,
-    char            flags) {
+    unsigned char   flags) {
   // Where we are in the items tree
   list<const ConfigItem*> items_hierarchy;
   items_hierarchy.push_back(&_items_top);

@@ -380,20 +380,20 @@ public:
   // Compare two files
   int compare(Stream& source, long long length = -1);
   // Line feed MUST be present at EOL
-  static const int flags_need_lf      = 0x1;
+  static const unsigned char flags_need_lf      = 0x1;
   // Silently accept DOS format for end of line
-  static const int flags_accept_cr_lf = 0x2;
+  static const unsigned char flags_accept_cr_lf = 0x2;
   // Treat escape characters ('\') as normal characters
-  static const int flags_no_escape    = 0x4;
+  static const unsigned char flags_no_escape    = 0x4;
   // Do not escape last char (and fail to find ending quote) in an end-of-line
   // parameter such as "c:\foo\" (-> c:\foo\ and not c:\foo")
-  static const int flags_dos_catch    = 0x8;
+  static const unsigned char flags_dos_catch    = 0x8;
   // Treat spaces as field separators
-  static const int flags_empty_params = 0x10;
+  static const unsigned char flags_empty_params = 0x10;
   // Extract parameters from line read from file
   int getParams(                          // -1: error, 0: eof, 1: success
     vector<string>& params,
-    char            flags    = 0,
+    unsigned char   flags    = 0,
     const char*     delims   = "\t ",   // Default: tabulation and space
     const char*     quotes   = "'\"",   // Default: single and double quotes
     const char*     comments = "#");    // Default: hash
@@ -402,7 +402,7 @@ public:
   static int extractParams(
     const char*     line,
     vector<string>& params,
-    char            flags      = 0,
+    unsigned char   flags      = 0,
     unsigned int    max_params = 0,     // Number of parameters to decode
     const char*     delims     = "\t ", // Default: tabulation and space
     const char*     quotes     = "'\"", // Default: single and double quotes

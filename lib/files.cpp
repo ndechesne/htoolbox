@@ -443,10 +443,12 @@ int Stream::open(
 
   // Create buffer if not told not to
   if (isWriteable()) {
-    if (compression >= 0) {
+    if (compression > 0) {
       _d->buffer_out.create();
+    } else
+    if (compression == 0) {
+      _d->buffer_in.create();
     }
-    _d->buffer = &_d->buffer_out;
   } else {
     if (compression > 0) {
       _d->buffer_in.create();
@@ -707,7 +709,7 @@ ssize_t Stream::write_all(
   return count - size;
 }
 
-ssize_t Stream::write(const void* buffer, size_t count) {
+ssize_t Stream::write(const void* buffer, size_t given) {
   static bool finish = true;
 
   if (! isOpen()) {
@@ -720,9 +722,9 @@ ssize_t Stream::write(const void* buffer, size_t count) {
     return -1;
   }
 
-  if (count > chunk) count = chunk;
+  if (given > chunk) given = chunk;
 
-  if ((count == 0) && (buffer == NULL)) {
+  if ((given == 0) && (buffer == NULL)) {
     if (finish) {
       // Finished last time
       return 0;
@@ -732,25 +734,26 @@ ssize_t Stream::write(const void* buffer, size_t count) {
     finish = false;
   }
 
-  _d->size += count;
+  _d->size += given;
 
+  ssize_t size = 0;
   if (_d->strm == NULL) {
     // Checksum computation
     if (_d->ctx != NULL) {
-      digest_update_all(buffer, count);
+      digest_update_all(buffer, given);
     }
 
     if (! _d->buffer_in.exists()) {
       // Just write
-      if ((ssize_t) count != write_all(buffer, count)) {
+      size = write_all(buffer, given);
+      if ((ssize_t) given != size) {
         return -1;
       }
     } else {
       // If told to finish or buffer is [going to be] full, flush it to file
-      if (finish || (count > _d->buffer_in.writeable())) {
+      if (finish || (given > _d->buffer_in.writeable())) {
         if (_d->buffer_in.readable() > 0) {
-          ssize_t size = write_all(_d->buffer_in.reader(),
-            _d->buffer_in.readable());
+          size = write_all(_d->buffer_in.reader(), _d->buffer_in.readable());
           if (size != (ssize_t) _d->buffer_in.readable()) {
             return -1;
           }
@@ -759,21 +762,22 @@ ssize_t Stream::write(const void* buffer, size_t count) {
       }
 
       // If told to finish or buffer is [going to be] full, just write
-      if (finish || (count > _d->buffer_in.writeable())) {
-        if ((ssize_t) count != write_all(buffer, count)) {
+      if (finish || (given > _d->buffer_in.writeable())) {
+        ssize_t length = write_all(buffer, given);
+        if ((ssize_t) given != length) {
           return -1;
         }
+        size += length;
       } else
       // Refill buffer
       {
-        _d->buffer_in.write(buffer, count);
+        _d->buffer_in.write(buffer, given);
       }
     }
   } else {
     // Compress data
-    _d->strm->avail_in = count;
+    _d->strm->avail_in = given;
     _d->strm->next_in  = (unsigned char*) buffer;
-    count = 0;
 
     ssize_t length;
     do {
@@ -793,21 +797,21 @@ ssize_t Stream::write(const void* buffer, size_t count) {
         return -1;
       }
       _d->buffer_out.readn(length);
-      count += length;
+      size += length;
     } while (_d->strm->avail_out == 0);
   }
 
   // Update progress indicator (size written)
-  if (count > 0) {
+  if (size > 0) {
     long long previous = _d->progress;
-    _d->progress += count;
+    _d->progress += size;
     if (_d->progress_callback != NULL) {
       (*_d->progress_callback)(previous, _d->progress, _size);
     }
   }
 
-  _size += count;
-  return count;
+  _size += size;
+  return given;
 }
 
 ssize_t Stream::getLine(
@@ -1037,7 +1041,7 @@ int Stream::compare(Stream& source, long long length) {
 
 int Stream::getParams(
     vector<string>& params,
-    char            flags,
+    unsigned char   flags,
     const char*     delims,
     const char*     quotes,
     const char*     comments) {
@@ -1077,7 +1081,7 @@ int Stream::getParams(
 int Stream::extractParams(
     const char*     line,
     vector<string>& params,
-    char            flags,
+    unsigned char   flags,
     unsigned int    max_params,
     const char*     delims,
     const char*     quotes,

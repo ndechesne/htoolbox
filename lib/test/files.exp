@@ -126,7 +126,7 @@ write size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 
 Test: file compress (read + compress write), with last zero-size write call
 read size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
-write size (wrong): 8214 (10208), checksum: b7350db49d036137b2ef752a82145e91
+write size (wrong): 10485760 (10208), checksum: b7350db49d036137b2ef752a82145e91
 
 Test: file uncompress (uncompress read + write)
 read size: 10485760 (10208), checksum: f1c9645dbc14efddc7d8a322685f26eb
@@ -134,11 +134,11 @@ write size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 
 Test: file compress (read + compress write)
 read size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
-write size (wrong): 8214 (10208), checksum: b7350db49d036137b2ef752a82145e91
+write size (wrong): 10485760 (10208), checksum: b7350db49d036137b2ef752a82145e91
 
 Test: file recompress (uncompress read + compress write), no closing
 read size: 10485760 (10208), checksum: f1c9645dbc14efddc7d8a322685f26eb
-write size (wrong): 8214 (10208), checksum: b7350db49d036137b2ef752a82145e91
+write size (wrong): 10485760 (10208), checksum: b7350db49d036137b2ef752a82145e91
 
 Test: file compare (both compressed)
   whole files
@@ -179,6 +179,16 @@ Checksum: f1c9645dbc14efddc7d8a322685f26eb
 Test: copy
 checksum in: f1c9645dbc14efddc7d8a322685f26eb
 checksum out: f1c9645dbc14efddc7d8a322685f26eb
+size in: 10208
+size out: 10485760
+checksum in: f1c9645dbc14efddc7d8a322685f26eb
+checksum out: f1c9645dbc14efddc7d8a322685f26eb
+size in: 10485760
+size out: 10485760
+checksum in: f1c9645dbc14efddc7d8a322685f26eb
+checksum out: b7350db49d036137b2ef752a82145e91
+size in: 10485760
+size out: 10208
 
 Test: interrupted copy
 Error copying file: Operation canceled

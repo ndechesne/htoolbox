@@ -861,14 +861,56 @@ int main(void) {
     } else {
       cout << "checksum in: " << readfile->checksum() << endl;
       cout << "checksum out: " << writefile->checksum() << endl;
+      cout << "size in: " << readfile->size() << endl;
+      cout << "size out: " << writefile->size() << endl;
     }
   }
   delete readfile;
   delete writefile;
+  readfile = new Stream("test1/rwfile_dest");
+  writefile = new Stream("test1/rwfile_copy");
+  if (readfile->open("r") || writefile->open("w", 0)) {
+    cout << "Error opening file: " << strerror(errno) << endl;
+  } else {
+    int rc = writefile->copy(*readfile);
+    if (readfile->close()) cout << "Error closing read file" << endl;
+    if (writefile->close()) cout << "Error closing write file" << endl;
+    if (rc) {
+      cout << "Error copying file: " << strerror(errno) << endl;
+    } else {
+      cout << "checksum in: " << readfile->checksum() << endl;
+      cout << "checksum out: " << writefile->checksum() << endl;
+      cout << "size in: " << readfile->size() << endl;
+      cout << "size out: " << writefile->size() << endl;
+    }
+  }
+  delete readfile;
+  delete writefile;
+  Node("test1/rwfile_dest").remove();
+  readfile = new Stream("test1/rwfile_copy");
+  writefile = new Stream("test1/rwfile_dest");
+  if (readfile->open("r") || writefile->open("w", 5)) {
+    cout << "Error opening file: " << strerror(errno) << endl;
+  } else {
+    int rc = writefile->copy(*readfile);
+    if (readfile->close()) cout << "Error closing read file" << endl;
+    if (writefile->close()) cout << "Error closing write file" << endl;
+    if (rc) {
+      cout << "Error copying file: " << strerror(errno) << endl;
+    } else {
+      cout << "checksum in: " << readfile->checksum() << endl;
+      cout << "checksum out: " << writefile->checksum() << endl;
+      cout << "size in: " << readfile->size() << endl;
+      cout << "size out: " << writefile->size() << endl;
+    }
+  }
+  delete readfile;
+  delete writefile;
+  Node("test1/rwfile_dest").remove();
+  Node("test1/rwfile_copy").remove();
 
   cout << endl << "Test: interrupted copy" << endl;
   readfile = new Stream("test1/rwfile_source");
-  Node("test1/rwfile_dest").remove();
   writefile = new Stream("test1/rwfile_dest");
   if (readfile->open("r", 1) || writefile->open("w", 0)) {
     cout << "Error opening file: " << strerror(errno) << endl;

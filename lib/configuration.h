@@ -126,7 +126,7 @@ public:
   // Read file, using Stream's flags as given
   int read(
     Stream&         stream,
-    char            flags = 0);
+    unsigned char   flags = 0);
   // Add a config item
   void add(ConfigItem* child)    { _items_top.add(child); }
   // Lines tree accessor
