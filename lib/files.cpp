@@ -411,7 +411,8 @@ bool Stream::isWriteable() const {
 
 int Stream::open(
     const char*     req_mode,
-    int             compression,
+    unsigned int    compression,
+    int             cache,
     bool            checksum) {
   if (isOpen()) {
     errno = EBUSY;
@@ -447,19 +448,26 @@ int Stream::open(
       // Create buffer for compression
       _d->buffer_out.create();
     } else
-    if (compression == 0) {
+    if (cache < 0) {
       // Create buffer to cache input data
       _d->buffer_in.create();
+    } else
+    if (cache > 0) {
+      // Create buffer to cache input data to given size
+      _d->buffer_in.create(cache);
     }
   } else {
     if (compression > 0) {
-      // Create buffer for compression
+      // Create buffer for decompression
       _d->buffer_in.create();
       // Data buffer on compression output, for getLine (created there)
       _d->buffer = &_d->buffer_out;
     } else {
       // Data buffer on read input, for getLine (created there)
       _d->buffer = &_d->buffer_in;
+    }
+    if (cache > 0) {
+      _d->buffer->create(cache);
     }
   }
 
@@ -570,12 +578,12 @@ int Stream::digest_update_all(
   const char* reader = (const char*) buffer;
   while (size > 0) {
     size_t length;
-    if (size > max) {
+    if (size >= max) {
       length = max;
     } else {
       length = size;
     }
-    if (EVP_DigestUpdate(_d->ctx, reader, length)) {
+    if (EVP_DigestUpdate(_d->ctx, reader, length) == 0) {
       return -1;
     }
     reader += length;
@@ -632,7 +640,9 @@ ssize_t Stream::read(void* buffer, size_t asked) {
     } else if (_d->buffer_in.exists()) {
       // Update checksum
       if (_d->ctx != NULL) {
-        digest_update_all(_d->buffer_in.writer(), size);
+        if (digest_update_all(_d->buffer_in.writer(), size)) {
+          return -2;
+        }
       }
       _d->buffer_in.written(size);
     }
@@ -662,7 +672,9 @@ ssize_t Stream::read(void* buffer, size_t asked) {
       size = _d->buffer_out.writeable() - _d->strm->avail_out;
       // Update checksum
       if (_d->ctx != NULL) {
-        digest_update_all(_d->buffer_out.writer(), size);
+        if (digest_update_all(_d->buffer_out.writer(), size)) {
+          return -2;
+        }
       }
       _d->buffer_out.written(size);
       // Special case for getLine
@@ -674,7 +686,9 @@ ssize_t Stream::read(void* buffer, size_t asked) {
       size = asked - _d->strm->avail_out;
       // Update checksum
       if (_d->ctx != NULL) {
-        digest_update_all(buffer, size);
+        if (digest_update_all(buffer, size)) {
+          return -2;
+        }
       }
     }
   } else
@@ -688,7 +702,9 @@ ssize_t Stream::read(void* buffer, size_t asked) {
   {
     // Update checksum
     if (_d->ctx != NULL) {
-      digest_update_all(buffer, size);
+      if (digest_update_all(buffer, size)) {
+        return -2;
+      }
     }
   }
 
@@ -701,7 +717,9 @@ ssize_t Stream::write_all(
     size_t          count) {
   // Checksum computation
   if (_d->ctx != NULL) {
-    digest_update_all(buffer, count);
+    if (digest_update_all(buffer, count)) {
+      return -2;
+    }
   }
 
   const char* reader = (const char*) buffer;
@@ -773,8 +791,10 @@ ssize_t Stream::write(
   ssize_t size = 0;
   if (! _d->buffer_in.exists()) {
     if (_d->strm == NULL) {
-      // Just write
-      size = write_all(buffer, given);
+      if (buffer != NULL) {
+        // Just write
+        size = write_all(buffer, given);
+      }
     } else {
       // Compress data
       size = write_compress_all(buffer, given, finish);
@@ -798,17 +818,19 @@ ssize_t Stream::write(
       _d->buffer_in.empty();
     }
 
-    // If told to finish or more data than buffer can handle, just write
-    if (finish || (given > _d->buffer_in.writeable())) {
-      ssize_t length = write_all(buffer, given);
-      if ((ssize_t) given != length) {
-        return -1;
+    if (buffer != NULL) {
+      // If told to finish or more data than buffer can handle, just write
+      if (finish || (given > _d->buffer_in.writeable())) {
+        ssize_t length = write_all(buffer, given);
+        if ((ssize_t) given != length) {
+          return -1;
+        }
+        size += length;
+      } else
+      // Refill buffer
+      {
+        _d->buffer_in.write(buffer, given);
       }
-      size += length;
-    } else
-    // Refill buffer
-    {
-      _d->buffer_in.write(buffer, given);
     }
   }
 

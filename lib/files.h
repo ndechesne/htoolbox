@@ -338,11 +338,12 @@ public:
   bool isOpen() const;
   bool isWriteable() const;
   // Open file, for read or write (no append), with or without compression
-  // A negative value for compression will disbable the cache for write operations
+  // The cache is managed by open , but can be forced using cache for its size
   // Checksum determines whether to compute the checksum as we read
   int open(
     const char*     req_mode,
-    int             compression = 0,
+    unsigned int    compression = 0,
+    int             cache       = -1,
     bool            checksum    = true);
   // Close file, for read or write (no append), with or without compression
   int close();

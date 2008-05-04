@@ -75,7 +75,8 @@ int List::open(
   const char header[]     = "# version 4";
   int        rc           = 0;
 
-  if (Stream::open(req_mode, compression, checksum)) {
+  if (Stream::open(req_mode, (compression > 0) ? compression : 0,
+      (compression < 0) ? 0 : -1, checksum)) {
     rc = -1;
   } else
   // Open for write
