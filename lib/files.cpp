@@ -775,6 +775,7 @@ ssize_t Stream::write(
   }
 
   if (given > chunk) given = chunk;
+  _d->size += given;
 
   if ((given == 0) && (buffer == NULL)) {
     if (finish) {
@@ -786,22 +787,9 @@ ssize_t Stream::write(
     finish = false;
   }
 
-  _d->size += given;
-
+  bool direct_write = false;
   ssize_t size = 0;
-  if (! _d->buffer_in.exists()) {
-    ssize_t length = given;
-    if (_d->strm == NULL) {
-      if ((buffer != NULL) && (length != write_all(buffer, length))) {
-        return -1;
-      }
-    } else {
-      if (length != write_compress_all(buffer, length, finish)) {
-        return -1;
-      }
-    }
-    size += length;
-  } else {
+  if (_d->buffer_in.exists()) {
     // If told to finish or buffer is going to overflow, flush it to file
     if (finish || (given > _d->buffer_in.writeable())) {
       // One or two writes (if end of buffer + beginning of it)
@@ -825,22 +813,28 @@ ssize_t Stream::write(
 
     // If told to finish or more data than buffer can handle, just write
     if (finish || (given > _d->buffer_in.writeable())) {
-      ssize_t length = given;
-      if (_d->strm == NULL) {
-        if ((buffer != NULL) && (length != write_all(buffer, length))) {
-          return -1;
-        }
-      } else {
-        if (length != write_compress_all(buffer, length, finish)) {
-          return -1;
-        }
-      }
-      size += length;
-    } else
-    // Refill buffer
-    {
+      direct_write = true;
+    } else {
+      // Refill buffer
       _d->buffer_in.write(buffer, given);
     }
+  } else {
+    direct_write = true;
+  }
+
+  // Write data to file
+  if (direct_write) {
+    ssize_t length = given;
+    if (_d->strm == NULL) {
+      if ((buffer != NULL) && (length != write_all(buffer, length))) {
+        return -1;
+      }
+    } else {
+      if (length != write_compress_all(buffer, length, finish)) {
+        return -1;
+      }
+    }
+    size += length;
   }
 
   // Update progress indicator (size written)
