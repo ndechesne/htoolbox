@@ -442,7 +442,8 @@ int main(void) {
   delete readfile;
   delete writefile;
 
-  cout << endl << "Test: file compress (read + compress write), with last zero-size write call" << endl;
+  cout << endl << "Test: file compress (read + default compress write), "
+    << "with last zero-size write call" << endl;
   readfile = new Stream("test1/big_file");
   writefile = new Stream("test1/rwfile_dest");
   if (readfile->open("r", 0, -1)) {
@@ -519,13 +520,13 @@ int main(void) {
   delete readfile;
   delete writefile;
 
-  cout << endl << "Test: file compress (read + compress write)"
+  cout << endl << "Test: file compress (read + cached compress write)"
     << endl;
   readfile = new Stream("test1/rwfile_source");
   writefile = new Stream("test1/rwfile_dest");
   if (readfile->open("r", 0, 100)) {
     cout << "Error opening source file: " << strerror(errno) << endl;
-  } else if (writefile->open("w", 5, -1)) {
+  } else if (writefile->open("w", 5, 100)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
     unsigned char buffer[Stream::chunk];
@@ -556,8 +557,8 @@ int main(void) {
       << "), checksum: " << writefile->checksum() << endl;
   }
   cout << endl
-    << "Test: file recompress (uncompress read + compress write), no closing"
-    << endl;
+    << "Test: file recompress (uncompress read + uncached compress write), "
+      << "no closing" << endl;
   {
     Stream* swap = readfile;
     readfile = writefile;
@@ -565,7 +566,7 @@ int main(void) {
   }
   if (readfile->open("r", 1, 10)) {
     cout << "Error opening source file: " << strerror(errno) << endl;
-  } else if (writefile->open("w", 5, -1)) {
+  } else if (writefile->open("w", 5, 0)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
     unsigned char buffer[Stream::chunk];

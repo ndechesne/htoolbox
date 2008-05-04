@@ -447,7 +447,7 @@ int Stream::open(
     if (compression > 0) {
       // Create buffer for compression
       _d->buffer_out.create();
-    } else
+    }
     if (cache < 0) {
       // Create buffer to cache input data
       _d->buffer_in.create();
@@ -790,26 +790,31 @@ ssize_t Stream::write(
 
   ssize_t size = 0;
   if (! _d->buffer_in.exists()) {
+    ssize_t length = given;
     if (_d->strm == NULL) {
-      if (buffer != NULL) {
-        // Just write
-        size = write_all(buffer, given);
+      if ((buffer != NULL) && (length != write_all(buffer, length))) {
+        return -1;
       }
     } else {
-      // Compress data
-      size = write_compress_all(buffer, given, finish);
+      if (length != write_compress_all(buffer, length, finish)) {
+        return -1;
+      }
     }
-    if ((ssize_t) given != size) {
-      return -1;
-    }
+    size += length;
   } else {
     // If told to finish or buffer is going to overflow, flush it to file
     if (finish || (given > _d->buffer_in.writeable())) {
       // One or two writes (if end of buffer + beginning of it)
       while (_d->buffer_in.readable() > 0) {
         ssize_t length = _d->buffer_in.readable();
-        if (length != write_all(_d->buffer_in.reader(), length)) {
-          return -1;
+        if (_d->strm == NULL) {
+          if (length != write_all(_d->buffer_in.reader(), length)) {
+            return -1;
+          }
+        } else {
+          if (length != write_compress_all(_d->buffer_in.reader(), length)) {
+            return -1;
+          }
         }
         _d->buffer_in.readn(length);
         size += length;
@@ -818,19 +823,23 @@ ssize_t Stream::write(
       _d->buffer_in.empty();
     }
 
-    if (buffer != NULL) {
-      // If told to finish or more data than buffer can handle, just write
-      if (finish || (given > _d->buffer_in.writeable())) {
-        ssize_t length = write_all(buffer, given);
-        if ((ssize_t) given != length) {
+    // If told to finish or more data than buffer can handle, just write
+    if (finish || (given > _d->buffer_in.writeable())) {
+      ssize_t length = given;
+      if (_d->strm == NULL) {
+        if ((buffer != NULL) && (length != write_all(buffer, length))) {
           return -1;
         }
-        size += length;
-      } else
-      // Refill buffer
-      {
-        _d->buffer_in.write(buffer, given);
+      } else {
+        if (length != write_compress_all(buffer, length, finish)) {
+          return -1;
+        }
       }
+      size += length;
+    } else
+    // Refill buffer
+    {
+      _d->buffer_in.write(buffer, given);
     }
   }
 
