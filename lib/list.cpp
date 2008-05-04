@@ -58,7 +58,9 @@ struct List::Private {
   bool              old_version;
 };
 
-List::List(Path path) : Stream(path), _d(new Private) {}
+List::List(Path path) : Stream(path), _d(new Private) {
+  _d->line.resize(100, 10);
+}
 
 List::~List() {
   delete _d;

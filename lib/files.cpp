@@ -827,7 +827,7 @@ ssize_t Stream::write(
 
 ssize_t Stream::getLine(
     char**          buffer,
-    int*            buffer_capacity,
+    unsigned int*   buffer_capacity,
     bool*           end_of_line_found) {
 
   // Need a buffer to speed things up
@@ -836,9 +836,9 @@ ssize_t Stream::getLine(
   }
 
   // Initialize return values
-  bool  found = false;
-  int   count  = 0;
-  char* writer = &(*buffer)[count];
+  bool         found = false;
+  unsigned int count  = 0;
+  char*        writer = &(*buffer)[count];
 
   // Find end of line or end of file
   do {

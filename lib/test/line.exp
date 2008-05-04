@@ -1,25 +1,37 @@
-default c'tor: size = 0
-copy c'tor: size = 0
-const char* constructor: abc, size = 3
-const char* constructor: def, size = 3
-copy constructor: abc, size = 3
-copy: def, size = 3
-copy: g, size = 1
-copy: hijklmn, size = 7
+default c'tor: size = 0 cap. = 100 add. = 10
+copy c'tor: size = 0 cap. = 100 add. = 10
+const char* constructor: size = 3 cap. = 4 add. = 0
+const char* constructor: size = 3 cap. = 4 add. = 0
+copy constructor: size = 3 cap. = 4 add. = 0
+copy: def size = 3 cap. = 4 add. = 0
+copy: g size = 1 cap. = 4 add. = 0
+copy: hijklmn size = 7 cap. = 8 add. = 0
 operator[0]: hijklmn
 operator[3]: klmn
-erase(5): hijkl, size = 5
+erase(5): hijkl size = 5 cap. = 8 add. = 0
 find('j'): 2, size = 5
 find('z'): -1, size = 5
 find('j', 1): 2, size = 5
 find('j', 4): -1, size = 5
-append("op"): hijklop, size = 7
-append("qr", 3): hijqr, size = 5
-append("stuv", 4): hijqstuv, size = 8
-append("wxyz", 6, 3): hijqstwxy, size = 9
+append("op"): hijklop size = 7 cap. = 8 add. = 0
+append("qr", 3): hijqr size = 5 cap. = 8 add. = 0
+append("stuv", 4): hijqstuv size = 8 cap. = 9 add. = 0
+append("wxyz", 6, 3): hijqstwxy size = 9 cap. = 10 add. = 0
 replace end of line
-new line: 	0	new line, size = 11
+new line: 	0	new line size = 11 cap. = 100 add. = 10
 old line: 	12345	old line, size = 15
 second tab: 6
-end line: 	12345	new line, size = 15
+end line: 	12345	new line size = 15 cap. = 100 add. = 10
+c'tor(10, 2) size = 0 cap. = 10 add. = 2
+
++= size = 9 cap. = 10 add. = 2
+123456789
++= size = 19 cap. = 20 add. = 2
+1234567891234567890
++= size = 28 cap. = 30 add. = 2
+1234567891234567890123456789
+resize(5, 6) size = 28 cap. = 30 add. = 6
+1234567891234567890123456789
++= size = 37 cap. = 42 add. = 6
+1234567891234567890123456789123456789
 end of tests

@@ -24,29 +24,43 @@ using namespace std;
 
 using namespace hbackup;
 
+static void show(const Line& line) {
+  cout
+    << " size = " << line.size()
+    << " cap. = " << line.capacity()
+    << " add. = " << line.add_size()
+    << endl;
+}
+
 int main(void) {
   Line line0;
-  cout << "default c'tor: size = " << line0.size() << endl;
+  cout << "default c'tor:";
+  show(line0);
   Line line1 = line0;
-  cout << "copy c'tor: size = " << line1.size() << endl;
+  cout << "copy c'tor:";
+  show(line1);
   Line line2("abc");
-  cout << "const char* constructor: " << line2 << ", size = " << line2.size()
-    << endl;
+  cout << "const char* constructor:";
+  show(line2);
   Line line3 = "def";
-  cout << "const char* constructor: " << line3 << ", size = " << line3.size()
-    << endl;
+  cout << "const char* constructor:";
+  show(line3);
   Line line4 = line2;
-  cout << "copy constructor: " << line4 << ", size = " << line4.size() << endl;
+  cout << "copy constructor:";
+  show(line4);
   line4 = line3;
-  cout << "copy: " << line4 << ", size = " << line4.size() << endl;
+  cout << "copy: " << line4;
+  show(line4);
   line4 = "g";
-  cout << "copy: " << line4 << ", size = " << line4.size() << endl;
+  cout << "copy: " << line4;
+  show(line4);
   line4 = "hijklmn";
-  cout << "copy: " << line4 << ", size = " << line4.size() << endl;
+  cout << "copy: " << line4;
+  show(line4);
   cout << "operator[0]: " << &line4[0] << endl;
   cout << "operator[3]: " << &line4[3] << endl;
   cout << "erase(5): " << line4.erase(5);
-  cout << ", size = " << line4.size() << endl;
+  show(line4);
   cout << "find('j'): " << line4.find('j') << ", size = " << line4.size()
     << endl;
   cout << "find('z'): " << line4.find('z') << ", size = " << line4.size()
@@ -56,23 +70,48 @@ int main(void) {
   cout << "find('j', 4): " << line4.find('j', 4) << ", size = "
     << line4.size() << endl;
   cout << "append(\"op\"): " << line4.append("op");
-  cout << ", size = " << line4.size() << endl;
+  show(line4);
   cout << "append(\"qr\", 3): " << line4.append("qr", 3);
-  cout << ", size = " << line4.size() << endl;
+  show(line4);
   cout << "append(\"stuv\", 4): " << line4.append("stuv", 4);
-  cout << ", size = " << line4.size() << endl;
+  show(line4);
   cout << "append(\"wxyz\", 6, 3): " << line4.append("wxyz", 6, 3);
-  cout << ", size = " << line4.size() << endl;
+  show(line4);
   cout << "replace end of line" << endl;
   line0 = "\t0\tnew line";
   line1 = "\t12345\told line";
   cout << "new line: " << line0;
-  cout << ", size = " << line0.size() << endl;
+  show(line0);
   cout << "old line: " << line1 << ", size = " << line1.size() << endl;
   int pos = line1.find('\t', 1);
   cout << "second tab: " << pos << endl;
   cout << "end line: " << line1.append(&line0[2], pos);
-  cout << ", size = " << line1.size() << endl;
+  show(line1);
+
+  cout << "c'tor(10, 2)";
+  Line line5(10, 2);
+  show(line5);
+  cout << line5 << endl;
+  cout << "+=";
+  line5 += "123456789";
+  show(line5);
+  cout << line5 << endl;
+  cout << "+=";
+  line5 += "1234567890";
+  show(line5);
+  cout << line5 << endl;
+  cout << "+=";
+  line5 += "123456789";
+  show(line5);
+  cout << line5 << endl;
+  cout << "resize(5, 6)";
+  line5.resize(5, 6);
+  show(line5);
+  cout << line5 << endl;
+  cout << "+=";
+  line5 += "123456789";
+  show(line5);
+  cout << line5 << endl;
 
   cout << "end of tests" << endl;
 

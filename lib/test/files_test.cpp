@@ -942,8 +942,8 @@ int main(void) {
   cout << "Checksum: " << writefile->checksum() << endl;
   delete writefile;
   readfile = new Stream("test2/testfile");
-  char* line_test = NULL;
-  int   line_test_capacity = 0;
+  char*        line_test = NULL;
+  unsigned int line_test_capacity = 0;
   readfile->open("r", 0);
   cout << "Reading empty file:" << endl;
   while (readfile->getLine(&line_test, &line_test_capacity) > 0) {

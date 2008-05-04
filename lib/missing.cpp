@@ -112,8 +112,8 @@ int Missing::load() {
   Stream missing_list(_d->path);
   if (! missing_list.open("r")) {
     missing_list.setProgressCallback(_d->progress);
-    char* checksum = NULL;
-    int   checksum_capacity = 0;
+    char*        checksum = NULL;
+    unsigned int checksum_capacity = 0;
     while (missing_list.getLine(&checksum, &checksum_capacity) > 0) {
       _d->data.push_back(checksum);
       out(debug, msg_standard, checksum, 1);

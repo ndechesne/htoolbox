@@ -361,7 +361,7 @@ public:
   // Read a line of characters from file until end of line or file
   virtual ssize_t getLine(
     char**          buffer,
-    int*            buffer_capacity,
+    unsigned int*   buffer_capacity,
     bool*           end_of_line_found = NULL);
 #ifdef HAVE_LINE_H
   virtual ssize_t getLine(

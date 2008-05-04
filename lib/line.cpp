@@ -25,7 +25,16 @@ using namespace std;
 
 using namespace hbackup;
 
-Line::Line(const char* line) : _capacity(0), _buffer(NULL) {
+Line::Line(unsigned int init_size, unsigned int add_size) :
+    _capacity(init_size), _buffer(NULL), _add_size(add_size) {
+  if (_capacity != 0) {
+    _buffer = (char*) malloc(_capacity);
+  }
+  _size = 0;
+}
+
+Line::Line(const char* line, unsigned int add_size) :
+    _capacity(0), _buffer(NULL), _add_size(add_size) {
   if (line != NULL) {
     operator=(line);
   } else {
@@ -34,8 +43,9 @@ Line::Line(const char* line) : _capacity(0), _buffer(NULL) {
 }
 
 // What a shame to have to duplicate!
-Line::Line(const Line& line) : _capacity(0), _buffer(NULL) {
+Line::Line(const Line& line) : _capacity(0), _buffer(NULL), _add_size(0) {
   if (line._buffer != NULL) {
+    resize(line._capacity, line._add_size, true);
     operator=(line._buffer);
   } else {
     _size = 0;
@@ -53,13 +63,32 @@ const Line& Line::operator=(const Line& line) {
 const Line& Line::operator=(const char* line) {
   _size = strlen(line);
   if ((_size + 1) > _capacity) {
-    free(_buffer);
-    _capacity = _size + 1;
-    _buffer   = strdup(line);
-  } else {
-    strcpy(_buffer, line);
+    resize(_size + 1, -1, true);
   }
+  strcpy(_buffer, line);
   return *this;
+}
+
+int Line::resize(unsigned int new_size, int new_add_size, bool discard) {
+  if (new_add_size >= 0) {
+    _add_size = new_add_size;
+  }
+  if (new_size > _capacity) {
+    if (_add_size == 0) {
+      _capacity = new_size;
+    } else {
+      while (new_size > _capacity) {
+        _capacity += _add_size;
+      }
+    }
+    if (discard) {
+      free(_buffer);
+      _buffer = (char*) malloc(_capacity);
+    } else {
+      _buffer = (char*) realloc(_buffer, _capacity);
+    }
+  }
+  return 0;
 }
 
 const Line& Line::erase(int pos) {
@@ -91,8 +120,7 @@ const Line& Line::append(const char* line, int pos, int num) {
   if (num > 0) {
     _size = pos + num;
     if ((_size + 1) > _capacity) {
-      _capacity = _size + 1;
-      _buffer   = (char*) realloc(_buffer, _capacity);
+      resize(_size + 1);
     }
     strncpy(&_buffer[pos], line, num);
     _buffer[_size] = 0;
