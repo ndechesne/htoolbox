@@ -309,6 +309,10 @@ class Stream : public File {
   ssize_t write_all(
     const void*     buffer,
     size_t          count);
+  ssize_t write_compress_all(
+    const void*     buffer,
+    size_t          count,
+    bool            finish);
   int digest_update_all(
     const void*     buffer,
     size_t          count);

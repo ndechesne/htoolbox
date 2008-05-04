@@ -719,7 +719,31 @@ ssize_t Stream::write_all(
   return size != 0 ? -1 : count;
 }
 
-ssize_t Stream::write(const void* buffer, size_t given) {
+ssize_t Stream::write_compress_all(
+    const void*     buffer,
+    size_t          count,
+    bool            finish) {
+  _d->strm->avail_in = count;
+  _d->strm->next_in  = (unsigned char*) buffer;
+
+  // Flush result to file (no real cacheing)
+  do {
+    // Buffer is considered empty to start with. and is always flushed
+    _d->strm->avail_out = _d->buffer_out.writeable();
+    // Casting away the constness here!!!
+    _d->strm->next_out  = (unsigned char*) _d->buffer_out.writer();
+    deflate(_d->strm, finish ? Z_FINISH : Z_NO_FLUSH);
+    ssize_t length = _d->buffer_out.writeable() - _d->strm->avail_out;
+    if (length != write_all(_d->buffer_out.reader(), length)) {
+      return -1;
+    }
+  } while (_d->strm->avail_out == 0);
+  return count;
+}
+
+ssize_t Stream::write(
+    const void*     buffer,
+    size_t          given) {
   static bool finish = true;
 
   if (! isOpen()) {
@@ -747,64 +771,45 @@ ssize_t Stream::write(const void* buffer, size_t given) {
   _d->size += given;
 
   ssize_t size = 0;
-  if (_d->strm == NULL) {
-    if (! _d->buffer_in.exists()) {
+  if (! _d->buffer_in.exists()) {
+    if (_d->strm == NULL) {
       // Just write
       size = write_all(buffer, given);
-      if ((ssize_t) given != size) {
-        return -1;
-      }
     } else {
-      // If told to finish or buffer is going to overflow, flush it to file
-      if (finish || (given > _d->buffer_in.writeable())) {
-        // One or two writes (if end of buffer + beginning of it)
-        while (_d->buffer_in.readable() > 0) {
-          ssize_t length = _d->buffer_in.readable();
-          if (length != write_all(_d->buffer_in.reader(), length)) {
-            return -1;
-          }
-          _d->buffer_in.readn(length);
-          size += length;
-        }
-        // Buffer is now flushed, restore full writeable capacity
-        _d->buffer_in.empty();
-      }
-
-      // If told to finish or more data than buffer can handle, just write
-      if (finish || (given >= _d->buffer_in.writeable())) {
-        ssize_t length = write_all(buffer, given);
-        if ((ssize_t) given != length) {
-          return -1;
-        }
-        size += length;
-      } else
-      // Refill buffer
-      {
-        _d->buffer_in.write(buffer, given);
-      }
+      // Compress data
+      size = write_compress_all(buffer, given, finish);
+    }
+    if ((ssize_t) given != size) {
+      return -1;
     }
   } else {
-    // Compress data
-    _d->strm->avail_in = given;
-    _d->strm->next_in  = (unsigned char*) buffer;
+    // If told to finish or buffer is going to overflow, flush it to file
+    if (finish || (given > _d->buffer_in.writeable())) {
+      // One or two writes (if end of buffer + beginning of it)
+      while (_d->buffer_in.readable() > 0) {
+        ssize_t length = _d->buffer_in.readable();
+        if (length != write_all(_d->buffer_in.reader(), length)) {
+          return -1;
+        }
+        _d->buffer_in.readn(length);
+        size += length;
+      }
+      // Buffer is now flushed, restore full writeable capacity
+      _d->buffer_in.empty();
+    }
 
-    // Flush result to file (no real cacheing)
-    ssize_t length;
-    do {
-      _d->strm->avail_out = _d->buffer_out.writeable();
-      _d->strm->next_out  = (unsigned char*) _d->buffer_out.writer();
-      deflate(_d->strm, finish ? Z_FINISH : Z_NO_FLUSH);
-      length = _d->buffer_out.writeable() - _d->strm->avail_out;
-      _d->buffer_out.written(length);
-
-      // Checksum computation (on compressed data)
-      length = _d->buffer_out.readable();
-      if (length != write_all(_d->buffer_out.reader(), length)) {
+    // If told to finish or more data than buffer can handle, just write
+    if (finish || (given >= _d->buffer_in.writeable())) {
+      ssize_t length = write_all(buffer, given);
+      if ((ssize_t) given != length) {
         return -1;
       }
-      _d->buffer_out.readn(length);
       size += length;
-    } while (_d->strm->avail_out == 0);
+    } else
+    // Refill buffer
+    {
+      _d->buffer_in.write(buffer, given);
+    }
   }
 
   // Update progress indicator (size written)
