@@ -449,7 +449,7 @@ int Stream::open(
     } else
     if (compression == 0) {
       // Create buffer to cache input data
-//       _d->buffer_in.create();
+      _d->buffer_in.create();
     }
   } else {
     if (compression > 0) {
@@ -799,7 +799,7 @@ ssize_t Stream::write(
     }
 
     // If told to finish or more data than buffer can handle, just write
-    if (finish || (given >= _d->buffer_in.writeable())) {
+    if (finish || (given > _d->buffer_in.writeable())) {
       ssize_t length = write_all(buffer, given);
       if ((ssize_t) given != length) {
         return -1;
