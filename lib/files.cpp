@@ -449,7 +449,7 @@ int Stream::open(
     } else
     if (compression == 0) {
       // Create buffer to cache input data
-      _d->buffer_in.create();
+//       _d->buffer_in.create();
     }
   } else {
     if (compression > 0) {
