@@ -134,11 +134,11 @@ Test: journal read
 [14] file sp          f     0 644 
 [14] file_gone        [rm]
 [14] file_new         f    22 750 246dccb0301976d765609dfb0efd68f9
-Error: Unexpected end of list
+Error: test_db/journal: Unexpected end of list
 Failed to read journal
 
 Test: broken journal merge
-Warning: Unexpected end of journal
+Warning: test_db/journal: Unexpected end of journal
 
 Test: merge read
 [14] file sp                        f      0 644 

@@ -3274,11 +3274,11 @@ myClient's real journal:
 [19] /home/User/testdir/biblio/biblio.dbt [rm]
 [19] /home/User/testdir/biblio.odb  [rm]
 [19] /home/User/testdir/evolocal.odb [rm]
-Error: Unexpected end of list
+Error: test_db/myClient/journal: Unexpected end of list
 Error: Failed to read list
 Warning: Previous backup interrupted: myClient
 Database modified: myClient
-Warning: Unexpected end of journal
+Warning: test_db/myClient/journal: Unexpected end of journal
 Database open in read/write mode
 
 hisClient's list:
@@ -3438,7 +3438,7 @@ myClient's journal:
 [19] /home/User/testdir/biblio/biblio.dbt [rm]
 [19] /home/User/testdir/biblio.odb  [rm]
 [19] /home/User/testdir/evolocal.odb [rm]
-Error: Unexpected end of list
+Error: test_db/myClient/journal~: Unexpected end of list
 Error: Failed to read list
 Database closed
 Database open in read/write mode
@@ -3679,7 +3679,7 @@ myClient's journal:
 [19] /home/User/testdir/biblio/biblio.dbt [rm]
 [19] /home/User/testdir/biblio.odb  [rm]
 [19] /home/User/testdir/evolocal.odb [rm]
-Error: Unexpected end of list
+Error: test_db/myClient/journal~: Unexpected end of list
 Error: Failed to read list
 
 Same again
@@ -3890,7 +3890,7 @@ myClient's journal:
 [19] /home/User/testdir/biblio/biblio.dbt [rm]
 [19] /home/User/testdir/biblio.odb  [rm]
 [19] /home/User/testdir/evolocal.odb [rm]
-Error: Unexpected end of list
+Error: test_db/myClient/journal~: Unexpected end of list
 Error: Failed to read list
 
 Expiry delay: 18, date: 22

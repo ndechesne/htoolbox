@@ -393,7 +393,7 @@ int List::getEntry(
 
     if (length < 0) {
       if (_d->status == eof) {
-        out(error, msg_standard, "Unexpected end of list");
+        out(error, msg_standard, "Unexpected end of list", -1, this->path());
       }
       return -1;
     }
@@ -519,7 +519,7 @@ int List::search(
     // Failed
     if (rc < 0) {
       // Unexpected end of list
-      out(error, msg_standard, "Unexpected end of list");
+      out(error, msg_standard, "Unexpected end of list", -1, path());
       return -1;
     }
 
@@ -660,7 +660,8 @@ int List::merge(
     // Failed
     if (rc_journal < 0) {
       if (journal._d->status == eof) {
-        out(warning, msg_standard, "Unexpected end of journal");
+        out(warning, msg_standard, "Unexpected end of journal", -1,
+          journal.path());
         rc_journal = 0;
       } else {
         out(error, msg_number, "Reading line", j_line_no, "journal");
