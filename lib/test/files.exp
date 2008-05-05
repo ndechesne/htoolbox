@@ -90,9 +90,10 @@ Done: 100.0%
 read size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 
 Test: file write (with cache)
-write size: 12 (12), checksum: a0c5dee7d6c447468bcb866b0d3210e6
+write size: 32 (32), checksum: dabae94f9178f07f6e03ae89fd827c82
 123abc
 line
+this is a long line
 
 Test: file copy (read + write (no cache))
 Done:   3.9%

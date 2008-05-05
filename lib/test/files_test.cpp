@@ -376,7 +376,7 @@ int main(void) {
 
   cout << endl << "Test: file write (with cache)" << endl;
   writefile = new Stream("test1/rwfile_dest");
-  if (writefile->open("w", 0, 3)) {
+  if (writefile->open("w", 0, 7)) {
     cout << "Error opening source file: " << strerror(errno) << endl;
   } else {
     writefile->setProgressCallback(progress);
@@ -392,6 +392,11 @@ int main(void) {
     }
     write_size += size;
     size = writefile->putLine("line");
+    if (size < 0) {
+      cout << "write failed: " << strerror(errno) << endl;
+    }
+    write_size += size;
+    size = writefile->putLine("this is a long line");
     if (size < 0) {
       cout << "write failed: " << strerror(errno) << endl;
     }
