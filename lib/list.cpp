@@ -208,22 +208,6 @@ ssize_t List::putLine(const char* line) {
   return -1;
 }
 
-// Get line from file/buffer
-ssize_t List::getLine(
-    string&         buffer) {
-  int status = fetchLine(true);
-  if (status <= 0) {
-    return -1;
-  }
-  if (_d->line[0] == '#') {
-    return 0;
-  }
-
-  buffer          = _d->line;
-  _d->line_status = no_data;
-  return strlen(_d->line);
-}
-
 void List::keepLine() {
   _d->line_status = new_data;
 }

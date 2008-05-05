@@ -49,9 +49,6 @@ public:
   bool isEmpty() const;
   // Put line into list buffer (will fail and return -1 if buffer in use)
   ssize_t putLine(const char* line);
-  // Read a line from file/cache
-  ssize_t getLine(
-    string&         buffer);
   // Mark cached line for re-use
   void keepLine();
   // Get current line type (will get a new line if necessary)
