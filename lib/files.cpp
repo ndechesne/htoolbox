@@ -349,8 +349,8 @@ struct Stream::Private {
   mode_t            mode;               // file open mode
   long long         size;               // uncompressed file data size (bytes)
   long long         progress;           // transfered size, for progress
-  Buffer            buffer_in;          // Buffer where data cones
-  Buffer            buffer_out;         // Buffer from which data go
+  Buffer            buffer_comp;        // Buffer for [de]compression
+  Buffer            buffer_data;        // Buffer for data
   Buffer*           buffer;             // Buffer to use to get read data
   EVP_MD_CTX*       ctx;                // openssl resources
   z_stream*         strm;               // zlib resources
@@ -446,25 +446,25 @@ int Stream::open(
   if (isWriteable()) {
     if (compression > 0) {
       // Create buffer for compression
-      _d->buffer_out.create();
+      _d->buffer_comp.create();
     }
     if (cache < 0) {
       // Create buffer to cache input data
-      _d->buffer_in.create();
+      _d->buffer_data.create();
     } else
     if (cache > 0) {
       // Create buffer to cache input data to given size
-      _d->buffer_in.create(cache);
+      _d->buffer_data.create(cache);
     }
   } else {
     if (compression > 0) {
       // Create buffer for decompression
-      _d->buffer_in.create();
+      _d->buffer_comp.create();
       // Data buffer on compression output, for getLine (created there)
-      _d->buffer = &_d->buffer_out;
+      _d->buffer = &_d->buffer_data;
     } else {
       // Data buffer on read input, for getLine (created there)
-      _d->buffer = &_d->buffer_in;
+      _d->buffer = &_d->buffer_comp;
     }
     if (cache > 0) {
       _d->buffer->create(cache);
@@ -550,12 +550,12 @@ int Stream::close() {
   }
   _d->fd = -1;
 
-  // Destroy buffer if any
-  if (_d->buffer_in.exists()) {
-    _d->buffer_in.destroy();
+  // Destroy buffers if any
+  if (_d->buffer_comp.exists()) {
+    _d->buffer_comp.destroy();
   }
-  if (_d->buffer_out.exists()) {
-    _d->buffer_out.destroy();
+  if (_d->buffer_data.exists()) {
+    _d->buffer_data.destroy();
   }
 
   // Update metadata
@@ -607,14 +607,14 @@ ssize_t Stream::read(void* buffer, size_t asked) {
   ssize_t size = -1;
 
   // Read new data
-  if (! _d->buffer_in.exists() || _d->buffer_in.isEmpty()) {
-    if (! _d->buffer_in.exists()) {
+  if (! _d->buffer_comp.exists() || _d->buffer_comp.isEmpty()) {
+    if (! _d->buffer_comp.exists()) {
       // No buffer: just read
       size = std::read(_d->fd, buffer, asked);
     } else {
       // Fill in buffer
-      size = std::read(_d->fd, _d->buffer_in.writer(),
-        _d->buffer_in.writeable());
+      size = std::read(_d->fd, _d->buffer_comp.writer(),
+        _d->buffer_comp.writeable());
     }
 
     // Check result
@@ -634,26 +634,26 @@ ssize_t Stream::read(void* buffer, size_t asked) {
 
     // Fill decompression input buffer with chunk or just return chunk
     if (_d->strm != NULL) {
-      _d->buffer_in.written(size);
-      _d->strm->avail_in = _d->buffer_in.readable();
-      _d->strm->next_in  = (unsigned char*) _d->buffer_in.reader();
-    } else if (_d->buffer_in.exists()) {
+      _d->buffer_comp.written(size);
+      _d->strm->avail_in = _d->buffer_comp.readable();
+      _d->strm->next_in  = (unsigned char*) _d->buffer_comp.reader();
+    } else if (_d->buffer_comp.exists()) {
       // Update checksum
       if (_d->ctx != NULL) {
-        if (digest_update_all(_d->buffer_in.writer(), size)) {
+        if (digest_update_all(_d->buffer_comp.writer(), size)) {
           return -2;
         }
       }
-      _d->buffer_in.written(size);
+      _d->buffer_comp.written(size);
     }
   }
 
   // Return data
   if (_d->strm != NULL) {
     // Continue decompression of previous data
-    if (_d->buffer_out.exists()) {
-      _d->strm->avail_out = _d->buffer_out.writeable();
-      _d->strm->next_out  = (unsigned char*) _d->buffer_out.writer();
+    if (_d->buffer_data.exists()) {
+      _d->strm->avail_out = _d->buffer_data.writeable();
+      _d->strm->next_out  = (unsigned char*) _d->buffer_data.writer();
     } else {
       _d->strm->avail_out = asked;
       _d->strm->next_out  = (unsigned char*) buffer;
@@ -666,22 +666,22 @@ ssize_t Stream::read(void* buffer, size_t asked) {
     }
     // Used all decompression buffer
     if (_d->strm->avail_out != 0) {
-      _d->buffer_in.empty();
+      _d->buffer_comp.empty();
     }
-    if (_d->buffer_out.exists()) {
-      size = _d->buffer_out.writeable() - _d->strm->avail_out;
+    if (_d->buffer_data.exists()) {
+      size = _d->buffer_data.writeable() - _d->strm->avail_out;
       // Update checksum
       if (_d->ctx != NULL) {
-        if (digest_update_all(_d->buffer_out.writer(), size)) {
+        if (digest_update_all(_d->buffer_data.writer(), size)) {
           return -2;
         }
       }
-      _d->buffer_out.written(size);
+      _d->buffer_data.written(size);
       // Special case for getLine
       if ((asked == 0) && (buffer == NULL)) {
-        return _d->buffer_out.readable();
+        return _d->buffer_data.readable();
       }
-      size = _d->buffer_out.read(buffer, asked);
+      size = _d->buffer_data.read(buffer, asked);
     } else {
       size = asked - _d->strm->avail_out;
       // Update checksum
@@ -692,12 +692,12 @@ ssize_t Stream::read(void* buffer, size_t asked) {
       }
     }
   } else
-  if (_d->buffer_in.exists()) {
+  if (_d->buffer_comp.exists()) {
     // Special case for getLine
     if ((asked == 0) && (buffer == NULL)) {
-      return _d->buffer_in.readable();
+      return _d->buffer_comp.readable();
     }
-    size = _d->buffer_in.read(buffer, asked);
+    size = _d->buffer_comp.read(buffer, asked);
   } else
   {
     // Update checksum
@@ -747,12 +747,12 @@ ssize_t Stream::write_compress_all(
   // Flush result to file (no real cacheing)
   do {
     // Buffer is considered empty to start with. and is always flushed
-    _d->strm->avail_out = _d->buffer_out.writeable();
+    _d->strm->avail_out = _d->buffer_comp.writeable();
     // Casting away the constness here!!!
-    _d->strm->next_out  = (unsigned char*) _d->buffer_out.writer();
+    _d->strm->next_out  = (unsigned char*) _d->buffer_comp.writer();
     deflate(_d->strm, finish ? Z_FINISH : Z_NO_FLUSH);
-    ssize_t length = _d->buffer_out.writeable() - _d->strm->avail_out;
-    if (length != write_all(_d->buffer_out.reader(), length)) {
+    ssize_t length = _d->buffer_comp.writeable() - _d->strm->avail_out;
+    if (length != write_all(_d->buffer_comp.reader(), length)) {
       return -1;
     }
   } while (_d->strm->avail_out == 0);
@@ -789,34 +789,34 @@ ssize_t Stream::write(
 
   bool direct_write = false;
   ssize_t size = 0;
-  if (_d->buffer_in.exists()) {
+  if (_d->buffer_data.exists()) {
     // If told to finish or buffer is going to overflow, flush it to file
-    if (finish || (given > _d->buffer_in.writeable())) {
+    if (finish || (given > _d->buffer_data.writeable())) {
       // One or two writes (if end of buffer + beginning of it)
-      while (_d->buffer_in.readable() > 0) {
-        ssize_t length = _d->buffer_in.readable();
+      while (_d->buffer_data.readable() > 0) {
+        ssize_t length = _d->buffer_data.readable();
         if (_d->strm == NULL) {
-          if (length != write_all(_d->buffer_in.reader(), length)) {
+          if (length != write_all(_d->buffer_data.reader(), length)) {
             return -1;
           }
         } else {
-          if (length != write_compress_all(_d->buffer_in.reader(), length)) {
+          if (length != write_compress_all(_d->buffer_data.reader(), length)) {
             return -1;
           }
         }
-        _d->buffer_in.readn(length);
+        _d->buffer_data.readn(length);
         size += length;
       }
       // Buffer is now flushed, restore full writeable capacity
-      _d->buffer_in.empty();
+      _d->buffer_data.empty();
     }
 
     // If told to finish or more data than buffer can handle, just write
-    if (finish || (given > _d->buffer_in.writeable())) {
+    if (finish || (given > _d->buffer_data.writeable())) {
       direct_write = true;
     } else {
       // Refill buffer
-      _d->buffer_in.write(buffer, given);
+      _d->buffer_data.write(buffer, given);
     }
   } else {
     direct_write = true;
