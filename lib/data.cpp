@@ -354,9 +354,6 @@ int Data::write(
   source.setProgressCallback(_d->progress);
   errno = 0;
   if (temp.copy(source) != 0) {
-    if (errno != ECANCELED) {
-      out(error, msg_errno, "Copying write file", errno, temp.path());
-    }
     failed = true;
   }
 
