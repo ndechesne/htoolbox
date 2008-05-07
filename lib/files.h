@@ -306,16 +306,20 @@ class Stream : public File {
   Private* const    _d;
   // Convert MD5 to readable string
   static void md5sum(char* out, const unsigned char* in, int bytes);
+  int digest_update(
+    const void*     buffer,
+    size_t          size);
+  ssize_t read_decompress(
+    const void*     buffer,
+    size_t          asked,
+    size_t*         given);
   ssize_t write_all(
     const void*     buffer,
-    size_t          count);
-  ssize_t write_compress_all(
+    size_t          size);
+  ssize_t write_compress(
     const void*     buffer,
-    size_t          count,
+    size_t          size,
     bool            finish = false);
-  int digest_update_all(
-    const void*     buffer,
-    size_t          count);
 public:
   // Max buffer size for read/write (here for testing purposes)
   static const size_t chunk = 409600;

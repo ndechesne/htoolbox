@@ -208,7 +208,7 @@ int main(void) {
   mask = umask(0022);
   printf("Our mask = 0%03o\n", mask);
 
-  cout << endl << "Test: constructors / countBlocks" << endl;
+  cout << endl << "Test: constructors" << endl;
   Path* pth0;
   pth0 = new Path;
   cout << pth0->length() << ": " << *pth0 << endl;
@@ -408,7 +408,7 @@ int main(void) {
   delete writefile;
   system("cat test1/rwfile_dest");
 
-  cout << endl << "Test: file copy (read + write (no cache))" << endl;
+  cout << endl << "Test: file copy (read (cache) + write (no cache))" << endl;
   readfile = new Stream("test1/big_file");
   writefile = new Stream("test1/rwfile_dest");
   if (readfile->open("r", 0, Stream::chunk + 1)) {
@@ -525,7 +525,7 @@ int main(void) {
   delete readfile;
   delete writefile;
 
-  cout << endl << "Test: file compress (read + cached compress write)"
+  cout << endl << "Test: file compress (cached read + cached compress write)"
     << endl;
   readfile = new Stream("test1/rwfile_source");
   writefile = new Stream("test1/rwfile_dest");
@@ -562,8 +562,8 @@ int main(void) {
       << "), checksum: " << writefile->checksum() << endl;
   }
   cout << endl
-    << "Test: file recompress (uncompress read + uncached compress write), "
-      << "no closing" << endl;
+    << "Test: file recompress (cached uncompress read + uncached compress "
+      << "write), no closing" << endl;
   {
     Stream* swap = readfile;
     readfile = writefile;
@@ -1021,6 +1021,18 @@ int main(void) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
   cout << "Reading compressed file (line length = 600):" << endl;
+  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
+    cout << "Line: " << line_test << endl;
+  }
+  if (readfile->close()) cout << "Error closing read file" << endl;
+  cout << "Checksum: " << readfile->checksum() << endl;
+  delete readfile;
+
+  readfile = new Stream("test2/testfile");
+  if (readfile->open("r", 1, -1, false)) {
+    cout << "Error opening file: " << strerror(errno) << endl;
+  }
+  cout << "Reading compressed file (line length = 600), no checksum:" << endl;
   while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
     cout << "Line: " << line_test << endl;
   }
