@@ -355,10 +355,10 @@ int main(void) {
     cout << "Error opening source file: " << strerror(errno) << endl;
   } else {
     readfile->setProgressCallback(progress);
-    unsigned char buffer[Stream::chunk];
+    unsigned char buffer[1 << 20];
     size_t read_size = 0;
     do {
-      ssize_t size = readfile->read(buffer, Stream::chunk);
+      ssize_t size = readfile->read(buffer, 1 << 20);
       if (size < 0) {
         cout << "broken by read: " << strerror(errno) << endl;
         break;
@@ -411,17 +411,17 @@ int main(void) {
   cout << endl << "Test: file copy (read (cache) + write (no cache))" << endl;
   readfile = new Stream("test1/big_file");
   writefile = new Stream("test1/rwfile_dest");
-  if (readfile->open("r", 0, Stream::chunk + 1)) {
+  if (readfile->open("r", 0, 409600 + 1)) {
     cout << "Error opening source file: " << strerror(errno) << endl;
   } else if (writefile->open("w", 0, 0)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
     readfile->setProgressCallback(progress);
-    unsigned char buffer[Stream::chunk];
+    unsigned char buffer[409600];
     size_t read_size = 0;
     size_t write_size = 0;
     do {
-      ssize_t size = readfile->read(buffer, Stream::chunk);
+      ssize_t size = readfile->read(buffer, 409600);
       if (size < 0) {
         cout << "broken by read: " << strerror(errno) << endl;
         break;
@@ -456,11 +456,11 @@ int main(void) {
   } else if (writefile->open("w", 5, -1)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
-    unsigned char buffer[Stream::chunk];
+    unsigned char buffer[409600];
     size_t read_size = 0;
     size_t write_size = 0;
     do {
-      ssize_t size = readfile->read(buffer, Stream::chunk);
+      ssize_t size = readfile->read(buffer, 409600);
       if (size < 0) {
         cout << "broken by read: " << strerror(errno) << endl;
         break;
@@ -495,11 +495,11 @@ int main(void) {
   } else if (writefile->open("w", 0, 102)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
-    unsigned char buffer[Stream::chunk];
+    unsigned char buffer[409600];
     size_t read_size = 0;
     size_t write_size = 0;
     do {
-      ssize_t size = readfile->read(buffer, Stream::chunk);
+      ssize_t size = readfile->read(buffer, 409600);
       if (size < 0) {
         cout << "broken by read: " << strerror(errno) << endl;
         break;
@@ -534,11 +534,11 @@ int main(void) {
   } else if (writefile->open("w", 5, 100)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
-    unsigned char buffer[Stream::chunk];
+    unsigned char buffer[409600];
     size_t read_size = 0;
     size_t write_size = 0;
     do {
-      ssize_t size = readfile->read(buffer, Stream::chunk);
+      ssize_t size = readfile->read(buffer, 409600);
       if (size < 0) {
         cout << "broken by read: " << strerror(errno) << endl;
         break;
@@ -574,11 +574,11 @@ int main(void) {
   } else if (writefile->open("w", 5, 0)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
-    unsigned char buffer[Stream::chunk];
+    unsigned char buffer[409600];
     size_t read_size = 0;
     size_t write_size = 0;
     do {
-      ssize_t size = readfile->read(buffer, Stream::chunk);
+      ssize_t size = readfile->read(buffer, 409600);
       if (size < 0) {
         cout << "broken by read: " << strerror(errno) << endl;
         break;

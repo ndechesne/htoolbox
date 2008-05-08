@@ -321,8 +321,6 @@ class Stream : public File {
     size_t          size,
     bool            finish = false);
 public:
-  // Max buffer size for read/write (here for testing purposes)
-  static const size_t chunk = 409600;
   // Magic constructor that auto-selects the extension
   static Stream* select(
     Path            path,

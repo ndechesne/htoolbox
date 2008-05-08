@@ -614,8 +614,6 @@ ssize_t Stream::read(void* buffer, size_t asked) {
     return -1;
   }
 
-  if (asked > chunk) asked = chunk;
-
   // Get data
   ssize_t size  = 0;
   size_t  given = 0;
@@ -733,7 +731,6 @@ ssize_t Stream::write(
     return -1;
   }
 
-  if (given > chunk) given = chunk;
   _d->size += given;
 
   if ((given == 0) && (buffer == NULL)) {
@@ -892,11 +889,11 @@ int Stream::computeChecksum() {
     errno = EBADF;
     return -1;
   }
-  unsigned char buffer[Stream::chunk];
+  unsigned char buffer[1 << 19];
   long long     read_size = 0;
   ssize_t       size;
   do {
-    size = read(buffer, Stream::chunk);
+    size = read(buffer, 1 << 19);
     if (size < 0) {
       break;
     }
@@ -918,34 +915,30 @@ int Stream::copy(Stream& source) {
     errno = EBADF;
     return -1;
   }
-  unsigned char buffer[Stream::chunk];
-  long long read_size  = 0;
-  long long write_size = 0;
-  bool      eof        = false;
-  ssize_t   size;
+  Buffer    buffer(1 << 19);
+  long long size = 0;
+  bool      eof  = false;
 
   do {
-    size = source.read(buffer, Stream::chunk);
-    if (size < 0) {
+    ssize_t length = source.read(buffer.writer(), buffer.writeable());
+    if (length < 0) {
       break;
     }
-    eof = (size == 0);
-    read_size += size;
-    size = write(buffer, size);
-    if (size < 0) {
-      break;
+    buffer.written(length);
+    eof = (length == 0);
+    size += length;
+    length = write(buffer.reader(), buffer.readable());
+    if (length < 0) {
+      return -1;
     }
-    write_size += size;
+    buffer.readn(length);
     if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)(2))) {
       errno = ECANCELED;
       return -1;
     }
   } while (! eof);
-  if (size < 0) {
-    // errno is to be used
-    return -1;
-  }
-  if (read_size != source._d->size) {
+  // Check that sizes match
+  if (size != source._d->size) {
     errno = EAGAIN;
     return -1;
   }

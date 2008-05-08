@@ -61,31 +61,15 @@ abcd <> abce, 4: -1
 abcd <> abce, 5: -1
 
 Test: file read (no cache)
-Done:   3.9%
-Done:   7.8%
-Done:  11.7%
-Done:  15.6%
-Done:  19.5%
-Done:  23.4%
-Done:  27.3%
-Done:  31.2%
-Done:  35.2%
-Done:  39.1%
-Done:  43.0%
-Done:  46.9%
-Done:  50.8%
-Done:  54.7%
-Done:  58.6%
-Done:  62.5%
-Done:  66.4%
-Done:  70.3%
-Done:  74.2%
-Done:  78.1%
-Done:  82.0%
-Done:  85.9%
-Done:  89.8%
-Done:  93.8%
-Done:  97.7%
+Done:  10.0%
+Done:  20.0%
+Done:  30.0%
+Done:  40.0%
+Done:  50.0%
+Done:  60.0%
+Done:  70.0%
+Done:  80.0%
+Done:  90.0%
 Done: 100.0%
 read size: 10485760 (10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 
@@ -398,7 +382,7 @@ Parsing test
  -> File: big_file, path = test1/big_file, type = f, mtime = 1, size = 10485760, uid = 1, gid = 1, mode = 644
  -> Dir.: dir space, path = test1/dir space, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  --> File: file space, path = test1/dir space/file space, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
- -> File: rwfile_dest, path = test1/rwfile_dest, type = f, mtime = 1, size = 409600, uid = 1, gid = 1, mode = 644
+ -> File: rwfile_dest, path = test1/rwfile_dest, type = f, mtime = 1, size = 524288, uid = 1, gid = 1, mode = 644
  -> File: rwfile_source, path = test1/rwfile_source, type = f, mtime = 1, size = 10208, uid = 1, gid = 1, mode = 644
  -> Dir.: subdir, path = test1/subdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  --> File: testfile, path = test1/subdir/testfile, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644
