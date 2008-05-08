@@ -40,6 +40,7 @@ AC_PROG_LIBTOOL
 liberrors=""
 AC_CHECK_LIB(ssl, SSL_CTX_new, [], [liberrors="yes"])
 AC_CHECK_LIB(z, deflate, [], [liberrors="yes"])
+AC_CHECK_LIB(pthread, deflate, [], [liberrors="yes"])
 if test "x$liberrors" != "x"; then
   AC_MSG_ERROR([some libraries were missing or unusable])
 fi
@@ -63,6 +64,7 @@ AC_TYPE_SSIZE_T
 AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC
+AC_FUNC_REALLOC
 AC_FUNC_MEMCMP
 AC_FUNC_CHOWN
 AC_FUNC_MKTIME
@@ -72,6 +74,7 @@ AC_FUNC_UTIME_NULL
 AC_STRUCT_TM
 AC_CHECK_FUNCS([mkdir mkfifo regcomp strchr strdup strerror strrchr strtoul])
 AC_CHECK_FUNCS([select setenv strtol tzset utime strerror strrchr strtoul])
+AC_CHECK_FUNCS([mempcpy])
 
 # Define test tools
 AC_PATH_PROG(TEST_TOOL, test_tools/test_setup, test_tools/test_setup)

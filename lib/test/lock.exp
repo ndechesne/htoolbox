@@ -1,0 +1,19 @@
+create locked lock
+trylock
+  busy
+unlock
+  ok
+trylock
+  ok
+trylock
+  busy
+unlock
+  ok
+lock
+  ok
+timed lock
+  busy
+unlock
+  ok
+timed lock
+  ok
