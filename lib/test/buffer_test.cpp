@@ -31,6 +31,7 @@ int main(void) {
   int number;
 
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -41,6 +42,7 @@ int main(void) {
   buffer.written(strlen(string1));
   cout << endl << "write: " << string1 << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -52,6 +54,7 @@ int main(void) {
   buffer.readn(number);
   cout << endl << "read: " << number << ": " << string2 << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -63,6 +66,7 @@ int main(void) {
   buffer.readn(number);
   cout << endl << "read: " << number << ": " << string2 << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -72,6 +76,7 @@ int main(void) {
   buffer.write(string1, strlen(string1));
   cout << endl << "write: " << string1 << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -82,6 +87,7 @@ int main(void) {
   number = buffer.read(string2, number);
   cout << endl << "read: " << number << ": " << string2 << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -93,6 +99,7 @@ int main(void) {
   buffer.readn(number);
   cout << endl << "read: " << number << ": " << string2 << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -103,6 +110,7 @@ int main(void) {
   buffer.written(strlen(string1));
   cout << endl << "write: " << string1 << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -114,6 +122,7 @@ int main(void) {
   buffer.readn(number);
   cout << endl << "read: " << number << ": " << string2 << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -124,6 +133,7 @@ int main(void) {
   buffer.written(strlen(string1));
   cout << endl << "write: " << string1 << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -133,6 +143,7 @@ int main(void) {
   number = buffer.write(string1, strlen(string1));
   cout << endl << "wrote: " << number << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -143,6 +154,7 @@ int main(void) {
   number = buffer.read(string2, number);
   cout << endl << "read: " << number << ": " << string2 << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -153,6 +165,7 @@ int main(void) {
   number = buffer.read(string2, number);
   cout << endl << "read: " << number << ": " << string2 << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -162,6 +175,7 @@ int main(void) {
   number = buffer.write(string1, strlen(string1));
   cout << endl << "wrote: " << number << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -171,6 +185,7 @@ int main(void) {
   number = buffer.write(string1, strlen(string1));
   cout << endl << "wrote: " << number << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;
@@ -179,6 +194,7 @@ int main(void) {
   buffer.empty();
   cout << endl << "emptied" << endl;
   cout << "Buffer capacity = " << buffer.capacity() << endl;
+  cout << "Buffer usage = " << buffer.usage() << endl;
   cout << "Buffer empty? " << (buffer.isEmpty() ? "yes" : "no") << endl;
   cout << "Buffer full? " << (buffer.isFull() ? "yes" : "no") << endl;
   cout << "Buffer writeable = " << buffer.writeable() << endl;

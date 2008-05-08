@@ -29,7 +29,6 @@ struct Buffer::Private {
   const char* reader;
   const char* end;
   bool empty;
-  bool full;
 };
 
 Buffer::Buffer(size_t size) : _d(new Private) {
@@ -62,7 +61,6 @@ void Buffer::empty() {
   _d->writer = _d->buffer;
   _d->reader = _d->buffer;
   _d->empty  = true;
-  _d->full   = false;
 }
 
 bool Buffer::exists() const {
@@ -73,12 +71,24 @@ size_t Buffer::capacity() const {
   return _d->end - _d->buffer;
 }
 
+size_t Buffer::usage() const {
+  if (_d->empty) {
+    return 0;
+  } else
+  if (_d->reader < _d->writer) {
+    return _d->writer - _d->reader;
+  } else
+  {
+    return _d->end - _d->buffer + _d->writer - _d->reader;
+  }
+}
+
 bool Buffer::isEmpty() const {
   return _d->empty;
 }
 
 bool Buffer::isFull() const {
-  return _d->full;
+  return (_d->reader == _d->writer) && ! _d->empty;
 }
 
 char* Buffer::writer() {
@@ -89,7 +99,7 @@ size_t Buffer::writeable() const {
   if (_d->writer < _d->reader) {
     return _d->reader - _d->writer;
   } else
-  if ((_d->writer > _d->reader) || ! _d->full) {
+  if ((_d->writer > _d->reader) || _d->empty) {
     return _d->end - _d->writer;
   } else
   {
@@ -103,9 +113,6 @@ void Buffer::written(size_t size) {
   _d->writer += size;
   if (_d->writer >= _d->end) {
     _d->writer = _d->buffer;
-  }
-  if (_d->writer == _d->reader) {
-    _d->full = true;
   }
 }
 
@@ -136,7 +143,7 @@ size_t Buffer::readable() const {
   if (_d->reader < _d->writer) {
     return _d->writer - _d->reader;
   } else
-  if ((_d->reader > _d->writer) || _d->full) {
+  if ((_d->reader > _d->writer) || ! _d->empty) {
     return _d->end - _d->reader;
   } else
   {
@@ -146,7 +153,6 @@ size_t Buffer::readable() const {
 
 void Buffer::readn(size_t size) {
   if (size == 0) return;
-  _d->full = false;
   _d->reader += size;
   if (_d->reader >= _d->end) {
     _d->reader = _d->buffer;

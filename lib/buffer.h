@@ -35,6 +35,7 @@ public:
   void empty();
   bool exists() const;
   size_t capacity() const;
+  size_t usage() const;
   // Status
   bool isEmpty() const;
   bool isFull() const;

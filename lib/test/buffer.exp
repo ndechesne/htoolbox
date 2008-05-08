@@ -1,4 +1,5 @@
 Buffer capacity = 10
+Buffer usage = 0
 Buffer empty? yes
 Buffer full? no
 Buffer writeable = 10
@@ -6,6 +7,7 @@ Buffer readable = 0
 
 write: 123456
 Buffer capacity = 10
+Buffer usage = 6
 Buffer empty? no
 Buffer full? no
 Buffer writeable = 4
@@ -13,6 +15,7 @@ Buffer readable = 6
 
 read: 3: 123
 Buffer capacity = 10
+Buffer usage = 3
 Buffer empty? no
 Buffer full? no
 Buffer writeable = 4
@@ -20,6 +23,7 @@ Buffer readable = 3
 
 read: 3: 456
 Buffer capacity = 10
+Buffer usage = 0
 Buffer empty? yes
 Buffer full? no
 Buffer writeable = 4
@@ -27,6 +31,7 @@ Buffer readable = 0
 
 write: ABCD
 Buffer capacity = 10
+Buffer usage = 4
 Buffer empty? no
 Buffer full? no
 Buffer writeable = 6
@@ -34,6 +39,7 @@ Buffer readable = 4
 
 read: 3: ABC
 Buffer capacity = 10
+Buffer usage = 1
 Buffer empty? no
 Buffer full? no
 Buffer writeable = 9
@@ -41,6 +47,7 @@ Buffer readable = 1
 
 read: 1: D
 Buffer capacity = 10
+Buffer usage = 0
 Buffer empty? yes
 Buffer full? no
 Buffer writeable = 10
@@ -48,6 +55,7 @@ Buffer readable = 0
 
 write: abcdefghij
 Buffer capacity = 10
+Buffer usage = 10
 Buffer empty? no
 Buffer full? yes
 Buffer writeable = 0
@@ -55,6 +63,7 @@ Buffer readable = 10
 
 read: 6: abcdef
 Buffer capacity = 10
+Buffer usage = 4
 Buffer empty? no
 Buffer full? no
 Buffer writeable = 6
@@ -62,6 +71,7 @@ Buffer readable = 4
 
 write: !@#$%^
 Buffer capacity = 10
+Buffer usage = 10
 Buffer empty? no
 Buffer full? yes
 Buffer writeable = 0
@@ -69,6 +79,7 @@ Buffer readable = 4
 
 wrote: 0
 Buffer capacity = 10
+Buffer usage = 10
 Buffer empty? no
 Buffer full? yes
 Buffer writeable = 0
@@ -76,6 +87,7 @@ Buffer readable = 4
 
 read: 10: ghij!@#$%^
 Buffer capacity = 10
+Buffer usage = 0
 Buffer empty? yes
 Buffer full? no
 Buffer writeable = 4
@@ -83,6 +95,7 @@ Buffer readable = 0
 
 read: 0: ghij!@#$%^
 Buffer capacity = 10
+Buffer usage = 0
 Buffer empty? yes
 Buffer full? no
 Buffer writeable = 4
@@ -90,6 +103,7 @@ Buffer readable = 0
 
 wrote: 10
 Buffer capacity = 10
+Buffer usage = 10
 Buffer empty? no
 Buffer full? yes
 Buffer writeable = 0
@@ -97,6 +111,7 @@ Buffer readable = 4
 
 wrote: 0
 Buffer capacity = 10
+Buffer usage = 10
 Buffer empty? no
 Buffer full? yes
 Buffer writeable = 0
@@ -104,6 +119,7 @@ Buffer readable = 4
 
 emptied
 Buffer capacity = 10
+Buffer usage = 0
 Buffer empty? yes
 Buffer full? no
 Buffer writeable = 10
