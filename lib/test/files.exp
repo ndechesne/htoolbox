@@ -146,19 +146,27 @@ files differ
 files differ
 
 Test: computeChecksum
+default read
 Checksum: 59ca0efa9f5633cb0371bbc0355478d8
+default read
+Done:  70.4%
+Done: 100.0%
 Checksum: f81f70dceaca8b0cec354f33fa3f0909
+default decompress read
 Done:  70.4%
 Done: 100.0%
 Checksum: 81db27b3763d3c48ea035c54b8ebeaa3
+default getLine
 Done:  70.4%
 Done: 100.0%
 Checksum: f81f70dceaca8b0cec354f33fa3f0909
 Size: 145461
+default decompress getLine
 Done:  70.4%
 Done: 100.0%
 Checksum: 81db27b3763d3c48ea035c54b8ebeaa3
 Size: 145408
+default decompress read
 Checksum: f1c9645dbc14efddc7d8a322685f26eb
 
 Test: copy

@@ -889,24 +889,26 @@ int Stream::computeChecksum() {
     errno = EBADF;
     return -1;
   }
-  unsigned char buffer[1 << 19];
-  long long     read_size = 0;
-  ssize_t       size;
+  // Need a buffer to store temporary data
+  if (! _d->buffer_data.exists()) {
+    _d->buffer_data.create();
+  }
+  long long size = 0;
+  bool      eof  = false;
+
   do {
-    size = read(buffer, 1 << 19);
-    if (size < 0) {
-      break;
+    ssize_t length = read(NULL, 0);
+    _d->buffer_data.empty();
+    if (length < 0) {
+      return -1;
     }
-    read_size += size;
+    eof = (length == 0);
+    size += length;
     if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)(1))) {
       errno = ECANCELED;
       return -1;
     }
-  } while (size != 0);
-  if (read_size != _d->size) {
-    errno = EAGAIN;
-    return -1;
-  }
+  } while (! eof);
   return 0;
 }
 

@@ -737,6 +737,7 @@ int main(void) {
 
 
   cout << endl << "Test: computeChecksum" << endl;
+  cout << "default read" << endl;
   readfile = new Stream("test1/testfile");
   if (readfile->open("r", 0, -1)) {
     return 0;
@@ -752,6 +753,7 @@ int main(void) {
   cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
 
+  cout << "default read" << endl;
   readfile = new Stream("test2/testfile2.gz");
   if (readfile->open("r", 0, -1)) {
     return 0;
@@ -767,6 +769,7 @@ int main(void) {
   cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
 
+  cout << "default decompress read" << endl;
   readfile = new Stream("test2/testfile2.gz");
   if (readfile->open("r", 1, -1)) {
     return 0;
@@ -782,6 +785,7 @@ int main(void) {
   cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
 
+  cout << "default getLine" << endl;
   readfile = new Stream("test2/testfile2.gz");
   ssize_t read_size = 0;
   if (readfile->open("r", 0, -1)) {
@@ -809,6 +813,7 @@ int main(void) {
   cout << "Size: " << read_size << endl;
   delete readfile;
 
+  cout << "default decompress getLine" << endl;
   readfile = new Stream("test2/testfile2.gz");
   read_size = 0;
   if (readfile->open("r", 1, -1)) {
@@ -836,6 +841,7 @@ int main(void) {
   cout << "Size: " << read_size << endl;
   delete readfile;
 
+  cout << "default decompress read" << endl;
   readfile = new Stream("test1/rwfile_source");
   if (readfile->open("r", 1, -1)) {
     return 0;
