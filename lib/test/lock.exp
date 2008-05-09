@@ -37,3 +37,19 @@ timed lock
   ok
 -> locked
 
+unlock
+  ok
+-> not locked
+
+double unlock
+  ok
+-> not locked
+
+timed lock
+  ok
+-> locked
+
+timed lock
+  busy
+-> locked
+

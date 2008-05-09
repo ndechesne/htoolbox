@@ -174,5 +174,67 @@ int main(void) {
     cout << "-> not locked" << endl << endl;
   }
 
+  cout << "unlock" << endl;
+  switch (l1.release()) {
+  case 0:
+    cout << "  ok" << endl;
+    break;
+  default:
+    cout << "  error" << endl;
+  }
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
+  }
+
+  cout << "double unlock" << endl;
+  switch (l1.release()) {
+  case 0:
+    cout << "  ok" << endl;
+    break;
+  default:
+    cout << "  error" << endl;
+  }
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
+  }
+
+  cout << "timed lock" << endl;
+  switch (l1.lock(1)) {
+  case 0:
+    cout << "  ok" << endl;
+    break;
+  case 1:
+    cout << "  busy" << endl;
+    break;
+  default:
+    cout << "  error" << endl;
+  }
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
+  }
+
+  cout << "timed lock" << endl;
+  switch (l1.lock(1)) {
+  case 0:
+    cout << "  ok" << endl;
+    break;
+  case 1:
+    cout << "  busy" << endl;
+    break;
+  default:
+    cout << "  error" << endl;
+  }
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
+  }
+
   return 0;
 }
