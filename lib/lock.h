@@ -29,7 +29,7 @@ public:
   ~Lock();
   int lock(int timeout = 0);
   int trylock();
-  int unlock();
+  int release();
   bool isLocked();
 };
 

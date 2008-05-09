@@ -51,7 +51,7 @@ int main(void) {
   }
 
   cout << "unlock" << endl;
-  switch (l1.unlock()) {
+  switch (l1.release()) {
   case 0:
     cout << "  ok" << endl;
     break;
@@ -99,7 +99,7 @@ int main(void) {
   }
 
   cout << "unlock" << endl;
-  switch (l1.unlock()) {
+  switch (l1.release()) {
   case 0:
     cout << "  ok" << endl;
     break;
@@ -144,7 +144,7 @@ int main(void) {
   }
 
   cout << "unlock" << endl;
-  switch (l1.unlock()) {
+  switch (l1.release()) {
   case 0:
     cout << "  ok" << endl;
     break;

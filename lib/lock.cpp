@@ -80,7 +80,7 @@ int Lock::trylock() {
   };
 }
 
-int Lock::unlock() {
+int Lock::release() {
   _d->locked = false;
   return pthread_mutex_unlock(&_d->mutex) != 0 ? -1 : 0;
 }
