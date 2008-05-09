@@ -30,6 +30,7 @@ public:
   int lock(int timeout = 0);
   int trylock();
   int unlock();
+  bool isLocked();
 };
 
 }

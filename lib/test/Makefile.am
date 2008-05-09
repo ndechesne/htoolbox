@@ -45,6 +45,8 @@ LDADD = $(top_srcdir)/lib/libhbackup.la
 
 check_SUCCESSES = \
 	buffer.done \
+	line.done \
+	lock.done \
 	files.done \
 	report.done \
 	configuration.done \
@@ -53,9 +55,7 @@ check_SUCCESSES = \
 	parsers.done \
 	cvs_parser.done \
 	svn_parser.done \
-	line.done \
 	list.done \
-	lock.done \
 	owner.done \
 	data.done \
 	db.done \

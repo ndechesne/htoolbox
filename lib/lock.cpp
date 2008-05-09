@@ -26,43 +26,52 @@ using namespace hbackup;
 
 struct Lock::Private {
   pthread_mutex_t mutex;
+  bool            locked;
 };
 
 Lock::Lock(bool locked) : _d(new Private) {
+  _d->locked = false;
   pthread_mutex_init(&_d->mutex, NULL);
   if (locked) {
-    pthread_mutex_lock(&_d->mutex);
+    lock();
   }
 }
 
 Lock::~Lock() {
+  if (_d->locked) {
+    pthread_mutex_unlock(&_d->mutex);
+  }
   pthread_mutex_destroy(&_d->mutex);
   delete _d;
 }
 
-#include <stdio.h>
 int Lock::lock(int timeout) {
   if (timeout > 0) {
     struct timespec t;
     t.tv_sec  = time(NULL) + timeout + 1;
     t.tv_nsec = 0;
-    int rc = pthread_mutex_timedlock(&_d->mutex, &t);
-    switch (rc) {
+    switch (pthread_mutex_timedlock(&_d->mutex, &t)) {
       case 0:
-        return 0;
+        break;
       case ETIMEDOUT:
         return 1;
       default:
         return -1;
     };
+  } else {
+    if (pthread_mutex_lock(&_d->mutex) != 0) {
+      return -1;
+    }
   }
-  return pthread_mutex_lock(&_d->mutex) != 0 ? -1 : 0;
+  _d->locked = true;
+  return 0;
 }
 
 int Lock::trylock() {
   int rc = pthread_mutex_trylock(&_d->mutex);
   switch (rc) {
     case 0:
+      _d->locked = true;
       return 0;
     case EBUSY:
       return 1;
@@ -72,5 +81,10 @@ int Lock::trylock() {
 }
 
 int Lock::unlock() {
+  _d->locked = false;
   return pthread_mutex_unlock(&_d->mutex) != 0 ? -1 : 0;
+}
+
+bool Lock::isLocked() {
+  return _d->locked;
 }

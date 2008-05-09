@@ -1,19 +1,39 @@
 create locked lock
+-> locked
+
 trylock
   busy
+-> locked
+
 unlock
   ok
+-> not locked
+
 trylock
   ok
+-> locked
+
 trylock
   busy
+-> locked
+
 unlock
   ok
+-> not locked
+
 lock
   ok
+-> locked
+
 timed lock
   busy
+-> locked
+
 unlock
   ok
+-> not locked
+
 timed lock
   ok
+-> locked
+

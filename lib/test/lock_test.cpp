@@ -27,6 +27,11 @@ using namespace hbackup;
 int main(void) {
   cout << "create locked lock" << endl;
   Lock l1(true);
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
+  }
 
   cout << "trylock" << endl;
   switch (l1.trylock()) {
@@ -38,6 +43,11 @@ int main(void) {
     break;
   default:
     cout << "  error" << endl;
+  }
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
   }
 
   cout << "unlock" << endl;
@@ -48,17 +58,10 @@ int main(void) {
   default:
     cout << "  error" << endl;
   }
-
-  cout << "trylock" << endl;
-  switch (l1.trylock()) {
-  case 0:
-    cout << "  ok" << endl;
-    break;
-  case 1:
-    cout << "  busy" << endl;
-    break;
-  default:
-    cout << "  error" << endl;
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
   }
 
   cout << "trylock" << endl;
@@ -71,6 +74,28 @@ int main(void) {
     break;
   default:
     cout << "  error" << endl;
+  }
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
+  }
+
+  cout << "trylock" << endl;
+  switch (l1.trylock()) {
+  case 0:
+    cout << "  ok" << endl;
+    break;
+  case 1:
+    cout << "  busy" << endl;
+    break;
+  default:
+    cout << "  error" << endl;
+  }
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
   }
 
   cout << "unlock" << endl;
@@ -80,6 +105,11 @@ int main(void) {
     break;
   default:
     cout << "  error" << endl;
+  }
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
   }
 
   cout << "lock" << endl;
@@ -90,6 +120,11 @@ int main(void) {
   default:
     cout << "  error" << endl;
   }
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
+  }
 
   cout << "timed lock" << endl;
   switch (l1.lock(1)) {
@@ -101,6 +136,11 @@ int main(void) {
     break;
   default:
     cout << "  error" << endl;
+  }
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
   }
 
   cout << "unlock" << endl;
@@ -111,6 +151,11 @@ int main(void) {
   default:
     cout << "  error" << endl;
   }
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
+  }
 
   cout << "timed lock" << endl;
   switch (l1.lock(1)) {
@@ -122,6 +167,11 @@ int main(void) {
     break;
   default:
     cout << "  error" << endl;
+  }
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
   }
 
   return 0;
