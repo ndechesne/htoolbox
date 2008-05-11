@@ -47,6 +47,10 @@ public:
   int search(
     const char*     path,                 // Path to look for, NULL for all
     Node**          node) const;          // Node found
+  // Send data for comparison
+  void sendEntry(
+    OpData&         operation,            // Operation data
+    Missing&        missing);             // List of missing items
   // Add entry info to journal
   int add(
     const char*     path,

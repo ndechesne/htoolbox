@@ -73,25 +73,6 @@ public:
   // Close list / journal for current client, can signal if error occurred
   int  closeClient(
     bool            abort = false);       // Whether to remove remaining items
-  // Data for operation
-  class OpData {
-    friend class Database;
-    char            _letter;          // Letter showing current operation
-    int             _id;              // Missing checksum ID
-    int             _compression;     // Compression level for regular files
-    const char*     _path;            // Real file path, on client
-    Node&           _node;            // File metadata
-    bool            _get_checksum;    // Metadata exists but checksum missing
-  public:
-    // Pointers given to the constructor MUST remain valid during operation!
-    OpData(
-      const char*   path,             // Real file path, on client
-      Node&         node)             // File metadata
-     : _letter(0), _id(-1), _compression(0), _path(path), _node(node),
-       _get_checksum(false) {}
-    void setCompression(int compression) { _compression = compression; }
-    bool needsAdding() { return _letter != 0; }
-  };
   // Send data for comparison
   void sendEntry(
     OpData&         operation);       // Operation data

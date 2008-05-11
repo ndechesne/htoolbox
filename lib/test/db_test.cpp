@@ -28,6 +28,7 @@ using namespace std;
 #include "files.h"
 #include "report.h"
 #include "list.h"
+#include "opdata.h"
 #include "db.h"
 
 using namespace hbackup;
@@ -243,40 +244,40 @@ int main(void) {
 
   Directory* d;
   File* f;
-  Database::OpData* op;
+  OpData* op;
   d = new Directory("test1/subdir");
-  op = new Database::OpData("/client_path/subdir", *d);
+  op = new OpData("/client_path/subdir", *d);
   db.add(*op);
   delete op;
   delete d;
   f = new File("test1/subdir/testfile");
-  op = new Database::OpData("/client_path/subdir/testfile", *f);
+  op = new OpData("/client_path/subdir/testfile", *f);
   op->setCompression(5);
   db.add(*op);
   delete op;
   delete f;
   f = new File("test1/subdir/testfile2");
-  op = new Database::OpData("/client_path/subdir/testfile2", *f);
+  op = new OpData("/client_path/subdir/testfile2", *f);
   db.add(*op);
   delete op;
   delete f;
   f = new File("test1/test space");
-  op = new Database::OpData("/client_path/test space", *f);
+  op = new OpData("/client_path/test space", *f);
   db.add(*op);
   delete op;
   delete f;
   f = new File("test1/testfile");
-  op = new Database::OpData("/client_path/testfile", *f);
+  op = new OpData("/client_path/testfile", *f);
   db.add(*op);
   delete op;
   delete f;
   d = new Directory("test1/testdir");
-  op = new Database::OpData("other_path/testdir", *d);
+  op = new OpData("other_path/testdir", *d);
   db.add(*op);
   delete op;
   delete d;
   f = new File("test2/testfile");
-  op = new Database::OpData("other_path/testfile", *f);
+  op = new OpData("other_path/testfile", *f);
   db.add(*op);
   delete op;
   delete f;
@@ -416,7 +417,7 @@ int main(void) {
     db.openClient("myClient");
 
     Link l("test1/testlink");
-    Database::OpData o("/client_path/new_link", l);
+    OpData o("/client_path/new_link", l);
     db.add(o);
     db.closeClient();
     rename("test_db/myClient/journal~", "test_db/myClient/list");

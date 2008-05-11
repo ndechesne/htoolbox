@@ -30,6 +30,7 @@ using namespace std;
 #include "parsers.h"
 #include "cvs_parser.h"
 #include "svn_parser.h"
+#include "opdata.h"
 #include "db.h"
 #include "paths.h"
 
@@ -94,7 +95,7 @@ int ClientPath::parse_recurse(
 
         // Synchronize with DB records
         Path rem_path(remote_path, (*i)->name());
-        Database::OpData op(rem_path, **i);
+        OpData op(rem_path, **i);
         db.sendEntry(op);
         // Add node
         if (op.needsAdding()) {

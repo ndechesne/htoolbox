@@ -27,6 +27,8 @@ using namespace std;
 #include "files.h"
 #include "report.h"
 #include "list.h"
+#include "missing.h"
+#include "opdata.h"
 #include "owner.h"
 
 using namespace hbackup;
@@ -456,6 +458,61 @@ int Owner::search(
     }
   }
   return (cmp > 0) ? 1 : 0;
+}
+
+void Owner::sendEntry(
+    OpData&         op,
+    Missing&        missing) {
+  Node* db_node = NULL;
+  int rc = search(op._path, &db_node);
+
+  // Compare entries
+  if ((rc > 0) || (db_node == NULL)) {
+    // New file
+    op._letter = 'A';
+  } else
+  // Existing file: check for differences
+  if (*db_node != op._node) {
+    // Metadata differ
+    if ((op._node.type() == 'f') && (db_node->type() == 'f')
+    && (op._node.size() == db_node->size())
+    && (op._node.mtime() == db_node->mtime())) {
+      // If the file data is there, just add new metadata
+      const char* node_checksum = static_cast<File*>(db_node)->checksum();
+      if (node_checksum[0] == '\0') {
+        // Checksum missing: retry
+        op._get_checksum = true;
+      } else {
+        static_cast<File&>(op._node).setChecksum(node_checksum);
+      }
+      op._letter = '~';
+    } else {
+      // Do it all
+      op._letter = 'M';
+    }
+  } else
+  // Same metadata, hence same type...
+  if (op._node.type() == 'f') {
+    // Check that file data is present
+    const char* node_checksum = static_cast<File*>(db_node)->checksum();
+    if (node_checksum[0] == '\0') {
+      // Checksum missing: retry
+      op._get_checksum = true;
+      op._letter = '!';
+    } else {
+      // Same checksum: look for checksum in missing list (binary search)
+      op._id = missing.search(node_checksum);
+      if (op._id >= 0) {
+        op._letter = 'R';
+      }
+    }
+  } else
+  if ((op._node.type() == 'l')
+  && (strcmp(static_cast<const Link&>(op._node).link(),
+      static_cast<Link*>(db_node)->link()) != 0)) {
+    op._letter = 'L';
+  }
+  delete db_node;
 }
 
 int Owner::add(

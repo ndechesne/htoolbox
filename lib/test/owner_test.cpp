@@ -27,6 +27,8 @@ using namespace std;
 #include "hbackup.h"
 #include "files.h"
 #include "list.h"
+#include "missing.h"
+#include "opdata.h"
 #include "owner.h"
 
 using namespace hbackup;

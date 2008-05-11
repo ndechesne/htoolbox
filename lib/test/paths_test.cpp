@@ -31,6 +31,7 @@ using namespace std;
 #include "filters.h"
 #include "parsers.h"
 #include "list.h"
+#include "opdata.h"
 #include "db.h"
 #include "paths.h"
 
