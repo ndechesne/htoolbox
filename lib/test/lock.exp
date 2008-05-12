@@ -53,3 +53,14 @@ timed lock
   busy
 -> locked
 
+(multithreaded)
+
+unlock
+-> locked
+  ok
+-> not locked
+
+timed lock
+  ok
+-> locked
+

@@ -24,6 +24,30 @@ using namespace std;
 
 using namespace hbackup;
 
+void* child(void* data) {
+  Lock* l = static_cast<Lock*>(data);
+
+  cout << "unlock" << endl;
+  if (l->isLocked()) {
+    cout << "-> locked" << endl;
+  } else {
+    cout << "-> not locked" << endl;
+  }
+  switch (l->release()) {
+  case 0:
+    cout << "  ok" << endl;
+    break;
+  default:
+    cout << "  error" << endl;
+  }
+  if (l->isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
+  }
+  pthread_exit(NULL);
+}
+
 int main(void) {
   cout << "create locked lock" << endl;
   Lock l1(true);
@@ -218,6 +242,30 @@ int main(void) {
   } else {
     cout << "-> not locked" << endl << endl;
   }
+
+  cout << "timed lock" << endl;
+  switch (l1.lock(1)) {
+  case 0:
+    cout << "  ok" << endl;
+    break;
+  case 1:
+    cout << "  busy" << endl;
+    break;
+  default:
+    cout << "  error" << endl;
+  }
+  if (l1.isLocked()) {
+    cout << "-> locked" << endl << endl;
+  } else {
+    cout << "-> not locked" << endl << endl;
+  }
+
+  cout << "(multithreaded)" << endl << endl;
+  pthread_t child_task;
+  if (pthread_create(&child_task, NULL, child, &l1)) {
+    cout << "thread create failed " << endl;
+  }
+  sleep(1);
 
   cout << "timed lock" << endl;
   switch (l1.lock(1)) {
