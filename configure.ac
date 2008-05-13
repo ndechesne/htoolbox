@@ -72,9 +72,8 @@ AC_FUNC_SELECT_ARGTYPES
 AC_FUNC_STAT
 AC_FUNC_UTIME_NULL
 AC_STRUCT_TM
-AC_CHECK_FUNCS([mkdir mkfifo regcomp strchr strdup strerror strrchr strtoul])
-AC_CHECK_FUNCS([select setenv strtol tzset utime strerror strrchr strtoul])
-AC_CHECK_FUNCS([mempcpy])
+AC_CHECK_FUNCS([mempcpy mkdir mkfifo regcomp select setenv tzset utime])
+AC_CHECK_FUNCS([strtol strdup strchr strrchr strerror strtoul])
 
 # Define test tools
 AC_PATH_PROG(TEST_TOOL, test_tools/test_setup, test_tools/test_setup)
