@@ -18,6 +18,7 @@
 
 #include <pthread.h>
 #include <time.h>
+#include <sys/time.h>
 #include <errno.h>
 
 #include "lock.h"
@@ -47,9 +48,11 @@ Lock::~Lock() {
 
 int Lock::lock(int timeout) {
   if (timeout > 0) {
+    struct timeval tm;
     struct timespec t;
-    t.tv_sec  = time(NULL) + timeout + 1;
-    t.tv_nsec = 0;
+    gettimeofday(&tm, NULL);
+    t.tv_sec  = tm.tv_sec + timeout;
+    t.tv_nsec = tm.tv_usec * 1000;
     switch (pthread_mutex_timedlock(&_d->mutex, &t)) {
       case 0:
         break;
