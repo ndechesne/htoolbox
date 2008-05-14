@@ -48,8 +48,8 @@ fi
 # Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC
-AC_CHECK_HEADERS([fcntl.h stdlib.h string.h unistd.h utime.h])
-AC_CHECK_HEADERS(sstream)
+AC_CHECK_HEADERS([fcntl.h stdlib.h string.h sys/time.h unistd.h utime.h])
+AC_CHECK_HEADERS([sstream])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
@@ -72,8 +72,8 @@ AC_FUNC_SELECT_ARGTYPES
 AC_FUNC_STAT
 AC_FUNC_UTIME_NULL
 AC_STRUCT_TM
-AC_CHECK_FUNCS([mempcpy mkdir mkfifo regcomp select setenv tzset utime])
-AC_CHECK_FUNCS([strtol strdup strchr strrchr strerror strtoul])
+AC_CHECK_FUNCS([gettimeofday mempcpy mkdir mkfifo regcomp select setenv])
+AC_CHECK_FUNCS([strchr strdup strerror strrchr strtol strtoul tzset utime])
 
 # Define test tools
 AC_PATH_PROG(TEST_TOOL, test_tools/test_setup, test_tools/test_setup)
