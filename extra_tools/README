@@ -1,8 +1,1 @@
-These tools can help your development as they help mine.
-I personally just copy them into /usr/local/bin...
-
-hcolor:     a colorizing wrapper for any program
-hmake:      a more colorful make, using hcolor or colormake (if found)
 svn-tkdiff: calls tkdiff recursively on files modified in Subversion
-
-Enjoy!
