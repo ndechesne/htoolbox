@@ -390,7 +390,6 @@ Parsing test
  -> File: big_file, path = test1/big_file, type = f, mtime = 1, size = 10485760, uid = 1, gid = 1, mode = 644
  -> Dir.: dir space, path = test1/dir space, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  --> File: file space, path = test1/dir space/file space, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
- -> File: rwfile_dest, path = test1/rwfile_dest, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
  -> File: rwfile_source, path = test1/rwfile_source, type = f, mtime = 1, size = 10208, uid = 1, gid = 1, mode = 644
  -> Dir.: subdir, path = test1/subdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  --> File: testfile, path = test1/subdir/testfile, type = f, mtime = 1, size = 12, uid = 1, gid = 1, mode = 644

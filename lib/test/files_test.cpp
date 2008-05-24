@@ -940,6 +940,7 @@ int main(void) {
   }
   delete readfile;
   delete writefile;
+  Node("test1/rwfile_dest").remove();
 
 
   cout << endl << "Test: getLine" << endl;
