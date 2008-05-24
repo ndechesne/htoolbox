@@ -24,10 +24,8 @@
 namespace hbackup {
 
 class Line {
-  unsigned int      _capacity;
-  unsigned int      _size;
-  char*             _buffer;
-  unsigned int      _add_size;
+  struct            Private;
+  Private* const    _d;
 public:
   // Big four
   Line(unsigned int init_size = 100, unsigned int add_size = 10);
@@ -37,11 +35,11 @@ public:
   const Line& operator=(const Line& line);
   // Other methods
   const Line& operator=(const char* line);
-  const char& operator[](int pos) const { return _buffer[pos] ; }
-  operator const char* () const         { return _buffer; }
+  const char& operator[](int pos) const;
+  operator const char* () const;
   int resize(unsigned int new_size = 100, int new_add_size = -1,
     bool discard = false);
-  unsigned int size() const             { return _size; }
+  unsigned int size() const;
   const Line& erase(int pos = 0);
   int find(char c, int pos = 0) const;
   const Line& append(const Line& line, int pos = -1, int num = -1);
@@ -49,12 +47,12 @@ public:
   const Line& operator+=(const Line& line) { return append(line); }
   const Line& operator+=(const char* line) { return append(line); }
   // For getLine operations
-  char** bufferPtr()                    { return &_buffer; }
-  unsigned int* capacityPtr()           { return &_capacity; }
-  unsigned int* sizePtr()               { return &_size; }
+  char** bufferPtr();
+  unsigned int* capacityPtr();
+  unsigned int* sizePtr();
   // For debug
-  unsigned int capacity() const         { return _capacity; }
-  unsigned int add_size() const         { return _add_size; }
+  unsigned int capacity() const;
+  unsigned int add_size() const;
 };
 
 }
