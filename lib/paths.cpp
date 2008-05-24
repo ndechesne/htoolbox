@@ -39,6 +39,7 @@ using namespace hbackup;
 int ClientPath::parse_recurse(
     Database&       db,
     const char*     remote_path,
+    const char*     client_name,
     int             start,
     Directory&      dir,
     const Parser*   current_parser) {
@@ -115,7 +116,7 @@ int ClientPath::parse_recurse(
         // For directory, recurse into it
         if ((*i)->type() == 'd') {
           out(debug, msg_standard, &rem_path[_path.length() + 1], 1, "Dir");
-          if (parse_recurse(db, rem_path, start,
+          if (parse_recurse(db, rem_path, client_name, start,
               static_cast<Directory&>(**i), parser) < 0) {
             give_up = true;
           }
@@ -123,7 +124,11 @@ int ClientPath::parse_recurse(
       }
     }
   } else {
-    out(error, msg_errno, "Reading directory", errno, remote_path);
+    char* full_name;
+    asprintf(&full_name, "%s:%s", client_name, remote_path);
+    out(error, msg_errno, "Reading directory", errno, full_name);
+    free(full_name);
+    // Do not give up
   }
   delete parser;
   return give_up ? -1 : 0;
@@ -194,11 +199,12 @@ Filter* ClientPath::findFilter(
 
 int ClientPath::parse(
     Database&       db,
-    const char*     backup_path) {
+    const char*     backup_path,
+    const char*     client_name) {
   int rc = 0;
   _nodes = 0;
   Directory dir(backup_path);
-  if (parse_recurse(db, _path, strlen(backup_path) + 1, dir, NULL)
+  if (parse_recurse(db, _path, client_name, strlen(backup_path) + 1, dir, NULL)
   || aborting()) {
     rc = -1;
   }

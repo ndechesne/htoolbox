@@ -88,7 +88,7 @@ int main(void) {
   system("chmod 000 test1/subdir/testfile");
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -116,7 +116,7 @@ int main(void) {
   mkdir("test1/.hbackup", 0755);
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -142,7 +142,7 @@ int main(void) {
   abort(2);
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient(true);
@@ -167,7 +167,7 @@ int main(void) {
   system("chmod 644 test1/subdir/testfile");
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -203,7 +203,7 @@ int main(void) {
   path->setIgnore(filter);
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -239,7 +239,7 @@ int main(void) {
   path->setIgnore(filter);
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -263,7 +263,7 @@ int main(void) {
   system("sleep 1 && ln -sf testnull test1/testlink");
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -300,7 +300,7 @@ int main(void) {
   path->setIgnore(filter);
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -326,7 +326,7 @@ int main(void) {
   }
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -349,7 +349,7 @@ int main(void) {
 
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -378,7 +378,7 @@ int main(void) {
   }
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -418,7 +418,7 @@ int main(void) {
   path->setIgnore(filter);
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -449,7 +449,7 @@ int main(void) {
   filter->add(new Condition(Condition::filter, svn_dirutd, false));
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -473,7 +473,7 @@ int main(void) {
   rename("test1/testpipe", "testpipe");
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -497,7 +497,7 @@ int main(void) {
   system("chmod 660 test1/testfile");
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -526,7 +526,7 @@ int main(void) {
   rename("testpipe", "test1/testpipe");
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -570,7 +570,7 @@ int main(void) {
 
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -593,7 +593,7 @@ int main(void) {
 
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -620,13 +620,13 @@ int main(void) {
 
   path->show();
   db.openClient("hisClient");
-  if (! path->parse(db, "test2")) {
+  if (! path->parse(db, "test2", "host2")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
 
@@ -692,7 +692,7 @@ int main(void) {
 
   path->show();
   db.openClient("myClient");
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -719,7 +719,7 @@ int main(void) {
 
   path->show();
   db.openClient("hisClient");
-  if (! path->parse(db, "test2")) {
+  if (! path->parse(db, "test2", "host2")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -750,7 +750,7 @@ int main(void) {
   system("rm -r test_db/.data/285b35198a5e188b3a0df3ed33f93a26-0");
   path->show();
   db.openClient("myClient", 18 * 24 * 3600);
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -781,7 +781,7 @@ int main(void) {
   system("chmod 0 test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0");
   path->show();
   db.openClient("myClient", 0);
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();
@@ -811,7 +811,7 @@ int main(void) {
   system("echo blah > test1/testfile~");
   path->show();
   db.openClient("myClient", 0);
-  if (! path->parse(db, "test1")) {
+  if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }
   db.closeClient();

@@ -31,6 +31,7 @@ class ClientPath {
   int parse_recurse(
     Database&       db,
     const char*     remote_path,      // Dir where the file resides, remotely
+    const char*     client_name,
     int             start,
     Directory&      dir,
     const Parser*   parser);
@@ -52,7 +53,8 @@ public:
     const string&   string);
   int parse(
     Database&       db,
-    const char*     backup_path);
+    const char*     backup_path,
+    const char*     client_name);
   /* For verbosity */
   void show(int level = 0) const;
 };

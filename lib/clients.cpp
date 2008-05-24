@@ -550,7 +550,7 @@ int Client::backup(
             abort = true;
           } else {
             first_mount_try = false;
-            if ((*i)->parse(db, backup_path.c_str())) {
+            if ((*i)->parse(db, backup_path.c_str(), internalName().c_str())) {
               // prepare_share sets errno
               if (! aborting()) {
                 out(error, msg_standard, "Aborting client");
