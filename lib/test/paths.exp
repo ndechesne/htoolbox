@@ -75,7 +75,7 @@ A       /home/User/dir space
 A       /home/User/dir space/file space
 A       /home/User/subdir
  -> Dir: subdir
-Error: /home/User/subdir/testfile: Permission denied: Backing up file
+Error: myClient:/home/User/subdir/testfile: Permission denied: Backing up file
 A !     /home/User/subdir/testfile
 A       /home/User/subdir/testfile1
 Adding file data to DB for 285b35198a5e188b3a0df3ed33f93a26-0
@@ -329,7 +329,7 @@ Database open r/w: myClient
  -> Dir: cvs/dirutd/CVS
  -> Dir: dir space
  -> Dir: subdir
-Error: /home/User/subdir/testfile: Permission denied: Backing up file
+Error: myClient:/home/User/subdir/testfile: Permission denied: Backing up file
 ! !     /home/User/subdir/testfile
  -> Dir: svn
  -> Dir: svn/.svn
@@ -480,7 +480,7 @@ Database open r/w: myClient
  -> Dir: cvs/CVS
  -> Dir: cvs/CVS/Wherever
 Killing trigger reached: 2
-Error: /home/User/cvs/big_file: Operation canceled: Backing up file
+Error: myClient:/home/User/cvs/big_file: Operation canceled: Backing up file
 A !     /home/User/cvs/big_file
 Database closed: myClient
 Database closed
@@ -3956,7 +3956,7 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
  -> Dir: svn/.svn
  -> Dir: svn/dirbad
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-Error: /home/User/testfile: Permission denied: Backing up file
+Error: myClient:/home/User/testfile: Permission denied: Backing up file
 M !     /home/User/testfile
 Parsed 41 file(s)
 Database modified: myClient

@@ -666,7 +666,10 @@ int Database::add(
         _d->missing.setRecovered(op._id);
       }
     } else {
-      out(error, msg_errno, "Backing up file", errno, op._path);
+      char* full_name;
+      asprintf(&full_name, "%s:%s", _d->owner->name(), op._path);
+      out(error, msg_errno, "Backing up file", errno, full_name);
+      free(full_name);
       code[2] = '!';
       failed = true;
     }

@@ -928,7 +928,7 @@ Warning: test1/cvs/dirbad: Directory should be under CVS control
  -> Dir: cvs/dirutd/CVS
  -> Dir: dir space
 Killing trigger reached: 2
-Error: test1/dir space/big_file: Operation canceled: Backing up file
+Error: myhost:test1/dir space/big_file: Operation canceled: Backing up file
 A !     test1/dir space/big_file
 Database closed: myhost
 Database closed
