@@ -186,7 +186,8 @@ Backing up path: /home/User/test
 Adding compressed file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
 A z     /home/User/test/File2.txt
 A       /home/User/test/dir
- -> Dir: dir
+dir\r
+   \r
 Adding compressed file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
 A z     /home/User/test/dir/file3.txt
 Backing up path: /home/User/test2
@@ -299,7 +300,8 @@ Done:  95.0%\r
 Adding compressed file data to DB for f1c9645dbc14efddc7d8a322685f26eb-0
 A z     test1/big_file
 A       test1/cvs
- -> Dir: cvs
+cvs\r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
@@ -307,20 +309,24 @@ A       test1/cvs
  --> filenew.c: 0
  --> fileutd.h: 1159985080
 A       test1/cvs/CVS
- -> Dir: cvs/CVS
+cvs/CVS\r
+       \r
 Adding compressed file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
 A z     test1/cvs/CVS/Entries
 Adding compressed file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
 A z     test1/cvs/CVS/Root
 A       test1/cvs/dirbad
- -> Dir: cvs/dirbad
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
 A       test1/cvs/dirutd
- -> Dir: cvs/dirutd
+cvs/dirutd\r
+          \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 A       test1/cvs/dirutd/CVS
- -> Dir: cvs/dirutd/CVS
+cvs/dirutd/CVS\r
+              \r
 Adding compressed file data to DB for 5252f242d27b8c2c9fdbdcbb33545d07-0
 A z     test1/cvs/dirutd/CVS/Entries
 Adding compressed file data to DB for eb75fb33b2019ef3c840eb5ccdc2e795-0
@@ -329,43 +335,51 @@ A       test1/cvs/dirutd/fileutd
 A       test1/cvs/filenew.c
 A       test1/cvs/fileutd.h
 A       test1/dir space
- -> Dir: dir space
+dir space\r
+         \r
 A       test1/dir space/file space
 A       test1/svn
- -> Dir: svn
+svn\r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
 A       test1/svn/.svn
- -> Dir: svn/.svn
+svn/.svn\r
+        \r
 Adding compressed file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A z     test1/svn/.svn/entries
 A       test1/svn/dirbad
- -> Dir: svn/dirbad
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 A       test1/svn/dirutd
- -> Dir: svn/dirutd
+svn/dirutd\r
+          \r
  -> Parsing Subversion entries
  --> fileoth: o
  --> fileutd: m
 A       test1/svn/dirutd/.svn
- -> Dir: svn/dirutd/.svn
+svn/dirutd/.svn\r
+               \r
 Adding compressed file data to DB for 8bdef5751e46ed57d237cbe3f4a5061c-0
 A z     test1/svn/dirutd/.svn/entries
 A       test1/svn/dirutd/fileutd
 A       test1/svn/filenew.c
 A       test1/test space
 A       test1/testdir
- -> Dir: testdir
+testdir\r
+       \r
 Adding compressed file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
 A z     test1/testfile
 A       test1/testlink
 A       test1/testpipe
 Backing up path: test2
 A       test2/testdir
- -> Dir: testdir
+testdir\r
+       \r
 Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
 A f     test2/testfile
 Adding file data to DB for fb00cd74a5f35e89a7fbdd3c1d05375a-0
@@ -413,38 +427,46 @@ Backing up client: testhost
 Reading list of missing checksums
 Database open r/w: testhost
 Backing up path: test1
- -> Dir: cvs
+cvs\r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
- -> Dir: cvs/dirutd
+cvs/dirutd\r
+          \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
- -> Dir: cvs/dirutd/CVS
- -> Dir: dir space
- -> Dir: svn
+cvs/dirutd/CVS\r
+dir space     \r
+svn      \r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
- -> Dir: svn/dirbad
+svn/.svn\r
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
- -> Dir: svn/dirutd
+svn/dirutd\r
+          \r
  -> Parsing Subversion entries
  --> fileoth: o
  --> fileutd: m
- -> Dir: svn/dirutd/.svn
- -> Dir: testdir
+svn/dirutd/.svn\r
+testdir        \r
+       \r
 Backing up path: test2
- -> Dir: testdir
+testdir\r
+       \r
 Database closed: testhost
 Database closed
 >List 1 client(s):
@@ -487,7 +509,8 @@ List created: myhost2
 Database open r/w: myhost2
 Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
- -> Dir: My Dir
+My Dir\r
+      \r
 Adding file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
 A f     C:/Test Dir/My Dir/a File.TXT
 Adding file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
@@ -516,7 +539,8 @@ Backing up path: /home/User/test
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
 A       /home/User/test/File2.txt
 A       /home/User/test/dir
- -> Dir: dir
+dir\r
+   \r
 A       /home/User/test/dir/file3.txt
 Database modified: myhost3
 Database closed: myhost3
@@ -537,24 +561,30 @@ List created: myhost
 Database open r/w: myhost
 Backing up path: test1/cvs
 A       test1/cvs/CVS
- -> Dir: CVS
+CVS\r
+   \r
 A       test1/cvs/CVS/Entries
 A       test1/cvs/CVS/Root
 Adding file data to DB for 9283e2c51868272850bd2d89b63c58e8-0
 A f     test1/cvs/CVS/Whatever
 A       test1/cvs/CVS/Wherever
- -> Dir: CVS/Wherever
+CVS/Wherever\r
+            \r
 A       test1/cvs/CVS/Wherever/Whichever
 A       test1/cvs/dirbad
- -> Dir: dirbad
+dirbad\r
+      \r
 A       test1/cvs/dirbad/fileoth
 A       test1/cvs/dirbad/fileutd
 A       test1/cvs/diroth
- -> Dir: diroth
+diroth\r
+      \r
 A       test1/cvs/dirutd
- -> Dir: dirutd
+dirutd\r
+      \r
 A       test1/cvs/dirutd/CVS
- -> Dir: dirutd/CVS
+dirutd/CVS\r
+          \r
 A       test1/cvs/dirutd/CVS/Entries
 A       test1/cvs/dirutd/CVS/Root
 Adding file data to DB for caecaacc7fdee8a7667d4f4f315858a9-0
@@ -646,12 +676,13 @@ Backing up client: myhost
 Reading list of missing checksums
 Database open r/w: myhost
 Backing up path: test1/cvs
- -> Dir: CVS
- -> Dir: CVS/Wherever
- -> Dir: dirbad
- -> Dir: diroth
- -> Dir: dirutd
- -> Dir: dirutd/CVS
+CVS\r
+CVS/Wherever\r
+dirbad      \r
+diroth\r
+dirutd\r
+dirutd/CVS\r
+          \r
 Database closed: myhost
 Trying client 'myhost2' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
@@ -665,7 +696,8 @@ Trying client 'myhost2' using protocol 'smb'
 Backing up client: myhost2
 Database open r/w: myhost2
 Backing up path: C:/Test Dir
- -> Dir: My Dir
+My Dir\r
+      \r
 Database closed: myhost2
  -> umount -fl test_db/mount
 Trying client 'myhost3' using protocol 'nfs'
@@ -682,7 +714,8 @@ Database open r/w: myhost3
 Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
- -> Dir: dir
+dir\r
+   \r
 Database closed: myhost3
  -> umount -fl test_db/mount
 Database closed
@@ -710,7 +743,8 @@ Backing up client: myhost2
 Reading list of missing checksums
 Database open r/w: myhost2
 Backing up path: C:/Test Dir
- -> Dir: My Dir
+My Dir\r
+      \r
 Database closed: myhost2
  -> umount -fl test_db/mount
 Trying client 'myhost3' using protocol 'nfs'
@@ -727,7 +761,8 @@ Database open r/w: myhost3
 Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
- -> Dir: dir
+dir\r
+   \r
 Database closed: myhost3
  -> umount -fl test_db/mount
 Database closed
@@ -754,12 +789,13 @@ Backing up client: myhost
 Reading list of missing checksums
 Database open r/w: myhost
 Backing up path: test1/cvs
- -> Dir: CVS
- -> Dir: CVS/Wherever
- -> Dir: dirbad
- -> Dir: diroth
- -> Dir: dirutd
- -> Dir: dirutd/CVS
+CVS\r
+CVS/Wherever\r
+dirbad      \r
+diroth\r
+dirutd\r
+dirutd/CVS\r
+          \r
 Database closed: myhost
 Trying client 'myhost3' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
@@ -775,7 +811,8 @@ Database open r/w: myhost3
 Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
- -> Dir: dir
+dir\r
+   \r
 Database closed: myhost3
  -> umount -fl test_db/mount
 Database closed
@@ -802,12 +839,13 @@ Backing up client: myhost
 Reading list of missing checksums
 Database open r/w: myhost
 Backing up path: test1/cvs
- -> Dir: CVS
- -> Dir: CVS/Wherever
- -> Dir: dirbad
- -> Dir: diroth
- -> Dir: dirutd
- -> Dir: dirutd/CVS
+CVS\r
+CVS/Wherever\r
+dirbad      \r
+diroth\r
+dirutd\r
+dirutd/CVS\r
+          \r
 Database closed: myhost
 Trying client 'myhost2' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
@@ -821,7 +859,8 @@ Trying client 'myhost2' using protocol 'smb'
 Backing up client: myhost2
 Database open r/w: myhost2
 Backing up path: C:/Test Dir
- -> Dir: My Dir
+My Dir\r
+      \r
 Database closed: myhost2
  -> umount -fl test_db/mount
 Database closed
@@ -852,7 +891,8 @@ Database open r/w: myClient
 Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
- -> Dir: dir
+dir\r
+   \r
 Backing up path: /home/User/test2
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
@@ -916,7 +956,8 @@ Database open r/w: myClient
 Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
- -> Dir: dir
+dir\r
+   \r
 Backing up path: /home/User/test2
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
@@ -963,7 +1004,8 @@ List created: myClient.xp
 Database open r/w: myClient.xp
 Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
- -> Dir: My Dir
+My Dir\r
+      \r
 A       C:/Test Dir/My Dir/a File.TXT
 A       C:/Test Dir/My Dir/another File.TXT
 A       C:/Test Dir/My File.TXT

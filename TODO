@@ -2,7 +2,6 @@ TODO - non-organised list of things I want to do
   * check size of data in database scan
   * do not print files failing everytime, just once (option)
   * test 'no space left on device' somehow
-  * print dirs in verbose mode, a la reiserfsck
   * zero copy on Line assignment
   * sort out getLine(Line&)
   * sort out owner/list architecture

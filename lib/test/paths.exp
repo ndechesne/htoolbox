@@ -36,9 +36,11 @@ Done:  95.0%\r
 Adding file data to DB for f1c9645dbc14efddc7d8a322685f26eb-0
 A f     /home/User/big_file
 A       /home/User/cvs
- -> Dir: cvs
+cvs\r
+   \r
 A       /home/User/cvs/CVS
- -> Dir: cvs/CVS
+cvs/CVS\r
+       \r
 Adding file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
 A f     /home/User/cvs/CVS/Entries
 Adding file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
@@ -46,18 +48,23 @@ A f     /home/User/cvs/CVS/Root
 Adding file data to DB for 9283e2c51868272850bd2d89b63c58e8-0
 A f     /home/User/cvs/CVS/Whatever
 A       /home/User/cvs/CVS/Wherever
- -> Dir: cvs/CVS/Wherever
+cvs/CVS/Wherever\r
+                \r
 A       /home/User/cvs/CVS/Wherever/Whichever
 A       /home/User/cvs/dirbad
- -> Dir: cvs/dirbad
+cvs/dirbad\r
+          \r
 A       /home/User/cvs/dirbad/fileoth
 A       /home/User/cvs/dirbad/fileutd
 A       /home/User/cvs/diroth
- -> Dir: cvs/diroth
+cvs/diroth\r
+          \r
 A       /home/User/cvs/dirutd
- -> Dir: cvs/dirutd
+cvs/dirutd\r
+          \r
 A       /home/User/cvs/dirutd/CVS
- -> Dir: cvs/dirutd/CVS
+cvs/dirutd/CVS\r
+              \r
 Adding file data to DB for 5252f242d27b8c2c9fdbdcbb33545d07-0
 A f     /home/User/cvs/dirutd/CVS/Entries
 Adding file data to DB for eb75fb33b2019ef3c840eb5ccdc2e795-0
@@ -71,10 +78,12 @@ A       /home/User/cvs/filenew.c
 A       /home/User/cvs/fileoth
 A       /home/User/cvs/fileutd.h
 A       /home/User/dir space
- -> Dir: dir space
+dir space\r
+         \r
 A       /home/User/dir space/file space
 A       /home/User/subdir
- -> Dir: subdir
+subdir\r
+      \r
 Error: myClient:/home/User/subdir/testfile: Permission denied: Backing up file
 A !     /home/User/subdir/testfile
 A       /home/User/subdir/testfile1
@@ -83,9 +92,11 @@ A f     /home/User/subdir/testfile2
 A       /home/User/subdir-file
 A       /home/User/subdirfile
 A       /home/User/svn
- -> Dir: svn
+svn\r
+   \r
 A       /home/User/svn/.svn
- -> Dir: svn/.svn
+svn/.svn\r
+        \r
 Adding file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A f     /home/User/svn/.svn/entries
 Adding file data to DB for 3cd6b399f9fa49fd0b137a3de46d83f5-0
@@ -93,18 +104,23 @@ A f     /home/User/svn/.svn/format
 Adding file data to DB for 06f05055bfb2c8b900459f45826fc8ea-0
 A f     /home/User/svn/.svn/whatever
 A       /home/User/svn/.svn/wherever
- -> Dir: svn/.svn/wherever
+svn/.svn/wherever\r
+                 \r
 A       /home/User/svn/.svn/wherever/whichever
 A       /home/User/svn/dirbad
- -> Dir: svn/dirbad
+svn/dirbad\r
+          \r
 A       /home/User/svn/dirbad/fileoth
 A       /home/User/svn/dirbad/fileutd
 A       /home/User/svn/diroth
- -> Dir: svn/diroth
+svn/diroth\r
+          \r
 A       /home/User/svn/dirutd
- -> Dir: svn/dirutd
+svn/dirutd\r
+          \r
 A       /home/User/svn/dirutd/.svn
- -> Dir: svn/dirutd/.svn
+svn/dirutd/.svn\r
+               \r
 Adding file data to DB for 8bdef5751e46ed57d237cbe3f4a5061c-0
 A f     /home/User/svn/dirutd/.svn/entries
 Adding file data to DB for 60afe8c3ac66cb77a34da116394d9ac8-0
@@ -119,7 +135,8 @@ A       /home/User/svn/fileoth
 A       /home/User/svn/fileutd.h
 A       /home/User/test space
 A       /home/User/testdir
- -> Dir: testdir
+testdir\r
+       \r
 Adding file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
 A f     /home/User/testfile
 A       /home/User/testfile~
@@ -320,26 +337,28 @@ Path: /home/User
  -> Ignore filter: bazaar
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
- -> Dir: cvs/CVS
- -> Dir: cvs/CVS/Wherever
- -> Dir: cvs/dirbad
- -> Dir: cvs/diroth
- -> Dir: cvs/dirutd
- -> Dir: cvs/dirutd/CVS
- -> Dir: dir space
- -> Dir: subdir
+cvs\r
+cvs/CVS\r
+cvs/CVS/Wherever\r
+cvs/dirbad      \r
+cvs/diroth\r
+cvs/dirutd\r
+cvs/dirutd/CVS\r
+dir space     \r
+subdir   \r
+      \r
 Error: myClient:/home/User/subdir/testfile: Permission denied: Backing up file
 ! !     /home/User/subdir/testfile
- -> Dir: svn
- -> Dir: svn/.svn
- -> Dir: svn/.svn/wherever
- -> Dir: svn/dirbad
- -> Dir: svn/diroth
- -> Dir: svn/dirutd
- -> Dir: svn/dirutd/.svn
- -> Dir: testdir
+svn\r
+svn/.svn\r
+svn/.svn/wherever\r
+svn/dirbad       \r
+svn/diroth\r
+svn/dirutd\r
+svn/dirutd/.svn\r
+testdir        \r
 Parsed 60 file(s)
+       \r
 Database closed: myClient
 Database closed
 
@@ -476,9 +495,10 @@ Path: /home/User
  -> Ignore filter: bazaar
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
- -> Dir: cvs/CVS
- -> Dir: cvs/CVS/Wherever
+cvs\r
+cvs/CVS\r
+cvs/CVS/Wherever\r
+                \r
 Killing trigger reached: 2
 Error: myClient:/home/User/cvs/big_file: Operation canceled: Backing up file
 A !     /home/User/cvs/big_file
@@ -561,27 +581,30 @@ Path: /home/User
  -> Ignore filter: bazaar
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
- -> Dir: cvs/CVS
- -> Dir: cvs/CVS/Wherever
+cvs\r
+cvs/CVS\r
+cvs/CVS/Wherever\r
+                \r
 Adding file data to DB for 816df6f64deba63b029ca19d880ee10a-0
 ! f     /home/User/cvs/big_file
- -> Dir: cvs/dirbad
- -> Dir: cvs/diroth
- -> Dir: cvs/dirutd
- -> Dir: cvs/dirutd/CVS
- -> Dir: dir space
- -> Dir: subdir
+cvs/dirbad\r
+cvs/diroth\r
+cvs/dirutd\r
+cvs/dirutd/CVS\r
+dir space     \r
+subdir   \r
+      \r
 ~       /home/User/subdir/testfile
- -> Dir: svn
- -> Dir: svn/.svn
- -> Dir: svn/.svn/wherever
- -> Dir: svn/dirbad
- -> Dir: svn/diroth
- -> Dir: svn/dirutd
- -> Dir: svn/dirutd/.svn
- -> Dir: testdir
+svn\r
+svn/.svn\r
+svn/.svn/wherever\r
+svn/dirbad       \r
+svn/diroth\r
+svn/dirutd\r
+svn/dirutd/.svn\r
+testdir        \r
 Parsed 61 file(s)
+       \r
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -668,25 +691,27 @@ Path: /home/User
  -> Ignore filter: ignore1
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
- -> Dir: cvs/CVS
- -> Dir: cvs/CVS/Wherever
- -> Dir: cvs/dirbad
- -> Dir: cvs/diroth
- -> Dir: cvs/dirutd
- -> Dir: cvs/dirutd/CVS
- -> Dir: dir space
- -> Dir: subdir
+cvs\r
+cvs/CVS\r
+cvs/CVS/Wherever\r
+cvs/dirbad      \r
+cvs/diroth\r
+cvs/dirutd\r
+cvs/dirutd/CVS\r
+dir space     \r
+subdir   \r
+      \r
 D       /home/User/subdir/testfile
- -> Dir: svn
- -> Dir: svn/.svn
- -> Dir: svn/.svn/wherever
- -> Dir: svn/dirbad
- -> Dir: svn/diroth
- -> Dir: svn/dirutd
- -> Dir: svn/dirutd/.svn
- -> Dir: testdir
+svn\r
+svn/.svn\r
+svn/.svn/wherever\r
+svn/dirbad       \r
+svn/diroth\r
+svn/dirutd\r
+svn/dirutd/.svn\r
+testdir        \r
 Parsed 60 file(s)
+       \r
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -779,26 +804,28 @@ Path: /home/User
  -> Ignore filter: ignore1
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
- -> Dir: cvs/CVS
- -> Dir: cvs/CVS/Wherever
- -> Dir: cvs/dirbad
- -> Dir: cvs/diroth
- -> Dir: cvs/dirutd
- -> Dir: cvs/dirutd/CVS
- -> Dir: dir space
+cvs\r
+cvs/CVS\r
+cvs/CVS/Wherever\r
+cvs/dirbad      \r
+cvs/diroth\r
+cvs/dirutd\r
+cvs/dirutd/CVS\r
+dir space     \r
+         \r
 D       /home/User/subdir
 D       /home/User/subdir/testfile1
 D       /home/User/subdir/testfile2
- -> Dir: svn
- -> Dir: svn/.svn
- -> Dir: svn/.svn/wherever
- -> Dir: svn/dirbad
- -> Dir: svn/diroth
- -> Dir: svn/dirutd
- -> Dir: svn/dirutd/.svn
- -> Dir: testdir
+svn\r
+svn/.svn\r
+svn/.svn/wherever\r
+svn/dirbad       \r
+svn/diroth\r
+svn/dirutd\r
+svn/dirutd/.svn\r
+testdir        \r
 Parsed 57 file(s)
+       \r
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -896,22 +923,23 @@ Path: /home/User
  -> Ignore filter: ignore1
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
- -> Dir: cvs/CVS
- -> Dir: cvs/CVS/Wherever
- -> Dir: cvs/dirbad
- -> Dir: cvs/diroth
- -> Dir: cvs/dirutd
- -> Dir: cvs/dirutd/CVS
- -> Dir: dir space
- -> Dir: svn
- -> Dir: svn/.svn
- -> Dir: svn/.svn/wherever
- -> Dir: svn/dirbad
- -> Dir: svn/diroth
- -> Dir: svn/dirutd
- -> Dir: svn/dirutd/.svn
- -> Dir: testdir
+cvs\r
+cvs/CVS\r
+cvs/CVS/Wherever\r
+cvs/dirbad      \r
+cvs/diroth\r
+cvs/dirutd\r
+cvs/dirutd/CVS\r
+dir space     \r
+svn      \r
+svn/.svn\r
+svn/.svn/wherever\r
+svn/dirbad       \r
+svn/diroth\r
+svn/dirutd\r
+svn/dirutd/.svn\r
+testdir        \r
+       \r
 M       /home/User/testlink
 Parsed 57 file(s)
 Database modified: myClient
@@ -1017,22 +1045,23 @@ Path: /home/User
  -> Ignore filter: ignore1
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
- -> Dir: cvs/CVS
- -> Dir: cvs/CVS/Wherever
- -> Dir: cvs/dirbad
- -> Dir: cvs/diroth
- -> Dir: cvs/dirutd
- -> Dir: cvs/dirutd/CVS
- -> Dir: dir space
- -> Dir: svn
- -> Dir: svn/.svn
- -> Dir: svn/.svn/wherever
- -> Dir: svn/dirbad
- -> Dir: svn/diroth
- -> Dir: svn/dirutd
- -> Dir: svn/dirutd/.svn
- -> Dir: testdir
+cvs\r
+cvs/CVS\r
+cvs/CVS/Wherever\r
+cvs/dirbad      \r
+cvs/diroth\r
+cvs/dirutd\r
+cvs/dirutd/CVS\r
+dir space     \r
+svn      \r
+svn/.svn\r
+svn/.svn/wherever\r
+svn/dirbad       \r
+svn/diroth\r
+svn/dirutd\r
+svn/dirutd/.svn\r
+testdir        \r
+       \r
 D       /home/User/testlink
 Parsed 56 file(s)
 Database modified: myClient
@@ -1140,40 +1169,46 @@ Path: /home/User
  -> Ignore filter: ignore1
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
+cvs\r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
+cvs/CVS\r
+       \r
 D       /home/User/cvs/CVS/Whatever
 D       /home/User/cvs/CVS/Wherever
 D       /home/User/cvs/CVS/Wherever/Whichever
 D       /home/User/cvs/big_file
- -> Dir: cvs/dirbad
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
 D       /home/User/cvs/dirbad/fileoth
 D       /home/User/cvs/dirbad/fileutd
 D       /home/User/cvs/diroth
- -> Dir: cvs/dirutd
+cvs/dirutd\r
+          \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
- -> Dir: cvs/dirutd/CVS
+cvs/dirutd/CVS\r
+              \r
 D       /home/User/cvs/dirutd/CVS/Whatever
 D       /home/User/cvs/dirutd/fileoth
 D       /home/User/cvs/fileoth
- -> Dir: dir space
- -> Dir: svn
- -> Dir: svn/.svn
- -> Dir: svn/.svn/wherever
- -> Dir: svn/dirbad
- -> Dir: svn/diroth
- -> Dir: svn/dirutd
- -> Dir: svn/dirutd/.svn
- -> Dir: testdir
+dir space\r
+svn      \r
+svn/.svn\r
+svn/.svn/wherever\r
+svn/dirbad       \r
+svn/diroth\r
+svn/dirutd\r
+svn/dirutd/.svn\r
+testdir        \r
 Parsed 46 file(s)
+       \r
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -1298,30 +1333,34 @@ Path: /home/User
  -> Ignore filter: ignore1
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
+cvs\r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
- -> Dir: cvs/dirutd
+cvs/dirutd\r
+          \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
- -> Dir: cvs/dirutd/CVS
- -> Dir: dir space
- -> Dir: svn
- -> Dir: svn/.svn
- -> Dir: svn/.svn/wherever
- -> Dir: svn/dirbad
- -> Dir: svn/diroth
- -> Dir: svn/dirutd
- -> Dir: svn/dirutd/.svn
- -> Dir: testdir
+cvs/dirutd/CVS\r
+dir space     \r
+svn      \r
+svn/.svn\r
+svn/.svn/wherever\r
+svn/dirbad       \r
+svn/diroth\r
+svn/dirutd\r
+svn/dirutd/.svn\r
+testdir        \r
 Parsed 46 file(s)
+       \r
 Database closed: myClient
 Database closed
 
@@ -1447,49 +1486,58 @@ Path: /home/User
  -> Ignore filter: ignore1
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
+cvs\r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
- -> Dir: cvs/dirutd
+cvs/dirutd\r
+          \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
- -> Dir: cvs/dirutd/CVS
- -> Dir: dir space
- -> Dir: svn
+cvs/dirutd/CVS\r
+dir space     \r
+svn      \r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
+svn/.svn\r
+        \r
 D       /home/User/svn/.svn/format
 D       /home/User/svn/.svn/whatever
 D       /home/User/svn/.svn/wherever
 D       /home/User/svn/.svn/wherever/whichever
- -> Dir: svn/dirbad
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 D       /home/User/svn/dirbad/fileoth
 D       /home/User/svn/dirbad/fileutd
 D       /home/User/svn/diroth
- -> Dir: svn/dirutd
+svn/dirutd\r
+          \r
  -> Parsing Subversion entries
  --> fileoth: o
  --> fileutd: m
- -> Dir: svn/dirutd/.svn
+svn/dirutd/.svn\r
+               \r
 D       /home/User/svn/dirutd/.svn/format
 D       /home/User/svn/dirutd/.svn/whatever
 D       /home/User/svn/dirutd/fileoth
 D       /home/User/svn/fileoth
 D       /home/User/svn/fileutd.h
- -> Dir: testdir
+testdir\r
 Parsed 34 file(s)
+       \r
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -1640,38 +1688,44 @@ Path: /home/User
  -> Ignore filter: ignore2
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
+cvs\r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
 D       /home/User/cvs/dirutd
 D       /home/User/cvs/dirutd/CVS
 D       /home/User/cvs/dirutd/CVS/Entries
 D       /home/User/cvs/dirutd/CVS/Root
 D       /home/User/cvs/dirutd/fileutd
- -> Dir: dir space
- -> Dir: svn
+dir space\r
+svn      \r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
- -> Dir: svn/dirbad
+svn/.svn\r
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
- -> Dir: svn/dirutd
+svn/dirutd\r
+          \r
  -> Parsing Subversion entries
  --> fileoth: o
  --> fileutd: m
- -> Dir: svn/dirutd/.svn
- -> Dir: testdir
+svn/dirutd/.svn\r
+testdir        \r
 Parsed 29 file(s)
+       \r
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -1825,32 +1879,37 @@ Path: /home/User
  -> Ignore filter: ignore2
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
+cvs\r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
- -> Dir: dir space
- -> Dir: svn
+dir space\r
+svn      \r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
- -> Dir: svn/dirbad
+svn/.svn\r
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 D       /home/User/svn/dirutd
 D       /home/User/svn/dirutd/.svn
 D       /home/User/svn/dirutd/.svn/entries
 D       /home/User/svn/dirutd/fileutd
- -> Dir: testdir
+testdir\r
 Parsed 25 file(s)
+       \r
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -2007,28 +2066,33 @@ Path: /home/User
  -> Ignore filter: ignore2
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
+cvs\r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
- -> Dir: dir space
- -> Dir: svn
+dir space\r
+svn      \r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
- -> Dir: svn/dirbad
+svn/.svn\r
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
- -> Dir: testdir
+testdir\r
 Parsed 24 file(s)
+       \r
 D       /home/User/testpipe
 Database modified: myClient
 Database closed: myClient
@@ -2184,27 +2248,32 @@ Path: /home/User
  -> Ignore filter: ignore2
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
+cvs\r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
- -> Dir: dir space
- -> Dir: svn
+dir space\r
+svn      \r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
- -> Dir: svn/dirbad
+svn/.svn\r
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
- -> Dir: testdir
+testdir\r
+       \r
 ~       /home/User/testfile
 Parsed 24 file(s)
 Database modified: myClient
@@ -2362,29 +2431,34 @@ Path: /home/User
  -> Ignore filter: ignore2
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
+cvs\r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
 Adding file data to DB for 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 M f     /home/User/cvs/filenew.c
- -> Dir: dir space
- -> Dir: svn
+dir space\r
+svn      \r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
- -> Dir: svn/dirbad
+svn/.svn\r
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
- -> Dir: testdir
+testdir\r
+       \r
 A       /home/User/testpipe
 Parsed 25 file(s)
 Database modified: myClient
@@ -2545,51 +2619,65 @@ Path: /home/User
  -> Ignore filter: ignore2
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
+cvs\r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
- -> Dir: dir space
+dir space\r
+         \r
 A       /home/User/docbook-xml
- -> Dir: docbook-xml
+docbook-xml\r
+           \r
 A       /home/User/docbook-xml/3.1.7
- -> Dir: docbook-xml/3.1.7
+docbook-xml/3.1.7\r
+                 \r
 A       /home/User/docbook-xml/3.1.7/dbgenent.ent
 A       /home/User/docbook-xml/4.0
- -> Dir: docbook-xml/4.0
+docbook-xml/4.0\r
+               \r
 A       /home/User/docbook-xml/4.0/dbgenent.ent
 A       /home/User/docbook-xml/4.1.2
- -> Dir: docbook-xml/4.1.2
+docbook-xml/4.1.2\r
+                 \r
 A       /home/User/docbook-xml/4.1.2/dbgenent.mod
 A       /home/User/docbook-xml/4.2
- -> Dir: docbook-xml/4.2
+docbook-xml/4.2\r
+               \r
 A       /home/User/docbook-xml/4.2/dbgenent.mod
 A       /home/User/docbook-xml/4.3
- -> Dir: docbook-xml/4.3
+docbook-xml/4.3\r
+               \r
 A       /home/User/docbook-xml/4.3/dbgenent.mod
 A       /home/User/docbook-xml/4.4
- -> Dir: docbook-xml/4.4
+docbook-xml/4.4\r
+               \r
 A       /home/User/docbook-xml/4.4/dbgenent.mod
 A       /home/User/docbook-xml.cat
 A       /home/User/docbook-xml.cat.old
- -> Dir: svn
+svn\r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
- -> Dir: svn/dirbad
+svn/.svn\r
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
- -> Dir: testdir
+testdir\r
+       \r
 A       /home/User/testdir/biblio
- -> Dir: testdir/biblio
+testdir/biblio\r
+              \r
 A       /home/User/testdir/biblio/biblio.dbf
 A       /home/User/testdir/biblio/biblio.dbt
 A       /home/User/testdir/biblio.odb
@@ -2791,36 +2879,41 @@ Path: /home/User
  -> Ignore filter: ignore2
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: cvs
+cvs\r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
- -> Dir: dir space
- -> Dir: docbook-xml
- -> Dir: docbook-xml/3.1.7
- -> Dir: docbook-xml/4.0
- -> Dir: docbook-xml/4.1.2
- -> Dir: docbook-xml/4.2
- -> Dir: docbook-xml/4.3
- -> Dir: docbook-xml/4.4
- -> Dir: svn
+dir space\r
+docbook-xml\r
+docbook-xml/3.1.7\r
+docbook-xml/4.0  \r
+docbook-xml/4.1.2\r
+docbook-xml/4.2  \r
+docbook-xml/4.3\r
+docbook-xml/4.4\r
+svn            \r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
- -> Dir: svn/dirbad
+svn/.svn\r
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
- -> Dir: testdir
- -> Dir: testdir/biblio
+testdir\r
+testdir/biblio\r
 Parsed 45 file(s)
+              \r
 Database closed: myClient
 Database closed
 
@@ -3018,7 +3111,8 @@ Reading list of missing checksums
 List created: hisClient
 Database open r/w: hisClient
 A       /home/User/testdir
- -> Dir: testdir
+testdir\r
+       \r
 Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
 A f     /home/User/testfile
 Adding file data to DB for fb00cd74a5f35e89a7fbdd3c1d05375a-0
@@ -3074,34 +3168,39 @@ Path: /home/User
  -> Ignore filter: ignore2
 Database open r/w: myClient
 A       /home/User/crash
- -> Dir: crash
+crash\r
+     \r
 A       /home/User/crash/file
- -> Dir: cvs
+cvs\r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
- -> Dir: dir space
- -> Dir: docbook-xml
- -> Dir: docbook-xml/3.1.7
- -> Dir: docbook-xml/4.0
- -> Dir: docbook-xml/4.1.2
- -> Dir: docbook-xml/4.2
- -> Dir: docbook-xml/4.3
- -> Dir: docbook-xml/4.4
- -> Dir: svn
+dir space\r
+docbook-xml\r
+docbook-xml/3.1.7\r
+docbook-xml/4.0  \r
+docbook-xml/4.1.2\r
+docbook-xml/4.2  \r
+docbook-xml/4.3\r
+docbook-xml/4.4\r
+svn            \r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
- -> Dir: svn/dirbad
+svn/.svn\r
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 M       /home/User/test space
 D       /home/User/testdir
@@ -3479,33 +3578,37 @@ Path: /home/User
  -> Ignore filter: ignore2
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: crash
- -> Dir: cvs
+crash\r
+cvs  \r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
- -> Dir: dir space
- -> Dir: docbook-xml
- -> Dir: docbook-xml/3.1.7
- -> Dir: docbook-xml/4.0
- -> Dir: docbook-xml/4.1.2
- -> Dir: docbook-xml/4.2
- -> Dir: docbook-xml/4.3
- -> Dir: docbook-xml/4.4
- -> Dir: svn
+dir space\r
+docbook-xml\r
+docbook-xml/3.1.7\r
+docbook-xml/4.0  \r
+docbook-xml/4.1.2\r
+docbook-xml/4.2  \r
+docbook-xml/4.3\r
+docbook-xml/4.4\r
+svn            \r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
- -> Dir: svn/dirbad
+svn/.svn\r
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 Parsed 41 file(s)
 Database closed: myClient
@@ -3717,8 +3820,9 @@ Path: /home/User
  -> Ignore filter: ignore2
 Reading list of missing checksums
 Database open r/w: hisClient
- -> Dir: testdir
+testdir\r
 Parsed 5 file(s)
+       \r
 Database closed: hisClient
 Database closed
 
@@ -3928,33 +4032,37 @@ Path: /home/User
  -> Ignore filter: ignore2
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: crash
- -> Dir: cvs
+crash\r
+cvs  \r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
- -> Dir: dir space
- -> Dir: docbook-xml
- -> Dir: docbook-xml/3.1.7
- -> Dir: docbook-xml/4.0
- -> Dir: docbook-xml/4.1.2
- -> Dir: docbook-xml/4.2
- -> Dir: docbook-xml/4.3
- -> Dir: docbook-xml/4.4
- -> Dir: svn
+dir space\r
+docbook-xml\r
+docbook-xml/3.1.7\r
+docbook-xml/4.0  \r
+docbook-xml/4.1.2\r
+docbook-xml/4.2  \r
+docbook-xml/4.3\r
+docbook-xml/4.4\r
+svn            \r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
- -> Dir: svn/dirbad
+svn/.svn\r
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 Error: myClient:/home/User/testfile: Permission denied: Backing up file
 M !     /home/User/testfile
@@ -4119,33 +4227,37 @@ Path: /home/User
  -> Ignore filter: ignore2
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: crash
- -> Dir: cvs
+crash\r
+cvs  \r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
- -> Dir: dir space
- -> Dir: docbook-xml
- -> Dir: docbook-xml/3.1.7
- -> Dir: docbook-xml/4.0
- -> Dir: docbook-xml/4.1.2
- -> Dir: docbook-xml/4.2
- -> Dir: docbook-xml/4.3
- -> Dir: docbook-xml/4.4
- -> Dir: svn
+dir space\r
+docbook-xml\r
+docbook-xml/3.1.7\r
+docbook-xml/4.0  \r
+docbook-xml/4.1.2\r
+docbook-xml/4.2  \r
+docbook-xml/4.3\r
+docbook-xml/4.4\r
+svn            \r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
- -> Dir: svn/dirbad
+svn/.svn\r
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 D       /home/User/testfile
 M       /home/User/testfile~
@@ -4305,33 +4417,37 @@ Path: /home/User
  -> Ignore filter: ignore2
 Reading list of missing checksums
 Database open r/w: myClient
- -> Dir: crash
- -> Dir: cvs
+crash\r
+cvs  \r
+   \r
  -> Parsing CVS entries
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
- -> Dir: cvs/CVS
- -> Dir: cvs/dirbad
+cvs/CVS\r
+cvs/dirbad\r
+          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
- -> Dir: dir space
- -> Dir: docbook-xml
- -> Dir: docbook-xml/3.1.7
- -> Dir: docbook-xml/4.0
- -> Dir: docbook-xml/4.1.2
- -> Dir: docbook-xml/4.2
- -> Dir: docbook-xml/4.3
- -> Dir: docbook-xml/4.4
- -> Dir: svn
+dir space\r
+docbook-xml\r
+docbook-xml/3.1.7\r
+docbook-xml/4.0  \r
+docbook-xml/4.1.2\r
+docbook-xml/4.2  \r
+docbook-xml/4.3\r
+docbook-xml/4.4\r
+svn            \r
+   \r
  -> Parsing Subversion entries
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
- -> Dir: svn/.svn
- -> Dir: svn/dirbad
+svn/.svn\r
+svn/dirbad\r
+          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 M       /home/User/testfile~
 Parsed 40 file(s)
