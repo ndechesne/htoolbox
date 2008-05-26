@@ -361,7 +361,7 @@ int Owner::close(
         _d->original->search("", _d->partial, _d->expiration);
       }
     }
-    // Now we can close the journal
+    // Now we can close the journal (failure to close is not problematic)
     _d->journal->close();
     // Check whether any work was done
     if (_d->journal->isEmpty()) {
@@ -371,12 +371,14 @@ int Owner::close(
     if (! aborting()) {
       out(verbose, msg_standard, _d->name, -1, "Database modified");
     }
-    // Close list
+    // Close list (was open read-only)
     _d->original->close();
     // Close merge
-    _d->partial->close();
+    if (_d->partial->close()) {
+      failed = true;
+    }
     // Check whether we need to merge now
-    if (aborting() || _d->journal->isEmpty()) {
+    if (failed || aborting() || _d->journal->isEmpty()) {
       // Merging will occur at next read/write open, if journal exists
       _d->partial->remove();
     } else
