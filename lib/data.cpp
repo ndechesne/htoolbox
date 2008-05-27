@@ -361,6 +361,7 @@ int Data::write(
   temp.close();
 
   if (failed) {
+    temp.remove();
     return -1;
   }
 
