@@ -164,7 +164,7 @@ int Database::open(
     case 1:
       // Creation successful
       File(Path(_d->path, "missing")).create();
-      out(info, msg_standard, _d->path, -1, "Database initialized");
+      out(verbose, msg_standard, _d->path, -1, "Database initialized");
     case 0:
       // Open successful
       break;
