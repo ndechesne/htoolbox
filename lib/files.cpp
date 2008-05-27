@@ -39,12 +39,14 @@
 #undef open
 #undef open64
 #undef close
+#undef lseek
 #undef read
 #undef write
 namespace std {
   using ::open;
   using ::open64;
   using ::close;
+  using ::lseek;
   using ::read;
   using ::write;
 }
@@ -393,6 +395,7 @@ Stream::Stream(Path path) : File(path), _d(new Private) {
   _d->fd                = -1;
   _d->progress_callback = NULL;
   _d->cancel_callback   = NULL;
+  _d->size              = -1;
 }
 
 Stream::~Stream() {
@@ -1087,6 +1090,38 @@ int Stream::compare(Stream& source, long long length) {
   free(buffer1);
   free(buffer2);
   return rc;
+}
+
+long Stream::originalSize() const {
+  if (isOpen()) {
+    errno = EBUSY;
+    return -1;
+  }
+  int fd = std::open64(_path, O_RDONLY, 0666);
+  if (fd < 0) {
+    // errno set by open
+    return -1;
+  }
+  // This is for little endian only!
+  union {
+    char buffer[4];
+    long isize;
+  } data;
+  bool failed = false;
+  if (std::lseek(fd, -4, SEEK_END) < 0) {
+    // errno set by lseek
+    failed = true;
+  } else
+  if (std::read(fd, data.buffer, 4) != 4) {
+    // errno set by read
+    failed = true;
+  }
+  std::close(fd);
+  return failed ? -1 : data.isize;
+}
+
+long long Stream::dataSize() const {
+  return _d->size;
 }
 
 int Stream::getParams(
