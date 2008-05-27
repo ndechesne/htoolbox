@@ -349,6 +349,56 @@ int main(void) {
   Stream* readfile;
   Stream* writefile;
 
+  cout << endl << "Test: file original size" << endl;
+  writefile = new Stream("test1/rwfile_dest");
+  if (writefile->open("w", 0)) {
+    cout << "Error opening source file: " << strerror(errno) << endl;
+  } else {
+    writefile->setProgressCallback(progress);
+    size_t write_size = 0;
+    ssize_t size = writefile->write("\x98\xba\xdc\xfe", 4);
+    if (size < 0) {
+      cout << "write failed: " << strerror(errno) << endl;
+    }
+    write_size += size;
+    if (writefile->close()) cout << "Error closing file" << endl;
+    cout << "write size: " << write_size << " (" << writefile->size() << ", "
+      << writefile->dataSize() << "), checksum: " << writefile->checksum()
+      << endl;
+    if (writefile->originalSize() < 0) {
+      cout << "originalSize: " << strerror(errno) << endl;
+    } else {
+      cout << "originalSize: " << writefile->originalSize() << endl;
+    }
+  }
+  writefile->remove();
+  delete writefile;
+
+  writefile = new Stream("test1/rwfile_dest");
+  if (writefile->open("w", 0)) {
+    cout << "Error opening source file: " << strerror(errno) << endl;
+  } else {
+    writefile->setProgressCallback(progress);
+    size_t write_size = 0;
+    ssize_t size = writefile->write("\x10\x32\x54\x76", 4);
+    if (size < 0) {
+      cout << "write failed: " << strerror(errno) << endl;
+    }
+    write_size += size;
+    if (writefile->close()) cout << "Error closing file" << endl;
+    cout << "write size: " << write_size << " (" << writefile->size() << ", "
+      << writefile->dataSize() << "), checksum: " << writefile->checksum()
+      << endl;
+    if (writefile->originalSize() < 0) {
+      cout << "originalSize: " << strerror(errno) << endl;
+    } else {
+      cout << "originalSize: " << writefile->originalSize() << endl;
+    }
+  }
+  writefile->remove();
+  delete writefile;
+
+
   cout << endl << "Test: file read (no cache)" << endl;
   readfile = new Stream("test1/big_file");
   if (readfile->open("r", 0, 0)) {

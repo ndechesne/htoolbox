@@ -60,6 +60,12 @@ abcd <> abce, 3: 0
 abcd <> abce, 4: -1
 abcd <> abce, 5: -1
 
+Test: file original size
+write size: 4 (4, 4), checksum: 08985de46728af109dfd2ae06ad30fec
+originalSize: 4275878552
+write size: 4 (4, 4), checksum: 0d59bc1bdf11ee60ec83e997122a1418
+originalSize: 1985229328
+
 Test: file read (no cache)
 Done:  10.0%
 Done:  20.0%

@@ -1092,7 +1092,7 @@ int Stream::compare(Stream& source, long long length) {
   return rc;
 }
 
-long Stream::originalSize() const {
+unsigned long Stream::originalSize() const {
   if (isOpen()) {
     errno = EBUSY;
     return -1;
@@ -1102,10 +1102,9 @@ long Stream::originalSize() const {
     // errno set by open
     return -1;
   }
-  // This is for little endian only!
   union {
     char buffer[4];
-    long isize;
+    unsigned long size;
   } data;
   bool failed = false;
   if (std::lseek(fd, -4, SEEK_END) < 0) {
@@ -1117,7 +1116,7 @@ long Stream::originalSize() const {
     failed = true;
   }
   std::close(fd);
-  return failed ? -1 : data.isize;
+  return failed ? -1 : data.size;
 }
 
 long long Stream::dataSize() const {
