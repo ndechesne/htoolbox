@@ -51,14 +51,14 @@ struct Client::Private {
   bool              initialised;
   int               expire;
   string            home_path;
-  string            mount_point;
   string            mounted;
   Filters           filters;
 };
 
 int Client::mountPath(
     const string&   backup_path,
-    string&         path) {
+    string&         path,
+    const char*     mount_point) {
   string command = "mount ";
   string share;
   errno = EINVAL;
@@ -70,7 +70,7 @@ int Client::mountPath(
   } else
   if (_d->protocol == "nfs") {
     share = _d->host_or_ip + ":" + backup_path;
-    path  = _d->mount_point;
+    path  = mount_point;
   } else
   if (_d->protocol == "smb") {
     if (backup_path.size() < 3) {
@@ -81,7 +81,8 @@ int Client::mountPath(
       return -1;
     }
     share = "//" + _d->host_or_ip + "/" + drive_letter + "$";
-    path  = _d->mount_point + "/" +  backup_path.substr(3);
+    path  = mount_point;
+    path += "/" +  backup_path.substr(3);
   } else {
     errno = EPROTONOSUPPORT;
     return -1;
@@ -92,7 +93,7 @@ int Client::mountPath(
   if (_d->mounted != "") {
     if (_d->mounted != share) {
       // Different share mounted: unmount
-      umount();
+      umount(mount_point);
     } else {
       // Same share mounted: nothing to do
       return 0;
@@ -103,11 +104,6 @@ int Client::mountPath(
   if (_d->protocol == "file") {
     return 0;
   } else {
-    // Check that mount dir exists, if not create it
-    if (Directory(_d->mount_point.c_str()).create() < 0) {
-      return -1;
-    }
-
     // Set protocol and default options
     if (_d->protocol == "nfs") {
       command += "-t nfs -o ro,noatime,nolock,soft,timeo=30,intr";
@@ -123,7 +119,7 @@ int Client::mountPath(
     command += "," + i->option();
   }
   // Paths
-  command += " " + share + " " + _d->mount_point;
+  command += " " + share + " " + mount_point;
 
   // Issue mount command
   out(debug, msg_standard, command.c_str(), 1);
@@ -139,11 +135,12 @@ int Client::mountPath(
   return result;
 }
 
-int Client::umount() {
+int Client::umount(
+    const char*     mount_point) {
   if (_d->mounted != "") {
     string command = "umount -fl ";
 
-    command += _d->mount_point;
+    command += mount_point;
     out(debug, msg_standard, command.c_str(), 1);
     _d->mounted = "";
     return system(command.c_str());
@@ -353,8 +350,8 @@ Client::~Client() {
   delete _d;
 }
 
-const string& Client::name() const {
-  return _d->name;
+const char* Client::name() const {
+  return _d->name.c_str();
 }
 
 const string& Client::subset() const {
@@ -415,10 +412,6 @@ void Client::setBasePath(const string& home_path) {
   _d->home_path = home_path;
 }
 
-void Client::setMountPoint(const string& mount_point) {
-  _d->mount_point = mount_point;
-}
-
 ClientPath* Client::addClientPath(const string& name) {
   ClientPath* path;
   if (name[0] == '~') {
@@ -465,6 +458,7 @@ Filter* Client::findFilter(const string& name) const {
 int Client::backup(
     Database&       db,
     const Filters&  global_filters,
+    const char*     mount_point,
     bool            config_check) {
   bool    first_mount_try = true;
   bool    failed = false;
@@ -480,7 +474,7 @@ int Client::backup(
 
   if (_d->list_file.length() != 0) {
     string list_path;
-    if (mountPath(string(_d->list_file.dirname()), list_path)) {
+    if (mountPath(string(_d->list_file.dirname()), list_path, mount_point)) {
       switch (errno) {
         case EPROTONOSUPPORT:
           out(error, msg_errno, _d->protocol.c_str(), errno,
@@ -535,7 +529,7 @@ int Client::backup(
           string backup_path;
           out(info, msg_standard, (*i)->path(), -1, "Backing up path");
 
-          if (mountPath((*i)->path(), backup_path)) {
+          if (mountPath((*i)->path(), backup_path, mount_point)) {
             if (! first_mount_try) {
               out(error, msg_errno, "Aborting client", errno,
                 internalName().c_str());
@@ -567,7 +561,7 @@ int Client::backup(
       }
     }
   }
-  umount(); // does not change errno
+  umount(mount_point); // does not change errno
   return failed ? -1 : 0;
 }
 

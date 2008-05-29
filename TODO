@@ -6,4 +6,3 @@ TODO - non-organised list of things I want to do
   * sort out getLine(Line&)
   * sort out owner/list architecture
   * save remote client config locally
-  * make sure directory organisation is done at the right level

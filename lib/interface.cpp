@@ -80,7 +80,6 @@ bool hbackup::aborting(unsigned short test) {
 
 struct HBackup::Private {
   Database*         db;
-  string            mount_point;
   list<string>      selected_clients;
   list<Client*>     clients;
   Filters           filters;
@@ -200,7 +199,6 @@ int HBackup::readConfig(const char* config_path) {
   while (config.line(&params) >= 0) {
     if ((*params)[0] == "db") {
       _d->db = new Database((*params)[1].c_str());
-      _d->mount_point = (*params)[1] + "/.mount";
     } else
     if ((*params)[0] == "filter") {
       if (client == NULL) {
@@ -361,7 +359,6 @@ int HBackup::readConfig(const char* config_path) {
   // Use default DB path if none specified
   if (_d->db == NULL) {
     _d->db = new Database(DEFAULT_DB_PATH);
-    _d->mount_point = DEFAULT_DB_PATH "/.mount";
   }
   return 0;
 }
@@ -440,6 +437,10 @@ int HBackup::backup(
   if (! _d->db->open(false, initialize)) {
     bool failed = false;
 
+    Directory mount_dir(Path(_d->db->path(), ".mount"));
+    if (mount_dir.create() < 0) {
+      return -1;
+    }
     for (list<Client*>::iterator client = _d->clients.begin();
         client != _d->clients.end(); client++) {
       if (aborting()) {
@@ -459,10 +460,16 @@ int HBackup::backup(
           continue;
         }
       }
-      (*client)->setMountPoint(_d->mount_point);
-      if ((*client)->backup(*_d->db, _d->filters)) {
+      Directory mount_point(Path(mount_dir.path(),
+        (*client)->internalName().c_str()));
+      // Check that mount dir exists, if not create it
+      if (mount_point.create() < 0) {
+        return -1;
+      }
+      if ((*client)->backup(*_d->db, _d->filters, mount_point.path())) {
         failed = true;
       }
+      mount_point.remove();
     }
     _d->db->close();
     if (failed) {

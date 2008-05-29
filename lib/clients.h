@@ -42,12 +42,14 @@ class Client {
   Private* const    _d;
   int mountPath(
     const string&   backup_path,
-    string&         path);
-  int umount();
+    string&         path,
+    const char*     mount_point);
+  int umount(
+    const char*     mount_point);
 public:
   Client(const string& name, const string& sub_name = "");
   ~Client();
-  const string& name() const;
+  const char* name() const;
   const string& subset() const;
   string internalName() const;
   void addOption(const string& value);
@@ -62,7 +64,6 @@ public:
   bool initialised() const;
   void setInitialised();
   void setBasePath(const string& home_path);
-  void setMountPoint(const string& mount_point);
   ClientPath* addClientPath(const string& path);
   Filter* addFilter(const string& type, const string& name);
   Filter* findFilter(const string& name) const;
@@ -72,6 +73,7 @@ public:
   int  backup(
     Database&       db,
     const Filters&  global_filters,
+    const char*     mount_point,
     bool            config_check = false);
   void show(int level = 0) const;
 };

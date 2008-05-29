@@ -227,7 +227,7 @@ Reading list of missing checksums
 List created: aClient.vista
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
- -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
 A       C:/Test Dir/My Dir
 My Dir\r
       \r
@@ -239,9 +239,9 @@ Adding compressed file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
 A z     C:/Test Dir/My File.TXT
 Database modified: aClient.vista
 Database closed: aClient.vista
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
  -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
@@ -281,9 +281,9 @@ A       C:/Test Dir/My Dir/another File.TXT
 A       C:/Test Dir/My File.TXT
 Database modified: client.xp
 Database closed: client.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
@@ -299,8 +299,8 @@ Backing up client: myClient
 List created: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
- -> umount -fl test_db/.mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
+ -> umount -fl test_db/.mount/myClient
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 A       /home/User/test/File2.txt
 A       /home/User/test/dir
 dir\r
@@ -309,9 +309,9 @@ Adding compressed file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
 A z     /home/User/test/dir/file3.txt
 Database modified: myClient
 Database closed: myClient
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount/myClient.xp
  -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
@@ -349,7 +349,7 @@ A       C:/Test Dir/My Dir/another File.TXT
 A       C:/Test Dir/My File.TXT
 Database modified: myClient.xp
 Database closed: myClient.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient.xp
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -573,13 +573,13 @@ Backing up client: aClient.vista
 Reading list of missing checksums
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
- -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
 My Dir\r
       \r
 Database closed: aClient.vista
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
  -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
@@ -613,9 +613,9 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: client.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
@@ -630,14 +630,14 @@ Trying client 'myClient' using protocol 'nfs'
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
- -> umount -fl test_db/.mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
+ -> umount -fl test_db/.mount/myClient
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
    \r
 Database closed: myClient
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount/myClient.xp
  -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
@@ -669,7 +669,7 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: myClient.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient.xp
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -819,13 +819,13 @@ Backing up client: aClient.vista
 Reading list of missing checksums
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
- -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
 My Dir\r
       \r
 Database closed: aClient.vista
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
  -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
@@ -859,9 +859,9 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: client.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
@@ -876,14 +876,14 @@ Trying client 'myClient' using protocol 'nfs'
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
- -> umount -fl test_db/.mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
+ -> umount -fl test_db/.mount/myClient
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
    \r
 Database closed: myClient
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount/myClient.xp
  -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
@@ -915,7 +915,7 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: myClient.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient.xp
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -1043,7 +1043,7 @@ Warning: Previous backup interrupted: myhost
 Database modified: myhost
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
  -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
@@ -1078,7 +1078,7 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: client.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/client.xp
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -2059,13 +2059,13 @@ Backing up client: aClient.vista
 Reading list of missing checksums
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
- -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
 My Dir\r
       \r
 Database closed: aClient.vista
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
  -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
@@ -2099,9 +2099,9 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: client.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
@@ -2116,14 +2116,14 @@ Trying client 'myClient' using protocol 'nfs'
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
- -> umount -fl test_db/.mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
+ -> umount -fl test_db/.mount/myClient
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
    \r
 Database closed: myClient
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount/myClient.xp
  -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
@@ -2155,7 +2155,7 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: myClient.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient.xp
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -2301,7 +2301,7 @@ Test: specify clients
  ---> Condition: not size< 1000
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
  -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
@@ -2336,9 +2336,9 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: client.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
@@ -2353,12 +2353,12 @@ Trying client 'myClient' using protocol 'nfs'
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
- -> umount -fl test_db/.mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
+ -> umount -fl test_db/.mount/myClient
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
    \r
 Database closed: myClient
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient
 Database closed
 
 Test: user-mode backup
@@ -6176,13 +6176,13 @@ Reading list of missing checksums
  -> fef51838cd3cfe8ed96355742eb71fbd-0
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
- -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
 My Dir\r
       \r
 Database closed: aClient.vista
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
  -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
@@ -6216,9 +6216,9 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: client.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
@@ -6233,14 +6233,14 @@ Trying client 'myClient' using protocol 'nfs'
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
- -> umount -fl test_db/.mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
+ -> umount -fl test_db/.mount/myClient
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
    \r
 Database closed: myClient
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount/myClient.xp
  -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
@@ -6272,7 +6272,7 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: myClient.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient.xp
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -6433,13 +6433,13 @@ Reading list of missing checksums
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
- -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
 My Dir\r
       \r
 Database closed: aClient.vista
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
  -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
@@ -6473,9 +6473,9 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: client.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
@@ -6490,14 +6490,14 @@ Trying client 'myClient' using protocol 'nfs'
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
- -> umount -fl test_db/.mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
+ -> umount -fl test_db/.mount/myClient
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
    \r
 Database closed: myClient
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount/myClient.xp
  -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
@@ -6529,7 +6529,7 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: myClient.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient.xp
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -6813,13 +6813,13 @@ Reading list of missing checksums
  -> 59ca0efa9f5633cb0371bbc0355478d8-0
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
- -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
 My Dir\r
       \r
 Database closed: aClient.vista
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
  -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
@@ -6853,9 +6853,9 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: client.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
@@ -6870,14 +6870,14 @@ Trying client 'myClient' using protocol 'nfs'
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
- -> umount -fl test_db/.mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount
+ -> umount -fl test_db/.mount/myClient
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
    \r
 Database closed: myClient
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount/myClient.xp
  -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
@@ -6909,7 +6909,7 @@ Backing up path: C:/Test Dir
 My Dir\r
       \r
 Database closed: myClient.xp
- -> umount -fl test_db/.mount
+ -> umount -fl test_db/.mount/myClient.xp
 Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
