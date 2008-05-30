@@ -23,32 +23,107 @@
 
 namespace hbackup {
 
+//! \brief Ring buffer with concurrent read/write support
+/*!
+  This class implements a ring buffer allowing read and write operations to be
+  effected simultaneously. It is simple and highly efficient.
+*/
 class Buffer {
   struct            Private;
   Private* const    _d;
 public:
+  //! \brief Constructor
+  /*!
+    \param size         the size of the buffer to create, or 0 for none
+  */
   Buffer(size_t size = 0);
+  //! \brief Destructor
   ~Buffer();
   // Management
+  //! \brief Create the buffer
+  /*!
+    \param size         the size of the buffer to create
+  */
   void create(size_t size = 102400);
+  //! \brief Destroy
   void destroy();
+  //! \brief Empty the buffer of all content
   void empty();
+  //! \brief Check whether the buffer was created
+  /*!
+      \return           true if was created, false otherwise
+  */
   bool exists() const;
+  //! \brief Get buffer's capacity
+  /*!
+      \return           total buffer capacity
+  */
   size_t capacity() const;
+  //! \brief Get buffer's current usage
+  /*!
+      \return           buffer current usage
+  */
   size_t usage() const;
   // Status
+  //! \brief Check whether the buffer is empty
+  /*!
+      \return           true if empty, false otherwise
+  */
   bool isEmpty() const;
+  //! \brief Check whether the buffer is full
+  /*!
+      \return           true if full, false otherwise
+  */
   bool isFull() const;
   // Writing
+  //! \brief Get pointer to where to write
+  /*!
+      \return           pointer to where to write
+  */
   char* writer();
+  //! \brief Get buffer's contiguous free space
+  /*!
+      \return           size of contiguous free space
+  */
   size_t writeable() const;
+  //! \brief Set how much space was used
+  /*!
+    \param size         size written
+  */
   void written(size_t size);
+  //! \brief Write data from an external buffer
+  /*!
+    \param buffer       pointer to the external buffer
+    \param size         maximum size of data to get from the external buffer
+    \return             size actually written
+  */
   ssize_t write(const void* buffer, size_t size);
   // Reading
+  //! \brief Get pointer to where to read
+  /*!
+      \return           pointer to where to read
+  */
   const char* reader() const;
+  //! \brief Get buffer's contiguous used space
+  /*!
+      \return           size of contiguous used space
+  */
   size_t readable() const;
+  //! \brief Set how much space was freed
+  /*!
+    \param size         size read
+  */
   void readn(size_t size);
+  //! \brief Read data to an external buffer
+  /*!
+    \param buffer       pointer to the external buffer
+    \param size         maximum size of data to put into the external buffer
+    \return             size actually read
+  */
   ssize_t read(void* buffer, size_t size);
+};
+
+class BufferStack {
 };
 
 }
