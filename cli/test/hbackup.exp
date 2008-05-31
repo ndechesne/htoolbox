@@ -142,6 +142,7 @@ Backup, DB missing
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -162,6 +163,8 @@ Backup, DB missing
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -213,6 +216,7 @@ Typical backup, initialize DB
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -233,6 +237,8 @@ Typical backup, initialize DB
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -334,6 +340,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
  --> Paths: 
@@ -402,6 +409,8 @@ Trying client 'myhost' using protocol 'file'
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> No warning on time out
+ --> No error if same file fails copy again
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
  --> Filter: and subdir
@@ -565,6 +574,7 @@ Specify clients
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -585,6 +595,8 @@ Specify clients
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -661,6 +673,8 @@ Trying client 'myhost' using protocol 'file'
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> No warning on time out
+ --> No error if same file fails copy again
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
  --> Filter: and subdir
@@ -746,6 +760,7 @@ Database open in read/write mode
  --> Expiry: none
  --> Paths: 
  ---> Path: test_user/testuser
+ ----> No error if same file fails copy again
 Reading list of missing checksums
 List created: localhost
 Database open r/w: localhost
@@ -815,6 +830,7 @@ Fix DB
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -835,6 +851,8 @@ Fix DB
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -887,6 +905,7 @@ Scan DB
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -907,6 +926,8 @@ Scan DB
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -1018,6 +1039,7 @@ Check DB
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -1038,6 +1060,8 @@ Check DB
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -1111,6 +1135,7 @@ Database closed
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -1131,6 +1156,8 @@ Database closed
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -1192,6 +1219,7 @@ Database closed
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -1212,6 +1240,8 @@ Database closed
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -1272,6 +1302,7 @@ Database closed
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -1292,6 +1323,8 @@ Database closed
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -1356,6 +1389,7 @@ Database closed
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -1376,6 +1410,8 @@ Database closed
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -1440,6 +1476,7 @@ Database closed
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -1460,6 +1497,8 @@ Database closed
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -1524,6 +1563,7 @@ Database closed
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -1544,6 +1584,8 @@ Database closed
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -1610,6 +1652,7 @@ Database closed
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -1630,6 +1673,8 @@ Database closed
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -1702,6 +1747,7 @@ Database closed
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -1722,6 +1768,8 @@ Database closed
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -1781,6 +1829,7 @@ Database closed
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -1801,6 +1850,8 @@ Database closed
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -1888,6 +1939,7 @@ Database closed
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -1908,6 +1960,8 @@ Database closed
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -1978,6 +2032,7 @@ Database closed
  -----> Parser: Subversion
  -----> Compress filter: compress_m
  -----> Ignore filter: backup
+ -----> No error if same file fails copy again
  ---> Required subset: vista
  --> Client: client
  ---> Protocol: smb
@@ -1998,6 +2053,8 @@ Database closed
  --> Client: myhost
  ---> Protocol: file
  ---> Hostname: myhost.mynetwork.lan
+ ---> No warning on time out
+ ---> No error if same file fails copy again
  ---> Config: etc/localhost.list
  ---> Expiry: 86400s (1d)
  --> Client: other
@@ -2073,25 +2130,27 @@ Database closed
 Broken configuration
  -> Reading configuration file: etc/broken.conf
 Error: after line: 0: need at most 1 occurence(s) of keyword 'db'
-Error: at line: 4: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line: 8: missing keyword 'condition'
-Error: after line: 13: need at most 1 occurence(s) of keyword 'config'
-Error: after line: 13: need at most 1 occurence(s) of keyword 'expire'
-Error: after line: 13: need at most 1 occurence(s) of keyword 'hostname'
-Error: at line: 17: keyword 'option' requires at most 2 parameter(s), found 3
-Error: at line: 18: keyword 'option' requires at least 1 parameter(s), found 0
-Error: at line: 26: keyword 'filter' requires 2 parameter(s), found 3
-Error: at line: 27: keyword 'condition' requires 2 parameter(s), found 3
-Error: at line: 28: keyword 'condition' requires 2 parameter(s), found 1
-Error: at line: 31: keyword 'expire' requires 1 parameter(s), found 2
-Error: after line: 35: need at most 1 occurence(s) of keyword 'compress'
-Error: after line: 35: need at most 1 occurence(s) of keyword 'ignore'
-Error: after line: 45: missing keyword 'condition'
-Error: at line: 47: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line: 47: missing keyword 'condition'
-Error: after line: 59: missing keyword 'protocol'
-Error: at line: 65: keyword 'ignore' requires 1 parameter(s), found 2
-Error: at line: 66: keyword 'compress' requires 1 parameter(s), found 2
-Error: at line: 79: keyword 'ignore' requires 1 parameter(s), found 0
-Error: at line: 80: keyword 'compress' requires 1 parameter(s), found 0
-Error: at line: 82: keyword 'what_the_f...?' incorrect or misplaced, aborting
+Error: after line: 0: need at most 1 occurence(s) of keyword 'report_copy_error_once'
+Error: after line: 0: need at most 1 occurence(s) of keyword 'timeout_nowarning'
+Error: at line: 10: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line: 14: missing keyword 'condition'
+Error: after line: 19: need at most 1 occurence(s) of keyword 'config'
+Error: after line: 19: need at most 1 occurence(s) of keyword 'expire'
+Error: after line: 19: need at most 1 occurence(s) of keyword 'hostname'
+Error: at line: 23: keyword 'option' requires at most 2 parameter(s), found 3
+Error: at line: 24: keyword 'option' requires at least 1 parameter(s), found 0
+Error: at line: 32: keyword 'filter' requires 2 parameter(s), found 3
+Error: at line: 33: keyword 'condition' requires 2 parameter(s), found 3
+Error: at line: 34: keyword 'condition' requires 2 parameter(s), found 1
+Error: at line: 37: keyword 'expire' requires 1 parameter(s), found 2
+Error: after line: 41: need at most 1 occurence(s) of keyword 'compress'
+Error: after line: 41: need at most 1 occurence(s) of keyword 'ignore'
+Error: after line: 51: missing keyword 'condition'
+Error: at line: 53: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line: 53: missing keyword 'condition'
+Error: after line: 65: missing keyword 'protocol'
+Error: at line: 71: keyword 'ignore' requires 1 parameter(s), found 2
+Error: at line: 72: keyword 'compress' requires 1 parameter(s), found 2
+Error: at line: 85: keyword 'ignore' requires 1 parameter(s), found 0
+Error: at line: 86: keyword 'compress' requires 1 parameter(s), found 0
+Error: at line: 88: keyword 'what_the_f...?' incorrect or misplaced, aborting

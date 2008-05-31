@@ -57,6 +57,7 @@ public:
   void setHostOrIp(string value);
   void setProtocol(string value);
   void setTimeOutNoWarning();
+  void setReportCopyErrorOnce();
   void setListfile(const char* value);
   const char* listfile() const;
   void setExpire(int expire);

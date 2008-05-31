@@ -167,6 +167,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
  --> Paths: 
@@ -876,6 +877,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
  --> Paths: 
@@ -911,6 +913,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
  --> Paths: 
@@ -941,6 +944,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
  --> Paths: 

@@ -75,10 +75,11 @@ public:
     bool            abort = false);       // Whether to remove remaining items
   // Send data for comparison
   void sendEntry(
-    OpData&         operation);       // Operation data
+    OpData&         operation);           // Operation data
   // Add entry to journal/list
   int  add(
-    const OpData&   operation);       // Operation data
+    const OpData&   operation,            // Operation data
+    bool            report_copy_error_once = false);
 };
 
 }

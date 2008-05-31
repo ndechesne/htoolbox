@@ -28,6 +28,7 @@ class ClientPath {
   const Filter*     _ignore;
   const Filter*     _compress;
   int               _nodes;
+  bool              _report_copy_error_once;
   int parse_recurse(
     Database&       db,
     const char*     remote_path,      // Dir where the file resides, remotely
@@ -51,6 +52,7 @@ public:
   int addParser(
     const string&   type,
     const string&   string);
+  void setReportCopyErrorOnce();
   int parse(
     Database&       db,
     const char*     backup_path,

@@ -110,6 +110,16 @@ int main(void) {
   hbackup->backup();
   hbackup->close();
   delete hbackup;
+
+  abort(2);
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->show(2);
+  hbackup->backup();
+  hbackup->close();
+  delete hbackup;
   abort(0xffff);
 
   cout << endl << "Test: specify clients" << endl;

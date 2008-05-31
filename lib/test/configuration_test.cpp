@@ -96,9 +96,6 @@ int main(void) {
   // db
   config->add(new ConfigItem("db", 0, 1, 1));
 
-  // trash
-  config->add(new ConfigItem("trash", 0, 1, 1));
-
   // filter
   {
     ConfigItem* item = new ConfigItem("filter", 0, 0, 2);
@@ -107,6 +104,12 @@ int main(void) {
     // condition
     item->add(new ConfigItem("condition", 1, 0, 2));
   }
+
+  // timeout_nowarning
+  config->add(new ConfigItem("timeout_nowarning", 0, 1));
+
+  // report_copy_error_once
+  config->add(new ConfigItem("report_copy_error_once", 0, 1));
 
   // client
   {
@@ -124,6 +127,9 @@ int main(void) {
 
     // timeout_nowarning
     item->add(new ConfigItem("timeout_nowarning", 0, 1));
+
+    // report_copy_error_once
+    item->add(new ConfigItem("report_copy_error_once", 0, 1));
 
     // config
     item->add(new ConfigItem("config", 0, 1, 1));

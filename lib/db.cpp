@@ -630,7 +630,8 @@ void Database::sendEntry(
 }
 
 int Database::add(
-    const OpData&   op) {
+    const OpData&   op,
+    bool            report_copy_error_once) {
   bool failed = false;
   time_t ts = time(NULL);
 
@@ -666,10 +667,12 @@ int Database::add(
         _d->missing.setRecovered(op._id);
       }
     } else {
-      char* full_name;
-      asprintf(&full_name, "%s:%s", _d->owner->name(), op._path);
-      out(error, msg_errno, "Backing up file", errno, full_name);
-      free(full_name);
+      if ((op._letter != '!') || (! report_copy_error_once)) {
+        char* full_name;
+        asprintf(&full_name, "%s:%s", _d->owner->name(), op._path);
+        out(error, msg_errno, "Backing up file", errno, full_name);
+        free(full_name);
+      }
       code[2] = '!';
       failed = true;
     }

@@ -19,6 +19,7 @@ Test: backup, not initialized
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -39,6 +40,8 @@ Test: backup, not initialized
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -90,6 +93,7 @@ Test: check config
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -110,6 +114,8 @@ Test: check config
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -149,6 +155,7 @@ Test: check config
  --> Expiry: none
  --> Paths: 
  ---> Path: test_user/testuser
+ ----> No error if same file fails copy again
 
 Test: typical backup
  -> Reading configuration file: etc/hbackup.conf
@@ -167,6 +174,7 @@ Test: typical backup
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -187,6 +195,8 @@ Test: typical backup
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -287,6 +297,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
  --> Paths: 
@@ -355,6 +366,8 @@ Trying client 'myhost' using protocol 'file'
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> No warning on time out
+ --> No error if same file fails copy again
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
  --> Filter: and subdir
@@ -515,6 +528,7 @@ Test: same backup
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -535,6 +549,8 @@ Test: same backup
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -619,6 +635,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
  --> Paths: 
@@ -675,6 +692,8 @@ Trying client 'myhost' using protocol 'file'
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> No warning on time out
+ --> No error if same file fails copy again
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
  --> Filter: and subdir
@@ -761,6 +780,7 @@ Test: interrupted backup
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -781,6 +801,8 @@ Test: interrupted backup
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -865,6 +887,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
  --> Paths: 
@@ -921,6 +944,8 @@ Trying client 'myhost' using protocol 'file'
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> No warning on time out
+ --> No error if same file fails copy again
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
  --> Filter: and subdir
@@ -969,8 +994,6 @@ Error: myhost:test1/dir space/big_file: Operation canceled: Backing up file
 A !     test1/dir space/big_file
 Database closed: myhost
 Database closed
-
-Test: specify clients
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Clients:
@@ -987,6 +1010,7 @@ Test: specify clients
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -1007,6 +1031,8 @@ Test: specify clients
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -1041,6 +1067,237 @@ Test: specify clients
  ---> Condition: not size< 1000
 Warning: Previous backup interrupted: myhost
 Database modified: myhost
+Database open in read/write mode
+Trying client 'aClient.vista' using protocol 'smb'
+Backing up client: aClient.vista
+Reading list of missing checksums
+Database open r/w: aClient.vista
+Backing up path: C:/Test Dir
+ -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
+My Dir\r
+      \r
+Database closed: aClient.vista
+ -> umount -fl test_db/.mount/aClient.vista
+Trying client 'client.xp' using protocol 'smb'
+ -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
+ -> Reading client configuration file: client.xp
+ -> Client: client
+ --> Subset: xp
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options: username=Myself password=flesyM nocase 
+ --> Config: C:/Backup/Backup.LST
+ --> Expiry: none
+ --> Paths: 
+ ---> Path: C:/Test Dir
+ ----> Filter: and silly
+ -----> Condition: filter backup
+ -----> Condition: type p
+ -----> Condition: name a
+ -----> Condition: name_start b
+ -----> Condition: name_end c
+ -----> Condition: name_regex d
+ -----> Condition: path e
+ -----> Condition: path_start f
+ -----> Condition: path_end g
+ -----> Condition: name_regex h
+ -----> Condition: size>= 1
+ -----> Condition: size> 2048
+ -----> Condition: size<= 3000000
+ -----> Condition: size< 4294967296
+ -----> Condition: mode& 777
+ -----> Condition: mode= 644
+Backing up client: client.xp
+Database open r/w: client.xp
+Backing up path: C:/Test Dir
+My Dir\r
+      \r
+Database closed: client.xp
+ -> umount -fl test_db/.mount/client.xp
+Trying client 'myClient' using protocol 'nfs'
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
+ -> Reading client configuration file: myClient
+ -> Client: myClient
+ --> Protocol: nfs
+ --> No error if same file fails copy again
+ --> Config: /home/User/hbackup.list
+ --> Expiry: none
+ --> Paths: 
+ ---> Path: /home/User/test
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
+Backing up client: myClient
+Database open r/w: myClient
+Backing up path: /home/User/test
+ -> umount -fl test_db/.mount/myClient
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
+dir\r
+   \r
+Database closed: myClient
+ -> umount -fl test_db/.mount/myClient
+Trying client 'myClient.xp' using protocol 'smb'
+ -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount/myClient.xp
+ -> Reading client configuration file: myClient.xp
+ -> Client: myClient
+ --> Subset: xp
+ --> Protocol: smb
+ --> Config: C:/Backup/Backup.LST
+ --> Expiry: none
+ --> Paths: 
+ ---> Path: C:/Test Dir
+ ----> Filter: and silly
+ -----> Condition: filter backup
+ -----> Condition: type p
+ -----> Condition: name a
+ -----> Condition: name_start b
+ -----> Condition: name_end c
+ -----> Condition: name_regex d
+ -----> Condition: path e
+ -----> Condition: path_start f
+ -----> Condition: path_end g
+ -----> Condition: name_regex h
+ -----> Condition: size>= 1
+ -----> Condition: size> 2048
+ -----> Condition: size<= 3000000
+ -----> Condition: size< 4294967296
+ -----> Condition: mode& 777
+ -----> Condition: mode= 644
+Backing up client: myClient.xp
+Database open r/w: myClient.xp
+Backing up path: C:/Test Dir
+My Dir\r
+      \r
+Database closed: myClient.xp
+ -> umount -fl test_db/.mount/myClient.xp
+Trying client 'myhost' using protocol 'file'
+ -> Reading client configuration file: myhost
+ -> Client: myhost
+ --> Protocol: file
+ --> Hostname: myhost.mynetwork.lan
+ --> No warning on time out
+ --> No error if same file fails copy again
+ --> Config: etc/localhost.list
+ --> Expiry: 86400s (1d)
+ --> Filter: and subdir
+ ---> Condition: path_start subdir
+ ---> Condition: not size< 100
+ --> Filter: and bigfile
+ ---> Condition: size>= 10
+ ---> Condition: type f
+ --> Paths: 
+ ---> Path: test1
+ ----> Filter: and not_object
+ -----> Condition: not path_end .o
+ ----> Filter: or to_be_ignored
+ -----> Condition: filter subdir
+ -----> Condition: filter backup
+ -----> Condition: not filter not_object
+ ----> Parser: CVS
+ ----> Parser: Subversion
+ ----> Compress filter: bigfile
+ ----> Ignore filter: to_be_ignored
+ ---> Path: test2
+Backing up client: myhost
+Database open r/w: myhost
+Backing up path: test1
+cvs\r
+   \r
+ -> Parsing CVS entries
+ --> dirbad: D
+ --> dirutd: D
+ --> filemod.o: 1159806431
+ --> filenew.c: 0
+ --> fileutd.h: 1159985080
+cvs/CVS\r
+cvs/dirbad\r
+          \r
+Warning: test1/cvs/dirbad: Directory should be under CVS control
+cvs/dirutd\r
+          \r
+ -> Parsing CVS entries
+ --> fileutd: 1159985080
+cvs/dirutd/CVS\r
+dir space     \r
+         \r
+Killing trigger reached: 2
+! !     test1/dir space/big_file
+Database closed: myhost
+Database closed
+
+Test: specify clients
+ -> Reading configuration file: etc/hbackup.conf
+ --> DB path: test_db
+ --> Clients:
+ ---> Client: aClient
+ ----> Protocol: smb
+ ----> Expiry: none
+ ----> Filter: and huge_file
+ -----> Condition: not filter backup
+ -----> Condition: not size< 100
+ ----> Paths: 
+ -----> Path: C:/Test Dir
+ ------> Filter: and compress_m
+ -------> Condition: not filter huge_file
+ ------> Parser: Subversion
+ ------> Compress filter: compress_m
+ ------> Ignore filter: backup
+ ------> No error if same file fails copy again
+ ----> Required subset: vista
+ ---> Client: client
+ ----> Protocol: smb
+ ----> Hostname: myClient
+ ----> Options: username=Myself password=flesyM nocase 
+ ----> Config: C:/Backup/Backup.LST
+ ----> Expiry: none
+ ----> Required subset: xp
+ ---> Client: myClient
+ ----> Protocol: nfs
+ ----> Config: /home/User/hbackup.list
+ ----> Expiry: none
+ ---> Client: myClient
+ ----> Protocol: smb
+ ----> Config: C:/Backup/Backup.LST
+ ----> Expiry: none
+ ----> Required subset: xp
+ ---> Client: myhost
+ ----> Protocol: file
+ ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
+ ----> Config: etc/localhost.list
+ ----> Expiry: 86400s (1d)
+ ---> Client: other
+ ----> Protocol: ssh
+ ----> Hostname: otherClient
+ ----> Config: /home/backup/Backup.list
+ ----> Expiry: 86400s (1d)
+ ----> Filter: and subdir
+ -----> Condition: path_start subdir
+ -----> Condition: not size< 100
+ ----> Filter: and bigfile
+ -----> Condition: size>= 10
+ -----> Condition: type f
+ ----> Paths: 
+ -----> Path: test1
+ ------> Filter: and not_object
+ -------> Condition: not path_end .o
+ ------> Filter: or to_be_ignored
+ -------> Condition: filter subdir
+ -------> Condition: filter backup
+ -------> Condition: not filter not_object
+ ------> Parser: CVS
+ ------> Parser: Subversion
+ ------> Compress filter: bigfile
+ ------> Ignore filter: to_be_ignored
+ -----> Path: test2
+ --> Filter: and backup
+ ---> Condition: type f
+ ---> Condition: path_end ~
+ --> Filter: or test_or
+ ---> Condition: filter backup
+ ---> Condition: not size< 1000
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -1084,6 +1341,8 @@ Trying client 'myhost' using protocol 'file'
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> No warning on time out
+ --> No error if same file fails copy again
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
  --> Filter: and subdir
@@ -1172,6 +1431,7 @@ Test: scan DB
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -1192,6 +1452,8 @@ Test: scan DB
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -1306,6 +1568,7 @@ Test: check DB
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -1326,6 +1589,8 @@ Test: check DB
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -1398,6 +1663,7 @@ Test: list clients
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -1418,6 +1684,8 @@ Test: list clients
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -1475,6 +1743,7 @@ Test: list paths in UNIX client 'myClient'
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -1495,6 +1764,8 @@ Test: list paths in UNIX client 'myClient'
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -1550,6 +1821,7 @@ Test: list paths in DOS client 'client.xp'
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -1570,6 +1842,8 @@ Test: list paths in DOS client 'client.xp'
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -1625,6 +1899,7 @@ Test: restore file
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -1645,6 +1920,8 @@ Test: restore file
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -1700,6 +1977,7 @@ Test: restore dir
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -1720,6 +1998,8 @@ Test: restore dir
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -1805,6 +2085,7 @@ Test: restore subdir
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -1825,6 +2106,8 @@ Test: restore subdir
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -1891,6 +2174,7 @@ Test: restore client
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -1911,6 +2195,8 @@ Test: restore client
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -2001,6 +2287,7 @@ Test: typical backup
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -2021,6 +2308,8 @@ Test: typical backup
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -2105,6 +2394,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
  --> Paths: 
@@ -2161,6 +2451,8 @@ Trying client 'myhost' using protocol 'file'
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> No warning on time out
+ --> No error if same file fails copy again
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
  --> Filter: and subdir
@@ -2247,6 +2539,7 @@ Test: specify clients
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -2267,6 +2560,8 @@ Test: specify clients
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -2342,6 +2637,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
  --> Paths: 
@@ -2379,6 +2675,7 @@ Database open in read/write mode
  --> Expiry: none
  --> Paths: 
  ---> Path: test_user/testuser
+ ----> No error if same file fails copy again
 Reading list of missing checksums
 List created: localhost
 Database open r/w: localhost
@@ -2418,6 +2715,7 @@ Test: list clients
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -2438,6 +2736,8 @@ Test: list clients
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -2495,6 +2795,7 @@ Test: list paths in DOS client 'myClient.xp'
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -2515,6 +2816,8 @@ Test: list paths in DOS client 'myClient.xp'
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -2573,6 +2876,7 @@ Test: list paths in dual-boot client 'myClient*'
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -2593,6 +2897,8 @@ Test: list paths in dual-boot client 'myClient*'
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -2651,6 +2957,7 @@ Test: list sub-paths in UNIX client 'myClient'
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -2671,6 +2978,8 @@ Test: list sub-paths in UNIX client 'myClient'
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -2728,6 +3037,7 @@ Test: list sub-paths in DOS client 'myClient.xp', 'C:'
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -2748,6 +3058,8 @@ Test: list sub-paths in DOS client 'myClient.xp', 'C:'
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -2805,6 +3117,7 @@ Test: restore file (UNIX)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -2825,6 +3138,8 @@ Test: restore file (UNIX)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -2887,6 +3202,7 @@ Test: restore subdir (UNIX)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -2907,6 +3223,8 @@ Test: restore subdir (UNIX)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -2973,6 +3291,7 @@ Test: restore dir (UNIX)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -2993,6 +3312,8 @@ Test: restore dir (UNIX)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -3059,6 +3380,7 @@ Test: restore client (UNIX)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -3079,6 +3401,8 @@ Test: restore client (UNIX)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -3145,6 +3469,7 @@ Test: restore file (DOS)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -3165,6 +3490,8 @@ Test: restore file (DOS)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -3226,6 +3553,7 @@ Test: restore subdir (DOS)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -3246,6 +3574,8 @@ Test: restore subdir (DOS)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -3311,6 +3641,7 @@ Test: restore dir (DOS)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -3331,6 +3662,8 @@ Test: restore dir (DOS)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -3398,6 +3731,7 @@ Test: restore client (DOS)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -3418,6 +3752,8 @@ Test: restore client (DOS)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -3486,6 +3822,7 @@ Test: restore client (dual-boot)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -3506,6 +3843,8 @@ Test: restore client (dual-boot)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -3584,6 +3923,7 @@ Test: restore (symlinks) file (UNIX)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -3604,6 +3944,8 @@ Test: restore (symlinks) file (UNIX)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -3666,6 +4008,7 @@ Test: restore (symlinks) subdir (UNIX)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -3686,6 +4029,8 @@ Test: restore (symlinks) subdir (UNIX)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -3752,6 +4097,7 @@ Test: restore (symlinks) dir (UNIX)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -3772,6 +4118,8 @@ Test: restore (symlinks) dir (UNIX)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -3838,6 +4186,7 @@ Test: restore (symlinks) client (UNIX)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -3858,6 +4207,8 @@ Test: restore (symlinks) client (UNIX)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -3924,6 +4275,7 @@ Test: restore (symlinks) file (DOS)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -3944,6 +4296,8 @@ Test: restore (symlinks) file (DOS)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -4005,6 +4359,7 @@ Test: restore (symlinks) subdir (DOS)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -4025,6 +4380,8 @@ Test: restore (symlinks) subdir (DOS)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -4090,6 +4447,7 @@ Test: restore (symlinks) dir (DOS)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -4110,6 +4468,8 @@ Test: restore (symlinks) dir (DOS)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -4177,6 +4537,7 @@ Test: restore (symlinks) client (DOS)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -4197,6 +4558,8 @@ Test: restore (symlinks) client (DOS)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -4265,6 +4628,7 @@ Test: restore (symlinks) client (dual-boot)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -4285,6 +4649,8 @@ Test: restore (symlinks) client (dual-boot)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -4364,6 +4730,7 @@ Test: restore (hard links) file (UNIX)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -4384,6 +4751,8 @@ Test: restore (hard links) file (UNIX)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -4446,6 +4815,7 @@ Test: restore (hard links) subdir (UNIX)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -4466,6 +4836,8 @@ Test: restore (hard links) subdir (UNIX)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -4532,6 +4904,7 @@ Test: restore (hard links) dir (UNIX)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -4552,6 +4925,8 @@ Test: restore (hard links) dir (UNIX)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -4618,6 +4993,7 @@ Test: restore (hard links) client (UNIX)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -4638,6 +5014,8 @@ Test: restore (hard links) client (UNIX)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -4704,6 +5082,7 @@ Test: restore (hard links) file (DOS)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -4724,6 +5103,8 @@ Test: restore (hard links) file (DOS)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -4785,6 +5166,7 @@ Test: restore (hard links) subdir (DOS)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -4805,6 +5187,8 @@ Test: restore (hard links) subdir (DOS)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -4870,6 +5254,7 @@ Test: restore (hard links) dir (DOS)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -4890,6 +5275,8 @@ Test: restore (hard links) dir (DOS)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -4957,6 +5344,7 @@ Test: restore (hard links) client (DOS)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -4977,6 +5365,8 @@ Test: restore (hard links) client (DOS)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -5045,6 +5435,7 @@ Test: restore (hard links) client (dual-boot)
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -5065,6 +5456,8 @@ Test: restore (hard links) client (dual-boot)
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -5141,6 +5534,7 @@ Test: check for corrupted data
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -5161,6 +5555,8 @@ Test: check for corrupted data
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -5241,6 +5637,7 @@ Test: check for corrupted data again
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -5261,6 +5658,8 @@ Test: check for corrupted data again
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -5341,6 +5740,7 @@ Test: scan for missing data
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -5361,6 +5761,8 @@ Test: scan for missing data
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -5550,6 +5952,7 @@ Test: scan for obsolete data, case1
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -5570,6 +5973,8 @@ Test: scan for obsolete data, case1
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -5832,6 +6237,7 @@ Test: scan for obsolete data, case 2
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -5852,6 +6258,8 @@ Test: scan for obsolete data, case 2
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -6114,6 +6522,7 @@ Test: backup recovers missing checksums
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -6134,6 +6543,8 @@ Test: backup recovers missing checksums
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -6222,6 +6633,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
  --> Paths: 
@@ -6278,6 +6690,8 @@ Trying client 'myhost' using protocol 'file'
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> No warning on time out
+ --> No error if same file fails copy again
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
  --> Filter: and subdir
@@ -6374,6 +6788,7 @@ Database closed
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -6394,6 +6809,8 @@ Database closed
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -6479,6 +6896,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
  --> Paths: 
@@ -6535,6 +6953,8 @@ Trying client 'myhost' using protocol 'file'
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> No warning on time out
+ --> No error if same file fails copy again
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
  --> Filter: and subdir
@@ -6620,6 +7040,7 @@ Database closed
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -6640,6 +7061,8 @@ Database closed
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -6754,6 +7177,7 @@ Database closed
  ------> Parser: Subversion
  ------> Compress filter: compress_m
  ------> Ignore filter: backup
+ ------> No error if same file fails copy again
  ----> Required subset: vista
  ---> Client: client
  ----> Protocol: smb
@@ -6774,6 +7198,8 @@ Database closed
  ---> Client: myhost
  ----> Protocol: file
  ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
  ----> Config: etc/localhost.list
  ----> Expiry: 86400s (1d)
  ---> Client: other
@@ -6859,6 +7285,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
  --> Paths: 
@@ -6915,6 +7342,8 @@ Trying client 'myhost' using protocol 'file'
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> No warning on time out
+ --> No error if same file fails copy again
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
  --> Filter: and subdir

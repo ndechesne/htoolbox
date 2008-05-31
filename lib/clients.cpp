@@ -46,6 +46,7 @@ struct Client::Private {
   Path              list_file;
   string            protocol;
   bool              timeout_nowarning;
+  bool              report_copy_error_once;
   list<Option>      options;
   //
   bool              initialised;
@@ -169,6 +170,8 @@ int Client::readConfig(
   config.add(new ConfigItem("subset", 0, 1, 1));
   // expire
   config.add(new ConfigItem("expire", 0, 1, 1));
+  // timeout_nowarning
+  config.add(new ConfigItem("report_copy_error_once", 0, 1));
   // filter
   {
     ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
@@ -217,6 +220,13 @@ int Client::readConfig(
           out(error, msg_number, "Wrong expiration value",
             (*params).lineNo(), list_path);
           failed = true;
+        }
+      } else
+      if ((*params)[0] == "report_copy_error_once") {
+        if (path == NULL) {
+          setReportCopyErrorOnce();
+        } else {
+          path->setReportCopyErrorOnce();
         }
       } else
       if ((*params)[0] == "path") {
@@ -334,12 +344,13 @@ int Client::readConfig(
 }
 
 Client::Client(const string& name, const string& subset) : _d(new Private) {
-  _d->name              = name;
-  _d->subset_server     = subset;
-  _d->host_or_ip        = name;
-  _d->initialised       = false;
-  _d->expire            = -1;
-  _d->timeout_nowarning = false;
+  _d->name                   = name;
+  _d->subset_server          = subset;
+  _d->host_or_ip             = name;
+  _d->initialised            = false;
+  _d->expire                 = -1;
+  _d->timeout_nowarning      = false;
+  _d->report_copy_error_once = false;
 }
 
 Client::~Client() {
@@ -384,6 +395,10 @@ void Client::setProtocol(string value) {
 
 void Client::setTimeOutNoWarning() {
   _d->timeout_nowarning = true;
+}
+
+void Client::setReportCopyErrorOnce() {
+  _d->report_copy_error_once = true;
 }
 
 void Client::setListfile(const char* value) {
@@ -528,6 +543,9 @@ int Client::backup(
           }
           string backup_path;
           out(info, msg_standard, (*i)->path(), -1, "Backing up path");
+          if (_d->report_copy_error_once) {
+            (*i)->setReportCopyErrorOnce();
+          }
 
           if (mountPath((*i)->path(), backup_path, mount_point)) {
             if (! first_mount_try) {
@@ -581,6 +599,12 @@ void Client::show(int level) const {
       s << i->option() << " ";
     }
     out(debug, msg_standard, s.str().c_str(), level, "Options");
+  }
+  if (_d->timeout_nowarning) {
+    out(debug, msg_standard, "No warning on time out", level);
+  }
+  if (_d->report_copy_error_once) {
+    out(debug, msg_standard, "No error if same file fails copy again", level);
   }
   if (_d->list_file.length() != 0) {
     out(debug, msg_standard, _d->list_file, level, "Config");

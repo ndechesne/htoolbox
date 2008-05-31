@@ -481,6 +481,7 @@ parser	cvs	controlled
 parser	svn	modified	
 
 client	myhost	
+report_copy_error_once	
 protocol	file	
 hostname	myhost.mynetwork.lan	
 timeout_nowarning	
@@ -507,6 +508,7 @@ condition	!filter	huge_file
 compress	compress_m	
 ignore	backup	
 parser	svn	modified	
+report_copy_error_once	
 
 Stream select
 Not found.

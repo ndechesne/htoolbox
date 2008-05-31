@@ -104,7 +104,7 @@ int ClientPath::parse_recurse(
           && (_compress != NULL) && _compress->match(**i, start)) {
             op.setCompression(5);
           }
-          if (db.add(op)
+          if (db.add(op, _report_copy_error_once)
           &&  (  (errno != EBUSY)       // Ignore busy files
               && (errno != ENOENT)      // Ignore files gone
               && (errno != EACCES))) {  // Ignore access refused
@@ -142,6 +142,8 @@ ClientPath::ClientPath(const char* path) {
   _path.fromDos();
   // Remove trailing '/'s
   _path.noTrailingSlashes();
+  // Default to always report errors
+  _report_copy_error_once = false;
 }
 
 int ClientPath::addParser(
@@ -197,6 +199,10 @@ Filter* ClientPath::findFilter(
   return _filters.find(name);
 }
 
+void ClientPath::setReportCopyErrorOnce() {
+  _report_copy_error_once = true;
+}
+
 int ClientPath::parse(
     Database&       db,
     const char*     backup_path,
@@ -212,15 +218,18 @@ int ClientPath::parse(
 }
 
 void ClientPath::show(int level) const {
-  out(debug, msg_standard, _path, level, "Path");
-  _filters.show(level + 1);
-  _parsers.show(level + 1);
+  out(debug, msg_standard, _path, level++, "Path");
+  _filters.show(level);
+  _parsers.show(level);
   if (_compress != NULL) {
-    out(debug, msg_standard, _compress->name().c_str(), level + 1,
+    out(debug, msg_standard, _compress->name().c_str(), level,
       "Compress filter");
   }
   if (_ignore != NULL) {
-    out(debug, msg_standard, _ignore->name().c_str(), level + 1,
+    out(debug, msg_standard, _ignore->name().c_str(), level,
       "Ignore filter");
+  }
+  if (_report_copy_error_once) {
+    out(debug, msg_standard, "No error if same file fails copy again", level);
   }
 }

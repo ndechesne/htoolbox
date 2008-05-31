@@ -83,6 +83,8 @@ struct HBackup::Private {
   list<string>      selected_clients;
   list<Client*>     clients;
   Filters           filters;
+  bool              timeout_nowarning;
+  bool              report_copy_error_once;
 };
 
 HBackup::HBackup() : _d(new Private) {
@@ -135,6 +137,10 @@ int HBackup::readConfig(const char* config_path) {
     // condition
     filter->add(new ConfigItem("condition", 1, 0, 2));
   }
+  // timeout_nowarning
+  config.add(new ConfigItem("timeout_nowarning", 0, 1));
+  // report_copy_error_once
+  config.add(new ConfigItem("report_copy_error_once", 0, 1));
   // client
   {
     ConfigItem* client = new ConfigItem("client", 1, 0, 1, 2);
@@ -147,6 +153,8 @@ int HBackup::readConfig(const char* config_path) {
     client->add(new ConfigItem("option", 0, 0, 1, 2));
     // timeout_nowarning
     client->add(new ConfigItem("timeout_nowarning", 0, 1));
+    // report_copy_error_once
+    client->add(new ConfigItem("report_copy_error_once", 0, 1));
     // config
     client->add(new ConfigItem("config", 0, 1, 1));
     // expire
@@ -303,6 +311,13 @@ int HBackup::readConfig(const char* config_path) {
       if ((*params)[0] == "timeout_nowarning") {
         client->setTimeOutNoWarning();
       } else
+      if ((*params)[0] == "report_copy_error_once") {
+        if (c_path == NULL) {
+          client->setReportCopyErrorOnce();
+        } else {
+          c_path->setReportCopyErrorOnce();
+        }
+      } else
       if ((*params)[0] == "config") {
         client->setListfile((*params)[1].c_str());
       } else
@@ -353,6 +368,8 @@ int HBackup::readConfig(const char* config_path) {
           }
         }
       }
+    } else {
+      _d->report_copy_error_once = true;
     }
   }
 
@@ -466,6 +483,9 @@ int HBackup::backup(
       if (mount_point.create() < 0) {
         return -1;
       }
+      if (_d->report_copy_error_once) {
+        (*client)->setReportCopyErrorOnce();
+      }
       if ((*client)->backup(*_d->db, _d->filters, mount_point.path())) {
         failed = true;
       }
@@ -530,6 +550,12 @@ void HBackup::show(int level) const {
     out(debug, msg_standard, "DB path not set", level);
   } else {
     out(debug, msg_standard, _d->db->path(), level, "DB path");
+  }
+  if (_d->timeout_nowarning) {
+    out(debug, msg_standard, "No warning on time out", level);
+  }
+  if (_d->report_copy_error_once) {
+    out(debug, msg_standard, "No error if same file fails copy again", level);
   }
   if (! _d->selected_clients.empty()) {
     out(debug, msg_standard, "Selected clients:", level);
