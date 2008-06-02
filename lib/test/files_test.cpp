@@ -942,7 +942,7 @@ int main(void) {
   if (readfile->open("r", 1, -1) || writefile->open("w", 0, -1)) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    int rc = readfile->copy(*writefile);
+    int rc = readfile->copy(writefile);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {
@@ -961,7 +961,7 @@ int main(void) {
   if (readfile->open("r", 0, -1) || writefile->open("w", 0, -1)) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    int rc = readfile->copy(*writefile);
+    int rc = readfile->copy(writefile);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {
@@ -981,7 +981,7 @@ int main(void) {
   if (readfile->open("r", 0, -1) || writefile->open("w", 5, -1)) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    int rc = readfile->copy(*writefile);
+    int rc = readfile->copy(writefile);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {
@@ -1005,7 +1005,7 @@ int main(void) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     readfile->setCancelCallback(cancel);
-    int rc = readfile->copy(*writefile);
+    int rc = readfile->copy(writefile);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {
@@ -1018,6 +1018,37 @@ int main(void) {
   delete readfile;
   delete writefile;
   Node("test1/rwfile_dest").remove();
+
+  cout << endl << "Test: double copy" << endl;
+  readfile = new Stream("test1/rwfile_source");
+  writefile = new Stream("test1/rwfile_dest");
+  Stream* writefile2 = new Stream("test1/rwfile_dest2");
+  if (readfile->open("r", 1, -1) || writefile->open("w", 5, -1)
+  || writefile2->open("w", 5, -1)) {
+    cout << "Error opening a file: " << strerror(errno) << endl;
+  } else {
+    int rc = readfile->copy(writefile, writefile2);
+    if (readfile->close()) cout << "Error closing read file" << endl;
+    if (writefile->close()) cout << "Error closing write file" << endl;
+    if (writefile2->close()) cout << "Error closing write file 2" << endl;
+    if (rc) {
+      cout << "Error copying file: " << strerror(errno) << endl;
+    } else {
+      cout << "checksum in: " << readfile->checksum() << endl;
+      cout << "checksum out: " << writefile->checksum() << endl;
+      cout << "checksum out 2: " << writefile2->checksum() << endl;
+      cout << "data in: " << readfile->dataSize() << endl;
+      cout << "data out: " << writefile->dataSize() << endl;
+      cout << "data out 2: " << writefile2->dataSize() << endl;
+      cout << "file out: " << writefile->size() << endl;
+      cout << "file out 2: " << writefile2->size() << endl;
+    }
+  }
+  delete readfile;
+  writefile->remove();
+  delete writefile;
+  writefile2->remove();
+  delete writefile2;
 
 
   cout << endl << "Test: getLine" << endl;

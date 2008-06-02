@@ -357,6 +357,7 @@ struct Stream::Private {
   Buffer            buffer_data;        // Buffer for data
   EVP_MD_CTX*       ctx;                // openssl resources
   z_stream*         strm;               // zlib resources
+  bool              finish;             // tell compression to finish off
   progress_f        progress_callback;  // function to report progress
   cancel_f          cancel_callback;    // function to check for cancellation
 };
@@ -440,6 +441,7 @@ int Stream::open(
 
   _d->size     = 0;
   _d->progress = 0;
+  _d->finish   = true;
   _d->fd = std::open64(_path, _d->mode, 0666);
   if (! isOpen()) {
     // errno set by open
@@ -724,8 +726,6 @@ ssize_t Stream::write_compress(
 ssize_t Stream::write(
     const void*     buffer,
     size_t          given) {
-  static bool finish = true;
-
   if (! isOpen()) {
     errno = EBADF;
     return -1;
@@ -739,20 +739,20 @@ ssize_t Stream::write(
   _d->size += given;
 
   if ((given == 0) && (buffer == NULL)) {
-    if (finish) {
+    if (_d->finish) {
       // Finished last time
       return 0;
     }
-    finish = true;
+    _d->finish = true;
   } else {
-    finish = false;
+    _d->finish = false;
   }
 
   bool direct_write = false;
   ssize_t size = 0;
   if (_d->buffer_data.exists()) {
     // If told to finish or buffer is going to overflow, flush it to file
-    if (finish || (given > _d->buffer_data.writeable())) {
+    if (_d->finish || (given > _d->buffer_data.writeable())) {
       // One or two writes (if end of buffer + beginning of it)
       while (_d->buffer_data.readable() > 0) {
         ssize_t length = _d->buffer_data.readable();
@@ -773,7 +773,7 @@ ssize_t Stream::write(
     }
 
     // If told to finish or more data than buffer can handle, just write
-    if (finish || (given > _d->buffer_data.writeable())) {
+    if (_d->finish || (given > _d->buffer_data.writeable())) {
       direct_write = true;
     } else {
       // Refill buffer
@@ -791,7 +791,7 @@ ssize_t Stream::write(
         return -1;
       }
     } else {
-      if (length != write_compress(buffer, length, finish)) {
+      if (length != write_compress(buffer, length, _d->finish)) {
         return -1;
       }
     }
@@ -921,12 +921,13 @@ struct CopyData {
   Buffer    buffer;
   Lock      read_lock;
   Lock      write_lock;
-  Stream&   source;
-  Stream&   dest;
+  Stream*   source;
+  Stream*   dest;
+  Stream*   dest2;
   long long size;
   int       status;
-  CopyData(Stream& s, Stream& d) : buffer(1 << 20), source(s), dest(d),
-    size(0), status(1) {}
+  CopyData(Stream* s, Stream* d, Stream* d2) :
+    buffer(1 << 20), source(s), dest(d), dest2(d2), size(0), status(1) {}
 };
 
 static void* read_task(void* data) {
@@ -939,7 +940,7 @@ static void* read_task(void* data) {
       if (static_cast<size_t>(length) > cd.buffer.writeable()) {
         length = cd.buffer.writeable();
       }
-      length = cd.source.read(cd.buffer.writer(), length);
+      length = cd.source->read(cd.buffer.writer(), length);
       if (length < 0) {
         cd.status = -1;
       }
@@ -959,12 +960,13 @@ static void* read_task(void* data) {
   return NULL;
 }
 
-int Stream::copy(Stream& dest) {
-  if ((! isOpen()) || (! dest.isOpen())) {
+int Stream::copy(Stream* dest, Stream* dest2) {
+  if (! isOpen() || ! dest->isOpen()
+  || ((dest2 != NULL) && ! dest2->isOpen())) {
     errno = EBADF;
     return -1;
   }
-  CopyData cd(*this, dest);
+  CopyData cd(this, dest, dest2);
   pthread_t child;
   int rc = pthread_create(&child, NULL, read_task, &cd);
   if (rc != 0) {
@@ -976,12 +978,20 @@ int Stream::copy(Stream& dest) {
   do {
     if (! cd.buffer.isEmpty()) {
       // Write as much as possible
-      ssize_t length = cd.dest.write(cd.buffer.reader(), cd.buffer.readable());
-      if (length < 0) {
+      ssize_t l = cd.dest->write(cd.buffer.reader(), cd.buffer.readable());
+      if (l < 0) {
         failed = true;
         break;
       }
-      cd.buffer.readn(length);
+      if (cd.dest2 != NULL) {
+        // Note: readable might have changed in the mean time
+        ssize_t l2 = cd.dest2->write(cd.buffer.reader(), l);
+        if (l2 != l) {
+          failed = true;
+          break;
+        }
+      }
+      cd.buffer.readn(l);
       // Allow read task to run
       cd.read_lock.release();
     } else if (cd.status > 0) {
@@ -1008,7 +1018,7 @@ int Stream::copy(Stream& dest) {
     return -1;
   }
   // Check that sizes match
-  if (cd.size != cd.source._d->size) {
+  if (cd.size != cd.source->dataSize()) {
     errno = EAGAIN;
     return -1;
   }

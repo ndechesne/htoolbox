@@ -382,8 +382,8 @@ public:
   void setCancelCallback(cancel_f cancel);
   // Compute file checksum
   int computeChecksum();
-  // Copy file into another
-  int copy(Stream& dest);
+  // Copy file into another, or two others if dest2 is not NULL
+  int copy(Stream* dest, Stream* dest2 = NULL);
   // Compare two files
   int compare(Stream& other, long long length = -1);
   // Get gzip'd file original size, modulo 2^32 (Stream MUST NOT be open)

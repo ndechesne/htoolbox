@@ -295,7 +295,7 @@ int Data::read(
     // Copy file to temporary name (size not checked: checksum suffices)
     data->setCancelCallback(aborting);
     data->setProgressCallback(_d->progress);
-    if (data->copy(temp)) {
+    if (data->copy(&temp)) {
       failed = true;
     }
     temp.close();
@@ -351,7 +351,7 @@ int Data::write(
     // Copy file locally
     source.setCancelCallback(aborting);
     source.setProgressCallback(_d->progress);
-    if (source.copy(temp) != 0) {
+    if (source.copy(&temp) != 0) {
       failed = true;
     }
 
