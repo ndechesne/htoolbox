@@ -942,7 +942,7 @@ int main(void) {
   if (readfile->open("r", 1, -1) || writefile->open("w", 0, -1)) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    int rc = writefile->copy(*readfile);
+    int rc = readfile->copy(*writefile);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {
@@ -961,7 +961,7 @@ int main(void) {
   if (readfile->open("r", 0, -1) || writefile->open("w", 0, -1)) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    int rc = writefile->copy(*readfile);
+    int rc = readfile->copy(*writefile);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {
@@ -981,7 +981,7 @@ int main(void) {
   if (readfile->open("r", 0, -1) || writefile->open("w", 5, -1)) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    int rc = writefile->copy(*readfile);
+    int rc = readfile->copy(*writefile);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {
@@ -1004,8 +1004,8 @@ int main(void) {
   if (readfile->open("r", 1, -1) || writefile->open("w", 0, -1)) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    writefile->setCancelCallback(cancel);
-    int rc = writefile->copy(*readfile);
+    readfile->setCancelCallback(cancel);
+    int rc = readfile->copy(*writefile);
     if (readfile->close()) cout << "Error closing read file" << endl;
     if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {

@@ -922,9 +922,11 @@ struct CopyData {
   Lock      read_lock;
   Lock      write_lock;
   Stream&   source;
+  Stream&   dest;
   long long size;
   int       status;
-  CopyData(Stream& s) : buffer(1 << 20), source(s), size(0), status(1) {}
+  CopyData(Stream& s, Stream& d) : buffer(1 << 20), source(s), dest(d),
+    size(0), status(1) {}
 };
 
 static void* read_task(void* data) {
@@ -957,14 +959,16 @@ static void* read_task(void* data) {
   return NULL;
 }
 
-int Stream::copy(Stream& source) {
-  if ((! isOpen()) || (! source.isOpen())) {
+int Stream::copy(Stream& dest) {
+  if ((! isOpen()) || (! dest.isOpen())) {
     errno = EBADF;
     return -1;
   }
-  CopyData cd(source);
+  CopyData cd(*this, dest);
   pthread_t child;
-  if (pthread_create(&child, NULL, read_task, &cd)) {
+  int rc = pthread_create(&child, NULL, read_task, &cd);
+  if (rc != 0) {
+    errno = rc;
     return -1;
   }
 
@@ -972,7 +976,7 @@ int Stream::copy(Stream& source) {
   do {
     if (! cd.buffer.isEmpty()) {
       // Write as much as possible
-      ssize_t length = write(cd.buffer.reader(), cd.buffer.readable());
+      ssize_t length = cd.dest.write(cd.buffer.reader(), cd.buffer.readable());
       if (length < 0) {
         failed = true;
         break;
@@ -996,7 +1000,7 @@ int Stream::copy(Stream& source) {
     cd.read_lock.release();
   }
   // Wait for read task termination, check status
-  int rc = pthread_join(child, NULL);
+  rc = pthread_join(child, NULL);
   if (rc != 0) {
     errno = rc;
   }
@@ -1004,7 +1008,7 @@ int Stream::copy(Stream& source) {
     return -1;
   }
   // Check that sizes match
-  if (cd.size != source._d->size) {
+  if (cd.size != cd.source._d->size) {
     errno = EAGAIN;
     return -1;
   }

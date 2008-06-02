@@ -291,17 +291,17 @@ int Data::read(
   if (temp.open("w")) {
     out(error, msg_errno, "Opening read temp file", errno, data->path());
     failed = true;
-  } else
-
-  // Copy file to temporary name (size not checked: checksum suffices)
-  temp.setCancelCallback(aborting);
-  data->setProgressCallback(_d->progress);
-  if (temp.copy(*data)) {
-    failed = true;
+  } else {
+    // Copy file to temporary name (size not checked: checksum suffices)
+    data->setCancelCallback(aborting);
+    data->setProgressCallback(_d->progress);
+    if (data->copy(temp)) {
+      failed = true;
+    }
+    temp.close();
   }
 
   data->close();
-  temp.close();
 
   if (! failed) {
     // Verify that checksums match before overwriting final destination
@@ -347,18 +347,17 @@ int Data::write(
   if (temp.open("w", compress)) {
     out(error, msg_errno, "Opening write temp file", errno, temp.path());
     failed = true;
-  } else
+  } else {
+    // Copy file locally
+    source.setCancelCallback(aborting);
+    source.setProgressCallback(_d->progress);
+    if (source.copy(temp) != 0) {
+      failed = true;
+    }
 
-  // Copy file locally
-  temp.setCancelCallback(aborting);
-  source.setProgressCallback(_d->progress);
-  errno = 0;
-  if (temp.copy(source) != 0) {
-    failed = true;
+    temp.close();
   }
-
   source.close();
-  temp.close();
 
   if (failed) {
     temp.remove();

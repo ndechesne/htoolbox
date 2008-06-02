@@ -383,9 +383,9 @@ public:
   // Compute file checksum
   int computeChecksum();
   // Copy file into another
-  int copy(Stream& source);
+  int copy(Stream& dest);
   // Compare two files
-  int compare(Stream& source, long long length = -1);
+  int compare(Stream& other, long long length = -1);
   // Get gzip'd file original size, modulo 2^32 (Stream MUST NOT be open)
   unsigned long originalSize() const;
   // Get real file size
