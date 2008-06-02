@@ -2154,3 +2154,4 @@ Error: at line: 72: keyword 'compress' requires 1 parameter(s), found 2
 Error: at line: 85: keyword 'ignore' requires 1 parameter(s), found 0
 Error: at line: 86: keyword 'compress' requires 1 parameter(s), found 0
 Error: at line: 88: keyword 'what_the_f...?' incorrect or misplaced, aborting
+Note: the default configuration path has changed from '/etc/hbackup/hbackup.conf' to '/etc/hbackup/config'

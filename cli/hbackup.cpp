@@ -221,7 +221,7 @@ int main(int argc, char **argv) {
 
     // Configuration file
     ValueArg<string> configArg("c", "config",
-      "Specify configuration file", false, "/etc/hbackup/hbackup.conf",
+      "Specify configuration file", false, "/etc/hbackup/config",
       "file name", cmd);
 
     // Specify client(s)
@@ -317,6 +317,8 @@ int main(int argc, char **argv) {
       }
     } else {
       if (hbackup.open(configArg.getValue().c_str(), false)) {
+        cerr << "Note: the default configuration path has changed from "
+          << "'/etc/hbackup/hbackup.conf' to '/etc/hbackup/config'" << endl;
         return 2;
       }
     }
