@@ -16,6 +16,7 @@ Adding file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 
 Test: write and read back with compression
+Adding compressed file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 

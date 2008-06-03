@@ -148,6 +148,7 @@ int main(void) {
   cout << chksm << "  test_db/blah" << endl;
 
   cout << endl << "Test: write and read back with compression" << endl;
+  Node("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data").remove();
   /* Write */
   chksm = NULL;
   if ((status = db.write("test1/testfile", &chksm, 5)) < 0) {
