@@ -4,7 +4,7 @@
   * accept client definition in server configuration file
   * add option to disable the warning on connection time-out (was always disabled)
   * add option to print copy errors only the first time they occur
-  * add option to auto-select compression of file (double file copy)
+  * add option to auto-select storage compression (double file copy)
   * do not fail to recover when last line of journal is incomplete
   * support listing/restoring multiple clients at once
   * support '*' at end of client name to support multiple selection

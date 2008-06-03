@@ -122,6 +122,9 @@ int main(void) {
   delete hbackup;
   abort(0xffff);
 
+  cout << endl << "Test: force-compress DB data" << endl;
+  system("gzip test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
+  
   cout << endl << "Test: specify clients" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
@@ -543,7 +546,7 @@ int main(void) {
   hbackup->show(2);
   hbackup->restore("test_r", HBackup::symbolic, "", 0);
   hbackup->close();
-  system("ls -l test_r/home/User/test/dir/file3.txt | sed \"s/.*-> //\"");
+  system("ls -l test_r/home/User/test/dir/file3.txt.gz | sed \"s/.*-> //\"");
   system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
   delete hbackup;
 
@@ -750,7 +753,9 @@ int main(void) {
   delete hbackup;
 
 
-  cout << endl << "Test: backup recovers missing checksums" << endl;
+  cout << endl << "Test: backup recovers missing checksums + replace data"
+    << endl;
+  system("touch test_nfs/test/dir/file3.txt");
   remove("test1/testfile");
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
@@ -760,6 +765,8 @@ int main(void) {
   hbackup->backup();
   hbackup->close();
   delete hbackup;
+  system("ls test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0");
+  
   // Second backup should not recover again
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {

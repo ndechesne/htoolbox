@@ -345,7 +345,7 @@ int Data::write(
 
   // Temporary file(s) to write to
   Stream* temp1 = new Stream(_d->temp);
-  Stream* temp2;
+  Stream* temp2 = NULL;
   if (compress < 0) {
     char* temp_path_gz;
     asprintf(&temp_path_gz, "%s.gz", _d->temp);
@@ -355,8 +355,6 @@ int Data::write(
       out(error, msg_errno, "Opening write temp file", errno, temp2->path());
       failed = true;
     }
-  } else {
-    temp2 = NULL;
   }
   if (temp1->open("w", (compress > 0) ? compress : 0)) {
     out(error, msg_errno, "Opening write temp file", errno, temp1->path());
@@ -417,9 +415,10 @@ int Data::write(
   }
 
   // Make sure our checksum is unique: compare first bytes of files
-  int  index = 0;
+  int  index   = 0;
   bool missing = false;
   bool present = false;
+  Stream *data = NULL;
   do {
     char* final_path = NULL;
     asprintf(&final_path, "%s-%u", dest_path.c_str(), index);
@@ -430,27 +429,36 @@ int Data::write(
       extensions.push_back("");
       extensions.push_back(".gz");
       unsigned int no;
-      Stream *data = Stream::select(Path(final_path, "data"), extensions, &no);
+      delete data;
+      data = Stream::select(Path(final_path, "data"), extensions, &no);
       if (data == NULL) {
         // Need to copy file accross: leave index to current value and exit
         dest_path = final_path;
-        break;
+        missing = true;
+      } else {
+        data->open("r", (no > 0) ? 1 : 0);
+        dest->open("r", compress);
+        switch (dest->compare(*data, 10*1024*1024)) {
+          case 0:
+            present = true;
+            break;
+          case 1:
+            index++;
+            break;
+          default:
+            failed = true;
+        }
+        dest->close();
+        data->close();
+        // Want size if auto compression enabled
+        if (present && (temp2 != NULL)) {
+          dest_path = final_path;
+          data->stat();
+        } else {
+          delete data;
+          data = NULL;
+        }
       }
-      data->open("r", (no > 0) ? 1 : 0);
-      dest->open("r", compress);
-      switch (dest->compare(*data, 10*1024*1024)) {
-        case 0:
-          present = true;
-          break;
-        case 1:
-          index++;
-          break;
-        default:
-          failed = true;
-      }
-      data->close();
-      delete data;
-      dest->close();
     } else {
       Directory(final_path).create();
       dest_path = final_path;
@@ -460,19 +468,36 @@ int Data::write(
   } while (! failed && ! missing && ! present);
 
   // Now move the file in its place
-  if (! present && rename(dest->path(),
-      (dest_path + "/data" + ((compress != 0) ? ".gz" : "")).c_str())) {
-    stringstream s;
-    s << "Failed to move file " << dest->path() << " to " << dest_path << ": "
-      << strerror(errno);
-    out(error, msg_standard, s.str().c_str());
-    failed = true;
-  } else
   if (! present) {
     stringstream s;
     s << "Adding " << ((compress != 0) ? "compressed " : "")
       << "data for " << source.checksum() << "-" << index;
     out(debug, msg_standard, s.str().c_str());
+    if (rename(dest->path(),
+        (dest_path + "/data" + ((compress != 0) ? ".gz" : "")).c_str())) {
+      stringstream s;
+      s << "Failed to move file " << dest->path() << " to " << dest_path
+        << ": " << strerror(errno);
+      out(error, msg_standard, s.str().c_str());
+      failed = true;
+    } 
+  } else
+  // Auto compression on: is newly copied file smaller?
+  if ((data != NULL) && (dest->size() < data->size())) {
+    stringstream s;
+    s << "Replacing with " << ((compress != 0) ? " " : "un")
+      << "compressed data for " << source.checksum() << "-" << index;
+    out(debug, msg_standard, s.str().c_str());
+    present = false;
+    // No need to save, only renames
+    if (data->remove() || rename(dest->path(),
+        (dest_path + "/data" + ((compress != 0) ? ".gz" : "")).c_str())) {
+      stringstream s;
+      s << "Failed to move file " << dest->path() << " to " << dest_path
+        << ": " << strerror(errno);
+      out(error, msg_standard, s.str().c_str());
+      failed = true;
+    }
   }
 
   // If anything failed, delete temporary file
@@ -497,6 +522,7 @@ int Data::write(
   }
   
   delete dest;
+  delete data;
   return failed ? -1 : (present ? 0 : 1);
 }
 

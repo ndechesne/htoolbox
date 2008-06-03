@@ -1262,6 +1262,8 @@ Killing trigger reached: 2
 Database closed: myhost
 Database closed
 
+Test: force-compress DB data
+
 Test: specify clients
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
@@ -4145,7 +4147,7 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-l	test_r/home/User/test/dir/file3.txt
+l	test_r/home/User/test/dir/file3.txt.gz
 l	test_r/home/User/test/File2.txt
 
 Test: restore (symlinks) dir (UNIX)
@@ -4235,7 +4237,7 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-l	test_r/home/User/test/dir/file3.txt
+l	test_r/home/User/test/dir/file3.txt.gz
 l	test_r/home/User/test/File2.txt
 
 Test: restore (symlinks) client (UNIX)
@@ -4325,7 +4327,7 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-l	test_r/home/User/test/dir/file3.txt
+l	test_r/home/User/test/dir/file3.txt.gz
 l	test_r/home/User/test/File2.txt
 
 Test: restore (symlinks) file (DOS)
@@ -4773,7 +4775,7 @@ L test_r/C:/Test Dir/My Dir/another File.TXT
 L test_r/C:/Test Dir/My File.TXT
 Database closed: myClient.xp
 Database closed
-test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data
+test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data.gz
 d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
@@ -4785,7 +4787,7 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-l	test_r/home/User/test/dir/file3.txt
+l	test_r/home/User/test/dir/file3.txt.gz
 l	test_r/home/User/test/File2.txt
 
 Test: restore (hard links) file (UNIX)
@@ -4961,7 +4963,7 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-f	test_r/home/User/test/dir/file3.txt
+f	test_r/home/User/test/dir/file3.txt.gz
 f	test_r/home/User/test/File2.txt
 
 Test: restore (hard links) dir (UNIX)
@@ -5051,7 +5053,7 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-f	test_r/home/User/test/dir/file3.txt
+f	test_r/home/User/test/dir/file3.txt.gz
 f	test_r/home/User/test/File2.txt
 
 Test: restore (hard links) client (UNIX)
@@ -5141,7 +5143,7 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-f	test_r/home/User/test/dir/file3.txt
+f	test_r/home/User/test/dir/file3.txt.gz
 f	test_r/home/User/test/File2.txt
 
 Test: restore (hard links) file (DOS)
@@ -5600,7 +5602,7 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-f	test_r/home/User/test/dir/file3.txt
+f	test_r/home/User/test/dir/file3.txt.gz
 f	test_r/home/User/test/File2.txt
 
 Test: check for corrupted data
@@ -6596,7 +6598,7 @@ Missing checksums list updated
 List of missing checksums contains 4 item(s)
 Database closed
 
-Test: backup recovers missing checksums
+Test: backup recovers missing checksums + replace data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Automatic compression
@@ -6741,6 +6743,10 @@ Backing up path: /home/User/test
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
    \r
+Checking data, sizes: f=2 z=22
+Replacing with uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
+M f     /home/User/test/dir/file3.txt
+Database modified: myClient
 Database closed: myClient
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
@@ -6867,6 +6873,7 @@ Error: other: Protocol not supported: ssh
 Missing checksums list updated
 List of missing checksums contains 1 item(s)
 Database closed
+data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Automatic compression
