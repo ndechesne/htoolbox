@@ -236,6 +236,8 @@ mkdir "$CONFIGDIR"
 cat << EOF > "$CONFIGDIR/hbackup.conf"
 db "$TESTDBDIR"
 
+compress_auto
+
 filter all backup
 condition type file
 condition path_end ~

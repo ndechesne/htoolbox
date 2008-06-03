@@ -38,6 +38,7 @@ public:
     : _letter(0), _id(-1), _compression(0), _path(path), _node(node),
       _get_checksum(false) {}
   void setCompression(int compression) { _compression = compression; }
+  int compression()  { return _compression; }
   bool needsAdding() { return _letter != 0; }
 };
 

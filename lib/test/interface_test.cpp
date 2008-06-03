@@ -543,7 +543,7 @@ int main(void) {
   hbackup->show(2);
   hbackup->restore("test_r", HBackup::symbolic, "", 0);
   hbackup->close();
-  system("ls -l test_r/home/User/test/dir/file3.txt.gz | sed \"s/.*-> //\"");
+  system("ls -l test_r/home/User/test/dir/file3.txt | sed \"s/.*-> //\"");
   system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
   delete hbackup;
 
@@ -662,7 +662,7 @@ int main(void) {
   system("echo > test_db/.data/0f2ea973d77135dc3d06c8e68da6dc59-0/data.gz");
   system("echo > test_db/.data/b90f8fa56ea1d39881d4a199c7a81d35-0/data");
   system("echo > test_db/.data/fef51838cd3cfe8ed96355742eb71fbd-0/data");
-  system("rm -f test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data.gz");
+  system("rm -f test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data");
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;

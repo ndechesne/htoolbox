@@ -5,6 +5,7 @@ Error: : No such file or directory: Opening file
 Test: backup, not initialized
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -79,6 +80,7 @@ Error: Given DB path does not exist: test_db
 Test: check config
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -160,6 +162,7 @@ Test: check config
 Test: typical backup
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -241,12 +244,15 @@ Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
 My Dir\r
       \r
-Adding compressed file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
-A z     C:/Test Dir/My Dir/a File.TXT
-Adding compressed file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
-A z     C:/Test Dir/My Dir/another File.TXT
-Adding compressed file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
-A z     C:/Test Dir/My File.TXT
+Checking data, sizes: f=2 z=22
+Adding data for b026324c6904b2a9cb4b88d6d61c81d1-0
+A f     C:/Test Dir/My Dir/a File.TXT
+Checking data, sizes: f=2 z=22
+Adding data for 26ab0db90d72e28ad0ba1e22ee510510-0
+A f     C:/Test Dir/My Dir/another File.TXT
+Checking data, sizes: f=0 z=0
+Adding data for d41d8cd98f00b204e9800998ecf8427e-0
+A f     C:/Test Dir/My File.TXT
 Database modified: aClient.vista
 Database closed: aClient.vista
  -> umount -fl test_db/.mount/aClient.vista
@@ -286,8 +292,11 @@ Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
 My Dir\r
       \r
+Checking data, sizes: f=2 z=22
 A       C:/Test Dir/My Dir/a File.TXT
+Checking data, sizes: f=2 z=22
 A       C:/Test Dir/My Dir/another File.TXT
+Checking data, sizes: f=0 z=0
 A       C:/Test Dir/My File.TXT
 Database modified: client.xp
 Database closed: client.xp
@@ -312,12 +321,14 @@ Database open r/w: myClient
 Backing up path: /home/User/test
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
+Checking data, sizes: f=0 z=0
 A       /home/User/test/File2.txt
 A       /home/User/test/dir
 dir\r
    \r
-Adding compressed file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
-A z     /home/User/test/dir/file3.txt
+Checking data, sizes: f=2 z=22
+Adding data for 6d7fce9fee471194aa8b5b6e47267f03-0
+A f     /home/User/test/dir/file3.txt
 Database modified: myClient
 Database closed: myClient
  -> umount -fl test_db/.mount/myClient
@@ -355,8 +366,11 @@ Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
 My Dir\r
       \r
+Checking data, sizes: f=2 z=22
 A       C:/Test Dir/My Dir/a File.TXT
+Checking data, sizes: f=2 z=22
 A       C:/Test Dir/My Dir/another File.TXT
+Checking data, sizes: f=0 z=0
 A       C:/Test Dir/My File.TXT
 Database modified: myClient.xp
 Database closed: myClient.xp
@@ -413,7 +427,8 @@ Done:  85.0%\r
 Done:  90.0%\r
 Done:  95.0%\r
             \r
-Adding compressed file data to DB for f1c9645dbc14efddc7d8a322685f26eb-0
+Checking data, sizes: f=10485760 z=10208
+Adding compressed data for f1c9645dbc14efddc7d8a322685f26eb-0
 A z     test1/big_file
 A       test1/cvs
 cvs\r
@@ -427,10 +442,12 @@ cvs\r
 A       test1/cvs/CVS
 cvs/CVS\r
        \r
-Adding compressed file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
+Checking data, sizes: f=161 z=140
+Adding compressed data for fef51838cd3cfe8ed96355742eb71fbd-0
 A z     test1/cvs/CVS/Entries
-Adding compressed file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
-A z     test1/cvs/CVS/Root
+Checking data, sizes: f=16 z=36
+Adding data for b90f8fa56ea1d39881d4a199c7a81d35-0
+A f     test1/cvs/CVS/Root
 A       test1/cvs/dirbad
 cvs/dirbad\r
           \r
@@ -443,16 +460,22 @@ cvs/dirutd\r
 A       test1/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
               \r
-Adding compressed file data to DB for 5252f242d27b8c2c9fdbdcbb33545d07-0
-A z     test1/cvs/dirutd/CVS/Entries
-Adding compressed file data to DB for eb75fb33b2019ef3c840eb5ccdc2e795-0
-A z     test1/cvs/dirutd/CVS/Root
+Checking data, sizes: f=42 z=62
+Adding data for 5252f242d27b8c2c9fdbdcbb33545d07-0
+A f     test1/cvs/dirutd/CVS/Entries
+Checking data, sizes: f=10 z=30
+Adding data for eb75fb33b2019ef3c840eb5ccdc2e795-0
+A f     test1/cvs/dirutd/CVS/Root
+Checking data, sizes: f=0 z=0
 A       test1/cvs/dirutd/fileutd
+Checking data, sizes: f=0 z=0
 A       test1/cvs/filenew.c
+Checking data, sizes: f=0 z=0
 A       test1/cvs/fileutd.h
 A       test1/dir space
 dir space\r
          \r
+Checking data, sizes: f=0 z=0
 A       test1/dir space/file space
 A       test1/svn
 svn\r
@@ -465,7 +488,8 @@ svn\r
 A       test1/svn/.svn
 svn/.svn\r
         \r
-Adding compressed file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
+Checking data, sizes: f=77 z=65
+Adding compressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A z     test1/svn/.svn/entries
 A       test1/svn/dirbad
 svn/dirbad\r
@@ -480,30 +504,39 @@ svn/dirutd\r
 A       test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
                \r
-Adding compressed file data to DB for 8bdef5751e46ed57d237cbe3f4a5061c-0
-A z     test1/svn/dirutd/.svn/entries
+Checking data, sizes: f=30 z=38
+Adding data for 8bdef5751e46ed57d237cbe3f4a5061c-0
+A f     test1/svn/dirutd/.svn/entries
+Checking data, sizes: f=0 z=0
 A       test1/svn/dirutd/fileutd
+Checking data, sizes: f=0 z=0
 A       test1/svn/filenew.c
+Checking data, sizes: f=0 z=0
 A       test1/test space
 A       test1/testdir
 testdir\r
        \r
-Adding compressed file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
-A z     test1/testfile
+Checking data, sizes: f=13 z=33
+Adding data for 59ca0efa9f5633cb0371bbc0355478d8-0
+A f     test1/testfile
 A       test1/testlink
 A       test1/testpipe
 Backing up path: test2
 A       test2/testdir
 testdir\r
        \r
-Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
-A f     test2/testfile
-Adding file data to DB for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-A f     test2/testfile2
-Adding file data to DB for f81f70dceaca8b0cec354f33fa3f0909-0
+Checking data, sizes: f=145408 z=176
+Adding compressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
+A z     test2/testfile
+Checking data, sizes: f=259072 z=286
+Adding compressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+A z     test2/testfile2
+Checking data, sizes: f=145461 z=145504
+Adding data for f81f70dceaca8b0cec354f33fa3f0909-0
 A f     test2/testfile2.gz
-Adding file data to DB for 59071590099d21dd439896592338bf95-0
-A f     test2/testfile~
+Checking data, sizes: f=524288 z=543
+Adding compressed data for 59071590099d21dd439896592338bf95-0
+A z     test2/testfile~
 A       test2/testlink
 Database modified: myhost
 Database closed: myhost
@@ -514,6 +547,7 @@ Database closed
 Test: same backup
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -766,6 +800,7 @@ Database closed
 Test: interrupted backup
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -996,6 +1031,7 @@ Database closed: myhost
 Database closed
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -1229,6 +1265,7 @@ Database closed
 Test: specify clients
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -1386,7 +1423,8 @@ cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
          \r
-Adding compressed file data to DB for 816df6f64deba63b029ca19d880ee10a-0
+Checking data, sizes: f=512000 z=531
+Adding compressed data for 816df6f64deba63b029ca19d880ee10a-0
 ! z     test1/dir space/big_file
 svn\r
    \r
@@ -1417,6 +1455,7 @@ Database closed
 Test: scan DB
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -1554,6 +1593,7 @@ Database closed
 Test: check DB
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -1649,6 +1689,7 @@ Database closed
 Test: list clients
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -1729,6 +1770,7 @@ Database closed
 Test: list paths in UNIX client 'myClient'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -1807,6 +1849,7 @@ Database closed
 Test: list paths in DOS client 'client.xp'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -1885,6 +1928,7 @@ Database closed
 Test: restore file
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -1963,6 +2007,7 @@ Database closed
 Test: restore dir
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -2071,6 +2116,7 @@ test1/testfile metadata: gid = 24, mtime = 1161475200, perms = 0750
 Test: restore subdir
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -2160,6 +2206,7 @@ Database closed
 Test: restore client
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -2273,6 +2320,7 @@ Database closed
 Test: typical backup
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -2525,6 +2573,7 @@ Database closed
 Test: specify clients
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -2659,6 +2708,7 @@ Database closed
 
 Test: user-mode backup
  --> DB path: test_user/.hbackup
+ --> Automatic compression
  --> Selected clients:
  ---> localhost
  --> Clients:
@@ -2680,19 +2730,23 @@ Reading list of missing checksums
 List created: localhost
 Database open r/w: localhost
 Backing up path: test_user/testuser
-Adding file data to DB for 31d30eea8d0968d6458e0ad0027c9f80-0
+Checking data, sizes: f=3 z=23
+Adding data for 31d30eea8d0968d6458e0ad0027c9f80-0
 A f     test_user/testuser/f1.txt
 A       test_user/testuser/subdir
 subdir\r
       \r
-Adding file data to DB for dbbf8220893d497d403bb9cdf49db7a4-0
+Checking data, sizes: f=3 z=23
+Adding data for dbbf8220893d497d403bb9cdf49db7a4-0
 A f     test_user/testuser/subdir/f2.txt
 A       test_user/testuser/subdir2
 subdir2\r
        \r
-Adding file data to DB for d5b4c7d9b06b60a7846c4529834c9812-0
+Checking data, sizes: f=3 z=23
+Adding data for d5b4c7d9b06b60a7846c4529834c9812-0
 A f     test_user/testuser/subdir2/f3.txt
-Adding file data to DB for 90e2a51705594d033a3abe9d77b2b7ad-0
+Checking data, sizes: f=3 z=23
+Adding data for 90e2a51705594d033a3abe9d77b2b7ad-0
 A f     test_user/testuser/subdir2/f4.txt
 Database modified: localhost
 Database closed: localhost
@@ -2701,6 +2755,7 @@ Database closed
 Test: list clients
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -2781,6 +2836,7 @@ Database closed
 Test: list paths in DOS client 'myClient.xp'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -2859,6 +2915,7 @@ Database closed
 Test: list paths in dual-boot client 'myClient*'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  ---> myClient.xp
@@ -2943,6 +3000,7 @@ Database closed
 Test: list sub-paths in UNIX client 'myClient'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -3021,6 +3079,7 @@ Database closed
 Test: list sub-paths in DOS client 'myClient.xp', 'C:'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -3101,6 +3160,7 @@ Database closed
 Test: restore file (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -3186,6 +3246,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore subdir (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -3275,6 +3336,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore dir (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -3364,6 +3426,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore client (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -3453,6 +3516,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore file (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -3537,6 +3601,7 @@ f	test_r/C:/Test Dir/My File.TXT
 Test: restore subdir (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -3625,6 +3690,7 @@ f	test_r/C:/Test Dir/My Dir/another File.TXT
 Test: restore dir (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -3715,6 +3781,7 @@ f	test_r/C:/Test Dir/My File.TXT
 Test: restore client (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -3805,6 +3872,7 @@ f	test_r/C:/Test Dir/My File.TXT
 Test: restore client (dual-boot)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  ---> myClient.xp
@@ -3907,6 +3975,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore (symlinks) file (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -3987,11 +4056,12 @@ d	test_r
 d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
-l	test_r/home/User/test/File2.txt.gz
+l	test_r/home/User/test/File2.txt
 
 Test: restore (symlinks) subdir (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -4075,12 +4145,13 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-l	test_r/home/User/test/dir/file3.txt.gz
-l	test_r/home/User/test/File2.txt.gz
+l	test_r/home/User/test/dir/file3.txt
+l	test_r/home/User/test/File2.txt
 
 Test: restore (symlinks) dir (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -4164,12 +4235,13 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-l	test_r/home/User/test/dir/file3.txt.gz
-l	test_r/home/User/test/File2.txt.gz
+l	test_r/home/User/test/dir/file3.txt
+l	test_r/home/User/test/File2.txt
 
 Test: restore (symlinks) client (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -4253,12 +4325,13 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-l	test_r/home/User/test/dir/file3.txt.gz
-l	test_r/home/User/test/File2.txt.gz
+l	test_r/home/User/test/dir/file3.txt
+l	test_r/home/User/test/File2.txt
 
 Test: restore (symlinks) file (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -4338,11 +4411,12 @@ Database closed
 d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
-l	test_r/C:/Test Dir/My File.TXT.gz
+l	test_r/C:/Test Dir/My File.TXT
 
 Test: restore (symlinks) subdir (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -4425,12 +4499,13 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-l	test_r/C:/Test Dir/My Dir/a File.TXT.gz
-l	test_r/C:/Test Dir/My Dir/another File.TXT.gz
+l	test_r/C:/Test Dir/My Dir/a File.TXT
+l	test_r/C:/Test Dir/My Dir/another File.TXT
 
 Test: restore (symlinks) dir (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -4514,13 +4589,14 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-l	test_r/C:/Test Dir/My Dir/a File.TXT.gz
-l	test_r/C:/Test Dir/My Dir/another File.TXT.gz
-l	test_r/C:/Test Dir/My File.TXT.gz
+l	test_r/C:/Test Dir/My Dir/a File.TXT
+l	test_r/C:/Test Dir/My Dir/another File.TXT
+l	test_r/C:/Test Dir/My File.TXT
 
 Test: restore (symlinks) client (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -4604,13 +4680,14 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-l	test_r/C:/Test Dir/My Dir/a File.TXT.gz
-l	test_r/C:/Test Dir/My Dir/another File.TXT.gz
-l	test_r/C:/Test Dir/My File.TXT.gz
+l	test_r/C:/Test Dir/My Dir/a File.TXT
+l	test_r/C:/Test Dir/My Dir/another File.TXT
+l	test_r/C:/Test Dir/My File.TXT
 
 Test: restore (symlinks) client (dual-boot)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  ---> myClient.xp
@@ -4696,24 +4773,25 @@ L test_r/C:/Test Dir/My Dir/another File.TXT
 L test_r/C:/Test Dir/My File.TXT
 Database closed: myClient.xp
 Database closed
-test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data.gz
+test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data
 d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-l	test_r/C:/Test Dir/My Dir/a File.TXT.gz
-l	test_r/C:/Test Dir/My Dir/another File.TXT.gz
-l	test_r/C:/Test Dir/My File.TXT.gz
+l	test_r/C:/Test Dir/My Dir/a File.TXT
+l	test_r/C:/Test Dir/My Dir/another File.TXT
+l	test_r/C:/Test Dir/My File.TXT
 d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-l	test_r/home/User/test/dir/file3.txt.gz
-l	test_r/home/User/test/File2.txt.gz
+l	test_r/home/User/test/dir/file3.txt
+l	test_r/home/User/test/File2.txt
 
 Test: restore (hard links) file (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -4794,11 +4872,12 @@ d	test_r
 d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
-f	test_r/home/User/test/File2.txt.gz
+f	test_r/home/User/test/File2.txt
 
 Test: restore (hard links) subdir (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -4882,12 +4961,13 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-f	test_r/home/User/test/dir/file3.txt.gz
-f	test_r/home/User/test/File2.txt.gz
+f	test_r/home/User/test/dir/file3.txt
+f	test_r/home/User/test/File2.txt
 
 Test: restore (hard links) dir (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -4971,12 +5051,13 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-f	test_r/home/User/test/dir/file3.txt.gz
-f	test_r/home/User/test/File2.txt.gz
+f	test_r/home/User/test/dir/file3.txt
+f	test_r/home/User/test/File2.txt
 
 Test: restore (hard links) client (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -5060,12 +5141,13 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-f	test_r/home/User/test/dir/file3.txt.gz
-f	test_r/home/User/test/File2.txt.gz
+f	test_r/home/User/test/dir/file3.txt
+f	test_r/home/User/test/File2.txt
 
 Test: restore (hard links) file (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -5145,11 +5227,12 @@ Database closed
 d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
-f	test_r/C:/Test Dir/My File.TXT.gz
+f	test_r/C:/Test Dir/My File.TXT
 
 Test: restore (hard links) subdir (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -5232,12 +5315,13 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-f	test_r/C:/Test Dir/My Dir/a File.TXT.gz
-f	test_r/C:/Test Dir/My Dir/another File.TXT.gz
+f	test_r/C:/Test Dir/My Dir/a File.TXT
+f	test_r/C:/Test Dir/My Dir/another File.TXT
 
 Test: restore (hard links) dir (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -5321,13 +5405,14 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-f	test_r/C:/Test Dir/My Dir/a File.TXT.gz
-f	test_r/C:/Test Dir/My Dir/another File.TXT.gz
-f	test_r/C:/Test Dir/My File.TXT.gz
+f	test_r/C:/Test Dir/My Dir/a File.TXT
+f	test_r/C:/Test Dir/My Dir/another File.TXT
+f	test_r/C:/Test Dir/My File.TXT
 
 Test: restore (hard links) client (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -5411,13 +5496,14 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-f	test_r/C:/Test Dir/My Dir/a File.TXT.gz
-f	test_r/C:/Test Dir/My Dir/another File.TXT.gz
-f	test_r/C:/Test Dir/My File.TXT.gz
+f	test_r/C:/Test Dir/My Dir/a File.TXT
+f	test_r/C:/Test Dir/My Dir/another File.TXT
+f	test_r/C:/Test Dir/My File.TXT
 
 Test: restore (hard links) client (dual-boot)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Selected clients:
  ---> myClient
  ---> myClient.xp
@@ -5507,19 +5593,20 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-f	test_r/C:/Test Dir/My Dir/a File.TXT.gz
-f	test_r/C:/Test Dir/My Dir/another File.TXT.gz
-f	test_r/C:/Test Dir/My File.TXT.gz
+f	test_r/C:/Test Dir/My Dir/a File.TXT
+f	test_r/C:/Test Dir/My Dir/another File.TXT
+f	test_r/C:/Test Dir/My File.TXT
 d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-f	test_r/home/User/test/dir/file3.txt.gz
-f	test_r/home/User/test/File2.txt.gz
+f	test_r/home/User/test/dir/file3.txt
+f	test_r/home/User/test/File2.txt
 
 Test: check for corrupted data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -5623,6 +5710,7 @@ Database closed
 Test: check for corrupted data again
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -5726,6 +5814,7 @@ Database closed
 Test: scan for missing data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -5938,6 +6027,7 @@ Database closed
 Test: scan for obsolete data, case1
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -6223,6 +6313,7 @@ Database closed
 Test: scan for obsolete data, case 2
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -6508,6 +6599,7 @@ Database closed
 Test: backup recovers missing checksums
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -6726,10 +6818,12 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-Adding compressed file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
+Checking data, sizes: f=161 z=140
+Adding compressed data for fef51838cd3cfe8ed96355742eb71fbd-0
 R z     test1/cvs/CVS/Entries
-Adding compressed file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
-R z     test1/cvs/CVS/Root
+Checking data, sizes: f=16 z=36
+Adding data for b90f8fa56ea1d39881d4a199c7a81d35-0
+R f     test1/cvs/CVS/Root
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
@@ -6748,7 +6842,8 @@ svn      \r
  --> fileoth: i
 svn/.svn\r
         \r
-Adding compressed file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
+Checking data, sizes: f=77 z=65
+Adding compressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
 R z     test1/svn/.svn/entries
 svn/dirbad\r
           \r
@@ -6774,6 +6869,7 @@ List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -7026,6 +7122,7 @@ List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb
@@ -7163,6 +7260,7 @@ List of missing checksums contains 1 item(s)
 Database closed
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
+ --> Automatic compression
  --> Clients:
  ---> Client: aClient
  ----> Protocol: smb

@@ -70,7 +70,8 @@ public:
   int write(                          // <0: error, >0: written, =0: no need
     const char*     path,             // Path to read from
     char**          checksum,         // Copy checksum here
-    int             compress = 0);    // Compression to apply
+    int             compress = 0,     // Compression to apply (negative: auto)
+    int*            acompress = NULL);// Compression applied
   // Check existence/consistence of given checksum's data
   int check(
     const char*     checksum,

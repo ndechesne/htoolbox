@@ -439,6 +439,8 @@ l1 and l2 differ
 getParams
 db	test_db	
 
+compress_auto	
+
 filter	all	backup	
 condition	type	file	
 condition	path_end	~	

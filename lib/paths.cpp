@@ -100,9 +100,17 @@ int ClientPath::parse_recurse(
         db.sendEntry(op);
         // Add node
         if (op.needsAdding()) {
-          if (((*i)->type() == 'f')
-          && (_compress != NULL) && _compress->match(**i, start)) {
-            op.setCompression(5);
+          if ((*i)->type() == 'f') {
+            // Best compromise between speed and size
+            const int compression_level = 5;
+            // Compress file if not using auto-compression and filter matches
+            if (op.compression() == 0) {
+              if ((_compress != NULL) && _compress->match(**i, start)) {
+                op.setCompression(compression_level);
+              }
+            } else if (op.compression() < 0) {
+              op.setCompression(-compression_level);
+            }
           }
           if (db.add(op, _report_copy_error_once)
           &&  (  (errno != EBUSY)       // Ignore busy files

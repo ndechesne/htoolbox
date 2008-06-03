@@ -184,12 +184,12 @@ Database open r/w: myClient
 Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
-Adding compressed file data to DB for d41d8cd98f00b204e9800998ecf8427e-0
+Adding compressed data for d41d8cd98f00b204e9800998ecf8427e-0
 A z     /home/User/test/File2.txt
 A       /home/User/test/dir
 dir\r
    \r
-Adding compressed file data to DB for 6d7fce9fee471194aa8b5b6e47267f03-0
+Adding compressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 A z     /home/User/test/dir/file3.txt
 Backing up path: /home/User/test2
  -> umount -fl test_db/mount
@@ -298,7 +298,7 @@ Done:  85.0%\r
 Done:  90.0%\r
 Done:  95.0%\r
             \r
-Adding compressed file data to DB for f1c9645dbc14efddc7d8a322685f26eb-0
+Adding compressed data for f1c9645dbc14efddc7d8a322685f26eb-0
 A z     test1/big_file
 A       test1/cvs
 cvs\r
@@ -312,9 +312,9 @@ cvs\r
 A       test1/cvs/CVS
 cvs/CVS\r
        \r
-Adding compressed file data to DB for fef51838cd3cfe8ed96355742eb71fbd-0
+Adding compressed data for fef51838cd3cfe8ed96355742eb71fbd-0
 A z     test1/cvs/CVS/Entries
-Adding compressed file data to DB for b90f8fa56ea1d39881d4a199c7a81d35-0
+Adding compressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 A z     test1/cvs/CVS/Root
 A       test1/cvs/dirbad
 cvs/dirbad\r
@@ -328,9 +328,9 @@ cvs/dirutd\r
 A       test1/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
               \r
-Adding compressed file data to DB for 5252f242d27b8c2c9fdbdcbb33545d07-0
+Adding compressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
 A z     test1/cvs/dirutd/CVS/Entries
-Adding compressed file data to DB for eb75fb33b2019ef3c840eb5ccdc2e795-0
+Adding compressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
 A z     test1/cvs/dirutd/CVS/Root
 A       test1/cvs/dirutd/fileutd
 A       test1/cvs/filenew.c
@@ -350,7 +350,7 @@ svn\r
 A       test1/svn/.svn
 svn/.svn\r
         \r
-Adding compressed file data to DB for 0f2ea973d77135dc3d06c8e68da6dc59-0
+Adding compressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A z     test1/svn/.svn/entries
 A       test1/svn/dirbad
 svn/dirbad\r
@@ -365,7 +365,7 @@ svn/dirutd\r
 A       test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
                \r
-Adding compressed file data to DB for 8bdef5751e46ed57d237cbe3f4a5061c-0
+Adding compressed data for 8bdef5751e46ed57d237cbe3f4a5061c-0
 A z     test1/svn/dirutd/.svn/entries
 A       test1/svn/dirutd/fileutd
 A       test1/svn/filenew.c
@@ -373,7 +373,7 @@ A       test1/test space
 A       test1/testdir
 testdir\r
        \r
-Adding compressed file data to DB for 59ca0efa9f5633cb0371bbc0355478d8-0
+Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 A z     test1/testfile
 A       test1/testlink
 A       test1/testpipe
@@ -381,13 +381,13 @@ Backing up path: test2
 A       test2/testdir
 testdir\r
        \r
-Adding file data to DB for 3d546a1ce46c6ae10ad34ab8a81c542e-0
+Adding data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
 A f     test2/testfile
-Adding file data to DB for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+Adding data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A f     test2/testfile2
-Adding file data to DB for f81f70dceaca8b0cec354f33fa3f0909-0
+Adding data for f81f70dceaca8b0cec354f33fa3f0909-0
 A f     test2/testfile2.gz
-Adding file data to DB for 59071590099d21dd439896592338bf95-0
+Adding data for 59071590099d21dd439896592338bf95-0
 A f     test2/testfile~
 A       test2/testlink
 Database modified: testhost
@@ -512,9 +512,9 @@ Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
 My Dir\r
       \r
-Adding file data to DB for b026324c6904b2a9cb4b88d6d61c81d1-0
+Adding data for b026324c6904b2a9cb4b88d6d61c81d1-0
 A f     C:/Test Dir/My Dir/a File.TXT
-Adding file data to DB for 26ab0db90d72e28ad0ba1e22ee510510-0
+Adding data for 26ab0db90d72e28ad0ba1e22ee510510-0
 A f     C:/Test Dir/My Dir/another File.TXT
 A       C:/Test Dir/My File.TXT
 Database modified: myhost2
@@ -566,7 +566,7 @@ CVS\r
    \r
 A       test1/cvs/CVS/Entries
 A       test1/cvs/CVS/Root
-Adding file data to DB for 9283e2c51868272850bd2d89b63c58e8-0
+Adding data for 9283e2c51868272850bd2d89b63c58e8-0
 A f     test1/cvs/CVS/Whatever
 A       test1/cvs/CVS/Wherever
 CVS/Wherever\r
@@ -588,7 +588,7 @@ dirutd/CVS\r
           \r
 A       test1/cvs/dirutd/CVS/Entries
 A       test1/cvs/dirutd/CVS/Root
-Adding file data to DB for caecaacc7fdee8a7667d4f4f315858a9-0
+Adding data for caecaacc7fdee8a7667d4f4f315858a9-0
 A f     test1/cvs/dirutd/CVS/Whatever
 A       test1/cvs/dirutd/fileoth
 A       test1/cvs/dirutd/fileutd

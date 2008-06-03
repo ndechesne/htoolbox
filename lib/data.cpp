@@ -334,7 +334,8 @@ int Data::setTemp(const char* path) {
 int Data::write(
     const char*     path,
     char**          dchecksum,
-    int             compress) {
+    int             compress,
+    int*            acompress) {
   bool failed  = false;
 
   Stream source(path);
@@ -342,26 +343,70 @@ int Data::write(
     return -1;
   }
 
-  // Temporary file to write to
-  Stream temp(_d->temp);
-  if (temp.open("w", compress)) {
-    out(error, msg_errno, "Opening write temp file", errno, temp.path());
-    failed = true;
+  // Temporary file(s) to write to
+  Stream* temp1 = new Stream(_d->temp);
+  Stream* temp2;
+  if (compress < 0) {
+    char* temp_path_gz;
+    asprintf(&temp_path_gz, "%s.gz", _d->temp);
+    temp2 = new Stream(temp_path_gz);
+    free(temp_path_gz);
+    if (temp2->open("w", -compress)) {
+      out(error, msg_errno, "Opening write temp file", errno, temp2->path());
+      failed = true;
+    }
   } else {
+    temp2 = NULL;
+  }
+  if (temp1->open("w", (compress > 0) ? compress : 0)) {
+    out(error, msg_errno, "Opening write temp file", errno, temp1->path());
+    failed = true;
+  }
+
+  if (! failed) {
     // Copy file locally
     source.setCancelCallback(aborting);
     source.setProgressCallback(_d->progress);
-    if (source.copy(&temp) != 0) {
+    if (source.copy(temp1, temp2) != 0) {
       failed = true;
     }
 
-    temp.close();
+    temp1->close();
+    if (temp2 != NULL) {
+      temp2->close();
+    }
   }
   source.close();
 
   if (failed) {
-    temp.remove();
+    temp1->remove();
+    delete temp1;
+    if (temp2 != NULL) {
+      temp2->remove();
+      delete temp2;
+    }
     return -1;
+  }
+  
+  Stream* dest = temp1;
+  if (temp2 != NULL) {
+    stringstream s;
+    s << "Checking data, sizes: f=" << temp1->size() << " z=" << temp2->size();
+    out(debug, msg_standard, s.str().c_str());
+    if (temp1->size() > temp2->size()) {
+      temp1->remove();
+      delete temp1;
+      dest = temp2;
+      compress = -compress;
+    } else {
+      temp2->remove();
+      delete temp2;
+      compress = 0;
+    }
+  }
+
+  if (acompress != NULL) {
+    *acompress = compress;
   }
 
   // Get file final location
@@ -392,8 +437,8 @@ int Data::write(
         break;
       }
       data->open("r", (no > 0) ? 1 : 0);
-      temp.open("r", compress);
-      switch (temp.compare(*data, 1024)) {
+      dest->open("r", compress);
+      switch (dest->compare(*data, 10*1024*1024)) {
         case 0:
           present = true;
           break;
@@ -405,7 +450,7 @@ int Data::write(
       }
       data->close();
       delete data;
-      temp.close();
+      dest->close();
     } else {
       Directory(final_path).create();
       dest_path = final_path;
@@ -415,10 +460,10 @@ int Data::write(
   } while (! failed && ! missing && ! present);
 
   // Now move the file in its place
-  if (! present && rename(temp.path(),
+  if (! present && rename(dest->path(),
       (dest_path + "/data" + ((compress != 0) ? ".gz" : "")).c_str())) {
     stringstream s;
-    s << "Failed to move file " << temp.path() << " to " << dest_path << ": "
+    s << "Failed to move file " << dest->path() << " to " << dest_path << ": "
       << strerror(errno);
     out(error, msg_standard, s.str().c_str());
     failed = true;
@@ -426,13 +471,13 @@ int Data::write(
   if (! present) {
     stringstream s;
     s << "Adding " << ((compress != 0) ? "compressed " : "")
-      << "file data to DB for " << source.checksum() << "-" << index;
+      << "data for " << source.checksum() << "-" << index;
     out(debug, msg_standard, s.str().c_str());
   }
 
   // If anything failed, delete temporary file
   if (failed || present) {
-    temp.remove();
+    dest->remove();
   }
 
   // Report checksum
@@ -450,7 +495,8 @@ int Data::write(
       organise(dest_path.c_str(), 256);
     }
   }
-
+  
+  delete dest;
   return failed ? -1 : (present ? 0 : 1);
 }
 

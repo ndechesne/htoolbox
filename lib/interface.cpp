@@ -83,7 +83,7 @@ struct HBackup::Private {
   list<string>      selected_clients;
   list<Client*>     clients;
   Filters           filters;
-  bool              timeout_nowarning;
+  bool              compress_auto;
   bool              report_copy_error_once;
 };
 
@@ -137,6 +137,8 @@ int HBackup::readConfig(const char* config_path) {
     // condition
     filter->add(new ConfigItem("condition", 1, 0, 2));
   }
+  // compress_auto
+  config.add(new ConfigItem("compress_auto", 0, 1));
   // timeout_nowarning
   config.add(new ConfigItem("timeout_nowarning", 0, 1));
   // report_copy_error_once
@@ -369,7 +371,12 @@ int HBackup::readConfig(const char* config_path) {
         }
       }
     } else {
-      _d->report_copy_error_once = true;
+      if ((*params)[0] == "compress_auto") {
+        _d->compress_auto = true;
+      } else
+      if ((*params)[0] == "report_copy_error_once") {
+        _d->report_copy_error_once = true;
+      }
     }
   }
 
@@ -452,12 +459,14 @@ int HBackup::check() {
 int HBackup::backup(
   bool              initialize) {
   if (! _d->db->open(false, initialize)) {
-    bool failed = false;
+    // Set auto-compression mode
+    _d->db->setAutoCompression(_d->compress_auto);
 
     Directory mount_dir(Path(_d->db->path(), ".mount"));
     if (mount_dir.create() < 0) {
       return -1;
     }
+    bool failed = false;
     for (list<Client*>::iterator client = _d->clients.begin();
         client != _d->clients.end(); client++) {
       if (aborting()) {
@@ -551,8 +560,8 @@ void HBackup::show(int level) const {
   } else {
     out(debug, msg_standard, _d->db->path(), level, "DB path");
   }
-  if (_d->timeout_nowarning) {
-    out(debug, msg_standard, "No warning on time out", level);
+  if (_d->compress_auto) {
+    out(debug, msg_standard, "Automatic compression", level);
   }
   if (_d->report_copy_error_once) {
     out(debug, msg_standard, "No error if same file fails copy again", level);

@@ -59,6 +59,7 @@ struct Database::Private {
   Data              data;
   Missing           missing;
   bool              load_missing;
+  bool              compress_auto;
   Owner*            owner;
   progress_f        progress;
 };
@@ -187,6 +188,8 @@ int Database::open(
       return -1;
   }
 
+  // Disable auto-compression mode
+  _d->compress_auto = false;
   // Reset client's data
   _d->owner = NULL;
   // Do not load list of missing items for now
@@ -246,6 +249,10 @@ int Database::close() {
   out(verbose, msg_standard, "Database closed");
   _d->access = no;
   return failed ? -1 : 0;
+}
+
+void Database::setAutoCompression(bool enabled) {
+  _d->compress_auto = enabled;
 }
 
 void Database::setProgressCallback(progress_f progress) {
@@ -627,6 +634,10 @@ int Database::closeClient(
 void Database::sendEntry(
     OpData&         op) {
   _d->owner->sendEntry(op, _d->missing);
+  // Tell caller about auto compression
+  if (_d->compress_auto) {
+    op._compression = -1;
+  }
 }
 
 int Database::add(
@@ -652,10 +663,12 @@ int Database::add(
     }
     // Copy data
     char* checksum = NULL;
-    int rc = _d->data.write(op._node.path(), &checksum, op._compression);
+    int compression;
+    int rc = _d->data.write(op._node.path(), &checksum, op._compression,
+      &compression);
     if (rc >= 0) {
       if (rc > 0) {
-        if (op._compression > 0) {
+        if (compression > 0) {
           code[2] = 'z';
         } else {
           code[2] = 'f';

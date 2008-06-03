@@ -105,6 +105,9 @@ int main(void) {
     item->add(new ConfigItem("condition", 1, 0, 2));
   }
 
+  // compress_auto
+  config->add(new ConfigItem("compress_auto", 0, 1));
+
   // timeout_nowarning
   config->add(new ConfigItem("timeout_nowarning", 0, 1));
 
