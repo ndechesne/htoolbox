@@ -583,30 +583,36 @@ ssize_t Stream::read_decompress(
     size_t          asked,
     size_t*         given) {
   ssize_t size = 0;
+  bool    eof  = false;
   // Fill in buffer
-  if (_d->buffer_comp.isEmpty()) {
-    size = std::read(_d->fd, _d->buffer_comp.writer(),
-      _d->buffer_comp.writeable());
-    if (size < 0) {
-      return -1;
+  do {
+    if (_d->buffer_comp.isEmpty()) {
+      size = std::read(_d->fd, _d->buffer_comp.writer(),
+        _d->buffer_comp.writeable());
+      if (size < 0) {
+        return -1;
+      }
+      if (size == 0) {
+        eof = true;
+      }
+      _d->buffer_comp.written(size);
+      _d->strm->avail_in = _d->buffer_comp.readable();
+      _d->strm->next_in  = (unsigned char*) _d->buffer_comp.reader();
     }
-    _d->buffer_comp.written(size);
-    _d->strm->avail_in = _d->buffer_comp.readable();
-    _d->strm->next_in  = (unsigned char*) _d->buffer_comp.reader();
-  }
-  _d->strm->avail_out = asked;
-  _d->strm->next_out  = (unsigned char*) buffer;
-  switch (inflate(_d->strm, Z_NO_FLUSH)) {
-    case Z_NEED_DICT:
-    case Z_DATA_ERROR:
-    case Z_MEM_ERROR:
-      return -2;
-  }
-  // Used all decompression buffer
-  if (_d->strm->avail_out != 0) {
-    _d->buffer_comp.empty();
-  }
-  *given = asked - _d->strm->avail_out;
+    _d->strm->avail_out = asked;
+    _d->strm->next_out  = (unsigned char*) buffer;
+    switch (inflate(_d->strm, Z_NO_FLUSH)) {
+      case Z_NEED_DICT:
+      case Z_DATA_ERROR:
+      case Z_MEM_ERROR:
+        return -2;
+    }
+    // Used all decompression buffer
+    if (_d->strm->avail_out != 0) {
+      _d->buffer_comp.empty();
+    }
+    *given = asked - _d->strm->avail_out;
+  } while ((*given == 0) && ! eof);
   return size;
 }
 

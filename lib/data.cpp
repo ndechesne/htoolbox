@@ -569,6 +569,7 @@ int Data::check(
         stringstream s;
         s << "Data corrupted" << (remove ? ", remove" : "");
         out(error, msg_standard, s.str().c_str(), -1, checksum);
+        out(debug, msg_standard, data->checksum(), -1, "Checksum");
         failed = true;
         if (remove) {
           data->remove();

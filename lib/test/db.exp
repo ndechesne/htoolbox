@@ -49,6 +49,7 @@ Crawling through DB data
 59ca0efa9f5633cb0371bbc0355478d8-0\r
                                   \r
 Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Data corrupted
+Checksum: d41d8cd98f00b204e9800998ecf8427e
 Found 0 valid and 1 broken data files
 Database closed
 Database open in read/write mode
