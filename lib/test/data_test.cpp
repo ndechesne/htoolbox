@@ -116,7 +116,7 @@ int main(void) {
   cout << endl << "Test: write and read back" << endl;
   /* Write */
   char* chksm = NULL;
-  if ((status = db.write("test1/testfile", &chksm)) < 0) {
+  if ((status = db.write("test1/testfile", "temp_data", &chksm)) < 0) {
     printf("db.write error status %d\n", status);
     db.close();
     return 0;
@@ -135,7 +135,7 @@ int main(void) {
   }
   /* Write again */
   chksm = NULL;
-  if ((status = db.write("test_db/blah", &chksm)) < 0) {
+  if ((status = db.write("test_db/blah", "temp_data", &chksm)) < 0) {
     printf("db.write error status %d\n", status);
     db.close();
     return 0;
@@ -151,7 +151,7 @@ int main(void) {
   Node("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data").remove();
   /* Write */
   chksm = NULL;
-  if ((status = db.write("test1/testfile", &chksm, 5)) < 0) {
+  if ((status = db.write("test1/testfile", "temp_data", &chksm, 5)) < 0) {
     printf("db.write error status %d\n", status);
     db.close();
     return 0;
@@ -170,7 +170,7 @@ int main(void) {
   }
   /* Write again */
   chksm = NULL;
-  if ((status = db.write("test_db/blah", &chksm)) < 0) {
+  if ((status = db.write("test_db/blah", "temp_data", &chksm)) < 0) {
     printf("db.write error status %d\n", status);
     db.close();
     return 0;

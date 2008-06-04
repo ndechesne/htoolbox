@@ -54,9 +54,6 @@ public:
   void close();
   // Set progress callback function
   void setProgressCallback(progress_f progress);
-  // Set the path to the temporary data (default is $(path)/temp)
-  // Note: this path MUST be on the same filesystem as $(path)
-  int setTemp(const char* path);
   // Get file name for given checksum
   int name(
     const char*     checksum,
@@ -69,9 +66,10 @@ public:
   // Add new item to database
   int write(                          // <0: error, >0: written, =0: no need
     const char*     path,             // Path to read from
+    const char*     temp_name,        // Name for temporary data file
     char**          checksum,         // Copy checksum here
     int             compress = 0,     // Compression to apply (negative: auto)
-    int*            acompress = NULL);// Compression applied
+    int*            acompress = NULL);// Compression actually applied
   // Check existence/consistence of given checksum's data
   int check(
     const char*     checksum,

@@ -144,37 +144,44 @@ int Data::crawl_recurse(
     unsigned int*   broken) const {
   bool failed = false;
   if (dir.isValid() && ! dir.createList()) {
-    bool no_files = false;
+    bool no_files   = false;
+    bool temp_found = false;
     list<Node*>::iterator i = dir.nodesList().begin();
     while (i != dir.nodesList().end()) {
       if (failed) {
         // Skip any processing, but remove node from list
       } else
       if ((*i)->type() == 'f') {
+        // '.' files are before, so .nofiles will be found first
         if (strcmp((*i)->name(), ".nofiles") == 0) {
           no_files = true;
         }
       } else
       if ((*i)->type() == 'd') {
-        string checksum = checksumPart + (*i)->name();
-        if (no_files) {
-          Directory d(**i);
-          if (crawl_recurse(d, checksum, checksums, thorough, remove, valid,
-              broken) < 0){
-            failed = true;
-          }
+        // '.' files are before, so .temp will be found first
+        if (! temp_found && (strcmp((*i)->name(), ".temp") == 0)) {
+          temp_found = true;
         } else {
-          out(verbose, msg_standard, checksum.c_str(), -3);
-          if (! check(checksum.c_str(), thorough, remove)) {
-            if (checksums != NULL) {
-              checksums->push_back(checksum);
-            }
-            if (valid != NULL) {
-              (*valid)++;
+          string checksum = checksumPart + (*i)->name();
+          if (no_files) {
+            Directory d(**i);
+            if (crawl_recurse(d, checksum, checksums, thorough, remove, valid,
+                broken) < 0){
+              failed = true;
             }
           } else {
-            if (broken != NULL) {
-              (*broken)++;
+            out(verbose, msg_standard, checksum.c_str(), -3);
+            if (! check(checksum.c_str(), thorough, remove)) {
+              if (checksums != NULL) {
+                checksums->push_back(checksum);
+              }
+              if (valid != NULL) {
+                (*valid)++;
+              }
+            } else {
+              if (broken != NULL) {
+                (*broken)++;
+              }
             }
           }
         }
@@ -205,19 +212,23 @@ Data::~Data() {
 
 int Data::open(const char* path, bool create) {
   _d->path = strdup(path);
-  asprintf(&_d->temp, "%s/%s", _d->path, "temp");
-  if ((_d->path == NULL) || (_d->temp == NULL)) {
+  if (_d->path == NULL) {
     goto failed;
   }
   {
-    Directory dir(path);
-    if (dir.isValid()) {
+    // Base directory
+    Directory dir(_d->path);
+    // Place for temporary files
+    Directory temp_dir(Path(_d->path, ".temp"));
+    _d->temp = strdup(temp_dir.path());
+    // Check for existence
+    if (dir.isValid() && temp_dir.isValid()) {
       return 0;
     }
-    if (! create) {
+    if (! dir.isValid() && ! create) {
       goto failed;
     }
-    if (dir.create() < 0) {
+    if ((dir.create() < 0) || (temp_dir.create() < 0)) {
       goto failed;
     }
   }
@@ -325,30 +336,26 @@ int Data::read(
   return failed ? -1 : 0;
 }
 
-int Data::setTemp(const char* path) {
-  free(_d->temp);
-  _d->temp = strdup(path);
-  return (_d->temp == NULL) ? -1 : 0;
-}
-
 int Data::write(
     const char*     path,
+    const char*     temp_name,
     char**          dchecksum,
     int             compress,
     int*            acompress) {
   bool failed  = false;
 
+  // Open source file
   Stream source(path);
   if (source.open("r")) {
     return -1;
   }
 
   // Temporary file(s) to write to
-  Stream* temp1 = new Stream(_d->temp);
+  Stream* temp1 = new Stream(Path(_d->temp, temp_name));
   Stream* temp2 = NULL;
   if (compress < 0) {
     char* temp_path_gz;
-    asprintf(&temp_path_gz, "%s.gz", _d->temp);
+    asprintf(&temp_path_gz, "%s.gz", temp1->path());
     temp2 = new Stream(temp_path_gz);
     free(temp_path_gz);
     if (temp2->open("w", -compress)) {

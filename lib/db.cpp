@@ -612,8 +612,6 @@ int Database::openClient(
       break;
     case rw:
       out(verbose, msg_standard, _d->owner->name(), -1, "Database open r/w");
-      // Set temp path inside client's directory
-      _d->data.setTemp(Path(_d->owner->path(), "data"));
       break;
     default:;
   }
@@ -664,8 +662,8 @@ int Database::add(
     // Copy data
     char* checksum = NULL;
     int compression;
-    int rc = _d->data.write(op._node.path(), &checksum, op._compression,
-      &compression);
+    int rc = _d->data.write(op._node.path(), _d->owner->name(), &checksum,
+      op._compression, &compression);
     if (rc >= 0) {
       if (rc > 0) {
         if (compression > 0) {
