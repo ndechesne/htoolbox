@@ -500,6 +500,7 @@ int HBackup::backup(
       }
       mount_point.remove();
     }
+    mount_dir.remove();
     _d->db->close();
     if (failed) {
       return -1;

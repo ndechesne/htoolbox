@@ -480,7 +480,7 @@ int Client::backup(
   string  share;
 
   // Do not print this if in user-mode backup
-  if (_d->home_path.length() == 0) {
+  if (_d->protocol != "file") {
     stringstream s;
     s << "Trying client '" << internalName() << "' using protocol '"
       << _d->protocol << "'";

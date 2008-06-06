@@ -492,7 +492,7 @@ int Data::write(
   // Auto compression on: is newly copied file smaller?
   if ((data != NULL) && (dest->size() < data->size())) {
     stringstream s;
-    s << "Replacing with " << ((compress != 0) ? " " : "un")
+    s << "Replacing with " << ((compress != 0) ? "" : "un")
       << "compressed data for " << source.checksum() << "-" << index;
     out(debug, msg_standard, s.str().c_str());
     present = false;

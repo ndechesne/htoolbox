@@ -10,7 +10,6 @@ Global filter
  --> Expiry: none
 Database initialized: test_db
 Database open in read/write mode
-Trying client 'localhost' using protocol 'file'
 Error: etc/doesnotexist: Client configuration file not found
 Database closed
 >List 0 client(s):
@@ -247,7 +246,6 @@ Database closed
  --> Config: etc/localhost.list
  --> Expiry: none
 Database open in read/write mode
-Trying client 'testhost' using protocol 'file'
  -> Reading client configuration file: testhost
  -> Client: testhost
  --> Protocol: file
@@ -399,7 +397,6 @@ Database closed
  --> Config: etc/localhost.list
  --> Expiry: none
 Database open in read/write mode
-Trying client 'testhost' using protocol 'file'
  -> Reading client configuration file: testhost
  -> Client: testhost
  --> Protocol: file
@@ -476,7 +473,6 @@ Database closed
  --> Config: etc/localhost.list
  --> Expiry: none
 Database open in read/write mode
-Trying client 'testhost' using protocol 'file'
  -> Reading client configuration file: testhost
 Error: etc/localhost.list: 30: Path inside another
 Database closed
@@ -486,7 +482,6 @@ Database closed
  --> Config: etc/localhost.list2
  --> Expiry: none
 Database open in read/write mode
-Trying client 'testhost' using protocol 'file'
  -> Reading client configuration file: testhost
 Error: etc/localhost.list2: 12: Path inside another
 Error: etc/localhost.list2: 30: Path inside another
@@ -548,7 +543,6 @@ Database closed: myhost3
  -> umount -fl test_db/mount
 Database closed
 Database open in read/write mode
-Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
@@ -665,7 +659,6 @@ Create list of clients
  --> Config: /home/User/testhost3.list
  --> Expiry: none
 Database open in read/write mode
-Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
@@ -778,7 +771,6 @@ Create list of clients
  --> Config: /home/User/testhost3.list
  --> Expiry: none
 Database open in read/write mode
-Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
@@ -828,7 +820,6 @@ Create list of clients
  --> Config: C:/Backup/testhost2.list
  --> Expiry: none
 Database open in read/write mode
-Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file

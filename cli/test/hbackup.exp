@@ -417,7 +417,6 @@ A       C:/Test Dir/My File.TXT
 Database modified: myClient.xp
 Database closed: myClient.xp
  -> umount -fl test_db/.mount/myClient.xp
-Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
@@ -701,7 +700,6 @@ My Dir\r
       \r
 Database closed: client.xp
  -> umount -fl test_db/.mount/client.xp
-Trying client 'myhost' using protocol 'file'
  -> Reading client configuration file: myhost
  -> Client: myhost
  --> Protocol: file
