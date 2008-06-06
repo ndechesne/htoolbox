@@ -55,7 +55,7 @@ public:
   void addOption(const string& value);
   void addOption(const string& name, const string& value);
   void setHostOrIp(string value);
-  void setProtocol(string value);
+  bool setProtocol(string value);     // return true if remote protocol
   void setTimeOutNoWarning();
   void setReportCopyErrorOnce();
   void setListfile(const char* value);

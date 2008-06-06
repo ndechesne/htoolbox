@@ -83,6 +83,7 @@ struct HBackup::Private {
   list<string>      selected_clients;
   list<Client*>     clients;
   Filters           filters;
+  bool              remote_clients;
   bool              compress_auto;
   bool              report_copy_error_once;
 };
@@ -301,7 +302,9 @@ int HBackup::readConfig(const char* config_path) {
         client->setHostOrIp((*params)[1]);
       } else
       if ((*params)[0] == "protocol") {
-        client->setProtocol((*params)[1]);
+        if (client->setProtocol((*params)[1])) {
+          _d->remote_clients = true;
+        }
       } else
       if ((*params)[0] == "option") {
         if ((*params).size() == 2) {
@@ -392,6 +395,7 @@ int HBackup::open(
     bool          user_mode,
     bool          check_config) {
   bool failed = false;
+  _d->remote_clients = false;
   if (user_mode) {
     // Give 'selected' client name
     addClient("localhost");
@@ -463,7 +467,7 @@ int HBackup::backup(
     _d->db->setAutoCompression(_d->compress_auto);
 
     Directory mount_dir(Path(_d->db->path(), ".mount"));
-    if (mount_dir.create() < 0) {
+    if (_d->remote_clients && (mount_dir.create() < 0)) {
       return -1;
     }
     bool failed = false;
@@ -489,7 +493,7 @@ int HBackup::backup(
       Directory mount_point(Path(mount_dir.path(),
         (*client)->internalName().c_str()));
       // Check that mount dir exists, if not create it
-      if (mount_point.create() < 0) {
+      if (_d->remote_clients && (mount_point.create() < 0)) {
         return -1;
       }
       if (_d->report_copy_error_once) {
@@ -498,9 +502,13 @@ int HBackup::backup(
       if ((*client)->backup(*_d->db, _d->filters, mount_point.path())) {
         failed = true;
       }
-      mount_point.remove();
+      if (_d->remote_clients) {
+        mount_point.remove();
+      }
     }
-    mount_dir.remove();
+    if (_d->remote_clients) {
+      mount_dir.remove();
+    }
     _d->db->close();
     if (failed) {
       return -1;

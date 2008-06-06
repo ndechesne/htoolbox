@@ -389,8 +389,9 @@ void Client::setHostOrIp(string value) {
   _d->host_or_ip = value;
 }
 
-void Client::setProtocol(string value) {
+bool Client::setProtocol(string value) {
   _d->protocol = value;
+  return value != "file";
 }
 
 void Client::setTimeOutNoWarning() {
