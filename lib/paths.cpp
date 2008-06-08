@@ -136,7 +136,11 @@ int ClientPath::parse_recurse(
     asprintf(&full_name, "%s:%s", client_name, remote_path);
     out(error, msg_errno, "Reading directory", errno, full_name);
     free(full_name);
-    // Do not give up
+    if ((errno != EACCES)     // Ignore access refused
+    &&  (errno != ENOENT)) {  // Ignore directory gone
+      // All the rest results in a cease and desist order
+      give_up = true;
+    }
   }
   delete parser;
   return give_up ? -1 : 0;
