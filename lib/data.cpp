@@ -505,8 +505,9 @@ int Data::write(
       failed = true;
     }
   } else
-  // Auto compression on: is newly copied file smaller?
-  if ((data != NULL) && (dest->size() < data->size())) {
+  // Auto compression on: is newly copied file smaller (leave ~1.6% margin)?
+  if ((data != NULL)
+  && ((dest->size() + (dest->size() >> 6)) < data->size())) {
     stringstream s;
     s << "Replacing with " << ((compress != 0) ? "" : "un")
       << "compressed data for " << source.checksum() << "-" << index;
