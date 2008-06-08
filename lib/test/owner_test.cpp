@@ -29,6 +29,7 @@ using namespace std;
 #include "list.h"
 #include "missing.h"
 #include "opdata.h"
+#include "compdata.h"
 #include "owner.h"
 
 using namespace hbackup;
@@ -251,7 +252,7 @@ int main(void) {
 
 
   cout << endl << "Get checksums" << endl;
-  list<string> checksums;
+  list<CompData> checksums;
   rc = o.getChecksums(checksums);
   if (rc) {
     cout << "Failed to get checksums: " << rc << endl;
@@ -261,8 +262,9 @@ int main(void) {
   if (checksums.empty()) {
     cout << "...is empty" << endl;
   } else
-  for (list<string>::iterator i = checksums.begin(); i != checksums.end(); i++) {
-    cout << " -> " << *i << endl;
+  for (list<CompData>::iterator i = checksums.begin();
+      i != checksums.end(); i++) {
+    cout << " -> " << i->checksum() << ", " << i->size() << endl;
   }
   cout << "Dir contents:" << endl;
   system("ls -R test_db");

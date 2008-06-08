@@ -29,6 +29,7 @@ using namespace std;
 #include "list.h"
 #include "missing.h"
 #include "opdata.h"
+#include "compdata.h"
 #include "owner.h"
 
 using namespace hbackup;
@@ -564,7 +565,7 @@ int Owner::getNextRecord(
 }
 
 int Owner::getChecksums(
-    list<string>&   checksums) const {
+    list<CompData>& checksums) const {
   if (hold() < 0) {
     return -1;
   }
@@ -574,7 +575,8 @@ int Owner::getChecksums(
     if ((node != NULL) && (node->type() == 'f')) {
       File* f = (File*) node;
       if (f->checksum()[0] != '\0') {
-        checksums.push_back(f->checksum());
+        CompData d(f->checksum(), f->size());
+        checksums.push_back(d);
       }
     }
     if (aborting()) {

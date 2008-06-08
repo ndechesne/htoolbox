@@ -124,7 +124,7 @@ int main(void) {
 
   cout << endl << "Test: force-compress DB data" << endl;
   system("gzip test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
-  
+
   cout << endl << "Test: specify clients" << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
@@ -681,6 +681,7 @@ int main(void) {
   system("echo > test_db/.data/b90f8fa56ea1d39881d4a199c7a81d35-0/data");
   system("echo > test_db/.data/fef51838cd3cfe8ed96355742eb71fbd-0/data");
   system("rm -f test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data.gz");
+  system("sed -i \"s/644\t[^\t]*$/644\td41d8cd98f00b204e9800998ecf8427e-0/\" test_db/myClient/list");
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
@@ -766,8 +767,9 @@ int main(void) {
   hbackup->close();
   delete hbackup;
   system("ls test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0");
-  
-  // Second backup should not recover again
+
+  cout << endl << "Test: second backup should not recover again"
+    << endl;
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;

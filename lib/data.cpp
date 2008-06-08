@@ -34,6 +34,7 @@ using namespace std;
 #include "hbackup.h"
 #include "files.h"
 #include "report.h"
+#include "compdata.h"
 #include "data.h"
 
 using namespace hbackup;
@@ -136,8 +137,8 @@ int Data::organise(
 
 int Data::crawl_recurse(
     Directory&      dir,
-    const string&   checksumPart,
-    list<string>*   checksums,
+    const string&   checksum_part,
+    list<CompData>* data,
     bool            thorough,
     bool            remove,
     unsigned int*   valid,
@@ -151,6 +152,7 @@ int Data::crawl_recurse(
       if (failed) {
         // Skip any processing, but remove node from list
       } else
+      // Will come first in Path order
       if ((*i)->type() == 'f') {
         // '.' files are before, so .nofiles will be found first
         if (strcmp((*i)->name(), ".nofiles") == 0) {
@@ -162,18 +164,32 @@ int Data::crawl_recurse(
         if (! temp_found && (strcmp((*i)->name(), ".temp") == 0)) {
           temp_found = true;
         } else {
-          string checksum = checksumPart + (*i)->name();
+          string checksum = checksum_part + (*i)->name();
           if (no_files) {
             Directory d(**i);
-            if (crawl_recurse(d, checksum, checksums, thorough, remove, valid,
+            if (crawl_recurse(d, checksum, data, thorough, remove, valid,
                 broken) < 0){
               failed = true;
             }
           } else {
             out(verbose, msg_standard, checksum.c_str(), -3);
-            if (! check(checksum.c_str(), thorough, remove)) {
-              if (checksums != NULL) {
-                checksums->push_back(checksum);
+            bool compressed;
+            string path;
+            if (! check(checksum.c_str(), thorough, remove, &compressed,
+                &path)) {
+              Stream s(path.c_str());
+              if (data != NULL) {
+                if (compressed) {
+                  CompData d(checksum.c_str(), s.originalSize(), true);
+                  data->push_back(d);
+                } else {
+                  if (s.stat()) {
+                    out(error, msg_errno, "", errno);
+                    failed = true;
+                  }
+                  CompData d(checksum.c_str(), s.size());
+                  data->push_back(d);
+                }
               }
               if (valid != NULL) {
                 (*valid)++;
@@ -392,7 +408,7 @@ int Data::write(
     }
     return -1;
   }
-  
+
   Stream* dest = temp1;
   if (temp2 != NULL) {
     stringstream s;
@@ -487,7 +503,7 @@ int Data::write(
         << ": " << strerror(errno);
       out(error, msg_standard, s.str().c_str());
       failed = true;
-    } 
+    }
   } else
   // Auto compression on: is newly copied file smaller?
   if ((data != NULL) && (dest->size() < data->size())) {
@@ -527,7 +543,7 @@ int Data::write(
       organise(dest_path.c_str(), 256);
     }
   }
-  
+
   delete dest;
   delete data;
   return failed ? -1 : (present ? 0 : 1);
@@ -536,7 +552,9 @@ int Data::write(
 int Data::check(
     const char*     checksum,
     bool            thorough,
-    bool            remove) const {
+    bool            remove,
+    bool*           compressed,
+    string*         data_path) const {
   string path;
   if (getDir(checksum, path)) {
     return -1;
@@ -555,7 +573,14 @@ int Data::check(
       std::remove(path.c_str());
     }
     return -1;
-  } else
+  }
+  // Return file information if required
+  if (compressed != NULL) {
+    *compressed = no > 0;
+  }
+  if (data_path != NULL) {
+    *data_path = data->path();
+  }
   // Check data for corruption
   if (thorough) {
     // Already marked corrupted?
@@ -630,13 +655,13 @@ int Data::remove(
 }
 
 int Data::crawl(
-    list<string>*   checksums,
     bool            thorough,
-    bool            remove) const {
+    bool            remove,
+    list<CompData>* data) const {
   Directory d(_d->path);
   unsigned int valid  = 0;
   unsigned int broken = 0;
-  int rc = crawl_recurse(d, "", checksums, thorough, remove, &valid, &broken);
+  int rc = crawl_recurse(d, "", data, thorough, remove, &valid, &broken);
   stringstream s;
   s << "Found " << valid << " valid and " << broken << " broken data files";
   out(verbose, msg_standard, s.str().c_str());

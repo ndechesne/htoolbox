@@ -36,10 +36,11 @@ using namespace std;
 #include "hbackup.h"
 #include "files.h"
 #include "report.h"
-#include "data.h"
 #include "missing.h"
 #include "opdata.h"
+#include "compdata.h"
 #include "owner.h"
+#include "data.h"
 #include "db.h"
 
 namespace hbackup {
@@ -462,7 +463,7 @@ int Database::restore(
 int Database::scan(
     bool            rm_obsolete) const {
   // Get checksums from list
-  list<string> list_sums;
+  list<CompData> list_data;
   list<string> clients;
   if (getClients(clients) < 0) {
     return -1;
@@ -473,7 +474,7 @@ int Database::scan(
   for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
     out(verbose, msg_standard, i->c_str(), -1, "Reading list");
     Owner client(_d->path, i->c_str());
-    client.getChecksums(list_sums);
+    client.getChecksums(list_data);
     if (failed || aborting()) {
       break;
     }
@@ -481,54 +482,74 @@ int Database::scan(
   if (failed || aborting()) {
     return -1;
   }
-  list_sums.sort();
-  list_sums.unique();
+  list_data.sort();
+  // Unique, must do something if checksums match, but not sizes
+  for (list<CompData>::iterator i = list_data.begin(); i != list_data.end();
+      i++) {
+    list<CompData>::iterator j = i;
+    j++;
+    while ((j != list_data.end())
+    && (strcmp(i->checksum(), j->checksum()) == 0)) {
+#if 0 // FIXME This needs more work
+      if (i->sizeCompare(*j) != 0) {
+        i->signalBroken();
+      }
+#endif
+      j = list_data.erase(j);
+    }
+  }
+
   {
     stringstream s;
-    s << "Found " << list_sums.size() << " checksums";
+    s << "Found " << list_data.size() << " checksums";
     out(verbose, msg_standard, s.str().c_str());
   }
 
   // Get checksums from DB
   out(verbose, msg_standard, "Crawling through DB");
-  list<string> data_sums;
+  list<CompData> data_data;
   // Check surficially, remove empty dirs
-  int rc = _d->data.crawl(&data_sums, false, true);
+  int rc = _d->data.crawl(false, true, &data_data);
   if (aborting() || (rc < 0)) {
     return -1;
   }
 
-  if (! list_sums.empty()) {
-    out(debug, msg_standard, "Checksum(s) from list:");
-    for (list<string>::iterator i = list_sums.begin(); i != list_sums.end();
-        i++) {
-      out(debug, msg_standard, i->c_str(), 1);
+  if (! list_data.empty()) {
+    out(debug, msg_number, NULL, list_data.size(), "Checksum(s) from list");
+    for (list<CompData>::iterator i = list_data.begin();
+        i != list_data.end(); i++) {
+      stringstream s;
+      s << i->checksum() << ", " << i->size();
+      out(debug, msg_standard, s.str().c_str(), 1);
     }
   }
-  if (! data_sums.empty()) {
-    out(debug, msg_standard, "Checksum(s) with data:");
-    for (list<string>::iterator i = data_sums.begin(); i != data_sums.end();
-        i++) {
-      out(debug, msg_standard, i->c_str(), 1);
+  if (! data_data.empty()) {
+    out(debug, msg_number, NULL, data_data.size(), "Checksum(s) with data");
+    for (list<CompData>::iterator i = data_data.begin();
+        i != data_data.end(); i++) {
+      stringstream s;
+      s << i->checksum() << ", " << i->size();
+      out(debug, msg_standard, s.str().c_str(), 1);
     }
   }
 
   // Separate missing and obsolete checksums
-  list<string>::iterator l = list_sums.begin();
-  list<string>::iterator d = data_sums.begin();
-  while ((d != data_sums.end()) || (l != list_sums.end())) {
+  list<CompData>::iterator l = list_data.begin();
+  list<CompData>::iterator  d = data_data.begin();
+  while ((d != data_data.end()) || (l != list_data.end())) {
     int cmp;
-    if (d == data_sums.end()) {
+    if (d == data_data.end()) {
       cmp = 1;
     } else
-    if (l == list_sums.end()) {
+    if (l == list_data.end()) {
       cmp = -1;
     } else
     {
-      cmp = d->compare(*l);
+      cmp = strcmp(d->checksum(), l->checksum());
     }
     if (cmp > 0) {
-      _d->missing.push_back(*l);
+      // Checksum is missing
+      _d->missing.push_back(l->checksum());
       l++;
     } else
     if (cmp < 0) {
@@ -536,23 +557,29 @@ int Database::scan(
       d++;
     } else
     {
-      // Remove checksum
-      d = data_sums.erase(d);
+#if 0 // FIXME This needs more work
+      if (d->sizeCompare(*l) != 0) {
+        // Data is broken
+        _d->missing.push_back(l->checksum());
+      }
+#endif
+      // Next
+      d = data_data.erase(d);
       l++;
     }
   }
-  list_sums.clear();
+  list_data.clear();
 
-  if (! data_sums.empty()) {
-    out(info, msg_number, NULL, data_sums.size(), "Obsolete checksum(s)");
-    for (list<string>::iterator i = data_sums.begin(); i != data_sums.end();
-        i++) {
-      if (i->size() != 0) {
+  if (! data_data.empty()) {
+    out(info, msg_number, NULL, data_data.size(), "Obsolete checksum(s)");
+    for (list<CompData>::iterator i = data_data.begin();
+        i != data_data.end(); i++) {
+      if (i->checksum()[0] != '\0') {
         if (rm_obsolete) {
-          out(debug, msg_standard, (_d->data.remove(i->c_str()) == 0) ?
-            "removed" : "FAILED", 1, i->c_str());
+          out(debug, msg_standard, (_d->data.remove(i->checksum()) == 0) ?
+            "removed" : "FAILED", 1, i->checksum());
         } else {
-          out(debug, msg_standard, i->c_str(), 1);
+          out(debug, msg_standard, i->checksum(), 1);
         }
       }
     }
@@ -569,7 +596,7 @@ int Database::check(
     bool            remove) const {
   out(verbose, msg_standard, "Crawling through DB data");
   // Check thoroughly, remove corrupted data if told (but not empty dirs)
-  return _d->data.crawl(NULL, true, remove);
+  return _d->data.crawl(true, remove);
 }
 
 int Database::openClient(

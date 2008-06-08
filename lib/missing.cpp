@@ -135,7 +135,7 @@ unsigned int Missing::size() const {
   return _d->data.size();
 }
 
-void Missing::push_back(string& checksum) {
+void Missing::push_back(const char* checksum) {
   _d->data.push_back(checksum);
   _d->modified = true;
 }

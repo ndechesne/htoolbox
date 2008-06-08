@@ -37,8 +37,8 @@ protected: // So I can test them
   // Scan database for missing/corrupted data, return a list of valid checksums
   int crawl_recurse(
     Directory&      dir,              // Base directory
-    const string&   checksumPart,     // Checksum part
-    list<string>*   checksums,        // List of collected checksums
+    const string&   checksum_part,    // Checksum part
+    list<CompData>* data,             // List of collected data
     bool            thorough,         // Whether to check for data corruption
     bool            remove,           // Whether to remove damaged data
     unsigned int*   valid,            // Number of valid data files found
@@ -68,21 +68,23 @@ public:
     const char*     path,             // Path to read from
     const char*     temp_name,        // Name for temporary data file
     char**          checksum,         // Copy checksum here
-    int             compress = 0,     // Compression to apply (negative: auto)
+    int             compress  = 0,    // Compression to apply (negative: auto)
     int*            acompress = NULL);// Compression actually applied
   // Check existence/consistence of given checksum's data
   int check(
     const char*     checksum,
-    bool            thorough     = true,
-    bool            remove       = false) const;
+    bool            thorough   = true,
+    bool            remove     = false,
+    bool*           compressed = NULL,
+    string*         path       = NULL) const;
   // Remove given checksum's data
   int remove(
     const char*     checksum);
   // Scan database for missing/corrupted data, return a list of valid checksums
   int crawl(
-    list<string>*   checksums,        // List of collected checksums
     bool            thorough,         // Whether to check for data corruption
-    bool            remove) const;    // Whether to remove damaged data
+    bool            remove,           // Whether to remove damaged data
+    list<CompData>* data = NULL) const;// List of collected data
 };
 
 }

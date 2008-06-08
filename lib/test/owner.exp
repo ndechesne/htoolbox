@@ -112,7 +112,7 @@ list~
 
 Get checksums
 List:
- -> checksum test
+ -> checksum test, 145408
 Dir contents:
 test_db:
 client

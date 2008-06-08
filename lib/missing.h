@@ -34,7 +34,7 @@ public:
   int close();
   bool empty() const;
   unsigned int size() const;
-  void push_back(string& checksum);
+  void push_back(const char* checksum);
   string operator[](unsigned int id);
   int search(const char* checksum);
   void setRecovered(unsigned int id);
