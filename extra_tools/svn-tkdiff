@@ -5,4 +5,4 @@ if [ -n "$1" ]; then
 else
   letter="M"
 fi
-svn st | grep -e "^$letter" | sed "s/.......//" | xargs -l tkdiff &
+svn st | grep -e "^$letter" | sed "s/.......//" | sort | xargs -l tkdiff &
