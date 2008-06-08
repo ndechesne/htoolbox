@@ -157,7 +157,7 @@ static void output(
 static void progress(long long previous, long long current, long long total) {
   if ((current != total) || (previous != 0)) {
     stringstream s;
-    s << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
+    s << "File copy progress: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
       << 100.0 * current /total << "%";
     output(hbackup::info, hbackup::msg_standard, s.str().c_str(), -3);
   }

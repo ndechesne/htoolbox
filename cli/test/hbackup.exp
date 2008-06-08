@@ -1,5 +1,5 @@
 Version
-HBackup (c) 2006-2008 Hervé Fache version 0.9b
+HBackup (c) 2006-2008 Hervé Fache version 0.9c
 Help
 HBackup (c) 2006-2008 Hervé Fache
   -h,  --help
@@ -448,27 +448,27 @@ Backing up client: myhost
 List created: myhost
 Database open r/w: myhost
 Backing up path: test1
-Done:   5.0%\r
-Done:  10.0%\r
-Done:  15.0%\r
-Done:  20.0%\r
-Done:  25.0%\r
-Done:  30.0%\r
-Done:  35.0%\r
-Done:  40.0%\r
-Done:  45.0%\r
-Done:  50.0%\r
-Done:  55.0%\r
-Done:  60.0%\r
-Done:  65.0%\r
-Done:  70.0%\r
-Done:  75.0%\r
-Done:  80.0%\r
-Done:  85.0%\r
-Done:  90.0%\r
-Done:  95.0%\r
-Done: 100.0%\r
-            \r
+File copy progress:   5.0%\r
+File copy progress:  10.0%\r
+File copy progress:  15.0%\r
+File copy progress:  20.0%\r
+File copy progress:  25.0%\r
+File copy progress:  30.0%\r
+File copy progress:  35.0%\r
+File copy progress:  40.0%\r
+File copy progress:  45.0%\r
+File copy progress:  50.0%\r
+File copy progress:  55.0%\r
+File copy progress:  60.0%\r
+File copy progress:  65.0%\r
+File copy progress:  70.0%\r
+File copy progress:  75.0%\r
+File copy progress:  80.0%\r
+File copy progress:  85.0%\r
+File copy progress:  90.0%\r
+File copy progress:  95.0%\r
+File copy progress: 100.0%\r
+                          \r
 Checking data, sizes: f=10485760 z=10208
 Adding compressed data for f1c9645dbc14efddc7d8a322685f26eb-0
 A z     test1/big_file
