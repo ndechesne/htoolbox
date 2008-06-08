@@ -244,13 +244,13 @@ Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
 My Dir\r
       \r
-Checking data, sizes: f=2 z=22
+Checking data, sizes: f=2 z=22 (22)
 Adding data for b026324c6904b2a9cb4b88d6d61c81d1-0
 A f     C:/Test Dir/My Dir/a File.TXT
-Checking data, sizes: f=2 z=22
+Checking data, sizes: f=2 z=22 (22)
 Adding data for 26ab0db90d72e28ad0ba1e22ee510510-0
 A f     C:/Test Dir/My Dir/another File.TXT
-Checking data, sizes: f=0 z=0
+Checking data, sizes: f=0 z=0 (0)
 Adding data for d41d8cd98f00b204e9800998ecf8427e-0
 A f     C:/Test Dir/My File.TXT
 Database modified: aClient.vista
@@ -292,11 +292,11 @@ Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
 My Dir\r
       \r
-Checking data, sizes: f=2 z=22
+Checking data, sizes: f=2 z=22 (22)
 A       C:/Test Dir/My Dir/a File.TXT
-Checking data, sizes: f=2 z=22
+Checking data, sizes: f=2 z=22 (22)
 A       C:/Test Dir/My Dir/another File.TXT
-Checking data, sizes: f=0 z=0
+Checking data, sizes: f=0 z=0 (0)
 A       C:/Test Dir/My File.TXT
 Database modified: client.xp
 Database closed: client.xp
@@ -321,12 +321,12 @@ Database open r/w: myClient
 Backing up path: /home/User/test
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
-Checking data, sizes: f=0 z=0
+Checking data, sizes: f=0 z=0 (0)
 A       /home/User/test/File2.txt
 A       /home/User/test/dir
 dir\r
    \r
-Checking data, sizes: f=2 z=22
+Checking data, sizes: f=2 z=22 (22)
 Adding data for 6d7fce9fee471194aa8b5b6e47267f03-0
 A f     /home/User/test/dir/file3.txt
 Database modified: myClient
@@ -366,11 +366,11 @@ Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
 My Dir\r
       \r
-Checking data, sizes: f=2 z=22
+Checking data, sizes: f=2 z=22 (22)
 A       C:/Test Dir/My Dir/a File.TXT
-Checking data, sizes: f=2 z=22
+Checking data, sizes: f=2 z=22 (22)
 A       C:/Test Dir/My Dir/another File.TXT
-Checking data, sizes: f=0 z=0
+Checking data, sizes: f=0 z=0 (0)
 A       C:/Test Dir/My File.TXT
 Database modified: myClient.xp
 Database closed: myClient.xp
@@ -426,7 +426,7 @@ Done:  85.0%\r
 Done:  90.0%\r
 Done:  95.0%\r
             \r
-Checking data, sizes: f=10485760 z=10208
+Checking data, sizes: f=10485760 z=10208 (10367)
 Adding compressed data for f1c9645dbc14efddc7d8a322685f26eb-0
 A z     test1/big_file
 A       test1/cvs
@@ -441,10 +441,10 @@ cvs\r
 A       test1/cvs/CVS
 cvs/CVS\r
        \r
-Checking data, sizes: f=161 z=140
+Checking data, sizes: f=161 z=140 (142)
 Adding compressed data for fef51838cd3cfe8ed96355742eb71fbd-0
 A z     test1/cvs/CVS/Entries
-Checking data, sizes: f=16 z=36
+Checking data, sizes: f=16 z=36 (36)
 Adding data for b90f8fa56ea1d39881d4a199c7a81d35-0
 A f     test1/cvs/CVS/Root
 A       test1/cvs/dirbad
@@ -459,22 +459,22 @@ cvs/dirutd\r
 A       test1/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
               \r
-Checking data, sizes: f=42 z=62
+Checking data, sizes: f=42 z=62 (62)
 Adding data for 5252f242d27b8c2c9fdbdcbb33545d07-0
 A f     test1/cvs/dirutd/CVS/Entries
-Checking data, sizes: f=10 z=30
+Checking data, sizes: f=10 z=30 (30)
 Adding data for eb75fb33b2019ef3c840eb5ccdc2e795-0
 A f     test1/cvs/dirutd/CVS/Root
-Checking data, sizes: f=0 z=0
+Checking data, sizes: f=0 z=0 (0)
 A       test1/cvs/dirutd/fileutd
-Checking data, sizes: f=0 z=0
+Checking data, sizes: f=0 z=0 (0)
 A       test1/cvs/filenew.c
-Checking data, sizes: f=0 z=0
+Checking data, sizes: f=0 z=0 (0)
 A       test1/cvs/fileutd.h
 A       test1/dir space
 dir space\r
          \r
-Checking data, sizes: f=0 z=0
+Checking data, sizes: f=0 z=0 (0)
 A       test1/dir space/file space
 A       test1/svn
 svn\r
@@ -487,7 +487,7 @@ svn\r
 A       test1/svn/.svn
 svn/.svn\r
         \r
-Checking data, sizes: f=77 z=65
+Checking data, sizes: f=77 z=65 (66)
 Adding compressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A z     test1/svn/.svn/entries
 A       test1/svn/dirbad
@@ -503,19 +503,19 @@ svn/dirutd\r
 A       test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
                \r
-Checking data, sizes: f=30 z=38
+Checking data, sizes: f=30 z=38 (38)
 Adding data for 8bdef5751e46ed57d237cbe3f4a5061c-0
 A f     test1/svn/dirutd/.svn/entries
-Checking data, sizes: f=0 z=0
+Checking data, sizes: f=0 z=0 (0)
 A       test1/svn/dirutd/fileutd
-Checking data, sizes: f=0 z=0
+Checking data, sizes: f=0 z=0 (0)
 A       test1/svn/filenew.c
-Checking data, sizes: f=0 z=0
+Checking data, sizes: f=0 z=0 (0)
 A       test1/test space
 A       test1/testdir
 testdir\r
        \r
-Checking data, sizes: f=13 z=33
+Checking data, sizes: f=13 z=33 (33)
 Adding data for 59ca0efa9f5633cb0371bbc0355478d8-0
 A f     test1/testfile
 A       test1/testlink
@@ -524,16 +524,16 @@ Backing up path: test2
 A       test2/testdir
 testdir\r
        \r
-Checking data, sizes: f=145408 z=176
+Checking data, sizes: f=145408 z=176 (178)
 Adding compressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
 A z     test2/testfile
-Checking data, sizes: f=259072 z=286
+Checking data, sizes: f=259072 z=286 (290)
 Adding compressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A z     test2/testfile2
-Checking data, sizes: f=145461 z=145504
+Checking data, sizes: f=145461 z=145504 (147777)
 Adding data for f81f70dceaca8b0cec354f33fa3f0909-0
 A f     test2/testfile2.gz
-Checking data, sizes: f=524288 z=543
+Checking data, sizes: f=524288 z=543 (551)
 Adding compressed data for 59071590099d21dd439896592338bf95-0
 A z     test2/testfile~
 A       test2/testlink
@@ -1420,7 +1420,7 @@ cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
          \r
-Checking data, sizes: f=512000 z=531
+Checking data, sizes: f=512000 z=531 (539)
 Adding compressed data for 816df6f64deba63b029ca19d880ee10a-0
 ! z     test1/dir space/big_file
 svn\r
@@ -2726,22 +2726,22 @@ Reading list of missing checksums
 List created: localhost
 Database open r/w: localhost
 Backing up path: test_user/testuser
-Checking data, sizes: f=3 z=23
+Checking data, sizes: f=3 z=23 (23)
 Adding data for 31d30eea8d0968d6458e0ad0027c9f80-0
 A f     test_user/testuser/f1.txt
 A       test_user/testuser/subdir
 subdir\r
       \r
-Checking data, sizes: f=3 z=23
+Checking data, sizes: f=3 z=23 (23)
 Adding data for dbbf8220893d497d403bb9cdf49db7a4-0
 A f     test_user/testuser/subdir/f2.txt
 A       test_user/testuser/subdir2
 subdir2\r
        \r
-Checking data, sizes: f=3 z=23
+Checking data, sizes: f=3 z=23 (23)
 Adding data for d5b4c7d9b06b60a7846c4529834c9812-0
 A f     test_user/testuser/subdir2/f3.txt
-Checking data, sizes: f=3 z=23
+Checking data, sizes: f=3 z=23 (23)
 Adding data for 90e2a51705594d033a3abe9d77b2b7ad-0
 A f     test_user/testuser/subdir2/f4.txt
 Database modified: localhost
@@ -6730,7 +6730,7 @@ Backing up path: /home/User/test
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
    \r
-Checking data, sizes: f=2 z=22
+Checking data, sizes: f=2 z=22 (22)
 Adding data for 6d7fce9fee471194aa8b5b6e47267f03-0
 M f     /home/User/test/dir/file3.txt
 Database modified: myClient
@@ -6810,10 +6810,10 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-Checking data, sizes: f=161 z=140
+Checking data, sizes: f=161 z=140 (142)
 Adding compressed data for fef51838cd3cfe8ed96355742eb71fbd-0
 R z     test1/cvs/CVS/Entries
-Checking data, sizes: f=16 z=36
+Checking data, sizes: f=16 z=36 (36)
 Adding data for b90f8fa56ea1d39881d4a199c7a81d35-0
 R f     test1/cvs/CVS/Root
 cvs/dirbad\r
@@ -6834,7 +6834,7 @@ svn      \r
  --> fileoth: i
 svn/.svn\r
         \r
-Checking data, sizes: f=77 z=65
+Checking data, sizes: f=77 z=65 (66)
 Adding compressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
 R z     test1/svn/.svn/entries
 svn/dirbad\r

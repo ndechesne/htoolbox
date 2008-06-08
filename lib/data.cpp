@@ -409,15 +409,23 @@ int Data::write(
     return -1;
   }
 
-  Stream* dest = temp1;
+  // File to add to DB
+  Stream*   dest = temp1;
+  // Size for comparison with existing DB data
+  long long size_cmp = temp1->size();
   if (temp2 != NULL) {
+    // Add ~1.6% to gzip'd size
+    long long size_gz = temp2->size() + (temp2->size() >> 6);
     stringstream s;
     s << "Checking data, sizes: f=" << temp1->size() << " z=" << temp2->size();
+    s << " (" << size_gz << ")";
     out(debug, msg_standard, s.str().c_str());
-    if (temp1->size() > temp2->size()) {
+    // Keep compressed file?
+    if (temp1->size() > size_gz) {
       temp1->remove();
       delete temp1;
-      dest = temp2;
+      dest     = temp2;
+      size_cmp = size_gz;
       compress = -compress;
     } else {
       temp2->remove();
@@ -505,9 +513,8 @@ int Data::write(
       failed = true;
     }
   } else
-  // Auto compression on: is newly copied file smaller (leave ~1.6% margin)?
-  if ((data != NULL)
-  && ((dest->size() + (dest->size() >> 6)) < data->size())) {
+  // Is newly copied file smaller?
+  if ((data != NULL) && (data->size() > size_cmp)) {
     stringstream s;
     s << "Replacing with " << ((compress != 0) ? "" : "un")
       << "compressed data for " << source.checksum() << "-" << index;
