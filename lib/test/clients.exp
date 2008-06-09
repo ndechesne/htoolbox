@@ -177,7 +177,7 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
 Backing up client: myClient
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
@@ -272,7 +272,7 @@ Database open in read/write mode
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client: testhost
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: testhost
 Database open r/w: testhost
 Backing up path: test1
@@ -422,7 +422,7 @@ Database open in read/write mode
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client: testhost
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: testhost
 Backing up path: test1
 cvs\r
@@ -500,7 +500,7 @@ Trying client 'myhost2' using protocol 'smb'
  --> Paths: 
  ---> Path: C:/Test Dir
 Backing up client: myhost2
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: myhost2
 Database open r/w: myhost2
 Backing up path: C:/Test Dir
@@ -527,7 +527,7 @@ Trying client 'myhost3' using protocol 'nfs'
  --> Paths: 
  ---> Path: /home/User/test
 Backing up client: myhost3
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: myhost3
 Database open r/w: myhost3
 Backing up path: /home/User/test
@@ -551,7 +551,7 @@ Database open in read/write mode
  --> Paths: 
  ---> Path: test1/cvs
 Backing up client: myhost
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: myhost
 Database open r/w: myhost
 Backing up path: test1/cvs
@@ -667,7 +667,7 @@ Database open in read/write mode
  --> Paths: 
  ---> Path: test1/cvs
 Backing up client: myhost
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myhost
 Backing up path: test1/cvs
 CVS\r
@@ -734,7 +734,7 @@ Trying client 'myhost2' using protocol 'smb'
  --> Paths: 
  ---> Path: C:/Test Dir
 Backing up client: myhost2
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myhost2
 Backing up path: C:/Test Dir
 My Dir\r
@@ -779,7 +779,7 @@ Database open in read/write mode
  --> Paths: 
  ---> Path: test1/cvs
 Backing up client: myhost
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myhost
 Backing up path: test1/cvs
 CVS\r
@@ -828,7 +828,7 @@ Database open in read/write mode
  --> Paths: 
  ---> Path: test1/cvs
 Backing up client: myhost
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myhost
 Backing up path: test1/cvs
 CVS\r
@@ -879,7 +879,7 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
 Backing up client: myClient
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 Backing up path: /home/User/test
  -> umount -fl test_db/mount
@@ -915,7 +915,7 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
 Backing up client: myClient
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 Backing up path: /home/User/test
  -> umount -fl test_db/mount
@@ -946,7 +946,7 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
 Backing up client: myClient
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 Backing up path: /home/User/test
  -> umount -fl test_db/mount
@@ -994,7 +994,7 @@ Trying client 'myClient.xp' using protocol 'smb'
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client: myClient.xp
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: myClient.xp
 Database open r/w: myClient.xp
 Backing up path: C:/Test Dir

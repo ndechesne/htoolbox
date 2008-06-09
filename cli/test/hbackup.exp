@@ -278,7 +278,7 @@ Database initialized: test_db
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: aClient.vista
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
@@ -693,7 +693,7 @@ Trying client 'client.xp' using protocol 'smb'
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client: client.xp
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: client.xp
 Backing up path: C:/Test Dir
 My Dir\r
@@ -792,7 +792,7 @@ Database open in read/write mode
  --> Paths: 
  ---> Path: test_user/testuser
  ----> No error if same file fails copy again
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: localhost
 Database open r/w: localhost
 Backing up path: test_user/testuser
@@ -816,7 +816,7 @@ Database closed
 User-mode backup: upper verbosity level
 Backing up in user mode
 Database open in read/write mode
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: localhost
 Database open r/w: localhost
 Backing up path: test_user/testuser

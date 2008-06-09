@@ -78,7 +78,7 @@ Database closed
 
 Test: fill in DB
 Database open in read/write mode
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: myClient
 Database open r/w: myClient
  /client_path/subdir
@@ -177,18 +177,18 @@ Checksum(s) with data: 4
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
 Obsolete checksum(s): 1
  -> 6d7fce9fee471194aa8b5b6e47267f03-0: removed
-Warning: Missing checksum(s): 1
- -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+Warning: Problematic checksum(s): 1
+ -> Missing: 3d546a1ce46c6ae10ad34ab8a81c542e-0
 Missing checksums list updated
-List of missing checksums contains 1 item(s)
+List of problematic checksums contains 1 item(s)
 Database closed
 
 Test: concurrent access
 Database open in read/write mode
 Database open in read-only mode
 Database open r-o: myClient
-Reading list of missing checksums
- -> 3d546a1ce46c6ae10ad34ab8a81c542e-0
+Reading list of problematic checksums
+ -> Missing: 3d546a1ce46c6ae10ad34ab8a81c542e-0
 Database open r/w: myClient
  /client_path/new_link
 D       /client_path/subdir
@@ -202,7 +202,7 @@ Database modified: myClient
 Database closed: myClient
 Database closed: myClient
 Database closed
-List of missing checksums contains 1 item(s)
+List of problematic checksums contains 1 item(s)
 Database closed
 [ 8] /client_path/new_link          l      8 777 testfile
 [ 9] /client_path/subdir            [rm]

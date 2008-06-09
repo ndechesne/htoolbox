@@ -549,7 +549,7 @@ int Database::scan(
     }
     if (cmp > 0) {
       // Checksum is missing
-      _d->missing.push_back(l->checksum());
+      _d->missing.setMissing(l->checksum());
       l++;
     } else
     if (cmp < 0) {
@@ -560,7 +560,7 @@ int Database::scan(
 #if 0 // FIXME This needs more work
       if (d->sizeCompare(*l) != 0) {
         // Data is broken
-        _d->missing.push_back(l->checksum());
+        _d->missing.setInconsistent(l->checksum());
       }
 #endif
       // Next

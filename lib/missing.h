@@ -28,16 +28,25 @@ public:
   Missing();
   ~Missing();
   void setProgressCallback(progress_f progress);
-  void open(
-    const char* path);
+  // Open missing list
+  void open(const char* path);
+  // Load list from disk
   int load();
+  // Close list and save it to disk
   int close();
-  bool empty() const;
+  // Get size of list
   unsigned int size() const;
-  void push_back(const char* checksum);
-  string operator[](unsigned int id);
-  int search(const char* checksum);
+  // Get checksum at row id
+  const string& operator[](unsigned int id) const;
+  // Get row of given checksum
+  int search(const char* checksum) const;
+  // Mark checksum at row id as recovered
   void setRecovered(unsigned int id);
+  // Add missing checksum at end of list
+  void setMissing(const char* checksum);
+  // Add inconsistent checksum at end of list
+  void setInconsistent(const char* checksum);
+  // Show list of problematic checksums
   void show() const;
 };
 

@@ -28,13 +28,28 @@ using namespace std;
 #include "report.h"
 #include "missing.h"
 
+namespace hbackup {
+  enum MissingStatus {
+    recovered,
+    missing,
+    inconsistent
+  };
+
+  struct MissingData {
+    string            checksum;
+    MissingStatus     status;
+    MissingData(const string& c, MissingStatus s) : checksum(c), status(s) {}
+    string line() const { return ((status == missing)? "M" : "I") + checksum; }
+  };
+}
+
 using namespace hbackup;
 
 struct Missing::Private {
-  char*             path;
-  vector<string>    data;
-  bool              modified;
-  progress_f        progress;
+  char*               path;
+  vector<MissingData> data;
+  bool                modified;
+  progress_f          progress;
 };
 
 Missing::Missing() : _d(new Private) {
@@ -65,15 +80,17 @@ int Missing::close() {
     out(info, msg_standard, "Missing checksums list updated");
     Stream missing_list((path + ".part").c_str());
     if (missing_list.open("w")) {
-      out(error, msg_errno, "Saving missing checksums list", errno);
+      out(error, msg_errno, "Saving problematic checksums list", errno);
       failed = true;
     }
-//     missing_list.setProgressCallback(_d->progress);  need total size...
     int rc = 0;
     count = 0;
     for (unsigned int i = 0; i < _d->data.size(); i++) {
-      if (_d->data[i][_d->data[i].size() - 1] != '+') {
-        rc = missing_list.putLine(_d->data[i].c_str());
+      if (_d->progress != NULL) {
+        (*_d->progress)(i, i + 1, _d->data.size());
+      }
+      if (_d->data[i].status != recovered) {
+        rc = missing_list.putLine(_d->data[i].line().c_str());
         count++;
       }
       if (rc < 0) break;
@@ -94,7 +111,7 @@ int Missing::close() {
   }
   if (count > 0) {
     stringstream s;
-    s << "List of missing checksums contains " << count << " item(s)";
+    s << "List of problematic checksums contains " << count << " item(s)";
     out(info, msg_standard, s.str().c_str());
   }
   return failed ? -1 : 0;
@@ -107,16 +124,28 @@ void Missing::open(const char* path) {
 
 int Missing::load() {
   bool failed = false;
-  // Read list of missing checksums (it is ordered and contains no dup)
-  out(verbose, msg_standard, "Reading list of missing checksums", -1);
+  // Read list of problematic checksums (it is ordered and contains no dup)
+  out(verbose, msg_standard, "Reading list of problematic checksums", -1);
   Stream missing_list(_d->path);
   if (! missing_list.open("r")) {
     missing_list.setProgressCallback(_d->progress);
     char*        checksum = NULL;
     unsigned int checksum_capacity = 0;
     while (missing_list.getLine(&checksum, &checksum_capacity) > 0) {
-      _d->data.push_back(checksum);
-      out(debug, msg_standard, checksum, 1);
+      switch (checksum[0]) {
+        case 'M':
+          _d->data.push_back(MissingData(&checksum[1], missing));
+          out(debug, msg_standard, &checksum[1], 1, "Missing");
+          break;
+        case 'I':
+          _d->data.push_back(MissingData(&checksum[1], inconsistent));
+          out(debug, msg_standard, &checksum[1], 1, "Inconsistent");
+          break;
+        default:
+          // Backwards compatibility
+          _d->data.push_back(MissingData(checksum, missing));
+          out(debug, msg_standard, checksum, 1);
+      }
     }
     free(checksum);
     missing_list.close();
@@ -127,24 +156,25 @@ int Missing::load() {
   return failed ? -1 : 0;
 }
 
-bool Missing::empty() const {
-  return size() == 0;
-}
-
 unsigned int Missing::size() const {
   return _d->data.size();
 }
 
-void Missing::push_back(const char* checksum) {
-  _d->data.push_back(checksum);
+void Missing::setMissing(const char* checksum) {
+  _d->data.push_back(MissingData(checksum, missing));
   _d->modified = true;
 }
 
-string Missing::operator[](unsigned int id) {
-  return _d->data[id];
+void Missing::setInconsistent(const char* checksum) {
+  _d->data.push_back(MissingData(checksum, inconsistent));
+  _d->modified = true;
 }
 
-int Missing::search(const char* checksum) {
+const string& Missing::operator[](unsigned int id) const {
+  return _d->data[id].checksum;
+}
+
+int Missing::search(const char* checksum) const {
   // Look for checksum in list (binary search)
   int start  = 0;
   int end    = _d->data.size() - 1;
@@ -152,7 +182,7 @@ int Missing::search(const char* checksum) {
   int found = -1;
   while (start <= end) {
     middle = (end + start) / 2;
-    int cmp = _d->data[middle].compare(checksum);
+    int cmp = _d->data[middle].checksum.compare(checksum);
     if (cmp > 0) {
       end   = middle - 1;
     } else
@@ -168,17 +198,27 @@ int Missing::search(const char* checksum) {
 }
 
 void Missing::setRecovered(unsigned int id) {
-  _d->data[id] += "+";
-  _d->modified = true;
+  _d->data[id].status = recovered;
+  _d->modified        = true;
 }
 
 void Missing::show() const {
   if (! _d->data.empty()) {
     stringstream s;
-    s << "Missing checksum(s): " << _d->data.size();
+    s << "Problematic checksum(s): " << _d->data.size();
     out(warning, msg_standard, s.str().c_str());
     for (unsigned int i = 0; i < _d->data.size(); i++) {
-      out(debug, msg_standard, _d->data[i].c_str(), 1);
+      const char* checksum = _d->data[i].checksum.c_str();
+      switch (_d->data[i].status) {
+        case missing:
+          out(debug, msg_standard, checksum, 1, "Missing");
+          break;
+        case inconsistent:
+          out(debug, msg_standard, checksum, 1, "Inconsistent");
+          break;
+        default:
+          out(debug, msg_standard, checksum, 1, "Recovered");
+      }
     }
   }
 }

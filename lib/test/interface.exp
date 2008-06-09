@@ -236,7 +236,7 @@ Database initialized: test_db
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: aClient.vista
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
@@ -619,7 +619,7 @@ Test: same backup
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
@@ -871,7 +871,7 @@ Test: interrupted backup
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
@@ -1103,7 +1103,7 @@ Database modified: myhost
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
@@ -1364,7 +1364,7 @@ Trying client 'client.xp' using protocol 'smb'
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client: client.xp
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: client.xp
 Backing up path: C:/Test Dir
 My Dir\r
@@ -2390,7 +2390,7 @@ Test: typical backup
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
@@ -2670,7 +2670,7 @@ Trying client 'client.xp' using protocol 'smb'
  -----> Condition: mode& 777
  -----> Condition: mode= 644
 Backing up client: client.xp
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: client.xp
 Backing up path: C:/Test Dir
 My Dir\r
@@ -2722,7 +2722,7 @@ Database open in read/write mode
  --> Paths: 
  ---> Path: test_user/testuser
  ----> No error if same file fails copy again
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: localhost
 Database open r/w: localhost
 Backing up path: test_user/testuser
@@ -5951,13 +5951,13 @@ Checksum(s) with data: 13
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
 Obsolete checksum(s): 1
  -> 6d7fce9fee471194aa8b5b6e47267f03-0
-Warning: Missing checksum(s): 4
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
- -> b90f8fa56ea1d39881d4a199c7a81d35-0
- -> fef51838cd3cfe8ed96355742eb71fbd-0
+Warning: Problematic checksum(s): 4
+ -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of missing checksums contains 4 item(s)
+List of problematic checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
@@ -6016,13 +6016,13 @@ Checksum(s) with data: 13
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
 Obsolete checksum(s): 1
  -> 6d7fce9fee471194aa8b5b6e47267f03-0
-Warning: Missing checksum(s): 4
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
- -> b90f8fa56ea1d39881d4a199c7a81d35-0
- -> fef51838cd3cfe8ed96355742eb71fbd-0
+Warning: Problematic checksum(s): 4
+ -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of missing checksums contains 4 item(s)
+List of problematic checksums contains 4 item(s)
 Database closed
 
 Test: scan for obsolete data, case1
@@ -6164,13 +6164,13 @@ Obsolete checksum(s): 4
  -> 6d7fce9fee471194aa8b5b6e47267f03-0
  -> 88888888888888888888888888888888-0
  -> ffffffffffffffffffffffffffffffff-0
-Warning: Missing checksum(s): 4
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
- -> b90f8fa56ea1d39881d4a199c7a81d35-0
- -> fef51838cd3cfe8ed96355742eb71fbd-0
+Warning: Problematic checksum(s): 4
+ -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of missing checksums contains 4 item(s)
+List of problematic checksums contains 4 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
@@ -6238,13 +6238,13 @@ Obsolete checksum(s): 4
  -> 6d7fce9fee471194aa8b5b6e47267f03-0: removed
  -> 88888888888888888888888888888888-0: removed
  -> ffffffffffffffffffffffffffffffff-0: removed
-Warning: Missing checksum(s): 4
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
- -> b90f8fa56ea1d39881d4a199c7a81d35-0
- -> fef51838cd3cfe8ed96355742eb71fbd-0
+Warning: Problematic checksum(s): 4
+ -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of missing checksums contains 4 item(s)
+List of problematic checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
@@ -6299,13 +6299,13 @@ Checksum(s) with data: 12
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
-Warning: Missing checksum(s): 4
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
- -> b90f8fa56ea1d39881d4a199c7a81d35-0
- -> fef51838cd3cfe8ed96355742eb71fbd-0
+Warning: Problematic checksum(s): 4
+ -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of missing checksums contains 4 item(s)
+List of problematic checksums contains 4 item(s)
 Database closed
 
 Test: scan for obsolete data, case 2
@@ -6444,13 +6444,13 @@ Obsolete checksum(s): 3
  -> 33333333333333333333333333333333-0
  -> 77777777777777777777777777777777-0
  -> dddddddddddddddddddddddddddddddd-0
-Warning: Missing checksum(s): 4
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
- -> b90f8fa56ea1d39881d4a199c7a81d35-0
- -> fef51838cd3cfe8ed96355742eb71fbd-0
+Warning: Problematic checksum(s): 4
+ -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of missing checksums contains 4 item(s)
+List of problematic checksums contains 4 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
@@ -6515,13 +6515,13 @@ Obsolete checksum(s): 3
  -> 33333333333333333333333333333333-0: removed
  -> 77777777777777777777777777777777-0: removed
  -> dddddddddddddddddddddddddddddddd-0: removed
-Warning: Missing checksum(s): 4
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
- -> b90f8fa56ea1d39881d4a199c7a81d35-0
- -> fef51838cd3cfe8ed96355742eb71fbd-0
+Warning: Problematic checksum(s): 4
+ -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of missing checksums contains 4 item(s)
+List of problematic checksums contains 4 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
@@ -6576,13 +6576,13 @@ Checksum(s) with data: 12
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
-Warning: Missing checksum(s): 4
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
- -> b90f8fa56ea1d39881d4a199c7a81d35-0
- -> fef51838cd3cfe8ed96355742eb71fbd-0
+Warning: Problematic checksum(s): 4
+ -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of missing checksums contains 4 item(s)
+List of problematic checksums contains 4 item(s)
 Database closed
 
 Test: backup recovers missing checksums + replace data
@@ -6661,11 +6661,11 @@ Test: backup recovers missing checksums + replace data
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
-Reading list of missing checksums
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
- -> b90f8fa56ea1d39881d4a199c7a81d35-0
- -> fef51838cd3cfe8ed96355742eb71fbd-0
+Reading list of problematic checksums
+ -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
+ -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
@@ -6857,7 +6857,7 @@ Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported: ssh
 Missing checksums list updated
-List of missing checksums contains 1 item(s)
+List of problematic checksums contains 1 item(s)
 Database closed
 data
 
@@ -6937,8 +6937,8 @@ Test: second backup should not recover again
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
-Reading list of missing checksums
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
+Reading list of problematic checksums
+ -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
@@ -7112,7 +7112,7 @@ testdir\r
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported: ssh
-List of missing checksums contains 1 item(s)
+List of problematic checksums contains 1 item(s)
 Database closed
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
@@ -7247,10 +7247,10 @@ Checksum(s) with data: 16
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Warning: Missing checksum(s): 1
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
+Warning: Problematic checksum(s): 1
+ -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
 Missing checksums list updated
-List of missing checksums contains 1 item(s)
+List of problematic checksums contains 1 item(s)
 Database closed
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
@@ -7327,8 +7327,8 @@ Database closed
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
-Reading list of missing checksums
- -> 59ca0efa9f5633cb0371bbc0355478d8-0
+Reading list of problematic checksums
+ -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
@@ -7502,5 +7502,5 @@ testdir\r
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported: ssh
-List of missing checksums contains 1 item(s)
+List of problematic checksums contains 1 item(s)
 Database closed

@@ -8,7 +8,7 @@ Path: /home/User
  --> Condition: type d
  --> Condition: path bzr
  -> Ignore filter: bazaar
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: myClient
 Database open r/w: myClient
 Adding data for d41d8cd98f00b204e9800998ecf8427e-0
@@ -335,7 +335,7 @@ Path: /home/User
  --> Condition: type d
  --> Condition: path bzr
  -> Ignore filter: bazaar
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
 cvs/CVS\r
@@ -493,7 +493,7 @@ Path: /home/User
  --> Condition: type d
  --> Condition: path bzr
  -> Ignore filter: bazaar
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
 cvs/CVS\r
@@ -579,7 +579,7 @@ Path: /home/User
  --> Condition: type d
  --> Condition: path bzr
  -> Ignore filter: bazaar
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
 cvs/CVS\r
@@ -689,7 +689,7 @@ Path: /home/User
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Ignore filter: ignore1
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
 cvs/CVS\r
@@ -802,7 +802,7 @@ Path: /home/User
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Ignore filter: ignore1
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
 cvs/CVS\r
@@ -921,7 +921,7 @@ Path: /home/User
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Ignore filter: ignore1
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
 cvs/CVS\r
@@ -1043,7 +1043,7 @@ Path: /home/User
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Ignore filter: ignore1
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
 cvs/CVS\r
@@ -1167,7 +1167,7 @@ Path: /home/User
  --> Condition: filter testlink
  -> Parser: CVS
  -> Ignore filter: ignore1
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
    \r
@@ -1331,7 +1331,7 @@ Path: /home/User
  --> Condition: filter testlink
  -> Parser: CVS
  -> Ignore filter: ignore1
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
    \r
@@ -1484,7 +1484,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore1
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
    \r
@@ -1686,7 +1686,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore2
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
    \r
@@ -1877,7 +1877,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore2
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
    \r
@@ -2064,7 +2064,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore2
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
    \r
@@ -2246,7 +2246,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore2
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
    \r
@@ -2429,7 +2429,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore2
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
    \r
@@ -2617,7 +2617,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore2
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
    \r
@@ -2877,7 +2877,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore2
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 cvs\r
    \r
@@ -3107,7 +3107,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore2
-Reading list of missing checksums
+Reading list of problematic checksums
 List created: hisClient
 Database open r/w: hisClient
 A       /home/User/testdir
@@ -3576,7 +3576,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore2
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 crash\r
 cvs  \r
@@ -3818,7 +3818,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore2
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: hisClient
 testdir\r
 Parsed 5 file(s)
@@ -4030,7 +4030,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore2
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 crash\r
 cvs  \r
@@ -4225,7 +4225,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore2
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 crash\r
 cvs  \r
@@ -4415,7 +4415,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
  -> Ignore filter: ignore2
-Reading list of missing checksums
+Reading list of problematic checksums
 Database open r/w: myClient
 crash\r
 cvs  \r
