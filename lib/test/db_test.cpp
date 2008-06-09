@@ -203,23 +203,23 @@ int main(void) {
   if (! db.open()) {
     db.close();
   }
-  system("echo 100000 > test_db/lock");
+  system("echo 100000 > test_db/.lock");
   if (! db.open()) {
     db.close();
   }
-  system("echo 1 > test_db/lock");
+  system("echo 1 > test_db/.lock");
   if (! db.open()) {
     db.close();
   }
-  system("echo 0 > test_db/lock");
+  system("echo 0 > test_db/.lock");
   if (! db.open()) {
     db.close();
   }
-  system("touch test_db/lock");
+  system("touch test_db/.lock");
   if (! db.open()) {
     db.close();
   }
-  remove("test_db/lock");
+  remove("test_db/.lock");
 
 
   cout << endl << "Test: read-only mode" << endl;

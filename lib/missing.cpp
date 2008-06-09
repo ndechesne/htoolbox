@@ -48,8 +48,9 @@ using namespace hbackup;
 struct Missing::Private {
   char*               path;
   vector<MissingData> data;
-  bool                modified;
   progress_f          progress;
+  bool                modified;
+  bool                force_save;
 };
 
 Missing::Missing() : _d(new Private) {
@@ -75,9 +76,11 @@ int Missing::close() {
   _d->path = NULL;
   bool failed = false;
   int  count  = _d->data.size();
-  if (_d->modified) {
+  if (_d->modified || _d->force_save) {
     // Save list of missing items
-    out(info, msg_standard, "Missing checksums list updated");
+    if (_d->modified) {
+      out(info, msg_standard, "Missing checksums list updated");
+    }
     Stream missing_list((path + ".part").c_str());
     if (missing_list.open("w")) {
       out(error, msg_errno, "Saving problematic checksums list", errno);
@@ -100,8 +103,6 @@ int Missing::close() {
       rc = missing_list.close();
     }
     if (rc >= 0) {
-      // Backup file
-      rc = rename(path.c_str(), (path + "~").c_str());
       // Put new version in place
       if ((rc == 0) || (errno == ENOENT)) {
         rc = rename(missing_list.path(), path.c_str());
@@ -118,8 +119,9 @@ int Missing::close() {
 }
 
 void Missing::open(const char* path) {
-  _d->path     = strdup(path);
-  _d->modified = false;
+  _d->path       = strdup(path);
+  _d->modified   = false;
+  _d->force_save = false;
 }
 
 int Missing::load() {
@@ -154,6 +156,10 @@ int Missing::load() {
     failed = true;
   }
   return failed ? -1 : 0;
+}
+
+void Missing::forceSave() {
+  _d->force_save = true;
 }
 
 unsigned int Missing::size() const {

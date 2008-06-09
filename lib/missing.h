@@ -34,6 +34,8 @@ public:
   int load();
   // Close list and save it to disk
   int close();
+  // Make sure list will be saved on exit
+  void forceSave();
   // Get size of list
   unsigned int size() const;
   // Get checksum at row id

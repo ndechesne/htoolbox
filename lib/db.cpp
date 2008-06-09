@@ -66,7 +66,7 @@ struct Database::Private {
 };
 
 int Database::lock() {
-  Path  lock_path(_d->path, "lock");
+  Path  lock_path(_d->path, ".lock");
   FILE* file;
   bool  failed = false;
 
@@ -115,7 +115,7 @@ int Database::lock() {
 }
 
 void Database::unlock() {
-  File(Path(_d->path, "lock")).remove();
+  File(Path(_d->path, ".lock")).remove();
 }
 
 Database::Database(const char* path) : _d(new Private) {
@@ -165,7 +165,7 @@ int Database::open(
   switch (_d->data.open(Path(_d->path, ".data"), initialize)) {
     case 1:
       // Creation successful
-      File(Path(_d->path, "missing")).create();
+      File(Path(_d->path, ".checksums")).create();
       out(verbose, msg_standard, _d->path, -1, "Database initialized");
     case 0:
       // Open successful
@@ -200,7 +200,17 @@ int Database::open(
     _d->access = ro;
     out(verbose, msg_standard, "Database open in read-only mode");
   } else {
-    _d->missing.open(Path(_d->path, "missing"));
+    // Change name of problematic checksums file (TODO remove for 1.0)
+    if (File(Path(_d->path, "missing")).isValid()) {
+      if (File(Path(_d->path, ".checksums")).isValid()) {
+        File(Path(_d->path, "missing")).remove();
+      } else {
+        rename(Path(_d->path, "missing"), Path(_d->path, ".checksums"));
+      }
+      File(Path(_d->path, "missing~")).remove();
+    }
+    // Open problematic checksums list
+    _d->missing.open(Path(_d->path, ".checksums"));
     // Set mode to call openClient for checking only
     _d->access = quiet_rw;
     // Finish off any previous backup
@@ -592,9 +602,12 @@ int Database::scan(
   if (aborting()) {
     return -1;
   }
+  _d->missing.forceSave();
   if (rc >= 0) {
     // Leave trace of successful scan
-    File(Path(_d->path, ".last-scan")).create();
+    File f(Path(_d->path, ".last-scan"));
+    f.remove();
+    f.create();
   }
   return rc;
 }
@@ -606,7 +619,9 @@ int Database::check(
   int rc = _d->data.crawl(true, remove);
   if (rc >= 0) {
     // Leave trace of successful check
-    File(Path(_d->path, ".last-check")).create();
+    File f(Path(_d->path, ".last-check"));
+    f.remove();
+    f.create();
   }
   return rc;
 }
