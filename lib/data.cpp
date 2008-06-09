@@ -658,7 +658,9 @@ int Data::remove(
     rc = 2;
   }
   delete data;
+  int errno_keep = errno;
   std::remove(path.c_str());
+  errno = errno_keep;
   return rc;
 }
 
