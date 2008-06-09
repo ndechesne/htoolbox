@@ -576,8 +576,11 @@ int Database::scan(
         i != data_data.end(); i++) {
       if (i->checksum()[0] != '\0') {
         if (rm_obsolete) {
-          out(debug, msg_standard, (_d->data.remove(i->checksum()) == 0) ?
-            "removed" : "FAILED", 1, i->checksum());
+          if (_d->data.remove(i->checksum()) == 0) {
+            out(debug, msg_standard, "removed", 1, i->checksum());
+          } else {
+            out(error, msg_errno, "Removing data", errno, i->checksum());
+          }
         } else {
           out(debug, msg_standard, i->checksum(), 1);
         }
@@ -589,6 +592,10 @@ int Database::scan(
   if (aborting()) {
     return -1;
   }
+  if (rc >= 0) {
+    // Leave trace of successful scan
+    File(Path(_d->path, ".last-scan")).create();
+  }
   return rc;
 }
 
@@ -596,7 +603,12 @@ int Database::check(
     bool            remove) const {
   out(verbose, msg_standard, "Crawling through DB data");
   // Check thoroughly, remove corrupted data if told (but not empty dirs)
-  return _d->data.crawl(true, remove);
+  int rc = _d->data.crawl(true, remove);
+  if (rc >= 0) {
+    // Leave trace of successful check
+    File(Path(_d->path, ".last-check")).create();
+  }
+  return rc;
 }
 
 int Database::openClient(
