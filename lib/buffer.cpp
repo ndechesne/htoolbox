@@ -47,7 +47,7 @@ Buffer::~Buffer() {
 }
 
 void Buffer::create(size_t size) {
-  _d->buffer = (char*) malloc(size);
+  _d->buffer = static_cast<char*>(malloc(size));
   _d->end    = &_d->buffer[size];
   empty();
 }
@@ -118,7 +118,7 @@ void Buffer::written(size_t size) {
 
 ssize_t Buffer::write(const void* buffer, size_t size) {
   size_t really = 0;
-  const char* next = (const char*) buffer;
+  const char* next = static_cast<const char*>(buffer);
   while ((size > 0) && (writeable() > 0)) {
     size_t can;
     if (size > writeable()) {

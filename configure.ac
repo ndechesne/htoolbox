@@ -16,19 +16,15 @@ AC_LANG([C++])
 AC_ARG_ENABLE(debug,
     AC_HELP_STRING(--enable-debug, [Compile with symbols (Default = no)]),
     enable_debug=$enableval, enable_debug=no)
-CXXWARN="-Wall -Wextra -Wundef -Wcast-qual"
-CWARN="$CXXWARN -Wstrict-prototypes"
+CXXWARN="-Wall -Wextra -Wundef -Wcast-qual -Wold-style-cast"
 if test "$enable_debug" = "yes" ; then
-    CFLAGS="$CFLAGS $CWARN -g -D_DEBUG"
     CXXFLAGS="$CXXFLAGS $CXXWARN -g -D_DEBUG"
 else
-    CFLAGS="$CFLAGS $CWARN -O3"
     CXXFLAGS="$CXXFLAGS $CXXWARN -O3"
 fi
 
 # Checks for programs.
 AC_PROG_CXX
-AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
@@ -54,6 +50,7 @@ AC_CHECK_HEADERS([sstream])
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
 AC_C_CONST
+AC_C_INLINE
 AC_TYPE_UID_T
 AC_TYPE_MODE_T
 AC_TYPE_PID_T

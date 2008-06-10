@@ -428,7 +428,7 @@ int List::add(
     const Node*     node,
     bool            bufferize) {
   if (path != NULL) {
-    if (Stream::putLine(path) != (signed)(strlen(path) + 1)) {
+    if (Stream::putLine(path) != static_cast<ssize_t>(strlen(path) + 1)) {
       return -1;
     }
     // Remove empty status
@@ -740,10 +740,10 @@ void List::show(
         printf(" %c %6llu %03o", node->type(),
         (node->type() != 'd') ? node->size() : 0, node->mode());
         if (node->type() == 'f') {
-          printf(" %s", ((File*) node)->checksum());
+          printf(" %s", static_cast<const File*>(node)->checksum());
         }
         if (node->type() == 'l') {
-          printf(" %s", ((Link*) node)->link());
+          printf(" %s", static_cast<const Link*>(node)->link());
         }
       } else {
         printf(" [rm]");

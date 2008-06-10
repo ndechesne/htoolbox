@@ -262,7 +262,7 @@ public:
       Node(g),
       _link(NULL) {
     _parsed = true;
-    _link = (char*) malloc(_size + 1);
+    _link = static_cast<char*>(malloc(_size + 1));
     readlink(_path, _link, _size);
     _link[_size] = '\0';
   }
@@ -272,7 +272,7 @@ public:
       _link(NULL) {
     stat();
     _parsed = true;
-    _link = (char*) malloc(_size + 1);
+    _link = static_cast<char*>(malloc(_size + 1));
     readlink(_path, _link, _size);
     _link[_size] = '\0';
   }
@@ -310,7 +310,7 @@ class Stream : public File {
     const void*     buffer,
     size_t          size);
   ssize_t read_decompress(
-    const void*     buffer,
+    void*           buffer,
     size_t          asked,
     size_t*         given);
   ssize_t write_all(

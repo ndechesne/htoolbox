@@ -37,7 +37,7 @@ Line::Line(unsigned int init_size, unsigned int add_size) : _d(new Private) {
   _d->buffer   = NULL;
   _d->add_size = add_size;
   if (_d->capacity != 0) {
-    _d->buffer = (char*) malloc(_d->capacity);
+    _d->buffer = static_cast<char*>(malloc(_d->capacity));
   }
   _d->size = 0;
 }
@@ -106,9 +106,9 @@ int Line::resize(unsigned int new_size, int new_add_size, bool discard) {
     }
     if (discard) {
       free(_d->buffer);
-      _d->buffer = (char*) malloc(_d->capacity);
+      _d->buffer = static_cast<char*>(malloc(_d->capacity));
     } else {
-      _d->buffer = (char*) realloc(_d->buffer, _d->capacity);
+      _d->buffer = static_cast<char*>(realloc(_d->buffer, _d->capacity));
     }
   }
   return 0;

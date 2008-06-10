@@ -74,8 +74,8 @@ static void defaultShowFile(const Node* g) {
     << ", type = " << g->type()
     << ", mtime = " << (g->mtime() != 0)
     << ", size = " << g->size()
-    << ", uid = " << (int)(g->uid() != 0)
-    << ", gid = " << (int)(g->gid() != 0)
+    << ", uid = " << static_cast<int>(g->uid() != 0)
+    << ", gid = " << static_cast<int>(g->gid() != 0)
     << oct << ", mode = " << g->mode() << dec
     << endl;
 }
@@ -94,8 +94,8 @@ static void showFile(const Node* g, int level = 1) {
           << ", type = " << f->type()
           << ", mtime = " << (f->mtime() != 0)
           << ", size = " << f->size()
-          << ", uid = " << (int)(f->uid() != 0)
-          << ", gid = " << (int)(f->gid() != 0)
+          << ", uid = " << static_cast<int>(f->uid() != 0)
+          << ", gid = " << static_cast<int>(f->gid() != 0)
           << oct << ", mode = " << f->mode() << dec
           << endl;
       } break;
@@ -106,8 +106,8 @@ static void showFile(const Node* g, int level = 1) {
           << ", type = " << l->type()
           << ", mtime = " << (l->mtime() != 0)
           << ", size = " << l->size()
-          << ", uid = " << (int)(l->uid() != 0)
-          << ", gid = " << (int)(l->gid() != 0)
+          << ", uid = " << static_cast<int>(l->uid() != 0)
+          << ", gid = " << static_cast<int>(l->gid() != 0)
           << oct << ", mode = " << l->mode() << dec
           << ", link = " << l->link()
           << endl;
@@ -119,8 +119,8 @@ static void showFile(const Node* g, int level = 1) {
           << ", type = " << d->type()
           << ", mtime = " << (d->mtime() != 0)
           << ", size = " << (d->size() != 0)
-          << ", uid = " << (int)(d->uid() != 0)
-          << ", gid = " << (int)(d->gid() != 0)
+          << ", uid = " << static_cast<int>(d->uid() != 0)
+          << ", gid = " << static_cast<int>(d->gid() != 0)
           << oct << ", mode = " << d->mode() << dec
           << endl;
         if (level) {
@@ -156,8 +156,8 @@ static void createNshowFile(const Node &g) {
       << ", type = " << f->type()
       << ", mtime = " << (f->mtime() != 0)
       << ", size = " << f->size()
-      << ", uid = " << (int)(f->uid() != 0)
-      << ", gid = " << (int)(f->gid() != 0)
+      << ", uid = " << static_cast<int>(f->uid() != 0)
+      << ", gid = " << static_cast<int>(f->gid() != 0)
       << oct << ", mode = " << f->mode() << dec
       << endl;
     delete f; }
@@ -169,8 +169,8 @@ static void createNshowFile(const Node &g) {
       << ", type = " << l->type()
       << ", mtime = " << (l->mtime() != 0)
       << ", size = " << l->size()
-      << ", uid = " << (int)(l->uid() != 0)
-      << ", gid = " << (int)(l->gid() != 0)
+      << ", uid = " << static_cast<int>(l->uid() != 0)
+      << ", gid = " << static_cast<int>(l->gid() != 0)
       << oct << ", mode = " << l->mode() << dec
       << ", link = " << l->link()
       << endl;

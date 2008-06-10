@@ -43,10 +43,10 @@ static void showLine(time_t timestamp, char* path, Node* node) {
     printf(" %c %5llu %03o", node->type(),
     (node->type() != 'd') ? node->size() : 0, node->mode());
     if (node->type() == 'f') {
-      printf(" %s", ((File*) node)->checksum());
+      printf(" %s", static_cast<File*>(node)->checksum());
     }
     if (node->type() == 'l') {
-      printf(" %s", ((Link*) node)->link());
+      printf(" %s", static_cast<Link*>(node)->link());
     }
   } else {
     printf(" [rm]");
@@ -93,9 +93,9 @@ int main(void) {
   journal.add("file_gone", time(NULL));
 
   node = new Stream("test1/testfile");
-  ((Stream*) node)->open("r");
-  ((Stream*) node)->computeChecksum();
-  ((Stream*) node)->close();
+  static_cast<Stream*>(node)->open("r");
+  static_cast<Stream*>(node)->computeChecksum();
+  static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
   free(node);
 
@@ -192,16 +192,16 @@ int main(void) {
   system("echo \"this is my new test\" > test1/testfile");
 
   node = new Stream("test1/test space");
-  ((Stream*) node)->open("r");
-  ((Stream*) node)->computeChecksum();
-  ((Stream*) node)->close();
+  static_cast<Stream*>(node)->open("r");
+  static_cast<Stream*>(node)->computeChecksum();
+  static_cast<Stream*>(node)->close();
   journal.add("file sp", 0, node);
   free(node);
 
   node = new Stream("test1/testfile");
-  ((Stream*) node)->open("r");
-  ((Stream*) node)->computeChecksum();
-  ((Stream*) node)->close();
+  static_cast<Stream*>(node)->open("r");
+  static_cast<Stream*>(node)->computeChecksum();
+  static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
   free(node);
 
@@ -282,9 +282,9 @@ int main(void) {
   }
   system("echo \"this is my new test\" > test1/testfile");
   node = new Stream("test1/testfile");
-  ((Stream*) node)->open("r");
-  ((Stream*) node)->computeChecksum();
-  ((Stream*) node)->close();
+  static_cast<Stream*>(node)->open("r");
+  static_cast<Stream*>(node)->computeChecksum();
+  static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
   journal.add("file_gone", time(NULL), node);
   free(node);
@@ -425,9 +425,9 @@ int main(void) {
   }
   system("echo \"this is my other test\" > test1/testfile");
   node = new Stream("test1/testfile");
-  ((Stream*) node)->open("r");
-  ((Stream*) node)->computeChecksum();
-  ((Stream*) node)->close();
+  static_cast<Stream*>(node)->open("r");
+  static_cast<Stream*>(node)->computeChecksum();
+  static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
   free(node);
   node = NULL;
@@ -500,9 +500,9 @@ int main(void) {
   journal.add("file_gone", time(NULL));
 
   node = new Stream("test1/testfile");
-  ((Stream*) node)->open("r");
-  ((Stream*) node)->computeChecksum();
-  ((Stream*) node)->close();
+  static_cast<Stream*>(node)->open("r");
+  static_cast<Stream*>(node)->computeChecksum();
+  static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
   free(node);
 

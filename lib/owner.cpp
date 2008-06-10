@@ -573,7 +573,7 @@ int Owner::getChecksums(
   Node* node = NULL;
   while (_d->original->getEntry(NULL, NULL, &node) > 0) {
     if ((node != NULL) && (node->type() == 'f')) {
-      File* f = (File*) node;
+      File* f = static_cast<File*>(node);
       if (f->checksum()[0] != '\0') {
         CompData d(f->checksum(), f->size());
         checksums.push_back(d);

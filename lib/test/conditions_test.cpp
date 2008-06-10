@@ -175,7 +175,7 @@ int main(void) {
   delete node;
 
   cout << "Condition::size_ge check" << endl;
-  condition = new Condition(Condition::size_ge, (off64_t) 5000, false);
+  condition = new Condition(Condition::size_ge, 5000LL, false);
   node = new Node("", 'f', 0, 4000, 0, 0, 0);
   if (! condition->match(*node)) {
     cout << "Not matching " << node->size() << "" << endl;
@@ -214,7 +214,7 @@ int main(void) {
   delete condition;
 
   cout << "Condition::size_gt check" << endl;
-  condition = new Condition(Condition::size_gt, (off64_t) 5000, false);
+  condition = new Condition(Condition::size_gt, 5000LL, false);
   node = new Node("", 'f', 0, 4000, 0, 0, 0);
   if (! condition->match(*node)) {
     cout << "Not matching " << node->size() << "" << endl;
@@ -253,7 +253,7 @@ int main(void) {
   delete condition;
 
   cout << "Condition::size_le check" << endl;
-  condition = new Condition(Condition::size_le, (off64_t) 5000, false);
+  condition = new Condition(Condition::size_le, 5000LL, false);
   node = new Node("", 'f', 0, 4000, 0, 0, 0);
   if (! condition->match(*node)) {
     cout << "Not matching " << node->size() << "" << endl;
@@ -292,7 +292,7 @@ int main(void) {
   delete condition;
 
   cout << "Condition::size_lt check" << endl;
-  condition = new Condition(Condition::size_lt, (off64_t) 5000, false);
+  condition = new Condition(Condition::size_lt, 5000LL, false);
   node = new Node("", 'f', 0, 4000, 0, 0, 0);
   if (! condition->match(*node)) {
     cout << "Not matching " << node->size() << "" << endl;
@@ -331,7 +331,7 @@ int main(void) {
   delete condition;
 
   cout << "Condition::mode_and check" << endl;
-  condition = new Condition(Condition::mode_and, (off64_t) 0111, false);
+  condition = new Condition(Condition::mode_and, 0111LL, false);
   node = new Node("", 'f', 0, 4000, 0, 0, 0777);
   if (! condition->match(*node)) {
     cout << "Not matching " << oct << node->mode() << dec << "" << endl;
@@ -356,7 +356,7 @@ int main(void) {
   delete condition;
 
   cout << "Condition::mode_eq check" << endl;
-  condition = new Condition(Condition::mode_eq, (off64_t) 0111, false);
+  condition = new Condition(Condition::mode_eq, 0111LL, false);
   node = new Node("", 'f', 0, 4000, 0, 0, 0777);
   if (! condition->match(*node)) {
     cout << "Not matching " << oct << node->mode() << dec << "" << endl;
@@ -381,7 +381,7 @@ int main(void) {
   delete condition;
 
   cout << "negation check (using Condition::mode_eq)" << endl;
-  condition = new Condition(Condition::mode_eq, (off64_t) 0111, true);
+  condition = new Condition(Condition::mode_eq, 0111LL, true);
   node = new Node("", 'f', 0, 4000, 0, 0, 0777);
   if (! condition->match(*node)) {
     cout << "Not matching " << oct << node->mode() << dec << "" << endl;

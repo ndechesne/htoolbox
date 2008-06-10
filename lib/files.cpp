@@ -124,7 +124,7 @@ Path Path::dirname() const {
     return ".";
   }
   int   length = end - _path;
-  char* dir    = (char*) malloc(length + 1);
+  char* dir    = static_cast<char*>(malloc(length + 1));
   strncpy(dir, _path, length);
   dir[length] = '\0';
   Path rc = dir;
@@ -341,7 +341,7 @@ int Directory::create() {
 
 
 bool Link::operator!=(const Link& right) const {
-  if (*((Node*)this) != (Node)right) {
+  if (static_cast<Node>(*this) != static_cast<Node>(right)) {
     return true;
   }
   return strcmp(_link, right._link) != 0;
@@ -516,7 +516,7 @@ int Stream::close() {
 
     EVP_DigestFinal(_d->ctx, checksum, &length);
     free(_checksum);
-    _checksum = (char*) malloc(2 * length + 1);
+    _checksum = static_cast<char*>(malloc(2 * length + 1));
     md5sum(_checksum, checksum, length);
     delete _d->ctx;
     _d->ctx = NULL;
@@ -561,7 +561,7 @@ int Stream::digest_update(
     const void*     buffer,
     size_t          size) {
   size_t      max = 409600; // That's as much as openssl/md5 accepts
-  const char* reader = (const char*) buffer;
+  const char* reader = static_cast<const char*>(buffer);
   while (size > 0) {
     size_t length;
     if (size >= max) {
@@ -579,7 +579,7 @@ int Stream::digest_update(
 }
 
 ssize_t Stream::read_decompress(
-    const void*     buffer,
+    void*           buffer,
     size_t          asked,
     size_t*         given) {
   ssize_t size = 0;
@@ -600,7 +600,7 @@ ssize_t Stream::read_decompress(
       _d->strm->next_in  = (unsigned char*) _d->buffer_comp.reader();
     }
     _d->strm->avail_out = asked;
-    _d->strm->next_out  = (unsigned char*) buffer;
+    _d->strm->next_out  = static_cast<unsigned char*>(buffer);
     switch (inflate(_d->strm, Z_NO_FLUSH)) {
       case Z_NEED_DICT:
       case Z_DATA_ERROR:
@@ -692,7 +692,7 @@ ssize_t Stream::write_all(
     }
   }
 
-  const char* reader = (const char*) buffer;
+  const char* reader = static_cast<const char*>(buffer);
   size_t  size = count;
   ssize_t wlength;
   do {
@@ -844,7 +844,7 @@ ssize_t Stream::getLine(
     // Make sure we have a buffer
     if (*buffer == NULL) {
       *buffer_capacity = 100;
-      *buffer = (char*) malloc(*buffer_capacity);
+      *buffer = static_cast<char*>(malloc(*buffer_capacity));
       writer = *buffer;
     }
     if (size == 0) {
@@ -857,7 +857,7 @@ ssize_t Stream::getLine(
       // Check for space
       if (count >= *buffer_capacity) {
         *buffer_capacity += 100;
-        *buffer = (char*) realloc(*buffer, *buffer_capacity);
+        *buffer = static_cast<char*>(realloc(*buffer, *buffer_capacity));
         writer = &(*buffer)[count];
       }
 
@@ -1037,8 +1037,8 @@ int Stream::compare(Stream& source, long long length) {
     return -1;
   }
   int             buf_size = 1024;
-  unsigned char*  buffer1  = (unsigned char*) malloc(buf_size);
-  unsigned char*  buffer2  = (unsigned char*) malloc(buf_size);
+  unsigned char*  buffer1  = static_cast<unsigned char*>(malloc(buf_size));
+  unsigned char*  buffer2  = static_cast<unsigned char*>(malloc(buf_size));
   int             rc = -2;
 
   while (rc == -2) {
@@ -1191,7 +1191,7 @@ int Stream::extractParams(
     const char*     quotes,
     const char*     comments) {
   const char* read   = line;
-  char* param        = (char*) malloc(strlen(line) + 1);
+  char* param        = static_cast<char*>(malloc(strlen(line) + 1));
   char* write        = NULL;
   bool no_increment  = true;  // Set to re-use character next time round
   bool skip_delims;           // Set to ignore any incoming blank

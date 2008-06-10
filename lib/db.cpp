@@ -377,7 +377,7 @@ int Database::restore(
     }
     switch (db_node->type()) {
       case 'f': {
-          File* f = (File*) db_node;
+          File* f = static_cast<File*>(db_node);
           if (f->checksum()[0] == '\0') {
             out(error, msg_standard, "Failed to restore file: data missing");
             this_failed = true;
@@ -416,7 +416,7 @@ int Database::restore(
         }
         break;
       case 'l': {
-          Link* l = (Link*) db_node;
+          Link* l = static_cast<Link*>(db_node);
           if (symlink(l->link(), base)) {
             out(error, msg_errno, "Restoring file", errno);
             this_failed = true;
