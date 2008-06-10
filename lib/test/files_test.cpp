@@ -88,7 +88,7 @@ static void showFile(const Node* g, int level = 1) {
   if (g->parsed()) {
     switch (g->type()) {
       case 'f': {
-        const File* f = (const File*) g;
+        const File* f = static_cast<const File*>(g);
         cout << "File: " << f->name()
           << ", path = " << f->path()
           << ", type = " << f->type()
@@ -100,7 +100,7 @@ static void showFile(const Node* g, int level = 1) {
           << endl;
       } break;
       case 'l': {
-        const Link* l = (const Link*) g;
+        const Link* l = static_cast<const Link*>(g);
         cout << "Link: " << l->name()
           << ", path = " << l->path()
           << ", type = " << l->type()
@@ -113,7 +113,7 @@ static void showFile(const Node* g, int level = 1) {
           << endl;
       } break;
       case 'd': {
-        Directory* d = (Directory*) g;
+        const Directory* d = static_cast<const Directory*>(g);
         cout << "Dir.: " << d->name()
           << ", path = " << d->path()
           << ", type = " << d->type()
@@ -188,6 +188,7 @@ static void createNshowFile(const Node &g) {
 }
 
 bool cancel(unsigned short __unused) {
+  (void) __unused;
   return true;
 }
 

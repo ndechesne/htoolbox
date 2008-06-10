@@ -16,7 +16,7 @@ AC_LANG([C++])
 AC_ARG_ENABLE(debug,
     AC_HELP_STRING(--enable-debug, [Compile with symbols (Default = no)]),
     enable_debug=$enableval, enable_debug=no)
-CXXWARN="-Wall -Wextra -Wundef"
+CXXWARN="-Wall -Wextra -Wundef -Wcast-qual"
 CWARN="$CXXWARN -Wstrict-prototypes"
 if test "$enable_debug" = "yes" ; then
     CFLAGS="$CFLAGS $CWARN -g -D_DEBUG"

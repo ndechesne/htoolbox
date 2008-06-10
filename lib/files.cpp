@@ -1112,7 +1112,7 @@ int Stream::compare(Stream& source, long long length) {
   return rc;
 }
 
-unsigned long Stream::originalSize() const {
+long long Stream::originalSize() const {
   if (isOpen()) {
     errno = EBUSY;
     return -1;

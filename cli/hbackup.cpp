@@ -36,6 +36,7 @@ static hbackup::VerbosityLevel verbose_level = hbackup::info;
 
 // Signals
 void sighandler(int signal) {
+  (void) signal;
   if (hbackup::aborting()) {
     cout << "Already aborting..." << endl;
   } else {

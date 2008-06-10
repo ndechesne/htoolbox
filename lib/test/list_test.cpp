@@ -33,6 +33,7 @@ using namespace hbackup;
 
 static time_t my_time = 0;
 time_t time(time_t *t) {
+  (void) t;
   return my_time;
 }
 

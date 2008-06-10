@@ -49,11 +49,13 @@ using namespace hbackup;
 
 // Progress
 static void progress(long long previous, long long current, long long total) {
+  (void) previous;
   cout << "Done: " << 100 * current / total << "%" << endl;
 }
 
 static time_t my_time = 10;
 time_t time(time_t *t) {
+  (void) t;
   return my_time;
 }
 

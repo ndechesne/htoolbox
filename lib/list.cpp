@@ -450,11 +450,11 @@ int List::add(
       node->gid(), node->mode());
     switch (node->type()) {
       case 'f': {
-        const char* extra  = ((File*) node)->checksum();
+        const char* extra  = (static_cast<const File*>(node))->checksum();
         size = asprintf(&line, "%s\t%s", temp, extra);
       } break;
       case 'l': {
-        const char* extra  = ((Link*) node)->link();
+        const char* extra  = (static_cast<const Link*>(node))->link();
         size = asprintf(&line, "%s\t%s", temp, extra);
       } break;
       default:

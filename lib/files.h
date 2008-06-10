@@ -387,7 +387,7 @@ public:
   // Compare two files
   int compare(Stream& other, long long length = -1);
   // Get gzip'd file original size, modulo 2^32 (Stream MUST NOT be open)
-  unsigned long originalSize() const;
+  long long originalSize() const;
   // Get real file size
   long long dataSize() const;
   // Line feed MUST be present at EOL

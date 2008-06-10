@@ -60,6 +60,7 @@ public:
 };
 
 time_t time(time_t *t) {
+  (void) t;
   static time_t my_time = 0;
   return ++my_time;
 }
