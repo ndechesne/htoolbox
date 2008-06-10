@@ -16,14 +16,14 @@ AC_LANG([C++])
 AC_ARG_ENABLE(debug,
     AC_HELP_STRING(--enable-debug, [Compile with symbols (Default = no)]),
     enable_debug=$enableval, enable_debug=no)
-CXXWARN="-Wall -Wundef -Wno-trigraphs -fno-strict-aliasing -fno-common"
+CXXWARN="-Wall -Wextra -Wundef"
 CWARN="$CXXWARN -Wstrict-prototypes"
 if test "$enable_debug" = "yes" ; then
     CFLAGS="$CFLAGS $CWARN -g -D_DEBUG"
     CXXFLAGS="$CXXFLAGS $CXXWARN -g -D_DEBUG"
 else
-    CFLAGS="$CFLAGS $CWARN -O2"
-    CXXFLAGS="$CXXFLAGS $CXXWARN -O2"
+    CFLAGS="$CFLAGS $CWARN -O3"
+    CXXFLAGS="$CXXFLAGS $CXXWARN -O3"
 fi
 
 # Checks for programs.

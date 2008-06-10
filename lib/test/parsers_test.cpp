@@ -56,9 +56,13 @@ public:
     return new TestParser(_mode, dir_path);
   }
   // That tells use whether to ignore the file, i.e. not back it up
-  bool ignore(const Node& node) { return false; }
+  bool ignore(const Node& node) {
+    (void) node;
+    return false;
+  }
   // For debug purposes
   void show(int level) {
+    (void) level;
     cout << "Displaying list" << endl;
   }
 };

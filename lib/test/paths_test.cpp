@@ -48,6 +48,7 @@ static void progress(long long previous, long long current, long long total) {
 
 static time_t my_time = 0;
 time_t time(time_t *t) {
+  (void) t;
   return 2000000000 + (my_time * 24 * 3600);
 }
 

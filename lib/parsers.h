@@ -71,12 +71,18 @@ public:
   };
   // Fail on directory
   Parser* isControlled(const string& dir_path) const {
+    (void) dir_path;
     return NULL;
   };
   // Ignore all files
-  bool ignore(const Node& node) { return true; };
+  bool ignore(const Node& node) {
+    (void) node;
+    return true;
+  };
   // For debug purposes
-  void show(int level = 0) {}
+  void show(int level = 0) {
+    (void) level;
+  }
 };
 
 class Parsers : public list<Parser*> {
