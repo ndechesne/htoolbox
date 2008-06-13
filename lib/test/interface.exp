@@ -5924,7 +5924,7 @@ Checksum(s) from list: 16
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
- -> d41d8cd98f00b204e9800998ecf8427e-0, 0
+ -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -5946,13 +5946,14 @@ Checksum(s) with data: 13
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
 Obsolete checksum(s): 1
  -> 6d7fce9fee471194aa8b5b6e47267f03-0
-Warning: Problematic checksum(s): 4
+Warning: Problematic checksum(s): 5
  -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
  -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of problematic checksums contains 4 item(s)
+List of problematic checksums contains 5 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
@@ -5989,7 +5990,7 @@ Checksum(s) from list: 16
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
- -> d41d8cd98f00b204e9800998ecf8427e-0, 0
+ -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -6011,13 +6012,14 @@ Checksum(s) with data: 13
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
 Obsolete checksum(s): 1
  -> 6d7fce9fee471194aa8b5b6e47267f03-0
-Warning: Problematic checksum(s): 4
+Warning: Problematic checksum(s): 5
  -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
  -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of problematic checksums contains 4 item(s)
+List of problematic checksums contains 5 item(s)
 Database closed
 
 Test: scan for obsolete data, case1
@@ -6131,7 +6133,7 @@ Checksum(s) from list: 16
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
- -> d41d8cd98f00b204e9800998ecf8427e-0, 0
+ -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -6159,13 +6161,14 @@ Obsolete checksum(s): 4
  -> 6d7fce9fee471194aa8b5b6e47267f03-0
  -> 88888888888888888888888888888888-0
  -> ffffffffffffffffffffffffffffffff-0
-Warning: Problematic checksum(s): 4
+Warning: Problematic checksum(s): 5
  -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
  -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of problematic checksums contains 4 item(s)
+List of problematic checksums contains 5 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
@@ -6205,7 +6208,7 @@ Checksum(s) from list: 16
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
- -> d41d8cd98f00b204e9800998ecf8427e-0, 0
+ -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -6233,13 +6236,14 @@ Obsolete checksum(s): 4
  -> 6d7fce9fee471194aa8b5b6e47267f03-0: removed
  -> 88888888888888888888888888888888-0: removed
  -> ffffffffffffffffffffffffffffffff-0: removed
-Warning: Problematic checksum(s): 4
+Warning: Problematic checksum(s): 5
  -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
  -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of problematic checksums contains 4 item(s)
+List of problematic checksums contains 5 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
@@ -6275,7 +6279,7 @@ Checksum(s) from list: 16
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
- -> d41d8cd98f00b204e9800998ecf8427e-0, 0
+ -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -6294,13 +6298,14 @@ Checksum(s) with data: 12
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
-Warning: Problematic checksum(s): 4
+Warning: Problematic checksum(s): 5
  -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
  -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of problematic checksums contains 4 item(s)
+List of problematic checksums contains 5 item(s)
 Database closed
 
 Test: scan for obsolete data, case 2
@@ -6413,7 +6418,7 @@ Checksum(s) from list: 16
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
- -> d41d8cd98f00b204e9800998ecf8427e-0, 0
+ -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -6439,13 +6444,14 @@ Obsolete checksum(s): 3
  -> 33333333333333333333333333333333-0
  -> 77777777777777777777777777777777-0
  -> dddddddddddddddddddddddddddddddd-0
-Warning: Problematic checksum(s): 4
+Warning: Problematic checksum(s): 5
  -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
  -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of problematic checksums contains 4 item(s)
+List of problematic checksums contains 5 item(s)
 Database closed
 Scan and remove
 Database open in read/write mode
@@ -6484,7 +6490,7 @@ Checksum(s) from list: 16
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
- -> d41d8cd98f00b204e9800998ecf8427e-0, 0
+ -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -6510,13 +6516,14 @@ Obsolete checksum(s): 3
  -> 33333333333333333333333333333333-0: removed
  -> 77777777777777777777777777777777-0: removed
  -> dddddddddddddddddddddddddddddddd-0: removed
-Warning: Problematic checksum(s): 4
+Warning: Problematic checksum(s): 5
  -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
  -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of problematic checksums contains 4 item(s)
+List of problematic checksums contains 5 item(s)
 Database closed
 Just scan again
 Database open in read/write mode
@@ -6552,7 +6559,7 @@ Checksum(s) from list: 16
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
- -> d41d8cd98f00b204e9800998ecf8427e-0, 0
+ -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -6571,13 +6578,14 @@ Checksum(s) with data: 12
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
-Warning: Problematic checksum(s): 4
+Warning: Problematic checksum(s): 5
  -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
  -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Missing checksums list updated
-List of problematic checksums contains 4 item(s)
+List of problematic checksums contains 5 item(s)
 Database closed
 
 Test: backup recovers missing checksums + replace data
@@ -6660,6 +6668,7 @@ Reading list of problematic checksums
  -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
  -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
@@ -6852,7 +6861,7 @@ Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported: ssh
 Missing checksums list updated
-List of problematic checksums contains 1 item(s)
+List of problematic checksums contains 2 item(s)
 Database closed
 data
 
@@ -6934,6 +6943,7 @@ Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
 Reading list of problematic checksums
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
@@ -7107,7 +7117,7 @@ testdir\r
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported: ssh
-List of problematic checksums contains 1 item(s)
+List of problematic checksums contains 2 item(s)
 Database closed
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
@@ -7219,7 +7229,7 @@ Checksum(s) from list: 17
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
- -> d41d8cd98f00b204e9800998ecf8427e-0, 0
+ -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -7242,10 +7252,11 @@ Checksum(s) with data: 16
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Warning: Problematic checksum(s): 1
+Warning: Problematic checksum(s): 2
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
 Missing checksums list updated
-List of problematic checksums contains 1 item(s)
+List of problematic checksums contains 2 item(s)
 Database closed
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
@@ -7324,6 +7335,7 @@ Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
 Reading list of problematic checksums
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
@@ -7497,5 +7509,5 @@ testdir\r
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported: ssh
-List of problematic checksums contains 1 item(s)
+List of problematic checksums contains 2 item(s)
 Database closed

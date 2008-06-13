@@ -183,10 +183,6 @@ int Data::crawl_recurse(
                   CompData d(checksum.c_str(), s.getOriginalSize(), true);
                   data->push_back(d);
                 } else {
-                  if (s.stat()) {
-                    out(error, msg_errno, "", errno);
-                    failed = true;
-                  }
                   CompData d(checksum.c_str(), s.size());
                   data->push_back(d);
                 }

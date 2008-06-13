@@ -500,11 +500,9 @@ int Database::scan(
     j++;
     while ((j != list_data.end())
     && (strcmp(i->checksum(), j->checksum()) == 0)) {
-#if 0 // FIXME This needs more work
-      if (i->sizeCompare(*j) != 0) {
+      if (i->size() != j->size()) {
         i->signalBroken();
       }
-#endif
       j = list_data.erase(j);
     }
   }
@@ -567,12 +565,10 @@ int Database::scan(
       d++;
     } else
     {
-#if 0 // FIXME This needs more work
-      if (d->sizeCompare(*l) != 0) {
+      if (d->size() != l->size()) {
         // Data is broken
-        _d->missing.setInconsistent(l->checksum());
+        _d->missing.setInconsistent(d->checksum(), d->size());
       }
-#endif
       // Next
       d = data_data.erase(d);
       l++;

@@ -37,9 +37,16 @@ namespace hbackup {
 
   struct MissingData {
     string            checksum;
+    long long         size;
     MissingStatus     status;
-    MissingData(const string& c, MissingStatus s) : checksum(c), status(s) {}
-    string line() const { return ((status == missing)? "M" : "I") + checksum; }
+    MissingData(const string& c, long long l, MissingStatus s) :
+        checksum(c), size(l), status(s) {}
+    string line() const {
+      stringstream s;
+      s << checksum << '\t' << ((status == missing) ? "m" : "i")
+        << '\t' << size;
+      return s.str();
+    }
   };
 }
 
@@ -131,25 +138,44 @@ int Missing::load() {
   Stream missing_list(_d->path);
   if (! missing_list.open("r")) {
     missing_list.setProgressCallback(_d->progress);
-    char*        checksum = NULL;
-    unsigned int checksum_capacity = 0;
-    while (missing_list.getLine(&checksum, &checksum_capacity) > 0) {
-      switch (checksum[0]) {
-        case 'M':
-          _d->data.push_back(MissingData(&checksum[1], missing));
-          out(debug, msg_standard, &checksum[1], 1, "Missing");
+    char*          line = NULL;
+    unsigned int   line_capacity = 0;
+    while (missing_list.getLine(&line, &line_capacity) > 0) {
+      vector<string> params;
+      Stream::extractParams(line, params);
+      long long size;
+      if (params.size() < 3) {
+        if (params.size() == 1) {
+          // Backwards compatibility
+          _d->data.push_back(MissingData(line, -1, missing));
+          out(debug, msg_standard, line, 1);
+          continue;
+        } else {
+          out(error, msg_standard, "wrong number of parameters", -1,
+            "Missing checksums list");
           break;
-        case 'I':
-          _d->data.push_back(MissingData(&checksum[1], inconsistent));
-          out(debug, msg_standard, &checksum[1], 1, "Inconsistent");
+        }
+      }
+      const char* checksum = params[0].c_str();
+      if (sscanf(params[2].c_str(), "%lld", &size) != 1) {
+        // FIXME report error?
+        continue;
+      }
+      switch (params[1][0]) {
+        case 'm':
+          _d->data.push_back(MissingData(checksum, -1, missing));
+          out(debug, msg_standard, checksum, 1, "Missing");
+          break;
+        case 'i':
+          _d->data.push_back(MissingData(checksum, size, inconsistent));
+          out(debug, msg_standard, checksum, 1, "Inconsistent");
           break;
         default:
-          // Backwards compatibility
-          _d->data.push_back(MissingData(checksum, missing));
-          out(debug, msg_standard, checksum, 1);
+          out(warning, msg_standard, "wrong identifier", -1,
+            "Missing checksums list");
       }
     }
-    free(checksum);
+    free(line);
     missing_list.close();
   } else {
     out(warning, msg_errno, "Opening" , errno, "Missing checksums list");
@@ -167,12 +193,12 @@ unsigned int Missing::size() const {
 }
 
 void Missing::setMissing(const char* checksum) {
-  _d->data.push_back(MissingData(checksum, missing));
+  _d->data.push_back(MissingData(checksum, -1, missing));
   _d->modified = true;
 }
 
-void Missing::setInconsistent(const char* checksum) {
-  _d->data.push_back(MissingData(checksum, inconsistent));
+void Missing::setInconsistent(const char* checksum, long long size) {
+  _d->data.push_back(MissingData(checksum, size, inconsistent));
   _d->modified = true;
 }
 
@@ -199,6 +225,10 @@ int Missing::search(const char* checksum) const {
       found = middle;
       break;
     }
+  }
+  // FIXME Temporary
+  if ((found >= 0) && (_d->data[found].status != missing)) {
+    return -1;
   }
   return found;
 }

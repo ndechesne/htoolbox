@@ -47,7 +47,7 @@ public:
   // Add missing checksum at end of list
   void setMissing(const char* checksum);
   // Add inconsistent checksum at end of list
-  void setInconsistent(const char* checksum);
+  void setInconsistent(const char* checksum, long long size);
   // Show list of problematic checksums
   void show() const;
 };

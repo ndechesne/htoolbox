@@ -38,18 +38,10 @@ public:
   inline const char* checksum() const { return _checksum; }
   inline long long size() const       { return _size; }
   inline bool compressed() const      { return _compressed; }
-  inline long long sizeCompare(const CompData& d) const {
-    if (_compressed || d._compressed) {
-      return static_cast<unsigned long>(_size)
-        - static_cast<unsigned long>(d._size);
-    } else {
-      return _size - d._size;
-    }
-  }
   bool operator<(const CompData& d)  {
     int cmp = strcmp(_checksum, d._checksum);
     if (cmp != 0) return cmp < 0;
-    return sizeCompare(d) < 0;
+    return _checksum < d._checksum;
   }
 };
 
