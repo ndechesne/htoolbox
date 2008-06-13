@@ -394,8 +394,11 @@ int HBackup::open(
     const char*   path,
     bool          user_mode,
     bool          check_config) {
+  _d->remote_clients         = false;
+  _d->compress_auto          = false;
+  _d->report_copy_error_once = false;
+  
   bool failed = false;
-  _d->remote_clients = false;
   if (user_mode) {
     // Give 'selected' client name
     addClient("localhost");

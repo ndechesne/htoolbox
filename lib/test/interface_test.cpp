@@ -122,8 +122,19 @@ int main(void) {
   delete hbackup;
   abort(0xffff);
 
-  cout << endl << "Test: force-compress DB data" << endl;
-  system("gzip test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
+  {
+    Stream s("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
+    Stream d("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data.gz");
+    if (! d.open("w", 5, -1, true, s.size())) {
+      if (! s.open("r")) {
+        if (! s.copy(&d) && ! s.close()) {
+          s.remove();
+          cout << endl << "Test: force-compress DB data" << endl;
+        }
+      }
+      d.close();
+    }
+  }
 
   cout << endl << "Test: specify clients" << endl;
   hbackup = new HBackup();
