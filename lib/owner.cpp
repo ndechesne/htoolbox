@@ -506,7 +506,15 @@ void Owner::sendEntry(
       // Same checksum: look for checksum in missing list (binary search)
       op._id = missing.search(node_checksum);
       if (op._id >= 0) {
-        op._letter = 'R';
+        long long size = missing.dataSize(op._id);
+        if (size >= 0) {
+          if (size != op._node.size()) {
+            op._letter       = 'C';
+            op._get_checksum = true;
+          }
+        } else {
+          op._letter = 'R';
+        }
       }
     }
   } else

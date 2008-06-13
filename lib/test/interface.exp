@@ -6588,7 +6588,7 @@ Missing checksums list updated
 List of problematic checksums contains 5 item(s)
 Database closed
 
-Test: backup recovers missing checksums + replace data
+Test: backup recovers broken checksums + replace data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Automatic compression
@@ -6736,7 +6736,7 @@ dir\r
    \r
 Checking data, sizes: f=2 z=36 (36)
 Adding data for 6d7fce9fee471194aa8b5b6e47267f03-0
-M f     /home/User/test/dir/file3.txt
+C f     /home/User/test/dir/file3.txt
 Database modified: myClient
 Database closed: myClient
  -> umount -fl test_db/.mount/myClient
@@ -6856,6 +6856,9 @@ D       test1/testfile
 Backing up path: test2
 testdir\r
        \r
+Checking data, sizes: f=259072 z=300 (304)
+Replacing with compressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+M z     test2/testfile2
 Database modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
@@ -7229,7 +7232,7 @@ Checksum(s) from list: 17
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
- -> d41d8cd98f00b204e9800998ecf8427e-0, -1
+ -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -7252,11 +7255,10 @@ Checksum(s) with data: 16
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Warning: Problematic checksum(s): 2
+Warning: Problematic checksum(s): 1
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
- -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
 Missing checksums list updated
-List of problematic checksums contains 2 item(s)
+List of problematic checksums contains 1 item(s)
 Database closed
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
@@ -7335,7 +7337,6 @@ Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
 Reading list of problematic checksums
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
- -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
@@ -7509,5 +7510,5 @@ testdir\r
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported: ssh
-List of problematic checksums contains 2 item(s)
+List of problematic checksums contains 1 item(s)
 Database closed

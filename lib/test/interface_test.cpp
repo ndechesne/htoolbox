@@ -765,9 +765,10 @@ int main(void) {
   delete hbackup;
 
 
-  cout << endl << "Test: backup recovers missing checksums + replace data"
+  cout << endl << "Test: backup recovers broken checksums + replace data"
     << endl;
-  system("touch test_nfs/test/dir/file3.txt");
+  system("touch test2/testfile2");
+  system("gunzip test_db/.data/fb00cd74a5f35e89a7fbdd3c1d05375a-0/data.gz");
   remove("test1/testfile");
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {

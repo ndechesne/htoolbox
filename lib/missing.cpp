@@ -158,7 +158,8 @@ int Missing::load() {
       }
       const char* checksum = params[0].c_str();
       if (sscanf(params[2].c_str(), "%lld", &size) != 1) {
-        // FIXME report error?
+        out(error, msg_standard, "wrong type for size parameter", -1,
+          "Missing checksums list");
         continue;
       }
       switch (params[1][0]) {
@@ -190,6 +191,10 @@ void Missing::forceSave() {
 
 unsigned int Missing::size() const {
   return _d->data.size();
+}
+
+long long Missing::dataSize(unsigned int id) const {
+  return _d->data[id].size;
 }
 
 void Missing::setMissing(const char* checksum) {
@@ -225,10 +230,6 @@ int Missing::search(const char* checksum) const {
       found = middle;
       break;
     }
-  }
-  // FIXME Temporary
-  if ((found >= 0) && (_d->data[found].status != missing)) {
-    return -1;
   }
   return found;
 }
