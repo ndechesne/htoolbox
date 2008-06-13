@@ -341,12 +341,15 @@ public:
   bool isWriteable() const;
   // Open file, for read or write (no append), with or without compression
   // The cache is managed by open , but can be forced using cache for its size
-  // Checksum determines whether to compute the checksum as we read
+  // checksum determines whether to compute the checksum as we read
+  // original_size gives the size of the original file to store in the gzip
+  // header when compressing
   int open(
     const char*     req_mode,
-    unsigned int    compression = 0,
-    int             cache       = -1,
-    bool            checksum    = true);
+    unsigned int    compression   = 0,
+    int             cache         = -1,
+    bool            checksum      = true,
+    long long       original_size = -1);
   // Close file, for read or write (no append), with or without compression
   int close();
   // Get progress indicator (size read/written)
@@ -386,8 +389,12 @@ public:
   int copy(Stream* dest, Stream* dest2 = NULL);
   // Compare two files
   int compare(Stream& other, long long length = -1);
-  // Get gzip'd file original size, modulo 2^32 (Stream MUST NOT be open)
+  // Get gzip'd file original size, if written by hbackup v0.9 and above
+  // Note: Stream MUST have been open AND partially read
   long long originalSize() const;
+  // Get gzip'd file original size, if written by hbackup v0.9 and above
+  // Note: Stream MUST NOT be open
+  long long getOriginalSize() const;
   // Get real file size
   long long dataSize() const;
   // Line feed MUST be present at EOL

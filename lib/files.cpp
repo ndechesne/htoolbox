@@ -348,6 +348,53 @@ bool Link::operator!=(const Link& right) const {
 }
 
 
+class GzipExtraFieldSize {
+  union {
+    char            bytes[12];
+    struct {
+      char          si1;
+      char          si2;
+      short         len;
+      long long     size;
+    } fields;
+  } extra;
+public:
+  GzipExtraFieldSize(long long size) {
+    extra.fields.si1  = 'S';
+    extra.fields.si2  = 'Z';
+    extra.fields.len  = 8;
+    extra.fields.size = size;
+  }
+  GzipExtraFieldSize(const unsigned char* field) {
+    if ((field[0] == 'S') && (field[1] == 'Z')) {
+      memcpy(extra.bytes, field, 4);
+      if (extra.fields.len <= 8) {
+        memcpy(&extra.bytes[4], &field[4], extra.fields.len);
+      } else {
+        extra.fields.len  = 0;
+      }
+    } else {
+      extra.fields.si1  = '-';
+    }
+  }
+  operator unsigned char* () {
+    return reinterpret_cast<unsigned char*>(extra.bytes);
+  }
+  operator long long () {
+    return extra.fields.size;
+  }
+  int length() const {
+    if (extra.fields.si1 != 'S') {
+      return -1;
+    }
+    if (extra.fields.len == 0) {
+      return 0;
+    }
+    return extra.fields.len + 4;
+  }
+};
+
+
 struct Stream::Private {
   int               fd;                 // file descriptor
   mode_t            mode;               // file open mode
@@ -357,6 +404,7 @@ struct Stream::Private {
   Buffer            buffer_data;        // Buffer for data
   EVP_MD_CTX*       ctx;                // openssl resources
   z_stream*         strm;               // zlib resources
+  long long         original_size;      // file size to store into gzip header
   bool              finish;             // tell compression to finish off
   progress_f        progress_callback;  // function to report progress
   cancel_f          cancel_callback;    // function to check for cancellation
@@ -418,14 +466,16 @@ int Stream::open(
     const char*     req_mode,
     unsigned int    compression,
     int             cache,
-    bool            checksum) {
+    bool            checksum,
+    long long       original_size) {
   if (isOpen()) {
     errno = EBUSY;
     return -1;
   }
 
-  _d->mode = O_NOATIME | O_LARGEFILE;
-
+  _d->mode          = O_NOATIME | O_LARGEFILE;
+  _d->original_size = original_size;
+  
   switch (req_mode[0]) {
   case 'w':
     _d->mode = O_WRONLY | O_CREAT | O_TRUNC;
@@ -478,12 +528,12 @@ int Stream::open(
     if (isWriteable()) {
       // Compress
       if (deflateInit2(_d->strm, compression, Z_DEFLATED, 16 + 15, 9,
-          Z_DEFAULT_STRATEGY)) {
+          Z_DEFAULT_STRATEGY) != Z_OK) {
         return -2;
       }
     } else {
       // De-compress
-      if (inflateInit2(_d->strm, 32 + 15)) {
+      if (inflateInit2(_d->strm, 32 + 15) != Z_OK) {
         return -2;
       }
     }
@@ -584,6 +634,22 @@ ssize_t Stream::read_decompress(
     size_t*         given) {
   ssize_t size = 0;
   bool    eof  = false;
+  // Get header
+  gz_header     header;
+  unsigned char field[12];
+  if (_d->original_size == -1) {
+    header.text       = 0;
+    header.time       = 0;
+    header.os         = 3;
+    header.extra      = field;
+    header.extra_max  = 12;
+    header.name       = Z_NULL;
+    header.comment    = Z_NULL;
+    header.hcrc       = 0;
+    if (inflateGetHeader(_d->strm, &header) != Z_OK) {
+      _d->original_size = -2;
+    }
+  }
   // Fill in buffer
   do {
     if (_d->buffer_comp.isEmpty()) {
@@ -613,6 +679,13 @@ ssize_t Stream::read_decompress(
     }
     *given = asked - _d->strm->avail_out;
   } while ((*given == 0) && ! eof);
+
+  // Get header
+  if (_d->original_size == -1) {
+    GzipExtraFieldSize extra(field);
+    _d->original_size = extra;
+  }
+  
   return size;
 }
 
@@ -714,18 +787,35 @@ ssize_t Stream::write_compress(
   _d->strm->avail_in = count;
   _d->strm->next_in  = (unsigned char*) buffer;
 
+  // Set header
+  if (_d->original_size >= 0) {
+    GzipExtraFieldSize extra(_d->original_size);
+    gz_header header;
+    header.text       = 0;
+    header.time       = 0;
+    header.os         = 3;
+    header.extra      = extra;
+    header.extra_len  = extra.length();
+    header.name       = Z_NULL;
+    header.comment    = Z_NULL;
+    header.hcrc       = 0;
+    deflateSetHeader(_d->strm, &header);
+  }
+
   // Flush result to file (no real cacheing)
   do {
     // Buffer is considered empty to start with. and is always flushed
     _d->strm->avail_out = _d->buffer_comp.writeable();
     // Casting away the constness here!!!
-    _d->strm->next_out  = (unsigned char*) _d->buffer_comp.writer();
+    _d->strm->next_out  =
+      reinterpret_cast<unsigned char*>(_d->buffer_comp.writer());
     deflate(_d->strm, finish ? Z_FINISH : Z_NO_FLUSH);
     ssize_t length = _d->buffer_comp.writeable() - _d->strm->avail_out;
     if (length != write_all(_d->buffer_comp.reader(), length)) {
       return -1;
     }
   } while (_d->strm->avail_out == 0);
+  _d->original_size = -1;
   return count;
 }
 
@@ -1113,6 +1203,10 @@ int Stream::compare(Stream& source, long long length) {
 }
 
 long long Stream::originalSize() const {
+  return _d->original_size;
+}
+
+long long Stream::getOriginalSize() const {
   if (isOpen()) {
     errno = EBUSY;
     return -1;
@@ -1122,21 +1216,30 @@ long long Stream::originalSize() const {
     // errno set by open
     return -1;
   }
-  union {
-    char buffer[4];
-    unsigned long size;
-  } data;
-  bool failed = false;
-  if (std::lseek(fd, -4, SEEK_END) < 0) {
-    // errno set by lseek
-    failed = true;
-  } else
-  if (std::read(fd, data.buffer, 4) != 4) {
+  char      buffer[14];
+  long long size = -1;
+  // Check header
+  if (std::read(fd, buffer, 10) != 10) {
     // errno set by read
-    failed = true;
+  } else
+  if (strncmp(buffer, "\x1f\x8b", 2) != 0) {
+    errno = EILSEQ;
+  } else
+  // Check extra field flag
+  if ((buffer[3] & 0x4) == 0) {
+    errno = ENOSYS;
+  } else
+  // Check extra field
+  if (std::read(fd, buffer, 14) != 14) {
+    // errno set by read
+  } else
+  // Assume only OUR extra field is present
+  {
+    GzipExtraFieldSize extra(reinterpret_cast<unsigned char*>(&buffer[2]));
+    size = extra;
   }
   std::close(fd);
-  return failed ? -1 : data.size;
+  return size;
 }
 
 long long Stream::dataSize() const {

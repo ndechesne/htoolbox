@@ -662,7 +662,7 @@ int main(void) {
 
 
   cout << endl << "Test: check for corrupted data" << endl;
-  system("echo > test_db/.data/0f2ea973d77135dc3d06c8e68da6dc59-0/data.gz");
+  system("echo > test_db/.data/0f2ea973d77135dc3d06c8e68da6dc59-0/data");
   system("echo > test_db/.data/b90f8fa56ea1d39881d4a199c7a81d35-0/data");
   system("echo > test_db/.data/fef51838cd3cfe8ed96355742eb71fbd-0/data");
   system("rm -f test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data");
@@ -677,7 +677,7 @@ int main(void) {
   delete hbackup;
 
   cout << endl << "Test: check for corrupted data again" << endl;
-  system("echo > test_db/.data/0f2ea973d77135dc3d06c8e68da6dc59-0/data.gz");
+  system("echo > test_db/.data/0f2ea973d77135dc3d06c8e68da6dc59-0/data");
   system("echo > test_db/.data/b90f8fa56ea1d39881d4a199c7a81d35-0/data");
   system("echo > test_db/.data/fef51838cd3cfe8ed96355742eb71fbd-0/data");
   system("rm -f test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data.gz");
@@ -694,7 +694,7 @@ int main(void) {
 
 
   cout << endl << "Test: scan for missing data" << endl;
-  system("rm -f test_db/.data/0f2ea973d77135dc3d06c8e68da6dc59-0/data.gz");
+  system("rm -f test_db/.data/0f2ea973d77135dc3d06c8e68da6dc59-0/data");
   system("rm -f test_db/.data/b90f8fa56ea1d39881d4a199c7a81d35-0/data.gz");
   system("rm -f test_db/.data/fef51838cd3cfe8ed96355742eb71fbd-0/data.gz");
   hbackup = new HBackup();

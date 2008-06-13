@@ -180,7 +180,7 @@ int Data::crawl_recurse(
               Stream s(path.c_str());
               if (data != NULL) {
                 if (compressed) {
-                  CompData d(checksum.c_str(), s.originalSize(), true);
+                  CompData d(checksum.c_str(), s.getOriginalSize(), true);
                   data->push_back(d);
                 } else {
                   if (s.stat()) {
@@ -374,12 +374,12 @@ int Data::write(
     asprintf(&temp_path_gz, "%s.gz", temp1->path());
     temp2 = new Stream(temp_path_gz);
     free(temp_path_gz);
-    if (temp2->open("w", -compress)) {
+    if (temp2->open("w", -compress, -1, true, source.size())) {
       out(error, msg_errno, "Opening write temp file", errno, temp2->path());
       failed = true;
     }
   }
-  if (temp1->open("w", (compress > 0) ? compress : 0)) {
+  if (temp1->open("w", (compress > 0) ? compress:0, -1, true, source.size())) {
     out(error, msg_errno, "Opening write temp file", errno, temp1->path());
     failed = true;
   }
