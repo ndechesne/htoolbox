@@ -62,9 +62,11 @@ abcd <> abce, 5: -1
 
 Test: file original size
 write size: 4 (38, 4), checksum: ec10746b8b223bf069e7a8e2424e2cf0
+originalSize: 25
 getOriginalSize: 25
 originalSize: 25
 write size: 4 (38, 4), checksum: dbcc0668f8a7ff2e7ff0765df343169d
+originalSize: 1147797409030816545
 getOriginalSize: 1147797409030816545
 originalSize: 1147797409030816545
 
@@ -120,8 +122,8 @@ write size: 10485760 (10485760, 10485760), checksum: f1c9645dbc14efddc7d8a322685
 Test: file compress (read + default compress write), with last zero-size write call
 read size: 10485760 (10485760, 10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 write size: 10485760 (10208, 10485760), checksum: b7350db49d036137b2ef752a82145e91
-getOriginalSize: Function not implemented
 originalSize: failed
+getOriginalSize: Function not implemented
 
 Test: file uncompress (uncompress read + write)
 read size: 10485760 (10208, 10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
@@ -130,12 +132,14 @@ write size: 10485760 (10485760, 10485760), checksum: f1c9645dbc14efddc7d8a322685
 Test: file compress (cached read + cached compress write)
 read size: 10485760 (10485760, 10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 write size: 10485760 (10222, 10485760), checksum: 9fdf55642cb89bbff68b4fec9f8332d2
+originalSize: 10485760
 getOriginalSize: 10485760
 originalSize: 10485760
 
 Test: file recompress (cached uncompress read + uncached compress write), no closing
 read size: 10485760 (10222, 10485760), checksum: f1c9645dbc14efddc7d8a322685f26eb
 write size: 10485760 (10222, 10485760), checksum: ee7dc9a2bf10a13517b3bbcac5c4604c
+originalSize: 10222
 getOriginalSize: 10222
 originalSize: 10222
 

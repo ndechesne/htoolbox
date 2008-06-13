@@ -366,6 +366,7 @@ public:
     extra.fields.size = size;
   }
   GzipExtraFieldSize(const unsigned char* field) {
+    extra.fields.size = -1;
     if ((field[0] == 'S') && (field[1] == 'Z')) {
       memcpy(extra.bytes, field, 4);
       if (extra.fields.len <= 8) {
@@ -1217,7 +1218,7 @@ long long Stream::getOriginalSize() const {
     return -1;
   }
   char      buffer[14];
-  long long size = -1;
+  _d->original_size = -1;
   // Check header
   if (std::read(fd, buffer, 10) != 10) {
     // errno set by read
@@ -1236,10 +1237,10 @@ long long Stream::getOriginalSize() const {
   // Assume only OUR extra field is present
   {
     GzipExtraFieldSize extra(reinterpret_cast<unsigned char*>(&buffer[2]));
-    size = extra;
+    _d->original_size = extra;
   }
   std::close(fd);
-  return size;
+  return _d->original_size;
 }
 
 long long Stream::dataSize() const {

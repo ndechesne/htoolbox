@@ -390,7 +390,8 @@ public:
   // Compare two files
   int compare(Stream& other, long long length = -1);
   // Get gzip'd file original size, if written by hbackup v0.9 and above
-  // Note: Stream MUST have been open AND partially read
+  // Note: getOriginalSize MUST have been called first, or Stream open AND
+  //       partially read
   long long originalSize() const;
   // Get gzip'd file original size, if written by hbackup v0.9 and above
   // Note: Stream MUST NOT be open

@@ -366,11 +366,6 @@ int main(void) {
     cout << "write size: " << write_size << " (" << writefile->size() << ", "
       << writefile->dataSize() << "), checksum: " << writefile->checksum()
       << endl;
-    if (writefile->getOriginalSize() < 0) {
-      cout << "getOriginalSize: " << strerror(errno) << endl;
-    } else {
-      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
-    }
     if (writefile->open("r", 1)) {
       cout << "Error re-opening source file: " << strerror(errno) << endl;
     } else {
@@ -382,6 +377,12 @@ int main(void) {
         cout << "originalSize: " << writefile->originalSize() << endl;
       }
       writefile->close();
+    }
+    if (writefile->getOriginalSize() < 0) {
+      cout << "getOriginalSize: " << strerror(errno) << endl;
+    } else {
+      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
+      cout << "originalSize: " << writefile->originalSize() << endl;
     }
   }
   writefile->remove();
@@ -402,11 +403,6 @@ int main(void) {
     cout << "write size: " << write_size << " (" << writefile->size() << ", "
       << writefile->dataSize() << "), checksum: " << writefile->checksum()
       << endl;
-    if (writefile->getOriginalSize() < 0) {
-      cout << "getOriginalSize: " << strerror(errno) << endl;
-    } else {
-      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
-    }
     if (writefile->open("r", 1)) {
       cout << "Error re-opening source file: " << strerror(errno) << endl;
     } else {
@@ -418,6 +414,12 @@ int main(void) {
         cout << "originalSize: " << writefile->originalSize() << endl;
       }
       writefile->close();
+    }
+    if (writefile->getOriginalSize() < 0) {
+      cout << "getOriginalSize: " << strerror(errno) << endl;
+    } else {
+      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
+      cout << "originalSize: " << writefile->originalSize() << endl;
     }
   }
   writefile->remove();
@@ -564,11 +566,6 @@ int main(void) {
     cout << "write size: " << write_size << " (" << writefile->size() << ", "
       << writefile->dataSize() << "), checksum: " << writefile->checksum()
       << endl;
-    if (writefile->getOriginalSize() < 0) {
-      cout << "getOriginalSize: " << strerror(errno) << endl;
-    } else {
-      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
-    }
     if (writefile->open("r", 1)) {
       cout << "Error re-opening source file: " << strerror(errno) << endl;
     } else {
@@ -580,6 +577,12 @@ int main(void) {
         cout << "originalSize: " << writefile->originalSize() << endl;
       }
       writefile->close();
+    }
+    if (writefile->getOriginalSize() < 0) {
+      cout << "getOriginalSize: " << strerror(errno) << endl;
+    } else {
+      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
+      cout << "originalSize: " << writefile->originalSize() << endl;
     }
   }
   delete readfile;
@@ -662,11 +665,6 @@ int main(void) {
     cout << "write size: " << write_size << " (" << writefile->size() << ", "
       << writefile->dataSize() << "), checksum: " << writefile->checksum()
       << endl;
-    if (writefile->getOriginalSize() < 0) {
-      cout << "getOriginalSize: " << strerror(errno) << endl;
-    } else {
-      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
-    }
     if (writefile->open("r", 1)) {
       cout << "Error re-opening source file: " << strerror(errno) << endl;
     } else {
@@ -678,6 +676,12 @@ int main(void) {
         cout << "originalSize: " << writefile->originalSize() << endl;
       }
       writefile->close();
+    }
+    if (writefile->getOriginalSize() < 0) {
+      cout << "getOriginalSize: " << strerror(errno) << endl;
+    } else {
+      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
+      cout << "originalSize: " << writefile->originalSize() << endl;
     }
   }
   cout << endl
@@ -721,11 +725,6 @@ int main(void) {
     cout << "write size: " << write_size << " (" << writefile->size() << ", "
       << writefile->dataSize() << "), checksum: " << writefile->checksum()
       << endl;
-    if (writefile->getOriginalSize() < 0) {
-      cout << "getOriginalSize: " << strerror(errno) << endl;
-    } else {
-      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
-    }
     if (writefile->open("r", 1)) {
       cout << "Error re-opening source file: " << strerror(errno) << endl;
     } else {
@@ -737,6 +736,12 @@ int main(void) {
         cout << "originalSize: " << writefile->originalSize() << endl;
       }
       writefile->close();
+    }
+    if (writefile->getOriginalSize() < 0) {
+      cout << "getOriginalSize: " << strerror(errno) << endl;
+    } else {
+      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
+      cout << "originalSize: " << writefile->originalSize() << endl;
     }
   }
   delete readfile;
