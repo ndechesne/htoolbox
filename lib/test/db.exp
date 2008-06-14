@@ -179,7 +179,7 @@ Checksum(s) with data: 4
 Obsolete checksum(s): 1
  -> 6d7fce9fee471194aa8b5b6e47267f03-0: removed
 Warning: Problematic checksum(s): 1
- -> Missing: 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0: missing
 Missing checksums list updated
 List of problematic checksums contains 1 item(s)
 Database closed

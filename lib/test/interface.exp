@@ -5947,11 +5947,11 @@ Checksum(s) with data: 13
 Obsolete checksum(s): 1
  -> 6d7fce9fee471194aa8b5b6e47267f03-0
 Warning: Problematic checksum(s): 5
- -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
- -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
- -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
- -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0: missing
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0: missing
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
+ -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
+ -> fef51838cd3cfe8ed96355742eb71fbd-0: missing
 Missing checksums list updated
 List of problematic checksums contains 5 item(s)
 Database closed
@@ -6013,11 +6013,11 @@ Checksum(s) with data: 13
 Obsolete checksum(s): 1
  -> 6d7fce9fee471194aa8b5b6e47267f03-0
 Warning: Problematic checksum(s): 5
- -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
- -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
- -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
- -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0: missing
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0: missing
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
+ -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
+ -> fef51838cd3cfe8ed96355742eb71fbd-0: missing
 Missing checksums list updated
 List of problematic checksums contains 5 item(s)
 Database closed
@@ -6162,11 +6162,11 @@ Obsolete checksum(s): 4
  -> 88888888888888888888888888888888-0
  -> ffffffffffffffffffffffffffffffff-0
 Warning: Problematic checksum(s): 5
- -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
- -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
- -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
- -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0: missing
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0: missing
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
+ -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
+ -> fef51838cd3cfe8ed96355742eb71fbd-0: missing
 Missing checksums list updated
 List of problematic checksums contains 5 item(s)
 Database closed
@@ -6237,11 +6237,11 @@ Obsolete checksum(s): 4
  -> 88888888888888888888888888888888-0: removed
  -> ffffffffffffffffffffffffffffffff-0: removed
 Warning: Problematic checksum(s): 5
- -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
- -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
- -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
- -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0: missing
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0: missing
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
+ -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
+ -> fef51838cd3cfe8ed96355742eb71fbd-0: missing
 Missing checksums list updated
 List of problematic checksums contains 5 item(s)
 Database closed
@@ -6299,11 +6299,11 @@ Checksum(s) with data: 12
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
 Warning: Problematic checksum(s): 5
- -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
- -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
- -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
- -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0: missing
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0: missing
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
+ -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
+ -> fef51838cd3cfe8ed96355742eb71fbd-0: missing
 Missing checksums list updated
 List of problematic checksums contains 5 item(s)
 Database closed
@@ -6445,11 +6445,11 @@ Obsolete checksum(s): 3
  -> 77777777777777777777777777777777-0
  -> dddddddddddddddddddddddddddddddd-0
 Warning: Problematic checksum(s): 5
- -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
- -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
- -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
- -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0: missing
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0: missing
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
+ -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
+ -> fef51838cd3cfe8ed96355742eb71fbd-0: missing
 Missing checksums list updated
 List of problematic checksums contains 5 item(s)
 Database closed
@@ -6517,11 +6517,11 @@ Obsolete checksum(s): 3
  -> 77777777777777777777777777777777-0: removed
  -> dddddddddddddddddddddddddddddddd-0: removed
 Warning: Problematic checksum(s): 5
- -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
- -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
- -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
- -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0: missing
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0: missing
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
+ -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
+ -> fef51838cd3cfe8ed96355742eb71fbd-0: missing
 Missing checksums list updated
 List of problematic checksums contains 5 item(s)
 Database closed
@@ -6579,11 +6579,11 @@ Checksum(s) with data: 12
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
 Warning: Problematic checksum(s): 5
- -> Missing: 0f2ea973d77135dc3d06c8e68da6dc59-0
- -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
- -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
- -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
- -> Missing: fef51838cd3cfe8ed96355742eb71fbd-0
+ -> 0f2ea973d77135dc3d06c8e68da6dc59-0: missing
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0: missing
+ -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
+ -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
+ -> fef51838cd3cfe8ed96355742eb71fbd-0: missing
 Missing checksums list updated
 List of problematic checksums contains 5 item(s)
 Database closed
@@ -7256,9 +7256,9 @@ Checksum(s) with data: 16
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
 Warning: Problematic checksum(s): 3
- -> Inconsistent: 5252f242d27b8c2c9fdbdcbb33545d07-0
- -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
- -> Inconsistent: 816df6f64deba63b029ca19d880ee10a-0
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0: inconsistent
+ -> 59ca0efa9f5633cb0371bbc0355478d8-0: missing
+ -> 816df6f64deba63b029ca19d880ee10a-0: inconsistent
 Missing checksums list updated
 List of problematic checksums contains 3 item(s)
 Database closed

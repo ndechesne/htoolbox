@@ -256,13 +256,13 @@ void Missing::show() const {
       const char* checksum = _d->data[i].checksum.c_str();
       switch (_d->data[i].status) {
         case missing:
-          out(debug, msg_standard, checksum, 1, "Missing");
+          out(debug, msg_standard, "missing", 1, checksum);
           break;
         case inconsistent:
-          out(debug, msg_standard, checksum, 1, "Inconsistent");
+          out(debug, msg_standard, "inconsistent", 1, checksum);
           break;
         default:
-          out(debug, msg_standard, checksum, 1, "Recovered");
+          out(debug, msg_standard, "recovered", 1, checksum);
       }
     }
   }
