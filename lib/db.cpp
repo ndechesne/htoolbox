@@ -250,6 +250,8 @@ int Database::close() {
     if (_d->owner != NULL) {
       closeClient(true);
     }
+    // Close data manager
+    _d->data.close();
     if (_d->access >= rw) {
       // Save list of missing items
       _d->missing.close();
