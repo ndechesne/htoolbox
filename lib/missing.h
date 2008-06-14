@@ -42,7 +42,11 @@ public:
   const string& operator[](unsigned int id) const;
   // Get row of given checksum
   int search(const char* checksum) const;
-  // Get size (if inconsistent) or -1 (if missing)
+  // Check whether checksum is inconsistent
+  bool isInconsistent(unsigned int id) const;
+  // Check whether checksum is missing
+  bool isMissing(unsigned int id) const;
+  // Get size (if inconsistent) or -1 (if missing or size unknown)
   long long dataSize(unsigned int id) const;
   // Mark checksum at row id as recovered
   void setRecovered(unsigned int id);

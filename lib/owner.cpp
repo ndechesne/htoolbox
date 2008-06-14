@@ -463,56 +463,65 @@ int Owner::search(
   return (cmp > 0) ? 1 : 0;
 }
 
+// The main output of sendEntry is the letter:
+// * A: added data
+// * ~: modified metadata
+// * M: modified data
+// * !: incomplete data (checksum missing)
+// * C: conflicting data (size is not what was expected)
+// * R: recoverable data (data not found in DB for checksum)
 void Owner::sendEntry(
     OpData&         op,
     Missing&        missing) {
   Node* db_node = NULL;
   int rc = search(op._path, &db_node);
 
-  // Compare entries
+  // New file: add
   if ((rc > 0) || (db_node == NULL)) {
-    // New file
     op._letter = 'A';
   } else
   // Existing file: check for differences
   if (*db_node != op._node) {
-    // Metadata differ
+    // Metadata differ but not type, mtime and size: just add new metadata
     if ((op._node.type() == 'f') && (db_node->type() == 'f')
     && (op._node.size() == db_node->size())
     && (op._node.mtime() == db_node->mtime())) {
-      // If the file data is there, just add new metadata
       const char* node_checksum = static_cast<File*>(db_node)->checksum();
+      // Checksum missing: retry
       if (node_checksum[0] == '\0') {
-        // Checksum missing: retry
-        op._get_checksum = true;
-      } else {
+        op._same_list_entry = true;
+      } else
+      // Copy checksum accross
+      {
         static_cast<File&>(op._node).setChecksum(node_checksum);
       }
       op._letter = '~';
-    } else {
-      // Do it all
+    } else
+    // Data differs
+    {
       op._letter = 'M';
     }
   } else
-  // Same metadata, hence same type...
+  // Same metadata (hence same type): check for broken data
   if (op._node.type() == 'f') {
     // Check that file data is present
     const char* node_checksum = static_cast<File*>(db_node)->checksum();
     if (node_checksum[0] == '\0') {
       // Checksum missing: retry
-      op._get_checksum = true;
+      op._same_list_entry = true;
       op._letter = '!';
     } else {
       // Same checksum: look for checksum in missing list (binary search)
       op._id = missing.search(node_checksum);
       if (op._id >= 0) {
-        long long size = missing.dataSize(op._id);
-        if (size >= 0) {
-          if (size != op._node.size()) {
-            op._letter       = 'C';
-            op._get_checksum = true;
+        if (missing.isInconsistent(op._id)) {
+          if (missing.dataSize(op._id) != op._node.size()) {
+            // Replace data with correct one
+            op._same_list_entry = true;
+            op._letter = 'C';
           }
         } else {
+          // Recover missing data
           op._letter = 'R';
         }
       }

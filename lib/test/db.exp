@@ -84,13 +84,14 @@ Database open r/w: myClient
  /client_path/subdir
 Adding compressed data for 285b35198a5e188b3a0df3ed33f93a26-0
  /client_path/subdir/testfile
+Replacing with uncompressed data for 285b35198a5e188b3a0df3ed33f93a26-0
  /client_path/subdir/testfile2
-Adding data for d41d8cd98f00b204e9800998ecf8427e-0
+Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
  /client_path/test space
-Adding data for 59ca0efa9f5633cb0371bbc0355478d8-0
+Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
  /client_path/testfile
  other_path/testdir
-Adding data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
+Adding uncompressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
  other_path/testfile
 Database modified: myClient
 Database closed: myClient

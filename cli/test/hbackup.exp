@@ -287,13 +287,13 @@ A       C:/Test Dir/My Dir
 My Dir\r
       \r
 Checking data, sizes: f=2 z=36 (36)
-Adding data for b026324c6904b2a9cb4b88d6d61c81d1-0
+Adding uncompressed data for b026324c6904b2a9cb4b88d6d61c81d1-0
 A f     C:/Test Dir/My Dir/a File.TXT
 Checking data, sizes: f=2 z=36 (36)
-Adding data for 26ab0db90d72e28ad0ba1e22ee510510-0
+Adding uncompressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
 A f     C:/Test Dir/My Dir/another File.TXT
 Checking data, sizes: f=0 z=0 (0)
-Adding data for d41d8cd98f00b204e9800998ecf8427e-0
+Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
 A f     C:/Test Dir/My File.TXT
 Database modified: aClient.vista
 Database closed: aClient.vista
@@ -369,7 +369,7 @@ A       /home/User/test/dir
 dir\r
    \r
 Checking data, sizes: f=2 z=36 (36)
-Adding data for 6d7fce9fee471194aa8b5b6e47267f03-0
+Adding uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 A f     /home/User/test/dir/file3.txt
 Database modified: myClient
 Database closed: myClient
@@ -488,7 +488,7 @@ Checking data, sizes: f=161 z=154 (156)
 Adding compressed data for fef51838cd3cfe8ed96355742eb71fbd-0
 A z     test1/cvs/CVS/Entries
 Checking data, sizes: f=16 z=50 (50)
-Adding data for b90f8fa56ea1d39881d4a199c7a81d35-0
+Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 A f     test1/cvs/CVS/Root
 A       test1/cvs/dirbad
 cvs/dirbad\r
@@ -503,10 +503,10 @@ A       test1/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
               \r
 Checking data, sizes: f=42 z=76 (77)
-Adding data for 5252f242d27b8c2c9fdbdcbb33545d07-0
+Adding uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
 A f     test1/cvs/dirutd/CVS/Entries
 Checking data, sizes: f=10 z=44 (44)
-Adding data for eb75fb33b2019ef3c840eb5ccdc2e795-0
+Adding uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
 A f     test1/cvs/dirutd/CVS/Root
 Checking data, sizes: f=0 z=0 (0)
 A       test1/cvs/dirutd/fileutd
@@ -531,7 +531,7 @@ A       test1/svn/.svn
 svn/.svn\r
         \r
 Checking data, sizes: f=77 z=79 (80)
-Adding data for 0f2ea973d77135dc3d06c8e68da6dc59-0
+Adding uncompressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A f     test1/svn/.svn/entries
 A       test1/svn/dirbad
 svn/dirbad\r
@@ -547,7 +547,7 @@ A       test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
                \r
 Checking data, sizes: f=30 z=52 (52)
-Adding data for 8bdef5751e46ed57d237cbe3f4a5061c-0
+Adding uncompressed data for 8bdef5751e46ed57d237cbe3f4a5061c-0
 A f     test1/svn/dirutd/.svn/entries
 Checking data, sizes: f=0 z=0 (0)
 A       test1/svn/dirutd/fileutd
@@ -559,7 +559,7 @@ A       test1/testdir
 testdir\r
        \r
 Checking data, sizes: f=13 z=47 (47)
-Adding data for 59ca0efa9f5633cb0371bbc0355478d8-0
+Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 A f     test1/testfile
 A       test1/testlink
 A       test1/testpipe
@@ -574,7 +574,7 @@ Checking data, sizes: f=259072 z=300 (304)
 Adding compressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A z     test2/testfile2
 Checking data, sizes: f=145461 z=145518 (147791)
-Adding data for f81f70dceaca8b0cec354f33fa3f0909-0
+Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
 A f     test2/testfile2.gz
 Checking data, sizes: f=524288 z=557 (565)
 Adding compressed data for 59071590099d21dd439896592338bf95-0
@@ -796,19 +796,19 @@ Reading list of problematic checksums
 List created: localhost
 Database open r/w: localhost
 Backing up path: test_user/testuser
-Adding data for 31d30eea8d0968d6458e0ad0027c9f80-0
+Adding uncompressed data for 31d30eea8d0968d6458e0ad0027c9f80-0
 A f     test_user/testuser/f1.txt
 A       test_user/testuser/subdir
 subdir\r
       \r
-Adding data for dbbf8220893d497d403bb9cdf49db7a4-0
+Adding uncompressed data for dbbf8220893d497d403bb9cdf49db7a4-0
 A f     test_user/testuser/subdir/f2.txt
 A       test_user/testuser/subdir2
 subdir2\r
        \r
-Adding data for d5b4c7d9b06b60a7846c4529834c9812-0
+Adding uncompressed data for d5b4c7d9b06b60a7846c4529834c9812-0
 A f     test_user/testuser/subdir2/f3.txt
-Adding data for 90e2a51705594d033a3abe9d77b2b7ad-0
+Adding uncompressed data for 90e2a51705594d033a3abe9d77b2b7ad-0
 A f     test_user/testuser/subdir2/f4.txt
 Database modified: localhost
 Database closed: localhost

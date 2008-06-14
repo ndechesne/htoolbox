@@ -182,6 +182,18 @@ int main(void) {
     db.close();
     return 0;
   }
+  /* Write again */
+  chksm = NULL;
+  if ((status = db.write("test_db/blah", "temp_data", &chksm)) < 0) {
+    printf("db.write error status %d\n", status);
+    db.close();
+    return 0;
+  }
+  if (chksm == NULL) {
+    printf("db.write returned unexpected null checksum\n");
+    db.close();
+    return 0;
+  }
   cout << chksm << "  test_db/blah" << endl;
 
 

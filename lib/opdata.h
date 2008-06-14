@@ -29,14 +29,14 @@ class OpData {
   int               _compression;     // Compression level for regular files
   const char*       _path;            // Real file path, on client
   Node&             _node;            // File metadata
-  bool              _get_checksum;    // Metadata exists but checksum missing
+  bool              _same_list_entry; // Don't add a list entry, replace
 public:
   // Pointers given to the constructor MUST remain valid during operation!
   OpData(
     const char*     path,             // Real file path, on client
     Node&           node)             // File metadata
     : _letter(0), _id(-1), _compression(0), _path(path), _node(node),
-      _get_checksum(false) {}
+      _same_list_entry(false) {}
   void setCompression(int compression) { _compression = compression; }
   int compression()  { return _compression; }
   bool needsAdding() { return _letter != 0; }

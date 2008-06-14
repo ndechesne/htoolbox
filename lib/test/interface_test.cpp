@@ -767,8 +767,14 @@ int main(void) {
 
   cout << endl << "Test: backup recovers broken checksums + replace data"
     << endl;
+  // Replace with compressed data
   system("touch test2/testfile2");
   system("gunzip test_db/.data/fb00cd74a5f35e89a7fbdd3c1d05375a-0/data.gz");
+  // Wrong gzip format, data should be flat => conflict
+  system("gzip test_db/.data/5252f242d27b8c2c9fdbdcbb33545d07-0/data");
+  // Wrong gzip format, data should be compressed => conflict
+  system("gunzip test_db/.data/816df6f64deba63b029ca19d880ee10a-0/data.gz");
+  system("gzip test_db/.data/816df6f64deba63b029ca19d880ee10a-0/data");
   remove("test1/testfile");
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {

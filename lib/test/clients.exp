@@ -193,7 +193,8 @@ A z     /home/User/test/dir/file3.txt
 Backing up path: /home/User/test2
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
-A       /home/User/test2/File3.txt
+Replacing with uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
+A f r   /home/User/test2/File3.txt
 A       /home/User/test2/File4.txt
 Database modified: myClient
 Database closed: myClient
@@ -379,13 +380,13 @@ Backing up path: test2
 A       test2/testdir
 testdir\r
        \r
-Adding data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
+Adding uncompressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
 A f     test2/testfile
-Adding data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+Adding uncompressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A f     test2/testfile2
-Adding data for f81f70dceaca8b0cec354f33fa3f0909-0
+Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
 A f     test2/testfile2.gz
-Adding data for 59071590099d21dd439896592338bf95-0
+Adding uncompressed data for 59071590099d21dd439896592338bf95-0
 A f     test2/testfile~
 A       test2/testlink
 Database modified: testhost
@@ -507,9 +508,9 @@ Backing up path: C:/Test Dir
 A       C:/Test Dir/My Dir
 My Dir\r
       \r
-Adding data for b026324c6904b2a9cb4b88d6d61c81d1-0
+Adding uncompressed data for b026324c6904b2a9cb4b88d6d61c81d1-0
 A f     C:/Test Dir/My Dir/a File.TXT
-Adding data for 26ab0db90d72e28ad0ba1e22ee510510-0
+Adding uncompressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
 A f     C:/Test Dir/My Dir/another File.TXT
 A       C:/Test Dir/My File.TXT
 Database modified: myhost2
@@ -537,7 +538,8 @@ A       /home/User/test/File2.txt
 A       /home/User/test/dir
 dir\r
    \r
-A       /home/User/test/dir/file3.txt
+Replacing with uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
+A f r   /home/User/test/dir/file3.txt
 Database modified: myhost3
 Database closed: myhost3
  -> umount -fl test_db/mount
@@ -559,8 +561,9 @@ A       test1/cvs/CVS
 CVS\r
    \r
 A       test1/cvs/CVS/Entries
-A       test1/cvs/CVS/Root
-Adding data for 9283e2c51868272850bd2d89b63c58e8-0
+Replacing with uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
+A f r   test1/cvs/CVS/Root
+Adding uncompressed data for 9283e2c51868272850bd2d89b63c58e8-0
 A f     test1/cvs/CVS/Whatever
 A       test1/cvs/CVS/Wherever
 CVS/Wherever\r
@@ -580,9 +583,11 @@ dirutd\r
 A       test1/cvs/dirutd/CVS
 dirutd/CVS\r
           \r
-A       test1/cvs/dirutd/CVS/Entries
-A       test1/cvs/dirutd/CVS/Root
-Adding data for caecaacc7fdee8a7667d4f4f315858a9-0
+Replacing with uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
+A f r   test1/cvs/dirutd/CVS/Entries
+Replacing with uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
+A f r   test1/cvs/dirutd/CVS/Root
+Adding uncompressed data for caecaacc7fdee8a7667d4f4f315858a9-0
 A f     test1/cvs/dirutd/CVS/Whatever
 A       test1/cvs/dirutd/fileoth
 A       test1/cvs/dirutd/fileutd

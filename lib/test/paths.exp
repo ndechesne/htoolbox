@@ -11,7 +11,7 @@ Path: /home/User
 Reading list of problematic checksums
 List created: myClient
 Database open r/w: myClient
-Adding data for d41d8cd98f00b204e9800998ecf8427e-0
+Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
 A f     /home/User/àccénts_test
 Done:   5.0%\r
 Done:  10.0%\r
@@ -33,7 +33,7 @@ Done:  85.0%\r
 Done:  90.0%\r
 Done:  95.0%\r
             \r
-Adding data for f1c9645dbc14efddc7d8a322685f26eb-0
+Adding uncompressed data for f1c9645dbc14efddc7d8a322685f26eb-0
 A f     /home/User/big_file
 A       /home/User/cvs
 cvs\r
@@ -41,11 +41,11 @@ cvs\r
 A       /home/User/cvs/CVS
 cvs/CVS\r
        \r
-Adding data for fef51838cd3cfe8ed96355742eb71fbd-0
+Adding uncompressed data for fef51838cd3cfe8ed96355742eb71fbd-0
 A f     /home/User/cvs/CVS/Entries
-Adding data for b90f8fa56ea1d39881d4a199c7a81d35-0
+Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 A f     /home/User/cvs/CVS/Root
-Adding data for 9283e2c51868272850bd2d89b63c58e8-0
+Adding uncompressed data for 9283e2c51868272850bd2d89b63c58e8-0
 A f     /home/User/cvs/CVS/Whatever
 A       /home/User/cvs/CVS/Wherever
 cvs/CVS/Wherever\r
@@ -65,11 +65,11 @@ cvs/dirutd\r
 A       /home/User/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
               \r
-Adding data for 5252f242d27b8c2c9fdbdcbb33545d07-0
+Adding uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
 A f     /home/User/cvs/dirutd/CVS/Entries
-Adding data for eb75fb33b2019ef3c840eb5ccdc2e795-0
+Adding uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
 A f     /home/User/cvs/dirutd/CVS/Root
-Adding data for caecaacc7fdee8a7667d4f4f315858a9-0
+Adding uncompressed data for caecaacc7fdee8a7667d4f4f315858a9-0
 A f     /home/User/cvs/dirutd/CVS/Whatever
 A       /home/User/cvs/dirutd/fileoth
 A       /home/User/cvs/dirutd/fileutd
@@ -87,7 +87,7 @@ subdir\r
 Error: myClient:/home/User/subdir/testfile: Permission denied: Backing up file
 A !     /home/User/subdir/testfile
 A       /home/User/subdir/testfile1
-Adding data for 285b35198a5e188b3a0df3ed33f93a26-0
+Adding uncompressed data for 285b35198a5e188b3a0df3ed33f93a26-0
 A f     /home/User/subdir/testfile2
 A       /home/User/subdir-file
 A       /home/User/subdirfile
@@ -97,11 +97,11 @@ svn\r
 A       /home/User/svn/.svn
 svn/.svn\r
         \r
-Adding data for 0f2ea973d77135dc3d06c8e68da6dc59-0
+Adding uncompressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A f     /home/User/svn/.svn/entries
-Adding data for 3cd6b399f9fa49fd0b137a3de46d83f5-0
+Adding uncompressed data for 3cd6b399f9fa49fd0b137a3de46d83f5-0
 A f     /home/User/svn/.svn/format
-Adding data for 06f05055bfb2c8b900459f45826fc8ea-0
+Adding uncompressed data for 06f05055bfb2c8b900459f45826fc8ea-0
 A f     /home/User/svn/.svn/whatever
 A       /home/User/svn/.svn/wherever
 svn/.svn/wherever\r
@@ -121,11 +121,11 @@ svn/dirutd\r
 A       /home/User/svn/dirutd/.svn
 svn/dirutd/.svn\r
                \r
-Adding data for 8bdef5751e46ed57d237cbe3f4a5061c-0
+Adding uncompressed data for 8bdef5751e46ed57d237cbe3f4a5061c-0
 A f     /home/User/svn/dirutd/.svn/entries
-Adding data for 60afe8c3ac66cb77a34da116394d9ac8-0
+Adding uncompressed data for 60afe8c3ac66cb77a34da116394d9ac8-0
 A f     /home/User/svn/dirutd/.svn/format
-Adding data for 3b9ddae5294c8f4850d45073a933f3e6-0
+Adding uncompressed data for 3b9ddae5294c8f4850d45073a933f3e6-0
 A f     /home/User/svn/dirutd/.svn/whatever
 A       /home/User/svn/dirutd/fileoth
 A       /home/User/svn/dirutd/fileutd
@@ -137,7 +137,7 @@ A       /home/User/test space
 A       /home/User/testdir
 testdir\r
        \r
-Adding data for 59ca0efa9f5633cb0371bbc0355478d8-0
+Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 A f     /home/User/testfile
 A       /home/User/testfile~
 A       /home/User/testlink
@@ -585,7 +585,7 @@ cvs\r
 cvs/CVS\r
 cvs/CVS/Wherever\r
                 \r
-Adding data for 816df6f64deba63b029ca19d880ee10a-0
+Adding uncompressed data for 816df6f64deba63b029ca19d880ee10a-0
 ! f     /home/User/cvs/big_file
 cvs/dirbad\r
 cvs/diroth\r
@@ -2443,7 +2443,7 @@ cvs/CVS\r
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-Adding data for 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+Adding uncompressed data for 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 M f     /home/User/cvs/filenew.c
 dir space\r
 svn      \r
@@ -3113,13 +3113,13 @@ Database open r/w: hisClient
 A       /home/User/testdir
 testdir\r
        \r
-Adding data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
+Adding uncompressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
 A f     /home/User/testfile
-Adding data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+Adding uncompressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A f     /home/User/testfile2
-Adding data for f81f70dceaca8b0cec354f33fa3f0909-0
+Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
 A f     /home/User/testfile2.gz
-Adding data for 59071590099d21dd439896592338bf95-0
+Adding uncompressed data for 59071590099d21dd439896592338bf95-0
 A f     /home/User/testfile~
 Parsed 5 file(s)
 Database modified: hisClient

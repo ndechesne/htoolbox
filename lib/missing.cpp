@@ -193,6 +193,14 @@ unsigned int Missing::size() const {
   return _d->data.size();
 }
 
+bool Missing::isInconsistent(unsigned int id) const {
+  return _d->data[id].status == inconsistent;
+}
+
+bool Missing::isMissing(unsigned int id) const {
+  return _d->data[id].status == missing;
+}
+
 long long Missing::dataSize(unsigned int id) const {
   return _d->data[id].size;
 }

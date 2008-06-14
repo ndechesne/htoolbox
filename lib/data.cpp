@@ -443,92 +443,91 @@ int Data::write(
 
   // Make sure our checksum is unique: compare first bytes of files
   int  index   = 0;
-  bool missing = false;
-  bool present = false;
-  Stream *data = NULL;
+  enum {
+    none    = -1,
+    leave   = 0,
+    add     = 1,
+    replace = 2
+  } action = none;
+  Stream* data       = NULL;
+  char*   final_path = NULL;
   do {
-    char* final_path = NULL;
     asprintf(&final_path, "%s-%u", dest_path.c_str(), index);
 
-    // Check whether directory already exists
-    if (Directory(final_path).isValid()) {
+    // Directory does not exist
+    if (! Directory(final_path).isValid()) {
+      action = add;
+    } else {
       vector<string> extensions;
       extensions.push_back("");
       extensions.push_back(".gz");
       unsigned int no;
       delete data;
       data = Stream::select(Path(final_path, "data"), extensions, &no);
+      // File does not exist
       if (data == NULL) {
-        // Need to copy file accross: leave index to current value and exit
-        dest_path = final_path;
-        missing = true;
-      } else {
+        action = add;
+      } else
+      // Compare files
+      {
         data->open("r", (no > 0) ? 1 : 0);
         dest->open("r", compress);
-        switch (dest->compare(*data, 10*1024*1024)) {
+        int cmp = dest->compare(*data, 10*1024*1024);
+        dest->close();
+        data->close();
+        switch (cmp) {
+          // Same data
           case 0:
-            present = true;
+            // Gzip file format incorrect
+            if ((no > 0) && (data->getOriginalSize() < 0)) {
+              action = replace;
+            } else
+            // Replacing data will save space
+            if (size_cmp < data->size()) {
+              action = replace;
+            } else
+            // Nothing to do
+            {
+              action = leave;
+            }
             break;
+          // Different data
           case 1:
             index++;
             break;
+          // Error
           default:
             failed = true;
         }
-        dest->close();
-        data->close();
-        // Want size if auto compression enabled
-        if (present && (temp2 != NULL)) {
-          dest_path = final_path;
-          data->stat();
-        } else {
-          delete data;
-          data = NULL;
-        }
       }
-    } else {
-      Directory(final_path).create();
-      dest_path = final_path;
-      missing = true;
     }
-    free(final_path);
-  } while (! failed && ! missing && ! present);
+  } while (! failed && (action == none));
 
   // Now move the file in its place
-  if (! present) {
+  if ((action == add) || (action == replace)) {
     stringstream s;
-    s << "Adding " << ((compress != 0) ? "compressed " : "")
-      << "data for " << source.checksum() << "-" << index;
+    s << ((action == add) ? "Adding " : "Replacing with ")
+      << ((compress != 0) ? "" : "un") << "compressed data for "
+      << source.checksum() << "-" << index;
     out(debug, msg_standard, s.str().c_str());
-    if (rename(dest->path(),
-        (dest_path + "/data" + ((compress != 0) ? ".gz" : "")).c_str())) {
-      stringstream s;
-      s << "Failed to move file " << dest->path() << " to " << dest_path
-        << ": " << strerror(errno);
-      out(error, msg_standard, s.str().c_str());
-      failed = true;
-    }
-  } else
-  // Is newly copied file smaller?
-  if ((data != NULL) && (data->size() > size_cmp)) {
-    stringstream s;
-    s << "Replacing with " << ((compress != 0) ? "" : "un")
-      << "compressed data for " << source.checksum() << "-" << index;
-    out(debug, msg_standard, s.str().c_str());
-    present = false;
-    // No need to save, only renames
-    if (data->remove() || rename(dest->path(),
-        (dest_path + "/data" + ((compress != 0) ? ".gz" : "")).c_str())) {
-      stringstream s;
-      s << "Failed to move file " << dest->path() << " to " << dest_path
-        << ": " << strerror(errno);
-      out(error, msg_standard, s.str().c_str());
-      failed = true;
+    if (Directory(final_path).create() < 0) {
+      out(error, msg_errno, "Creating directory", errno, final_path);
+    } else
+    if ((action == replace) && (data->remove() < 0)) {
+      out(error, msg_errno, "Removing previous data", errno);
+    } else {
+      char* name;
+      asprintf(&name, "%s/data%s", final_path, ((compress != 0) ? ".gz" : ""));
+      if (rename(dest->path(), name)) {
+        out(error, msg_errno, "Failed to move file", errno, name);
+        failed = true;
+      }
+      free(name);
     }
   }
 
   // If anything failed, delete temporary file
-  if (failed || present) {
+  if (failed || (action == leave)) {
     dest->remove();
   }
 
@@ -548,9 +547,10 @@ int Data::write(
     }
   }
 
+  free(final_path);
   delete dest;
   delete data;
-  return failed ? -1 : (present ? 0 : 1);
+  return failed ? -1 : action;
 }
 
 int Data::check(

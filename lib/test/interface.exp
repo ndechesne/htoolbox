@@ -245,13 +245,13 @@ A       C:/Test Dir/My Dir
 My Dir\r
       \r
 Checking data, sizes: f=2 z=36 (36)
-Adding data for b026324c6904b2a9cb4b88d6d61c81d1-0
+Adding uncompressed data for b026324c6904b2a9cb4b88d6d61c81d1-0
 A f     C:/Test Dir/My Dir/a File.TXT
 Checking data, sizes: f=2 z=36 (36)
-Adding data for 26ab0db90d72e28ad0ba1e22ee510510-0
+Adding uncompressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
 A f     C:/Test Dir/My Dir/another File.TXT
 Checking data, sizes: f=0 z=0 (0)
-Adding data for d41d8cd98f00b204e9800998ecf8427e-0
+Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
 A f     C:/Test Dir/My File.TXT
 Database modified: aClient.vista
 Database closed: aClient.vista
@@ -327,7 +327,7 @@ A       /home/User/test/dir
 dir\r
    \r
 Checking data, sizes: f=2 z=36 (36)
-Adding data for 6d7fce9fee471194aa8b5b6e47267f03-0
+Adding uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 A f     /home/User/test/dir/file3.txt
 Database modified: myClient
 Database closed: myClient
@@ -445,7 +445,7 @@ Checking data, sizes: f=161 z=154 (156)
 Adding compressed data for fef51838cd3cfe8ed96355742eb71fbd-0
 A z     test1/cvs/CVS/Entries
 Checking data, sizes: f=16 z=50 (50)
-Adding data for b90f8fa56ea1d39881d4a199c7a81d35-0
+Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 A f     test1/cvs/CVS/Root
 A       test1/cvs/dirbad
 cvs/dirbad\r
@@ -460,10 +460,10 @@ A       test1/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
               \r
 Checking data, sizes: f=42 z=76 (77)
-Adding data for 5252f242d27b8c2c9fdbdcbb33545d07-0
+Adding uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
 A f     test1/cvs/dirutd/CVS/Entries
 Checking data, sizes: f=10 z=44 (44)
-Adding data for eb75fb33b2019ef3c840eb5ccdc2e795-0
+Adding uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
 A f     test1/cvs/dirutd/CVS/Root
 Checking data, sizes: f=0 z=0 (0)
 A       test1/cvs/dirutd/fileutd
@@ -488,7 +488,7 @@ A       test1/svn/.svn
 svn/.svn\r
         \r
 Checking data, sizes: f=77 z=79 (80)
-Adding data for 0f2ea973d77135dc3d06c8e68da6dc59-0
+Adding uncompressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A f     test1/svn/.svn/entries
 A       test1/svn/dirbad
 svn/dirbad\r
@@ -504,7 +504,7 @@ A       test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
                \r
 Checking data, sizes: f=30 z=52 (52)
-Adding data for 8bdef5751e46ed57d237cbe3f4a5061c-0
+Adding uncompressed data for 8bdef5751e46ed57d237cbe3f4a5061c-0
 A f     test1/svn/dirutd/.svn/entries
 Checking data, sizes: f=0 z=0 (0)
 A       test1/svn/dirutd/fileutd
@@ -516,7 +516,7 @@ A       test1/testdir
 testdir\r
        \r
 Checking data, sizes: f=13 z=47 (47)
-Adding data for 59ca0efa9f5633cb0371bbc0355478d8-0
+Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 A f     test1/testfile
 A       test1/testlink
 A       test1/testpipe
@@ -531,7 +531,7 @@ Checking data, sizes: f=259072 z=300 (304)
 Adding compressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 A z     test2/testfile2
 Checking data, sizes: f=145461 z=145518 (147791)
-Adding data for f81f70dceaca8b0cec354f33fa3f0909-0
+Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
 A f     test2/testfile2.gz
 Checking data, sizes: f=524288 z=557 (565)
 Adding compressed data for 59071590099d21dd439896592338bf95-0
@@ -2725,19 +2725,19 @@ Reading list of problematic checksums
 List created: localhost
 Database open r/w: localhost
 Backing up path: test_user/testuser
-Adding data for 31d30eea8d0968d6458e0ad0027c9f80-0
+Adding uncompressed data for 31d30eea8d0968d6458e0ad0027c9f80-0
 A f     test_user/testuser/f1.txt
 A       test_user/testuser/subdir
 subdir\r
       \r
-Adding data for dbbf8220893d497d403bb9cdf49db7a4-0
+Adding uncompressed data for dbbf8220893d497d403bb9cdf49db7a4-0
 A f     test_user/testuser/subdir/f2.txt
 A       test_user/testuser/subdir2
 subdir2\r
        \r
-Adding data for d5b4c7d9b06b60a7846c4529834c9812-0
+Adding uncompressed data for d5b4c7d9b06b60a7846c4529834c9812-0
 A f     test_user/testuser/subdir2/f3.txt
-Adding data for 90e2a51705594d033a3abe9d77b2b7ad-0
+Adding uncompressed data for 90e2a51705594d033a3abe9d77b2b7ad-0
 A f     test_user/testuser/subdir2/f4.txt
 Database modified: localhost
 Database closed: localhost
@@ -6735,7 +6735,7 @@ Backing up path: /home/User/test
 dir\r
    \r
 Checking data, sizes: f=2 z=36 (36)
-Adding data for 6d7fce9fee471194aa8b5b6e47267f03-0
+Adding uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 C f     /home/User/test/dir/file3.txt
 Database modified: myClient
 Database closed: myClient
@@ -6818,7 +6818,7 @@ Checking data, sizes: f=161 z=154 (156)
 Adding compressed data for fef51838cd3cfe8ed96355742eb71fbd-0
 R z     test1/cvs/CVS/Entries
 Checking data, sizes: f=16 z=50 (50)
-Adding data for b90f8fa56ea1d39881d4a199c7a81d35-0
+Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 R f     test1/cvs/CVS/Root
 cvs/dirbad\r
           \r
@@ -6839,7 +6839,7 @@ svn      \r
 svn/.svn\r
         \r
 Checking data, sizes: f=77 z=79 (80)
-Adding data for 0f2ea973d77135dc3d06c8e68da6dc59-0
+Adding uncompressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
 R f     test1/svn/.svn/entries
 svn/dirbad\r
           \r
@@ -6858,7 +6858,7 @@ testdir\r
        \r
 Checking data, sizes: f=259072 z=300 (304)
 Replacing with compressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-M z     test2/testfile2
+M z r   test2/testfile2
 Database modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
@@ -7242,10 +7242,10 @@ Checksum(s) with data: 16
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
- -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
+ -> 5252f242d27b8c2c9fdbdcbb33545d07-0, -1
  -> 59071590099d21dd439896592338bf95-0, 524288
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
- -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 816df6f64deba63b029ca19d880ee10a-0, -1
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
@@ -7255,10 +7255,12 @@ Checksum(s) with data: 16
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Warning: Problematic checksum(s): 1
+Warning: Problematic checksum(s): 3
+ -> Inconsistent: 5252f242d27b8c2c9fdbdcbb33545d07-0
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Inconsistent: 816df6f64deba63b029ca19d880ee10a-0
 Missing checksums list updated
-List of problematic checksums contains 1 item(s)
+List of problematic checksums contains 3 item(s)
 Database closed
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
@@ -7336,7 +7338,9 @@ Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
 Reading list of problematic checksums
+ -> Inconsistent: 5252f242d27b8c2c9fdbdcbb33545d07-0
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Inconsistent: 816df6f64deba63b029ca19d880ee10a-0
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
@@ -7484,8 +7488,16 @@ cvs/dirutd\r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
-dir space     \r
-svn      \r
+              \r
+Checking data, sizes: f=42 z=76 (77)
+Replacing with uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
+C f r   test1/cvs/dirutd/CVS/Entries
+dir space\r
+         \r
+Checking data, sizes: f=512000 z=545 (553)
+Replacing with compressed data for 816df6f64deba63b029ca19d880ee10a-0
+C z r   test1/dir space/big_file
+svn\r
    \r
  -> Parsing Subversion entries
  --> diroth: o
@@ -7507,8 +7519,10 @@ testdir        \r
 Backing up path: test2
 testdir\r
        \r
+Database modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported: ssh
+Missing checksums list updated
 List of problematic checksums contains 1 item(s)
 Database closed

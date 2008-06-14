@@ -692,7 +692,14 @@ int Database::add(
     const OpData&   op,
     bool            report_copy_error_once) {
   bool failed = false;
-  time_t ts = time(NULL);
+
+  // Prepare timestamp
+  time_t ts;
+  if (op._same_list_entry) {
+    ts = 0;
+  } else {
+    ts = time(NULL);
+  }
 
   // Add new record to active list
   if ((op._node.type() == 'l') && ! op._node.parsed()) {
@@ -701,14 +708,10 @@ int Database::add(
   }
 
   char code[] = "       ";
-  code[0] = op._letter;
+  code[0]     = op._letter;
 
   if ((op._node.type() == 'f')
   && (static_cast<File&>(op._node).checksum()[0] == '\0')) {
-    // Only missing the checksum
-    if (op._get_checksum) {
-      ts = 0;
-    }
     // Copy data
     char* checksum = NULL;
     int compression;
@@ -720,6 +723,9 @@ int Database::add(
           code[2] = 'z';
         } else {
           code[2] = 'f';
+        }
+        if (rc > 1) {
+          code[4] = 'r';
         }
       }
       static_cast<File&>(op._node).setChecksum(checksum);
@@ -741,7 +747,7 @@ int Database::add(
   }
 
   // Even if failed, add data if new
-  if (! failed || ! op._get_checksum) {
+  if (! failed || ! op._same_list_entry) {
     // Add entry info to journal
     if (_d->owner->add(op._path, &op._node, ts) < 0) {
       out(error, msg_standard, "Cannot add to client's list");
