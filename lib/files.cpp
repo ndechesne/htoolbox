@@ -278,6 +278,7 @@ int Directory::createList() {
   if (directory == NULL) return -1;
 
   struct dirent *dir_entry;
+  errno = 0;
   while (((dir_entry = readdir(directory)) != NULL)) {
     // Ignore . and ..
     if (!strcmp(dir_entry->d_name, ".") || !strcmp(dir_entry->d_name, "..")) {
@@ -311,7 +312,7 @@ int Directory::createList() {
   }
 
   closedir(directory);
-  return 0;
+  return (errno != 0) ? -1 : 0;
 }
 
 void Directory::deleteList() {
@@ -476,7 +477,7 @@ int Stream::open(
 
   _d->mode          = O_NOATIME | O_LARGEFILE;
   _d->original_size = original_size;
-  
+
   switch (req_mode[0]) {
   case 'w':
     _d->mode = O_WRONLY | O_CREAT | O_TRUNC;
@@ -686,7 +687,7 @@ ssize_t Stream::read_decompress(
     GzipExtraFieldSize extra(field);
     _d->original_size = extra;
   }
-  
+
   return size;
 }
 
