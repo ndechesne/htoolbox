@@ -665,7 +665,8 @@ ssize_t Stream::read_decompress(
       }
       _d->buffer_comp.written(size);
       _d->strm->avail_in = _d->buffer_comp.readable();
-      _d->strm->next_in  = (unsigned char*) _d->buffer_comp.reader();
+      _d->strm->next_in  = reinterpret_cast<unsigned char*>(
+        const_cast<char*>(_d->buffer_comp.reader()));
     }
     _d->strm->avail_out = asked;
     _d->strm->next_out  = static_cast<unsigned char*>(buffer);
@@ -787,7 +788,7 @@ ssize_t Stream::write_compress(
     size_t          count,
     bool            finish) {
   _d->strm->avail_in = count;
-  _d->strm->next_in  = (unsigned char*) buffer;
+  _d->strm->next_in  = static_cast<Bytef*>(const_cast<void*>(buffer));
 
   // Set header
   if (_d->original_size >= 0) {
