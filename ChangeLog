@@ -1,5 +1,5 @@
 0.9.0
-  * change default file from /etc/hbackup/hbackup.conf to /etc/hbackup/config
+  * change default file /etc/hbackup/config
   * speed up read/write/getLine/copy operations, save memory
   * accept client definition in server configuration file
   * add option to disable the warning on connection time-out (was always disabled)
@@ -10,7 +10,12 @@
   * support '*' at end of client name to support multiple selection
   * add options to restore as links, hard and symbolic
   * do not check corrupted data twice
+  * also check size of data when scanning (adds extra field in gzip'd files)
   * less noise in verbose mode
+
+0.8.3 - 2008-06-02 (SVN r537)
+  * fix list corruption when no space left on backup device, again
+  * remove compilation warning
 
 0.8.2 - 2008-04-04 (SVN r418)
   * quick fix restoration of paths containing spaces
