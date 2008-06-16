@@ -193,8 +193,6 @@ static list<string> clients;
 int main(int argc, char **argv) {
   hbackup::HBackup hbackup;
 
-  // Set progress callback function
-  hbackup::setProgressCallback(progress);
   setMessageCallback(output);
 
   // Accept hubackup as a replacement for hbackup -u
@@ -307,6 +305,11 @@ int main(int argc, char **argv) {
       verbose_level = hbackup::debug;
     }
 
+    // Set progress callback function
+    if (verbose_level >= hbackup::verbose) {
+      hbackup::setProgressCallback(progress);
+    }
+    
     // Check mode
     if (userSwitch.getValue()) {
       user_mode = true;
