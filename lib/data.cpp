@@ -497,6 +497,8 @@ int Data::write(
             break;
           // Error
           default:
+            out(error, msg_errno, "Failed to compare data", errno,
+              source.checksum());
             failed = true;
         }
       }

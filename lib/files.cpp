@@ -531,11 +531,13 @@ int Stream::open(
       // Compress
       if (deflateInit2(_d->strm, compression, Z_DEFLATED, 16 + 15, 9,
           Z_DEFAULT_STRATEGY) != Z_OK) {
+        errno = ENOMEM;
         return -2;
       }
     } else {
       // De-compress
       if (inflateInit2(_d->strm, 32 + 15) != Z_OK) {
+        errno = ENOMEM;
         return -2;
       }
     }
