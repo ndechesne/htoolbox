@@ -278,11 +278,24 @@ int Directory::createList() {
   if (directory == NULL) return -1;
 
   struct dirent *dir_entry;
-  errno = 0;
+  errno             = 0;
+  bool seen_dot     = false;
+  bool seen_dot_dot = false;
   while (((dir_entry = readdir(directory)) != NULL)) {
     // Ignore . and ..
-    if (!strcmp(dir_entry->d_name, ".") || !strcmp(dir_entry->d_name, "..")) {
-      continue;
+    if (! seen_dot || ! seen_dot_dot) {
+      if (dir_entry->d_name[0] == '.') {
+        if (dir_entry->d_name[1] == '\0') {
+          seen_dot = true;
+          continue;
+        }
+        if (dir_entry->d_name[1] == '.') {
+          if (dir_entry->d_name[2] == '\0') {
+            seen_dot_dot = true;
+            continue;
+          }
+        } 
+      }
     }
     Node *g = new Node(Path(_path, dir_entry->d_name));
     g->stat();
@@ -311,7 +324,15 @@ int Directory::createList() {
     _nodes.insert(i, g);
   }
 
-  closedir(directory);
+  if (! seen_dot || ! seen_dot_dot) {
+    errno = EAGAIN;
+  }
+
+  {
+    int keep_errno = errno;
+    closedir(directory);
+    errno = keep_errno;
+  }
   return (errno != 0) ? -1 : 0;
 }
 
