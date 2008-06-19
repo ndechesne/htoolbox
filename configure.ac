@@ -4,8 +4,8 @@
 AC_PREREQ(2.61)
 
 # This contains version information
-AC_INIT([HBackup],[0.9],[herve@lucidia.net])
-AC_SUBST(LIB_VERSION, [0:9:0])
+AC_INIT([HBackup],[1.0a],[herve@lucidia.net])
+AC_SUBST(LIB_VERSION, [1:0:1])
 
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([config.h.in])
