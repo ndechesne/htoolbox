@@ -200,15 +200,6 @@ int Database::open(
     _d->access = ro;
     out(verbose, msg_standard, "Database open in read-only mode");
   } else {
-    // Change name of problematic checksums file (TODO remove for 1.0)
-    if (File(Path(_d->path, "missing")).isValid()) {
-      if (File(Path(_d->path, ".checksums")).isValid()) {
-        File(Path(_d->path, "missing")).remove();
-      } else {
-        rename(Path(_d->path, "missing"), Path(_d->path, ".checksums"));
-      }
-      File(Path(_d->path, "missing~")).remove();
-    }
     // Open problematic checksums list
     _d->missing.open(Path(_d->path, ".checksums"));
     // Set mode to call openClient for checking only
