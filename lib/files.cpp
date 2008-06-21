@@ -424,13 +424,16 @@ struct Stream::Private {
   long long         size;               // uncompressed file data size (bytes)
   long long         progress;           // transfered size, for progress
   Buffer            buffer_comp;        // Buffer for [de]compression
+  BufferReader      reader_comp;        // Reader for buffer above
   Buffer            buffer_data;        // Buffer for data
+  BufferReader      reader_data;        // Reader for buffer above
   EVP_MD_CTX*       ctx;                // openssl resources
   z_stream*         strm;               // zlib resources
   long long         original_size;      // file size to store into gzip header
   bool              finish;             // tell compression to finish off
   progress_f        progress_callback;  // function to report progress
   cancel_f          cancel_callback;    // function to check for cancellation
+  Private() : reader_comp(buffer_comp), reader_data(buffer_data) {}
 };
 
 void Stream::md5sum(char* out, const unsigned char* in, int bytes) {
@@ -687,9 +690,9 @@ ssize_t Stream::read_decompress(
         eof = true;
       }
       _d->buffer_comp.written(size);
-      _d->strm->avail_in = _d->buffer_comp.readable();
+      _d->strm->avail_in = _d->reader_comp.readable();
       _d->strm->next_in  = reinterpret_cast<unsigned char*>(
-        const_cast<char*>(_d->buffer_comp.reader()));
+        const_cast<char*>(_d->reader_comp.reader()));
     }
     _d->strm->avail_out = asked;
     _d->strm->next_out  = static_cast<unsigned char*>(buffer);
@@ -768,9 +771,9 @@ ssize_t Stream::read(void* buffer, size_t asked) {
     _d->buffer_data.written(given);
     // Special case for getLine
     if ((asked == 0) && (buffer == NULL)) {
-      return _d->buffer_data.readable();
+      return _d->reader_data.readable();
     }
-    given = _d->buffer_data.read(buffer, asked);
+    given = _d->reader_data.read(buffer, asked);
   } else {
     if ((_d->ctx != NULL) && digest_update(buffer, given)) {
       return -3;
@@ -837,7 +840,7 @@ ssize_t Stream::write_compress(
       reinterpret_cast<unsigned char*>(_d->buffer_comp.writer());
     deflate(_d->strm, finish ? Z_FINISH : Z_NO_FLUSH);
     ssize_t length = _d->buffer_comp.writeable() - _d->strm->avail_out;
-    if (length != write_all(_d->buffer_comp.reader(), length)) {
+    if (length != write_all(_d->reader_comp.reader(), length)) {
       return -1;
     }
   } while (_d->strm->avail_out == 0);
@@ -876,18 +879,18 @@ ssize_t Stream::write(
     // If told to finish or buffer is going to overflow, flush it to file
     if (_d->finish || (given > _d->buffer_data.writeable())) {
       // One or two writes (if end of buffer + beginning of it)
-      while (_d->buffer_data.readable() > 0) {
-        ssize_t length = _d->buffer_data.readable();
+      while (_d->reader_data.readable() > 0) {
+        ssize_t length = _d->reader_data.readable();
         if (_d->strm == NULL) {
-          if (length != write_all(_d->buffer_data.reader(), length)) {
+          if (length != write_all(_d->reader_data.reader(), length)) {
             return -1;
           }
         } else {
-          if (length != write_compress(_d->buffer_data.reader(), length)) {
+          if (length != write_compress(_d->reader_data.reader(), length)) {
             return -1;
           }
         }
-        _d->buffer_data.readn(length);
+        _d->reader_data.readn(length);
         size += length;
       }
       // Buffer is now flushed, restore full writeable capacity
@@ -966,8 +969,8 @@ ssize_t Stream::getLine(
     if (size == 0) {
       break;
     }
-    const char* reader = _d->buffer_data.reader();
-    size_t      length = _d->buffer_data.readable();
+    const char* reader = _d->reader_data.reader();
+    size_t      length = _d->reader_data.readable();
     while (length > 0) {
       length--;
       // Check for space
@@ -984,7 +987,7 @@ ssize_t Stream::getLine(
       *writer++ = *reader++;
       count++;
     }
-    _d->buffer_data.readn(_d->buffer_data.readable() - length);
+    _d->reader_data.readn(_d->reader_data.readable() - length);
   } while (! found);
   *writer = '\0';
 
@@ -1056,22 +1059,23 @@ struct CopyData {
 };
 
 static void* write_task(void* data) {
-  CopyData& cd = *static_cast<CopyData*>(data);
+  CopyData&    cd = *static_cast<CopyData*>(data);
+  BufferReader cdr(cd.buffer);
   do {
     if (! cd.buffer.isEmpty()) {
       // Write as much as possible
-      ssize_t l = cd.dest->write(cd.buffer.reader(), cd.buffer.readable());
+      ssize_t l = cd.dest->write(cdr.reader(), cdr.readable());
       if (l < 0) {
         cd.write_failed = true;
       } else {
         if (cd.dest2 != NULL) {
           // Note: readable might have changed in the mean time
-          ssize_t l2 = cd.dest2->write(cd.buffer.reader(), l);
+          ssize_t l2 = cd.dest2->write(cdr.reader(), l);
           if (l2 != l) {
             cd.write_failed = true;
           }
         }
-        cd.buffer.readn(l);
+        cdr.readn(l);
       }
       // Allow read task to run
       cd.read_lock.release();

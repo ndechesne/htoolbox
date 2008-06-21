@@ -34,6 +34,14 @@ class Buffer {
   const char*       _reader;
   const char*       _end;
   bool              _empty;
+  friend class      BufferReader;
+  // Reading
+  const char* reader() const {
+    return _reader;
+  }
+  size_t readable() const;
+  void readn(size_t size);
+  ssize_t read(void* buffer, size_t size);
 public:
   //! \brief Constructor
   /*!
@@ -109,31 +117,48 @@ public:
     \return             size actually written
   */
   ssize_t write(const void* buffer, size_t size);
-  // Reading
+};
+
+class BufferReader {
+  Buffer&           _buffer;
+public:
+  //! \brief Constructor
+  /*!
+    \param buffer       buffer to read from
+  */
+  BufferReader(Buffer& buffer) : _buffer(buffer) {}
+  //! \brief Destructor
+  ~BufferReader() {}
   //! \brief Get pointer to where to read
   /*!
       \return           pointer to where to read
   */
   const char* reader() const {
-    return _reader;
+    return _buffer.reader();
   }
   //! \brief Get buffer's contiguous used space
   /*!
       \return           size of contiguous used space
   */
-  size_t readable() const;
+  size_t readable() const {
+    return _buffer.readable();
+  }
   //! \brief Set how much space was freed
   /*!
     \param size         size read
   */
-  void readn(size_t size);
+  void readn(size_t size) {
+    return _buffer.readn(size);
+  }
   //! \brief Read data to an external buffer
   /*!
     \param buffer       pointer to the external buffer
     \param size         maximum size of data to put into the external buffer
     \return             size actually read
   */
-  ssize_t read(void* buffer, size_t size);
+  ssize_t read(void* buffer, size_t size) {
+    return _buffer.read(buffer, size);
+  }
 };
 
 }
