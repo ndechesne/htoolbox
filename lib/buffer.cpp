@@ -23,7 +23,27 @@
 
 using namespace hbackup;
 
+void Buffer::registerReader(BufferReader* reader) {
+  _readers.push_back(reader);
+  _readers_size = _readers.size();
+}
+
+int Buffer::unregisterReader(const BufferReader* reader) {
+  bool found = false;
+  for (std::list<BufferReader*>::iterator i = _readers.begin();
+      i != _readers.end(); i++) {
+    if (*i == reader) {
+      _readers.erase(i);
+      found = true;
+      break;
+    }
+  }
+  _readers_size = _readers.size();
+  return found ? 0 : -1;
+}
+
 Buffer::Buffer(size_t size) {
+  _readers_size = 0;
   if (size > 0) {
     create(size);
   } else {

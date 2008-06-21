@@ -19,9 +19,12 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
+#include <list>
 #include <unistd.h>
 
 namespace hbackup {
+
+class BufferReader;
 
 //! \brief Ring buffer with concurrent read/write support
 /*!
@@ -34,7 +37,13 @@ class Buffer {
   const char*       _reader;
   const char*       _end;
   bool              _empty;
+  std::list<BufferReader*>
+                    _readers;
+  unsigned int      _readers_size;
   friend class      BufferReader;
+  // Registering
+  void registerReader(BufferReader* reader);
+  int unregisterReader(const BufferReader* reader);
   // Reading
   const char* reader() const {
     return _reader;
@@ -126,29 +135,48 @@ public:
   /*!
     \param buffer       buffer to read from
   */
-  BufferReader(Buffer& buffer) : _buffer(buffer) {}
+  BufferReader(Buffer& buffer) : _buffer(buffer) {
+    _buffer.registerReader(this);
+  }
   //! \brief Destructor
-  ~BufferReader() {}
+  ~BufferReader() {
+    _buffer.unregisterReader(this);
+  }
   //! \brief Get pointer to where to read
   /*!
       \return           pointer to where to read
   */
   const char* reader() const {
-    return _buffer.reader();
+    if (_buffer._readers_size == 1) {
+      return _buffer.reader();
+    } else {
+      // FIXME Several readers: need to do something clever
+      return _buffer.reader();
+    }
   }
   //! \brief Get buffer's contiguous used space
   /*!
       \return           size of contiguous used space
   */
   size_t readable() const {
-    return _buffer.readable();
+    if (_buffer._readers_size == 1) {
+      return _buffer.readable();
+    } else {
+      // FIXME Several readers: need to do something clever
+      return _buffer.readable();
+    }
   }
   //! \brief Set how much space was freed
   /*!
     \param size         size read
   */
   void readn(size_t size) {
-    return _buffer.readn(size);
+    if (_buffer._readers_size == 1) {
+      return _buffer.readn(size);
+    } else {
+      // FIXME Several readers: need to do something clever
+      return _buffer.readn(size);
+    }
   }
   //! \brief Read data to an external buffer
   /*!
@@ -157,7 +185,12 @@ public:
     \return             size actually read
   */
   ssize_t read(void* buffer, size_t size) {
-    return _buffer.read(buffer, size);
+    if (_buffer._readers_size == 1) {
+      return _buffer.read(buffer, size);
+    } else {
+      // FIXME Several readers: need to do something clever
+      return _buffer.read(buffer, size);
+    }
   }
 };
 
