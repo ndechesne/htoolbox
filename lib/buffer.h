@@ -29,12 +29,15 @@ namespace hbackup {
   effected simultaneously. It is simple and highly efficient.
 */
 class Buffer {
-  struct            Private;
-  Private* const    _d;
+  char*             _buffer;
+  char*             _writer;
+  const char*       _reader;
+  const char*       _end;
+  bool              _empty;
 public:
   //! \brief Constructor
   /*!
-    \param size         the size of the buffer to create, or 0 for none
+    \param size         size of the buffer to create, or 0 for none
   */
   Buffer(size_t size = 0);
   //! \brief Destructor
@@ -42,7 +45,7 @@ public:
   // Management
   //! \brief Create the buffer
   /*!
-    \param size         the size of the buffer to create
+    \param size         size of the buffer to create
   */
   void create(size_t size = 102400);
   //! \brief Destroy
@@ -58,7 +61,9 @@ public:
   /*!
       \return           total buffer capacity
   */
-  size_t capacity() const;
+  size_t capacity() const {
+    return _end - _buffer;
+  }
   //! \brief Get buffer's current usage
   /*!
       \return           buffer current usage
@@ -69,18 +74,24 @@ public:
   /*!
       \return           true if empty, false otherwise
   */
-  bool isEmpty() const;
+  bool isEmpty() const {
+    return _empty;
+  }
   //! \brief Check whether the buffer is full
   /*!
       \return           true if full, false otherwise
   */
-  bool isFull() const;
+  bool isFull() const {
+    return (_reader == _writer) && ! _empty;
+  }
   // Writing
   //! \brief Get pointer to where to write
   /*!
       \return           pointer to where to write
   */
-  char* writer();
+  char* writer() {
+    return _writer;
+  }
   //! \brief Get buffer's contiguous free space
   /*!
       \return           size of contiguous free space
@@ -103,7 +114,9 @@ public:
   /*!
       \return           pointer to where to read
   */
-  const char* reader() const;
+  const char* reader() const {
+    return _reader;
+  }
   //! \brief Get buffer's contiguous used space
   /*!
       \return           size of contiguous used space
@@ -121,9 +134,6 @@ public:
     \return             size actually read
   */
   ssize_t read(void* buffer, size_t size);
-};
-
-class BufferStack {
 };
 
 }

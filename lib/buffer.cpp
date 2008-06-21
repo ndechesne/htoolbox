@@ -23,19 +23,11 @@
 
 using namespace hbackup;
 
-struct Buffer::Private {
-  char* buffer;
-  char* writer;
-  const char* reader;
-  const char* end;
-  bool empty;
-};
-
-Buffer::Buffer(size_t size) : _d(new Private) {
+Buffer::Buffer(size_t size) {
   if (size > 0) {
     create(size);
   } else {
-    _d->buffer = NULL;
+    _buffer = NULL;
   }
 }
 
@@ -43,64 +35,47 @@ Buffer::~Buffer() {
   if (exists()) {
     destroy();
   }
-  delete _d;
 }
 
 void Buffer::create(size_t size) {
-  _d->buffer = static_cast<char*>(malloc(size));
-  _d->end    = &_d->buffer[size];
+  _buffer = static_cast<char*>(malloc(size));
+  _end    = &_buffer[size];
   empty();
 }
 
 void Buffer::destroy() {
-  free(_d->buffer);
-  _d->buffer = NULL;
+  free(_buffer);
+  _buffer = NULL;
 }
 
 void Buffer::empty() {
-  _d->writer = _d->buffer;
-  _d->reader = _d->buffer;
-  _d->empty  = true;
+  _writer = _buffer;
+  _reader = _buffer;
+  _empty  = true;
 }
 
 bool Buffer::exists() const {
-  return _d->buffer != NULL;
-}
-
-size_t Buffer::capacity() const {
-  return _d->end - _d->buffer;
+  return _buffer != NULL;
 }
 
 size_t Buffer::usage() const {
-  if (_d->empty) {
+  if (_empty) {
     return 0;
   } else
-  if (_d->reader < _d->writer) {
-    return _d->writer - _d->reader;
+  if (_reader < _writer) {
+    return _writer - _reader;
   } else
   {
-    return _d->end - _d->buffer + _d->writer - _d->reader;
+    return _end - _buffer + _writer - _reader;
   }
 }
 
-bool Buffer::isEmpty() const {
-  return _d->empty;
-}
-
-bool Buffer::isFull() const {
-  return (_d->reader == _d->writer) && ! _d->empty;
-}
-
-char* Buffer::writer() {
-  return _d->writer;
-}
-
 size_t Buffer::writeable() const {
-  if (_d->writer < _d->reader) {
-    return _d->reader - _d->writer;
+  if (_writer < _reader) {
+    return _reader - _writer;
   } else
-  if ((_d->writer > _d->reader) || _d->empty) {
-    return _d->end - _d->writer;
+  if ((_writer > _reader) || _empty) {
+    return _end - _writer;
   } else
   {
     return 0;
@@ -109,10 +84,10 @@ size_t Buffer::writeable() const {
 
 void Buffer::written(size_t size) {
   if (size == 0) return;
-  _d->empty = false;
-  _d->writer += size;
-  if (_d->writer >= _d->end) {
-    _d->writer = _d->buffer;
+  _empty = false;
+  _writer += size;
+  if (_writer >= _end) {
+    _writer = _buffer;
   }
 }
 
@@ -135,16 +110,12 @@ ssize_t Buffer::write(const void* buffer, size_t size) {
   return really;
 }
 
-const char* Buffer::reader() const {
-  return _d->reader;
-}
-
 size_t Buffer::readable() const {
-  if (_d->reader < _d->writer) {
-    return _d->writer - _d->reader;
+  if (_reader < _writer) {
+    return _writer - _reader;
   } else
-  if ((_d->reader > _d->writer) || ! _d->empty) {
-    return _d->end - _d->reader;
+  if ((_reader > _writer) || ! _empty) {
+    return _end - _reader;
   } else
   {
     return 0;
@@ -153,13 +124,13 @@ size_t Buffer::readable() const {
 
 void Buffer::readn(size_t size) {
   if (size == 0) return;
-  _d->reader += size;
-  if (_d->reader >= _d->end) {
-    _d->reader = _d->buffer;
+  _reader += size;
+  if (_reader >= _end) {
+    _reader = _buffer;
   }
-  if (_d->writer == _d->reader) {
+  if (_writer == _reader) {
     // Do not call empty here in case of concurrent read/write access
-    _d->empty = true;
+    _empty = true;
   }
 }
 
