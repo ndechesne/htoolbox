@@ -36,6 +36,7 @@ class Buffer {
   const char*       _buffer_end;
   char*             _writer_start;
   const char*       _writer_end;
+  unsigned int      _writer_id;
   bool              _full;
   std::list<BufferReader*>
                     _readers;
@@ -44,13 +45,6 @@ class Buffer {
   // Registering
   void registerReader(BufferReader* reader);
   int unregisterReader(const BufferReader* reader);
-  // Reading
-  const char* reader() const {
-    return _writer_end;
-  }
-  size_t readable() const;
-  void readn(size_t size);
-  ssize_t read(void* buffer, size_t size);
 public:
   //! \brief Constructor
   /*!
@@ -87,13 +81,6 @@ public:
   */
   size_t usage() const;
   // Status
-  //! \brief Check whether the buffer is empty
-  /*!
-      \return           true if empty, false otherwise
-  */
-  bool isEmpty() const {
-    return (_writer_end == _writer_start) && ! _full;
-  }
   //! \brief Check whether the buffer is full
   /*!
       \return           true if full, false otherwise
@@ -130,6 +117,7 @@ public:
 
 class BufferReader {
   Buffer&           _buffer;
+  unsigned int      _empty_id;
 public:
   //! \brief Constructor
   /*!
@@ -137,61 +125,43 @@ public:
   */
   BufferReader(Buffer& buffer) : _buffer(buffer) {
     _buffer.registerReader(this);
+    _empty_id = _buffer._writer_id;
   }
   //! \brief Destructor
   ~BufferReader() {
     _buffer.unregisterReader(this);
   }
+  //! \brief Empty the buffer of all content
+  void empty();
+  //! \brief Check whether the buffer is empty
+  /*!
+      \return           true if empty, false otherwise
+  */
+  bool isEmpty() const {
+    return _empty_id == _buffer._writer_id;
+  }
   //! \brief Get pointer to where to read
   /*!
       \return           pointer to where to read
   */
-  const char* reader() const {
-    if (_buffer._readers_size == 1) {
-      return _buffer.reader();
-    } else {
-      // FIXME Several readers: need to do something clever
-      return _buffer.reader();
-    }
-  }
+  const char* reader() const;
   //! \brief Get buffer's contiguous used space
   /*!
       \return           size of contiguous used space
   */
-  size_t readable() const {
-    if (_buffer._readers_size == 1) {
-      return _buffer.readable();
-    } else {
-      // FIXME Several readers: need to do something clever
-      return _buffer.readable();
-    }
-  }
+  size_t readable() const;
   //! \brief Set how much space was freed
   /*!
     \param size         size read
   */
-  void readn(size_t size) {
-    if (_buffer._readers_size == 1) {
-      return _buffer.readn(size);
-    } else {
-      // FIXME Several readers: need to do something clever
-      return _buffer.readn(size);
-    }
-  }
+  void readn(size_t size);
   //! \brief Read data to an external buffer
   /*!
     \param buffer       pointer to the external buffer
     \param size         maximum size of data to put into the external buffer
     \return             size actually read
   */
-  ssize_t read(void* buffer, size_t size) {
-    if (_buffer._readers_size == 1) {
-      return _buffer.read(buffer, size);
-    } else {
-      // FIXME Several readers: need to do something clever
-      return _buffer.read(buffer, size);
-    }
-  }
+  ssize_t read(void* buffer, size_t size);
 };
 
 }

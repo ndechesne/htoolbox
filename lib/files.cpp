@@ -680,7 +680,7 @@ ssize_t Stream::read_decompress(
   }
   // Fill in buffer
   do {
-    if (_d->buffer_comp.isEmpty()) {
+    if (_d->reader_comp.isEmpty()) {
       size = std::read(_d->fd, _d->buffer_comp.writer(),
         _d->buffer_comp.writeable());
       if (size < 0) {
@@ -738,7 +738,7 @@ ssize_t Stream::read(void* buffer, size_t asked) {
     } else {
       size = given = std::read(_d->fd, buffer, asked);
     }
-  } else if (_d->buffer_data.isEmpty()) {
+  } else if (_d->reader_data.isEmpty()) {
     if (_d->strm != NULL) {
       size = read_decompress(_d->buffer_data.writer(),
         _d->buffer_data.writeable(), &given);
@@ -954,7 +954,7 @@ ssize_t Stream::getLine(
   do {
     // Make read fill up the buffer
     ssize_t size = 1;
-    if (_d->buffer_data.isEmpty()) {
+    if (_d->reader_data.isEmpty()) {
       size = read(NULL, 0);
       if (size < 0) {
         return -1;
@@ -1062,7 +1062,7 @@ static void* write_task(void* data) {
   CopyData&    cd = *static_cast<CopyData*>(data);
   BufferReader cdr(cd.buffer);
   do {
-    if (! cd.buffer.isEmpty()) {
+    if (! cdr.isEmpty()) {
       // Write as much as possible
       ssize_t l = cd.dest->write(cdr.reader(), cdr.readable());
       if (l < 0) {
@@ -1084,7 +1084,7 @@ static void* write_task(void* data) {
       cd.write_lock.lock(3);
     }
   } while (! cd.read_failed && ! cd.write_failed
-        && (! cd.read_eof || ! cd.buffer.isEmpty()));
+        && (! cd.read_eof || ! cdr.isEmpty()));
   return NULL;
 }
 
