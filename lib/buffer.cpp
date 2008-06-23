@@ -71,7 +71,7 @@ void Buffer::destroy() {
 void Buffer::empty() {
   _writer_start = _buffer_start;
   _writer_end   = _buffer_start;
-  _empty        = true;
+  _full         = false;
 }
 
 bool Buffer::exists() const {
@@ -79,35 +79,37 @@ bool Buffer::exists() const {
 }
 
 size_t Buffer::usage() const {
-  if (_empty) {
-    return 0;
-  } else
-  if (_writer_end < _writer_start) {
+  if (_writer_start > _writer_end) {
     return _writer_start - _writer_end;
   } else
-  {
+  if ((_writer_start < _writer_end) || _full) {
     return _buffer_end - _buffer_start + _writer_start - _writer_end;
+  } else
+  {
+    return 0;
   }
 }
 
 size_t Buffer::writeable() const {
+  if (_full) {
+    return 0;
+  } else
   if (_writer_start < _writer_end) {
     return _writer_end - _writer_start;
   } else
-  if ((_writer_start > _writer_end) || _empty) {
-    return _buffer_end - _writer_start;
-  } else
   {
-    return 0;
+    return _buffer_end - _writer_start;
   }
 }
 
 void Buffer::written(size_t size) {
   if (size == 0) return;
   _writer_start += size;
-  _empty         = false;
   if (_writer_start >= _buffer_end) {
     _writer_start = _buffer_start;
+  }
+  if (_writer_start == _writer_end) {
+    _full = true;
   }
 }
 
@@ -131,12 +133,15 @@ ssize_t Buffer::write(const void* buffer, size_t size) {
 }
 
 size_t Buffer::readable() const {
+  // The readable/written part is [_writer_end _writer_start[
   if (_writer_end < _writer_start) {
     return _writer_start - _writer_end;
   } else
-  if ((_writer_end > _writer_start) || ! _empty) {
+  // Wrapped
+  if ((_writer_end > _writer_start) || _full) {
     return _buffer_end - _writer_end;
   } else
+  // Empty
   {
     return 0;
   }
@@ -145,12 +150,9 @@ size_t Buffer::readable() const {
 void Buffer::readn(size_t size) {
   if (size == 0) return;
   _writer_end += size;
+  _full        = false;
   if (_writer_end >= _buffer_end) {
     _writer_end = _buffer_start;
-  }
-  if (_writer_start == _writer_end) {
-    // Do not call empty here in case of concurrent read/write access
-    _empty = true;
   }
 }
 

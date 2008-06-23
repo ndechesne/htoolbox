@@ -36,7 +36,7 @@ class Buffer {
   const char*       _buffer_end;
   char*             _writer_start;
   const char*       _writer_end;
-  bool              _empty;
+  bool              _full;
   std::list<BufferReader*>
                     _readers;
   unsigned int      _readers_size;
@@ -92,14 +92,14 @@ public:
       \return           true if empty, false otherwise
   */
   bool isEmpty() const {
-    return _empty;
+    return (_writer_end == _writer_start) && ! _full;
   }
   //! \brief Check whether the buffer is full
   /*!
       \return           true if full, false otherwise
   */
   bool isFull() const {
-    return (_writer_end == _writer_start) && ! _empty;
+    return _full;
   }
   // Writing
   //! \brief Get pointer to where to write
