@@ -32,10 +32,10 @@ class BufferReader;
   effected simultaneously. It is simple and highly efficient.
 */
 class Buffer {
-  char*             _buffer;
-  char*             _writer;
-  const char*       _reader;
-  const char*       _end;
+  char*             _buffer_start;
+  const char*       _buffer_end;
+  char*             _writer_start;
+  const char*       _writer_end;
   bool              _empty;
   std::list<BufferReader*>
                     _readers;
@@ -46,7 +46,7 @@ class Buffer {
   int unregisterReader(const BufferReader* reader);
   // Reading
   const char* reader() const {
-    return _reader;
+    return _writer_end;
   }
   size_t readable() const;
   void readn(size_t size);
@@ -79,7 +79,7 @@ public:
       \return           total buffer capacity
   */
   size_t capacity() const {
-    return _end - _buffer;
+    return _buffer_end - _buffer_start;
   }
   //! \brief Get buffer's current usage
   /*!
@@ -99,7 +99,7 @@ public:
       \return           true if full, false otherwise
   */
   bool isFull() const {
-    return (_reader == _writer) && ! _empty;
+    return (_writer_end == _writer_start) && ! _empty;
   }
   // Writing
   //! \brief Get pointer to where to write
@@ -107,7 +107,7 @@ public:
       \return           pointer to where to write
   */
   char* writer() {
-    return _writer;
+    return _writer_start;
   }
   //! \brief Get buffer's contiguous free space
   /*!

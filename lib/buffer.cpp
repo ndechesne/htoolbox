@@ -47,7 +47,7 @@ Buffer::Buffer(size_t size) {
   if (size > 0) {
     create(size);
   } else {
-    _buffer = NULL;
+    _buffer_start = NULL;
   }
 }
 
@@ -58,44 +58,44 @@ Buffer::~Buffer() {
 }
 
 void Buffer::create(size_t size) {
-  _buffer = static_cast<char*>(malloc(size));
-  _end    = &_buffer[size];
+  _buffer_start = static_cast<char*>(malloc(size));
+  _buffer_end   = &_buffer_start[size];
   empty();
 }
 
 void Buffer::destroy() {
-  free(_buffer);
-  _buffer = NULL;
+  free(_buffer_start);
+  _buffer_start = NULL;
 }
 
 void Buffer::empty() {
-  _writer = _buffer;
-  _reader = _buffer;
-  _empty  = true;
+  _writer_start = _buffer_start;
+  _writer_end   = _buffer_start;
+  _empty        = true;
 }
 
 bool Buffer::exists() const {
-  return _buffer != NULL;
+  return _buffer_start != NULL;
 }
 
 size_t Buffer::usage() const {
   if (_empty) {
     return 0;
   } else
-  if (_reader < _writer) {
-    return _writer - _reader;
+  if (_writer_end < _writer_start) {
+    return _writer_start - _writer_end;
   } else
   {
-    return _end - _buffer + _writer - _reader;
+    return _buffer_end - _buffer_start + _writer_start - _writer_end;
   }
 }
 
 size_t Buffer::writeable() const {
-  if (_writer < _reader) {
-    return _reader - _writer;
+  if (_writer_start < _writer_end) {
+    return _writer_end - _writer_start;
   } else
-  if ((_writer > _reader) || _empty) {
-    return _end - _writer;
+  if ((_writer_start > _writer_end) || _empty) {
+    return _buffer_end - _writer_start;
   } else
   {
     return 0;
@@ -104,10 +104,10 @@ size_t Buffer::writeable() const {
 
 void Buffer::written(size_t size) {
   if (size == 0) return;
-  _empty = false;
-  _writer += size;
-  if (_writer >= _end) {
-    _writer = _buffer;
+  _writer_start += size;
+  _empty         = false;
+  if (_writer_start >= _buffer_end) {
+    _writer_start = _buffer_start;
   }
 }
 
@@ -131,11 +131,11 @@ ssize_t Buffer::write(const void* buffer, size_t size) {
 }
 
 size_t Buffer::readable() const {
-  if (_reader < _writer) {
-    return _writer - _reader;
+  if (_writer_end < _writer_start) {
+    return _writer_start - _writer_end;
   } else
-  if ((_reader > _writer) || ! _empty) {
-    return _end - _reader;
+  if ((_writer_end > _writer_start) || ! _empty) {
+    return _buffer_end - _writer_end;
   } else
   {
     return 0;
@@ -144,11 +144,11 @@ size_t Buffer::readable() const {
 
 void Buffer::readn(size_t size) {
   if (size == 0) return;
-  _reader += size;
-  if (_reader >= _end) {
-    _reader = _buffer;
+  _writer_end += size;
+  if (_writer_end >= _buffer_end) {
+    _writer_end = _buffer_start;
   }
-  if (_writer == _reader) {
+  if (_writer_start == _writer_end) {
     // Do not call empty here in case of concurrent read/write access
     _empty = true;
   }
