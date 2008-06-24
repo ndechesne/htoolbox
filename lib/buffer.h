@@ -34,9 +34,9 @@ class BufferReader;
 class Buffer {
   char*             _buffer_start;
   const char*       _buffer_end;
-  char*             _writer_start;
-  const char*       _writer_end;
-  unsigned int      _writer_id;
+  char*             _write_start;
+  const char*       _write_end;
+  unsigned int      _write_id;
   bool              _full;
   std::list<BufferReader*>
                     _readers;
@@ -94,7 +94,7 @@ public:
       \return           pointer to where to write
   */
   char* writer() {
-    return _writer_start;
+    return _write_start;
   }
   //! \brief Get buffer's contiguous free space
   /*!
@@ -125,7 +125,7 @@ public:
   */
   BufferReader(Buffer& buffer) : _buffer(buffer) {
     _buffer.registerReader(this);
-    _empty_id = _buffer._writer_id;
+    _empty_id = _buffer._write_id;
   }
   //! \brief Destructor
   ~BufferReader() {
@@ -138,7 +138,7 @@ public:
       \return           true if empty, false otherwise
   */
   bool isEmpty() const {
-    return _empty_id == _buffer._writer_id;
+    return _empty_id == _buffer._write_id;
   }
   //! \brief Get pointer to where to read
   /*!
