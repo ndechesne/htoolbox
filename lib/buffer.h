@@ -63,6 +63,8 @@ public:
   void destroy();
   //! \brief Empty the buffer of all content
   void empty();
+  //! \brief Check whether the write limit can be increased
+  void update();
   //! \brief Check whether the buffer was created
   /*!
       \return           true if was created, false otherwise
@@ -117,7 +119,9 @@ public:
 
 class BufferReader {
   Buffer&           _buffer;
+  const char*       _read_start;
   unsigned int      _empty_id;
+  friend class      Buffer;
 public:
   //! \brief Constructor
   /*!
@@ -125,7 +129,7 @@ public:
   */
   BufferReader(Buffer& buffer) : _buffer(buffer) {
     _buffer.registerReader(this);
-    _empty_id = _buffer._write_id;
+    empty();
   }
   //! \brief Destructor
   ~BufferReader() {

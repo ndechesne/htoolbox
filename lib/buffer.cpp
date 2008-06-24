@@ -79,6 +79,29 @@ void Buffer::empty() {
   }
 }
 
+void Buffer::update() {
+  int min_free = _buffer_end - _buffer_start;
+  for (std::list<BufferReader*>::iterator i = _readers.begin();
+      i != _readers.end(); i++) {
+    // Buffer free space for this reader
+    int this_free = (*i)->_read_start - _write_start;
+    // Wrapped
+    if (this_free < 0) {
+      this_free += _buffer_end - _buffer_start;
+    }
+    // Better or empty
+    if ((this_free < min_free) && ((this_free != 0) || ! (*i)->isEmpty())) {
+      min_free = this_free;
+    }
+  }
+  // Compute new end
+  _write_end = _write_start + min_free;
+  if (_write_end >= _buffer_end) {
+    _write_end -= _buffer_end - _buffer_start;
+  }
+  _full = (min_free == 0);
+}
+
 bool Buffer::exists() const {
   return _buffer_start != NULL;
 }
@@ -139,21 +162,22 @@ ssize_t Buffer::write(const void* buffer, size_t size) {
 }
 
 void BufferReader::empty() {
-  _empty_id = _buffer._write_id;
+  _read_start = _buffer._write_end;
+  _empty_id   = _buffer._write_id;
 }
 
 const char* BufferReader::reader() const {
-  return _buffer._write_end;
+  return _read_start;
 }
 
 size_t BufferReader::readable() const {
   // The readable/written part is [_write_end _write_start[
-  if (_buffer._write_end < _buffer._write_start) {
-    return _buffer._write_start - _buffer._write_end;
+  if (_read_start < _buffer._write_start) {
+    return _buffer._write_start - _read_start;
   } else
   // Wrapped
-  if ((_buffer._write_end > _buffer._write_start) || _buffer._full) {
-    return _buffer._buffer_end - _buffer._write_end;
+  if ((_read_start > _buffer._write_start) || _buffer._full) {
+    return _buffer._buffer_end - _read_start;
   } else
   // Empty
   {
@@ -163,15 +187,22 @@ size_t BufferReader::readable() const {
 
 void BufferReader::readn(size_t size) {
   if (size == 0) return;
-  _buffer._write_end += size;
-  if (_buffer._write_end >= _buffer._buffer_end) {
-    _buffer._write_end = _buffer._buffer_start;
+  _read_start += size;
+  if (_read_start >= _buffer._buffer_end) {
+    _read_start = _buffer._buffer_start;
   }
   // Read it all?
-  if (_buffer._write_end == _buffer._write_start) {
+  if (_read_start == _buffer._write_start) {
     _empty_id = _buffer._write_id;
   }
-  _buffer._full = false;
+  if (_buffer._readers_size == 1) {
+    // Just update
+    _buffer._write_end = _read_start;
+    _buffer._full      = false;
+  } else {
+    // Tell write to find new end
+    _buffer.update();
+  }
 }
 
 ssize_t BufferReader::read(void* buffer, size_t size) {
