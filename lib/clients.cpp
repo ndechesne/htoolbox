@@ -111,7 +111,7 @@ int Client::mountPath(
     } else
     if (_d->protocol == "smb") {
       // codepage=858
-      command += "-t cifs -o ro,noatime,nocase";
+      command += "-t cifs -o ro,nocase";
     }
   }
   // Additional options
