@@ -84,7 +84,7 @@ void Buffer::update() {
   for (std::list<BufferReader*>::iterator i = _readers.begin();
       i != _readers.end(); i++) {
     // Buffer free space for this reader
-    int this_free = (*i)->_read_start - _write_start;
+    int this_free = (*i)->reader() - _write_start;
     // Wrapped
     if (this_free < 0) {
       this_free += _buffer_end - _buffer_start;
@@ -164,10 +164,6 @@ ssize_t Buffer::write(const void* buffer, size_t size) {
 void BufferReader::empty() {
   _read_start = _buffer._write_end;
   _empty_id   = _buffer._write_id;
-}
-
-const char* BufferReader::reader() const {
-  return _read_start;
 }
 
 size_t BufferReader::readable() const {

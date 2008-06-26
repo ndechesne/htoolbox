@@ -74,7 +74,7 @@ public:
   /*!
       \return           total buffer capacity
   */
-  size_t capacity() const {
+  inline size_t capacity() const {
     return _buffer_end - _buffer_start;
   }
   //! \brief Get buffer's current usage
@@ -87,7 +87,7 @@ public:
   /*!
       \return           true if full, false otherwise
   */
-  bool isFull() const {
+  inline bool isFull() const {
     return _full;
   }
   // Writing
@@ -95,7 +95,7 @@ public:
   /*!
       \return           pointer to where to write
   */
-  char* writer() {
+  inline char* writer() {
     return _write_start;
   }
   //! \brief Get buffer's contiguous free space
@@ -121,7 +121,6 @@ class BufferReader {
   Buffer&           _buffer;
   const char*       _read_start;
   unsigned int      _empty_id;
-  friend class      Buffer;
 public:
   //! \brief Constructor
   /*!
@@ -141,14 +140,16 @@ public:
   /*!
       \return           true if empty, false otherwise
   */
-  bool isEmpty() const {
+  inline bool isEmpty() const {
     return _empty_id == _buffer._write_id;
   }
   //! \brief Get pointer to where to read
   /*!
       \return           pointer to where to read
   */
-  const char* reader() const;
+  inline const char* reader() const {
+    return _read_start;
+  }
   //! \brief Get buffer's contiguous used space
   /*!
       \return           size of contiguous used space
