@@ -200,7 +200,7 @@ Database modified: myClient
 Database closed: myClient
  -> umount -fl test_db/mount
 Trying client 'myClient2' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM //myClient/C$ test_db/mount
+ -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM //myClient/C$ test_db/mount
  -> Reading client configuration file: myClient2
 Error: Cannot decode decimal value
 Error: test_db/mount/Backup/Backup2.LST: 8: Failed to add condition
@@ -224,19 +224,19 @@ Error: test_db/mount/Backup/Backup2.LST: 17: Failed to add condition
 Trying client 'otherClient' using protocol 'ssh'
 Error: otherClient: Protocol not supported: ssh
 Trying client 'Client' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
+ -> mount -t cifs -o ro,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
 Error: test_db/mount/home/BlaH/Backup.list: Client configuration file not found
  -> umount -fl test_db/mount
 Trying client 'Client2' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,nocase,username=user,password= //Client/C$ test_db/mount
+ -> mount -t cifs -o ro,nocase,nocase,username=user,password= //Client/C$ test_db/mount
 Error: test_db/mount/home/BlaH/Backup.list: Client configuration file not found
  -> umount -fl test_db/mount
 Trying client 'Client3' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username= //Client/C$ test_db/mount
+ -> mount -t cifs -o ro,nocase,username= //Client/C$ test_db/mount
 Error: test_db/mount/home/BlaH/Backup.list: Client configuration file not found
  -> umount -fl test_db/mount
 Trying client 'Client4' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=,password= //Client/C$ test_db/mount
+ -> mount -t cifs -o ro,nocase,username=,password= //Client/C$ test_db/mount
 Error: test_db/mount/home/BlaH/Backup.list: Client configuration file not found
  -> umount -fl test_db/mount
 Database closed
@@ -492,7 +492,7 @@ Database closed
 Test: missing clients
 Database open in read/write mode
 Trying client 'myhost2' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
+ -> mount -t cifs -o ro,nocase //myhost2/C$ test_db/mount
  -> Reading client configuration file: myhost2
  -> Client: myhost2
  --> Protocol: smb
@@ -684,7 +684,7 @@ dirutd/CVS\r
           \r
 Database closed: myhost
 Trying client 'myhost2' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
+ -> mount -t cifs -o ro,nocase //myhost2/C$ test_db/mount
  -> Reading client configuration file: myhost2
  -> Client: myhost2
  --> Protocol: smb
@@ -730,7 +730,7 @@ Create list of clients
  --> Expiry: none
 Database open in read/write mode
 Trying client 'myhost2' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
+ -> mount -t cifs -o ro,nocase //myhost2/C$ test_db/mount
  -> Reading client configuration file: myhost2
  -> Client: myhost2
  --> Protocol: smb
@@ -845,7 +845,7 @@ dirutd/CVS\r
           \r
 Database closed: myhost
 Trying client 'myhost2' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase //myhost2/C$ test_db/mount
+ -> mount -t cifs -o ro,nocase //myhost2/C$ test_db/mount
  -> Reading client configuration file: myhost2
  -> Client: myhost2
  --> Protocol: smb
@@ -972,7 +972,7 @@ Test with dual boot client
  --> Expiry: none
 Database open in read/write mode
 Trying client 'myClient.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/mount
+ -> mount -t cifs -o ro,nocase //myClient/C$ test_db/mount
  -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
