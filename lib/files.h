@@ -63,15 +63,15 @@ public:
   unsigned int length() const  { return _length; }
   Path dirname() const;
   const char* basename() const { return basename(_const_path); }
-  int compare(const char* s, size_t length = -1) const {
+  int compare(const char* s, ssize_t length = -1) const {
     return compare(_const_path, s, length);
   }
-  int compare(const Path& p, size_t length = -1) const {
+  int compare(const Path& p, ssize_t length = -1) const {
     return compare(_const_path, p, length);
   }
   // Some generic methods
   static const char* basename(const char* path);
-  static int compare(const char* s1, const char* s2, size_t length = -1);
+  static int compare(const char* s1, const char* s2, ssize_t length = -1);
 };
 
 class Node {

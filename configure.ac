@@ -16,7 +16,7 @@ AC_LANG([C++])
 AC_ARG_ENABLE(debug,
     AC_HELP_STRING(--enable-debug, [Compile with symbols (Default = no)]),
     enable_debug=$enableval, enable_debug=no)
-CXXWARN="-Wall -Wextra -Wundef -Wcast-qual -Wold-style-cast"
+CXXWARN="-Wall -Wextra -Wundef -Wold-style-cast -Winline -Wconversion"
 if test "$enable_debug" = "yes" ; then
     CXXFLAGS="$CXXFLAGS $CXXWARN -g -D_DEBUG"
 else

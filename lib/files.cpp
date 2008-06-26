@@ -162,7 +162,7 @@ const Path& Path::noTrailingSlashes() {
   return *this;
 }
 
-int Path::compare(const char* s1, const char* s2, size_t length) {
+int Path::compare(const char* s1, const char* s2, ssize_t length) {
   while (true) {
     if (length == 0) {
       return 0;
@@ -795,18 +795,17 @@ ssize_t Stream::write_all(
   }
 
   const char* reader = static_cast<const char*>(buffer);
-  size_t  size = count;
+  const char* end    = reader + count;
   ssize_t wlength;
   do {
-    wlength = std::write(_d->fd, reader, size);
+    wlength = std::write(_d->fd, reader, end - reader);
     if (wlength < 0) {
       // errno set by write
       return -1;
     }
     reader += wlength;
-    size    -= wlength;
-  } while ((size != 0) && (errno == 0));  // errno maybe set with wlength == 0
-  return size != 0 ? -1 : count;
+  } while ((reader != end) && (errno == 0));  // errno maybe set with wlength 0
+  return (reader != end) ? -1 : static_cast<ssize_t>(count);
 }
 
 ssize_t Stream::write_compress(
