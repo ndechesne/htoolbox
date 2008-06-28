@@ -161,13 +161,15 @@ class BufferReader {
   Buffer&           _buffer;
   const char*       _read_start;
   unsigned int      _read_count;
+  bool              _auto_unreg;
   friend class      Buffer;
 public:
   //! \brief Constructor
   /*!
     \param buffer       buffer to read from
   */
-  BufferReader(Buffer& buffer) : _buffer(buffer) {
+  BufferReader(Buffer& buffer, bool auto_unreg = true) :
+      _buffer(buffer), _auto_unreg(auto_unreg) {
     // Multithread irrelevant: must be done synchronously
     _buffer.registerReader(this);
     empty();
@@ -175,6 +177,11 @@ public:
   //! \brief Destructor
   ~BufferReader() {
     // Multithread irrelevant: must be done synchronously
+    if (_auto_unreg) {
+      unregister();
+    }
+  }
+  void unregister() {
     _buffer.unregisterReader(this);
   }
   //! \brief Empty the buffer of all content

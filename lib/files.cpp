@@ -1056,7 +1056,8 @@ struct CopyData {
 
 static void* write_task(void* data) {
   CopyData&    cd = *static_cast<CopyData*>(data);
-  BufferReader cdr(cd.buffer);
+  // No auto-unregistration: segentation fault may occur
+  BufferReader cdr(cd.buffer, false);
   do {
     if (! cdr.isEmpty()) {
       // Write as much as possible
