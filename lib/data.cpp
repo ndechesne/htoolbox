@@ -95,9 +95,8 @@ int Data::organise(
   if (number == 0) {
     rewinddir(directory);
     while ((dir_entry = readdir(directory)) != NULL) {
-      // Ignore . and ..
-      if (! strcmp(dir_entry->d_name, ".")
-       || ! strcmp(dir_entry->d_name, "..")) {
+      // Ignore anything in .*
+      if (dir_entry->d_name[0] == '.') {
         continue;
       }
       Node source_path(Path(path, dir_entry->d_name));
