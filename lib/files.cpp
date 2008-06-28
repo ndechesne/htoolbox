@@ -1042,19 +1042,16 @@ int Stream::computeChecksum() {
 }
 
 struct CopyData {
-  Buffer    buffer;
-  Lock      read_lock;
+  // Global
+  Stream*   stream;
+  Buffer&   buffer;
+  Lock&     read_lock;
+  bool&     eof;
+  bool&     failed;
+  // Local
   Lock      write_lock;
-  Stream*   source;
-  Stream*   dest;
-  Stream*   dest2;
-  long long size;
-  bool      read_eof;
-  bool      read_failed;
-  bool      write_failed;
-  CopyData(Stream* s, Stream* d, Stream* d2) :
-    buffer(1 << 20), source(s), dest(d), dest2(d2), size(0), read_eof(false),
-    read_failed(false), write_failed(false) {}
+  CopyData(Stream* d, Buffer& b, Lock& l, bool& eof, bool& failed) :
+    stream(d), buffer(b), read_lock(l), eof(eof), failed(failed) {}
 };
 
 static void* write_task(void* data) {
@@ -1063,17 +1060,10 @@ static void* write_task(void* data) {
   do {
     if (! cdr.isEmpty()) {
       // Write as much as possible
-      ssize_t l = cd.dest->write(cdr.reader(), cdr.readable());
+      ssize_t l = cd.stream->write(cdr.reader(), cdr.readable());
       if (l < 0) {
-        cd.write_failed = true;
+        cd.failed = true;
       } else {
-        if (cd.dest2 != NULL) {
-          // Note: readable might have changed in the mean time
-          ssize_t l2 = cd.dest2->write(cdr.reader(), l);
-          if (l2 != l) {
-            cd.write_failed = true;
-          }
-        }
         cdr.readn(l);
       }
       // Allow read task to run
@@ -1082,68 +1072,96 @@ static void* write_task(void* data) {
       // Timed lock, as a deadlock is possible with this system
       cd.write_lock.lock(3);
     }
-  } while (! cd.read_failed && ! cd.write_failed
-        && (! cd.read_eof || ! cdr.isEmpty()));
+  } while (! cd.failed && (! cd.eof || ! cdr.isEmpty()));
   return NULL;
 }
 
-int Stream::copy(Stream* dest, Stream* dest2) {
-  if (! isOpen() || ! dest->isOpen()
+int Stream::copy(Stream* dest1, Stream* dest2) {
+  if (! isOpen() || ! dest1->isOpen()
   || ((dest2 != NULL) && ! dest2->isOpen())) {
     errno = EBADF;
     return -1;
   }
-  CopyData cd(this, dest, dest2);
-  pthread_t child;
-  int rc = pthread_create(&child, NULL, write_task, &cd);
+  Buffer    buffer(1 << 20);
+  Lock      read_lock;
+  bool      eof    = false;
+  bool      failed = false;
+  CopyData  cd1(dest1, buffer, read_lock, eof, failed);
+  CopyData  cd2(dest2, buffer, read_lock, eof, failed);
+  long long size = 0;
+  pthread_t child1;
+  pthread_t child2;
+  int rc = pthread_create(&child1, NULL, write_task, &cd1);
   if (rc != 0) {
     errno = rc;
     return -1;
+  }
+  if (dest2 != NULL) {
+    rc = pthread_create(&child2, NULL, write_task, &cd2);
+    if (rc != 0) {
+      // Tell other task to die and wait for it
+      failed = true;
+      pthread_join(child1, NULL);
+      errno = rc;
+      return -1;
+    }
   }
 
   // Read loop
   do {
-    if (! cd.buffer.isFull()) {
+    if (! buffer.isFull()) {
       // Fill up only up to half of capacity, for simultenous read and write
-      ssize_t length = cd.buffer.capacity() >> 1;
-      if (static_cast<size_t>(length) > cd.buffer.writeable()) {
-        length = cd.buffer.writeable();
+      ssize_t length = buffer.capacity() >> 1;
+      if (static_cast<size_t>(length) > buffer.writeable()) {
+        length = buffer.writeable();
       }
-      length = cd.source->read(cd.buffer.writer(), length);
+      length = read(buffer.writer(), length);
       if (length < 0) {
-        cd.read_failed = true;
+        failed = true;
       } else {
-        cd.buffer.written(length);
+        buffer.written(length);
         // Allow write task to run
         if (length == 0) {
-          cd.read_eof = true;
+          eof = true;
         }
-        cd.size += length;
+        size += length;
       }
-      cd.write_lock.release();
+      cd1.write_lock.release();
+      if (dest2 != NULL) {
+        cd2.write_lock.release();
+      }
     } else {
       // Timed lock, as a deadlock is possible with this system
-      cd.read_lock.lock(3);
+      read_lock.lock(3);
     }
     if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)(2))) {
       errno = ECANCELED;
-      cd.read_failed = true;
-      cd.write_lock.release();
+      failed = true;
+      cd1.write_lock.release();
+      if (dest2 != NULL) {
+        cd2.write_lock.release();
+      }
       break;
     }
-  } while (! cd.read_failed && ! cd.read_eof && ! cd.write_failed);
+  } while (! failed && ! eof);
 
-  // Wait for read task termination, check status
-  rc = pthread_join(child, NULL);
+  // Wait for write tasks to terminate, check status
+  rc = pthread_join(child1, NULL);
   if (rc != 0) {
     errno = rc;
   }
-  if (cd.read_failed || cd.write_failed || (rc != 0)) {
+  if (dest2 != NULL) {
+    rc = pthread_join(child2, NULL);
+    if (rc != 0) {
+      errno = rc;
+    }
+  }
+  if (failed || (rc != 0)) {
     return -1;
   }
 
   // Check that sizes match
-  if (cd.size != cd.source->dataSize()) {
+  if (size != dataSize()) {
     errno = EAGAIN;
     return -1;
   }
