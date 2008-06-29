@@ -475,7 +475,7 @@ Database closed
  --> Expiry: none
 Database open in read/write mode
  -> Reading client configuration file: testhost
-Error: etc/localhost.list: 30: Path inside another
+Error: etc/localhost.list: 32: Path inside another
 Database closed
 >List 1 client(s):
  -> Client: testhost
@@ -484,8 +484,8 @@ Database closed
  --> Expiry: none
 Database open in read/write mode
  -> Reading client configuration file: testhost
-Error: etc/localhost.list2: 12: Path inside another
-Error: etc/localhost.list2: 30: Path inside another
+Error: etc/localhost.list2: 14: Path inside another
+Error: etc/localhost.list2: 32: Path inside another
 backup failed
 Database closed
 

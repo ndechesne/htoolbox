@@ -460,10 +460,12 @@ condition	!size<	1000
 
 client	myClient	xp	
 protocol	smb	
+users	backup	
 config	C:\Backup\Backup.LST	
 
 client	myClient	
 protocol	nfs	
+users	backup	root	
 hostname	myClient	
 config	/home/User/hbackup.list	
 

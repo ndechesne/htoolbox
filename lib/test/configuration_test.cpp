@@ -37,6 +37,9 @@ int main(void) {
   // expire
   config->add(new ConfigItem("expire", 0, 1, 1));
 
+  // users
+  config->add(new ConfigItem("users", 0, 1, 1, -1));
+
   // filter
   {
     ConfigItem* item = new ConfigItem("filter", 0, 0, 2);
@@ -139,6 +142,9 @@ int main(void) {
 
     // expire
     item->add(new ConfigItem("expire", 0, 1, 1));
+
+    // users
+    item->add(new ConfigItem("users", 0, 1, 1, -1));
 
     // filter
     {

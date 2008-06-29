@@ -12,26 +12,28 @@ Items:
       condition, occ.: min = 1, no max; params: min = max = 2
     ignore, occ.: optional, max = 1; params: min = max = 1
     parser, occ.: optional, no max; params: min = 1, max = 2
+  users, occ.: optional, max = 1; params: min = 1, no max
 Lines:
 2:   filter and subdir
 3:     condition path_start subdir
 4:     condition !size< 100
-6:   filter and bigfile
-7:     condition size>= 10
-8:     condition type file
-10:   expire 1
-12:   path test2//
-14:   path test1
-16:     filter and not_object
-17:       condition !path_end .o
-19:     filter or to_be_ignored
-20:       condition filter subdir
-21:       condition filter backup
-22:       condition !filter not_object
-24:     ignore to_be_ignored
-26:     compress bigfile
-28:     parser cvs controlled
-29:     parser svn modified
+6:   users biloute machin
+8:   filter and bigfile
+9:     condition size>= 10
+10:     condition type file
+12:   expire 1
+14:   path test2//
+16:   path test1
+18:     filter and not_object
+19:       condition !path_end .o
+21:     filter or to_be_ignored
+22:       condition filter subdir
+23:       condition filter backup
+24:       condition !filter not_object
+26:     ignore to_be_ignored
+28:     compress bigfile
+30:     parser cvs controlled
+31:     parser svn modified
 Test: server configuration
 Items:
   client, occ.: min = 1, no max; params: min = 1, max = 2
@@ -50,6 +52,7 @@ Items:
     protocol, occ.: min = 1, max = 1; params: min = max = 1
     report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
     timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
+    users, occ.: optional, max = 1; params: min = 1, no max
   compress_auto, occ.: optional, max = 1; params: min = max = 0
   db, occ.: optional, max = 1; params: min = max = 1
   filter, occ.: optional, no max; params: min = max = 2
@@ -67,60 +70,62 @@ Lines:
 11:     condition !size< 1000
 13:   client myClient xp
 14:     protocol smb
-15:     config C:\Backup\Backup.LST
-17:   client myClient
-18:     protocol nfs
-19:     hostname myClient
-20:     config /home/User/hbackup.list
-22:   client other
-23:     protocol ssh
-24:     hostname otherClient
-25:     config /home/backup/Backup.list
-27:     filter and subdir
-28:       condition path_start subdir
-29:       condition !size< 100
-31:     filter and bigfile
-32:       condition size>= 10
-33:       condition type file
-35:     expire 1
-37:     path test2//
-39:     path test1
-41:       filter and not_object
-42:         condition !path_end .o
-44:       filter or to_be_ignored
-45:         condition filter subdir
-46:         condition filter backup
-47:         condition !filter not_object
-49:       ignore to_be_ignored
-51:       compress bigfile
-53:       parser cvs controlled
-54:       parser svn modified
-56:   client myhost
-57:     report_copy_error_once
-58:     protocol file
-59:     hostname myhost.mynetwork.lan
-60:     timeout_nowarning
-61:     config etc/localhost.list
-62:     expire 1
-64:   client client xp
-65:     protocol smb
-66:     option username Myself
-67:     option password flesyM
-68:     option nocase
-69:     hostname myClient
-70:     config C:\Backup\Backup.LST
-72:   client aClient vista
-73:     protocol smb
-74:     filter and huge_file
-75:       condition !filter backup
-76:       condition !size< 100
-78:     path C:\Test Dir
-79:       filter and compress_m
-80:         condition !filter huge_file
-81:       compress compress_m
-82:       ignore backup
-83:       parser svn modified
-84:     report_copy_error_once
+15:     users backup
+16:     config C:\Backup\Backup.LST
+18:   client myClient
+19:     protocol nfs
+20:     users backup root
+21:     hostname myClient
+22:     config /home/User/hbackup.list
+24:   client other
+25:     protocol ssh
+26:     hostname otherClient
+27:     config /home/backup/Backup.list
+29:     filter and subdir
+30:       condition path_start subdir
+31:       condition !size< 100
+33:     filter and bigfile
+34:       condition size>= 10
+35:       condition type file
+37:     expire 1
+39:     path test2//
+41:     path test1
+43:       filter and not_object
+44:         condition !path_end .o
+46:       filter or to_be_ignored
+47:         condition filter subdir
+48:         condition filter backup
+49:         condition !filter not_object
+51:       ignore to_be_ignored
+53:       compress bigfile
+55:       parser cvs controlled
+56:       parser svn modified
+58:   client myhost
+59:     report_copy_error_once
+60:     protocol file
+61:     hostname myhost.mynetwork.lan
+62:     timeout_nowarning
+63:     config etc/localhost.list
+64:     expire 1
+66:   client client xp
+67:     protocol smb
+68:     option username Myself
+69:     option password flesyM
+70:     option nocase
+71:     hostname myClient
+72:     config C:\Backup\Backup.LST
+74:   client aClient vista
+75:     protocol smb
+76:     filter and huge_file
+77:       condition !filter backup
+78:       condition !size< 100
+80:     path C:\Test Dir
+81:       filter and compress_m
+82:         condition !filter huge_file
+83:       compress compress_m
+84:       ignore backup
+85:       parser svn modified
+86:     report_copy_error_once
 Test: configuration save
 Items:
   client, occ.: min = 1, no max; params: min = 1, max = 2
@@ -139,6 +144,7 @@ Items:
     protocol, occ.: min = 1, max = 1; params: min = max = 1
     report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
     timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
+    users, occ.: optional, max = 1; params: min = 1, no max
   compress_auto, occ.: optional, max = 1; params: min = max = 0
   db, occ.: optional, max = 1; params: min = max = 1
   filter, occ.: optional, no max; params: min = max = 2
@@ -156,86 +162,89 @@ Lines:
 8:     condition !size< 1000
 9:   client myClient xp
 10:     protocol smb
-11:     config C:\Backup\Backup.LST
-12:   client myClient
-13:     protocol nfs
-14:     hostname myClient
-15:     config /home/User/hbackup.list
-16:   client other
-17:     protocol ssh
-18:     hostname otherClient
-19:     config /home/backup/Backup.list
-20:     filter and subdir
-21:       condition path_start subdir
-22:       condition !size< 100
-23:     filter and bigfile
-24:       condition size>= 10
-25:       condition type file
-26:     expire 1
-27:     path test2//
-28:     path test1
-29:       filter and not_object
-30:         condition !path_end .o
-31:       filter or to_be_ignored
-32:         condition filter subdir
-33:         condition filter backup
-34:         condition !filter not_object
-35:       ignore to_be_ignored
-36:       compress bigfile
-37:       parser cvs controlled
-38:       parser svn modified
-39:   client myhost
-40:     report_copy_error_once
-41:     protocol file
-42:     hostname myhost.mynetwork.lan
-43:     timeout_nowarning
-44:     config etc/localhost.list
-45:     expire 1
-46:   client client xp
-47:     protocol smb
-48:     option username Myself
-49:     option password flesyM
-50:     option nocase
-51:     hostname myClient
-52:     config C:\Backup\Backup.LST
-53:   client aClient vista
-54:     protocol smb
-55:     filter and huge_file
-56:       condition !filter backup
-57:       condition !size< 100
-58:     path C:\Test Dir
-59:       filter and compress_m
-60:         condition !filter huge_file
-61:       compress compress_m
-62:       ignore backup
-63:       parser svn modified
-64:     report_copy_error_once
+11:     users backup
+12:     config C:\Backup\Backup.LST
+13:   client myClient
+14:     protocol nfs
+15:     users backup root
+16:     hostname myClient
+17:     config /home/User/hbackup.list
+18:   client other
+19:     protocol ssh
+20:     hostname otherClient
+21:     config /home/backup/Backup.list
+22:     filter and subdir
+23:       condition path_start subdir
+24:       condition !size< 100
+25:     filter and bigfile
+26:       condition size>= 10
+27:       condition type file
+28:     expire 1
+29:     path test2//
+30:     path test1
+31:       filter and not_object
+32:         condition !path_end .o
+33:       filter or to_be_ignored
+34:         condition filter subdir
+35:         condition filter backup
+36:         condition !filter not_object
+37:       ignore to_be_ignored
+38:       compress bigfile
+39:       parser cvs controlled
+40:       parser svn modified
+41:   client myhost
+42:     report_copy_error_once
+43:     protocol file
+44:     hostname myhost.mynetwork.lan
+45:     timeout_nowarning
+46:     config etc/localhost.list
+47:     expire 1
+48:   client client xp
+49:     protocol smb
+50:     option username Myself
+51:     option password flesyM
+52:     option nocase
+53:     hostname myClient
+54:     config C:\Backup\Backup.LST
+55:   client aClient vista
+56:     protocol smb
+57:     filter and huge_file
+58:       condition !filter backup
+59:       condition !size< 100
+60:     path C:\Test Dir
+61:       filter and compress_m
+62:         condition !filter huge_file
+63:       compress compress_m
+64:       ignore backup
+65:       parser svn modified
+66:     report_copy_error_once
 Test: broken configuration
 Error: after line: 0: need at most 1 occurence(s) of keyword 'db'
 Error: after line: 0: need at most 1 occurence(s) of keyword 'report_copy_error_once'
 Error: after line: 0: need at most 1 occurence(s) of keyword 'timeout_nowarning'
 Error: at line: 10: keyword 'filter' requires 2 parameter(s), found 1
 Error: after line: 14: missing keyword 'condition'
-Error: after line: 19: need at most 1 occurence(s) of keyword 'config'
-Error: after line: 19: need at most 1 occurence(s) of keyword 'expire'
-Error: after line: 19: need at most 1 occurence(s) of keyword 'hostname'
-Error: at line: 23: keyword 'option' requires at most 2 parameter(s), found 3
-Error: at line: 24: keyword 'option' requires at least 1 parameter(s), found 0
-Error: at line: 32: keyword 'filter' requires 2 parameter(s), found 3
-Error: at line: 33: keyword 'condition' requires 2 parameter(s), found 3
-Error: at line: 34: keyword 'condition' requires 2 parameter(s), found 1
-Error: at line: 37: keyword 'expire' requires 1 parameter(s), found 2
-Error: after line: 41: need at most 1 occurence(s) of keyword 'compress'
-Error: after line: 41: need at most 1 occurence(s) of keyword 'ignore'
-Error: after line: 51: missing keyword 'condition'
-Error: at line: 53: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line: 53: missing keyword 'condition'
-Error: after line: 65: missing keyword 'protocol'
-Error: at line: 71: keyword 'ignore' requires 1 parameter(s), found 2
-Error: at line: 72: keyword 'compress' requires 1 parameter(s), found 2
-Error: at line: 85: keyword 'ignore' requires 1 parameter(s), found 0
-Error: at line: 86: keyword 'compress' requires 1 parameter(s), found 0
-Error: at line: 88: keyword 'what_the_f...?' incorrect or misplaced, aborting
+Error: at line: 18: keyword 'users' requires at least 1 parameter(s), found 0
+Error: after line: 20: need at most 1 occurence(s) of keyword 'config'
+Error: after line: 20: need at most 1 occurence(s) of keyword 'expire'
+Error: after line: 20: need at most 1 occurence(s) of keyword 'hostname'
+Error: at line: 24: keyword 'option' requires at most 2 parameter(s), found 3
+Error: at line: 25: keyword 'option' requires at least 1 parameter(s), found 0
+Error: at line: 33: keyword 'filter' requires 2 parameter(s), found 3
+Error: at line: 34: keyword 'condition' requires 2 parameter(s), found 3
+Error: at line: 35: keyword 'condition' requires 2 parameter(s), found 1
+Error: at line: 38: keyword 'expire' requires 1 parameter(s), found 2
+Error: after line: 42: need at most 1 occurence(s) of keyword 'compress'
+Error: after line: 42: need at most 1 occurence(s) of keyword 'ignore'
+Error: after line: 52: missing keyword 'condition'
+Error: at line: 54: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line: 54: missing keyword 'condition'
+Error: after line: 66: missing keyword 'protocol'
+Error: at line: 72: keyword 'ignore' requires 1 parameter(s), found 2
+Error: at line: 73: keyword 'compress' requires 1 parameter(s), found 2
+Error: at line: 86: keyword 'ignore' requires 1 parameter(s), found 0
+Error: at line: 87: keyword 'compress' requires 1 parameter(s), found 0
+Error: at line: 89: keyword 'what_the_f...?' incorrect or misplaced, aborting
 Items:
   client, occ.: min = 1, no max; params: min = 1, max = 2
     config, occ.: optional, max = 1; params: min = max = 1
@@ -253,6 +262,7 @@ Items:
     protocol, occ.: min = 1, max = 1; params: min = max = 1
     report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
     timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
+    users, occ.: optional, max = 1; params: min = 1, no max
   compress_auto, occ.: optional, max = 1; params: min = max = 0
   db, occ.: optional, max = 1; params: min = max = 1
   filter, occ.: optional, no max; params: min = max = 2
@@ -272,54 +282,55 @@ Lines:
 14:   filter any test_or
 16:   client myClient
 17:     protocol nfs
-19:   client other
-20:     protocol ssh
-21:     hostname otherClient
-22:     hostname 192.168.0.132
-23:     option I am happy
-24:     option
-25:     config /home/backup/Backup.list
-26:     config /home/backup/Backup2.list
-28:     filter and subdir
-29:       condition path_start subdir
-30:       condition !size< 100
-32:     filter and bigfile 3
-33:       condition size>= 10 yeah
-34:       condition type
-36:     expire 1
-37:     expire 2 3
-39:     path test2//
-41:     path test1
-43:       filter and not_object
-44:         condition !path_end .o
-46:       filter or to_be_ignored
-47:         condition filter subdir
-48:         condition filter backup
-49:         condition !filter not_object
-51:       filter and blah
-53:       filter or
-56:       ignore to_be_ignored
-57:       ignore to_be_ignored2
-59:       compress bigfile
-60:       compress bigfile2
-62:       parser cvs controlled
-63:       parser svn modified
-65:   client myhost
-66:     hostname myhost.mynetwork.lan
-67:     config etc/localhost.list
-68:     expire 1
-70:     path blah
-71:       ignore 2 3
-72:       compress 4 5
-74:   client client xp
-75:     protocol smb
-76:     option username Myself
-77:     option password flesyM
-78:     option nocase
-79:     hostname myClient
-80:     config C:\Backup\Backup.LST
-82:     path C:\Crash"
-83:     path C:\Crash
-84:     path blah
-85:       ignore
-86:       compress
+18:     users
+20:   client other
+21:     protocol ssh
+22:     hostname otherClient
+23:     hostname 192.168.0.132
+24:     option I am happy
+25:     option
+26:     config /home/backup/Backup.list
+27:     config /home/backup/Backup2.list
+29:     filter and subdir
+30:       condition path_start subdir
+31:       condition !size< 100
+33:     filter and bigfile 3
+34:       condition size>= 10 yeah
+35:       condition type
+37:     expire 1
+38:     expire 2 3
+40:     path test2//
+42:     path test1
+44:       filter and not_object
+45:         condition !path_end .o
+47:       filter or to_be_ignored
+48:         condition filter subdir
+49:         condition filter backup
+50:         condition !filter not_object
+52:       filter and blah
+54:       filter or
+57:       ignore to_be_ignored
+58:       ignore to_be_ignored2
+60:       compress bigfile
+61:       compress bigfile2
+63:       parser cvs controlled
+64:       parser svn modified
+66:   client myhost
+67:     hostname myhost.mynetwork.lan
+68:     config etc/localhost.list
+69:     expire 1
+71:     path blah
+72:       ignore 2 3
+73:       compress 4 5
+75:   client client xp
+76:     protocol smb
+77:     option username Myself
+78:     option password flesyM
+79:     option nocase
+80:     hostname myClient
+81:     config C:\Backup\Backup.LST
+83:     path C:\Crash"
+84:     path C:\Crash
+85:     path blah
+86:       ignore
+87:       compress

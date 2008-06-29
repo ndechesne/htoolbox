@@ -248,10 +248,12 @@ condition !size< 1000
 
 client myClient xp
 protocol smb
+users backup
 config C:\Backup\Backup.LST
 
 client myClient
 protocol nfs
+users backup root
 hostname myClient
 config $ROOTDIRNFS/hbackup.list
 
@@ -329,6 +331,8 @@ condition !size< 100
 EOF
 echo "\r" >> "$CONFIGDIR/localhost.list"
 cat << EOF >> "$CONFIGDIR/localhost.list"
+users biloute machin
+
 filter and bigfile
 condition size>= 10
 condition type file
@@ -374,6 +378,7 @@ filter any test_or
 
 client myClient
 protocol nfs
+users
 
 client other
 protocol ssh

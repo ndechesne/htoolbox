@@ -162,6 +162,8 @@ int HBackup::readConfig(const char* config_path) {
     client->add(new ConfigItem("config", 0, 1, 1));
     // expire
     client->add(new ConfigItem("expire", 0, 1, 1));
+    // users
+    client->add(new ConfigItem("users", 0, 1, 1, -1));
     // filter
     {
       ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
@@ -397,7 +399,7 @@ int HBackup::open(
   _d->remote_clients         = false;
   _d->compress_auto          = false;
   _d->report_copy_error_once = false;
-  
+
   bool failed = false;
   if (user_mode) {
     // Give 'selected' client name

@@ -170,6 +170,8 @@ int Client::readConfig(
   config.add(new ConfigItem("subset", 0, 1, 1));
   // expire
   config.add(new ConfigItem("expire", 0, 1, 1));
+  // users
+  config.add(new ConfigItem("users", 0, 1, 1, -1));
   // timeout_nowarning
   config.add(new ConfigItem("report_copy_error_once", 0, 1));
   // filter
