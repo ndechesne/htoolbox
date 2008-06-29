@@ -238,8 +238,9 @@ int Config::read(
           // Add under current hierarchy
           lines_hierarchy.push_back(params);
           // Check number of parameters (params.size() - 1)
-          if (((params->size() - 1) < child->min_params())
-              || ((params->size() - 1) > child->max_params())) {
+          if (   ((params->size() - 1) < child->min_params())
+              || ( (child->min_params() <= child->max_params())
+                && ((params->size() - 1) > child->max_params()))) {
             ostringstream message;
             message << "keyword '" << (*params)[0]
               << "' requires ";
