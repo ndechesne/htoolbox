@@ -183,8 +183,18 @@ void ConfigItem::show(int level) const {
     } else {
       s << "no max";
     }
-    s << "; params: min params = " << (*i)->_min_params;
-    s << ", max params = " << (*i)->_max_params;
+    s << "; params: ";
+    if ((*i)->_min_params != (*i)->_max_params) {
+      s << "min = " << (*i)->_min_params;
+      s << ", ";
+      if ((*i)->_max_params != 0) {
+        s << "max = " << (*i)->_max_params;
+      } else {
+        s << "no max";
+      }
+    } else {
+      s << "min = max = " << (*i)->_min_params;
+    }
     out(verbose, msg_standard, s.str().c_str());
     (*i)->show(level + 2);
   }

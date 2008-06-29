@@ -3,15 +3,15 @@ Test: client configuration
 Error: after line: 0: missing keyword 'path'
 Error: at line: 5: found CR character, aborting
 Items:
-  expire, occ.: optional, max = 1; params: min params = 1, max params = 1
-  filter, occ.: optional, no max; params: min params = 2, max params = 2
-    condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-  path, occ.: min = 1, no max; params: min params = 1, max params = 1
-    compress, occ.: optional, max = 1; params: min params = 1, max params = 1
-    filter, occ.: optional, no max; params: min params = 2, max params = 2
-      condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-    ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
-    parser, occ.: optional, no max; params: min params = 1, max params = 2
+  expire, occ.: optional, max = 1; params: min = max = 1
+  filter, occ.: optional, no max; params: min = max = 2
+    condition, occ.: min = 1, no max; params: min = max = 2
+  path, occ.: min = 1, no max; params: min = max = 1
+    compress, occ.: optional, max = 1; params: min = max = 1
+    filter, occ.: optional, no max; params: min = max = 2
+      condition, occ.: min = 1, no max; params: min = max = 2
+    ignore, occ.: optional, max = 1; params: min = max = 1
+    parser, occ.: optional, no max; params: min = 1, max = 2
 Lines:
 2:   filter and subdir
 3:     condition path_start subdir
@@ -34,28 +34,28 @@ Lines:
 29:     parser svn modified
 Test: server configuration
 Items:
-  client, occ.: min = 1, no max; params: min params = 1, max params = 2
-    config, occ.: optional, max = 1; params: min params = 1, max params = 1
-    expire, occ.: optional, max = 1; params: min params = 1, max params = 1
-    filter, occ.: optional, no max; params: min params = 2, max params = 2
-      condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-    hostname, occ.: optional, max = 1; params: min params = 1, max params = 1
-    option, occ.: optional, no max; params: min params = 1, max params = 2
-    path, occ.: optional, no max; params: min params = 1, max params = 1
-      compress, occ.: optional, max = 1; params: min params = 1, max params = 1
-      filter, occ.: optional, no max; params: min params = 2, max params = 2
-        condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-      ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
-      parser, occ.: optional, no max; params: min params = 1, max params = 2
-    protocol, occ.: min = 1, max = 1; params: min params = 1, max params = 1
-    report_copy_error_once, occ.: optional, max = 1; params: min params = 0, max params = 0
-    timeout_nowarning, occ.: optional, max = 1; params: min params = 0, max params = 0
-  compress_auto, occ.: optional, max = 1; params: min params = 0, max params = 0
-  db, occ.: optional, max = 1; params: min params = 1, max params = 1
-  filter, occ.: optional, no max; params: min params = 2, max params = 2
-    condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-  report_copy_error_once, occ.: optional, max = 1; params: min params = 0, max params = 0
-  timeout_nowarning, occ.: optional, max = 1; params: min params = 0, max params = 0
+  client, occ.: min = 1, no max; params: min = 1, max = 2
+    config, occ.: optional, max = 1; params: min = max = 1
+    expire, occ.: optional, max = 1; params: min = max = 1
+    filter, occ.: optional, no max; params: min = max = 2
+      condition, occ.: min = 1, no max; params: min = max = 2
+    hostname, occ.: optional, max = 1; params: min = max = 1
+    option, occ.: optional, no max; params: min = 1, max = 2
+    path, occ.: optional, no max; params: min = max = 1
+      compress, occ.: optional, max = 1; params: min = max = 1
+      filter, occ.: optional, no max; params: min = max = 2
+        condition, occ.: min = 1, no max; params: min = max = 2
+      ignore, occ.: optional, max = 1; params: min = max = 1
+      parser, occ.: optional, no max; params: min = 1, max = 2
+    protocol, occ.: min = 1, max = 1; params: min = max = 1
+    report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
+    timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
+  compress_auto, occ.: optional, max = 1; params: min = max = 0
+  db, occ.: optional, max = 1; params: min = max = 1
+  filter, occ.: optional, no max; params: min = max = 2
+    condition, occ.: min = 1, no max; params: min = max = 2
+  report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
+  timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
 Lines:
 1:   db test_db
 3:   compress_auto
@@ -123,28 +123,28 @@ Lines:
 84:     report_copy_error_once
 Test: configuration save
 Items:
-  client, occ.: min = 1, no max; params: min params = 1, max params = 2
-    config, occ.: optional, max = 1; params: min params = 1, max params = 1
-    expire, occ.: optional, max = 1; params: min params = 1, max params = 1
-    filter, occ.: optional, no max; params: min params = 2, max params = 2
-      condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-    hostname, occ.: optional, max = 1; params: min params = 1, max params = 1
-    option, occ.: optional, no max; params: min params = 1, max params = 2
-    path, occ.: optional, no max; params: min params = 1, max params = 1
-      compress, occ.: optional, max = 1; params: min params = 1, max params = 1
-      filter, occ.: optional, no max; params: min params = 2, max params = 2
-        condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-      ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
-      parser, occ.: optional, no max; params: min params = 1, max params = 2
-    protocol, occ.: min = 1, max = 1; params: min params = 1, max params = 1
-    report_copy_error_once, occ.: optional, max = 1; params: min params = 0, max params = 0
-    timeout_nowarning, occ.: optional, max = 1; params: min params = 0, max params = 0
-  compress_auto, occ.: optional, max = 1; params: min params = 0, max params = 0
-  db, occ.: optional, max = 1; params: min params = 1, max params = 1
-  filter, occ.: optional, no max; params: min params = 2, max params = 2
-    condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-  report_copy_error_once, occ.: optional, max = 1; params: min params = 0, max params = 0
-  timeout_nowarning, occ.: optional, max = 1; params: min params = 0, max params = 0
+  client, occ.: min = 1, no max; params: min = 1, max = 2
+    config, occ.: optional, max = 1; params: min = max = 1
+    expire, occ.: optional, max = 1; params: min = max = 1
+    filter, occ.: optional, no max; params: min = max = 2
+      condition, occ.: min = 1, no max; params: min = max = 2
+    hostname, occ.: optional, max = 1; params: min = max = 1
+    option, occ.: optional, no max; params: min = 1, max = 2
+    path, occ.: optional, no max; params: min = max = 1
+      compress, occ.: optional, max = 1; params: min = max = 1
+      filter, occ.: optional, no max; params: min = max = 2
+        condition, occ.: min = 1, no max; params: min = max = 2
+      ignore, occ.: optional, max = 1; params: min = max = 1
+      parser, occ.: optional, no max; params: min = 1, max = 2
+    protocol, occ.: min = 1, max = 1; params: min = max = 1
+    report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
+    timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
+  compress_auto, occ.: optional, max = 1; params: min = max = 0
+  db, occ.: optional, max = 1; params: min = max = 1
+  filter, occ.: optional, no max; params: min = max = 2
+    condition, occ.: min = 1, no max; params: min = max = 2
+  report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
+  timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
 Lines:
 1:   db test_db
 2:   compress_auto
@@ -237,28 +237,28 @@ Error: at line: 85: keyword 'ignore' requires 1 parameter(s), found 0
 Error: at line: 86: keyword 'compress' requires 1 parameter(s), found 0
 Error: at line: 88: keyword 'what_the_f...?' incorrect or misplaced, aborting
 Items:
-  client, occ.: min = 1, no max; params: min params = 1, max params = 2
-    config, occ.: optional, max = 1; params: min params = 1, max params = 1
-    expire, occ.: optional, max = 1; params: min params = 1, max params = 1
-    filter, occ.: optional, no max; params: min params = 2, max params = 2
-      condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-    hostname, occ.: optional, max = 1; params: min params = 1, max params = 1
-    option, occ.: optional, no max; params: min params = 1, max params = 2
-    path, occ.: optional, no max; params: min params = 1, max params = 1
-      compress, occ.: optional, max = 1; params: min params = 1, max params = 1
-      filter, occ.: optional, no max; params: min params = 2, max params = 2
-        condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-      ignore, occ.: optional, max = 1; params: min params = 1, max params = 1
-      parser, occ.: optional, no max; params: min params = 1, max params = 2
-    protocol, occ.: min = 1, max = 1; params: min params = 1, max params = 1
-    report_copy_error_once, occ.: optional, max = 1; params: min params = 0, max params = 0
-    timeout_nowarning, occ.: optional, max = 1; params: min params = 0, max params = 0
-  compress_auto, occ.: optional, max = 1; params: min params = 0, max params = 0
-  db, occ.: optional, max = 1; params: min params = 1, max params = 1
-  filter, occ.: optional, no max; params: min params = 2, max params = 2
-    condition, occ.: min = 1, no max; params: min params = 2, max params = 2
-  report_copy_error_once, occ.: optional, max = 1; params: min params = 0, max params = 0
-  timeout_nowarning, occ.: optional, max = 1; params: min params = 0, max params = 0
+  client, occ.: min = 1, no max; params: min = 1, max = 2
+    config, occ.: optional, max = 1; params: min = max = 1
+    expire, occ.: optional, max = 1; params: min = max = 1
+    filter, occ.: optional, no max; params: min = max = 2
+      condition, occ.: min = 1, no max; params: min = max = 2
+    hostname, occ.: optional, max = 1; params: min = max = 1
+    option, occ.: optional, no max; params: min = 1, max = 2
+    path, occ.: optional, no max; params: min = max = 1
+      compress, occ.: optional, max = 1; params: min = max = 1
+      filter, occ.: optional, no max; params: min = max = 2
+        condition, occ.: min = 1, no max; params: min = max = 2
+      ignore, occ.: optional, max = 1; params: min = max = 1
+      parser, occ.: optional, no max; params: min = 1, max = 2
+    protocol, occ.: min = 1, max = 1; params: min = max = 1
+    report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
+    timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
+  compress_auto, occ.: optional, max = 1; params: min = max = 0
+  db, occ.: optional, max = 1; params: min = max = 1
+  filter, occ.: optional, no max; params: min = max = 2
+    condition, occ.: min = 1, no max; params: min = max = 2
+  report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
+  timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
 Lines:
 1:   db test_db
 2:   db blah
