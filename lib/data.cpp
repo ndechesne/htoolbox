@@ -369,12 +369,12 @@ int Data::write(
     asprintf(&temp_path_gz, "%s.gz", temp1->path());
     temp2 = new Stream(temp_path_gz);
     free(temp_path_gz);
-    if (temp2->open("w", -compress, -1, true, source.size())) {
+    if (temp2->open("w", -compress, -1, false, source.size())) {
       out(error, msg_errno, "Opening write temp file", errno, temp2->path());
       failed = true;
     }
   }
-  if (temp1->open("w", (compress > 0) ? compress:0, -1, true, source.size())) {
+  if (temp1->open("w", (compress > 0) ? compress:0, -1, false, source.size())){
     out(error, msg_errno, "Opening write temp file", errno, temp1->path());
     failed = true;
   }
