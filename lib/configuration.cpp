@@ -187,7 +187,7 @@ void ConfigItem::show(int level) const {
     if ((*i)->_min_params != (*i)->_max_params) {
       s << "min = " << (*i)->_min_params;
       s << ", ";
-      if ((*i)->_max_params != 0) {
+      if ((*i)->_max_params > (*i)->_min_params) {
         s << "max = " << (*i)->_max_params;
       } else {
         s << "no max";

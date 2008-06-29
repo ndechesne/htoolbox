@@ -88,13 +88,16 @@ public:
     unsigned int    min_occurrences = 0,
     unsigned int    max_occurrences = 0,
     unsigned int    min_params = 0,
-    int             max_params = -1) :
+    int             max_params = 0) :
       _keyword(strdup(keyword)),
       _min_occurrences(min_occurrences),
       _max_occurrences(max_occurrences),
       _min_params(min_params),
       _max_params(max_params) {
-    if (max_params == -1) {
+    if (max_params < 0) {
+      _max_params = 0;
+    } else
+    if (max_params == 0) {
       _max_params = _min_params;
     }
   }
