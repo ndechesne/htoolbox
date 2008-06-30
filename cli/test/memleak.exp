@@ -1,11 +1,11 @@
 Version
-HBackup (c) 2006-2008 Hervé Fache version 0.9c
+HBackup (c) 2006-2008 Hervé Fache version 1.0a
  
  4 bytes in 1 blocks are definitely lost in loss record 2 of 13
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
  
  
  2,022 bytes in 87 blocks are possibly lost in loss record 13 of 13
@@ -13,7 +13,7 @@ HBackup (c) 2006-2008 Hervé Fache version 0.9c
    std::string::_Rep::_S_create(unsigned, unsigned, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
    (within /usr/lib/libstdc++.so.6.0.9)
    std::string::string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
-   main (hbackup.cpp:202)
+   main (hbackup.cpp:200)
 Help
 HBackup (c) 2006-2008 Hervé Fache
   -h,  --help
@@ -78,7 +78,7 @@ HBackup (c) 2006-2008 Hervé Fache
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
  
  
  2,015 bytes in 87 blocks are possibly lost in loss record 13 of 13
@@ -86,7 +86,7 @@ HBackup (c) 2006-2008 Hervé Fache
    std::string::_Rep::_S_create(unsigned, unsigned, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
    (within /usr/lib/libstdc++.so.6.0.9)
    std::string::string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
-   main (hbackup.cpp:202)
+   main (hbackup.cpp:200)
 Error
 Error: -! -- Couldn't find match for argument
 HBackup (c) 2006-2008 Hervé Fache
@@ -152,7 +152,7 @@ HBackup (c) 2006-2008 Hervé Fache
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
  
  
  2,159 bytes in 88 blocks are possibly lost in loss record 13 of 13
@@ -160,7 +160,7 @@ HBackup (c) 2006-2008 Hervé Fache
    std::string::_Rep::_S_create(unsigned, unsigned, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
    (within /usr/lib/libstdc++.so.6.0.9)
    std::string::string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.9)
-   main (hbackup.cpp:202)
+   main (hbackup.cpp:200)
 List clients (missing DB path)
  -> Reading configuration file: etc/hbackup.conf
 Error: Given DB path does not exist: test_db
@@ -169,7 +169,7 @@ Error: Given DB path does not exist: test_db
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 List clients (empty DB path)
  -> Reading configuration file: etc/hbackup.conf
 Error: Given DB path does not contain a database: test_db
@@ -178,7 +178,7 @@ Error: Given DB path does not contain a database: test_db
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 Backup, DB missing
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
@@ -202,16 +202,18 @@ Backup, DB missing
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -259,7 +261,7 @@ Error: Given DB path does not exist: test_db
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 Typical backup, initialize DB
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
@@ -283,16 +285,18 @@ Typical backup, initialize DB
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -342,7 +346,7 @@ Reading list of problematic checksums
 List created: aClient.vista
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
- -> mount -t cifs -o ro,noatime,nocase //aClient/C$ test_db/.mount/aClient.vista
+ -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 A       C:/Test Dir/My Dir
 My Dir\r
       \r
@@ -359,13 +363,13 @@ Database modified: aClient.vista
 Database closed: aClient.vista
  -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
+ -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
  -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM nocase 
+ --> Options: username=Myself, password=flesyM, nocase
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -408,6 +412,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> Users: backup, root
  --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
@@ -435,11 +440,12 @@ Database modified: myClient
 Database closed: myClient
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase //myClient/C$ test_db/.mount/myClient.xp
+ -> mount -t cifs -o ro,nocase //myClient/C$ test_db/.mount/myClient.xp
  -> Reading client configuration file: myClient.xp
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
+ --> Users: backup
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -481,6 +487,7 @@ Database closed: myClient.xp
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> Users: biloute, machin
  --> No warning on time out
  --> No error if same file fails copy again
  --> Config: etc/localhost.list
@@ -545,9 +552,9 @@ cvs\r
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:59)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
-   hbackup::HBackup::backup(bool) (interface.cpp:505)
-   main (hbackup.cpp:441)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
+   hbackup::HBackup::backup(bool) (interface.cpp:512)
+   main (hbackup.cpp:444)
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
@@ -556,267 +563,267 @@ cvs\r
 A       test1/cvs/CVS
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1141)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1184)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1187)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1627)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1633)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1633)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1620)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Use of uninitialised value of size 4
-   deflate_slow (deflate.c:1083)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1096)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Use of uninitialised value of size 4
-   deflate_slow (deflate.c:1122)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1122)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1649)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1649)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Use of uninitialised value of size 4
-   deflate_slow (deflate.c:1655)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1669)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1600)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1602)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1605)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
  
  Use of uninitialised value of size 4
-   compress_block (trees.c:1094)
-   _tr_flush_block (trees.c:1000)
-   deflate_slow (deflate.c:1704)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   (within /usr/lib/libz.so.1.2.3.3)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
@@ -867,18 +874,18 @@ svn\r
 A       test1/svn/.svn
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1141)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:813)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:891)
-   hbackup::Stream::close() (files.cpp:558)
-   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:393)
-   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:721)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
+   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
+   hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
+   hbackup::Stream::close() (files.cpp:585)
+   hbackup::Data::write(char const*, char const*, char**, int, int*) (data.cpp:392)
+   hbackup::Database::add(hbackup::OpData const&, bool) (db.cpp:712)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:115)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
         \r
 Checking data, sizes: f=77 z=79 (80)
 Adding uncompressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
@@ -941,7 +948,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 Specify clients
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
@@ -968,16 +975,18 @@ Specify clients
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -1021,13 +1030,13 @@ Specify clients
 Backing up in server mode
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
- -> mount -t cifs -o ro,noatime,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
+ -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
  -> Reading client configuration file: client.xp
  -> Client: client
  --> Subset: xp
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM nocase 
+ --> Options: username=Myself, password=flesyM, nocase
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -1061,6 +1070,7 @@ Database closed: client.xp
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> Users: biloute, machin
  --> No warning on time out
  --> No error if same file fails copy again
  --> Config: etc/localhost.list
@@ -1099,9 +1109,9 @@ cvs\r
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:59)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:127)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:225)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:566)
-   hbackup::HBackup::backup(bool) (interface.cpp:505)
-   main (hbackup.cpp:441)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:578)
+   hbackup::HBackup::backup(bool) (interface.cpp:512)
+   main (hbackup.cpp:444)
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
@@ -1147,7 +1157,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 User-mode backup
  -> DB path: test_user/.hbackup
  -> Selected clients:
@@ -1194,7 +1204,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 Fix DB
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
@@ -1218,16 +1228,18 @@ Fix DB
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -1276,7 +1288,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 Scan DB
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
@@ -1300,16 +1312,18 @@ Scan DB
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -1417,7 +1431,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 Check DB
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
@@ -1441,16 +1455,18 @@ Check DB
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -1518,7 +1534,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 List clients
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1544,16 +1560,18 @@ Database closed
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -1607,7 +1625,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 Try to list paths in both myhost and smb://client (fails)
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1635,16 +1653,18 @@ Database closed
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -1697,7 +1717,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 List paths in myhost
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1725,16 +1745,18 @@ Database closed
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -1787,7 +1809,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 List paths in myhost under test2/
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1815,16 +1837,18 @@ Database closed
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -1881,7 +1905,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 List paths in myhost under test1/cvs
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1909,16 +1933,18 @@ Database closed
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -1974,7 +2000,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 Restore a file
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -2002,16 +2028,18 @@ Database closed
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -2063,7 +2091,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 Restore all data in a client/dir path that's not by itself in DB
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -2091,16 +2119,18 @@ Database closed
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -2180,7 +2210,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 Restore all data in a client/dir path
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -2208,16 +2238,18 @@ Database closed
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -2280,7 +2312,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 Restore all data in a client
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -2308,16 +2340,18 @@ Database closed
  --> Client: client
  ---> Protocol: smb
  ---> Hostname: myClient
- ---> Options: username=Myself password=flesyM nocase 
+ ---> Options: username=Myself, password=flesyM, nocase
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
  --> Client: myClient
  ---> Protocol: nfs
+ ---> Users: backup, root
  ---> Config: /home/User/hbackup.list
  ---> Expiry: none
  --> Client: myClient
  ---> Protocol: smb
+ ---> Users: backup
  ---> Config: C:/Backup/Backup.LST
  ---> Expiry: none
  ---> Required subset: xp
@@ -2403,7 +2437,7 @@ Database closed
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
 Broken configuration
  -> Reading configuration file: etc/broken.conf
 Error: after line: 0: need at most 1 occurence(s) of keyword 'db'
@@ -2411,30 +2445,31 @@ Error: after line: 0: need at most 1 occurence(s) of keyword 'report_copy_error_
 Error: after line: 0: need at most 1 occurence(s) of keyword 'timeout_nowarning'
 Error: at line: 10: keyword 'filter' requires 2 parameter(s), found 1
 Error: after line: 14: missing keyword 'condition'
-Error: after line: 19: need at most 1 occurence(s) of keyword 'config'
-Error: after line: 19: need at most 1 occurence(s) of keyword 'expire'
-Error: after line: 19: need at most 1 occurence(s) of keyword 'hostname'
-Error: at line: 23: keyword 'option' requires at most 2 parameter(s), found 3
-Error: at line: 24: keyword 'option' requires at least 1 parameter(s), found 0
-Error: at line: 32: keyword 'filter' requires 2 parameter(s), found 3
-Error: at line: 33: keyword 'condition' requires 2 parameter(s), found 3
-Error: at line: 34: keyword 'condition' requires 2 parameter(s), found 1
-Error: at line: 37: keyword 'expire' requires 1 parameter(s), found 2
-Error: after line: 41: need at most 1 occurence(s) of keyword 'compress'
-Error: after line: 41: need at most 1 occurence(s) of keyword 'ignore'
-Error: after line: 51: missing keyword 'condition'
-Error: at line: 53: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line: 53: missing keyword 'condition'
-Error: after line: 65: missing keyword 'protocol'
-Error: at line: 71: keyword 'ignore' requires 1 parameter(s), found 2
-Error: at line: 72: keyword 'compress' requires 1 parameter(s), found 2
-Error: at line: 85: keyword 'ignore' requires 1 parameter(s), found 0
-Error: at line: 86: keyword 'compress' requires 1 parameter(s), found 0
-Error: at line: 88: keyword 'what_the_f...?' incorrect or misplaced, aborting
+Error: at line: 18: keyword 'users' requires at least 1 parameter(s), found 0
+Error: after line: 20: need at most 1 occurence(s) of keyword 'config'
+Error: after line: 20: need at most 1 occurence(s) of keyword 'expire'
+Error: after line: 20: need at most 1 occurence(s) of keyword 'hostname'
+Error: at line: 24: keyword 'option' requires at most 2 parameter(s), found 3
+Error: at line: 25: keyword 'option' requires at least 1 parameter(s), found 0
+Error: at line: 33: keyword 'filter' requires 2 parameter(s), found 3
+Error: at line: 34: keyword 'condition' requires 2 parameter(s), found 3
+Error: at line: 35: keyword 'condition' requires 2 parameter(s), found 1
+Error: at line: 38: keyword 'expire' requires 1 parameter(s), found 2
+Error: after line: 42: need at most 1 occurence(s) of keyword 'compress'
+Error: after line: 42: need at most 1 occurence(s) of keyword 'ignore'
+Error: after line: 52: missing keyword 'condition'
+Error: at line: 54: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line: 54: missing keyword 'condition'
+Error: after line: 66: missing keyword 'protocol'
+Error: at line: 72: keyword 'ignore' requires 1 parameter(s), found 2
+Error: at line: 73: keyword 'compress' requires 1 parameter(s), found 2
+Error: at line: 86: keyword 'ignore' requires 1 parameter(s), found 0
+Error: at line: 87: keyword 'compress' requires 1 parameter(s), found 0
+Error: at line: 89: keyword 'what_the_f...?' incorrect or misplaced, aborting
 Note: the default configuration path has changed from '/etc/hbackup/hbackup.conf' to '/etc/hbackup/config'
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
    operator new(unsigned) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:219)
+   main (hbackup.cpp:217)
