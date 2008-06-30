@@ -26,7 +26,7 @@ Database closed
  -> Client: myClient2
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM 
+ --> Options: username=Myself, password=flesyM
  --> Config: C:/Backup/Backup2.LST
  --> Expiry: none
 >List 3 client(s):
@@ -37,7 +37,7 @@ Database closed
  -> Client: myClient2
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM 
+ --> Options: username=Myself, password=flesyM
  --> Config: C:/Backup/Backup2.LST
  --> Expiry: none
  -> Client: otherClient
@@ -52,7 +52,7 @@ Database closed
  -> Client: myClient2
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM 
+ --> Options: username=Myself, password=flesyM
  --> Config: C:/Backup/Backup2.LST
  --> Expiry: none
  -> Client: otherClient
@@ -61,7 +61,7 @@ Database closed
  --> Expiry: none
  -> Client: Client
  --> Protocol: smb
- --> Options: username=user iocharset=utf8 
+ --> Options: username=user, iocharset=utf8
  --> Config: C:/home/BlaH/Backup.list
  --> Expiry: none
 >List 5 client(s):
@@ -72,7 +72,7 @@ Database closed
  -> Client: myClient2
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM 
+ --> Options: username=Myself, password=flesyM
  --> Config: C:/Backup/Backup2.LST
  --> Expiry: none
  -> Client: otherClient
@@ -81,13 +81,13 @@ Database closed
  --> Expiry: none
  -> Client: Client
  --> Protocol: smb
- --> Options: username=user iocharset=utf8 
+ --> Options: username=user, iocharset=utf8
  --> Config: C:/home/BlaH/Backup.list
  --> Expiry: none
  -> Client: Client2
  --> Protocol: smb
  --> Hostname: Client
- --> Options: nocase username=user password= 
+ --> Options: nocase, username=user, password=
  --> Config: C:/home/BlaH/Backup.list
  --> Expiry: none
 >List 6 client(s):
@@ -98,7 +98,7 @@ Database closed
  -> Client: myClient2
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM 
+ --> Options: username=Myself, password=flesyM
  --> Config: C:/Backup/Backup2.LST
  --> Expiry: none
  -> Client: otherClient
@@ -107,19 +107,19 @@ Database closed
  --> Expiry: none
  -> Client: Client
  --> Protocol: smb
- --> Options: username=user iocharset=utf8 
+ --> Options: username=user, iocharset=utf8
  --> Config: C:/home/BlaH/Backup.list
  --> Expiry: none
  -> Client: Client2
  --> Protocol: smb
  --> Hostname: Client
- --> Options: nocase username=user password= 
+ --> Options: nocase, username=user, password=
  --> Config: C:/home/BlaH/Backup.list
  --> Expiry: none
  -> Client: Client3
  --> Protocol: smb
  --> Hostname: Client
- --> Options: username= 
+ --> Options: username=
  --> Config: C:/home/BlaH/Backup.list
  --> Expiry: none
 >List 7 client(s):
@@ -130,7 +130,7 @@ Database closed
  -> Client: myClient2
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM 
+ --> Options: username=Myself, password=flesyM
  --> Config: C:/Backup/Backup2.LST
  --> Expiry: none
  -> Client: otherClient
@@ -139,25 +139,25 @@ Database closed
  --> Expiry: none
  -> Client: Client
  --> Protocol: smb
- --> Options: username=user iocharset=utf8 
+ --> Options: username=user, iocharset=utf8
  --> Config: C:/home/BlaH/Backup.list
  --> Expiry: none
  -> Client: Client2
  --> Protocol: smb
  --> Hostname: Client
- --> Options: nocase username=user password= 
+ --> Options: nocase, username=user, password=
  --> Config: C:/home/BlaH/Backup.list
  --> Expiry: none
  -> Client: Client3
  --> Protocol: smb
  --> Hostname: Client
- --> Options: username= 
+ --> Options: username=
  --> Config: C:/home/BlaH/Backup.list
  --> Expiry: none
  -> Client: Client4
  --> Protocol: smb
  --> Hostname: Client
- --> Options: username= password= 
+ --> Options: username=, password=
  --> Config: C:/home/BlaH/Backup.list
  --> Expiry: none
 Database open in read/write mode
@@ -251,6 +251,7 @@ Database open in read/write mode
  -> Client: testhost
  --> Protocol: file
  --> Hostname: localhost
+ --> Users: biloute, machin
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
  --> Filter: and subdir
@@ -401,6 +402,7 @@ Database open in read/write mode
  -> Reading client configuration file: testhost
  -> Client: testhost
  --> Protocol: file
+ --> Users: biloute, machin
  --> Config: etc/localhost.list
  --> Expiry: 86400s (1d)
  --> Filter: and subdir

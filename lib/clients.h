@@ -54,6 +54,7 @@ public:
   string internalName() const;
   void addOption(const string& value);
   void addOption(const string& name, const string& value);
+  void addUser(const string& user);
   void setHostOrIp(string value);
   bool setProtocol(string value);     // return true if remote protocol
   void setTimeOutNoWarning();

@@ -25,16 +25,18 @@ Test: backup, not initialized
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -100,16 +102,18 @@ Test: check config
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -182,16 +186,18 @@ Test: typical backup
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -263,7 +269,7 @@ Trying client 'client.xp' using protocol 'smb'
  --> Subset: xp
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM nocase 
+ --> Options: username=Myself, password=flesyM, nocase
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -306,6 +312,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> Users: backup, root
  --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
@@ -338,6 +345,7 @@ Trying client 'myClient.xp' using protocol 'smb'
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
+ --> Users: backup
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -379,6 +387,7 @@ Database closed: myClient.xp
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> Users: biloute, machin
  --> No warning on time out
  --> No error if same file fails copy again
  --> Config: etc/localhost.list
@@ -566,16 +575,18 @@ Test: same backup
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -634,7 +645,7 @@ Trying client 'client.xp' using protocol 'smb'
  --> Subset: xp
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM nocase 
+ --> Options: username=Myself, password=flesyM, nocase
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -668,6 +679,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> Users: backup, root
  --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
@@ -692,6 +704,7 @@ Trying client 'myClient.xp' using protocol 'smb'
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
+ --> Users: backup
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -724,6 +737,7 @@ Database closed: myClient.xp
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> Users: biloute, machin
  --> No warning on time out
  --> No error if same file fails copy again
  --> Config: etc/localhost.list
@@ -818,16 +832,18 @@ Test: interrupted backup
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -886,7 +902,7 @@ Trying client 'client.xp' using protocol 'smb'
  --> Subset: xp
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM nocase 
+ --> Options: username=Myself, password=flesyM, nocase
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -920,6 +936,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> Users: backup, root
  --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
@@ -944,6 +961,7 @@ Trying client 'myClient.xp' using protocol 'smb'
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
+ --> Users: backup
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -976,6 +994,7 @@ Database closed: myClient.xp
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> Users: biloute, machin
  --> No warning on time out
  --> No error if same file fails copy again
  --> Config: etc/localhost.list
@@ -1048,16 +1067,18 @@ Database closed
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -1118,7 +1139,7 @@ Trying client 'client.xp' using protocol 'smb'
  --> Subset: xp
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM nocase 
+ --> Options: username=Myself, password=flesyM, nocase
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -1152,6 +1173,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> Users: backup, root
  --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
@@ -1176,6 +1198,7 @@ Trying client 'myClient.xp' using protocol 'smb'
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
+ --> Users: backup
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -1208,6 +1231,7 @@ Database closed: myClient.xp
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> Users: biloute, machin
  --> No warning on time out
  --> No error if same file fails copy again
  --> Config: etc/localhost.list
@@ -1283,16 +1307,18 @@ Test: specify clients
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -1341,7 +1367,7 @@ Trying client 'client.xp' using protocol 'smb'
  --> Subset: xp
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM nocase 
+ --> Options: username=Myself, password=flesyM, nocase
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -1375,6 +1401,7 @@ Database closed: client.xp
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> Users: biloute, machin
  --> No warning on time out
  --> No error if same file fails copy again
  --> Config: etc/localhost.list
@@ -1472,16 +1499,18 @@ Test: scan DB
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -1610,16 +1639,18 @@ Test: check DB
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -1706,16 +1737,18 @@ Test: list clients
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -1787,16 +1820,18 @@ Test: list paths in UNIX client 'myClient'
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -1866,16 +1901,18 @@ Test: list paths in DOS client 'client.xp'
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -1945,16 +1982,18 @@ Test: restore file
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -2024,16 +2063,18 @@ Test: restore dir
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -2133,16 +2174,18 @@ Test: restore subdir
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -2223,16 +2266,18 @@ Test: restore client
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -2337,16 +2382,18 @@ Test: typical backup
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -2405,7 +2452,7 @@ Trying client 'client.xp' using protocol 'smb'
  --> Subset: xp
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM nocase 
+ --> Options: username=Myself, password=flesyM, nocase
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -2439,6 +2486,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> Users: backup, root
  --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
@@ -2463,6 +2511,7 @@ Trying client 'myClient.xp' using protocol 'smb'
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
+ --> Users: backup
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -2495,6 +2544,7 @@ Database closed: myClient.xp
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> Users: biloute, machin
  --> No warning on time out
  --> No error if same file fails copy again
  --> Config: etc/localhost.list
@@ -2589,16 +2639,18 @@ Test: specify clients
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -2647,7 +2699,7 @@ Trying client 'client.xp' using protocol 'smb'
  --> Subset: xp
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM nocase 
+ --> Options: username=Myself, password=flesyM, nocase
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -2682,6 +2734,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> Users: backup, root
  --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
@@ -2766,16 +2819,18 @@ Test: list clients
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -2847,16 +2902,18 @@ Test: list paths in DOS client 'myClient.xp'
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -2929,16 +2986,18 @@ Test: list paths in dual-boot client 'myClient*'
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -3011,16 +3070,18 @@ Test: list sub-paths in UNIX client 'myClient'
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -3092,16 +3153,18 @@ Test: list sub-paths in DOS client 'myClient.xp', 'C:'
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -3173,16 +3236,18 @@ Test: restore file (UNIX)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -3259,16 +3324,18 @@ Test: restore subdir (UNIX)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -3349,16 +3416,18 @@ Test: restore dir (UNIX)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -3439,16 +3508,18 @@ Test: restore client (UNIX)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -3529,16 +3600,18 @@ Test: restore file (DOS)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -3614,16 +3687,18 @@ Test: restore subdir (DOS)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -3703,16 +3778,18 @@ Test: restore dir (DOS)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -3794,16 +3871,18 @@ Test: restore client (DOS)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -3886,16 +3965,18 @@ Test: restore client (dual-boot)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -3988,16 +4069,18 @@ Test: restore (symlinks) file (UNIX)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -4074,16 +4157,18 @@ Test: restore (symlinks) subdir (UNIX)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -4164,16 +4249,18 @@ Test: restore (symlinks) dir (UNIX)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -4254,16 +4341,18 @@ Test: restore (symlinks) client (UNIX)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -4344,16 +4433,18 @@ Test: restore (symlinks) file (DOS)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -4429,16 +4520,18 @@ Test: restore (symlinks) subdir (DOS)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -4518,16 +4611,18 @@ Test: restore (symlinks) dir (DOS)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -4609,16 +4704,18 @@ Test: restore (symlinks) client (DOS)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -4701,16 +4798,18 @@ Test: restore (symlinks) client (dual-boot)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -4804,16 +4903,18 @@ Test: restore (hard links) file (UNIX)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -4890,16 +4991,18 @@ Test: restore (hard links) subdir (UNIX)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -4980,16 +5083,18 @@ Test: restore (hard links) dir (UNIX)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -5070,16 +5175,18 @@ Test: restore (hard links) client (UNIX)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -5160,16 +5267,18 @@ Test: restore (hard links) file (DOS)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -5245,16 +5354,18 @@ Test: restore (hard links) subdir (DOS)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -5334,16 +5445,18 @@ Test: restore (hard links) dir (DOS)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -5425,16 +5538,18 @@ Test: restore (hard links) client (DOS)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -5517,16 +5632,18 @@ Test: restore (hard links) client (dual-boot)
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -5617,16 +5734,18 @@ Test: check for corrupted data
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -5724,16 +5843,18 @@ Test: check for corrupted data again
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -5828,16 +5949,18 @@ Test: scan for missing data
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -6045,16 +6168,18 @@ Test: scan for obsolete data, case1
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -6331,16 +6456,18 @@ Test: scan for obsolete data, case 2
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -6611,16 +6738,18 @@ Test: backup recovers broken checksums + replace data
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -6684,7 +6813,7 @@ Trying client 'client.xp' using protocol 'smb'
  --> Subset: xp
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM nocase 
+ --> Options: username=Myself, password=flesyM, nocase
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -6718,6 +6847,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> Users: backup, root
  --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
@@ -6746,6 +6876,7 @@ Trying client 'myClient.xp' using protocol 'smb'
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
+ --> Users: backup
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -6778,6 +6909,7 @@ Database closed: myClient.xp
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> Users: biloute, machin
  --> No warning on time out
  --> No error if same file fails copy again
  --> Config: etc/localhost.list
@@ -6891,16 +7023,18 @@ Test: second backup should not recover again
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -6961,7 +7095,7 @@ Trying client 'client.xp' using protocol 'smb'
  --> Subset: xp
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM nocase 
+ --> Options: username=Myself, password=flesyM, nocase
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -6995,6 +7129,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> Users: backup, root
  --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
@@ -7019,6 +7154,7 @@ Trying client 'myClient.xp' using protocol 'smb'
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
+ --> Users: backup
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -7051,6 +7187,7 @@ Database closed: myClient.xp
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> Users: biloute, machin
  --> No warning on time out
  --> No error if same file fails copy again
  --> Config: etc/localhost.list
@@ -7144,16 +7281,18 @@ Database closed
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -7284,16 +7423,18 @@ Database closed
  ---> Client: client
  ----> Protocol: smb
  ----> Hostname: myClient
- ----> Options: username=Myself password=flesyM nocase 
+ ----> Options: username=Myself, password=flesyM, nocase
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
  ---> Client: myClient
  ----> Protocol: nfs
+ ----> Users: backup, root
  ----> Config: /home/User/hbackup.list
  ----> Expiry: none
  ---> Client: myClient
  ----> Protocol: smb
+ ----> Users: backup
  ----> Config: C:/Backup/Backup.LST
  ----> Expiry: none
  ----> Required subset: xp
@@ -7355,7 +7496,7 @@ Trying client 'client.xp' using protocol 'smb'
  --> Subset: xp
  --> Protocol: smb
  --> Hostname: myClient
- --> Options: username=Myself password=flesyM nocase 
+ --> Options: username=Myself, password=flesyM, nocase
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -7389,6 +7530,7 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
+ --> Users: backup, root
  --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
@@ -7413,6 +7555,7 @@ Trying client 'myClient.xp' using protocol 'smb'
  -> Client: myClient
  --> Subset: xp
  --> Protocol: smb
+ --> Users: backup
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
  --> Paths: 
@@ -7445,6 +7588,7 @@ Database closed: myClient.xp
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
+ --> Users: biloute, machin
  --> No warning on time out
  --> No error if same file fails copy again
  --> Config: etc/localhost.list

@@ -315,6 +315,11 @@ int HBackup::readConfig(const char* config_path) {
           client->addOption((*params)[1], (*params)[2]);
         }
       } else
+      if ((*params)[0] == "users") {
+        for (unsigned int i = 1; i < params->size(); i++) {
+          client->addUser((*params)[i]);
+        }
+      } else
       if ((*params)[0] == "timeout_nowarning") {
         client->setTimeOutNoWarning();
       } else

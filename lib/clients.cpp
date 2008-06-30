@@ -48,6 +48,7 @@ struct Client::Private {
   bool              timeout_nowarning;
   bool              report_copy_error_once;
   list<Option>      options;
+  list<string>      users;
   //
   bool              initialised;
   int               expire;
@@ -224,6 +225,11 @@ int Client::readConfig(
           failed = true;
         }
       } else
+      if ((*params)[0] == "users") {
+        for (unsigned int i = 1; i < params->size(); i++) {
+          addUser((*params)[i]);
+        }
+      } else
       if ((*params)[0] == "report_copy_error_once") {
         if (path == NULL) {
           setReportCopyErrorOnce();
@@ -385,6 +391,10 @@ void Client::addOption(const string& value) {
 
 void Client::addOption(const string& name, const string& value) {
   _d->options.push_back(Option(name, value));
+}
+
+void Client::addUser(const string& user) {
+  _d->users.push_back(user);
 }
 
 void Client::setHostOrIp(string value) {
@@ -595,13 +605,33 @@ void Client::show(int level) const {
   if (_d->host_or_ip != _d->name) {
     out(debug, msg_standard, _d->host_or_ip.c_str(), level, "Hostname");
   }
-  if (_d->options.size() > 0) {
+  if (! _d->options.empty()) {
     stringstream s;
+    bool         first = true;
     for (list<Option>::const_iterator i = _d->options.begin();
         i != _d->options.end(); i++ ) {
-      s << i->option() << " ";
+      if (first) {
+        first = false;
+      } else {
+        s << ", ";
+      }
+      s << i->option();
     }
     out(debug, msg_standard, s.str().c_str(), level, "Options");
+  }
+  if (! _d->users.empty()) {
+    stringstream s;
+    bool         first = true;
+    for (list<string>::const_iterator i = _d->users.begin();
+        i != _d->users.end(); i++ ) {
+      if (first) {
+        first = false;
+      } else {
+        s << ", ";
+      }
+      s << *i;
+    }
+    out(debug, msg_standard, s.str().c_str(), level, "Users");
   }
   if (_d->timeout_nowarning) {
     out(debug, msg_standard, "No warning on time out", level);
