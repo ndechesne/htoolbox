@@ -49,9 +49,9 @@ struct Client::Private {
   bool              report_copy_error_once;
   list<Option>      options;
   list<string>      users;
-  //
   int               expire;
   string            home_path;
+  Config            config;
   string            mounted;
   Filters           filters;
 };
@@ -164,20 +164,20 @@ int Client::readConfig(
     return -1;
   }
   // Set up config syntax and grammar
-  Config config;
+  _d->config.clear();
 
   // subset
-  config.add(new ConfigItem("subset", 0, 1, 1));
+  _d->config.add(new ConfigItem("subset", 0, 1, 1));
   // expire
-  config.add(new ConfigItem("expire", 0, 1, 1));
+  _d->config.add(new ConfigItem("expire", 0, 1, 1));
   // users
-  config.add(new ConfigItem("users", 0, 1, 1, -1));
+  _d->config.add(new ConfigItem("users", 0, 1, 1, -1));
   // timeout_nowarning
-  config.add(new ConfigItem("report_copy_error_once", 0, 1));
+  _d->config.add(new ConfigItem("report_copy_error_once", 0, 1));
   // filter
   {
     ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
-    config.add(filter);
+    _d->config.add(filter);
 
     // condition
     filter->add(new ConfigItem("condition", 1, 0, 2));
@@ -185,7 +185,7 @@ int Client::readConfig(
   // path
   {
     ConfigItem* path = new ConfigItem("path", 1, 0, 1);
-    config.add(path);
+    _d->config.add(path);
     // parser
     path->add(new ConfigItem("parser", 0, 0, 2));
     // filter
@@ -203,13 +203,13 @@ int Client::readConfig(
 
   out(debug, msg_standard, internalName().c_str(), 1,
     "Reading client configuration file");
-  if (config.read(config_file,
+  if (_d->config.read(config_file,
       Stream::flags_dos_catch | Stream::flags_accept_cr_lf) >= 0) {
     // Read client configuration file
     ClientPath* path   = NULL;
     Filter*     filter = NULL;
     ConfigLine* params;
-    while (config.line(&params) >= 0) {
+    while (_d->config.line(&params) >= 0) {
       if ((*params)[0] == "subset") {
         _d->subset_client = (*params)[1];
       } else
@@ -523,6 +523,22 @@ int Client::backup(
         << _d->subset_server << "' != '" << _d->subset_client << "', skipping";
       out(info, msg_standard, s.str().c_str());
       failed = true;
+    } else {
+      // Save configuration
+      Directory dir(Path(db.path(), ".configs"));
+      if (dir.create() < 0) {
+        out(error, msg_errno, "Creating configuration directory", errno);
+      } else {
+        Stream stream(Path(dir.path(), internalName().c_str()));
+        if (stream.open("w") >= 0) {
+          if (_d->config.write(stream) < 0) {
+            out(error, msg_errno, "Writing configuration file", errno);
+          }
+          stream.close();
+        } else {
+          out(error, msg_errno, "Creating configuration file", errno);
+        }
+      }
     }
   }
   if (! failed) {

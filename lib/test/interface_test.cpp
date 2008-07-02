@@ -24,7 +24,9 @@
 using namespace std;
 
 #include "hbackup.h"
+#include "line.h"
 #include "files.h"
+#include "configuration.h"
 #include "report.h"
 #include "conditions.h"
 #include "filters.h"
@@ -43,6 +45,32 @@ static void progress(long long previous, long long current, long long total) {
   } else if (previous != 0) {
     cout << "            \r";
   }
+}
+
+static int showClientConfigs() {
+  Directory dir("test_db/.configs");
+  if (dir.createList()) {
+    cout << "Could not open configs dir" << endl;
+    return -1;
+  }
+  bool failed = false;
+  const list<Node*> ls = dir.nodesListConst();
+  for (list<Node*>::const_iterator i = ls.begin(); i != ls.end(); i++) {
+cout << "Config for " << (*i)->path() << endl;
+    Config config;
+    Stream stream((*i)->path());
+    if (! stream.open("r")) {
+      Line line;
+      while (stream.getLine(line) > 0) {
+        cout << line << endl;
+      }
+      stream.close();
+    } else {
+      cout << "Could not open config file " << stream.path() << endl;
+      failed = true;
+    }
+  }
+  return failed ? -1 : 0;
 }
 
 int main(void) {
@@ -87,6 +115,7 @@ int main(void) {
   hbackup->backup(true);
   hbackup->close();
   delete hbackup;
+  showClientConfigs();
 
   cout << endl << "Test: same backup" << endl;
   hbackup = new HBackup();
@@ -97,6 +126,7 @@ int main(void) {
   hbackup->backup();
   hbackup->close();
   delete hbackup;
+  showClientConfigs();
 
   cout << endl << "Test: interrupted backup" << endl;
   system("dd if=/dev/zero of=test1/dir\\ space/big_file bs=1k count=500"
@@ -110,6 +140,7 @@ int main(void) {
   hbackup->backup();
   hbackup->close();
   delete hbackup;
+  showClientConfigs();
 
   abort(2);
   hbackup = new HBackup();
@@ -120,6 +151,7 @@ int main(void) {
   hbackup->backup();
   hbackup->close();
   delete hbackup;
+  showClientConfigs();
   abort(0xffff);
 
   {
@@ -147,6 +179,7 @@ int main(void) {
   hbackup->backup();
   hbackup->close();
   delete hbackup;
+  showClientConfigs();
 
   cout << endl << "Test: scan DB" << endl;
   hbackup = new HBackup();
@@ -261,6 +294,7 @@ int main(void) {
   hbackup->backup();
   hbackup->close();
   delete hbackup;
+  showClientConfigs();
 
   cout << endl << "Test: specify clients" << endl;
   hbackup = new HBackup();
@@ -273,6 +307,7 @@ int main(void) {
   hbackup->backup();
   hbackup->close();
   delete hbackup;
+  showClientConfigs();
 
   cout << endl << "Test: user-mode backup" << endl;
   hbackup = new HBackup();
@@ -785,6 +820,7 @@ int main(void) {
   hbackup->close();
   delete hbackup;
   system("ls test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0");
+  showClientConfigs();
 
   cout << endl << "Test: second backup should not recover again"
     << endl;
@@ -814,6 +850,7 @@ int main(void) {
   hbackup->backup();
   hbackup->close();
   delete hbackup;
+  showClientConfigs();
 
   return 0;
 }
