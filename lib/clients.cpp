@@ -50,7 +50,6 @@ struct Client::Private {
   list<Option>      options;
   list<string>      users;
   //
-  bool              initialised;
   int               expire;
   string            home_path;
   string            mounted;
@@ -355,7 +354,6 @@ Client::Client(const string& name, const string& subset) : _d(new Private) {
   _d->name                   = name;
   _d->subset_server          = subset;
   _d->host_or_ip             = name;
-  _d->initialised            = false;
   _d->expire                 = -1;
   _d->timeout_nowarning      = false;
   _d->report_copy_error_once = false;
@@ -426,14 +424,6 @@ const char* Client::listfile() const {
 
 void Client::setExpire(int expire) {
   _d->expire = expire;
-}
-
-bool Client::initialised() const {
-  return _d->initialised;
-}
-
-void Client::setInitialised() {
-  _d->initialised = true;
 }
 
 void Client::setBasePath(const string& home_path) {
@@ -540,7 +530,6 @@ int Client::backup(
     if (_d->home_path.length() == 0) {
       out(info, msg_standard, internalName().c_str(), -1, "Backing up client");
     }
-    setInitialised();
     // Backup
     if (_d->paths.empty()) {
       out(warning, msg_standard, "No paths specified", -1,
