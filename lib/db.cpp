@@ -667,6 +667,12 @@ int Database::closeClient(
   if (_d->access < quiet_rw) {
     out(verbose, msg_standard, _d->owner->name(), -1, "Database closed");
   }
+  if (! failed && ! abort) {
+    // Leave trace of successful check
+    File f(Path(_d->owner->path(), ".last-backup"));
+    f.remove();
+    f.create();
+  }
   delete _d->owner;
   _d->owner = NULL;
   return failed ? -1 : 0;
