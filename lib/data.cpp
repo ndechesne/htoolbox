@@ -101,7 +101,7 @@ int Data::organise(
       }
       Node source_path(Path(path, dir_entry->d_name));
       if (source_path.stat()) {
-        out(error, msg_errno, "Stating source file", errno,
+        out(error, msg_errno, "stating source file", errno,
           source_path.path());
         failed = true;
       } else
@@ -302,7 +302,7 @@ int Data::read(
     return -1;
   }
   if (data->open("r", (no > 0) ? 1 : 0)) {
-    out(error, msg_errno, "Opening read source file", errno, data->path());
+    out(error, msg_errno, "opening read source file", errno, data->path());
     return -1;
   }
 
@@ -311,7 +311,7 @@ int Data::read(
   temp_path += ".hbackup-part";
   Stream temp(temp_path.c_str());
   if (temp.open("w")) {
-    out(error, msg_errno, "Opening read temp file", errno, data->path());
+    out(error, msg_errno, "opening read temp file", errno, data->path());
     failed = true;
   } else {
     // Copy file to temporary name (size not checked: checksum suffices)
@@ -334,7 +334,7 @@ int Data::read(
 
     // All done
     if (rename(temp_path.c_str(), path)) {
-      out(error, msg_errno, "Renaming read file", errno, path);
+      out(error, msg_errno, "renaming read file", errno, path);
       failed = true;
     }
   }
@@ -370,12 +370,12 @@ int Data::write(
     temp2 = new Stream(temp_path_gz);
     free(temp_path_gz);
     if (temp2->open("w", -compress, -1, false, source.size())) {
-      out(error, msg_errno, "Opening write temp file", errno, temp2->path());
+      out(error, msg_errno, "opening write temp file", errno, temp2->path());
       failed = true;
     }
   }
   if (temp1->open("w", (compress > 0) ? compress:0, -1, false, source.size())){
-    out(error, msg_errno, "Opening write temp file", errno, temp1->path());
+    out(error, msg_errno, "opening write temp file", errno, temp1->path());
     failed = true;
   }
 
@@ -496,7 +496,7 @@ int Data::write(
             break;
           // Error
           default:
-            out(error, msg_errno, "Failed to compare data", errno,
+            out(error, msg_errno, "failed to compare data", errno,
               source.checksum());
             failed = true;
         }
@@ -512,15 +512,15 @@ int Data::write(
       << source.checksum() << "-" << index;
     out(debug, msg_standard, s.str().c_str());
     if (Directory(final_path).create() < 0) {
-      out(error, msg_errno, "Creating directory", errno, final_path);
+      out(error, msg_errno, "creating directory", errno, final_path);
     } else
     if ((action == replace) && (data->remove() < 0)) {
-      out(error, msg_errno, "Removing previous data", errno);
+      out(error, msg_errno, "removing previous data", errno);
     } else {
       char* name;
       asprintf(&name, "%s/data%s", final_path, ((compress != 0) ? ".gz" : ""));
       if (rename(dest->path(), name)) {
-        out(error, msg_errno, "Failed to move file", errno, name);
+        out(error, msg_errno, "failed to move file", errno, name);
         failed = true;
       }
       free(name);
@@ -595,11 +595,11 @@ int Data::check(
     } else {
       data->setCancelCallback(aborting);
       if (data->open("r", (no > 0) ? 1 : 0)) {
-        out(error, msg_errno, "Opening file", errno, data->path());
+        out(error, msg_errno, "opening file", errno, data->path());
         failed = true;
       } else
       if (data->computeChecksum() || data->close()) {
-        out(error, msg_errno, "Reading file", errno, data->path());
+        out(error, msg_errno, "reading file", errno, data->path());
         failed = true;
       } else
       if (strncmp(data->checksum(), checksum, strlen(data->checksum()))) {
@@ -627,7 +627,7 @@ int Data::check(
         std::remove(path.c_str());
         out(info, msg_standard, "Remove corrupted data", -1, checksum);
       } else {
-        out(error, msg_errno, "Removing data", errno, checksum);
+        out(error, msg_errno, "removing data", errno, checksum);
       }
       failed = true;
     }

@@ -131,12 +131,12 @@ int List::close() {
 
   if (isWriteable()) {
     if (Stream::write(footer, strlen(footer)) < 0) {
-      out(error, msg_errno, "Writing list footer", errno, path());
+      out(error, msg_errno, "writing list footer", errno, path());
       rc = -1;
     }
   }
   if (Stream::close()) {
-    out(error, msg_errno, "Closing list", errno, path());
+    out(error, msg_errno, "closing list", errno, path());
     rc = -1;
   }
   return rc;

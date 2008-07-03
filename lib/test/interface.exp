@@ -1,6 +1,6 @@
 
 Test: wrong config file
-Error: : No such file or directory: Opening file
+Error: : No such file or directory opening file
 
 Test: backup, not initialized
  -> Reading configuration file: etc/hbackup.conf
@@ -549,7 +549,7 @@ A       test2/testlink
 Database modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
-Error: other: Protocol not supported: ssh
+Error: other: Protocol not supported ssh
 Database closed
 Config for test_db/.configs/client.xp
 subset "xp"
@@ -874,7 +874,7 @@ testdir\r
        \r
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
-Error: other: Protocol not supported: ssh
+Error: other: Protocol not supported ssh
 Database closed
 Config for test_db/.configs/client.xp
 subset "xp"
@@ -1177,7 +1177,7 @@ cvs/dirutd/CVS\r
 dir space     \r
          \r
 Killing trigger reached: 2
-Error: myhost:test1/dir space/big_file: Operation canceled: Backing up file
+Error: myhost:test1/dir space/big_file: Operation canceled backing up file
 A !     test1/dir space/big_file
 Database closed: myhost
 Database closed
@@ -2953,7 +2953,7 @@ testdir\r
        \r
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
-Error: other: Protocol not supported: ssh
+Error: other: Protocol not supported ssh
 Database closed
 Config for test_db/.configs/client.xp
 subset "xp"
@@ -7470,7 +7470,7 @@ M z r   test2/testfile2
 Database modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
-Error: other: Protocol not supported: ssh
+Error: other: Protocol not supported ssh
 Missing checksums list updated
 List of problematic checksums contains 2 item(s)
 Database closed
@@ -7800,7 +7800,7 @@ testdir\r
        \r
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
-Error: other: Protocol not supported: ssh
+Error: other: Protocol not supported ssh
 List of problematic checksums contains 2 item(s)
 Database closed
  -> Reading configuration file: etc/hbackup.conf
@@ -8210,7 +8210,7 @@ testdir\r
 Database modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
-Error: other: Protocol not supported: ssh
+Error: other: Protocol not supported ssh
 Missing checksums list updated
 List of problematic checksums contains 1 item(s)
 Database closed

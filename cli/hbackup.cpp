@@ -98,7 +98,7 @@ static void output(
   switch (type) {
     case hbackup::msg_errno:
       s << strerror(number);
-      add_colon = true;
+      s << " ";
       break;
     case hbackup::msg_number:
       s << number;
@@ -309,7 +309,7 @@ int main(int argc, char **argv) {
     if (verbose_level >= hbackup::verbose) {
       hbackup::setProgressCallback(progress);
     }
-    
+
     // Check mode
     if (userSwitch.getValue()) {
       user_mode = true;

@@ -84,7 +84,7 @@ A       /home/User/dir space/file space
 A       /home/User/subdir
 subdir\r
       \r
-Error: myClient:/home/User/subdir/testfile: Permission denied: Backing up file
+Error: myClient:/home/User/subdir/testfile: Permission denied backing up file
 A !     /home/User/subdir/testfile
 A       /home/User/subdir/testfile1
 Adding uncompressed data for 285b35198a5e188b3a0df3ed33f93a26-0
@@ -347,7 +347,7 @@ cvs/dirutd/CVS\r
 dir space     \r
 subdir   \r
       \r
-Error: myClient:/home/User/subdir/testfile: Permission denied: Backing up file
+Error: myClient:/home/User/subdir/testfile: Permission denied backing up file
 ! !     /home/User/subdir/testfile
 svn\r
 svn/.svn\r
@@ -500,7 +500,7 @@ cvs/CVS\r
 cvs/CVS/Wherever\r
                 \r
 Killing trigger reached: 2
-Error: myClient:/home/User/cvs/big_file: Operation canceled: Backing up file
+Error: myClient:/home/User/cvs/big_file: Operation canceled backing up file
 A !     /home/User/cvs/big_file
 Database closed: myClient
 Database closed
@@ -4064,7 +4064,7 @@ svn/.svn\r
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-Error: myClient:/home/User/testfile: Permission denied: Backing up file
+Error: myClient:/home/User/testfile: Permission denied backing up file
 M !     /home/User/testfile
 Parsed 41 file(s)
 Database modified: myClient

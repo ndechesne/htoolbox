@@ -134,7 +134,7 @@ int ClientPath::parse_recurse(
   } else {
     char* full_name;
     asprintf(&full_name, "%s:%s", client_name, remote_path);
-    out(error, msg_errno, "Reading directory", errno, full_name);
+    out(error, msg_errno, "reading directory", errno, full_name);
     free(full_name);
     if ((errno != EACCES)     // Ignore access refused
     &&  (errno != ENOENT)) {  // Ignore directory gone

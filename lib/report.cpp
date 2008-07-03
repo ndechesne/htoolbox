@@ -108,7 +108,7 @@ void Report::out(
   switch (type) {
     case msg_errno:
       s << strerror(number);
-      add_colon = true;
+      s << " ";
       break;
     case msg_number:
       s << number;

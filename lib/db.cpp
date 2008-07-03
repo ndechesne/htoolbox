@@ -173,7 +173,7 @@ int Database::open(
     default:
       // Creation failed
       if (initialize) {
-        out(error, msg_errno, "Create data directory in given DB path", errno,
+        out(error, msg_errno, "create data directory in given DB path", errno,
           _d->path);
       } else {
         out(error, msg_standard, _d->path, -1,
@@ -351,7 +351,7 @@ int Database::restore(
       command += dir;
       command += "\"";
       if (system(command.c_str())) {
-        out(error, msg_errno, "Creating path", errno, dir);
+        out(error, msg_errno, "creating path", errno, dir);
       }
     }
     if (db_node->type() == 'f') {
@@ -377,7 +377,7 @@ int Database::restore(
           } else
           if (links == HBackup::none) {
             if (_d->data.read(base, f->checksum())) {
-              out(error, msg_errno, "Restoring file", errno);
+              out(error, msg_errno, "restoring file", errno);
               this_failed = true;
             }
           } else {
@@ -390,12 +390,12 @@ int Database::restore(
               dest += extension;
               if (links == HBackup::symbolic) {
                 if (symlink(path.c_str(), dest.c_str())) {
-                  out(error, msg_errno, "Sym-linking file", errno);
+                  out(error, msg_errno, "sym-linking file", errno);
                   this_failed = true;
                 }
               } else {
                 if (link(path.c_str(), dest.c_str())) {
-                  out(error, msg_errno, "Hard-linking file", errno);
+                  out(error, msg_errno, "hard-linking file", errno);
                   this_failed = true;
                 }
               }
@@ -404,26 +404,26 @@ int Database::restore(
         } break;
       case 'd':
         if (mkdir(base, db_node->mode())) {
-          out(error, msg_errno, "Restoring dir", errno);
+          out(error, msg_errno, "restoring dir", errno);
           this_failed = true;
         }
         break;
       case 'l': {
           Link* l = static_cast<Link*>(db_node);
           if (symlink(l->link(), base)) {
-            out(error, msg_errno, "Restoring file", errno);
+            out(error, msg_errno, "restoring file", errno);
             this_failed = true;
           }
         } break;
       case 'p':
         if (mkfifo(base, db_node->mode())) {
-          out(error, msg_errno, "Restoring pipe (FIFO)", errno);
+          out(error, msg_errno, "restoring pipe (FIFO)", errno);
           this_failed = true;
         }
         break;
       default:
         char type[2] = { db_node->type(), '\0' };
-        out(error, msg_errno, "Type not supported", -1, type);
+        out(error, msg_errno, "type not supported", -1, type);
         this_failed = true;
     }
     // Report error and go on
@@ -439,18 +439,18 @@ int Database::restore(
     {
       struct utimbuf times = { -1, db_node->mtime() };
       if (utime(base, &times)) {
-        out(error, msg_errno, "Restoring modification time");
+        out(error, msg_errno, "restoring modification time");
         this_failed = true;
       }
     }
     // Restore permissions
     if (chmod(base, db_node->mode())) {
-      out(error, msg_errno, "Restoring permissions");
+      out(error, msg_errno, "restoring permissions");
       this_failed = true;
     }
     // Restore owner and group
     if (chown(base, db_node->uid(), db_node->gid())) {
-      out(error, msg_errno, "Restoring owner/group");
+      out(error, msg_errno, "restoring owner/group");
       this_failed = true;
     }
     // Report error and go on
@@ -578,7 +578,7 @@ int Database::scan(
           if (_d->data.remove(i->checksum()) == 0) {
             out(debug, msg_standard, "removed", 1, i->checksum());
           } else {
-            out(error, msg_errno, "Removing data", errno, i->checksum());
+            out(error, msg_errno, "removing data", errno, i->checksum());
           }
         } else {
           out(debug, msg_standard, i->checksum(), 1);
@@ -730,7 +730,7 @@ int Database::add(
       if ((op._letter != '!') || (! report_copy_error_once)) {
         char* full_name;
         asprintf(&full_name, "%s:%s", _d->owner->name(), op._path);
-        out(error, msg_errno, "Backing up file", errno, full_name);
+        out(error, msg_errno, "backing up file", errno, full_name);
         free(full_name);
       }
       code[2] = '!';

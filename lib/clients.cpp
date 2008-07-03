@@ -500,10 +500,10 @@ int Client::backup(
           return 1;
         case ETIMEDOUT:
           if (! _d->timeout_nowarning) {
-            out(warning, msg_errno, "Connecting to client", errno,
+            out(warning, msg_errno, "connecting to client", errno,
               internalName().c_str());
           } else {
-            out(info, msg_errno, "Connecting to client", errno,
+            out(info, msg_errno, "connecting to client", errno,
               internalName().c_str());
           }
           return 0;
@@ -527,16 +527,16 @@ int Client::backup(
       // Save configuration
       Directory dir(Path(db.path(), ".configs"));
       if (dir.create() < 0) {
-        out(error, msg_errno, "Creating configuration directory", errno);
+        out(error, msg_errno, "creating configuration directory", errno);
       } else {
         Stream stream(Path(dir.path(), internalName().c_str()));
         if (stream.open("w") >= 0) {
           if (_d->config.write(stream) < 0) {
-            out(error, msg_errno, "Writing configuration file", errno);
+            out(error, msg_errno, "writing configuration file", errno);
           }
           stream.close();
         } else {
-          out(error, msg_errno, "Creating configuration file", errno);
+          out(error, msg_errno, "creating configuration file", errno);
         }
       }
     }
@@ -567,14 +567,14 @@ int Client::backup(
 
           if (mountPath((*i)->path(), backup_path, mount_point)) {
             if (! first_mount_try) {
-              out(error, msg_errno, "Aborting client", errno,
+              out(error, msg_errno, "- aborting client", errno,
                 internalName().c_str());
             } else
             if (! _d->timeout_nowarning) {
-              out(warning, msg_errno, "Connecting to client", errno,
+              out(warning, msg_errno, "connecting to client", errno,
                 internalName().c_str());
             } else {
-              out(info, msg_errno, "Connecting to client", errno,
+              out(info, msg_errno, "connecting to client", errno,
                 internalName().c_str());
             }
             abort = true;

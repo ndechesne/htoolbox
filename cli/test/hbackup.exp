@@ -590,7 +590,7 @@ A       test2/testlink
 Database modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
-Error: other: Protocol not supported: ssh
+Error: other: Protocol not supported ssh
 Database closed
 Specify clients
  -> Reading configuration file: etc/hbackup.conf

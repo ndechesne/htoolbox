@@ -124,7 +124,7 @@ int Owner::finishOff(
 
   // list._d->partial -> list.next (step 1)
   if (! got_next && rename(_d->partial->path(), next.path())) {
-    out(error, msg_errno, "Rename next list failed", errno);
+    out(error, msg_errno, "rename next list failed", errno);
     return -1;
   }
 
@@ -133,7 +133,7 @@ int Owner::finishOff(
     string backup = _d->journal->path();
     backup += "~";
     if (rename(_d->journal->path(), backup.c_str())) {
-      out(error, msg_errno, "Rename journal failed", errno);
+      out(error, msg_errno, "rename journal failed", errno);
       return -1;
     }
   }
@@ -141,14 +141,14 @@ int Owner::finishOff(
   // list -> list~ (step 3)
   if (! got_next || _d->original->isValid()) {
     if (rename(_d->original->path(), (name + "~").c_str())) {
-      out(error, msg_errno, "Rename backup list failed", errno);
+      out(error, msg_errno, "rename backup list failed", errno);
       return -1;
     }
   }
 
   // list.next -> list (step 4)
   if (rename(next.path(), _d->original->path())) {
-    out(error, msg_errno, "Rename list failed", errno);
+    out(error, msg_errno, "rename list failed", errno);
     return -1;
   }
   return 0;
@@ -281,7 +281,7 @@ int Owner::open(
         _d->name);
     } else if (initialize) {
       if (_d->original->open("w")) {
-        out(error, msg_errno, "Creating list", errno, _d->name);
+        out(error, msg_errno, "creating list", errno, _d->name);
         failed = true;
       } else {
         _d->original->close();
@@ -306,17 +306,17 @@ int Owner::open(
   if (! failed && ! check) {
     // Open list
     if (_d->original->open("r")) {
-      out(error, msg_errno, "Opening list", errno, _d->name);
+      out(error, msg_errno, "opening list", errno, _d->name);
       failed = true;
     } else
     // Open journal
     if (_d->journal->open("w", -1)) {
-      out(error, msg_errno, "Opening journal", errno, _d->name);
+      out(error, msg_errno, "opening journal", errno, _d->name);
       failed = true;
     } else
     // Open list
     if (_d->partial->open("w")) {
-      out(error, msg_errno, "Opening merge list", errno, _d->name);
+      out(error, msg_errno, "opening merge list", errno, _d->name);
       failed = true;
     }
   }

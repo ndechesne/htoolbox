@@ -90,7 +90,7 @@ int Missing::close() {
     }
     Stream missing_list((path + ".part").c_str());
     if (missing_list.open("w")) {
-      out(error, msg_errno, "Saving problematic checksums list", errno);
+      out(error, msg_errno, "saving problematic checksums list", errno);
       failed = true;
     }
     int rc = 0;
@@ -179,7 +179,7 @@ int Missing::load() {
     free(line);
     missing_list.close();
   } else {
-    out(warning, msg_errno, "Opening" , errno, "Missing checksums list");
+    out(warning, msg_errno, "opening" , errno, "Missing checksums list");
     failed = true;
   }
   return failed ? -1 : 0;

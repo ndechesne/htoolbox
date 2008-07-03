@@ -123,7 +123,7 @@ int HBackup::readConfig(const char* config_path) {
   Stream config_file(config_path);
 
   if (config_file.open("r")) {
-    out(error, msg_errno, "Opening file", errno, config_path);
+    out(error, msg_errno, "opening file", errno, config_path);
     return -1;
   }
   // Set up config syntax and grammar
