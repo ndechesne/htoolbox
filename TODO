@@ -3,7 +3,5 @@ TODO - non-organised list of things I want to do
   * zero copy on Line assignment
   * sort out getLine(Line&)
   * sort out owner/list architecture
-  * save remote client config locally
   * report activity via web pages
-  * user management (list of users for each client, from server's users...)
   * restoration via web gui
