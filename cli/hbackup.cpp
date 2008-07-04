@@ -214,14 +214,14 @@ int main(int argc, char **argv) {
   // Analyse arguments
   try {
     // Description
-    CmdLine cmd(PACKAGE_NAME " (c) 2006-2008 Hervé Fache", ' ', VERSION);
+    CmdLine cmd(PACKAGE_NAME " (c) 2006-2008 Hervé Fache", ' ',
+      PACKAGE_VERSION);
     MyOutput output;
     cmd.setOutput(&output);
 
     // Configuration file
     ValueArg<string> configArg("c", "config",
-      "Specify configuration file", false, "/etc/hbackup/config",
-      "file name", cmd);
+      "Specify configuration file", false, HBACKUP_CONFIG, "file name", cmd);
 
     // Specify client(s)
     MultiArg<string> clientArg("C", "client", "Specify client name",
