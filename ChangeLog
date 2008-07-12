@@ -1,3 +1,6 @@
+0.9.1 - 2008-06-28 (SVN r600)
+  * fix re-organisation of first level makes backup fail (the .t/emp bug)
+
 0.9 - 2008-06-19 (SVN r577)
   * change default file /etc/hbackup/config
   * speed up read/write/getLine/copy operations, save memory
