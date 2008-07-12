@@ -324,7 +324,7 @@ int Directory::createList() {
     _nodes.insert(i, g);
   }
 
-  if (! seen_dot || ! seen_dot_dot) {
+  if ((errno == 0) && ! seen_dot || ! seen_dot_dot) {
     errno = EAGAIN;
   }
 
