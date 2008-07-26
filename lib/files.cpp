@@ -1043,29 +1043,30 @@ int Stream::computeChecksum() {
 
 struct CopyData {
   // Global
-  Stream*   stream;
-  Buffer&   buffer;
-  Lock&     read_lock;
-  bool&     eof;
-  bool&     failed;
+  Stream*       stream;
+  Buffer&       buffer;
+  Lock&         read_lock;
+  bool&         eof;
+  bool&         failed;
   // Local
-  Lock      write_lock;
+  BufferReader  reader;
+  Lock          write_lock;
   CopyData(Stream* d, Buffer& b, Lock& l, bool& eof, bool& failed) :
-    stream(d), buffer(b), read_lock(l), eof(eof), failed(failed) {}
+    stream(d), buffer(b), read_lock(l), eof(eof), failed(failed),
+    // No auto-unregistration: segentation fault may occur
+    reader(buffer, false) {}
 };
 
 static void* write_task(void* data) {
-  CopyData&    cd = *static_cast<CopyData*>(data);
-  // No auto-unregistration: segentation fault may occur
-  BufferReader cdr(cd.buffer, false);
+  CopyData& cd = *static_cast<CopyData*>(data);
   do {
-    if (! cdr.isEmpty()) {
+    if (! cd.reader.isEmpty()) {
       // Write as much as possible
-      ssize_t l = cd.stream->write(cdr.reader(), cdr.readable());
+      ssize_t l = cd.stream->write(cd.reader.reader(), cd.reader.readable());
       if (l < 0) {
         cd.failed = true;
       } else {
-        cdr.readn(l);
+        cd.reader.readn(l);
       }
       // Allow read task to run
       cd.read_lock.release();
@@ -1073,7 +1074,7 @@ static void* write_task(void* data) {
       // Timed lock, as a deadlock is possible with this system
       cd.write_lock.lock(3);
     }
-  } while (! cd.failed && (! cd.eof || ! cdr.isEmpty()));
+  } while (! cd.failed && (! cd.eof || ! cd.reader.isEmpty()));
   return NULL;
 }
 
@@ -1087,23 +1088,28 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
   Lock      read_lock;
   bool      eof    = false;
   bool      failed = false;
-  CopyData  cd1(dest1, buffer, read_lock, eof, failed);
-  CopyData  cd2(dest2, buffer, read_lock, eof, failed);
+  CopyData  *cd1;
+  CopyData  *cd2;
   long long size = 0;
   pthread_t child1;
   pthread_t child2;
-  int rc = pthread_create(&child1, NULL, write_task, &cd1);
+  cd1 = new CopyData(dest1, buffer, read_lock, eof, failed);
+  int rc = pthread_create(&child1, NULL, write_task, cd1);
   if (rc != 0) {
+    delete cd1;
     errno = rc;
     return -1;
   }
   if (dest2 != NULL) {
-    rc = pthread_create(&child2, NULL, write_task, &cd2);
+    cd2 = new CopyData(dest2, buffer, read_lock, eof, failed);
+    rc = pthread_create(&child2, NULL, write_task, cd2);
     if (rc != 0) {
+      delete cd2;
+      errno = rc;
       // Tell other task to die and wait for it
       failed = true;
       pthread_join(child1, NULL);
-      errno = rc;
+      delete cd1;
       return -1;
     }
   }
@@ -1120,6 +1126,7 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
       if (length < 0) {
         failed = true;
       } else {
+        // Update writer before signaling eof
         buffer.written(length);
         // Allow write task to run
         if (length == 0) {
@@ -1127,9 +1134,9 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
         }
         size += length;
       }
-      cd1.write_lock.release();
+      cd1->write_lock.release();
       if (dest2 != NULL) {
-        cd2.write_lock.release();
+        cd2->write_lock.release();
       }
     } else {
       // Timed lock, as a deadlock is possible with this system
@@ -1138,9 +1145,9 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
     if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)(2))) {
       errno = ECANCELED;
       failed = true;
-      cd1.write_lock.release();
+      cd1->write_lock.release();
       if (dest2 != NULL) {
-        cd2.write_lock.release();
+        cd2->write_lock.release();
       }
       break;
     }
@@ -1148,11 +1155,13 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
 
   // Wait for write tasks to terminate, check status
   rc = pthread_join(child1, NULL);
+  delete cd1;
   if (rc != 0) {
     errno = rc;
   }
   if (dest2 != NULL) {
     rc = pthread_join(child2, NULL);
+    delete cd2;
     if (rc != 0) {
       errno = rc;
     }
