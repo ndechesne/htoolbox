@@ -563,8 +563,8 @@ cvs\r
 A       test1/cvs/CVS
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1141)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -577,8 +577,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1184)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -591,8 +591,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1187)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -605,8 +605,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1627)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -619,8 +619,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1633)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -633,8 +633,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1633)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -647,8 +647,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1620)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -661,8 +661,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Use of uninitialised value of size 4
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1083)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -675,8 +675,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1096)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -689,8 +689,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Use of uninitialised value of size 4
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1122)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -703,8 +703,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1122)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -717,8 +717,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1649)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -731,8 +731,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1649)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -745,8 +745,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Use of uninitialised value of size 4
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1655)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -759,8 +759,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1669)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -773,8 +773,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1600)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -787,8 +787,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1602)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -801,8 +801,8 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1605)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -815,10 +815,10 @@ A       test1/cvs/CVS
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
  
  Use of uninitialised value of size 4
-   (within /usr/lib/libz.so.1.2.3.3)
-   (within /usr/lib/libz.so.1.2.3.3)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   compress_block (trees.c:1094)
+   _tr_flush_block (trees.c:1000)
+   deflate_slow (deflate.c:1704)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
@@ -874,8 +874,8 @@ svn\r
 A       test1/svn/.svn
  
  Conditional jump or move depends on uninitialised value(s)
-   (within /usr/lib/libz.so.1.2.3.3)
-   deflate (in /usr/lib/libz.so.1.2.3.3)
+   deflate_slow (deflate.c:1141)
+   deflate (deflate.c:822)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:840)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:918)
    hbackup::Stream::close() (files.cpp:585)
