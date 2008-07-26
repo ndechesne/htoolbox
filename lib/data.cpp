@@ -405,7 +405,7 @@ int Data::write(
   }
 
   // File to add to DB
-  Stream*   dest = temp1;
+  Stream* dest = temp1;
   // Size for comparison with existing DB data
   long long size_cmp = temp1->size();
   if (temp2 != NULL) {
