@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Only option is '-c config' or '--config config'
+usage () {
+cat << EOF
+`basename $0` options:
+  -c config or --config config: give configuration file path
+  -d config or --database db: give database path (supersedes -c)
+  -v config or --verbose: be verbose
+EOF
+}
+
+unset HWBACKUP_CONFIG
+unset HWBACKUP_DB
+unset HWBACKUP_VERBOSE
+while [ $# -gt 0 ]; do
+  case "x$1" in
+    "x-h"|"x--help")
+      usage
+      exit 0
+      ;;
+    "x-c"|"x--config")
+      shift
+      HWBACKUP_CONFIG=$1
+      ;;
+    "x-d"|"x--database")
+      shift
+      HWBACKUP_DB=$1
+      ;;
+    "x-v"|"x--verbose")
+      HWBACKUP_VERBOSE="yes"
+      ;;
+    *)
+      echo "Unknown option '$1'" >&2
+      usage
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+if [ -z "$HWBACKUP_DB" ]; then
+  if [ -z "$HWBACKUP_CONFIG" ]; then
+    HWBACKUP_CONFIG=/etc/hbackup/config
+  fi
+  while read keyword value rest; do
+    if [ "$keyword" == "db" ]; then
+      HWBACKUP_DB="$value"
+      break
+    fi
+  done < "$HWBACKUP_CONFIG"
+  if [ -z "$HWBACKUP_DB" ]; then
+    echo "DB not found in configuration file '$HWBACKUP_CONFIG'" >&2
+    exit 2
+  fi
+fi
+
+if [ -n "$HWBACKUP_VERBOSE" ]; then
+  echo "Looking at DB in '$HWBACKUP_DB'"
+fi
