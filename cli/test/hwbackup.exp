@@ -1,0 +1,19 @@
+Testing: ../../hwbackup
+
+Help
+hwbackup options:
+  -c config or --config config: give configuration file path
+  -d config or --database db: give database path (supersedes -c)
+  -v config or --verbose: be verbose
+  -w config or --website: destination dir for web pages
+
+Wrong config
+Configuration file not accessible '/test1/doesnotexist'
+
+Wrong config
+DB not found in configuration file 'test1/testfile'
+
+Read config
+Looking at DB in 'test_db'
+Web pages will be created in 'test_web'
+Clients: 'aClient.vista' 'client.xp' 'myClient' 'myClient.xp' 'myhost'

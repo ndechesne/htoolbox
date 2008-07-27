@@ -1,7 +1,9 @@
 include $(top_srcdir)/test_tools/test.mak
 
 check_SUCCESSES = \
-	hbackup.done
+	hbackup.done \
+	hwbackup.done
 
 hbackup.done: ../hbackup
+hwbackup.done: ../hbackup
 memleak.done: ../hbackup

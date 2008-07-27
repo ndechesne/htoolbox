@@ -1,0 +1,23 @@
+#!/bin/sh
+
+prog="../../hwbackup"
+helper_prog="../../hbackup"
+
+echo "Testing: $prog"
+
+echo
+echo "Help"
+$prog -h -- 2>&1
+
+echo
+echo "Wrong config"
+$prog -c /test1/doesnotexist || echo -n ""
+
+echo
+echo "Wrong config"
+$prog -c test1/testfile
+
+echo
+echo "Read config"
+$helper_prog -c etc/hbackup.conf -iq > /dev/null 2>&1
+$prog -c etc/hbackup.conf -v -w test_web

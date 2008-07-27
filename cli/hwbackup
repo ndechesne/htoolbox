@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # Only option is '-c config' or '--config config'
 usage () {
@@ -7,12 +7,15 @@ cat << EOF
   -c config or --config config: give configuration file path
   -d config or --database db: give database path (supersedes -c)
   -v config or --verbose: be verbose
+  -w config or --website: destination dir for web pages
 EOF
 }
 
+# Options
 unset HWBACKUP_CONFIG
 unset HWBACKUP_DB
 unset HWBACKUP_VERBOSE
+unset HWBACKUP_WEB
 while [ $# -gt 0 ]; do
   case "x$1" in
     "x-h"|"x--help")
@@ -30,6 +33,10 @@ while [ $# -gt 0 ]; do
     "x-v"|"x--verbose")
       HWBACKUP_VERBOSE="yes"
       ;;
+    "x-w"|"x--website")
+      shift
+      HWBACKUP_WEB=$1
+      ;;
     *)
       echo "Unknown option '$1'" >&2
       usage
@@ -39,13 +46,18 @@ while [ $# -gt 0 ]; do
   shift
 done
 
+# DB
 if [ -z "$HWBACKUP_DB" ]; then
   if [ -z "$HWBACKUP_CONFIG" ]; then
     HWBACKUP_CONFIG=/etc/hbackup/config
   fi
+  if [ ! -r "$HWBACKUP_CONFIG" ]; then
+    echo "Configuration file not accessible '$HWBACKUP_CONFIG'" >&2
+    exit 2
+  fi
   while read keyword value rest; do
     if [ "$keyword" == "db" ]; then
-      HWBACKUP_DB="$value"
+      HWBACKUP_DB=`eval echo $value`
       break
     fi
   done < "$HWBACKUP_CONFIG"
@@ -54,7 +66,32 @@ if [ -z "$HWBACKUP_DB" ]; then
     exit 2
   fi
 fi
-
 if [ -n "$HWBACKUP_VERBOSE" ]; then
   echo "Looking at DB in '$HWBACKUP_DB'"
+  cd "$HWBACKUP_DB"
+fi
+
+# Website
+if [ -z "$HWBACKUP_WEB" ]; then
+  HWBACKUP_WEB=/var/www/hbackup
+fi
+if [ -n "$HWBACKUP_VERBOSE" ]; then
+  echo "Web pages will be created in '$HWBACKUP_WEB'"
+fi
+
+# Clients
+CLIENTS=`ls`
+if [ -z "$CLIENTS" ]; then
+  if [ -n "$HWBACKUP_VERBOSE" ]; then
+    echo "No clients found"
+  fi
+  exit 0
+fi
+
+if [ -n "$HWBACKUP_VERBOSE" ]; then
+  echo -n "Clients:"
+  for client in $CLIENTS; do
+    echo -n " '$client'"
+  done
+  echo
 fi

@@ -50,6 +50,10 @@ case $1 in
     export DIR="cli"
     export NAME="hbackup"
     ;;
+  "hw" | "hwbackup" )
+    export DIR="cli"
+    export NAME="hwbackup"
+    ;;
   "in" )
     export DIR="lib"
     export NAME="interface"
