@@ -5,5 +5,5 @@ check_SUCCESSES = \
 	hwbackup.done
 
 hbackup.done: ../hbackup
-hwbackup.done: ../hbackup
+hwbackup.done: ../hbackup ../hwbackup
 memleak.done: ../hbackup

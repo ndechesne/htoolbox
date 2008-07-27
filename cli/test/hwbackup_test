@@ -2,9 +2,6 @@
 
 prog="../../hwbackup"
 
-# Prepare
-../../hbackup -c etc/hbackup.conf -iq > /dev/null 2>&1
-
 echo "Testing: $prog"
 
 echo
@@ -20,12 +17,39 @@ echo "Wrong config"
 $prog -c test1/testfile
 
 echo
+echo "Nothing yet"
+$prog -c etc/hbackup.conf -v -w test_web
+
+# Backup
+../../hbackup -c etc/hbackup.conf -iq -C aClient.vista > /dev/null 2>&1
+touch -c -d "20080727 23:59 GMT" test_db/aClient.vista/.last-backup
+
+echo
 echo "Wrong website"
 $prog -c etc/hbackup.conf -v -w /proc/0
 
 echo
-echo "Create pages"
+echo "Backup for one client"
 $prog -c etc/hbackup.conf -v -w test_web
+echo "Index:"
+cat test_web/index.xhtml
 
+# Scan
+../../hbackup -c etc/hbackup.conf -s > /dev/null 2>&1
+touch -c -d "20080728 GMT" test_db/.last-scan
+
+echo
+echo "Scanned"
+$prog -c etc/hbackup.conf -v -w test_web
+echo "Index:"
+cat test_web/index.xhtml
+
+# Check
+../../hbackup -c etc/hbackup.conf -t > /dev/null 2>&1
+touch -c -d "20080728 00:01 GMT" test_db/.last-check
+
+echo
+echo "Checked"
+$prog -c etc/hbackup.conf -v -w test_web
 echo "Index:"
 cat test_web/index.xhtml

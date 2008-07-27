@@ -49,6 +49,14 @@ list_end() {
   echo "    </ul>"
 }
 
+file_date() {
+  date -r "$1" +%F -u
+}
+
+file_time() {
+  date -r "$1" +%T -u
+}
+
 # Options
 unset HWBACKUP_CONFIG
 unset HWBACKUP_DB
@@ -104,6 +112,10 @@ if [ -z "$HWBACKUP_DB" ]; then
     exit 2
   fi
 fi
+if [ ! -d "$HWBACKUP_DB" ]; then
+  echo "DB does not exist '$HWBACKUP_DB'" >&2
+  exit 1
+fi
 if [ -n "$HWBACKUP_VERBOSE" ]; then
   echo "Looking at DB in '$HWBACKUP_DB'"
 fi
@@ -141,11 +153,29 @@ FRONT="$HWBACKUP_WEB/index.xhtml"
 rm -f "$FRONT"
 header >> "$FRONT"
 title 1 "HBackup report" >>"$FRONT"
+
+title 2 "Database" >> "$FRONT"
+REF_FILE="$HWBACKUP_DB/.last-scan"
+if [ -r "$REF_FILE" ]; then
+  paragraph "Last full scan on `file_date \"$REF_FILE\"` at `file_time \"$REF_FILE\"`." >> "$FRONT"
+else
+  paragraph "Never fully scanned." >> "$FRONT"
+fi
+REF_FILE="$HWBACKUP_DB/.last-check"
+if [ -r "$REF_FILE" ]; then
+  paragraph "Last full check on `file_date \"$REF_FILE\"` at `file_time \"$REF_FILE\"`." >> "$FRONT"
+else
+  paragraph "Never fully checked." >> "$FRONT"
+fi
+
 title 2 "Clients" >> "$FRONT"
-paragraph "The following clients have been found:" >> "$FRONT"
-list_start >> "$FRONT"
 for client in $CLIENTS; do
-  list_item "$client" >> "$FRONT"
+  title 3 "$client" >> "$FRONT"
+  REF_FILE="$HWBACKUP_DB/$client/.last-backup"
+  if [ -r "$REF_FILE" ]; then
+    paragraph "Last full backup on `file_date \"$REF_FILE\"` at `file_time \"$REF_FILE\"`." >> "$FRONT"
+  else
+    paragraph "Never fully backed up." >> "$FRONT"
+  fi
 done
-list_end >> "$FRONT"
 footer >> "$FRONT"
