@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# Only option is '-c config' or '--config config'
+# Usage
 usage () {
 cat << EOF
 `basename $0` options:
@@ -9,6 +9,44 @@ cat << EOF
   -v config or --verbose: be verbose
   -w config or --website: destination dir for web pages
 EOF
+}
+
+# Xhtml
+header() {
+  echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-strict.dtd">'
+  echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'
+  echo '  <head>'
+  echo '    <meta name="generator" content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />'
+  echo '    <title>HBackup report</title>'
+  echo '    <meta name="GENERATOR" content="Hand-coded HTML" />'
+  echo '    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'
+  echo '  </head>'
+  echo '  <body>'
+}
+
+footer() {
+  echo '  </body>'
+  echo '</html>'
+}
+
+title() {
+  echo "    <h$1>$2</h$1>"
+}
+
+paragraph() {
+  echo "    <p>$1</p>"
+}
+
+list_start() {
+  echo "    <ul>"
+}
+
+list_item() {
+  echo "    <li>$1</li>"
+}
+
+list_end() {
+  echo "    </ul>"
 }
 
 # Options
@@ -68,26 +106,28 @@ if [ -z "$HWBACKUP_DB" ]; then
 fi
 if [ -n "$HWBACKUP_VERBOSE" ]; then
   echo "Looking at DB in '$HWBACKUP_DB'"
-  cd "$HWBACKUP_DB"
 fi
 
 # Website
 if [ -z "$HWBACKUP_WEB" ]; then
   HWBACKUP_WEB=/var/www/hbackup
 fi
+if ! mkdir -p "$HWBACKUP_WEB" 2> /dev/null; then
+  echo "Cannot create website in '$HWBACKUP_WEB'" >&2
+  exit 2
+fi
 if [ -n "$HWBACKUP_VERBOSE" ]; then
   echo "Web pages will be created in '$HWBACKUP_WEB'"
 fi
 
 # Clients
-CLIENTS=`ls`
+CLIENTS=`ls "$HWBACKUP_DB"`
 if [ -z "$CLIENTS" ]; then
   if [ -n "$HWBACKUP_VERBOSE" ]; then
     echo "No clients found"
   fi
   exit 0
 fi
-
 if [ -n "$HWBACKUP_VERBOSE" ]; then
   echo -n "Clients:"
   for client in $CLIENTS; do
@@ -95,3 +135,17 @@ if [ -n "$HWBACKUP_VERBOSE" ]; then
   done
   echo
 fi
+
+# Front page
+FRONT="$HWBACKUP_WEB/index.xhtml"
+rm -f "$FRONT"
+header >> "$FRONT"
+title 1 "HBackup report" >>"$FRONT"
+title 2 "Clients" >> "$FRONT"
+paragraph "The following clients have been found:" >> "$FRONT"
+list_start >> "$FRONT"
+for client in $CLIENTS; do
+  list_item "$client" >> "$FRONT"
+done
+list_end >> "$FRONT"
+footer >> "$FRONT"
