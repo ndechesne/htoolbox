@@ -1088,8 +1088,8 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
   Lock      read_lock;
   bool      eof    = false;
   bool      failed = false;
-  CopyData  *cd1;
-  CopyData  *cd2;
+  CopyData  *cd1 = NULL;
+  CopyData  *cd2 = NULL;
   long long size = 0;
   pthread_t child1;
   pthread_t child2;
