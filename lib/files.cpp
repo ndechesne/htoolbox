@@ -323,6 +323,7 @@ cout << "DBG createList 2" << endl;
     }
     _nodes.push_front(g);
   }
+  free(direntList);
   return failed ? -1 : 0;
 }
 
