@@ -273,67 +273,57 @@ int File::create() {
   return 0;
 }
 
+static int direntFilter(const struct dirent* a) {
+  if (a->d_name[0] != '.') return 1;
+  if (a->d_name[1] == '\0') return 0;
+  if (a->d_name[1] != '.') return 1;
+  if (a->d_name[2] == '\0') return 0;
+  return 1;
+}
+
+static int direntCompare(const void* a, const void* b) {
+  const struct dirent* l = *static_cast<const struct dirent* const *>(a);
+  const struct dirent* r = *static_cast<const struct dirent* const *>(b);
+  return Path::compare(l->d_name, r->d_name);
+}
+
 int Directory::createList() {
-  DIR* directory = opendir(_path);
-  if (directory == NULL) return -1;
-
-  struct dirent *dir_entry;
-  errno             = 0;
-  bool seen_dot     = false;
-  bool seen_dot_dot = false;
-  while (((dir_entry = readdir(directory)) != NULL)) {
-    // Ignore . and ..
-    if (! seen_dot || ! seen_dot_dot) {
-      if (dir_entry->d_name[0] == '.') {
-        if (dir_entry->d_name[1] == '\0') {
-          seen_dot = true;
-          continue;
-        }
-        if (dir_entry->d_name[1] == '.') {
-          if (dir_entry->d_name[2] == '\0') {
-            seen_dot_dot = true;
-            continue;
-          }
-        }
+  struct dirent** direntList;
+  int size = scandir(_path, &direntList, direntFilter, direntCompare);
+  if (size < 0) {
+cout << "DBG createList 1" << endl;
+    return -1;
+  }
+  bool failed = false;
+  while (size--) {
+    Node *g = new Node(Path(_path, direntList[size]->d_name));
+    free(direntList[size]);
+    if (! g->stat()) {
+      switch (g->type()) {
+        case 'f': {
+          File *f = new File(*g);
+          delete g;
+          g = f;
+        } break;
+        case 'd': {
+          Directory *d = new Directory(*g);
+          delete g;
+          g = d;
+        } break;
+        case 'l': {
+          Link *l = new Link(*g);
+          delete g;
+          g = l;
+        } break;
+        default:;
       }
+    } else {
+      failed = true;
+cout << "DBG createList 2" << endl;
     }
-    Node *g = new Node(Path(_path, dir_entry->d_name));
-    g->stat();
-    switch (g->type()) {
-      case 'f': {
-        File *f = new File(*g);
-        delete g;
-        g = f;
-      } break;
-      case 'd': {
-        Directory *d = new Directory(*g);
-        delete g;
-        g = d;
-      } break;
-      case 'l': {
-        Link *l = new Link(*g);
-        delete g;
-        g = l;
-      } break;
-      default:;
-    }
-    list<Node*>::iterator i = _nodes.begin();
-    while ((i != _nodes.end()) && (*(*i) < *g)) {
-      i++;
-    }
-    _nodes.insert(i, g);
+    _nodes.push_front(g);
   }
-
-  if ((errno == 0) && ! seen_dot || ! seen_dot_dot) {
-    errno = EAGAIN;
-  }
-
-  {
-    int keep_errno = errno;
-    closedir(directory);
-    errno = keep_errno;
-  }
-  return (errno != 0) ? -1 : 0;
+  return failed ? -1 : 0;
 }
 
 void Directory::deleteList() {
