@@ -7892,12 +7892,14 @@ Crawling through DB
                                   \r
 Checking data, sizes: f=42 z=76 (77)
 Replacing with uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
+5252f242d27b8c2c9fdbdcbb33545d07-0: converted
 59071590099d21dd439896592338bf95-0\r
 6d7fce9fee471194aa8b5b6e47267f03-0\r
 816df6f64deba63b029ca19d880ee10a-0\r
                                   \r
 Checking data, sizes: f=512000 z=545 (553)
 Replacing with compressed data for 816df6f64deba63b029ca19d880ee10a-0
+816df6f64deba63b029ca19d880ee10a-0: converted
 8bdef5751e46ed57d237cbe3f4a5061c-0\r
 b026324c6904b2a9cb4b88d6d61c81d1-0\r
 b90f8fa56ea1d39881d4a199c7a81d35-0\r

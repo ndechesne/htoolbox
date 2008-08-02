@@ -678,6 +678,7 @@ int Data::check(
             *compressed = real_compress;
           }
         }
+        out(info, msg_standard, "converted", -1, checksum);
       }
     }
   }
