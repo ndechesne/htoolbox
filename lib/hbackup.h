@@ -22,6 +22,8 @@
 #include <time.h>
 
 namespace hbackup {
+  //! Compression level: nest compromise between speed and size
+  static const int compression_level = 5;
   //! Verbosity level
   enum VerbosityLevel {
     // This is to return string data

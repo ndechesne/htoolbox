@@ -101,8 +101,6 @@ int ClientPath::parse_recurse(
         // Add node
         if (op.needsAdding()) {
           if ((*i)->type() == 'f') {
-            // Best compromise between speed and size
-            const int compression_level = 5;
             // Compress file if not using auto-compression and filter matches
             if (op.compression() == 0) {
               if ((_compress != NULL) && _compress->match(**i, start)) {
