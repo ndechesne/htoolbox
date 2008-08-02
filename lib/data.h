@@ -65,11 +65,12 @@ public:
     const char*     checksum) const;
   // Add new item to database
   int write(                          // <0: error, >0: written, =0: no need
-    const char*     path,             // Path to read from
+    Stream&         source,           // Stream to read from
     const char*     temp_name,        // Name for temporary data file
     char**          checksum,         // Copy checksum here
     int             compress  = 0,    // Compression to apply (negative: auto)
-    int*            acompress = NULL);// Compression actually applied
+    int*            acompress = NULL, // Compression actually applied
+    bool            src_open  = true) const;// Open source file
   // Check existence/consistence of given checksum's data
   int check(
     const char*     checksum,
@@ -79,7 +80,7 @@ public:
     bool*           compressed = NULL) const;
   // Remove given checksum's data
   int remove(
-    const char*     checksum);
+    const char*     checksum) const;
   // Scan database for missing/corrupted data, return a list of valid checksums
   int crawl(
     bool            thorough,         // Whether to check for data corruption

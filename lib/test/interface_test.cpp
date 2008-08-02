@@ -822,8 +822,9 @@ int main(void) {
   system("ls test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0");
   showClientConfigs();
 
-  cout << endl << "Test: second backup should not recover again"
-    << endl;
+  cout << endl << "Test: second backup should not recover again" << endl;
+  // Wrong gzip format and corrupted => what?
+  system("gzip test2/testfile -c > test_db/.data/fb00cd74a5f35e89a7fbdd3c1d05375a-0/data");
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
@@ -833,6 +834,24 @@ int main(void) {
   hbackup->close();
   delete hbackup;
   // Scan should show the recovered data
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->show(2);
+  hbackup->scan();
+  hbackup->close();
+  delete hbackup;
+  // Check should find out about the corrupted data
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->show(2);
+  hbackup->check();
+  hbackup->close();
+  delete hbackup;
+  // Scan should remove the corrupted data
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;

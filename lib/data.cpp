@@ -341,16 +341,16 @@ int Data::read(
 }
 
 int Data::write(
-    const char*     path,
+    Stream&         source,
     const char*     temp_name,
     char**          dchecksum,
     int             compress,
-    int*            acompress) {
+    int*            acompress,
+    bool            src_open) const {
   bool failed  = false;
 
   // Open source file
-  Stream source(path);
-  if (source.open("r")) {
+  if (src_open && source.open("r")) {
     return -1;
   }
 
@@ -554,9 +554,11 @@ int Data::check(
     long long*      size,
     bool*           compressed) const {
   string path;
+  // Get dir from checksum
   if (getDir(checksum, path)) {
     return -1;
   }
+  // Look for data in dir
   bool failed = false;
   unsigned int no;
   vector<string> extensions;
@@ -572,15 +574,16 @@ int Data::check(
     }
     return -1;
   }
-  long long originalSize;
+  // Get original file size
+  long long original_size;
   if (no > 0) {
-    originalSize = data->getOriginalSize();
+    original_size = data->getOriginalSize();
   } else {
-    originalSize = data->size();
+    original_size = data->size();
   }
   // Return file information if required
   if (size != NULL) {
-    *size = originalSize;
+    *size = original_size;
     if (compressed != NULL) {
       *compressed = no > 0;
     }
@@ -593,14 +596,17 @@ int Data::check(
       failed = true;
     } else {
       data->setCancelCallback(aborting);
+      // Open file
       if (data->open("r", (no > 0) ? 1 : 0)) {
         out(error, msg_errno, "opening file", errno, data->path());
         failed = true;
       } else
+      // Compute file checksum
       if (data->computeChecksum() || data->close()) {
         out(error, msg_errno, "reading file", errno, data->path());
         failed = true;
       } else
+      // Compare with given checksum
       if (strncmp(data->checksum(), checksum, strlen(data->checksum()))) {
         stringstream s;
         s << "Data corrupted" << (repair ? ", remove" : "");
@@ -614,6 +620,12 @@ int Data::check(
           // Mark corrupted
           File(Path(path.c_str(), "corrupted")).create();
         }
+      } else
+      // Compare data size and stored size for compress files
+      if ((no > 0) && (data->dataSize() != data->originalSize())) {
+        out(error, msg_number, "Original size is wrong",
+          data->originalSize(), checksum);
+        failed = true;
       }
     }
   } else
@@ -629,6 +641,44 @@ int Data::check(
         out(error, msg_errno, "removing data", errno, checksum);
       }
       failed = true;
+    } else
+    // Compressed file does not follow hbackup's standard
+    if ((original_size < 0) && (no > 0)) {
+      data->setCancelCallback(aborting);
+      char* real_checksum;
+      int   real_compress;
+      // Open file
+      if (data->open("r", 1)) {
+        out(error, msg_errno, "opening file", errno, data->path());
+        failed = true;
+      } else
+      // Re-write file with automatic compression
+      if (write(*data, ".recompress", &real_checksum, -compression_level,
+          &real_compress, false) < 0) {
+        out(error, msg_errno, "recompressing file", errno, data->path());
+        failed = true;
+      } else
+      // Do checksums match?
+      if (strcmp(real_checksum, checksum) != 0) {
+        out(error, msg_standard, "file is corrupted", -1, data->path());
+        failed = true;
+      } else
+      {
+        if (real_compress == 0) {
+          // Remove the other file
+          data->remove();
+        } else {
+          // Set the correct original size
+          data->setOriginalSize(data->dataSize());
+        }
+        // Correct returned file information if required
+        if (size != NULL) {
+          *size = data->dataSize();
+          if (compressed != NULL) {
+            *compressed = real_compress;
+          }
+        }
+      }
     }
   }
   delete data;
@@ -636,7 +686,7 @@ int Data::check(
 }
 
 int Data::remove(
-    const char*     checksum) {
+    const char*     checksum) const {
   int rc;
   string path;
   if (getDir(checksum, path)) {

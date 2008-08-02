@@ -714,7 +714,8 @@ int Database::add(
     // Copy data
     char* checksum = NULL;
     int compression;
-    int rc = _d->data.write(op._node.path(), _d->owner->name(), &checksum,
+    Stream source(op._node.path());
+    int rc = _d->data.write(source, _d->owner->name(), &checksum,
       op._compression, &compression);
     if (rc >= 0) {
       if (rc > 0) {
