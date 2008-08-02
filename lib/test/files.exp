@@ -143,6 +143,10 @@ originalSize: 10222
 getOriginalSize: 10222
 originalSize: 10222
 
+Test: overwrite original size
+getOriginalSize: 1311768467284833366
+originalSize: 1311768467284833366
+
 Test: file compare (both compressed)
   whole files
 files are equal

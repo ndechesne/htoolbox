@@ -1013,7 +1013,7 @@ int Stream::computeChecksum() {
   if (! _d->buffer_data.exists()) {
     _d->buffer_data.create();
   }
-  long long size = 0;
+  _d->size = 0;
   bool      eof  = false;
 
   do {
@@ -1023,7 +1023,7 @@ int Stream::computeChecksum() {
       return -1;
     }
     eof = (length == 0);
-    size += length;
+    _d->size += length;
     if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)(1))) {
       errno = ECANCELED;
       return -1;
@@ -1264,7 +1264,7 @@ long long Stream::getOriginalSize() const {
     // errno set by open
     return -1;
   }
-  char      buffer[14];
+  char buffer[14];
   _d->original_size = -1;
   // Check header
   if (std::read(fd, buffer, 10) != 10) {
@@ -1288,6 +1288,44 @@ long long Stream::getOriginalSize() const {
   }
   std::close(fd);
   return _d->original_size;
+}
+
+int Stream::setOriginalSize(long long size) const {
+  if (isOpen()) {
+    errno = EBUSY;
+    return -1;
+  }
+  int fd = std::open64(_path, O_RDWR, 0666);
+  if (fd < 0) {
+    // errno set by open
+    return -1;
+  }
+  char buffer[14];
+  _d->original_size = -1;
+  // Check header
+  if (std::read(fd, buffer, 10) != 10) {
+    // errno set by read
+  } else
+  if (strncmp(buffer, "\x1f\x8b", 2) != 0) {
+    errno = EILSEQ;
+  } else
+  // Check extra field flag
+  if ((buffer[3] & 0x4) == 0) {
+    errno = ENOSYS;
+  } else
+  // Skip extra field size
+  if (std::read(fd, buffer, 2) != 2) {
+    // errno set by read
+  } else
+  // Assume OUR extra field is present HERE
+  {
+    GzipExtraFieldSize extra(size);
+    if (std::write(fd, extra, 12) == 12) {
+      _d->original_size = size;
+    }
+  }
+  std::close(fd);
+  return (_d->original_size < 0) ? -1 : 0;
 }
 
 long long Stream::dataSize() const {

@@ -745,6 +745,17 @@ int main(void) {
     }
   }
   delete readfile;
+
+  cout << endl << "Test: overwrite original size" << endl;
+  if (writefile->setOriginalSize(0x1234567890123456LL) < 0) {
+    cout << "setOriginalSize: " << strerror(errno) << endl;
+  } else
+  if (writefile->getOriginalSize() < 0) {
+    cout << "getOriginalSize: " << strerror(errno) << endl;
+  } else {
+    cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
+    cout << "originalSize: " << writefile->originalSize() << endl;
+  }
   delete writefile;
 
 

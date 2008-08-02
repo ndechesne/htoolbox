@@ -396,6 +396,9 @@ public:
   // Get gzip'd file original size, if written by hbackup v0.9 and above
   // Note: Stream MUST NOT be open
   long long getOriginalSize() const;
+  // Overwrite gzip'd file original size, if written by hbackup v0.9 and above
+  // Note: Stream MUST NOT be open
+  int setOriginalSize(long long size) const;
   // Get real file size
   long long dataSize() const;
   // Line feed MUST be present at EOL
