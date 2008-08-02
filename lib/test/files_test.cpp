@@ -905,6 +905,7 @@ int main(void) {
     return 0;
   }
   cout << "Checksum: " << readfile->checksum() << endl;
+  cout << "Data size: " << readfile->dataSize() << endl;
   delete readfile;
 
   cout << "default read" << endl;
@@ -921,6 +922,7 @@ int main(void) {
     return 0;
   }
   cout << "Checksum: " << readfile->checksum() << endl;
+  cout << "Data size: " << readfile->dataSize() << endl;
   delete readfile;
 
   cout << "default decompress read" << endl;
@@ -937,6 +939,7 @@ int main(void) {
     return 0;
   }
   cout << "Checksum: " << readfile->checksum() << endl;
+  cout << "Data size: " << readfile->dataSize() << endl;
   delete readfile;
 
   cout << "default getLine" << endl;
@@ -1009,6 +1012,7 @@ int main(void) {
     return 0;
   }
   cout << "Checksum: " << readfile->checksum() << endl;
+  cout << "Data size: " << readfile->dataSize() << endl;
   delete readfile;
 
 
