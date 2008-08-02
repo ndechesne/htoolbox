@@ -139,7 +139,7 @@ int Data::crawl_recurse(
     const string&   checksum_part,
     list<CompData>* data,
     bool            thorough,
-    bool            remove,
+    bool            repair,
     unsigned int*   valid,
     unsigned int*   broken) const {
   bool failed = false;
@@ -166,25 +166,18 @@ int Data::crawl_recurse(
           string checksum = checksum_part + (*i)->name();
           if (no_files) {
             Directory d(**i);
-            if (crawl_recurse(d, checksum, data, thorough, remove, valid,
+            if (crawl_recurse(d, checksum, data, thorough, repair, valid,
                 broken) < 0){
               failed = true;
             }
           } else {
             out(verbose, msg_standard, checksum.c_str(), -3);
-            bool compressed;
-            string path;
-            if (! check(checksum.c_str(), thorough, remove, &compressed,
-                &path)) {
-              Stream s(path.c_str());
+            long long size;
+            bool      comp;
+            if (! check(checksum.c_str(), thorough, repair, &size, &comp)) {
+              // Add to data, the list of collected data
               if (data != NULL) {
-                if (compressed) {
-                  CompData d(checksum.c_str(), s.getOriginalSize(), true);
-                  data->push_back(d);
-                } else {
-                  CompData d(checksum.c_str(), s.size());
-                  data->push_back(d);
-                }
+                data->push_back(CompData(checksum.c_str(), size, comp));
               }
               if (valid != NULL) {
                 (*valid)++;
@@ -557,9 +550,9 @@ int Data::write(
 int Data::check(
     const char*     checksum,
     bool            thorough,
-    bool            remove,
-    bool*           compressed,
-    string*         data_path) const {
+    bool            repair,
+    long long*      size,
+    bool*           compressed) const {
   string path;
   if (getDir(checksum, path)) {
     return -1;
@@ -573,18 +566,24 @@ int Data::check(
   // Missing data
   if (data == NULL) {
     out(error, msg_standard, "Data missing", -1, checksum);
-    if (remove) {
+    if (repair) {
       File(Path(path.c_str(), "corrupted")).remove();
       std::remove(path.c_str());
     }
     return -1;
   }
-  // Return file information if required
-  if (compressed != NULL) {
-    *compressed = no > 0;
+  long long originalSize;
+  if (no > 0) {
+    originalSize = data->getOriginalSize();
+  } else {
+    originalSize = data->size();
   }
-  if (data_path != NULL) {
-    *data_path = data->path();
+  // Return file information if required
+  if (size != NULL) {
+    *size = originalSize;
+    if (compressed != NULL) {
+      *compressed = no > 0;
+    }
   }
   // Check data for corruption
   if (thorough) {
@@ -604,11 +603,11 @@ int Data::check(
       } else
       if (strncmp(data->checksum(), checksum, strlen(data->checksum()))) {
         stringstream s;
-        s << "Data corrupted" << (remove ? ", remove" : "");
+        s << "Data corrupted" << (repair ? ", remove" : "");
         out(error, msg_standard, s.str().c_str(), -1, checksum);
         out(debug, msg_standard, data->checksum(), -1, "Checksum");
         failed = true;
-        if (remove) {
+        if (repair) {
           data->remove();
           std::remove(path.c_str());
         } else {
@@ -619,7 +618,7 @@ int Data::check(
     }
   } else
   // Remove data marked corrupted
-  if (remove) {
+  if (repair) {
     File corrupted(Path(path.c_str(), "corrupted"));
     if (corrupted.isValid()) {
       if (data->remove() == 0) {
@@ -663,12 +662,12 @@ int Data::remove(
 
 int Data::crawl(
     bool            thorough,
-    bool            remove,
+    bool            repair,
     list<CompData>* data) const {
   Directory d(_d->path);
   unsigned int valid  = 0;
   unsigned int broken = 0;
-  int rc = crawl_recurse(d, "", data, thorough, remove, &valid, &broken);
+  int rc = crawl_recurse(d, "", data, thorough, repair, &valid, &broken);
   stringstream s;
   s << "Found " << valid << " valid and " << broken << " broken data files";
   out(verbose, msg_standard, s.str().c_str());

@@ -74,16 +74,16 @@ public:
   int check(
     const char*     checksum,
     bool            thorough   = true,
-    bool            remove     = false,
-    bool*           compressed = NULL,
-    string*         path       = NULL) const;
+    bool            repair     = false,
+    long long*      size       = NULL,
+    bool*           compressed = NULL) const;
   // Remove given checksum's data
   int remove(
     const char*     checksum);
   // Scan database for missing/corrupted data, return a list of valid checksums
   int crawl(
     bool            thorough,         // Whether to check for data corruption
-    bool            remove,           // Whether to remove damaged data
+    bool            repair,           // Whether to repair/remove damaged data
     list<CompData>* data = NULL) const;// List of collected data
 };
 
