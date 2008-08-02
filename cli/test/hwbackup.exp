@@ -40,7 +40,7 @@ Index:
     <p>No full check.</p>
     <h2>Clients</h2>
     <h3>aClient.vista</h3>
-    <p>Last full backup ended on 2008-07-27 at 23:59:00.</p>
+    <p>Last full backup ended on 2008-07-27 at 23:59:00 GMT.</p>
   </body>
 </html>
 
@@ -60,11 +60,11 @@ Index:
   <body>
     <h1>HBackup report</h1>
     <h2>Database</h2>
-    <p>Last full scan ended on 2008-07-28 at 00:00:00.</p>
+    <p>Last full scan ended on 2008-07-28 at 00:00:00 GMT.</p>
     <p>No full check.</p>
     <h2>Clients</h2>
     <h3>aClient.vista</h3>
-    <p>Last full backup ended on 2008-07-27 at 23:59:00.</p>
+    <p>Last full backup ended on 2008-07-27 at 23:59:00 GMT.</p>
   </body>
 </html>
 
@@ -84,11 +84,11 @@ Index:
   <body>
     <h1>HBackup report</h1>
     <h2>Database</h2>
-    <p>Last full scan ended on 2008-07-28 at 00:00:00.</p>
-    <p>Last full check ended on 2008-07-28 at 00:01:00.</p>
+    <p>Last full scan ended on 2008-07-28 at 00:00:00 GMT.</p>
+    <p>Last full check ended on 2008-07-28 at 00:01:00 GMT.</p>
     <h2>Clients</h2>
     <h3>aClient.vista</h3>
-    <p>Last full backup ended on 2008-07-27 at 23:59:00.</p>
+    <p>Last full backup ended on 2008-07-27 at 23:59:00 GMT.</p>
   </body>
 </html>
 
@@ -108,14 +108,14 @@ Index:
   <body>
     <h1>HBackup report</h1>
     <h2>Database</h2>
-    <p>Last full scan ended on 2008-07-28 at 00:00:00.</p>
-    <p>Last full check ended on 2008-07-28 at 00:01:00.</p>
+    <p>Last full scan ended on 2008-07-28 at 00:00:00 GMT.</p>
+    <p>Last full check ended on 2008-07-28 at 00:01:00 GMT.</p>
     <h2>Clients</h2>
     <h3>aClient.vista</h3>
-    <p>Last full backup ended on 2008-07-27 at 23:59:00.</p>
+    <p>Last full backup ended on 2008-07-27 at 23:59:00 GMT.</p>
     <h3>myClient</h3>
     <p>No full backup.</p>
-    <p>Last partial backup ended on 2008-07-28 at 00:17:00.</p>
+    <p>Last partial backup ended on 2008-07-28 at 00:17:00 GMT.</p>
   </body>
 </html>
 
@@ -135,16 +135,16 @@ Index:
   <body>
     <h1>HBackup report</h1>
     <h2>Database</h2>
-    <p>Last full scan ended on 2008-07-28 at 00:00:00.</p>
-    <p>Last full check ended on 2008-07-28 at 00:01:00.</p>
+    <p>Last full scan ended on 2008-07-28 at 00:00:00 GMT.</p>
+    <p>Last full check ended on 2008-07-28 at 00:01:00 GMT.</p>
     <h2>Clients</h2>
     <h3>aClient.vista</h3>
-    <p>Last full backup ended on 2008-07-27 at 23:59:00.</p>
+    <p>Last full backup ended on 2008-07-27 at 23:59:00 GMT.</p>
     <h3>myClient</h3>
     <p>No full backup.</p>
-    <p>Last partial backup ended on 2008-07-28 at 00:17:00.</p>
+    <p>Last partial backup ended on 2008-07-28 at 00:17:00 GMT.</p>
     <h3>myClient.xp</h3>
-    <p>Last full backup ended on 2008-07-28 at 00:32:00.</p>
-    <p>Last partial backup ended on 2008-07-28 at 00:47:00.</p>
+    <p>Last full backup ended on 2008-07-28 at 00:32:00 GMT.</p>
+    <p>Last partial backup ended on 2008-07-28 at 00:47:00 GMT.</p>
   </body>
 </html>
