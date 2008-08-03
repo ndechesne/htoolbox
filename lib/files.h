@@ -21,8 +21,14 @@
 
 #include <list>
 #include <vector>
+#include <string>
 
 using namespace std;
+
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
 
 namespace hbackup {
 
@@ -262,8 +268,8 @@ public:
       Node(g),
       _link(NULL) {
     _parsed = true;
-    _link = static_cast<char*>(malloc(_size + 1));
-    readlink(_path, _link, _size);
+    _link = static_cast<char*>(malloc(static_cast<int>(_size) + 1));
+    readlink(_path, _link, static_cast<int>(_size));
     _link[_size] = '\0';
   }
   // Constructor for path in the VFS
@@ -272,8 +278,8 @@ public:
       _link(NULL) {
     stat();
     _parsed = true;
-    _link = static_cast<char*>(malloc(_size + 1));
-    readlink(_path, _link, _size);
+    _link = static_cast<char*>(malloc(static_cast<int>(_size) + 1));
+    readlink(_path, _link, static_cast<int>(_size));
     _link[_size] = '\0';
   }
   // Constructor for given file metadata

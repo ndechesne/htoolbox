@@ -21,6 +21,8 @@
 
 using namespace std;
 
+#include "string.h"
+
 #include "hbackup.h"
 #include "report.h"
 

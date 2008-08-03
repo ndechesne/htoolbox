@@ -25,6 +25,7 @@ using namespace TCLAP;
 using namespace std;
 
 #include <stdlib.h>
+#include <string.h>
 #include <signal.h>
 #include <errno.h>
 
@@ -158,8 +159,10 @@ static void output(
 static void progress(long long previous, long long current, long long total) {
   if ((current != total) || (previous != 0)) {
     stringstream s;
-    s << "File copy progress: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
-      << 100.0 * current /total << "%";
+    s << "File copy progress: " << setw(5) << setiosflags(ios::fixed)
+      << setprecision(1)
+      << 100.0 * static_cast<double>(current) / static_cast<double>(total)
+      << "%";
     output(hbackup::info, hbackup::msg_standard, s.str().c_str(), -3);
   }
 }

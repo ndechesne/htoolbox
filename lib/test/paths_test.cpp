@@ -40,7 +40,8 @@ using namespace hbackup;
 static void progress(long long previous, long long current, long long total) {
   if (current < total) {
     cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
-      << 100.0 * current /total << "%\r" << flush;
+      << 100.0 * static_cast<double>(current) / static_cast<double>(total)
+      << "%\r" << flush;
   } else if (previous != 0) {
     cout << "            \r";
   }

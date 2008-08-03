@@ -1,2 +1,3 @@
 AUTOMAKE_OPTIONS = foreign
 SUBDIRS = . lib cli
+ACLOCAL_AMFLAGS = -I m4

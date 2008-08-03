@@ -20,6 +20,8 @@
 
 using namespace std;
 
+#include "string.h"
+
 #include "buffer.h"
 
 using namespace hbackup;

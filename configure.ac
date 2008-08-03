@@ -12,17 +12,20 @@ AC_SUBST(LIB_VERSION, [1:0:1])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
+
+AC_CONFIG_MACRO_DIR([m4])
+
 AC_LANG([C++])
 
 # Compiler options
+CXXFLAGS="$CXXFLAGS -Wall -Wextra -Wundef -Wold-style-cast -Wconversion"
 AC_ARG_ENABLE(debug,
     AC_HELP_STRING(--enable-debug, [Compile with symbols (Default = no)]),
     enable_debug=$enableval, enable_debug=no)
-CXXWARN="-Wall -Wextra -Wundef -Wold-style-cast -Wconversion"
 if test "$enable_debug" = "yes" ; then
-    CXXFLAGS="$CXXFLAGS $CXXWARN -g -D_DEBUG"
+    CXXFLAGS="$CXXFLAGS -g -D_DEBUG"
 else
-    CXXFLAGS="$CXXFLAGS $CXXWARN -O3"
+    CXXFLAGS="$CXXFLAGS -O3"
 fi
 
 # Checks for programs.
@@ -32,7 +35,6 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
-#AC_PROG_RANLIB
 
 # Checks for libraries.
 liberrors=""

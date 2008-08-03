@@ -194,8 +194,9 @@ bool cancel(unsigned short __unused) {
 
 static void progress(long long previous, long long current, long long total) {
   if ((current <= total) && ((current < total) || (previous != 0))) {
-    cout << "Done: " << setw(5) << setiosflags(ios::fixed)
-      << setprecision(1) << 100.0 * current /total << "%" << endl;
+    cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
+      << 100.0 * static_cast<double>(current) / static_cast<double>(total)
+      << "%" << endl;
   }
 }
 

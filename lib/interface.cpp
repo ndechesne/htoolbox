@@ -64,14 +64,13 @@ void hbackup::abort(unsigned short test) {
 }
 
 bool hbackup::aborting(unsigned short test) {
-  unsigned short _test = _aborted >> 16;
   // Normal case
-  if (_test == 0) {
+  if ((_aborted & 0xFFFF0000) == 0) {
     return _aborted != 0;
   }
   // Test case
-  if (_test == test) {
-    out(debug, msg_number, NULL, _test, "Killing trigger reached");
+  if ((_aborted >> 16) == test) {
+    out(debug, msg_number, NULL, test, "Killing trigger reached");
     _aborted = 1;
     return true;
   }

@@ -146,8 +146,8 @@ const Path& Path::fromDos() {
   // Upper case drive letter
   if (proven && (_length >= 2)) {
     if ((_path[1] == ':') && (_path[2] == '/')
-      && (_path[0] >= 'a') && (_path[0] <= 'z')) {
-      _path[0] -= 0x20;
+    &&  (_path[0] >= 'a') && (_path[0] <= 'z')) {
+      _path[0] = static_cast<char>(_path[0] - 0x20);
     }
   }
   return *this;
@@ -1183,7 +1183,7 @@ int Stream::compare(Stream& source, long long length) {
     bool eof;
     // Make we stop when needed
     if ((length >= 0) && (length < buf_size)) {
-      buf_size = length;
+      buf_size = static_cast<int>(length);
     }
     // Fill in buffer1
     ssize_t size1 = 0;

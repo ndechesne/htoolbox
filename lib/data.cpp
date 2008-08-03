@@ -624,7 +624,7 @@ int Data::check(
       // Compare data size and stored size for compress files
       if ((no > 0) && (data->dataSize() != data->originalSize())) {
         out(error, msg_number, "Original size is wrong",
-          data->originalSize(), checksum);
+          static_cast<int>(data->originalSize()), checksum);
         failed = true;
       }
     }
