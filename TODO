@@ -3,5 +3,4 @@ TODO - non-organised list of things I want to do
   * zero copy on Line assignment
   * sort out getLine(Line&)
   * sort out owner/list architecture
-  * report activity via web pages
   * restoration via web gui
