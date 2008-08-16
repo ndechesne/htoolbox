@@ -54,12 +54,12 @@ file_date() {
 }
 
 file_time() {
-  date -r "$1" +%T -u
+  date -r "$1" +"%T %Z" -u
 }
 
 last_report() {
   if [ -r "$1" ]; then
-    paragraph "Last $2 on `file_date \"$1\"` at `file_time \"$1\"` GMT."
+    paragraph "Last $2 on `file_date \"$1\"` at `file_time \"$1\"`."
   else
     paragraph "No $2."
   fi
@@ -170,6 +170,6 @@ title 2 "Clients" >> "$FRONT"
 for client in $CLIENTS; do
   title 3 "$client" >> "$FRONT"
   last_report "$HWBACKUP_DB/$client/.last-backup" "full backup" >> "$FRONT"
-  last_report "$HWBACKUP_DB/$client/partial" "unfinished backup" >> "$FRONT"
+  last_report "$HWBACKUP_DB/$client/journal" "unfinished backup" >> "$FRONT"
 done
 footer >> "$FRONT"
