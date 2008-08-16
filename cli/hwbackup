@@ -57,6 +57,14 @@ file_time() {
   date -r "$1" +%T -u
 }
 
+last_report() {
+  if [ -r "$1" ]; then
+    paragraph "Last $2 on `file_date \"$1\"` at `file_time \"$1\"` GMT."
+  else
+    paragraph "No $2."
+  fi
+}
+
 # Options
 unset HWBACKUP_CONFIG
 unset HWBACKUP_DB
@@ -155,35 +163,13 @@ header >> "$FRONT"
 title 1 "HBackup report" >>"$FRONT"
 
 title 2 "Database" >> "$FRONT"
-REF_FILE="$HWBACKUP_DB/.last-scan"
-REF_TEXT="full scan"
-if [ -r "$REF_FILE" ]; then
-  paragraph "Last $REF_TEXT ended on `file_date \"$REF_FILE\"` at `file_time \"$REF_FILE\"` GMT." >> "$FRONT"
-else
-  paragraph "No $REF_TEXT." >> "$FRONT"
-fi
-REF_FILE="$HWBACKUP_DB/.last-check"
-REF_TEXT="full check"
-if [ -r "$REF_FILE" ]; then
-  paragraph "Last $REF_TEXT ended on `file_date \"$REF_FILE\"` at `file_time \"$REF_FILE\"` GMT." >> "$FRONT"
-else
-  paragraph "No $REF_TEXT." >> "$FRONT"
-fi
+last_report "$HWBACKUP_DB/.last-scan" "full scan" >> "$FRONT"
+last_report "$HWBACKUP_DB/.last-check" "full check" >> "$FRONT"
 
 title 2 "Clients" >> "$FRONT"
 for client in $CLIENTS; do
   title 3 "$client" >> "$FRONT"
-  REF_FILE="$HWBACKUP_DB/$client/.last-backup"
-  REF_TEXT="full backup"
-  if [ -r "$REF_FILE" ]; then
-    paragraph "Last $REF_TEXT ended on `file_date \"$REF_FILE\"` at `file_time \"$REF_FILE\"` GMT." >> "$FRONT"
-  else
-    paragraph "No $REF_TEXT." >> "$FRONT"
-  fi
-  REF_FILE="$HWBACKUP_DB/$client/partial"
-  REF_TEXT="partial backup"
-  if [ -r "$REF_FILE" ]; then
-    paragraph "Last $REF_TEXT ended on `file_date \"$REF_FILE\"` at `file_time \"$REF_FILE\"` GMT." >> "$FRONT"
-  fi
+  last_report "$HWBACKUP_DB/$client/.last-backup" "full backup" >> "$FRONT"
+  last_report "$HWBACKUP_DB/$client/partial" "unfinished backup" >> "$FRONT"
 done
 footer >> "$FRONT"
