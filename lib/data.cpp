@@ -171,7 +171,6 @@ int Data::crawl_recurse(
               failed = true;
             }
           } else {
-            out(verbose, msg_standard, checksum.c_str(), -3);
             long long size;
             bool      comp;
             if (! check(checksum.c_str(), thorough, repair, &size, &comp)) {
@@ -580,6 +579,12 @@ int Data::check(
     original_size = data->getOriginalSize();
   } else {
     original_size = data->size();
+  }
+  {
+    char* size_str;
+    asprintf(&size_str, "%lld", original_size);
+    out(verbose, msg_standard, size_str, -3, checksum);
+    free(size_str);
   }
   // Return file information if required
   if (size != NULL) {
