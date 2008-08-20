@@ -1,11 +1,12 @@
-Testing: ../../hwbackup
+Testing: ../../hwbackup -t
 
 Help
 hwbackup options:
   -c config or --config config: give configuration file path
-  -d config or --database db: give database path (supersedes -c)
-  -v config or --verbose: be verbose
-  -w config or --website: destination dir for web pages
+  -d config or --database db  : give database path (supersedes -c)
+  -t or --test                : fix the generated date
+  -v config or --verbose      : be verbose
+  -w config or --website      : destination dir for web pages
 
 Wrong config
 Configuration file not accessible '/test1/doesnotexist'
@@ -35,6 +36,7 @@ Index:
   </head>
   <body>
     <h1>HBackup report</h1>
+    <p>Generated on 1971-03-07 at 21:40:00 UTC.</p>
     <h2>Database</h2>
     <p>No full scan.</p>
     <p>No full check.</p>
@@ -60,6 +62,7 @@ Index:
   </head>
   <body>
     <h1>HBackup report</h1>
+    <p>Generated on 1971-03-07 at 21:40:00 UTC.</p>
     <h2>Database</h2>
     <p>Last full scan on 2008-07-28 at 00:00:00 UTC.</p>
     <p>No full check.</p>
@@ -85,6 +88,7 @@ Index:
   </head>
   <body>
     <h1>HBackup report</h1>
+    <p>Generated on 1971-03-07 at 21:40:00 UTC.</p>
     <h2>Database</h2>
     <p>Last full scan on 2008-07-28 at 00:00:00 UTC.</p>
     <p>Last full check on 2008-07-28 at 00:01:00 UTC.</p>
@@ -110,6 +114,7 @@ Index:
   </head>
   <body>
     <h1>HBackup report</h1>
+    <p>Generated on 1971-03-07 at 21:40:00 UTC.</p>
     <h2>Database</h2>
     <p>Last full scan on 2008-07-28 at 00:00:00 UTC.</p>
     <p>Last full check on 2008-07-28 at 00:01:00 UTC.</p>
@@ -138,6 +143,7 @@ Index:
   </head>
   <body>
     <h1>HBackup report</h1>
+    <p>Generated on 1971-03-07 at 21:40:00 UTC.</p>
     <h2>Database</h2>
     <p>Last full scan on 2008-07-28 at 00:00:00 UTC.</p>
     <p>Last full check on 2008-07-28 at 00:01:00 UTC.</p>

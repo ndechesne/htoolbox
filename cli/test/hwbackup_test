@@ -1,6 +1,7 @@
 #!/bin/sh
 
-prog="../../hwbackup"
+prog="../../hwbackup -t"
+touch -d "19710307 22:40 CET" test_time
 
 echo "Testing: $prog"
 

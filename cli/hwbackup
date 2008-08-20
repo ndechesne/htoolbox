@@ -5,9 +5,10 @@ usage () {
 cat << EOF
 `basename $0` options:
   -c config or --config config: give configuration file path
-  -d config or --database db: give database path (supersedes -c)
-  -v config or --verbose: be verbose
-  -w config or --website: destination dir for web pages
+  -d config or --database db  : give database path (supersedes -c)
+  -t or --test                : fix the generated date
+  -v config or --verbose      : be verbose
+  -w config or --website      : destination dir for web pages
 EOF
 }
 
@@ -49,6 +50,10 @@ list_end() {
   echo "    </ul>"
 }
 
+generated() {
+  echo "    <p>Generated on `file_date \"$1\"` at `file_time \"$1\"`.</p>"
+}
+
 file_date() {
   date -r "$1" +%F -u
 }
@@ -68,6 +73,7 @@ last_report() {
 # Options
 unset HWBACKUP_CONFIG
 unset HWBACKUP_DB
+unset HWBACKUP_TEST
 unset HWBACKUP_VERBOSE
 unset HWBACKUP_WEB
 while [ $# -gt 0 ]; do
@@ -83,6 +89,9 @@ while [ $# -gt 0 ]; do
     "x-d"|"x--database")
       shift
       HWBACKUP_DB=$1
+      ;;
+    "x-t"|"x--test")
+      HWBACKUP_TEST="yes"
       ;;
     "x-v"|"x--verbose")
       HWBACKUP_VERBOSE="yes"
@@ -161,6 +170,11 @@ FRONT="$HWBACKUP_WEB/index.xhtml"
 rm -f "$FRONT"
 header >> "$FRONT"
 title 1 "HBackup report" >>"$FRONT"
+if [ -n "$HWBACKUP_TEST" ]; then
+  generated "test_time" >> "$FRONT"
+else
+  generated "$FRONT" >> "$FRONT"
+fi
 
 title 2 "Database" >> "$FRONT"
 last_report "$HWBACKUP_DB/.last-scan" "full scan" >> "$FRONT"
