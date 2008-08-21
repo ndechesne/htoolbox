@@ -24,6 +24,7 @@
 #include <cstdio>
 
 #include <pthread.h>
+#include <semaphore.h>
 #include <fcntl.h>
 #include <dirent.h>
 #include <sys/types.h>
@@ -53,7 +54,6 @@ namespace std {
 
 using namespace std;
 
-#include "lock.h"
 #include "buffer.h"
 #include "line.h"
 #include "files.h"
@@ -1044,21 +1044,37 @@ struct CopyData {
   // Global
   Stream*       stream;
   Buffer&       buffer;
-  Lock&         read_lock;
+  sem_t&        read_sem;
   bool&         eof;
   bool&         failed;
   // Local
   BufferReader  reader;
-  Lock          write_lock;
-  CopyData(Stream* d, Buffer& b, Lock& l, bool& eof, bool& failed) :
-    stream(d), buffer(b), read_lock(l), eof(eof), failed(failed),
-    // No auto-unregistration: segentation fault may occur
-    reader(buffer, false) {}
+  sem_t         write_sem;
+  CopyData(Stream* d, Buffer& b, sem_t& s, bool& eof, bool& failed) :
+      stream(d), buffer(b), read_sem(s), eof(eof), failed(failed),
+      // No auto-unregistration: segentation fault may occur
+      reader(buffer, false) {
+    sem_init(&write_sem, 0, 0);
+  }
+  ~CopyData() {
+    sem_destroy(&write_sem);
+  }
+};
+
+struct ReadData {
+  sem_t         read_sem;
+  ReadData() {
+    sem_init(&read_sem, 0, 0);
+  }
+  ~ReadData() {
+    sem_destroy(&read_sem);
+  }
 };
 
 static void* write_task(void* data) {
   CopyData& cd = *static_cast<CopyData*>(data);
   do {
+    // Reset semaphore before checking for emptiness
     if (! cd.reader.isEmpty()) {
       // Write as much as possible
       ssize_t l = cd.stream->write(cd.reader.reader(), cd.reader.readable());
@@ -1068,10 +1084,12 @@ static void* write_task(void* data) {
         cd.reader.readn(l);
       }
       // Allow read task to run
-      cd.read_lock.release();
+      sem_post(&cd.read_sem);
     } else {
-      // Timed lock, as a deadlock is possible with this system
-      cd.write_lock.lock(3);
+      // Now either a read occurred and we won't lock, or we shall wait
+      if (sem_wait(&cd.write_sem)) {
+        cd.failed = true;
+      }
     }
   } while (! cd.failed && (! cd.eof || ! cd.reader.isEmpty()));
   return NULL;
@@ -1084,7 +1102,7 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
     return -1;
   }
   Buffer    buffer(1 << 20);
-  Lock      read_lock;
+  ReadData  rd;
   bool      eof    = false;
   bool      failed = false;
   CopyData  *cd1 = NULL;
@@ -1092,7 +1110,7 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
   long long size = 0;
   pthread_t child1;
   pthread_t child2;
-  cd1 = new CopyData(dest1, buffer, read_lock, eof, failed);
+  cd1 = new CopyData(dest1, buffer, rd.read_sem, eof, failed);
   int rc = pthread_create(&child1, NULL, write_task, cd1);
   if (rc != 0) {
     delete cd1;
@@ -1100,7 +1118,7 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
     return -1;
   }
   if (dest2 != NULL) {
-    cd2 = new CopyData(dest2, buffer, read_lock, eof, failed);
+    cd2 = new CopyData(dest2, buffer, rd.read_sem, eof, failed);
     rc = pthread_create(&child2, NULL, write_task, cd2);
     if (rc != 0) {
       delete cd2;
@@ -1115,6 +1133,7 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
 
   // Read loop
   do {
+    // Reset semaphore before checking for fullness
     if (! buffer.isFull()) {
       // Fill up only up to half of capacity, for simultenous read and write
       ssize_t length = buffer.capacity() >> 1;
@@ -1133,20 +1152,22 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
         }
         size += length;
       }
-      cd1->write_lock.release();
+      sem_post(&cd1->write_sem);
       if (dest2 != NULL) {
-        cd2->write_lock.release();
+        sem_post(&cd2->write_sem);
       }
     } else {
-      // Timed lock, as a deadlock is possible with this system
-      read_lock.lock(3);
+      // Now either a write occurred and we won't lock, or we shall wait
+      if (sem_wait(&rd.read_sem)) {
+        failed = true;
+      }
     }
     if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)(2))) {
       errno = ECANCELED;
       failed = true;
-      cd1->write_lock.release();
+      sem_post(&cd1->write_sem);
       if (dest2 != NULL) {
-        cd2->write_lock.release();
+        sem_post(&cd2->write_sem);
       }
       break;
     }

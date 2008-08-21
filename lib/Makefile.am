@@ -17,7 +17,6 @@ libhbackup_la_SOURCES = \
 	interface.cpp \
 	line.cpp \
 	list.cpp \
-	lock.cpp \
 	missing.cpp \
 	owner.cpp \
 	parsers.cpp \
