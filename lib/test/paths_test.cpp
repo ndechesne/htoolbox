@@ -86,8 +86,8 @@ int main(void) {
   system("touch test1/subdirfile");
   system("touch test1/àccénts_test");
 
-  cout << "first with subdir/testfile NOT readable" << endl;
-  system("chmod 000 test1/subdir/testfile");
+  cout << "first with subdir NOT readable" << endl;
+  system("chmod 000 test1/subdir");
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {
@@ -111,7 +111,33 @@ int main(void) {
   }
 
   // Next test
-  cout << endl << "As previous, with a .hbackup directory" << endl;
+  cout << endl << "As previous, with subdir/testfile NOT readable" << endl;
+  system("chmod 755 test1/subdir");
+  system("chmod 000 test1/subdir/testfile");
+  my_time++;
+  db.open();
+
+  mkdir("test1/.hbackup", 0755);
+  path->show();
+  db.openClient("myClient");
+  if (! path->parse(db, "test1", "host")) {
+    cout << "Parsed " << path->nodes() << " file(s)\n";
+  }
+  db.closeClient();
+
+  if (db.close()) {
+    return 0;
+  }
+
+  // Show list contents
+  cout << endl << "myClient's list:" << endl;
+  dblist.show(-1, 2000000000, 24 * 3600);
+  // Show journal contents
+  cout << endl << "myClient's journal:" << endl;
+  journal.show(-1, 2000000000, 24 * 3600);
+
+  // Next test
+  cout << endl << "As first, with a .hbackup directory" << endl;
   my_time++;
   db.open();
 

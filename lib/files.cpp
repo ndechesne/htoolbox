@@ -291,7 +291,6 @@ int Directory::createList() {
   struct dirent** direntList;
   int size = scandir(_path, &direntList, direntFilter, direntCompare);
   if (size < 0) {
-cout << "DBG createList 1" << endl;
     return -1;
   }
   bool failed = false;
@@ -319,7 +318,6 @@ cout << "DBG createList 1" << endl;
       }
     } else {
       failed = true;
-cout << "DBG createList 2" << endl;
     }
     _nodes.push_front(g);
   }
