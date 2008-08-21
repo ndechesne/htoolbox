@@ -527,6 +527,10 @@ void Owner::sendEntry(
       }
     }
   } else
+  if ((op._node.type() == 'd') && (op._node.size() == -1)) {
+    op._same_list_entry = true;
+    op._letter = '!';
+  } else
   if ((op._node.type() == 'l')
   && (strcmp(static_cast<const Link&>(op._node).link(),
       static_cast<Link*>(db_node)->link()) != 0)) {

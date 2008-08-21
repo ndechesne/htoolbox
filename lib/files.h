@@ -132,8 +132,8 @@ public:
   // Stat file metadata
   int stat();
   // Reset some metadata
-  void resetMtime() { _mtime = 0; }
-  void resetSize()  { _size  = 0; }
+  void setMtime(time_t mtime)       { _mtime = mtime; }
+  void setSize(long long size)      { _size  = size; }
   // Operators
   bool operator<(const Node& right) const {
     // Only compare paths
@@ -219,27 +219,27 @@ public:
 };
 
 class Directory : public Node {
-  list<Node*> _nodes;
+  list<Node*>*  _nodes;
 public:
   // Constructor for existing Node
   Directory(const Node& g) :
       Node(g) {
     _parsed = true;
-    _nodes.clear();
+    _nodes  = NULL;
   }
   // Constructor not copying the path
   Directory(const char* path, int length) :
       Node(path, length) {
     stat();
     _parsed = true;
-    _nodes.clear();
+    _nodes  = NULL;
   }
   // Constructor for path in the VFS
   Directory(Path path) :
       Node(path) {
     stat();
     _parsed = true;
-    _nodes.clear();
+    _nodes  = NULL;
   }
   ~Directory() {
     deleteList();
@@ -250,8 +250,9 @@ public:
   // Create list of Nodes contained in directory
   int   createList();
   void  deleteList();
-  list<Node*>& nodesList()                  { return _nodes; }
-  const list<Node*>& nodesListConst() const { return _nodes; }
+  bool  hasList() const                     { return _nodes != NULL; }
+  list<Node*>& nodesList()                  { return *_nodes; }
+  const list<Node*>& nodesListConst() const { return *_nodes; }
 };
 
 class Link : public Node {

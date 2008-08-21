@@ -81,10 +81,8 @@ A       /home/User/dir space
 dir space\r
          \r
 A       /home/User/dir space/file space
-A       /home/User/subdir
-subdir\r
-      \r
 Error: host:/home/User/subdir: Permission denied reading directory
+A !     /home/User/subdir
 A       /home/User/subdir-file
 A       /home/User/subdirfile
 A       /home/User/svn

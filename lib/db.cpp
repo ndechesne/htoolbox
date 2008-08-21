@@ -744,6 +744,10 @@ int Database::add(
       failed = true;
     }
     free(checksum);
+  } else
+  if ((op._node.type() == 'd') && (op._node.size() == -1)) {
+    code[2] = '!';
+    failed = true;
   }
 
   // Even if failed, add data if new

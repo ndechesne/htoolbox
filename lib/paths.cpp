@@ -61,7 +61,7 @@ int ClientPath::parse_recurse(
   }
 
   bool give_up = false;
-  if (dir.isValid() && ! dir.createList()) {
+  if (dir.hasList()) {
     for (list<Node*>::iterator i = dir.nodesList().begin();
         i != dir.nodesList().end(); delete *i, i = dir.nodesList().erase(i)) {
       if (! aborting() && ! give_up) {
@@ -88,18 +88,35 @@ int ClientPath::parse_recurse(
         // Count the nodes considered, for info
         _nodes++;
 
-        // Also deal with directory, as some fields should not be considered
-        if ((*i)->type() == 'd') {
-          (*i)->resetMtime();
-          (*i)->resetSize();
-        }
-
         // Synchronize with DB records
         Path rem_path(remote_path, (*i)->name());
         OpData op(rem_path, **i);
+
+        // Parse directory, disregard/re-use some irrelevant fields
+        if ((*i)->type() == 'd') {
+          Directory& d = static_cast<Directory&>(**i);
+          d.setMtime(0);
+          if (d.createList()) {
+            d.setSize(-1);
+            d.deleteList();
+            char* full_name;
+            asprintf(&full_name, "%s:%s/%s", client_name, remote_path, d.name());
+            out(error, msg_errno, "reading directory", errno, full_name);
+            free(full_name);
+            if ((errno != EACCES)     // Ignore access refused
+            &&  (errno != ENOENT)) {  // Ignore directory gone
+              // All the rest results in a cease and desist order
+              give_up = true;
+            }
+          } else {
+            d.setSize(0);
+          }
+        }
+
         db.sendEntry(op);
         // Add node
         if (op.needsAdding()) {
+          // Regular file: deal with compression
           if ((*i)->type() == 'f') {
             // Compress file if not using auto-compression and filter matches
             if (op.compression() == 0) {
@@ -121,23 +138,15 @@ int ClientPath::parse_recurse(
 
         // For directory, recurse into it
         if ((*i)->type() == 'd') {
-          out(verbose, msg_standard, &rem_path[_path.length() + 1], -3);
+          if ((*i)->size() != -1) {
+            out(verbose, msg_standard, &rem_path[_path.length() + 1], -3);
+          }
           if (parse_recurse(db, rem_path, client_name, start,
               static_cast<Directory&>(**i), parser) < 0) {
             give_up = true;
           }
         }
       }
-    }
-  } else {
-    char* full_name;
-    asprintf(&full_name, "%s:%s", client_name, remote_path);
-    out(error, msg_errno, "reading directory", errno, full_name);
-    free(full_name);
-    if ((errno != EACCES)     // Ignore access refused
-    &&  (errno != ENOENT)) {  // Ignore directory gone
-      // All the rest results in a cease and desist order
-      give_up = true;
     }
   }
   delete parser;
@@ -220,6 +229,9 @@ int ClientPath::parse(
   int rc = 0;
   _nodes = 0;
   Directory dir(backup_path);
+  if (! dir.isValid() || dir.createList()) {
+    rc = -1;
+  } else
   if (parse_recurse(db, _path, client_name, strlen(backup_path) + 1, dir, NULL)
   || aborting()) {
     rc = -1;

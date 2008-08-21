@@ -288,9 +288,15 @@ static int direntCompare(const void* a, const void* b) {
 }
 
 int Directory::createList() {
+  if (_nodes != NULL) {
+    errno = EBUSY;
+    return -1;
+  }
+  _nodes = new list<Node*>;
   struct dirent** direntList;
   int size = scandir(_path, &direntList, direntFilter, direntCompare);
   if (size < 0) {
+    deleteList();
     return -1;
   }
   bool failed = false;
@@ -319,17 +325,21 @@ int Directory::createList() {
     } else {
       failed = true;
     }
-    _nodes.push_front(g);
+    _nodes->push_front(g);
   }
   free(direntList);
   return failed ? -1 : 0;
 }
 
 void Directory::deleteList() {
-  list<Node*>::iterator i = _nodes.begin();
-  while (i != _nodes.end()) {
-    delete *i;
-    i++;
+  if (_nodes != NULL) {
+    list<Node*>::iterator i = _nodes->begin();
+    while (i != _nodes->end()) {
+      delete *i;
+      i++;
+    }
+    delete _nodes;
+    _nodes = NULL;
   }
 }
 
