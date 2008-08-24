@@ -526,6 +526,7 @@ dir space\r
          \r
 Checking data, sizes: f=0 z=0 (0)
 A       test1/dir space/file space
+A       test1/dir space/link space
 A       test1/svn
 svn\r
    \r
@@ -1979,6 +1980,7 @@ U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
 U test_r/test1/dir space
 U test_r/test1/dir space/file space
+U test_r/test1/dir space/link space
 U test_r/test1/svn
 U test_r/test1/svn/.svn
 U test_r/test1/svn/.svn/entries
@@ -2188,6 +2190,7 @@ U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
 U test_r/test1/dir space
 U test_r/test1/dir space/file space
+U test_r/test1/dir space/link space
 U test_r/test1/svn
 U test_r/test1/svn/.svn
 U test_r/test1/svn/.svn/entries

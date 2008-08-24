@@ -63,6 +63,7 @@ echo "Hello Moon!" > "$TESTDIR/subdir/testfile2"
 touch "$TESTDIR/test space"
 mkdir "$TESTDIR/dir space"
 touch "$TESTDIR/dir space/file space"
+ln -s "linked space" "$TESTDIR/dir space/link space"
 
 # Big file
 dd if=/dev/zero of=test1/big_file bs=1M count=10 status=noxfer 2> /dev/null

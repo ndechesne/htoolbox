@@ -339,6 +339,7 @@ A       test1/dir space
 dir space\r
          \r
 A       test1/dir space/file space
+A       test1/dir space/link space
 A       test1/svn
 svn\r
    \r

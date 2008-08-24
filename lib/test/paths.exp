@@ -81,6 +81,7 @@ A       /home/User/dir space
 dir space\r
          \r
 A       /home/User/dir space/file space
+A       /home/User/dir space/link space
 Error: host:/home/User/subdir: Permission denied reading directory
 A !     /home/User/subdir
 A       /home/User/subdir-file
@@ -136,7 +137,7 @@ A f     /home/User/testfile
 A       /home/User/testfile~
 A       /home/User/testlink
 A       /home/User/testpipe
-Parsed 57 file(s)
+Parsed 58 file(s)
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -168,6 +169,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 1] /home/User/subdir              d      0 000
 [ 1] /home/User/subdir-file         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdirfile          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -227,6 +229,7 @@ myClient's journal:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 1] /home/User/subdir              d      0 000
 [ 1] /home/User/subdir-file         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdirfile          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -347,7 +350,7 @@ svn/diroth\r
 svn/dirutd\r
 svn/dirutd/.svn\r
 testdir        \r
-Parsed 60 file(s)
+Parsed 61 file(s)
        \r
 Database modified: myClient
 Database closed: myClient
@@ -380,6 +383,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
 [ 2] /home/User/subdir/testfile     f     12 000 
@@ -451,7 +455,7 @@ svn/diroth\r
 svn/dirutd\r
 svn/dirutd/.svn\r
 testdir        \r
-Parsed 60 file(s)
+Parsed 61 file(s)
        \r
 Database closed: myClient
 Database closed
@@ -483,6 +487,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
 [ 2] /home/User/subdir/testfile     f     12 000 
@@ -571,6 +576,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
 [ 2] /home/User/subdir/testfile     f     12 000 
@@ -643,7 +649,7 @@ svn/diroth\r
 svn/dirutd\r
 svn/dirutd/.svn\r
 testdir        \r
-Parsed 61 file(s)
+Parsed 62 file(s)
        \r
 Database modified: myClient
 Database closed: myClient
@@ -677,6 +683,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
@@ -751,7 +758,7 @@ svn/diroth\r
 svn/dirutd\r
 svn/dirutd/.svn\r
 testdir        \r
-Parsed 60 file(s)
+Parsed 61 file(s)
        \r
 Database modified: myClient
 Database closed: myClient
@@ -785,6 +792,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
 [ 6] /home/User/subdir/testfile     [rm]
@@ -866,7 +874,7 @@ svn/diroth\r
 svn/dirutd\r
 svn/dirutd/.svn\r
 testdir        \r
-Parsed 57 file(s)
+Parsed 58 file(s)
        \r
 Database modified: myClient
 Database closed: myClient
@@ -900,6 +908,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
@@ -984,7 +993,7 @@ svn/dirutd/.svn\r
 testdir        \r
        \r
 M       /home/User/testlink
-Parsed 57 file(s)
+Parsed 58 file(s)
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -1017,6 +1026,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
@@ -1107,7 +1117,7 @@ svn/dirutd/.svn\r
 testdir        \r
        \r
 D       /home/User/testlink
-Parsed 56 file(s)
+Parsed 57 file(s)
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -1140,6 +1150,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
@@ -1252,7 +1263,7 @@ svn/diroth\r
 svn/dirutd\r
 svn/dirutd/.svn\r
 testdir        \r
-Parsed 46 file(s)
+Parsed 47 file(s)
        \r
 Database modified: myClient
 Database closed: myClient
@@ -1296,6 +1307,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
@@ -1405,7 +1417,7 @@ svn/diroth\r
 svn/dirutd\r
 svn/dirutd/.svn\r
 testdir        \r
-Parsed 46 file(s)
+Parsed 47 file(s)
        \r
 Database closed: myClient
 Database closed
@@ -1448,6 +1460,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
@@ -1583,7 +1596,7 @@ D       /home/User/svn/dirutd/fileoth
 D       /home/User/svn/fileoth
 D       /home/User/svn/fileutd.h
 testdir\r
-Parsed 34 file(s)
+Parsed 35 file(s)
        \r
 Database modified: myClient
 Database closed: myClient
@@ -1627,6 +1640,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
@@ -1772,7 +1786,7 @@ svn/dirutd\r
  --> fileutd: m
 svn/dirutd/.svn\r
 testdir        \r
-Parsed 29 file(s)
+Parsed 30 file(s)
        \r
 Database modified: myClient
 Database closed: myClient
@@ -1821,6 +1835,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
@@ -1957,7 +1972,7 @@ D       /home/User/svn/dirutd/.svn
 D       /home/User/svn/dirutd/.svn/entries
 D       /home/User/svn/dirutd/fileutd
 testdir\r
-Parsed 25 file(s)
+Parsed 26 file(s)
        \r
 Database modified: myClient
 Database closed: myClient
@@ -2006,6 +2021,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
@@ -2141,7 +2157,7 @@ svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 testdir\r
-Parsed 24 file(s)
+Parsed 25 file(s)
        \r
 D       /home/User/testpipe
 Database modified: myClient
@@ -2191,6 +2207,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
@@ -2326,7 +2343,7 @@ Warning: test1/svn/dirbad: Directory should be under Subversion control
 testdir\r
        \r
 ~       /home/User/testfile
-Parsed 24 file(s)
+Parsed 25 file(s)
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -2374,6 +2391,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
@@ -2512,7 +2530,7 @@ Warning: test1/svn/dirbad: Directory should be under Subversion control
 testdir\r
        \r
 A       /home/User/testpipe
-Parsed 25 file(s)
+Parsed 26 file(s)
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -2561,6 +2579,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
 [ 1] /home/User/subdir              d      0 000
@@ -2735,7 +2754,7 @@ A       /home/User/testdir/biblio/biblio.dbf
 A       /home/User/testdir/biblio/biblio.dbt
 A       /home/User/testdir/biblio.odb
 A       /home/User/testdir/evolocal.odb
-Parsed 45 file(s)
+Parsed 46 file(s)
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -2784,6 +2803,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [18] /home/User/docbook-xml         d      0 755
 [18] /home/User/docbook-xml/3.1.7   d      0 755
 [18] /home/User/docbook-xml/3.1.7/dbgenent.ent f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2966,7 +2986,7 @@ svn/dirbad\r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 testdir\r
 testdir/biblio\r
-Parsed 45 file(s)
+Parsed 46 file(s)
               \r
 Database closed: myClient
 Database closed
@@ -3015,6 +3035,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [18] /home/User/docbook-xml         d      0 755
 [18] /home/User/docbook-xml/3.1.7   d      0 755
 [18] /home/User/docbook-xml/3.1.7/dbgenent.ent f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3264,7 +3285,7 @@ D       /home/User/testdir/biblio/biblio.dbf
 D       /home/User/testdir/biblio/biblio.dbt
 D       /home/User/testdir/biblio.odb
 D       /home/User/testdir/evolocal.odb
-Parsed 41 file(s)
+Parsed 42 file(s)
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -3320,6 +3341,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [18] /home/User/docbook-xml         d      0 755
 [18] /home/User/docbook-xml/3.1.7   d      0 755
 [18] /home/User/docbook-xml/3.1.7/dbgenent.ent f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3478,6 +3500,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [18] /home/User/docbook-xml         d      0 755
 [18] /home/User/docbook-xml/3.1.7   d      0 755
 [18] /home/User/docbook-xml/3.1.7/dbgenent.ent f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3667,7 +3690,7 @@ svn/.svn\r
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-Parsed 41 file(s)
+Parsed 42 file(s)
 Database closed: myClient
 Database closed
 
@@ -3724,6 +3747,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [18] /home/User/docbook-xml         d      0 755
 [18] /home/User/docbook-xml/3.1.7   d      0 755
 [18] /home/User/docbook-xml/3.1.7/dbgenent.ent f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3937,6 +3961,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [18] /home/User/docbook-xml         d      0 755
 [18] /home/User/docbook-xml/3.1.7   d      0 755
 [18] /home/User/docbook-xml/3.1.7/dbgenent.ent f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -4125,7 +4150,7 @@ svn/dirbad\r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 Error: myClient:/home/User/testfile: Permission denied backing up file
 M !     /home/User/testfile
-Parsed 41 file(s)
+Parsed 42 file(s)
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -4167,6 +4192,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [18] /home/User/docbook-xml         d      0 755
 [18] /home/User/docbook-xml/3.1.7   d      0 755
 [18] /home/User/docbook-xml/3.1.7/dbgenent.ent f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -4320,7 +4346,7 @@ svn/dirbad\r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 D       /home/User/testfile
 M       /home/User/testfile~
-Parsed 40 file(s)
+Parsed 41 file(s)
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -4362,6 +4388,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [18] /home/User/docbook-xml         d      0 755
 [18] /home/User/docbook-xml/3.1.7   d      0 755
 [18] /home/User/docbook-xml/3.1.7/dbgenent.ent f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -4509,7 +4536,7 @@ svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 M       /home/User/testfile~
-Parsed 40 file(s)
+Parsed 41 file(s)
 Database modified: myClient
 Database closed: myClient
 Database closed
@@ -4551,6 +4578,7 @@ myClient's list:
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l     12 777 linked space
 [18] /home/User/docbook-xml         d      0 755
 [18] /home/User/docbook-xml/3.1.7   d      0 755
 [18] /home/User/docbook-xml/3.1.7/dbgenent.ent f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
