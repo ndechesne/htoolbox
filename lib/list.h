@@ -27,11 +27,11 @@ class List : public Stream {
   // Buffer relevant line
   ssize_t fetchLine(bool use_found = false);
   // Decode metadata from current line
-  int decodeData(
-    const vector<string> params,
-    const char*     path,
-    Node**          node,
-    time_t*         timestamp);
+  int decodeLine(
+    const char*     line,               // Line to decode
+    time_t*         ts,                 // Line timestamp
+    const char*     path       = NULL,  // File path to store in metadata
+    Node**          node       = NULL); // File metadata
 public:
   List(
     Path            path);

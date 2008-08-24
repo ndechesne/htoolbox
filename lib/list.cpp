@@ -212,108 +212,55 @@ void List::keepLine() {
   _d->line_status = new_data;
 }
 
-int List::decodeData(
-    const vector<string> params,
+int List::decodeLine(
+    const char*     line,
+    time_t*         ts,
     const char*     path,
-    Node**          node,
-    time_t*         timestamp) {
+    Node**          node) {
   // Fields
   char        type;             // file type
-  time_t      mtime;            // time of last modification
   long long   size;             // on-disk size, in bytes
+  time_t      mtime;            // time of last modification
   uid_t       uid;              // user ID of owner
   gid_t       gid;              // group ID of owner
   mode_t      mode;             // permissions
+  char*       extra = NULL;     // linked file or checksum or null
+
+  int num;
+  if (node != NULL) {
+    num = sscanf(line, "\t%ld\t%c\t%Ld\t%ld\t%d\t%d\t%o\t%a[^\t]",
+      ts, &type, &size, &mtime, &uid, &gid, &mode, &extra);
+  } else {
+    num = sscanf(line, "\t%ld\t%c\t",
+      ts, &type);
+  }
 
   // Check number of params
-  if (params.size() < ((node != NULL) ? 3 : 2)) {
+  if (num < 0) {
+    return -1;
+  }
+  if (num < 2) {
     out(error, msg_standard, "Wrong number of arguments for line");
     return -1;
   }
 
-  // DB timestamp
-  if ((timestamp != NULL)
-  && sscanf(params[1].c_str(), "%ld", timestamp) != 1) {
-    out(error, msg_standard, "Cannot decode timestamp");
-    return -1;
-  }
-
+  // Return extracted data
   if (node != NULL) {
-    // Type
-    if (params[2].size() != 1) {
-      out(error, msg_standard, "Cannot decode type");
-      return -1;
-    }
-    type = params[2][0];
-
     switch (type) {
-      case '-':
-        if (params.size() != 3) {
-          out(error, msg_standard,
-            "Wrong number of arguments for remove line");
-          return -1;
-        } else {
-          *node = NULL;
-          return 0;
-        }
-      case 'f':
-      case 'l':
-        if (params.size() != 9) {
-          out(error, msg_standard,
-            "Wrong number of arguments for file/link line");
-          return -1;
-        }
-        break;
-      default:
-        if (params.size() != 8) {
-          out(error, msg_standard, "Wrong number of arguments for line");
-          return -1;
-        }
-    }
-
-    // Size
-    if (sscanf(params[3].c_str(), "%lld", &size) != 1) {
-      out(error, msg_standard, "Cannot decode size");
-      return -1;
-    }
-
-    // Modification time
-    if (sscanf(params[4].c_str(), "%ld", &mtime) != 1) {
-      out(error, msg_standard, "Cannot decode mtime");
-      return -1;
-    }
-
-    // User
-    if (sscanf(params[5].c_str(), "%u", &uid) != 1) {
-      out(error, msg_standard, "Cannot decode uid");
-      return -1;
-    }
-
-    // Group
-    if (sscanf(params[6].c_str(), "%u", &gid) != 1) {
-      out(error, msg_standard, "Cannot decode gid");
-      return -1;
-    }
-
-    // Permissions
-    if (sscanf(params[7].c_str(), "%o", &mode) != 1) {
-      out(error, msg_standard, "Cannot decode mode");
-      return -1;
-    }
-
-    switch (type) {
-      case 'f':
-        *node = new File(path, type, mtime, size, uid, gid, mode,
-          params[8].c_str());
-        break;
-      case 'l':
-        *node = new Link(path, type, mtime, size, uid, gid, mode,
-          params[8].c_str());
-        break;
-      default:
-        *node = new Node(path, type, mtime, size, uid, gid, mode);
+    case 'f':
+      *node = new File(path, type, mtime, size, uid, gid, mode, extra ? extra : "");
+      break;
+    case 'l':
+      *node = new Link(path, type, mtime, size, uid, gid, mode, extra ? extra : "");
+      break;
+    case '-':
+      *node = NULL;
+      break;
+    default:
+      *node = new Node(path, type, mtime, size, uid, gid, mode);
     }
   }
+  free(extra);
   return 0;
 }
 
@@ -404,9 +351,7 @@ int List::getEntry(
       time_t ts;
       if ((node != NULL) || (timestamp != NULL) || (date > 0)) {
         // Get all arguments from line
-        vector<string> params;
-        extractParams(_d->line, params, Stream::flags_empty_params, 0, "\t\n");
-        decodeData(params, path == NULL ? "" : *path, node, &ts);
+        decodeLine(_d->line, &ts, path == NULL ? "" : *path, node);
         if (timestamp != NULL) {
           *timestamp = ts;
         }
@@ -555,12 +500,8 @@ int List::search(
           if (! active_data_line && (expire >= 0)) {
             if (expire != 0) {
               // Check timestamp for expiration
-              vector<string> params;
-              extractParams(_d->line, params, Stream::flags_empty_params, 2,
-                "\t");
               time_t ts = 0;
-
-              if (! decodeData(params, NULL, NULL, &ts) && (ts < expire)) {
+              if (! decodeLine(_d->line, &ts) && (ts < expire)) {
                 continue;
               }
             } else {

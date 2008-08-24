@@ -552,7 +552,7 @@ cvs\r
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:59)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
    hbackup::HBackup::backup(bool) (interface.cpp:511)
    main (hbackup.cpp:447)
  --> dirbad: D
@@ -574,7 +574,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1184)
@@ -588,7 +588,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1187)
@@ -602,7 +602,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1627)
@@ -616,7 +616,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1633)
@@ -630,7 +630,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1633)
@@ -644,7 +644,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1620)
@@ -658,7 +658,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Use of uninitialised value of size 4
    deflate_slow (deflate.c:1083)
@@ -672,7 +672,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1096)
@@ -686,7 +686,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Use of uninitialised value of size 4
    deflate_slow (deflate.c:1122)
@@ -700,7 +700,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1122)
@@ -714,7 +714,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1649)
@@ -728,7 +728,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1649)
@@ -742,7 +742,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Use of uninitialised value of size 4
    deflate_slow (deflate.c:1655)
@@ -756,7 +756,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1669)
@@ -770,7 +770,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1600)
@@ -784,7 +784,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1602)
@@ -798,7 +798,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Conditional jump or move depends on uninitialised value(s)
    deflate_slow (deflate.c:1605)
@@ -812,7 +812,7 @@ A       test1/cvs/CVS
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
  
  Use of uninitialised value of size 4
    compress_block (trees.c:1094)
@@ -863,6 +863,7 @@ dir space\r
          \r
 Checking data, sizes: f=0 z=0 (0)
 A       test1/dir space/file space
+A       test1/dir space/link space
 A       test1/svn
 svn\r
    \r
@@ -885,7 +886,7 @@ A       test1/svn/.svn
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
         \r
 Checking data, sizes: f=77 z=79 (80)
 Adding uncompressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
@@ -1109,7 +1110,7 @@ cvs\r
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:59)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:144)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:235)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:583)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:585)
    hbackup::HBackup::backup(bool) (interface.cpp:511)
    main (hbackup.cpp:447)
  --> dirbad: D
@@ -2189,6 +2190,7 @@ U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
 U test_r/test1/dir space
 U test_r/test1/dir space/file space
+U test_r/test1/dir space/link space
 U test_r/test1/svn
 U test_r/test1/svn/.svn
 U test_r/test1/svn/.svn/entries
@@ -2410,6 +2412,7 @@ U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
 U test_r/test1/dir space
 U test_r/test1/dir space/file space
+U test_r/test1/dir space/link space
 U test_r/test1/svn
 U test_r/test1/svn/.svn
 U test_r/test1/svn/.svn/entries
