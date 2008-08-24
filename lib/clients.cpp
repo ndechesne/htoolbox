@@ -19,9 +19,11 @@
 #include <list>
 #include <string>
 #include <sstream>
-#include <errno.h>
 
 using namespace std;
+
+#include <ctype.h>
+#include <errno.h>
 
 #include "hbackup.h"
 #include "files.h"
@@ -78,7 +80,7 @@ int Client::mountPath(
       return -1;
     }
     char drive_letter = backup_path[0];
-    if ((drive_letter < 'A') || (drive_letter > 'Z')) {
+    if (! isupper(drive_letter)) {
       return -1;
     }
     share = "//" + _d->host_or_ip + "/" + drive_letter + "$";
