@@ -1096,6 +1096,7 @@ static void* write_task(void* data) {
 }
 
 int Stream::copy(Stream* dest1, Stream* dest2) {
+  errno = 0;
   if (! isOpen() || ! dest1->isOpen()
   || ((dest2 != NULL) && ! dest2->isOpen())) {
     errno = EBADF;
@@ -1178,24 +1179,27 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
   delete cd1;
   if (rc != 0) {
     errno = rc;
+  } else
+  // Check that data sizes match
+  if ((errno == 0) && (dataSize() != dest1->dataSize())) {
+    errno = EAGAIN;
   }
   if (dest2 != NULL) {
     rc = pthread_join(child2, NULL);
     delete cd2;
     if (rc != 0) {
       errno = rc;
+    } else
+    // Check that data sizes match
+    if ((errno == 0) && (dataSize() != dest2->dataSize())) {
+      errno = EAGAIN;
     }
   }
-  if (failed || (rc != 0)) {
-    return -1;
-  }
-
   // Check that sizes match
-  if (size != dataSize()) {
+  if (! failed && (errno == 0) && (size != dataSize())) {
     errno = EAGAIN;
-    return -1;
   }
-  return 0;
+  return (errno != 0) ? -1 : 0;
 }
 
 int Stream::compare(Stream& source, long long length) {
