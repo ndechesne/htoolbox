@@ -176,7 +176,7 @@ int HBackup::readConfig(const char* config_path) {
       client->add(path);
 
       // parser
-      path->add(new ConfigItem("parser", 0, 0, 1, 2));
+      path->add(new ConfigItem("parser", 0, 0, 2));
 
       // filter
       {
