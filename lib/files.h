@@ -49,15 +49,6 @@ public:
       _path(strdup(path)),
       _const_path(_path),
       _length(strlen(_path)) {}
-  Path(const char* path, int length) :
-      _path(NULL),
-      _const_path(path) {
-    if (length < 0) {
-      _length = strlen(_const_path);
-    } else {
-      _length = length;
-    }
-  }
   Path(const char* dir, const char* name);
   Path(const Path& path, const char* name);
   ~Path();
@@ -65,7 +56,13 @@ public:
   const Path& operator=(const Path& path);
   const Path& fromDos();
   const Path& noTrailingSlashes();
-  operator const char*() const;
+  operator const char*() const {
+    if (_length > 0) {
+      return _const_path;
+    } else {
+      return "";
+    }
+  }
   unsigned int length() const  { return _length; }
   Path dirname() const;
   const char* basename() const { return basename(_const_path); }
@@ -101,11 +98,6 @@ public:
         _gid(g._gid),
         _mode(g._mode),
         _parsed(false) {}
-  // Constructor not copying the path
-  Node(const char* path, int length) :
-      _path(path, length),
-      _type('?'),
-      _parsed(false) {}
   // Constructor for path in the VFS
   Node(Path path) :
       _path(path),
@@ -174,13 +166,6 @@ public:
     _parsed = true;
     _checksum = strdup("");
   }
-  // Constructor not copying the path
-  File(const char* path, int length) :
-      Node(path, length),
-      _checksum(strdup("")) {
-    stat();
-    _parsed = true;
-  }
   // Constructor for path in the VFS
   File(Path path) :
       Node(path),
@@ -224,13 +209,6 @@ public:
   // Constructor for existing Node
   Directory(const Node& g) :
       Node(g) {
-    _parsed = true;
-    _nodes  = NULL;
-  }
-  // Constructor not copying the path
-  Directory(const char* path, int length) :
-      Node(path, length) {
-    stat();
     _parsed = true;
     _nodes  = NULL;
   }

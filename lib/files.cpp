@@ -60,14 +60,6 @@ using namespace std;
 
 using namespace hbackup;
 
-Path::operator const char*() const {
-  if (_length > 0) {
-    return _const_path;
-  } else {
-    return "";
-  }
-}
-
 const char* Path::operator=(const char* path) {
   if (_path != NULL) {
     free(_path);
