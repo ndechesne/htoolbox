@@ -1,37 +1,67 @@
-default c'tor: size = 0 cap. = 100 add. = 10
-copy c'tor: size = 0 cap. = 100 add. = 10
-const char* constructor: size = 3 cap. = 4 add. = 0
-const char* constructor: size = 3 cap. = 4 add. = 0
-copy constructor: size = 3 cap. = 4 add. = 0
-copy: def size = 3 cap. = 4 add. = 0
-copy: g size = 1 cap. = 4 add. = 0
-copy: hijklmn size = 7 cap. = 8 add. = 0
+default c'tor: size = 0 cap. = 128
+copy c'tor: size = 0 cap. = 128
+const char* constructor: size = 3 cap. = 128
+const char* constructor: size = 3 cap. = 128
+copy constructor: size = 3 cap. = 128
+copy: def size = 3 cap. = 128
+copy: g size = 1 cap. = 128
+copy: hijklmn size = 7 cap. = 128
 operator[0]: hijklmn
 operator[3]: klmn
-erase(5): hijkl size = 5 cap. = 8 add. = 0
+erase(5): hijkl size = 5 cap. = 128
 find('j'): 2, size = 5
 find('z'): -1, size = 5
 find('j', 1): 2, size = 5
 find('j', 4): -1, size = 5
-append("op"): hijklop size = 7 cap. = 8 add. = 0
-append("qr", 3): hijqr size = 5 cap. = 8 add. = 0
-append("stuv", 4): hijqstuv size = 8 cap. = 9 add. = 0
-append("wxyz", 6, 3): hijqstwxy size = 9 cap. = 10 add. = 0
+append("op"): hijklop size = 7 cap. = 128
+append("qr", 3): hijqr size = 5 cap. = 128
+append("stuv", 4): hijqstuv size = 8 cap. = 128
+append("wxy", 6): hijqstwxy size = 9 cap. = 128
 replace end of line
-new line: 	0	new line size = 11 cap. = 100 add. = 10
+new line: 	0	new line size = 11 cap. = 128
 old line: 	12345	old line, size = 15
 second tab: 6
-end line: 	12345	new line size = 15 cap. = 100 add. = 10
-c'tor(10, 2) size = 0 cap. = 10 add. = 2
+end line: 	12345	new line size = 15 cap. = 128
+default c'tor size = 0 cap. = 128
 
-+= size = 9 cap. = 10 add. = 2
++= size = 9 cap. = 128
 123456789
-+= size = 19 cap. = 20 add. = 2
++= size = 19 cap. = 128
 1234567891234567890
-+= size = 28 cap. = 30 add. = 2
++= size = 28 cap. = 128
 1234567891234567890123456789
-resize(5, 6) size = 28 cap. = 30 add. = 6
-1234567891234567890123456789
-+= size = 37 cap. = 42 add. = 6
++= size = 37 cap. = 128
 1234567891234567890123456789123456789
+
+No-copy
+Construct line from string
+line (1): abcdef
+Modify line
+line (1): defghi
+Append to line
+line (1): defghijklmno
+Copy-construct line2
+line (2): defghijklmno
+line2 (2): defghijklmno
+Modify line
+line (1): stuvwx
+line2 (1): defghijklmno
+Delete line
+line2 (1): defghijklmno
+Default-construct line
+line (1): 
+line2 (1): defghijklmno
+Copy line2 into line
+line (2): defghijklmno
+line2 (2): defghijklmno
+Append to line
+line (1): defghijklmnoyz
+line2 (1): defghijklmno
+Append line to line2
+line (1): defghijklmnoyz
+line2 (1): defghijklmnodefghijklmnoyz
+Delete line2
+line (1): defghijklmnoyz
+Delete line
+
 end of tests

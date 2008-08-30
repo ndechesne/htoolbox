@@ -24,11 +24,10 @@ using namespace std;
 
 using namespace hbackup;
 
-static void show(const Line& line) {
+static void show(const LineBuffer& line) {
   cout
     << " size = " << line.size()
     << " cap. = " << line.capacity()
-    << " add. = " << line.add_size()
     << endl;
 }
 
@@ -75,7 +74,7 @@ int main(void) {
   show(line4);
   cout << "append(\"stuv\", 4): " << line4.append("stuv", 4);
   show(line4);
-  cout << "append(\"wxyz\", 6, 3): " << line4.append("wxyz", 6, 3);
+  cout << "append(\"wxy\", 6): " << line4.append("wxy", 6);
   show(line4);
   cout << "replace end of line" << endl;
   line0 = "\t0\tnew line";
@@ -88,8 +87,8 @@ int main(void) {
   cout << "end line: " << line1.append(&line0[2], pos);
   show(line1);
 
-  cout << "c'tor(10, 2)";
-  Line line5(10, 2);
+  cout << "default c'tor";
+  Line line5;
   show(line5);
   cout << line5 << endl;
   cout << "+=";
@@ -104,16 +103,71 @@ int main(void) {
   line5 += "123456789";
   show(line5);
   cout << line5 << endl;
-  cout << "resize(5, 6)";
-  line5.resize(5, 6);
-  show(line5);
-  cout << line5 << endl;
   cout << "+=";
   line5 += "123456789";
   show(line5);
   cout << line5 << endl;
 
-  cout << "end of tests" << endl;
+  {
+    cout << endl << "No-copy" << endl;
+
+    cout << "Construct line from string" << endl;
+    Line* line;
+    line = new Line("abcdef");
+    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+
+    cout << "Modify line" << endl;
+    *line = "defghi";
+    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+
+    cout << "Append to line" << endl;
+    *line += "jklmno";
+    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+
+    cout << "Copy-construct line2" << endl;
+    Line* line2;
+    line2 = new Line(*line);
+    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+
+    cout << "Modify line" << endl;
+    *line = "stuvwx";
+    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+
+    cout << "Delete line" << endl;
+    delete line;
+    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+
+    cout << "Default-construct line" << endl;
+    line = new Line;
+    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+
+    cout << "Copy line2 into line" << endl;
+    *line = *line2;
+    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+
+    cout << "Append to line" << endl;
+    *line += "yz";
+    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+
+    cout << "Append line to line2" << endl;
+    *line2 += *line;
+    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+
+    cout << "Delete line2" << endl;
+    delete line2;
+    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+
+    cout << "Delete line" << endl;
+    delete line;
+  }
+
+  cout << endl << "end of tests" << endl;
 
   return 0;
 }

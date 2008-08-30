@@ -356,7 +356,7 @@ public:
     bool*           end_of_line_found = NULL);
 #ifdef HAVE_LINE_H
   virtual ssize_t getLine(
-    Line&           line,
+    LineBuffer&     line,
     bool*           end_of_line_found = NULL) {
       *line.sizePtr() = getLine(line.bufferPtr(), line.capacityPtr(),
         end_of_line_found);

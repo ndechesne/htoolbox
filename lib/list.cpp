@@ -58,9 +58,7 @@ struct List::Private {
   bool              old_version;
 };
 
-List::List(Path path) : Stream(path), _d(new Private) {
-  _d->line.resize(100, 10);
-}
+List::List(Path path) : Stream(path), _d(new Private) {}
 
 List::~List() {
   delete _d;
@@ -91,7 +89,7 @@ int List::open(
   // Open for read
   {
     // Check rights
-    if (Stream::getLine(_d->line) < 0) {
+    if (Stream::getLine(_d->line.instance()) < 0) {
       Stream::close();
       rc = -1;
     } else
@@ -165,11 +163,11 @@ ssize_t List::fetchLine(bool use_found) {
   if ((_d->line_status == new_data)
   || ((_d->line_status == cached_data) && use_found)) {
     // Line contains data to be re-used
-    rc = strlen(_d->line);
+    rc = _d->line.size();
   } else {
     // Line contains no re-usable data
     bool    eol;
-    ssize_t length = Stream::getLine(_d->line, &eol);
+    ssize_t length = Stream::getLine(_d->line.instance(), &eol);
     // Read error
     if (length < 0) {
       _d->status = _error;
@@ -309,18 +307,17 @@ int List::getEntry(
   }
 
   bool    got_path;
-  ssize_t length;
-
   if (date < 0) {
     got_path = true;
   } else {
     got_path = false;
   }
 
+  ssize_t length;
   while (true) {
     // Get line
     if (date == -2) {
-      length = strlen(_d->line);
+      length = _d->line.size();
     } else {
       length = fetchLine(true);
     }

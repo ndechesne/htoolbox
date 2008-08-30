@@ -1363,8 +1363,8 @@ int Stream::getParams(
     const char*     delims,
     const char*     quotes,
     const char*     comments) {
-  Line line;
-  bool eol;
+  LineBuffer line;
+  bool       eol;
 
   params.clear();
   int rc = getLine(line, &eol);

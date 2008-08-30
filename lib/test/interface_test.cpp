@@ -62,7 +62,7 @@ cout << "Config for " << (*i)->path() << endl;
     Stream stream((*i)->path());
     if (! stream.open("r")) {
       Line line;
-      while (stream.getLine(line) > 0) {
+      while (stream.getLine(line.instance()) > 0) {
         cout << line << endl;
       }
       stream.close();

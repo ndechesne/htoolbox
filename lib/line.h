@@ -23,36 +23,190 @@
 
 namespace hbackup {
 
-class Line {
-  struct            Private;
-  Private* const    _d;
+class LineBuffer {
+  static const unsigned int  _min_capacity = 128;
+  char*             _line;
+  unsigned int      _capacity;
+  unsigned int      _size;
+  LineBuffer(const LineBuffer&);
+  int grow(unsigned int required);
 public:
-  // Big four
-  Line(unsigned int init_size = 100, unsigned int add_size = 10);
-  Line(const char* line, unsigned int add_size = 0);
-  Line(const Line& line);
-  ~Line();
-  const Line& operator=(const Line& line);
-  // Other methods
-  const Line& operator=(const char* line);
-  const char& operator[](int pos) const;
-  operator const char* () const;
-  int resize(unsigned int new_size = 100, int new_add_size = -1,
-    bool discard = false);
-  unsigned int size() const;
-  const Line& erase(int pos = 0);
-  int find(char c, int pos = 0) const;
-  const Line& append(const Line& line, int pos = -1, int num = -1);
-  const Line& append(const char* line, int pos = -1, int num = -1);
-  const Line& operator+=(const Line& line) { return append(line); }
-  const Line& operator+=(const char* line) { return append(line); }
-  // For getLine operations
-  char** bufferPtr();
-  unsigned int* capacityPtr();
-  unsigned int* sizePtr();
-  // For debug
-  unsigned int capacity() const;
-  unsigned int add_size() const;
+  // The no of instances and destruction are managed by this class' users
+  unsigned int      _instances;
+  LineBuffer() {
+    _line      = NULL;
+    _capacity  = 0;
+    grow(1);
+    _line[0]   = '\0';
+    _instances = 0;
+  }
+  LineBuffer(const char* line) {
+    _line      = NULL;
+    _capacity  = 0;
+    _size      = strlen(line);
+    grow(_size + 1);
+    memcpy(_line, line, _size + 1);
+    _instances = 0;
+  }
+  LineBuffer(const LineBuffer& line, const LineBuffer& line2) {
+    _line      = NULL;
+    _capacity  = 0;
+    _size      = line._size + line2._size;
+    grow(_size + 1);
+    memcpy(_line, line._line, line._size);
+    memcpy(&_line[line._size], line2._line, line2._size + 1);
+    _instances = 0;
+  }
+  LineBuffer(const LineBuffer& line, const char* line2) {
+    _line      = NULL;
+    _capacity  = 0;
+    unsigned int size2 = strlen(line2);
+    _size      = line._size + size2;
+    grow(_size + 1);
+    memcpy(_line, line._line, line._size);
+    memcpy(&_line[line._size], line2, size2 + 1);
+    _instances = 0;
+  }
+  ~LineBuffer() {
+    free(_line);
+  }
+  operator const char* () {
+    return _line;
+  }
+  LineBuffer& operator=(const LineBuffer& line) {
+    _size = line._size;
+    grow(_size + 1);
+    memcpy(_line, line._line, line._size + 1);
+    return *this;
+  }
+  LineBuffer& operator=(const char* line) {
+    _size = strlen(line);
+    grow(_size + 1);
+    memcpy(_line, line, _size + 1);
+    return *this;
+  }
+  LineBuffer& operator+=(const LineBuffer& line) {
+    grow(_size + line._size + 1);
+    memcpy(&_line[_size], line._line, line._size + 1);
+    _size += line._size;
+    return *this;
+  }
+  LineBuffer& operator+=(const char* line) {
+    unsigned int size = strlen(line);
+    grow(_size + size + 1);
+    memcpy(&_line[_size], line, size + 1);
+    _size += size;
+    return *this;
+  }
+  const LineBuffer& erase(unsigned int pos = 0) {
+    if (pos < _size) {
+      _size = pos;
+      _line[_size] = '\0';
+    }
+    return *this;
+  }
+  // For compatibility
+  char**        bufferPtr()     { return &_line;     }
+  unsigned int* sizePtr()       { return &_size;     }
+  unsigned int* capacityPtr()   { return &_capacity; }
+  // For test
+  unsigned int size() const     { return _size;      }
+  unsigned int capacity() const { return _capacity;  }
+};
+
+class Line {
+  LineBuffer*       _line;
+public:
+  Line() {
+    _line = new LineBuffer();
+    _line->_instances++;
+  }
+  Line(const char* line) {
+    _line = new LineBuffer(line);
+    _line->_instances++;
+  }
+  Line(const Line& line) {
+    _line = line._line;
+    _line->_instances++;
+  }
+  ~Line() {
+    if (--_line->_instances == 0) {
+      delete _line;
+    }
+  }
+  operator const char* () const {
+    return *_line;
+  }
+  unsigned int size() const {
+    return _line->size();
+  }
+  Line& operator=(const Line& line) {
+    if (--_line->_instances == 0) {
+      delete _line;
+    }
+    _line = line._line;
+    _line->_instances++;
+    return *this;
+  }
+  Line& operator=(const char* line) {
+    if (_line->_instances > 1) {
+      _line->_instances--;
+      _line = new LineBuffer(line);
+      _line->_instances++;
+    } else {
+      *_line = line;
+    }
+    return *this;
+  }
+  Line& operator+=(const Line& line) {
+    if (_line->_instances > 1) {
+      _line->_instances--;
+      _line = new LineBuffer(*_line, *line._line);
+      _line->_instances++;
+    } else {
+      *_line += *line._line;
+    }
+    return *this;
+  }
+  Line& operator+=(const char* line) {
+    if (_line->_instances > 1) {
+      _line->_instances--;
+      _line = new LineBuffer(*_line, line);
+      _line->_instances++;
+    } else {
+      *_line += line;
+    }
+    return *this;
+  }
+  const Line& erase(unsigned int pos = 0) {
+    _line->erase(pos);
+    return *this;
+  }
+  // For compatibility
+  int find(char c, unsigned int pos = 0) const {
+    const char* buffer = *_line;
+    const char* r;
+    for (r = &buffer[pos]; r < &buffer[_line->size()]; r++) {
+      if (*r == c) {
+        break;
+      }
+    }
+    return r < &buffer[_line->size()] ? r - buffer : -1;
+  }
+  const Line& append(const char* line, int pos = -1) {
+    if (pos >= 0) {
+      erase(pos);
+    }
+    operator+=(line);
+    return *this;
+  }
+  // For test
+  operator const LineBuffer& () const {
+    return *_line;
+  }
+  LineBuffer& instance() const {
+    return *_line;
+  }
 };
 
 }
