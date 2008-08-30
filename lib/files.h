@@ -34,20 +34,16 @@ namespace hbackup {
 
 class Path {
   char*             _path;
-  const char*       _const_path;
   unsigned int      _length;
 public:
   Path() :
       _path(NULL),
-      _const_path(_path),
       _length(0) {}
   Path(const Path& p) :
       _path(strdup(p._path)),
-      _const_path(_path),
       _length(p._length) {}
   Path(const char* path) :
       _path(strdup(path)),
-      _const_path(_path),
       _length(strlen(_path)) {}
   Path(const char* dir, const char* name);
   Path(const Path& path, const char* name);
@@ -58,19 +54,19 @@ public:
   const Path& noTrailingSlashes();
   operator const char*() const {
     if (_length > 0) {
-      return _const_path;
+      return _path;
     } else {
       return "";
     }
   }
   unsigned int length() const  { return _length; }
   Path dirname() const;
-  const char* basename() const { return basename(_const_path); }
+  const char* basename() const { return basename(_path); }
   int compare(const char* s, ssize_t length = -1) const {
-    return compare(_const_path, s, length);
+    return compare(_path, s, length);
   }
   int compare(const Path& p, ssize_t length = -1) const {
-    return compare(_const_path, p, length);
+    return compare(_path, p, length);
   }
   // Some generic methods
   static const char* basename(const char* path);

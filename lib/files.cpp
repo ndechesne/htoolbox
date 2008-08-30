@@ -65,7 +65,6 @@ const char* Path::operator=(const char* path) {
     free(_path);
   }
   _path = strdup(path);
-  _const_path = _path;
   _length = strlen(_path);
   return _path;
 }
@@ -75,7 +74,6 @@ const Path& Path::operator=(const Path& path) {
     free(_path);
   }
   _path = strdup(path._path);
-  _const_path = _path;
   _length = path._length;
   return *this;
 }
@@ -86,13 +84,11 @@ Path::Path(const char* dir, const char* name) {
   } else {
     asprintf(&_path, "%s/%s", dir, name);
   }
-  _const_path = _path;
   _length = strlen(_path);
 }
 
 Path::Path(const Path& path, const char* name) {
   asprintf(&_path, "%s/%s", path._path, name);
-  _const_path = _path;
   _length = strlen(_path);
 }
 
