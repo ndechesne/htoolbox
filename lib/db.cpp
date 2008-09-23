@@ -709,45 +709,61 @@ int Database::add(
   char code[] = "       ";
   code[0]     = op._letter;
 
-  if ((op._node.type() == 'f')
-  && (static_cast<File&>(op._node).checksum()[0] == '\0')) {
-    // Copy data
-    char* checksum = NULL;
-    int compression;
-    Stream source(op._node.path());
-    int rc = _d->data.write(source, _d->owner->name(), &checksum,
-      op._compression, &compression);
-    if (rc >= 0) {
-      if (rc > 0) {
-        if (compression > 0) {
-          code[2] = 'z';
+  if (op._node.type() == 'f') {
+    if (static_cast<File&>(op._node).checksum()[0] == '\0') {
+      // Copy data
+      char* checksum = NULL;
+      int compression;
+      Stream source(op._node.path());
+      int rc = _d->data.write(source, _d->owner->name(), &checksum,
+        op._compression, &compression);
+      if (rc >= 0) {
+        if (rc > 0) {
+          if (compression > 0) {
+            code[2] = 'z';
+          } else {
+            code[2] = 'f';
+          }
+          if (rc > 1) {
+            code[4] = 'r';
+          }
         } else {
-          code[2] = 'f';
+          // File data found in DB
+          code[2] = '~';
         }
-        if (rc > 1) {
-          code[4] = 'r';
+        static_cast<File&>(op._node).setChecksum(checksum);
+        if ((op._id >= 0) && (_d->missing[op._id] == checksum)) {
+          // Mark checksum as recovered
+          _d->missing.setRecovered(op._id);
         }
+      } else {
+        if ((op._letter != '!') || (! report_copy_error_once)) {
+          char* full_name;
+          asprintf(&full_name, "%s:%s", _d->owner->name(), op._path);
+          out(error, msg_errno, "backing up file", errno, full_name);
+          free(full_name);
+        }
+        code[2] = '!';
+        failed = true;
       }
-      static_cast<File&>(op._node).setChecksum(checksum);
-      if ((op._id >= 0) && (_d->missing[op._id] == checksum)) {
-        // Mark checksum as recovered
-        _d->missing.setRecovered(op._id);
-      }
+      free(checksum);
+#if 0
     } else {
-      if ((op._letter != '!') || (! report_copy_error_once)) {
-        char* full_name;
-        asprintf(&full_name, "%s:%s", _d->owner->name(), op._path);
-        out(error, msg_errno, "backing up file", errno, full_name);
-        free(full_name);
-      }
+      // Checksum copied over
+      code[2] = ' ';
+#endif
+    }
+  } else
+  if (op._node.type() == 'd') {
+    if (op._node.size() == -1) {
       code[2] = '!';
       failed = true;
+    } else {
+      code[2] = 'd';
     }
-    free(checksum);
   } else
-  if ((op._node.type() == 'd') && (op._node.size() == -1)) {
-    code[2] = '!';
-    failed = true;
+  {
+    code[2] = op._node.type();
   }
 
   // Even if failed, add data if new

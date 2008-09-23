@@ -35,10 +35,10 @@ Done:  95.0%\r
             \r
 Adding uncompressed data for f1c9645dbc14efddc7d8a322685f26eb-0
 A f     /home/User/big_file
-A       /home/User/cvs
+A d     /home/User/cvs
 cvs\r
    \r
-A       /home/User/cvs/CVS
+A d     /home/User/cvs/CVS
 cvs/CVS\r
        \r
 Adding uncompressed data for fef51838cd3cfe8ed96355742eb71fbd-0
@@ -47,22 +47,22 @@ Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 A f     /home/User/cvs/CVS/Root
 Adding uncompressed data for 9283e2c51868272850bd2d89b63c58e8-0
 A f     /home/User/cvs/CVS/Whatever
-A       /home/User/cvs/CVS/Wherever
+A d     /home/User/cvs/CVS/Wherever
 cvs/CVS/Wherever\r
                 \r
-A       /home/User/cvs/CVS/Wherever/Whichever
-A       /home/User/cvs/dirbad
+A ~     /home/User/cvs/CVS/Wherever/Whichever
+A d     /home/User/cvs/dirbad
 cvs/dirbad\r
           \r
-A       /home/User/cvs/dirbad/fileoth
-A       /home/User/cvs/dirbad/fileutd
-A       /home/User/cvs/diroth
+A ~     /home/User/cvs/dirbad/fileoth
+A ~     /home/User/cvs/dirbad/fileutd
+A d     /home/User/cvs/diroth
 cvs/diroth\r
           \r
-A       /home/User/cvs/dirutd
+A d     /home/User/cvs/dirutd
 cvs/dirutd\r
           \r
-A       /home/User/cvs/dirutd/CVS
+A d     /home/User/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
               \r
 Adding uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
@@ -71,25 +71,25 @@ Adding uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
 A f     /home/User/cvs/dirutd/CVS/Root
 Adding uncompressed data for caecaacc7fdee8a7667d4f4f315858a9-0
 A f     /home/User/cvs/dirutd/CVS/Whatever
-A       /home/User/cvs/dirutd/fileoth
-A       /home/User/cvs/dirutd/fileutd
-A       /home/User/cvs/filemod.o
-A       /home/User/cvs/filenew.c
-A       /home/User/cvs/fileoth
-A       /home/User/cvs/fileutd.h
-A       /home/User/dir space
+A ~     /home/User/cvs/dirutd/fileoth
+A ~     /home/User/cvs/dirutd/fileutd
+A ~     /home/User/cvs/filemod.o
+A ~     /home/User/cvs/filenew.c
+A ~     /home/User/cvs/fileoth
+A ~     /home/User/cvs/fileutd.h
+A d     /home/User/dir space
 dir space\r
          \r
-A       /home/User/dir space/file space
-A       /home/User/dir space/link space
+A ~     /home/User/dir space/file space
+A l     /home/User/dir space/link space
 Error: host:/home/User/subdir: Permission denied reading directory
 A !     /home/User/subdir
-A       /home/User/subdir-file
-A       /home/User/subdirfile
-A       /home/User/svn
+A ~     /home/User/subdir-file
+A ~     /home/User/subdirfile
+A d     /home/User/svn
 svn\r
    \r
-A       /home/User/svn/.svn
+A d     /home/User/svn/.svn
 svn/.svn\r
         \r
 Adding uncompressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
@@ -98,22 +98,22 @@ Adding uncompressed data for 3cd6b399f9fa49fd0b137a3de46d83f5-0
 A f     /home/User/svn/.svn/format
 Adding uncompressed data for 06f05055bfb2c8b900459f45826fc8ea-0
 A f     /home/User/svn/.svn/whatever
-A       /home/User/svn/.svn/wherever
+A d     /home/User/svn/.svn/wherever
 svn/.svn/wherever\r
                  \r
-A       /home/User/svn/.svn/wherever/whichever
-A       /home/User/svn/dirbad
+A ~     /home/User/svn/.svn/wherever/whichever
+A d     /home/User/svn/dirbad
 svn/dirbad\r
           \r
-A       /home/User/svn/dirbad/fileoth
-A       /home/User/svn/dirbad/fileutd
-A       /home/User/svn/diroth
+A ~     /home/User/svn/dirbad/fileoth
+A ~     /home/User/svn/dirbad/fileutd
+A d     /home/User/svn/diroth
 svn/diroth\r
           \r
-A       /home/User/svn/dirutd
+A d     /home/User/svn/dirutd
 svn/dirutd\r
           \r
-A       /home/User/svn/dirutd/.svn
+A d     /home/User/svn/dirutd/.svn
 svn/dirutd/.svn\r
                \r
 Adding uncompressed data for 8bdef5751e46ed57d237cbe3f4a5061c-0
@@ -122,21 +122,21 @@ Adding uncompressed data for 60afe8c3ac66cb77a34da116394d9ac8-0
 A f     /home/User/svn/dirutd/.svn/format
 Adding uncompressed data for 3b9ddae5294c8f4850d45073a933f3e6-0
 A f     /home/User/svn/dirutd/.svn/whatever
-A       /home/User/svn/dirutd/fileoth
-A       /home/User/svn/dirutd/fileutd
-A       /home/User/svn/filemod.o
-A       /home/User/svn/filenew.c
-A       /home/User/svn/fileoth
-A       /home/User/svn/fileutd.h
-A       /home/User/test space
-A       /home/User/testdir
+A ~     /home/User/svn/dirutd/fileoth
+A ~     /home/User/svn/dirutd/fileutd
+A ~     /home/User/svn/filemod.o
+A ~     /home/User/svn/filenew.c
+A ~     /home/User/svn/fileoth
+A ~     /home/User/svn/fileutd.h
+A ~     /home/User/test space
+A d     /home/User/testdir
 testdir\r
        \r
 Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 A f     /home/User/testfile
-A       /home/User/testfile~
-A       /home/User/testlink
-A       /home/User/testpipe
+A ~     /home/User/testfile~
+A l     /home/User/testlink
+A p     /home/User/testpipe
 Parsed 58 file(s)
 Database modified: myClient
 Database closed: myClient
@@ -334,12 +334,12 @@ cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
          \r
-M       /home/User/subdir
+M d     /home/User/subdir
 subdir\r
       \r
 Error: myClient:/home/User/subdir/testfile: Permission denied backing up file
 A !     /home/User/subdir/testfile
-A       /home/User/subdir/testfile1
+A ~     /home/User/subdir/testfile1
 Adding uncompressed data for 285b35198a5e188b3a0df3ed33f93a26-0
 A f     /home/User/subdir/testfile2
 svn\r
@@ -640,7 +640,7 @@ cvs/dirutd/CVS\r
 dir space     \r
 subdir   \r
       \r
-~       /home/User/subdir/testfile
+~ ~     /home/User/subdir/testfile
 svn\r
 svn/.svn\r
 svn/.svn/wherever\r
@@ -992,7 +992,7 @@ svn/dirutd\r
 svn/dirutd/.svn\r
 testdir        \r
        \r
-M       /home/User/testlink
+M l     /home/User/testlink
 Parsed 58 file(s)
 Database modified: myClient
 Database closed: myClient
@@ -2529,7 +2529,7 @@ svn/dirbad\r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 testdir\r
        \r
-A       /home/User/testpipe
+A p     /home/User/testpipe
 Parsed 26 file(s)
 Database modified: myClient
 Database closed: myClient
@@ -2705,35 +2705,35 @@ cvs/dirbad\r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
 dir space\r
          \r
-A       /home/User/docbook-xml
+A d     /home/User/docbook-xml
 docbook-xml\r
            \r
-A       /home/User/docbook-xml/3.1.7
+A d     /home/User/docbook-xml/3.1.7
 docbook-xml/3.1.7\r
                  \r
-A       /home/User/docbook-xml/3.1.7/dbgenent.ent
-A       /home/User/docbook-xml/4.0
+A ~     /home/User/docbook-xml/3.1.7/dbgenent.ent
+A d     /home/User/docbook-xml/4.0
 docbook-xml/4.0\r
                \r
-A       /home/User/docbook-xml/4.0/dbgenent.ent
-A       /home/User/docbook-xml/4.1.2
+A ~     /home/User/docbook-xml/4.0/dbgenent.ent
+A d     /home/User/docbook-xml/4.1.2
 docbook-xml/4.1.2\r
                  \r
-A       /home/User/docbook-xml/4.1.2/dbgenent.mod
-A       /home/User/docbook-xml/4.2
+A ~     /home/User/docbook-xml/4.1.2/dbgenent.mod
+A d     /home/User/docbook-xml/4.2
 docbook-xml/4.2\r
                \r
-A       /home/User/docbook-xml/4.2/dbgenent.mod
-A       /home/User/docbook-xml/4.3
+A ~     /home/User/docbook-xml/4.2/dbgenent.mod
+A d     /home/User/docbook-xml/4.3
 docbook-xml/4.3\r
                \r
-A       /home/User/docbook-xml/4.3/dbgenent.mod
-A       /home/User/docbook-xml/4.4
+A ~     /home/User/docbook-xml/4.3/dbgenent.mod
+A d     /home/User/docbook-xml/4.4
 docbook-xml/4.4\r
                \r
-A       /home/User/docbook-xml/4.4/dbgenent.mod
-A       /home/User/docbook-xml.cat
-A       /home/User/docbook-xml.cat.old
+A ~     /home/User/docbook-xml/4.4/dbgenent.mod
+A ~     /home/User/docbook-xml.cat
+A ~     /home/User/docbook-xml.cat.old
 svn\r
    \r
  -> Parsing Subversion entries
@@ -2747,13 +2747,13 @@ svn/dirbad\r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 testdir\r
        \r
-A       /home/User/testdir/biblio
+A d     /home/User/testdir/biblio
 testdir/biblio\r
               \r
-A       /home/User/testdir/biblio/biblio.dbf
-A       /home/User/testdir/biblio/biblio.dbt
-A       /home/User/testdir/biblio.odb
-A       /home/User/testdir/evolocal.odb
+A ~     /home/User/testdir/biblio/biblio.dbf
+A ~     /home/User/testdir/biblio/biblio.dbt
+A ~     /home/User/testdir/biblio.odb
+A ~     /home/User/testdir/evolocal.odb
 Parsed 46 file(s)
 Database modified: myClient
 Database closed: myClient
@@ -3186,7 +3186,7 @@ Path: /home/User
 Reading list of problematic checksums
 List created: hisClient
 Database open r/w: hisClient
-A       /home/User/testdir
+A d     /home/User/testdir
 testdir\r
        \r
 Adding uncompressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
@@ -3243,10 +3243,10 @@ Path: /home/User
  -> Parser: Subversion
  -> Ignore filter: ignore2
 Database open r/w: myClient
-A       /home/User/crash
+A d     /home/User/crash
 crash\r
      \r
-A       /home/User/crash/file
+A ~     /home/User/crash/file
 cvs\r
    \r
  -> Parsing CVS entries
@@ -3278,7 +3278,7 @@ svn/.svn\r
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-M       /home/User/test space
+M ~     /home/User/test space
 D       /home/User/testdir
 D       /home/User/testdir/biblio
 D       /home/User/testdir/biblio/biblio.dbf
@@ -4345,7 +4345,7 @@ svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 D       /home/User/testfile
-M       /home/User/testfile~
+M ~     /home/User/testfile~
 Parsed 41 file(s)
 Database modified: myClient
 Database closed: myClient
@@ -4535,7 +4535,7 @@ svn/.svn\r
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-M       /home/User/testfile~
+M ~     /home/User/testfile~
 Parsed 41 file(s)
 Database modified: myClient
 Database closed: myClient

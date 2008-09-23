@@ -287,7 +287,7 @@ List created: aClient.vista
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
-A       C:/Test Dir/My Dir
+A d     C:/Test Dir/My Dir
 My Dir\r
       \r
 Checking data, sizes: f=2 z=36 (36)
@@ -335,15 +335,15 @@ Backing up client: client.xp
 List created: client.xp
 Database open r/w: client.xp
 Backing up path: C:/Test Dir
-A       C:/Test Dir/My Dir
+A d     C:/Test Dir/My Dir
 My Dir\r
       \r
 Checking data, sizes: f=2 z=36 (36)
-A       C:/Test Dir/My Dir/a File.TXT
+A ~     C:/Test Dir/My Dir/a File.TXT
 Checking data, sizes: f=2 z=36 (36)
-A       C:/Test Dir/My Dir/another File.TXT
+A ~     C:/Test Dir/My Dir/another File.TXT
 Checking data, sizes: f=0 z=0 (0)
-A       C:/Test Dir/My File.TXT
+A ~     C:/Test Dir/My File.TXT
 Database modified: client.xp
 Database closed: client.xp
  -> umount -fl test_db/.mount/client.xp
@@ -369,8 +369,8 @@ Backing up path: /home/User/test
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 Checking data, sizes: f=0 z=0 (0)
-A       /home/User/test/File2.txt
-A       /home/User/test/dir
+A ~     /home/User/test/File2.txt
+A d     /home/User/test/dir
 dir\r
    \r
 Checking data, sizes: f=2 z=36 (36)
@@ -411,15 +411,15 @@ Backing up client: myClient.xp
 List created: myClient.xp
 Database open r/w: myClient.xp
 Backing up path: C:/Test Dir
-A       C:/Test Dir/My Dir
+A d     C:/Test Dir/My Dir
 My Dir\r
       \r
 Checking data, sizes: f=2 z=36 (36)
-A       C:/Test Dir/My Dir/a File.TXT
+A ~     C:/Test Dir/My Dir/a File.TXT
 Checking data, sizes: f=2 z=36 (36)
-A       C:/Test Dir/My Dir/another File.TXT
+A ~     C:/Test Dir/My Dir/another File.TXT
 Checking data, sizes: f=0 z=0 (0)
-A       C:/Test Dir/My File.TXT
+A ~     C:/Test Dir/My File.TXT
 Database modified: myClient.xp
 Database closed: myClient.xp
  -> umount -fl test_db/.mount/myClient.xp
@@ -479,7 +479,7 @@ File copy progress: 100.0%\r
 Checking data, sizes: f=10485760 z=10222 (10381)
 Adding compressed data for f1c9645dbc14efddc7d8a322685f26eb-0
 A z     test1/big_file
-A       test1/cvs
+A d     test1/cvs
 cvs\r
    \r
  -> Parsing CVS entries
@@ -488,7 +488,7 @@ cvs\r
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
-A       test1/cvs/CVS
+A d     test1/cvs/CVS
 cvs/CVS\r
        \r
 Checking data, sizes: f=161 z=154 (156)
@@ -497,16 +497,16 @@ A z     test1/cvs/CVS/Entries
 Checking data, sizes: f=16 z=50 (50)
 Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 A f     test1/cvs/CVS/Root
-A       test1/cvs/dirbad
+A d     test1/cvs/dirbad
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-A       test1/cvs/dirutd
+A d     test1/cvs/dirutd
 cvs/dirutd\r
           \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
-A       test1/cvs/dirutd/CVS
+A d     test1/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
               \r
 Checking data, sizes: f=42 z=76 (77)
@@ -516,18 +516,18 @@ Checking data, sizes: f=10 z=44 (44)
 Adding uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
 A f     test1/cvs/dirutd/CVS/Root
 Checking data, sizes: f=0 z=0 (0)
-A       test1/cvs/dirutd/fileutd
+A ~     test1/cvs/dirutd/fileutd
 Checking data, sizes: f=0 z=0 (0)
-A       test1/cvs/filenew.c
+A ~     test1/cvs/filenew.c
 Checking data, sizes: f=0 z=0 (0)
-A       test1/cvs/fileutd.h
-A       test1/dir space
+A ~     test1/cvs/fileutd.h
+A d     test1/dir space
 dir space\r
          \r
 Checking data, sizes: f=0 z=0 (0)
-A       test1/dir space/file space
-A       test1/dir space/link space
-A       test1/svn
+A ~     test1/dir space/file space
+A l     test1/dir space/link space
+A d     test1/svn
 svn\r
    \r
  -> Parsing Subversion entries
@@ -535,44 +535,44 @@ svn\r
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
-A       test1/svn/.svn
+A d     test1/svn/.svn
 svn/.svn\r
         \r
 Checking data, sizes: f=77 z=79 (80)
 Adding uncompressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A f     test1/svn/.svn/entries
-A       test1/svn/dirbad
+A d     test1/svn/dirbad
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-A       test1/svn/dirutd
+A d     test1/svn/dirutd
 svn/dirutd\r
           \r
  -> Parsing Subversion entries
  --> fileoth: o
  --> fileutd: m
-A       test1/svn/dirutd/.svn
+A d     test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
                \r
 Checking data, sizes: f=30 z=52 (52)
 Adding uncompressed data for 8bdef5751e46ed57d237cbe3f4a5061c-0
 A f     test1/svn/dirutd/.svn/entries
 Checking data, sizes: f=0 z=0 (0)
-A       test1/svn/dirutd/fileutd
+A ~     test1/svn/dirutd/fileutd
 Checking data, sizes: f=0 z=0 (0)
-A       test1/svn/filenew.c
+A ~     test1/svn/filenew.c
 Checking data, sizes: f=0 z=0 (0)
-A       test1/test space
-A       test1/testdir
+A ~     test1/test space
+A d     test1/testdir
 testdir\r
        \r
 Checking data, sizes: f=13 z=47 (47)
 Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 A f     test1/testfile
-A       test1/testlink
-A       test1/testpipe
+A l     test1/testlink
+A p     test1/testpipe
 Backing up path: test2
-A       test2/testdir
+A d     test2/testdir
 testdir\r
        \r
 Checking data, sizes: f=145408 z=190 (192)
@@ -587,7 +587,7 @@ A f     test2/testfile2.gz
 Checking data, sizes: f=524288 z=557 (565)
 Adding compressed data for 59071590099d21dd439896592338bf95-0
 A z     test2/testfile~
-A       test2/testlink
+A l     test2/testlink
 Database modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
@@ -809,12 +809,12 @@ Database open r/w: localhost
 Backing up path: test_user/testuser
 Adding uncompressed data for 31d30eea8d0968d6458e0ad0027c9f80-0
 A f     test_user/testuser/f1.txt
-A       test_user/testuser/subdir
+A d     test_user/testuser/subdir
 subdir\r
       \r
 Adding uncompressed data for dbbf8220893d497d403bb9cdf49db7a4-0
 A f     test_user/testuser/subdir/f2.txt
-A       test_user/testuser/subdir2
+A d     test_user/testuser/subdir2
 subdir2\r
        \r
 Adding uncompressed data for d5b4c7d9b06b60a7846c4529834c9812-0
@@ -831,16 +831,16 @@ Reading list of problematic checksums
 List created: localhost
 Database open r/w: localhost
 Backing up path: test_user/testuser
-A       test_user/testuser/f1.txt
-A       test_user/testuser/subdir
+A ~     test_user/testuser/f1.txt
+A d     test_user/testuser/subdir
 subdir\r
       \r
-A       test_user/testuser/subdir/f2.txt
-A       test_user/testuser/subdir2
+A ~     test_user/testuser/subdir/f2.txt
+A d     test_user/testuser/subdir2
 subdir2\r
        \r
-A       test_user/testuser/subdir2/f3.txt
-A       test_user/testuser/subdir2/f4.txt
+A ~     test_user/testuser/subdir2/f3.txt
+A ~     test_user/testuser/subdir2/f4.txt
 Database modified: localhost
 Database closed: localhost
 Database closed
@@ -848,12 +848,12 @@ User-mode backup: standard verbosity level
 Backing up in user mode
 List created: localhost
 Backing up path: test_user/testuser
-A       test_user/testuser/f1.txt
-A       test_user/testuser/subdir
-A       test_user/testuser/subdir/f2.txt
-A       test_user/testuser/subdir2
-A       test_user/testuser/subdir2/f3.txt
-A       test_user/testuser/subdir2/f4.txt
+A ~     test_user/testuser/f1.txt
+A d     test_user/testuser/subdir
+A ~     test_user/testuser/subdir/f2.txt
+A d     test_user/testuser/subdir2
+A ~     test_user/testuser/subdir2/f3.txt
+A ~     test_user/testuser/subdir2/f4.txt
 User-mode backup: quiet
 Fix DB
  -> Reading configuration file: etc/hbackup.conf
