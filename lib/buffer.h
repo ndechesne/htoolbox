@@ -27,6 +27,7 @@
 
 namespace hbackup {
 
+template<class T>
 class BufferReader;
 
 //! \brief Ring buffer with concurrent read/write support
@@ -34,31 +35,32 @@ class BufferReader;
   This class implements a ring buffer allowing read and write operations to be
   effected simultaneously. It is simple and highly efficient.
 */
+template<class T>
 class Buffer {
-  char*             _buffer_start;
-  const char*       _buffer_end;
+  T*                _buffer_start;
+  const T*          _buffer_end;
   unsigned int      _capacity;
-  char*             _write_start;
+  T*                _write_start;
   unsigned int      _write_count;
   unsigned int      _read_count;
-  std::list<BufferReader*>
+  std::list<BufferReader<T>*>
                     _readers;
   unsigned int      _readers_size;
   bool              _readers_update;
-  friend class      BufferReader;
+  friend class      BufferReader<T>;
   // Registering
-  void registerReader(BufferReader* reader) {
+  void registerReader(BufferReader<T>* reader) {
     _readers.push_back(reader);
     _readers_size = _readers.size();
   }
-  int unregisterReader(const BufferReader* reader) {
+  int unregisterReader(const BufferReader<T>* reader) {
     bool found = false;
-    for (std::list<BufferReader*>::iterator i = _readers.begin();
-	i != _readers.end(); i++) {
+    for (typename std::list<BufferReader<T>*>::iterator i = _readers.begin();
+    i != _readers.end(); i++) {
       if (*i == reader) {
-	_readers.erase(i);
-	found = true;
-	break;
+        _readers.erase(i);
+        found = true;
+        break;
       }
     }
     _readers_size = _readers.size();
@@ -91,7 +93,7 @@ public:
   */
   void create(size_t size = 102400) {
     // Multithread irrelevant: must be done synchronously
-    _buffer_start = static_cast<char*>(malloc(size));
+    _buffer_start = static_cast<T*>(malloc(size * sizeof(T)));
     _buffer_end   = &_buffer_start[size];
     _capacity     = size;
     empty();
@@ -159,7 +161,7 @@ public:
   /*!
       \return           pointer to where to write
   */
-  inline char* writer() {
+  inline T* writer() {
     // Multithread safe
     return _write_start;
   }
@@ -193,22 +195,23 @@ public:
     \param size         maximum size of data to get from the external buffer
     \return             size actually written
   */
-  ssize_t write(const void* buffer, size_t size);
+  ssize_t write(const T* buffer, size_t size);
     // Multithread safe: only uses other methods
 };
 
+template<class T>
 class BufferReader {
-  Buffer&           _buffer;
-  const char*       _read_start;
+  Buffer<T>&         _buffer;
+  const T*          _read_start;
   unsigned int      _read_count;
   bool              _auto_unreg;
-  friend class      Buffer;
+  friend class      Buffer<T>;
 public:
   //! \brief Constructor
   /*!
     \param buffer       buffer to read from
   */
-  BufferReader(Buffer& buffer, bool auto_unreg = true) :
+  BufferReader(Buffer<T>& buffer, bool auto_unreg = true) :
       _buffer(buffer), _auto_unreg(auto_unreg) {
     // Multithread irrelevant: must be done synchronously
     _buffer.registerReader(this);
@@ -242,7 +245,7 @@ public:
   /*!
       \return           pointer to where to read
   */
-  inline const char* reader() const {
+  inline const T* reader() const {
     // Multithread safe: nothing can change
     return _read_start;
   }
@@ -278,18 +281,18 @@ public:
     \param size         maximum size of data to put into the external buffer
     \return             size actually read
   */
-  ssize_t read(void* buffer, size_t size) {
+  ssize_t read(T* buffer, size_t size) {
     // Multithread safe: only uses other methods
     size_t really = 0;
-    void* next = buffer;
+    T* next = buffer;
     while ((size > 0) && (readable() > 0)) {
       size_t can;
       if (size > readable()) {
-	can = readable();
+        can = readable();
       } else {
-	can = size;
+        can = size;
       }
-      next = mempcpy(next, reader(), can);
+      next = static_cast<T*>(mempcpy(next, reader(), can * sizeof(T)));
       readn(can);
       really += can;
       size -= really;
@@ -298,20 +301,22 @@ public:
   }
 };
 
-void Buffer::empty() {
+template<class T>
+void Buffer<T>::empty() {
   _write_start    = _buffer_start;
   _write_count    = 0;
   _read_count     = 0;
   _readers_update = false;
-  for (std::list<BufferReader*>::iterator i = _readers.begin();
+  for (typename std::list<BufferReader<T>*>::iterator i = _readers.begin();
       i != _readers.end(); i++) {
     (*i)->empty();
   }
 }
 
-void Buffer::update() {
+template<class T>
+void Buffer<T>::update() {
   int max_used = 0;
-  for (std::list<BufferReader*>::iterator i = _readers.begin();
+  for (typename std::list<BufferReader<T>*>::iterator i = _readers.begin();
       i != _readers.end(); i++) {
     // Unread space for this reader
     int this_used = _write_count - (*i)->_read_count;;
@@ -322,9 +327,10 @@ void Buffer::update() {
   _read_count = _write_count - max_used;
 }
 
-ssize_t Buffer::write(const void* buffer, size_t size) {
+template<class T>
+ssize_t Buffer<T>::write(const T* buffer, size_t size) {
   size_t really = 0;
-  const char* next = static_cast<const char*>(buffer);
+  const T* next = buffer;
   while ((size > 0) && (writeable() > 0)) {
     size_t can;
     if (size > writeable()) {
@@ -332,7 +338,7 @@ ssize_t Buffer::write(const void* buffer, size_t size) {
     } else {
       can = size;
     }
-    memcpy(writer(), next, can);
+    memcpy(writer(), next, can * sizeof(T));
     next += can;
     written(can);
     really += can;

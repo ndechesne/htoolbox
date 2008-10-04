@@ -379,20 +379,20 @@ public:
 
 
 struct Stream::Private {
-  int               fd;                 // file descriptor
-  mode_t            mode;               // file open mode
-  long long         size;               // uncompressed file data size (bytes)
-  long long         progress;           // transfered size, for progress
-  Buffer            buffer_comp;        // Buffer for [de]compression
-  BufferReader      reader_comp;        // Reader for buffer above
-  Buffer            buffer_data;        // Buffer for data
-  BufferReader      reader_data;        // Reader for buffer above
-  EVP_MD_CTX*       ctx;                // openssl resources
-  z_stream*         strm;               // zlib resources
-  long long         original_size;      // file size to store into gzip header
-  bool              finish;             // tell compression to finish off
-  progress_f        progress_callback;  // function to report progress
-  cancel_f          cancel_callback;    // function to check for cancellation
+  int                 fd;                 // file descriptor
+  mode_t              mode;               // file open mode
+  long long           size;               // uncompressed file data size (bytes)
+  long long           progress;           // transfered size, for progress
+  Buffer<char>        buffer_comp;        // Buffer for [de]compression
+  BufferReader<char>  reader_comp;        // Reader for buffer above
+  Buffer<char>        buffer_data;        // Buffer for data
+  BufferReader<char>  reader_data;        // Reader for buffer above
+  EVP_MD_CTX*         ctx;                // openssl resources
+  z_stream*           strm;               // zlib resources
+  long long           original_size;      // file size to store into gzip header
+  bool                finish;             // tell compression to finish off
+  progress_f          progress_callback;  // function to report progress
+  cancel_f            cancel_callback;    // function to check for cancellation
   Private() : reader_comp(buffer_comp), reader_data(buffer_data) {}
 };
 
@@ -733,7 +733,7 @@ ssize_t Stream::read(void* buffer, size_t asked) {
     if ((asked == 0) && (buffer == NULL)) {
       return _d->reader_data.readable();
     }
-    given = _d->reader_data.read(buffer, asked);
+    given = _d->reader_data.read(static_cast<char*>(buffer), asked);
   } else {
     if ((_d->ctx != NULL) && digest_update(buffer, given)) {
       return -3;
@@ -861,7 +861,7 @@ ssize_t Stream::write(
       direct_write = true;
     } else {
       // Refill buffer
-      _d->buffer_data.write(buffer, given);
+      _d->buffer_data.write(static_cast<const char*>(buffer), given);
     }
   } else {
     direct_write = true;
@@ -1003,15 +1003,15 @@ int Stream::computeChecksum() {
 
 struct CopyData {
   // Global
-  Stream*       stream;
-  Buffer&       buffer;
-  sem_t&        read_sem;
-  bool&         eof;
-  bool&         failed;
+  Stream*             stream;
+  Buffer<char>&       buffer;
+  sem_t&              read_sem;
+  bool&               eof;
+  bool&               failed;
   // Local
-  BufferReader  reader;
-  sem_t         write_sem;
-  CopyData(Stream* d, Buffer& b, sem_t& s, bool& eof, bool& failed) :
+  BufferReader<char>  reader;
+  sem_t               write_sem;
+  CopyData(Stream* d, Buffer<char>& b, sem_t& s, bool& eof, bool& failed) :
       stream(d), buffer(b), read_sem(s), eof(eof), failed(failed),
       // No auto-unregistration: segentation fault may occur
       reader(buffer, false) {
@@ -1063,15 +1063,15 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
     errno = EBADF;
     return -1;
   }
-  Buffer    buffer(1 << 20);
-  ReadData  rd;
-  bool      eof    = false;
-  bool      failed = false;
-  CopyData  *cd1 = NULL;
-  CopyData  *cd2 = NULL;
-  long long size = 0;
-  pthread_t child1;
-  pthread_t child2;
+  Buffer<char>  buffer(1 << 20);
+  ReadData      rd;
+  bool          eof    = false;
+  bool          failed = false;
+  CopyData*     cd1 = NULL;
+  CopyData*     cd2 = NULL;
+  long long     size = 0;
+  pthread_t     child1;
+  pthread_t     child2;
   cd1 = new CopyData(dest1, buffer, rd.read_sem, eof, failed);
   int rc = pthread_create(&child1, NULL, write_task, cd1);
   if (rc != 0) {
