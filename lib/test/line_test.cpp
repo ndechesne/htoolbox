@@ -114,54 +114,64 @@ int main(void) {
     cout << "Construct line from string" << endl;
     Line* line;
     line = new Line("abcdef");
-    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+    cout << "line (" << line->instances() << "): " << *line << endl;
 
     cout << "Modify line" << endl;
     *line = "defghi";
-    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+    cout << "line (" << line->instances() << "): " << *line << endl;
 
     cout << "Append to line" << endl;
     *line += "jklmno";
-    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+    cout << "line (" << line->instances() << "): " << *line << endl;
 
     cout << "Copy-construct line2" << endl;
     Line* line2;
     line2 = new Line(*line);
-    cout << "line (" << line->instance()._instances << "): " << *line << endl;
-    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
 
     cout << "Modify line" << endl;
     *line = "stuvwx";
-    cout << "line (" << line->instance()._instances << "): " << *line << endl;
-    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
 
     cout << "Delete line" << endl;
     delete line;
-    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
 
     cout << "Default-construct line" << endl;
     line = new Line;
-    cout << "line (" << line->instance()._instances << "): " << *line << endl;
-    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
 
     cout << "Copy line2 into line" << endl;
     *line = *line2;
-    cout << "line (" << line->instance()._instances << "): " << *line << endl;
-    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
 
     cout << "Append to line" << endl;
     *line += "yz";
-    cout << "line (" << line->instance()._instances << "): " << *line << endl;
-    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
 
     cout << "Append line to line2" << endl;
     *line2 += *line;
-    cout << "line (" << line->instance()._instances << "): " << *line << endl;
-    cout << "line2 (" << line2->instance()._instances << "): " << *line2 << endl;
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
+
+    cout << "Copy line into line2" << endl;
+    *line2 = *line;
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
+
+    cout << "Erase from line2" << endl;
+    line2->erase(4);
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
 
     cout << "Delete line2" << endl;
     delete line2;
-    cout << "line (" << line->instance()._instances << "): " << *line << endl;
+    cout << "line (" << line->instances() << "): " << *line << endl;
 
     cout << "Delete line" << endl;
     delete line;

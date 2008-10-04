@@ -30,43 +30,34 @@ using namespace std;
 #include <string.h>
 #include <sys/types.h>
 
+#include <line.h>
+
 namespace hbackup {
 
-class Path {
-  char*             _path;
-  unsigned int      _length;
+class Path : public Line {
 public:
-  Path() :
-      _path(NULL),
-      _length(0) {}
-  Path(const Path& p) :
-      _path(strdup(p._path)),
-      _length(p._length) {}
-  Path(const char* path) :
-      _path(strdup(path)),
-      _length(strlen(_path)) {}
+  Path() : Line() {}
+  Path(const char* path) : Line(path) {}
   Path(const char* dir, const char* name);
   Path(const Path& path, const char* name);
-  ~Path();
-  const char* operator=(const char* path);
-  const Path& operator=(const Path& path);
+  const Path& operator=(const char* line) {
+    Line::operator=(line);
+    return *this;
+  }
+  const Path& operator=(const Line& line) {
+    Line::operator=(line);
+    return *this;
+  }
   const Path& fromDos();
   const Path& noTrailingSlashes();
-  operator const char*() const {
-    if (_length > 0) {
-      return _path;
-    } else {
-      return "";
-    }
-  }
-  unsigned int length() const  { return _length; }
+  unsigned int length() const  { return size(); }
   Path dirname() const;
-  const char* basename() const { return basename(_path); }
+  const char* basename() const { return basename(*this); }
   int compare(const char* s, ssize_t length = -1) const {
-    return compare(_path, s, length);
+    return compare(*this, s, length);
   }
   int compare(const Path& p, ssize_t length = -1) const {
-    return compare(_path, p, length);
+    return compare(*this, p, length);
   }
   // Some generic methods
   static const char* basename(const char* path);

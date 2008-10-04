@@ -60,6 +60,12 @@ line2 (1): defghijklmno
 Append line to line2
 line (1): defghijklmnoyz
 line2 (1): defghijklmnodefghijklmnoyz
+Copy line into line2
+line (2): defghijklmnoyz
+line2 (2): defghijklmnoyz
+Erase from line2
+line (1): defghijklmnoyz
+line2 (1): defg
 Delete line2
 line (1): defghijklmnoyz
 Delete line

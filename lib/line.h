@@ -21,6 +21,9 @@
 
 #define HAVE_LINE_H 1
 
+#include <cstdlib>
+#include <cstring>
+
 namespace hbackup {
 
 class LineBuffer {
@@ -28,7 +31,6 @@ class LineBuffer {
   char*             _line;
   unsigned int      _capacity;
   unsigned int      _size;
-  LineBuffer(const LineBuffer&);
   int grow(unsigned int required);
 public:
   // The no of instances and destruction are managed by this class' users
@@ -36,8 +38,17 @@ public:
   LineBuffer() {
     _line      = NULL;
     _capacity  = 0;
-    grow(1);
+    _size      = 0;
+    grow(_size + 1);
     _line[0]   = '\0';
+    _instances = 0;
+  }
+  LineBuffer(const LineBuffer& line) {
+    _line      = NULL;
+    _capacity  = 0;
+    _size      = line._size;
+    grow(_size + 1);
+    memcpy(_line, line._line, _size + 1);
     _instances = 0;
   }
   LineBuffer(const char* line) {
@@ -72,6 +83,9 @@ public:
   }
   operator const char* () {
     return _line;
+  }
+  char& operator[](unsigned int pos) {
+    return _line[pos];
   }
   LineBuffer& operator=(const LineBuffer& line) {
     _size = line._size;
@@ -179,6 +193,11 @@ public:
     return *this;
   }
   const Line& erase(unsigned int pos = 0) {
+    if (_line->_instances > 1) {
+      _line->_instances--;
+      _line = new LineBuffer(*this->_line);
+      _line->_instances++;
+    }
     _line->erase(pos);
     return *this;
   }
@@ -193,6 +212,16 @@ public:
     }
     return r < &buffer[_line->size()] ? r - buffer : -1;
   }
+  int rfind(char c, unsigned int pos = 0) const {
+    const char* buffer = *_line;
+    const char* r = &buffer[_line->size()];
+    while (--r >= &buffer[pos]) {
+      if (*r == c) {
+        break;
+      }
+    }
+    return r >= &buffer[pos] ? r - buffer : -1;
+  }
   const Line& append(const char* line, int pos = -1) {
     if (pos >= 0) {
       erase(pos);
@@ -204,8 +233,16 @@ public:
   operator const LineBuffer& () const {
     return *_line;
   }
-  LineBuffer& instance() const {
+  LineBuffer& instance() {
+    if (_line->_instances > 1) {
+      _line->_instances--;
+      _line = new LineBuffer(*this->_line);
+      _line->_instances++;
+    }
     return *_line;
+  }
+  unsigned int instances() {
+    return _line->_instances;
   }
 };
 

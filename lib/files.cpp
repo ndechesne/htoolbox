@@ -60,40 +60,18 @@ using namespace std;
 
 using namespace hbackup;
 
-const char* Path::operator=(const char* path) {
-  if (_path != NULL) {
-    free(_path);
-  }
-  _path = strdup(path);
-  _length = strlen(_path);
-  return _path;
-}
-
-const Path& Path::operator=(const Path& path) {
-  if (_path != NULL) {
-    free(_path);
-  }
-  _path = strdup(path._path);
-  _length = path._length;
-  return *this;
-}
-
 Path::Path(const char* dir, const char* name) {
-  if (name[0] == '\0') {
-    _path = strdup(dir);
-  } else {
-    asprintf(&_path, "%s/%s", dir, name);
+  *this = dir;
+  if (name[0] != '\0') {
+    *this += "/";
+    *this += name;
   }
-  _length = strlen(_path);
 }
 
 Path::Path(const Path& path, const char* name) {
-  asprintf(&_path, "%s/%s", path._path, name);
-  _length = strlen(_path);
-}
-
-Path::~Path() {
-  free(_path);
+  *this = path;
+  *this += "/";
+  *this += name;
 }
 
 const char* Path::basename(const char* path) {
@@ -107,23 +85,19 @@ const char* Path::basename(const char* path) {
 }
 
 Path Path::dirname() const {
-  const char* end = strrchr(_path, '/');
-  if (end == NULL) {
+  int pos = rfind('/');
+  if (pos < 0) {
     return ".";
   }
-  int   length = end - _path;
-  char* dir    = static_cast<char*>(malloc(length + 1));
-  strncpy(dir, _path, length);
-  dir[length] = '\0';
-  Path rc = dir;
-  free(dir);
+  Path rc = *this;
+  rc.erase(pos);
   return rc;
 }
 
 const Path& Path::fromDos() {
-  int   count  = _length;
+  int   count  = size();
   bool  proven = false;
-  char* reader = _path;
+  char* reader = *this->instance().bufferPtr();
   while (count--) {
     if (*reader == '\\') {
       *reader = '/';
@@ -132,21 +106,20 @@ const Path& Path::fromDos() {
     reader++;
   }
   // Upper case drive letter
-  if (proven && (_length >= 2)) {
-    if ((_path[1] == ':') && (_path[2] == '/')
-    &&  (_path[0] >= 'a') && (_path[0] <= 'z')) {
-      _path[0] = static_cast<char>(_path[0] - 0x20);
+  if (proven && (size() >= 2)) {
+    if (((*this)[1] == ':') && ((*this)[2] == '/')
+    &&  ((*this)[0] >= 'a') && ((*this)[0] <= 'z')) {
+      this->instance().operator[](0) = static_cast<char>((*this)[0] - 0x20);
     }
   }
   return *this;
 }
 
 const Path& Path::noTrailingSlashes() {
-  char* end = &_path[_length];
-  while ((--end >= _path) && (*end == '/')) {
-    *end = '\0';
-    _length--;
-  }
+  const char* line   = *this;
+  const char* reader = &line[size()];
+  while ((--reader >= line) && (*reader == '/')) {}
+  erase(reader - line + 1);
   return *this;
 }
 
