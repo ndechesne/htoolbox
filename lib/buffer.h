@@ -20,6 +20,9 @@
 #define BUFFER_H
 
 #include <list>
+#include <cstdlib>
+#include <cstring>
+
 #include <unistd.h>
 
 namespace hbackup {
@@ -44,26 +47,61 @@ class Buffer {
   bool              _readers_update;
   friend class      BufferReader;
   // Registering
-  void registerReader(BufferReader* reader);
-  int unregisterReader(const BufferReader* reader);
+  void registerReader(BufferReader* reader) {
+    _readers.push_back(reader);
+    _readers_size = _readers.size();
+  }
+  int unregisterReader(const BufferReader* reader) {
+    bool found = false;
+    for (std::list<BufferReader*>::iterator i = _readers.begin();
+	i != _readers.end(); i++) {
+      if (*i == reader) {
+	_readers.erase(i);
+	found = true;
+	break;
+      }
+    }
+    _readers_size = _readers.size();
+    return found ? 0 : -1;
+  }
 public:
   //! \brief Constructor
   /*!
     \param size         size of the buffer to create, or 0 for none
   */
-  Buffer(size_t size = 0);
+  Buffer(size_t size = 0) {
+    _write_count = 0;
+    _readers_size = 0;
+    if (size > 0) {
+      create(size);
+    } else {
+      _buffer_start = NULL;
+    }
+  }
   //! \brief Destructor
-  ~Buffer();
+  ~Buffer() {
+    if (exists()) {
+      destroy();
+    }
+  }
   // Management
   //! \brief Create the buffer
   /*!
     \param size         size of the buffer to create
   */
-  void create(size_t size = 102400);
+  void create(size_t size = 102400) {
     // Multithread irrelevant: must be done synchronously
+    _buffer_start = static_cast<char*>(malloc(size));
+    _buffer_end   = &_buffer_start[size];
+    _capacity     = size;
+    empty();
+  }
   //! \brief Destroy
-  void destroy();
+  void destroy() {
     // Multithread irrelevant: must be done synchronously
+    free(_buffer_start);
+    _buffer_start = NULL;
+  }
   //! \brief Empty the buffer of all content
   void empty();
     // Multithread irrelevant: must be done synchronously
@@ -83,8 +121,10 @@ public:
   /*!
       \return           true if was created, false otherwise
   */
-  bool exists() const;
+  bool exists() const {
     // Multithread safe
+    return _buffer_start != NULL;
+  }
   //! \brief Get buffer's capacity
   /*!
       \return           total buffer capacity
@@ -238,9 +278,68 @@ public:
     \param size         maximum size of data to put into the external buffer
     \return             size actually read
   */
-  ssize_t read(void* buffer, size_t size);
+  ssize_t read(void* buffer, size_t size) {
     // Multithread safe: only uses other methods
+    size_t really = 0;
+    void* next = buffer;
+    while ((size > 0) && (readable() > 0)) {
+      size_t can;
+      if (size > readable()) {
+	can = readable();
+      } else {
+	can = size;
+      }
+      next = mempcpy(next, reader(), can);
+      readn(can);
+      really += can;
+      size -= really;
+    }
+    return really;
+  }
 };
+
+void Buffer::empty() {
+  _write_start    = _buffer_start;
+  _write_count    = 0;
+  _read_count     = 0;
+  _readers_update = false;
+  for (std::list<BufferReader*>::iterator i = _readers.begin();
+      i != _readers.end(); i++) {
+    (*i)->empty();
+  }
+}
+
+void Buffer::update() {
+  int max_used = 0;
+  for (std::list<BufferReader*>::iterator i = _readers.begin();
+      i != _readers.end(); i++) {
+    // Unread space for this reader
+    int this_used = _write_count - (*i)->_read_count;;
+    if (this_used > max_used) {
+      max_used = this_used;
+    }
+  }
+  _read_count = _write_count - max_used;
+}
+
+ssize_t Buffer::write(const void* buffer, size_t size) {
+  size_t really = 0;
+  const char* next = static_cast<const char*>(buffer);
+  while ((size > 0) && (writeable() > 0)) {
+    size_t can;
+    if (size > writeable()) {
+      can = writeable();
+    } else {
+      can = size;
+    }
+    memcpy(writer(), next, can);
+    next += can;
+    written(can);
+    really += can;
+    size -= really;
+  }
+  return really;
+}
 
 }
 
