@@ -53,33 +53,13 @@ class Buffer {
     _readers.push_back(reader);
     _readers_size = _readers.size();
   }
-  int unregisterReader(const BufferReader<T>* reader) {
-    bool found = false;
-    for (typename std::list<BufferReader<T>*>::iterator i = _readers.begin();
-    i != _readers.end(); i++) {
-      if (*i == reader) {
-        _readers.erase(i);
-        found = true;
-        break;
-      }
-    }
-    _readers_size = _readers.size();
-    return found ? 0 : -1;
-  }
+  int unregisterReader(const BufferReader<T>* reader);
 public:
   //! \brief Constructor
   /*!
     \param size         size of the buffer to create, or 0 for none
   */
-  Buffer(size_t size = 0) {
-    _write_count = 0;
-    _readers_size = 0;
-    if (size > 0) {
-      create(size);
-    } else {
-      _buffer_start = NULL;
-    }
-  }
+  Buffer(size_t size = 0);
   //! \brief Destructor
   ~Buffer() {
     if (exists()) {
@@ -91,13 +71,7 @@ public:
   /*!
     \param size         size of the buffer to create
   */
-  void create(size_t size = 102400) {
-    // Multithread irrelevant: must be done synchronously
-    _buffer_start = static_cast<T*>(malloc(size * sizeof(T)));
-    _buffer_end   = &_buffer_start[size];
-    _capacity     = size;
-    empty();
-  }
+  void create(size_t size = 102400);
   //! \brief Destroy
   void destroy() {
     // Multithread irrelevant: must be done synchronously
@@ -281,25 +255,42 @@ public:
     \param size         maximum size of data to put into the external buffer
     \return             size actually read
   */
-  ssize_t read(T* buffer, size_t size) {
-    // Multithread safe: only uses other methods
-    size_t really = 0;
-    T* next = buffer;
-    while ((size > 0) && (readable() > 0)) {
-      size_t can;
-      if (size > readable()) {
-        can = readable();
-      } else {
-        can = size;
-      }
-      next = static_cast<T*>(mempcpy(next, reader(), can * sizeof(T)));
-      readn(can);
-      really += can;
-      size -= really;
-    }
-    return really;
-  }
+  ssize_t read(T* buffer, size_t size);
 };
+
+template<class T>
+int Buffer<T>::unregisterReader(const BufferReader<T>* reader) {
+  bool found = false;
+  for (typename std::list<BufferReader<T>*>::iterator i = _readers.begin();
+      i != _readers.end(); i++) {
+    if (*i == reader) {
+      _readers.erase(i);
+      found = true;
+      break;
+    }
+  }
+  _readers_size = _readers.size();
+  return found ? 0 : -1;
+}
+
+template<class T>
+Buffer<T>::Buffer(size_t size) {
+  _write_count = 0;
+  _readers_size = 0;
+  if (size > 0) {
+    create(size);
+  } else {
+    _buffer_start = NULL;
+  }
+}
+
+template<class T>
+void Buffer<T>::create(size_t size) {
+  _buffer_start = static_cast<T*>(malloc(size * sizeof(T)));
+  _buffer_end   = &_buffer_start[size];
+  _capacity     = size;
+  empty();
+}
 
 template<class T>
 void Buffer<T>::empty() {
@@ -341,6 +332,25 @@ ssize_t Buffer<T>::write(const T* buffer, size_t size) {
     memcpy(writer(), next, can * sizeof(T));
     next += can;
     written(can);
+    really += can;
+    size -= really;
+  }
+  return really;
+}
+
+template<class T>
+ssize_t BufferReader<T>::read(T* buffer, size_t size) {
+  size_t really = 0;
+  T* next = buffer;
+  while ((size > 0) && (readable() > 0)) {
+    size_t can;
+    if (size > readable()) {
+      can = readable();
+    } else {
+      can = size;
+    }
+    next = static_cast<T*>(mempcpy(next, reader(), can * sizeof(T)));
+    readn(can);
     really += can;
     size -= really;
   }
