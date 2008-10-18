@@ -192,6 +192,9 @@ int HBackup::readConfig(const char* config_path) {
 
       // compress
       path->add(new ConfigItem("compress", 0, 1, 1));
+
+      // no_compress
+      path->add(new ConfigItem("no_compress", 0, 1, 1));
     }
   }
 
@@ -346,7 +349,9 @@ int HBackup::readConfig(const char* config_path) {
         c_path = client->addClientPath((*params)[1]);
       } else
       if (c_path != NULL) {
-        if (((*params)[0] == "ignore") || ((*params)[0] == "compress")) {
+        if (((*params)[0] == "ignore")
+	||  ((*params)[0] == "compress")
+	||  ((*params)[0] == "no_compress")) {
           Filter* filter = c_path->findFilter((*params)[1]);
           if (filter == NULL) {
             filter = client->findFilter((*params)[1]);
@@ -361,8 +366,12 @@ int HBackup::readConfig(const char* config_path) {
           } else {
             if ((*params)[0] == "ignore") {
               c_path->setIgnore(filter);
-            } else {
+            } else
+            if ((*params)[0] == "compress") {
               c_path->setCompress(filter);
+            } else
+            if ((*params)[0] == "no_compress") {
+              c_path->setNoCompress(filter);
             }
           }
         } else

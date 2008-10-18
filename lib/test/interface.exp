@@ -406,9 +406,12 @@ Database closed: myClient.xp
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
+ ----> Filter: and cvs_entries
+ -----> Condition: name Entries
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
+ ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client: myhost
@@ -450,9 +453,8 @@ cvs\r
 A d     test1/cvs/CVS
 cvs/CVS\r
        \r
-Checking data, sizes: f=161 z=154 (156)
-Adding compressed data for fef51838cd3cfe8ed96355742eb71fbd-0
-A z     test1/cvs/CVS/Entries
+Adding uncompressed data for fef51838cd3cfe8ed96355742eb71fbd-0
+A f     test1/cvs/CVS/Entries
 Checking data, sizes: f=16 z=50 (50)
 Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 A f     test1/cvs/CVS/Root
@@ -468,7 +470,6 @@ cvs/dirutd\r
 A d     test1/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
               \r
-Checking data, sizes: f=42 z=76 (77)
 Adding uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
 A f     test1/cvs/dirutd/CVS/Entries
 Checking data, sizes: f=10 z=44 (44)
@@ -620,6 +621,9 @@ path "test1"
   compress "bigfile"
   parser "cvs" "controlled"
   parser "svn" "modified"
+  filter "and" "cvs_entries"
+    condition "name" "Entries"
+  no_compress "cvs_entries"
 
 Test: same backup
  -> Reading configuration file: etc/hbackup.conf
@@ -825,9 +829,12 @@ Database closed: myClient.xp
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
+ ----> Filter: and cvs_entries
+ -----> Condition: name Entries
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
+ ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client: myhost
@@ -945,6 +952,9 @@ path "test1"
   compress "bigfile"
   parser "cvs" "controlled"
   parser "svn" "modified"
+  filter "and" "cvs_entries"
+    condition "name" "Entries"
+  no_compress "cvs_entries"
 
 Test: interrupted backup
  -> Reading configuration file: etc/hbackup.conf
@@ -1150,9 +1160,12 @@ Database closed: myClient.xp
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
+ ----> Filter: and cvs_entries
+ -----> Condition: name Entries
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
+ ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client: myhost
@@ -1250,6 +1263,9 @@ path "test1"
   compress "bigfile"
   parser "cvs" "controlled"
   parser "svn" "modified"
+  filter "and" "cvs_entries"
+    condition "name" "Entries"
+  no_compress "cvs_entries"
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Automatic compression
@@ -1455,9 +1471,12 @@ Database closed: myClient.xp
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
+ ----> Filter: and cvs_entries
+ -----> Condition: name Entries
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
+ ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client: myhost
@@ -1554,6 +1573,9 @@ path "test1"
   compress "bigfile"
   parser "cvs" "controlled"
   parser "svn" "modified"
+  filter "and" "cvs_entries"
+    condition "name" "Entries"
+  no_compress "cvs_entries"
 
 Test: force-compress DB data
 
@@ -1693,9 +1715,12 @@ Database closed: client.xp
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
+ ----> Filter: and cvs_entries
+ -----> Condition: name Entries
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
+ ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client: myhost
@@ -1816,6 +1841,9 @@ path "test1"
   compress "bigfile"
   parser "cvs" "controlled"
   parser "svn" "modified"
+  filter "and" "cvs_entries"
+    condition "name" "Entries"
+  no_compress "cvs_entries"
 
 Test: scan DB
  -> Reading configuration file: etc/hbackup.conf
@@ -2906,9 +2934,12 @@ Database closed: myClient.xp
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
+ ----> Filter: and cvs_entries
+ -----> Condition: name Entries
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
+ ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client: myhost
@@ -3026,6 +3057,9 @@ path "test1"
   compress "bigfile"
   parser "cvs" "controlled"
   parser "svn" "modified"
+  filter "and" "cvs_entries"
+    condition "name" "Entries"
+  no_compress "cvs_entries"
 
 Test: specify clients
  -> Reading configuration file: etc/hbackup.conf
@@ -3233,6 +3267,9 @@ path "test1"
   compress "bigfile"
   parser "cvs" "controlled"
   parser "svn" "modified"
+  filter "and" "cvs_entries"
+    condition "name" "Entries"
+  no_compress "cvs_entries"
 
 Test: user-mode backup
  --> DB path: test_user/.hbackup
@@ -7402,9 +7439,12 @@ Database closed: myClient.xp
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
+ ----> Filter: and cvs_entries
+ -----> Condition: name Entries
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
+ ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client: myhost
@@ -7420,9 +7460,8 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-Checking data, sizes: f=161 z=154 (156)
-Adding compressed data for fef51838cd3cfe8ed96355742eb71fbd-0
-R z     test1/cvs/CVS/Entries
+Adding uncompressed data for fef51838cd3cfe8ed96355742eb71fbd-0
+R f     test1/cvs/CVS/Entries
 Checking data, sizes: f=16 z=50 (50)
 Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 R f     test1/cvs/CVS/Root
@@ -7541,6 +7580,9 @@ path "test1"
   compress "bigfile"
   parser "cvs" "controlled"
   parser "svn" "modified"
+  filter "and" "cvs_entries"
+    condition "name" "Entries"
+  no_compress "cvs_entries"
 
 Test: second backup should not recover again
  -> Reading configuration file: etc/hbackup.conf
@@ -7748,9 +7790,12 @@ Database closed: myClient.xp
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
+ ----> Filter: and cvs_entries
+ -----> Condition: name Entries
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
+ ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client: myhost
@@ -8395,9 +8440,12 @@ Database closed: myClient.xp
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
+ ----> Filter: and cvs_entries
+ -----> Condition: name Entries
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
+ ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client: myhost
@@ -8520,3 +8568,6 @@ path "test1"
   compress "bigfile"
   parser "cvs" "controlled"
   parser "svn" "modified"
+  filter "and" "cvs_entries"
+    condition "name" "Entries"
+  no_compress "cvs_entries"

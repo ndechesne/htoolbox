@@ -124,7 +124,11 @@ int ClientPath::parse_recurse(
                 op.setCompression(compression_level);
               }
             } else if (op.compression() < 0) {
-              op.setCompression(-compression_level);
+              if ((_no_compress != NULL) && _no_compress->match(**i, start)) {
+                op.setCompression(0);
+              } else {
+                op.setCompression(-compression_level);
+              }
             }
           }
           if (db.add(op, _report_copy_error_once)
@@ -156,6 +160,7 @@ int ClientPath::parse_recurse(
 ClientPath::ClientPath(const char* path) {
   _ignore             = NULL;
   _compress           = NULL;
+  _no_compress        = NULL;
   _path = path;
   // Change '\' into '/'
   _path.fromDos();
@@ -246,6 +251,10 @@ void ClientPath::show(int level) const {
   if (_compress != NULL) {
     out(debug, msg_standard, _compress->name().c_str(), level,
       "Compress filter");
+  }
+  if (_no_compress != NULL) {
+    out(debug, msg_standard, _no_compress->name().c_str(), level,
+      "No compress filter");
   }
   if (_ignore != NULL) {
     out(debug, msg_standard, _ignore->name().c_str(), level,

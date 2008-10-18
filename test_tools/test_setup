@@ -358,6 +358,11 @@ compress bigfile
 
 parser cvs controlled
 parser svn modified
+
+filter and cvs_entries
+condition name Entries
+
+no_compress cvs_entries
 EOF
 
 # Broken config

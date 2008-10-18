@@ -27,6 +27,7 @@ class ClientPath {
   Filters           _filters;
   const Filter*     _ignore;
   const Filter*     _compress;
+  const Filter*     _no_compress;
   int               _nodes;
   bool              _report_copy_error_once;
   int parse_recurse(
@@ -44,6 +45,8 @@ public:
   void setIgnore(const Filter* filter)   { _ignore   = filter; }
   // Set compress filter
   void setCompress(const Filter* filter) { _compress = filter; }
+  // Set no-compress filter
+  void setNoCompress(const Filter* filter) { _no_compress = filter; }
   Filter* addFilter(
     const string&   type,
     const string&   name);

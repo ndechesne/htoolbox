@@ -71,6 +71,9 @@ int main(void) {
 
     // compress
     item->add(new ConfigItem("compress", 0, 1, 1));
+
+    // no_compress
+    item->add(new ConfigItem("no_compress", 0, 1, 1));
   }
 
   Stream client_config("etc/localhost.list");
@@ -177,6 +180,9 @@ int main(void) {
 
       // compress
       sub_item->add(new ConfigItem("compress", 0, 1, 1));
+
+      // no_compress
+      sub_item->add(new ConfigItem("no_compress", 0, 1, 1));
     }
   }
 

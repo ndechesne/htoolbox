@@ -446,9 +446,12 @@ Database closed: myClient.xp
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
+ ----> Filter: and cvs_entries
+ -----> Condition: name Entries
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
+ ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client: myhost
@@ -491,9 +494,8 @@ cvs\r
 A d     test1/cvs/CVS
 cvs/CVS\r
        \r
-Checking data, sizes: f=161 z=154 (156)
-Adding compressed data for fef51838cd3cfe8ed96355742eb71fbd-0
-A z     test1/cvs/CVS/Entries
+Adding uncompressed data for fef51838cd3cfe8ed96355742eb71fbd-0
+A f     test1/cvs/CVS/Entries
 Checking data, sizes: f=16 z=50 (50)
 Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 A f     test1/cvs/CVS/Root
@@ -509,7 +511,6 @@ cvs/dirutd\r
 A d     test1/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
               \r
-Checking data, sizes: f=42 z=76 (77)
 Adding uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
 A f     test1/cvs/dirutd/CVS/Entries
 Checking data, sizes: f=10 z=44 (44)
@@ -733,9 +734,12 @@ Database closed: client.xp
  -----> Condition: filter subdir
  -----> Condition: filter backup
  -----> Condition: not filter not_object
+ ----> Filter: and cvs_entries
+ -----> Condition: name Entries
  ----> Parser: CVS
  ----> Parser: Subversion
  ----> Compress filter: bigfile
+ ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
  ---> Path: test2
 Backing up client: myhost

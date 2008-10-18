@@ -201,6 +201,8 @@ int Client::readConfig(
     path->add(new ConfigItem("ignore", 0, 1, 1));
     // compress
     path->add(new ConfigItem("compress", 0, 1, 1));
+    // no_compress
+    path->add(new ConfigItem("no_compress", 0, 1, 1));
   }
 
   out(debug, msg_standard, internalName().c_str(), 1,
@@ -308,7 +310,9 @@ int Client::readConfig(
         }
       } else
       // Path attributes
-      if (((*params)[0] == "ignore") || ((*params)[0] == "compress")) {
+      if (((*params)[0] == "ignore")
+      ||  ((*params)[0] == "compress")
+      ||  ((*params)[0] == "no_compress")) {
         Filter* filter = path->findFilter((*params)[1]);
         if (filter == NULL) {
           filter = _d->filters.find((*params)[1]);
@@ -323,8 +327,12 @@ int Client::readConfig(
         } else {
           if ((*params)[0] == "ignore") {
             path->setIgnore(filter);
-          } else {
+          } else
+          if ((*params)[0] == "compress") {
             path->setCompress(filter);
+          } else
+          if ((*params)[0] == "no_compress") {
+            path->setNoCompress(filter);
           }
         }
       } else
