@@ -260,6 +260,18 @@ int Directory::createList() {
     deleteList();
     return -1;
   }
+  // Bug in CIFS client, usually gets detected by two subsequent dir reads
+  free(direntList);
+  int size2 = scandir(_path, &direntList, direntFilter, direntCompare);
+  if (size != size2) {
+    errno = EAGAIN;
+    return -1;
+  }
+  if (size2 < 0) {
+    deleteList();
+    return -1;
+  }
+  // Ok, let's parse
   bool failed = false;
   while (size--) {
     Node *g = new Node(Path(_path, direntList[size]->d_name));
