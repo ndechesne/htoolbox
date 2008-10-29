@@ -518,10 +518,11 @@ int main(void) {
   journal.show(-1, 2000000000, 24 * 3600);
 
   // Next test
-  cout << endl << "As previous with testfile mode changed" << endl;
+  cout << endl << "As previous with testfile and testdir mode changed" << endl;
   my_time++;
   db.open();
 
+  system("chmod 770 test1/testdir");
   system("chmod 660 test1/testfile");
   path->show();
   db.openClient("myClient");

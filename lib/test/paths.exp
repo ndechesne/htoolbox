@@ -2270,7 +2270,7 @@ myClient's list:
 myClient's journal:
 [15] /home/User/testpipe            [rm]
 
-As previous with testfile mode changed
+As previous with testfile and testdir mode changed
 Database open in read/write mode
 Path: /home/User
  -> Filter: and bazaar
@@ -2340,6 +2340,7 @@ svn/.svn\r
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
+~ d     /home/User/testdir
 testdir\r
        \r
 ~       /home/User/testfile
@@ -2442,6 +2443,7 @@ myClient's list:
 [12] /home/User/svn/fileutd.h       [rm]
 [ 1] /home/User/svn/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/test space          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[16] /home/User/testdir             d      0 770
 [ 1] /home/User/testdir             d      0 755
 [16] /home/User/testfile            f     13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 1] /home/User/testfile            f     13 750 59ca0efa9f5633cb0371bbc0355478d8-0
@@ -2453,6 +2455,7 @@ myClient's list:
 [ 1] /home/User/testpipe            p      0 600
 
 myClient's journal:
+[16] /home/User/testdir             d      0 770
 [16] /home/User/testfile            f     13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 
 As previous with cvs/filenew.c touched and testpipe restored
@@ -2630,6 +2633,7 @@ myClient's list:
 [12] /home/User/svn/fileutd.h       [rm]
 [ 1] /home/User/svn/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/test space          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[16] /home/User/testdir             d      0 770
 [ 1] /home/User/testdir             d      0 755
 [16] /home/User/testfile            f     13 660 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 1] /home/User/testfile            f     13 750 59ca0efa9f5633cb0371bbc0355478d8-0
@@ -2869,6 +2873,7 @@ myClient's list:
 [12] /home/User/svn/fileutd.h       [rm]
 [ 1] /home/User/svn/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/test space          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[16] /home/User/testdir             d      0 770
 [ 1] /home/User/testdir             d      0 755
 [18] /home/User/testdir/biblio      d      0 755
 [18] /home/User/testdir/biblio/biblio.dbf f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3101,6 +3106,7 @@ myClient's list:
 [12] /home/User/svn/fileutd.h       [rm]
 [ 1] /home/User/svn/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/test space          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[16] /home/User/testdir             d      0 770
 [ 1] /home/User/testdir             d      0 755
 [18] /home/User/testdir/biblio      d      0 755
 [18] /home/User/testdir/biblio/biblio.dbf f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3407,6 +3413,7 @@ myClient's list:
 [12] /home/User/svn/fileutd.h       [rm]
 [ 1] /home/User/svn/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/test space          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[16] /home/User/testdir             d      0 770
 [ 1] /home/User/testdir             d      0 755
 [18] /home/User/testdir/biblio      d      0 755
 [18] /home/User/testdir/biblio/biblio.dbf f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3568,6 +3575,7 @@ myClient's list:
 [20] /home/User/test space          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/test space          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/testdir             [rm]
+[16] /home/User/testdir             d      0 770
 [ 1] /home/User/testdir             d      0 755
 [20] /home/User/testdir/biblio      [rm]
 [18] /home/User/testdir/biblio      d      0 755
@@ -3815,6 +3823,7 @@ myClient's list:
 [20] /home/User/test space          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/test space          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/testdir             [rm]
+[16] /home/User/testdir             d      0 770
 [ 1] /home/User/testdir             d      0 755
 [20] /home/User/testdir/biblio      [rm]
 [18] /home/User/testdir/biblio      d      0 755
@@ -4029,6 +4038,7 @@ myClient's list:
 [20] /home/User/test space          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/test space          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/testdir             [rm]
+[16] /home/User/testdir             d      0 770
 [ 1] /home/User/testdir             d      0 755
 [20] /home/User/testdir/biblio      [rm]
 [18] /home/User/testdir/biblio      d      0 755
@@ -4238,6 +4248,7 @@ myClient's list:
 [12] /home/User/svn/fileutd.h       [rm]
 [20] /home/User/test space          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/testdir             [rm]
+[16] /home/User/testdir             d      0 770
 [20] /home/User/testdir/biblio      [rm]
 [18] /home/User/testdir/biblio      d      0 755
 [20] /home/User/testdir/biblio/biblio.dbf [rm]

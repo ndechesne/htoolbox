@@ -483,19 +483,21 @@ void Owner::sendEntry(
   // Existing file: check for differences
   if (*db_node != op._node) {
     // Metadata differ but not type, mtime and size: just add new metadata
-    if ((op._node.type() == 'f') && (db_node->type() == 'f')
-    && (op._node.size() == db_node->size())
-    && (op._node.mtime() == db_node->mtime())) {
-      const char* node_checksum = static_cast<File*>(db_node)->checksum();
-      // Checksum missing: retry
-      if (node_checksum[0] == '\0') {
-        op._same_list_entry = true;
-      } else
-      // Copy checksum accross
-      {
-        static_cast<File&>(op._node).setChecksum(node_checksum);
-      }
+    if ((op._node.type() == db_node->type())
+    &&  (op._node.size() == db_node->size())
+    &&  (op._node.mtime() == db_node->mtime())) {
       op._letter = '~';
+      if (op._node.type() == 'f') {
+        const char* node_checksum = static_cast<File*>(db_node)->checksum();
+        // Checksum missing: retry
+        if (node_checksum[0] == '\0') {
+          op._same_list_entry = true;
+        } else
+        // Copy checksum accross
+        {
+          static_cast<File&>(op._node).setChecksum(node_checksum);
+        }
+      }
     } else
     // Data differs
     {
