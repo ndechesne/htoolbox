@@ -235,6 +235,11 @@ int ClientPath::parse(
   _nodes = 0;
   Directory dir(backup_path);
   if (! dir.isValid() || dir.createList()) {
+    char* full_name;
+    asprintf(&full_name, "%s:%s", client_name,
+      static_cast<const char*>(_path));
+    out(error, msg_errno, "reading initial directory", errno, full_name);
+    free(full_name);
     rc = -1;
   } else
   if (parse_recurse(db, _path, client_name, strlen(backup_path) + 1, dir, NULL)

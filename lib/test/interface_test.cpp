@@ -872,5 +872,18 @@ int main(void) {
   delete hbackup;
   showClientConfigs();
 
+  cout << endl << "Test: declared path missing" << endl;
+  system("rm -rf test_cifs/Test*");
+  hbackup = new HBackup();
+  if (hbackup->open("etc/hbackup.conf")) {
+    return 1;
+  }
+  hbackup->show(2);
+  hbackup->addClient("aClient.vista");
+  hbackup->backup();
+  hbackup->close();
+  delete hbackup;
+  showClientConfigs();
+
   return 0;
 }

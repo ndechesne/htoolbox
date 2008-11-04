@@ -8571,3 +8571,164 @@ path "test1"
   filter "and" "cvs_entries"
     condition "name" "Entries"
   no_compress "cvs_entries"
+
+Test: declared path missing
+ -> Reading configuration file: etc/hbackup.conf
+ --> DB path: test_db
+ --> Automatic compression
+ --> Clients:
+ ---> Client: aClient
+ ----> Protocol: smb
+ ----> Expiry: none
+ ----> Filter: and huge_file
+ -----> Condition: not filter backup
+ -----> Condition: not size< 100
+ ----> Paths: 
+ -----> Path: C:/Test Dir
+ ------> Filter: and compress_m
+ -------> Condition: not filter huge_file
+ ------> Parser: Subversion
+ ------> Compress filter: compress_m
+ ------> Ignore filter: backup
+ ------> No error if same file fails copy again
+ ----> Required subset: vista
+ ---> Client: client
+ ----> Protocol: smb
+ ----> Hostname: myClient
+ ----> Options: username=Myself, password=flesyM, nocase
+ ----> Config: C:/Backup/Backup.LST
+ ----> Expiry: none
+ ----> Required subset: xp
+ ---> Client: myClient
+ ----> Protocol: nfs
+ ----> Users: backup, root
+ ----> Config: /home/User/hbackup.list
+ ----> Expiry: none
+ ---> Client: myClient
+ ----> Protocol: smb
+ ----> Users: backup
+ ----> Config: C:/Backup/Backup.LST
+ ----> Expiry: none
+ ----> Required subset: xp
+ ---> Client: myhost
+ ----> Protocol: file
+ ----> Hostname: myhost.mynetwork.lan
+ ----> No warning on time out
+ ----> No error if same file fails copy again
+ ----> Config: etc/localhost.list
+ ----> Expiry: 86400s (1d)
+ ---> Client: other
+ ----> Protocol: ssh
+ ----> Hostname: otherClient
+ ----> Config: /home/backup/Backup.list
+ ----> Expiry: 86400s (1d)
+ ----> Filter: and subdir
+ -----> Condition: path_start subdir
+ -----> Condition: not size< 100
+ ----> Filter: and bigfile
+ -----> Condition: size>= 10
+ -----> Condition: type f
+ ----> Paths: 
+ -----> Path: test1
+ ------> Filter: and not_object
+ -------> Condition: not path_end .o
+ ------> Filter: or to_be_ignored
+ -------> Condition: filter subdir
+ -------> Condition: filter backup
+ -------> Condition: not filter not_object
+ ------> Parser: CVS
+ ------> Parser: Subversion
+ ------> Compress filter: bigfile
+ ------> Ignore filter: to_be_ignored
+ -----> Path: test2
+ --> Filter: and backup
+ ---> Condition: type f
+ ---> Condition: path_end ~
+ --> Filter: or test_or
+ ---> Condition: filter backup
+ ---> Condition: not size< 1000
+Database open in read/write mode
+Trying client 'aClient.vista' using protocol 'smb'
+Backing up client: aClient.vista
+Reading list of problematic checksums
+ -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+Database open r/w: aClient.vista
+Backing up path: C:/Test Dir
+ -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
+Error: aClient.vista:C:/Test Dir: No such file or directory reading initial directory
+Error: Aborting client
+Database closed: aClient.vista
+ -> umount -fl test_db/.mount/aClient.vista
+List of problematic checksums contains 1 item(s)
+Database closed
+Config for test_db/.configs/client.xp
+subset "xp"
+path "C:\Test Dir\"
+  filter "and" "silly"
+    condition "filter" "backup"
+    condition "type" "pipe"
+    condition "name" "a"
+    condition "name_start" "b"
+    condition "name_end" "c"
+    condition "name_regex" "d"
+    condition "path" "e"
+    condition "path_start" "f"
+    condition "path_end" "g"
+    condition "path_regex" "h"
+    condition "size>=" "1"
+    condition "size>" "2ki"
+    condition "size<=" "3MB"
+    condition "size<" "4GiB"
+    condition "mode&" "0777"
+    condition "mode=" "0644"
+Config for test_db/.configs/myClient
+report_copy_error_once
+path "/home/User/test/"
+  filter "or" "compress"
+    condition "name" "File2.txt"
+    condition "path" "dir/file3.txt"
+  compress "compress"
+Config for test_db/.configs/myClient.xp
+subset "xp"
+path "C:\Test Dir\"
+  filter "and" "silly"
+    condition "filter" "backup"
+    condition "type" "pipe"
+    condition "name" "a"
+    condition "name_start" "b"
+    condition "name_end" "c"
+    condition "name_regex" "d"
+    condition "path" "e"
+    condition "path_start" "f"
+    condition "path_end" "g"
+    condition "path_regex" "h"
+    condition "size>=" "1"
+    condition "size>" "2ki"
+    condition "size<=" "3MB"
+    condition "size<" "4GiB"
+    condition "mode&" "0777"
+    condition "mode=" "0644"
+Config for test_db/.configs/myhost
+filter "and" "subdir"
+  condition "path_start" "subdir"
+  condition "!size<" "100"
+users "biloute" "machin"
+filter "and" "bigfile"
+  condition "size>=" "10"
+  condition "type" "file"
+expire "1"
+path "test2//"
+path "test1"
+  filter "and" "not_object"
+    condition "!path_end" ".o"
+  filter "or" "to_be_ignored"
+    condition "filter" "subdir"
+    condition "filter" "backup"
+    condition "!filter" "not_object"
+  ignore "to_be_ignored"
+  compress "bigfile"
+  parser "cvs" "controlled"
+  parser "svn" "modified"
+  filter "and" "cvs_entries"
+    condition "name" "Entries"
+  no_compress "cvs_entries"
