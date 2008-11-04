@@ -253,25 +253,34 @@ int Directory::createList() {
     errno = EBUSY;
     return -1;
   }
-  _nodes = new list<Node*>;
+  // Create list
   struct dirent** direntList;
   int size = scandir(_path, &direntList, direntFilter, direntCompare);
   if (size < 0) {
-    deleteList();
     return -1;
   }
-  // Bug in CIFS client, usually gets detected by two subsequent dir reads
+  // Cleanup list
+  int size2 = size;
+  while (size2--) {
+    free(direntList[size2]);
+  }
   free(direntList);
-  int size2 = scandir(_path, &direntList, direntFilter, direntCompare);
+  // Bug in CIFS client, usually gets detected by two subsequent dir reads
+  size2 = scandir(_path, &direntList, direntFilter, direntCompare);
   if (size != size2) {
     errno = EAGAIN;
-    return -1;
+    size = size2;
+    size2 = -1;
   }
   if (size2 < 0) {
-    deleteList();
+    while (size--) {
+      free(direntList[size]);
+    }
+    free(direntList);
     return -1;
   }
   // Ok, let's parse
+  _nodes = new list<Node*>;
   bool failed = false;
   while (size--) {
     Node *g = new Node(Path(_path, direntList[size]->d_name));
