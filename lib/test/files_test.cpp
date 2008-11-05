@@ -202,6 +202,7 @@ static void progress(long long previous, long long current, long long total) {
 
 int main(void) {
   string  line;
+  int     sys_rc;
 
   cout << "Tools Test" << endl;
   setVerbosityLevel(debug);
@@ -486,7 +487,7 @@ int main(void) {
       << endl;
   }
   delete writefile;
-  system("cat test1/rwfile_dest");
+  sys_rc = system("cat test1/rwfile_dest");
 
   cout << endl << "Test: file copy (read (cache) + write (no cache))" << endl;
   readfile = new Stream("test1/big_file");

@@ -62,6 +62,7 @@ int main(void) {
   Node*   node   = NULL;
   time_t  ts;
   int     rc     = 0;
+  int     sys_rc;
 
   cout << "Test: DB lists" << endl;
   mkdir("test_db", 0755);
@@ -189,7 +190,7 @@ int main(void) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
-  system("echo \"this is my new test\" > test1/testfile");
+  sys_rc = system("echo \"this is my new test\" > test1/testfile");
 
   node = new Stream("test1/test space");
   static_cast<Stream*>(node)->open("r");
@@ -280,7 +281,7 @@ int main(void) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
-  system("echo \"this is my new test\" > test1/testfile");
+  sys_rc = system("echo \"this is my new test\" > test1/testfile");
   node = new Stream("test1/testfile");
   static_cast<Stream*>(node)->open("r");
   static_cast<Stream*>(node)->computeChecksum();
@@ -412,7 +413,7 @@ int main(void) {
   cout << "Merge:" << endl;
   merge.show();
   cout << "Merge tail:" << endl;
-  system("tail -2 test_db/merge | grep -v 1");
+  sys_rc = system("tail -2 test_db/merge | grep -v 1");
   rename("test_db/merge", "test_db/list");
 
 
@@ -423,7 +424,7 @@ int main(void) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
-  system("echo \"this is my other test\" > test1/testfile");
+  sys_rc = system("echo \"this is my other test\" > test1/testfile");
   node = new Stream("test1/testfile");
   static_cast<Stream*>(node)->open("r");
   static_cast<Stream*>(node)->computeChecksum();
@@ -518,8 +519,8 @@ int main(void) {
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
-  system("head -c 190 test_db/journal > test_db/journal.1");
-  system("cp -f test_db/journal.1 test_db/journal");
+  sys_rc = system("head -c 190 test_db/journal > test_db/journal.1");
+  sys_rc = system("cp -f test_db/journal.1 test_db/journal");
 
 
   cout << endl << "Test: journal read" << endl;

@@ -109,10 +109,15 @@ int ClientPath::parse_recurse(
               d.setSize(-1);
               d.deleteList();
               char* full_name;
-              asprintf(&full_name, "%s:%s/%s", client_name, remote_path,
-                d.name());
-              out(error, msg_errno, "reading directory", errno, full_name);
-              free(full_name);
+              if (asprintf(&full_name, "%s:%s/%s", client_name, remote_path,
+                           d.name()) < 0) {
+                out(alert, msg_errno, "creating final path", errno,
+                  remote_path);
+                give_up = true;
+              } else {
+                out(error, msg_errno, "reading directory", errno, full_name);
+                free(full_name);
+              }
               if ((errno != EACCES)     // Ignore access refused
               &&  (errno != ENOENT)) {  // Ignore directory gone
                 // All the rest results in a cease and desist order
@@ -253,10 +258,14 @@ int ClientPath::parse(
   Directory dir(backup_path);
   if (! dir.isValid() || dir.createList()) {
     char* full_name;
-    asprintf(&full_name, "%s:%s", client_name,
-      static_cast<const char*>(_path));
-    out(error, msg_errno, "reading initial directory", errno, full_name);
-    free(full_name);
+    if (asprintf(&full_name, "%s:%s", client_name,
+                 static_cast<const char*>(_path)) < 0) {
+      out(alert, msg_errno, "creating final path", errno, _path);
+      rc = -1;
+    } else {
+      out(error, msg_errno, "reading initial directory", errno, full_name);
+      free(full_name);
+    }
     rc = -1;
   } else
   if (parse_recurse(db, _path, client_name, strlen(backup_path) + 1, dir, NULL)

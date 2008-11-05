@@ -54,6 +54,8 @@ time_t time(time_t *t) {
 }
 
 int main(void) {
+  int sys_rc;
+
   umask(0022);
   setVerbosityLevel(debug);
 
@@ -82,12 +84,12 @@ int main(void) {
   }
 
   // '-' is before '/' in the ASCII table...
-  system("touch test1/subdir-file");
-  system("touch test1/subdirfile");
-  system("touch test1/àccénts_test");
+  sys_rc = system("touch test1/subdir-file");
+  sys_rc = system("touch test1/subdirfile");
+  sys_rc = system("touch test1/àccénts_test");
 
   cout << "first with subdir NOT readable" << endl;
-  system("chmod 000 test1/subdir");
+  sys_rc = system("chmod 000 test1/subdir");
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {
@@ -112,8 +114,8 @@ int main(void) {
 
   // Next test
   cout << endl << "As previous, with subdir/testfile NOT readable" << endl;
-  system("chmod 755 test1/subdir");
-  system("chmod 000 test1/subdir/testfile");
+  sys_rc = system("chmod 755 test1/subdir");
+  sys_rc = system("chmod 000 test1/subdir/testfile");
   my_time++;
   db.open();
 
@@ -165,7 +167,7 @@ int main(void) {
   my_time++;
   db.open();
 
-  system("dd if=/dev/zero of=test1/cvs/big_file bs=1k count=500"
+  sys_rc = system("dd if=/dev/zero of=test1/cvs/big_file bs=1k count=500"
     " > /dev/null 2>&1");
   abort(2);
   path->show();
@@ -192,7 +194,7 @@ int main(void) {
   my_time++;
   db.open();
 
-  system("chmod 644 test1/subdir/testfile");
+  sys_rc = system("chmod 644 test1/subdir/testfile");
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {
@@ -288,7 +290,7 @@ int main(void) {
   my_time++;
   db.open();
 
-  system("sleep 1 && ln -sf testnull test1/testlink");
+  sys_rc = system("sleep 1 && ln -sf testnull test1/testlink");
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {
@@ -522,8 +524,8 @@ int main(void) {
   my_time++;
   db.open();
 
-  system("chmod 770 test1/testdir");
-  system("chmod 660 test1/testfile");
+  sys_rc = system("chmod 770 test1/testdir");
+  sys_rc = system("chmod 660 test1/testfile");
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {
@@ -549,7 +551,7 @@ int main(void) {
   db.open();
 
    // Also test that we behave correctly when dir exists but is empty
-  system("echo blah > test1/cvs/filenew.c");
+  sys_rc = system("echo blah > test1/cvs/filenew.c");
   mkdir("test_db/.data/0d599f0ec05c3bda8c3b8a68c32a1b47-0", 0755);
 
   rename("testpipe", "test1/testpipe");
@@ -576,26 +578,26 @@ int main(void) {
   my_time++;
   db.open();
 
-  system("mkdir -p test1/docbook-xml/3.1.7");
-  system("touch test1/docbook-xml/3.1.7/dbgenent.ent");
-  system("mkdir test1/docbook-xml/4.0");
-  system("touch test1/docbook-xml/4.0/dbgenent.ent");
-  system("mkdir test1/docbook-xml/4.1.2");
-  system("touch test1/docbook-xml/4.1.2/dbgenent.mod");
-  system("mkdir test1/docbook-xml/4.2");
-  system("touch test1/docbook-xml/4.2/dbgenent.mod");
-  system("mkdir test1/docbook-xml/4.3");
-  system("touch test1/docbook-xml/4.3/dbgenent.mod");
-  system("mkdir test1/docbook-xml/4.4");
-  system("touch test1/docbook-xml/4.4/dbgenent.mod");
-  system("touch test1/docbook-xml.cat");
-  system("touch test1/docbook-xml.cat.old");
+  sys_rc = system("mkdir -p test1/docbook-xml/3.1.7");
+  sys_rc = system("touch test1/docbook-xml/3.1.7/dbgenent.ent");
+  sys_rc = system("mkdir test1/docbook-xml/4.0");
+  sys_rc = system("touch test1/docbook-xml/4.0/dbgenent.ent");
+  sys_rc = system("mkdir test1/docbook-xml/4.1.2");
+  sys_rc = system("touch test1/docbook-xml/4.1.2/dbgenent.mod");
+  sys_rc = system("mkdir test1/docbook-xml/4.2");
+  sys_rc = system("touch test1/docbook-xml/4.2/dbgenent.mod");
+  sys_rc = system("mkdir test1/docbook-xml/4.3");
+  sys_rc = system("touch test1/docbook-xml/4.3/dbgenent.mod");
+  sys_rc = system("mkdir test1/docbook-xml/4.4");
+  sys_rc = system("touch test1/docbook-xml/4.4/dbgenent.mod");
+  sys_rc = system("touch test1/docbook-xml.cat");
+  sys_rc = system("touch test1/docbook-xml.cat.old");
 
-  system("mkdir -p test1/testdir/biblio");
-  system("touch test1/testdir/biblio/biblio.dbf");
-  system("touch test1/testdir/biblio/biblio.dbt");
-  system("touch test1/testdir/biblio.odb");
-  system("touch test1/testdir/evolocal.odb");
+  sys_rc = system("mkdir -p test1/testdir/biblio");
+  sys_rc = system("touch test1/testdir/biblio/biblio.dbf");
+  sys_rc = system("touch test1/testdir/biblio/biblio.dbt");
+  sys_rc = system("touch test1/testdir/biblio.odb");
+  sys_rc = system("touch test1/testdir/evolocal.odb");
 
   path->show();
   db.openClient("myClient");
@@ -641,10 +643,10 @@ int main(void) {
   // Next test
   cout << endl << "List recovery after crash" << endl;
   my_time++;
-  system("touch \"test1/test space\"");
-  system("mkdir test1/crash");
-  system("touch test1/crash/file");
-  system("rm -rf test1/testdir");
+  sys_rc = system("touch \"test1/test space\"");
+  sys_rc = system("mkdir test1/crash");
+  sys_rc = system("touch test1/crash/file");
+  sys_rc = system("rm -rf test1/testdir");
   db.open();
 
   path->show();
@@ -660,8 +662,8 @@ int main(void) {
   }
 
   // Save files to test recovery
-  system("cp test_db/myClient/list test_db/myClient/list.cp");
-  system("cp test_db/myClient/journal test_db/myClient/journal.cp");
+  sys_rc = system("cp test_db/myClient/list test_db/myClient/list.cp");
+  sys_rc = system("cp test_db/myClient/journal test_db/myClient/journal.cp");
 
   db.closeClient();
   if (db.close()) {
@@ -773,10 +775,10 @@ int main(void) {
   cout << endl << "Expiry delay: 18, date: " << my_time << endl;
   db.open();
 
-  system("touch test1/testfile");
-  system("chmod 0 test1/testfile");
+  sys_rc = system("touch test1/testfile");
+  sys_rc = system("chmod 0 test1/testfile");
   // Make removal complain
-  system("rm -r test_db/.data/285b35198a5e188b3a0df3ed33f93a26-0");
+  sys_rc = system("rm -r test_db/.data/285b35198a5e188b3a0df3ed33f93a26-0");
   path->show();
   db.openClient("myClient", 18 * 24 * 3600);
   if (! path->parse(db, "test1", "host")) {
@@ -804,10 +806,10 @@ int main(void) {
   my_time++;
   db.open();
 
-  system("touch test1/testfile~");
-  system("rm -f test1/testfile");
+  sys_rc = system("touch test1/testfile~");
+  sys_rc = system("rm -f test1/testfile");
   // Make removal fail
-  system("chmod 0 test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0");
+  sys_rc = system("chmod 0 test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0");
   path->show();
   db.openClient("myClient", 0);
   if (! path->parse(db, "test1", "host")) {
@@ -816,7 +818,7 @@ int main(void) {
   db.closeClient();
 
   int rc = db.close();
-  system("chmod 755 test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0");
+  sys_rc = system("chmod 755 test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0");
   if (rc) {
     return 0;
   }
@@ -837,7 +839,7 @@ int main(void) {
   my_time++;
   db.open();
 
-  system("echo blah > test1/testfile~");
+  sys_rc = system("echo blah > test1/testfile~");
   path->show();
   db.openClient("myClient", 0);
   if (! path->parse(db, "test1", "host")) {

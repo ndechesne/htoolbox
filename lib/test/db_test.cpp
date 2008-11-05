@@ -60,6 +60,7 @@ int main(void) {
   string  zchecksum;
   int     status;
   List    dblist("test_db/myClient/list");
+  int     sys_rc;
 
   setVerbosityLevel(debug);
   Database db("test_db");
@@ -204,19 +205,19 @@ int main(void) {
   if (! db.open()) {
     db.close();
   }
-  system("echo 100000 > test_db/.lock");
+  sys_rc = system("echo 100000 > test_db/.lock");
   if (! db.open()) {
     db.close();
   }
-  system("echo 1 > test_db/.lock");
+  sys_rc = system("echo 1 > test_db/.lock");
   if (! db.open()) {
     db.close();
   }
-  system("echo 0 > test_db/.lock");
+  sys_rc = system("echo 0 > test_db/.lock");
   if (! db.open()) {
     db.close();
   }
-  system("touch test_db/.lock");
+  sys_rc = system("touch test_db/.lock");
   if (! db.open()) {
     db.close();
   }
@@ -395,7 +396,7 @@ int main(void) {
   cout << endl << "Test: scan" << endl;
   File("test_db/.data/3d546a1ce46c6ae10ad34ab8a81c542e-0/data").remove();
   Directory("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0").create();
-  system("echo '3' > test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
+  sys_rc = system("echo '3' > test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
   if ((status = db.open())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {

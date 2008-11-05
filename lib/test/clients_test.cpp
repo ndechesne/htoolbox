@@ -51,6 +51,7 @@ int main(void) {
   list<Client*> clients;
   Database      db("test_db");
   Filters       filters;
+  int           sys_rc;
 
   setVerbosityLevel(debug);
   db.setProgressCallback(progress);
@@ -97,7 +98,7 @@ int main(void) {
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
   client->setListfile("/home/User/hbackup.list");
-  system("echo path /home/User/test2 >> test_nfs/hbackup.list");
+  sys_rc = system("echo path /home/User/test2 >> test_nfs/hbackup.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
@@ -217,7 +218,7 @@ int main(void) {
   clients.push_back(client);
   client->setProtocol("file");
   client->setListfile("etc/localhost.list");
-  system("echo path test1/subdir >> etc/localhost.list");
+  sys_rc = system("echo path test1/subdir >> etc/localhost.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
@@ -235,7 +236,7 @@ int main(void) {
   client = new Client("testhost");
   clients.push_back(client);
   client->setProtocol("file");
-  system("sed \"s%expire.*%path test2/subdir%\" etc/localhost.list > etc/localhost.list2");
+  sys_rc = system("sed \"s%expire.*%path test2/subdir%\" etc/localhost.list > etc/localhost.list2");
   client->setListfile("etc/localhost.list2");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
@@ -257,7 +258,7 @@ int main(void) {
 
   client = new Client("myhost2");
   client->setProtocol("smb");
-  system("echo \"path 'C:\\Test Dir'\" > test_cifs/Backup/testhost2.list");
+  sys_rc = system("echo \"path 'C:\\Test Dir'\" > test_cifs/Backup/testhost2.list");
   client->setListfile("C:\\Backup\\testhost2.list");
   db.open();
   client->backup(db, filters, "test_db/mount", 0);
@@ -266,7 +267,7 @@ int main(void) {
 
   client = new Client("myhost3");
   client->setProtocol("nfs");
-  system("echo path /home/User/test > test_nfs/testhost3.list");
+  sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
   client->setListfile("/home/User/testhost3.list");
   db.open();
   client->backup(db, filters, "test_db/mount", 0);
@@ -275,7 +276,7 @@ int main(void) {
 
   client = new Client("myhost");
   client->setProtocol("file");
-  system("echo path test1/cvs > etc/testhost.list");
+  sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
   db.open();
   client->backup(db, filters, "test_db/mount", 0);
@@ -362,7 +363,7 @@ int main(void) {
   client = new Client("myhost");
   clients.push_back(client);
   client->setProtocol("file");
-  system("echo path test1/cvs > etc/testhost.list");
+  sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
 
   client = new Client("myhost2");
@@ -373,7 +374,7 @@ int main(void) {
   client = new Client("myhost3");
   clients.push_back(client);
   client->setProtocol("nfs");
-  system("echo path /home/User/test > test_nfs/testhost3.list");
+  sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
   client->setListfile("/home/User/testhost3.list");
 
   printf(">List %u client(s):\n", clients.size());
@@ -399,7 +400,7 @@ int main(void) {
   client = new Client("myhost3");
   clients.push_back(client);
   client->setProtocol("nfs");
-  system("echo path /home/User/test > test_nfs/testhost3.list");
+  sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
   client->setListfile("/home/User/testhost3.list");
 
   printf(">List %u client(s):\n", clients.size());
@@ -420,13 +421,13 @@ int main(void) {
   client = new Client("myhost");
   clients.push_back(client);
   client->setProtocol("file");
-  system("echo path test1/cvs > etc/testhost.list");
+  sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
 
   client = new Client("myhost3");
   clients.push_back(client);
   client->setProtocol("nfs");
-  system("echo path /home/User/test > test_nfs/testhost3.list");
+  sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
   client->setListfile("/home/User/testhost3.list");
 
   printf(">List %u client(s):\n", clients.size());
@@ -447,7 +448,7 @@ int main(void) {
   client = new Client("myhost");
   clients.push_back(client);
   client->setProtocol("file");
-  system("echo path test1/cvs > etc/testhost.list");
+  sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
 
   client = new Client("myhost2");
@@ -475,7 +476,7 @@ int main(void) {
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
   client->setListfile("/home/User/hbackup.list");
-  system("touch test_nfs/test2/fail");
+  sys_rc = system("touch test_nfs/test2/fail");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
@@ -496,8 +497,8 @@ int main(void) {
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
   client->setListfile("/home/User/hbackup.list");
-  system("touch test_nfs/test/fail");
-  system("rm -f test_nfs/test2/fail");
+  sys_rc = system("touch test_nfs/test/fail");
+  sys_rc = system("rm -f test_nfs/test2/fail");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
@@ -518,7 +519,7 @@ int main(void) {
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
   client->setListfile("/home/User/hbackup.list");
-  system("rm -f test_nfs/test/fail");
+  sys_rc = system("rm -f test_nfs/test/fail");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);

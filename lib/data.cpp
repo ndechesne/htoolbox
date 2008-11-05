@@ -358,12 +358,16 @@ int Data::write(
   Stream* temp2 = NULL;
   if (compress < 0) {
     char* temp_path_gz;
-    asprintf(&temp_path_gz, "%s.gz", temp1->path());
-    temp2 = new Stream(temp_path_gz);
-    free(temp_path_gz);
-    if (temp2->open("w", -compress, -1, false, source.size())) {
-      out(error, msg_errno, "opening write temp file", errno, temp2->path());
+    if (asprintf(&temp_path_gz, "%s.gz", temp1->path()) < 0) {
+      out(alert, msg_errno, "creating temporary path", errno, temp1->path());
       failed = true;
+    } else {
+      temp2 = new Stream(temp_path_gz);
+      free(temp_path_gz);
+      if (temp2->open("w", -compress, -1, false, source.size())) {
+        out(error, msg_errno, "opening write temp file", errno, temp2->path());
+        failed = true;
+      }
     }
   }
   if (temp1->open("w", (compress > 0) ? compress:0, -1, false, source.size())){
@@ -443,7 +447,11 @@ int Data::write(
   Stream* data       = NULL;
   char*   final_path = NULL;
   do {
-    asprintf(&final_path, "%s-%u", dest_path.c_str(), index);
+    if (asprintf(&final_path, "%s-%u", dest_path.c_str(), index) < 0) {
+      out(alert, msg_errno, "creating final path", errno, dest_path.c_str());
+      failed = true;
+      break;
+    }
 
     // Directory does not exist
     if (! Directory(final_path).isValid()) {
@@ -510,12 +518,17 @@ int Data::write(
       out(error, msg_errno, "removing previous data", errno);
     } else {
       char* name;
-      asprintf(&name, "%s/data%s", final_path, ((compress != 0) ? ".gz" : ""));
-      if (rename(dest->path(), name)) {
-        out(error, msg_errno, "failed to move file", errno, name);
+      if (asprintf(&name, "%s/data%s", final_path,
+                   ((compress != 0) ? ".gz" : "")) < 0) {
+        out(alert, msg_errno, "creating final name", errno, final_path);
         failed = true;
+      } else {
+        if (rename(dest->path(), name)) {
+          out(error, msg_errno, "failed to move file", errno, name);
+          failed = true;
+        }
+        free(name);
       }
-      free(name);
     }
   }
 
@@ -527,7 +540,10 @@ int Data::write(
   // Report checksum
   *dchecksum = NULL;
   if (! failed) {
-    asprintf(dchecksum, "%s-%d", source.checksum(), index);
+    if (asprintf(dchecksum, "%s-%d", source.checksum(), index) < 0) {
+      out(alert, msg_errno, "creating checksum", errno, source.checksum());
+      failed = true;
+    }
 
     // Make sure we won't exceed the file number limit
     // dest_path is /path/to/checksum
@@ -582,9 +598,12 @@ int Data::check(
   }
   {
     char* size_str;
-    asprintf(&size_str, "%lld", original_size);
-    out(verbose, msg_standard, size_str, -3, checksum);
-    free(size_str);
+    if (asprintf(&size_str, "%lld", original_size) < 0) {
+      out(alert, msg_errno, "creating size str", errno);
+    } else {
+      out(verbose, msg_standard, size_str, -3, checksum);
+      free(size_str);
+    }
   }
   // Return file information if required
   if (size != NULL) {

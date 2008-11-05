@@ -76,7 +76,9 @@ int Database::lock() {
     pid_t pid = 0;
 
     // Lock already taken
-    fscanf(file, "%d", &pid);
+    if (fscanf(file, "%d", &pid) < 1) {
+      pid = 0;
+    }
     fclose(file);
     if (pid != 0) {
       // Find out whether process is still running, if not, reset lock
@@ -736,9 +738,13 @@ int Database::add(
       } else {
         if ((op._operation != '!') || (! report_copy_error_once)) {
           char* full_name;
-          asprintf(&full_name, "%s:%s", _d->owner->name(), op._path);
-          out(error, msg_errno, "backing up file", errno, full_name);
-          free(full_name);
+          if (asprintf(&full_name, "%s:%s", _d->owner->name(), op._path) < 0) {
+            out(alert, msg_errno, "creating full name", errno, op._path);
+            failed = true;
+          } else {
+            out(error, msg_errno, "backing up file", errno, full_name);
+            free(full_name);
+          }
         }
         op._type = '!';
         failed = true;

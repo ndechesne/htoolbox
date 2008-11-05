@@ -235,7 +235,12 @@ public:
       _link(NULL) {
     _parsed = true;
     _link = static_cast<char*>(malloc(static_cast<int>(_size) + 1));
-    readlink(_path, _link, static_cast<int>(_size));
+    ssize_t count = readlink(_path, _link, static_cast<int>(_size));
+    if (count >= 0) {
+      _size = count;
+    } else {
+      _size = 0;
+    }
     _link[_size] = '\0';
   }
   // Constructor for path in the VFS
@@ -245,7 +250,12 @@ public:
     stat();
     _parsed = true;
     _link = static_cast<char*>(malloc(static_cast<int>(_size) + 1));
-    readlink(_path, _link, static_cast<int>(_size));
+    ssize_t count = readlink(_path, _link, static_cast<int>(_size));
+    if (count >= 0) {
+      _size = count;
+    } else {
+      _size = 0;
+    }
     _link[_size] = '\0';
   }
   // Constructor for given file metadata

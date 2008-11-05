@@ -60,6 +60,8 @@ time_t time(time_t *t) {
 }
 
 int main(void) {
+  int sys_rc;
+
   cout << "Owner tests" << endl;
   setVerbosityLevel(debug);
 
@@ -101,7 +103,7 @@ int main(void) {
   cout << "List:" << endl;
   owner_list.show();
   cout << "Dir contents:" << endl;
-  system("ls -R test_db");
+  sys_rc = system("ls -R test_db");
 
 
   cout << endl << "Update" << endl;
@@ -129,7 +131,7 @@ int main(void) {
   cout << "List:" << endl;
   owner_list.show();
   cout << "Dir contents:" << endl;
-  system("ls -R test_db");
+  sys_rc = system("ls -R test_db");
 
 
   cout << endl << "Abort client" << endl;
@@ -157,7 +159,7 @@ int main(void) {
   cout << "List:" << endl;
   owner_list.show();
   cout << "Dir contents:" << endl;
-  system("ls -R test_db");
+  sys_rc = system("ls -R test_db");
 
 
   cout << endl << "Abort backup" << endl;
@@ -187,7 +189,7 @@ int main(void) {
   cout << "List:" << endl;
   owner_list.show();
   cout << "Dir contents:" << endl;
-  system("ls -R test_db");
+  sys_rc = system("ls -R test_db");
   hbackup::abort(0xffff);
 
   cout << endl << "Recover client" << endl;
@@ -204,7 +206,7 @@ int main(void) {
   cout << "List:" << endl;
   owner_list.show();
   cout << "Dir contents:" << endl;
-  system("ls -R test_db");
+  sys_rc = system("ls -R test_db");
 
 
   cout << endl << "Recover client (empty journal)" << endl;
@@ -226,7 +228,7 @@ int main(void) {
   cout << "List:" << endl;
   owner_list.show();
   cout << "Dir contents:" << endl;
-  system("ls -R test_db");
+  sys_rc = system("ls -R test_db");
 
 
   cout << endl << "Recover client (empty, not closed journal)" << endl;
@@ -234,8 +236,8 @@ int main(void) {
     List journal("test_db/client/journal2");
     journal.open("w");
     journal.close();
-    system("head -1 test_db/client/journal2 > test_db/client/journal");
-    system("rm test_db/client/journal2");
+    sys_rc = system("head -1 test_db/client/journal2 > test_db/client/journal");
+    sys_rc = system("rm test_db/client/journal2");
   }
   rc = o.open(false, false);
   if (rc) {
@@ -250,7 +252,7 @@ int main(void) {
   cout << "List:" << endl;
   owner_list.show();
   cout << "Dir contents:" << endl;
-  system("ls -R test_db");
+  sys_rc = system("ls -R test_db");
 
 
   cout << endl << "Get checksums" << endl;
@@ -269,7 +271,7 @@ int main(void) {
     cout << " -> " << i->checksum() << ", " << i->size() << endl;
   }
   cout << "Dir contents:" << endl;
-  system("ls -R test_db");
+  sys_rc = system("ls -R test_db");
 
 
   cout << endl << "End of tests" << endl;
