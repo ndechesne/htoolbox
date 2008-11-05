@@ -65,90 +65,107 @@ int ClientPath::parse_recurse(
     for (list<Node*>::iterator i = dir.nodesList().begin();
         i != dir.nodesList().end(); delete *i, i = dir.nodesList().erase(i)) {
       if (! aborting() && ! give_up) {
-        // Ignore inaccessible files
+        Path rem_path(remote_path, (*i)->name());
+        // Ignore inaccessible files (should not happen)
+        char code[] = "       ";
         if ((*i)->type() == '?') {
-          continue;
-        }
+          code[0] = 'I';
+          code[2] = (*i)->type();
+          code[4] = 's';
+        } else
 
         // Always ignore a dir named '.hbackup'
         if (((*i)->type() == 'd') && (strcmp((*i)->name(), ".hbackup") == 0)) {
-          continue;
-        }
+          code[0] = 'I';
+          code[2] = (*i)->type();
+          code[4] = 's';
+        } else
 
         // Let the parser analyse the file data to know whether to back it up
         if ((parser != NULL) && (parser->ignore(**i))) {
-          continue;
-        }
+          code[0] = 'I';
+          code[2] = (*i)->type();
+          code[4] = 'p';
+        } else
 
         // Now pass it through the filters
         if ((_ignore != NULL) && _ignore->match(**i, start)) {
-          continue;
-        }
+          code[0] = 'I';
+          code[2] = (*i)->type();
+          code[4] = 'f';
+        } else
+        {
+          // Count the nodes considered, for info
+          _nodes++;
 
-        // Count the nodes considered, for info
-        _nodes++;
+          // Synchronize with DB records
+          OpData op(rem_path, **i);
 
-        // Synchronize with DB records
-        Path rem_path(remote_path, (*i)->name());
-        OpData op(rem_path, **i);
+          // Parse directory, disregard/re-use some irrelevant fields
+          if ((*i)->type() == 'd') {
+            Directory& d = static_cast<Directory&>(**i);
+            d.setMtime(0);
+            if (d.createList()) {
+              d.setSize(-1);
+              d.deleteList();
+              char* full_name;
+              asprintf(&full_name, "%s:%s/%s", client_name, remote_path,
+                d.name());
+              out(error, msg_errno, "reading directory", errno, full_name);
+              free(full_name);
+              if ((errno != EACCES)     // Ignore access refused
+              &&  (errno != ENOENT)) {  // Ignore directory gone
+                // All the rest results in a cease and desist order
+                give_up = true;
+              }
+            } else {
+              d.setSize(0);
+            }
+          }
 
-        // Parse directory, disregard/re-use some irrelevant fields
-        if ((*i)->type() == 'd') {
-          Directory& d = static_cast<Directory&>(**i);
-          d.setMtime(0);
-          if (d.createList()) {
-            d.setSize(-1);
-            d.deleteList();
-            char* full_name;
-            asprintf(&full_name, "%s:%s/%s", client_name, remote_path, d.name());
-            out(error, msg_errno, "reading directory", errno, full_name);
-            free(full_name);
-            if ((errno != EACCES)     // Ignore access refused
-            &&  (errno != ENOENT)) {  // Ignore directory gone
+          db.sendEntry(op);
+          // Add node
+          if (op.needsAdding()) {
+            // Regular file: deal with compression
+            if ((*i)->type() == 'f') {
+              // Compress file if not using auto-compression and filter matches
+              if (op.compression() == 0) {
+                if ((_compress != NULL) && _compress->match(**i, start)) {
+                  op.setCompression(compression_level);
+                }
+              } else if (op.compression() < 0) {
+                if ((_no_compress != NULL) && _no_compress->match(**i, start)){
+                  op.setCompression(0);
+                } else {
+                  op.setCompression(-compression_level);
+                }
+              }
+            }
+            if (db.add(op, _report_copy_error_once)
+            &&  (  (errno != EBUSY)       // Ignore busy files
+                && (errno != ENOENT)      // Ignore files gone
+                && (errno != EACCES))) {  // Ignore access refused
               // All the rest results in a cease and desist order
               give_up = true;
             }
-          } else {
-            d.setSize(0);
+            op.verbose(code);
+            out(info, msg_standard, rem_path, -2, code);
           }
-        }
 
-        db.sendEntry(op);
-        // Add node
-        if (op.needsAdding()) {
-          // Regular file: deal with compression
-          if ((*i)->type() == 'f') {
-            // Compress file if not using auto-compression and filter matches
-            if (op.compression() == 0) {
-              if ((_compress != NULL) && _compress->match(**i, start)) {
-                op.setCompression(compression_level);
-              }
-            } else if (op.compression() < 0) {
-              if ((_no_compress != NULL) && _no_compress->match(**i, start)) {
-                op.setCompression(0);
-              } else {
-                op.setCompression(-compression_level);
-              }
+          // For directory, recurse into it
+          if ((*i)->type() == 'd') {
+            if ((*i)->size() != -1) {
+              out(verbose, msg_standard, &rem_path[_path.length() + 1], -3);
+            }
+            if (parse_recurse(db, rem_path, client_name, start,
+                static_cast<Directory&>(**i), parser) < 0) {
+              give_up = true;
             }
           }
-          if (db.add(op, _report_copy_error_once)
-          &&  (  (errno != EBUSY)       // Ignore busy files
-              && (errno != ENOENT)      // Ignore files gone
-              && (errno != EACCES))) {  // Ignore access refused
-            // All the rest results in a cease and desist order
-            give_up = true;
-          }
+          continue;
         }
-
-        // For directory, recurse into it
-        if ((*i)->type() == 'd') {
-          if ((*i)->size() != -1) {
-            out(verbose, msg_standard, &rem_path[_path.length() + 1], -3);
-          }
-          if (parse_recurse(db, rem_path, client_name, start,
-              static_cast<Directory&>(**i), parser) < 0) {
-            give_up = true;
-          }
+        if (code[0] == 'I') {
+          out(verbose, msg_standard, rem_path, -2, code);
         }
       }
     }

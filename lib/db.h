@@ -81,7 +81,7 @@ public:
     OpData&         operation);           // Operation data
   // Add entry to journal/list
   int  add(
-    const OpData&   operation,            // Operation data
+    OpData&         operation,            // Operation data
     bool            report_copy_error_once = false);
 };
 

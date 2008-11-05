@@ -24,7 +24,9 @@ namespace hbackup {
 class OpData {
   friend class Database;
   friend class Owner;
-  char              _letter;          // Letter showing current operation
+  char              _operation;       // Letter showing current operation
+  char              _type;            // Letter showing concerned type
+  char              _info;            // Letter showing internal information
   int               _id;              // Missing checksum ID
   int               _compression;     // Compression level for regular files
   const char*       _path;            // Real file path, on client
@@ -35,11 +37,16 @@ public:
   OpData(
     const char*     path,             // Real file path, on client
     Node&           node)             // File metadata
-    : _letter(0), _id(-1), _compression(0), _path(path), _node(node),
-      _same_list_entry(false) {}
+    : _operation(0), _type(' '), _info(' '), _id(-1), _compression(0),
+      _path(path), _node(node), _same_list_entry(false) {}
   void setCompression(int compression) { _compression = compression; }
   int compression()  { return _compression; }
-  bool needsAdding() { return _letter != 0; }
+  bool needsAdding() { return _operation != 0; }
+  void verbose(char* code) {
+    code[0] = _operation;
+    code[2] = _type;
+    code[4] = _info;
+  }
 };
 
 }

@@ -478,7 +478,7 @@ void Owner::sendEntry(
 
   // New file: add
   if ((rc > 0) || (db_node == NULL)) {
-    op._letter = 'A';
+    op._operation = 'A';
   } else
   // Existing file: check for differences
   if (*db_node != op._node) {
@@ -486,7 +486,7 @@ void Owner::sendEntry(
     if ((op._node.type() == db_node->type())
     &&  (op._node.size() == db_node->size())
     &&  (op._node.mtime() == db_node->mtime())) {
-      op._letter = '~';
+      op._operation = '~';
       if (op._node.type() == 'f') {
         const char* node_checksum = static_cast<File*>(db_node)->checksum();
         // Checksum missing: retry
@@ -501,7 +501,7 @@ void Owner::sendEntry(
     } else
     // Data differs
     {
-      op._letter = 'M';
+      op._operation = 'M';
     }
   } else
   // Same metadata (hence same type): check for broken data
@@ -511,7 +511,7 @@ void Owner::sendEntry(
     if (node_checksum[0] == '\0') {
       // Checksum missing: retry
       op._same_list_entry = true;
-      op._letter = '!';
+      op._operation = '!';
     } else {
       // Same checksum: look for checksum in missing list (binary search)
       op._id = missing.search(node_checksum);
@@ -520,23 +520,23 @@ void Owner::sendEntry(
           if (missing.dataSize(op._id) != op._node.size()) {
             // Replace data with correct one
             op._same_list_entry = true;
-            op._letter = 'C';
+            op._operation = 'C';
           }
         } else {
           // Recover missing data
-          op._letter = 'R';
+          op._operation = 'R';
         }
       }
     }
   } else
   if ((op._node.type() == 'd') && (op._node.size() == -1)) {
     op._same_list_entry = true;
-    op._letter = '!';
+    op._operation = '!';
   } else
   if ((op._node.type() == 'l')
   && (strcmp(static_cast<const Link&>(op._node).link(),
       static_cast<Link*>(db_node)->link()) != 0)) {
-    op._letter = 'L';
+    op._operation = 'L';
   }
   delete db_node;
 }

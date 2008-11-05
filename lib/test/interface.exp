@@ -458,10 +458,15 @@ A f     test1/cvs/CVS/Entries
 Checking data, sizes: f=16 z=50 (50)
 Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 A f     test1/cvs/CVS/Root
+I f p   test1/cvs/CVS/Whatever
+I d p   test1/cvs/CVS/Wherever
 A d     test1/cvs/dirbad
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
+I f p   test1/cvs/dirbad/fileoth
+I f p   test1/cvs/dirbad/fileutd
+I d p   test1/cvs/diroth
 A d     test1/cvs/dirutd
 cvs/dirutd\r
           \r
@@ -475,10 +480,14 @@ A f     test1/cvs/dirutd/CVS/Entries
 Checking data, sizes: f=10 z=44 (44)
 Adding uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
 A f     test1/cvs/dirutd/CVS/Root
+I f p   test1/cvs/dirutd/CVS/Whatever
+I f p   test1/cvs/dirutd/fileoth
 Checking data, sizes: f=0 z=0 (0)
 A ~     test1/cvs/dirutd/fileutd
+I f f   test1/cvs/filemod.o
 Checking data, sizes: f=0 z=0 (0)
 A ~     test1/cvs/filenew.c
+I f p   test1/cvs/fileoth
 Checking data, sizes: f=0 z=0 (0)
 A ~     test1/cvs/fileutd.h
 A d     test1/dir space
@@ -487,6 +496,7 @@ dir space\r
 Checking data, sizes: f=0 z=0 (0)
 A ~     test1/dir space/file space
 A l     test1/dir space/link space
+I d f   test1/subdir
 A d     test1/svn
 svn\r
    \r
@@ -501,10 +511,16 @@ svn/.svn\r
 Checking data, sizes: f=77 z=79 (80)
 Adding uncompressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
 A f     test1/svn/.svn/entries
+I f p   test1/svn/.svn/format
+I f p   test1/svn/.svn/whatever
+I d p   test1/svn/.svn/wherever
 A d     test1/svn/dirbad
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
+I f p   test1/svn/dirbad/fileoth
+I f p   test1/svn/dirbad/fileutd
+I d p   test1/svn/diroth
 A d     test1/svn/dirutd
 svn/dirutd\r
           \r
@@ -517,10 +533,16 @@ svn/dirutd/.svn\r
 Checking data, sizes: f=30 z=52 (52)
 Adding uncompressed data for 8bdef5751e46ed57d237cbe3f4a5061c-0
 A f     test1/svn/dirutd/.svn/entries
+I f p   test1/svn/dirutd/.svn/format
+I f p   test1/svn/dirutd/.svn/whatever
+I f p   test1/svn/dirutd/fileoth
 Checking data, sizes: f=0 z=0 (0)
 A ~     test1/svn/dirutd/fileutd
+I f f   test1/svn/filemod.o
 Checking data, sizes: f=0 z=0 (0)
 A ~     test1/svn/filenew.c
+I f p   test1/svn/fileoth
+I f p   test1/svn/fileutd.h
 Checking data, sizes: f=0 z=0 (0)
 A ~     test1/test space
 A d     test1/testdir
@@ -529,6 +551,7 @@ testdir\r
 Checking data, sizes: f=13 z=47 (47)
 Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 A f     test1/testfile
+I f f   test1/testfile~
 A l     test1/testlink
 A p     test1/testpipe
 Backing up path: test2
@@ -849,16 +872,29 @@ cvs\r
  --> filenew.c: 0
  --> fileutd.h: 1159985080
 cvs/CVS\r
+       \r
+I f p   test1/cvs/CVS/Whatever
+I d p   test1/cvs/CVS/Wherever
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
+I f p   test1/cvs/dirbad/fileoth
+I f p   test1/cvs/dirbad/fileutd
+I d p   test1/cvs/diroth
 cvs/dirutd\r
           \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
-dir space     \r
-svn      \r
+              \r
+I f p   test1/cvs/dirutd/CVS/Whatever
+I f p   test1/cvs/dirutd/fileoth
+I f f   test1/cvs/filemod.o
+I f p   test1/cvs/fileoth
+dir space\r
+         \r
+I d f   test1/subdir
+svn\r
    \r
  -> Parsing Subversion entries
  --> diroth: o
@@ -866,17 +902,32 @@ svn      \r
  --> filenew.c: m
  --> fileoth: i
 svn/.svn\r
+        \r
+I f p   test1/svn/.svn/format
+I f p   test1/svn/.svn/whatever
+I d p   test1/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
+I f p   test1/svn/dirbad/fileoth
+I f p   test1/svn/dirbad/fileutd
+I d p   test1/svn/diroth
 svn/dirutd\r
           \r
  -> Parsing Subversion entries
  --> fileoth: o
  --> fileutd: m
 svn/dirutd/.svn\r
-testdir        \r
+               \r
+I f p   test1/svn/dirutd/.svn/format
+I f p   test1/svn/dirutd/.svn/whatever
+I f p   test1/svn/dirutd/fileoth
+I f f   test1/svn/filemod.o
+I f p   test1/svn/fileoth
+I f p   test1/svn/fileutd.h
+testdir\r
        \r
+I f f   test1/testfile~
 Backing up path: test2
 testdir\r
        \r
@@ -1180,15 +1231,26 @@ cvs\r
  --> filenew.c: 0
  --> fileutd.h: 1159985080
 cvs/CVS\r
+       \r
+I f p   test1/cvs/CVS/Whatever
+I d p   test1/cvs/CVS/Wherever
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
+I f p   test1/cvs/dirbad/fileoth
+I f p   test1/cvs/dirbad/fileutd
+I d p   test1/cvs/diroth
 cvs/dirutd\r
           \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
-dir space     \r
+              \r
+I f p   test1/cvs/dirutd/CVS/Whatever
+I f p   test1/cvs/dirutd/fileoth
+I f f   test1/cvs/filemod.o
+I f p   test1/cvs/fileoth
+dir space\r
          \r
 Killing trigger reached: 2
 Error: myhost:test1/dir space/big_file: Operation canceled backing up file
@@ -1491,15 +1553,26 @@ cvs\r
  --> filenew.c: 0
  --> fileutd.h: 1159985080
 cvs/CVS\r
+       \r
+I f p   test1/cvs/CVS/Whatever
+I d p   test1/cvs/CVS/Wherever
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
+I f p   test1/cvs/dirbad/fileoth
+I f p   test1/cvs/dirbad/fileutd
+I d p   test1/cvs/diroth
 cvs/dirutd\r
           \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
-dir space     \r
+              \r
+I f p   test1/cvs/dirutd/CVS/Whatever
+I f p   test1/cvs/dirutd/fileoth
+I f f   test1/cvs/filemod.o
+I f p   test1/cvs/fileoth
+dir space\r
          \r
 Killing trigger reached: 2
 ! !     test1/dir space/big_file
@@ -1735,19 +1808,31 @@ cvs\r
  --> filenew.c: 0
  --> fileutd.h: 1159985080
 cvs/CVS\r
+       \r
+I f p   test1/cvs/CVS/Whatever
+I d p   test1/cvs/CVS/Wherever
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
+I f p   test1/cvs/dirbad/fileoth
+I f p   test1/cvs/dirbad/fileutd
+I d p   test1/cvs/diroth
 cvs/dirutd\r
           \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
-dir space     \r
+              \r
+I f p   test1/cvs/dirutd/CVS/Whatever
+I f p   test1/cvs/dirutd/fileoth
+I f f   test1/cvs/filemod.o
+I f p   test1/cvs/fileoth
+dir space\r
          \r
 Checking data, sizes: f=512000 z=545 (553)
 Adding compressed data for 816df6f64deba63b029ca19d880ee10a-0
 ! z     test1/dir space/big_file
+I d f   test1/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -1756,17 +1841,32 @@ svn\r
  --> filenew.c: m
  --> fileoth: i
 svn/.svn\r
+        \r
+I f p   test1/svn/.svn/format
+I f p   test1/svn/.svn/whatever
+I d p   test1/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
+I f p   test1/svn/dirbad/fileoth
+I f p   test1/svn/dirbad/fileutd
+I d p   test1/svn/diroth
 svn/dirutd\r
           \r
  -> Parsing Subversion entries
  --> fileoth: o
  --> fileutd: m
 svn/dirutd/.svn\r
-testdir        \r
+               \r
+I f p   test1/svn/dirutd/.svn/format
+I f p   test1/svn/dirutd/.svn/whatever
+I f p   test1/svn/dirutd/fileoth
+I f f   test1/svn/filemod.o
+I f p   test1/svn/fileoth
+I f p   test1/svn/fileutd.h
+testdir\r
        \r
+I f f   test1/testfile~
 Backing up path: test2
 testdir\r
        \r
@@ -2954,16 +3054,29 @@ cvs\r
  --> filenew.c: 0
  --> fileutd.h: 1159985080
 cvs/CVS\r
+       \r
+I f p   test1/cvs/CVS/Whatever
+I d p   test1/cvs/CVS/Wherever
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
+I f p   test1/cvs/dirbad/fileoth
+I f p   test1/cvs/dirbad/fileutd
+I d p   test1/cvs/diroth
 cvs/dirutd\r
           \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
-dir space     \r
-svn      \r
+              \r
+I f p   test1/cvs/dirutd/CVS/Whatever
+I f p   test1/cvs/dirutd/fileoth
+I f f   test1/cvs/filemod.o
+I f p   test1/cvs/fileoth
+dir space\r
+         \r
+I d f   test1/subdir
+svn\r
    \r
  -> Parsing Subversion entries
  --> diroth: o
@@ -2971,17 +3084,32 @@ svn      \r
  --> filenew.c: m
  --> fileoth: i
 svn/.svn\r
+        \r
+I f p   test1/svn/.svn/format
+I f p   test1/svn/.svn/whatever
+I d p   test1/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
+I f p   test1/svn/dirbad/fileoth
+I f p   test1/svn/dirbad/fileutd
+I d p   test1/svn/diroth
 svn/dirutd\r
           \r
  -> Parsing Subversion entries
  --> fileoth: o
  --> fileutd: m
 svn/dirutd/.svn\r
-testdir        \r
+               \r
+I f p   test1/svn/dirutd/.svn/format
+I f p   test1/svn/dirutd/.svn/whatever
+I f p   test1/svn/dirutd/fileoth
+I f f   test1/svn/filemod.o
+I f p   test1/svn/fileoth
+I f p   test1/svn/fileutd.h
+testdir\r
        \r
+I f f   test1/testfile~
 Backing up path: test2
 testdir\r
        \r
@@ -7465,16 +7593,28 @@ R f     test1/cvs/CVS/Entries
 Checking data, sizes: f=16 z=50 (50)
 Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 R f     test1/cvs/CVS/Root
+I f p   test1/cvs/CVS/Whatever
+I d p   test1/cvs/CVS/Wherever
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
+I f p   test1/cvs/dirbad/fileoth
+I f p   test1/cvs/dirbad/fileutd
+I d p   test1/cvs/diroth
 cvs/dirutd\r
           \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
-dir space     \r
-svn      \r
+              \r
+I f p   test1/cvs/dirutd/CVS/Whatever
+I f p   test1/cvs/dirutd/fileoth
+I f f   test1/cvs/filemod.o
+I f p   test1/cvs/fileoth
+dir space\r
+         \r
+I d f   test1/subdir
+svn\r
    \r
  -> Parsing Subversion entries
  --> diroth: o
@@ -7486,17 +7626,31 @@ svn/.svn\r
 Checking data, sizes: f=77 z=79 (80)
 Adding uncompressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
 R f     test1/svn/.svn/entries
+I f p   test1/svn/.svn/format
+I f p   test1/svn/.svn/whatever
+I d p   test1/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
+I f p   test1/svn/dirbad/fileoth
+I f p   test1/svn/dirbad/fileutd
+I d p   test1/svn/diroth
 svn/dirutd\r
           \r
  -> Parsing Subversion entries
  --> fileoth: o
  --> fileutd: m
 svn/dirutd/.svn\r
-testdir        \r
+               \r
+I f p   test1/svn/dirutd/.svn/format
+I f p   test1/svn/dirutd/.svn/whatever
+I f p   test1/svn/dirutd/fileoth
+I f f   test1/svn/filemod.o
+I f p   test1/svn/fileoth
+I f p   test1/svn/fileutd.h
+testdir\r
        \r
+I f f   test1/testfile~
 D       test1/testfile
 Backing up path: test2
 testdir\r
@@ -7810,16 +7964,29 @@ cvs\r
  --> filenew.c: 0
  --> fileutd.h: 1159985080
 cvs/CVS\r
+       \r
+I f p   test1/cvs/CVS/Whatever
+I d p   test1/cvs/CVS/Wherever
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
+I f p   test1/cvs/dirbad/fileoth
+I f p   test1/cvs/dirbad/fileutd
+I d p   test1/cvs/diroth
 cvs/dirutd\r
           \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
-dir space     \r
-svn      \r
+              \r
+I f p   test1/cvs/dirutd/CVS/Whatever
+I f p   test1/cvs/dirutd/fileoth
+I f f   test1/cvs/filemod.o
+I f p   test1/cvs/fileoth
+dir space\r
+         \r
+I d f   test1/subdir
+svn\r
    \r
  -> Parsing Subversion entries
  --> diroth: o
@@ -7827,17 +7994,32 @@ svn      \r
  --> filenew.c: m
  --> fileoth: i
 svn/.svn\r
+        \r
+I f p   test1/svn/.svn/format
+I f p   test1/svn/.svn/whatever
+I d p   test1/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
+I f p   test1/svn/dirbad/fileoth
+I f p   test1/svn/dirbad/fileutd
+I d p   test1/svn/diroth
 svn/dirutd\r
           \r
  -> Parsing Subversion entries
  --> fileoth: o
  --> fileutd: m
 svn/dirutd/.svn\r
-testdir        \r
+               \r
+I f p   test1/svn/dirutd/.svn/format
+I f p   test1/svn/dirutd/.svn/whatever
+I f p   test1/svn/dirutd/fileoth
+I f f   test1/svn/filemod.o
+I f p   test1/svn/fileoth
+I f p   test1/svn/fileutd.h
+testdir\r
        \r
+I f f   test1/testfile~
 Backing up path: test2
 testdir\r
        \r
@@ -8460,16 +8642,29 @@ cvs\r
  --> filenew.c: 0
  --> fileutd.h: 1159985080
 cvs/CVS\r
+       \r
+I f p   test1/cvs/CVS/Whatever
+I d p   test1/cvs/CVS/Wherever
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
+I f p   test1/cvs/dirbad/fileoth
+I f p   test1/cvs/dirbad/fileutd
+I d p   test1/cvs/diroth
 cvs/dirutd\r
           \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
-dir space     \r
-svn      \r
+              \r
+I f p   test1/cvs/dirutd/CVS/Whatever
+I f p   test1/cvs/dirutd/fileoth
+I f f   test1/cvs/filemod.o
+I f p   test1/cvs/fileoth
+dir space\r
+         \r
+I d f   test1/subdir
+svn\r
    \r
  -> Parsing Subversion entries
  --> diroth: o
@@ -8477,17 +8672,32 @@ svn      \r
  --> filenew.c: m
  --> fileoth: i
 svn/.svn\r
+        \r
+I f p   test1/svn/.svn/format
+I f p   test1/svn/.svn/whatever
+I d p   test1/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
+I f p   test1/svn/dirbad/fileoth
+I f p   test1/svn/dirbad/fileutd
+I d p   test1/svn/diroth
 svn/dirutd\r
           \r
  -> Parsing Subversion entries
  --> fileoth: o
  --> fileutd: m
 svn/dirutd/.svn\r
-testdir        \r
+               \r
+I f p   test1/svn/dirutd/.svn/format
+I f p   test1/svn/dirutd/.svn/whatever
+I f p   test1/svn/dirutd/fileoth
+I f f   test1/svn/filemod.o
+I f p   test1/svn/fileoth
+I f p   test1/svn/fileutd.h
+testdir\r
        \r
+I f f   test1/testfile~
 Backing up path: test2
 testdir\r
        \r

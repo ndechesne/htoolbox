@@ -688,7 +688,7 @@ void Database::sendEntry(
 }
 
 int Database::add(
-    const OpData&   op,
+    OpData&         op,
     bool            report_copy_error_once) {
   bool failed = false;
 
@@ -706,9 +706,6 @@ int Database::add(
     return -1;
   }
 
-  char code[] = "       ";
-  code[0]     = op._letter;
-
   if (op._node.type() == 'f') {
     if (static_cast<File&>(op._node).checksum()[0] == '\0') {
       // Copy data
@@ -720,16 +717,16 @@ int Database::add(
       if (rc >= 0) {
         if (rc > 0) {
           if (compression > 0) {
-            code[2] = 'z';
+            op._type = 'z';
           } else {
-            code[2] = 'f';
+            op._type = 'f';
           }
           if (rc > 1) {
-            code[4] = 'r';
+            op._info = 'r';
           }
         } else {
           // File data found in DB
-          code[2] = '~';
+          op._type = '~';
         }
         static_cast<File&>(op._node).setChecksum(checksum);
         if ((op._id >= 0) && (_d->missing[op._id] == checksum)) {
@@ -737,13 +734,13 @@ int Database::add(
           _d->missing.setRecovered(op._id);
         }
       } else {
-        if ((op._letter != '!') || (! report_copy_error_once)) {
+        if ((op._operation != '!') || (! report_copy_error_once)) {
           char* full_name;
           asprintf(&full_name, "%s:%s", _d->owner->name(), op._path);
           out(error, msg_errno, "backing up file", errno, full_name);
           free(full_name);
         }
-        code[2] = '!';
+        op._type = '!';
         failed = true;
       }
       free(checksum);
@@ -756,14 +753,14 @@ int Database::add(
   } else
   if (op._node.type() == 'd') {
     if (op._node.size() == -1) {
-      code[2] = '!';
+      op._type = '!';
       failed = true;
     } else {
-      code[2] = 'd';
+      op._type = 'd';
     }
   } else
   {
-    code[2] = op._node.type();
+    op._type = op._node.type();
   }
 
   // Even if failed, add data if new
@@ -774,7 +771,6 @@ int Database::add(
       failed = true;
     }
   }
-  out(info, msg_standard, op._path, -2, code);
 
   return failed ? -1 : 0;
 }
