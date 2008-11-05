@@ -12,7 +12,7 @@ Reading list of problematic checksums
 List created: myClient
 Database open r/w: myClient
 Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
-A f     /home/User/àccénts_test
+Aff     /home/User/àccénts_test
 Done:   5.0%\r
 Done:  10.0%\r
 Done:  15.0%\r
@@ -34,109 +34,109 @@ Done:  90.0%\r
 Done:  95.0%\r
             \r
 Adding uncompressed data for f1c9645dbc14efddc7d8a322685f26eb-0
-A f     /home/User/big_file
-A d     /home/User/cvs
+Aff     /home/User/big_file
+Ad      /home/User/cvs
 cvs\r
    \r
-A d     /home/User/cvs/CVS
+Ad      /home/User/cvs/CVS
 cvs/CVS\r
        \r
 Adding uncompressed data for fef51838cd3cfe8ed96355742eb71fbd-0
-A f     /home/User/cvs/CVS/Entries
+Aff     /home/User/cvs/CVS/Entries
 Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
-A f     /home/User/cvs/CVS/Root
+Aff     /home/User/cvs/CVS/Root
 Adding uncompressed data for 9283e2c51868272850bd2d89b63c58e8-0
-A f     /home/User/cvs/CVS/Whatever
-A d     /home/User/cvs/CVS/Wherever
+Aff     /home/User/cvs/CVS/Whatever
+Ad      /home/User/cvs/CVS/Wherever
 cvs/CVS/Wherever\r
                 \r
-A ~     /home/User/cvs/CVS/Wherever/Whichever
-A d     /home/User/cvs/dirbad
+Af~     /home/User/cvs/CVS/Wherever/Whichever
+Ad      /home/User/cvs/dirbad
 cvs/dirbad\r
           \r
-A ~     /home/User/cvs/dirbad/fileoth
-A ~     /home/User/cvs/dirbad/fileutd
-A d     /home/User/cvs/diroth
+Af~     /home/User/cvs/dirbad/fileoth
+Af~     /home/User/cvs/dirbad/fileutd
+Ad      /home/User/cvs/diroth
 cvs/diroth\r
           \r
-A d     /home/User/cvs/dirutd
+Ad      /home/User/cvs/dirutd
 cvs/dirutd\r
           \r
-A d     /home/User/cvs/dirutd/CVS
+Ad      /home/User/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
               \r
 Adding uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
-A f     /home/User/cvs/dirutd/CVS/Entries
+Aff     /home/User/cvs/dirutd/CVS/Entries
 Adding uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
-A f     /home/User/cvs/dirutd/CVS/Root
+Aff     /home/User/cvs/dirutd/CVS/Root
 Adding uncompressed data for caecaacc7fdee8a7667d4f4f315858a9-0
-A f     /home/User/cvs/dirutd/CVS/Whatever
-A ~     /home/User/cvs/dirutd/fileoth
-A ~     /home/User/cvs/dirutd/fileutd
-A ~     /home/User/cvs/filemod.o
-A ~     /home/User/cvs/filenew.c
-A ~     /home/User/cvs/fileoth
-A ~     /home/User/cvs/fileutd.h
-A d     /home/User/dir space
+Aff     /home/User/cvs/dirutd/CVS/Whatever
+Af~     /home/User/cvs/dirutd/fileoth
+Af~     /home/User/cvs/dirutd/fileutd
+Af~     /home/User/cvs/filemod.o
+Af~     /home/User/cvs/filenew.c
+Af~     /home/User/cvs/fileoth
+Af~     /home/User/cvs/fileutd.h
+Ad      /home/User/dir space
 dir space\r
          \r
-A ~     /home/User/dir space/file space
-A l     /home/User/dir space/link space
+Af~     /home/User/dir space/file space
+Al      /home/User/dir space/link space
 Error: host:/home/User/subdir: Permission denied reading directory
-A !     /home/User/subdir
-A ~     /home/User/subdir-file
-A ~     /home/User/subdirfile
-A d     /home/User/svn
+Ad!     /home/User/subdir
+Af~     /home/User/subdir-file
+Af~     /home/User/subdirfile
+Ad      /home/User/svn
 svn\r
    \r
-A d     /home/User/svn/.svn
+Ad      /home/User/svn/.svn
 svn/.svn\r
         \r
 Adding uncompressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
-A f     /home/User/svn/.svn/entries
+Aff     /home/User/svn/.svn/entries
 Adding uncompressed data for 3cd6b399f9fa49fd0b137a3de46d83f5-0
-A f     /home/User/svn/.svn/format
+Aff     /home/User/svn/.svn/format
 Adding uncompressed data for 06f05055bfb2c8b900459f45826fc8ea-0
-A f     /home/User/svn/.svn/whatever
-A d     /home/User/svn/.svn/wherever
+Aff     /home/User/svn/.svn/whatever
+Ad      /home/User/svn/.svn/wherever
 svn/.svn/wherever\r
                  \r
-A ~     /home/User/svn/.svn/wherever/whichever
-A d     /home/User/svn/dirbad
+Af~     /home/User/svn/.svn/wherever/whichever
+Ad      /home/User/svn/dirbad
 svn/dirbad\r
           \r
-A ~     /home/User/svn/dirbad/fileoth
-A ~     /home/User/svn/dirbad/fileutd
-A d     /home/User/svn/diroth
+Af~     /home/User/svn/dirbad/fileoth
+Af~     /home/User/svn/dirbad/fileutd
+Ad      /home/User/svn/diroth
 svn/diroth\r
           \r
-A d     /home/User/svn/dirutd
+Ad      /home/User/svn/dirutd
 svn/dirutd\r
           \r
-A d     /home/User/svn/dirutd/.svn
+Ad      /home/User/svn/dirutd/.svn
 svn/dirutd/.svn\r
                \r
 Adding uncompressed data for 8bdef5751e46ed57d237cbe3f4a5061c-0
-A f     /home/User/svn/dirutd/.svn/entries
+Aff     /home/User/svn/dirutd/.svn/entries
 Adding uncompressed data for 60afe8c3ac66cb77a34da116394d9ac8-0
-A f     /home/User/svn/dirutd/.svn/format
+Aff     /home/User/svn/dirutd/.svn/format
 Adding uncompressed data for 3b9ddae5294c8f4850d45073a933f3e6-0
-A f     /home/User/svn/dirutd/.svn/whatever
-A ~     /home/User/svn/dirutd/fileoth
-A ~     /home/User/svn/dirutd/fileutd
-A ~     /home/User/svn/filemod.o
-A ~     /home/User/svn/filenew.c
-A ~     /home/User/svn/fileoth
-A ~     /home/User/svn/fileutd.h
-A ~     /home/User/test space
-A d     /home/User/testdir
+Aff     /home/User/svn/dirutd/.svn/whatever
+Af~     /home/User/svn/dirutd/fileoth
+Af~     /home/User/svn/dirutd/fileutd
+Af~     /home/User/svn/filemod.o
+Af~     /home/User/svn/filenew.c
+Af~     /home/User/svn/fileoth
+Af~     /home/User/svn/fileutd.h
+Af~     /home/User/test space
+Ad      /home/User/testdir
 testdir\r
        \r
 Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
-A f     /home/User/testfile
-A ~     /home/User/testfile~
-A l     /home/User/testlink
-A p     /home/User/testpipe
+Aff     /home/User/testfile
+Af~     /home/User/testfile~
+Al      /home/User/testlink
+Ap      /home/User/testpipe
 Parsed 58 file(s)
 Database modified: myClient
 Database closed: myClient
@@ -335,14 +335,14 @@ cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
          \r
-M d     /home/User/subdir
+Md      /home/User/subdir
 subdir\r
       \r
 Error: myClient:/home/User/subdir/testfile: Permission denied backing up file
-A !     /home/User/subdir/testfile
-A ~     /home/User/subdir/testfile1
+Af!     /home/User/subdir/testfile
+Af~     /home/User/subdir/testfile1
 Adding uncompressed data for 285b35198a5e188b3a0df3ed33f93a26-0
-A f     /home/User/subdir/testfile2
+Aff     /home/User/subdir/testfile2
 svn\r
 svn/.svn\r
 svn/.svn/wherever\r
@@ -448,7 +448,7 @@ dir space     \r
 subdir   \r
       \r
 Error: myClient:/home/User/subdir/testfile: Permission denied backing up file
-! !     /home/User/subdir/testfile
+!f!     /home/User/subdir/testfile
 svn\r
 svn/.svn\r
 svn/.svn/wherever\r
@@ -548,7 +548,7 @@ cvs/CVS/Wherever\r
                 \r
 Killing trigger reached: 2
 Error: myClient:/home/User/cvs/big_file: Operation canceled backing up file
-A !     /home/User/cvs/big_file
+Af!     /home/User/cvs/big_file
 Database closed: myClient
 Database closed
 
@@ -636,7 +636,7 @@ cvs/CVS\r
 cvs/CVS/Wherever\r
                 \r
 Adding uncompressed data for 816df6f64deba63b029ca19d880ee10a-0
-! f     /home/User/cvs/big_file
+!ff     /home/User/cvs/big_file
 cvs/dirbad\r
 cvs/diroth\r
 cvs/dirutd\r
@@ -644,7 +644,7 @@ cvs/dirutd/CVS\r
 dir space     \r
 subdir   \r
       \r
-~ ~     /home/User/subdir/testfile
+~f~     /home/User/subdir/testfile
 svn\r
 svn/.svn\r
 svn/.svn/wherever\r
@@ -1003,7 +1003,7 @@ svn/dirutd\r
 svn/dirutd/.svn\r
 testdir        \r
        \r
-M l     /home/User/testlink
+Ml      /home/User/testlink
 Parsed 58 file(s)
 Database modified: myClient
 Database closed: myClient
@@ -2503,10 +2503,10 @@ I d p   /home/User/svn/diroth
 I d f   /home/User/svn/dirutd
 I f p   /home/User/svn/fileoth
 I f p   /home/User/svn/fileutd.h
-~ d     /home/User/testdir
+~d      /home/User/testdir
 testdir\r
        \r
-~       /home/User/testfile
+~f      /home/User/testfile
 I l f   /home/User/testlink
 Parsed 25 file(s)
 Database modified: myClient
@@ -2690,7 +2690,7 @@ I f p   /home/User/cvs/dirbad/fileutd
 I d p   /home/User/cvs/diroth
 I d f   /home/User/cvs/dirutd
 Adding uncompressed data for 0d599f0ec05c3bda8c3b8a68c32a1b47-0
-M f     /home/User/cvs/filenew.c
+Mff     /home/User/cvs/filenew.c
 I f p   /home/User/cvs/fileoth
 dir space\r
          \r
@@ -2719,7 +2719,7 @@ I f p   /home/User/svn/fileutd.h
 testdir\r
        \r
 I l f   /home/User/testlink
-A p     /home/User/testpipe
+Ap      /home/User/testpipe
 Parsed 26 file(s)
 Database modified: myClient
 Database closed: myClient
@@ -2906,35 +2906,35 @@ I d f   /home/User/cvs/dirutd
 I f p   /home/User/cvs/fileoth
 dir space\r
          \r
-A d     /home/User/docbook-xml
+Ad      /home/User/docbook-xml
 docbook-xml\r
            \r
-A d     /home/User/docbook-xml/3.1.7
+Ad      /home/User/docbook-xml/3.1.7
 docbook-xml/3.1.7\r
                  \r
-A ~     /home/User/docbook-xml/3.1.7/dbgenent.ent
-A d     /home/User/docbook-xml/4.0
+Af~     /home/User/docbook-xml/3.1.7/dbgenent.ent
+Ad      /home/User/docbook-xml/4.0
 docbook-xml/4.0\r
                \r
-A ~     /home/User/docbook-xml/4.0/dbgenent.ent
-A d     /home/User/docbook-xml/4.1.2
+Af~     /home/User/docbook-xml/4.0/dbgenent.ent
+Ad      /home/User/docbook-xml/4.1.2
 docbook-xml/4.1.2\r
                  \r
-A ~     /home/User/docbook-xml/4.1.2/dbgenent.mod
-A d     /home/User/docbook-xml/4.2
+Af~     /home/User/docbook-xml/4.1.2/dbgenent.mod
+Ad      /home/User/docbook-xml/4.2
 docbook-xml/4.2\r
                \r
-A ~     /home/User/docbook-xml/4.2/dbgenent.mod
-A d     /home/User/docbook-xml/4.3
+Af~     /home/User/docbook-xml/4.2/dbgenent.mod
+Ad      /home/User/docbook-xml/4.3
 docbook-xml/4.3\r
                \r
-A ~     /home/User/docbook-xml/4.3/dbgenent.mod
-A d     /home/User/docbook-xml/4.4
+Af~     /home/User/docbook-xml/4.3/dbgenent.mod
+Ad      /home/User/docbook-xml/4.4
 docbook-xml/4.4\r
                \r
-A ~     /home/User/docbook-xml/4.4/dbgenent.mod
-A ~     /home/User/docbook-xml.cat
-A ~     /home/User/docbook-xml.cat.old
+Af~     /home/User/docbook-xml/4.4/dbgenent.mod
+Af~     /home/User/docbook-xml.cat
+Af~     /home/User/docbook-xml.cat.old
 I d f   /home/User/subdir
 svn\r
    \r
@@ -2959,13 +2959,13 @@ I f p   /home/User/svn/fileoth
 I f p   /home/User/svn/fileutd.h
 testdir\r
        \r
-A d     /home/User/testdir/biblio
+Ad      /home/User/testdir/biblio
 testdir/biblio\r
               \r
-A ~     /home/User/testdir/biblio/biblio.dbf
-A ~     /home/User/testdir/biblio/biblio.dbt
-A ~     /home/User/testdir/biblio.odb
-A ~     /home/User/testdir/evolocal.odb
+Af~     /home/User/testdir/biblio/biblio.dbf
+Af~     /home/User/testdir/biblio/biblio.dbt
+Af~     /home/User/testdir/biblio.odb
+Af~     /home/User/testdir/evolocal.odb
 I l f   /home/User/testlink
 Parsed 46 file(s)
 Database modified: myClient
@@ -3424,17 +3424,17 @@ Path: /home/User
 Reading list of problematic checksums
 List created: hisClient
 Database open r/w: hisClient
-A d     /home/User/testdir
+Ad      /home/User/testdir
 testdir\r
        \r
 Adding uncompressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
-A f     /home/User/testfile
+Aff     /home/User/testfile
 Adding uncompressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-A f     /home/User/testfile2
+Aff     /home/User/testfile2
 Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
-A f     /home/User/testfile2.gz
+Aff     /home/User/testfile2.gz
 Adding uncompressed data for 59071590099d21dd439896592338bf95-0
-A f     /home/User/testfile~
+Aff     /home/User/testfile~
 I l f   /home/User/testlink
 Parsed 5 file(s)
 Database modified: hisClient
@@ -3483,10 +3483,10 @@ Path: /home/User
  -> Ignore filter: ignore2
 Database open r/w: myClient
 I d s   /home/User/.hbackup
-A d     /home/User/crash
+Ad      /home/User/crash
 crash\r
      \r
-A ~     /home/User/crash/file
+Af~     /home/User/crash/file
 cvs\r
    \r
  -> Parsing CVS entries
@@ -3539,7 +3539,7 @@ I d p   /home/User/svn/diroth
 I d f   /home/User/svn/dirutd
 I f p   /home/User/svn/fileoth
 I f p   /home/User/svn/fileutd.h
-M ~     /home/User/test space
+Mf~     /home/User/test space
 D       /home/User/testdir
 D       /home/User/testdir/biblio
 D       /home/User/testdir/biblio/biblio.dbf
@@ -4461,7 +4461,7 @@ I d f   /home/User/svn/dirutd
 I f p   /home/User/svn/fileoth
 I f p   /home/User/svn/fileutd.h
 Error: myClient:/home/User/testfile: Permission denied backing up file
-M !     /home/User/testfile
+Mf!     /home/User/testfile
 I l f   /home/User/testlink
 Parsed 42 file(s)
 Database modified: myClient
@@ -4681,7 +4681,7 @@ I d f   /home/User/svn/dirutd
 I f p   /home/User/svn/fileoth
 I f p   /home/User/svn/fileutd.h
 D       /home/User/testfile
-M ~     /home/User/testfile~
+Mf~     /home/User/testfile~
 I l f   /home/User/testlink
 Parsed 41 file(s)
 Database modified: myClient
@@ -4894,7 +4894,7 @@ I d p   /home/User/svn/diroth
 I d f   /home/User/svn/dirutd
 I f p   /home/User/svn/fileoth
 I f p   /home/User/svn/fileutd.h
-M ~     /home/User/testfile~
+Mf~     /home/User/testfile~
 I l f   /home/User/testlink
 Parsed 41 file(s)
 Database modified: myClient

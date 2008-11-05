@@ -37,13 +37,14 @@ public:
   OpData(
     const char*     path,             // Real file path, on client
     Node&           node)             // File metadata
-    : _operation(0), _type(' '), _info(' '), _id(-1), _compression(0),
+    : _operation(' '), _type(' '), _info(' '), _id(-1), _compression(0),
       _path(path), _node(node), _same_list_entry(false) {}
   void setCompression(int compression) { _compression = compression; }
   int compression()  { return _compression; }
-  bool needsAdding() { return _operation != 0; }
+  bool needsAdding() { return _operation != ' '; }
   void verbose(char* code) {
     code[0] = _operation;
+    code[1] = _node.type();
     code[2] = _type;
     code[4] = _info;
   }

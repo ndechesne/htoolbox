@@ -184,18 +184,18 @@ Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
 Adding compressed data for d41d8cd98f00b204e9800998ecf8427e-0
-A z     /home/User/test/File2.txt
-A d     /home/User/test/dir
+Afz     /home/User/test/File2.txt
+Ad      /home/User/test/dir
 dir\r
    \r
 Adding compressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
-A z     /home/User/test/dir/file3.txt
+Afz     /home/User/test/dir/file3.txt
 Backing up path: /home/User/test2
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
 Replacing with uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
-A f r   /home/User/test2/File3.txt
-A ~     /home/User/test2/File4.txt
+Aff r   /home/User/test2/File3.txt
+Af~     /home/User/test2/File4.txt
 Database modified: myClient
 Database closed: myClient
  -> umount -fl test_db/mount
@@ -302,8 +302,8 @@ Done:  90.0%\r
 Done:  95.0%\r
             \r
 Adding compressed data for f1c9645dbc14efddc7d8a322685f26eb-0
-A z     test1/big_file
-A d     test1/cvs
+Afz     test1/big_file
+Ad      test1/cvs
 cvs\r
    \r
  -> Parsing CVS entries
@@ -312,48 +312,48 @@ cvs\r
  --> filemod.o: 1159806431
  --> filenew.c: 0
  --> fileutd.h: 1159985080
-A d     test1/cvs/CVS
+Ad      test1/cvs/CVS
 cvs/CVS\r
        \r
 Adding compressed data for fef51838cd3cfe8ed96355742eb71fbd-0
-A z     test1/cvs/CVS/Entries
+Afz     test1/cvs/CVS/Entries
 Adding compressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
-A z     test1/cvs/CVS/Root
+Afz     test1/cvs/CVS/Root
 I f p   test1/cvs/CVS/Whatever
 I d p   test1/cvs/CVS/Wherever
-A d     test1/cvs/dirbad
+Ad      test1/cvs/dirbad
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
 I f p   test1/cvs/dirbad/fileoth
 I f p   test1/cvs/dirbad/fileutd
 I d p   test1/cvs/diroth
-A d     test1/cvs/dirutd
+Ad      test1/cvs/dirutd
 cvs/dirutd\r
           \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
-A d     test1/cvs/dirutd/CVS
+Ad      test1/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
               \r
 Adding compressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
-A z     test1/cvs/dirutd/CVS/Entries
+Afz     test1/cvs/dirutd/CVS/Entries
 Adding compressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
-A z     test1/cvs/dirutd/CVS/Root
+Afz     test1/cvs/dirutd/CVS/Root
 I f p   test1/cvs/dirutd/CVS/Whatever
 I f p   test1/cvs/dirutd/fileoth
-A ~     test1/cvs/dirutd/fileutd
+Af~     test1/cvs/dirutd/fileutd
 I f f   test1/cvs/filemod.o
-A ~     test1/cvs/filenew.c
+Af~     test1/cvs/filenew.c
 I f p   test1/cvs/fileoth
-A ~     test1/cvs/fileutd.h
-A d     test1/dir space
+Af~     test1/cvs/fileutd.h
+Ad      test1/dir space
 dir space\r
          \r
-A ~     test1/dir space/file space
-A l     test1/dir space/link space
+Af~     test1/dir space/file space
+Al      test1/dir space/link space
 I d f   test1/subdir
-A d     test1/svn
+Ad      test1/svn
 svn\r
    \r
  -> Parsing Subversion entries
@@ -361,62 +361,62 @@ svn\r
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
-A d     test1/svn/.svn
+Ad      test1/svn/.svn
 svn/.svn\r
         \r
 Adding compressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
-A z     test1/svn/.svn/entries
+Afz     test1/svn/.svn/entries
 I f p   test1/svn/.svn/format
 I f p   test1/svn/.svn/whatever
 I d p   test1/svn/.svn/wherever
-A d     test1/svn/dirbad
+Ad      test1/svn/dirbad
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 I f p   test1/svn/dirbad/fileoth
 I f p   test1/svn/dirbad/fileutd
 I d p   test1/svn/diroth
-A d     test1/svn/dirutd
+Ad      test1/svn/dirutd
 svn/dirutd\r
           \r
  -> Parsing Subversion entries
  --> fileoth: o
  --> fileutd: m
-A d     test1/svn/dirutd/.svn
+Ad      test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
                \r
 Adding compressed data for 8bdef5751e46ed57d237cbe3f4a5061c-0
-A z     test1/svn/dirutd/.svn/entries
+Afz     test1/svn/dirutd/.svn/entries
 I f p   test1/svn/dirutd/.svn/format
 I f p   test1/svn/dirutd/.svn/whatever
 I f p   test1/svn/dirutd/fileoth
-A ~     test1/svn/dirutd/fileutd
+Af~     test1/svn/dirutd/fileutd
 I f f   test1/svn/filemod.o
-A ~     test1/svn/filenew.c
+Af~     test1/svn/filenew.c
 I f p   test1/svn/fileoth
 I f p   test1/svn/fileutd.h
-A ~     test1/test space
-A d     test1/testdir
+Af~     test1/test space
+Ad      test1/testdir
 testdir\r
        \r
 Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
-A z     test1/testfile
+Afz     test1/testfile
 I f f   test1/testfile~
-A l     test1/testlink
-A p     test1/testpipe
+Al      test1/testlink
+Ap      test1/testpipe
 Backing up path: test2
-A d     test2/testdir
+Ad      test2/testdir
 testdir\r
        \r
 Adding uncompressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
-A f     test2/testfile
+Aff     test2/testfile
 Adding uncompressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-A f     test2/testfile2
+Aff     test2/testfile2
 Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
-A f     test2/testfile2.gz
+Aff     test2/testfile2.gz
 Adding uncompressed data for 59071590099d21dd439896592338bf95-0
-A f     test2/testfile~
-A l     test2/testlink
+Aff     test2/testfile~
+Al      test2/testlink
 Database modified: testhost
 Database closed: testhost
 Database closed
@@ -565,14 +565,14 @@ Reading list of problematic checksums
 List created: myhost2
 Database open r/w: myhost2
 Backing up path: C:/Test Dir
-A d     C:/Test Dir/My Dir
+Ad      C:/Test Dir/My Dir
 My Dir\r
       \r
 Adding uncompressed data for b026324c6904b2a9cb4b88d6d61c81d1-0
-A f     C:/Test Dir/My Dir/a File.TXT
+Aff     C:/Test Dir/My Dir/a File.TXT
 Adding uncompressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
-A f     C:/Test Dir/My Dir/another File.TXT
-A ~     C:/Test Dir/My File.TXT
+Aff     C:/Test Dir/My Dir/another File.TXT
+Af~     C:/Test Dir/My File.TXT
 Database modified: myhost2
 Database closed: myhost2
  -> umount -fl test_db/mount
@@ -594,12 +594,12 @@ Database open r/w: myhost3
 Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
-A ~     /home/User/test/File2.txt
-A d     /home/User/test/dir
+Af~     /home/User/test/File2.txt
+Ad      /home/User/test/dir
 dir\r
    \r
 Replacing with uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
-A f r   /home/User/test/dir/file3.txt
+Aff r   /home/User/test/dir/file3.txt
 Database modified: myhost3
 Database closed: myhost3
  -> umount -fl test_db/mount
@@ -617,44 +617,44 @@ Reading list of problematic checksums
 List created: myhost
 Database open r/w: myhost
 Backing up path: test1/cvs
-A d     test1/cvs/CVS
+Ad      test1/cvs/CVS
 CVS\r
    \r
-A ~     test1/cvs/CVS/Entries
+Af~     test1/cvs/CVS/Entries
 Replacing with uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
-A f r   test1/cvs/CVS/Root
+Aff r   test1/cvs/CVS/Root
 Adding uncompressed data for 9283e2c51868272850bd2d89b63c58e8-0
-A f     test1/cvs/CVS/Whatever
-A d     test1/cvs/CVS/Wherever
+Aff     test1/cvs/CVS/Whatever
+Ad      test1/cvs/CVS/Wherever
 CVS/Wherever\r
             \r
-A ~     test1/cvs/CVS/Wherever/Whichever
-A d     test1/cvs/dirbad
+Af~     test1/cvs/CVS/Wherever/Whichever
+Ad      test1/cvs/dirbad
 dirbad\r
       \r
-A ~     test1/cvs/dirbad/fileoth
-A ~     test1/cvs/dirbad/fileutd
-A d     test1/cvs/diroth
+Af~     test1/cvs/dirbad/fileoth
+Af~     test1/cvs/dirbad/fileutd
+Ad      test1/cvs/diroth
 diroth\r
       \r
-A d     test1/cvs/dirutd
+Ad      test1/cvs/dirutd
 dirutd\r
       \r
-A d     test1/cvs/dirutd/CVS
+Ad      test1/cvs/dirutd/CVS
 dirutd/CVS\r
           \r
 Replacing with uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
-A f r   test1/cvs/dirutd/CVS/Entries
+Aff r   test1/cvs/dirutd/CVS/Entries
 Replacing with uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
-A f r   test1/cvs/dirutd/CVS/Root
+Aff r   test1/cvs/dirutd/CVS/Root
 Adding uncompressed data for caecaacc7fdee8a7667d4f4f315858a9-0
-A f     test1/cvs/dirutd/CVS/Whatever
-A ~     test1/cvs/dirutd/fileoth
-A ~     test1/cvs/dirutd/fileutd
-A ~     test1/cvs/filemod.o
-A ~     test1/cvs/filenew.c
-A ~     test1/cvs/fileoth
-A ~     test1/cvs/fileutd.h
+Aff     test1/cvs/dirutd/CVS/Whatever
+Af~     test1/cvs/dirutd/fileoth
+Af~     test1/cvs/dirutd/fileutd
+Af~     test1/cvs/filemod.o
+Af~     test1/cvs/filenew.c
+Af~     test1/cvs/fileoth
+Af~     test1/cvs/fileutd.h
 Database modified: myhost
 Database closed: myhost
 Database closed
@@ -1063,12 +1063,12 @@ Reading list of problematic checksums
 List created: myClient.xp
 Database open r/w: myClient.xp
 Backing up path: C:/Test Dir
-A d     C:/Test Dir/My Dir
+Ad      C:/Test Dir/My Dir
 My Dir\r
       \r
-A ~     C:/Test Dir/My Dir/a File.TXT
-A ~     C:/Test Dir/My Dir/another File.TXT
-A ~     C:/Test Dir/My File.TXT
+Af~     C:/Test Dir/My Dir/a File.TXT
+Af~     C:/Test Dir/My Dir/another File.TXT
+Af~     C:/Test Dir/My File.TXT
 Database modified: myClient.xp
 Database closed: myClient.xp
  -> umount -fl test_db/mount

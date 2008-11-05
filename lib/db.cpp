@@ -747,7 +747,6 @@ int Database::add(
 #if 0
     } else {
       // Checksum copied over
-      code[2] = ' ';
 #endif
     }
   } else
@@ -755,12 +754,7 @@ int Database::add(
     if (op._node.size() == -1) {
       op._type = '!';
       failed = true;
-    } else {
-      op._type = 'd';
     }
-  } else
-  {
-    op._type = op._node.type();
   }
 
   // Even if failed, add data if new
