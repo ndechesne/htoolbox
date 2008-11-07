@@ -1,16 +1,16 @@
-dflt ctor: created empty buffer #1
+getb: created buffer #1
 (0) default c'tor: size = 0 cap. = 128
 copy ctor: copied buffer #1 (2)
 (1) copy c'tor: size = 0 cap. = 128
-cstr ctor: created buffer #2
+getb: created buffer #2
 (2) const char* constructor: size = 1 cap. = 128
-cstr ctor: created buffer #3
+getb: created buffer #3
 (3) const char* constructor: size = 3 cap. = 128
 copy ctor: copied buffer #2 (2)
 (4) copy constructor: size = 1 cap. = 128
 ln= : copied buffer #3 (2)
 copy: def size = 3 cap. = 128
-cs= : created buffer #4
+getb: created buffer #4
 copy: g size = 1 cap. = 128
 copy: hijklmn size = 7 cap. = 128
 operator[0]: hijklmn
@@ -25,12 +25,12 @@ append("qr", 3): hijqr size = 5 cap. = 128
 append("stuv", 4): hijqstuv size = 8 cap. = 128
 append("wxy", 6): hijqstwxy size = 9 cap. = 128
 replace end of line
-cs= : created buffer #5
+getb: created buffer #5
 (0) new line: 	0	new line size = 11 cap. = 128
 (1) old line: 	12345	old line, size = 15
 second tab: 6
 end line: 	12345	new line size = 15 cap. = 128
-dflt ctor: created empty buffer #6
+getb: created buffer #6
 (5) default c'tor size = 0 cap. = 128
 
 += size = 9 cap. = 128
@@ -50,7 +50,7 @@ dtor: deleted buffer #5
 
 No-copy
 Construct line from string
-cstr ctor: created buffer #7
+getb: created buffer #7
 line (1): abcdef
 Modify line
 line (1): defghi
@@ -61,50 +61,76 @@ copy ctor: copied buffer #7 (2)
 line (2): defghijklmno
 line2 (2): defghijklmno
 Modify line
-cs= : created buffer #8
+getb: created buffer #8
 line (1): stuvwx
 line2 (1): defghijklmno
 Delete line
 dtor: deleted buffer #8
 line2 (1): defghijklmno
 Default-construct line
-dflt ctor: created empty buffer #9
+getb: created buffer #9
 line (1): 
 line2 (1): defghijklmno
 Copy line2 into line
-ln= : populated extra buffer #9
+disp: populated extra buffer #9
 ln= : copied buffer #7 (2)
 line (2): defghijklmno
 line2 (2): defghijklmno
 Append to line
-cs+=: created concat buffer #10
+getb: re-used buffer #9
 line (1): defghijklmnoyz
 line2 (1): defghijklmno
 Append line to line2
 line (1): defghijklmnoyz
 line2 (1): defghijklmnodefghijklmnoyz
 Copy line into line2
-ln= : populated extra buffer #7
-ln= : copied buffer #10 (2)
+disp: populated extra buffer #7
+ln= : copied buffer #9 (2)
 line (2): defghijklmnoyz
 line2 (2): defghijklmnoyz
 Erase from line2
-eras: re-used buffer #7
+getb: re-used buffer #7
 line (1): defghijklmnoyz
 line2 (1): defg
 Delete line2
 dtor: deleted buffer #7
 line (1): defghijklmnoyz
 Copy-construct line2
-copy ctor: copied buffer #10 (2)
+copy ctor: copied buffer #9 (2)
 line (2): defghijklmnoyz
 line2 (2): defghijklmnoyz
 Erase from line2
-eras: created buffer #11
+getb: created buffer #10
 line (1): defghijklmnoyz
 line2 (1): defg
-Delete line
+Delete line2
 dtor: deleted buffer #10
-dtor: deleted extra buffer #9
+line (1): defghijklmnoyz
+Copy-construct line2
+copy ctor: copied buffer #9 (2)
+line (2): defghijklmnoyz
+line2 (2): defghijklmnoyz
+Append to line2
+getb: created buffer #11
+getb: created buffer #12
+dtor: deleted buffer #11
+line (1): defghijklmnoyz
+line2 (1): defghijklmnoyzABCD
+Delete line2
+dtor: deleted buffer #12
+line (1): defghijklmnoyz
+Copy-construct line2
+copy ctor: copied buffer #9 (2)
+line (2): defghijklmnoyz
+line2 (2): defghijklmnoyz
+Get instance of line2
+getb: created buffer #13
+line (1): defghijklmnoyz
+line2 (1): defghijklmnoyz
+Delete line2
+dtor: deleted buffer #13
+line (1): defghijklmnoyz
+Delete line
+dtor: deleted buffer #9
 
 end of tests

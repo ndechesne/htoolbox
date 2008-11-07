@@ -53,36 +53,3 @@ int LineBuffer::grow(unsigned int required, bool discard) {
   }
   return 0;
 }
-
-void Line::disposeBuffer() {
-  --_line->_instances;
-  if (_line->_instances == 0) {
-    if (_deleted_line == NULL) {
-      _deleted_line = _line;
-#ifdef _DEBUG
-      if (_Line_debug) {
-        std::cout << "ln= : populated extra buffer #" << _line->address()
-          << std::endl;
-      }
-#endif
-    } else
-    if (_deleted_line->capacity() >= _line->capacity()) {
-#ifdef _DEBUG
-      if (_Line_debug) {
-        std::cout << "op= : deleted buffer #" << _line->address() << std::endl;
-      }
-#endif
-      delete _line;
-    } else {
-#ifdef _DEBUG
-      if (_Line_debug) {
-        std::cout << "ln= : replaced extra buffer #"
-          << _deleted_line->address() << " -> #" << _line->address()
-          << std::endl;
-      }
-#endif
-      delete _deleted_line;
-      _deleted_line = _line;
-    }
-  }
-}

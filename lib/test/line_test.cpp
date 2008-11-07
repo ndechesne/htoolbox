@@ -188,6 +188,38 @@ int main(void) {
     cout << "line (" << line->instances() << "): " << *line << endl;
     cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
 
+    cout << "Delete line2" << endl;
+    delete line2;
+    cout << "line (" << line->instances() << "): " << *line << endl;
+
+    cout << "Copy-construct line2" << endl;
+    line2 = new Line(*line);
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
+
+    cout << "Append to line2" << endl;
+    *line2 += Line("ABCD");
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
+
+    cout << "Delete line2" << endl;
+    delete line2;
+    cout << "line (" << line->instances() << "): " << *line << endl;
+
+    cout << "Copy-construct line2" << endl;
+    line2 = new Line(*line);
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
+
+    cout << "Get instance of line2" << endl;
+    line2->instance();
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
+
+    cout << "Delete line2" << endl;
+    delete line2;
+    cout << "line (" << line->instances() << "): " << *line << endl;
+
     cout << "Delete line" << endl;
     delete line;
   }
