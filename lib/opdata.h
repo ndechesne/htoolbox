@@ -43,9 +43,11 @@ public:
   int compression()  { return _compression; }
   bool needsAdding() { return _operation != ' '; }
   void verbose(char* code) {
+    // File information
     code[0] = _operation;
     code[1] = _node.type();
-    code[2] = _type;
+    // Database information
+    code[3] = _type;
     code[4] = _info;
   }
 };
