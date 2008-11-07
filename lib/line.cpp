@@ -16,16 +16,18 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <stdlib.h>
-#include <string.h>
-
-using namespace std;
+#include <cstdlib>
 
 #include "line.h"
 
 using namespace hbackup;
 
-int LineBuffer::grow(unsigned int required) {
+#ifdef _DEBUG
+bool         hbackup::_Line_debug   = false;
+unsigned int hbackup::_Line_address = 0;
+#endif
+
+int LineBuffer::grow(unsigned int required, bool discard) {
   unsigned int new_capacity;
   if (_capacity != 0) {
     new_capacity = _capacity;
@@ -38,6 +40,10 @@ int LineBuffer::grow(unsigned int required) {
   }
   if (new_capacity > _capacity) {
     _capacity = new_capacity;
+    if (discard) {
+      free(_line);
+      _line = NULL;
+    }
     char* new_buffer = static_cast<char*>(realloc(_line, _capacity));
     if (new_buffer != NULL) {
       _line = new_buffer;
@@ -46,4 +52,37 @@ int LineBuffer::grow(unsigned int required) {
     }
   }
   return 0;
+}
+
+void Line::disposeBuffer() {
+  --_line->_instances;
+  if (_line->_instances == 0) {
+    if (_deleted_line == NULL) {
+      _deleted_line = _line;
+#ifdef _DEBUG
+      if (_Line_debug) {
+        std::cout << "ln= : populated extra buffer #" << _line->address()
+          << std::endl;
+      }
+#endif
+    } else
+    if (_deleted_line->capacity() >= _line->capacity()) {
+#ifdef _DEBUG
+      if (_Line_debug) {
+        std::cout << "op= : deleted buffer #" << _line->address() << std::endl;
+      }
+#endif
+      delete _line;
+    } else {
+#ifdef _DEBUG
+      if (_Line_debug) {
+        std::cout << "ln= : replaced extra buffer #"
+          << _deleted_line->address() << " -> #" << _line->address()
+          << std::endl;
+      }
+#endif
+      delete _deleted_line;
+      _deleted_line = _line;
+    }
+  }
 }

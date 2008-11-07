@@ -21,17 +21,31 @@
 
 #define HAVE_LINE_H 1
 
+#ifdef _DEBUG
+#include <iostream>
+#endif
+
 #include <cstdlib>
 #include <cstring>
 
 namespace hbackup {
+
+#ifdef _DEBUG
+extern bool         _Line_debug;
+extern unsigned int _Line_address;
+#endif
 
 class LineBuffer {
   static const unsigned int  _min_capacity = 128;
   char*             _line;
   unsigned int      _capacity;
   unsigned int      _size;
-  int grow(unsigned int required);
+#ifdef _DEBUG
+  unsigned int      _address;
+#endif
+  int grow(unsigned int required, bool discard = false);
+  LineBuffer(const LineBuffer&);
+  LineBuffer& operator=(const LineBuffer&);
 public:
   // The no of instances and destruction are managed by this class' users
   unsigned int      _instances;
@@ -39,25 +53,10 @@ public:
     _line      = NULL;
     _capacity  = 0;
     _size      = 0;
-    grow(_size + 1);
-    _line[0]   = '\0';
     _instances = 0;
-  }
-  LineBuffer(const LineBuffer& line) {
-    _line      = NULL;
-    _capacity  = 0;
-    _size      = line._size;
-    grow(_size + 1);
-    memcpy(_line, line._line, _size + 1);
-    _instances = 0;
-  }
-  LineBuffer(const char* line) {
-    _line      = NULL;
-    _capacity  = 0;
-    _size      = strlen(line);
-    grow(_size + 1);
-    memcpy(_line, line, _size + 1);
-    _instances = 0;
+#ifdef _DEBUG
+    _address   = ++_Line_address;
+#endif
   }
   LineBuffer(const LineBuffer& line, const LineBuffer& line2) {
     _line      = NULL;
@@ -67,6 +66,9 @@ public:
     memcpy(_line, line._line, line._size);
     memcpy(&_line[line._size], line2._line, line2._size + 1);
     _instances = 0;
+#ifdef _DEBUG
+    _address   = ++_Line_address;
+#endif
   }
   LineBuffer(const LineBuffer& line, const char* line2) {
     _line      = NULL;
@@ -77,6 +79,9 @@ public:
     memcpy(_line, line._line, line._size);
     memcpy(&_line[line._size], line2, size2 + 1);
     _instances = 0;
+#ifdef _DEBUG
+    _address   = ++_Line_address;
+#endif
   }
   ~LineBuffer() {
     free(_line);
@@ -87,16 +92,27 @@ public:
   char& operator[](unsigned int pos) {
     return _line[pos];
   }
-  LineBuffer& operator=(const LineBuffer& line) {
-    _size = line._size;
-    grow(_size + 1);
-    memcpy(_line, line._line, line._size + 1);
+  LineBuffer& set(const LineBuffer& line, ssize_t size = -1) {
+    if ((size >= 0) && (static_cast<size_t>(size) < line._size)) {
+      _size = size;
+    } else {
+      _size = line._size;
+    }
+    grow(_size + 1, true);
+    memcpy(_line, line._line, _size);
+    _line[_size] = '\0';
     return *this;
   }
-  LineBuffer& operator=(const char* line) {
-    _size = strlen(line);
-    grow(_size + 1);
-    memcpy(_line, line, _size + 1);
+  LineBuffer& set(const char* line, ssize_t size = -1) {
+    ssize_t length = strlen(line);
+    if ((size >= 0) && (size < length)) {
+      _size = size;
+    } else {
+      _size = length;
+    }
+    grow(_size + 1, true);
+    memcpy(_line, line, _size);
+    _line[_size] = '\0';
     return *this;
   }
   LineBuffer& operator+=(const LineBuffer& line) {
@@ -126,26 +142,68 @@ public:
   // For test
   unsigned int size() const     { return _size;      }
   unsigned int capacity() const { return _capacity;  }
+#ifdef _DEBUG
+  unsigned int address() const  { return _address;   }
+#endif
 };
 
 class Line {
   LineBuffer*       _line;
+  LineBuffer*       _deleted_line;
+  void disposeBuffer();
 public:
   Line() {
     _line = new LineBuffer();
+    _line->set("");
+    _deleted_line = NULL;
     _line->_instances++;
+#ifdef _DEBUG
+    if (_Line_debug) {
+      std::cout << "dflt ctor: created empty buffer #" << _line->address()
+        << std::endl;
+    }
+#endif
   }
   Line(const char* line) {
-    _line = new LineBuffer(line);
+    _line = new LineBuffer();
+    _line->set(line);
+    _deleted_line = NULL;
     _line->_instances++;
+#ifdef _DEBUG
+    if (_Line_debug) {
+      std::cout << "cstr ctor: created buffer #" << _line->address()
+        << std::endl;
+    }
+#endif
   }
   Line(const Line& line) {
-    _line = line._line;
+    _line         = line._line;
+    _deleted_line = NULL;
     _line->_instances++;
+#ifdef _DEBUG
+    if (_Line_debug) {
+      std::cout << "copy ctor: copied buffer #" << _line->address()
+        << " (" << _line->_instances << ")" << std::endl;
+    }
+#endif
   }
   ~Line() {
     if (--_line->_instances == 0) {
+#ifdef _DEBUG
+      if (_Line_debug) {
+        std::cout << "dtor: deleted buffer #" << _line->address() << std::endl;
+      }
+#endif
       delete _line;
+    }
+    if ((_deleted_line != NULL) && (_deleted_line->_instances == 0)) {
+#ifdef _DEBUG
+      if (_Line_debug) {
+        std::cout << "dtor: deleted extra buffer #" << _deleted_line->address()
+          << std::endl;
+      }
+#endif
+      delete _deleted_line;
     }
   }
   operator const char* () const {
@@ -155,20 +213,30 @@ public:
     return _line->size();
   }
   Line& operator=(const Line& line) {
-    if (--_line->_instances == 0) {
-      delete _line;
-    }
+    disposeBuffer();
     _line = line._line;
     _line->_instances++;
+#ifdef _DEBUG
+    if (_Line_debug) {
+      std::cout << "ln= : copied buffer #" << _line->address()
+        << " (" << _line->_instances << ")" << std::endl;
+    }
+#endif
     return *this;
   }
   Line& operator=(const char* line) {
     if (_line->_instances > 1) {
       _line->_instances--;
-      _line = new LineBuffer(line);
+      _line = new LineBuffer();
+      _line->set(line);
       _line->_instances++;
+#ifdef _DEBUG
+      if (_Line_debug) {
+        std::cout << "cs= : created buffer #" << _line->address() << std::endl;
+      }
+#endif
     } else {
-      *_line = line;
+      _line->set(line);
     }
     return *this;
   }
@@ -177,6 +245,12 @@ public:
       _line->_instances--;
       _line = new LineBuffer(*_line, *line._line);
       _line->_instances++;
+#ifdef _DEBUG
+      if (_Line_debug) {
+        std::cout << "ln+=: created concat buffer #" << _line->address()
+          << std::endl;
+      }
+#endif
     } else {
       *_line += *line._line;
     }
@@ -187,6 +261,12 @@ public:
       _line->_instances--;
       _line = new LineBuffer(*_line, line);
       _line->_instances++;
+#ifdef _DEBUG
+      if (_Line_debug) {
+        std::cout << "cs+=: created concat buffer #" << _line->address()
+          << std::endl;
+      }
+#endif
     } else {
       *_line += line;
     }
@@ -195,10 +275,31 @@ public:
   const Line& erase(unsigned int pos = 0) {
     if (_line->_instances > 1) {
       _line->_instances--;
-      _line = new LineBuffer(*this->_line);
+      LineBuffer* line = _line;
+      if (_deleted_line != NULL) {
+        _line         = _deleted_line;
+        _deleted_line = NULL;
+#ifdef _DEBUG
+        if (_Line_debug) {
+          std::cout << "eras: re-used buffer #" << _line->address()
+            << std::endl;
+        }
+#endif
+        _line->set(*line, pos);
+      } else {
+        _line  = new LineBuffer();
+        _line->set(*line, pos);
+#ifdef _DEBUG
+        if (_Line_debug) {
+          std::cout << "eras: created buffer #" << _line->address()
+            << std::endl;
+        }
+#endif
+      }
       _line->_instances++;
+    } else {
+      _line->erase(pos);
     }
-    _line->erase(pos);
     return *this;
   }
   // For compatibility
@@ -236,8 +337,15 @@ public:
   LineBuffer& instance() {
     if (_line->_instances > 1) {
       _line->_instances--;
-      _line = new LineBuffer(*this->_line);
+      LineBuffer* line = _line;
+      _line  = new LineBuffer();
+      _line->set(*line);
       _line->_instances++;
+#ifdef _DEBUG
+      if (_Line_debug) {
+        std::cout << "inst: created buffer #" << _line->address() << std::endl;
+      }
+#endif
     }
     return *_line;
   }

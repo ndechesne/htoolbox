@@ -32,81 +32,86 @@ static void show(const LineBuffer& line) {
 }
 
 int main(void) {
-  Line line0;
-  cout << "default c'tor:";
-  show(line0);
-  Line line1 = line0;
-  cout << "copy c'tor:";
-  show(line1);
-  Line line2("abc");
-  cout << "const char* constructor:";
-  show(line2);
-  Line line3 = "def";
-  cout << "const char* constructor:";
-  show(line3);
-  Line line4 = line2;
-  cout << "copy constructor:";
-  show(line4);
-  line4 = line3;
-  cout << "copy: " << line4;
-  show(line4);
-  line4 = "g";
-  cout << "copy: " << line4;
-  show(line4);
-  line4 = "hijklmn";
-  cout << "copy: " << line4;
-  show(line4);
-  cout << "operator[0]: " << &line4[0] << endl;
-  cout << "operator[3]: " << &line4[3] << endl;
-  cout << "erase(5): " << line4.erase(5);
-  show(line4);
-  cout << "find('j'): " << line4.find('j') << ", size = " << line4.size()
-    << endl;
-  cout << "find('z'): " << line4.find('z') << ", size = " << line4.size()
-    << endl;
-  cout << "find('j', 1): " << line4.find('j', 1) << ", size = "
-    << line4.size() << endl;
-  cout << "find('j', 4): " << line4.find('j', 4) << ", size = "
-    << line4.size() << endl;
-  cout << "append(\"op\"): " << line4.append("op");
-  show(line4);
-  cout << "append(\"qr\", 3): " << line4.append("qr", 3);
-  show(line4);
-  cout << "append(\"stuv\", 4): " << line4.append("stuv", 4);
-  show(line4);
-  cout << "append(\"wxy\", 6): " << line4.append("wxy", 6);
-  show(line4);
-  cout << "replace end of line" << endl;
-  line0 = "\t0\tnew line";
-  line1 = "\t12345\told line";
-  cout << "new line: " << line0;
-  show(line0);
-  cout << "old line: " << line1 << ", size = " << line1.size() << endl;
-  int pos = line1.find('\t', 1);
-  cout << "second tab: " << pos << endl;
-  cout << "end line: " << line1.append(&line0[2], pos);
-  show(line1);
+#ifdef _DEBUG
+  _Line_debug = true;
+#endif
+  {
+    Line line0;
+    cout << "(0) default c'tor:";
+    show(line0);
+    Line line1 = line0;
+    cout << "(1) copy c'tor:";
+    show(line1);
+    Line line2("a");
+    cout << "(2) const char* constructor:";
+    show(line2);
+    Line line3 = "def";
+    cout << "(3) const char* constructor:";
+    show(line3);
+    Line line4 = line2;
+    cout << "(4) copy constructor:";
+    show(line4);
+    line4 = line3;
+    cout << "copy: " << line4;
+    show(line4);
+    line4 = "g";
+    cout << "copy: " << line4;
+    show(line4);
+    line4 = "hijklmn";
+    cout << "copy: " << line4;
+    show(line4);
+    cout << "operator[0]: " << &line4[0] << endl;
+    cout << "operator[3]: " << &line4[3] << endl;
+    cout << "erase(5): " << line4.erase(5);
+    show(line4);
+    cout << "find('j'): " << line4.find('j') << ", size = " << line4.size()
+      << endl;
+    cout << "find('z'): " << line4.find('z') << ", size = " << line4.size()
+      << endl;
+    cout << "find('j', 1): " << line4.find('j', 1) << ", size = "
+      << line4.size() << endl;
+    cout << "find('j', 4): " << line4.find('j', 4) << ", size = "
+      << line4.size() << endl;
+    cout << "append(\"op\"): " << line4.append("op");
+    show(line4);
+    cout << "append(\"qr\", 3): " << line4.append("qr", 3);
+    show(line4);
+    cout << "append(\"stuv\", 4): " << line4.append("stuv", 4);
+    show(line4);
+    cout << "append(\"wxy\", 6): " << line4.append("wxy", 6);
+    show(line4);
+    cout << "replace end of line" << endl;
+    line0 = "\t0\tnew line";
+    line1 = "\t12345\told line";
+    cout << "(0) new line: " << line0;
+    show(line0);
+    cout << "(1) old line: " << line1 << ", size = " << line1.size() << endl;
+    int pos = line1.find('\t', 1);
+    cout << "second tab: " << pos << endl;
+    cout << "end line: " << line1.append(&line0[2], pos);
+    show(line1);
 
-  cout << "default c'tor";
-  Line line5;
-  show(line5);
-  cout << line5 << endl;
-  cout << "+=";
-  line5 += "123456789";
-  show(line5);
-  cout << line5 << endl;
-  cout << "+=";
-  line5 += "1234567890";
-  show(line5);
-  cout << line5 << endl;
-  cout << "+=";
-  line5 += "123456789";
-  show(line5);
-  cout << line5 << endl;
-  cout << "+=";
-  line5 += "123456789";
-  show(line5);
-  cout << line5 << endl;
+    Line line5;
+    cout << "(5) default c'tor";
+    show(line5);
+    cout << line5 << endl;
+    cout << "+=";
+    line5 += "123456789";
+    show(line5);
+    cout << line5 << endl;
+    cout << "+=";
+    line5 += "1234567890";
+    show(line5);
+    cout << line5 << endl;
+    cout << "+=";
+    line5 += "123456789";
+    show(line5);
+    cout << line5 << endl;
+    cout << "+=";
+    line5 += "123456789";
+    show(line5);
+    cout << line5 << endl;
+  }
 
   {
     cout << endl << "No-copy" << endl;
@@ -172,6 +177,16 @@ int main(void) {
     cout << "Delete line2" << endl;
     delete line2;
     cout << "line (" << line->instances() << "): " << *line << endl;
+
+    cout << "Copy-construct line2" << endl;
+    line2 = new Line(*line);
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
+
+    cout << "Erase from line2" << endl;
+    line2->erase(4);
+    cout << "line (" << line->instances() << "): " << *line << endl;
+    cout << "line2 (" << line2->instances() << "): " << *line2 << endl;
 
     cout << "Delete line" << endl;
     delete line;
