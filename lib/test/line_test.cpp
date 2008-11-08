@@ -26,7 +26,7 @@ using namespace hbackup;
 
 int main(void) {
 #ifdef _DEBUG
-  __Line_debug = true;
+//   __Line_debug = true;
 #endif
   {
     Line line0;

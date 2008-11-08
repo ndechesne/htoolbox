@@ -1,216 +1,132 @@
-ctor: created bf 1 in 1 cp 128 sz 0 ''
 (0) default c'tor: bf 1 in 1 cp 128 sz 0 ''
-ctor: copied  bf 1 in 2 cp 128 sz 0 ''
 (1) copy c'tor: bf 1 in 2 cp 128 sz 0 ''
-ctor: created bf 2 in 1 cp 128 sz 1 'a'
 (2) const char* constructor: bf 2 in 1 cp 128 sz 1 'a'
-ctor: created bf 3 in 1 cp 128 sz 3 'def'
 (3) const char* constructor: bf 3 in 1 cp 128 sz 3 'def'
-ctor: copied  bf 2 in 2 cp 128 sz 1 'a'
 (4) copy constructor: bf 2 in 2 cp 128 sz 1 'a'
-ln= : copied  bf 3 in 2 cp 128 sz 3 'def'
 copy:  bf 3 in 2 cp 128 sz 3 'def'
-cs= : created bf 4 in 1 cp 128 sz 1 'g'
 copy:  bf 4 in 1 cp 128 sz 1 'g'
-cs= : updated bf 4 in 1 cp 128 sz 7 'hijklmn'
 copy:  bf 4 in 1 cp 128 sz 7 'hijklmn'
 operator[0]: hijklmn
 operator[3]: klmn
-eras: updated bf 4 in 1 cp 128 sz 5 'hijkl'
 erase(5): hijkl bf 4 in 1 cp 128 sz 5 'hijkl'
 find('j'): 2, size = 5
 find('z'): -1, size = 5
 find('j', 1): 2, size = 5
 find('j', 4): -1, size = 5
-cs+=: updated bf 4 in 1 cp 128 sz 7 'hijklop'
 append("op"): hijklop bf 4 in 1 cp 128 sz 7 'hijklop'
-eras: updated bf 4 in 1 cp 128 sz 3 'hij'
-cs+=: updated bf 4 in 1 cp 128 sz 5 'hijqr'
 append("qr", 3): hijqr bf 4 in 1 cp 128 sz 5 'hijqr'
-eras: updated bf 4 in 1 cp 128 sz 4 'hijq'
-cs+=: updated bf 4 in 1 cp 128 sz 8 'hijqstuv'
 append("stuv", 4): hijqstuv bf 4 in 1 cp 128 sz 8 'hijqstuv'
-eras: updated bf 4 in 1 cp 128 sz 6 'hijqst'
-cs+=: updated bf 4 in 1 cp 128 sz 9 'hijqstwxy'
 append("wxy", 6): hijqstwxy bf 4 in 1 cp 128 sz 9 'hijqstwxy'
 replace end of line
-cs= : created bf 5 in 1 cp 128 sz 11 '	0	new line'
-cs= : updated bf 1 in 1 cp 128 sz 15 '	12345	old line'
 (0) new line: bf 5 in 1 cp 128 sz 11 '	0	new line'
 (1) old line: bf 1 in 1 cp 128 sz 15 '	12345	old line'
 second tab: 6
-eras: updated bf 1 in 1 cp 128 sz 6 '	12345'
-cs+=: updated bf 1 in 1 cp 128 sz 15 '	12345	new line'
 end line: 	12345	new line bf 1 in 1 cp 128 sz 15 '	12345	new line'
-ctor: created bf 6 in 1 cp 128 sz 0 ''
 (5) default c'tor bf 6 in 1 cp 128 sz 0 ''
-cs+=: updated bf 6 in 1 cp 128 sz 9 '123456789'
 += bf 6 in 1 cp 128 sz 9 '123456789'
-cs+=: updated bf 6 in 1 cp 128 sz 19 '1234567891234567890'
 += bf 6 in 1 cp 128 sz 19 '1234567891234567890'
-cs+=: updated bf 6 in 1 cp 128 sz 28 '1234567891234567890123456789'
 += bf 6 in 1 cp 128 sz 28 '1234567891234567890123456789'
-cs+=: updated bf 6 in 1 cp 128 sz 37 '1234567891234567890123456789123456789'
 += bf 6 in 1 cp 128 sz 37 '1234567891234567890123456789123456789'
-dtor: del buf bf 6 in 0 cp 128 sz 37 '1234567891234567890123456789123456789'
-dtor: del buf bf 4 in 0 cp 128 sz 9 'hijqstwxy'
-dtor: del buf bf 3 in 0 cp 128 sz 3 'def'
-dtor: del buf bf 2 in 0 cp 128 sz 1 'a'
-dtor: del buf bf 1 in 0 cp 128 sz 15 '	12345	new line'
-dtor: del buf bf 5 in 0 cp 128 sz 11 '	0	new line'
 
 No-copy
 Construct line from string
-ctor: created bf 7 in 1 cp 128 sz 6 'abcdef'
 line bf 7 in 1 cp 128 sz 6 'abcdef'
 Modify line
-cs= : updated bf 7 in 1 cp 128 sz 6 'defghi'
 line bf 7 in 1 cp 128 sz 6 'defghi'
 Append to line
-cs+=: updated bf 7 in 1 cp 128 sz 12 'defghijklmno'
 line bf 7 in 1 cp 128 sz 12 'defghijklmno'
 
 Copy-construct line2
-ctor: copied  bf 7 in 2 cp 128 sz 12 'defghijklmno'
 line bf 7 in 2 cp 128 sz 12 'defghijklmno'
 line2 bf 7 in 2 cp 128 sz 12 'defghijklmno'
 Modify line
-cs= : created bf 8 in 1 cp 128 sz 6 'stuvwx'
 line bf 8 in 1 cp 128 sz 6 'stuvwx'
 line2 bf 7 in 1 cp 128 sz 12 'defghijklmno'
 Delete line
-dtor: del buf bf 8 in 0 cp 128 sz 6 'stuvwx'
 line2 bf 7 in 1 cp 128 sz 12 'defghijklmno'
 Default-construct line
-ctor: created bf 9 in 1 cp 128 sz 0 ''
 line bf 9 in 1 cp 128 sz 0 ''
 line2 bf 7 in 1 cp 128 sz 12 'defghijklmno'
 Copy line2 into line
-disp: saved   bf 9 in 0 cp 128 sz 0 ''
-ln= : copied  bf 7 in 2 cp 128 sz 12 'defghijklmno'
 line bf 7 in 2 cp 128 sz 12 'defghijklmno'
 line2 bf 7 in 2 cp 128 sz 12 'defghijklmno'
 Append to line
-cs+=: re-used bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 7 in 1 cp 128 sz 12 'defghijklmno'
 Append line to line2
-ln+=: updated bf 7 in 1 cp 128 sz 26 'defghijklmnodefghijklmnoyz'
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 7 in 1 cp 128 sz 26 'defghijklmnodefghijklmnoyz'
 Copy line into line2
-disp: saved   bf 7 in 0 cp 128 sz 26 'defghijklmnodefghijklmnoyz'
-ln= : copied  bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 line bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 Erase from line2
-eras: re-used bf 7 in 1 cp 128 sz 4 'defg'
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 7 in 1 cp 128 sz 4 'defg'
 Delete line2
-dtor: del buf bf 7 in 0 cp 128 sz 4 'defg'
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 
 Erase
 Copy-construct line2
-ctor: copied  bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 line bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 Erase from line2
-eras: created bf 10 in 1 cp 128 sz 4 'defg'
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 10 in 1 cp 128 sz 4 'defg'
 Delete line2
-dtor: del buf bf 10 in 0 cp 128 sz 4 'defg'
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 
 Append
 Copy-construct line2
-ctor: copied  bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 line bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 Append to line2
-ctor: created bf 11 in 1 cp 128 sz 4 'ABCD'
-ln+=: created bf 12 in 1 cp 128 sz 18 'defghijklmnoyzABCD'
-dtor: del buf bf 11 in 0 cp 128 sz 4 'ABCD'
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 12 in 1 cp 128 sz 18 'defghijklmnoyzABCD'
 Delete line2
-dtor: del buf bf 12 in 0 cp 128 sz 18 'defghijklmnoyzABCD'
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 
 Get instance
 Copy-construct line2
-ctor: copied  bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 line bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 Get instance of line2
-inst: created bf 13 in 1 cp 128 sz 14 'defghijklmnoyz'
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 13 in 1 cp 128 sz 14 'defghijklmnoyz'
 Delete line2
-dtor: del buf bf 13 in 0 cp 128 sz 14 'defghijklmnoyz'
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 
 Replace extra buffer with bigger one
 Copy-construct line2
-ctor: copied  bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 line bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 Set value to line2
-cs= : created bf 14 in 1 cp 128 sz 15 'this is a line '
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 14 in 1 cp 128 sz 15 'this is a line '
 Increase line2 to more than 128
-cs+=: updated bf 14 in 1 cp 128 sz 40 'this is a line this is a increased line '
-cs+=: updated bf 14 in 1 cp 128 sz 65 'this is a line this is a increased line this is a increased line '
-cs+=: updated bf 14 in 1 cp 128 sz 90 'this is a line this is a increased line this is a increased line this is a increased line '
-cs+=: updated bf 14 in 1 cp 128 sz 115 'this is a line this is a increased line this is a increased line this is a increased line this is a increased line '
-cs+=: updated bf 14 in 1 cp 256 sz 140 'this is a line this is a increased line this is a increased line this is a increased line this is a increased line this is a increased line '
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 14 in 1 cp 256 sz 140 'this is a line this is a increased line this is a increased line this is a increased line this is a increased line this is a increased line '
 Another buffer for line
-ctor: created bf 15 in 1 cp 128 sz 20 'this is another line'
-disp: saved   bf 9 in 0 cp 128 sz 14 'defghijklmnoyz'
-ln= : copied  bf 15 in 2 cp 128 sz 20 'this is another line'
 line bf 15 in 1 cp 128 sz 20 'this is another line'
 line2 bf 14 in 1 cp 256 sz 140 'this is a line this is a increased line this is a increased line this is a increased line this is a increased line this is a increased line '
 Another buffer for line2
-ctor: created bf 16 in 1 cp 128 sz 22 'this is another line 2'
-disp: saved   bf 14 in 0 cp 256 sz 140 'this is a line this is a increased line this is a increased line this is a increased line this is a increased line this is a increased line '
-ln= : copied  bf 16 in 2 cp 128 sz 22 'this is another line 2'
 line bf 15 in 1 cp 128 sz 20 'this is another line'
 line2 bf 16 in 1 cp 128 sz 22 'this is another line 2'
 Yet another buffer for line2 (=> delete main buffer)
-ctor: created bf 17 in 1 cp 128 sz 25 'this is yet another line '
-disp: rep buf bf 16 in 0 cp 128 sz 22 'this is another line 2'
-ln= : copied  bf 17 in 2 cp 128 sz 25 'this is yet another line '
 line bf 15 in 1 cp 128 sz 20 'this is another line'
 line2 bf 17 in 1 cp 128 sz 25 'this is yet another line '
 Copy line2 into line (=> same buffer)
-disp: rep buf bf 15 in 0 cp 128 sz 20 'this is another line'
-ln= : copied  bf 17 in 2 cp 128 sz 25 'this is yet another line '
 line bf 17 in 2 cp 128 sz 25 'this is yet another line '
 line2 bf 17 in 2 cp 128 sz 25 'this is yet another line '
 Modify line2 (=> re-use big buffer)
-cs= : re-used bf 14 in 1 cp 256 sz 3 'abc'
 line bf 17 in 1 cp 128 sz 25 'this is yet another line '
 line2 bf 14 in 1 cp 256 sz 3 'abc'
 Copy line2 into line (=> give big buffer)
-disp: rep buf bf 17 in 0 cp 128 sz 25 'this is yet another line '
-ln= : copied  bf 14 in 2 cp 256 sz 3 'abc'
 line bf 14 in 2 cp 256 sz 3 'abc'
 line2 bf 14 in 2 cp 256 sz 3 'abc'
 Delete line2
 line bf 14 in 1 cp 256 sz 3 'abc'
 Another buffer for line (=> replace extra buffer)
-ctor: created bf 18 in 1 cp 128 sz 20 'this is another line'
-disp: rep ext bf 9 in 0 cp 128 sz 14 'defghijklmnoyz'
- -> bf 14 in 0 cp 256 sz 3 'abc'
-ln= : copied  bf 18 in 2 cp 128 sz 20 'this is another line'
 line bf 18 in 1 cp 128 sz 20 'this is another line'
 Delete line (=> two buffers deleted)
-dtor: del buf bf 18 in 0 cp 128 sz 20 'this is another line'
-dtor: del ext bf 14 in 0 cp 256 sz 3 'abc'
 
 end of tests
