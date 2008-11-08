@@ -24,24 +24,47 @@ using namespace std;
 
 using namespace hbackup;
 
+class LineDebug : public Line {
+public:
+  LineDebug(const char* line = "") : Line(line) {}
+  LineDebug& operator=(const Line& line) {
+    return static_cast<LineDebug&>(Line::operator=(line));
+  }
+  LineDebug& operator=(const char* line) {
+    return static_cast<LineDebug&>(Line::operator=(line));
+  }
+  void show(const LineBuffer* line = NULL) {
+    if (line == NULL) {
+      line = _line;
+    }
+    std::cout
+      << " bf " << line->_address
+      << " in " << line->_instances
+      << " cp " << line->capacity()
+      << " sz " << line->size()
+      << " '" << &(*line)[0] << "'"
+      << std::endl;
+  }
+};
+
 int main(void) {
 #ifdef _DEBUG
 //   __Line_debug = true;
 #endif
   {
-    Line line0;
+    LineDebug line0;
     cout << "(0) default c'tor:";
     line0.show();
-    Line line1 = line0;
+    LineDebug line1 = line0;
     cout << "(1) copy c'tor:";
     line1.show();
-    Line line2("a");
+    LineDebug line2("a");
     cout << "(2) const char* constructor:";
     line2.show();
-    Line line3 = "def";
+    LineDebug line3 = "def";
     cout << "(3) const char* constructor:";
     line3.show();
-    Line line4 = line2;
+    LineDebug line4(line2);
     cout << "(4) copy constructor:";
     line4.show();
     line4 = line3;
@@ -85,7 +108,7 @@ int main(void) {
     cout << "end line: " << line1.append(&line0[2], pos);
     line1.show();
 
-    Line line5;
+    LineDebug line5;
     cout << "(5) default c'tor";
     line5.show();
     line5 += "123456789";
@@ -106,8 +129,8 @@ int main(void) {
     cout << endl << "No-copy" << endl;
 
     cout << "Construct line from string" << endl;
-    Line* line;
-    line = new Line("abcdef");
+    LineDebug* line;
+    line = new LineDebug("abcdef");
     cout << "line"; line->show();
 
     cout << "Modify line" << endl;
@@ -120,8 +143,8 @@ int main(void) {
 
     cout << endl;
     cout << "Copy-construct line2" << endl;
-    Line* line2;
-    line2 = new Line(*line);
+    LineDebug* line2;
+    line2 = new LineDebug(*line);
     cout << "line"; line->show();
     cout << "line2"; line2->show();
 
@@ -135,7 +158,7 @@ int main(void) {
     cout << "line2"; line2->show();
 
     cout << "Default-construct line" << endl;
-    line = new Line;
+    line = new LineDebug;
     cout << "line"; line->show();
     cout << "line2"; line2->show();
 
@@ -170,7 +193,7 @@ int main(void) {
 
     cout << endl << "Erase" << endl;
     cout << "Copy-construct line2" << endl;
-    line2 = new Line(*line);
+    line2 = new LineDebug(*line);
     cout << "line"; line->show();
     cout << "line2"; line2->show();
 
@@ -185,7 +208,7 @@ int main(void) {
 
     cout << endl << "Append" << endl;
     cout << "Copy-construct line2" << endl;
-    line2 = new Line(*line);
+    line2 = new LineDebug(*line);
     cout << "line"; line->show();
     cout << "line2"; line2->show();
 
@@ -200,7 +223,7 @@ int main(void) {
 
     cout << endl << "Get instance" << endl;
     cout << "Copy-construct line2" << endl;
-    line2 = new Line(*line);
+    line2 = new LineDebug(*line);
     cout << "line"; line->show();
     cout << "line2"; line2->show();
 
@@ -215,7 +238,7 @@ int main(void) {
 
     cout << endl << "Replace extra buffer with bigger one" << endl;
     cout << "Copy-construct line2" << endl;
-    line2 = new Line(*line);
+    line2 = new LineDebug(*line);
     cout << "line"; line->show();
     cout << "line2"; line2->show();
 

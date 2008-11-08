@@ -32,8 +32,8 @@ namespace hbackup {
 
 #ifdef _DEBUG
 extern bool         __Line_debug;
-extern unsigned int __Line_address;
 #endif
+extern unsigned int __Line_address;
 
 class LineBuffer {
   static const unsigned int  _min_capacity = 128;
@@ -53,6 +53,7 @@ public:
     _capacity  = 0;
     _size      = 0;
     _instances = 0;
+    _address   = ++__Line_address;
   }
   ~LineBuffer() {
     free(_line);
@@ -137,6 +138,7 @@ public:
 };
 
 class Line {
+protected:
   LineBuffer*       _line;
   LineBuffer*       _deleted_line;
   int getBuffer() {
@@ -146,9 +148,6 @@ class Line {
       return 1;
     } else {
       _line  = new LineBuffer;
-#ifdef _DEBUG
-      _line->_address = ++__Line_address;
-#endif
       return 0;
     }
   }
@@ -255,7 +254,10 @@ public:
   Line& operator=(const char* line) {
     if (_line->_instances > 1) {
       _line->_instances--;
-      int re = getBuffer();
+#ifdef _DEBUG
+      int re =
+#endif
+      getBuffer();
       _line->set(line);
       _line->_instances++;
 #ifdef _DEBUG
@@ -283,7 +285,10 @@ public:
     if (_line->_instances > 1) {
       _line->_instances--;
       LineBuffer* temp = _line;
-      int re = getBuffer();
+#ifdef _DEBUG
+      int re =
+#endif
+      getBuffer();
       _line->set(*temp, *line._line);
       _line->_instances++;
 #ifdef _DEBUG
@@ -311,7 +316,10 @@ public:
     if (_line->_instances > 1) {
       _line->_instances--;
       LineBuffer* temp = _line;
-      int re = getBuffer();
+#ifdef _DEBUG
+      int re =
+#endif
+      getBuffer();
       _line->set(*temp, line);
       _line->_instances++;
 #ifdef _DEBUG
@@ -339,7 +347,10 @@ public:
     if (_line->_instances > 1) {
       _line->_instances--;
       LineBuffer* temp = _line;
-      int re = getBuffer();
+#ifdef _DEBUG
+      int re =
+#endif
+      getBuffer();
       _line->set(*temp, pos);
       _line->_instances++;
 #ifdef _DEBUG
@@ -399,7 +410,10 @@ public:
     if (_line->_instances > 1) {
       _line->_instances--;
       LineBuffer* temp = _line;
-      int re = getBuffer();
+#ifdef _DEBUG
+      int re =
+#endif
+      getBuffer();
       _line->set(*temp);
       _line->_instances++;
 #ifdef _DEBUG
@@ -437,6 +451,8 @@ public:
     }
     std::cout
       << std::endl;
+#else
+    (void)line;
 #endif
   }
 };

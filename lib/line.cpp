@@ -24,8 +24,8 @@ using namespace hbackup;
 
 #ifdef _DEBUG
 bool         hbackup::__Line_debug   = false;
-unsigned int hbackup::__Line_address = 0;
 #endif
+unsigned int hbackup::__Line_address = 0;
 
 int LineBuffer::grow(unsigned int required, bool discard) {
   unsigned int new_capacity;
