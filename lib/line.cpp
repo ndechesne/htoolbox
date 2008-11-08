@@ -23,8 +23,8 @@
 using namespace hbackup;
 
 #ifdef _DEBUG
-bool         hbackup::_Line_debug   = false;
-unsigned int hbackup::_Line_address = 0;
+bool         hbackup::__Line_debug   = false;
+unsigned int hbackup::__Line_address = 0;
 #endif
 
 int LineBuffer::grow(unsigned int required, bool discard) {

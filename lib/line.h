@@ -31,8 +31,8 @@
 namespace hbackup {
 
 #ifdef _DEBUG
-extern bool         _Line_debug;
-extern unsigned int _Line_address;
+extern bool         __Line_debug;
+extern unsigned int __Line_address;
 #endif
 
 class LineBuffer {
@@ -40,29 +40,28 @@ class LineBuffer {
   char*             _line;
   unsigned int      _capacity;
   unsigned int      _size;
-#ifdef _DEBUG
-  unsigned int      _address;
-#endif
   int grow(unsigned int required, bool discard = false);
   LineBuffer(const LineBuffer&);
   LineBuffer& operator=(const LineBuffer&);
 public:
   // The no of instances and destruction are managed by this class' users
   unsigned int      _instances;
+  // For debug purposes only
+  unsigned int      _address;
   LineBuffer() {
     _line      = NULL;
     _capacity  = 0;
     _size      = 0;
     _instances = 0;
-#ifdef _DEBUG
-    _address   = ++_Line_address;
-#endif
   }
   ~LineBuffer() {
     free(_line);
   }
   operator const char* () {
     return _line;
+  }
+  const char& operator[](unsigned int pos) const {
+    return _line[pos];
   }
   char& operator[](unsigned int pos) {
     return _line[pos];
@@ -140,24 +139,17 @@ public:
 class Line {
   LineBuffer*       _line;
   LineBuffer*       _deleted_line;
-  void getBuffer() {
+  int getBuffer() {
     if (_deleted_line != NULL) {
       _line         = _deleted_line;
       _deleted_line = NULL;
-  #ifdef _DEBUG
-      if (_Line_debug) {
-        std::cout << "getb: re-used buffer #" << _line->address()
-          << std::endl;
-      }
-  #endif
+      return 1;
     } else {
       _line  = new LineBuffer;
-  #ifdef _DEBUG
-      if (_Line_debug) {
-        std::cout << "getb: created buffer #" << _line->address()
-          << std::endl;
-      }
-  #endif
+#ifdef _DEBUG
+      _line->_address = ++__Line_address;
+#endif
+      return 0;
     }
   }
   void disposeBuffer() {
@@ -165,72 +157,78 @@ class Line {
     if (_line->_instances == 0) {
       if (_deleted_line == NULL) {
         _deleted_line = _line;
-  #ifdef _DEBUG
-        if (_Line_debug) {
-          std::cout << "disp: populated extra buffer #" << _line->address()
-            << std::endl;
+#ifdef _DEBUG
+        if (__Line_debug) {
+          std::cout << "disp: saved  ";
+          show(_deleted_line);
         }
-  #endif
+#endif
       } else
       if (_deleted_line->capacity() >= _line->capacity()) {
-  #ifdef _DEBUG
-        if (_Line_debug) {
-          std::cout << "disp: deleted buffer #" << _line->address() << std::endl;
+#ifdef _DEBUG
+        if (__Line_debug) {
+          std::cout << "disp: rep buf";
+          show(_line);
         }
-  #endif
+#endif
         delete _line;
       } else {
-  #ifdef _DEBUG
-        if (_Line_debug) {
-          std::cout << "disp: replaced extra buffer #"
-            << _deleted_line->address() << " -> #" << _line->address()
-            << std::endl;
+#ifdef _DEBUG
+        if (__Line_debug) {
+          std::cout << "disp: rep ext";
+          show(_deleted_line);
         }
-  #endif
+#endif
         delete _deleted_line;
         _deleted_line = _line;
+#ifdef _DEBUG
+        if (__Line_debug) {
+          std::cout << " ->";
+          show(_deleted_line);
+        }
+#endif
       }
     }
   }
 public:
-  Line() {
-    _deleted_line = NULL;
-    getBuffer();
-    _line->set("");
-    _line->_instances++;
-  }
-  Line(const char* line) {
+  Line(const char* line = "") {
     _deleted_line = NULL;
     getBuffer();
     _line->set(line);
-    _deleted_line = NULL;
     _line->_instances++;
+#ifdef _DEBUG
+    if (__Line_debug) {
+      std::cout << "ctor: created";
+      show(_line);
+    }
+#endif
   }
   Line(const Line& line) {
     _deleted_line = NULL;
     _line         = line._line;
     _line->_instances++;
 #ifdef _DEBUG
-    if (_Line_debug) {
-      std::cout << "copy ctor: copied buffer #" << _line->address()
-        << " (" << _line->_instances << ")" << std::endl;
+    if (__Line_debug) {
+      std::cout << "ctor: copied ";
+      show(_line);
     }
 #endif
   }
   ~Line() {
     if (--_line->_instances == 0) {
 #ifdef _DEBUG
-      if (_Line_debug) {
-        std::cout << "dtor: deleted buffer #" << _line->address() << std::endl;
+      if (__Line_debug) {
+        std::cout << "dtor: del buf";
+        show(_line);
       }
 #endif
       delete _line;
     }
     if ((_deleted_line != NULL) && (_deleted_line->_instances == 0)) {
 #ifdef _DEBUG
-      if (_Line_debug) {
-        std::cout << "dtor: deleted extra buffer #" << _deleted_line->address()
-          << std::endl;
+      if (__Line_debug) {
+        std::cout << "dtor: del ext";
+        show(_deleted_line);
       }
 #endif
       delete _deleted_line;
@@ -247,9 +245,9 @@ public:
     _line = line._line;
     _line->_instances++;
 #ifdef _DEBUG
-    if (_Line_debug) {
-      std::cout << "ln= : copied buffer #" << _line->address()
-        << " (" << _line->_instances << ")" << std::endl;
+    if (__Line_debug) {
+      std::cout << "ln= : copied ";
+      show(_line);
     }
 #endif
     return *this;
@@ -257,11 +255,27 @@ public:
   Line& operator=(const char* line) {
     if (_line->_instances > 1) {
       _line->_instances--;
-      getBuffer();
+      int re = getBuffer();
       _line->set(line);
       _line->_instances++;
+#ifdef _DEBUG
+      if (__Line_debug) {
+        if (re) {
+          std::cout << "cs= : re-used";
+        } else {
+          std::cout << "cs= : created";
+        }
+        show(_line);
+      }
+#endif
     } else {
       _line->set(line);
+#ifdef _DEBUG
+      if (__Line_debug) {
+        std::cout << "cs= : updated";
+        show(_line);
+      }
+#endif
     }
     return *this;
   }
@@ -269,11 +283,27 @@ public:
     if (_line->_instances > 1) {
       _line->_instances--;
       LineBuffer* temp = _line;
-      getBuffer();
+      int re = getBuffer();
       _line->set(*temp, *line._line);
       _line->_instances++;
+#ifdef _DEBUG
+      if (__Line_debug) {
+        if (re) {
+          std::cout << "ln+=: re-used";
+        } else {
+          std::cout << "ln+=: created";
+        }
+        show(_line);
+      }
+#endif
     } else {
       *_line += *line._line;
+#ifdef _DEBUG
+      if (__Line_debug) {
+        std::cout << "ln+=: updated";
+        show(_line);
+      }
+#endif
     }
     return *this;
   }
@@ -281,11 +311,27 @@ public:
     if (_line->_instances > 1) {
       _line->_instances--;
       LineBuffer* temp = _line;
-      getBuffer();
+      int re = getBuffer();
       _line->set(*temp, line);
       _line->_instances++;
+#ifdef _DEBUG
+      if (__Line_debug) {
+        if (re) {
+          std::cout << "cs+=: re-used";
+        } else {
+          std::cout << "cs+=: created";
+        }
+        show(_line);
+      }
+#endif
     } else {
       *_line += line;
+#ifdef _DEBUG
+      if (__Line_debug) {
+        std::cout << "cs+=: updated";
+        show(_line);
+      }
+#endif
     }
     return *this;
   }
@@ -293,11 +339,27 @@ public:
     if (_line->_instances > 1) {
       _line->_instances--;
       LineBuffer* temp = _line;
-      getBuffer();
+      int re = getBuffer();
       _line->set(*temp, pos);
       _line->_instances++;
+#ifdef _DEBUG
+      if (__Line_debug) {
+        if (re) {
+          std::cout << "eras: re-used";
+        } else {
+          std::cout << "eras: created";
+        }
+        show(_line);
+      }
+#endif
     } else {
       _line->erase(pos);
+#ifdef _DEBUG
+      if (__Line_debug) {
+        std::cout << "eras: updated";
+        show(_line);
+      }
+#endif
     }
     return *this;
   }
@@ -337,14 +399,45 @@ public:
     if (_line->_instances > 1) {
       _line->_instances--;
       LineBuffer* temp = _line;
-      getBuffer();
+      int re = getBuffer();
       _line->set(*temp);
       _line->_instances++;
+#ifdef _DEBUG
+      if (__Line_debug) {
+        if (re) {
+          std::cout << "inst: re-used";
+        } else {
+          std::cout << "inst: created";
+        }
+        show(_line);
+      }
+#endif
     }
     return *_line;
   }
   unsigned int instances() {
     return _line->_instances;
+  }
+  void show(const LineBuffer* line = NULL) {
+#ifdef _DEBUG
+    if (line == NULL) {
+      line = _line;
+    }
+    std::cout
+      << " bf " << line->_address
+      << " in " << line->_instances
+      << " cp " << line->capacity()
+      << " sz " << line->size();
+    if (&(*line)[0] != NULL) {
+      std::cout
+        << " '" << &(*line)[0] << "'";
+    } else {
+      std::cout
+        << " (NULL)";
+    }
+    std::cout
+      << std::endl;
+#endif
   }
 };
 
