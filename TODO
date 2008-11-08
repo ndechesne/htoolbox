@@ -1,6 +1,4 @@
 TODO - non-organised list of things I want to do
   * test 'no space left on device' somehow
-  * zero copy on Line assignment
-  * sort out getLine(Line&)
-  * sort out owner/list architecture
+  * sort out list interface
   * restoration via web gui

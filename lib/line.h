@@ -19,8 +19,6 @@
 #ifndef LINE_H
 #define LINE_H
 
-#define HAVE_LINE_H 1
-
 #ifdef _DEBUG
 #include <iostream>
 #endif

@@ -351,7 +351,6 @@ public:
     char**          buffer,
     unsigned int*   buffer_capacity,
     bool*           end_of_line_found = NULL);
-#ifdef HAVE_LINE_H
   virtual ssize_t getLine(
     LineBuffer&     line,
     bool*           end_of_line_found = NULL) {
@@ -359,7 +358,6 @@ public:
         end_of_line_found);
       return *line.sizePtr();
     }
-#endif
   // Write line of characters to file and add end of line character
   ssize_t putLine(
     const char*     buffer);
