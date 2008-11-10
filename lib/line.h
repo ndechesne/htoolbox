@@ -56,14 +56,14 @@ public:
   ~LineBuffer() {
     free(_line);
   }
-  operator const char* () {
+  operator const char* () const {
     return _line;
   }
-  const char& operator[](unsigned int pos) const {
-    return _line[pos];
+  const char* c_str() const {
+    return _line;
   }
-  char& operator[](unsigned int pos) {
-    return _line[pos];
+  char* str() {
+    return _line;
   }
   LineBuffer& set(const LineBuffer& line, ssize_t size = -1) {
     if ((size >= 0) && (static_cast<size_t>(size) < line._size)) {
@@ -138,6 +138,7 @@ public:
 class Line {
 protected:
   LineBuffer*       _line;
+private:
   LineBuffer*       _deleted_line;
   int getBuffer() {
     if (_deleted_line != NULL) {
@@ -187,6 +188,29 @@ protected:
       }
     }
   }
+  LineBuffer& instance() {
+    if (_line->_instances > 1) {
+      _line->_instances--;
+      LineBuffer* temp = _line;
+#ifdef _DEBUG
+      int re =
+#endif
+      getBuffer();
+      _line->set(*temp);
+      _line->_instances++;
+#ifdef _DEBUG
+      if (__Line_debug) {
+        if (re) {
+          std::cout << "inst: re-used";
+        } else {
+          std::cout << "inst: created";
+        }
+        show(_line);
+      }
+#endif
+    }
+    return *_line;
+  }
 public:
   Line(const char* line = "") {
     _deleted_line = NULL;
@@ -233,6 +257,12 @@ public:
   }
   operator const char* () const {
     return *_line;
+  }
+  char* buffer() {
+    return instance().str();
+  }
+  operator LineBuffer& () {
+    return instance();
   }
   unsigned int size() const {
     return _line->size();
@@ -404,29 +434,6 @@ public:
   operator const LineBuffer& () const {
     return *_line;
   }
-  LineBuffer& instance() {
-    if (_line->_instances > 1) {
-      _line->_instances--;
-      LineBuffer* temp = _line;
-#ifdef _DEBUG
-      int re =
-#endif
-      getBuffer();
-      _line->set(*temp);
-      _line->_instances++;
-#ifdef _DEBUG
-      if (__Line_debug) {
-        if (re) {
-          std::cout << "inst: re-used";
-        } else {
-          std::cout << "inst: created";
-        }
-        show(_line);
-      }
-#endif
-    }
-    return *_line;
-  }
   unsigned int instances() {
     return _line->_instances;
   }
@@ -439,15 +446,8 @@ public:
       << " bf " << line->_address
       << " in " << line->_instances
       << " cp " << line->capacity()
-      << " sz " << line->size();
-    if (&(*line)[0] != NULL) {
-      std::cout
-        << " '" << &(*line)[0] << "'";
-    } else {
-      std::cout
-        << " (NULL)";
-    }
-    std::cout
+      << " sz " << line->size()
+      << " '"   << line->c_str() << "'"
       << std::endl;
 #else
     (void)line;

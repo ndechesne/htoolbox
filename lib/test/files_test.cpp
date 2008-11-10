@@ -954,7 +954,7 @@ int main(void) {
   while (true) {
     Line line;
     bool eol;
-    int rc = readfile->getLine(line.instance(), &eol);
+    int rc = readfile->getLine(line, &eol);
     if (rc < 0) {
       cout << "Error reading line, " << strerror(errno) << endl;
       return 0;
@@ -982,7 +982,7 @@ int main(void) {
   while (true) {
     Line line;
     bool eol;
-    int rc = readfile->getLine(line.instance(), &eol);
+    int rc = readfile->getLine(line, &eol);
     if (rc < 0) {
       cout << "Error reading line, " << strerror(errno) << endl;
       return 0;

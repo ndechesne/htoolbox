@@ -89,7 +89,7 @@ int List::open(
   // Open for read
   {
     // Check rights
-    if (Stream::getLine(_d->line.instance()) < 0) {
+    if (Stream::getLine(_d->line) < 0) {
       Stream::close();
       rc = -1;
     } else
@@ -167,7 +167,7 @@ ssize_t List::fetchLine(bool use_found) {
   } else {
     // Line contains no re-usable data
     bool    eol;
-    ssize_t length = Stream::getLine(_d->line.instance(), &eol);
+    ssize_t length = Stream::getLine(_d->line, &eol);
     // Read error
     if (length < 0) {
       _d->status = _error;

@@ -227,8 +227,15 @@ int main(void) {
     cout << "line"; line->show();
     cout << "line2"; line2->show();
 
-    cout << "Get instance of line2" << endl;
-    line2->instance();
+    cout << "Get first character of line2" << endl;
+    if ((*line2)[0] != 'd') {
+      cout << "Wrong!" << endl;
+    }
+    cout << "line"; line->show();
+    cout << "line2"; line2->show();
+
+    cout << "Set first character of line2" << endl;
+    line2->buffer()[0] = 'H';
     cout << "line"; line->show();
     cout << "line2"; line2->show();
 

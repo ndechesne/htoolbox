@@ -89,9 +89,12 @@ Get instance
 Copy-construct line2
 line bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
-Get instance of line2
+Get first character of line2
+line bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
+line2 bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
+Set first character of line2
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
-line2 bf 13 in 1 cp 128 sz 14 'defghijklmnoyz'
+line2 bf 13 in 1 cp 128 sz 14 'Hefghijklmnoyz'
 Delete line2
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 

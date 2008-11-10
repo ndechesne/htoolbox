@@ -97,7 +97,7 @@ Path Path::dirname() const {
 const Path& Path::fromDos() {
   int   count  = size();
   bool  proven = false;
-  char* reader = *this->instance().bufferPtr();
+  char* reader = this->buffer();
   while (count--) {
     if (*reader == '\\') {
       *reader = '/';
@@ -107,9 +107,8 @@ const Path& Path::fromDos() {
   }
   // Upper case drive letter
   if (proven && (size() >= 2)) {
-    if (((*this)[1] == ':') && ((*this)[2] == '/')
-    &&  ((*this)[0] >= 'a') && ((*this)[0] <= 'z')) {
-      this->instance().operator[](0) = static_cast<char>((*this)[0] - 0x20);
+    if (((*this)[1] == ':') && ((*this)[2] == '/') && islower((*this)[0])) {
+      this->buffer()[0] = static_cast<char>(toupper((*this)[0]));
     }
   }
   return *this;
