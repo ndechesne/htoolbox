@@ -147,7 +147,8 @@ int ClientPath::parse_recurse(
               }
             }
             if (db.add(op, _report_copy_error_once)
-            &&  (  (errno != EBUSY)       // Ignore busy files
+            &&  (  (errno != EBUSY)       // Ignore busy resources
+                && (errno != ETXTBSY)     // Ignore busy files
                 && (errno != ENOENT)      // Ignore files gone
                 && (errno != EACCES))) {  // Ignore access refused
               // All the rest results in a cease and desist order
