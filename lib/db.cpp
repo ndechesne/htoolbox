@@ -84,16 +84,17 @@ int Database::lock() {
       // Find out whether process is still running, if not, reset lock
       kill(pid, 0);
       if (errno == ESRCH) {
-        out(warning, msg_standard, "Lock reset");
+        out(warning, msg_standard, "Database lock reset");
         std::remove(lock_path);
       } else {
         stringstream s;
-        s << "Lock taken by process with pid " << pid;
+        s << "Database lock taken by process with pid " << pid;
         out(error, msg_standard, s.str().c_str());
         failed = true;
       }
     } else {
-      out(error, msg_standard, "Lock taken by an unidentified process!");
+      out(error, msg_standard,
+        "Database lock taken by an unidentified process!");
       failed = true;
     }
   }
@@ -106,7 +107,7 @@ int Database::lock() {
       fclose(file);
     } else {
       // Lock cannot be taken
-      out(error, msg_standard, "Cannot take lock");
+      out(error, msg_errno, "trying to lock database", errno);
       failed = true;
     }
   }

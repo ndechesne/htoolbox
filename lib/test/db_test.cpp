@@ -217,7 +217,11 @@ int main(void) {
   if (! db.open()) {
     db.close();
   }
-  sys_rc = system("touch test_db/.lock");
+  sys_rc = system("chmod 0 test_db/.lock");
+  if (! db.open()) {
+    db.close();
+  }
+  sys_rc = system("chmod 600 test_db/.lock");
   if (! db.open()) {
     db.close();
   }

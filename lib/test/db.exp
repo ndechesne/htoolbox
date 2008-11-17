@@ -63,12 +63,13 @@ Database closed
 Test: lock
 Database open in read/write mode
 Database closed
-Warning: Lock reset
+Warning: Database lock reset
 Database open in read/write mode
 Database closed
-Error: Lock taken by process with pid 1
-Error: Lock taken by an unidentified process!
-Error: Lock taken by an unidentified process!
+Error: Database lock taken by process with pid 1
+Error: Database lock taken by an unidentified process!
+Error: Permission denied trying to lock database
+Error: Database lock taken by an unidentified process!
 
 Test: read-only mode
 Database open in read-only mode
