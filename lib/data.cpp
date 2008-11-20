@@ -592,13 +592,17 @@ int Data::check(
   // Get original file size
   long long original_size;
   if (no > 0) {
+    // File is compressed, get original file size
     original_size = data->getOriginalSize();
   } else {
     original_size = data->size();
   }
   {
     char* size_str;
-    if (asprintf(&size_str, "%lld", original_size) < 0) {
+    if (((no == 0) && (asprintf(&size_str, "%lld", original_size) < 0))
+    ||  ((no > 0)
+      && (asprintf(&size_str, "%lld %lld", original_size, data->size()) < 0)))
+    {
       out(alert, msg_errno, "creating size str", errno);
     } else {
       out(verbose, msg_standard, size_str, -3, checksum);
