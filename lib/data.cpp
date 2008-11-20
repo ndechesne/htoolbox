@@ -215,10 +215,7 @@ Data::~Data() {
 
 int Data::open(const char* path, bool create) {
   _d->path = strdup(path);
-  if (_d->path == NULL) {
-    goto failed;
-  }
-  {
+  if (_d->path != NULL) {
     // Base directory
     Directory dir(_d->path);
     // Place for temporary files
@@ -228,16 +225,11 @@ int Data::open(const char* path, bool create) {
     if (dir.isValid() && temp_dir.isValid()) {
       return 0;
     }
-    if (! dir.isValid() && ! create) {
-      goto failed;
-    }
-    if ((dir.create() < 0) || (temp_dir.create() < 0)) {
-      goto failed;
+    if (create && (dir.create() >= 0) && (temp_dir.create() >= 0)) {
+      // Signal creation
+      return 1;
     }
   }
-  // Signal creation
-  return 1;
-failed:
   close();
   return -1;
 }
