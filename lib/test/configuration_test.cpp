@@ -77,14 +77,14 @@ int main(void) {
   }
 
   Stream client_config("etc/localhost.list");
-  if (client_config.open("r") == 0) {
+  if (client_config.open(O_RDONLY) == 0) {
     config->read(client_config);
     client_config.close();
   } else {
     cout << "failed to open it!" << endl;
   }
   config->clear();
-  if (client_config.open("r") == 0) {
+  if (client_config.open(O_RDONLY) == 0) {
     config->read(client_config, Stream::flags_accept_cr_lf);
     client_config.close();
   } else {
@@ -187,7 +187,7 @@ int main(void) {
   }
 
   Stream general_config("etc/hbackup.conf");
-  if (general_config.open("r") == 0) {
+  if (general_config.open(O_RDONLY) == 0) {
     config->read(general_config);
     general_config.close();
   } else {
@@ -201,7 +201,7 @@ int main(void) {
 
   // save configuration
   Stream save_config("etc/config.gz");
-  if (save_config.open("w", 5) == 0) {
+  if (save_config.open(O_WRONLY, 5) == 0) {
     if (config->write(save_config)) {
       cout << "failed to save it!" << endl;
     }
@@ -213,7 +213,7 @@ int main(void) {
   // clear list
   config->clear();
 
-  if (save_config.open("r", 1) == 0) {
+  if (save_config.open(O_RDONLY, 1) == 0) {
     config->read(save_config);
     save_config.close();
   } else {
@@ -228,7 +228,7 @@ int main(void) {
 
   cout << "Test: broken configuration" << endl;
   Stream broken_config("etc/broken.conf");
-  if (broken_config.open("r") == 0) {
+  if (broken_config.open(O_RDONLY) == 0) {
     config->read(broken_config);
     broken_config.close();
   } else {

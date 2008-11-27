@@ -469,7 +469,7 @@ bool Stream::isWriteable() const {
 }
 
 int Stream::open(
-    const char*     req_mode,
+    int             flags,
     unsigned int    compression,
     int             cache,
     bool            checksum,
@@ -482,12 +482,12 @@ int Stream::open(
   _d->mode          = O_NOATIME | O_LARGEFILE;
   _d->original_size = original_size;
 
-  switch (req_mode[0]) {
-  case 'w':
+  switch (flags) {
+  case O_WRONLY:
     _d->mode = O_WRONLY | O_CREAT | O_TRUNC;
     _size = 0;
     break;
-  case 'r':
+  case O_RDONLY:
     _d->mode = O_RDONLY;
     break;
   default:

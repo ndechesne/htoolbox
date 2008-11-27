@@ -65,7 +65,7 @@ List::~List() {
 }
 
 int List::open(
-    const char*     req_mode,
+    int             flags,
     int             compression,
     bool            checksum) {
   // Put future as old for now (testing stage)
@@ -73,7 +73,7 @@ int List::open(
   const char header[]     = "# version 4";
   int        rc           = 0;
 
-  if (Stream::open(req_mode, (compression > 0) ? compression : 0,
+  if (Stream::open(flags, (compression > 0) ? compression : 0,
       (compression < 0) ? 0 : -1, checksum)) {
     rc = -1;
   } else
@@ -656,7 +656,7 @@ void List::show(
     time_t          date,
     time_t          time_start,
     time_t          time_base) {
-  if (! open("r")) {
+  if (! open(O_RDONLY)) {
     if (isEmpty()) {
       printf("List is empty\n");
       return;

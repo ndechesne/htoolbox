@@ -60,7 +60,7 @@ static int showClientConfigs() {
 cout << "Config for " << (*i)->path() << endl;
     Config config;
     Stream stream((*i)->path());
-    if (! stream.open("r")) {
+    if (! stream.open(O_RDONLY)) {
       Line line;
       while (stream.getLine(line) > 0) {
         cout << line << endl;
@@ -159,8 +159,8 @@ int main(void) {
   {
     Stream s("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
     Stream d("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data.gz");
-    if (! d.open("w", 5, -1, true, s.size())) {
-      if (! s.open("r")) {
+    if (! d.open(O_WRONLY, 5, -1, true, s.size())) {
+      if (! s.open(O_RDONLY)) {
         if (! s.copy(&d) && ! s.close()) {
           s.remove();
           cout << endl << "Test: force-compress DB data" << endl;

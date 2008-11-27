@@ -160,7 +160,7 @@ int Client::readConfig(
   Stream config_file(list_path);
 
   // Open client configuration file
-  if (config_file.open("r")) {
+  if (config_file.open(O_RDONLY)) {
     out(error, msg_standard, "Client configuration file not found", -1,
       list_path);
     return -1;
@@ -540,7 +540,7 @@ int Client::backup(
         out(error, msg_errno, "creating configuration directory", errno);
       } else {
         Stream stream(Path(dir.path(), internalName().c_str()));
-        if (stream.open("w") >= 0) {
+        if (stream.open(O_WRONLY) >= 0) {
           if (_d->config.write(stream) < 0) {
             out(error, msg_errno, "writing configuration file", errno);
           }

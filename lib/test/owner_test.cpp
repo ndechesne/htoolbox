@@ -212,7 +212,7 @@ int main(void) {
   cout << endl << "Recover client (empty journal)" << endl;
   {
     List journal("test_db/client/journal");
-    journal.open("w");
+    journal.open(O_WRONLY);
     journal.close();
   }
   rc = o.open(false, false);
@@ -234,7 +234,7 @@ int main(void) {
   cout << endl << "Recover client (empty, not closed journal)" << endl;
   {
     List journal("test_db/client/journal2");
-    journal.open("w");
+    journal.open(O_WRONLY);
     journal.close();
     sys_rc = system("head -1 test_db/client/journal2 > test_db/client/journal");
     sys_rc = system("rm test_db/client/journal2");

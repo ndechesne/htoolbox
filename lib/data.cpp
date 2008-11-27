@@ -285,7 +285,7 @@ int Data::read(
   if (data == NULL) {
     return -1;
   }
-  if (data->open("r", (no > 0) ? 1 : 0)) {
+  if (data->open(O_RDONLY, (no > 0) ? 1 : 0)) {
     out(error, msg_errno, "opening read source file", errno, data->path());
     return -1;
   }
@@ -294,7 +294,7 @@ int Data::read(
   string temp_path = path;
   temp_path += ".hbackup-part";
   Stream temp(temp_path.c_str());
-  if (temp.open("w")) {
+  if (temp.open(O_WRONLY)) {
     out(error, msg_errno, "opening read temp file", errno, data->path());
     failed = true;
   } else {
@@ -341,7 +341,7 @@ int Data::write(
   bool failed  = false;
 
   // Open source file
-  if (src_open && source.open("r")) {
+  if (src_open && source.open(O_RDONLY)) {
     return -1;
   }
 
@@ -356,13 +356,14 @@ int Data::write(
     } else {
       temp2 = new Stream(temp_path_gz);
       free(temp_path_gz);
-      if (temp2->open("w", -compress, -1, false, source.size())) {
+      if (temp2->open(O_WRONLY, -compress, -1, false, source.size())) {
         out(error, msg_errno, "opening write temp file", errno, temp2->path());
         failed = true;
       }
     }
   }
-  if (temp1->open("w", (compress > 0) ? compress:0, -1, false, source.size())){
+  if (temp1->open(O_WRONLY, (compress > 0) ? compress:0, -1, false,
+      source.size())) {
     out(error, msg_errno, "opening write temp file", errno, temp1->path());
     failed = true;
   }
@@ -461,8 +462,8 @@ int Data::write(
       } else
       // Compare files
       {
-        data->open("r", (no > 0) ? 1 : 0);
-        dest->open("r", compress);
+        data->open(O_RDONLY, (no > 0) ? 1 : 0);
+        dest->open(O_RDONLY, compress);
         int cmp = dest->compare(*data, 10*1024*1024);
         dest->close();
         data->close();
@@ -617,7 +618,7 @@ int Data::check(
     } else {
       data->setCancelCallback(aborting);
       // Open file
-      if (data->open("r", (no > 0) ? 1 : 0)) {
+      if (data->open(O_RDONLY, (no > 0) ? 1 : 0)) {
         out(error, msg_errno, "opening file", errno, data->path());
         failed = true;
       } else
@@ -668,7 +669,7 @@ int Data::check(
       char* real_checksum;
       int   real_compress;
       // Open file
-      if (data->open("r", 1)) {
+      if (data->open(O_RDONLY, 1)) {
         out(error, msg_errno, "opening file", errno, data->path());
         failed = true;
       } else

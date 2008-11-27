@@ -68,7 +68,7 @@ int main(void) {
   mkdir("test_db", 0755);
   setVerbosityLevel(debug);
 
-  if (dblist.open("w")) {
+  if (dblist.open(O_WRONLY)) {
     cerr << "Failed to open list" << endl;
     return 0;
   }
@@ -78,7 +78,7 @@ int main(void) {
   cout << endl << "Test: journal write" << endl;
   my_time++;
 
-  if (journal.open("w", -1)) {
+  if (journal.open(O_WRONLY, -1)) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -94,7 +94,7 @@ int main(void) {
   journal.add("file_gone", time(NULL));
 
   node = new Stream("test1/testfile");
-  static_cast<Stream*>(node)->open("r");
+  static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
@@ -118,7 +118,7 @@ int main(void) {
   my_time++;
 
   node = NULL;
-  if (journal.open("r") < 0) {
+  if (journal.open(O_RDONLY) < 0) {
     cerr << "Failed to open journal: " << strerror(errno) << endl;
   } else {
     if (journal.isEmpty()) {
@@ -143,21 +143,21 @@ int main(void) {
   cout << endl << "Test: journal merge into empty list" << endl;
   my_time++;
 
-  if (dblist.open("r")) {
+  if (dblist.open(O_RDONLY)) {
     cerr << "Failed to open list" << endl;
     return 0;
   }
   if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   }
-  if (journal.open("r")) {
+  if (journal.open(O_RDONLY)) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
-  if (merge.open("w")) {
+  if (merge.open(O_WRONLY)) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -186,21 +186,21 @@ int main(void) {
   cout << endl << "Test: journal write again" << endl;
   my_time++;
 
-  if (journal.open("w")) {
+  if (journal.open(O_WRONLY)) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
   sys_rc = system("echo \"this is my new test\" > test1/testfile");
 
   node = new Stream("test1/test space");
-  static_cast<Stream*>(node)->open("r");
+  static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file sp", 0, node);
   free(node);
 
   node = new Stream("test1/testfile");
-  static_cast<Stream*>(node)->open("r");
+  static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
@@ -219,21 +219,21 @@ int main(void) {
   cout << endl << "Test: journal merge into list" << endl;
   my_time++;
 
-  if (dblist.open("r")) {
+  if (dblist.open(O_RDONLY)) {
     cerr << "Failed to open list" << endl;
     return 0;
   }
   if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   }
-  if (journal.open("r")) {
+  if (journal.open(O_RDONLY)) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
-  if (merge.open("w")) {
+  if (merge.open(O_WRONLY)) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -258,7 +258,7 @@ int main(void) {
 
   cout << endl << "Test: get all paths" << endl;
   my_time++;
-  if (dblist.open("r")) {
+  if (dblist.open(O_RDONLY)) {
     cerr << "Failed to open list" << endl;
     return 0;
   }
@@ -277,13 +277,13 @@ int main(void) {
   cout << endl << "Test: journal path out of order" << endl;
   my_time++;
 
-  if (journal.open("w")) {
+  if (journal.open(O_WRONLY)) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
   sys_rc = system("echo \"this is my new test\" > test1/testfile");
   node = new Stream("test1/testfile");
-  static_cast<Stream*>(node)->open("r");
+  static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
@@ -302,21 +302,21 @@ int main(void) {
   cout << endl << "Test: journal merge into list" << endl;
   my_time++;
 
-  if (dblist.open("r")) {
+  if (dblist.open(O_RDONLY)) {
     cerr << "Failed to open list" << endl;
     return 0;
   }
   if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   }
-  if (journal.open("r")) {
+  if (journal.open(O_RDONLY)) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
-  if (merge.open("w")) {
+  if (merge.open(O_WRONLY)) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -345,14 +345,14 @@ int main(void) {
   list<string>::iterator j;
 
   cout << "Date: 4" << endl;
-  if (dblist.open("r")) {
+  if (dblist.open(O_RDONLY)) {
     cerr << "Failed to open list" << endl;
     return 0;
   }
   if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   }
-  if (merge.open("w")) {
+  if (merge.open(O_WRONLY)) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -367,14 +367,14 @@ int main(void) {
 
   // All but last
   cout << "Date: 0" << endl;
-  if (dblist.open("r")) {
+  if (dblist.open(O_RDONLY)) {
     cerr << "Failed to open list" << endl;
     return 0;
   }
   if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   }
-  if (merge.open("w")) {
+  if (merge.open(O_WRONLY)) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -392,14 +392,14 @@ int main(void) {
 
   cout << "List:" << endl;
   dblist.show();
-  if (dblist.open("r")) {
+  if (dblist.open(O_RDONLY)) {
     cerr << "Failed to open list" << endl;
     return 0;
   }
   if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   }
-  if (merge.open("w")) {
+  if (merge.open(O_WRONLY)) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -420,13 +420,13 @@ int main(void) {
   cout << endl << "Test: get latest entry only" << endl;
 
   // Add new entry in journal
-  if (journal.open("w")) {
+  if (journal.open(O_WRONLY)) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
   sys_rc = system("echo \"this is my other test\" > test1/testfile");
   node = new Stream("test1/testfile");
-  static_cast<Stream*>(node)->open("r");
+  static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
@@ -434,21 +434,21 @@ int main(void) {
   node = NULL;
   journal.close();
   // Merge
-  if (dblist.open("r")) {
+  if (dblist.open(O_RDONLY)) {
     cerr << "Failed to open list" << endl;
     return 0;
   }
   if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   }
-  if (journal.open("r")) {
+  if (journal.open(O_RDONLY)) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
-  if (merge.open("w")) {
+  if (merge.open(O_WRONLY)) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -485,7 +485,7 @@ int main(void) {
   cout << endl << "Test: journal write" << endl;
   my_time++;
 
-  if (journal.open("w", -1)) {
+  if (journal.open(O_WRONLY, -1)) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -501,7 +501,7 @@ int main(void) {
   journal.add("file_gone", time(NULL));
 
   node = new Stream("test1/testfile");
-  static_cast<Stream*>(node)->open("r");
+  static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
@@ -527,7 +527,7 @@ int main(void) {
   my_time++;
 
   node = NULL;
-  if (journal.open("r") < 0) {
+  if (journal.open(O_RDONLY) < 0) {
     cerr << "Failed to open journal: " << strerror(errno) << endl;
   } else {
     if (journal.isEmpty()) {
@@ -552,21 +552,21 @@ int main(void) {
   cout << endl << "Test: broken journal merge" << endl;
   my_time++;
 
-  if (dblist.open("r")) {
+  if (dblist.open(O_RDONLY)) {
     cerr << "Failed to open list" << endl;
     return 0;
   }
   if (dblist.isEmpty()) {
     cout << "List is empty" << endl;
   }
-  if (journal.open("r")) {
+  if (journal.open(O_RDONLY)) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
-  if (merge.open("w")) {
+  if (merge.open(O_WRONLY)) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }

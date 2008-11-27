@@ -78,11 +78,11 @@ int Owner::finishOff(
     if (_d->journal->isValid()) {
       // Let's recover what we got
       bool failed = false;
-      if (! _d->journal->open("r")) {
+      if (! _d->journal->open(O_RDONLY)) {
         if (! _d->journal->isEmpty()) {
           out(verbose, msg_standard, _d->name, -1, "Database modified");
-          if (! _d->partial->open("w")) {
-            if (! _d->original->open("r")) {
+          if (! _d->partial->open(O_WRONLY)) {
+            if (! _d->original->open(O_RDONLY)) {
               _d->original->setProgressCallback(_d->progress);
               if (_d->partial->merge(*_d->original, *_d->journal) < 0) {
                 out(error, msg_standard, "Merge failed");
@@ -212,7 +212,7 @@ int Owner::hold() const {
   }
 
   _d->original = new List(file_name.str().c_str());
-  if (_d->original->open("r")) {
+  if (_d->original->open(O_RDONLY)) {
     out(error, msg_standard, "Cannot open list, aborting", -1, _d->name);
     failed = true;
   } else
@@ -280,7 +280,7 @@ int Owner::open(
       out(warning, msg_standard, "List not accessible, using backup", -1,
         _d->name);
     } else if (initialize) {
-      if (_d->original->open("w")) {
+      if (_d->original->open(O_WRONLY)) {
         out(error, msg_errno, "creating list", errno, _d->name);
         failed = true;
       } else {
@@ -305,17 +305,17 @@ int Owner::open(
   }
   if (! failed && ! check) {
     // Open list
-    if (_d->original->open("r")) {
+    if (_d->original->open(O_RDONLY)) {
       out(error, msg_errno, "opening list", errno, _d->name);
       failed = true;
     } else
     // Open journal
-    if (_d->journal->open("w", -1)) {
+    if (_d->journal->open(O_WRONLY, -1)) {
       out(error, msg_errno, "opening journal", errno, _d->name);
       failed = true;
     } else
     // Open list
-    if (_d->partial->open("w")) {
+    if (_d->partial->open(O_WRONLY)) {
       out(error, msg_errno, "opening merge list", errno, _d->name);
       failed = true;
     }

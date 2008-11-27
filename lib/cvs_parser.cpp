@@ -67,7 +67,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) {
   _mode = mode;
 
   /* Fill in list of controlled files */
-  entries_file.open("r");
+  entries_file.open(O_RDONLY);
   out(debug, msg_standard, "Parsing CVS entries", 1);
   int          line_no = 0;
   char*        buffer = NULL;

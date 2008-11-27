@@ -89,7 +89,7 @@ int Missing::close() {
       out(info, msg_standard, "Missing checksums list updated");
     }
     Stream missing_list((path + ".part").c_str());
-    if (missing_list.open("w")) {
+    if (missing_list.open(O_WRONLY)) {
       out(error, msg_errno, "saving problematic checksums list", errno);
       failed = true;
     }
@@ -136,7 +136,7 @@ int Missing::load() {
   // Read list of problematic checksums (it is ordered and contains no dup)
   out(verbose, msg_standard, "Reading list of problematic checksums", -1);
   Stream missing_list(_d->path);
-  if (! missing_list.open("r")) {
+  if (! missing_list.open(O_RDONLY)) {
     missing_list.setProgressCallback(_d->progress);
     char*          line = NULL;
     unsigned int   line_capacity = 0;

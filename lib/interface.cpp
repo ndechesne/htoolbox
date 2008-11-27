@@ -121,7 +121,7 @@ int HBackup::readConfig(const char* config_path) {
   /* Open configuration file */
   Stream config_file(config_path);
 
-  if (config_file.open("r")) {
+  if (config_file.open(O_RDONLY)) {
     out(error, msg_errno, "opening file", errno, config_path);
     return -1;
   }

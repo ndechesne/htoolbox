@@ -38,7 +38,7 @@ public:
   ~List();
   // Open file, for read or write (no append), with compression (cf. Stream)
   int open(
-    const char*     req_mode,
+    int             flags,
     int             compression = 0,
     bool            checksum    = false);
   // Close file
