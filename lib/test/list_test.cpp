@@ -40,8 +40,7 @@ time_t time(time_t *t) {
 static void showLine(time_t timestamp, char* path, Node* node) {
   printf("[%2ld] %-16s", timestamp, path);
   if (node != NULL) {
-    printf(" %c %5llu %03o", node->type(),
-    (node->type() != 'd') ? node->size() : 0, node->mode());
+    printf(" %c %5llu %03o", node->type(), node->size(), node->mode());
     if (node->type() == 'f') {
       printf(" %s", static_cast<File*>(node)->checksum());
     }
@@ -105,6 +104,7 @@ int main(void) {
   free(node);
 
   node = new Directory("test1/testdir");
+  node->setSize(0);
   journal.add("path", time(NULL), node);
   free(node);
 

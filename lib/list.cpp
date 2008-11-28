@@ -686,8 +686,7 @@ void List::show(
       }
       printf("[%2ld] %-30s", timestamp, path);
       if (node != NULL) {
-        printf(" %c %6llu %03o", node->type(),
-        (node->type() != 'd') ? node->size() : 0, node->mode());
+        printf(" %c %6lld %03o", node->type(), node->size(), node->mode());
         if (node->type() == 'f') {
           printf(" %s", static_cast<const File*>(node)->checksum());
         }

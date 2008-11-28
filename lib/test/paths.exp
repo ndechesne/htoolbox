@@ -170,7 +170,7 @@ myClient's list:
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l     12 777 linked space
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 1] /home/User/subdir-file         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdirfile          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/svn                 d      0 755
@@ -230,7 +230,7 @@ myClient's journal:
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l     12 777 linked space
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 1] /home/User/subdir-file         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdirfile          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/svn                 d      0 755
@@ -386,7 +386,7 @@ myClient's list:
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 2] /home/User/subdir/testfile     f     12 000 
 [ 2] /home/User/subdir/testfile1    f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 2] /home/User/subdir/testfile2    f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
@@ -491,7 +491,7 @@ myClient's list:
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 2] /home/User/subdir/testfile     f     12 000 
 [ 2] /home/User/subdir/testfile1    f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 2] /home/User/subdir/testfile2    f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
@@ -581,7 +581,7 @@ myClient's list:
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 2] /home/User/subdir/testfile     f     12 000 
 [ 2] /home/User/subdir/testfile1    f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 2] /home/User/subdir/testfile2    f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
@@ -689,7 +689,7 @@ myClient's list:
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 2] /home/User/subdir/testfile1    f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 2] /home/User/subdir/testfile2    f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
@@ -800,7 +800,7 @@ myClient's list:
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 2] /home/User/subdir/testfile1    f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -919,7 +919,7 @@ myClient's list:
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -1040,7 +1040,7 @@ myClient's list:
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -1168,7 +1168,7 @@ myClient's list:
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -1338,7 +1338,7 @@ myClient's list:
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -1506,7 +1506,7 @@ myClient's list:
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -1712,7 +1712,7 @@ myClient's list:
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -1933,7 +1933,7 @@ myClient's list:
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -2142,7 +2142,7 @@ myClient's list:
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -2351,7 +2351,7 @@ myClient's list:
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -2559,7 +2559,7 @@ myClient's list:
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -2772,7 +2772,7 @@ myClient's list:
 [ 1] /home/User/dir space/link space l     12 777 linked space
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -3034,7 +3034,7 @@ myClient's list:
 [18] /home/User/docbook-xml.cat.old f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -3290,7 +3290,7 @@ myClient's list:
 [18] /home/User/docbook-xml.cat.old f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -3621,7 +3621,7 @@ myClient's list:
 [18] /home/User/docbook-xml.cat.old f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -3781,7 +3781,7 @@ myClient's list:
 [18] /home/User/docbook-xml.cat.old f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -4052,7 +4052,7 @@ myClient's list:
 [18] /home/User/docbook-xml.cat.old f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]
@@ -4268,7 +4268,7 @@ myClient's list:
 [18] /home/User/docbook-xml.cat.old f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 7] /home/User/subdir              [rm]
 [ 2] /home/User/subdir              d      0 755
-[ 1] /home/User/subdir              d      0 000
+[ 1] /home/User/subdir              d     -1 000
 [ 6] /home/User/subdir/testfile     [rm]
 [ 2] /home/User/subdir/testfile     f     12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 7] /home/User/subdir/testfile1    [rm]

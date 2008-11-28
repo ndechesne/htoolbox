@@ -252,6 +252,7 @@ int main(void) {
   File* f;
   OpData* op;
   d = new Directory("test1/subdir");
+  d->setSize(0);
   op = new OpData("/client_path/subdir", *d);
   db.add(*op);
   delete op;
@@ -278,6 +279,7 @@ int main(void) {
   delete op;
   delete f;
   d = new Directory("test1/testdir");
+  d->setSize(0);
   op = new OpData("other_path/testdir", *d);
   db.add(*op);
   delete op;
@@ -473,14 +475,14 @@ int main(void) {
   }
   records.clear();
 
-  cout << "Date: " << -8 << " from " << my_time << " (+1)" << endl;
+  cout << "Date: " << -4 << " from " << my_time << " (+1)" << endl;
   if (db.open(true) < 0) {
     return 0;
   }
   if (db.openClient("myClient") != 0) {
     return 0;
   }
-  db.getRecords(records, "/client_path", -8);
+  db.getRecords(records, "/client_path", -4);
   db.closeClient();
   db.close();
   cout << "List of paths: " << records.size() << endl;
@@ -490,14 +492,14 @@ int main(void) {
   }
   records.clear();
 
-  cout << "Date: " << 14 << endl;
+  cout << "Date: " << 11 << endl;
   if (db.open(true) < 0) {
     return 0;
   }
   if (db.openClient("myClient") != 0) {
     return 0;
   }
-  db.getRecords(records, "/client_path", 14);
+  db.getRecords(records, "/client_path", 11);
   db.closeClient();
   db.close();
   cout << "List of paths: " << records.size() << endl;

@@ -443,8 +443,9 @@ int Owner::search(
     // Not reached, mark 'removed' (getLineType keeps line automatically)
     if (_d->original->getLineType() != '-') {
       // Add path and 'removed' entry
-      _d->journal->add(db_path, time(NULL));
-      _d->partial->add(db_path, time(NULL));
+      time_t tm = time(NULL);
+      _d->journal->add(db_path, tm);
+      _d->partial->add(db_path, tm);
       out(info, msg_standard, db_path, -2, "D      ");
     } else {
       _d->partial->add(db_path);
