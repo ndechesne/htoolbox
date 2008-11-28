@@ -553,8 +553,8 @@ cvs\r
    hbackup::CvsParser::isControlled(std::string const&) const (cvs_parser.cpp:58)
    hbackup::Parsers::isControlled(std::string const&) const (parsers.cpp:37)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:59)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:165)
-   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:271)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:166)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:272)
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:593)
    hbackup::HBackup::backup(bool) (interface.cpp:520)
    main (hbackup.cpp:447)
@@ -621,31 +621,31 @@ svn\r
 Ad      test1/svn/.svn
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1141)
-   deflate (deflate.c:822)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:820)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:898)
    hbackup::Stream::close() (files.cpp:565)
-   hbackup::Data::write(hbackup::Stream&, char const*, char**, int, int*, bool) const (data.cpp:388)
-   hbackup::Database::add(hbackup::OpData&, bool) (db.cpp:718)
+   hbackup::Data::write(hbackup::Stream&, char const*, char**, int, int*, bool) const (data.cpp:381)
+   hbackup::Database::add(hbackup::OpData&, bool) (db.cpp:719)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:149)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:165)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:165)
-   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:271)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:166)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:166)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:272)
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:593)
  
  Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1122)
-   deflate (deflate.c:822)
+   (within /usr/lib/libz.so.1.2.3.3)
+   deflate (in /usr/lib/libz.so.1.2.3.3)
    hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:820)
    hbackup::Stream::write(void const*, unsigned) (files.cpp:898)
    hbackup::Stream::close() (files.cpp:565)
-   hbackup::Data::write(hbackup::Stream&, char const*, char**, int, int*, bool) const (data.cpp:388)
-   hbackup::Database::add(hbackup::OpData&, bool) (db.cpp:718)
+   hbackup::Data::write(hbackup::Stream&, char const*, char**, int, int*, bool) const (data.cpp:381)
+   hbackup::Database::add(hbackup::OpData&, bool) (db.cpp:719)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:149)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:165)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:165)
-   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:271)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:166)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:166)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:272)
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:593)
         \r
 Checking data, sizes: f=77 z=79 (80)
@@ -884,8 +884,8 @@ cvs\r
    hbackup::CvsParser::isControlled(std::string const&) const (cvs_parser.cpp:58)
    hbackup::Parsers::isControlled(std::string const&) const (parsers.cpp:37)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:59)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:165)
-   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:271)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:166)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:272)
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:593)
    hbackup::HBackup::backup(bool) (interface.cpp:520)
    main (hbackup.cpp:447)
@@ -1180,20 +1180,20 @@ Found 16 checksums
 Crawling through DB
 0f2ea973d77135dc3d06c8e68da6dc59-0 77\r
 26ab0db90d72e28ad0ba1e22ee510510-0 2 \r
-3d546a1ce46c6ae10ad34ab8a81c542e-0 145408\r
-5252f242d27b8c2c9fdbdcbb33545d07-0 42    \r
-59071590099d21dd439896592338bf95-0 524288\r
-59ca0efa9f5633cb0371bbc0355478d8-0 13    \r
+3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 190\r
+5252f242d27b8c2c9fdbdcbb33545d07-0 42        \r
+59071590099d21dd439896592338bf95-0 524288 557\r
+59ca0efa9f5633cb0371bbc0355478d8-0 13        \r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
 b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
 d41d8cd98f00b204e9800998ecf8427e-0 0 \r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
-f1c9645dbc14efddc7d8a322685f26eb-0 10485760\r
-f81f70dceaca8b0cec354f33fa3f0909-0 145461  \r
-fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072\r
-fef51838cd3cfe8ed96355742eb71fbd-0 161   \r
+f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10222\r
+f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 300\r
+fef51838cd3cfe8ed96355742eb71fbd-0 161       \r
                                       \r
 Found 16 valid and 0 broken data files
 Checksum(s) from list: 16
@@ -1317,20 +1317,20 @@ Database open in read-only mode
 Crawling through DB data
 0f2ea973d77135dc3d06c8e68da6dc59-0 77\r
 26ab0db90d72e28ad0ba1e22ee510510-0 2 \r
-3d546a1ce46c6ae10ad34ab8a81c542e-0 145408\r
-5252f242d27b8c2c9fdbdcbb33545d07-0 42    \r
-59071590099d21dd439896592338bf95-0 524288\r
-59ca0efa9f5633cb0371bbc0355478d8-0 13    \r
+3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 190\r
+5252f242d27b8c2c9fdbdcbb33545d07-0 42        \r
+59071590099d21dd439896592338bf95-0 524288 557\r
+59ca0efa9f5633cb0371bbc0355478d8-0 13        \r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
 b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
 d41d8cd98f00b204e9800998ecf8427e-0 0 \r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
-f1c9645dbc14efddc7d8a322685f26eb-0 10485760\r
-f81f70dceaca8b0cec354f33fa3f0909-0 145461  \r
-fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072\r
-fef51838cd3cfe8ed96355742eb71fbd-0 161   \r
+f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10222\r
+f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
+fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 300\r
+fef51838cd3cfe8ed96355742eb71fbd-0 161       \r
                                       \r
 Found 16 valid and 0 broken data files
 Database closed
