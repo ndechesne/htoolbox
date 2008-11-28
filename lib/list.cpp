@@ -219,23 +219,24 @@ int List::encodeLine(
   if (node == NULL) {
     size = asprintf(linep, "\t%ld\t-", timestamp);
   } else {
-    char* temp = NULL;
-    size = asprintf(&temp, "\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o",
-      timestamp, node->type(), node->size(), node->mtime(), node->uid(),
-      node->gid(), node->mode());
+    const char* extra;
     switch (node->type()) {
       case 'f': {
-        const char* extra  = (static_cast<const File*>(node))->checksum();
-        size = asprintf(linep, "%s\t%s", temp, extra);
+        extra = (static_cast<const File*>(node))->checksum();
       } break;
       case 'l': {
-        const char* extra  = (static_cast<const Link*>(node))->link();
-        size = asprintf(linep, "%s\t%s", temp, extra);
+        extra = (static_cast<const Link*>(node))->link();
       } break;
       default:
-        size = asprintf(linep, "%s", temp);
+        extra = "";
     }
-    free(temp);
+    size = asprintf(linep, "\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o\t%s",
+      timestamp, node->type(), node->size(), node->mtime(), node->uid(),
+      node->gid(), node->mode(), extra);
+    // Remove trailing tab
+    if (extra[0] == '\0') {
+      (*linep)[--size] = '\0';
+    }
   }
   return size;
 }
