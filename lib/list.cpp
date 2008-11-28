@@ -210,6 +210,36 @@ void List::keepLine() {
   _d->line_status = new_data;
 }
 
+int List::encodeLine(
+    char**          linep,
+    time_t          timestamp,
+    const Node*     node) {
+  int size;
+
+  if (node == NULL) {
+    size = asprintf(linep, "\t%ld\t-", timestamp);
+  } else {
+    char* temp = NULL;
+    size = asprintf(&temp, "\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o",
+      timestamp, node->type(), node->size(), node->mtime(), node->uid(),
+      node->gid(), node->mode());
+    switch (node->type()) {
+      case 'f': {
+        const char* extra  = (static_cast<const File*>(node))->checksum();
+        size = asprintf(linep, "%s\t%s", temp, extra);
+      } break;
+      case 'l': {
+        const char* extra  = (static_cast<const Link*>(node))->link();
+        size = asprintf(linep, "%s\t%s", temp, extra);
+      } break;
+      default:
+        size = asprintf(linep, "%s", temp);
+    }
+    free(temp);
+  }
+  return size;
+}
+
 int List::decodeLine(
     const char*     line,
     time_t*         ts,
@@ -379,31 +409,11 @@ int List::add(
   if (timestamp < 0) {
     return 0;
   }
+
   char* line = NULL;
-  int   size;
+  int   size = encodeLine(&line, timestamp, node);
   int   rc   = 0;
 
-  if (node == NULL) {
-    size = asprintf(&line, "\t%ld\t-", timestamp);
-  } else {
-    char* temp = NULL;
-    size = asprintf(&temp, "\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o",
-      timestamp, node->type(), node->size(), node->mtime(), node->uid(),
-      node->gid(), node->mode());
-    switch (node->type()) {
-      case 'f': {
-        const char* extra  = (static_cast<const File*>(node))->checksum();
-        size = asprintf(&line, "%s\t%s", temp, extra);
-      } break;
-      case 'l': {
-        const char* extra  = (static_cast<const Link*>(node))->link();
-        size = asprintf(&line, "%s\t%s", temp, extra);
-      } break;
-      default:
-        size = asprintf(&line, "%s", temp);
-    }
-    free(temp);
-  }
   if ((timestamp == 0) && bufferize) {
     // Send line to search method, so it can deal with exception
     putLine(line);

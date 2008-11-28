@@ -26,7 +26,12 @@ class List : public Stream {
   Private* const    _d;
   // Buffer relevant line
   ssize_t fetchLine(bool use_found = false);
-  // Decode metadata from current line
+  // Encode line from metadata
+  int encodeLine(
+    char**          line,
+    time_t          timestamp,
+    const Node*     node);
+  // Decode metadata from line
   int decodeLine(
     const char*     line,               // Line to decode
     time_t*         ts,                 // Line timestamp
