@@ -105,8 +105,8 @@ int ClientPath::parse_recurse(
           if ((*i)->type() == 'd') {
             Directory& d = static_cast<Directory&>(**i);
             d.setMtime(0);
+            d.setSize(0);
             if (d.createList()) {
-              d.setSize(-1);
               d.deleteList();
               char* full_name;
               if (asprintf(&full_name, "%s:%s/%s", client_name, remote_path,
@@ -122,9 +122,10 @@ int ClientPath::parse_recurse(
               &&  (errno != ENOENT)) {  // Ignore directory gone
                 // All the rest results in a cease and desist order
                 give_up = true;
+              } else {
+                // Remember the error level
+                d.setSize(-1);
               }
-            } else {
-              d.setSize(0);
             }
           }
 
