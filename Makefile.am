@@ -1,2 +1,2 @@
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = . lib cli test_tools
+SUBDIRS = . lib cli test_tools doc
