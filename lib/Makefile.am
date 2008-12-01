@@ -26,3 +26,24 @@ libhbackup_la_SOURCES = \
 # Header file
 library_includedir = $(includedir)
 library_include_HEADERS = hbackup.h
+
+EXTRA_DIST = \
+	buffer.h \
+	clients.h \
+	compdata.h \
+	conditions.h \
+        configuration.h \
+        cvs_parser.h \
+        data.h \
+        db.h \
+        files.h \
+        filters.h \
+        line.h \
+        list.h \
+        missing.h \
+        opdata.h \
+        owner.h \
+        parsers.h \
+        paths.h \
+        report.h \
+        svn_parser.h

@@ -59,3 +59,22 @@ check_SUCCESSES = \
 	paths.done \
 	clients.done \
 	interface.done
+
+EXTRA_DIST = \
+	buffer.exp \
+	clients.exp \
+	conditions.exp \
+	configuration.exp \
+	cvs_parser.exp \
+	data.exp \
+	db.exp \
+	files.exp \
+	filters.exp \
+	interface.exp \
+	line.exp \
+	list.exp \
+	owner.exp \
+	parsers.exp \
+	paths.exp \
+	report.exp \
+	svn_parser.exp

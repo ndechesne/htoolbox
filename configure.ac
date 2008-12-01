@@ -83,5 +83,6 @@ AC_CONFIG_FILES([Makefile
                  lib/test/Makefile
                  cli/Makefile
                  cli/test/Makefile
-                 cli/man/Makefile])
+                 cli/man/Makefile
+                 test_tools/Makefile])
 AC_OUTPUT

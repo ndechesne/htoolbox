@@ -9,3 +9,6 @@ install-exec-local:
 	rm -f '$(DESTDIR)$(bindir)/hubackup'
 	$(LN_S) hbackup '$(DESTDIR)$(bindir)/hubackup'
 	install -c hwbackup '$(DESTDIR)$(bindir)/hwbackup'
+
+EXTRA_DIST = \
+	hwbackup
