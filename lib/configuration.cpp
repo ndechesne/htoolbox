@@ -218,11 +218,6 @@ void ConfigItem::show(int level) const {
   }
 }
 
-void ConfigSyntax::show() const {
-  out(debug, msg_standard, "Syntax:");
-  _items_top.show(2);
-}
-
 int Config::read(
     Stream&         stream,
     unsigned char   flags,
@@ -230,7 +225,7 @@ int Config::read(
     ConfigErrors*   errors) {
   // Where we are in the items tree
   list<const ConfigItem*> items_hierarchy;
-  items_hierarchy.push_back(&syntax.top());
+  items_hierarchy.push_back(&syntax);
 
   // Where are we in the lines tree
   list<ConfigLine*> lines_hierarchy;

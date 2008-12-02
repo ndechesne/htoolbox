@@ -120,15 +120,9 @@ public:
   void show(int level = 0) const;
 };
 
-class ConfigSyntax {
-  ConfigItem        _items_top;
+class ConfigSyntax : public ConfigItem {
 public:
-  ConfigSyntax() : _items_top("") {}
-  const ConfigItem& top() const         { return _items_top;        }
-  // Add a config item
-  void add(ConfigItem* child)           { _items_top.add(child);    }
-  // Debug
-  void show() const;
+  ConfigSyntax() : ConfigItem("") {}
 };
 
 class Config {
