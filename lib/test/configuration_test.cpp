@@ -27,23 +27,25 @@ using namespace std;
 using namespace hbackup;
 
 int main(void) {
-  Config*     config;
+  ConfigSyntax*     syntax;
+  Config*           config;
+  ConfigErrors      errors;
 
   setVerbosityLevel(debug);
 
   cout << endl << "Test: client configuration" << endl;
-  config = new Config;
+  syntax = new ConfigSyntax;
 
   // expire
-  config->add(new ConfigItem("expire", 0, 1, 1));
+  syntax->add(new ConfigItem("expire", 0, 1, 1));
 
   // users
-  config->add(new ConfigItem("users", 0, 1, 1, -1));
+  syntax->add(new ConfigItem("users", 0, 1, 1, -1));
 
   // filter
   {
     ConfigItem* item = new ConfigItem("filter", 0, 0, 2);
-    config->add(item);
+    syntax->add(item);
 
     // condition
     item->add(new ConfigItem("condition", 1, 0, 2));
@@ -52,7 +54,7 @@ int main(void) {
   // path
   {
     ConfigItem* item = new ConfigItem("path", 1, 0, 1);
-    config->add(item);
+    syntax->add(item);
 
     // parser
     item->add(new ConfigItem("parser", 0, 0, 1, 2));
@@ -76,54 +78,63 @@ int main(void) {
     item->add(new ConfigItem("no_compress", 0, 1, 1));
   }
 
+  // show debug
+  syntax->show();
+
+  config = new Config;
   Stream client_config("etc/localhost.list");
   if (client_config.open(O_RDONLY) == 0) {
-    config->read(client_config);
+    config->read(client_config, 0, *syntax, &errors);
     client_config.close();
   } else {
     cout << "failed to open it!" << endl;
   }
+  errors.show();
+  errors.clear();
   config->clear();
   if (client_config.open(O_RDONLY) == 0) {
-    config->read(client_config, Stream::flags_accept_cr_lf);
+    config->read(client_config, Stream::flags_accept_cr_lf, *syntax, &errors);
     client_config.close();
   } else {
     cout << "failed to open it!" << endl;
   }
+  errors.show();
+  errors.clear();
 
   // show debug
   config->show();
 
   delete config;
+  delete syntax;
 
   cout << "Test: server configuration" << endl;
-  config = new Config;
+  syntax = new ConfigSyntax;
 
   // db
-  config->add(new ConfigItem("db", 0, 1, 1));
+  syntax->add(new ConfigItem("db", 0, 1, 1));
 
   // filter
   {
     ConfigItem* item = new ConfigItem("filter", 0, 0, 2);
-    config->add(item);
+    syntax->add(item);
 
     // condition
     item->add(new ConfigItem("condition", 1, 0, 2));
   }
 
   // compress_auto
-  config->add(new ConfigItem("compress_auto", 0, 1));
+  syntax->add(new ConfigItem("compress_auto", 0, 1));
 
   // timeout_nowarning
-  config->add(new ConfigItem("timeout_nowarning", 0, 1));
+  syntax->add(new ConfigItem("timeout_nowarning", 0, 1));
 
   // report_copy_error_once
-  config->add(new ConfigItem("report_copy_error_once", 0, 1));
+  syntax->add(new ConfigItem("report_copy_error_once", 0, 1));
 
   // client
   {
     ConfigItem* item = new ConfigItem("client", 1, 0, 1, 2);
-    config->add(item);
+    syntax->add(item);
 
     // hostname
     item->add(new ConfigItem("hostname", 0, 1, 1));
@@ -186,13 +197,19 @@ int main(void) {
     }
   }
 
+  // show debug
+  syntax->show();
+
+  config = new Config;
   Stream general_config("etc/hbackup.conf");
   if (general_config.open(O_RDONLY) == 0) {
-    config->read(general_config);
+    config->read(general_config, 0, *syntax, &errors);
     general_config.close();
   } else {
     cout << "failed to open it!" << endl;
   }
+  errors.show();
+  errors.clear();
 
   // show debug
   config->show();
@@ -214,11 +231,13 @@ int main(void) {
   config->clear();
 
   if (save_config.open(O_RDONLY, 1) == 0) {
-    config->read(save_config);
+    config->read(save_config, 0, *syntax, &errors);
     save_config.close();
   } else {
     cout << "failed to open it!" << endl;
   }
+  errors.show();
+  errors.clear();
 
   // show debug
   config->show();
@@ -229,16 +248,19 @@ int main(void) {
   cout << "Test: broken configuration" << endl;
   Stream broken_config("etc/broken.conf");
   if (broken_config.open(O_RDONLY) == 0) {
-    config->read(broken_config);
+    config->read(broken_config, 0, *syntax, &errors);
     broken_config.close();
   } else {
     cout << "failed to open it!" << endl;
   }
+  errors.show();
+  errors.clear();
 
   // show debug
   config->show();
 
   delete config;
+  delete syntax;
 
   return 0;
 }

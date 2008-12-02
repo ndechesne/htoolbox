@@ -26,7 +26,7 @@ class ConfigLine : public vector<string> {
   list<ConfigLine*> _children;
   unsigned int      _line_no;
 public:
-  ConfigLine() : _line_no(0) {}
+  ConfigLine(unsigned int line_no = 0) : _line_no(line_no) {}
   ~ConfigLine();
   // Get line no
   unsigned int lineNo(void) const                 { return _line_no;          }
@@ -45,17 +45,7 @@ public:
   list<ConfigLine*>::const_iterator end() const   { return _children.end();   }
 };
 
-// To check occurrences
-class ConfigCounter {
-  const string&     _keyword;
-  int               _occurrences;
-public:
-  ConfigCounter(const string& keyword) : _keyword(keyword), _occurrences(1) {}
-  bool operator<(const ConfigCounter& counter) const;
-  const string& keyword() const { return _keyword;    }
-  int occurrences()        const { return _occurrences; }
-  void increment()              { _occurrences++;      }
-};
+class ConfigCounter;
 
 // To re-order the error messages
 class ConfigError {
@@ -71,7 +61,16 @@ public:
         _line_no(line_no),
         _type(type) {}
   bool operator<(const ConfigError& error) const;
-  void output() const;
+  void show() const;
+};
+
+class ConfigErrors : public list<ConfigError> {
+public:
+  void show() const {
+    for (ConfigErrors::const_iterator i = begin(); i != end(); i++) {
+      i->show();
+    }
+  }
 };
 
 class ConfigItem {
@@ -115,26 +114,35 @@ public:
   // Check children occurrences
   bool isValid(
     const list<ConfigCounter> counters,
-    list<ConfigError>&        errors,
+    ConfigErrors*             errors  = NULL,
     int                       line_no = -1) const;
   // Debug
   void show(int level = 0) const;
 };
 
-class Config {
+class ConfigSyntax {
   ConfigItem        _items_top;
+public:
+  ConfigSyntax() : _items_top("") {}
+  const ConfigItem& top() const         { return _items_top;        }
+  // Add a config item
+  void add(ConfigItem* child)           { _items_top.add(child);    }
+  // Debug
+  void show() const;
+};
+
+class Config {
   ConfigLine        _lines_top;
 public:
-  Config() : _items_top("") {}
   // Read file, using Stream's flags as given
   int read(
     Stream&         stream,
-    unsigned char   flags = 0);
+    unsigned char   flags,
+    ConfigSyntax&   syntax,
+    ConfigErrors*   errors = NULL);
   // Write configuration to file
   int write(
     Stream&         stream) const;
-  // Add a config item
-  void add(ConfigItem* child)    { _items_top.add(child); }
   // Lines tree accessor
   int line(
     ConfigLine**    params,

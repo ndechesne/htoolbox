@@ -168,18 +168,20 @@ int Client::readConfig(
   // Set up config syntax and grammar
   _d->config.clear();
 
+  ConfigSyntax config_syntax;
+
   // subset
-  _d->config.add(new ConfigItem("subset", 0, 1, 1));
+  config_syntax.add(new ConfigItem("subset", 0, 1, 1));
   // expire
-  _d->config.add(new ConfigItem("expire", 0, 1, 1));
+  config_syntax.add(new ConfigItem("expire", 0, 1, 1));
   // users
-  _d->config.add(new ConfigItem("users", 0, 1, 1, -1));
+  config_syntax.add(new ConfigItem("users", 0, 1, 1, -1));
   // timeout_nowarning
-  _d->config.add(new ConfigItem("report_copy_error_once", 0, 1));
+  config_syntax.add(new ConfigItem("report_copy_error_once", 0, 1));
   // filter
   {
     ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
-    _d->config.add(filter);
+    config_syntax.add(filter);
 
     // condition
     filter->add(new ConfigItem("condition", 1, 0, 2));
@@ -187,7 +189,7 @@ int Client::readConfig(
   // path
   {
     ConfigItem* path = new ConfigItem("path", 1, 0, 1);
-    _d->config.add(path);
+    config_syntax.add(path);
     // parser
     path->add(new ConfigItem("parser", 0, 0, 2));
     // filter
@@ -207,8 +209,11 @@ int Client::readConfig(
 
   out(debug, msg_standard, internalName().c_str(), 1,
     "Reading client configuration file");
+  ConfigErrors errors;
   if (_d->config.read(config_file,
-      Stream::flags_dos_catch | Stream::flags_accept_cr_lf) >= 0) {
+                      Stream::flags_dos_catch | Stream::flags_accept_cr_lf,
+                      config_syntax,
+                      &errors) >= 0) {
     // Read client configuration file
     ClientPath* path   = NULL;
     Filter*     filter = NULL;
@@ -353,6 +358,8 @@ int Client::readConfig(
     }
     // Close client configuration file
     config_file.close();
+  } else {
+    errors.show();
   }
   if (! failed) {
     show(1);

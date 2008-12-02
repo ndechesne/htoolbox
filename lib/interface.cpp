@@ -126,27 +126,27 @@ int HBackup::readConfig(const char* config_path) {
     return -1;
   }
   // Set up config syntax and grammar
-  Config config;
+  ConfigSyntax config_syntax;
 
   // db
-  config.add(new ConfigItem("db", 0, 1, 1));
+  config_syntax.add(new ConfigItem("db", 0, 1, 1));
   // filter
   {
     ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
-    config.add(filter);
+    config_syntax.add(filter);
     // condition
     filter->add(new ConfigItem("condition", 1, 0, 2));
   }
   // compress_auto
-  config.add(new ConfigItem("compress_auto", 0, 1));
+  config_syntax.add(new ConfigItem("compress_auto", 0, 1));
   // timeout_nowarning
-  config.add(new ConfigItem("timeout_nowarning", 0, 1));
+  config_syntax.add(new ConfigItem("timeout_nowarning", 0, 1));
   // report_copy_error_once
-  config.add(new ConfigItem("report_copy_error_once", 0, 1));
+  config_syntax.add(new ConfigItem("report_copy_error_once", 0, 1));
   // client
   {
     ConfigItem* client = new ConfigItem("client", 1, 0, 1, 2);
-    config.add(client);
+    config_syntax.add(client);
     // hostname
     client->add(new ConfigItem("hostname", 0, 1, 1));
     // protocol
@@ -200,10 +200,14 @@ int HBackup::readConfig(const char* config_path) {
 
   /* Read configuration file */
   out(debug, msg_standard, config_path, 1, "Reading configuration file");
-  int rc = config.read(config_file, Stream::flags_accept_cr_lf);
+  Config       config;
+  ConfigErrors errors;
+  int rc = config.read(config_file, Stream::flags_accept_cr_lf, config_syntax,
+    &errors);
   config_file.close();
 
   if (rc < 0) {
+    errors.show();
     return -1;
   }
 

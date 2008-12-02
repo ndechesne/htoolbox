@@ -29,6 +29,22 @@ using namespace std;
 
 using namespace hbackup;
 
+namespace hbackup {
+
+// To check occurrences
+class ConfigCounter {
+  const string&     _keyword;
+  int               _occurrences;
+public:
+  ConfigCounter(const string& keyword) : _keyword(keyword), _occurrences(1) {}
+  bool operator<(const ConfigCounter& counter) const;
+  const string& keyword() const { return _keyword;    }
+  int occurrences()        const { return _occurrences; }
+  void increment()              { _occurrences++;      }
+};
+
+}
+
 ConfigLine::~ConfigLine() {
   clear();
 }
@@ -83,7 +99,7 @@ bool ConfigError::operator<(const ConfigError& error) const {
   return _line_no < error._line_no;
 }
 
-void ConfigError::output() const {
+void ConfigError::show() const {
   stringstream s;
   if (_line_no >= 0) {
     if (_type != 0) {
@@ -125,7 +141,7 @@ const ConfigItem* ConfigItem::find(string& keyword) const {
 
 bool ConfigItem::isValid(
     const list<ConfigCounter> counters,
-    list<ConfigError>&        errors,
+    ConfigErrors*             errors,
     int                       line_no) const {
   bool is_valid = true;
   // Check occurrences for each child (both lists are sorted)
@@ -142,22 +158,24 @@ bool ConfigItem::isValid(
         || (((*i)->max_occurrences() != 0)
           && (occurrences > (*i)->max_occurrences()))) {
       is_valid = false;
-      ostringstream message;
-      if (occurrences < (*i)->min_occurrences()) {
-        // Too few
-        if (occurrences == 0) {
-          message << "missing ";
+      if (errors != NULL) {
+        ostringstream message;
+        if (occurrences < (*i)->min_occurrences()) {
+          // Too few
+          if (occurrences == 0) {
+            message << "missing ";
+          } else {
+            message << "need at least "<< (*i)->min_occurrences()
+              << " occurence(s) of ";
+          }
         } else {
-          message << "need at least "<< (*i)->min_occurrences()
+          // Too many
+          message << "need at most " << (*i)->max_occurrences()
             << " occurence(s) of ";
         }
-      } else {
-        // Too many
-        message << "need at most " << (*i)->max_occurrences()
-          << " occurence(s) of ";
+        message << "keyword '" << (*i)->keyword() << "'";
+        errors->push_back(ConfigError(message.str(), line_no, 1));
       }
-      message << "keyword '" << (*i)->keyword() << "'";
-      errors.push_back(ConfigError(message.str(), line_no, 1));
     }
   }
   return is_valid;
@@ -200,19 +218,23 @@ void ConfigItem::show(int level) const {
   }
 }
 
+void ConfigSyntax::show() const {
+  out(debug, msg_standard, "Syntax:");
+  _items_top.show(2);
+}
+
 int Config::read(
     Stream&         stream,
-    unsigned char   flags) {
+    unsigned char   flags,
+    ConfigSyntax&   syntax,
+    ConfigErrors*   errors) {
   // Where we are in the items tree
   list<const ConfigItem*> items_hierarchy;
-  items_hierarchy.push_back(&_items_top);
+  items_hierarchy.push_back(&syntax.top());
 
   // Where are we in the lines tree
   list<ConfigLine*> lines_hierarchy;
   lines_hierarchy.push_back(&_lines_top);
-
-  // Where we accumulate the errors, to then output them in line no order
-  list<ConfigError> errors;
 
   // Read through the file
   ConfigLine *params = new ConfigLine;
@@ -241,27 +263,29 @@ int Config::read(
           if (   ((params->size() - 1) < child->min_params())
               || ( (child->min_params() <= child->max_params())
                 && ((params->size() - 1) > child->max_params()))) {
-            ostringstream message;
-            message << "keyword '" << (*params)[0]
-              << "' requires ";
-            if (child->min_params() == child->max_params()) {
-              message << child->min_params();
-            } else
-            if ((params->size() - 1) < child->min_params()) {
-              message << "at least " << child->min_params();
-            } else
-            {
-              message << "at most " << child->max_params();
+            if (errors != NULL) {
+              ostringstream message;
+              message << "keyword '" << (*params)[0]
+                << "' requires ";
+              if (child->min_params() == child->max_params()) {
+                message << child->min_params();
+              } else
+              if ((params->size() - 1) < child->min_params()) {
+                message << "at least " << child->min_params();
+              } else
+              {
+                message << "at most " << child->max_params();
+              }
+              message << " parameter(s), found " << params->size() - 1;
+              errors->push_back(ConfigError(message.str(), line_no));
             }
-            message << " parameter(s), found " << params->size() - 1;
-            errors.push_back(ConfigError(message.str(), line_no));
             failed = true;
           }
           // Prepare new config line
           params = new ConfigLine;
           break;
         } else {
-          // Compute children occurrencies
+          // Compute children occurrences
           list<ConfigCounter> entries;
           for (list<ConfigLine*>::const_iterator
               i = lines_hierarchy.back()->begin();
@@ -282,19 +306,21 @@ int Config::read(
           // Check against expected
           if (! items_hierarchy.back()->isValid(entries, errors,
               lines_hierarchy.back()->lineNo())) {
-            failed  = true;
+            failed = true;
           }
           // Keyword not found in children, go up the tree
           items_hierarchy.pop_back();
           lines_hierarchy.back()->sortChildren();
           lines_hierarchy.pop_back();
           if ((items_hierarchy.size() == 0) && (rc != 0)) {
-            if ((*params)[0][0] != '\r'){
-              errors.push_back(ConfigError("keyword '" + (*params)[0]
-                + "' incorrect or misplaced, aborting", line_no));
-            } else {
-              errors.push_back(ConfigError("found CR character, aborting",
-                line_no));
+            if (errors != NULL) {
+              if ((*params)[0][0] != '\r'){
+                errors->push_back(ConfigError("keyword '" + (*params)[0]
+                  + "' incorrect or misplaced, aborting", line_no));
+              } else {
+                errors->push_back(ConfigError("found CR character, aborting",
+                  line_no));
+              }
             }
             failed = true;
             goto end;
@@ -305,10 +331,8 @@ int Config::read(
     if (rc == 0) break;
   }
 end:
-  errors.sort();
-  for (list<ConfigError>::const_iterator i = errors.begin(); i != errors.end();
-      i++) {
-    i->output();
+  if (errors != NULL) {
+    errors->sort();
   }
   delete params;
   return failed ? -1 : 0;
@@ -382,10 +406,7 @@ void Config::clear() {
 }
 
 void Config::show() const {
-  out(debug, msg_standard, "Items:");
-  _items_top.show(2);
-
-  out(debug, msg_standard, "Lines:");
+  out(debug, msg_standard, "Config:");
   ConfigLine* params;
   int level;
   while ((level = line(&params)) >= 0) {

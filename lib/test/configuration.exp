@@ -1,8 +1,6 @@
 
 Test: client configuration
-Error: after line: 0: missing keyword 'path'
-Error: at line: 5: found CR character, aborting
-Items:
+Syntax:
   expire, occ.: optional, max = 1; params: min = max = 1
   filter, occ.: optional, no max; params: min = max = 2
     condition, occ.: min = 1, no max; params: min = max = 2
@@ -14,7 +12,9 @@ Items:
     no_compress, occ.: optional, max = 1; params: min = max = 1
     parser, occ.: optional, no max; params: min = 1, max = 2
   users, occ.: optional, max = 1; params: min = 1, no max
-Lines:
+Error: after line: 0: missing keyword 'path'
+Error: at line: 5: found CR character, aborting
+Config:
 2:   filter and subdir
 3:     condition path_start subdir
 4:     condition !size< 100
@@ -39,7 +39,7 @@ Lines:
 34:       condition name Entries
 36:     no_compress cvs_entries
 Test: server configuration
-Items:
+Syntax:
   client, occ.: min = 1, no max; params: min = 1, max = 2
     config, occ.: optional, max = 1; params: min = max = 1
     expire, occ.: optional, max = 1; params: min = max = 1
@@ -64,7 +64,7 @@ Items:
     condition, occ.: min = 1, no max; params: min = max = 2
   report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
   timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
-Lines:
+Config:
 1:   db test_db
 3:   compress_auto
 5:   filter all backup
@@ -132,32 +132,7 @@ Lines:
 85:       parser svn modified
 86:     report_copy_error_once
 Test: configuration save
-Items:
-  client, occ.: min = 1, no max; params: min = 1, max = 2
-    config, occ.: optional, max = 1; params: min = max = 1
-    expire, occ.: optional, max = 1; params: min = max = 1
-    filter, occ.: optional, no max; params: min = max = 2
-      condition, occ.: min = 1, no max; params: min = max = 2
-    hostname, occ.: optional, max = 1; params: min = max = 1
-    option, occ.: optional, no max; params: min = 1, max = 2
-    path, occ.: optional, no max; params: min = max = 1
-      compress, occ.: optional, max = 1; params: min = max = 1
-      filter, occ.: optional, no max; params: min = max = 2
-        condition, occ.: min = 1, no max; params: min = max = 2
-      ignore, occ.: optional, max = 1; params: min = max = 1
-      no_compress, occ.: optional, max = 1; params: min = max = 1
-      parser, occ.: optional, no max; params: min = 1, max = 2
-    protocol, occ.: min = 1, max = 1; params: min = max = 1
-    report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
-    timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
-    users, occ.: optional, max = 1; params: min = 1, no max
-  compress_auto, occ.: optional, max = 1; params: min = max = 0
-  db, occ.: optional, max = 1; params: min = max = 1
-  filter, occ.: optional, no max; params: min = max = 2
-    condition, occ.: min = 1, no max; params: min = max = 2
-  report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
-  timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
-Lines:
+Config:
 1:   db test_db
 2:   compress_auto
 3:   filter all backup
@@ -251,32 +226,7 @@ Error: at line: 73: keyword 'compress' requires 1 parameter(s), found 2
 Error: at line: 86: keyword 'ignore' requires 1 parameter(s), found 0
 Error: at line: 87: keyword 'compress' requires 1 parameter(s), found 0
 Error: at line: 89: keyword 'what_the_f...?' incorrect or misplaced, aborting
-Items:
-  client, occ.: min = 1, no max; params: min = 1, max = 2
-    config, occ.: optional, max = 1; params: min = max = 1
-    expire, occ.: optional, max = 1; params: min = max = 1
-    filter, occ.: optional, no max; params: min = max = 2
-      condition, occ.: min = 1, no max; params: min = max = 2
-    hostname, occ.: optional, max = 1; params: min = max = 1
-    option, occ.: optional, no max; params: min = 1, max = 2
-    path, occ.: optional, no max; params: min = max = 1
-      compress, occ.: optional, max = 1; params: min = max = 1
-      filter, occ.: optional, no max; params: min = max = 2
-        condition, occ.: min = 1, no max; params: min = max = 2
-      ignore, occ.: optional, max = 1; params: min = max = 1
-      no_compress, occ.: optional, max = 1; params: min = max = 1
-      parser, occ.: optional, no max; params: min = 1, max = 2
-    protocol, occ.: min = 1, max = 1; params: min = max = 1
-    report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
-    timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
-    users, occ.: optional, max = 1; params: min = 1, no max
-  compress_auto, occ.: optional, max = 1; params: min = max = 0
-  db, occ.: optional, max = 1; params: min = max = 1
-  filter, occ.: optional, no max; params: min = max = 2
-    condition, occ.: min = 1, no max; params: min = max = 2
-  report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
-  timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
-Lines:
+Config:
 1:   db test_db
 2:   db blah
 4:   timeout_nowarning
