@@ -356,13 +356,13 @@ int Data::write(
     } else {
       temp2 = new Stream(temp_path_gz);
       free(temp_path_gz);
-      if (temp2->open(O_WRONLY, -compress, -1, false, source.size())) {
+      if (temp2->open(O_WRONLY, -compress, false, source.size())) {
         out(error, msg_errno, "opening write temp file", errno, temp2->path());
         failed = true;
       }
     }
   }
-  if (temp1->open(O_WRONLY, (compress > 0) ? compress:0, -1, false,
+  if (temp1->open(O_WRONLY, (compress > 0) ? compress:0, false,
       source.size())) {
     out(error, msg_errno, "opening write temp file", errno, temp1->path());
     failed = true;

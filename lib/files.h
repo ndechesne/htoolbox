@@ -324,14 +324,12 @@ public:
   bool isWriteable() const;
   // Open file, for read or write (no append), with or without compression
   // Flags are either O_RDONLY or O_WRONLY, the latter implies O_CREAT
-  // The cache is managed by open , but can be forced using cache for its size
   // checksum determines whether to compute the checksum as we read
   // original_size gives the size of the original file to store in the gzip
   // header when compressing
   int open(
     int             flags,
     unsigned int    compression   = 0,
-    int             cache         = -1,
     bool            checksum      = true,
     long long       original_size = -1);
   // Close file, for read or write (no append), with or without compression

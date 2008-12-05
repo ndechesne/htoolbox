@@ -471,7 +471,6 @@ bool Stream::isWriteable() const {
 int Stream::open(
     int             flags,
     unsigned int    compression,
-    int             cache,
     bool            checksum,
     long long       original_size) {
   if (isOpen()) {
@@ -502,15 +501,6 @@ int Stream::open(
   if (! isOpen()) {
     // errno set by open
     return -1;
-  }
-
-  // Create buffer for data cacheing
-  if (cache > 0) {
-    _d->buffer_data.create(cache);
-  } else
-  if (isWriteable() && (cache < 0)) {
-    // Create buffer to cache input data
-    _d->buffer_data.create();
   }
 
   // Create openssl resources

@@ -159,7 +159,7 @@ int main(void) {
   {
     Stream s("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
     Stream d("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data.gz");
-    if (! d.open(O_WRONLY, 5, -1, true, s.size())) {
+    if (! d.open(O_WRONLY, 5, true, s.size())) {
       if (! s.open(O_RDONLY)) {
         if (! s.copy(&d) && ! s.close()) {
           s.remove();
