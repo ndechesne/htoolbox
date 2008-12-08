@@ -74,7 +74,7 @@ int main(void) {
    || bazaar->add("path", "bzr", false)) {
     cout << "Failed to add filter" << endl;
   }
-  path->setIgnore(bazaar);
+  path->attributes.addIgnore(bazaar);
 
   // Initialisation
   cout << endl << "Initial backup, check '/' precedence" << endl;
@@ -231,7 +231,7 @@ int main(void) {
   }
   filter->add(new Condition(Condition::filter, bazaar, false));
   filter->add(new Condition(Condition::filter, testfile, false));
-  path->setIgnore(filter);
+  path->attributes.addIgnore(filter);
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {
@@ -267,7 +267,7 @@ int main(void) {
   }
   filter->add(new Condition(Condition::filter, bazaar, false));
   filter->add(new Condition(Condition::filter, subdir, false));
-  path->setIgnore(filter);
+  path->attributes.addIgnore(filter);
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {
@@ -328,7 +328,7 @@ int main(void) {
   filter->add(new Condition(Condition::filter, bazaar, false));
   filter->add(new Condition(Condition::filter, subdir, false));
   filter->add(new Condition(Condition::filter, testlink, false));
-  path->setIgnore(filter);
+  path->attributes.addIgnore(filter);
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {
@@ -446,7 +446,7 @@ int main(void) {
   filter->add(new Condition(Condition::filter, testlink, false));
   filter->add(new Condition(Condition::filter, cvs_dirutd, false));
   filter->add(new Condition(Condition::filter, empty, false));
-  path->setIgnore(filter);
+  path->attributes.addIgnore(filter);
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {

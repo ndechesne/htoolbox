@@ -158,42 +158,42 @@ subset 'xp'
 # Ends in \", but should not fail
 path "C:\Test Dir\"
 
-filter and silly
-condition filter      backup
-condition type        pipe
-condition name        a
-condition name_start  b
-condition name_end    c
-condition name_regex  d
-condition path        e
-condition path_start  f
-condition path_end    g
-condition path_regex  h
-condition size>=      1
-condition size>       2ki
-condition size<=      3MB
-condition size<       4GiB
-condition mode&       0777
-condition mode=       0644
+  filter and silly
+    condition filter      backup
+    condition type        pipe
+    condition name        a
+    condition name_start  b
+    condition name_end    c
+    condition name_regex  d
+    condition path        e
+    condition path_start  f
+    condition path_end    g
+    condition path_regex  h
+    condition size>=      1
+    condition size>       2ki
+    condition size<=      3MB
+    condition size<       4GiB
+    condition mode&       0777
+    condition mode=       0644
 EOF
 cat << EOF > "$TESTDIRCIFS/Backup/Backup2.LST"
 subset 'xp'
 # Ends in \", but should not fail
 path "C:\Test\"
 
-filter or crazy
-condition name_regex  '$^what is an impossible regex?'
-condition path_regex  '$^what is an impossible regex?'
-condition size>=      a
-condition size>       b
-condition size<=      c
-condition size<       d
-condition mode&       e
-condition mode=       f
-condition size>=      1Kb
-condition size>       2MiC
-condition size<=      3GB.
-condition size<       4iB
+  filter or crazy
+    condition name_regex  '$^what is an impossible regex?'
+    condition path_regex  '$^what is an impossible regex?'
+    condition size>=      a
+    condition size>       b
+    condition size<=      c
+    condition size<       d
+    condition mode&       e
+    condition mode=       f
+    condition size>=      1Kb
+    condition size>       2MiC
+    condition size<=      3GB.
+    condition size<       4iB
 EOF
 
 # NFS test
@@ -208,11 +208,11 @@ cat << EOF > "$TESTDIRNFS/hbackup.list"
 report_copy_error_once
 path "$ROOTDIRNFS/test/"
 
-filter or compress
-condition name File2.txt
-condition path dir/file3.txt
+  filter or compress
+    condition name File2.txt
+    condition path dir/file3.txt
 
-compress compress
+  compress compress
 EOF
 
 # User-mode test
@@ -239,104 +239,113 @@ db "$TESTDBDIR"
 
 compress_auto
 
+filter all nothing
+  condition type pipe
+  condition size> 10
+
+ignore nothing
+
 filter all backup
-condition type file
-condition path_end ~
+  condition type file
+  condition path_end ~
 
 filter any test_or
-condition filter backup
-condition !size< 1000
+  condition filter backup
+  condition !size< 1000
 
 client myClient xp
-protocol smb
-users backup
-config C:\Backup\Backup.LST
+  protocol smb
+  users backup
+  config C:\Backup\Backup.LST
 
 client myClient
-protocol nfs
-users backup root
-hostname myClient
-config $ROOTDIRNFS/hbackup.list
+  protocol nfs
+  users backup root
+  hostname myClient
+  config $ROOTDIRNFS/hbackup.list
 
 client other
-protocol ssh
-hostname otherClient
-config /home/backup/Backup.list
-# This is a comment
-filter and subdir
-condition path_start subdir
-condition !size< 100
+  protocol ssh
+  hostname otherClient
+  config /home/backup/Backup.list
+  # This is a comment
+  filter and subdir
+    condition path_start subdir
+    condition !size< 100
 
-filter and bigfile
-condition size>= 10
-condition type file
+  filter and bigfile
+    condition size>= 10
+    condition type file
 
-expire 1
+  expire 1
 
-path test2//
+  path test2//
 
-path "test1" # should work
+  path "test1" # should work
 
-filter and not_object
-condition !path_end ".o"
+    filter and not_object
+      condition !path_end ".o"
 
-filter or to_be_ignored
-condition filter subdir
-condition filter backup
-condition !filter not_object
+    filter or to_be_ignored
+      condition filter subdir
+      condition filter backup
+      condition !filter not_object
 
-ignore to_be_ignored
+    ignore to_be_ignored
 
-compress bigfile
+    compress bigfile
 
-parser cvs controlled
-parser svn modified
+    parser cvs controlled
+    parser svn modified
 
 client myhost
-report_copy_error_once
-protocol file
-hostname myhost.mynetwork.lan
-timeout_nowarning
-config "$CONFIGDIR/localhost.list"
-expire 1
+  report_copy_error_once
+  protocol file
+  hostname myhost.mynetwork.lan
+  timeout_nowarning
+  config "$CONFIGDIR/localhost.list"
+  expire 1
 
 client client xp
-protocol smb
-option username Myself
-option password flesyM
-option nocase
-hostname myClient
-config "C:\Backup\Backup.LST"
+  ignore backup
+  protocol smb
+  option username Myself
+  option password flesyM
+  option nocase
+  hostname myClient
+  config "C:\Backup\Backup.LST"
 
 client aClient vista
-protocol smb
-filter and huge_file
-condition !filter backup
-condition !size< 100
-# Cannot end in \", would fail
-path "C:\Test Dir"
-filter and compress_m
-condition !filter huge_file
-compress compress_m
-ignore backup
-parser svn modified
-report_copy_error_once
+  protocol smb
+  filter and huge_file
+    condition !filter backup
+    condition !size< 100
+  # Cannot end in \", would fail
+  path "C:\Test Dir"
+    filter and compress_m
+      condition !filter huge_file
+    compress compress_m
+    ignore backup
+    parser svn modified
+    report_copy_error_once
 EOF
 
 # Client config
 cat << EOF > "$CONFIGDIR/localhost.list"
 # This is a comment
 filter and subdir
-condition path_start subdir
-condition !size< 100
+  condition path_start subdir
+  condition !size< 100
 EOF
 echo "\r" >> "$CONFIGDIR/localhost.list"
 cat << EOF >> "$CONFIGDIR/localhost.list"
 users biloute machin
 
+ignore backup
+
 filter and bigfile
-condition size>= 10
-condition type file
+  condition size>= 10
+  condition type file
 
 expire 1
 
@@ -344,25 +353,24 @@ path test2//
 
 path "test1" # should work
 
-filter and not_object
-condition !path_end ".o"
+  filter and not_object
+    condition !path_end ".o"
 
-filter or to_be_ignored
-condition filter subdir
-condition filter backup
-condition !filter not_object
+  filter or to_be_ignored
+    condition filter subdir
+    condition !filter not_object
 
-ignore to_be_ignored
+  ignore to_be_ignored
 
-compress bigfile
+  compress bigfile
 
-parser cvs controlled
-parser svn modified
+  parser cvs controlled
+  parser svn modified
 
-filter and cvs_entries
-condition name Entries
+  filter and cvs_entries
+    condition name Entries
 
-no_compress cvs_entries
+  no_compress cvs_entries
 EOF
 
 # Broken config
@@ -377,84 +385,86 @@ report_copy_error_once
 report_copy_error_once
 
 filter all
-condition type file
-condition path_end ~
+  condition type file
+  condition path_end ~
 
 filter any test_or
 
 client myClient
-protocol nfs
-users
+  protocol nfs
+  users
+  ignore test_or
+  ignore
 
 client other
-protocol ssh
-hostname otherClient
-hostname 192.168.0.132
-option I am happy
-option
-config /home/backup/Backup.list
-config /home/backup/Backup2.list
-# This is a comment
-filter and subdir
-condition path_start subdir
-condition !size< 100
+  protocol ssh
+  hostname otherClient
+  hostname 192.168.0.132
+  option I am happy
+  option
+  config /home/backup/Backup.list
+  config /home/backup/Backup2.list
+  # This is a comment
+  filter and subdir
+    condition path_start subdir
+    condition !size< 100
 
-filter and bigfile 3
-condition size>= 10 yeah
-condition type
+  filter and bigfile 3
+    condition size>= 10 yeah
+    condition type
 
-expire 1
-expire 2 3
+  expire 1
+  expire 2 3
 
-path test2//
+  path test2//
 
-path "test1" # should work
+  path "test1" # should work
 
-filter and not_object
-condition !path_end ".o"
+    filter and not_object
+      condition !path_end ".o"
 
-filter or to_be_ignored
-condition filter subdir
-condition filter backup
-condition !filter not_object
+    filter or to_be_ignored
+      condition filter subdir
+      condition filter backup
+      condition !filter not_object
 
-filter and blah
+    filter and blah
 
-filter or
+    filter or
 
 
-ignore to_be_ignored
-ignore to_be_ignored2
+    ignore to_be_ignored
+    ignore to_be_ignored2
 
-compress bigfile
-compress bigfile2
+    compress bigfile
+    compress bigfile2
 
-parser cvs controlled
-parser svn modified
+    parser cvs controlled
+    parser svn modified
 
 client myhost
-hostname myhost.mynetwork.lan
-config "$CONFIGDIR/localhost.list"
-expire 1
+  hostname myhost.mynetwork.lan
+  config "$CONFIGDIR/localhost.list"
+  expire 1
 
-path blah
-ignore  2 3
-compress 4 5
+  path blah
+    ignore  2 3
+    compress 4 5
 
 client client xp
-protocol smb
-option username Myself
-option password flesyM
-option nocase
-hostname myClient
-config "C:\Backup\Backup.LST"
+  protocol smb
+  option username Myself
+  option password flesyM
+  option nocase
+  hostname myClient
+  config "C:\Backup\Backup.LST"
 
-path "C:\Crash\"
-path "C:\Crash\
+  path "C:\Crash\"
+  path "C:\Crash\
 
-path blah
-ignore
-compress
+  path blah
+    ignore
+    compress
 
 what_the_f...?
 EOF

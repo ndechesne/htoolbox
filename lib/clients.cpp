@@ -151,17 +151,17 @@ int Client::umount(
 }
 
 int Client::readConfig(
-    const char*     list_path,
+    const char*     config_path,
     const Filters&  global_filters) {
   bool   failed  = false;
 
   // Open client configuration file
-  Stream config_file(list_path);
+  Stream config_file(config_path);
 
   // Open client configuration file
   if (config_file.open(O_RDONLY)) {
     out(error, msg_standard, "Client configuration file not found", -1,
-      list_path);
+      config_path);
     return -1;
   }
   // Set up config syntax and grammar
@@ -175,6 +175,8 @@ int Client::readConfig(
   config_syntax.add(new ConfigItem("expire", 0, 1, 1));
   // users
   config_syntax.add(new ConfigItem("users", 0, 1, 1, -1));
+  // ignore
+  config_syntax.add(new ConfigItem("ignore", 0, 1, 1));
   // timeout_nowarning
   config_syntax.add(new ConfigItem("report_copy_error_once", 0, 1));
   // filter
@@ -228,13 +230,32 @@ int Client::readConfig(
           _d->expire = expire * 3600 * 24;
         } else {
           out(error, msg_number, "Wrong expiration value",
-            (*params).lineNo(), list_path);
+            (*params).lineNo(), config_path);
           failed = true;
         }
       } else
       if ((*params)[0] == "users") {
         for (unsigned int i = 1; i < params->size(); i++) {
           addUser((*params)[i]);
+        }
+      } else
+      if ((*params)[0] == "ignore") {
+        Filter* filter = NULL;
+        if (path != NULL) {
+          filter = path->attributes.findFilter((*params)[1]);
+        }
+        if (filter == NULL) {
+          filter = attributes.findFilter((*params)[1]);
+        }
+        if (filter == NULL) {
+          filter = global_filters.find((*params)[1]);
+        }
+        if (filter == NULL) {
+          out(error, msg_number, "Filter not found", (*params).lineNo(),
+            config_path);
+          failed = true;
+        } else {
+          attr->addIgnore(filter);
         }
       } else
       if ((*params)[0] == "report_copy_error_once") {
@@ -245,20 +266,18 @@ int Client::readConfig(
         path = addClientPath((*params)[1]);
         if (path == NULL) {
           out(error, msg_number, "Path inside another", (*params).lineNo(),
-            list_path);
+            config_path);
           failed = true;
         } else {
           attr = &path->attributes;
           // Inherit some attributes when set
-          if (attributes.reportCopyErrorOnceIsSet()) {
-            attr->setReportCopyErrorOnce();
-          }
+          *attr = attributes;
         }
       } else
       if ((*params)[0] == "filter") {
         if (attr->addFilter((*params)[1], (*params)[2]) == NULL) {
           out(error, msg_number, "Unsupported filter type",
-            (*params).lineNo(), list_path);
+            (*params).lineNo(), config_path);
           failed = true;
         }
       } else
@@ -287,7 +306,7 @@ int Client::readConfig(
           }
           if (subfilter == NULL) {
             out(error, msg_number, "Filter not found", (*params).lineNo(),
-              list_path);
+              config_path);
             failed = 2;
           } else {
             attr->addFilterCondition(new Condition(Condition::filter,
@@ -298,56 +317,58 @@ int Client::readConfig(
               negated)) {
             case -2:
               out(error, msg_number, "Unsupported condition type",
-                (*params).lineNo(), list_path);
+                (*params).lineNo(), config_path);
               failed = true;
               break;
             case -1:
               out(error, msg_number, "Failed to add condition",
-                (*params).lineNo(), list_path);
+                (*params).lineNo(), config_path);
               failed = true;
           }
         }
       } else
-      // Path attributes
-      if (((*params)[0] == "ignore")
-      ||  ((*params)[0] == "compress")
-      ||  ((*params)[0] == "no_compress")) {
-        Filter* filter = path->attributes.findFilter((*params)[1]);
-        if (filter == NULL) {
-          filter = attributes.findFilter((*params)[1]);
-        }
-        if (filter == NULL) {
-          filter = global_filters.find((*params)[1]);
-        }
-        if (filter == NULL) {
-          out(error, msg_number, "Filter not found", (*params).lineNo(),
-            list_path);
-          failed = true;
-        } else {
-          if ((*params)[0] == "ignore") {
-            path->setIgnore(filter);
-          } else
-          if ((*params)[0] == "compress") {
-            path->setCompress(filter);
-          } else
-          if ((*params)[0] == "no_compress") {
-            path->setNoCompress(filter);
+      if (path != NULL) {
+        // Path attributes
+        if (((*params)[0] == "compress")
+        ||  ((*params)[0] == "no_compress")) {
+          Filter* filter = path->attributes.findFilter((*params)[1]);
+          if (filter == NULL) {
+            filter = attributes.findFilter((*params)[1]);
+          }
+          if (filter == NULL) {
+            filter = global_filters.find((*params)[1]);
+          }
+          if (filter == NULL) {
+            out(error, msg_number, "Filter not found", (*params).lineNo(),
+              config_path);
+            failed = true;
+          } else {
+            if ((*params)[0] == "compress") {
+              path->setCompress(filter);
+            } else
+            if ((*params)[0] == "no_compress") {
+              path->setNoCompress(filter);
+            }
+          }
+        } else
+        if ((*params)[0] == "parser") {
+          switch (path->addParser((*params)[1], (*params)[2])) {
+            case 1:
+              out(error, msg_number, "Unsupported parser type",
+                (*params).lineNo(), config_path);
+              failed = true;
+              break;
+            case 2:
+              out(error, msg_number, "Unsupported parser mode",
+                (*params).lineNo(), config_path);
+              failed = true;
+              break;
           }
         }
-      } else
-      if ((*params)[0] == "parser") {
-        switch (path->addParser((*params)[1], (*params)[2])) {
-          case 1:
-            out(error, msg_number, "Unsupported parser type",
-              (*params).lineNo(), list_path);
-            failed = true;
-            break;
-          case 2:
-            out(error, msg_number, "Unsupported parser mode",
-              (*params).lineNo(), list_path);
-            failed = true;
-            break;
-        }
+      } else {
+        out(error, msg_number, "Keyword unexpected ouside of path block",
+          (*params).lineNo(), config_path);
+        failed = true;
       }
     }
     // Close client configuration file
@@ -379,10 +400,6 @@ Client::~Client() {
 
 const char* Client::name() const {
   return _d->name.c_str();
-}
-
-const string& Client::subset() const {
-  return _d->subset_server;
 }
 
 string Client::internalName() const {
@@ -489,8 +506,8 @@ int Client::backup(
   }
 
   if (_d->list_file.length() != 0) {
-    string list_path;
-    if (mountPath(string(_d->list_file.dirname()), list_path, mount_point)) {
+    string config_path;
+    if (mountPath(string(_d->list_file.dirname()), config_path, mount_point)) {
       switch (errno) {
         case EPROTONOSUPPORT:
           out(error, msg_errno, _d->protocol.c_str(), errno,
@@ -508,12 +525,12 @@ int Client::backup(
       }
     }
     first_mount_try = false;
-    if (list_path.size() != 0) {
-      list_path += "/";
+    if (config_path.size() != 0) {
+      config_path += "/";
     }
-    list_path += Path::basename(_d->list_file);
+    config_path += Path::basename(_d->list_file);
 
-    if (readConfig(list_path.c_str(), global_filters) != 0) {
+    if (readConfig(config_path.c_str(), global_filters) != 0) {
       failed = true;
     } else if (_d->subset_client !=  _d->subset_server) {
       stringstream s;
@@ -598,6 +615,10 @@ int Client::backup(
 
 void Client::show(int level) const {
   out(debug, msg_standard, _d->name.c_str(), level++, "Client");
+  if (! _d->subset_server.empty()) {
+    out(debug, msg_standard, _d->subset_server.c_str(), level,
+      "Required subset");
+  }
   if (! _d->subset_client.empty()) {
     out(debug, msg_standard, _d->subset_client.c_str(), level, "Subset");
   }
@@ -636,9 +657,6 @@ void Client::show(int level) const {
   if (_d->timeout_nowarning) {
     out(debug, msg_standard, "No warning on time out", level);
   }
-  if (attributes.reportCopyErrorOnceIsSet()) {
-    out(debug, msg_standard, "No error if same file fails copy again", level);
-  }
   if (_d->list_file.length() != 0) {
     out(debug, msg_standard, _d->list_file, level, "Config");
   }
@@ -651,12 +669,12 @@ void Client::show(int level) const {
     }
     out(debug, msg_standard, s.str().c_str(), level, "Expiry");
   }
-  attributes.showFilters(level);
+  attributes.show(level);
   if (_d->paths.size() > 0) {
-    out(debug, msg_standard, "", level++, "Paths");
+    out(debug, msg_standard, "", level, "Paths");
     for (list<ClientPath*>::iterator i = _d->paths.begin();
         i != _d->paths.end(); i++) {
-      (*i)->show(level);
+      (*i)->show(level + 1);
     }
   }
 }

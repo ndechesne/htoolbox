@@ -137,6 +137,8 @@ int HBackup::readConfig(const char* config_path) {
     // condition
     filter->add(new ConfigItem("condition", 1, 0, 2));
   }
+  // ignore
+  config_syntax.add(new ConfigItem("ignore", 0, 1, 1));
   // compress_auto
   config_syntax.add(new ConfigItem("compress_auto", 0, 1));
   // timeout_nowarning
@@ -163,6 +165,8 @@ int HBackup::readConfig(const char* config_path) {
     client->add(new ConfigItem("expire", 0, 1, 1));
     // users
     client->add(new ConfigItem("users", 0, 1, 1, -1));
+    // ignore
+    client->add(new ConfigItem("ignore", 0, 1, 1));
     // filter
     {
       ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
@@ -273,6 +277,25 @@ int HBackup::readConfig(const char* config_path) {
         }
       }
     } else
+    if ((*params)[0] == "ignore") {
+      Filter* filter = NULL;
+      if (c_path != NULL) {
+        filter = c_path->attributes.findFilter((*params)[1]);
+      }
+      if ((filter == NULL) && (client != NULL)) {
+        filter = client->attributes.findFilter((*params)[1]);
+      }
+      if (filter == NULL) {
+        filter = _d->attributes.findFilter((*params)[1]);
+      }
+      if (filter == NULL) {
+        out(error, msg_number, "Filter not found", (*params).lineNo(),
+          config_path);
+        return -1;
+      } else {
+        attr->addIgnore(filter);
+      }
+    } else
     if ((*params)[0] == "client") {
       c_path = NULL;
       client = new Client((*params)[1],
@@ -296,9 +319,7 @@ int HBackup::readConfig(const char* config_path) {
       _d->clients.insert(i, client);
       attr = &client->attributes;
       // Inherit some attributes when set
-      if (_d->attributes.reportCopyErrorOnceIsSet()) {
-        attr->setReportCopyErrorOnce();
-      }
+      *attr = _d->attributes;
     } else
     if (client != NULL) {
       if ((*params)[0] == "hostname") {
@@ -343,13 +364,10 @@ int HBackup::readConfig(const char* config_path) {
         c_path = client->addClientPath((*params)[1]);
         attr = &c_path->attributes;
         // Inherit some attributes when set
-        if (_d->attributes.reportCopyErrorOnceIsSet()) {
-          attr->setReportCopyErrorOnce();
-        }
+        *attr = client->attributes;
       } else
       if (c_path != NULL) {
-        if (((*params)[0] == "ignore")
-	||  ((*params)[0] == "compress")
+        if (((*params)[0] == "compress")
 	||  ((*params)[0] == "no_compress")) {
           Filter* filter = c_path->attributes.findFilter((*params)[1]);
           if (filter == NULL) {
@@ -363,9 +381,6 @@ int HBackup::readConfig(const char* config_path) {
               config_path);
             return -1;
           } else {
-            if ((*params)[0] == "ignore") {
-              c_path->setIgnore(filter);
-            } else
             if ((*params)[0] == "compress") {
               c_path->setCompress(filter);
             } else
@@ -587,9 +602,6 @@ void HBackup::show(int level) const {
   if (_d->compress_auto) {
     out(debug, msg_standard, "Automatic compression", level);
   }
-  if (_d->attributes.reportCopyErrorOnceIsSet()) {
-    out(debug, msg_standard, "No error if same file fails copy again", level);
-  }
   if (! _d->selected_clients.empty()) {
     out(debug, msg_standard, "Selected clients:", level);
     for (list<string>::iterator client = _d->selected_clients.begin();
@@ -602,11 +614,7 @@ void HBackup::show(int level) const {
     for (list<Client*>::iterator client = _d->clients.begin();
         client != _d->clients.end(); client++) {
       (*client)->show(level + 1);
-      if (! (*client)->subset().empty()) {
-        out(debug, msg_standard, (*client)->subset().c_str(), level + 2,
-          "Required subset");
-      }
     }
   }
-  _d->attributes.showFilters(level);
+  _d->attributes.show(level);
 }

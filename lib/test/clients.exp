@@ -166,16 +166,16 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
- --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
+ --> No error if same file fails copy again
  --> Paths: 
  ---> Path: /home/User/test
+ ----> No error if same file fails copy again
  ----> Filter: or compress
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
- ----> No error if same file fails copy again
  ---> Path: /home/User/test2
  ----> No error if same file fails copy again
 Backing up client: myClient
@@ -262,22 +262,27 @@ Database open in read/write mode
  --> Filter: and bigfile
  ---> Condition: size>= 10
  ---> Condition: type f
+ --> Ignore filters:
+ ---> backup
  --> Paths: 
  ---> Path: test1
  ----> Filter: and not_object
  -----> Condition: not path_end .o
  ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
- -----> Condition: filter backup
  -----> Condition: not filter not_object
  ----> Filter: and cvs_entries
  -----> Condition: name Entries
- ----> Parser: CVS
- ----> Parser: Subversion
+ ----> Ignore filters:
+ -----> backup
+ -----> to_be_ignored
  ----> Compress filter: bigfile
  ----> No compress filter: cvs_entries
- ----> Ignore filter: to_be_ignored
+ ----> Parser: CVS
+ ----> Parser: Subversion
  ---> Path: test2
+ ----> Ignore filters:
+ -----> backup
 Backing up client: testhost
 Reading list of problematic checksums
 List created: testhost
@@ -416,8 +421,7 @@ Adding uncompressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 Af f    test2/testfile2
 Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
 Af f    test2/testfile2.gz
-Adding uncompressed data for 59071590099d21dd439896592338bf95-0
-Af f    test2/testfile~
+I f f   test2/testfile~
 Al      test2/testlink
 Database modified: testhost
 Database closed: testhost
@@ -440,22 +444,27 @@ Database open in read/write mode
  --> Filter: and bigfile
  ---> Condition: size>= 10
  ---> Condition: type f
+ --> Ignore filters:
+ ---> backup
  --> Paths: 
  ---> Path: test1
  ----> Filter: and not_object
  -----> Condition: not path_end .o
  ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
- -----> Condition: filter backup
  -----> Condition: not filter not_object
  ----> Filter: and cvs_entries
  -----> Condition: name Entries
- ----> Parser: CVS
- ----> Parser: Subversion
+ ----> Ignore filters:
+ -----> backup
+ -----> to_be_ignored
  ----> Compress filter: bigfile
  ----> No compress filter: cvs_entries
- ----> Ignore filter: to_be_ignored
+ ----> Parser: CVS
+ ----> Parser: Subversion
  ---> Path: test2
+ ----> Ignore filters:
+ -----> backup
 Backing up client: testhost
 Reading list of problematic checksums
 Database open r/w: testhost
@@ -528,6 +537,7 @@ I f f   test1/testfile~
 Backing up path: test2
 testdir\r
        \r
+I f f   test2/testfile~
 Database closed: testhost
 Database closed
 >List 1 client(s):
@@ -537,7 +547,7 @@ Database closed
  --> Expiry: none
 Database open in read/write mode
  -> Reading client configuration file: testhost
-Error: etc/localhost.list: 37: Path inside another
+Error: etc/localhost.list: 38: Path inside another
 Database closed
 >List 1 client(s):
  -> Client: testhost
@@ -546,8 +556,8 @@ Database closed
  --> Expiry: none
 Database open in read/write mode
  -> Reading client configuration file: testhost
-Error: etc/localhost.list2: 14: Path inside another
-Error: etc/localhost.list2: 37: Path inside another
+Error: etc/localhost.list2: 16: Path inside another
+Error: etc/localhost.list2: 38: Path inside another
 backup failed
 Database closed
 
@@ -935,16 +945,16 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
- --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
+ --> No error if same file fails copy again
  --> Paths: 
  ---> Path: /home/User/test
+ ----> No error if same file fails copy again
  ----> Filter: or compress
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
- ----> No error if same file fails copy again
  ---> Path: /home/User/test2
  ----> No error if same file fails copy again
 Backing up client: myClient
@@ -973,16 +983,16 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
- --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
+ --> No error if same file fails copy again
  --> Paths: 
  ---> Path: /home/User/test
+ ----> No error if same file fails copy again
  ----> Filter: or compress
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
- ----> No error if same file fails copy again
  ---> Path: /home/User/test2
  ----> No error if same file fails copy again
 Backing up client: myClient
@@ -1006,16 +1016,16 @@ Trying client 'myClient' using protocol 'nfs'
  -> Reading client configuration file: myClient
  -> Client: myClient
  --> Protocol: nfs
- --> No error if same file fails copy again
  --> Config: /home/User/hbackup.list
  --> Expiry: none
+ --> No error if same file fails copy again
  --> Paths: 
  ---> Path: /home/User/test
+ ----> No error if same file fails copy again
  ----> Filter: or compress
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
- ----> No error if same file fails copy again
  ---> Path: /home/User/test2
  ----> No error if same file fails copy again
 Backing up client: myClient
@@ -1035,6 +1045,7 @@ Database closed
 Test with dual boot client
 >List 1 client(s):
  -> Client: myClient
+ --> Required subset: xp
  --> Protocol: smb
  --> Config: C:/Backup/Backup.LST
  --> Expiry: none
@@ -1043,6 +1054,7 @@ Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase //myClient/C$ test_db/mount
  -> Reading client configuration file: myClient.xp
  -> Client: myClient
+ --> Required subset: xp
  --> Subset: xp
  --> Protocol: smb
  --> Config: C:/Backup/Backup.LST

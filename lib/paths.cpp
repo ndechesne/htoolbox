@@ -90,7 +90,7 @@ int ClientPath::parse_recurse(
         } else
 
         // Now pass it through the filters
-        if ((_ignore != NULL) && _ignore->match(**i, start)) {
+        if (attributes.mustBeIgnored(**i, start)) {
           code[0] = 'I';
           code[2] = (*i)->type();
           code[4] = 'f';
@@ -183,7 +183,6 @@ int ClientPath::parse_recurse(
 }
 
 ClientPath::ClientPath(const char* path) {
-  _ignore             = NULL;
   _compress           = NULL;
   _no_compress        = NULL;
   _path = path;
@@ -263,8 +262,7 @@ int ClientPath::parse(
 
 void ClientPath::show(int level) const {
   out(debug, msg_standard, _path, level++, "Path");
-  attributes.showFilters(level);
-  _parsers.show(level);
+  attributes.show(level);
   if (_compress != NULL) {
     out(debug, msg_standard, _compress->name().c_str(), level,
       "Compress filter");
@@ -273,11 +271,5 @@ void ClientPath::show(int level) const {
     out(debug, msg_standard, _no_compress->name().c_str(), level,
       "No compress filter");
   }
-  if (_ignore != NULL) {
-    out(debug, msg_standard, _ignore->name().c_str(), level,
-      "Ignore filter");
-  }
-  if (attributes.reportCopyErrorOnceIsSet()) {
-    out(debug, msg_standard, "No error if same file fails copy again", level);
-  }
+  _parsers.show(level);
 }

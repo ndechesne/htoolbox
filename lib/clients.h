@@ -51,7 +51,6 @@ public:
   Client(const string& name, const string& sub_name = "");
   ~Client();
   const char* name() const;
-  const string& subset() const;
   string internalName() const;
   void addOption(const string& value);
   void addOption(const string& name, const string& value);

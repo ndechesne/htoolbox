@@ -459,6 +459,12 @@ db	test_db
 
 compress_auto	
 
+filter	all	nothing	
+condition	type	pipe	
+condition	size>	10	
+
+ignore	nothing	
+
 filter	all	backup	
 condition	type	file	
 condition	path_end	~	
@@ -521,6 +527,7 @@ config	etc/localhost.list
 expire	1	
 
 client	client	xp	
+ignore	backup	
 protocol	smb	
 option	username	Myself	
 option	password	flesyM	

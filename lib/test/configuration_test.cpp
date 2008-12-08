@@ -41,6 +41,9 @@ int main(void) {
   // users
   client_syntax.add(new ConfigItem("users", 0, 1, 1, -1));
 
+  // ignore
+  client_syntax.add(new ConfigItem("ignore", 0, 1, 1));
+
   // filter
   {
     ConfigItem* item = new ConfigItem("filter", 0, 0, 2);
@@ -122,6 +125,9 @@ int main(void) {
     item->add(new ConfigItem("condition", 1, 0, 2));
   }
 
+  // ignore
+  syntax.add(new ConfigItem("ignore", 0, 1, 1));
+
   // compress_auto
   syntax.add(new ConfigItem("compress_auto", 0, 1));
 
@@ -159,6 +165,9 @@ int main(void) {
 
     // users
     item->add(new ConfigItem("users", 0, 1, 1, -1));
+
+    // ignore
+    item->add(new ConfigItem("ignore", 0, 1, 1));
 
     // filter
     {
