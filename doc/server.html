@@ -88,7 +88,7 @@ by the keywords below:</p>
   </tr>
   <tr>
     <td>config</td>
-    <td>path to the client's configuration file (mandatory)</td>
+    <td>path to the client's configuration file, on the client</td>
     <td><code>config "&lt;path to file&gt;"</code></td>
     <td><code>config "C:/Backup/hbackup.list"</code>
       <br><code>config "/etc/hbackup.list"</code></td>
@@ -113,6 +113,9 @@ by the keywords below:</p>
   </tr>
 </table>
 
+<p>The config option may be omitted and a <a href="client.html">client
+configuration</a> inlined in its place (cf. example below).</p>
+
 <p>Note: for SMB protocol users: hbackup uses CIFS, and as such will
 <b>NOT</b> use the SMB protocol to resolve client names into IP addresses.</p>
 
@@ -133,71 +136,74 @@ db /backup
 # Some common filters
 
 filter or compressed-archives
-condition name_end .ace
-condition name_end .bz2
-condition name_end .gz
-condition name_end .lzo
-condition name_end .rar
-condition name_end .zip
-condition name_end .Z
+  condition name_end .ace
+  condition name_end .bz2
+  condition name_end .gz
+  condition name_end .lzo
+  condition name_end .rar
+  condition name_end .zip
+  condition name_end .Z
 
 filter or compressed-images
-condition name_end .gif
-condition name_end .jpg
-condition name_end .png
+  condition name_end .gif
+  condition name_end .jpg
+  condition name_end .png
 
 filter or compressed
-condition filter compressed-archives
-condition filter compressed-images
+  condition filter compressed-archives
+  condition filter compressed-images
 
 
 filter or object-files
-condition name_end .o
-condition name_end .obj
+  condition name_end .o
+  condition name_end .obj
 
 filter or backup-files
-condition name_end ~
-condition name_end .bak
-condition name_end .dup
+  condition name_end ~
+  condition name_end .bak
+  condition name_end .dup
 
 
 filter or firefox-profile
-condition path_end Firefox/Profiles
+  condition path_end Firefox/Profiles
 
 filter or opera-profile
-condition path_end "Application Data/Opera/Opera/profile"
+  condition path_end "Application Data/Opera/Opera/profile"
 
 filter or browser-profiles
-condition filter firefox-profile
-condition filter opera-profile
+  condition filter firefox-profile
+  condition filter opera-profile
 
 
 filter or windows-registry
-condition name NTUSER.DAT.LOG
+  condition name NTUSER.DAT.LOG
 
 
 
 # Client everest (local)
 client everest
-protocol file
-config /etc/hbackup/list
+  protocol file
+  config /etc/hbackup/list
 
 # Client montblanc (Microsoft network)
 client montblanc
-protocol smb
-option username Administrator
-option password "A6ug9^;k"
-config C:/backup/hbackup.list
+  protocol smb
+  option username Administrator
+  option password "A6ug9^;k"
+  config C:/backup/hbackup.list
 
 # Client mckinley (Unix network)
-client mckinley
-protocol nfs
-option nolock
-config /etc/hbackup/list
+client mckinley unix
+  protocol nfs
+  option nolock
+  path /home
+    filter any dotfiles
+    condition name_start .
+    ignore dotfiles
 
 # Client mckinley (Microsoft network)
-client mckinley xp
-protocol smb
-option username Administrator
-config /etc/hbackup/list
+client mckinley win_xp
+  protocol smb
+  option username Administrator
+  config C:\hbackup.cfg
 </pre></code></p>
