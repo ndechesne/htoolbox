@@ -31,6 +31,7 @@ using namespace std;
 #include "parsers.h"
 #include "opdata.h"
 #include "db.h"
+#include "attributes.h"
 #include "paths.h"
 #include "clients.h"
 
@@ -81,10 +82,9 @@ struct HBackup::Private {
   Database*         db;
   list<string>      selected_clients;
   list<Client*>     clients;
-  Filters           filters;
   bool              remote_clients;
   bool              compress_auto;
-  bool              report_copy_error_once;
+  Attributes        attributes;
 };
 
 HBackup::HBackup() : _d(new Private) {
@@ -213,25 +213,15 @@ int HBackup::readConfig(const char* config_path) {
 
   Client*     client = NULL;
   ClientPath* c_path = NULL;
-  Filter*     filter = NULL;
+  Attributes* attr   = &_d->attributes;
   ConfigLine* params;
   while (config.line(&params) >= 0) {
     if ((*params)[0] == "db") {
       _d->db = new Database((*params)[1].c_str());
     } else
     if ((*params)[0] == "filter") {
-      if (client == NULL) {
-        // Global filter
-        filter = _d->filters.add((*params)[1], (*params)[2]);
-      } else
-      if (c_path == NULL) {
-        // Client filter
-        filter = client->addFilter((*params)[1], (*params)[2]);
-      } else {
-        // Path filter
-        filter = c_path->addFilter((*params)[1], (*params)[2]);
-      }
-      if (filter == NULL) {
+      // Add filter at the right level (global, client, path)
+      if (attr->addFilter((*params)[1], (*params)[2]) == NULL) {
         out(error, msg_number, "Unsupported filter type", (*params).lineNo(),
           config_path);
         return -1;
@@ -252,24 +242,25 @@ int HBackup::readConfig(const char* config_path) {
       if (filter_type == "filter") {
         Filter* subfilter = NULL;
         if (c_path != NULL) {
-          subfilter = c_path->findFilter((*params)[2]);
+          subfilter = c_path->attributes.findFilter((*params)[2]);
         }
         if ((subfilter == NULL) && (client != NULL)) {
-          subfilter = client->findFilter((*params)[2]);
+          subfilter = client->attributes.findFilter((*params)[2]);
         }
         if (subfilter == NULL) {
-          subfilter = _d->filters.find((*params)[2]);
+          subfilter = _d->attributes.findFilter((*params)[2]);
         }
         if (subfilter == NULL) {
           out(error, msg_number, "Filter not found", (*params).lineNo(),
             config_path);
           return -1;
         } else {
-          filter->add(new Condition(Condition::filter, subfilter,
+          attr->addFilterCondition(new Condition(Condition::filter, subfilter,
             negated));
         }
       } else {
-        switch (filter->add(filter_type, (*params)[2].c_str(), negated)) {
+        switch (attr->addFilterCondition(filter_type, (*params)[2].c_str(),
+            negated)) {
           case 1:
             out(error, msg_number, "Unsupported condition type",
               (*params).lineNo(), config_path);
@@ -284,7 +275,6 @@ int HBackup::readConfig(const char* config_path) {
     } else
     if ((*params)[0] == "client") {
       c_path = NULL;
-      filter = NULL;
       client = new Client((*params)[1],
         (params->size() > 2) ? (*params)[2] : "");
 
@@ -304,6 +294,11 @@ int HBackup::readConfig(const char* config_path) {
         return -1;
       }
       _d->clients.insert(i, client);
+      attr = &client->attributes;
+      // Inherit some attributes when set
+      if (_d->attributes.reportCopyErrorOnceIsSet()) {
+        attr->setReportCopyErrorOnce();
+      }
     } else
     if (client != NULL) {
       if ((*params)[0] == "hostname") {
@@ -330,11 +325,7 @@ int HBackup::readConfig(const char* config_path) {
         client->setTimeOutNoWarning();
       } else
       if ((*params)[0] == "report_copy_error_once") {
-        if (c_path == NULL) {
-          client->setReportCopyErrorOnce();
-        } else {
-          c_path->setReportCopyErrorOnce();
-        }
+        attr->setReportCopyErrorOnce();
       } else
       if ((*params)[0] == "config") {
         client->setListfile((*params)[1].c_str());
@@ -349,19 +340,23 @@ int HBackup::readConfig(const char* config_path) {
         client->setExpire(expire * 3600 * 24);
       } else
       if ((*params)[0] == "path") {
-        filter = NULL;
         c_path = client->addClientPath((*params)[1]);
+        attr = &c_path->attributes;
+        // Inherit some attributes when set
+        if (_d->attributes.reportCopyErrorOnceIsSet()) {
+          attr->setReportCopyErrorOnce();
+        }
       } else
       if (c_path != NULL) {
         if (((*params)[0] == "ignore")
 	||  ((*params)[0] == "compress")
 	||  ((*params)[0] == "no_compress")) {
-          Filter* filter = c_path->findFilter((*params)[1]);
+          Filter* filter = c_path->attributes.findFilter((*params)[1]);
           if (filter == NULL) {
-            filter = client->findFilter((*params)[1]);
+            filter = client->attributes.findFilter((*params)[1]);
           }
           if (filter == NULL) {
-            filter = _d->filters.find((*params)[1]);
+            filter = _d->attributes.findFilter((*params)[1]);
           }
           if (filter == NULL) {
             out(error, msg_number, "Filter not found", (*params).lineNo(),
@@ -397,7 +392,7 @@ int HBackup::readConfig(const char* config_path) {
         _d->compress_auto = true;
       } else
       if ((*params)[0] == "report_copy_error_once") {
-        _d->report_copy_error_once = true;
+        _d->attributes.setReportCopyErrorOnce();
       }
     }
   }
@@ -415,7 +410,6 @@ int HBackup::open(
     bool          check_config) {
   _d->remote_clients         = false;
   _d->compress_auto          = false;
-  _d->report_copy_error_once = false;
 
   bool failed = false;
   if (user_mode) {
@@ -427,7 +421,8 @@ int HBackup::open(
     client->setListfile(Path(path, ".hbackup/config"));
     client->setBasePath(path);
     if (check_config) {
-      failed = (client->readConfig(client->listfile(), _d->filters) < 0);
+      failed = client->readConfig(client->listfile(),
+        _d->attributes.filters()) < 0;
     } else {
       _d->clients.push_back(client);
       // Set-up DB
@@ -518,10 +513,8 @@ int HBackup::backup(
       if (_d->remote_clients && (mount_point.create() < 0)) {
         return -1;
       }
-      if (_d->report_copy_error_once) {
-        (*client)->setReportCopyErrorOnce();
-      }
-      if ((*client)->backup(*_d->db, _d->filters, mount_point.path())) {
+      if ((*client)->backup(*_d->db, _d->attributes.filters(),
+          mount_point.path())) {
         failed = true;
       }
       if (_d->remote_clients) {
@@ -594,7 +587,7 @@ void HBackup::show(int level) const {
   if (_d->compress_auto) {
     out(debug, msg_standard, "Automatic compression", level);
   }
-  if (_d->report_copy_error_once) {
+  if (_d->attributes.reportCopyErrorOnceIsSet()) {
     out(debug, msg_standard, "No error if same file fails copy again", level);
   }
   if (! _d->selected_clients.empty()) {
@@ -615,5 +608,5 @@ void HBackup::show(int level) const {
       }
     }
   }
-  _d->filters.show(level);
+  _d->attributes.showFilters(level);
 }

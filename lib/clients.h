@@ -47,6 +47,7 @@ class Client {
   int umount(
     const char*     mount_point);
 public:
+  Attributes        attributes;
   Client(const string& name, const string& sub_name = "");
   ~Client();
   const char* name() const;
@@ -58,7 +59,6 @@ public:
   void setHostOrIp(string value);
   bool setProtocol(string value);     // return true if remote protocol
   void setTimeOutNoWarning();
-  void setReportCopyErrorOnce();
   void setListfile(const char* value);
   const char* listfile() const;
   void setExpire(int expire);
@@ -67,8 +67,6 @@ public:
   void setInitialised();
   void setBasePath(const string& home_path);
   ClientPath* addClientPath(const string& path);
-  Filter* addFilter(const string& type, const string& name);
-  Filter* findFilter(const string& name) const;
   int  readConfig(
     const char*     list_path,
     const Filters&  global_filters);

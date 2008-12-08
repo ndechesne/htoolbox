@@ -322,6 +322,7 @@ Trying client 'myClient' using protocol 'nfs'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
+ ----> No error if same file fails copy again
 Backing up client: myClient
 List created: myClient
 Database open r/w: myClient
@@ -413,7 +414,9 @@ Database closed: myClient.xp
  ----> Compress filter: bigfile
  ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
+ ----> No error if same file fails copy again
  ---> Path: test2
+ ----> No error if same file fails copy again
 Backing up client: myhost
 List created: myhost
 Database open r/w: myhost
@@ -785,6 +788,7 @@ Trying client 'myClient' using protocol 'nfs'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
+ ----> No error if same file fails copy again
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
@@ -859,7 +863,9 @@ Database closed: myClient.xp
  ----> Compress filter: bigfile
  ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
+ ----> No error if same file fails copy again
  ---> Path: test2
+ ----> No error if same file fails copy again
 Backing up client: myhost
 Database open r/w: myhost
 Backing up path: test1
@@ -1144,6 +1150,7 @@ Trying client 'myClient' using protocol 'nfs'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
+ ----> No error if same file fails copy again
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
@@ -1218,7 +1225,9 @@ Database closed: myClient.xp
  ----> Compress filter: bigfile
  ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
+ ----> No error if same file fails copy again
  ---> Path: test2
+ ----> No error if same file fails copy again
 Backing up client: myhost
 Database open r/w: myhost
 Backing up path: test1
@@ -1466,6 +1475,7 @@ Trying client 'myClient' using protocol 'nfs'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
+ ----> No error if same file fails copy again
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
@@ -1540,7 +1550,9 @@ Database closed: myClient.xp
  ----> Compress filter: bigfile
  ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
+ ----> No error if same file fails copy again
  ---> Path: test2
+ ----> No error if same file fails copy again
 Backing up client: myhost
 Database open r/w: myhost
 Backing up path: test1
@@ -1795,7 +1807,9 @@ Database closed: client.xp
  ----> Compress filter: bigfile
  ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
+ ----> No error if same file fails copy again
  ---> Path: test2
+ ----> No error if same file fails copy again
 Backing up client: myhost
 Database open r/w: myhost
 Backing up path: test1
@@ -2967,6 +2981,7 @@ Trying client 'myClient' using protocol 'nfs'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
+ ----> No error if same file fails copy again
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
@@ -3041,7 +3056,9 @@ Database closed: myClient.xp
  ----> Compress filter: bigfile
  ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
+ ----> No error if same file fails copy again
  ---> Path: test2
+ ----> No error if same file fails copy again
 Backing up client: myhost
 Database open r/w: myhost
 Backing up path: test1
@@ -3317,6 +3334,7 @@ Trying client 'myClient' using protocol 'nfs'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
+ ----> No error if same file fails copy again
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
@@ -7496,6 +7514,7 @@ Trying client 'myClient' using protocol 'nfs'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
+ ----> No error if same file fails copy again
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
@@ -7574,7 +7593,9 @@ Database closed: myClient.xp
  ----> Compress filter: bigfile
  ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
+ ----> No error if same file fails copy again
  ---> Path: test2
+ ----> No error if same file fails copy again
 Backing up client: myhost
 Database open r/w: myhost
 Backing up path: test1
@@ -7877,6 +7898,7 @@ Trying client 'myClient' using protocol 'nfs'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
+ ----> No error if same file fails copy again
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
@@ -7951,7 +7973,9 @@ Database closed: myClient.xp
  ----> Compress filter: bigfile
  ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
+ ----> No error if same file fails copy again
  ---> Path: test2
+ ----> No error if same file fails copy again
 Backing up client: myhost
 Database open r/w: myhost
 Backing up path: test1
@@ -8555,6 +8579,7 @@ Trying client 'myClient' using protocol 'nfs'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
+ ----> No error if same file fails copy again
 Backing up client: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
@@ -8629,7 +8654,9 @@ Database closed: myClient.xp
  ----> Compress filter: bigfile
  ----> No compress filter: cvs_entries
  ----> Ignore filter: to_be_ignored
+ ----> No error if same file fails copy again
  ---> Path: test2
+ ----> No error if same file fails copy again
 Backing up client: myhost
 Database open r/w: myhost
 Backing up path: test1

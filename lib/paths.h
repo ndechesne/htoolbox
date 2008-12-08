@@ -24,12 +24,10 @@ namespace hbackup {
 class ClientPath {
   Path              _path;
   Parsers           _parsers;
-  Filters           _filters;
   const Filter*     _ignore;
   const Filter*     _compress;
   const Filter*     _no_compress;
   int               _nodes;
-  bool              _report_copy_error_once;
   int parse_recurse(
     Database&       db,
     const char*     remote_path,      // Dir where the file resides, remotely
@@ -38,6 +36,7 @@ class ClientPath {
     Directory&      dir,
     const Parser*   parser);
 public:
+  Attributes        attributes;
   ClientPath(const char* path);
   const char* path() const               { return _path;  }
   int nodes() const                      { return _nodes; }
@@ -47,15 +46,9 @@ public:
   void setCompress(const Filter* filter) { _compress = filter; }
   // Set no-compress filter
   void setNoCompress(const Filter* filter) { _no_compress = filter; }
-  Filter* addFilter(
-    const string&   type,
-    const string&   name);
-  Filter* findFilter(
-    const string&   name) const;
   int addParser(
     const string&   type,
     const string&   string);
-  void setReportCopyErrorOnce();
   int parse(
     Database&       db,
     const char*     backup_path,

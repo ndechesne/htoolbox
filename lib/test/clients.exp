@@ -175,7 +175,9 @@ Trying client 'myClient' using protocol 'nfs'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
+ ----> No error if same file fails copy again
  ---> Path: /home/User/test2
+ ----> No error if same file fails copy again
 Backing up client: myClient
 Reading list of problematic checksums
 List created: myClient
@@ -942,7 +944,9 @@ Trying client 'myClient' using protocol 'nfs'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
+ ----> No error if same file fails copy again
  ---> Path: /home/User/test2
+ ----> No error if same file fails copy again
 Backing up client: myClient
 Reading list of problematic checksums
 Database open r/w: myClient
@@ -978,7 +982,9 @@ Trying client 'myClient' using protocol 'nfs'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
+ ----> No error if same file fails copy again
  ---> Path: /home/User/test2
+ ----> No error if same file fails copy again
 Backing up client: myClient
 Reading list of problematic checksums
 Database open r/w: myClient
@@ -1009,7 +1015,9 @@ Trying client 'myClient' using protocol 'nfs'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
+ ----> No error if same file fails copy again
  ---> Path: /home/User/test2
+ ----> No error if same file fails copy again
 Backing up client: myClient
 Reading list of problematic checksums
 Database open r/w: myClient

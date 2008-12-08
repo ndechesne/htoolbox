@@ -32,6 +32,7 @@ using namespace std;
 #include "svn_parser.h"
 #include "opdata.h"
 #include "db.h"
+#include "attributes.h"
 #include "paths.h"
 
 using namespace hbackup;
@@ -147,7 +148,7 @@ int ClientPath::parse_recurse(
                 }
               }
             }
-            if (db.add(op, _report_copy_error_once)
+            if (db.add(op, attributes.reportCopyErrorOnceIsSet())
             &&  (  (errno != EBUSY)       // Ignore busy resources
                 && (errno != ETXTBSY)     // Ignore busy files
                 && (errno != ENOENT)      // Ignore files gone
@@ -190,8 +191,6 @@ ClientPath::ClientPath(const char* path) {
   _path.fromDos();
   // Remove trailing '/'s
   _path.noTrailingSlashes();
-  // Default to always report errors
-  _report_copy_error_once = false;
 }
 
 int ClientPath::addParser(
@@ -236,21 +235,6 @@ int ClientPath::addParser(
   return 0;
 }
 
-Filter* ClientPath::addFilter(
-    const string&   type,
-    const string&   name) {
-  return _filters.add(type, name);
-}
-
-Filter* ClientPath::findFilter(
-    const string&   name) const {
-  return _filters.find(name);
-}
-
-void ClientPath::setReportCopyErrorOnce() {
-  _report_copy_error_once = true;
-}
-
 int ClientPath::parse(
     Database&       db,
     const char*     backup_path,
@@ -279,7 +263,7 @@ int ClientPath::parse(
 
 void ClientPath::show(int level) const {
   out(debug, msg_standard, _path, level++, "Path");
-  _filters.show(level);
+  attributes.showFilters(level);
   _parsers.show(level);
   if (_compress != NULL) {
     out(debug, msg_standard, _compress->name().c_str(), level,
@@ -293,7 +277,7 @@ void ClientPath::show(int level) const {
     out(debug, msg_standard, _ignore->name().c_str(), level,
       "Ignore filter");
   }
-  if (_report_copy_error_once) {
+  if (attributes.reportCopyErrorOnceIsSet()) {
     out(debug, msg_standard, "No error if same file fails copy again", level);
   }
 }

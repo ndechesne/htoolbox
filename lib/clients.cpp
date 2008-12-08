@@ -34,6 +34,7 @@ using namespace std;
 #include "parsers.h"
 #include "opdata.h"
 #include "db.h"
+#include "attributes.h"
 #include "paths.h"
 #include "clients.h"
 
@@ -47,15 +48,13 @@ struct Client::Private {
   string            host_or_ip;
   Path              list_file;
   string            protocol;
-  bool              timeout_nowarning;
-  bool              report_copy_error_once;
   list<Option>      options;
+  bool              timeout_nowarning;
   list<string>      users;
-  int               expire;
   string            home_path;
   Config            config;
   string            mounted;
-  Filters           filters;
+  int               expire;
 };
 
 int Client::mountPath(
@@ -216,7 +215,7 @@ int Client::readConfig(
                       &errors) >= 0) {
     // Read client configuration file
     ClientPath* path   = NULL;
-    Filter*     filter = NULL;
+    Attributes* attr   = &attributes;
     ConfigLine* params;
     while (_d->config.line(&params) >= 0) {
       if ((*params)[0] == "subset") {
@@ -239,31 +238,25 @@ int Client::readConfig(
         }
       } else
       if ((*params)[0] == "report_copy_error_once") {
-        if (path == NULL) {
-          setReportCopyErrorOnce();
-        } else {
-          path->setReportCopyErrorOnce();
-        }
+        attr->setReportCopyErrorOnce();
       } else
       if ((*params)[0] == "path") {
-        filter = NULL;
         // New backup path
         path = addClientPath((*params)[1]);
         if (path == NULL) {
           out(error, msg_number, "Path inside another", (*params).lineNo(),
             list_path);
           failed = true;
+        } else {
+          attr = &path->attributes;
+          // Inherit some attributes when set
+          if (attributes.reportCopyErrorOnceIsSet()) {
+            attr->setReportCopyErrorOnce();
+          }
         }
       } else
       if ((*params)[0] == "filter") {
-        if (path == NULL) {
-          // Client-wide filter
-          filter = addFilter((*params)[1], (*params)[2]);
-        } else {
-          // Path-wide filter
-          filter = path->addFilter((*params)[1], (*params)[2]);
-        }
-        if (filter == NULL) {
+        if (attr->addFilter((*params)[1], (*params)[2]) == NULL) {
           out(error, msg_number, "Unsupported filter type",
             (*params).lineNo(), list_path);
           failed = true;
@@ -284,10 +277,10 @@ int Client::readConfig(
         if (filter_type == "filter") {
           Filter* subfilter = NULL;
           if (path != NULL) {
-            subfilter = path->findFilter((*params)[2]);
+            subfilter = path->attributes.findFilter((*params)[2]);
           }
           if (subfilter == NULL) {
-            subfilter = findFilter((*params)[2]);
+            subfilter = attributes.findFilter((*params)[2]);
           }
           if (subfilter == NULL) {
             subfilter = global_filters.find((*params)[2]);
@@ -297,11 +290,12 @@ int Client::readConfig(
               list_path);
             failed = 2;
           } else {
-            filter->add(new Condition(Condition::filter, subfilter,
-              negated));
+            attr->addFilterCondition(new Condition(Condition::filter,
+              subfilter, negated));
           }
         } else {
-          switch (filter->add(filter_type, (*params)[2].c_str(), negated)) {
+          switch (attr->addFilterCondition(filter_type, (*params)[2].c_str(),
+              negated)) {
             case -2:
               out(error, msg_number, "Unsupported condition type",
                 (*params).lineNo(), list_path);
@@ -318,9 +312,9 @@ int Client::readConfig(
       if (((*params)[0] == "ignore")
       ||  ((*params)[0] == "compress")
       ||  ((*params)[0] == "no_compress")) {
-        Filter* filter = path->findFilter((*params)[1]);
+        Filter* filter = path->attributes.findFilter((*params)[1]);
         if (filter == NULL) {
-          filter = _d->filters.find((*params)[1]);
+          filter = attributes.findFilter((*params)[1]);
         }
         if (filter == NULL) {
           filter = global_filters.find((*params)[1]);
@@ -373,7 +367,6 @@ Client::Client(const string& name, const string& subset) : _d(new Private) {
   _d->host_or_ip             = name;
   _d->expire                 = -1;
   _d->timeout_nowarning      = false;
-  _d->report_copy_error_once = false;
 }
 
 Client::~Client() {
@@ -423,10 +416,6 @@ bool Client::setProtocol(string value) {
 
 void Client::setTimeOutNoWarning() {
   _d->timeout_nowarning = true;
-}
-
-void Client::setReportCopyErrorOnce() {
-  _d->report_copy_error_once = true;
 }
 
 void Client::setListfile(const char* value) {
@@ -480,14 +469,6 @@ ClientPath* Client::addClientPath(const string& name) {
     }
   }
   return path;
-}
-
-Filter* Client::addFilter(const string& type, const string& name) {
-  return _d->filters.add(type, name);
-}
-
-Filter* Client::findFilter(const string& name) const {
-  return _d->filters.find(name);
 }
 
 int Client::backup(
@@ -578,9 +559,6 @@ int Client::backup(
           }
           string backup_path;
           out(info, msg_standard, (*i)->path(), -1, "Backing up path");
-          if (_d->report_copy_error_once) {
-            (*i)->setReportCopyErrorOnce();
-          }
 
           if (mountPath((*i)->path(), backup_path, mount_point)) {
             if (! first_mount_try) {
@@ -658,7 +636,7 @@ void Client::show(int level) const {
   if (_d->timeout_nowarning) {
     out(debug, msg_standard, "No warning on time out", level);
   }
-  if (_d->report_copy_error_once) {
+  if (attributes.reportCopyErrorOnceIsSet()) {
     out(debug, msg_standard, "No error if same file fails copy again", level);
   }
   if (_d->list_file.length() != 0) {
@@ -673,7 +651,7 @@ void Client::show(int level) const {
     }
     out(debug, msg_standard, s.str().c_str(), level, "Expiry");
   }
-  _d->filters.show(level);
+  attributes.showFilters(level);
   if (_d->paths.size() > 0) {
     out(debug, msg_standard, "", level++, "Paths");
     for (list<ClientPath*>::iterator i = _d->paths.begin();

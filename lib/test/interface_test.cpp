@@ -33,6 +33,7 @@ using namespace std;
 #include "parsers.h"
 #include "opdata.h"
 #include "db.h"
+#include "attributes.h"
 #include "paths.h"
 #include "clients.h"
 
