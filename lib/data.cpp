@@ -70,6 +70,67 @@ int Data::getDir(
   return Directory(path.c_str()).isValid() ? 0 : 1;
 }
 
+long long Data::getOriginalSize(const char* path) const {
+  bool         failed        = false;
+  char*        meta_str      = NULL;
+  unsigned int meta_str_size = 0;
+  // File is compressed, get original file size
+  Stream meta_file(Path(path, "meta"));
+  if (meta_file.open(O_RDONLY) < 0) {
+//  out(warning, msg_errno, "opening metadata file", errno, meta_file.path());
+    failed = true;
+  } else {
+    if (meta_file.getLine(&meta_str, &meta_str_size) < 0) {
+      out(error, msg_errno, "reading metadata file", errno, meta_file.path());
+      failed = true;
+    }
+    meta_file.close();
+  }
+  long long size = -1;
+  if (! failed) {
+    sscanf(meta_str, "%lld", &size);
+  }
+  free(meta_str);
+  return failed ? -1 : size;
+}
+
+int Data::setOriginalSize(const char* path, long long size) const {
+  bool  failed   = false;
+  char* meta_str = NULL;
+  asprintf(&meta_str, "%lld", size);
+  Stream meta_file(Path(path, "meta"));
+  if (meta_file.open(O_WRONLY) < 0) {
+    out(error, msg_errno, "creating metadata file", errno, meta_file.path());
+    failed = true;
+  } else {
+    if (meta_file.write(meta_str, strlen(meta_str)) < 0) {
+      out(error, msg_errno, "writing metadata file", errno, meta_file.path());
+      failed = true;
+    }
+    meta_file.close();
+  }
+  free(meta_str);
+  return failed ? -1 : 0;
+}
+
+int Data::removePath(const char* path) const {
+  int rc = 0;
+  vector<string> extensions;
+  extensions.push_back("");
+  extensions.push_back(".gz");
+  Stream *data = Stream::select(Path(path, "data"), extensions);
+  if (data != NULL) {
+    rc = data->remove();
+  }
+  delete data;
+  int errno_keep = errno;
+  File(Path(path, "corrupted")).remove();
+  File(Path(path, "meta")).remove();
+  std::remove(path);
+  errno = errno_keep;
+  return rc;
+}
+
 int Data::organise(
     const char*     path,
     int             number) const {
@@ -349,6 +410,7 @@ int Data::write(
   Stream* temp1 = new Stream(Path(_d->temp, temp_name));
   Stream* temp2 = NULL;
   if (compress < 0) {
+    // Automatic compression: copy twice, compressed and not, and choose best
     char* temp_path_gz;
     if (asprintf(&temp_path_gz, "%s.gz", temp1->path()) < 0) {
       out(alert, msg_errno, "creating temporary path", errno, temp1->path());
@@ -356,14 +418,13 @@ int Data::write(
     } else {
       temp2 = new Stream(temp_path_gz);
       free(temp_path_gz);
-      if (temp2->open(O_WRONLY, -compress, false, source.size())) {
+      if (temp2->open(O_WRONLY, -compress, false)) {
         out(error, msg_errno, "opening write temp file", errno, temp2->path());
         failed = true;
       }
     }
   }
-  if (temp1->open(O_WRONLY, (compress > 0) ? compress:0, false,
-      source.size())) {
+  if (temp1->open(O_WRONLY, (compress > 0) ? compress:0, false)) {
     out(error, msg_errno, "opening write temp file", errno, temp1->path());
     failed = true;
   }
@@ -404,7 +465,7 @@ int Data::write(
     s << "Checking data, sizes: f=" << temp1->size() << " z=" << temp2->size();
     s << " (" << size_gz << ")";
     out(debug, msg_standard, s.str().c_str());
-    // Keep compressed file?
+    // Keep compressed file (temp2)?
     if (temp1->size() > size_gz) {
       temp1->remove();
       delete temp1;
@@ -470,8 +531,8 @@ int Data::write(
         switch (cmp) {
           // Same data
           case 0:
-            // Gzip file format incorrect
-            if ((no > 0) && (data->getOriginalSize() < 0)) {
+            // Empty file is compressed
+            if ((data->size() == 0) && (no > 0)) {
               action = replace;
             } else
             // Replacing data will save space
@@ -489,7 +550,7 @@ int Data::write(
             break;
           // Error
           default:
-            out(error, msg_errno, "failed to compare data", errno,
+            out(error, msg_errno, "comparing data", errno,
               source.checksum());
             failed = true;
         }
@@ -510,18 +571,25 @@ int Data::write(
     if ((action == replace) && (data->remove() < 0)) {
       out(error, msg_errno, "removing previous data", errno);
     } else {
-      char* name;
+      char* name = NULL;
       if (asprintf(&name, "%s/data%s", final_path,
                    ((compress != 0) ? ".gz" : "")) < 0) {
         out(alert, msg_errno, "creating final name", errno, final_path);
         failed = true;
-      } else {
-        if (rename(dest->path(), name)) {
-          out(error, msg_errno, "failed to move file", errno, name);
-          failed = true;
-        }
-        free(name);
+      } else
+      if (rename(dest->path(), name)) {
+        out(error, msg_errno, "moving file", errno, name);
+        failed = true;
+      } else
+      if (compress != 0) {
+        // Add metadata file if compressed (no action on failure)
+        setOriginalSize(final_path, source.dataSize());
+      } else
+      {
+        // Remove metadata file if not compressed
+        File(Path(final_path, "meta")).remove();
       }
+      free(name);
     }
   }
 
@@ -558,7 +626,7 @@ int Data::write(
 int Data::check(
     const char*     checksum,
     bool            thorough,
-    bool            repair,
+    bool            remove,
     long long*      size,
     bool*           compressed) const {
   string path;
@@ -576,17 +644,18 @@ int Data::check(
   // Missing data
   if (data == NULL) {
     out(error, msg_standard, "Data missing", -1, checksum);
-    if (repair) {
-      File(Path(path.c_str(), "corrupted")).remove();
-      std::remove(path.c_str());
+    if (remove) {
+      removePath(path.c_str());
     }
     return -1;
   }
   // Get original file size
   long long original_size;
   if (no > 0) {
-    // File is compressed, get original file size
-    original_size = data->getOriginalSize();
+    original_size = getOriginalSize(path.c_str());
+    if ((original_size < 0) && (errno == ENOENT)) {
+      out(error, msg_standard, "Metadata missing", -1, checksum);
+    }
   } else {
     original_size = data->size();
   }
@@ -602,18 +671,11 @@ int Data::check(
       free(size_str);
     }
   }
-  // Return file information if required
-  if (size != NULL) {
-    *size = original_size;
-    if (compressed != NULL) {
-      *compressed = no > 0;
-    }
-  }
   // Check data for corruption
   if (thorough) {
     // Already marked corrupted?
     if (File(Path(path.c_str(), "corrupted")).isValid()) {
-      out(error, msg_standard, "Data corruption reported", -1, checksum);
+      out(warning, msg_standard, "Data corruption reported", -1, checksum);
       failed = true;
     } else {
       data->setCancelCallback(aborting);
@@ -630,106 +692,59 @@ int Data::check(
       // Compare with given checksum
       if (strncmp(data->checksum(), checksum, strlen(data->checksum()))) {
         stringstream s;
-        s << "Data corrupted" << (repair ? ", remove" : "");
+        s << "Data corrupted" << (remove ? ", remove" : "");
         out(error, msg_standard, s.str().c_str(), -1, checksum);
         out(debug, msg_standard, data->checksum(), -1, "Checksum");
         failed = true;
-        if (repair) {
-          data->remove();
-          std::remove(path.c_str());
+        if (remove) {
+          removePath(path.c_str());
         } else {
           // Mark corrupted
           File(Path(path.c_str(), "corrupted")).create();
         }
       } else
       // Compare data size and stored size for compress files
-      if ((no > 0) && (data->dataSize() != data->originalSize())) {
-        out(error, msg_number, "Original size is wrong",
-          static_cast<int>(data->originalSize()), checksum);
-        failed = true;
+      if ((no > 0) && (data->dataSize() != original_size)) {
+        if (original_size >= 0) {
+          out(error, msg_number, "Original size is wrong, correcting",
+            static_cast<int>(original_size), checksum);
+        }
+        original_size = data->dataSize();
+        setOriginalSize(path.c_str(), original_size);
       }
     }
   } else
   // Remove data marked corrupted
-  if (repair) {
+  if (remove) {
     File corrupted(Path(path.c_str(), "corrupted"));
     if (corrupted.isValid()) {
-      if (data->remove() == 0) {
-        corrupted.remove();
-        std::remove(path.c_str());
-        out(info, msg_standard, "Remove corrupted data", -1, checksum);
+      if (removePath(path.c_str()) == 0) {
+        out(info, msg_standard, "Removed corrupted data", -1, checksum);
       } else {
         out(error, msg_errno, "removing data", errno, checksum);
       }
       failed = true;
-    } else
-    // Compressed file does not follow hbackup's standard
-    if ((original_size < 0) && (no > 0)) {
-      data->setCancelCallback(aborting);
-      char* real_checksum;
-      int   real_compress;
-      // Open file
-      if (data->open(O_RDONLY, 1)) {
-        out(error, msg_errno, "opening file", errno, data->path());
-        failed = true;
-      } else
-      // Re-write file with automatic compression
-      if (write(*data, ".recompress", &real_checksum, -compression_level,
-          &real_compress, false) < 0) {
-        out(error, msg_errno, "recompressing file", errno, data->path());
-        failed = true;
-      } else
-      // Do checksums match?
-      if (strcmp(real_checksum, checksum) != 0) {
-        out(error, msg_standard, "file is corrupted", -1, data->path());
-        failed = true;
-      } else
-      {
-        if (real_compress == 0) {
-          // Remove the other file
-          data->remove();
-        } else {
-          // Set the correct original size
-          data->setOriginalSize(data->dataSize());
-        }
-        // Correct returned file information if required
-        if (size != NULL) {
-          *size = data->dataSize();
-          if (compressed != NULL) {
-            *compressed = real_compress;
-          }
-        }
-        out(info, msg_standard, "converted", -1, checksum);
-      }
     }
   }
   delete data;
+  // Return file information if required
+  if (size != NULL) {
+    *size = original_size;
+  }
+  if (compressed != NULL) {
+    *compressed = no > 0;
+  }
   return failed ? -1 : 0;
 }
 
 int Data::remove(
     const char*     checksum) const {
-  int rc;
   string path;
   if (getDir(checksum, path)) {
     // Warn about directory missing
     return 1;
   }
-  vector<string> extensions;
-  extensions.push_back("");
-  extensions.push_back(".gz");
-  Stream *data = Stream::select(Path(path.c_str(), "data"), extensions);
-  if (data != NULL) {
-    rc = data->remove();
-  } else {
-    // Warn about data missing
-    rc = 2;
-  }
-  delete data;
-  int errno_keep = errno;
-  std::remove(path.c_str());
-  errno = errno_keep;
-  return rc;
+  return removePath(path.c_str());
 }
 
 int Data::crawl(

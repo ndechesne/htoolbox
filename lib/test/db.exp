@@ -55,7 +55,7 @@ Found 0 checksums
 Crawling through DB
 59ca0efa9f5633cb0371bbc0355478d8-0 0\r
                                     \r
-59ca0efa9f5633cb0371bbc0355478d8-0: Remove corrupted data
+59ca0efa9f5633cb0371bbc0355478d8-0: Removed corrupted data
 Found 0 valid and 1 broken data files
 Scan again
 Database closed

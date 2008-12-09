@@ -160,7 +160,7 @@ int main(void) {
   {
     Stream s("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
     Stream d("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data.gz");
-    if (! d.open(O_WRONLY, 5, true, s.size())) {
+    if (! d.open(O_WRONLY, 5, true)) {
       if (! s.open(O_RDONLY)) {
         if (! s.copy(&d) && ! s.close()) {
           s.remove();
@@ -169,6 +169,7 @@ int main(void) {
       }
       d.close();
     }
+    system("echo -n 2 >test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/meta");
   }
 
   cout << endl << "Test: specify clients" << endl;
@@ -711,7 +712,7 @@ int main(void) {
 
 
   cout << endl << "Test: check for corrupted data" << endl;
-  sys_rc = system("echo > test_db/.data/0f2ea973d77135dc3d06c8e68da6dc59-0/data");
+  sys_rc = system("echo > test_db/.data/0f2ea973d77135dc3d06c8e68da6dc59-0/data.gz");
   sys_rc = system("echo > test_db/.data/b90f8fa56ea1d39881d4a199c7a81d35-0/data");
   sys_rc = system("echo > test_db/.data/fef51838cd3cfe8ed96355742eb71fbd-0/data");
   sys_rc = system("rm -f test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data");
@@ -726,10 +727,9 @@ int main(void) {
   delete hbackup;
 
   cout << endl << "Test: check for corrupted data again" << endl;
-  sys_rc = system("echo > test_db/.data/0f2ea973d77135dc3d06c8e68da6dc59-0/data");
+  sys_rc = system("echo > test_db/.data/0f2ea973d77135dc3d06c8e68da6dc59-0/data.gz");
   sys_rc = system("echo > test_db/.data/b90f8fa56ea1d39881d4a199c7a81d35-0/data");
   sys_rc = system("echo > test_db/.data/fef51838cd3cfe8ed96355742eb71fbd-0/data");
-  sys_rc = system("rm -f test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data.gz");
   sys_rc = system("sed -i \"s/644\t[^\t]*$/644\td41d8cd98f00b204e9800998ecf8427e-0/\" test_db/myClient/list");
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
@@ -743,7 +743,7 @@ int main(void) {
 
 
   cout << endl << "Test: scan for missing data" << endl;
-  sys_rc = system("rm -f test_db/.data/0f2ea973d77135dc3d06c8e68da6dc59-0/data");
+  sys_rc = system("rm -f test_db/.data/0f2ea973d77135dc3d06c8e68da6dc59-0/data.gz");
   sys_rc = system("rm -f test_db/.data/b90f8fa56ea1d39881d4a199c7a81d35-0/data.gz");
   sys_rc = system("rm -f test_db/.data/fef51838cd3cfe8ed96355742eb71fbd-0/data.gz");
   hbackup = new HBackup();

@@ -352,82 +352,6 @@ int main(void) {
   Stream* readfile;
   Stream* writefile;
 
-  cout << endl << "Test: file original size" << endl;
-  writefile = new Stream("test1/rwfile_dest");
-  if (writefile->open(O_WRONLY, 1, true, 25LL)) {
-    cout << "Error opening source file: " << strerror(errno) << endl;
-  } else {
-    writefile->setProgressCallback(progress);
-    size_t write_size = 0;
-    ssize_t size = writefile->write("\x98\xba\xdc\xfe", 4);
-    if (size < 0) {
-      cout << "write failed: " << strerror(errno) << endl;
-    }
-    write_size += size;
-    if (writefile->close()) cout << "Error closing file" << endl;
-    cout << "write size: " << write_size << " (" << writefile->size() << ", "
-      << writefile->dataSize() << "), checksum: " << writefile->checksum()
-      << endl;
-    if (writefile->open(O_RDONLY, 1)) {
-      cout << "Error re-opening source file: " << strerror(errno) << endl;
-    } else {
-      char blah;
-      writefile->read(&blah, 1);
-      if (writefile->originalSize() < 0) {
-        cout << "originalSize: failed" << endl;
-      } else {
-        cout << "originalSize: " << writefile->originalSize() << endl;
-      }
-      writefile->close();
-    }
-    if (writefile->getOriginalSize() < 0) {
-      cout << "getOriginalSize: " << strerror(errno) << endl;
-    } else {
-      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
-      cout << "originalSize: " << writefile->originalSize() << endl;
-    }
-  }
-  writefile->remove();
-  delete writefile;
-
-  writefile = new Stream("test1/rwfile_dest");
-  if (writefile->open(O_WRONLY, 1, true, 0x0fedcba987654321LL)) {
-    cout << "Error opening source file: " << strerror(errno) << endl;
-  } else {
-    writefile->setProgressCallback(progress);
-    size_t write_size = 0;
-    ssize_t size = writefile->write("\x10\x32\x54\x76", 4);
-    if (size < 0) {
-      cout << "write failed: " << strerror(errno) << endl;
-    }
-    write_size += size;
-    if (writefile->close()) cout << "Error closing file" << endl;
-    cout << "write size: " << write_size << " (" << writefile->size() << ", "
-      << writefile->dataSize() << "), checksum: " << writefile->checksum()
-      << endl;
-    if (writefile->open(O_RDONLY, 1)) {
-      cout << "Error re-opening source file: " << strerror(errno) << endl;
-    } else {
-      char blah;
-      writefile->read(&blah, 1);
-      if (writefile->originalSize() < 0) {
-        cout << "originalSize: failed" << endl;
-      } else {
-        cout << "originalSize: " << writefile->originalSize() << endl;
-      }
-      writefile->close();
-    }
-    if (writefile->getOriginalSize() < 0) {
-      cout << "getOriginalSize: " << strerror(errno) << endl;
-    } else {
-      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
-      cout << "originalSize: " << writefile->originalSize() << endl;
-    }
-  }
-  writefile->remove();
-  delete writefile;
-
-
   cout << endl << "Test: file read (no cache)" << endl;
   readfile = new Stream("test1/big_file");
   if (readfile->open(O_RDONLY)) {
@@ -573,18 +497,7 @@ int main(void) {
     } else {
       char blah;
       writefile->read(&blah, 1);
-      if (writefile->originalSize() < 0) {
-        cout << "originalSize: failed" << endl;
-      } else {
-        cout << "originalSize: " << writefile->originalSize() << endl;
-      }
       writefile->close();
-    }
-    if (writefile->getOriginalSize() < 0) {
-      cout << "getOriginalSize: " << strerror(errno) << endl;
-    } else {
-      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
-      cout << "originalSize: " << writefile->originalSize() << endl;
     }
   }
   delete readfile;
@@ -636,7 +549,7 @@ int main(void) {
   writefile = new Stream("test1/rwfile_dest");
   if (readfile->open(O_RDONLY)) {
     cout << "Error opening source file: " << strerror(errno) << endl;
-  } else if (writefile->open(O_WRONLY, 5, true, readfile->size())) {
+  } else if (writefile->open(O_WRONLY, 5, true)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
     unsigned char buffer[409600];
@@ -672,18 +585,7 @@ int main(void) {
     } else {
       char blah;
       writefile->read(&blah, 1);
-      if (writefile->originalSize() < 0) {
-        cout << "originalSize: failed" << endl;
-      } else {
-        cout << "originalSize: " << writefile->originalSize() << endl;
-      }
       writefile->close();
-    }
-    if (writefile->getOriginalSize() < 0) {
-      cout << "getOriginalSize: " << strerror(errno) << endl;
-    } else {
-      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
-      cout << "originalSize: " << writefile->originalSize() << endl;
     }
   }
   cout << endl
@@ -696,7 +598,7 @@ int main(void) {
   }
   if (readfile->open(O_RDONLY, 1)) {
     cout << "Error opening source file: " << strerror(errno) << endl;
-  } else if (writefile->open(O_WRONLY, 5, true, readfile->size())) {
+  } else if (writefile->open(O_WRONLY, 5, true)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
     unsigned char buffer[409600];
@@ -732,33 +634,10 @@ int main(void) {
     } else {
       char blah;
       writefile->read(&blah, 1);
-      if (writefile->originalSize() < 0) {
-        cout << "originalSize: failed" << endl;
-      } else {
-        cout << "originalSize: " << writefile->originalSize() << endl;
-      }
       writefile->close();
-    }
-    if (writefile->getOriginalSize() < 0) {
-      cout << "getOriginalSize: " << strerror(errno) << endl;
-    } else {
-      cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
-      cout << "originalSize: " << writefile->originalSize() << endl;
     }
   }
   delete readfile;
-
-  cout << endl << "Test: overwrite original size" << endl;
-  if (writefile->setOriginalSize(0x1234567890123456LL) < 0) {
-    cout << "setOriginalSize: " << strerror(errno) << endl;
-  } else
-  if (writefile->getOriginalSize() < 0) {
-    cout << "getOriginalSize: " << strerror(errno) << endl;
-  } else {
-    cout << "getOriginalSize: " << writefile->getOriginalSize() << endl;
-    cout << "originalSize: " << writefile->originalSize() << endl;
-  }
-  delete writefile;
 
 
   cout << endl

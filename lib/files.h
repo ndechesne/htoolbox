@@ -325,13 +325,11 @@ public:
   // Open file, for read or write (no append), with or without compression
   // Flags are either O_RDONLY or O_WRONLY, the latter implies O_CREAT
   // checksum determines whether to compute the checksum as we read
-  // original_size gives the size of the original file to store in the gzip
   // header when compressing
   int open(
     int             flags,
     unsigned int    compression   = 0,
-    bool            checksum      = true,
-    long long       original_size = -1);
+    bool            checksum      = true);
   // Close file, for read or write (no append), with or without compression
   int close();
   // Get progress indicator (size read/written)
@@ -369,16 +367,6 @@ public:
   int copy(Stream* dest, Stream* dest2 = NULL);
   // Compare two files
   int compare(Stream& other, long long length = -1);
-  // Get gzip'd file original size, if written by hbackup v0.9 and above
-  // Note: getOriginalSize MUST have been called first, or Stream open AND
-  //       partially read
-  long long originalSize() const;
-  // Get gzip'd file original size, if written by hbackup v0.9 and above
-  // Note: Stream MUST NOT be open
-  long long getOriginalSize() const;
-  // Overwrite gzip'd file original size, if written by hbackup v0.9 and above
-  // Note: Stream MUST NOT be open
-  int setOriginalSize(long long size) const;
   // Get real file size
   long long dataSize() const;
   // Line feed MUST be present at EOL

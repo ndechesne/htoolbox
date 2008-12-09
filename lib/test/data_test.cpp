@@ -86,7 +86,8 @@ int main(void) {
 
 
   cout << endl << "Test: getdir" << endl;
-  cout << "Check test_db/data dir: " << ! Directory("test_db/data").isValid() << endl;
+  cout << "Check test_db/data dir: " << ! Directory("test_db/data").isValid()
+    << endl;
   File("test_db/data/.nofiles").create();
   Directory("test_db/data/fe").create();
   File("test_db/data/fe/.nofiles").create();
@@ -167,6 +168,31 @@ int main(void) {
     return 0;
   }
   cout << chksm << "  test1/testfile" << endl;
+  cout << "Meta file contents: " << endl;
+  system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+  cout << endl;
+
+  /* Check and repair */
+  Node("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta").remove();
+  long long size;
+  bool      compressed;
+  if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
+    printf("db.check error status %d\n", status);
+    db.close();
+    return 0;
+  }
+  cout << "Size reported: " << size << endl;
+  cout << "Meta file contents: " << endl;
+  system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+  cout << endl;
+
+  /* Re-check */
+  if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
+    printf("db.check error status %d\n", status);
+    db.close();
+    return 0;
+  }
+
   /* Read */
   if ((status = db.read("test_db/blah", chksm))) {
     printf("db.read error status %d\n", status);

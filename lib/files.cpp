@@ -409,7 +409,6 @@ struct Stream::Private {
   BufferReader<char>  reader_data;        // Reader for buffer above
   EVP_MD_CTX*         ctx;                // openssl resources
   z_stream*           strm;               // zlib resources
-  long long           original_size;      // file size to store into gzip header
   bool                finish;             // tell compression to finish off
   progress_f          progress_callback;  // function to report progress
   cancel_f            cancel_callback;    // function to check for cancellation
@@ -471,15 +470,13 @@ bool Stream::isWriteable() const {
 int Stream::open(
     int             flags,
     unsigned int    compression,
-    bool            checksum,
-    long long       original_size) {
+    bool            checksum) {
   if (isOpen()) {
     errno = EBUSY;
     return -1;
   }
 
-  _d->mode          = O_NOATIME | O_LARGEFILE;
-  _d->original_size = original_size;
+  _d->mode = O_NOATIME | O_LARGEFILE;
 
   switch (flags) {
   case O_WRONLY:
@@ -632,22 +629,6 @@ ssize_t Stream::read_decompress(
     size_t*         given) {
   ssize_t size = 0;
   bool    eof  = false;
-  // Get header
-  gz_header     header;
-  unsigned char field[12];
-  if (_d->original_size == -1) {
-    header.text       = 0;
-    header.time       = 0;
-    header.os         = 3;
-    header.extra      = field;
-    header.extra_max  = 12;
-    header.name       = Z_NULL;
-    header.comment    = Z_NULL;
-    header.hcrc       = 0;
-    if (inflateGetHeader(_d->strm, &header) != Z_OK) {
-      _d->original_size = -2;
-    }
-  }
   // Fill in buffer
   do {
     if (_d->reader_comp.isEmpty()) {
@@ -678,12 +659,6 @@ ssize_t Stream::read_decompress(
     }
     *given = asked - _d->strm->avail_out;
   } while ((*given == 0) && ! eof);
-
-  // Get header
-  if (_d->original_size == -1) {
-    GzipExtraFieldSize extra(field);
-    _d->original_size = extra;
-  }
 
   return size;
 }
@@ -785,21 +760,6 @@ ssize_t Stream::write_compress(
   _d->strm->avail_in = count;
   _d->strm->next_in  = static_cast<Bytef*>(const_cast<void*>(buffer));
 
-  // Set header
-  if (_d->original_size >= 0) {
-    GzipExtraFieldSize extra(_d->original_size);
-    gz_header header;
-    header.text       = 0;
-    header.time       = 0;
-    header.os         = 3;
-    header.extra      = extra;
-    header.extra_len  = extra.length();
-    header.name       = Z_NULL;
-    header.comment    = Z_NULL;
-    header.hcrc       = 0;
-    deflateSetHeader(_d->strm, &header);
-  }
-
   // Flush result to file (no real cacheing)
   do {
     // Buffer is considered empty to start with. and is always flushed
@@ -813,7 +773,6 @@ ssize_t Stream::write_compress(
       return -1;
     }
   } while (_d->strm->avail_out == 0);
-  _d->original_size = -1;
   return count;
 }
 
@@ -1252,84 +1211,6 @@ int Stream::compare(Stream& source, long long length) {
   free(buffer1);
   free(buffer2);
   return rc;
-}
-
-long long Stream::originalSize() const {
-  return _d->original_size;
-}
-
-long long Stream::getOriginalSize() const {
-  if (isOpen()) {
-    errno = EBUSY;
-    return -1;
-  }
-  int fd = std::open64(_path, O_RDONLY, 0666);
-  if (fd < 0) {
-    // errno set by open
-    return -1;
-  }
-  char buffer[14];
-  _d->original_size = -1;
-  // Check header
-  if (std::read(fd, buffer, 10) != 10) {
-    // errno set by read
-  } else
-  if (strncmp(buffer, "\x1f\x8b", 2) != 0) {
-    errno = EILSEQ;
-  } else
-  // Check extra field flag
-  if ((buffer[3] & 0x4) == 0) {
-    errno = ENOSYS;
-  } else
-  // Check extra field
-  if (std::read(fd, buffer, 14) != 14) {
-    // errno set by read
-  } else
-  // Assume only OUR extra field is present
-  {
-    GzipExtraFieldSize extra(reinterpret_cast<unsigned char*>(&buffer[2]));
-    _d->original_size = extra;
-  }
-  std::close(fd);
-  return _d->original_size;
-}
-
-int Stream::setOriginalSize(long long size) const {
-  if (isOpen()) {
-    errno = EBUSY;
-    return -1;
-  }
-  int fd = std::open64(_path, O_RDWR, 0666);
-  if (fd < 0) {
-    // errno set by open
-    return -1;
-  }
-  char buffer[14];
-  _d->original_size = -1;
-  // Check header
-  if (std::read(fd, buffer, 10) != 10) {
-    // errno set by read
-  } else
-  if (strncmp(buffer, "\x1f\x8b", 2) != 0) {
-    errno = EILSEQ;
-  } else
-  // Check extra field flag
-  if ((buffer[3] & 0x4) == 0) {
-    errno = ENOSYS;
-  } else
-  // Skip extra field size
-  if (std::read(fd, buffer, 2) != 2) {
-    // errno set by read
-  } else
-  // Assume OUR extra field is present HERE
-  {
-    GzipExtraFieldSize extra(size);
-    if (std::write(fd, extra, 12) == 12) {
-      _d->original_size = size;
-    }
-  }
-  std::close(fd);
-  return (_d->original_size < 0) ? -1 : 0;
 }
 
 long long Stream::dataSize() const {

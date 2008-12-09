@@ -30,6 +30,12 @@ protected: // So I can test them
     const string&   checksum,
     string&         path,
     bool            create = false) const;
+  // Get size of orginal data for given checksum path (-1 means failed)
+  long long getOriginalSize(const char* path) const;
+  // Set size of orginal data for given checksum path
+  int setOriginalSize(const char* path, long long size) const;
+  // Remove given path
+  int removePath(const char* path) const;
   // Make sure we don't have too many files per directory
   int organise(
     const char*     path,

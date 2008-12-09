@@ -18,6 +18,15 @@ Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Test: write and read back with compression
 Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
+Meta file contents: 
+13
+Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Metadata missing
+59ca0efa9f5633cb0371bbc0355478d8-0 -1 33\r
+Size reported: 13
+Meta file contents: 
+13
+59ca0efa9f5633cb0371bbc0355478d8-0 13 33\r
+                                        \r
 Replacing with uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 
