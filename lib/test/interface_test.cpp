@@ -169,7 +169,8 @@ int main(void) {
       }
       d.close();
     }
-    system("echo -n 2 >test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/meta");
+    sys_rc = system("echo -n 2 > "
+      "test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/meta");
   }
 
   cout << endl << "Test: specify clients" << endl;

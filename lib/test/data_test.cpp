@@ -169,7 +169,7 @@ int main(void) {
   }
   cout << chksm << "  test1/testfile" << endl;
   cout << "Meta file contents: " << endl;
-  system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+  sys_rc = system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
   cout << endl;
 
   /* Check and repair */
@@ -183,7 +183,7 @@ int main(void) {
   }
   cout << "Size reported: " << size << endl;
   cout << "Meta file contents: " << endl;
-  system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+  sys_rc = system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
   cout << endl;
 
   /* Re-check */

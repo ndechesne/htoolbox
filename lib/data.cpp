@@ -97,7 +97,9 @@ long long Data::getOriginalSize(const char* path) const {
 int Data::setOriginalSize(const char* path, long long size) const {
   bool  failed   = false;
   char* meta_str = NULL;
-  asprintf(&meta_str, "%lld", size);
+  if (asprintf(&meta_str, "%lld", size) < 0) {
+    return -1;
+  }
   Stream meta_file(Path(path, "meta"));
   if (meta_file.open(O_WRONLY) < 0) {
     out(error, msg_errno, "creating metadata file", errno, meta_file.path());
