@@ -141,7 +141,9 @@ int main(void) {
 
 
   // Next test
-  cout << endl << "As previous, with copy error reported once" << endl;
+  cout << endl << "As previous, with newly inaccessible dir and report once"
+    << endl;
+  sys_rc = system("chmod 000 test1/cvs");
   path->attributes.setReportCopyErrorOnce();
   my_time++;
   db.open();
@@ -169,6 +171,7 @@ int main(void) {
   // Next test
   cout << endl << "As previous, with subdir/testfile NOT readable" << endl;
   sys_rc = system("chmod 755 test1/subdir");
+  sys_rc = system("chmod 755 test1/cvs");
   sys_rc = system("chmod 644 test1/subdirfile");
   sys_rc = system("chmod 000 test1/subdir/testfile");
   my_time++;

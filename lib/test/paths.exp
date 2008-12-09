@@ -475,7 +475,7 @@ myClient's journal:
 [ 1] /home/User/testlink            l      8 777 testfile
 [ 1] /home/User/testpipe            p      0 600
 
-As previous, with copy error reported once
+As previous, with newly inaccessible dir and report once
 Database open in read/write mode
 Path: /home/User
  -> No error if same file fails copy again
@@ -487,16 +487,31 @@ Path: /home/User
 Reading list of problematic checksums
 Database open r/w: myClient
 I d s   /home/User/.hbackup
-cvs\r
-cvs/CVS\r
-cvs/CVS/Wherever\r
-cvs/dirbad      \r
-cvs/diroth\r
-cvs/dirutd\r
-cvs/dirutd/CVS\r
-dir space     \r
+Error: host:/home/User/cvs: Permission denied reading directory
+Md !    /home/User/cvs
+D       /home/User/cvs/CVS
+D       /home/User/cvs/CVS/Entries
+D       /home/User/cvs/CVS/Root
+D       /home/User/cvs/CVS/Whatever
+D       /home/User/cvs/CVS/Wherever
+D       /home/User/cvs/CVS/Wherever/Whichever
+D       /home/User/cvs/dirbad
+D       /home/User/cvs/dirbad/fileoth
+D       /home/User/cvs/dirbad/fileutd
+D       /home/User/cvs/diroth
+D       /home/User/cvs/dirutd
+D       /home/User/cvs/dirutd/CVS
+D       /home/User/cvs/dirutd/CVS/Entries
+D       /home/User/cvs/dirutd/CVS/Root
+D       /home/User/cvs/dirutd/CVS/Whatever
+D       /home/User/cvs/dirutd/fileoth
+D       /home/User/cvs/dirutd/fileutd
+D       /home/User/cvs/filemod.o
+D       /home/User/cvs/filenew.c
+D       /home/User/cvs/fileoth
+D       /home/User/cvs/fileutd.h
+dir space\r
          \r
-Error: host:/home/User/subdir: Permission denied reading directory
 !d !    /home/User/subdir
 !f !    /home/User/subdirfile
 svn\r
@@ -507,35 +522,58 @@ svn/diroth\r
 svn/dirutd\r
 svn/dirutd/.svn\r
 testdir        \r
-Parsed 58 file(s)
+Parsed 37 file(s)
        \r
+Database modified: myClient
 Database closed: myClient
 Database closed
 
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -573,64 +611,28 @@ myClient's list:
 [ 1] /home/User/testpipe            p      0 600
 
 myClient's journal:
-[ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
-[ 1] /home/User/cvs                 d      0 755
-[ 1] /home/User/cvs/CVS             d      0 755
-[ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
-[ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
-[ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
-[ 1] /home/User/cvs/CVS/Wherever    d      0 755
-[ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/cvs/dirbad          d      0 755
-[ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/cvs/diroth          d      0 755
-[ 1] /home/User/cvs/dirutd          d      0 755
-[ 1] /home/User/cvs/dirutd/CVS      d      0 755
-[ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
-[ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
-[ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/dir space           d      0 755
-[ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/dir space/link space l     12 777 linked space
-[ 1] /home/User/subdir              d     -1 000
-[ 1] /home/User/subdir-file         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/subdirfile          f      0 000 
-[ 1] /home/User/svn                 d      0 755
-[ 1] /home/User/svn/.svn            d      0 755
-[ 1] /home/User/svn/.svn/entries    f     77 644 0f2ea973d77135dc3d06c8e68da6dc59-0
-[ 1] /home/User/svn/.svn/format     f     18 644 3cd6b399f9fa49fd0b137a3de46d83f5-0
-[ 1] /home/User/svn/.svn/whatever   f     15 644 06f05055bfb2c8b900459f45826fc8ea-0
-[ 1] /home/User/svn/.svn/wherever   d      0 755
-[ 1] /home/User/svn/.svn/wherever/whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/dirbad          d      0 755
-[ 1] /home/User/svn/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/diroth          d      0 755
-[ 1] /home/User/svn/dirutd          d      0 755
-[ 1] /home/User/svn/dirutd/.svn     d      0 755
-[ 1] /home/User/svn/dirutd/.svn/entries f     30 644 8bdef5751e46ed57d237cbe3f4a5061c-0
-[ 1] /home/User/svn/dirutd/.svn/format f     12 644 60afe8c3ac66cb77a34da116394d9ac8-0
-[ 1] /home/User/svn/dirutd/.svn/whatever f     10 644 3b9ddae5294c8f4850d45073a933f3e6-0
-[ 1] /home/User/svn/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/test space          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/testdir             d      0 755
-[ 1] /home/User/testfile            f     13 750 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] /home/User/testfile~           f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/testlink            l      8 777 testfile
-[ 1] /home/User/testpipe            p      0 600
+[ 3] /home/User/cvs                 d     -1 000
+[ 3] /home/User/cvs/CVS             [rm]
+[ 3] /home/User/cvs/CVS/Entries     [rm]
+[ 3] /home/User/cvs/CVS/Root        [rm]
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 3] /home/User/cvs/dirbad          [rm]
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
+[ 3] /home/User/cvs/diroth          [rm]
+[ 3] /home/User/cvs/dirutd          [rm]
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
+[ 3] /home/User/cvs/filemod.o       [rm]
+[ 3] /home/User/cvs/filenew.c       [rm]
+[ 3] /home/User/cvs/fileoth         [rm]
+[ 3] /home/User/cvs/fileutd.h       [rm]
 
 As previous, with subdir/testfile NOT readable
 Database open in read/write mode
@@ -644,14 +646,43 @@ Path: /home/User
 Reading list of problematic checksums
 Database open r/w: myClient
 I d s   /home/User/.hbackup
+Md      /home/User/cvs
 cvs\r
+   \r
+Ad      /home/User/cvs/CVS
 cvs/CVS\r
+       \r
+Af ~    /home/User/cvs/CVS/Entries
+Af ~    /home/User/cvs/CVS/Root
+Af ~    /home/User/cvs/CVS/Whatever
+Ad      /home/User/cvs/CVS/Wherever
 cvs/CVS/Wherever\r
-cvs/dirbad      \r
+                \r
+Af ~    /home/User/cvs/CVS/Wherever/Whichever
+Ad      /home/User/cvs/dirbad
+cvs/dirbad\r
+          \r
+Af ~    /home/User/cvs/dirbad/fileoth
+Af ~    /home/User/cvs/dirbad/fileutd
+Ad      /home/User/cvs/diroth
 cvs/diroth\r
+          \r
+Ad      /home/User/cvs/dirutd
 cvs/dirutd\r
+          \r
+Ad      /home/User/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
-dir space     \r
+              \r
+Af ~    /home/User/cvs/dirutd/CVS/Entries
+Af ~    /home/User/cvs/dirutd/CVS/Root
+Af ~    /home/User/cvs/dirutd/CVS/Whatever
+Af ~    /home/User/cvs/dirutd/fileoth
+Af ~    /home/User/cvs/dirutd/fileutd
+Af ~    /home/User/cvs/filemod.o
+Af ~    /home/User/cvs/filenew.c
+Af ~    /home/User/cvs/fileoth
+Af ~    /home/User/cvs/fileutd.h
+dir space\r
          \r
 Md      /home/User/subdir
 subdir\r
@@ -679,27 +710,71 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -741,6 +816,28 @@ myClient's list:
 [ 1] /home/User/testpipe            p      0 600
 
 myClient's journal:
+[ 4] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 4] /home/User/subdir              d      0 755
 [ 4] /home/User/subdir/testfile     f     12 000 
 [ 4] /home/User/subdir/testfile1    f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -786,27 +883,71 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -848,6 +989,28 @@ myClient's list:
 [ 1] /home/User/testpipe            p      0 600
 
 myClient's journal:
+[ 4] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 4] /home/User/subdir              d      0 755
 [ 4] /home/User/subdir/testfile     f     12 000 
 [ 4] /home/User/subdir/testfile1    f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -879,27 +1042,71 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -988,28 +1195,72 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1102,28 +1353,72 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1224,28 +1519,72 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1349,28 +1688,72 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1482,28 +1865,72 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1647,38 +2074,82 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1820,38 +2291,82 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2031,38 +2546,82 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2253,43 +2812,87 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
 [15] /home/User/cvs/dirutd          [rm]
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
 [15] /home/User/cvs/dirutd/CVS      [rm]
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
 [15] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 [15] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [15] /home/User/cvs/dirutd/fileutd  [rm]
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2468,43 +3071,87 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
 [15] /home/User/cvs/dirutd          [rm]
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
 [15] /home/User/cvs/dirutd/CVS      [rm]
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
 [15] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 [15] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [15] /home/User/cvs/dirutd/fileutd  [rm]
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2683,43 +3330,87 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
 [15] /home/User/cvs/dirutd          [rm]
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
 [15] /home/User/cvs/dirutd/CVS      [rm]
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
 [15] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 [15] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [15] /home/User/cvs/dirutd/fileutd  [rm]
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2897,43 +3588,87 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
 [15] /home/User/cvs/dirutd          [rm]
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
 [15] /home/User/cvs/dirutd/CVS      [rm]
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
 [15] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 [15] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [15] /home/User/cvs/dirutd/fileutd  [rm]
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3115,44 +3850,88 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
 [15] /home/User/cvs/dirutd          [rm]
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
 [15] /home/User/cvs/dirutd/CVS      [rm]
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
 [15] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 [15] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [15] /home/User/cvs/dirutd/fileutd  [rm]
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [19] /home/User/cvs/filenew.c       f      5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3368,44 +4147,88 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
 [15] /home/User/cvs/dirutd          [rm]
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
 [15] /home/User/cvs/dirutd/CVS      [rm]
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
 [15] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 [15] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [15] /home/User/cvs/dirutd/fileutd  [rm]
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [19] /home/User/cvs/filenew.c       f      5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3630,44 +4453,88 @@ Database closed
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
 [15] /home/User/cvs/dirutd          [rm]
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
 [15] /home/User/cvs/dirutd/CVS      [rm]
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
 [15] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 [15] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [15] /home/User/cvs/dirutd/fileutd  [rm]
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [19] /home/User/cvs/filenew.c       f      5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3973,44 +4840,88 @@ hisClient's list:
 myClient's list:
 [ 1] /home/User/àccénts_test      f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
 [15] /home/User/cvs/dirutd          [rm]
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
 [15] /home/User/cvs/dirutd/CVS      [rm]
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
 [15] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 [15] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [15] /home/User/cvs/dirutd/fileutd  [rm]
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [19] /home/User/cvs/filenew.c       f      5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -4133,44 +5044,88 @@ myClient's list:
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 [22] /home/User/crash               d      0 755
 [22] /home/User/crash/file          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
 [15] /home/User/cvs/dirutd          [rm]
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
 [15] /home/User/cvs/dirutd/CVS      [rm]
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
 [15] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 [15] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [15] /home/User/cvs/dirutd/fileutd  [rm]
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [19] /home/User/cvs/filenew.c       f      5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -4410,44 +5365,88 @@ myClient's list:
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 [22] /home/User/crash               d      0 755
 [22] /home/User/crash/file          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
 [15] /home/User/cvs/dirutd          [rm]
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
 [15] /home/User/cvs/dirutd/CVS      [rm]
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
 [15] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 [15] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [15] /home/User/cvs/dirutd/fileutd  [rm]
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [19] /home/User/cvs/filenew.c       f      5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -4632,44 +5631,88 @@ myClient's list:
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 [22] /home/User/crash               d      0 755
 [22] /home/User/crash/file          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs                 d      0 755
+[ 3] /home/User/cvs                 d     -1 000
 [ 1] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 3] /home/User/cvs/CVS             [rm]
 [ 1] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
 [ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
 [ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
 [ 1] /home/User/cvs/CVS/Whatever    f     17 644 9283e2c51868272850bd2d89b63c58e8-0
 [12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d      0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
 [ 1] /home/User/cvs/CVS/Wherever    d      0 755
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [ 1] /home/User/cvs/CVS/Wherever/Whichever f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 6] /home/User/cvs/big_file        f 512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 4] /home/User/cvs/dirbad          d      0 755
+[ 3] /home/User/cvs/dirbad          [rm]
 [ 1] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
 [ 1] /home/User/cvs/dirbad/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
 [ 1] /home/User/cvs/dirbad/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d      0 755
+[ 3] /home/User/cvs/diroth          [rm]
 [ 1] /home/User/cvs/diroth          d      0 755
 [15] /home/User/cvs/dirutd          [rm]
+[ 4] /home/User/cvs/dirutd          d      0 755
+[ 3] /home/User/cvs/dirutd          [rm]
 [ 1] /home/User/cvs/dirutd          d      0 755
 [15] /home/User/cvs/dirutd/CVS      [rm]
+[ 4] /home/User/cvs/dirutd/CVS      d      0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
 [ 1] /home/User/cvs/dirutd/CVS      d      0 755
 [15] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Entries f     42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
 [15] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Root f     10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [ 1] /home/User/cvs/dirutd/CVS/Whatever f     11 644 caecaacc7fdee8a7667d4f4f315858a9-0
 [12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
 [ 1] /home/User/cvs/dirutd/fileoth  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [15] /home/User/cvs/dirutd/fileutd  [rm]
+[ 4] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
 [ 1] /home/User/cvs/dirutd/fileutd  f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
 [ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [19] /home/User/cvs/filenew.c       f      5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 4] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
 [ 1] /home/User/cvs/filenew.c       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
 [ 1] /home/User/cvs/fileoth         f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
 [ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -4909,15 +5952,15 @@ myClient's list:
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 [22] /home/User/crash               d      0 755
 [22] /home/User/crash/file          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/cvs                 d      0 755
-[ 1] /home/User/cvs/CVS             d      0 755
-[ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
-[ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
 [12] /home/User/cvs/CVS/Wherever    [rm]
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [12] /home/User/cvs/big_file        [rm]
-[ 1] /home/User/cvs/dirbad          d      0 755
+[ 4] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
 [12] /home/User/cvs/dirbad/fileutd  [rm]
 [12] /home/User/cvs/diroth          [rm]
@@ -4928,10 +5971,10 @@ myClient's list:
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [12] /home/User/cvs/dirutd/fileoth  [rm]
 [15] /home/User/cvs/dirutd/fileutd  [rm]
-[ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [19] /home/User/cvs/filenew.c       f      5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 [12] /home/User/cvs/fileoth         [rm]
-[ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l     12 777 linked space
@@ -5135,15 +6178,15 @@ myClient's list:
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 [22] /home/User/crash               d      0 755
 [22] /home/User/crash/file          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/cvs                 d      0 755
-[ 1] /home/User/cvs/CVS             d      0 755
-[ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
-[ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
 [12] /home/User/cvs/CVS/Wherever    [rm]
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [12] /home/User/cvs/big_file        [rm]
-[ 1] /home/User/cvs/dirbad          d      0 755
+[ 4] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
 [12] /home/User/cvs/dirbad/fileutd  [rm]
 [12] /home/User/cvs/diroth          [rm]
@@ -5154,10 +6197,10 @@ myClient's list:
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [12] /home/User/cvs/dirutd/fileoth  [rm]
 [15] /home/User/cvs/dirutd/fileutd  [rm]
-[ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [19] /home/User/cvs/filenew.c       f      5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 [12] /home/User/cvs/fileoth         [rm]
-[ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l     12 777 linked space
@@ -5354,15 +6397,15 @@ myClient's list:
 [ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
 [22] /home/User/crash               d      0 755
 [22] /home/User/crash/file          f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/cvs                 d      0 755
-[ 1] /home/User/cvs/CVS             d      0 755
-[ 1] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
-[ 1] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs                 d      0 755
+[ 4] /home/User/cvs/CVS             d      0 755
+[ 4] /home/User/cvs/CVS/Entries     f    161 644 fef51838cd3cfe8ed96355742eb71fbd-0
+[ 4] /home/User/cvs/CVS/Root        f     16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
 [12] /home/User/cvs/CVS/Whatever    [rm]
 [12] /home/User/cvs/CVS/Wherever    [rm]
 [12] /home/User/cvs/CVS/Wherever/Whichever [rm]
 [12] /home/User/cvs/big_file        [rm]
-[ 1] /home/User/cvs/dirbad          d      0 755
+[ 4] /home/User/cvs/dirbad          d      0 755
 [12] /home/User/cvs/dirbad/fileoth  [rm]
 [12] /home/User/cvs/dirbad/fileutd  [rm]
 [12] /home/User/cvs/diroth          [rm]
@@ -5373,10 +6416,10 @@ myClient's list:
 [12] /home/User/cvs/dirutd/CVS/Whatever [rm]
 [12] /home/User/cvs/dirutd/fileoth  [rm]
 [15] /home/User/cvs/dirutd/fileutd  [rm]
-[ 1] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [19] /home/User/cvs/filenew.c       f      5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 [12] /home/User/cvs/fileoth         [rm]
-[ 1] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d      0 755
 [ 1] /home/User/dir space/file space f      0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l     12 777 linked space

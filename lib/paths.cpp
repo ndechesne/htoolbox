@@ -103,22 +103,14 @@ int ClientPath::parse_recurse(
           OpData op(rem_path, **i);
 
           // Parse directory, disregard/re-use some irrelevant fields
+          bool create_list_failed = false;
           if ((*i)->type() == 'd') {
             Directory& d = static_cast<Directory&>(**i);
             d.setMtime(0);
             d.setSize(0);
             if (d.createList()) {
               d.deleteList();
-              char* full_name;
-              if (asprintf(&full_name, "%s:%s/%s", client_name, remote_path,
-                           d.name()) < 0) {
-                out(alert, msg_errno, "creating final path", errno,
-                  remote_path);
-                give_up = true;
-              } else {
-                out(error, msg_errno, "reading directory", errno, full_name);
-                free(full_name);
-              }
+              create_list_failed = true;
               if ((errno != EACCES)     // Ignore access refused
               &&  (errno != ENOENT)) {  // Ignore directory gone
                 // All the rest results in a cease and desist order
@@ -157,6 +149,20 @@ int ClientPath::parse_recurse(
               give_up = true;
             }
             op.verbose(code);
+
+            if (create_list_failed && ! (attributes.reportCopyErrorOnceIsSet()
+                && op.sameListEntry())) {
+              char* full_name = NULL;
+              if (asprintf(&full_name, "%s:%s/%s", client_name, remote_path,
+                  (*i)->name()) < 0) {
+                out(alert, msg_errno, "creating final path", errno,
+                  remote_path);
+                give_up = true;
+              } else {
+                out(error, msg_errno, "reading directory", errno, full_name);
+                free(full_name);
+              }
+            }
             out(info, msg_standard, rem_path, -2, code);
           }
 

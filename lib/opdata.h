@@ -40,8 +40,9 @@ public:
     : _operation(' '), _type(' '), _info(' '), _id(-1), _compression(0),
       _path(path), _node(node), _same_list_entry(false) {}
   void setCompression(int compression) { _compression = compression; }
-  int compression()  { return _compression; }
-  bool needsAdding() { return _operation != ' '; }
+  int compression() const              { return _compression;        }
+  bool sameListEntry() const           { return _same_list_entry;    }
+  bool needsAdding() const             { return _operation != ' ';   }
   void verbose(char* code) {
     // File information
     code[0] = _operation;
