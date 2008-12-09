@@ -91,6 +91,7 @@ int main(void) {
 
   cout << "first with subdir NOT readable" << endl;
   sys_rc = system("chmod 000 test1/subdir");
+  sys_rc = system("chmod 000 test1/subdirfile");
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {
@@ -113,9 +114,62 @@ int main(void) {
     db.close();
   }
 
+
+  // Next test
+  cout << endl << "As previous" << endl;
+  my_time++;
+  db.open();
+
+  mkdir("test1/.hbackup", 0755);
+  path->show();
+  db.openClient("myClient");
+  if (! path->parse(db, "test1", "host")) {
+    cout << "Parsed " << path->nodes() << " file(s)\n";
+  }
+  db.closeClient();
+
+  if (db.close()) {
+    return 0;
+  }
+
+  // Show list contents
+  cout << endl << "myClient's list:" << endl;
+  dblist.show(-1, 2000000000, 24 * 3600);
+  // Show journal contents
+  cout << endl << "myClient's journal:" << endl;
+  journal.show(-1, 2000000000, 24 * 3600);
+
+
+  // Next test
+  cout << endl << "As previous, with copy error reported once" << endl;
+  path->attributes.setReportCopyErrorOnce();
+  my_time++;
+  db.open();
+
+  mkdir("test1/.hbackup", 0755);
+  path->show();
+  db.openClient("myClient");
+  if (! path->parse(db, "test1", "host")) {
+    cout << "Parsed " << path->nodes() << " file(s)\n";
+  }
+  db.closeClient();
+
+  if (db.close()) {
+    return 0;
+  }
+
+  // Show list contents
+  cout << endl << "myClient's list:" << endl;
+  dblist.show(-1, 2000000000, 24 * 3600);
+  // Show journal contents
+  cout << endl << "myClient's journal:" << endl;
+  journal.show(-1, 2000000000, 24 * 3600);
+
+
   // Next test
   cout << endl << "As previous, with subdir/testfile NOT readable" << endl;
   sys_rc = system("chmod 755 test1/subdir");
+  sys_rc = system("chmod 644 test1/subdirfile");
   sys_rc = system("chmod 000 test1/subdir/testfile");
   my_time++;
   db.open();
