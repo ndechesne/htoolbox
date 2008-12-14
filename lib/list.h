@@ -83,10 +83,8 @@ class List : public Stream {
   struct            Private;
   Private* const    _d;
   friend class ListReader;
-  // Buffer relevant line
-  ssize_t fetchLine(bool use_found = false);
-  // Encode line from metadata
 public:
+  // Encode line from metadata
   static int encodeLine(
     char*           line[],
     time_t          timestamp,

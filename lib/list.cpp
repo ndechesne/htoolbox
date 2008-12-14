@@ -64,103 +64,6 @@ struct List::Private {
   LineStatus        line_status;
 };
 
-List::List(Path path) : Stream(path), _d(new Private) {}
-
-ListReader::ListReader(Path path) : Stream(path), _d(new Private) {}
-
-List::~List() {
-  delete _d;
-}
-
-ListReader::~ListReader() {
-  delete _d;
-}
-
-int List::open() {
-  const char header[] = "# version 4";
-
-  if (Stream::open(O_WRONLY, 0, false)) {
-    return -1;
-  }
-  if (Stream::putLine(header) < 0) {
-    Stream::close();
-    return -1;
-  }
-  _d->status      = empty;
-  _d->line_status = no_data;
-  return 0;
-}
-
-int ListReader::open() {
-  // Put same header in both until a new version becomes necessary
-  const char header[]     = "# version 4";
-  const char old_header[] = "# version 4";
-
-  if (Stream::open(O_RDONLY, 0, false)) {
-    return -1;
-  }
-  // Check rights
-  if (Stream::getLine(_d->line) < 0) {
-    Stream::close();
-    return -1;
-  }
-  int rc = 0;
-  // Expected header?
-  if (strcmp(_d->line, header) == 0) {
-    _d->old_version = false;
-  } else
-  // Old header?
-  if (strcmp(_d->line, old_header) == 0) {
-    _d->old_version = true;
-  } else
-  // Unknown header
-  {
-    rc = -1;
-  }
-  _d->status      = ok;
-  _d->line_status = no_data;
-  // Get first line to check for empty list
-  fetchLine();
-  if (_d->status == _error) {
-    rc = -1;
-  } else
-  if (_d->status == eof) {
-    _d->status = empty;
-  } else
-  {
-    // Re-use data
-    _d->line_status = new_data;
-  }
-  return rc;
-}
-
-int List::close() {
-  const char footer[] = "# end\n";
-  int rc = 0;
-
-  if (Stream::write(footer, strlen(footer)) < 0) {
-    out(error, msg_errno, "writing list footer", errno, path());
-    rc = -1;
-  }
-  if (Stream::close()) {
-    out(error, msg_errno, "closing list", errno, path());
-    rc = -1;
-  }
-  return rc;
-}
-
-bool ListReader::isOldVersion() const {
-  return _d->old_version;
-}
-
-bool List::isEmpty() const {
-  return _d->status == empty;
-}
-
-bool ListReader::isEmpty() const {
-  return _d->status == empty;
-}
-
 ssize_t ListReader::fetchLine(bool use_found) {
   // Check current status
   switch (_d->status) {
@@ -207,16 +110,61 @@ ssize_t ListReader::fetchLine(bool use_found) {
   return rc;
 }
 
-// Insert line into buffer
-ssize_t List::putLine(const char* line) {
-  if (_d->line_status == new_data) {
+ListReader::ListReader(Path path) : Stream(path), _d(new Private) {}
+
+ListReader::~ListReader() {
+  delete _d;
+}
+
+int ListReader::open() {
+  // Put same header in both until a new version becomes necessary
+  const char header[]     = "# version 4";
+  const char old_header[] = "# version 4";
+
+  if (Stream::open(O_RDONLY, 0, false)) {
     return -1;
   }
-  _d->line        = line;
-  _d->line_status = new_data;
-  // Remove empty status
+  // Check rights
+  if (Stream::getLine(_d->line) < 0) {
+    Stream::close();
+    return -1;
+  }
+  int rc = 0;
+  // Expected header?
+  if (strcmp(_d->line, header) == 0) {
+    _d->old_version = false;
+  } else
+  // Old header?
+  if (strcmp(_d->line, old_header) == 0) {
+    _d->old_version = true;
+  } else
+  // Unknown header
+  {
+    rc = -1;
+  }
   _d->status      = ok;
-  return 0;
+  _d->line_status = no_data;
+  // Get first line to check for empty list
+  fetchLine();
+  if (_d->status == _error) {
+    rc = -1;
+  } else
+  if (_d->status == eof) {
+    _d->status = empty;
+  } else
+  {
+    // Re-use data
+    _d->line_status = new_data;
+  }
+  return rc;
+}
+
+bool ListReader::isOldVersion() const {
+  return _d->old_version;
+}
+
+bool ListReader::isEmpty() const {
+  return _d->status == empty;
 }
 
 // Insert line into buffer
@@ -233,91 +181,6 @@ ssize_t ListReader::putLine(const char* line) {
 
 void ListReader::keepLine() {
   _d->line_status = new_data;
-}
-
-int List::encodeLine(
-    char**          linep,
-    time_t          timestamp,
-    const Node*     node) {
-  int size;
-
-  if (node == NULL) {
-    size = asprintf(linep, "\t%ld\t-", timestamp);
-  } else {
-    const char* extra;
-    switch (node->type()) {
-      case 'f': {
-        extra = (static_cast<const File*>(node))->checksum();
-      } break;
-      case 'l': {
-        extra = (static_cast<const Link*>(node))->link();
-      } break;
-      default:
-        extra = "";
-    }
-    size = asprintf(linep, "\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o\t%s",
-      timestamp, node->type(), node->size(), node->mtime(), node->uid(),
-      node->gid(), node->mode(), extra);
-    // Remove trailing tab
-    if (extra[0] == '\0') {
-      (*linep)[--size] = '\0';
-    }
-  }
-  return size;
-}
-
-int List::decodeLine(
-    const char*     line,
-    time_t*         ts,
-    const char*     path,
-    Node**          node) {
-  // Fields
-  char        type;             // file type
-  long long   size;             // on-disk size, in bytes
-  time_t      mtime;            // time of last modification
-  uid_t       uid;              // user ID of owner
-  gid_t       gid;              // group ID of owner
-  mode_t      mode;             // permissions
-  char*       extra = NULL;     // linked file or checksum or null
-
-  int num;
-  if (node != NULL) {
-    num = sscanf(line, "\t%ld\t%c\t%Ld\t%ld\t%d\t%d\t%o\t%a[^\t]",
-      ts, &type, &size, &mtime, &uid, &gid, &mode, &extra);
-  } else {
-    num = sscanf(line, "\t%ld\t%c\t",
-      ts, &type);
-  }
-
-  // Check number of params
-  if (num < 0) {
-    return -1;
-  }
-  if (num < 2) {
-    out(error, msg_standard, "Wrong number of arguments for line");
-    return -1;
-  }
-
-  // Return extracted data
-  if (node != NULL) {
-    switch (type) {
-    case 'f':
-      *node = new File(path, type, mtime, size, uid, gid, mode,
-        extra ? extra : "");
-      break;
-    case 'l':
-      *node = new Link(path, type, mtime, size, uid, gid, mode,
-        extra ? extra : "");
-      break;
-    case '-':
-      *node = NULL;
-      break;
-    default:
-      *node = new Node(path, type, mtime, size, uid, gid, mode);
-    }
-  }
-  free(extra);
-  return 0;
 }
 
 char ListReader::getLineType() {
@@ -420,40 +283,6 @@ int ListReader::getEntry(
     }
   }
   return 1;
-}
-
-int List::add(
-    const char*     path,
-    time_t          timestamp,
-    const Node*     node,
-    bool            bufferize) {
-  if (path != NULL) {
-    if (Stream::putLine(path) != static_cast<ssize_t>(strlen(path) + 1)) {
-      return -1;
-    }
-    // Remove empty status
-    _d->status = ok;
-  }
-  if (timestamp < 0) {
-    return 0;
-  }
-
-  char* line = NULL;
-  int   size = encodeLine(&line, timestamp, node);
-  int   rc   = 0;
-
-  if ((timestamp == 0) && bufferize) {
-    // Send line to search method, so it can deal with exception
-    putLine(line);
-  } else
-  if (Stream::putLine(line) != (size + 1)) {
-    rc = -1;
-  } else {
-    // Remove empty status
-    _d->status = ok;
-  }
-  free(line);
-  return rc;
 }
 
 int ListReader::search(
@@ -589,6 +418,223 @@ int ListReader::search(
   return -1;
 }
 
+void ListReader::show(
+    time_t          date,
+    time_t          time_start,
+    time_t          time_base) {
+  if (! open()) {
+    if (isEmpty()) {
+      printf("List is empty\n");
+      return;
+    }
+    time_t ts;
+    char*  path = NULL;
+    Node*  node = NULL;
+    int rc = 0;
+    while ((rc = getEntry(&ts, &path, &node, date)) > 0) {
+      time_t timestamp = 0;
+      if (ts != 0) {
+        timestamp = ts - time_start;
+        if (time_base > 1) {
+          timestamp /= time_base;
+        }
+      }
+      printf("[%2ld] %-30s", timestamp, path);
+      if (node != NULL) {
+        printf(" %c %6lld %03o", node->type(), node->size(), node->mode());
+        if (node->type() == 'f') {
+          printf(" %s", static_cast<const File*>(node)->checksum());
+        }
+        if (node->type() == 'l') {
+          printf(" %s", static_cast<const Link*>(node)->link());
+        }
+      } else {
+        printf(" [rm]");
+      }
+      printf("\n");
+    }
+    free(path);
+    free(node);
+    close();
+    if (rc < 0) {
+      out(error, msg_standard, "Failed to read list");
+    }
+  } else {
+    out(error, msg_standard, "Failed to open list");
+  }
+}
+
+int List::encodeLine(
+    char**          linep,
+    time_t          timestamp,
+    const Node*     node) {
+  int size;
+
+  if (node == NULL) {
+    size = asprintf(linep, "\t%ld\t-", timestamp);
+  } else {
+    const char* extra;
+    switch (node->type()) {
+      case 'f': {
+        extra = (static_cast<const File*>(node))->checksum();
+      } break;
+      case 'l': {
+        extra = (static_cast<const Link*>(node))->link();
+      } break;
+      default:
+        extra = "";
+    }
+    size = asprintf(linep, "\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o\t%s",
+      timestamp, node->type(), node->size(), node->mtime(), node->uid(),
+      node->gid(), node->mode(), extra);
+    // Remove trailing tab
+    if (extra[0] == '\0') {
+      (*linep)[--size] = '\0';
+    }
+  }
+  return size;
+}
+
+int List::decodeLine(
+    const char*     line,
+    time_t*         ts,
+    const char*     path,
+    Node**          node) {
+  // Fields
+  char        type;             // file type
+  long long   size;             // on-disk size, in bytes
+  time_t      mtime;            // time of last modification
+  uid_t       uid;              // user ID of owner
+  gid_t       gid;              // group ID of owner
+  mode_t      mode;             // permissions
+  char*       extra = NULL;     // linked file or checksum or null
+
+  int num;
+  if (node != NULL) {
+    num = sscanf(line, "\t%ld\t%c\t%Ld\t%ld\t%d\t%d\t%o\t%a[^\t]",
+      ts, &type, &size, &mtime, &uid, &gid, &mode, &extra);
+  } else {
+    num = sscanf(line, "\t%ld\t%c\t",
+      ts, &type);
+  }
+
+  // Check number of params
+  if (num < 0) {
+    return -1;
+  }
+  if (num < 2) {
+    out(error, msg_standard, "Wrong number of arguments for line");
+    return -1;
+  }
+
+  // Return extracted data
+  if (node != NULL) {
+    switch (type) {
+    case 'f':
+      *node = new File(path, type, mtime, size, uid, gid, mode,
+        extra ? extra : "");
+      break;
+    case 'l':
+      *node = new Link(path, type, mtime, size, uid, gid, mode,
+        extra ? extra : "");
+      break;
+    case '-':
+      *node = NULL;
+      break;
+    default:
+      *node = new Node(path, type, mtime, size, uid, gid, mode);
+    }
+  }
+  free(extra);
+  return 0;
+}
+
+List::List(Path path) : Stream(path), _d(new Private) {}
+
+List::~List() {
+  delete _d;
+}
+
+int List::open() {
+  const char header[] = "# version 4";
+
+  if (Stream::open(O_WRONLY, 0, false)) {
+    return -1;
+  }
+  if (Stream::putLine(header) < 0) {
+    Stream::close();
+    return -1;
+  }
+  _d->status      = empty;
+  _d->line_status = no_data;
+  return 0;
+}
+
+int List::close() {
+  const char footer[] = "# end\n";
+  int rc = 0;
+
+  if (Stream::write(footer, strlen(footer)) < 0) {
+    out(error, msg_errno, "writing list footer", errno, path());
+    rc = -1;
+  }
+  if (Stream::close()) {
+    out(error, msg_errno, "closing list", errno, path());
+    rc = -1;
+  }
+  return rc;
+}
+
+bool List::isEmpty() const {
+  return _d->status == empty;
+}
+
+// Insert line into buffer
+ssize_t List::putLine(const char* line) {
+  if (_d->line_status == new_data) {
+    return -1;
+  }
+  _d->line        = line;
+  _d->line_status = new_data;
+  // Remove empty status
+  _d->status      = ok;
+  return 0;
+}
+
+int List::add(
+    const char*     path,
+    time_t          timestamp,
+    const Node*     node,
+    bool            bufferize) {
+  if (path != NULL) {
+    if (Stream::putLine(path) != static_cast<ssize_t>(strlen(path) + 1)) {
+      return -1;
+    }
+    // Remove empty status
+    _d->status = ok;
+  }
+  if (timestamp < 0) {
+    return 0;
+  }
+
+  char* line = NULL;
+  int   size = encodeLine(&line, timestamp, node);
+  int   rc   = 0;
+
+  if ((timestamp == 0) && bufferize) {
+    // Send line to search method, so it can deal with exception
+    putLine(line);
+  } else
+  if (Stream::putLine(line) != (size + 1)) {
+    rc = -1;
+  } else {
+    // Remove empty status
+    _d->status = ok;
+  }
+  free(line);
+  return rc;
+}
+
 int List::merge(
     ListReader&     list,
     ListReader&     journal) {
@@ -682,50 +728,4 @@ int List::merge(
     }
   }
   return 0;
-}
-
-void ListReader::show(
-    time_t          date,
-    time_t          time_start,
-    time_t          time_base) {
-  if (! open()) {
-    if (isEmpty()) {
-      printf("List is empty\n");
-      return;
-    }
-    time_t ts;
-    char*  path = NULL;
-    Node*  node = NULL;
-    int rc = 0;
-    while ((rc = getEntry(&ts, &path, &node, date)) > 0) {
-      time_t timestamp = 0;
-      if (ts != 0) {
-        timestamp = ts - time_start;
-        if (time_base > 1) {
-          timestamp /= time_base;
-        }
-      }
-      printf("[%2ld] %-30s", timestamp, path);
-      if (node != NULL) {
-        printf(" %c %6lld %03o", node->type(), node->size(), node->mode());
-        if (node->type() == 'f') {
-          printf(" %s", static_cast<const File*>(node)->checksum());
-        }
-        if (node->type() == 'l') {
-          printf(" %s", static_cast<const Link*>(node)->link());
-        }
-      } else {
-        printf(" [rm]");
-      }
-      printf("\n");
-    }
-    free(path);
-    free(node);
-    close();
-    if (rc < 0) {
-      out(error, msg_standard, "Failed to read list");
-    }
-  } else {
-    out(error, msg_standard, "Failed to open list");
-  }
 }
