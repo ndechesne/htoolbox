@@ -67,7 +67,7 @@ int main(void) {
 
   mkdir("test_db", 0755);
   Owner o("test_db", "client", 10);
-  List owner_list("test_db/client/list");
+  ListReader owner_list_reader("test_db/client/list");
   string remote_path = "/remote/path/";
   cout << "Name: " << o.name() << endl;
   cout << "Path: " << o.path() << endl;
@@ -101,7 +101,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  owner_list.show();
+  owner_list_reader.show();
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
 
@@ -129,7 +129,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  owner_list.show();
+  owner_list_reader.show();
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
 
@@ -157,7 +157,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  owner_list.show();
+  owner_list_reader.show();
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
 
@@ -187,7 +187,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  owner_list.show();
+  owner_list_reader.show();
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
   hbackup::abort(0xffff);
@@ -204,7 +204,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  owner_list.show();
+  owner_list_reader.show();
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
 
@@ -212,7 +212,7 @@ int main(void) {
   cout << endl << "Recover client (empty journal)" << endl;
   {
     List journal("test_db/client/journal");
-    journal.open(O_WRONLY);
+    journal.open();
     journal.close();
   }
   rc = o.open(false, false);
@@ -226,7 +226,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  owner_list.show();
+  owner_list_reader.show();
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
 
@@ -234,7 +234,7 @@ int main(void) {
   cout << endl << "Recover client (empty, not closed journal)" << endl;
   {
     List journal("test_db/client/journal2");
-    journal.open(O_WRONLY);
+    journal.open();
     journal.close();
     sys_rc = system("head -1 test_db/client/journal2 > test_db/client/journal");
     sys_rc = system("rm test_db/client/journal2");
@@ -250,7 +250,7 @@ int main(void) {
     return 0;
   }
   cout << "List:" << endl;
-  owner_list.show();
+  owner_list_reader.show();
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
 

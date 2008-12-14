@@ -56,11 +56,12 @@ time_t time(time_t *t) {
 }
 
 int main(void) {
-  string  checksum;
-  string  zchecksum;
-  int     status;
-  List    dblist("test_db/myClient/list");
-  int     sys_rc;
+  string      checksum;
+  string      zchecksum;
+  int         status;
+  List        dblist("test_db/myClient/list");
+  ListReader  dblist_reader("test_db/myClient/list");
+  int         sys_rc;
 
   setVerbosityLevel(debug);
   Database db("test_db");
@@ -295,7 +296,7 @@ int main(void) {
 
   db.close();
 
-  dblist.show();
+  dblist_reader.show();
 
   cout << endl << "Test: do nothing" << endl;
   if ((status = db.open())) {
@@ -306,7 +307,7 @@ int main(void) {
   }
   db.close();
 
-  dblist.show();
+  dblist_reader.show();
 
   list<string> records;
   cout << endl << "Test: read clients" << endl;
@@ -434,7 +435,7 @@ int main(void) {
     db2.close();
     db.close();
   }
-  dblist.show();
+  dblist_reader.show();
   cout << "List of paths: " << records.size() << endl;
   for (list<string>::iterator i = records.begin(); i != records.end();
       i++) {

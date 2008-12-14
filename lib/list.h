@@ -21,36 +21,23 @@
 
 namespace hbackup {
 
-class List : public Stream {
+class List;
+
+class ListReader : public Stream {
   struct            Private;
   Private* const    _d;
+  friend class List;
   // Buffer relevant line
   ssize_t fetchLine(bool use_found = false);
-  // Encode line from metadata
-  int encodeLine(
-    char**          line,
-    time_t          timestamp,
-    const Node*     node);
-  // Decode metadata from line
-  int decodeLine(
-    const char*     line,               // Line to decode
-    time_t*         ts,                 // Line timestamp
-    const char*     path       = NULL,  // File path to store in metadata
-    Node**          node       = NULL); // File metadata
 public:
-  List(
+  ListReader(
     Path            path);
-  ~List();
-  // Open file, for read or write (no append), with compression (cf. Stream)
-  int open(
-    int             flags,
-    int             compression = 0,
-    bool            checksum    = false);
-  // Close file
-  int close();
+  ~ListReader();
+  // Open file (for read)
+  int open();
   // Version
   bool isOldVersion() const;
-  // Empty file (check right after opening for read)
+  // Empty list (check right after opening)
   bool isEmpty() const;
   // Put line into list buffer (will fail and return -1 if buffer in use)
   ssize_t putLine(const char* line);
@@ -68,15 +55,9 @@ public:
   //    -1: error, 0: end of file, 1: success
   int getEntry(
     time_t*         timestamp,
-    char**          path,
+    char*           path[],
     Node**          node,
     time_t          date = -1);
-  // Add entry to list
-  int add(
-    const char*     path,
-    time_t          timestamp = -1,
-    const Node*     node      = NULL,
-    bool            bufferize = false);
   // Search data in list copying contents on the fly if required, and
   // also expiring data and putting checksums in lists!!!
   // Searches:             Path        Copy
@@ -88,21 +69,58 @@ public:
   // Return code:
   //    -1: error, 0: end of file, 1: exceeded, 2: found
   int search(
-    const char*     path    = NULL,   // Path to search
+    const char      path[]  = NULL,   // Path to search
     List*           list    = NULL,   // List in which to merge changes
     time_t          expire  = -1);    // Expiration date
-  // Merge list and journal into this list
-  //    all lists must be open (checked)
-  // Return code:
-  //    -1: error, 0: success, 1: unexpected end of journal
-  int  merge(
-    List&           list,
-    List&           journal);
   // Show the list
   void show(
     time_t          date       = -1,  // Date to select
     time_t          time_start = 0,   // Origin of time
     time_t          time_base  = 1);  // Time base
+};
+
+class List : public Stream {
+  struct            Private;
+  Private* const    _d;
+  friend class ListReader;
+  // Buffer relevant line
+  ssize_t fetchLine(bool use_found = false);
+  // Encode line from metadata
+public:
+  static int encodeLine(
+    char*           line[],
+    time_t          timestamp,
+    const Node*     node);
+  // Decode metadata from line
+  static int decodeLine(
+    const char      line[],             // Line to decode
+    time_t*         ts,                 // Line timestamp
+    const char      path[]     = NULL,  // File path to store in metadata
+    Node**          node       = NULL); // File metadata
+  List(
+    Path            path);
+  ~List();
+  // Open file, for read or write (no append), with compression (cf. Stream)
+  int open();
+  // Close file
+  int close();
+  // Nothing was journaled
+  bool isEmpty() const;
+  // Put line into list buffer (will fail and return -1 if buffer in use)
+  ssize_t putLine(const char* line);
+  // Add entry to list
+  int add(
+    const char      path[],
+    time_t          timestamp = -1,
+    const Node*     node      = NULL,
+    bool            bufferize = false);
+  // Merge list and journal into this list
+  //    all lists must be open (checked)
+  // Return code:
+  //    -1: error, 0: success, 1: unexpected end of journal
+  int  merge(
+    ListReader&     list,
+    ListReader&     journal);
 };
 
 }

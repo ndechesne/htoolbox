@@ -50,7 +50,7 @@ enum LineStatus {
 
 }
 
-struct List::Private {
+struct ListReader::Private {
   Status            status;
   Line              line;
   LineStatus        line_status;
@@ -58,66 +58,78 @@ struct List::Private {
   bool              old_version;
 };
 
+struct List::Private {
+  Status            status;
+  Line              line;
+  LineStatus        line_status;
+};
+
 List::List(Path path) : Stream(path), _d(new Private) {}
+
+ListReader::ListReader(Path path) : Stream(path), _d(new Private) {}
 
 List::~List() {
   delete _d;
 }
 
-int List::open(
-    int             flags,
-    int             compression,
-    bool            checksum) {
-  // Put future as old for now (testing stage)
-  const char old_header[] = "# version 3";
-  const char header[]     = "# version 4";
-  int        rc           = 0;
+ListReader::~ListReader() {
+  delete _d;
+}
 
-  if (Stream::open(flags, (compression > 0) ? compression : 0, checksum)) {
+int List::open() {
+  const char header[] = "# version 4";
+
+  if (Stream::open(O_WRONLY, 0, false)) {
+    return -1;
+  }
+  if (Stream::putLine(header) < 0) {
+    Stream::close();
+    return -1;
+  }
+  _d->status      = empty;
+  _d->line_status = no_data;
+  return 0;
+}
+
+int ListReader::open() {
+  // Put same header in both until a new version becomes necessary
+  const char header[]     = "# version 4";
+  const char old_header[] = "# version 4";
+
+  if (Stream::open(O_RDONLY, 0, false)) {
+    return -1;
+  }
+  // Check rights
+  if (Stream::getLine(_d->line) < 0) {
+    Stream::close();
+    return -1;
+  }
+  int rc = 0;
+  // Expected header?
+  if (strcmp(_d->line, header) == 0) {
+    _d->old_version = false;
+  } else
+  // Old header?
+  if (strcmp(_d->line, old_header) == 0) {
+    _d->old_version = true;
+  } else
+  // Unknown header
+  {
+    rc = -1;
+  }
+  _d->status      = ok;
+  _d->line_status = no_data;
+  // Get first line to check for empty list
+  fetchLine();
+  if (_d->status == _error) {
     rc = -1;
   } else
-  // Open for write
-  if (isWriteable()) {
-    if (Stream::putLine(header) < 0) {
-      Stream::close();
-      rc = -1;
-    }
-    _d->status      = empty;
-    _d->line_status = no_data;
+  if (_d->status == eof) {
+    _d->status = empty;
   } else
-  // Open for read
   {
-    // Check rights
-    if (Stream::getLine(_d->line) < 0) {
-      Stream::close();
-      rc = -1;
-    } else
-    // Expected header?
-    if (strcmp(_d->line, header) == 0) {
-      _d->old_version = false;
-    } else
-    // Old header?
-    if (strcmp(_d->line, old_header) == 0) {
-      _d->old_version = true;
-    } else
-    // Unknown header
-    {
-      rc = -1;
-    }
-    _d->status      = ok;
-    _d->line_status = no_data;
-    // Get first line to check for empty list
-    fetchLine();
-    if (_d->status == _error) {
-      rc = -1;
-    } else
-    if (_d->status == eof) {
-      _d->status = empty;
-    } else
-    {
-      // Re-use data
-      _d->line_status = new_data;
-    }
+    // Re-use data
+    _d->line_status = new_data;
   }
   return rc;
 }
@@ -126,11 +138,9 @@ int List::close() {
   const char footer[] = "# end\n";
   int rc = 0;
 
-  if (isWriteable()) {
-    if (Stream::write(footer, strlen(footer)) < 0) {
-      out(error, msg_errno, "writing list footer", errno, path());
-      rc = -1;
-    }
+  if (Stream::write(footer, strlen(footer)) < 0) {
+    out(error, msg_errno, "writing list footer", errno, path());
+    rc = -1;
   }
   if (Stream::close()) {
     out(error, msg_errno, "closing list", errno, path());
@@ -139,7 +149,7 @@ int List::close() {
   return rc;
 }
 
-bool List::isOldVersion() const {
+bool ListReader::isOldVersion() const {
   return _d->old_version;
 }
 
@@ -147,7 +157,11 @@ bool List::isEmpty() const {
   return _d->status == empty;
 }
 
-ssize_t List::fetchLine(bool use_found) {
+bool ListReader::isEmpty() const {
+  return _d->status == empty;
+}
+
+ssize_t ListReader::fetchLine(bool use_found) {
   // Check current status
   switch (_d->status) {
     case ok:
@@ -195,17 +209,29 @@ ssize_t List::fetchLine(bool use_found) {
 
 // Insert line into buffer
 ssize_t List::putLine(const char* line) {
-  if ((_d->line_status == no_data) || (_d->line_status == cached_data)) {
-    _d->line        = line;
-    _d->line_status = new_data;
-    // Remove empty status
-    _d->status      = ok;
-    return 0;
+  if (_d->line_status == new_data) {
+    return -1;
   }
-  return -1;
+  _d->line        = line;
+  _d->line_status = new_data;
+  // Remove empty status
+  _d->status      = ok;
+  return 0;
 }
 
-void List::keepLine() {
+// Insert line into buffer
+ssize_t ListReader::putLine(const char* line) {
+  if (_d->line_status == new_data) {
+    return -1;
+  }
+  _d->line        = line;
+  _d->line_status = new_data;
+  // Remove empty status
+  _d->status      = ok;
+  return 0;
+}
+
+void ListReader::keepLine() {
   _d->line_status = new_data;
 }
 
@@ -276,10 +302,12 @@ int List::decodeLine(
   if (node != NULL) {
     switch (type) {
     case 'f':
-      *node = new File(path, type, mtime, size, uid, gid, mode, extra ? extra : "");
+      *node = new File(path, type, mtime, size, uid, gid, mode,
+        extra ? extra : "");
       break;
     case 'l':
-      *node = new Link(path, type, mtime, size, uid, gid, mode, extra ? extra : "");
+      *node = new Link(path, type, mtime, size, uid, gid, mode,
+        extra ? extra : "");
       break;
     case '-':
       *node = NULL;
@@ -292,7 +320,7 @@ int List::decodeLine(
   return 0;
 }
 
-char List::getLineType() {
+char ListReader::getLineType() {
   fetchLine();
   // Status is one of -2: eof!, -1: error, 0: eof, 1: ok
   switch (_d->status) {
@@ -325,7 +353,7 @@ char List::getLineType() {
   }
 }
 
-int List::getEntry(
+int ListReader::getEntry(
     time_t*       timestamp,
     char**        path,
     Node**        node,
@@ -378,7 +406,7 @@ int List::getEntry(
       time_t ts;
       if ((node != NULL) || (timestamp != NULL) || (date > 0)) {
         // Get all arguments from line
-        decodeLine(_d->line, &ts, path == NULL ? "" : *path, node);
+        List::decodeLine(_d->line, &ts, path == NULL ? "" : *path, node);
         if (timestamp != NULL) {
           *timestamp = ts;
         }
@@ -428,7 +456,7 @@ int List::add(
   return rc;
 }
 
-int List::search(
+int ListReader::search(
     const char*     path_l,
     List*           list,
     time_t          expire) {
@@ -508,7 +536,7 @@ int List::search(
             if (expire != 0) {
               // Check timestamp for expiration
               time_t ts = 0;
-              if (! decodeLine(_d->line, &ts) && (ts < expire)) {
+              if (! List::decodeLine(_d->line, &ts) && (ts < expire)) {
                 continue;
               }
             } else {
@@ -562,17 +590,11 @@ int List::search(
 }
 
 int List::merge(
-    List&         list,
-    List&         journal) {
+    ListReader&     list,
+    ListReader&     journal) {
   // Check that all files are open
   if (! isOpen() || ! list.isOpen() || ! journal.isOpen()) {
     out(error, msg_standard, "At least one list is not open");
-    return -1;
-  }
-
-  // Check open mode
-  if (! isWriteable() || list.isWriteable() || journal.isWriteable()) {
-    out(error, msg_standard, "At least one list is not open correctly");
     return -1;
   }
 
@@ -662,11 +684,11 @@ int List::merge(
   return 0;
 }
 
-void List::show(
+void ListReader::show(
     time_t          date,
     time_t          time_start,
     time_t          time_base) {
-  if (! open(O_RDONLY)) {
+  if (! open()) {
     if (isEmpty()) {
       printf("List is empty\n");
       return;

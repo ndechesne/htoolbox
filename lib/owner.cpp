@@ -37,7 +37,7 @@ using namespace hbackup;
 struct Owner::Private {
   char*             path;
   char*             name;
-  List*             original;
+  ListReader*       original;
   List*             journal;
   List*             partial;
   int               expiration;
@@ -73,18 +73,21 @@ int Owner::finishOff(
   // All files are expected to be closed
   bool got_next = recovery && next.isValid();
 
+  // Need to open journal in read mode
+  ListReader journal(_d->journal->path());
+
   // Recovering from list and journal (step 0)
   if (recovery && ! got_next) {
-    if (_d->journal->isValid()) {
+    if (journal.isValid()) {
       // Let's recover what we got
       bool failed = false;
-      if (! _d->journal->open(O_RDONLY)) {
-        if (! _d->journal->isEmpty()) {
+      if (! journal.open()) {
+        if (! journal.isEmpty()) {
           out(verbose, msg_standard, _d->name, -1, "Database modified");
-          if (! _d->partial->open(O_WRONLY)) {
-            if (! _d->original->open(O_RDONLY)) {
+          if (! _d->partial->open()) {
+            if (! _d->original->open()) {
               _d->original->setProgressCallback(_d->progress);
-              if (_d->partial->merge(*_d->original, *_d->journal) < 0) {
+              if (_d->partial->merge(*_d->original, journal) < 0) {
                 out(error, msg_standard, "Merge failed");
                 failed = true;
               }
@@ -103,10 +106,10 @@ int Owner::finishOff(
             failed = true;
           }
         }
-        _d->journal->close();
-        if (_d->journal->isEmpty()) {
+        journal.close();
+        if (journal.isEmpty()) {
           // Nothing to do (journal is empty)
-          _d->journal->remove();
+          journal.remove();
           return 0;
         }
       } else {
@@ -211,8 +214,8 @@ int Owner::hold() const {
     return -1;
   }
 
-  _d->original = new List(file_name.str().c_str());
-  if (_d->original->open(O_RDONLY)) {
+  _d->original = new ListReader(file_name.str().c_str());
+  if (_d->original->open()) {
     out(error, msg_standard, "Cannot open list, aborting", -1, _d->name);
     failed = true;
   } else
@@ -271,7 +274,7 @@ int Owner::open(
 
   bool failed = false;
   // Open list
-  _d->original = new List(owner_list.path());
+  _d->original = new ListReader(owner_list.path());
   if (! _d->original->isValid()) {
     File backup((owner_path + "list~").c_str());
 
@@ -280,11 +283,12 @@ int Owner::open(
       out(warning, msg_standard, "List not accessible, using backup", -1,
         _d->name);
     } else if (initialize) {
-      if (_d->original->open(O_WRONLY)) {
+      List original(owner_list.path());
+      if (original.open()) {
         out(error, msg_errno, "creating list", errno, _d->name);
         failed = true;
       } else {
-        _d->original->close();
+        original.close();
         out(info, msg_standard, _d->name, -1, "List created");
       }
     }
@@ -305,17 +309,17 @@ int Owner::open(
   }
   if (! failed && ! check) {
     // Open list
-    if (_d->original->open(O_RDONLY)) {
+    if (_d->original->open()) {
       out(error, msg_errno, "opening list", errno, _d->name);
       failed = true;
     } else
     // Open journal
-    if (_d->journal->open(O_WRONLY, -1)) {
+    if (_d->journal->open()) {
       out(error, msg_errno, "opening journal", errno, _d->name);
       failed = true;
     } else
     // Open list
-    if (_d->partial->open(O_WRONLY)) {
+    if (_d->partial->open()) {
       out(error, msg_errno, "opening merge list", errno, _d->name);
       failed = true;
     }
