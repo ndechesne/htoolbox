@@ -7830,8 +7830,8 @@ Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Data missing
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
 8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
-b90f8fa56ea1d39881d4a199c7a81d35-0 1\r
-                                    \r
+b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
+                                     \r
 Error: b90f8fa56ea1d39881d4a199c7a81d35-0: Data corrupted
 Checksum: 68b329da9893e34099c7d8ad5cb9c940
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
@@ -7839,8 +7839,8 @@ eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-fef51838cd3cfe8ed96355742eb71fbd-0 1         \r
-                                    \r
+fef51838cd3cfe8ed96355742eb71fbd-0 161       \r
+                                      \r
 Error: fef51838cd3cfe8ed96355742eb71fbd-0: Data corrupted
 Checksum: 68b329da9893e34099c7d8ad5cb9c940
 Found 12 valid and 4 broken data files
@@ -7960,16 +7960,16 @@ Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Data missing
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
 8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
-b90f8fa56ea1d39881d4a199c7a81d35-0 1\r
-                                    \r
+b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
+                                     \r
 Warning: b90f8fa56ea1d39881d4a199c7a81d35-0: Data corruption reported
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-fef51838cd3cfe8ed96355742eb71fbd-0 1         \r
-                                    \r
+fef51838cd3cfe8ed96355742eb71fbd-0 161       \r
+                                      \r
 Warning: fef51838cd3cfe8ed96355742eb71fbd-0: Data corruption reported
 Found 12 valid and 4 broken data files
 Database closed
@@ -8092,16 +8092,16 @@ Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Data missing
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
 8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
-b90f8fa56ea1d39881d4a199c7a81d35-0 1\r
-                                    \r
+b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
+                                     \r
 b90f8fa56ea1d39881d4a199c7a81d35-0: Removed corrupted data
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-fef51838cd3cfe8ed96355742eb71fbd-0 1         \r
-                                    \r
+fef51838cd3cfe8ed96355742eb71fbd-0 161       \r
+                                      \r
 fef51838cd3cfe8ed96355742eb71fbd-0: Removed corrupted data
 Found 12 valid and 4 broken data files
 Checksum(s) from list: 15
@@ -8316,22 +8316,22 @@ Reading list: myClient.xp
 Reading list: myhost
 Found 15 checksums
 Crawling through DB
-00000000000000000000000000000000-0 0\r
+00000000000000000000000000000000-0 1\r
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42        \r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-88888888888888888888888888888888-0 0         \r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
+88888888888888888888888888888888-0 1000      \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30  \r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-ffffffffffffffffffffffffffffffff-0 0         \r
-                                    \r
+ffffffffffffffffffffffffffffffff-0 1000000   \r
+                                          \r
 Found 15 valid and 0 broken data files
 Checksum(s) from list: 15
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
@@ -8350,13 +8350,13 @@ Checksum(s) from list: 15
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
 Checksum(s) with data: 15
- -> 00000000000000000000000000000000-0, 0
+ -> 00000000000000000000000000000000-0, 1
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
- -> 88888888888888888888888888888888-0, 0
+ -> 88888888888888888888888888888888-0, 1000
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
@@ -8364,7 +8364,7 @@ Checksum(s) with data: 15
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
- -> ffffffffffffffffffffffffffffffff-0, 0
+ -> ffffffffffffffffffffffffffffffff-0, 1000000
 Obsolete checksum(s): 4
  -> 00000000000000000000000000000000-0
  -> 6d7fce9fee471194aa8b5b6e47267f03-0
@@ -8388,22 +8388,22 @@ Reading list: myClient.xp
 Reading list: myhost
 Found 15 checksums
 Crawling through DB
-00000000000000000000000000000000-0 0\r
+00000000000000000000000000000000-0 1\r
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42        \r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-88888888888888888888888888888888-0 0         \r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
+88888888888888888888888888888888-0 1000      \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30  \r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-ffffffffffffffffffffffffffffffff-0 0         \r
-                                    \r
+ffffffffffffffffffffffffffffffff-0 1000000   \r
+                                          \r
 Found 15 valid and 0 broken data files
 Checksum(s) from list: 15
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
@@ -8422,13 +8422,13 @@ Checksum(s) from list: 15
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
 Checksum(s) with data: 15
- -> 00000000000000000000000000000000-0, 0
+ -> 00000000000000000000000000000000-0, 1
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
- -> 88888888888888888888888888888888-0, 0
+ -> 88888888888888888888888888888888-0, 1000
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
@@ -8436,7 +8436,7 @@ Checksum(s) with data: 15
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
- -> ffffffffffffffffffffffffffffffff-0, 0
+ -> ffffffffffffffffffffffffffffffff-0, 1000000
 Obsolete checksum(s): 4
  -> 00000000000000000000000000000000-0: removed
  -> 6d7fce9fee471194aa8b5b6e47267f03-0: removed
@@ -8620,15 +8620,17 @@ Reading list: myhost
 Found 15 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-33333333333333333333333333333333-0 0\r
+33333333333333333333333333333333-0 3\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42        \r
-77777777777777777777777777777777-0 0 \r
+77777777777777777777777777777777-0 7 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
 8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
-dddddddddddddddddddddddddddddddd-0 0\r
+                                    \r
+Error: dddddddddddddddddddddddddddddddd-0: Metadata missing
+dddddddddddddddddddddddddddddddd-0 -1\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
@@ -8653,15 +8655,15 @@ Checksum(s) from list: 15
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
 Checksum(s) with data: 14
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
- -> 33333333333333333333333333333333-0, 0
+ -> 33333333333333333333333333333333-0, 3
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
- -> 77777777777777777777777777777777-0, 0
+ -> 77777777777777777777777777777777-0, 7
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
- -> dddddddddddddddddddddddddddddddd-0, 0
+ -> dddddddddddddddddddddddddddddddd-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -8689,15 +8691,17 @@ Reading list: myhost
 Found 15 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-33333333333333333333333333333333-0 0\r
+33333333333333333333333333333333-0 3\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42        \r
-77777777777777777777777777777777-0 0 \r
+77777777777777777777777777777777-0 7 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
 8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
-dddddddddddddddddddddddddddddddd-0 0\r
+                                    \r
+Error: dddddddddddddddddddddddddddddddd-0: Metadata missing
+dddddddddddddddddddddddddddddddd-0 -1\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
@@ -8722,15 +8726,15 @@ Checksum(s) from list: 15
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
 Checksum(s) with data: 14
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
- -> 33333333333333333333333333333333-0, 0
+ -> 33333333333333333333333333333333-0, 3
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
- -> 77777777777777777777777777777777-0, 0
+ -> 77777777777777777777777777777777-0, 7
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
- -> dddddddddddddddddddddddddddddddd-0, 0
+ -> dddddddddddddddddddddddddddddddd-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -9172,6 +9176,7 @@ Missing checksums list updated
 List of problematic checksums contains 2 item(s)
 Database closed
 data
+meta
 Config for test_db/.configs/client.xp
 subset "xp"
 path "C:\Test Dir\"
@@ -9586,6 +9591,8 @@ Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported ssh
 List of problematic checksums contains 2 item(s)
 Database closed
+
+Test: scan shows recovered data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Automatic compression
@@ -9751,6 +9758,8 @@ Warning: Problematic checksum(s): 3
 Missing checksums list updated
 List of problematic checksums contains 3 item(s)
 Database closed
+
+Test: check finds corrupted data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Automatic compression
@@ -9874,6 +9883,8 @@ fef51838cd3cfe8ed96355742eb71fbd-0 161\r
                                       \r
 Found 14 valid and 1 broken data files
 Database closed
+
+Test: scan removes corrupted data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Automatic compression

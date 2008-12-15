@@ -632,7 +632,7 @@ cvs\r
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:262)
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:595)
    hbackup::HBackup::backup(bool) (interface.cpp:531)
-   main (hbackup.cpp:447)
+   main (hbackup.cpp:450)
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
@@ -1002,7 +1002,7 @@ cvs\r
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:262)
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:595)
    hbackup::HBackup::backup(bool) (interface.cpp:531)
-   main (hbackup.cpp:447)
+   main (hbackup.cpp:450)
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431

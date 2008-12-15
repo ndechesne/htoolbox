@@ -308,6 +308,9 @@ int main(int argc, char **argv) {
       verbose_level = hbackup::debug;
     }
 
+    // Send chosen verbosity level to hbackup (used to save computation)
+    setVerbosityLevel(verbose_level);
+
     // Set progress callback function
     if (verbose_level >= hbackup::verbose) {
       hbackup::setProgressCallback(progress);

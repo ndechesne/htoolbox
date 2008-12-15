@@ -57,6 +57,10 @@ class Report {
 public:
   // Create/get current instance of this singleton
   static Report* self();
+  // Get current output verbosity level
+  VerbosityLevel verbosityLevel() const {
+    return _level;
+  }
   // Set output verbosity level
   void setVerbosityLevel(
     VerbosityLevel  level);

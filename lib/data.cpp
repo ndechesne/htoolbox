@@ -582,14 +582,9 @@ int Data::write(
       if (rename(dest->path(), name)) {
         out(error, msg_errno, "moving file", errno, name);
         failed = true;
-      } else
-      if (compress != 0) {
-        // Add metadata file if compressed (no action on failure)
+      } else {
+        // Always add metadata (size) file (no action on failure)
         setOriginalSize(final_path, source.dataSize());
-      } else
-      {
-        // Remove metadata file if not compressed
-        File(Path(final_path, "meta")).remove();
       }
       free(name);
     }
@@ -653,15 +648,11 @@ int Data::check(
   }
   // Get original file size
   long long original_size;
-  if (no > 0) {
-    original_size = getOriginalSize(path.c_str());
-    if ((original_size < 0) && (errno == ENOENT)) {
-      out(error, msg_standard, "Metadata missing", -1, checksum);
-    }
-  } else {
-    original_size = data->size();
+  original_size = getOriginalSize(path.c_str());
+  if ((original_size < 0) && (errno == ENOENT)) {
+    out(error, msg_standard, "Metadata missing", -1, checksum);
   }
-  {
+  if (Report::self()->verbosityLevel() >= verbose) {
     char* size_str;
     if (((no == 0) && (asprintf(&size_str, "%lld", original_size) < 0))
     ||  ((no > 0)
