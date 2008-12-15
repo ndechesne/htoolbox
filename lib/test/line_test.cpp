@@ -202,6 +202,16 @@ int main(void) {
     cout << "line"; line->show();
     cout << "line2"; line2->show();
 
+    cout << "Swap" << endl;
+    line2->swap(*line);
+    cout << "line"; line->show();
+    cout << "line2"; line2->show();
+
+    cout << "Swap back" << endl;
+    line->swap(*line2);
+    cout << "line"; line->show();
+    cout << "line2"; line2->show();
+
     cout << "Delete line2" << endl;
     delete line2;
     cout << "line"; line->show();

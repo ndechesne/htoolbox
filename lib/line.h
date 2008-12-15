@@ -371,6 +371,11 @@ public:
     }
     return *this;
   }
+  void swap(Line& other) {
+    LineBuffer* temp = _line;
+    _line = other._line;
+    other._line = temp;
+  }
   const Line& erase(unsigned int pos = 0) {
     if (_line->_instances > 1) {
       _line->_instances--;

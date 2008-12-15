@@ -72,6 +72,12 @@ line2 bf 9 in 2 cp 128 sz 14 'defghijklmnoyz'
 Erase from line2
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 line2 bf 10 in 1 cp 128 sz 4 'defg'
+Swap
+line bf 10 in 1 cp 128 sz 4 'defg'
+line2 bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
+Swap back
+line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
+line2 bf 10 in 1 cp 128 sz 4 'defg'
 Delete line2
 line bf 9 in 1 cp 128 sz 14 'defghijklmnoyz'
 
