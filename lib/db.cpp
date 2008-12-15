@@ -695,14 +695,6 @@ int Database::add(
     bool            report_copy_error_once) {
   bool failed = false;
 
-  // Prepare timestamp
-  time_t ts;
-  if (op._same_list_entry) {
-    ts = 0;
-  } else {
-    ts = time(NULL);
-  }
-
   // Add new record to active list
   if ((op._node.type() == 'l') && ! op._node.parsed()) {
     out(error, msg_standard, "Bug in db add: link was not parsed!");
@@ -767,7 +759,7 @@ int Database::add(
   // Even if failed, add data if new
   if (! failed || ! op._same_list_entry) {
     // Add entry info to journal
-    if (_d->owner->add(op._path, &op._node, ts) < 0) {
+    if (_d->owner->add(op._path, &op._node, time(NULL)) < 0) {
       out(error, msg_standard, "Cannot add to client's list");
       failed = true;
     }

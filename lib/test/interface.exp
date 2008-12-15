@@ -9729,7 +9729,7 @@ Checksum(s) from list: 16
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
- -> d41d8cd98f00b204e9800998ecf8427e-0, 0
+ -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -9751,12 +9751,13 @@ Checksum(s) with data: 15
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 185
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Warning: Problematic checksum(s): 3
+Warning: Problematic checksum(s): 4
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0: inconsistent
  -> 59ca0efa9f5633cb0371bbc0355478d8-0: missing
+ -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0: inconsistent
 Missing checksums list updated
-List of problematic checksums contains 3 item(s)
+List of problematic checksums contains 4 item(s)
 Database closed
 
 Test: check finds corrupted data
@@ -10021,7 +10022,7 @@ Checksum(s) from list: 16
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
- -> d41d8cd98f00b204e9800998ecf8427e-0, 0
+ -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
@@ -10042,12 +10043,15 @@ Checksum(s) with data: 14
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Warning: Problematic checksum(s): 2
+Warning: Problematic checksum(s): 3
  -> 59ca0efa9f5633cb0371bbc0355478d8-0: missing
+ -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0: missing
 Missing checksums list updated
-List of problematic checksums contains 2 item(s)
+List of problematic checksums contains 3 item(s)
 Database closed
+
+Test: third backup should not recover again
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> Automatic compression
@@ -10151,6 +10155,7 @@ Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
 Reading list of problematic checksums
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
  -> Missing: fb00cd74a5f35e89a7fbdd3c1d05375a-0
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
@@ -10391,7 +10396,7 @@ Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported ssh
 Missing checksums list updated
-List of problematic checksums contains 1 item(s)
+List of problematic checksums contains 2 item(s)
 Database closed
 Config for test_db/.configs/client.xp
 subset "xp"
@@ -10569,6 +10574,7 @@ Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
 Reading list of problematic checksums
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
+ -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
@@ -10576,7 +10582,7 @@ Error: aClient.vista:C:/Test Dir: No such file or directory reading initial dire
 Error: Aborting client
 Database closed: aClient.vista
  -> umount -fl test_db/.mount/aClient.vista
-List of problematic checksums contains 1 item(s)
+List of problematic checksums contains 2 item(s)
 Database closed
 Config for test_db/.configs/client.xp
 subset "xp"

@@ -200,7 +200,7 @@ int main(void) {
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
-  journal.add("file sp", 0, node);
+  journal.add("file sp", time(NULL), node);
   free(node);
 
   node = new Stream("test1/testfile");

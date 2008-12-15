@@ -341,25 +341,6 @@ int ListReader::search(
       } else {
         // Got data
         if (list != NULL) {
-          // Deal with exception
-          if (list->_d->line_status == new_data) {
-            list->_d->line_status = no_data;
-            // Find tab just after the timestamp
-            int pos = _d->line.find('\t', 1);
-            if (pos < 0) {
-              return -1;
-            }
-            // Re-create line using previous data
-            _d->line.append(&list->_d->line[2], pos);
-          } else
-          // Check for exception
-          if (strncmp(_d->line, "\t0\t", 3) == 0) {
-            list->putLine(_d->line);
-
-            // Do not copy: merge with following line
-            continue;
-          }
-
           // Check for expiry
           if (! active_data_line && (expire >= 0)) {
             if (expire != 0) {
@@ -602,10 +583,9 @@ ssize_t List::putLine(const char* line) {
 }
 
 int List::add(
-    const char*     path,
+    const char      path[],
     time_t          timestamp,
-    const Node*     node,
-    bool            bufferize) {
+    const Node*     node) {
   if (path != NULL) {
     if (Stream::putLine(path) != static_cast<ssize_t>(strlen(path) + 1)) {
       return -1;
@@ -621,10 +601,6 @@ int List::add(
   int   size = encodeLine(&line, timestamp, node);
   int   rc   = 0;
 
-  if ((timestamp == 0) && bufferize) {
-    // Send line to search method, so it can deal with exception
-    putLine(line);
-  } else
   if (Stream::putLine(line) != (size + 1)) {
     rc = -1;
   } else {
@@ -717,10 +693,8 @@ int List::merge(
         return -1;
       }
 
-      // If exception, try to put in list buffer (will succeed) otherwise write
-      if (((strncmp(journal._d->line, "\t0\t", 3) != 0)
-        || (list.putLine(journal._d->line) < 0))
-       && (Stream::putLine(journal._d->line) < 0)) {
+      // Write
+      if (Stream::putLine(journal._d->line) < 0) {
         // Could not write
         out(error, msg_standard, "Journal copy failed");
         return -1;

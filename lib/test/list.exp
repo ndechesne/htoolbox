@@ -22,13 +22,14 @@ Test: merge read
 Test: journal write again
 
 Test: journal read
-[ 0] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 5] file_new                       f     20 750 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: journal merge into list
 
 Test: merge read
-[ 1] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file sp                        f      0 644 
 [ 1] file_gone                      [rm]
 [ 5] file_new                       f     20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] file_new                       f     13 750 59ca0efa9f5633cb0371bbc0355478d8
@@ -58,26 +59,28 @@ Error: journal: 3: Path out of order
 Failed to merge
 
 Test: merge read
-[ 1] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file sp                        f      0 644 
 [ 1] file_gone                      [rm]
 [10] file_new                       f     20 750 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: expire
 List:
-[ 1] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file sp                        f      0 644 
 [ 1] file_gone                      [rm]
 [ 5] file_new                       f     20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] file_new                       f     13 750 59ca0efa9f5633cb0371bbc0355478d8
 [ 1] link                           l      8 777 testfile
 [ 1] path                           d      0 755
 Date: 4
-[ 1] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 1] file_gone                      [rm]
 [ 5] file_new                       f     20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] link                           l      8 777 testfile
 [ 1] path                           d      0 755
 Date: 0
-[ 1] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 1] file_gone                      [rm]
 [ 5] file_new                       f     20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] link                           l      8 777 testfile
@@ -85,14 +88,16 @@ Date: 0
 
 Test: copy all data
 List:
-[ 1] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file sp                        f      0 644 
 [ 1] file_gone                      [rm]
 [ 5] file_new                       f     20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] file_new                       f     13 750 59ca0efa9f5633cb0371bbc0355478d8
 [ 1] link                           l      8 777 testfile
 [ 1] path                           d      0 755
 Merge:
-[ 1] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file sp                        f      0 644 
 [ 1] file_gone                      [rm]
 [ 5] file_new                       f     20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] file_new                       f     13 750 59ca0efa9f5633cb0371bbc0355478d8
@@ -103,7 +108,8 @@ Merge tail:
 
 Test: get latest entry only
 List:
-[ 1] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file sp                        f      0 644 
 [ 1] file_gone                      [rm]
 [13] file_new                       f     22 750 246dccb0301976d765609dfb0efd68f9
 [ 5] file_new                       f     20 750 12fec763b7f0a7d6acfc8bfe7606c325
@@ -113,7 +119,7 @@ List:
 
 Test: last entries data
 List:
-[ 1] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 1] file_gone                      [rm]
 [13] file_new                       f     22 750 246dccb0301976d765609dfb0efd68f9
 [ 1] link                           l      8 777 testfile
@@ -122,7 +128,7 @@ List:
 Test: entries for given date
 Date: 5
 List:
-[ 1] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 1] file_gone                      [rm]
 [ 5] file_new                       f     20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] link                           l      8 777 testfile
@@ -142,7 +148,8 @@ Warning: test_db/journal: Unexpected end of journal
 
 Test: merge read
 [14] file sp                        f      0 644 
-[ 1] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 5] file sp                        f      0 644 d41d8cd98f00b204e9800998ecf8427e
+[ 1] file sp                        f      0 644 
 [14] file_gone                      [rm]
 [ 1] file_gone                      [rm]
 [14] file_new                       f     22 750 246dccb0301976d765609dfb0efd68f9

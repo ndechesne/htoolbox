@@ -110,13 +110,12 @@ public:
   int add(
     const char      path[],
     time_t          timestamp = -1,
-    const Node*     node      = NULL,
-    bool            bufferize = false);
+    const Node*     node      = NULL);
   // Merge list and journal into this list
   //    all lists must be open (checked)
   // Return code:
   //    -1: error, 0: success, 1: unexpected end of journal
-  int  merge(
+  int merge(
     ListReader&     list,
     ListReader&     journal);
 };

@@ -551,7 +551,7 @@ int Owner::add(
     const Node*     node,
     time_t          timestamp) {
   return ((_d->journal->add(path, timestamp, node) < 0)
-  ||      (_d->partial->add(NULL, timestamp, node, true) < 0)) ? -1 : 0;
+  ||      (_d->partial->add(NULL, timestamp, node) < 0)) ? -1 : 0;
 }
 
 int Owner::getNextRecord(

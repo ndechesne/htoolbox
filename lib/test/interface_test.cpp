@@ -878,6 +878,8 @@ int main(void) {
   hbackup->scan();
   hbackup->close();
   delete hbackup;
+
+  cout << endl << "Test: third backup should not recover again" << endl;
   // Again, back up does not need to recover again
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
