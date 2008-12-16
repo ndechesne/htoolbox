@@ -35,12 +35,8 @@ public:
   ~ListReader();
   // Open file (for read)
   int open();
-  // Version
-  bool isOldVersion() const;
   // Empty list (check right after opening)
   bool isEmpty() const;
-  // Put line into list buffer (will fail and return -1 if buffer in use)
-  ssize_t putLine(const char* line);
   // Mark cached line for re-use
   void keepLine();
   // Get current line type (will get a new line if necessary)
@@ -104,8 +100,6 @@ public:
   int close();
   // Nothing was journaled
   bool isEmpty() const;
-  // Put line into list buffer (will fail and return -1 if buffer in use)
-  ssize_t putLine(const char* line);
   // Add entry to list
   int add(
     const char      path[],

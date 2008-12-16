@@ -36,7 +36,7 @@ namespace hbackup {
 
 enum Status {
   // Order matters as we may check for (status < ok) or (status >= eof)
-  _error = -1,              // an error occured
+  failed = -1,              // an error occured
   ok,                       // nothing to report
   eof,                      // end of file reached
   empty                     // list is empty
@@ -69,7 +69,7 @@ ssize_t ListReader::fetchLine(bool use_found) {
   switch (_d->status) {
     case ok:
       break;
-    case _error:
+    case failed:
       return -1;
     case empty:
     case eof:
@@ -86,7 +86,7 @@ ssize_t ListReader::fetchLine(bool use_found) {
     ssize_t length = Stream::getLine(_d->line, &eol);
     // Read error
     if (length < 0) {
-      _d->status = _error;
+      _d->status = failed;
     } else
     // Unexpected end of list
     if (length == 0) {
@@ -146,7 +146,7 @@ int ListReader::open() {
   _d->line_status = no_data;
   // Get first line to check for empty list
   fetchLine();
-  if (_d->status == _error) {
+  if (_d->status == failed) {
     rc = -1;
   } else
   if (_d->status == eof) {
@@ -159,24 +159,8 @@ int ListReader::open() {
   return rc;
 }
 
-bool ListReader::isOldVersion() const {
-  return _d->old_version;
-}
-
 bool ListReader::isEmpty() const {
   return _d->status == empty;
-}
-
-// Insert line into buffer
-ssize_t ListReader::putLine(const char* line) {
-  if (_d->line_status == new_data) {
-    return -1;
-  }
-  _d->line        = line;
-  _d->line_status = new_data;
-  // Remove empty status
-  _d->status      = ok;
-  return 0;
 }
 
 void ListReader::keepLine() {
@@ -193,7 +177,7 @@ char ListReader::getLineType() {
     case empty:
       // Eof
       return 'E';
-    case _error:
+    case failed:
       // Failure
       return 'F';
   }
@@ -227,7 +211,7 @@ int ListReader::getEntry(
     *node = NULL;
   }
 
-  bool    got_path;
+  bool got_path;
   if (date < 0) {
     got_path = true;
   } else {
@@ -366,14 +350,14 @@ int ListReader::search(
       if ((_d->line_status != no_data) || (_d->status >= eof)) {
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
-          if (list->Stream::putLine(path_l) < 0) {
+          if (list->putLine(path_l) < 0) {
             // Could not write
             return -1;
           }
         }
       } else
       // Our data is here or after, so let's copy if required
-      if (list->Stream::putLine(_d->line) < 0) {
+      if (list->putLine(_d->line) < 0) {
         // Could not write
         return -1;
       }
@@ -542,7 +526,7 @@ int List::open() {
   if (Stream::open(O_WRONLY, 0, false)) {
     return -1;
   }
-  if (Stream::putLine(header) < 0) {
+  if (putLine(header) < 0) {
     Stream::close();
     return -1;
   }
@@ -570,24 +554,12 @@ bool List::isEmpty() const {
   return _d->status == empty;
 }
 
-// Insert line into buffer
-ssize_t List::putLine(const char* line) {
-  if (_d->line_status == new_data) {
-    return -1;
-  }
-  _d->line        = line;
-  _d->line_status = new_data;
-  // Remove empty status
-  _d->status      = ok;
-  return 0;
-}
-
 int List::add(
     const char      path[],
     time_t          timestamp,
     const Node*     node) {
   if (path != NULL) {
-    if (Stream::putLine(path) != static_cast<ssize_t>(strlen(path) + 1)) {
+    if (putLine(path) != static_cast<ssize_t>(strlen(path) + 1)) {
       return -1;
     }
     // Remove empty status
@@ -601,7 +573,7 @@ int List::add(
   int   size = encodeLine(&line, timestamp, node);
   int   rc   = 0;
 
-  if (Stream::putLine(line) != (size + 1)) {
+  if (putLine(line) != (size + 1)) {
     rc = -1;
   } else {
     // Remove empty status
@@ -694,7 +666,7 @@ int List::merge(
       }
 
       // Write
-      if (Stream::putLine(journal._d->line) < 0) {
+      if (putLine(journal._d->line) < 0) {
         // Could not write
         out(error, msg_standard, "Journal copy failed");
         return -1;

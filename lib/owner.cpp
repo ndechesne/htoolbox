@@ -136,7 +136,7 @@ int Owner::finishOff(
     string backup = _d->journal->path();
     backup += "~";
     if (rename(_d->journal->path(), backup.c_str())) {
-      out(error, msg_errno, "rename journal failed", errno);
+      out(error, msg_errno, "renaming journal", errno);
       return -1;
     }
   }
@@ -144,14 +144,14 @@ int Owner::finishOff(
   // list -> list~ (step 3)
   if (! got_next || _d->original->isValid()) {
     if (rename(_d->original->path(), (name + "~").c_str())) {
-      out(error, msg_errno, "rename backup list failed", errno);
+      out(error, msg_errno, "renaming backup list", errno);
       return -1;
     }
   }
 
   // list.next -> list (step 4)
   if (rename(next.path(), _d->original->path())) {
-    out(error, msg_errno, "rename list failed", errno);
+    out(error, msg_errno, "renaming list", errno);
     return -1;
   }
   return 0;
@@ -200,7 +200,6 @@ int Owner::hold() const {
     return -1;
   }
 
-  bool failed = false;
   File owner_list(Path(owner_dir.path(), "list"));
   if (! owner_list.isValid()) {
     out(error, msg_standard, "List not accessible, aborting", -1, _d->name);
@@ -210,22 +209,13 @@ int Owner::hold() const {
   stringstream file_name;
   file_name << owner_list.path() << "." << getpid();
   if (link(owner_list.path(), file_name.str().c_str())) {
-    out(error, msg_standard, "Could not create hard link to list, aborting");
+    out(error, msg_errno, "creating hard link to list, aborting");
     return -1;
   }
 
   _d->original = new ListReader(file_name.str().c_str());
   if (_d->original->open()) {
-    out(error, msg_standard, "Cannot open list, aborting", -1, _d->name);
-    failed = true;
-  } else
-  if (_d->original->isOldVersion()) {
-    out(error, msg_standard,
-      "List in old format (try running hbackup in backup mode to update)"
-      ", aborting");
-    failed = true;
-  }
-  if (failed) {
+    out(error, msg_errno, "opening list, aborting", -1, _d->name);
     release();
     return -1;
   }

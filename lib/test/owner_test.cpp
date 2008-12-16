@@ -59,6 +59,35 @@ time_t time(time_t *t) {
   return my_time;
 }
 
+static int showList(const char* path) {
+  Stream list(path);
+  if (list.open(O_RDONLY)) {
+    cout << strerror(errno) << " opening list at '" << path << "'" << endl;
+    return -1;
+  }
+  Line line;
+  while (list.getLine(line)) {
+    if (line[0] != '\t') {
+      // Header, footer or path
+      cout << line << endl;
+    } else {
+      time_t ts;
+      Node*  node = NULL;
+      List::decodeLine(line, &ts, "", &node);
+      cout << "\t" << ts << "\t";
+      if (node != NULL) {
+        printf("%c\t%6lld\t%03o", node->type(), node->size(), node->mode());
+      } else {
+        cout << '-';
+      }
+      cout << endl;
+      delete node;
+    }
+  }
+  list.close();
+  return 0;
+}
+
 int main(void) {
   int sys_rc;
 
@@ -102,6 +131,7 @@ int main(void) {
   }
   cout << "List:" << endl;
   owner_list_reader.show();
+  showList(owner_list_reader.path());
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
 
