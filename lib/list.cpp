@@ -418,7 +418,7 @@ void ListReader::show(
       }
       printf("[%2ld] %-30s", timestamp, path);
       if (node != NULL) {
-        printf(" %c %6lld %03o", node->type(), node->size(), node->mode());
+        printf(" %c %8lld %03o", node->type(), node->size(), node->mode());
         if (node->type() == 'f') {
           printf(" %s", static_cast<const File*>(node)->checksum());
         }

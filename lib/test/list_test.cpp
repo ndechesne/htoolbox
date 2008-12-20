@@ -38,9 +38,9 @@ time_t time(time_t *t) {
 }
 
 static void showLine(time_t timestamp, char* path, Node* node) {
-  printf("[%2ld] %-16s", timestamp, path);
+  printf("[%2ld] %-30s", timestamp, path);
   if (node != NULL) {
-    printf(" %c %5llu %03o", node->type(), node->size(), node->mode());
+    printf(" %c %8lld %03o", node->type(), node->size(), node->mode());
     if (node->type() == 'f') {
       printf(" %s", static_cast<File*>(node)->checksum());
     }
@@ -125,7 +125,7 @@ int main(void) {
   if (journal_reader.open() < 0) {
     cerr << "Failed to open journal: " << strerror(errno) << endl;
   } else {
-    if (journal.isEmpty()) {
+    if (journal_reader.isEmpty()) {
       cout << "Journal is empty" << endl;
     } else
     while ((rc = journal_reader.getEntry(&ts, &path, &node)) > 0) {
