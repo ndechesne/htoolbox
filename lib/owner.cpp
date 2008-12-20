@@ -78,61 +78,58 @@ int Owner::finishOff(
 
   // Recovering from list and journal (step 0)
   if (recovery && ! got_next) {
-    if (journal.isValid()) {
-      // Let's recover what we got
+    // Let's recover what we got
+    errno = 0;
+    if (! journal.open()) {
       bool failed = false;
-      if (! journal.open()) {
-        if (! journal.isEmpty()) {
-          out(verbose, msg_standard, _d->name, -1, "Database modified");
-          if (! _d->partial->open()) {
-            if (! _d->original->open()) {
-              _d->original->setProgressCallback(_d->progress);
-              if (_d->partial->merge(*_d->original, journal) < 0) {
-                out(error, msg_standard, "Merge failed");
-                failed = true;
-              }
-              _d->original->setProgressCallback(NULL);
-              _d->original->close();
-            } else {
-              out(error, msg_standard, "Open list failed");
+      if (! journal.isEmpty()) {
+        out(verbose, msg_standard, _d->name, -1, "Database modified");
+        if (! _d->partial->open()) {
+          if (! _d->original->open()) {
+            _d->original->setProgressCallback(_d->progress);
+            if (_d->partial->merge(*_d->original, journal) < 0) {
+              out(error, msg_standard, "Merge failed");
               failed = true;
             }
-            if (_d->partial->close()) {
-              out(error, msg_standard, "Close merge failed");
-              failed = true;
-            }
+            _d->original->setProgressCallback(NULL);
+            _d->original->close();
           } else {
-            out(error, msg_standard, "Open merge failed");
+            out(error, msg_errno, "opening list", errno);
             failed = true;
           }
+          if (_d->partial->close()) {
+            out(error, msg_errno, "closing merge", errno);
+            failed = true;
+          }
+        } else {
+          out(error, msg_errno, "opening merge", errno);
+          failed = true;
         }
-        journal.close();
-        if (journal.isEmpty()) {
-          // Nothing to do (journal is empty)
-          journal.remove();
-          return 0;
-        }
-      } else {
-        out(error, msg_standard, "Open journal failed");
-        failed = true;
+      }
+      journal.close();
+      if (journal.isEmpty()) {
+        // Nothing to do (journal is empty)
+        remove(journal.path());
+        return 0;
       }
       if (failed) {
         return -1;
       }
-    } else {
-      // Nothing to do (no list.next => list exists)
-      return 0;
+    } else
+    if (errno != ENOENT) {
+      out(error, msg_errno, "opening journal", errno);
+      return -1;
     }
   }
 
   // list._d->partial -> list.next (step 1)
   if (! got_next && rename(_d->partial->path(), next.path())) {
-    out(error, msg_errno, "rename next list failed", errno);
+    out(error, msg_errno, "renaming next list", errno);
     return -1;
   }
 
   // Discard journal (step 2)
-  if (! got_next || _d->journal->isValid()) {
+  if (! got_next || File(_d->journal->path()).isValid()) {
     string backup = _d->journal->path();
     backup += "~";
     if (rename(_d->journal->path(), backup.c_str())) {
@@ -142,7 +139,7 @@ int Owner::finishOff(
   }
 
   // list -> list~ (step 3)
-  if (! got_next || _d->original->isValid()) {
+  if (! got_next || File(_d->original->path()).isValid()) {
     if (rename(_d->original->path(), (name + "~").c_str())) {
       out(error, msg_errno, "renaming backup list", errno);
       return -1;
@@ -224,11 +221,9 @@ int Owner::hold() const {
 
 int Owner::release() const {
   // Close list
-  if (_d->original->isOpen()) {
-    _d->original->close();
-  }
+  _d->original->close();
   // Remove link
-  _d->original->remove();
+  remove(_d->original->path());
   // Delete list
   delete _d->original;
   // for isOpen and isWriteable
@@ -265,7 +260,7 @@ int Owner::open(
   bool failed = false;
   // Open list
   _d->original = new ListReader(owner_list.path());
-  if (! _d->original->isValid()) {
+  if (_d->original->open()) {
     File backup((owner_path + "list~").c_str());
 
     if (backup.isValid()) {
@@ -282,15 +277,18 @@ int Owner::open(
         out(info, msg_standard, _d->name, -1, "List created");
       }
     }
+  } else {
+    _d->original->close();
   }
   if (! failed) {
     // Check journal
     _d->journal = new List((owner_path + "journal").c_str());
     _d->partial = new List((owner_path + "partial").c_str());
-    if (_d->journal->isValid()) {
+    ListReader journal(_d->journal->path());
+    if (! journal.open()) {
       // Check previous crash
-      out(warning, msg_standard, _d->name, -1,
-        "Previous backup interrupted");
+      journal.close();
+      out(warning, msg_standard, _d->name, -1, "Previous backup interrupted");
       if (finishOff(true)) {
         out(error, msg_standard, "Failed to recover previous data");
         failed = true;
@@ -315,13 +313,9 @@ int Owner::open(
     }
   }
   if (failed || check) {
-    if (_d->original->isOpen()) {
-      _d->original->close();
-    }
-    if (_d->journal->isOpen()) {
+    _d->original->close();
+    if (! check) {
       _d->journal->close();
-    }
-    if (_d->partial->isOpen()) {
       _d->partial->close();
     }
     delete _d->original;
@@ -361,7 +355,7 @@ int Owner::close(
     // Check whether any work was done
     if (_d->journal->isEmpty()) {
       // No modification done, don't need journal anymore
-      _d->journal->remove();
+      remove(_d->journal->path());
     } else
     if (! aborting()) {
       out(verbose, msg_standard, _d->name, -1, "Database modified");
@@ -375,7 +369,7 @@ int Owner::close(
     // Check whether we need to merge now
     if (failed || aborting() || _d->journal->isEmpty()) {
       // Merging will occur at next read/write open, if journal exists
-      _d->partial->remove();
+      remove(_d->partial->path());
     } else
     // Merge now
     if (finishOff(false)) {

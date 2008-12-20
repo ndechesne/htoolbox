@@ -16,13 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <sstream>
-#include <list>
-
-#include <string.h>
 #include <errno.h>
-
-using namespace std;
 
 #include "hbackup.h"
 #include "line.h"
@@ -51,17 +45,21 @@ enum LineStatus {
 }
 
 struct ListReader::Private {
+  Stream            stream;
   Status            status;
   Line              line;
   LineStatus        line_status;
   // Set when a previous version is detected
   bool              old_version;
+  Private(const char* path) : stream(path) {}
 };
 
 struct List::Private {
+  Stream            stream;
   Status            status;
   Line              line;
   LineStatus        line_status;
+  Private(const char* path) : stream(path) {}
 };
 
 ssize_t ListReader::fetchLine(bool use_found) {
@@ -83,7 +81,7 @@ ssize_t ListReader::fetchLine(bool use_found) {
   } else {
     // Line contains no re-usable data
     bool    eol;
-    ssize_t length = Stream::getLine(_d->line, &eol);
+    ssize_t length = _d->stream.getLine(_d->line, &eol);
     // Read error
     if (length < 0) {
       _d->status = failed;
@@ -110,7 +108,7 @@ ssize_t ListReader::fetchLine(bool use_found) {
   return rc;
 }
 
-ListReader::ListReader(Path path) : Stream(path), _d(new Private) {}
+ListReader::ListReader(Path path) : _d(new Private(path)) {}
 
 ListReader::~ListReader() {
   delete _d;
@@ -121,12 +119,12 @@ int ListReader::open() {
   const char header[]     = "# version 4";
   const char old_header[] = "# version 4";
 
-  if (Stream::open(O_RDONLY, 0, false)) {
+  if (_d->stream.open(O_RDONLY, 0, false)) {
     return -1;
   }
   // Check rights
-  if (Stream::getLine(_d->line) < 0) {
-    Stream::close();
+  if (_d->stream.getLine(_d->line) < 0) {
+    _d->stream.close();
     return -1;
   }
   int rc = 0;
@@ -157,6 +155,18 @@ int ListReader::open() {
     _d->line_status = new_data;
   }
   return rc;
+}
+
+int ListReader::close() {
+  return _d->stream.close();
+}
+
+const char* ListReader::path() const {
+  return _d->stream.path();
+}
+
+void ListReader::setProgressCallback(progress_f progress) {
+  _d->stream.setProgressCallback(progress);
 }
 
 bool ListReader::isEmpty() const {
@@ -229,7 +239,8 @@ int ListReader::getEntry(
 
     if (length < 0) {
       if (_d->status == eof) {
-        out(error, msg_standard, "Unexpected end of list", -1, this->path());
+        out(error, msg_standard, "Unexpected end of list", -1,
+          _d->stream.path());
       }
       return -1;
     }
@@ -299,7 +310,8 @@ int ListReader::search(
     // Failed
     if (rc < 0) {
       // Unexpected end of list
-      out(error, msg_standard, "Unexpected end of list", -1, path());
+      out(error, msg_standard, "Unexpected end of list", -1,
+        _d->stream.path());
       return -1;
     }
 
@@ -350,14 +362,14 @@ int ListReader::search(
       if ((_d->line_status != no_data) || (_d->status >= eof)) {
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
-          if (list->putLine(path_l) < 0) {
+          if (list->_d->stream.putLine(path_l) < 0) {
             // Could not write
             return -1;
           }
         }
       } else
       // Our data is here or after, so let's copy if required
-      if (list->putLine(_d->line) < 0) {
+      if (list->_d->stream.putLine(_d->line) < 0) {
         // Could not write
         return -1;
       }
@@ -420,7 +432,7 @@ void ListReader::show(
     }
     free(path);
     free(node);
-    close();
+    _d->stream.close();
     if (rc < 0) {
       out(error, msg_standard, "Failed to read list");
     }
@@ -514,7 +526,7 @@ int List::decodeLine(
   return 0;
 }
 
-List::List(Path path) : Stream(path), _d(new Private) {}
+List::List(Path path) : _d(new Private(path)) {}
 
 List::~List() {
   delete _d;
@@ -523,11 +535,11 @@ List::~List() {
 int List::open() {
   const char header[] = "# version 4";
 
-  if (Stream::open(O_WRONLY, 0, false)) {
+  if (_d->stream.open(O_WRONLY, 0, false)) {
     return -1;
   }
-  if (putLine(header) < 0) {
-    Stream::close();
+  if (_d->stream.putLine(header) < 0) {
+    _d->stream.close();
     return -1;
   }
   _d->status      = empty;
@@ -539,15 +551,19 @@ int List::close() {
   const char footer[] = "# end\n";
   int rc = 0;
 
-  if (Stream::write(footer, strlen(footer)) < 0) {
+  if (_d->stream.write(footer, strlen(footer)) < 0) {
     out(error, msg_errno, "writing list footer", errno, path());
     rc = -1;
   }
-  if (Stream::close()) {
+  if (_d->stream.close()) {
     out(error, msg_errno, "closing list", errno, path());
     rc = -1;
   }
   return rc;
+}
+
+const char* List::path() const {
+  return _d->stream.path();
 }
 
 bool List::isEmpty() const {
@@ -559,7 +575,7 @@ int List::add(
     time_t          timestamp,
     const Node*     node) {
   if (path != NULL) {
-    if (putLine(path) != static_cast<ssize_t>(strlen(path) + 1)) {
+    if (_d->stream.putLine(path) != static_cast<ssize_t>(strlen(path) + 1)) {
       return -1;
     }
     // Remove empty status
@@ -573,7 +589,7 @@ int List::add(
   int   size = encodeLine(&line, timestamp, node);
   int   rc   = 0;
 
-  if (putLine(line) != (size + 1)) {
+  if (_d->stream.putLine(line) != (size + 1)) {
     rc = -1;
   } else {
     // Remove empty status
@@ -586,12 +602,6 @@ int List::add(
 int List::merge(
     ListReader&     list,
     ListReader&     journal) {
-  // Check that all files are open
-  if (! isOpen() || ! list.isOpen() || ! journal.isOpen()) {
-    out(error, msg_standard, "At least one list is not open");
-    return -1;
-  }
-
   int rc_list = 1;
 
   // Line read from journal
@@ -666,7 +676,7 @@ int List::merge(
       }
 
       // Write
-      if (putLine(journal._d->line) < 0) {
+      if (_d->stream.putLine(journal._d->line) < 0) {
         // Could not write
         out(error, msg_standard, "Journal copy failed");
         return -1;

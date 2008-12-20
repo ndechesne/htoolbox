@@ -23,7 +23,7 @@ namespace hbackup {
 
 class List;
 
-class ListReader : public Stream {
+class ListReader {
   struct            Private;
   Private* const    _d;
   friend class List;
@@ -35,6 +35,12 @@ public:
   ~ListReader();
   // Open file (for read)
   int open();
+  // Close file
+  int close();
+  // File path
+  const char* path() const;
+  // For progress information
+  void setProgressCallback(progress_f progress);
   // Empty list (check right after opening)
   bool isEmpty() const;
   // Mark cached line for re-use
@@ -75,7 +81,7 @@ public:
     time_t          time_base  = 1);  // Time base
 };
 
-class List : public Stream {
+class List {
   struct            Private;
   Private* const    _d;
   friend class ListReader;
@@ -98,6 +104,8 @@ public:
   int open();
   // Close file
   int close();
+  // File path
+  const char* path() const;
   // Nothing was journaled
   bool isEmpty() const;
   // Add entry to list
@@ -106,7 +114,7 @@ public:
     time_t          timestamp = -1,
     const Node*     node      = NULL);
   // Merge list and journal into this list
-  //    all lists must be open (checked)
+  //    all lists must be open
   // Return code:
   //    -1: error, 0: success, 1: unexpected end of journal
   int merge(
