@@ -31,15 +31,11 @@ namespace hbackup {
 enum Status {
   // Order matters as we may check for (status < ok) or (status >= eof)
   failed = -1,              // an error occured
-  ok,                       // nothing to report
+  got_nothing,              // No relevant data
+  got_path,                 // Got a path
+  got_data,                 // Got data
   eof,                      // end of file reached
   empty                     // list is empty
-};
-
-enum LineStatus {
-  no_data,                  // line contains no valid data
-  cached_data,              // line contains searched-for data
-  new_data                  // line contains new data
 };
 
 }
@@ -47,8 +43,8 @@ enum LineStatus {
 struct ListReader::Private {
   Stream            stream;
   Status            status;
-  Line              line;
-  LineStatus        line_status;
+  Line              data;
+  Path              path;
   // Set when a previous version is detected
   bool              old_version;
   Private(const char* path) : stream(path) {}
@@ -58,54 +54,60 @@ struct List::Private {
   Stream            stream;
   Status            status;
   Line              line;
-  LineStatus        line_status;
   Private(const char* path) : stream(path) {}
 };
 
-ssize_t ListReader::fetchLine(bool use_found) {
+ssize_t ListReader::fetchLine() {
   // Check current status
   switch (_d->status) {
-    case ok:
-      break;
     case failed:
       return -1;
+    case got_nothing:
+      break;
+    case got_path:
+      return _d->path.size();
+    case got_data:
+      return _d->data.size();
     case empty:
     case eof:
       return 0;
   }
-  ssize_t rc = -1;
-  if ((_d->line_status == new_data)
-  || ((_d->line_status == cached_data) && use_found)) {
-    // Line contains data to be re-used
-    rc = _d->line.size();
-  } else {
-    // Line contains no re-usable data
-    bool    eol;
-    ssize_t length = _d->stream.getLine(_d->line, &eol);
-    // Read error
-    if (length < 0) {
-      _d->status = failed;
-    } else
-    // Unexpected end of list
-    if (length == 0) {
-      _d->status = eof;
-    } else
-    // Incorrect end of line
-    if (! eol) {
-      // All lines MUST end in end-of-line character
-      _d->status = eof;
-    } else
-    // End of list
-    if (_d->line[0] == '#') {
-      _d->status = eof;
-      rc = 0;
+  // Line contains no re-usable data
+  bool    eol;
+  ssize_t length = _d->stream.getLine(_d->data, &eol);
+  // Read error
+  if (length < 0) {
+    _d->status = failed;
+  } else
+  // Unexpected end of list
+  if (length == 0) {
+    _d->status = eof;
+  } else
+  // Incorrect end of line
+  if (! eol) {
+    // All lines MUST end in end-of-line character
+    _d->status = eof;
+  } else
+  // End of list
+  if (_d->data[0] == '#') {
+    _d->status = eof;
+    return 0;
+  } else
+  // Usable information
+  {
+    if (_d->data[0] != '\t') {
+      if (strcmp(_d->path, _d->data)) {
+        _d->path.swap(_d->data);
+      } else {
+        out(warning, msg_standard, "Repeated path in list", -1, _d->path);
+      }
+      _d->status = got_path;
     } else {
-      rc = length;
+      _d->status = got_data;
     }
+    return length;
   }
-  // Preventively mark data as used
-  _d->line_status = no_data;
-  return rc;
+  return -1;
 }
 
 ListReader::ListReader(Path path) : _d(new Private(path)) {}
@@ -123,36 +125,34 @@ int ListReader::open() {
     return -1;
   }
   // Check rights
-  if (_d->stream.getLine(_d->line) < 0) {
+  if (_d->stream.getLine(_d->data) < 0) {
     _d->stream.close();
     return -1;
   }
   int rc = 0;
   // Expected header?
-  if (strcmp(_d->line, header) == 0) {
+  if (strcmp(_d->data, header) == 0) {
     _d->old_version = false;
   } else
   // Old header?
-  if (strcmp(_d->line, old_header) == 0) {
+  if (strcmp(_d->data, old_header) == 0) {
     _d->old_version = true;
   } else
   // Unknown header
   {
     rc = -1;
   }
-  _d->status      = ok;
-  _d->line_status = no_data;
+  // Initialise status and path
+  _d->path   = "";
+  _d->status = got_nothing;
   // Get first line to check for empty list
   fetchLine();
   if (_d->status == failed) {
     rc = -1;
   } else
   if (_d->status == eof) {
+      // EOF reached immediately, list is empty
     _d->status = empty;
-  } else
-  {
-    // Re-use data
-    _d->line_status = new_data;
   }
   return rc;
 }
@@ -173,32 +173,39 @@ bool ListReader::isEmpty() const {
   return _d->status == empty;
 }
 
-void ListReader::keepLine() {
-  _d->line_status = new_data;
+void ListReader::keepPath() {
+  if (_d->status == got_nothing) {
+    _d->status = got_path;
+  }
+}
+
+void ListReader::keepData() {
+  if (_d->status == got_nothing) {
+    _d->status = got_data;
+  }
 }
 
 char ListReader::getLineType() {
   fetchLine();
   // Status is one of -2: eof!, -1: error, 0: eof, 1: ok
   switch (_d->status) {
-    case ok:
+    case failed:
+      // Failure
+      return 'F';
+    case got_nothing:
+    case got_path:
+    case got_data:
       break;
     case eof:
     case empty:
       // Eof
       return 'E';
-    case failed:
-      // Failure
-      return 'F';
   }
-  // Line should be re-used
-  _d->line_status = new_data;
-  if (_d->line[0] != '\t') {
-    // Path
+  if (_d->status == got_path) {
     return 'P';
   } else
   {
-    const char* pos = strchr(&_d->line[2], '\t');
+    const char* pos = strchr(&_d->data[2], '\t');
     if (pos == NULL) {
       // Type unaccessible
       return 'T';
@@ -208,6 +215,11 @@ char ListReader::getLineType() {
       return *pos;
     }
   }
+}
+
+int ListReader::getCurrentPath(char** path) const {
+  *path = strdup(_d->path);
+  return (_d->path[0] != '\0') ? 0 : -1;
 }
 
 int ListReader::getEntry(
@@ -221,21 +233,18 @@ int ListReader::getEntry(
     *node = NULL;
   }
 
-  bool got_path;
+  bool get_path;
   if (date < 0) {
-    got_path = true;
+    get_path = false;
   } else {
-    got_path = false;
+    get_path = true;
   }
 
   ssize_t length;
-  while (true) {
+  bool    break_it = false;
+  while (! break_it) {
     // Get line
-    if (date == -2) {
-      length = _d->line.size();
-    } else {
-      length = fetchLine(true);
-    }
+    length = fetchLine();
 
     if (length < 0) {
       if (_d->status == eof) {
@@ -251,31 +260,30 @@ int ListReader::getEntry(
     }
 
     // Path
-    if (_d->line[0] != '\t') {
+    if (_d->status == got_path) {
       if (path != NULL) {
         free(*path);
-        *path = strdup(_d->line);
+        *path = strdup(_d->path);
       }
-      got_path = true;
+      get_path = false;
     } else
 
     // Data
-    if (got_path) {
+    if (! get_path) {
       time_t ts;
       if ((node != NULL) || (timestamp != NULL) || (date > 0)) {
         // Get all arguments from line
-        List::decodeLine(_d->line, &ts, path == NULL ? "" : *path, node);
+        List::decodeLine(_d->data, &ts, path == NULL ? "" : _d->path, node);
         if (timestamp != NULL) {
           *timestamp = ts;
         }
       }
       if ((date <= 0) || (ts <= date)) {
-        break;
+        break_it = true;
       }
     }
-    if (date == -2) {
-      break;
-    }
+    // Reset status
+    _d->status = got_nothing;
   }
   return 1;
 }
@@ -302,6 +310,8 @@ int ListReader::search(
 
   // Need to know whether line of data is active or not
   bool active_data_line = true;
+  bool path_found       = false;
+  bool stop             = false;
 
   while (true) {
     // Read list or get last data
@@ -317,19 +327,17 @@ int ListReader::search(
 
     // Not end of file
     if (rc != 0) {
-      if (_d->line[0] != '\t') {
+      if (_d->status == got_path) {
         // Got a path
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Compare paths
-          path_cmp = Path::compare(path_l, _d->line);
+          path_cmp = Path::compare(path_l, _d->path);
         }
         if (path_cmp <= 0) {
-          if (path_cmp < 0) {
-            // Path exceeded
-            _d->line_status = new_data;
-          } else {
+          stop = true;
+          if (path_cmp == 0) {
             // Looking for path, found
-            _d->line_status = cached_data;
+            path_found = true;
           }
         }
         // Next line of data is active
@@ -342,11 +350,13 @@ int ListReader::search(
             if (expire != 0) {
               // Check timestamp for expiration
               time_t ts = 0;
-              if (! List::decodeLine(_d->line, &ts) && (ts < expire)) {
+              if (! List::decodeLine(_d->data, &ts) && (ts < expire)) {
+                _d->status = got_nothing;
                 continue;
               }
             } else {
               // Always obsolete
+              _d->status = got_nothing;
               continue;
             }
           } // ! active_data_line && (expire >= 0)
@@ -359,7 +369,10 @@ int ListReader::search(
     // New data, add to merge
     if (list != NULL) {
       // Searched path found or status is eof/empty
-      if ((_d->line_status != no_data) || (_d->status >= eof)) {
+      if ((_d->status == eof) || (_d->status == empty) || stop) {
+        if (path_found) {
+          _d->status = got_nothing;
+        }
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
           if (list->_d->stream.putLine(path_l) < 0) {
@@ -369,27 +382,38 @@ int ListReader::search(
         }
       } else
       // Our data is here or after, so let's copy if required
-      if (list->_d->stream.putLine(_d->line) < 0) {
-        // Could not write
-        return -1;
+      if (_d->status == got_path) {
+        if (list->_d->stream.putLine(_d->path) < 0) {
+          // Could not write
+          return -1;
+        }
+      } else
+      if (_d->status == got_data) {
+        if (list->_d->stream.putLine(_d->data) < 0) {
+          // Could not write
+          return -1;
+        }
       }
       // Remove empty status
-      list->_d->status = ok;
+      list->_d->status = got_nothing;
     }
-    // If line status is not 'no_data', return search status
+    // Return search status
     if (_d->status >= eof) {
       return 0;
-    } else
-    switch (_d->line_status) {
-      case cached_data:
-        // Found
-        return 2;
-      case new_data:
-        // Exceeded
-        return 1;
-      case no_data:
-        // Do nothing
-        ;
+    }
+    if (path_found && (path_l == NULL)) {
+      return 2;
+    }
+    if (stop) {
+      return 1;
+    }
+    // Reset status
+    if ((_d->status == got_data) || (_d->status == got_path)) {
+      _d->status = got_nothing;
+    }
+    // Get out, discarding path
+    if (path_found) {
+      return 2;
     }
   }
   return -1;
@@ -402,42 +426,42 @@ void ListReader::show(
   if (! open()) {
     if (isEmpty()) {
       printf("List is empty\n");
-      return;
-    }
-    time_t ts;
-    char*  path = NULL;
-    Node*  node = NULL;
-    int rc = 0;
-    while ((rc = getEntry(&ts, &path, &node, date)) > 0) {
-      time_t timestamp = 0;
-      if (ts != 0) {
-        timestamp = ts - time_start;
-        if (time_base > 1) {
-          timestamp /= time_base;
+    } else {
+      time_t ts;
+      char*  path = NULL;
+      Node*  node = NULL;
+      int rc = 0;
+      while ((rc = getEntry(&ts, &path, &node, date)) > 0) {
+        time_t timestamp = 0;
+        if (ts != 0) {
+          timestamp = ts - time_start;
+          if (time_base > 1) {
+            timestamp /= time_base;
+          }
         }
+        printf("[%2ld] %-30s", timestamp, path);
+        if (node != NULL) {
+          printf(" %c %8lld %03o", node->type(), node->size(), node->mode());
+          if (node->type() == 'f') {
+            printf(" %s", static_cast<const File*>(node)->checksum());
+          }
+          if (node->type() == 'l') {
+            printf(" %s", static_cast<const Link*>(node)->link());
+          }
+        } else {
+          printf(" [rm]");
+        }
+        printf("\n");
       }
-      printf("[%2ld] %-30s", timestamp, path);
-      if (node != NULL) {
-        printf(" %c %8lld %03o", node->type(), node->size(), node->mode());
-        if (node->type() == 'f') {
-          printf(" %s", static_cast<const File*>(node)->checksum());
-        }
-        if (node->type() == 'l') {
-          printf(" %s", static_cast<const Link*>(node)->link());
-        }
-      } else {
-        printf(" [rm]");
+      free(path);
+      free(node);
+      if (rc < 0) {
+        out(error, msg_standard, "Failed to read list");
       }
-      printf("\n");
     }
-    free(path);
-    free(node);
     _d->stream.close();
-    if (rc < 0) {
-      out(error, msg_standard, "Failed to read list");
-    }
   } else {
-    out(error, msg_standard, "Failed to open list");
+    out(error, msg_errno, "opening list", errno, path());
   }
 }
 
@@ -542,8 +566,7 @@ int List::open() {
     _d->stream.close();
     return -1;
   }
-  _d->status      = empty;
-  _d->line_status = no_data;
+  _d->status = empty;
   return 0;
 }
 
@@ -579,7 +602,7 @@ int List::add(
       return -1;
     }
     // Remove empty status
-    _d->status = ok;
+    _d->status = got_nothing;
   }
   if (timestamp < 0) {
     return 0;
@@ -593,7 +616,7 @@ int List::add(
     rc = -1;
   } else {
     // Remove empty status
-    _d->status = ok;
+    _d->status = got_nothing;
   }
   free(line);
   return rc;
@@ -611,7 +634,7 @@ int List::merge(
   Path path;
 
   // Last search status
-  _d->line_status = no_data;
+  _d->status = empty;
 
   // Parse journal
   while (true) {
@@ -644,17 +667,17 @@ int List::merge(
     }
 
     // Got a path
-    if (journal._d->line[0] != '\t') {
+    if (journal._d->status == got_path) {
       // Check path order
       if (path.length() != 0) {
-        if (path.compare(journal._d->line) > 0) {
+        if (path.compare(journal._d->path) > 0) {
           // Cannot go back
           out(error, msg_number, "Path out of order", j_line_no, "journal");
           return -1;
         }
       }
       // Copy new path
-      path = journal._d->line;
+      path = journal._d->path;
       // Search/copy list and append path if needed
       if (rc_list >= 0) {
         rc_list = list.search(path, this);
@@ -676,12 +699,14 @@ int List::merge(
       }
 
       // Write
-      if (_d->stream.putLine(journal._d->line) < 0) {
+      if (_d->stream.putLine(journal._d->data) < 0) {
         // Could not write
         out(error, msg_standard, "Journal copy failed");
         return -1;
       }
     }
+    // Reset status to get next data
+    journal._d->status = got_nothing;
   }
   return 0;
 }

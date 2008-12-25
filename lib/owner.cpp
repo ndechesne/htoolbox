@@ -401,7 +401,7 @@ int Owner::search(
   // For each path
   while (_d->original->search(NULL, _d->partial, _d->expiration) == 2) {
     // Get path
-    if (_d->original->getEntry(NULL, &db_path, NULL, -2) <= 0) {
+    if (_d->original->getCurrentPath(&db_path)) {
       // Error
       out(error, msg_standard, "Failed to get path");
       failed = true;
@@ -415,7 +415,7 @@ int Owner::search(
           // Get metadata
           _d->original->getEntry(NULL, &db_path, node);
           // This metadata needs to be kept, as it will be added after any new
-          _d->original->keepLine();
+          _d->original->keepData();
         }
         break;
       }
@@ -446,7 +446,7 @@ int Owner::search(
   if (path != NULL) {
     _d->partial->add(path);
     if ((cmp > 0) || (*node == NULL)) {
-      _d->original->keepLine();
+      _d->original->keepPath();
     }
   }
   return (cmp > 0) ? 1 : 0;
@@ -587,8 +587,7 @@ int Owner::getChecksums(
     if ((node != NULL) && (node->type() == 'f')) {
       File* f = static_cast<File*>(node);
       if (f->checksum()[0] != '\0') {
-        CompData d(f->checksum(), f->size());
-        checksums.push_back(d);
+        checksums.push_back(CompData(f->checksum(), f->size()));
       }
     }
     if (aborting()) {

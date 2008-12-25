@@ -22,20 +22,18 @@
 namespace hbackup {
 
 class CompData {
-  char*             _checksum;
+  Line              _checksum;
   long long         _size;
   bool              _compressed;
   CompData();
   CompData& operator=(const CompData& c);
 public:
   CompData(const CompData& c) :
-      _checksum(strdup(c._checksum)), _size(c._size),
-      _compressed(c._compressed) {}
-  CompData(const char* c, long long s, bool z = false) :
-      _checksum(strdup(c)), _size(s), _compressed(z) {}
-  ~CompData() { free(_checksum); }
+      _checksum(c._checksum), _size(c._size), _compressed(c._compressed) {}
+  CompData(const Line& c, long long s, bool z = false) :
+      _checksum(c), _size(s), _compressed(z) {}
   void signalBroken() { _size = -1; }
-  inline const char* checksum() const { return _checksum; }
+  inline const Line& checksum() const { return _checksum; }
   inline long long size() const       { return _size; }
   inline bool compressed() const      { return _compressed; }
   bool operator<(const CompData& d)  {

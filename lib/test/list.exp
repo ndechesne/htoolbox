@@ -1,5 +1,8 @@
 Test: DB lists
 
+Test: list creation
+List is empty
+
 Test: journal write
 
 Test: journal read

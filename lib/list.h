@@ -28,7 +28,7 @@ class ListReader {
   Private* const    _d;
   friend class List;
   // Buffer relevant line
-  ssize_t fetchLine(bool use_found = false);
+  ssize_t fetchLine();
 public:
   ListReader(
     Path            path);
@@ -43,13 +43,15 @@ public:
   void setProgressCallback(progress_f progress);
   // Empty list (check right after opening)
   bool isEmpty() const;
-  // Mark cached line for re-use
-  void keepLine();
+  // Mark cached data for re-use
+  void keepPath();
+  void keepData();
   // Get current line type (will get a new line if necessary)
   char getLineType();
+  // Get current path
+  int getCurrentPath(char** path) const;
   // Convert one or several line(s) to data
   // Date:
-  //    -2: do not get lines, only use current
   //    -1: any
   //     0: latest
   //     *: as old or just newer than date

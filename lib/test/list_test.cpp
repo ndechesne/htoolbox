@@ -70,11 +70,16 @@ int main(void) {
   mkdir("test_db", 0755);
   setVerbosityLevel(debug);
 
+
+  cout << endl << "Test: list creation" << endl;
+
   if (dblist.open()) {
-    cerr << "Failed to open list" << endl;
+    cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   dblist.close();
+
+  dblist_reader.show();
 
 
   cout << endl << "Test: journal write" << endl;
@@ -148,7 +153,7 @@ int main(void) {
   my_time++;
 
   if (dblist_reader.open()) {
-    cerr << "Failed to open list" << endl;
+    cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   if (dblist_reader.isEmpty()) {
@@ -224,7 +229,7 @@ int main(void) {
   my_time++;
 
   if (dblist_reader.open()) {
-    cerr << "Failed to open list" << endl;
+    cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   if (dblist_reader.isEmpty()) {
@@ -263,15 +268,14 @@ int main(void) {
   cout << endl << "Test: get all paths" << endl;
   my_time++;
   if (dblist_reader.open()) {
-    cerr << "Failed to open list" << endl;
+    cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   while (dblist_reader.search() == 2) {
-    char *path   = NULL;
-    dblist_reader.getEntry(NULL, &path, NULL, -2);
+    char *path = NULL;
+    dblist_reader.getEntry(NULL, &path, NULL);
     cout << path << endl;
-    // Should give the same result twice, then get type
-    dblist_reader.getEntry(NULL, &path, NULL, -2);
+    dblist_reader.keepData();
     cout << path << ": " << dblist_reader.getLineType() << endl;
     free(path);
   }
@@ -294,12 +298,12 @@ int main(void) {
   journal.add("file_gone", time(NULL), node);
   free(node);
   journal.close();
+  node = NULL;
 
 
   cout << endl << "Test: journal read" << endl;
   my_time++;
 
-  node = NULL;
   journal_reader.show();
 
 
@@ -307,7 +311,7 @@ int main(void) {
   my_time++;
 
   if (dblist_reader.open()) {
-    cerr << "Failed to open list" << endl;
+    cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   if (dblist_reader.isEmpty()) {
@@ -350,7 +354,7 @@ int main(void) {
 
   cout << "Date: 4" << endl;
   if (dblist_reader.open()) {
-    cerr << "Failed to open list" << endl;
+    cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   if (dblist_reader.isEmpty()) {
@@ -372,7 +376,7 @@ int main(void) {
   // All but last
   cout << "Date: 0" << endl;
   if (dblist_reader.open()) {
-    cerr << "Failed to open list" << endl;
+    cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   if (dblist_reader.isEmpty()) {
@@ -397,7 +401,7 @@ int main(void) {
   cout << "List:" << endl;
   dblist_reader.show();
   if (dblist_reader.open()) {
-    cerr << "Failed to open list" << endl;
+    cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   if (dblist_reader.isEmpty()) {
@@ -439,7 +443,7 @@ int main(void) {
   journal.close();
   // Merge
   if (dblist_reader.open()) {
-    cerr << "Failed to open list" << endl;
+    cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   if (dblist_reader.isEmpty()) {
@@ -557,7 +561,7 @@ int main(void) {
   my_time++;
 
   if (dblist_reader.open()) {
-    cerr << "Failed to open list" << endl;
+    cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   if (dblist_reader.isEmpty()) {
