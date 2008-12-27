@@ -1,7 +1,6 @@
 Owner tests
 Name: client
 Path: test_db/client
-Expiration: 10
 
 First operation
 List created: client

@@ -73,7 +73,7 @@ static int showList(const char* path) {
     } else {
       time_t ts;
       Node*  node = NULL;
-      List::decodeLine(line, &ts, "", &node);
+      ListReader::decodeLine(line, &ts, "", &node);
       cout << "\t" << ts << "\t";
       if (node != NULL) {
         printf("%c\t%6lld\t%03o", node->type(), node->size(), node->mode());
@@ -100,12 +100,13 @@ int main(void) {
   string remote_path = "/remote/path/";
   cout << "Name: " << o.name() << endl;
   cout << "Path: " << o.path() << endl;
-  cout << "Expiration: " << o.expiration() << endl;
   o.setProgressCallback(progress);
 
-  int   rc;
-  Node* node;
-  Node* list_node;
+  int     rc;
+  Node*   node;
+  Node*   list_node;
+  OpData* op;
+  Missing missing;
 
   cout << endl << "First operation" << endl;
   rc = o.open(true, false);
@@ -116,10 +117,13 @@ int main(void) {
   node = new File(Path("test1/testfile"));
   node->stat();
   list_node = NULL;
-  rc = o.search((remote_path + node->name()).c_str(), &list_node);
+  op = new OpData((remote_path + node->name()).c_str(), *node);
+  o.send(*op, missing);
   delete list_node;
-  rc = o.add((remote_path + node->name()).c_str(), node, ++my_time);
+  ++my_time;
+  rc = o.add(node);
   delete node;
+  delete op;
   if (rc) {
     cout << "Failed to add: " << rc << endl;
     return 0;
@@ -145,10 +149,13 @@ int main(void) {
   node = new File(Path("test2/testfile"));
   node->stat();
   list_node = NULL;
-  rc = o.search((remote_path + node->name()).c_str(), &list_node);
+  op = new OpData((remote_path + node->name()).c_str(), *node);
+  o.send(*op, missing);
   delete list_node;
-  rc = o.add((remote_path + node->name()).c_str(), node, ++my_time);
+  ++my_time;
+  rc = o.add(node);
   delete node;
+  delete op;
   if (rc) {
     cout << "Failed to add: " << rc << endl;
     return 0;
@@ -173,10 +180,13 @@ int main(void) {
   node = new File(Path("test1/testfile"));
   node->stat();
   list_node = NULL;
-  rc = o.search((remote_path + node->name()).c_str(), &list_node);
+  op = new OpData((remote_path + node->name()).c_str(), *node);
+  o.send(*op, missing);
   delete list_node;
-  rc = o.add((remote_path + node->name()).c_str(), node, ++my_time);
+  ++my_time;
+  rc = o.add(node);
   delete node;
+  delete op;
   if (rc) {
     cout << "Failed to add: " << rc << endl;
     return 0;
@@ -201,11 +211,14 @@ int main(void) {
   node = new File(Path("test2/testfile"));
   node->stat();
   list_node = NULL;
-  rc = o.search((remote_path + node->name()).c_str(), &list_node);
+  op = new OpData((remote_path + node->name()).c_str(), *node);
+  o.send(*op, missing);
   delete list_node;
   dynamic_cast<File*>(node)->setChecksum("checksum test");
-  rc = o.add((remote_path + node->name()).c_str(), node, ++my_time);
+  ++my_time;
+  rc = o.add(node);
   delete node;
+  delete op;
   if (rc) {
     cout << "Failed to add: " << rc << endl;
     return 0;

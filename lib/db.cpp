@@ -683,7 +683,7 @@ int Database::closeClient(
 
 void Database::sendEntry(
     OpData&         op) {
-  _d->owner->sendEntry(op, _d->missing);
+  _d->owner->send(op, _d->missing);
   // Tell caller about auto compression
   if (_d->compress_auto) {
     op._compression = -1;
@@ -759,7 +759,7 @@ int Database::add(
   // Even if failed, add data if new
   if (! failed || ! op._same_list_entry) {
     // Add entry info to journal
-    if (_d->owner->add(op._path, &op._node, time(NULL)) < 0) {
+    if (_d->owner->add(&op._node) < 0) {
       out(error, msg_standard, "Cannot add to client's list");
       failed = true;
     }

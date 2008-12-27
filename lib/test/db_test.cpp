@@ -52,7 +52,7 @@ using namespace hbackup;
 static time_t my_time = 0;
 time_t time(time_t *t) {
   (void) t;
-  return ++my_time;
+  return my_time;
 }
 
 int main(void) {
@@ -151,7 +151,8 @@ int main(void) {
     cout << "Directory still exists!" << endl;
   }
   File("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
-  sys_rc = system("echo 0 > test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/meta");
+  sys_rc = system("echo 0 > "
+    "test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/meta");
   if (db.scan()) {
     printf("db.scan: %s\n", strerror(errno));
   }
@@ -170,7 +171,8 @@ int main(void) {
     cout << "Directory still exists!" << endl;
   }
   File("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
-  sys_rc = system("echo 0 > test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/meta");
+  sys_rc = system("echo 0 > "
+    "test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/meta");
   db.close();
 
   if ((status = db.open(true))) {
@@ -257,38 +259,52 @@ int main(void) {
   d = new Directory("test1/subdir");
   d->setSize(0);
   op = new OpData("/client_path/subdir", *d);
+  ++my_time;
+  db.sendEntry(*op);
   db.add(*op);
   delete op;
   delete d;
   f = new File("test1/subdir/testfile");
   op = new OpData("/client_path/subdir/testfile", *f);
   op->setCompression(5);
+  ++my_time;
+  db.sendEntry(*op);
   db.add(*op);
   delete op;
   delete f;
   f = new File("test1/subdir/testfile2");
   op = new OpData("/client_path/subdir/testfile2", *f);
+  ++my_time;
+  db.sendEntry(*op);
   db.add(*op);
   delete op;
   delete f;
   f = new File("test1/test space");
   op = new OpData("/client_path/test space", *f);
+  ++my_time;
+  db.sendEntry(*op);
   db.add(*op);
   delete op;
   delete f;
   f = new File("test1/testfile");
   op = new OpData("/client_path/testfile", *f);
+  ++my_time;
+  db.sendEntry(*op);
   db.add(*op);
   delete op;
   delete f;
   d = new Directory("test1/testdir");
   d->setSize(0);
   op = new OpData("other_path/testdir", *d);
+  ++my_time;
+  db.sendEntry(*op);
   db.add(*op);
   delete op;
   delete d;
   f = new File("test2/testfile");
   op = new OpData("other_path/testfile", *f);
+  ++my_time;
+  db.sendEntry(*op);
   db.add(*op);
   delete op;
   delete f;
@@ -420,6 +436,7 @@ int main(void) {
 
 
   cout << endl << "Test: concurrent access" << endl;
+  sys_rc = system("cp test_db/myClient/list test_db/myClient/list.1");
   if (db.open() == 0) {
     Database db2("test_db");
     if (db2.open(true) < 0) {
@@ -430,6 +447,8 @@ int main(void) {
 
     Link l("test1/testlink");
     OpData o("/client_path/new_link", l);
+    ++my_time;
+    db.sendEntry(o);
     db.add(o);
     db.closeClient();
     rename("test_db/myClient/journal~", "test_db/myClient/list");
@@ -439,9 +458,10 @@ int main(void) {
     db.close();
   }
   dblist_reader.show();
+  rename("test_db/myClient/list.1", "test_db/myClient/list");
+
   cout << "List of paths: " << records.size() << endl;
-  for (list<string>::iterator i = records.begin(); i != records.end();
-      i++) {
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
   }
   records.clear();
@@ -456,59 +476,58 @@ int main(void) {
   db.closeClient();
   db.close();
   cout << "List of paths: " << records.size() << endl;
-  for (list<string>::iterator i = records.begin(); i != records.end();
-      i++) {
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
   }
   records.clear();
 
-  cout << "Date: " << 0 << endl;
+  int date = 0;
+  cout << "Date: " << date << endl;
   if (db.open(true) < 0) {
     return 0;
   }
   if (db.openClient("myClient") != 0) {
     return 0;
   }
-  db.getRecords(records, "/client_path", 0);
+  db.getRecords(records, "/client_path", date);
   db.closeClient();
   db.close();
   cout << "List of paths: " << records.size() << endl;
-  for (list<string>::iterator i = records.begin(); i != records.end();
-      i++) {
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
   }
   records.clear();
 
-  cout << "Date: " << -4 << " from " << my_time << " (+1)" << endl;
+  date = -4;
+  cout << "Date: " << date << " from " << my_time << endl;
   if (db.open(true) < 0) {
     return 0;
   }
   if (db.openClient("myClient") != 0) {
     return 0;
   }
-  db.getRecords(records, "/client_path", -4);
+  db.getRecords(records, "/client_path", date);
   db.closeClient();
   db.close();
   cout << "List of paths: " << records.size() << endl;
-  for (list<string>::iterator i = records.begin(); i != records.end();
-      i++) {
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
   }
   records.clear();
 
-  cout << "Date: " << 11 << endl;
+  date = 3;
+  cout << "Date: " << date << endl;
   if (db.open(true) < 0) {
     return 0;
   }
   if (db.openClient("myClient") != 0) {
     return 0;
   }
-  db.getRecords(records, "/client_path", 11);
+  db.getRecords(records, "/client_path", date);
   db.closeClient();
   db.close();
   cout << "List of paths: " << records.size() << endl;
-  for (list<string>::iterator i = records.begin(); i != records.end();
-      i++) {
+  for (list<string>::iterator i = records.begin(); i != records.end(); i++) {
     cout << " -> " << *i << endl;
   }
   records.clear();

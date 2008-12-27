@@ -47,6 +47,8 @@ struct ListReader::Private {
   Path              path;
   // Set when a previous version is detected
   bool              old_version;
+  List*             new_list;
+  List*             journal;
   Private(const char* path) : stream(path) {}
 };
 
@@ -116,7 +118,7 @@ ListReader::~ListReader() {
   delete _d;
 }
 
-int ListReader::open() {
+int ListReader::open(List* new_list, List* journal) {
   // Put same header in both until a new version becomes necessary
   const char header[]     = "# version 4";
   const char old_header[] = "# version 4";
@@ -143,8 +145,10 @@ int ListReader::open() {
     rc = -1;
   }
   // Initialise status and path
-  _d->path   = "";
-  _d->status = got_nothing;
+  _d->status   = got_nothing;
+  _d->path     = "";
+  _d->new_list = new_list;
+  _d->journal  = journal;
   // Get first line to check for empty list
   fetchLine();
   if (_d->status == failed) {
@@ -171,55 +175,6 @@ void ListReader::setProgressCallback(progress_f progress) {
 
 bool ListReader::isEmpty() const {
   return _d->status == empty;
-}
-
-void ListReader::keepPath() {
-  if (_d->status == got_nothing) {
-    _d->status = got_path;
-  }
-}
-
-void ListReader::keepData() {
-  if (_d->status == got_nothing) {
-    _d->status = got_data;
-  }
-}
-
-char ListReader::getLineType() {
-  fetchLine();
-  // Status is one of -2: eof!, -1: error, 0: eof, 1: ok
-  switch (_d->status) {
-    case failed:
-      // Failure
-      return 'F';
-    case got_nothing:
-    case got_path:
-    case got_data:
-      break;
-    case eof:
-    case empty:
-      // Eof
-      return 'E';
-  }
-  if (_d->status == got_path) {
-    return 'P';
-  } else
-  {
-    const char* pos = strchr(&_d->data[2], '\t');
-    if (pos == NULL) {
-      // Type unaccessible
-      return 'T';
-    } else
-    {
-      pos++;
-      return *pos;
-    }
-  }
-}
-
-int ListReader::getCurrentPath(char** path) const {
-  *path = strdup(_d->path);
-  return (_d->path[0] != '\0') ? 0 : -1;
 }
 
 int ListReader::getEntry(
@@ -273,7 +228,7 @@ int ListReader::getEntry(
       time_t ts;
       if ((node != NULL) || (timestamp != NULL) || (date > 0)) {
         // Get all arguments from line
-        List::decodeLine(_d->data, &ts, path == NULL ? "" : _d->path, node);
+        decodeLine(_d->data, &ts, _d->path, node);
         if (timestamp != NULL) {
           *timestamp = ts;
         }
@@ -283,15 +238,17 @@ int ListReader::getEntry(
       }
     }
     // Reset status
-    _d->status = got_nothing;
+    if (date != -2) {
+      _d->status = got_nothing;
+    }
   }
   return 1;
 }
 
 int ListReader::search(
     const char*     path_l,
-    List*           list,
-    time_t          expire) {
+    time_t          expire,
+    time_t          remove) {
   int     path_cmp;
   int     rc         = 0;
 
@@ -309,9 +266,10 @@ int ListReader::search(
   }
 
   // Need to know whether line of data is active or not
-  bool active_data_line = true;
-  bool path_found       = false;
-  bool stop             = false;
+  bool active_data_line = true;   // First line of data for path
+  bool stop             = false;  // Searched-for path found or exceeded
+  bool path_found       = false;  // Searched-for path found
+  bool path_new         = false;  // Current path was found during this search
 
   while (true) {
     // Read list or get last data
@@ -328,6 +286,7 @@ int ListReader::search(
     // Not end of file
     if (rc != 0) {
       if (_d->status == got_path) {
+        path_new = true;
         // Got a path
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Compare paths
@@ -342,24 +301,55 @@ int ListReader::search(
         }
         // Next line of data is active
         active_data_line = true;
-      } else {
+      } else
+      if (_d->status == got_data) {
         // Got data
-        if (list != NULL) {
-          // Check for expiry
-          if (! active_data_line && (expire >= 0)) {
-            if (expire != 0) {
-              // Check timestamp for expiration
-              time_t ts = 0;
-              if (! List::decodeLine(_d->data, &ts) && (ts < expire)) {
+        if (_d->new_list != NULL) {
+          if (active_data_line) {
+            // Mark removed
+            if ((remove > 0) && path_new) {
+              // Find type
+              const char* pos = strchr(&_d->data[2], '\t');
+              if (pos == NULL) {
+                return -1;
+              }
+              ++pos;
+              // Not marked removed yet
+              if (*pos != '-') {
+                char* line = NULL;
+                encodeLine(&line, remove, NULL);
+                if (_d->new_list->_d->stream.putLine(line) < 0) {
+                  // Could not write
+                  free(line);
+                  return -1;
+                }
+                if (_d->journal != NULL) {
+                  _d->journal->_d->stream.putLine(_d->path);
+                  _d->journal->_d->stream.putLine(line);
+                  // Remove empty status
+                  _d->journal->_d->status = got_nothing;
+                }
+                free(line);
+                out(info, msg_standard, _d->path, -2, "D      ");
+              }
+            }
+          } else {
+            // Check for expiry
+            if (expire >= 0) {
+              if (expire != 0) {
+                // Check timestamp for expiration
+                time_t ts = 0;
+                if (! decodeLine(_d->data, &ts) && (ts < expire)) {
+                  _d->status = got_nothing;
+                  continue;
+                }
+              } else {
+                // Always obsolete
                 _d->status = got_nothing;
                 continue;
               }
-            } else {
-              // Always obsolete
-              _d->status = got_nothing;
-              continue;
             }
-          } // ! active_data_line && (expire >= 0)
+          }
         } // list != NULL
         // Next line of data is not active
         active_data_line = false;
@@ -367,7 +357,7 @@ int ListReader::search(
     }
 
     // New data, add to merge
-    if (list != NULL) {
+    if (_d->new_list != NULL) {
       // Searched path found or status is eof/empty
       if ((_d->status == eof) || (_d->status == empty) || stop) {
         if (path_found) {
@@ -375,28 +365,33 @@ int ListReader::search(
         }
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
-          if (list->_d->stream.putLine(path_l) < 0) {
+          if (_d->new_list->_d->stream.putLine(path_l) < 0) {
             // Could not write
             return -1;
+          }
+          // Add to journal
+          if (_d->journal != NULL) {
+            _d->journal->_d->stream.putLine(path_l);
           }
         }
       } else
       // Our data is here or after, so let's copy if required
       if (_d->status == got_path) {
-        if (list->_d->stream.putLine(_d->path) < 0) {
+        if (_d->new_list->_d->stream.putLine(_d->path) < 0) {
           // Could not write
           return -1;
         }
       } else
       if (_d->status == got_data) {
-        if (list->_d->stream.putLine(_d->data) < 0) {
+        if (_d->new_list->_d->stream.putLine(_d->data) < 0) {
           // Could not write
           return -1;
         }
       }
       // Remove empty status
-      list->_d->status = got_nothing;
+      _d->new_list->_d->status = got_nothing;
     }
+
     // Return search status
     if (_d->status >= eof) {
       return 0;
@@ -404,7 +399,7 @@ int ListReader::search(
     if (path_found && (path_l == NULL)) {
       return 2;
     }
-    if (stop) {
+    if (stop && !path_found) {
       return 1;
     }
     // Reset status
@@ -417,6 +412,32 @@ int ListReader::search(
     }
   }
   return -1;
+}
+
+int ListReader::add(
+    const Node*     node) {
+  int rc = 0;
+  if (_d->new_list != NULL) {
+    char* line = NULL;
+    int   size = encodeLine(&line, time(NULL), node);
+
+    if (_d->new_list->_d->stream.putLine(line) != (size + 1)) {
+      rc = -1;
+    } else {
+      // Remove empty status
+      _d->new_list->_d->status = got_nothing;
+    }
+    if (_d->journal != NULL) {
+      if (_d->journal->_d->stream.putLine(line) != (size + 1)) {
+        rc = -1;
+      } else {
+        // Remove empty status
+        _d->journal->_d->status = got_nothing;
+      }
+    }
+    free(line);
+  }
+  return rc;
 }
 
 void ListReader::show(
@@ -465,7 +486,7 @@ void ListReader::show(
   }
 }
 
-int List::encodeLine(
+int ListReader::encodeLine(
     char**          linep,
     time_t          timestamp,
     const Node*     node) {
@@ -496,7 +517,7 @@ int List::encodeLine(
   return size;
 }
 
-int List::decodeLine(
+int ListReader::decodeLine(
     const char*     line,
     time_t*         ts,
     const char*     path,
@@ -575,11 +596,11 @@ int List::close() {
   int rc = 0;
 
   if (_d->stream.write(footer, strlen(footer)) < 0) {
-    out(error, msg_errno, "writing list footer", errno, path());
+    out(error, msg_errno, "writing list footer", errno, _d->stream.path());
     rc = -1;
   }
   if (_d->stream.close()) {
-    out(error, msg_errno, "closing list", errno, path());
+    out(error, msg_errno, "closing list", errno, _d->stream.path());
     rc = -1;
   }
   return rc;
@@ -591,35 +612,6 @@ const char* List::path() const {
 
 bool List::isEmpty() const {
   return _d->status == empty;
-}
-
-int List::add(
-    const char      path[],
-    time_t          timestamp,
-    const Node*     node) {
-  if (path != NULL) {
-    if (_d->stream.putLine(path) != static_cast<ssize_t>(strlen(path) + 1)) {
-      return -1;
-    }
-    // Remove empty status
-    _d->status = got_nothing;
-  }
-  if (timestamp < 0) {
-    return 0;
-  }
-
-  char* line = NULL;
-  int   size = encodeLine(&line, timestamp, node);
-  int   rc   = 0;
-
-  if (_d->stream.putLine(line) != (size + 1)) {
-    rc = -1;
-  } else {
-    // Remove empty status
-    _d->status = got_nothing;
-  }
-  free(line);
-  return rc;
 }
 
 int List::merge(
@@ -656,7 +648,7 @@ int List::merge(
     // End of file
     if (rc_journal == 0) {
       if (rc_list > 0) {
-        rc_list = list.search("", this);
+        rc_list = list.search("");
         if (rc_list < 0) {
           // Error copying list
           out(error, msg_standard, "End of list copy failed");
@@ -680,7 +672,7 @@ int List::merge(
       path = journal._d->path;
       // Search/copy list and append path if needed
       if (rc_list >= 0) {
-        rc_list = list.search(path, this);
+        rc_list = list.search(path);
         if (rc_list < 0) {
           // Error copying list
           out(error, msg_standard, "Path search failed");
@@ -708,5 +700,15 @@ int List::merge(
     // Reset status to get next data
     journal._d->status = got_nothing;
   }
+  return 0;
+}
+
+int List::addLine(
+    const char      line[]) {
+  if (_d->stream.putLine(line) != static_cast<ssize_t>(strlen(line) + 1)) {
+    return -1;
+  }
+  // Remove empty status
+  _d->status = got_nothing;
   return 0;
 }

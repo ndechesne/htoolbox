@@ -85,7 +85,7 @@ int Owner::finishOff(
       if (! journal.isEmpty()) {
         out(verbose, msg_standard, _d->name, -1, "Database modified");
         if (! _d->partial->open()) {
-          if (! _d->original->open()) {
+          if (! _d->original->open(_d->partial, _d->journal)) {
             _d->original->setProgressCallback(_d->progress);
             if (_d->partial->merge(*_d->original, journal) < 0) {
               out(error, msg_standard, "Merge failed");
@@ -183,10 +183,6 @@ const char* Owner::name() const {
 
 const char* Owner::path() const {
   return _d->path;
-}
-
-time_t Owner::expiration() const {
-  return _d->expiration;
 }
 
 int Owner::hold() const {
@@ -297,7 +293,7 @@ int Owner::open(
   }
   if (! failed && ! check) {
     // Open list
-    if (_d->original->open()) {
+    if (_d->original->open(_d->partial, _d->journal)) {
       out(error, msg_errno, "opening list", errno, _d->name);
       failed = true;
     } else
@@ -341,13 +337,10 @@ int Owner::close(
     // Open read/write
     _d->original->setProgressCallback(_d->progress);
     if (! aborting()) {
-      // Leave things clean
-      if (! abort) {
-        // Finish work (remove items at end of list)
-        search(NULL, NULL);
-      } else {
-        // Finish off merging
-        _d->original->search("", _d->partial, _d->expiration);
+      // Finish work (if not aborting, remove items at end of list)
+      if (_d->original->search("", _d->expiration,
+          abort ? 0 : time(NULL)) < 0) {
+        failed = true;
       }
     }
     // Now we can close the journal (failure to close is not problematic)
@@ -391,67 +384,6 @@ void Owner::setProgressCallback(progress_f progress) {
   _d->progress = progress;
 }
 
-int Owner::search(
-    const char*     path,
-    Node**          node) const {
-  char* db_path = NULL;
-  // If we don't enter the loop (no records), we want to add
-  int   cmp     = 1;
-  bool  failed  = false;
-  // For each path
-  while (_d->original->search(NULL, _d->partial, _d->expiration) == 2) {
-    // Get path
-    if (_d->original->getCurrentPath(&db_path)) {
-      // Error
-      out(error, msg_standard, "Failed to get path");
-      failed = true;
-      break;
-    }
-    if (path != NULL) {
-      cmp = Path::compare(db_path, path);
-      // If found or exceeded, break loop
-      if (cmp >= 0) {
-        if (cmp == 0) {
-          // Get metadata
-          _d->original->getEntry(NULL, &db_path, node);
-          // This metadata needs to be kept, as it will be added after any new
-          _d->original->keepData();
-        }
-        break;
-      }
-    } else {
-      // Want to get all paths
-      cmp = -1;
-    }
-    // Make sure we are not terminating
-    if (aborting()) {
-      failed = true;
-      break;
-    }
-    // Not reached, mark 'removed' (getLineType keeps line automatically)
-    if (_d->original->getLineType() != '-') {
-      // Add path and 'removed' entry
-      time_t tm = time(NULL);
-      _d->journal->add(db_path, tm);
-      _d->partial->add(db_path, tm);
-      out(info, msg_standard, db_path, -2, "D      ");
-    } else {
-      _d->partial->add(db_path);
-    }
-  }
-  free(db_path);
-  if (failed) {
-    return -1;
-  }
-  if (path != NULL) {
-    _d->partial->add(path);
-    if ((cmp > 0) || (*node == NULL)) {
-      _d->original->keepPath();
-    }
-  }
-  return (cmp > 0) ? 1 : 0;
-}
-
 // The main output of sendEntry is the letter:
 // * A: added data
 // * ~: modified metadata
@@ -459,14 +391,23 @@ int Owner::search(
 // * !: incomplete data (checksum missing)
 // * C: conflicting data (size is not what was expected)
 // * R: recoverable data (data not found in DB for checksum)
-void Owner::sendEntry(
+int Owner::send(
     OpData&         op,
     Missing&        missing) {
   Node* db_node = NULL;
-  int rc = search(op._path, &db_node);
 
-  // New file: add
-  if ((rc > 0) || (db_node == NULL)) {
+  // Search path and get current metadata
+  int rc = _d->original->search(op._path, _d->expiration, time(NULL));
+  if (rc < 0) {
+    return -1;
+  }
+  if (rc == 2) {
+    // Get metadata (needs to be kept, as it will be added after any new)
+    _d->original->getEntry(NULL, NULL, &db_node, -2);
+  }
+
+  // New or resurrected file: (re-)add
+  if ((rc < 2) || (db_node == NULL)) {
     op._operation = 'A';
   } else
   // Existing file: check for differences
@@ -528,14 +469,12 @@ void Owner::sendEntry(
     op._operation = 'L';
   }
   delete db_node;
+  return 0;
 }
 
 int Owner::add(
-    const char*     path,
-    const Node*     node,
-    time_t          timestamp) {
-  return ((_d->journal->add(path, timestamp, node) < 0)
-  ||      (_d->partial->add(NULL, timestamp, node) < 0)) ? -1 : 0;
+    const Node*     node) {
+  return (_d->original->add(node) < 0) ? -1 : 0;
 }
 
 int Owner::getNextRecord(

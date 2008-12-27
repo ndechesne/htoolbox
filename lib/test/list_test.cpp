@@ -53,6 +53,18 @@ static void showLine(time_t timestamp, char* path, Node* node) {
   cout << endl;
 }
 
+static void add(
+    List&           list,
+    const char*     path,
+    time_t          epoch,
+    const Node*     node = NULL) {
+  list.addLine(path);
+  char* line = NULL;
+  ListReader::encodeLine(&line, epoch, node);
+  list.addLine(line);
+  free(line);
+}
+
 int main(void) {
   List        dblist("test_db/list");
   List        journal("test_db/journal");
@@ -92,28 +104,28 @@ int main(void) {
 
   // No checksum
   node = new Stream("test1/test space");
-  journal.add("file sp", time(NULL), node);
+  add(journal, "file sp", time(NULL), node);
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
   free(node);
 
-  journal.add("file_gone", time(NULL));
+  add(journal, "file_gone", time(NULL));
 
   node = new Stream("test1/testfile");
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
-  journal.add("file_new", time(NULL), node);
+  add(journal, "file_new", time(NULL), node);
   free(node);
 
   node = new Link("test1/testlink");
-  journal.add("link", time(NULL), node);
+  add(journal, "link", time(NULL), node);
   free(node);
 
   node = new Directory("test1/testdir");
   node->setSize(0);
-  journal.add("path", time(NULL), node);
+  add(journal, "path", time(NULL), node);
   free(node);
 
   journal.close();
@@ -152,7 +164,7 @@ int main(void) {
   cout << endl << "Test: journal merge into empty list" << endl;
   my_time++;
 
-  if (dblist_reader.open()) {
+  if (dblist_reader.open(&merge)) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -205,14 +217,14 @@ int main(void) {
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
-  journal.add("file sp", time(NULL), node);
+  add(journal, "file sp", time(NULL), node);
   free(node);
 
   node = new Stream("test1/testfile");
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
-  journal.add("file_new", time(NULL), node);
+  add(journal, "file_new", time(NULL), node);
   free(node);
 
   journal.close();
@@ -228,7 +240,7 @@ int main(void) {
   cout << endl << "Test: journal merge into list" << endl;
   my_time++;
 
-  if (dblist_reader.open()) {
+  if (dblist_reader.open(&merge)) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -275,8 +287,6 @@ int main(void) {
     char *path = NULL;
     dblist_reader.getEntry(NULL, &path, NULL);
     cout << path << endl;
-    dblist_reader.keepData();
-    cout << path << ": " << dblist_reader.getLineType() << endl;
     free(path);
   }
   dblist_reader.close();
@@ -294,8 +304,8 @@ int main(void) {
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
-  journal.add("file_new", time(NULL), node);
-  journal.add("file_gone", time(NULL), node);
+  add(journal, "file_new", time(NULL), node);
+  add(journal, "file_gone", time(NULL), node);
   free(node);
   journal.close();
   node = NULL;
@@ -310,7 +320,7 @@ int main(void) {
   cout << endl << "Test: journal merge into list" << endl;
   my_time++;
 
-  if (dblist_reader.open()) {
+  if (dblist_reader.open(&merge)) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -353,7 +363,7 @@ int main(void) {
   list<string>::iterator j;
 
   cout << "Date: 4" << endl;
-  if (dblist_reader.open()) {
+  if (dblist_reader.open(&merge)) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -364,7 +374,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.search("", &merge, 4) < 0) {
+  if (dblist_reader.search("", 4) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -375,7 +385,7 @@ int main(void) {
 
   // All but last
   cout << "Date: 0" << endl;
-  if (dblist_reader.open()) {
+  if (dblist_reader.open(&merge)) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -386,7 +396,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.search("", &merge, 0) < 0) {
+  if (dblist_reader.search("", 0) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -400,7 +410,7 @@ int main(void) {
 
   cout << "List:" << endl;
   dblist_reader.show();
-  if (dblist_reader.open()) {
+  if (dblist_reader.open(&merge)) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -411,7 +421,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.search("", &merge) < 0) {
+  if (dblist_reader.search("") < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -437,19 +447,19 @@ int main(void) {
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
-  journal.add("file_new", time(NULL), node);
+  add(journal, "file_new", time(NULL), node);
   free(node);
   node = NULL;
   journal.close();
   // Merge
-  if (dblist_reader.open()) {
+  if (dblist_reader.open(&merge)) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   if (dblist_reader.isEmpty()) {
     cout << "List is empty" << endl;
   }
-  if (journal_reader.open()) {
+  if (journal_reader.open(&merge)) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -500,27 +510,27 @@ int main(void) {
 
   // No checksum
   node = new Stream("test1/test space");
-  journal.add("file sp", time(NULL), node);
+  add(journal, "file sp", time(NULL), node);
   if (journal.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
   free(node);
 
-  journal.add("file_gone", time(NULL));
+  add(journal, "file_gone", time(NULL));
 
   node = new Stream("test1/testfile");
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
-  journal.add("file_new", time(NULL), node);
+  add(journal, "file_new", time(NULL), node);
   free(node);
 
   node = new Link("test1/testlink");
-  journal.add("link2", time(NULL), node);
+  add(journal, "link2", time(NULL), node);
   free(node);
 
   node = new Directory("test1/testdir");
-  journal.add("path", time(NULL), node);
+  add(journal, "path", time(NULL), node);
   free(node);
 
   journal.close();
@@ -560,7 +570,7 @@ int main(void) {
   cout << endl << "Test: broken journal merge" << endl;
   my_time++;
 
-  if (dblist_reader.open()) {
+  if (dblist_reader.open(&merge)) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }

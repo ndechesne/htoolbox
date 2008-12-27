@@ -41,15 +41,10 @@ Test: merge read
 
 Test: get all paths
 file sp
-file sp: f
 file_gone
-file_gone: -
 file_new
-file_new: f
 link
-link: l
 path
-path: d
 
 Test: journal path out of order
 

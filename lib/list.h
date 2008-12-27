@@ -34,7 +34,7 @@ public:
     Path            path);
   ~ListReader();
   // Open file (for read)
-  int open();
+  int open(List* new_list = NULL, List* journal = NULL);
   // Close file
   int close();
   // File path
@@ -43,18 +43,11 @@ public:
   void setProgressCallback(progress_f progress);
   // Empty list (check right after opening)
   bool isEmpty() const;
-  // Mark cached data for re-use
-  void keepPath();
-  void keepData();
-  // Get current line type (will get a new line if necessary)
-  char getLineType();
-  // Get current path
-  int getCurrentPath(char** path) const;
   // Convert one or several line(s) to data
   // Date:
-  //    -1: any
+  //    <0: any (if -2, data is not discarded)
   //     0: latest
-  //     *: as old or just newer than date
+  //    >0: as old or just newer than date
   // Return code:
   //    -1: error, 0: end of file, 1: success
   int getEntry(
@@ -62,8 +55,8 @@ public:
     char*           path[],
     Node**          node,
     time_t          date = -1);
-  // Search data in list copying contents on the fly if required, and
-  // also expiring data and putting checksums in lists!!!
+  // Search data in list copying contents to new list/journal, marking files
+  // removed, and also expiring data on the fly when told to
   // Searches:             Path        Copy
   //    given path         path        all up to path (appended if not found)
   //    next path          NULL        all before path
@@ -73,21 +66,17 @@ public:
   // Return code:
   //    -1: error, 0: end of file, 1: exceeded, 2: found
   int search(
-    const char      path[]  = NULL,   // Path to search
-    List*           list    = NULL,   // List in which to merge changes
-    time_t          expire  = -1);    // Expiration date
+    const char      path[]      = NULL,     // Path to search
+    time_t          expire      = -1,       // Expiration date
+    time_t          remove      = 0);       // Mark records removed at date
+  // Add metadata
+  int add(
+    const Node*     node);
   // Show the list
   void show(
-    time_t          date       = -1,  // Date to select
-    time_t          time_start = 0,   // Origin of time
-    time_t          time_base  = 1);  // Time base
-};
-
-class List {
-  struct            Private;
-  Private* const    _d;
-  friend class ListReader;
-public:
+    time_t          date        = -1,       // Date to select
+    time_t          time_start  = 0,        // Origin of time
+    time_t          time_base   = 1);       // Time base
   // Encode line from metadata
   static int encodeLine(
     char*           line[],
@@ -99,6 +88,13 @@ public:
     time_t*         ts,                 // Line timestamp
     const char      path[]     = NULL,  // File path to store in metadata
     Node**          node       = NULL); // File metadata
+};
+
+class List {
+  struct            Private;
+  Private* const    _d;
+  friend class ListReader;
+public:
   List(
     Path            path);
   ~List();
@@ -108,13 +104,8 @@ public:
   int close();
   // File path
   const char* path() const;
-  // Nothing was journaled
+  // Nothing was journalled
   bool isEmpty() const;
-  // Add entry to list
-  int add(
-    const char      path[],
-    time_t          timestamp = -1,
-    const Node*     node      = NULL);
   // Merge list and journal into this list
   //    all lists must be open
   // Return code:
@@ -122,6 +113,9 @@ public:
   int merge(
     ListReader&     list,
     ListReader&     journal);
+  // add line for tests
+  int addLine(
+    const char      line[]);
 };
 
 }

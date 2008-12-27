@@ -196,13 +196,13 @@ Database closed
 List of problematic checksums contains 1 item(s)
 Database closed
 [ 8] /client_path/new_link          l        8 777 testfile
-[ 9] /client_path/subdir            [rm]
-[10] /client_path/subdir/testfile   [rm]
-[11] /client_path/subdir/testfile2  [rm]
-[12] /client_path/test space        [rm]
-[13] /client_path/testfile          [rm]
-[14] other_path/testdir             [rm]
-[15] other_path/testfile            [rm]
+[ 8] /client_path/subdir            [rm]
+[ 8] /client_path/subdir/testfile   [rm]
+[ 8] /client_path/subdir/testfile2  [rm]
+[ 8] /client_path/test space        [rm]
+[ 8] /client_path/testfile          [rm]
+[ 8] other_path/testdir             [rm]
+[ 8] other_path/testfile            [rm]
 List of paths: 3
  -> /client_path/subdir/
  -> /client_path/test space
@@ -211,9 +211,8 @@ Database open in read-only mode
 Database open r-o: myClient
 Database closed: myClient
 Database closed
-List of paths: 4
- -> /client_path/new_link
- -> /client_path/subdir
+List of paths: 3
+ -> /client_path/subdir/
  -> /client_path/test space
  -> /client_path/testfile
 Date: 0
@@ -221,25 +220,22 @@ Database open in read-only mode
 Database open r-o: myClient
 Database closed: myClient
 Database closed
-List of paths: 4
- -> /client_path/new_link
- -> /client_path/subdir
+List of paths: 3
+ -> /client_path/subdir/
  -> /client_path/test space
  -> /client_path/testfile
-Date: -4 from 15 (+1)
-Database open in read-only mode
-Database open r-o: myClient
-Database closed: myClient
-Database closed
-List of paths: 3
- -> /client_path/new_link
- -> /client_path/subdir
- -> /client_path/test space
-Date: 11
+Date: -4 from 8
 Database open in read-only mode
 Database open r-o: myClient
 Database closed: myClient
 Database closed
 List of paths: 2
- -> /client_path/new_link
- -> /client_path/subdir
+ -> /client_path/subdir/
+ -> /client_path/test space
+Date: 3
+Database open in read-only mode
+Database open r-o: myClient
+Database closed: myClient
+Database closed
+List of paths: 1
+ -> /client_path/subdir/

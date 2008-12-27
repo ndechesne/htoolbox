@@ -34,7 +34,6 @@ public:
   ~Owner();
   const char* name() const;
   const char* path() const;
-  time_t expiration() const;
   int hold() const;                       // Open for read only
   int release() const;                    // Close when open for read only
   int open(                               // Open for read and write
@@ -44,18 +43,13 @@ public:
     bool            teardown);
   // Set progress callback function
   void setProgressCallback(progress_f progress);
-  int search(
-    const char*     path,                 // Path to look for, NULL for all
-    Node**          node) const;          // Node found
   // Send data for comparison
-  void sendEntry(
+  int send(
     OpData&         operation,            // Operation data
     Missing&        missing);             // List of missing items
-  // Add entry info to journal
+  // Add metadata info
   int add(
-    const char*     path,
-    const Node*     node,
-    time_t          timestamp);
+    const Node*     node);
   // Get next record matching path and date
   int getNextRecord(                      // -1: error, 0: eof, 1: success
     const char*     path,                 // The base path
