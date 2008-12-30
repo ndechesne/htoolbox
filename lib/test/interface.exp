@@ -315,7 +315,7 @@ Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
 Reading list of problematic checksums
-List created: aClient.vista
+Register created: aClient.vista
 Database open r/w: aClient.vista
 Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
@@ -331,7 +331,7 @@ Af f    C:/Test Dir/My Dir/another File.TXT
 Checking data, sizes: f=0 z=0 (0)
 Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
 Af f    C:/Test Dir/My File.TXT
-Database modified: aClient.vista
+Register modified: aClient.vista
 Database closed: aClient.vista
  -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
@@ -371,7 +371,7 @@ Trying client 'client.xp' using protocol 'smb'
  -----> nothing
  -----> backup
 Backing up client: client.xp
-List created: client.xp
+Register created: client.xp
 Database open r/w: client.xp
 Backing up path: C:/Test Dir
 Ad      C:/Test Dir/My Dir
@@ -383,7 +383,7 @@ Checking data, sizes: f=2 z=22 (22)
 Af ~    C:/Test Dir/My Dir/another File.TXT
 Checking data, sizes: f=0 z=0 (0)
 Af ~    C:/Test Dir/My File.TXT
-Database modified: client.xp
+Register modified: client.xp
 Database closed: client.xp
  -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
@@ -407,7 +407,7 @@ Trying client 'myClient' using protocol 'nfs'
  -----> nothing
  ----> Compress filter: compress
 Backing up client: myClient
-List created: myClient
+Register created: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
  -> umount -fl test_db/.mount/myClient
@@ -420,7 +420,7 @@ dir\r
 Checking data, sizes: f=2 z=22 (22)
 Adding uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Af f    /home/User/test/dir/file3.txt
-Database modified: myClient
+Register modified: myClient
 Database closed: myClient
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
@@ -457,7 +457,7 @@ Trying client 'myClient.xp' using protocol 'smb'
  ----> Ignore filters:
  -----> nothing
 Backing up client: myClient.xp
-List created: myClient.xp
+Register created: myClient.xp
 Database open r/w: myClient.xp
 Backing up path: C:/Test Dir
 Ad      C:/Test Dir/My Dir
@@ -469,7 +469,7 @@ Checking data, sizes: f=2 z=22 (22)
 Af ~    C:/Test Dir/My Dir/another File.TXT
 Checking data, sizes: f=0 z=0 (0)
 Af ~    C:/Test Dir/My File.TXT
-Database modified: myClient.xp
+Register modified: myClient.xp
 Database closed: myClient.xp
  -> umount -fl test_db/.mount/myClient.xp
  -> Reading client configuration file: myhost
@@ -514,7 +514,7 @@ Database closed: myClient.xp
  -----> nothing
  -----> backup
 Backing up client: myhost
-List created: myhost
+Register created: myhost
 Database open r/w: myhost
 Backing up path: test1
 Done:   5.0%\r
@@ -668,7 +668,7 @@ Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
 Af f    test2/testfile2.gz
 I f f   test2/testfile~
 Al      test2/testlink
-Database modified: myhost
+Register modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported ssh
@@ -1627,7 +1627,7 @@ path "test1"
  --> Ignore filters:
  ---> nothing
 Warning: Previous backup interrupted: myhost
-Database modified: myhost
+Register modified: myhost
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client: aClient.vista
@@ -2163,7 +2163,7 @@ Backing up path: test2
 testdir\r
        \r
 I f f   test2/testfile~
-Database modified: myhost
+Register modified: myhost
 Database closed: myhost
 Database closed
 Config for test_db/.configs/client.xp
@@ -4011,7 +4011,7 @@ Database open in read/write mode
  ---> Path: test_user/testuser
  ----> No error if same file fails copy again
 Reading list of problematic checksums
-List created: localhost
+Register created: localhost
 Database open r/w: localhost
 Backing up path: test_user/testuser
 Adding uncompressed data for 31d30eea8d0968d6458e0ad0027c9f80-0
@@ -4028,7 +4028,7 @@ Adding uncompressed data for d5b4c7d9b06b60a7846c4529834c9812-0
 Af f    test_user/testuser/subdir2/f3.txt
 Adding uncompressed data for 90e2a51705594d033a3abe9d77b2b7ad-0
 Af f    test_user/testuser/subdir2/f4.txt
-Database modified: localhost
+Register modified: localhost
 Database closed: localhost
 Database closed
 
@@ -9000,7 +9000,7 @@ dir\r
 Checking data, sizes: f=2 z=22 (22)
 Adding uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Cf f    /home/User/test/dir/file3.txt
-Database modified: myClient
+Register modified: myClient
 Database closed: myClient
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
@@ -9168,7 +9168,7 @@ Checking data, sizes: f=259072 z=286 (290)
 Replacing with compressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 Mf zr   test2/testfile2
 I f f   test2/testfile~
-Database modified: myhost
+Register modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported ssh
@@ -10391,7 +10391,7 @@ testdir\r
 Checking data, sizes: f=259072 z=286 (290)
 Rf ~    test2/testfile2
 I f f   test2/testfile~
-Database modified: myhost
+Register modified: myhost
 Database closed: myhost
 Trying client 'other' using protocol 'ssh'
 Error: other: Protocol not supported ssh

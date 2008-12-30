@@ -40,26 +40,20 @@ enum Status {
 
 }
 
-struct ListReader::Private {
+struct Register::Private {
   Stream            stream;
   Status            status;
   Line              data;
   Path              path;
   // Set when a previous version is detected
   bool              old_version;
-  List*             new_list;
-  List*             journal;
+  bool              modified;
+  List*       new_list;
+  List*       journal;
   Private(const char* path) : stream(path) {}
 };
 
-struct List::Private {
-  Stream            stream;
-  Status            status;
-  Line              line;
-  Private(const char* path) : stream(path) {}
-};
-
-ssize_t ListReader::fetchLine() {
+ssize_t Register::fetchLine() {
   // Check current status
   switch (_d->status) {
     case failed:
@@ -112,17 +106,18 @@ ssize_t ListReader::fetchLine() {
   return -1;
 }
 
-ListReader::ListReader(Path path) : _d(new Private(path)) {}
+Register::Register(Path path) : _d(new Private(path)) {}
 
-ListReader::~ListReader() {
+Register::~Register() {
   delete _d;
 }
 
-int ListReader::open(List* new_list, List* journal) {
+int Register::open(List* new_list, List* journal) {
   // Put same header in both until a new version becomes necessary
   const char header[]     = "# version 4";
   const char old_header[] = "# version 4";
 
+  _d->modified = false;
   if (_d->stream.open(O_RDONLY, 0, false)) {
     return -1;
   }
@@ -161,23 +156,27 @@ int ListReader::open(List* new_list, List* journal) {
   return rc;
 }
 
-int ListReader::close() {
+int Register::close() {
   return _d->stream.close();
 }
 
-const char* ListReader::path() const {
+const char* Register::path() const {
   return _d->stream.path();
 }
 
-void ListReader::setProgressCallback(progress_f progress) {
+void Register::setProgressCallback(progress_f progress) {
   _d->stream.setProgressCallback(progress);
 }
 
-bool ListReader::isEmpty() const {
+bool Register::isEmpty() const {
   return _d->status == empty;
 }
 
-int ListReader::getEntry(
+bool Register::isModified() const {
+  return _d->modified;
+}
+
+int Register::getEntry(
     time_t*       timestamp,
     char**        path,
     Node**        node,
@@ -245,7 +244,7 @@ int ListReader::getEntry(
   return 1;
 }
 
-int ListReader::search(
+int Register::search(
     const char*     path_l,
     time_t          expire,
     time_t          remove) {
@@ -318,18 +317,17 @@ int ListReader::search(
               if (*pos != '-') {
                 char* line = NULL;
                 encodeLine(&line, remove, NULL);
-                if (_d->new_list->_d->stream.putLine(line) < 0) {
+                if (putLine(_d->new_list->_stream, line) < 0) {
                   // Could not write
                   free(line);
                   return -1;
                 }
                 if (_d->journal != NULL) {
-                  _d->journal->_d->stream.putLine(_d->path);
-                  _d->journal->_d->stream.putLine(line);
-                  // Remove empty status
-                  _d->journal->_d->status = got_nothing;
+                  putLine(_d->journal->_stream, _d->path);
+                  putLine(_d->journal->_stream, line);
                 }
                 free(line);
+                _d->modified = true;
                 out(info, msg_standard, _d->path, -2, "D      ");
               }
             }
@@ -365,31 +363,29 @@ int ListReader::search(
         }
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
-          if (_d->new_list->_d->stream.putLine(path_l) < 0) {
+          if (putLine(_d->new_list->_stream, path_l) < 0) {
             // Could not write
             return -1;
           }
           // Add to journal
           if (_d->journal != NULL) {
-            _d->journal->_d->stream.putLine(path_l);
+            putLine(_d->journal->_stream, path_l);
           }
         }
       } else
       // Our data is here or after, so let's copy if required
       if (_d->status == got_path) {
-        if (_d->new_list->_d->stream.putLine(_d->path) < 0) {
+        if (putLine(_d->new_list->_stream, _d->path) < 0) {
           // Could not write
           return -1;
         }
       } else
       if (_d->status == got_data) {
-        if (_d->new_list->_d->stream.putLine(_d->data) < 0) {
+        if (putLine(_d->new_list->_stream, _d->data) < 0) {
           // Could not write
           return -1;
         }
       }
-      // Remove empty status
-      _d->new_list->_d->status = got_nothing;
     }
 
     // Return search status
@@ -414,39 +410,34 @@ int ListReader::search(
   return -1;
 }
 
-int ListReader::add(
+int Register::add(
     const Node*     node) {
   int rc = 0;
   if (_d->new_list != NULL) {
     char* line = NULL;
     int   size = encodeLine(&line, time(NULL), node);
 
-    if (_d->new_list->_d->stream.putLine(line) != (size + 1)) {
+    if (putLine(_d->new_list->_stream, line) != size) {
       rc = -1;
-    } else {
-      // Remove empty status
-      _d->new_list->_d->status = got_nothing;
     }
     if (_d->journal != NULL) {
-      if (_d->journal->_d->stream.putLine(line) != (size + 1)) {
+      if (putLine(_d->journal->_stream, line) != size) {
         rc = -1;
-      } else {
-        // Remove empty status
-        _d->journal->_d->status = got_nothing;
       }
     }
     free(line);
+    _d->modified = true;
   }
   return rc;
 }
 
-void ListReader::show(
+void Register::show(
     time_t          date,
     time_t          time_start,
     time_t          time_base) {
   if (! open()) {
     if (isEmpty()) {
-      printf("List is empty\n");
+      printf("Register is empty\n");
     } else {
       time_t ts;
       char*  path = NULL;
@@ -486,7 +477,7 @@ void ListReader::show(
   }
 }
 
-int ListReader::encodeLine(
+int Register::encodeLine(
     char**          linep,
     time_t          timestamp,
     const Node*     node) {
@@ -517,7 +508,7 @@ int ListReader::encodeLine(
   return size;
 }
 
-int ListReader::decodeLine(
+int Register::decodeLine(
     const char*     line,
     time_t*         ts,
     const char*     path,
@@ -571,52 +562,51 @@ int ListReader::decodeLine(
   return 0;
 }
 
-List::List(Path path) : _d(new Private(path)) {}
-
-List::~List() {
-  delete _d;
+ssize_t Register::putLine(int fd, const Line& line) {
+  size_t length = line.size();
+  while (length > 0) {
+    ssize_t size = write(fd, &line[line.size() - length], length);
+    if (size < 0) return -1;
+    length -= size;
+  }
+  if (write(fd, "\n", 1) < 1) {
+    return -1;
+  }
+  return line.size();
 }
 
-int List::open() {
+int List::create() {
   const char header[] = "# version 4";
 
-  if (_d->stream.open(O_WRONLY, 0, false)) {
+  _stream = creat(_path, 0644);
+  if (_stream < 0) {
     return -1;
   }
-  if (_d->stream.putLine(header) < 0) {
-    _d->stream.close();
+  if (Register::putLine(_stream, header) < 0) {
+    close(_stream);
     return -1;
   }
-  _d->status = empty;
   return 0;
 }
 
-int List::close() {
-  const char footer[] = "# end\n";
+int List::finalize() {
+  const char footer[] = "# end";
   int rc = 0;
 
-  if (_d->stream.write(footer, strlen(footer)) < 0) {
-    out(error, msg_errno, "writing list footer", errno, _d->stream.path());
+  if (Register::putLine(_stream, footer) < 0) {
+    out(error, msg_errno, "writing list footer", errno, _path);
     rc = -1;
   }
-  if (_d->stream.close()) {
-    out(error, msg_errno, "closing list", errno, _d->stream.path());
+  if (close(_stream)) {
+    out(error, msg_errno, "closing list", errno, _path);
     rc = -1;
   }
   return rc;
 }
 
-const char* List::path() const {
-  return _d->stream.path();
-}
-
-bool List::isEmpty() const {
-  return _d->status == empty;
-}
-
 int List::merge(
-    ListReader&     list,
-    ListReader&     journal) {
+    Register&     list,
+    Register&     journal) {
   int rc_list = 1;
 
   // Line read from journal
@@ -624,9 +614,6 @@ int List::merge(
 
   // Current path and data (from journal)
   Path path;
-
-  // Last search status
-  _d->status = empty;
 
   // Parse journal
   while (true) {
@@ -691,7 +678,7 @@ int List::merge(
       }
 
       // Write
-      if (_d->stream.putLine(journal._d->data) < 0) {
+      if (Register::putLine(_stream, journal._d->data) < 0) {
         // Could not write
         out(error, msg_standard, "Journal copy failed");
         return -1;
@@ -705,10 +692,8 @@ int List::merge(
 
 int List::addLine(
     const char      line[]) {
-  if (_d->stream.putLine(line) != static_cast<ssize_t>(strlen(line) + 1)) {
+  if (Register::putLine(_stream, line) != static_cast<ssize_t>(strlen(line) + 1)) {
     return -1;
   }
-  // Remove empty status
-  _d->status = got_nothing;
   return 0;
 }

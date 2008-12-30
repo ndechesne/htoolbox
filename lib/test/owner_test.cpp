@@ -59,7 +59,7 @@ time_t time(time_t *t) {
   return my_time;
 }
 
-static int showList(const char* path) {
+static int showRegister(const char* path) {
   Stream list(path);
   if (list.open(O_RDONLY)) {
     cout << strerror(errno) << " opening list at '" << path << "'" << endl;
@@ -73,7 +73,7 @@ static int showList(const char* path) {
     } else {
       time_t ts;
       Node*  node = NULL;
-      ListReader::decodeLine(line, &ts, "", &node);
+      Register::decodeLine(line, &ts, "", &node);
       cout << "\t" << ts << "\t";
       if (node != NULL) {
         printf("%c\t%6lld\t%03o", node->type(), node->size(), node->mode());
@@ -96,7 +96,7 @@ int main(void) {
 
   mkdir("test_db", 0755);
   Owner o("test_db", "client", 10);
-  ListReader owner_list_reader("test_db/client/list");
+  Register owner_list_reader("test_db/client/list");
   string remote_path = "/remote/path/";
   cout << "Name: " << o.name() << endl;
   cout << "Path: " << o.path() << endl;
@@ -133,9 +133,9 @@ int main(void) {
     cout << "Failed to close: " << rc << endl;
     return 0;
   }
-  cout << "List:" << endl;
+  cout << "Register:" << endl;
   owner_list_reader.show();
-  showList(owner_list_reader.path());
+  showRegister(owner_list_reader.path());
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
 
@@ -165,7 +165,7 @@ int main(void) {
     cout << "Failed to close: " << rc << endl;
     return 0;
   }
-  cout << "List:" << endl;
+  cout << "Register:" << endl;
   owner_list_reader.show();
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
@@ -196,7 +196,7 @@ int main(void) {
     cout << "Failed to close: " << rc << endl;
     return 0;
   }
-  cout << "List:" << endl;
+  cout << "Register:" << endl;
   owner_list_reader.show();
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
@@ -229,7 +229,7 @@ int main(void) {
     cout << "Failed to close: " << rc << endl;
     return 0;
   }
-  cout << "List:" << endl;
+  cout << "Register:" << endl;
   owner_list_reader.show();
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
@@ -246,7 +246,7 @@ int main(void) {
     cout << "Failed to close: " << rc << endl;
     return 0;
   }
-  cout << "List:" << endl;
+  cout << "Register:" << endl;
   owner_list_reader.show();
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
@@ -255,8 +255,8 @@ int main(void) {
   cout << endl << "Recover client (empty journal)" << endl;
   {
     List journal("test_db/client/journal");
-    journal.open();
-    journal.close();
+    journal.create();
+    journal.finalize();
   }
   rc = o.open(false, false);
   if (rc) {
@@ -268,7 +268,7 @@ int main(void) {
     cout << "Failed to close: " << rc << endl;
     return 0;
   }
-  cout << "List:" << endl;
+  cout << "Register:" << endl;
   owner_list_reader.show();
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
@@ -277,8 +277,8 @@ int main(void) {
   cout << endl << "Recover client (empty, not closed journal)" << endl;
   {
     List journal("test_db/client/journal2");
-    journal.open();
-    journal.close();
+    journal.create();
+    journal.finalize();
     sys_rc = system("head -1 test_db/client/journal2 > test_db/client/journal");
     sys_rc = system("rm test_db/client/journal2");
   }
@@ -292,7 +292,7 @@ int main(void) {
     cout << "Failed to close: " << rc << endl;
     return 0;
   }
-  cout << "List:" << endl;
+  cout << "Register:" << endl;
   owner_list_reader.show();
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");
@@ -305,7 +305,7 @@ int main(void) {
     cout << "Failed to get checksums: " << rc << endl;
     return 0;
   }
-  cout << "List:" << endl;
+  cout << "Register:" << endl;
   if (checksums.empty()) {
     cout << "...is empty" << endl;
   } else

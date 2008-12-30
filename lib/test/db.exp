@@ -78,14 +78,14 @@ Database closed
 Test: fill in DB
 Database open in read/write mode
 Reading list of problematic checksums
-List created: myClient
+Register created: myClient
 Database open r/w: myClient
 Adding compressed data for 285b35198a5e188b3a0df3ed33f93a26-0
 Replacing with uncompressed data for 285b35198a5e188b3a0df3ed33f93a26-0
 Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
 Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Adding uncompressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
-Database modified: myClient
+Register modified: myClient
 Database closed: myClient
 Database closed
 [ 1] /client_path/subdir            d        0 755
@@ -189,7 +189,7 @@ D       /client_path/test space
 D       /client_path/testfile
 D       other_path/testdir
 D       other_path/testfile
-Database modified: myClient
+Register modified: myClient
 Database closed: myClient
 Database closed: myClient
 Database closed

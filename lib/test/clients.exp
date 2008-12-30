@@ -180,7 +180,7 @@ Trying client 'myClient' using protocol 'nfs'
  ----> No error if same file fails copy again
 Backing up client: myClient
 Reading list of problematic checksums
-List created: myClient
+Register created: myClient
 Database open r/w: myClient
 Backing up path: /home/User/test
  -> umount -fl test_db/mount
@@ -198,7 +198,7 @@ Backing up path: /home/User/test2
 Replacing with uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
 Af fr   /home/User/test2/File3.txt
 Af ~    /home/User/test2/File4.txt
-Database modified: myClient
+Register modified: myClient
 Database closed: myClient
  -> umount -fl test_db/mount
 Trying client 'myClient2' using protocol 'smb'
@@ -285,7 +285,7 @@ Database open in read/write mode
  -----> backup
 Backing up client: testhost
 Reading list of problematic checksums
-List created: testhost
+Register created: testhost
 Database open r/w: testhost
 Backing up path: test1
 Done:   5.0%\r
@@ -423,7 +423,7 @@ Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
 Af f    test2/testfile2.gz
 I f f   test2/testfile~
 Al      test2/testlink
-Database modified: testhost
+Register modified: testhost
 Database closed: testhost
 Database closed
 >List 1 client(s):
@@ -574,7 +574,7 @@ Trying client 'myhost2' using protocol 'smb'
  ---> Path: C:/Test Dir
 Backing up client: myhost2
 Reading list of problematic checksums
-List created: myhost2
+Register created: myhost2
 Database open r/w: myhost2
 Backing up path: C:/Test Dir
 Ad      C:/Test Dir/My Dir
@@ -585,7 +585,7 @@ Af f    C:/Test Dir/My Dir/a File.TXT
 Adding uncompressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
 Af f    C:/Test Dir/My Dir/another File.TXT
 Af ~    C:/Test Dir/My File.TXT
-Database modified: myhost2
+Register modified: myhost2
 Database closed: myhost2
  -> umount -fl test_db/mount
 Database closed
@@ -601,7 +601,7 @@ Trying client 'myhost3' using protocol 'nfs'
  ---> Path: /home/User/test
 Backing up client: myhost3
 Reading list of problematic checksums
-List created: myhost3
+Register created: myhost3
 Database open r/w: myhost3
 Backing up path: /home/User/test
  -> umount -fl test_db/mount
@@ -612,7 +612,7 @@ dir\r
    \r
 Replacing with uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Af fr   /home/User/test/dir/file3.txt
-Database modified: myhost3
+Register modified: myhost3
 Database closed: myhost3
  -> umount -fl test_db/mount
 Database closed
@@ -626,7 +626,7 @@ Database open in read/write mode
  ---> Path: test1/cvs
 Backing up client: myhost
 Reading list of problematic checksums
-List created: myhost
+Register created: myhost
 Database open r/w: myhost
 Backing up path: test1/cvs
 Ad      test1/cvs/CVS
@@ -667,7 +667,7 @@ Af ~    test1/cvs/filemod.o
 Af ~    test1/cvs/filenew.c
 Af ~    test1/cvs/fileoth
 Af ~    test1/cvs/fileutd.h
-Database modified: myhost
+Register modified: myhost
 Database closed: myhost
 Database closed
 Database open in read-only mode
@@ -1080,7 +1080,7 @@ Trying client 'myClient.xp' using protocol 'smb'
  -----> Condition: mode= 644
 Backing up client: myClient.xp
 Reading list of problematic checksums
-List created: myClient.xp
+Register created: myClient.xp
 Database open r/w: myClient.xp
 Backing up path: C:/Test Dir
 Ad      C:/Test Dir/My Dir
@@ -1089,7 +1089,7 @@ My Dir\r
 Af ~    C:/Test Dir/My Dir/a File.TXT
 Af ~    C:/Test Dir/My Dir/another File.TXT
 Af ~    C:/Test Dir/My File.TXT
-Database modified: myClient.xp
+Register modified: myClient.xp
 Database closed: myClient.xp
  -> umount -fl test_db/mount
 Database closed

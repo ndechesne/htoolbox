@@ -54,29 +54,29 @@ static void showLine(time_t timestamp, char* path, Node* node) {
 }
 
 static void add(
-    List&           list,
+    List&     list,
     const char*     path,
     time_t          epoch,
     const Node*     node = NULL) {
   list.addLine(path);
   char* line = NULL;
-  ListReader::encodeLine(&line, epoch, node);
+  Register::encodeLine(&line, epoch, node);
   list.addLine(line);
   free(line);
 }
 
 int main(void) {
-  List        dblist("test_db/list");
-  List        journal("test_db/journal");
-  List        merge("test_db/merge");
-  ListReader  dblist_reader("test_db/list");
-  ListReader  journal_reader("test_db/journal");
-  ListReader  merge_reader("test_db/merge");
-  char*       path   = NULL;
-  Node*       node   = NULL;
-  time_t      ts;
-  int         rc     = 0;
-  int         sys_rc;
+  List      dblist("test_db/list");
+  List      journal("test_db/journal");
+  List      merge("test_db/merge");
+  Register  dblist_reader("test_db/list");
+  Register  journal_reader("test_db/journal");
+  Register  merge_reader("test_db/merge");
+  char*     path   = NULL;
+  Node*     node   = NULL;
+  time_t    ts;
+  int       rc     = 0;
+  int       sys_rc;
 
   cout << "Test: DB lists" << endl;
   mkdir("test_db", 0755);
@@ -85,11 +85,11 @@ int main(void) {
 
   cout << endl << "Test: list creation" << endl;
 
-  if (dblist.open()) {
+  if (dblist.create()) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
-  dblist.close();
+  dblist.finalize();
 
   dblist_reader.show();
 
@@ -97,7 +97,7 @@ int main(void) {
   cout << endl << "Test: journal write" << endl;
   my_time++;
 
-  if (journal.open()) {
+  if (journal.create()) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -105,9 +105,6 @@ int main(void) {
   // No checksum
   node = new Stream("test1/test space");
   add(journal, "file sp", time(NULL), node);
-  if (journal.isEmpty()) {
-    cout << "Journal is empty" << endl;
-  }
   free(node);
 
   add(journal, "file_gone", time(NULL));
@@ -128,12 +125,8 @@ int main(void) {
   add(journal, "path", time(NULL), node);
   free(node);
 
-  journal.close();
+  journal.finalize();
   node = NULL;
-
-  if (journal.isEmpty()) {
-    cout << "Journal is empty" << endl;
-  }
 
 
   cout << endl << "Test: journal read" << endl;
@@ -169,7 +162,7 @@ int main(void) {
     return 0;
   }
   if (dblist_reader.isEmpty()) {
-    cout << "List is empty" << endl;
+    cout << "Register is empty" << endl;
   }
   if (journal_reader.open()) {
     cerr << "Failed to open journal" << endl;
@@ -178,7 +171,7 @@ int main(void) {
   if (journal_reader.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
-  if (merge.open()) {
+  if (merge.create()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -186,10 +179,10 @@ int main(void) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
-  if (merge.isEmpty()) {
-    cout << "Merge is empty" << endl;
+  if (dblist_reader.isModified()) {
+    cout << "Register was modified" << endl;
   }
-  merge.close();
+  merge.finalize();
   journal_reader.close();
   dblist_reader.close();
 
@@ -207,7 +200,7 @@ int main(void) {
   cout << endl << "Test: journal write again" << endl;
   my_time++;
 
-  if (journal.open()) {
+  if (journal.create()) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -227,7 +220,7 @@ int main(void) {
   add(journal, "file_new", time(NULL), node);
   free(node);
 
-  journal.close();
+  journal.finalize();
   node = NULL;
 
 
@@ -245,16 +238,13 @@ int main(void) {
     return 0;
   }
   if (dblist_reader.isEmpty()) {
-    cout << "List is empty" << endl;
+    cout << "Register is empty" << endl;
   }
   if (journal_reader.open()) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
-  if (journal_reader.isEmpty()) {
-    cout << "Journal is empty" << endl;
-  }
-  if (merge.open()) {
+  if (merge.create()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -262,7 +252,10 @@ int main(void) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
-  merge.close();
+  if (dblist_reader.isModified()) {
+    cout << "Register was modified" << endl;
+  }
+  merge.finalize();
   journal_reader.close();
   dblist_reader.close();
 
@@ -295,7 +288,7 @@ int main(void) {
   cout << endl << "Test: journal path out of order" << endl;
   my_time++;
 
-  if (journal.open()) {
+  if (journal.create()) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -307,7 +300,7 @@ int main(void) {
   add(journal, "file_new", time(NULL), node);
   add(journal, "file_gone", time(NULL), node);
   free(node);
-  journal.close();
+  journal.finalize();
   node = NULL;
 
 
@@ -325,7 +318,7 @@ int main(void) {
     return 0;
   }
   if (dblist_reader.isEmpty()) {
-    cout << "List is empty" << endl;
+    cout << "Register is empty" << endl;
   }
   if (journal_reader.open()) {
     cerr << "Failed to open journal" << endl;
@@ -334,7 +327,7 @@ int main(void) {
   if (journal_reader.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
-  if (merge.open()) {
+  if (merge.create()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -342,7 +335,7 @@ int main(void) {
     cerr << "Failed to merge" << endl;
 //     return 0;
   }
-  merge.close();
+  merge.finalize();
   journal_reader.close();
   dblist_reader.close();
 
@@ -356,7 +349,7 @@ int main(void) {
   cout << endl << "Test: expire" << endl;
 
   // Show current list
-  cout << "List:" << endl;
+  cout << "Register:" << endl;
   dblist_reader.show();
 
   list<string>::iterator i;
@@ -368,9 +361,9 @@ int main(void) {
     return 0;
   }
   if (dblist_reader.isEmpty()) {
-    cout << "List is empty" << endl;
+    cout << "Register is empty" << endl;
   }
-  if (merge.open()) {
+  if (merge.create()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -378,7 +371,7 @@ int main(void) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
-  merge.close();
+  merge.finalize();
   dblist_reader.close();
 
   merge_reader.show();
@@ -390,9 +383,9 @@ int main(void) {
     return 0;
   }
   if (dblist_reader.isEmpty()) {
-    cout << "List is empty" << endl;
+    cout << "Register is empty" << endl;
   }
-  if (merge.open()) {
+  if (merge.create()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -400,7 +393,7 @@ int main(void) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
-  merge.close();
+  merge.finalize();
   dblist_reader.close();
 
   merge_reader.show();
@@ -408,16 +401,16 @@ int main(void) {
 
   cout << endl << "Test: copy all data" << endl;
 
-  cout << "List:" << endl;
+  cout << "Register:" << endl;
   dblist_reader.show();
   if (dblist_reader.open(&merge)) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   if (dblist_reader.isEmpty()) {
-    cout << "List is empty" << endl;
+    cout << "Register is empty" << endl;
   }
-  if (merge.open()) {
+  if (merge.create()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -425,7 +418,7 @@ int main(void) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
-  merge.close();
+  merge.finalize();
   dblist_reader.close();
 
   cout << "Merge:" << endl;
@@ -438,7 +431,7 @@ int main(void) {
   cout << endl << "Test: get latest entry only" << endl;
 
   // Add new entry in journal
-  if (journal.open()) {
+  if (journal.create()) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -450,14 +443,14 @@ int main(void) {
   add(journal, "file_new", time(NULL), node);
   free(node);
   node = NULL;
-  journal.close();
+  journal.finalize();
   // Merge
   if (dblist_reader.open(&merge)) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   if (dblist_reader.isEmpty()) {
-    cout << "List is empty" << endl;
+    cout << "Register is empty" << endl;
   }
   if (journal_reader.open(&merge)) {
     cerr << "Failed to open journal" << endl;
@@ -466,7 +459,7 @@ int main(void) {
   if (journal_reader.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
-  if (merge.open()) {
+  if (merge.create()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -474,7 +467,7 @@ int main(void) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
-  merge.close();
+  merge.finalize();
   journal_reader.close();
   dblist_reader.close();
   // Update
@@ -482,20 +475,20 @@ int main(void) {
     cerr << "Failed to rename merge into list" << endl;
   }
   // Show list
-  cout << "List:" << endl;
+  cout << "Register:" << endl;
   dblist_reader.show();
 
 
   // Show list with new functionality
   cout << endl << "Test: last entries data" << endl;
-  cout << "List:" << endl;
+  cout << "Register:" << endl;
   dblist_reader.show(0);
 
 
   // Show list with new functionality
   cout << endl << "Test: entries for given date" << endl;
   cout << "Date: 5" << endl;
-  cout << "List:" << endl;
+  cout << "Register:" << endl;
   dblist_reader.show(5);
 
 
@@ -503,7 +496,7 @@ int main(void) {
   cout << endl << "Test: journal write" << endl;
   my_time++;
 
-  if (journal.open()) {
+  if (journal.create()) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -511,9 +504,6 @@ int main(void) {
   // No checksum
   node = new Stream("test1/test space");
   add(journal, "file sp", time(NULL), node);
-  if (journal.isEmpty()) {
-    cout << "Journal is empty" << endl;
-  }
   free(node);
 
   add(journal, "file_gone", time(NULL));
@@ -533,10 +523,7 @@ int main(void) {
   add(journal, "path", time(NULL), node);
   free(node);
 
-  journal.close();
-  if (journal.isEmpty()) {
-    cout << "Journal is empty" << endl;
-  }
+  journal.finalize();
   sys_rc = system("head -c 190 test_db/journal > test_db/journal.1");
   sys_rc = system("cp -f test_db/journal.1 test_db/journal");
 
@@ -575,7 +562,7 @@ int main(void) {
     return 0;
   }
   if (dblist_reader.isEmpty()) {
-    cout << "List is empty" << endl;
+    cout << "Register is empty" << endl;
   }
   if (journal_reader.open()) {
     cerr << "Failed to open journal" << endl;
@@ -584,7 +571,7 @@ int main(void) {
   if (journal_reader.isEmpty()) {
     cout << "Journal is empty" << endl;
   }
-  if (merge.open()) {
+  if (merge.create()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
@@ -592,10 +579,10 @@ int main(void) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
-  if (merge.isEmpty()) {
-    cout << "Merge is empty" << endl;
+  if (dblist_reader.isModified()) {
+    cout << "Register was modified" << endl;
   }
-  merge.close();
+  merge.finalize();
   journal_reader.close();
   dblist_reader.close();
 

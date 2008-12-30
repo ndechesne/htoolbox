@@ -37,7 +37,7 @@ using namespace hbackup;
 struct Owner::Private {
   char*             path;
   char*             name;
-  ListReader*       original;
+  Register*         original;
   List*             journal;
   List*             partial;
   int               expiration;
@@ -74,7 +74,7 @@ int Owner::finishOff(
   bool got_next = recovery && next.isValid();
 
   // Need to open journal in read mode
-  ListReader journal(_d->journal->path());
+  Register journal(_d->journal->path());
 
   // Recovering from list and journal (step 0)
   if (recovery && ! got_next) {
@@ -83,8 +83,8 @@ int Owner::finishOff(
     if (! journal.open()) {
       bool failed = false;
       if (! journal.isEmpty()) {
-        out(verbose, msg_standard, _d->name, -1, "Database modified");
-        if (! _d->partial->open()) {
+        out(verbose, msg_standard, _d->name, -1, "Register modified");
+        if (! _d->partial->create()) {
           if (! _d->original->open(_d->partial, _d->journal)) {
             _d->original->setProgressCallback(_d->progress);
             if (_d->partial->merge(*_d->original, journal) < 0) {
@@ -97,7 +97,7 @@ int Owner::finishOff(
             out(error, msg_errno, "opening list", errno);
             failed = true;
           }
-          if (_d->partial->close()) {
+          if (_d->partial->finalize()) {
             out(error, msg_errno, "closing merge", errno);
             failed = true;
           }
@@ -195,7 +195,7 @@ int Owner::hold() const {
 
   File owner_list(Path(owner_dir.path(), "list"));
   if (! owner_list.isValid()) {
-    out(error, msg_standard, "List not accessible, aborting", -1, _d->name);
+    out(error, msg_standard, "Register not accessible, aborting", -1, _d->name);
     return -1;
   }
 
@@ -206,7 +206,7 @@ int Owner::hold() const {
     return -1;
   }
 
-  _d->original = new ListReader(file_name.str().c_str());
+  _d->original = new Register(file_name.str().c_str());
   if (_d->original->open()) {
     out(error, msg_errno, "opening list, aborting", -1, _d->name);
     release();
@@ -255,22 +255,22 @@ int Owner::open(
 
   bool failed = false;
   // Open list
-  _d->original = new ListReader(owner_list.path());
+  _d->original = new Register(owner_list.path());
   if (_d->original->open()) {
     File backup((owner_path + "list~").c_str());
 
     if (backup.isValid()) {
       rename(backup.path(), _d->original->path());
-      out(warning, msg_standard, "List not accessible, using backup", -1,
+      out(warning, msg_standard, "Register not accessible, using backup", -1,
         _d->name);
     } else if (initialize) {
       List original(owner_list.path());
-      if (original.open()) {
+      if (original.create()) {
         out(error, msg_errno, "creating list", errno, _d->name);
         failed = true;
       } else {
-        original.close();
-        out(info, msg_standard, _d->name, -1, "List created");
+        original.finalize();
+        out(info, msg_standard, _d->name, -1, "Register created");
       }
     }
   } else {
@@ -280,7 +280,7 @@ int Owner::open(
     // Check journal
     _d->journal = new List((owner_path + "journal").c_str());
     _d->partial = new List((owner_path + "partial").c_str());
-    ListReader journal(_d->journal->path());
+    Register journal(_d->journal->path());
     if (! journal.open()) {
       // Check previous crash
       journal.close();
@@ -298,12 +298,12 @@ int Owner::open(
       failed = true;
     } else
     // Open journal
-    if (_d->journal->open()) {
+    if (_d->journal->create()) {
       out(error, msg_errno, "opening journal", errno, _d->name);
       failed = true;
     } else
     // Open list
-    if (_d->partial->open()) {
+    if (_d->partial->create()) {
       out(error, msg_errno, "opening merge list", errno, _d->name);
       failed = true;
     }
@@ -311,8 +311,8 @@ int Owner::open(
   if (failed || check) {
     _d->original->close();
     if (! check) {
-      _d->journal->close();
-      _d->partial->close();
+      _d->journal->finalize();
+      _d->partial->finalize();
     }
     delete _d->original;
     delete _d->journal;
@@ -344,23 +344,23 @@ int Owner::close(
       }
     }
     // Now we can close the journal (failure to close is not problematic)
-    _d->journal->close();
+    _d->journal->finalize();
     // Check whether any work was done
-    if (_d->journal->isEmpty()) {
+    if (! _d->original->isModified()) {
       // No modification done, don't need journal anymore
       remove(_d->journal->path());
     } else
     if (! aborting()) {
-      out(verbose, msg_standard, _d->name, -1, "Database modified");
+      out(verbose, msg_standard, _d->name, -1, "Register modified");
     }
     // Close list (was open read-only)
     _d->original->close();
     // Close merge
-    if (_d->partial->close()) {
+    if (_d->partial->finalize()) {
       failed = true;
     }
     // Check whether we need to merge now
-    if (failed || aborting() || _d->journal->isEmpty()) {
+    if (failed || aborting() || ! _d->original->isModified()) {
       // Merging will occur at next read/write open, if journal exists
       remove(_d->partial->path());
     } else

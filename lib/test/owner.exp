@@ -3,9 +3,9 @@ Name: client
 Path: test_db/client
 
 First operation
-List created: client
-Database modified: client
-List:
+Register created: client
+Register modified: client
+Register:
 [11] /remote/path/testfile          f       13 750 
 # version 4
 /remote/path/testfile
@@ -21,8 +21,8 @@ list
 list~
 
 Update
-Database modified: client
-List:
+Register modified: client
+Register:
 [12] /remote/path/testfile          f   145408 644 
 [11] /remote/path/testfile          f       13 750 
 Dir contents:
@@ -35,8 +35,8 @@ list
 list~
 
 Abort client
-Database modified: client
-List:
+Register modified: client
+Register:
 [13] /remote/path/testfile          f       13 750 
 [12] /remote/path/testfile          f   145408 644 
 [11] /remote/path/testfile          f       13 750 
@@ -50,7 +50,7 @@ list
 list~
 
 Abort backup
-List:
+Register:
 [13] /remote/path/testfile          f       13 750 
 [12] /remote/path/testfile          f   145408 644 
 [11] /remote/path/testfile          f       13 750 
@@ -66,8 +66,8 @@ list~
 
 Recover client
 Warning: Previous backup interrupted: client
-Database modified: client
-List:
+Register modified: client
+Register:
 [14] /remote/path/testfile          f   145408 644 checksum test
 [13] /remote/path/testfile          f       13 750 
 [12] /remote/path/testfile          f   145408 644 
@@ -83,7 +83,7 @@ list~
 
 Recover client (empty journal)
 Warning: Previous backup interrupted: client
-List:
+Register:
 [14] /remote/path/testfile          f   145408 644 checksum test
 [13] /remote/path/testfile          f       13 750 
 [12] /remote/path/testfile          f   145408 644 
@@ -99,7 +99,7 @@ list~
 
 Recover client (empty, not closed journal)
 Warning: Previous backup interrupted: client
-List:
+Register:
 [14] /remote/path/testfile          f   145408 644 checksum test
 [13] /remote/path/testfile          f       13 750 
 [12] /remote/path/testfile          f   145408 644 
@@ -114,7 +114,7 @@ list
 list~
 
 Get checksums
-List:
+Register:
  -> checksum test, 145408
 Dir contents:
 test_db:

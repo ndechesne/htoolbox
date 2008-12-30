@@ -23,16 +23,16 @@ namespace hbackup {
 
 class List;
 
-class ListReader {
+class Register {
   struct            Private;
   Private* const    _d;
   friend class List;
   // Buffer relevant line
   ssize_t fetchLine();
 public:
-  ListReader(
+  Register(
     Path            path);
-  ~ListReader();
+  ~Register();
   // Open file (for read)
   int open(List* new_list = NULL, List* journal = NULL);
   // Close file
@@ -43,6 +43,8 @@ public:
   void setProgressCallback(progress_f progress);
   // Empty list (check right after opening)
   bool isEmpty() const;
+  // Something was journalled
+  bool isModified() const;
   // Convert one or several line(s) to data
   // Date:
   //    <0: any (if -2, data is not discarded)
@@ -78,7 +80,7 @@ public:
     time_t          time_start  = 0,        // Origin of time
     time_t          time_base   = 1);       // Time base
   // Encode line from metadata
-  static int encodeLine(
+  static ssize_t encodeLine(
     char*           line[],
     time_t          timestamp,
     const Node*     node);
@@ -88,31 +90,29 @@ public:
     time_t*         ts,                 // Line timestamp
     const char      path[]     = NULL,  // File path to store in metadata
     Node**          node       = NULL); // File metadata
+  // Write a line, adding the LF character
+  static ssize_t putLine(int fd, const Line& line);
 };
 
 class List {
-  struct            Private;
-  Private* const    _d;
-  friend class ListReader;
+  Path              _path;
+  int               _stream;
+  friend class Register;
 public:
-  List(
-    Path            path);
-  ~List();
+  List(Path path) : _path(path) {}
   // Open file, for read or write (no append), with compression (cf. Stream)
-  int open();
+  int create();
   // Close file
-  int close();
+  int finalize();
   // File path
-  const char* path() const;
-  // Nothing was journalled
-  bool isEmpty() const;
+  const char* path() const  { return _path;       }
   // Merge list and journal into this list
   //    all lists must be open
   // Return code:
   //    -1: error, 0: success, 1: unexpected end of journal
   int merge(
-    ListReader&     list,
-    ListReader&     journal);
+    Register&     list,
+    Register&     journal);
   // add line for tests
   int addLine(
     const char      line[]);

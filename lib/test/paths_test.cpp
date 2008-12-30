@@ -64,9 +64,9 @@ int main(void) {
   Database    db("test_db");
   db.setProgressCallback(progress);
   // myClient's lists
-  ListReader real_journal_reader(Path("test_db", "myClient/journal"));
-  ListReader journal_reader(Path("test_db", "myClient/journal~"));
-  ListReader dblist_reader(Path("test_db", "myClient/list"));
+  Register real_journal_reader(Path("test_db", "myClient/journal"));
+  Register journal_reader(Path("test_db", "myClient/journal~"));
+  Register dblist_reader(Path("test_db", "myClient/list"));
   // Filter
   Filter* bazaar = path->attributes.addFilter("and", "bazaar");
   if ((bazaar == NULL)
@@ -699,7 +699,7 @@ int main(void) {
   journal_reader.show(-1, 2000000000, 24 * 3600);
 
   // Next test
-  cout << endl << "List recovery after crash" << endl;
+  cout << endl << "Register recovery after crash" << endl;
   my_time++;
   sys_rc = system("touch \"test1/test space\"");
   sys_rc = system("mkdir test1/crash");
@@ -729,8 +729,8 @@ int main(void) {
   }
 
   // hisClient's lists
-  ListReader journal2_reader(Path("test_db", "hisClient/journal~"));
-  ListReader dblist2_reader(Path("test_db", "hisClient/list"));
+  Register journal2_reader(Path("test_db", "hisClient/journal~"));
+  Register dblist2_reader(Path("test_db", "hisClient/list"));
 
   // Replace files to test recovery
   rename("test_db/myClient/list.cp", "test_db/myClient/list");

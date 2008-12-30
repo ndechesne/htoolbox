@@ -59,8 +59,7 @@ int main(void) {
   string      checksum;
   string      zchecksum;
   int         status;
-  List        dblist("test_db/myClient/list");
-  ListReader  dblist_reader("test_db/myClient/list");
+  Register    dblist_reader("test_db/myClient/list");
   int         sys_rc;
 
   setVerbosityLevel(debug);
