@@ -697,10 +697,11 @@ int Data::check(
         }
       } else
       // Compare data size and stored size for compress files
-      if ((no > 0) && (data->dataSize() != original_size)) {
+      if (data->dataSize() != original_size) {
         if (original_size >= 0) {
-          out(error, msg_number, "Original size is wrong, correcting",
-            static_cast<int>(original_size), checksum);
+          out(error, msg_number, "Correcting wrong metadata", -1, checksum);
+        } else {
+          out(warning, msg_standard, "Adding missing metadata", -1, checksum);
         }
         original_size = data->dataSize();
         setOriginalSize(path.c_str(), original_size);
