@@ -35,7 +35,7 @@ using namespace std;
 using namespace hbackup;
 
 struct Owner::Private {
-  char*             path;
+  Path              path;
   char*             name;
   Register*         original;
   List*             journal;
@@ -67,8 +67,7 @@ struct Owner::Private {
 //      goto ---> step 1
 int Owner::finishOff(
     bool            recovery) {
-  string name = _d->original->path();
-  File next((name + ".next").c_str());
+  File next(Path(_d->path, "list.next"));
 
   // All files are expected to be closed
   bool got_next = recovery && next.isValid();
@@ -83,7 +82,8 @@ int Owner::finishOff(
     if (! journal.open()) {
       bool failed = false;
       if (! journal.isEmpty()) {
-        out(verbose, msg_standard, _d->name, -1, "Register modified");
+        out(verbose, msg_standard, _d->path.basename(), -1,
+          "Register modified");
         if (! _d->partial->create()) {
           if (! _d->original->open(_d->partial, _d->journal)) {
             _d->original->setProgressCallback(_d->progress);
@@ -130,9 +130,7 @@ int Owner::finishOff(
 
   // Discard journal (step 2)
   if (! got_next || File(_d->journal->path()).isValid()) {
-    string backup = _d->journal->path();
-    backup += "~";
-    if (rename(_d->journal->path(), backup.c_str())) {
+    if (rename(_d->journal->path(), Path(_d->path, "journal~"))) {
       out(error, msg_errno, "renaming journal", errno);
       return -1;
     }
@@ -140,7 +138,7 @@ int Owner::finishOff(
 
   // list -> list~ (step 3)
   if (! got_next || File(_d->original->path()).isValid()) {
-    if (rename(_d->original->path(), (name + "~").c_str())) {
+    if (rename(_d->original->path(), Path(_d->path, "list~"))) {
       out(error, msg_errno, "renaming backup list", errno);
       return -1;
     }
@@ -158,8 +156,7 @@ Owner::Owner(
     const char*     path,
     const char*     name,
     time_t          expiration) : _d(new Private) {
-  _d->path       = strdup(Path(path, name));
-  _d->name       = strdup(name);
+  _d->path       = Path(path, name);
   _d->original   = NULL;
   _d->journal    = NULL;
   _d->partial    = NULL;
@@ -172,13 +169,11 @@ Owner::~Owner() {
   if (_d->original != NULL) {
     close(true);
   }
-  free(_d->path);
-  free(_d->name);
   delete _d;
 }
 
 const char* Owner::name() const {
-  return _d->name;
+  return _d->path.basename();
 }
 
 const char* Owner::path() const {
@@ -189,13 +184,14 @@ int Owner::hold() const {
   Directory owner_dir(_d->path);
   if (! owner_dir.isValid()) {
     out(error, msg_standard, "Directory does not exist, aborting", -1,
-      _d->name);
+      _d->path.basename());
     return -1;
   }
 
-  File owner_list(Path(owner_dir.path(), "list"));
+  File owner_list(Path(_d->path, "list"));
   if (! owner_list.isValid()) {
-    out(error, msg_standard, "Register not accessible, aborting", -1, _d->name);
+    out(error, msg_standard, "Register not accessible, aborting", -1,
+      _d->path.basename());
     return -1;
   }
 
@@ -208,7 +204,7 @@ int Owner::hold() const {
 
   _d->original = new Register(file_name.str().c_str());
   if (_d->original->open()) {
-    out(error, msg_errno, "opening list, aborting", -1, _d->name);
+    out(error, msg_errno, "opening list, aborting", -1, _d->path.basename());
     release();
     return -1;
   }
@@ -235,7 +231,7 @@ int Owner::open(
     if (initialize) {
       if (owner_dir.create() < 0) {
         out(error, msg_standard, "Directory cannot be created, aborting", -1,
-          _d->name);
+          _d->path.basename());
         return -1;
       }
     } else
@@ -245,32 +241,30 @@ int Owner::open(
     } else
     {
       out(error, msg_standard, "Directory does not exist, aborting", -1,
-        _d->name);
+        _d->path.basename());
       return -1;
     }
   }
-  string owner_path = owner_dir.path();
-  owner_path += "/";
-  File owner_list((owner_path + "list").c_str());
+  File owner_list(Path(_d->path, "list"));
 
   bool failed = false;
   // Open list
   _d->original = new Register(owner_list.path());
   if (_d->original->open()) {
-    File backup((owner_path + "list~").c_str());
+    File backup(Path(_d->path, "list~"));
 
     if (backup.isValid()) {
       rename(backup.path(), _d->original->path());
       out(warning, msg_standard, "Register not accessible, using backup", -1,
-        _d->name);
+        _d->path.basename());
     } else if (initialize) {
       List original(owner_list.path());
       if (original.create()) {
-        out(error, msg_errno, "creating list", errno, _d->name);
+        out(error, msg_errno, "creating list", errno, _d->path.basename());
         failed = true;
       } else {
         original.finalize();
-        out(info, msg_standard, _d->name, -1, "Register created");
+        out(info, msg_standard, _d->path.basename(), -1, "Register created");
       }
     }
   } else {
@@ -278,13 +272,14 @@ int Owner::open(
   }
   if (! failed) {
     // Check journal
-    _d->journal = new List((owner_path + "journal").c_str());
-    _d->partial = new List((owner_path + "partial").c_str());
+    _d->journal = new List(Path(_d->path, "journal"));
+    _d->partial = new List(Path(_d->path, "partial"));
     Register journal(_d->journal->path());
     if (! journal.open()) {
       // Check previous crash
       journal.close();
-      out(warning, msg_standard, _d->name, -1, "Previous backup interrupted");
+      out(warning, msg_standard, _d->path.basename(), -1,
+        "Previous backup interrupted");
       if (finishOff(true)) {
         out(error, msg_standard, "Failed to recover previous data");
         failed = true;
@@ -294,17 +289,17 @@ int Owner::open(
   if (! failed && ! check) {
     // Open list
     if (_d->original->open(_d->partial, _d->journal)) {
-      out(error, msg_errno, "opening list", errno, _d->name);
+      out(error, msg_errno, "opening list", errno, _d->path.basename());
       failed = true;
     } else
     // Open journal
     if (_d->journal->create()) {
-      out(error, msg_errno, "opening journal", errno, _d->name);
+      out(error, msg_errno, "opening journal", errno, _d->path.basename());
       failed = true;
     } else
     // Open list
     if (_d->partial->create()) {
-      out(error, msg_errno, "opening merge list", errno, _d->name);
+      out(error, msg_errno, "opening merge list", errno, _d->path.basename());
       failed = true;
     }
   }
@@ -351,7 +346,7 @@ int Owner::close(
       remove(_d->journal->path());
     } else
     if (! aborting()) {
-      out(verbose, msg_standard, _d->name, -1, "Register modified");
+      out(verbose, msg_standard, _d->path.basename(), -1, "Register modified");
     }
     // Close list (was open read-only)
     _d->original->close();
