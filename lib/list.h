@@ -71,8 +71,9 @@ public:
     const char      path[]      = NULL,     // Path to search
     time_t          expire      = -1,       // Expiration date
     time_t          remove      = 0);       // Mark records removed at date
-  // Add metadata
+  // Add info
   int add(
+    const Path&     path,
     const Node*     node);
   // Show the list
   void show(
@@ -111,8 +112,8 @@ public:
   // Return code:
   //    -1: error, 0: success, 1: unexpected end of journal
   int merge(
-    Register&     list,
-    Register&     journal);
+    Register&       list,
+    Register&       journal);
   // add line for tests
   int addLine(
     const char      line[]);

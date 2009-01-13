@@ -48,8 +48,8 @@ struct Register::Private {
   // Set when a previous version is detected
   bool              old_version;
   bool              modified;
-  List*       new_list;
-  List*       journal;
+  List*             new_list;
+  List*             journal;
   Private(const char* path) : stream(path) {}
 };
 
@@ -367,10 +367,6 @@ int Register::search(
             // Could not write
             return -1;
           }
-          // Add to journal
-          if (_d->journal != NULL) {
-            putLine(_d->journal->_stream, path_l);
-          }
         }
       } else
       // Our data is here or after, so let's copy if required
@@ -411,6 +407,7 @@ int Register::search(
 }
 
 int Register::add(
+    const Path&     path,
     const Node*     node) {
   int rc = 0;
   if (_d->new_list != NULL) {
@@ -421,7 +418,10 @@ int Register::add(
       rc = -1;
     }
     if (_d->journal != NULL) {
-      if (putLine(_d->journal->_stream, line) != size) {
+      // Add to journal
+      if ((putLine(_d->journal->_stream, path) !=
+            static_cast<ssize_t>(path.size())) ||
+          (putLine(_d->journal->_stream, line) != size)) {
         rc = -1;
       }
     }

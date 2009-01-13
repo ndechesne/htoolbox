@@ -468,8 +468,9 @@ int Owner::send(
 }
 
 int Owner::add(
+    const Path&     path,
     const Node*     node) {
-  return (_d->original->add(node) < 0) ? -1 : 0;
+  return (_d->original->add(path, node) < 0) ? -1 : 0;
 }
 
 int Owner::getNextRecord(

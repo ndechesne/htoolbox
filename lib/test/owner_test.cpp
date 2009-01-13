@@ -107,6 +107,7 @@ int main(void) {
   Node*   list_node;
   OpData* op;
   Missing missing;
+  Path p;
 
   cout << endl << "First operation" << endl;
   rc = o.open(true, false);
@@ -117,11 +118,12 @@ int main(void) {
   node = new File(Path("test1/testfile"));
   node->stat();
   list_node = NULL;
-  op = new OpData((remote_path + node->name()).c_str(), *node);
+  p = (remote_path + node->name()).c_str();
+  op = new OpData(p, *node);
   o.send(*op, missing);
   delete list_node;
   ++my_time;
-  rc = o.add(node);
+  rc = o.add(p, node);
   delete node;
   delete op;
   if (rc) {
@@ -149,11 +151,12 @@ int main(void) {
   node = new File(Path("test2/testfile"));
   node->stat();
   list_node = NULL;
-  op = new OpData((remote_path + node->name()).c_str(), *node);
+  p = (remote_path + node->name()).c_str();
+  op = new OpData(p, *node);
   o.send(*op, missing);
   delete list_node;
   ++my_time;
-  rc = o.add(node);
+  rc = o.add(p, node);
   delete node;
   delete op;
   if (rc) {
@@ -180,11 +183,12 @@ int main(void) {
   node = new File(Path("test1/testfile"));
   node->stat();
   list_node = NULL;
-  op = new OpData((remote_path + node->name()).c_str(), *node);
+  p = (remote_path + node->name()).c_str();
+  op = new OpData(p, *node);
   o.send(*op, missing);
   delete list_node;
   ++my_time;
-  rc = o.add(node);
+  rc = o.add(p, node);
   delete node;
   delete op;
   if (rc) {
@@ -211,12 +215,13 @@ int main(void) {
   node = new File(Path("test2/testfile"));
   node->stat();
   list_node = NULL;
-  op = new OpData((remote_path + node->name()).c_str(), *node);
+  p = (remote_path + node->name()).c_str();
+  op = new OpData(p, *node);
   o.send(*op, missing);
   delete list_node;
   dynamic_cast<File*>(node)->setChecksum("checksum test");
   ++my_time;
-  rc = o.add(node);
+  rc = o.add(p, node);
   delete node;
   delete op;
   if (rc) {

@@ -47,8 +47,9 @@ public:
   int send(
     OpData&         operation,            // Operation data
     Missing&        missing);             // List of missing items
-  // Add metadata info
+  // Add info
   int add(
+    const Path&     path,
     const Node*     node);
   // Get next record matching path and date
   int getNextRecord(                      // -1: error, 0: eof, 1: success

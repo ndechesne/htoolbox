@@ -29,13 +29,13 @@ class OpData {
   char              _info;            // Letter showing internal information
   int               _id;              // Missing checksum ID
   int               _compression;     // Compression level for regular files
-  const char*       _path;            // Real file path, on client
+  const Path&       _path;            // Real file path, on client
   Node&             _node;            // File metadata
   bool              _same_list_entry; // Don't add a list entry, replace
 public:
   // Pointers given to the constructor MUST remain valid during operation!
   OpData(
-    const char*     path,             // Real file path, on client
+    const Path&     path,             // Real file path, on client
     Node&           node)             // File metadata
     : _operation(' '), _type(' '), _info(' '), _id(-1), _compression(0),
       _path(path), _node(node), _same_list_entry(false) {}

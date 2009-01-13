@@ -702,7 +702,7 @@ int Database::add(
   }
 
   if (op._node.type() == 'f') {
-    if (static_cast<File&>(op._node).checksum()[0] == '\0') {
+    if (static_cast<const File&>(op._node).checksum()[0] == '\0') {
       // Copy data
       char* checksum = NULL;
       int compression;
@@ -731,7 +731,8 @@ int Database::add(
       } else {
         if ((op._operation != '!') || (! report_copy_error_once)) {
           char* full_name;
-          if (asprintf(&full_name, "%s:%s", _d->owner->name(), op._path) < 0) {
+          if (asprintf(&full_name, "%s:%s", _d->owner->name(),
+              static_cast<const char*>(op._path)) < 0) {
             out(alert, msg_errno, "creating full name", errno, op._path);
             failed = true;
           } else {
@@ -759,7 +760,7 @@ int Database::add(
   // Even if failed, add data if new
   if (! failed || ! op._same_list_entry) {
     // Add entry info to journal
-    if (_d->owner->add(&op._node) < 0) {
+    if (_d->owner->add(op._path, &op._node) < 0) {
       out(error, msg_standard, "Cannot add to client's list");
       failed = true;
     }
