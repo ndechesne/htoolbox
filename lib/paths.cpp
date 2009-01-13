@@ -71,29 +71,29 @@ int ClientPath::parse_recurse(
         char code[] = "       ";
         if ((*i)->type() == '?') {
           code[0] = 'I';
-          code[2] = (*i)->type();
-          code[4] = 's';
+          code[1] = (*i)->type();
+          code[3] = 'u';
         } else
 
         // Always ignore a dir named '.hbackup'
         if (((*i)->type() == 'd') && (strcmp((*i)->name(), ".hbackup") == 0)) {
           code[0] = 'I';
-          code[2] = (*i)->type();
-          code[4] = 's';
+          code[1] = (*i)->type();
+          code[3] = 's';
         } else
 
         // Let the parser analyse the file data to know whether to back it up
         if ((parser != NULL) && (parser->ignore(**i))) {
           code[0] = 'I';
-          code[2] = (*i)->type();
-          code[4] = 'p';
+          code[1] = (*i)->type();
+          code[3] = 'p';
         } else
 
         // Now pass it through the filters
         if (attributes.mustBeIgnored(**i, start)) {
           code[0] = 'I';
-          code[2] = (*i)->type();
-          code[4] = 'f';
+          code[1] = (*i)->type();
+          code[3] = 'f';
         } else
         {
           // Count the nodes considered, for info
@@ -127,17 +127,18 @@ int ClientPath::parse_recurse(
           if (op.needsAdding()) {
             // Regular file: deal with compression
             if ((*i)->type() == 'f') {
-              // Compress file if not using auto-compression and filter matches
-              if (op.compression() == 0) {
-                if ((_compress != NULL) && _compress->match(**i, start)) {
-                  op.setCompression(compression_level);
-                }
-              } else if (op.compression() < 0) {
-                if ((_no_compress != NULL) && _no_compress->match(**i, start)){
-                  op.setCompression(0);
-                } else {
-                  op.setCompression(-compression_level);
-                }
+              if ((_no_compress != NULL) && _no_compress->match(**i, start)) {
+                /* If in no-compress list, don't compress */
+                op.setCompressionStatus(OpData::never);
+              } else if (op.compressionStatus() == OpData::automatic) {
+                /* If auto-compress list, let it be */
+                op.setCompression(compression_level);
+              } else if ((_compress != NULL) && _compress->match(**i, start)) {
+                /* If in compress list, compress */
+                op.setCompression(compression_level);
+              } else {
+                /* Do not compress for now */
+                op.setCompression(0);
               }
             }
             if (db.add(op, attributes.reportCopyErrorOnceIsSet())

@@ -31,9 +31,15 @@ protected: // So I can test them
     string&         path,
     bool            create = false) const;
   // Get size of orginal data for given checksum path (-1 means failed)
-  long long getOriginalSize(const char* path) const;
+  int getMetadata(
+    const char*     path,
+    long long*      size,
+    char*           comp_status) const;
   // Set size of orginal data for given checksum path
-  int setOriginalSize(const char* path, long long size) const;
+  int setMetadata(
+    const char*     path,
+    long long       size,
+    char            comp_status) const;
   // Remove given path
   int removePath(const char* path) const;
   // Make sure we don't have too many files per directory
@@ -74,7 +80,8 @@ public:
     Stream&         source,           // Stream to read from
     const char*     temp_name,        // Name for temporary data file
     char**          checksum,         // Copy checksum here
-    int             compress  = 0,    // Compression to apply (negative: auto)
+    int             compress  = 0,    // Compression to apply (negative: never)
+    bool            auto_comp = false,// Choose whether to store compressed
     int*            acompress = NULL, // Compression actually applied
     bool            src_open  = true) const;// Open source file
   // Check existence/consistence of given checksum's data

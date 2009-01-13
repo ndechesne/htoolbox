@@ -117,11 +117,13 @@ int main(void) {
     << ", getdir_path: " << getdir_path << endl;
 
 
-  cout << endl << "Test: write and read back" << endl;
+  cout << endl << "Test: write and read back with auto-compression" << endl;
   /* Write */
-  char* chksm = NULL;
+  char*     chksm = NULL;
+  long long size;
+  bool      compressed;
   Stream testfile("test1/testfile");
-  if ((status = db.write(testfile, "temp_data", &chksm)) < 0) {
+  if ((status = db.write(testfile, "temp_data", &chksm, 5, true)) < 0) {
     printf("db.write error status %d\n", status);
     db.close();
     return 0;
@@ -132,6 +134,16 @@ int main(void) {
     return 0;
   }
   cout << chksm << "  test1/testfile" << endl;
+  cout << "Meta file contents: " << endl;
+  sys_rc = system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+  cout << endl;
+  /* Check */
+  if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
+    printf("db.check error status %d\n", status);
+    db.close();
+    return 0;
+  }
+
   /* Read */
   if ((status = db.read("test_db/blah", chksm))) {
     printf("db.read error status %d\n", status);
@@ -153,7 +165,7 @@ int main(void) {
   }
   cout << chksm << "  test_db/blah" << endl;
 
-  cout << endl << "Test: write and read back with compression" << endl;
+  cout << endl << "Test: write and read back" << endl;
   Node("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data").remove();
   /* Write */
   chksm = NULL;
@@ -174,8 +186,6 @@ int main(void) {
 
   /* Check and repair */
   Node("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta").remove();
-  long long size;
-  bool      compressed;
   if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
     printf("db.check error status %d\n", status);
     db.close();

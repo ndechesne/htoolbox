@@ -328,7 +328,7 @@ Path: /home/User
  --> bazaar
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
 cvs/CVS/Wherever\r
@@ -486,7 +486,7 @@ Path: /home/User
  --> bazaar
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 Error: host:/home/User/cvs: Permission denied reading directory
 Md !    /home/User/cvs
 D       /home/User/cvs/CVS
@@ -645,7 +645,7 @@ Path: /home/User
  --> bazaar
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 Md      /home/User/cvs
 cvs\r
    \r
@@ -856,7 +856,7 @@ Path: /home/User
  --> bazaar
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
 cvs/CVS/Wherever\r
@@ -1030,7 +1030,7 @@ Path: /home/User
  --> bazaar
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
 cvs/CVS/Wherever\r
@@ -1166,7 +1166,7 @@ Path: /home/User
  --> bazaar
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
 cvs/CVS/Wherever\r
@@ -1329,7 +1329,7 @@ Path: /home/User
  --> ignore1
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
 cvs/CVS/Wherever\r
@@ -1340,7 +1340,7 @@ cvs/dirutd/CVS\r
 dir space     \r
 subdir   \r
       \r
-I f f   /home/User/subdir/testfile
+If f    /home/User/subdir/testfile
 D       /home/User/subdir/testfile
 svn\r
 svn/.svn\r
@@ -1497,7 +1497,7 @@ Path: /home/User
  --> ignore1
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
 cvs/CVS/Wherever\r
@@ -1507,7 +1507,7 @@ cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
          \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 D       /home/User/subdir
 D       /home/User/subdir/testfile1
 D       /home/User/subdir/testfile2
@@ -1671,7 +1671,7 @@ Path: /home/User
  --> ignore1
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
 cvs/CVS/Wherever\r
@@ -1681,7 +1681,7 @@ cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
          \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
 svn/.svn\r
 svn/.svn/wherever\r
@@ -1850,7 +1850,7 @@ Path: /home/User
  --> ignore1
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
 cvs/CVS/Wherever\r
@@ -1860,7 +1860,7 @@ cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
          \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
 svn/.svn\r
 svn/.svn/wherever\r
@@ -1870,7 +1870,7 @@ svn/dirutd\r
 svn/dirutd/.svn\r
 testdir        \r
        \r
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 D       /home/User/testlink
 Parsed 57 file(s)
 Register modified: myClient
@@ -2032,7 +2032,7 @@ Path: /home/User
  -> Parser: CVS
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
    \r
  -> Parsing CVS entries
@@ -2043,9 +2043,9 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 D       /home/User/cvs/CVS/Whatever
 D       /home/User/cvs/CVS/Wherever
 D       /home/User/cvs/CVS/Wherever/Whichever
@@ -2053,9 +2053,9 @@ D       /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
 D       /home/User/cvs/dirbad/fileoth
 D       /home/User/cvs/dirbad/fileutd
 D       /home/User/cvs/diroth
@@ -2065,15 +2065,15 @@ cvs/dirutd\r
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
               \r
-I f p   /home/User/cvs/dirutd/CVS/Whatever
-I f p   /home/User/cvs/dirutd/fileoth
+If p    /home/User/cvs/dirutd/CVS/Whatever
+If p    /home/User/cvs/dirutd/fileoth
 D       /home/User/cvs/dirutd/CVS/Whatever
 D       /home/User/cvs/dirutd/fileoth
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/fileoth
 D       /home/User/cvs/fileoth
 dir space\r
          \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
 svn/.svn\r
 svn/.svn/wherever\r
@@ -2083,7 +2083,7 @@ svn/dirutd\r
 svn/dirutd/.svn\r
 testdir        \r
        \r
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 47 file(s)
 Register modified: myClient
 Database closed: myClient
@@ -2263,7 +2263,7 @@ Path: /home/User
  -> Parser: CVS
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
    \r
  -> Parsing CVS entries
@@ -2274,27 +2274,27 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
 cvs/dirutd\r
           \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
               \r
-I f p   /home/User/cvs/dirutd/CVS/Whatever
-I f p   /home/User/cvs/dirutd/fileoth
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/dirutd/CVS/Whatever
+If p    /home/User/cvs/dirutd/fileoth
+If p    /home/User/cvs/fileoth
 dir space\r
          \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
 svn/.svn\r
 svn/.svn/wherever\r
@@ -2304,7 +2304,7 @@ svn/dirutd\r
 svn/dirutd/.svn\r
 testdir        \r
        \r
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 47 file(s)
 Database closed: myClient
 Database closed
@@ -2485,7 +2485,7 @@ Path: /home/User
  -> Parser: Subversion
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
    \r
  -> Parsing CVS entries
@@ -2496,27 +2496,27 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
 cvs/dirutd\r
           \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
               \r
-I f p   /home/User/cvs/dirutd/CVS/Whatever
-I f p   /home/User/cvs/dirutd/fileoth
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/dirutd/CVS/Whatever
+If p    /home/User/cvs/dirutd/fileoth
+If p    /home/User/cvs/fileoth
 dir space\r
          \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -2526,9 +2526,9 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   /home/User/svn/.svn/format
-I f p   /home/User/svn/.svn/whatever
-I d p   /home/User/svn/.svn/wherever
+If p    /home/User/svn/.svn/format
+If p    /home/User/svn/.svn/whatever
+Id p    /home/User/svn/.svn/wherever
 D       /home/User/svn/.svn/format
 D       /home/User/svn/.svn/whatever
 D       /home/User/svn/.svn/wherever
@@ -2536,9 +2536,9 @@ D       /home/User/svn/.svn/wherever/whichever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   /home/User/svn/dirbad/fileoth
-I f p   /home/User/svn/dirbad/fileutd
-I d p   /home/User/svn/diroth
+If p    /home/User/svn/dirbad/fileoth
+If p    /home/User/svn/dirbad/fileutd
+Id p    /home/User/svn/diroth
 D       /home/User/svn/dirbad/fileoth
 D       /home/User/svn/dirbad/fileutd
 D       /home/User/svn/diroth
@@ -2549,19 +2549,19 @@ svn/dirutd\r
  --> fileutd: m
 svn/dirutd/.svn\r
                \r
-I f p   /home/User/svn/dirutd/.svn/format
-I f p   /home/User/svn/dirutd/.svn/whatever
-I f p   /home/User/svn/dirutd/fileoth
+If p    /home/User/svn/dirutd/.svn/format
+If p    /home/User/svn/dirutd/.svn/whatever
+If p    /home/User/svn/dirutd/fileoth
 D       /home/User/svn/dirutd/.svn/format
 D       /home/User/svn/dirutd/.svn/whatever
 D       /home/User/svn/dirutd/fileoth
-I f p   /home/User/svn/fileoth
-I f p   /home/User/svn/fileutd.h
+If p    /home/User/svn/fileoth
+If p    /home/User/svn/fileutd.h
 D       /home/User/svn/fileoth
 D       /home/User/svn/fileutd.h
 testdir\r
        \r
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 35 file(s)
 Register modified: myClient
 Database closed: myClient
@@ -2768,7 +2768,7 @@ Path: /home/User
  -> Parser: Subversion
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
    \r
  -> Parsing CVS entries
@@ -2779,25 +2779,25 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
-I d f   /home/User/cvs/dirutd
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
+Id f    /home/User/cvs/dirutd
 D       /home/User/cvs/dirutd
 D       /home/User/cvs/dirutd/CVS
 D       /home/User/cvs/dirutd/CVS/Entries
 D       /home/User/cvs/dirutd/CVS/Root
 D       /home/User/cvs/dirutd/fileutd
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/fileoth
 dir space\r
          \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -2807,15 +2807,15 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   /home/User/svn/.svn/format
-I f p   /home/User/svn/.svn/whatever
-I d p   /home/User/svn/.svn/wherever
+If p    /home/User/svn/.svn/format
+If p    /home/User/svn/.svn/whatever
+Id p    /home/User/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   /home/User/svn/dirbad/fileoth
-I f p   /home/User/svn/dirbad/fileutd
-I d p   /home/User/svn/diroth
+If p    /home/User/svn/dirbad/fileoth
+If p    /home/User/svn/dirbad/fileutd
+Id p    /home/User/svn/diroth
 svn/dirutd\r
           \r
  -> Parsing Subversion entries
@@ -2823,14 +2823,14 @@ svn/dirutd\r
  --> fileutd: m
 svn/dirutd/.svn\r
                \r
-I f p   /home/User/svn/dirutd/.svn/format
-I f p   /home/User/svn/dirutd/.svn/whatever
-I f p   /home/User/svn/dirutd/fileoth
-I f p   /home/User/svn/fileoth
-I f p   /home/User/svn/fileutd.h
+If p    /home/User/svn/dirutd/.svn/format
+If p    /home/User/svn/dirutd/.svn/whatever
+If p    /home/User/svn/dirutd/fileoth
+If p    /home/User/svn/fileoth
+If p    /home/User/svn/fileutd.h
 testdir\r
        \r
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 30 file(s)
 Register modified: myClient
 Database closed: myClient
@@ -3040,7 +3040,7 @@ Path: /home/User
  -> Parser: Subversion
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
    \r
  -> Parsing CVS entries
@@ -3051,20 +3051,20 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
-I d f   /home/User/cvs/dirutd
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
+Id f    /home/User/cvs/dirutd
+If p    /home/User/cvs/fileoth
 dir space\r
          \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -3074,25 +3074,25 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   /home/User/svn/.svn/format
-I f p   /home/User/svn/.svn/whatever
-I d p   /home/User/svn/.svn/wherever
+If p    /home/User/svn/.svn/format
+If p    /home/User/svn/.svn/whatever
+Id p    /home/User/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   /home/User/svn/dirbad/fileoth
-I f p   /home/User/svn/dirbad/fileutd
-I d p   /home/User/svn/diroth
-I d f   /home/User/svn/dirutd
+If p    /home/User/svn/dirbad/fileoth
+If p    /home/User/svn/dirbad/fileutd
+Id p    /home/User/svn/diroth
+Id f    /home/User/svn/dirutd
 D       /home/User/svn/dirutd
 D       /home/User/svn/dirutd/.svn
 D       /home/User/svn/dirutd/.svn/entries
 D       /home/User/svn/dirutd/fileutd
-I f p   /home/User/svn/fileoth
-I f p   /home/User/svn/fileutd.h
+If p    /home/User/svn/fileoth
+If p    /home/User/svn/fileutd.h
 testdir\r
        \r
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 26 file(s)
 Register modified: myClient
 Database closed: myClient
@@ -3305,7 +3305,7 @@ Path: /home/User
  -> Parser: Subversion
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
    \r
  -> Parsing CVS entries
@@ -3316,20 +3316,20 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
-I d f   /home/User/cvs/dirutd
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
+Id f    /home/User/cvs/dirutd
+If p    /home/User/cvs/fileoth
 dir space\r
          \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -3339,21 +3339,21 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   /home/User/svn/.svn/format
-I f p   /home/User/svn/.svn/whatever
-I d p   /home/User/svn/.svn/wherever
+If p    /home/User/svn/.svn/format
+If p    /home/User/svn/.svn/whatever
+Id p    /home/User/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   /home/User/svn/dirbad/fileoth
-I f p   /home/User/svn/dirbad/fileutd
-I d p   /home/User/svn/diroth
-I d f   /home/User/svn/dirutd
-I f p   /home/User/svn/fileoth
-I f p   /home/User/svn/fileutd.h
+If p    /home/User/svn/dirbad/fileoth
+If p    /home/User/svn/dirbad/fileutd
+Id p    /home/User/svn/diroth
+Id f    /home/User/svn/dirutd
+If p    /home/User/svn/fileoth
+If p    /home/User/svn/fileutd.h
 testdir\r
        \r
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 25 file(s)
 D       /home/User/testpipe
 Register modified: myClient
@@ -3565,7 +3565,7 @@ Path: /home/User
  -> Parser: Subversion
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
    \r
  -> Parsing CVS entries
@@ -3576,20 +3576,20 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
-I d f   /home/User/cvs/dirutd
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
+Id f    /home/User/cvs/dirutd
+If p    /home/User/cvs/fileoth
 dir space\r
          \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -3599,23 +3599,23 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   /home/User/svn/.svn/format
-I f p   /home/User/svn/.svn/whatever
-I d p   /home/User/svn/.svn/wherever
+If p    /home/User/svn/.svn/format
+If p    /home/User/svn/.svn/whatever
+Id p    /home/User/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   /home/User/svn/dirbad/fileoth
-I f p   /home/User/svn/dirbad/fileutd
-I d p   /home/User/svn/diroth
-I d f   /home/User/svn/dirutd
-I f p   /home/User/svn/fileoth
-I f p   /home/User/svn/fileutd.h
+If p    /home/User/svn/dirbad/fileoth
+If p    /home/User/svn/dirbad/fileutd
+Id p    /home/User/svn/diroth
+Id f    /home/User/svn/dirutd
+If p    /home/User/svn/fileoth
+If p    /home/User/svn/fileutd.h
 ~d      /home/User/testdir
 testdir\r
        \r
 ~f      /home/User/testfile
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 25 file(s)
 Register modified: myClient
 Database closed: myClient
@@ -3829,7 +3829,7 @@ Path: /home/User
  -> Parser: Subversion
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
    \r
  -> Parsing CVS entries
@@ -3840,22 +3840,22 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
-I d f   /home/User/cvs/dirutd
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
+Id f    /home/User/cvs/dirutd
 Adding uncompressed data for 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 Mf f    /home/User/cvs/filenew.c
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/fileoth
 dir space\r
          \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -3865,21 +3865,21 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   /home/User/svn/.svn/format
-I f p   /home/User/svn/.svn/whatever
-I d p   /home/User/svn/.svn/wherever
+If p    /home/User/svn/.svn/format
+If p    /home/User/svn/.svn/whatever
+Id p    /home/User/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   /home/User/svn/dirbad/fileoth
-I f p   /home/User/svn/dirbad/fileutd
-I d p   /home/User/svn/diroth
-I d f   /home/User/svn/dirutd
-I f p   /home/User/svn/fileoth
-I f p   /home/User/svn/fileutd.h
+If p    /home/User/svn/dirbad/fileoth
+If p    /home/User/svn/dirbad/fileutd
+Id p    /home/User/svn/diroth
+Id f    /home/User/svn/dirutd
+If p    /home/User/svn/fileoth
+If p    /home/User/svn/fileutd.h
 testdir\r
        \r
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Ap      /home/User/testpipe
 Parsed 26 file(s)
 Register modified: myClient
@@ -4096,7 +4096,7 @@ Path: /home/User
  -> Parser: Subversion
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
    \r
  -> Parsing CVS entries
@@ -4107,17 +4107,17 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
-I d f   /home/User/cvs/dirutd
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
+Id f    /home/User/cvs/dirutd
+If p    /home/User/cvs/fileoth
 dir space\r
          \r
 Ad      /home/User/docbook-xml
@@ -4149,7 +4149,7 @@ docbook-xml/4.4\r
 Af ~    /home/User/docbook-xml/4.4/dbgenent.mod
 Af ~    /home/User/docbook-xml.cat
 Af ~    /home/User/docbook-xml.cat.old
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -4159,18 +4159,18 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   /home/User/svn/.svn/format
-I f p   /home/User/svn/.svn/whatever
-I d p   /home/User/svn/.svn/wherever
+If p    /home/User/svn/.svn/format
+If p    /home/User/svn/.svn/whatever
+Id p    /home/User/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   /home/User/svn/dirbad/fileoth
-I f p   /home/User/svn/dirbad/fileutd
-I d p   /home/User/svn/diroth
-I d f   /home/User/svn/dirutd
-I f p   /home/User/svn/fileoth
-I f p   /home/User/svn/fileutd.h
+If p    /home/User/svn/dirbad/fileoth
+If p    /home/User/svn/dirbad/fileutd
+Id p    /home/User/svn/diroth
+Id f    /home/User/svn/dirutd
+If p    /home/User/svn/fileoth
+If p    /home/User/svn/fileutd.h
 testdir\r
        \r
 Ad      /home/User/testdir/biblio
@@ -4180,7 +4180,7 @@ Af ~    /home/User/testdir/biblio/biblio.dbf
 Af ~    /home/User/testdir/biblio/biblio.dbt
 Af ~    /home/User/testdir/biblio.odb
 Af ~    /home/User/testdir/evolocal.odb
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 46 file(s)
 Register modified: myClient
 Database closed: myClient
@@ -4434,7 +4434,7 @@ Path: /home/User
  -> Parser: Subversion
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 cvs\r
    \r
  -> Parsing CVS entries
@@ -4445,17 +4445,17 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
-I d f   /home/User/cvs/dirutd
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
+Id f    /home/User/cvs/dirutd
+If p    /home/User/cvs/fileoth
 dir space\r
 docbook-xml\r
 docbook-xml/3.1.7\r
@@ -4465,7 +4465,7 @@ docbook-xml/4.2  \r
 docbook-xml/4.3\r
 docbook-xml/4.4\r
                \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -4475,22 +4475,22 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   /home/User/svn/.svn/format
-I f p   /home/User/svn/.svn/whatever
-I d p   /home/User/svn/.svn/wherever
+If p    /home/User/svn/.svn/format
+If p    /home/User/svn/.svn/whatever
+Id p    /home/User/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   /home/User/svn/dirbad/fileoth
-I f p   /home/User/svn/dirbad/fileutd
-I d p   /home/User/svn/diroth
-I d f   /home/User/svn/dirutd
-I f p   /home/User/svn/fileoth
-I f p   /home/User/svn/fileutd.h
+If p    /home/User/svn/dirbad/fileoth
+If p    /home/User/svn/dirbad/fileutd
+Id p    /home/User/svn/diroth
+Id f    /home/User/svn/dirutd
+If p    /home/User/svn/fileoth
+If p    /home/User/svn/fileutd.h
 testdir\r
 testdir/biblio\r
               \r
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 46 file(s)
 Database closed: myClient
 Database closed
@@ -4755,7 +4755,7 @@ Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
 Af f    /home/User/testfile2.gz
 Adding uncompressed data for 59071590099d21dd439896592338bf95-0
 Af f    /home/User/testfile~
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 5 file(s)
 Register modified: hisClient
 Database closed: hisClient
@@ -4808,7 +4808,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 Ad      /home/User/crash
 crash\r
      \r
@@ -4823,17 +4823,17 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
-I d f   /home/User/cvs/dirutd
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
+Id f    /home/User/cvs/dirutd
+If p    /home/User/cvs/fileoth
 dir space\r
 docbook-xml\r
 docbook-xml/3.1.7\r
@@ -4843,7 +4843,7 @@ docbook-xml/4.2  \r
 docbook-xml/4.3\r
 docbook-xml/4.4\r
                \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -4853,18 +4853,18 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   /home/User/svn/.svn/format
-I f p   /home/User/svn/.svn/whatever
-I d p   /home/User/svn/.svn/wherever
+If p    /home/User/svn/.svn/format
+If p    /home/User/svn/.svn/whatever
+Id p    /home/User/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   /home/User/svn/dirbad/fileoth
-I f p   /home/User/svn/dirbad/fileutd
-I d p   /home/User/svn/diroth
-I d f   /home/User/svn/dirutd
-I f p   /home/User/svn/fileoth
-I f p   /home/User/svn/fileutd.h
+If p    /home/User/svn/dirbad/fileoth
+If p    /home/User/svn/dirbad/fileutd
+Id p    /home/User/svn/diroth
+Id f    /home/User/svn/dirutd
+If p    /home/User/svn/fileoth
+If p    /home/User/svn/fileutd.h
 Mf ~    /home/User/test space
 D       /home/User/testdir
 D       /home/User/testdir/biblio
@@ -4872,7 +4872,7 @@ D       /home/User/testdir/biblio/biblio.dbf
 D       /home/User/testdir/biblio/biblio.dbt
 D       /home/User/testdir/biblio.odb
 D       /home/User/testdir/evolocal.odb
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 42 file(s)
 Register modified: myClient
 Database closed: myClient
@@ -5348,7 +5348,7 @@ Path: /home/User
  -> Parser: Subversion
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 crash\r
 cvs  \r
    \r
@@ -5360,17 +5360,17 @@ cvs  \r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
-I d f   /home/User/cvs/dirutd
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
+Id f    /home/User/cvs/dirutd
+If p    /home/User/cvs/fileoth
 dir space\r
 docbook-xml\r
 docbook-xml/3.1.7\r
@@ -5380,7 +5380,7 @@ docbook-xml/4.2  \r
 docbook-xml/4.3\r
 docbook-xml/4.4\r
                \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -5390,19 +5390,19 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   /home/User/svn/.svn/format
-I f p   /home/User/svn/.svn/whatever
-I d p   /home/User/svn/.svn/wherever
+If p    /home/User/svn/.svn/format
+If p    /home/User/svn/.svn/whatever
+Id p    /home/User/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   /home/User/svn/dirbad/fileoth
-I f p   /home/User/svn/dirbad/fileutd
-I d p   /home/User/svn/diroth
-I d f   /home/User/svn/dirutd
-I f p   /home/User/svn/fileoth
-I f p   /home/User/svn/fileutd.h
-I l f   /home/User/testlink
+If p    /home/User/svn/dirbad/fileoth
+If p    /home/User/svn/dirbad/fileutd
+Id p    /home/User/svn/diroth
+Id f    /home/User/svn/dirutd
+If p    /home/User/svn/fileoth
+If p    /home/User/svn/fileutd.h
+Il f    /home/User/testlink
 Parsed 42 file(s)
 Database closed: myClient
 Database closed
@@ -5671,7 +5671,7 @@ Reading list of problematic checksums
 Database open r/w: hisClient
 testdir\r
        \r
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 5 file(s)
 Database closed: hisClient
 Database closed
@@ -5938,7 +5938,7 @@ Path: /home/User
  -> Parser: Subversion
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 crash\r
 cvs  \r
    \r
@@ -5950,17 +5950,17 @@ cvs  \r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
-I d f   /home/User/cvs/dirutd
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
+Id f    /home/User/cvs/dirutd
+If p    /home/User/cvs/fileoth
 dir space\r
 docbook-xml\r
 docbook-xml/3.1.7\r
@@ -5970,7 +5970,7 @@ docbook-xml/4.2  \r
 docbook-xml/4.3\r
 docbook-xml/4.4\r
                \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -5980,21 +5980,21 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   /home/User/svn/.svn/format
-I f p   /home/User/svn/.svn/whatever
-I d p   /home/User/svn/.svn/wherever
+If p    /home/User/svn/.svn/format
+If p    /home/User/svn/.svn/whatever
+Id p    /home/User/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   /home/User/svn/dirbad/fileoth
-I f p   /home/User/svn/dirbad/fileutd
-I d p   /home/User/svn/diroth
-I d f   /home/User/svn/dirutd
-I f p   /home/User/svn/fileoth
-I f p   /home/User/svn/fileutd.h
+If p    /home/User/svn/dirbad/fileoth
+If p    /home/User/svn/dirbad/fileutd
+Id p    /home/User/svn/diroth
+Id f    /home/User/svn/dirutd
+If p    /home/User/svn/fileoth
+If p    /home/User/svn/fileutd.h
 Error: myClient:/home/User/testfile: Permission denied backing up file
 Mf !    /home/User/testfile
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 42 file(s)
 Register modified: myClient
 Database closed: myClient
@@ -6166,7 +6166,7 @@ Path: /home/User
  -> Parser: Subversion
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 crash\r
 cvs  \r
    \r
@@ -6178,17 +6178,17 @@ cvs  \r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
-I d f   /home/User/cvs/dirutd
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
+Id f    /home/User/cvs/dirutd
+If p    /home/User/cvs/fileoth
 dir space\r
 docbook-xml\r
 docbook-xml/3.1.7\r
@@ -6198,7 +6198,7 @@ docbook-xml/4.2  \r
 docbook-xml/4.3\r
 docbook-xml/4.4\r
                \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -6208,21 +6208,21 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   /home/User/svn/.svn/format
-I f p   /home/User/svn/.svn/whatever
-I d p   /home/User/svn/.svn/wherever
+If p    /home/User/svn/.svn/format
+If p    /home/User/svn/.svn/whatever
+Id p    /home/User/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   /home/User/svn/dirbad/fileoth
-I f p   /home/User/svn/dirbad/fileutd
-I d p   /home/User/svn/diroth
-I d f   /home/User/svn/dirutd
-I f p   /home/User/svn/fileoth
-I f p   /home/User/svn/fileutd.h
+If p    /home/User/svn/dirbad/fileoth
+If p    /home/User/svn/dirbad/fileutd
+Id p    /home/User/svn/diroth
+Id f    /home/User/svn/dirutd
+If p    /home/User/svn/fileoth
+If p    /home/User/svn/fileutd.h
 D       /home/User/testfile
 Mf ~    /home/User/testfile~
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 41 file(s)
 Register modified: myClient
 Database closed: myClient
@@ -6386,7 +6386,7 @@ Path: /home/User
  -> Parser: Subversion
 Reading list of problematic checksums
 Database open r/w: myClient
-I d s   /home/User/.hbackup
+Id s    /home/User/.hbackup
 crash\r
 cvs  \r
    \r
@@ -6398,17 +6398,17 @@ cvs  \r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   /home/User/cvs/CVS/Whatever
-I d p   /home/User/cvs/CVS/Wherever
-I f p   /home/User/cvs/big_file
+If p    /home/User/cvs/CVS/Whatever
+Id p    /home/User/cvs/CVS/Wherever
+If p    /home/User/cvs/big_file
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   /home/User/cvs/dirbad/fileoth
-I f p   /home/User/cvs/dirbad/fileutd
-I d p   /home/User/cvs/diroth
-I d f   /home/User/cvs/dirutd
-I f p   /home/User/cvs/fileoth
+If p    /home/User/cvs/dirbad/fileoth
+If p    /home/User/cvs/dirbad/fileutd
+Id p    /home/User/cvs/diroth
+Id f    /home/User/cvs/dirutd
+If p    /home/User/cvs/fileoth
 dir space\r
 docbook-xml\r
 docbook-xml/3.1.7\r
@@ -6418,7 +6418,7 @@ docbook-xml/4.2  \r
 docbook-xml/4.3\r
 docbook-xml/4.4\r
                \r
-I d f   /home/User/subdir
+Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -6428,20 +6428,20 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   /home/User/svn/.svn/format
-I f p   /home/User/svn/.svn/whatever
-I d p   /home/User/svn/.svn/wherever
+If p    /home/User/svn/.svn/format
+If p    /home/User/svn/.svn/whatever
+Id p    /home/User/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   /home/User/svn/dirbad/fileoth
-I f p   /home/User/svn/dirbad/fileutd
-I d p   /home/User/svn/diroth
-I d f   /home/User/svn/dirutd
-I f p   /home/User/svn/fileoth
-I f p   /home/User/svn/fileutd.h
+If p    /home/User/svn/dirbad/fileoth
+If p    /home/User/svn/dirbad/fileutd
+Id p    /home/User/svn/diroth
+Id f    /home/User/svn/dirutd
+If p    /home/User/svn/fileoth
+If p    /home/User/svn/fileutd.h
 Mf ~    /home/User/testfile~
-I l f   /home/User/testlink
+Il f    /home/User/testlink
 Parsed 41 file(s)
 Register modified: myClient
 Database closed: myClient

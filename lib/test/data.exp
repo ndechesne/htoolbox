@@ -10,23 +10,28 @@ fedc76test5 status: 1, getdir_path: test_db/data/fe/dc/76/test5
 fedc76test6 status: 1, getdir_path: test_db/data/fe/dc/76/test6
 fedc76test6 status: 0, getdir_path: test_db/data/fe/dc/76/test6
 
-Test: write and read back
+Test: write and read back with auto-compression
+Checking data, sizes: f=13 z=33 (33)
 Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
+Meta file contents: 
+13	+
+59ca0efa9f5633cb0371bbc0355478d8-0 13\r
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 
-Test: write and read back with compression
+Test: write and read back
+                                     \r
 Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
 Meta file contents: 
-13
+13	 
 Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Metadata missing
 59ca0efa9f5633cb0371bbc0355478d8-0 -1 33\r
                                         \r
 Warning: 59ca0efa9f5633cb0371bbc0355478d8-0: Adding missing metadata
 Size reported: 13
 Meta file contents: 
-13
+13	 
 59ca0efa9f5633cb0371bbc0355478d8-0 13 33\r
                                         \r
 Replacing with uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0

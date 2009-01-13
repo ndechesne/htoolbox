@@ -686,7 +686,7 @@ void Database::sendEntry(
   _d->owner->send(op, _d->missing);
   // Tell caller about auto compression
   if (_d->compress_auto) {
-    op._compression = -1;
+    op.setCompressionStatus(OpData::automatic);
   }
 }
 
@@ -706,9 +706,14 @@ int Database::add(
       // Copy data
       char* checksum = NULL;
       int compression;
+      if (op._comp_status == OpData::never) {
+        compression = -1;
+      } else {
+        compression = op._compression;
+      }
       Stream source(op._node.path());
       int rc = _d->data.write(source, _d->owner->name(), &checksum,
-        op._compression, &compression);
+        compression, op._comp_status == OpData::automatic, &compression);
       if (rc >= 0) {
         if (rc > 0) {
           if (compression > 0) {

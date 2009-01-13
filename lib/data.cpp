@@ -70,11 +70,16 @@ int Data::getDir(
   return Directory(path.c_str()).isValid() ? 0 : 1;
 }
 
-long long Data::getOriginalSize(const char* path) const {
+int Data::getMetadata(
+    const char*     path,
+    long long*      size,
+    char*           comp_status) const {
   bool         failed        = false;
   char*        meta_str      = NULL;
   unsigned int meta_str_size = 0;
-  // File is compressed, get original file size
+
+  *size = -1;
+  *comp_status = '?';
   Stream meta_file(Path(path, "meta"));
   if (meta_file.open(O_RDONLY) < 0) {
 //  out(warning, msg_errno, "opening metadata file", errno, meta_file.path());
@@ -86,18 +91,20 @@ long long Data::getOriginalSize(const char* path) const {
     }
     meta_file.close();
   }
-  long long size = -1;
   if (! failed) {
-    sscanf(meta_str, "%lld", &size);
+    sscanf(meta_str, "%lld\t%c", size, comp_status);
   }
   free(meta_str);
-  return failed ? -1 : size;
+  return failed ? -1 : 0;
 }
 
-int Data::setOriginalSize(const char* path, long long size) const {
+int Data::setMetadata(
+    const char*     path,
+    long long       size,
+    char            comp_status) const {
   bool  failed   = false;
   char* meta_str = NULL;
-  if (asprintf(&meta_str, "%lld", size) < 0) {
+  if (asprintf(&meta_str, "%lld\t%c", size, comp_status) < 0) {
     return -1;
   }
   Stream meta_file(Path(path, "meta"));
@@ -399,6 +406,7 @@ int Data::write(
     const char*     temp_name,
     char**          dchecksum,
     int             compress,
+    bool            auto_comp,
     int*            acompress,
     bool            src_open) const {
   bool failed  = false;
@@ -411,7 +419,13 @@ int Data::write(
   // Temporary file(s) to write to
   Stream* temp1 = new Stream(Path(_d->temp, temp_name));
   Stream* temp2 = NULL;
+  bool never_compress = false;
   if (compress < 0) {
+    auto_comp = false;
+    compress  = 0;
+    never_compress = true;
+  }
+  if (auto_comp) {
     // Automatic compression: copy twice, compressed and not, and choose best
     char* temp_path_gz;
     if (asprintf(&temp_path_gz, "%s.gz", temp1->path()) < 0) {
@@ -420,13 +434,13 @@ int Data::write(
     } else {
       temp2 = new Stream(temp_path_gz);
       free(temp_path_gz);
-      if (temp2->open(O_WRONLY, -compress, false)) {
+      if (temp2->open(O_WRONLY, compress, false)) {
         out(error, msg_errno, "opening write temp file", errno, temp2->path());
         failed = true;
       }
     }
   }
-  if (temp1->open(O_WRONLY, (compress > 0) ? compress:0, false)) {
+  if (temp1->open(O_WRONLY, (! auto_comp && compress) ? compress : 0, false)) {
     out(error, msg_errno, "opening write temp file", errno, temp1->path());
     failed = true;
   }
@@ -473,7 +487,6 @@ int Data::write(
       delete temp1;
       dest     = temp2;
       size_cmp = size_gz;
-      compress = -compress;
     } else {
       temp2->remove();
       delete temp2;
@@ -493,7 +506,7 @@ int Data::write(
   }
 
   // Make sure our checksum is unique: compare first bytes of files
-  int  index   = 0;
+  int index = 0;
   enum {
     none    = -1,
     leave   = 0,
@@ -584,7 +597,8 @@ int Data::write(
         failed = true;
       } else {
         // Always add metadata (size) file (no action on failure)
-        setOriginalSize(final_path, source.dataSize());
+        setMetadata(final_path, source.dataSize(),
+          never_compress ? '-' : (auto_comp ? '+' : ' '));
       }
       free(name);
     }
@@ -648,8 +662,9 @@ int Data::check(
   }
   // Get original file size
   long long original_size;
-  original_size = getOriginalSize(path.c_str());
-  if ((original_size < 0) && (errno == ENOENT)) {
+  char      comp_status;
+  if (getMetadata(path.c_str(), &original_size, &comp_status)
+  &&  (errno == ENOENT)) {
     out(error, msg_standard, "Metadata missing", -1, checksum);
   }
   if (Report::self()->verbosityLevel() >= verbose) {
@@ -704,7 +719,7 @@ int Data::check(
           out(warning, msg_standard, "Adding missing metadata", -1, checksum);
         }
         original_size = data->dataSize();
-        setOriginalSize(path.c_str(), original_size);
+        setMetadata(path.c_str(), original_size, ' ');
       }
     }
   } else

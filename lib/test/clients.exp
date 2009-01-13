@@ -322,19 +322,19 @@ cvs\r
 Ad      test1/cvs/CVS
 cvs/CVS\r
        \r
-Adding compressed data for fef51838cd3cfe8ed96355742eb71fbd-0
-Af z    test1/cvs/CVS/Entries
+Adding uncompressed data for fef51838cd3cfe8ed96355742eb71fbd-0
+Af f    test1/cvs/CVS/Entries
 Adding compressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 Af z    test1/cvs/CVS/Root
-I f p   test1/cvs/CVS/Whatever
-I d p   test1/cvs/CVS/Wherever
+If p    test1/cvs/CVS/Whatever
+Id p    test1/cvs/CVS/Wherever
 Ad      test1/cvs/dirbad
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   test1/cvs/dirbad/fileoth
-I f p   test1/cvs/dirbad/fileutd
-I d p   test1/cvs/diroth
+If p    test1/cvs/dirbad/fileoth
+If p    test1/cvs/dirbad/fileutd
+Id p    test1/cvs/diroth
 Ad      test1/cvs/dirutd
 cvs/dirutd\r
           \r
@@ -343,23 +343,23 @@ cvs/dirutd\r
 Ad      test1/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
               \r
-Adding compressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
-Af z    test1/cvs/dirutd/CVS/Entries
+Adding uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
+Af f    test1/cvs/dirutd/CVS/Entries
 Adding compressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
 Af z    test1/cvs/dirutd/CVS/Root
-I f p   test1/cvs/dirutd/CVS/Whatever
-I f p   test1/cvs/dirutd/fileoth
+If p    test1/cvs/dirutd/CVS/Whatever
+If p    test1/cvs/dirutd/fileoth
 Af ~    test1/cvs/dirutd/fileutd
-I f f   test1/cvs/filemod.o
+If f    test1/cvs/filemod.o
 Af ~    test1/cvs/filenew.c
-I f p   test1/cvs/fileoth
+If p    test1/cvs/fileoth
 Af ~    test1/cvs/fileutd.h
 Ad      test1/dir space
 dir space\r
          \r
 Af ~    test1/dir space/file space
 Al      test1/dir space/link space
-I d f   test1/subdir
+Id f    test1/subdir
 Ad      test1/svn
 svn\r
    \r
@@ -373,16 +373,16 @@ svn/.svn\r
         \r
 Adding compressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
 Af z    test1/svn/.svn/entries
-I f p   test1/svn/.svn/format
-I f p   test1/svn/.svn/whatever
-I d p   test1/svn/.svn/wherever
+If p    test1/svn/.svn/format
+If p    test1/svn/.svn/whatever
+Id p    test1/svn/.svn/wherever
 Ad      test1/svn/dirbad
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   test1/svn/dirbad/fileoth
-I f p   test1/svn/dirbad/fileutd
-I d p   test1/svn/diroth
+If p    test1/svn/dirbad/fileoth
+If p    test1/svn/dirbad/fileutd
+Id p    test1/svn/diroth
 Ad      test1/svn/dirutd
 svn/dirutd\r
           \r
@@ -394,21 +394,21 @@ svn/dirutd/.svn\r
                \r
 Adding compressed data for 8bdef5751e46ed57d237cbe3f4a5061c-0
 Af z    test1/svn/dirutd/.svn/entries
-I f p   test1/svn/dirutd/.svn/format
-I f p   test1/svn/dirutd/.svn/whatever
-I f p   test1/svn/dirutd/fileoth
+If p    test1/svn/dirutd/.svn/format
+If p    test1/svn/dirutd/.svn/whatever
+If p    test1/svn/dirutd/fileoth
 Af ~    test1/svn/dirutd/fileutd
-I f f   test1/svn/filemod.o
+If f    test1/svn/filemod.o
 Af ~    test1/svn/filenew.c
-I f p   test1/svn/fileoth
-I f p   test1/svn/fileutd.h
+If p    test1/svn/fileoth
+If p    test1/svn/fileutd.h
 Af ~    test1/test space
 Ad      test1/testdir
 testdir\r
        \r
 Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Af z    test1/testfile
-I f f   test1/testfile~
+If f    test1/testfile~
 Al      test1/testlink
 Ap      test1/testpipe
 Backing up path: test2
@@ -421,7 +421,7 @@ Adding uncompressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 Af f    test2/testfile2
 Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
 Af f    test2/testfile2.gz
-I f f   test2/testfile~
+If f    test2/testfile~
 Al      test2/testlink
 Register modified: testhost
 Database closed: testhost
@@ -479,27 +479,27 @@ cvs\r
  --> fileutd.h: 1159985080
 cvs/CVS\r
        \r
-I f p   test1/cvs/CVS/Whatever
-I d p   test1/cvs/CVS/Wherever
+If p    test1/cvs/CVS/Whatever
+Id p    test1/cvs/CVS/Wherever
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
-I f p   test1/cvs/dirbad/fileoth
-I f p   test1/cvs/dirbad/fileutd
-I d p   test1/cvs/diroth
+If p    test1/cvs/dirbad/fileoth
+If p    test1/cvs/dirbad/fileutd
+Id p    test1/cvs/diroth
 cvs/dirutd\r
           \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
               \r
-I f p   test1/cvs/dirutd/CVS/Whatever
-I f p   test1/cvs/dirutd/fileoth
-I f f   test1/cvs/filemod.o
-I f p   test1/cvs/fileoth
+If p    test1/cvs/dirutd/CVS/Whatever
+If p    test1/cvs/dirutd/fileoth
+If f    test1/cvs/filemod.o
+If p    test1/cvs/fileoth
 dir space\r
          \r
-I d f   test1/subdir
+Id f    test1/subdir
 svn\r
    \r
  -> Parsing Subversion entries
@@ -509,15 +509,15 @@ svn\r
  --> fileoth: i
 svn/.svn\r
         \r
-I f p   test1/svn/.svn/format
-I f p   test1/svn/.svn/whatever
-I d p   test1/svn/.svn/wherever
+If p    test1/svn/.svn/format
+If p    test1/svn/.svn/whatever
+Id p    test1/svn/.svn/wherever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
-I f p   test1/svn/dirbad/fileoth
-I f p   test1/svn/dirbad/fileutd
-I d p   test1/svn/diroth
+If p    test1/svn/dirbad/fileoth
+If p    test1/svn/dirbad/fileutd
+Id p    test1/svn/diroth
 svn/dirutd\r
           \r
  -> Parsing Subversion entries
@@ -525,19 +525,19 @@ svn/dirutd\r
  --> fileutd: m
 svn/dirutd/.svn\r
                \r
-I f p   test1/svn/dirutd/.svn/format
-I f p   test1/svn/dirutd/.svn/whatever
-I f p   test1/svn/dirutd/fileoth
-I f f   test1/svn/filemod.o
-I f p   test1/svn/fileoth
-I f p   test1/svn/fileutd.h
+If p    test1/svn/dirutd/.svn/format
+If p    test1/svn/dirutd/.svn/whatever
+If p    test1/svn/dirutd/fileoth
+If f    test1/svn/filemod.o
+If p    test1/svn/fileoth
+If p    test1/svn/fileutd.h
 testdir\r
        \r
-I f f   test1/testfile~
+If f    test1/testfile~
 Backing up path: test2
 testdir\r
        \r
-I f f   test2/testfile~
+If f    test2/testfile~
 Database closed: testhost
 Database closed
 >List 1 client(s):
@@ -655,8 +655,7 @@ dirutd\r
 Ad      test1/cvs/dirutd/CVS
 dirutd/CVS\r
           \r
-Replacing with uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
-Af fr   test1/cvs/dirutd/CVS/Entries
+Af ~    test1/cvs/dirutd/CVS/Entries
 Replacing with uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
 Af fr   test1/cvs/dirutd/CVS/Root
 Adding uncompressed data for caecaacc7fdee8a7667d4f4f315858a9-0
