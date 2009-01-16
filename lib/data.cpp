@@ -602,6 +602,13 @@ int Data::write(
       }
       free(name);
     }
+  } else if (never_compress) {
+    long long size;
+    char      comp_status;
+    if (! getMetadata(final_path, &size, &comp_status)
+    &&  (comp_status != '-')) {
+      setMetadata(final_path, size, '-');
+    }
   }
 
   // If anything failed, delete temporary file
@@ -637,7 +644,7 @@ int Data::write(
 int Data::check(
     const char*     checksum,
     bool            thorough,
-    bool            remove,
+    bool            repair,
     long long*      size,
     bool*           compressed) const {
   string path;
@@ -655,7 +662,7 @@ int Data::check(
   // Missing data
   if (data == NULL) {
     out(error, msg_standard, "Data missing", -1, checksum);
-    if (remove) {
+    if (repair) {
       removePath(path.c_str());
     }
     return -1;
@@ -700,11 +707,11 @@ int Data::check(
       // Compare with given checksum
       if (strncmp(data->checksum(), checksum, strlen(data->checksum()))) {
         stringstream s;
-        s << "Data corrupted" << (remove ? ", remove" : "");
+        s << "Data corrupted" << (repair ? ", remove" : "");
         out(error, msg_standard, s.str().c_str(), -1, checksum);
         out(debug, msg_standard, data->checksum(), -1, "Checksum");
         failed = true;
-        if (remove) {
+        if (repair) {
           removePath(path.c_str());
         } else {
           // Mark corrupted
@@ -723,10 +730,9 @@ int Data::check(
       }
     }
   } else
-  // Remove data marked corrupted
-  if (remove) {
-    File corrupted(Path(path.c_str(), "corrupted"));
-    if (corrupted.isValid()) {
+  if (repair) {
+    // Remove data marked corrupted
+    if (File(Path(path.c_str(), "corrupted")).isValid()) {
       if (removePath(path.c_str()) == 0) {
         out(info, msg_standard, "Removed corrupted data", -1, checksum);
       } else {

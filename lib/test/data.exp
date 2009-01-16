@@ -19,7 +19,14 @@ Meta file contents:
 59ca0efa9f5633cb0371bbc0355478d8-0 13\r
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 
-Test: write and read back
+Test: write and read back with forbidden compression
+59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
+Meta file contents: 
+13	-
+59ca0efa9f5633cb0371bbc0355478d8-0 13\r
+59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
+
+Test: write and read back with compression
                                      \r
 Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile

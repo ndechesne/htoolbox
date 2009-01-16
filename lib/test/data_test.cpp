@@ -165,7 +165,58 @@ int main(void) {
   }
   cout << chksm << "  test_db/blah" << endl;
 
-  cout << endl << "Test: write and read back" << endl;
+
+  {
+    cout << endl << "Test: write and read back with forbidden compression"
+      << endl;
+    /* Write */
+    Stream testfile("test1/testfile");
+    if ((status = db.write(testfile, "temp_data", &chksm, -1, true)) < 0) {
+      printf("db.write error status %d\n", status);
+      db.close();
+      return 0;
+    }
+    if (chksm == NULL) {
+      printf("db.write returned unexpected null checksum\n");
+      db.close();
+      return 0;
+    }
+    cout << chksm << "  test1/testfile" << endl;
+    cout << "Meta file contents: " << endl;
+    sys_rc =
+      system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+    cout << endl;
+    /* Check */
+    if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
+      printf("db.check error status %d\n", status);
+      db.close();
+      return 0;
+    }
+
+    /* Read */
+    if ((status = db.read("test_db/blah", chksm))) {
+      printf("db.read error status %d\n", status);
+      db.close();
+      return 0;
+    }
+    /* Write again */
+    chksm = NULL;
+    Stream blah("test_db/blah");
+    if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
+      printf("db.write error status %d\n", status);
+      db.close();
+      return 0;
+    }
+    if (chksm == NULL) {
+      printf("db.write returned unexpected null checksum\n");
+      db.close();
+      return 0;
+    }
+    cout << chksm << "  test_db/blah" << endl;
+  }
+
+
+  cout << endl << "Test: write and read back with compression" << endl;
   Node("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data").remove();
   /* Write */
   chksm = NULL;
