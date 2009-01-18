@@ -681,6 +681,7 @@ int Data::check(
       failed = true;
     } else {
       data->setCancelCallback(aborting);
+      data->setProgressCallback(_d->progress);
       // Open file
       if (data->open(O_RDONLY, (no > 0) ? 1 : 0)) {
         out(error, msg_errno, "opening file", errno, data->path());
