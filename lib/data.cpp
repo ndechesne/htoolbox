@@ -82,7 +82,6 @@ int Data::getMetadata(
   *comp_status = '?';
   Stream meta_file(Path(path, "meta"));
   if (meta_file.open(O_RDONLY) < 0) {
-//  out(warning, msg_errno, "opening metadata file", errno, meta_file.path());
     failed = true;
   } else {
     if (meta_file.getLine(&meta_str, &meta_str_size) < 0) {
@@ -653,7 +652,8 @@ int Data::check(
     return -1;
   }
   // Look for data in dir
-  bool failed = false;
+  bool failed  = false;
+  bool display = true;  // To not print twice when calling check
   unsigned int no;
   vector<string> extensions;
   extensions.push_back("");
@@ -670,27 +670,14 @@ int Data::check(
   // Get original file size
   long long original_size;
   char      comp_status;
-  if (getMetadata(path.c_str(), &original_size, &comp_status)
-  &&  (errno == ENOENT)) {
-    out(error, msg_standard, "Metadata missing", -1, checksum);
-  }
-  if (Report::self()->verbosityLevel() >= verbose) {
-    char* size_str;
-    if (((no == 0) && (asprintf(&size_str, "%lld", original_size) < 0))
-    ||  ((no > 0)
-      && (asprintf(&size_str, "%lld %lld", original_size, data->size()) < 0)))
-    {
-      out(alert, msg_errno, "creating size str", errno);
-    } else {
-      out(verbose, msg_standard, size_str, -3, checksum);
-      free(size_str);
-    }
-  }
+  getMetadata(path.c_str(), &original_size, &comp_status);
+
   // Check data for corruption
   if (thorough) {
     // Already marked corrupted?
     if (File(Path(path.c_str(), "corrupted")).isValid()) {
       out(warning, msg_standard, "Data corruption reported", -1, checksum);
+      original_size = -1;
       failed = true;
     } else {
       data->setCancelCallback(aborting);
@@ -717,6 +704,7 @@ int Data::check(
           // Mark corrupted
           File(Path(path.c_str(), "corrupted")).create();
         }
+        original_size = -1;
       } else
       // Compare data size and stored size for compress files
       if (data->dataSize() != original_size) {
@@ -739,8 +727,41 @@ int Data::check(
         out(error, msg_errno, "removing data", errno, checksum);
       }
       failed = true;
+    } else
+    // Compute size if missing
+    if (original_size < 0) {
+      if (no == 0) {
+        out(warning, msg_standard, "Setting missing metadata", -1, checksum);
+        original_size = data->size();
+        setMetadata(path.c_str(), original_size, ' ');
+      } else
+      // Compressed file, check it thoroughly, which shall add the metadata
+      {
+        if (check(checksum, true, true, size, compressed)) {
+          failed = true;
+        }
+        getMetadata(path.c_str(), &original_size, &comp_status);
+        display = false;
+      }
+    }
+  } else
+  if ((original_size < 0) && (errno == ENOENT)) {
+    out(error, msg_standard, "Metadata missing", -1, checksum);
+  }
+
+  if (display && (Report::self()->verbosityLevel() >= verbose)) {
+    char* size_str;
+    if (((no == 0) && (asprintf(&size_str, "%lld", original_size) < 0))
+    ||  ((no > 0)
+      && (asprintf(&size_str, "%lld %lld", original_size, data->size()) < 0)))
+    {
+      out(alert, msg_errno, "creating size str", errno);
+    } else {
+      out(verbose, msg_standard, size_str, -3, checksum);
+      free(size_str);
     }
   }
+
   delete data;
   // Return file information if required
   if (size != NULL) {

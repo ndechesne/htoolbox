@@ -151,6 +151,7 @@ int main(void) {
     return 0;
   }
   /* Write again */
+  free(chksm);
   chksm = NULL;
   Stream blah("test_db/blah");
   if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
@@ -170,6 +171,7 @@ int main(void) {
     cout << endl << "Test: write and read back with forbidden compression"
       << endl;
     /* Write */
+    free(chksm);
     Stream testfile("test1/testfile");
     if ((status = db.write(testfile, "temp_data", &chksm, -1, true)) < 0) {
       printf("db.write error status %d\n", status);
@@ -200,6 +202,7 @@ int main(void) {
       return 0;
     }
     /* Write again */
+    free(chksm);
     chksm = NULL;
     Stream blah("test_db/blah");
     if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
@@ -219,6 +222,7 @@ int main(void) {
   cout << endl << "Test: write and read back with compression" << endl;
   Node("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data").remove();
   /* Write */
+  free(chksm);
   chksm = NULL;
   if ((status = db.write(testfile, "temp_data", &chksm, 5)) < 0) {
     printf("db.write error status %d\n", status);
@@ -261,6 +265,7 @@ int main(void) {
     return 0;
   }
   /* Write again */
+  free(chksm);
   chksm = NULL;
   if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
     printf("db.write error status %d\n", status);
@@ -273,6 +278,7 @@ int main(void) {
     return 0;
   }
   /* Write again */
+  free(chksm);
   chksm = NULL;
   if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
     printf("db.write error status %d\n", status);
@@ -323,6 +329,111 @@ int main(void) {
     }
   }
   db.close();
+
+
+  {
+    cout << endl << "Test: scan - metadata check/correct" << endl;
+    /* Open */
+    if ((status = db.open("test_db/data", true))) {
+      cout << "db::open error status " << status << endl;
+      if (status < 0) {
+        return 0;
+      }
+    }
+    /* Compressed */
+    free(chksm);
+    chksm = strdup("59ca0efa9f5633cb0371bbc0355478d8-0");
+    sys_rc = system("gzip "
+      "test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data");
+    /* Check */
+    cout << " * missing" << endl;
+    sys_rc = system("echo -n > "
+      "test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+    if ((status = db.check(chksm, false, true, &size, &compressed)) < 0) {
+      printf("db.check error status %d\n", status);
+    }
+    cout << " * check" << endl;
+    if ((status = db.check(chksm, false, true, &size, &compressed)) < 0) {
+      printf("db.check error status %d\n", status);
+    }
+    /* Uncompressed */
+    sys_rc = system("mkdir -p test_db/data/d4/1d8cd98f00b204e9800998ecf8427e");
+    sys_rc = system("echo -n > "
+      "test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/data");
+    free(chksm);
+    chksm = strdup("d41d8cd98f00b204e9800998ecf8427e");
+    /* Check */
+    cout << " * missing" << endl;
+    sys_rc = system("echo -n > "
+      "test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/meta");
+    if ((status = db.check(chksm, false, true, &size, &compressed)) < 0) {
+      printf("db.check error status %d\n", status);
+    }
+    cout << " * check" << endl;
+    if ((status = db.check(chksm, false, true, &size, &compressed)) < 0) {
+      printf("db.check error status %d\n", status);
+    }
+    /* Close */
+    db.close();
+  }
+
+
+  {
+    cout << endl << "Test: check - metadata check/correct" << endl;
+    /* Open */
+    if ((status = db.open("test_db/data", true))) {
+      cout << "db::open error status " << status << endl;
+      if (status < 0) {
+        return 0;
+      }
+    }
+    /* Compressed */
+    free(chksm);
+    chksm = strdup("59ca0efa9f5633cb0371bbc0355478d8-0");
+    /* Check */
+    cout << " * missing" << endl;
+    sys_rc = system("echo -n > "
+      "test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+    if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
+      printf("db.check error status %d\n", status);
+    }
+    cout << " * wrong" << endl;
+    sys_rc = system("sed -i 's/13/2/' "
+      "test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+    if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
+      printf("db.check error status %d\n", status);
+    }
+    cout << " * check" << endl;
+    if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
+      printf("db.check error status %d\n", status);
+    }
+    /* Uncompressed */
+    sys_rc = system("mkdir -p test_db/data/d4/1d8cd98f00b204e9800998ecf8427e");
+    sys_rc = system("echo -n > "
+      "test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/data");
+    free(chksm);
+    chksm = strdup("d41d8cd98f00b204e9800998ecf8427e");
+    /* Check */
+    cout << " * missing" << endl;
+    sys_rc = system("echo -n > "
+      "test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/meta");
+    if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
+      printf("db.check error status %d\n", status);
+    }
+    cout << " * wrong" << endl;
+    sys_rc = system("sed -i 's/0/1/' "
+      "test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/meta");
+    if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
+      printf("db.check error status %d\n", status);
+    }
+    cout << " * check" << endl;
+    if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
+      printf("db.check error status %d\n", status);
+    }
+    /* Close */
+    db.close();
+  }
+
 
   return 0;
 }

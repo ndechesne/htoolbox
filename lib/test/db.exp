@@ -44,18 +44,18 @@ File data corrupted, thorough scan
 Database closed
 Database open in read-only mode
 Crawling through DB data
-59ca0efa9f5633cb0371bbc0355478d8-0 0\r
-                                    \r
 Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Data corrupted
 Checksum: d41d8cd98f00b204e9800998ecf8427e
+59ca0efa9f5633cb0371bbc0355478d8-0 -1\r
+                                     \r
 Found 0 valid and 1 broken data files
 Database closed
 Database open in read/write mode
 Found 0 checksums
 Crawling through DB
+59ca0efa9f5633cb0371bbc0355478d8-0: Removed corrupted data
 59ca0efa9f5633cb0371bbc0355478d8-0 0\r
                                     \r
-59ca0efa9f5633cb0371bbc0355478d8-0: Removed corrupted data
 Found 0 valid and 1 broken data files
 Scan again
 Database closed
