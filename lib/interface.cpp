@@ -540,9 +540,7 @@ int HBackup::backup(
       mount_dir.remove();
     }
     _d->db->close();
-    if (failed) {
-      return -1;
-    }
+    return failed ? -1 : 0;
   }
   return -1;
 }

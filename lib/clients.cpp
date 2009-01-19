@@ -512,16 +512,17 @@ int Client::backup(
         case EPROTONOSUPPORT:
           out(error, msg_errno, _d->protocol.c_str(), errno,
             internalName().c_str());
-          return 1;
+          return -1;
         case ETIMEDOUT:
           if (! _d->timeout_nowarning) {
             out(warning, msg_errno, "connecting to client", errno,
               internalName().c_str());
+            return 1;
           } else {
             out(info, msg_errno, "connecting to client", errno,
               internalName().c_str());
+            return 0;
           }
-          return 0;
       }
     }
     first_mount_try = false;
