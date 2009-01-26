@@ -34,7 +34,7 @@ public:
     Path            path);
   ~Register();
   // Open file (for read)
-  int open(List* new_list = NULL, List* journal = NULL);
+  int open();
   // Close file
   int close();
   // File path
@@ -70,11 +70,22 @@ public:
   int search(
     const char      path[]      = NULL,     // Path to search
     time_t          expire      = -1,       // Expiration date
-    time_t          remove      = 0);       // Mark records removed at date
+    time_t          remove      = 0,        // Mark records removed at date
+    List*           new_list    = NULL,     // Merge list
+    List*           journal     = NULL);    // Journal
   // Add info
   int add(
-    const Path&     path,
-    const Node*     node);
+    const Path&     path,                   // Path
+    const Node*     node,                   // Metadata
+    List*           new_list,               // Merge list
+    List*           journal     = NULL);    // Journal
+  // Merge this list and journal into new_list
+  //    all lists must be open
+  // Return code:
+  //    -1: error, 0: success, 1: unexpected end of journal
+  int merge(
+    List*           new_list,
+    Register*       journal     = NULL);
   // Show the list
   void show(
     time_t          date        = -1,       // Date to select
@@ -107,13 +118,6 @@ public:
   int finalize();
   // File path
   const char* path() const  { return _path;       }
-  // Merge list and journal into this list
-  //    all lists must be open
-  // Return code:
-  //    -1: error, 0: success, 1: unexpected end of journal
-  int merge(
-    Register&       list,
-    Register&       journal);
   // add line for tests
   int addLine(
     const char      line[]);

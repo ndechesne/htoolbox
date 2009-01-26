@@ -85,9 +85,9 @@ int Owner::finishOff(
         out(verbose, msg_standard, _d->path.basename(), -1,
           "Register modified");
         if (! _d->partial->create()) {
-          if (! _d->original->open(_d->partial, _d->journal)) {
+          if (! _d->original->open()) {
             _d->original->setProgressCallback(_d->progress);
-            if (_d->partial->merge(*_d->original, journal) < 0) {
+            if (_d->original->merge(_d->partial, &journal) < 0) {
               out(error, msg_standard, "Merge failed");
               failed = true;
             }
@@ -288,7 +288,7 @@ int Owner::open(
   }
   if (! failed && ! check) {
     // Open list
-    if (_d->original->open(_d->partial, _d->journal)) {
+    if (_d->original->open()) {
       out(error, msg_errno, "opening list", errno, _d->path.basename());
       failed = true;
     } else
@@ -334,7 +334,7 @@ int Owner::close(
     if (! aborting()) {
       // Finish work (if not aborting, remove items at end of list)
       if (_d->original->search("", _d->expiration,
-          abort ? 0 : time(NULL)) < 0) {
+          abort ? 0 : time(NULL), _d->partial, _d->journal) < 0) {
         failed = true;
       }
     }
@@ -392,7 +392,8 @@ int Owner::send(
   Node* db_node = NULL;
 
   // Search path and get current metadata
-  int rc = _d->original->search(op._path, _d->expiration, time(NULL));
+  int rc = _d->original->search(op._path, _d->expiration, time(NULL),
+    _d->partial, _d->journal);
   if (rc < 0) {
     return -1;
   }
@@ -470,7 +471,7 @@ int Owner::send(
 int Owner::add(
     const Path&     path,
     const Node*     node) {
-  return (_d->original->add(path, node) < 0) ? -1 : 0;
+  return _d->original->add(path, node, _d->partial, _d->journal);
 }
 
 int Owner::getNextRecord(

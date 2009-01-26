@@ -48,8 +48,6 @@ struct Register::Private {
   // Set when a previous version is detected
   bool              old_version;
   bool              modified;
-  List*             new_list;
-  List*             journal;
   Private(const char* path) : stream(path) {}
 };
 
@@ -112,7 +110,7 @@ Register::~Register() {
   delete _d;
 }
 
-int Register::open(List* new_list, List* journal) {
+int Register::open() {
   // Put same header in both until a new version becomes necessary
   const char header[]     = "# version 4";
   const char old_header[] = "# version 4";
@@ -142,8 +140,6 @@ int Register::open(List* new_list, List* journal) {
   // Initialise status and path
   _d->status   = got_nothing;
   _d->path     = "";
-  _d->new_list = new_list;
-  _d->journal  = journal;
   // Get first line to check for empty list
   fetchLine();
   if (_d->status == failed) {
@@ -247,7 +243,9 @@ int Register::getEntry(
 int Register::search(
     const char*     path_l,
     time_t          expire,
-    time_t          remove) {
+    time_t          remove,
+    List*           new_list,
+    List*           journal) {
   int     path_cmp;
   int     rc         = 0;
 
@@ -303,7 +301,7 @@ int Register::search(
       } else
       if (_d->status == got_data) {
         // Got data
-        if (_d->new_list != NULL) {
+        if (new_list != NULL) {
           if (active_data_line) {
             // Mark removed
             if ((remove > 0) && path_new) {
@@ -317,14 +315,14 @@ int Register::search(
               if (*pos != '-') {
                 char* line = NULL;
                 encodeLine(&line, remove, NULL);
-                if (putLine(_d->new_list->_stream, line) < 0) {
+                if (putLine(new_list->_stream, line) < 0) {
                   // Could not write
                   free(line);
                   return -1;
                 }
-                if (_d->journal != NULL) {
-                  putLine(_d->journal->_stream, _d->path);
-                  putLine(_d->journal->_stream, line);
+                if (journal != NULL) {
+                  putLine(journal->_stream, _d->path);
+                  putLine(journal->_stream, line);
                 }
                 free(line);
                 _d->modified = true;
@@ -355,7 +353,7 @@ int Register::search(
     }
 
     // New data, add to merge
-    if (_d->new_list != NULL) {
+    if (new_list != NULL) {
       // Searched path found or status is eof/empty
       if ((_d->status == eof) || (_d->status == empty) || stop) {
         if (path_found) {
@@ -363,7 +361,7 @@ int Register::search(
         }
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
-          if (putLine(_d->new_list->_stream, path_l) < 0) {
+          if (putLine(new_list->_stream, path_l) < 0) {
             // Could not write
             return -1;
           }
@@ -371,13 +369,13 @@ int Register::search(
       } else
       // Our data is here or after, so let's copy if required
       if (_d->status == got_path) {
-        if (putLine(_d->new_list->_stream, _d->path) < 0) {
+        if (putLine(new_list->_stream, _d->path) < 0) {
           // Could not write
           return -1;
         }
       } else
       if (_d->status == got_data) {
-        if (putLine(_d->new_list->_stream, _d->data) < 0) {
+        if (putLine(new_list->_stream, _d->data) < 0) {
           // Could not write
           return -1;
         }
@@ -408,20 +406,22 @@ int Register::search(
 
 int Register::add(
     const Path&     path,
-    const Node*     node) {
+    const Node*     node,
+    List*           new_list,
+    List*           journal) {
   int rc = 0;
-  if (_d->new_list != NULL) {
+  if (new_list != NULL) {
     char* line = NULL;
     int   size = encodeLine(&line, time(NULL), node);
 
-    if (putLine(_d->new_list->_stream, line) != size) {
+    if (putLine(new_list->_stream, line) != size) {
       rc = -1;
     }
-    if (_d->journal != NULL) {
+    if (journal != NULL) {
       // Add to journal
-      if ((putLine(_d->journal->_stream, path) !=
+      if ((putLine(journal->_stream, path) !=
             static_cast<ssize_t>(path.size())) ||
-          (putLine(_d->journal->_stream, line) != size)) {
+          (putLine(journal->_stream, line) != size)) {
         rc = -1;
       }
     }
@@ -429,6 +429,92 @@ int Register::add(
     _d->modified = true;
   }
   return rc;
+}
+
+int Register::merge(
+    List*           new_list,
+    Register*       journal) {
+  int rc_list = 1;
+
+  // Line read from journal
+  int j_line_no = 0;
+
+  // Current path and data (from journal)
+  Path path;
+
+  // Parse journal
+  while (true) {
+    int rc_journal = journal->fetchLine();
+    j_line_no++;
+
+    // Failed
+    if (rc_journal < 0) {
+      if (journal->_d->status == eof) {
+        out(warning, msg_standard, "Unexpected end of journal", -1,
+          journal->path());
+        rc_journal = 0;
+      } else {
+        out(error, msg_number, "Reading line", j_line_no, "journal");
+        return -1;
+      }
+    }
+
+    // End of file
+    if (rc_journal == 0) {
+      if (rc_list > 0) {
+        rc_list = search("", -1, 0, new_list);
+        if (rc_list < 0) {
+          // Error copying list
+          out(error, msg_standard, "End of list copy failed");
+          return -1;
+        }
+      }
+      return 0;
+    }
+
+    // Got a path
+    if (journal->_d->status == got_path) {
+      // Check path order
+      if (path.length() != 0) {
+        if (path.compare(journal->_d->path) > 0) {
+          // Cannot go back
+          out(error, msg_number, "Path out of order", j_line_no, "journal");
+          return -1;
+        }
+      }
+      // Copy new path
+      path = journal->_d->path;
+      // Search/copy list and append path if needed
+      if (rc_list >= 0) {
+        rc_list = search(path, -1, 0, new_list);
+        if (rc_list < 0) {
+          // Error copying list
+          out(error, msg_standard, "Path search failed");
+          return -1;
+        }
+      }
+    } else
+
+    // Got data
+    {
+      // Must have a path before then
+      if (path.length() == 0) {
+        // Did not get anything before data
+        out(error, msg_number, "Data out of order", j_line_no, "journal");
+        return -1;
+      }
+
+      // Write
+      if (Register::putLine(new_list->_stream, journal->_d->data) < 0) {
+        // Could not write
+        out(error, msg_standard, "Journal copy failed");
+        return -1;
+      }
+    }
+    // Reset status to get next data
+    journal->_d->status = got_nothing;
+  }
+  return 0;
 }
 
 void Register::show(
@@ -602,92 +688,6 @@ int List::finalize() {
     rc = -1;
   }
   return rc;
-}
-
-int List::merge(
-    Register&     list,
-    Register&     journal) {
-  int rc_list = 1;
-
-  // Line read from journal
-  int j_line_no = 0;
-
-  // Current path and data (from journal)
-  Path path;
-
-  // Parse journal
-  while (true) {
-    int rc_journal = journal.fetchLine();
-    j_line_no++;
-
-    // Failed
-    if (rc_journal < 0) {
-      if (journal._d->status == eof) {
-        out(warning, msg_standard, "Unexpected end of journal", -1,
-          journal.path());
-        rc_journal = 0;
-      } else {
-        out(error, msg_number, "Reading line", j_line_no, "journal");
-        return -1;
-      }
-    }
-
-    // End of file
-    if (rc_journal == 0) {
-      if (rc_list > 0) {
-        rc_list = list.search("");
-        if (rc_list < 0) {
-          // Error copying list
-          out(error, msg_standard, "End of list copy failed");
-          return -1;
-        }
-      }
-      return 0;
-    }
-
-    // Got a path
-    if (journal._d->status == got_path) {
-      // Check path order
-      if (path.length() != 0) {
-        if (path.compare(journal._d->path) > 0) {
-          // Cannot go back
-          out(error, msg_number, "Path out of order", j_line_no, "journal");
-          return -1;
-        }
-      }
-      // Copy new path
-      path = journal._d->path;
-      // Search/copy list and append path if needed
-      if (rc_list >= 0) {
-        rc_list = list.search(path);
-        if (rc_list < 0) {
-          // Error copying list
-          out(error, msg_standard, "Path search failed");
-          return -1;
-        }
-      }
-    } else
-
-    // Got data
-    {
-      // Must have a path before then
-      if (path.length() == 0) {
-        // Did not get anything before data
-        out(error, msg_number, "Data out of order", j_line_no, "journal");
-        return -1;
-      }
-
-      // Write
-      if (Register::putLine(_stream, journal._d->data) < 0) {
-        // Could not write
-        out(error, msg_standard, "Journal copy failed");
-        return -1;
-      }
-    }
-    // Reset status to get next data
-    journal._d->status = got_nothing;
-  }
-  return 0;
 }
 
 int List::addLine(

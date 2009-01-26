@@ -157,7 +157,7 @@ int main(void) {
   cout << endl << "Test: journal merge into empty list" << endl;
   my_time++;
 
-  if (dblist_reader.open(&merge)) {
+  if (dblist_reader.open()) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -175,7 +175,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(dblist_reader, journal_reader) < 0) {
+  if (dblist_reader.merge(&merge, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
@@ -233,7 +233,7 @@ int main(void) {
   cout << endl << "Test: journal merge into list" << endl;
   my_time++;
 
-  if (dblist_reader.open(&merge)) {
+  if (dblist_reader.open()) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -248,7 +248,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(dblist_reader, journal_reader) < 0) {
+  if (dblist_reader.merge(&merge, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
@@ -313,7 +313,7 @@ int main(void) {
   cout << endl << "Test: journal merge into list" << endl;
   my_time++;
 
-  if (dblist_reader.open(&merge)) {
+  if (dblist_reader.open()) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -331,7 +331,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(dblist_reader, journal_reader) < 0) {
+  if (dblist_reader.merge(&merge, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
 //     return 0;
   }
@@ -356,7 +356,7 @@ int main(void) {
   list<string>::iterator j;
 
   cout << "Date: 4" << endl;
-  if (dblist_reader.open(&merge)) {
+  if (dblist_reader.open()) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -367,7 +367,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.search("", 4) < 0) {
+  if (dblist_reader.search("", 4, 0, &merge) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -378,7 +378,7 @@ int main(void) {
 
   // All but last
   cout << "Date: 0" << endl;
-  if (dblist_reader.open(&merge)) {
+  if (dblist_reader.open()) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -389,7 +389,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.search("", 0) < 0) {
+  if (dblist_reader.search("", 0, 0, &merge) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -403,7 +403,7 @@ int main(void) {
 
   cout << "Register:" << endl;
   dblist_reader.show();
-  if (dblist_reader.open(&merge)) {
+  if (dblist_reader.open()) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -414,7 +414,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.search("") < 0) {
+  if (dblist_reader.search("", -1, 0, &merge) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -445,14 +445,14 @@ int main(void) {
   node = NULL;
   journal.finalize();
   // Merge
-  if (dblist_reader.open(&merge)) {
+  if (dblist_reader.open()) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
   if (dblist_reader.isEmpty()) {
     cout << "Register is empty" << endl;
   }
-  if (journal_reader.open(&merge)) {
+  if (journal_reader.open()) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -463,7 +463,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(dblist_reader, journal_reader) < 0) {
+  if (dblist_reader.merge(&merge, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
@@ -557,7 +557,7 @@ int main(void) {
   cout << endl << "Test: broken journal merge" << endl;
   my_time++;
 
-  if (dblist_reader.open(&merge)) {
+  if (dblist_reader.open()) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -575,7 +575,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(dblist_reader, journal_reader) < 0) {
+  if (dblist_reader.merge(&merge, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
