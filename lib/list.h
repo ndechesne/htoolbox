@@ -40,7 +40,8 @@ public:
   // File path
   const char* path() const;
   // For progress information
-  void setProgressCallback(progress_f progress);
+  void setProgressCallback(
+    progress_f      progress);
   // Empty list (check right after opening)
   bool isEmpty() const;
   // Something was journalled
@@ -98,12 +99,10 @@ public:
     const Node*     node);
   // Decode metadata from line
   static int decodeLine(
-    const char      line[],             // Line to decode
-    time_t*         ts,                 // Line timestamp
-    const char      path[]     = NULL,  // File path to store in metadata
-    Node**          node       = NULL); // File metadata
-  // Write a line, adding the LF character
-  static ssize_t putLine(int fd, const Line& line);
+    const char      line[],                 // Line to decode
+    time_t*         ts,                     // Line timestamp
+    const char      path[]      = NULL,     // File path to store in metadata
+    Node**          node        = NULL);    // File metadata
 };
 
 class List {
@@ -117,10 +116,10 @@ public:
   // Close file
   int finalize();
   // File path
-  const char* path() const  { return _path;       }
-  // add line for tests
-  int addLine(
-    const char      line[]);
+  const char* path() const  { return _path; }
+  // Write a line, adding the LF character
+  ssize_t putLine(
+    const Line&     line);
 };
 
 }

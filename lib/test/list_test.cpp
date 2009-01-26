@@ -58,10 +58,10 @@ static void add(
     const char*     path,
     time_t          epoch,
     const Node*     node = NULL) {
-  list.addLine(path);
+  list.putLine(path);
   char* line = NULL;
   Register::encodeLine(&line, epoch, node);
-  list.addLine(line);
+  list.putLine(line);
   free(line);
 }
 

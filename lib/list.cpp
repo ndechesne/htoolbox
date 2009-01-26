@@ -315,14 +315,14 @@ int Register::search(
               if (*pos != '-') {
                 char* line = NULL;
                 encodeLine(&line, remove, NULL);
-                if (putLine(new_list->_stream, line) < 0) {
+                if (new_list->putLine(line) < 0) {
                   // Could not write
                   free(line);
                   return -1;
                 }
                 if (journal != NULL) {
-                  putLine(journal->_stream, _d->path);
-                  putLine(journal->_stream, line);
+                  journal->putLine(_d->path);
+                  journal->putLine(line);
                 }
                 free(line);
                 _d->modified = true;
@@ -361,7 +361,7 @@ int Register::search(
         }
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
-          if (putLine(new_list->_stream, path_l) < 0) {
+          if (new_list->putLine(path_l) < 0) {
             // Could not write
             return -1;
           }
@@ -369,13 +369,13 @@ int Register::search(
       } else
       // Our data is here or after, so let's copy if required
       if (_d->status == got_path) {
-        if (putLine(new_list->_stream, _d->path) < 0) {
+        if (new_list->putLine(_d->path) < 0) {
           // Could not write
           return -1;
         }
       } else
       if (_d->status == got_data) {
-        if (putLine(new_list->_stream, _d->data) < 0) {
+        if (new_list->putLine(_d->data) < 0) {
           // Could not write
           return -1;
         }
@@ -414,14 +414,13 @@ int Register::add(
     char* line = NULL;
     int   size = encodeLine(&line, time(NULL), node);
 
-    if (putLine(new_list->_stream, line) != size) {
+    if (new_list->putLine(line) != size) {
       rc = -1;
     }
     if (journal != NULL) {
       // Add to journal
-      if ((putLine(journal->_stream, path) !=
-            static_cast<ssize_t>(path.size())) ||
-          (putLine(journal->_stream, line) != size)) {
+      if ((journal->putLine(path) != static_cast<ssize_t>(path.size())) ||
+          (journal->putLine(line) != size)) {
         rc = -1;
       }
     }
@@ -505,7 +504,7 @@ int Register::merge(
       }
 
       // Write
-      if (Register::putLine(new_list->_stream, journal->_d->data) < 0) {
+      if (new_list->putLine(journal->_d->data) < 0) {
         // Could not write
         out(error, msg_standard, "Journal copy failed");
         return -1;
@@ -648,19 +647,6 @@ int Register::decodeLine(
   return 0;
 }
 
-ssize_t Register::putLine(int fd, const Line& line) {
-  size_t length = line.size();
-  while (length > 0) {
-    ssize_t size = write(fd, &line[line.size() - length], length);
-    if (size < 0) return -1;
-    length -= size;
-  }
-  if (write(fd, "\n", 1) < 1) {
-    return -1;
-  }
-  return line.size();
-}
-
 int List::create() {
   const char header[] = "# version 4";
 
@@ -668,7 +654,7 @@ int List::create() {
   if (_stream < 0) {
     return -1;
   }
-  if (Register::putLine(_stream, header) < 0) {
+  if (putLine(header) < 0) {
     close(_stream);
     return -1;
   }
@@ -679,7 +665,7 @@ int List::finalize() {
   const char footer[] = "# end";
   int rc = 0;
 
-  if (Register::putLine(_stream, footer) < 0) {
+  if (putLine(footer) < 0) {
     out(error, msg_errno, "writing list footer", errno, _path);
     rc = -1;
   }
@@ -690,10 +676,15 @@ int List::finalize() {
   return rc;
 }
 
-int List::addLine(
-    const char      line[]) {
-  if (Register::putLine(_stream, line) != static_cast<ssize_t>(strlen(line) + 1)) {
+ssize_t List::putLine(const Line& line) {
+  size_t length = line.size();
+  while (length > 0) {
+    ssize_t size = write(_stream, &line[line.size() - length], length);
+    if (size < 0) return -1;
+    length -= size;
+  }
+  if (write(_stream, "\n", 1) < 1) {
     return -1;
   }
-  return 0;
+  return line.size();
 }
