@@ -73,7 +73,7 @@ static int showRegister(const char* path) {
     } else {
       time_t ts;
       Node*  node = NULL;
-      Register::decodeLine(line, &ts, "", &node);
+      List::decodeLine(line, &ts, "", &node);
       cout << "\t" << ts << "\t";
       if (node != NULL) {
         printf("%c\t%6lld\t%03o", node->type(), node->size(), node->mode());

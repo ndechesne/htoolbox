@@ -26,7 +26,6 @@ class List;
 class Register {
   struct            Private;
   Private* const    _d;
-  friend class List;
   // Buffer relevant line
   ssize_t fetchLine();
 public:
@@ -44,8 +43,6 @@ public:
     progress_f      progress);
   // Empty list (check right after opening)
   bool isEmpty() const;
-  // Something was journalled
-  bool isModified() const;
   // Convert one or several line(s) to data
   // Date:
   //    <0: any (if -2, data is not discarded)
@@ -73,13 +70,8 @@ public:
     time_t          expire      = -1,       // Expiration date
     time_t          remove      = 0,        // Mark records removed at date
     List*           new_list    = NULL,     // Merge list
-    List*           journal     = NULL);    // Journal
-  // Add info
-  int add(
-    const Path&     path,                   // Path
-    const Node*     node,                   // Metadata
-    List*           new_list,               // Merge list
-    List*           journal     = NULL);    // Journal
+    List*           journal     = NULL,     // Journal
+    bool*           modified    = NULL);    // To report list modifications
   // Merge this list and journal into new_list
   //    all lists must be open
   // Return code:
@@ -92,23 +84,11 @@ public:
     time_t          date        = -1,       // Date to select
     time_t          time_start  = 0,        // Origin of time
     time_t          time_base   = 1);       // Time base
-  // Encode line from metadata
-  static ssize_t encodeLine(
-    char*           line[],
-    time_t          timestamp,
-    const Node*     node);
-  // Decode metadata from line
-  static int decodeLine(
-    const char      line[],                 // Line to decode
-    time_t*         ts,                     // Line timestamp
-    const char      path[]      = NULL,     // File path to store in metadata
-    Node**          node        = NULL);    // File metadata
 };
 
 class List {
   Path              _path;
   int               _stream;
-  friend class Register;
 public:
   List(Path path) : _path(path) {}
   // Open file, for read or write (no append), with compression (cf. Stream)
@@ -120,6 +100,23 @@ public:
   // Write a line, adding the LF character
   ssize_t putLine(
     const Line&     line);
+  // Encode line from metadata
+  static ssize_t encodeLine(
+    char*           line[],
+    time_t          timestamp,
+    const Node*     node);
+  // Decode metadata from line
+  static int decodeLine(
+    const char      line[],                 // Line to decode
+    time_t*         ts,                     // Line timestamp
+    const char      path[]      = NULL,     // File path to store in metadata
+    Node**          node        = NULL);    // File metadata
+  // Add info
+  static int add(
+    const Path&     path,                   // Path
+    const Node*     node,                   // Metadata
+    List*           new_list,               // Merge list
+    List*           journal     = NULL);    // Journal
 };
 
 }

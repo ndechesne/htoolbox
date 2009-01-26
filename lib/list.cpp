@@ -47,7 +47,6 @@ struct Register::Private {
   Path              path;
   // Set when a previous version is detected
   bool              old_version;
-  bool              modified;
   Private(const char* path) : stream(path) {}
 };
 
@@ -115,7 +114,6 @@ int Register::open() {
   const char header[]     = "# version 4";
   const char old_header[] = "# version 4";
 
-  _d->modified = false;
   if (_d->stream.open(O_RDONLY, 0, false)) {
     return -1;
   }
@@ -166,10 +164,6 @@ void Register::setProgressCallback(progress_f progress) {
 
 bool Register::isEmpty() const {
   return _d->status == empty;
-}
-
-bool Register::isModified() const {
-  return _d->modified;
 }
 
 int Register::getEntry(
@@ -223,7 +217,7 @@ int Register::getEntry(
       time_t ts;
       if ((node != NULL) || (timestamp != NULL) || (date > 0)) {
         // Get all arguments from line
-        decodeLine(_d->data, &ts, _d->path, node);
+        List::decodeLine(_d->data, &ts, _d->path, node);
         if (timestamp != NULL) {
           *timestamp = ts;
         }
@@ -245,10 +239,11 @@ int Register::search(
     time_t          expire,
     time_t          remove,
     List*           new_list,
-    List*           journal) {
-  int     path_cmp;
-  int     rc         = 0;
+    List*           journal,
+    bool*           modified) {
+  int rc = 0;
 
+  int path_cmp;
   // Pre-set path comparison result
   if (path_l == NULL) {
     // Any path will match (search for next path)
@@ -314,7 +309,7 @@ int Register::search(
               // Not marked removed yet
               if (*pos != '-') {
                 char* line = NULL;
-                encodeLine(&line, remove, NULL);
+                List::encodeLine(&line, remove, NULL);
                 if (new_list->putLine(line) < 0) {
                   // Could not write
                   free(line);
@@ -325,7 +320,9 @@ int Register::search(
                   journal->putLine(line);
                 }
                 free(line);
-                _d->modified = true;
+                if (modified != NULL) {
+                  *modified = true;
+                }
                 out(info, msg_standard, _d->path, -2, "D      ");
               }
             }
@@ -335,7 +332,7 @@ int Register::search(
               if (expire != 0) {
                 // Check timestamp for expiration
                 time_t ts = 0;
-                if (! decodeLine(_d->data, &ts) && (ts < expire)) {
+                if (! List::decodeLine(_d->data, &ts) && (ts < expire)) {
                   _d->status = got_nothing;
                   continue;
                 }
@@ -404,7 +401,7 @@ int Register::search(
   return -1;
 }
 
-int Register::add(
+int List::add(
     const Path&     path,
     const Node*     node,
     List*           new_list,
@@ -425,7 +422,6 @@ int Register::add(
       }
     }
     free(line);
-    _d->modified = true;
   }
   return rc;
 }
@@ -562,7 +558,7 @@ void Register::show(
   }
 }
 
-int Register::encodeLine(
+int List::encodeLine(
     char**          linep,
     time_t          timestamp,
     const Node*     node) {
@@ -593,7 +589,7 @@ int Register::encodeLine(
   return size;
 }
 
-int Register::decodeLine(
+int List::decodeLine(
     const char*     line,
     time_t*         ts,
     const char*     path,

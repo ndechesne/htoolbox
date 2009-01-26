@@ -37,6 +37,7 @@ using namespace hbackup;
 struct Owner::Private {
   Path              path;
   char*             name;
+  bool              modified;
   Register*         original;
   List*             journal;
   List*             partial;
@@ -249,6 +250,7 @@ int Owner::open(
 
   bool failed = false;
   // Open list
+  _d->modified = false;
   _d->original = new Register(owner_list.path());
   if (_d->original->open()) {
     File backup(Path(_d->path, "list~"));
@@ -333,15 +335,15 @@ int Owner::close(
     _d->original->setProgressCallback(_d->progress);
     if (! aborting()) {
       // Finish work (if not aborting, remove items at end of list)
-      if (_d->original->search("", _d->expiration,
-          abort ? 0 : time(NULL), _d->partial, _d->journal) < 0) {
+      if (_d->original->search("", _d->expiration, abort ? 0 : time(NULL),
+          _d->partial, _d->journal, &_d->modified) < 0) {
         failed = true;
       }
     }
     // Now we can close the journal (failure to close is not problematic)
     _d->journal->finalize();
     // Check whether any work was done
-    if (! _d->original->isModified()) {
+    if (! _d->modified) {
       // No modification done, don't need journal anymore
       remove(_d->journal->path());
     } else
@@ -355,7 +357,7 @@ int Owner::close(
       failed = true;
     }
     // Check whether we need to merge now
-    if (failed || aborting() || ! _d->original->isModified()) {
+    if (failed || aborting() || ! _d->modified) {
       // Merging will occur at next read/write open, if journal exists
       remove(_d->partial->path());
     } else
@@ -393,7 +395,7 @@ int Owner::send(
 
   // Search path and get current metadata
   int rc = _d->original->search(op._path, _d->expiration, time(NULL),
-    _d->partial, _d->journal);
+    _d->partial, _d->journal, &_d->modified);
   if (rc < 0) {
     return -1;
   }
@@ -471,7 +473,8 @@ int Owner::send(
 int Owner::add(
     const Path&     path,
     const Node*     node) {
-  return _d->original->add(path, node, _d->partial, _d->journal);
+  _d->modified = true;
+  return List::add(path, node, _d->partial, _d->journal);
 }
 
 int Owner::getNextRecord(

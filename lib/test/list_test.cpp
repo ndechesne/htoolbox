@@ -60,7 +60,7 @@ static void add(
     const Node*     node = NULL) {
   list.putLine(path);
   char* line = NULL;
-  Register::encodeLine(&line, epoch, node);
+  List::encodeLine(&line, epoch, node);
   list.putLine(line);
   free(line);
 }
@@ -179,9 +179,6 @@ int main(void) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
-  if (dblist_reader.isModified()) {
-    cout << "Register was modified" << endl;
-  }
   merge.finalize();
   journal_reader.close();
   dblist_reader.close();
@@ -251,9 +248,6 @@ int main(void) {
   if (dblist_reader.merge(&merge, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
-  }
-  if (dblist_reader.isModified()) {
-    cout << "Register was modified" << endl;
   }
   merge.finalize();
   journal_reader.close();
@@ -578,9 +572,6 @@ int main(void) {
   if (dblist_reader.merge(&merge, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
-  }
-  if (dblist_reader.isModified()) {
-    cout << "Register was modified" << endl;
   }
   merge.finalize();
   journal_reader.close();
