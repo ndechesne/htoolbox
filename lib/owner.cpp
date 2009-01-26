@@ -98,7 +98,7 @@ int Owner::finishOff(
             out(error, msg_errno, "opening list", errno);
             failed = true;
           }
-          if (_d->partial->finalize()) {
+          if (_d->partial->close()) {
             out(error, msg_errno, "closing merge", errno);
             failed = true;
           }
@@ -265,7 +265,7 @@ int Owner::open(
         out(error, msg_errno, "creating list", errno, _d->path.basename());
         failed = true;
       } else {
-        original.finalize();
+        original.close();
         out(info, msg_standard, _d->path.basename(), -1, "Register created");
       }
     }
@@ -308,8 +308,8 @@ int Owner::open(
   if (failed || check) {
     _d->original->close();
     if (! check) {
-      _d->journal->finalize();
-      _d->partial->finalize();
+      _d->journal->close();
+      _d->partial->close();
     }
     delete _d->original;
     delete _d->journal;
@@ -339,9 +339,10 @@ int Owner::close(
           _d->partial, _d->journal, &_d->modified) < 0) {
         failed = true;
       }
+      _d->journal->flush();
     }
     // Now we can close the journal (failure to close is not problematic)
-    _d->journal->finalize();
+    _d->journal->close();
     // Check whether any work was done
     if (! _d->modified) {
       // No modification done, don't need journal anymore
@@ -353,7 +354,7 @@ int Owner::close(
     // Close list (was open read-only)
     _d->original->close();
     // Close merge
-    if (_d->partial->finalize()) {
+    if (_d->partial->close()) {
       failed = true;
     }
     // Check whether we need to merge now
@@ -399,6 +400,7 @@ int Owner::send(
   if (rc < 0) {
     return -1;
   }
+  _d->journal->flush();
   if (rc == 2) {
     // Get metadata (needs to be kept, as it will be added after any new)
     _d->original->getEntry(NULL, NULL, &db_node, -2);
@@ -473,8 +475,11 @@ int Owner::send(
 int Owner::add(
     const Path&     path,
     const Node*     node) {
+  if (List::add(path, node, _d->partial, _d->journal) || _d->journal->flush()) {
+    return -1;
+  }
   _d->modified = true;
-  return List::add(path, node, _d->partial, _d->journal);
+  return 0;
 }
 
 int Owner::getNextRecord(

@@ -22,24 +22,28 @@
 namespace hbackup {
 
 class List {
-  Path              _path;
-  int               _stream;
+  struct            Private;
+  Private* const    _d;
 public:
-  List(Path path) : _path(path) {}
+  List(
+    const Path&     path);
+  ~List();
   // Open file (for write)
   int create();
   // Close file
-  int finalize();
+  int close();
+  // Flush all data to file
+  int flush();
   // File path
-  const char* path() const { return _path; }
+  const char* path() const;
   // Write a line, adding the LF character
   ssize_t putLine(
-    const Line&     line);
+    const Line&     line);                  // Line to write
   // Encode line from metadata
   static ssize_t encodeLine(
-    char*           line[],
-    time_t          timestamp,
-    const Node*     node);
+    char*           line[],                 // Line to decode
+    time_t          ts,                     // Line timestamp
+    const Node*     node);                  // File path and metadata
   // Decode metadata from line
   static int decodeLine(
     const char      line[],                 // Line to decode

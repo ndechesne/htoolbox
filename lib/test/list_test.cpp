@@ -89,7 +89,7 @@ int main(void) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
-  dblist.finalize();
+  dblist.close();
 
   dblist_reader.show();
 
@@ -125,7 +125,7 @@ int main(void) {
   add(journal, "path", time(NULL), node);
   free(node);
 
-  journal.finalize();
+  journal.close();
   node = NULL;
 
 
@@ -179,7 +179,7 @@ int main(void) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
-  merge.finalize();
+  merge.close();
   journal_reader.close();
   dblist_reader.close();
 
@@ -217,7 +217,7 @@ int main(void) {
   add(journal, "file_new", time(NULL), node);
   free(node);
 
-  journal.finalize();
+  journal.close();
   node = NULL;
 
 
@@ -249,7 +249,7 @@ int main(void) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
-  merge.finalize();
+  merge.close();
   journal_reader.close();
   dblist_reader.close();
 
@@ -294,7 +294,7 @@ int main(void) {
   add(journal, "file_new", time(NULL), node);
   add(journal, "file_gone", time(NULL), node);
   free(node);
-  journal.finalize();
+  journal.close();
   node = NULL;
 
 
@@ -329,7 +329,7 @@ int main(void) {
     cerr << "Failed to merge" << endl;
 //     return 0;
   }
-  merge.finalize();
+  merge.close();
   journal_reader.close();
   dblist_reader.close();
 
@@ -365,7 +365,7 @@ int main(void) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
-  merge.finalize();
+  merge.close();
   dblist_reader.close();
 
   merge_reader.show();
@@ -387,7 +387,7 @@ int main(void) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
-  merge.finalize();
+  merge.close();
   dblist_reader.close();
 
   merge_reader.show();
@@ -412,7 +412,7 @@ int main(void) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
-  merge.finalize();
+  merge.close();
   dblist_reader.close();
 
   cout << "Merge:" << endl;
@@ -437,7 +437,7 @@ int main(void) {
   add(journal, "file_new", time(NULL), node);
   free(node);
   node = NULL;
-  journal.finalize();
+  journal.close();
   // Merge
   if (dblist_reader.open()) {
     cerr << strerror(errno) << " opening list!" << endl;
@@ -461,7 +461,7 @@ int main(void) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
-  merge.finalize();
+  merge.close();
   journal_reader.close();
   dblist_reader.close();
   // Update
@@ -517,7 +517,7 @@ int main(void) {
   add(journal, "path", time(NULL), node);
   free(node);
 
-  journal.finalize();
+  journal.close();
   sys_rc = system("head -c 190 test_db/journal > test_db/journal.1");
   sys_rc = system("cp -f test_db/journal.1 test_db/journal");
 
@@ -573,7 +573,7 @@ int main(void) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
-  merge.finalize();
+  merge.close();
   journal_reader.close();
   dblist_reader.close();
 

@@ -261,7 +261,7 @@ int main(void) {
   {
     List journal("test_db/client/journal");
     journal.create();
-    journal.finalize();
+    journal.close();
   }
   rc = o.open(false, false);
   if (rc) {
@@ -283,7 +283,7 @@ int main(void) {
   {
     List journal("test_db/client/journal2");
     journal.create();
-    journal.finalize();
+    journal.close();
     sys_rc = system("head -1 test_db/client/journal2 > test_db/client/journal");
     sys_rc = system("rm test_db/client/journal2");
   }

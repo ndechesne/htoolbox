@@ -16,6 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
+#include <stdio.h>
 #include <errno.h>
 
 #include "hbackup.h"
@@ -40,45 +41,62 @@ enum Status {
 
 }
 
+struct List::Private {
+  Path              path;
+  FILE*             stream;
+  Private(const char* path_in) : path(path_in), stream(NULL) {}
+};
+
+List::List(const Path& path) : _d(new Private(path)) {}
+
+List::~List() {
+  delete _d;
+}
+
 int List::create() {
   const char header[] = "# version 4";
 
-  _stream = creat(_path, 0644);
-  if (_stream < 0) {
+  _d->stream = fopen(_d->path, "w");
+  if (_d->stream == NULL) {
+    out(error, msg_errno, "creating list", errno, _d->path);
     return -1;
   }
   if (putLine(header) < 0) {
-    close(_stream);
+    out(error, msg_errno, "writing list header", errno, _d->path);
+    fclose(_d->stream);
+    _d->stream = NULL;
     return -1;
   }
   return 0;
 }
 
-int List::finalize() {
+int List::close() {
   const char footer[] = "# end";
   int rc = 0;
 
   if (putLine(footer) < 0) {
-    out(error, msg_errno, "writing list footer", errno, _path);
+    out(error, msg_errno, "writing list footer", errno, _d->path);
     rc = -1;
   }
-  if (close(_stream)) {
-    out(error, msg_errno, "closing list", errno, _path);
+  if (fclose(_d->stream)) {
+    out(error, msg_errno, "closing list", errno, _d->path);
     rc = -1;
   }
+  _d->stream = NULL;
   return rc;
 }
 
+int List::flush() {
+  return fflush(_d->stream);
+}
+
+const char* List::path() const {
+  return _d->path;
+}
+
 ssize_t List::putLine(const Line& line) {
-  size_t length = line.size();
-  while (length > 0) {
-    ssize_t size = write(_stream, &line[line.size() - length], length);
-    if (size < 0) return -1;
-    length -= size;
-  }
-  if (write(_stream, "\n", 1) < 1) {
-    return -1;
-  }
+  if (fwrite(line, line.size(), 1, _d->stream) < 1) return -1;
+  if (fwrite("\n", 1, 1, _d->stream) < 1) return -1;
   return line.size();
 }
 
@@ -285,6 +303,7 @@ int Register::open() {
   } else
   // Unknown header
   {
+    errno = EPROTO;
     rc = -1;
   }
   // Initialise status and path
