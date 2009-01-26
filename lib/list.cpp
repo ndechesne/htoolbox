@@ -40,6 +40,158 @@ enum Status {
 
 }
 
+int List::create() {
+  const char header[] = "# version 4";
+
+  _stream = creat(_path, 0644);
+  if (_stream < 0) {
+    return -1;
+  }
+  if (putLine(header) < 0) {
+    close(_stream);
+    return -1;
+  }
+  return 0;
+}
+
+int List::finalize() {
+  const char footer[] = "# end";
+  int rc = 0;
+
+  if (putLine(footer) < 0) {
+    out(error, msg_errno, "writing list footer", errno, _path);
+    rc = -1;
+  }
+  if (close(_stream)) {
+    out(error, msg_errno, "closing list", errno, _path);
+    rc = -1;
+  }
+  return rc;
+}
+
+ssize_t List::putLine(const Line& line) {
+  size_t length = line.size();
+  while (length > 0) {
+    ssize_t size = write(_stream, &line[line.size() - length], length);
+    if (size < 0) return -1;
+    length -= size;
+  }
+  if (write(_stream, "\n", 1) < 1) {
+    return -1;
+  }
+  return line.size();
+}
+
+int List::encodeLine(
+    char**          linep,
+    time_t          timestamp,
+    const Node*     node) {
+  int size;
+
+  if (node == NULL) {
+    size = asprintf(linep, "\t%ld\t-", timestamp);
+  } else {
+    const char* extra;
+    switch (node->type()) {
+      case 'f': {
+        extra = (static_cast<const File*>(node))->checksum();
+      } break;
+      case 'l': {
+        extra = (static_cast<const Link*>(node))->link();
+      } break;
+      default:
+        extra = "";
+    }
+    size = asprintf(linep, "\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o\t%s",
+      timestamp, node->type(), node->size(), node->mtime(), node->uid(),
+      node->gid(), node->mode(), extra);
+    // Remove trailing tab
+    if (extra[0] == '\0') {
+      (*linep)[--size] = '\0';
+    }
+  }
+  return size;
+}
+
+int List::decodeLine(
+    const char*     line,
+    time_t*         ts,
+    const char*     path,
+    Node**          node) {
+  // Fields
+  char        type;             // file type
+  long long   size;             // on-disk size, in bytes
+  time_t      mtime;            // time of last modification
+  uid_t       uid;              // user ID of owner
+  gid_t       gid;              // group ID of owner
+  mode_t      mode;             // permissions
+  char*       extra = NULL;     // linked file or checksum or null
+
+  int num;
+  if (node != NULL) {
+    num = sscanf(line, "\t%ld\t%c\t%Ld\t%ld\t%d\t%d\t%o\t%a[^\t]",
+      ts, &type, &size, &mtime, &uid, &gid, &mode, &extra);
+  } else {
+    num = sscanf(line, "\t%ld\t%c\t",
+      ts, &type);
+  }
+
+  // Check number of params
+  if (num < 0) {
+    return -1;
+  }
+  if (num < 2) {
+    out(error, msg_standard, "Wrong number of arguments for line");
+    return -1;
+  }
+
+  // Return extracted data
+  if (node != NULL) {
+    switch (type) {
+    case 'f':
+      *node = new File(path, type, mtime, size, uid, gid, mode,
+        extra ? extra : "");
+      break;
+    case 'l':
+      *node = new Link(path, type, mtime, size, uid, gid, mode,
+        extra ? extra : "");
+      break;
+    case '-':
+      *node = NULL;
+      break;
+    default:
+      *node = new Node(path, type, mtime, size, uid, gid, mode);
+    }
+  }
+  free(extra);
+  return 0;
+}
+
+int List::add(
+    const Path&     path,
+    const Node*     node,
+    List*           new_list,
+    List*           journal) {
+  int rc = 0;
+  if (new_list != NULL) {
+    char* line = NULL;
+    int   size = encodeLine(&line, time(NULL), node);
+
+    if (new_list->putLine(line) != size) {
+      rc = -1;
+    }
+    if (journal != NULL) {
+      // Add to journal
+      if ((journal->putLine(path) != static_cast<ssize_t>(path.size())) ||
+          (journal->putLine(line) != size)) {
+        rc = -1;
+      }
+    }
+    free(line);
+  }
+  return rc;
+}
+
 struct Register::Private {
   Stream            stream;
   Status            status;
@@ -401,31 +553,6 @@ int Register::search(
   return -1;
 }
 
-int List::add(
-    const Path&     path,
-    const Node*     node,
-    List*           new_list,
-    List*           journal) {
-  int rc = 0;
-  if (new_list != NULL) {
-    char* line = NULL;
-    int   size = encodeLine(&line, time(NULL), node);
-
-    if (new_list->putLine(line) != size) {
-      rc = -1;
-    }
-    if (journal != NULL) {
-      // Add to journal
-      if ((journal->putLine(path) != static_cast<ssize_t>(path.size())) ||
-          (journal->putLine(line) != size)) {
-        rc = -1;
-      }
-    }
-    free(line);
-  }
-  return rc;
-}
-
 int Register::merge(
     List*           new_list,
     Register*       journal) {
@@ -556,131 +683,4 @@ void Register::show(
   } else {
     out(error, msg_errno, "opening list", errno, path());
   }
-}
-
-int List::encodeLine(
-    char**          linep,
-    time_t          timestamp,
-    const Node*     node) {
-  int size;
-
-  if (node == NULL) {
-    size = asprintf(linep, "\t%ld\t-", timestamp);
-  } else {
-    const char* extra;
-    switch (node->type()) {
-      case 'f': {
-        extra = (static_cast<const File*>(node))->checksum();
-      } break;
-      case 'l': {
-        extra = (static_cast<const Link*>(node))->link();
-      } break;
-      default:
-        extra = "";
-    }
-    size = asprintf(linep, "\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o\t%s",
-      timestamp, node->type(), node->size(), node->mtime(), node->uid(),
-      node->gid(), node->mode(), extra);
-    // Remove trailing tab
-    if (extra[0] == '\0') {
-      (*linep)[--size] = '\0';
-    }
-  }
-  return size;
-}
-
-int List::decodeLine(
-    const char*     line,
-    time_t*         ts,
-    const char*     path,
-    Node**          node) {
-  // Fields
-  char        type;             // file type
-  long long   size;             // on-disk size, in bytes
-  time_t      mtime;            // time of last modification
-  uid_t       uid;              // user ID of owner
-  gid_t       gid;              // group ID of owner
-  mode_t      mode;             // permissions
-  char*       extra = NULL;     // linked file or checksum or null
-
-  int num;
-  if (node != NULL) {
-    num = sscanf(line, "\t%ld\t%c\t%Ld\t%ld\t%d\t%d\t%o\t%a[^\t]",
-      ts, &type, &size, &mtime, &uid, &gid, &mode, &extra);
-  } else {
-    num = sscanf(line, "\t%ld\t%c\t",
-      ts, &type);
-  }
-
-  // Check number of params
-  if (num < 0) {
-    return -1;
-  }
-  if (num < 2) {
-    out(error, msg_standard, "Wrong number of arguments for line");
-    return -1;
-  }
-
-  // Return extracted data
-  if (node != NULL) {
-    switch (type) {
-    case 'f':
-      *node = new File(path, type, mtime, size, uid, gid, mode,
-        extra ? extra : "");
-      break;
-    case 'l':
-      *node = new Link(path, type, mtime, size, uid, gid, mode,
-        extra ? extra : "");
-      break;
-    case '-':
-      *node = NULL;
-      break;
-    default:
-      *node = new Node(path, type, mtime, size, uid, gid, mode);
-    }
-  }
-  free(extra);
-  return 0;
-}
-
-int List::create() {
-  const char header[] = "# version 4";
-
-  _stream = creat(_path, 0644);
-  if (_stream < 0) {
-    return -1;
-  }
-  if (putLine(header) < 0) {
-    close(_stream);
-    return -1;
-  }
-  return 0;
-}
-
-int List::finalize() {
-  const char footer[] = "# end";
-  int rc = 0;
-
-  if (putLine(footer) < 0) {
-    out(error, msg_errno, "writing list footer", errno, _path);
-    rc = -1;
-  }
-  if (close(_stream)) {
-    out(error, msg_errno, "closing list", errno, _path);
-    rc = -1;
-  }
-  return rc;
-}
-
-ssize_t List::putLine(const Line& line) {
-  size_t length = line.size();
-  while (length > 0) {
-    ssize_t size = write(_stream, &line[line.size() - length], length);
-    if (size < 0) return -1;
-    length -= size;
-  }
-  if (write(_stream, "\n", 1) < 1) {
-    return -1;
-  }
-  return line.size();
 }

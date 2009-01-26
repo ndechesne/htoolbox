@@ -21,7 +21,38 @@
 
 namespace hbackup {
 
-class List;
+class List {
+  Path              _path;
+  int               _stream;
+public:
+  List(Path path) : _path(path) {}
+  // Open file (for write)
+  int create();
+  // Close file
+  int finalize();
+  // File path
+  const char* path() const { return _path; }
+  // Write a line, adding the LF character
+  ssize_t putLine(
+    const Line&     line);
+  // Encode line from metadata
+  static ssize_t encodeLine(
+    char*           line[],
+    time_t          timestamp,
+    const Node*     node);
+  // Decode metadata from line
+  static int decodeLine(
+    const char      line[],                 // Line to decode
+    time_t*         ts,                     // Line timestamp
+    const char      path[]      = NULL,     // File path to store in metadata
+    Node**          node        = NULL);    // File metadata
+  // Add info
+  static int add(
+    const Path&     path,                   // Path
+    const Node*     node,                   // Metadata
+    List*           new_list,               // Merge list
+    List*           journal     = NULL);    // Journal
+};
 
 class Register {
   struct            Private;
@@ -84,39 +115,6 @@ public:
     time_t          date        = -1,       // Date to select
     time_t          time_start  = 0,        // Origin of time
     time_t          time_base   = 1);       // Time base
-};
-
-class List {
-  Path              _path;
-  int               _stream;
-public:
-  List(Path path) : _path(path) {}
-  // Open file, for read or write (no append), with compression (cf. Stream)
-  int create();
-  // Close file
-  int finalize();
-  // File path
-  const char* path() const  { return _path; }
-  // Write a line, adding the LF character
-  ssize_t putLine(
-    const Line&     line);
-  // Encode line from metadata
-  static ssize_t encodeLine(
-    char*           line[],
-    time_t          timestamp,
-    const Node*     node);
-  // Decode metadata from line
-  static int decodeLine(
-    const char      line[],                 // Line to decode
-    time_t*         ts,                     // Line timestamp
-    const char      path[]      = NULL,     // File path to store in metadata
-    Node**          node        = NULL);    // File metadata
-  // Add info
-  static int add(
-    const Path&     path,                   // Path
-    const Node*     node,                   // Metadata
-    List*           new_list,               // Merge list
-    List*           journal     = NULL);    // Journal
 };
 
 }
