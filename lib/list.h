@@ -30,12 +30,18 @@ public:
   ~List();
   // Open file (for write)
   int create();
+  // Open file (for read)
+  int open();
   // Close file
   int close();
   // Flush all data to file
   int flush();
   // File path
   const char* path() const;
+  // Read a line, removing the LF character
+  ssize_t getLine(
+    Line&           line,                   // Line to read
+    bool*           eol);                   // Whether EOL was found
   // Write a line, adding the LF character
   ssize_t putLine(
     const Line&     line);                  // Line to write

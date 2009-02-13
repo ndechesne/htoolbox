@@ -276,7 +276,7 @@ int Owner::open(
     // Check journal
     _d->journal = new List(Path(_d->path, "journal"));
     _d->partial = new List(Path(_d->path, "partial"));
-    Register journal(_d->journal->path());
+    List journal(_d->journal->path());
     if (! journal.open()) {
       // Check previous crash
       journal.close();
@@ -296,21 +296,19 @@ int Owner::open(
     } else
     // Open journal
     if (_d->journal->create()) {
-      out(error, msg_errno, "opening journal", errno, _d->path.basename());
+      _d->original->close();
+      out(error, msg_errno, "creating journal", errno, _d->path.basename());
       failed = true;
     } else
     // Open list
     if (_d->partial->create()) {
-      out(error, msg_errno, "opening merge list", errno, _d->path.basename());
+      _d->original->close();
+      _d->journal->close();
+      out(error, msg_errno, "creating merge list", errno, _d->path.basename());
       failed = true;
     }
   }
   if (failed || check) {
-    _d->original->close();
-    if (! check) {
-      _d->journal->close();
-      _d->partial->close();
-    }
     delete _d->original;
     delete _d->journal;
     delete _d->partial;

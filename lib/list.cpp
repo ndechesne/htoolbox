@@ -44,7 +44,13 @@ enum Status {
 struct List::Private {
   Path              path;
   FILE*             stream;
-  Private(const char* path_in) : path(path_in), stream(NULL) {}
+  const char*       header;
+  const char*       old_header;
+  const char*       footer;
+  bool              read_only;
+  bool              old_version;
+  Private(const char* path_in) : path(path_in), stream(NULL),
+    header("# version 4"), old_header("# version 4"), footer("# end") {}
 };
 
 List::List(const Path& path) : _d(new Private(path)) {}
@@ -54,29 +60,28 @@ List::~List() {
 }
 
 int List::create() {
-  const char header[] = "# version 4";
-
   _d->stream = fopen(_d->path, "w");
   if (_d->stream == NULL) {
     out(error, msg_errno, "creating list", errno, _d->path);
     return -1;
   }
-  if (putLine(header) < 0) {
+  if (putLine(_d->header) < 0) {
     out(error, msg_errno, "writing list header", errno, _d->path);
     fclose(_d->stream);
     _d->stream = NULL;
     return -1;
   }
+  _d->read_only = false;
   return 0;
 }
 
 int List::close() {
-  const char footer[] = "# end";
   int rc = 0;
-
-  if (putLine(footer) < 0) {
-    out(error, msg_errno, "writing list footer", errno, _d->path);
-    rc = -1;
+  if (! _d->read_only) {
+    if (putLine(_d->footer) < 0) {
+      out(error, msg_errno, "writing list footer", errno, _d->path);
+      rc = -1;
+    }
   }
   if (fclose(_d->stream)) {
     out(error, msg_errno, "closing list", errno, _d->path);
@@ -92,6 +97,26 @@ int List::flush() {
 
 const char* List::path() const {
   return _d->path;
+}
+
+ssize_t List::getLine(Line& line, bool* eol) {
+  LineBuffer& buffer = line;
+  bool local_eol = false;
+  ssize_t rc = getline(buffer.bufferPtr(), buffer.capacityPtr(), _d->stream);
+  if (rc >= 0) {
+    *buffer.sizePtr() = rc;
+    if ((rc > 0) && (line[rc - 1] == '\n')) {
+      line.erase(rc - 1);
+      local_eol = true;
+    }
+  } else
+  if (feof(_d->stream)) {
+    rc = 0;
+  }
+  if (eol != NULL) {
+    *eol = local_eol ;
+  }
+  return rc;
 }
 
 ssize_t List::putLine(const Line& line) {
@@ -211,12 +236,10 @@ int List::add(
 }
 
 struct Register::Private {
-  Stream            stream;
+  List              stream;
   Status            status;
   Line              data;
   Path              path;
-  // Set when a previous version is detected
-  bool              old_version;
   Private(const char* path) : stream(path) {}
 };
 
@@ -279,26 +302,26 @@ Register::~Register() {
   delete _d;
 }
 
-int Register::open() {
-  // Put same header in both until a new version becomes necessary
-  const char header[]     = "# version 4";
-  const char old_header[] = "# version 4";
-
-  if (_d->stream.open(O_RDONLY, 0, false)) {
+int List::open() {
+  _d->read_only = true;
+  _d->stream = fopen(_d->path, "r");
+  if (_d->stream == NULL) {
     return -1;
   }
   // Check rights
-  if (_d->stream.getLine(_d->data) < 0) {
-    _d->stream.close();
+  Line data;
+  bool eol;
+  if ((getLine(data, &eol) < 0) || (! eol)) {
+    close();
     return -1;
   }
   int rc = 0;
   // Expected header?
-  if (strcmp(_d->data, header) == 0) {
+  if (strcmp(data, _d->header) == 0) {
     _d->old_version = false;
   } else
   // Old header?
-  if (strcmp(_d->data, old_header) == 0) {
+  if (strcmp(data, _d->old_header) == 0) {
     _d->old_version = true;
   } else
   // Unknown header
@@ -306,17 +329,24 @@ int Register::open() {
     errno = EPROTO;
     rc = -1;
   }
-  // Initialise status and path
-  _d->status   = got_nothing;
-  _d->path     = "";
-  // Get first line to check for empty list
-  fetchLine();
-  if (_d->status == failed) {
-    rc = -1;
-  } else
-  if (_d->status == eof) {
-      // EOF reached immediately, list is empty
-    _d->status = empty;
+  return rc;
+}
+
+int Register::open() {
+  int rc = _d->stream.open();
+  if (rc == 0) {
+    // Initialise status and path
+    _d->status   = got_nothing;
+    _d->path     = "";
+    // Get first line to check for empty list
+    fetchLine();
+    if (_d->status == failed) {
+      rc = -1;
+    } else
+    if (_d->status == eof) {
+        // EOF reached immediately, list is empty
+      _d->status = empty;
+    }
   }
   return rc;
 }
@@ -330,7 +360,8 @@ const char* Register::path() const {
 }
 
 void Register::setProgressCallback(progress_f progress) {
-  _d->stream.setProgressCallback(progress);
+  (void) progress;
+//   _d->stream.setProgressCallback(progress);
 }
 
 bool Register::isEmpty() const {
