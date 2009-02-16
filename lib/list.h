@@ -46,10 +46,20 @@ public:
   int flush();
   // File path
   const char* path() const;
+  // Current path
+  const Path& getPath() const;
+  // Current data line
+  const Line& getData() const;
   // Read a line, removing the LF character
   ssize_t _getLine(
     Line&           line,                   // Line to read
     bool*           eol);                   // Whether EOL was found
+  // Buffer relevant line
+  List::Status fetchLine(bool init = false);
+  // Reset status to 'no data available'
+  void resetStatus();
+  // End of list reached
+  bool end() const;
   // Write a line, adding the LF character
   ssize_t putLine(
     const Line&     line);                  // Line to write
@@ -75,13 +85,6 @@ public:
 class Register {
   struct            Private;
   Private* const    _d;
-  // Buffer relevant line
-  //  -1: error
-  //   0: eof
-  //   1: ok
-  List::Status fetchLine(bool init = false);
-  // Reset status to 'no data available'
-  void resetStatus();
 public:
   Register(
     Path            path);
