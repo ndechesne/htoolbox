@@ -82,7 +82,9 @@ int Owner::finishOff(
     errno = 0;
     if (! journal.open()) {
       bool failed = false;
+      bool empty  = true;
       if (! journal.isEmpty()) {
+        empty = false;
         out(verbose, msg_standard, _d->path.basename(), -1,
           "Register modified");
         if (! _d->partial->create()) {
@@ -108,7 +110,7 @@ int Owner::finishOff(
         }
       }
       journal.close();
-      if (journal.isEmpty()) {
+      if (empty) {
         // Nothing to do (journal is empty)
         remove(journal.path());
         return 0;

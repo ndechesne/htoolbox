@@ -27,20 +27,6 @@
 
 using namespace hbackup;
 
-namespace hbackup {
-
-enum Status {
-  // Order matters as we may check for (status < ok) or (status >= eof)
-  failed = -1,              // an error occured
-  got_nothing,              // No relevant data
-  got_path,                 // Got a path
-  got_data,                 // Got data
-  eof,                      // end of file reached
-  empty                     // list is empty
-};
-
-}
-
 struct List::Private {
   Path              path;
   FILE*             stream;
@@ -75,6 +61,36 @@ int List::create() {
   return 0;
 }
 
+int List::open() {
+  _d->read_only = true;
+  _d->stream = fopen(_d->path, "r");
+  if (_d->stream == NULL) {
+    return -1;
+  }
+  // Check rights
+  Line data;
+  bool eol;
+  if ((_getLine(data, &eol) < 0) || (! eol)) {
+    close();
+    return -1;
+  }
+  int rc = 0;
+  // Expected header?
+  if (strcmp(data, _d->header) == 0) {
+    _d->old_version = false;
+  } else
+  // Old header?
+  if (strcmp(data, _d->old_header) == 0) {
+    _d->old_version = true;
+  } else
+  // Unknown header
+  {
+    errno = EPROTO;
+    rc = -1;
+  }
+  return rc;
+}
+
 int List::close() {
   int rc = 0;
   if (! _d->read_only) {
@@ -99,7 +115,7 @@ const char* List::path() const {
   return _d->path;
 }
 
-ssize_t List::getLine(Line& line, bool* eol) {
+ssize_t List::_getLine(Line& line, bool* eol) {
   LineBuffer& buffer = line;
   bool local_eol = false;
   ssize_t rc = getline(buffer.bufferPtr(), buffer.capacityPtr(), _d->stream);
@@ -237,63 +253,56 @@ int List::add(
 
 struct Register::Private {
   List              stream;
-  Status            status;
+  List::Status      status;
   Line              data;
   Path              path;
   Private(const char* path) : stream(path) {}
 };
 
-ssize_t Register::fetchLine() {
+List::Status Register::fetchLine(bool init) {
   // Check current status
-  switch (_d->status) {
-    case failed:
-      return -1;
-    case got_nothing:
-      break;
-    case got_path:
-      return _d->path.size();
-    case got_data:
-      return _d->data.size();
-    case empty:
-    case eof:
-      return 0;
-  }
-  // Line contains no re-usable data
-  bool    eol;
-  ssize_t length = _d->stream.getLine(_d->data, &eol);
-  // Read error
-  if (length < 0) {
-    _d->status = failed;
-  } else
-  // Unexpected end of list
-  if (length == 0) {
-    _d->status = eof;
-  } else
-  // Incorrect end of line
-  if (! eol) {
-    // All lines MUST end in end-of-line character
-    _d->status = eof;
-  } else
-  // End of list
-  if (_d->data[0] == '#') {
-    _d->status = eof;
-    return 0;
-  } else
-  // Usable information
-  {
-    if (_d->data[0] != '\t') {
-      if (strcmp(_d->path, _d->data)) {
-        _d->path.swap(_d->data);
-      } else {
-        out(warning, msg_standard, "Repeated path in list", -1, _d->path);
+  if ((_d->status == List::got_nothing) || init) {
+    // Line contains no re-usable data
+    bool    eol;
+    ssize_t length = _d->stream._getLine(_d->data, &eol);
+    // Read error
+    if (length < 0) {
+      _d->status = List::failed;
+    } else
+    // Unexpected end of list or incorrect end of line
+    if ((length == 0) || (! eol)) {
+      // All lines MUST end in end-of-line character
+      _d->status = List::eof;
+    } else
+    // End of list
+    if (_d->data[0] == '#') {
+      _d->status = List::eor;
+    } else
+    // Usable information
+    {
+      if (init) {
+        // Initialise path
+        _d->path = "";
       }
-      _d->status = got_path;
-    } else {
-      _d->status = got_data;
+      if (_d->data[0] != '\t') {
+        if (strcmp(_d->path, _d->data)) {
+          _d->path.swap(_d->data);
+        } else {
+          out(warning, msg_standard, "Repeated path in list", -1, _d->path);
+        }
+        _d->status = List::got_path;
+      } else {
+        _d->status = List::got_data;
+      }
     }
-    return length;
   }
-  return -1;
+  return _d->status;
+}
+
+void Register::resetStatus() {
+  if ((_d->status == List::got_data) || (_d->status == List::got_path)) {
+    _d->status = List::got_nothing;
+  }
 }
 
 Register::Register(Path path) : _d(new Private(path)) {}
@@ -302,51 +311,11 @@ Register::~Register() {
   delete _d;
 }
 
-int List::open() {
-  _d->read_only = true;
-  _d->stream = fopen(_d->path, "r");
-  if (_d->stream == NULL) {
-    return -1;
-  }
-  // Check rights
-  Line data;
-  bool eol;
-  if ((getLine(data, &eol) < 0) || (! eol)) {
-    close();
-    return -1;
-  }
-  int rc = 0;
-  // Expected header?
-  if (strcmp(data, _d->header) == 0) {
-    _d->old_version = false;
-  } else
-  // Old header?
-  if (strcmp(data, _d->old_header) == 0) {
-    _d->old_version = true;
-  } else
-  // Unknown header
-  {
-    errno = EPROTO;
-    rc = -1;
-  }
-  return rc;
-}
-
 int Register::open() {
   int rc = _d->stream.open();
-  if (rc == 0) {
-    // Initialise status and path
-    _d->status   = got_nothing;
-    _d->path     = "";
-    // Get first line to check for empty list
-    fetchLine();
-    if (_d->status == failed) {
-      rc = -1;
-    } else
-    if (_d->status == eof) {
-        // EOF reached immediately, list is empty
-      _d->status = empty;
-    }
+  // Get first line to check for empty list
+  if ((rc == 0) && (fetchLine(true) == List::failed)) {
+    return -1;
   }
   return rc;
 }
@@ -365,7 +334,8 @@ void Register::setProgressCallback(progress_f progress) {
 }
 
 bool Register::isEmpty() const {
-  return _d->status == empty;
+  // If EOF is reached immediately, list is empty
+  return (_d->status == List::eor) || (_d->status == List::eof);
 }
 
 int Register::getEntry(
@@ -386,14 +356,14 @@ int Register::getEntry(
     get_path = true;
   }
 
-  ssize_t length;
-  bool    break_it = false;
+  int   rc;
+  bool  break_it = false;
   while (! break_it) {
     // Get line
-    length = fetchLine();
+    rc = fetchLine();
 
-    if (length < 0) {
-      if (_d->status == eof) {
+    if (rc < 0) {
+      if (rc == List::eof) {
         out(error, msg_standard, "Unexpected end of list", -1,
           _d->stream.path());
       }
@@ -401,12 +371,12 @@ int Register::getEntry(
     }
 
     // End of file
-    if (length == 0) {
+    if (rc == 0) {
       return 0;
     }
 
     // Path
-    if (_d->status == got_path) {
+    if (rc == List::got_path) {
       if (path != NULL) {
         free(*path);
         *path = strdup(_d->path);
@@ -430,7 +400,7 @@ int Register::getEntry(
     }
     // Reset status
     if (date != -2) {
-      _d->status = got_nothing;
+      resetStatus();
     }
   }
   return 1;
@@ -479,7 +449,7 @@ int Register::search(
 
     // Not end of file
     if (rc != 0) {
-      if (_d->status == got_path) {
+      if (rc == List::got_path) {
         path_new = true;
         // Got a path
         if ((path_l != NULL) && (path_l[0] != '\0')) {
@@ -496,7 +466,7 @@ int Register::search(
         // Next line of data is active
         active_data_line = true;
       } else
-      if (_d->status == got_data) {
+      if (rc == List::got_data) {
         // Got data
         if (new_list != NULL) {
           if (active_data_line) {
@@ -535,12 +505,12 @@ int Register::search(
                 // Check timestamp for expiration
                 time_t ts = 0;
                 if (! List::decodeLine(_d->data, &ts) && (ts < expire)) {
-                  _d->status = got_nothing;
+                  resetStatus();
                   continue;
                 }
               } else {
                 // Always obsolete
-                _d->status = got_nothing;
+                resetStatus();
                 continue;
               }
             }
@@ -554,9 +524,9 @@ int Register::search(
     // New data, add to merge
     if (new_list != NULL) {
       // Searched path found or status is eof/empty
-      if ((_d->status == eof) || (_d->status == empty) || stop) {
+      if ((rc == List::eor) || stop) {
         if (path_found) {
-          _d->status = got_nothing;
+          resetStatus();
         }
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
@@ -567,13 +537,13 @@ int Register::search(
         }
       } else
       // Our data is here or after, so let's copy if required
-      if (_d->status == got_path) {
+      if (rc == List::got_path) {
         if (new_list->putLine(_d->path) < 0) {
           // Could not write
           return -1;
         }
       } else
-      if (_d->status == got_data) {
+      if (rc == List::got_data) {
         if (new_list->putLine(_d->data) < 0) {
           // Could not write
           return -1;
@@ -582,7 +552,7 @@ int Register::search(
     }
 
     // Return search status
-    if (_d->status >= eof) {
+    if (rc == List::eor) {
       return 0;
     }
     if (path_found && (path_l == NULL)) {
@@ -592,9 +562,7 @@ int Register::search(
       return 1;
     }
     // Reset status
-    if ((_d->status == got_data) || (_d->status == got_path)) {
-      _d->status = got_nothing;
-    }
+    resetStatus();
     // Get out, discarding path
     if (path_found) {
       return 2;
@@ -621,7 +589,7 @@ int Register::merge(
 
     // Failed
     if (rc_journal < 0) {
-      if (journal->_d->status == eof) {
+      if (rc_journal == List::eof) {
         out(warning, msg_standard, "Unexpected end of journal", -1,
           journal->path());
         rc_journal = 0;
@@ -645,7 +613,7 @@ int Register::merge(
     }
 
     // Got a path
-    if (journal->_d->status == got_path) {
+    if (rc_journal == List::got_path) {
       // Check path order
       if (path.length() != 0) {
         if (path.compare(journal->_d->path) > 0) {
@@ -684,7 +652,7 @@ int Register::merge(
       }
     }
     // Reset status to get next data
-    journal->_d->status = got_nothing;
+    journal->resetStatus();
   }
   return 0;
 }

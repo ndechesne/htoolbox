@@ -25,6 +25,14 @@ class List {
   struct            Private;
   Private* const    _d;
 public:
+  enum Status {
+    eof         = -2,         // unexpected end of file
+    failed      = -1,         // an error occured
+    eor         = 0,          // end of records
+    got_nothing,              // No relevant data
+    got_path,                 // Got a path
+    got_data                  // Got data
+  };
   List(
     const Path&     path);
   ~List();
@@ -39,7 +47,7 @@ public:
   // File path
   const char* path() const;
   // Read a line, removing the LF character
-  ssize_t getLine(
+  ssize_t _getLine(
     Line&           line,                   // Line to read
     bool*           eol);                   // Whether EOL was found
   // Write a line, adding the LF character
@@ -68,7 +76,12 @@ class Register {
   struct            Private;
   Private* const    _d;
   // Buffer relevant line
-  ssize_t fetchLine();
+  //  -1: error
+  //   0: eof
+  //   1: ok
+  List::Status fetchLine(bool init = false);
+  // Reset status to 'no data available'
+  void resetStatus();
 public:
   Register(
     Path            path);
@@ -82,7 +95,7 @@ public:
   // For progress information
   void setProgressCallback(
     progress_f      progress);
-  // Empty list (check right after opening)
+  // Empty list (only valid right after opening)
   bool isEmpty() const;
   // Convert one or several line(s) to data
   // Date:
