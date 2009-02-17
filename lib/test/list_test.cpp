@@ -37,20 +37,53 @@ time_t time(time_t *t) {
   return my_time;
 }
 
-static void showLine(time_t timestamp, char* path, Node* node) {
+static void showLine(time_t timestamp, const char* path, const Node* node) {
   printf("[%2ld] %-30s", timestamp, path);
   if (node != NULL) {
     printf(" %c %8lld %03o", node->type(), node->size(), node->mode());
     if (node->type() == 'f') {
-      printf(" %s", static_cast<File*>(node)->checksum());
+      printf(" %s", static_cast<const File*>(node)->checksum());
     }
     if (node->type() == 'l') {
-      printf(" %s", static_cast<Link*>(node)->link());
+      printf(" %s", static_cast<const Link*>(node)->link());
     }
   } else {
     printf(" [rm]");
   }
   cout << endl;
+}
+
+static void showList(List& list) {
+  if (list.open() < 0) {
+    cerr << "Failed to open " << list.path().basename() << ": "
+      << strerror(errno) << endl;
+  } else {
+    if (list.end()) {
+      cout << list.path().basename() << " is empty" << endl;
+    } else {
+      List::Status rc;
+      Path         path;
+      while ((rc = list.fetchLine()) > 0) {
+        if (rc == List::got_path) {
+          path = list.getPath();
+          list.resetStatus();
+        } else {
+          time_t ts;
+          Node*  node;
+          List::decodeLine(list.getData(), &ts, path, &node);
+          showLine(ts, path, node);
+          list.resetStatus();
+        }
+      }
+      if (rc == List::failed) {
+        cerr << "Failed to read " << list.path().basename() << endl;
+      } else
+      if (rc == List::eof) {
+        cerr << "Unexpected end of " << list.path().basename() << endl;
+      }
+    }
+    list.close();
+  }
 }
 
 static void add(
@@ -70,12 +103,9 @@ int main(void) {
   List      journal("test_db/journal");
   List      merge("test_db/merge");
   Register  dblist_reader("test_db/list");
-  Register  journal_reader("test_db/journal");
-  Register  merge_reader("test_db/merge");
-  char*     path   = NULL;
+  List      journal_reader("test_db/journal");
+  List      merge_reader("test_db/merge");
   Node*     node   = NULL;
-  time_t    ts;
-  int       rc     = 0;
   int       sys_rc;
 
   cout << "Test: DB lists" << endl;
@@ -132,26 +162,7 @@ int main(void) {
   cout << endl << "Test: journal read" << endl;
   my_time++;
 
-  if (journal_reader.open() < 0) {
-    cerr << "Failed to open journal: " << strerror(errno) << endl;
-  } else {
-    if (journal_reader.isEmpty()) {
-      cout << "Journal is empty" << endl;
-    } else
-    while ((rc = journal_reader.getEntry(&ts, &path, &node)) > 0) {
-      showLine(ts, path, node);
-    }
-    journal_reader.close();
-    if (rc < 0) {
-      cerr << "Failed to read journal" << endl;
-    } else
-    // Check that we obtain the end of file again
-    if (rc == 0) {
-      if (journal_reader.getEntry(&ts, &path, &node) != 0) {
-        cerr << "Error reading end of journal again" << endl;
-      }
-    }
-  }
+  showList(journal_reader);
 
 
   cout << endl << "Test: journal merge into empty list" << endl;
@@ -168,7 +179,7 @@ int main(void) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
-  if (journal_reader.isEmpty()) {
+  if (journal_reader.end()) {
     cout << "Journal is empty" << endl;
   }
   if (merge.create()) {
@@ -187,7 +198,7 @@ int main(void) {
   cout << endl << "Test: merge read" << endl;
   my_time++;
 
-  merge_reader.show();
+  showList(merge_reader);
 
   if (rename("test_db/merge", "test_db/list")) {
     cerr << "Failed to rename merge into list" << endl;
@@ -224,7 +235,7 @@ int main(void) {
   cout << endl << "Test: journal read" << endl;
   my_time++;
 
-  journal_reader.show();
+  showList(journal_reader);
 
 
   cout << endl << "Test: journal merge into list" << endl;
@@ -257,7 +268,7 @@ int main(void) {
   cout << endl << "Test: merge read" << endl;
   my_time++;
 
-  merge_reader.show();
+  showList(merge_reader);
 
   if (rename("test_db/merge", "test_db/list")) {
     cerr << "Failed to rename merge into list" << endl;
@@ -301,7 +312,7 @@ int main(void) {
   cout << endl << "Test: journal read" << endl;
   my_time++;
 
-  journal_reader.show();
+  showList(journal_reader);
 
 
   cout << endl << "Test: journal merge into list" << endl;
@@ -318,7 +329,7 @@ int main(void) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
-  if (journal_reader.isEmpty()) {
+  if (journal_reader.end()) {
     cout << "Journal is empty" << endl;
   }
   if (merge.create()) {
@@ -337,7 +348,7 @@ int main(void) {
   cout << endl << "Test: merge read" << endl;
   my_time++;
 
-  merge_reader.show();
+  showList(merge_reader);
 
 
   cout << endl << "Test: expire" << endl;
@@ -368,7 +379,7 @@ int main(void) {
   merge.close();
   dblist_reader.close();
 
-  merge_reader.show();
+  showList(merge_reader);
 
   // All but last
   cout << "Date: 0" << endl;
@@ -390,7 +401,7 @@ int main(void) {
   merge.close();
   dblist_reader.close();
 
-  merge_reader.show();
+  showList(merge_reader);
 
 
   cout << endl << "Test: copy all data" << endl;
@@ -416,7 +427,7 @@ int main(void) {
   dblist_reader.close();
 
   cout << "Merge:" << endl;
-  merge_reader.show();
+  showList(merge_reader);
   cout << "Merge tail:" << endl;
   sys_rc = system("tail -2 test_db/merge | grep -v 1");
   rename("test_db/merge", "test_db/list");
@@ -450,7 +461,7 @@ int main(void) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
-  if (journal_reader.isEmpty()) {
+  if (journal_reader.end()) {
     cout << "Journal is empty" << endl;
   }
   if (merge.create()) {
@@ -525,27 +536,7 @@ int main(void) {
   cout << endl << "Test: journal read" << endl;
   my_time++;
 
-  node = NULL;
-  if (journal_reader.open() < 0) {
-    cerr << "Failed to open journal: " << strerror(errno) << endl;
-  } else {
-    if (journal_reader.isEmpty()) {
-      cout << "Journal is empty" << endl;
-    } else
-    while ((rc = journal_reader.getEntry(&ts, &path, &node)) > 0) {
-      showLine(ts, path, node);
-    }
-    journal_reader.close();
-    if (rc < 0) {
-      cerr << "Failed to read journal" << endl;
-    } else
-    // Check that we obtain the end of file again
-    if (rc == 0) {
-      if (journal_reader.getEntry(&ts, &path, &node) != 0) {
-        cerr << "Error reading end of journal again" << endl;
-      }
-    }
-  }
+  showList(journal_reader);
 
 
   cout << endl << "Test: broken journal merge" << endl;
@@ -562,7 +553,7 @@ int main(void) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
-  if (journal_reader.isEmpty()) {
+  if (journal_reader.end()) {
     cout << "Journal is empty" << endl;
   }
   if (merge.create()) {
@@ -581,7 +572,7 @@ int main(void) {
   cout << endl << "Test: merge read" << endl;
   my_time++;
 
-  merge_reader.show();
+  showList(merge_reader);
 
   if (rename("test_db/merge", "test_db/list")) {
     cerr << "Failed to rename merge into list" << endl;

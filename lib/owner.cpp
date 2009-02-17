@@ -74,7 +74,7 @@ int Owner::finishOff(
   bool got_next = recovery && next.isValid();
 
   // Need to open journal in read mode
-  Register journal(_d->journal->path());
+  List journal(_d->journal->path());
 
   // Recovering from list and journal (step 0)
   if (recovery && ! got_next) {
@@ -83,7 +83,7 @@ int Owner::finishOff(
     if (! journal.open()) {
       bool failed = false;
       bool empty  = true;
-      if (! journal.isEmpty()) {
+      if (! journal.end()) {
         empty = false;
         out(verbose, msg_standard, _d->path.basename(), -1,
           "Register modified");

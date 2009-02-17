@@ -24,6 +24,10 @@ namespace hbackup {
 class List {
   struct            Private;
   Private* const    _d;
+  // Read a line, removing the LF character
+  ssize_t getLine(
+    Line&           line,                   // Line to read
+    bool*           eol);                   // Whether EOL was found
 public:
   enum Status {
     eof         = -2,         // unexpected end of file
@@ -45,15 +49,11 @@ public:
   // Flush all data to file
   int flush();
   // File path
-  const char* path() const;
+  const Path& path() const;
   // Current path
   const Path& getPath() const;
   // Current data line
   const Line& getData() const;
-  // Read a line, removing the LF character
-  ssize_t _getLine(
-    Line&           line,                   // Line to read
-    bool*           eol);                   // Whether EOL was found
   // Buffer relevant line
   List::Status fetchLine(bool init = false);
   // Reset status to 'no data available'
@@ -135,7 +135,7 @@ public:
   //    -1: error, 0: success, 1: unexpected end of journal
   int merge(
     List*           new_list,
-    Register*       journal     = NULL);
+    List*           journal     = NULL);
   // Show the list
   void show(
     time_t          date        = -1,       // Date to select

@@ -73,7 +73,7 @@ int List::open() {
   // Check rights
   Line data;
   bool eol;
-  if ((_getLine(data, &eol) < 0) || (! eol)) {
+  if ((getLine(data, &eol) < 0) || (! eol)) {
     close();
     return -1;
   }
@@ -89,6 +89,10 @@ int List::open() {
   // Unknown header
   {
     errno = EPROTO;
+    rc = -1;
+  }
+  // Get first line to check for empty list
+  if ((rc == 0) && (fetchLine(true) == List::failed)) {
     rc = -1;
   }
   return rc;
@@ -114,7 +118,7 @@ int List::flush() {
   return fflush(_d->stream);
 }
 
-const char* List::path() const {
+const Path& List::path() const {
   return _d->s_path;
 }
 
@@ -126,7 +130,7 @@ const Line& List::getData() const {
   return _d->data;
 }
 
-ssize_t List::_getLine(Line& line, bool* eol) {
+ssize_t List::getLine(Line& line, bool* eol) {
   LineBuffer& buffer = line;
   bool local_eol = false;
   ssize_t rc = getline(buffer.bufferPtr(), buffer.capacityPtr(), _d->stream);
@@ -272,7 +276,7 @@ List::Status List::fetchLine(bool init) {
   if ((_d->status == List::got_nothing) || init) {
     // Line contains no re-usable data
     bool    eol;
-    ssize_t length = _getLine(_d->data, &eol);
+    ssize_t length = getLine(_d->data, &eol);
     // Read error
     if (length < 0) {
       _d->status = List::failed;
@@ -320,12 +324,7 @@ Register::~Register() {
 }
 
 int Register::open() {
-  int rc = _d->stream.open();
-  // Get first line to check for empty list
-  if ((rc == 0) && (_d->stream.fetchLine(true) == List::failed)) {
-    return -1;
-  }
-  return rc;
+  return _d->stream.open();
 }
 
 int Register::close() {
@@ -586,7 +585,7 @@ int Register::search(
 
 int Register::merge(
     List*           new_list,
-    Register*       journal) {
+    List*           journal) {
   int rc_list = 1;
 
   // Line read from journal
@@ -597,7 +596,7 @@ int Register::merge(
 
   // Parse journal
   while (true) {
-    int rc_journal = journal->_d->stream.fetchLine();
+    int rc_journal = journal->fetchLine();
     j_line_no++;
 
     // Failed
@@ -629,14 +628,14 @@ int Register::merge(
     if (rc_journal == List::got_path) {
       // Check path order
       if (path.length() != 0) {
-        if (path.compare(journal->_d->stream.getPath()) > 0) {
+        if (path.compare(journal->getPath()) > 0) {
           // Cannot go back
           out(error, msg_number, "Path out of order", j_line_no, "journal");
           return -1;
         }
       }
       // Copy new path
-      path = journal->_d->stream.getPath();
+      path = journal->getPath();
       // Search/copy list and append path if needed
       if (rc_list >= 0) {
         rc_list = search(path, -1, 0, new_list);
@@ -658,14 +657,14 @@ int Register::merge(
       }
 
       // Write
-      if (new_list->putLine(journal->_d->stream.getData()) < 0) {
+      if (new_list->putLine(journal->getData()) < 0) {
         // Could not write
         out(error, msg_standard, "Journal copy failed");
         return -1;
       }
     }
     // Reset status to get next data
-    journal->_d->stream.resetStatus();
+    journal->resetStatus();
   }
   return 0;
 }
@@ -675,7 +674,7 @@ void Register::show(
     time_t          time_start,
     time_t          time_base) {
   if (! open()) {
-    if (isEmpty()) {
+    if (_d->stream.end()) {
       printf("Register is empty\n");
     } else {
       time_t ts;
