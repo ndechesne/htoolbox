@@ -42,6 +42,26 @@ struct List::Private {
     header("# version 4"), old_header("# version 4"), footer("# end") {}
 };
 
+ssize_t List::getLine(Line& line, bool* eol) {
+  LineBuffer& buffer = line;
+  bool local_eol = false;
+  ssize_t rc = getline(buffer.bufferPtr(), buffer.capacityPtr(), _d->stream);
+  if (rc >= 0) {
+    *buffer.sizePtr() = rc;
+    if ((rc > 0) && (line[rc - 1] == '\n')) {
+      line.erase(rc - 1);
+      local_eol = true;
+    }
+  } else
+  if (feof(_d->stream)) {
+    rc = 0;
+  }
+  if (eol != NULL) {
+    *eol = local_eol ;
+  }
+  return rc;
+}
+
 List::List(const Path& path) : _d(new Private(path)) {}
 
 List::~List() {
@@ -130,24 +150,55 @@ const Line& List::getData() const {
   return _d->data;
 }
 
-ssize_t List::getLine(Line& line, bool* eol) {
-  LineBuffer& buffer = line;
-  bool local_eol = false;
-  ssize_t rc = getline(buffer.bufferPtr(), buffer.capacityPtr(), _d->stream);
-  if (rc >= 0) {
-    *buffer.sizePtr() = rc;
-    if ((rc > 0) && (line[rc - 1] == '\n')) {
-      line.erase(rc - 1);
-      local_eol = true;
+List::Status List::fetchLine(bool init) {
+  // Check current status
+  if ((_d->status == List::got_nothing) || init) {
+    // Line contains no re-usable data
+    bool    eol;
+    ssize_t length = getLine(_d->data, &eol);
+    // Read error
+    if (length < 0) {
+      _d->status = List::failed;
+    } else
+    // Unexpected end of list or incorrect end of line
+    if ((length == 0) || (! eol)) {
+      // All lines MUST end in end-of-line character
+      _d->status = List::eof;
+    } else
+    // End of list
+    if (_d->data[0] == '#') {
+      _d->status = List::eor;
+    } else
+    // Usable information
+    {
+      if (init) {
+        // Initialise path
+        _d->path = "";
+      }
+      if (_d->data[0] != '\t') {
+        if (strcmp(_d->path, _d->data)) {
+          _d->path.swap(_d->data);
+        } else {
+          out(warning, msg_standard, "Repeated path in list", -1, _d->path);
+        }
+        _d->status = List::got_path;
+      } else {
+        _d->status = List::got_data;
+      }
     }
-  } else
-  if (feof(_d->stream)) {
-    rc = 0;
   }
-  if (eol != NULL) {
-    *eol = local_eol ;
+  return _d->status;
+}
+
+void List::resetStatus() {
+  if ((_d->status == got_data) || (_d->status == got_path)) {
+    _d->status = got_nothing;
   }
-  return rc;
+}
+
+bool List::end() const {
+  // If EOF is reached immediately, list is empty
+  return (_d->status == eor) || (_d->status == eof);
 }
 
 ssize_t List::putLine(const Line& line) {
@@ -271,52 +322,6 @@ struct Register::Private {
   Private(const char* path) : stream(path) {}
 };
 
-List::Status List::fetchLine(bool init) {
-  // Check current status
-  if ((_d->status == List::got_nothing) || init) {
-    // Line contains no re-usable data
-    bool    eol;
-    ssize_t length = getLine(_d->data, &eol);
-    // Read error
-    if (length < 0) {
-      _d->status = List::failed;
-    } else
-    // Unexpected end of list or incorrect end of line
-    if ((length == 0) || (! eol)) {
-      // All lines MUST end in end-of-line character
-      _d->status = List::eof;
-    } else
-    // End of list
-    if (_d->data[0] == '#') {
-      _d->status = List::eor;
-    } else
-    // Usable information
-    {
-      if (init) {
-        // Initialise path
-        _d->path = "";
-      }
-      if (_d->data[0] != '\t') {
-        if (strcmp(_d->path, _d->data)) {
-          _d->path.swap(_d->data);
-        } else {
-          out(warning, msg_standard, "Repeated path in list", -1, _d->path);
-        }
-        _d->status = List::got_path;
-      } else {
-        _d->status = List::got_data;
-      }
-    }
-  }
-  return _d->status;
-}
-
-void List::resetStatus() {
-  if ((_d->status == got_data) || (_d->status == got_path)) {
-    _d->status = got_nothing;
-  }
-}
-
 Register::Register(Path path) : _d(new Private(path)) {}
 
 Register::~Register() {
@@ -338,11 +343,6 @@ const char* Register::path() const {
 void Register::setProgressCallback(progress_f progress) {
   (void) progress;
 //   _d->stream.setProgressCallback(progress);
-}
-
-bool List::end() const {
-  // If EOF is reached immediately, list is empty
-  return (_d->status == eor) || (_d->status == eof);
 }
 
 bool Register::isEmpty() const {
