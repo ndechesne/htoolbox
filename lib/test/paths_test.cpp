@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2009  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -64,9 +64,9 @@ int main(void) {
   Database    db("test_db");
   db.setProgressCallback(progress);
   // myClient's lists
-  Register real_journal_reader(Path("test_db", "myClient/journal"));
-  Register journal_reader(Path("test_db", "myClient/journal~"));
-  Register dblist_reader(Path("test_db", "myClient/list"));
+  List real_journal_reader(Path("test_db", "myClient/journal"));
+  List journal_reader(Path("test_db", "myClient/journal~"));
+  List dblist_reader(Path("test_db", "myClient/list"));
   // Filter
   Filter* bazaar = path->attributes.addFilter("and", "bazaar");
   if ((bazaar == NULL)
@@ -729,8 +729,8 @@ int main(void) {
   }
 
   // hisClient's lists
-  Register journal2_reader(Path("test_db", "hisClient/journal~"));
-  Register dblist2_reader(Path("test_db", "hisClient/list"));
+  List journal2_reader(Path("test_db", "hisClient/journal~"));
+  List dblist2_reader(Path("test_db", "hisClient/list"));
 
   // Replace files to test recovery
   rename("test_db/myClient/list.cp", "test_db/myClient/list");

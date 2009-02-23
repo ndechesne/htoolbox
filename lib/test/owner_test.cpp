@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008  Herve Fache
+     Copyright (C) 2008-2009  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -95,8 +95,8 @@ int main(void) {
   setVerbosityLevel(debug);
 
   mkdir("test_db", 0755);
-  Owner o("test_db", "client", 10);
-  Register owner_list_reader("test_db/client/list");
+  Owner   o("test_db", "client", 10);
+  List   owner_list_reader("test_db/client/list");
   string remote_path = "/remote/path/";
   cout << "Name: " << o.name() << endl;
   cout << "Path: " << o.path() << endl;

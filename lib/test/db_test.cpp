@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2009  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -59,7 +59,7 @@ int main(void) {
   string      checksum;
   string      zchecksum;
   int         status;
-  Register    dblist_reader("test_db/myClient/list");
+  List        dblist_reader("test_db/myClient/list");
   int         sys_rc;
 
   setVerbosityLevel(debug);

@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008  Herve Fache
+     Copyright (C) 2008-2009  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -38,7 +38,7 @@ struct Owner::Private {
   Path              path;
   char*             name;
   bool              modified;
-  Register*         original;
+  List*             original;
   List*             journal;
   List*             partial;
   int               expiration;
@@ -90,7 +90,7 @@ int Owner::finishOff(
         if (! _d->partial->create()) {
           if (! _d->original->open()) {
             _d->original->setProgressCallback(_d->progress);
-            if (_d->original->merge(_d->partial, &journal) < 0) {
+            if (List::merge(_d->original, _d->partial, &journal) < 0) {
               out(error, msg_standard, "Merge failed");
               failed = true;
             }
@@ -205,7 +205,7 @@ int Owner::hold() const {
     return -1;
   }
 
-  _d->original = new Register(file_name.str().c_str());
+  _d->original = new List(file_name.str().c_str());
   if (_d->original->open()) {
     out(error, msg_errno, "opening list, aborting", -1, _d->path.basename());
     release();
@@ -253,7 +253,7 @@ int Owner::open(
   bool failed = false;
   // Open list
   _d->modified = false;
-  _d->original = new Register(owner_list.path());
+  _d->original = new List(owner_list.path());
   if (_d->original->open()) {
     File backup(Path(_d->path, "list~"));
 
@@ -335,8 +335,9 @@ int Owner::close(
     _d->original->setProgressCallback(_d->progress);
     if (! aborting()) {
       // Finish work (if not aborting, remove items at end of list)
-      if (_d->original->search("", _d->expiration, abort ? 0 : time(NULL),
-          _d->partial, _d->journal, &_d->modified) < 0) {
+      if (List::search(_d->original, "",
+          _d->expiration, abort ? 0 : time(NULL), _d->partial, _d->journal,
+          &_d->modified) < 0) {
         failed = true;
       }
       _d->journal->flush();
@@ -395,7 +396,7 @@ int Owner::send(
   Node* db_node = NULL;
 
   // Search path and get current metadata
-  int rc = _d->original->search(op._path, _d->expiration, time(NULL),
+  int rc = List::search(_d->original, op._path, _d->expiration, time(NULL),
     _d->partial, _d->journal, &_d->modified);
   if (rc < 0) {
     return -1;
@@ -403,7 +404,7 @@ int Owner::send(
   _d->journal->flush();
   if (rc == 2) {
     // Get metadata (needs to be kept, as it will be added after any new)
-    _d->original->getEntry(NULL, NULL, &db_node, -2);
+    List::getEntry(_d->original, NULL, NULL, &db_node, -2);
   }
 
   // New or resurrected file: (re-)add
@@ -494,12 +495,12 @@ int Owner::getNextRecord(
     len--;
   }
   bool failed = false;
-  while (_d->original->search() == 2) {
+  while (List::search(_d->original) == 2) {
     if (aborting()) {
       failed = true;
       return -1;
     }
-    if (_d->original->getEntry(NULL, fpath, fnode, date) <= 0) {
+    if (List::getEntry(_d->original, NULL, fpath, fnode, date) <= 0) {
       failed = true;
       return -1;
     }
@@ -527,7 +528,7 @@ int Owner::getChecksums(
   }
   _d->original->setProgressCallback(_d->progress);
   Node* node = NULL;
-  while (_d->original->getEntry(NULL, NULL, &node) > 0) {
+  while (List::getEntry(_d->original, NULL, NULL, &node) > 0) {
     if ((node != NULL) && (node->type() == 'f')) {
       File* f = static_cast<File*>(node);
       if (f->checksum()[0] != '\0') {

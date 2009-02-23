@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2009  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -102,7 +102,7 @@ int main(void) {
   List      dblist("test_db/list");
   List      journal("test_db/journal");
   List      merge("test_db/merge");
-  Register  dblist_reader("test_db/list");
+  List      dblist_reader("test_db/list");
   List      journal_reader("test_db/journal");
   List      merge_reader("test_db/merge");
   Node*     node   = NULL;
@@ -172,7 +172,7 @@ int main(void) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
-  if (dblist_reader.isEmpty()) {
+  if (dblist_reader.end()) {
     cout << "Register is empty" << endl;
   }
   if (journal_reader.open()) {
@@ -186,7 +186,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.merge(&merge, &journal_reader) < 0) {
+  if (List::merge(&dblist_reader, &merge, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
@@ -245,7 +245,7 @@ int main(void) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
-  if (dblist_reader.isEmpty()) {
+  if (dblist_reader.end()) {
     cout << "Register is empty" << endl;
   }
   if (journal_reader.open()) {
@@ -256,7 +256,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.merge(&merge, &journal_reader) < 0) {
+  if (List::merge(&dblist_reader, &merge, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
@@ -281,9 +281,9 @@ int main(void) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
-  while (dblist_reader.search() == 2) {
+  while (List::search(&dblist_reader) == 2) {
     char *path = NULL;
-    dblist_reader.getEntry(NULL, &path, NULL);
+    List::getEntry(&dblist_reader, NULL, &path, NULL);
     cout << path << endl;
     free(path);
   }
@@ -322,7 +322,7 @@ int main(void) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
-  if (dblist_reader.isEmpty()) {
+  if (dblist_reader.end()) {
     cout << "Register is empty" << endl;
   }
   if (journal_reader.open()) {
@@ -336,7 +336,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.merge(&merge, &journal_reader) < 0) {
+  if (List::merge(&dblist_reader, &merge, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
 //     return 0;
   }
@@ -365,14 +365,14 @@ int main(void) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
-  if (dblist_reader.isEmpty()) {
+  if (dblist_reader.end()) {
     cout << "Register is empty" << endl;
   }
   if (merge.create()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.search("", 4, 0, &merge) < 0) {
+  if (List::search(&dblist_reader, "", 4, 0, &merge) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -387,14 +387,14 @@ int main(void) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
-  if (dblist_reader.isEmpty()) {
+  if (dblist_reader.end()) {
     cout << "Register is empty" << endl;
   }
   if (merge.create()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.search("", 0, 0, &merge) < 0) {
+  if (List::search(&dblist_reader, "", 0, 0, &merge) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -412,14 +412,14 @@ int main(void) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
-  if (dblist_reader.isEmpty()) {
+  if (dblist_reader.end()) {
     cout << "Register is empty" << endl;
   }
   if (merge.create()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.search("", -1, 0, &merge) < 0) {
+  if (List::search(&dblist_reader, "", -1, 0, &merge) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -454,7 +454,7 @@ int main(void) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
-  if (dblist_reader.isEmpty()) {
+  if (dblist_reader.end()) {
     cout << "Register is empty" << endl;
   }
   if (journal_reader.open()) {
@@ -468,7 +468,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.merge(&merge, &journal_reader) < 0) {
+  if (List::merge(&dblist_reader, &merge, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
@@ -546,7 +546,7 @@ int main(void) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
-  if (dblist_reader.isEmpty()) {
+  if (dblist_reader.end()) {
     cout << "Register is empty" << endl;
   }
   if (journal_reader.open()) {
@@ -560,7 +560,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (dblist_reader.merge(&merge, &journal_reader) < 0) {
+  if (List::merge(&dblist_reader, &merge, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }

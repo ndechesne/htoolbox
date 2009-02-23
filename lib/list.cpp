@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2007-2008  Herve Fache
+     Copyright (C) 2007-2009  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -317,44 +317,23 @@ int List::add(
   return rc;
 }
 
-struct Register::Private {
-  List              stream;
-  Private(const char* path) : stream(path) {}
-};
-
-Register::Register(Path path) : _d(new Private(path)) {}
-
-Register::~Register() {
-  delete _d;
-}
-
-int Register::open() {
-  return _d->stream.open();
-}
-
-int Register::close() {
-  return _d->stream.close();
-}
-
-const char* Register::path() const {
-  return _d->stream.path();
-}
-
-void Register::setProgressCallback(progress_f progress) {
+void List::setProgressCallback(progress_f progress) {
   (void) progress;
 //   _d->stream.setProgressCallback(progress);
 }
 
-bool Register::isEmpty() const {
+bool List::isEmpty(
+    const List*     list) {
   // If EOF is reached immediately, list is empty
-  return _d->stream.end();
+  return list->end();
 }
 
-int Register::getEntry(
-    time_t*       timestamp,
-    char**        path,
-    Node**        node,
-    time_t        date) {
+int List::getEntry(
+    List*           list,
+    time_t*         timestamp,
+    char**          path,
+    Node**          node,
+    time_t          date) {
   // Initialise
   if (node != NULL) {
     delete *node;
@@ -372,12 +351,11 @@ int Register::getEntry(
   bool  break_it = false;
   while (! break_it) {
     // Get line
-    rc = _d->stream.fetchLine();
+    rc = list->fetchLine();
 
     if (rc < 0) {
       if (rc == List::eof) {
-        out(error, msg_standard, "Unexpected end of list", -1,
-          _d->stream.path());
+        out(error, msg_standard, "Unexpected end of list", -1, list->path());
       }
       return -1;
     }
@@ -391,7 +369,7 @@ int Register::getEntry(
     if (rc == List::got_path) {
       if (path != NULL) {
         free(*path);
-        *path = strdup(_d->stream.getPath());
+        *path = strdup(list->getPath());
       }
       get_path = false;
     } else
@@ -401,7 +379,7 @@ int Register::getEntry(
       time_t ts;
       if ((node != NULL) || (timestamp != NULL) || (date > 0)) {
         // Get all arguments from line
-        List::decodeLine(_d->stream.getData(), &ts, _d->stream.getPath(), node);
+        List::decodeLine(list->getData(), &ts, list->getPath(), node);
         if (timestamp != NULL) {
           *timestamp = ts;
         }
@@ -412,13 +390,14 @@ int Register::getEntry(
     }
     // Reset status
     if (date != -2) {
-      _d->stream.resetStatus();
+      list->resetStatus();
     }
   }
   return 1;
 }
 
-int Register::search(
+int List::search(
+    List*           list,
     const char*     path_l,
     time_t          expire,
     time_t          remove,
@@ -449,13 +428,12 @@ int Register::search(
 
   while (true) {
     // Read list or get last data
-    rc = _d->stream.fetchLine();
+    rc = list->fetchLine();
 
     // Failed
     if (rc < 0) {
       // Unexpected end of list
-      out(error, msg_standard, "Unexpected end of list", -1,
-        _d->stream.path());
+      out(error, msg_standard, "Unexpected end of list", -1, list->path());
       return -1;
     }
 
@@ -466,7 +444,7 @@ int Register::search(
         // Got a path
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Compare paths
-          path_cmp = Path::compare(path_l, _d->stream.getPath());
+          path_cmp = Path::compare(path_l, list->getPath());
         }
         if (path_cmp <= 0) {
           stop = true;
@@ -485,7 +463,7 @@ int Register::search(
             // Mark removed
             if ((remove > 0) && path_new) {
               // Find type
-              const char* pos = strchr(&_d->stream.getData()[2], '\t');
+              const char* pos = strchr(&list->getData()[2], '\t');
               if (pos == NULL) {
                 return -1;
               }
@@ -500,14 +478,14 @@ int Register::search(
                   return -1;
                 }
                 if (journal != NULL) {
-                  journal->putLine(_d->stream.getPath());
+                  journal->putLine(list->getPath());
                   journal->putLine(line);
                 }
                 free(line);
                 if (modified != NULL) {
                   *modified = true;
                 }
-                out(info, msg_standard, _d->stream.getPath(), -2, "D      ");
+                out(info, msg_standard, list->getPath(), -2, "D      ");
               }
             }
           } else {
@@ -516,13 +494,13 @@ int Register::search(
               if (expire != 0) {
                 // Check timestamp for expiration
                 time_t ts = 0;
-                if (! List::decodeLine(_d->stream.getData(), &ts) && (ts < expire)) {
-                  _d->stream.resetStatus();
+                if (! List::decodeLine(list->getData(), &ts) && (ts < expire)) {
+                  list->resetStatus();
                   continue;
                 }
               } else {
                 // Always obsolete
-                _d->stream.resetStatus();
+                list->resetStatus();
                 continue;
               }
             }
@@ -538,7 +516,7 @@ int Register::search(
       // Searched path found or status is eof/empty
       if ((rc == List::eor) || stop) {
         if (path_found) {
-          _d->stream.resetStatus();
+          list->resetStatus();
         }
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
@@ -550,13 +528,13 @@ int Register::search(
       } else
       // Our data is here or after, so let's copy if required
       if (rc == List::got_path) {
-        if (new_list->putLine(_d->stream.getPath()) < 0) {
+        if (new_list->putLine(list->getPath()) < 0) {
           // Could not write
           return -1;
         }
       } else
       if (rc == List::got_data) {
-        if (new_list->putLine(_d->stream.getData()) < 0) {
+        if (new_list->putLine(list->getData()) < 0) {
           // Could not write
           return -1;
         }
@@ -574,7 +552,7 @@ int Register::search(
       return 1;
     }
     // Reset status
-    _d->stream.resetStatus();
+    list->resetStatus();
     // Get out, discarding path
     if (path_found) {
       return 2;
@@ -583,7 +561,8 @@ int Register::search(
   return -1;
 }
 
-int Register::merge(
+int List::merge(
+    List*           list,
     List*           new_list,
     List*           journal) {
   int rc_list = 1;
@@ -614,7 +593,7 @@ int Register::merge(
     // End of file
     if (rc_journal == 0) {
       if (rc_list > 0) {
-        rc_list = search("", -1, 0, new_list);
+        rc_list = search(list, "", -1, 0, new_list);
         if (rc_list < 0) {
           // Error copying list
           out(error, msg_standard, "End of list copy failed");
@@ -638,7 +617,7 @@ int Register::merge(
       path = journal->getPath();
       // Search/copy list and append path if needed
       if (rc_list >= 0) {
-        rc_list = search(path, -1, 0, new_list);
+        rc_list = search(list, path, -1, 0, new_list);
         if (rc_list < 0) {
           // Error copying list
           out(error, msg_standard, "Path search failed");
@@ -669,19 +648,19 @@ int Register::merge(
   return 0;
 }
 
-void Register::show(
+void List::show(
     time_t          date,
     time_t          time_start,
     time_t          time_base) {
   if (! open()) {
-    if (_d->stream.end()) {
+    if (end()) {
       printf("Register is empty\n");
     } else {
       time_t ts;
       char*  path = NULL;
       Node*  node = NULL;
       int rc = 0;
-      while ((rc = getEntry(&ts, &path, &node, date)) > 0) {
+      while ((rc = List::getEntry(this, &ts, &path, &node, date)) > 0) {
         time_t timestamp = 0;
         if (ts != 0) {
           timestamp = ts - time_start;
@@ -709,7 +688,7 @@ void Register::show(
         out(error, msg_standard, "Failed to read list");
       }
     }
-    _d->stream.close();
+    close();
   } else {
     out(error, msg_errno, "opening list", errno, path());
   }

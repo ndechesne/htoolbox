@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2007-2008  Herve Fache
+     Copyright (C) 2007-2009  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -54,6 +54,9 @@ public:
   const Path& getPath() const;
   // Current data line
   const Line& getData() const;
+  // For progress information
+  void setProgressCallback(
+    progress_f      progress);
   // Buffer relevant line
   List::Status fetchLine(bool init = false);
   // Reset status to 'no data available'
@@ -80,26 +83,9 @@ public:
     const Node*     node,                   // Metadata
     List*           new_list,               // Merge list
     List*           journal     = NULL);    // Journal
-};
-
-class Register {
-  struct            Private;
-  Private* const    _d;
-public:
-  Register(
-    Path            path);
-  ~Register();
-  // Open file (for read)
-  int open();
-  // Close file
-  int close();
-  // File path
-  const char* path() const;
-  // For progress information
-  void setProgressCallback(
-    progress_f      progress);
   // Empty list (only valid right after opening)
-  bool isEmpty() const;
+  static bool isEmpty(
+    const List*     list);
   // Convert one or several line(s) to data
   // Date:
   //    <0: any (if -2, data is not discarded)
@@ -107,7 +93,8 @@ public:
   //    >0: as old or just newer than date
   // Return code:
   //    -1: error, 0: end of file, 1: success
-  int getEntry(
+  static int getEntry(
+    List*           list,
     time_t*         timestamp,
     char*           path[],
     Node**          node,
@@ -122,7 +109,8 @@ public:
   //    -1: no expiration, 0: only keep last, otherwise use given date
   // Return code:
   //    -1: error, 0: end of file, 1: exceeded, 2: found
-  int search(
+  static int search(
+    List*           list,
     const char      path[]      = NULL,     // Path to search
     time_t          expire      = -1,       // Expiration date
     time_t          remove      = 0,        // Mark records removed at date
@@ -133,7 +121,8 @@ public:
   //    all lists must be open
   // Return code:
   //    -1: error, 0: success, 1: unexpected end of journal
-  int merge(
+  static int merge(
+    List*           list,
     List*           new_list,
     List*           journal     = NULL);
   // Show the list
