@@ -2,17 +2,17 @@ Version
 HBackup (c) 2006-2008 Hervé Fache version 1.0a
  
  4 bytes in 1 blocks are definitely lost in loss record 2 of 13
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
  
  
  2,022 bytes in 87 blocks are possibly lost in loss record 13 of 13
-   operator new(unsigned) (vg_replace_malloc.c:224)
-   std::string::_Rep::_S_create(unsigned, unsigned, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
+   std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
    (within /usr/lib/libstdc++.so.6.0.10)
-   std::string::string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
+   std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
    main (hbackup.cpp:203)
 Help
 HBackup (c) 2006-2008 Hervé Fache
@@ -75,17 +75,17 @@ HBackup (c) 2006-2008 Hervé Fache
 
  
  4 bytes in 1 blocks are definitely lost in loss record 2 of 13
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
  
  
  2,015 bytes in 87 blocks are possibly lost in loss record 13 of 13
-   operator new(unsigned) (vg_replace_malloc.c:224)
-   std::string::_Rep::_S_create(unsigned, unsigned, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
+   std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
    (within /usr/lib/libstdc++.so.6.0.10)
-   std::string::string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
+   std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
    main (hbackup.cpp:203)
 Error
 Error: -! -- Couldn't find match for argument
@@ -149,24 +149,24 @@ HBackup (c) 2006-2008 Hervé Fache
 
  
  4 bytes in 1 blocks are definitely lost in loss record 2 of 13
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
  
  
  2,159 bytes in 88 blocks are possibly lost in loss record 13 of 13
-   operator new(unsigned) (vg_replace_malloc.c:224)
-   std::string::_Rep::_S_create(unsigned, unsigned, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
+   std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
    (within /usr/lib/libstdc++.so.6.0.10)
-   std::string::string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
+   std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
    main (hbackup.cpp:203)
 List clients (missing DB path)
  -> Reading configuration file: etc/hbackup.conf
 Error: Given DB path does not exist: test_db
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -175,7 +175,7 @@ List clients (empty DB path)
 Error: Given DB path does not contain a database: test_db
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -282,7 +282,7 @@ Backing up in server mode
 Error: Given DB path does not exist: test_db
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -622,15 +622,15 @@ cvs\r
    \r
  -> Parsing CVS entries
  Conditional jump or move depends on uninitialised value(s)
-   (within /lib/tls/i686/cmov/libc-2.8.90.so)
-   mktime (in /lib/tls/i686/cmov/libc-2.8.90.so)
+   __mktime_internal (mktime.c:428)
+   mktime (mktime.c:518)
    hbackup::CvsParser::CvsParser(hbackup::Parser::Mode, std::string const&) (cvs_parser.cpp:148)
    hbackup::CvsParser::isControlled(std::string const&) const (cvs_parser.cpp:58)
    hbackup::Parsers::isControlled(std::string const&) const (parsers.cpp:37)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:60)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:174)
-   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:262)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:595)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:175)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:263)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:596)
    hbackup::HBackup::backup(bool) (interface.cpp:531)
    main (hbackup.cpp:450)
  --> dirbad: D
@@ -694,34 +694,7 @@ svn\r
  --> filenew.c: m
  --> fileoth: i
 Ad      test1/svn/.svn
- 
- Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1141)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:770)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:847)
-   hbackup::Stream::close() (files.cpp:552)
-   hbackup::Data::write(hbackup::Stream&, char const*, char**, int, int*, bool) const (data.cpp:444)
-   hbackup::Database::add(hbackup::OpData&, bool) (db.cpp:711)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:143)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:174)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:174)
-   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:262)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:595)
- 
- Conditional jump or move depends on uninitialised value(s)
-   deflate_slow (deflate.c:1122)
-   deflate (deflate.c:822)
-   hbackup::Stream::write_compress(void const*, unsigned, bool) (files.cpp:770)
-   hbackup::Stream::write(void const*, unsigned) (files.cpp:847)
-   hbackup::Stream::close() (files.cpp:552)
-   hbackup::Data::write(hbackup::Stream&, char const*, char**, int, int*, bool) const (data.cpp:444)
-   hbackup::Database::add(hbackup::OpData&, bool) (db.cpp:711)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:143)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:174)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:174)
-   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:262)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:595)
+svn/.svn\r
         \r
 Checking data, sizes: f=77 z=65 (66)
 Adding compressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
@@ -792,7 +765,7 @@ Database closed
  
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -992,15 +965,15 @@ cvs\r
    \r
  -> Parsing CVS entries
  Conditional jump or move depends on uninitialised value(s)
-   (within /lib/tls/i686/cmov/libc-2.8.90.so)
-   mktime (in /lib/tls/i686/cmov/libc-2.8.90.so)
+   __mktime_internal (mktime.c:428)
+   mktime (mktime.c:518)
    hbackup::CvsParser::CvsParser(hbackup::Parser::Mode, std::string const&) (cvs_parser.cpp:148)
    hbackup::CvsParser::isControlled(std::string const&) const (cvs_parser.cpp:58)
    hbackup::Parsers::isControlled(std::string const&) const (parsers.cpp:37)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:60)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:174)
-   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:262)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:595)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:175)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:263)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:596)
    hbackup::HBackup::backup(bool) (interface.cpp:531)
    main (hbackup.cpp:450)
  --> dirbad: D
@@ -1074,7 +1047,7 @@ Database closed
  
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -1121,7 +1094,7 @@ Database closed: localhost
 Database closed
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -1229,7 +1202,7 @@ Database open in read/write mode
 Database closed
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -1393,7 +1366,7 @@ Checksum(s) with data: 15
 Database closed
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -1511,7 +1484,9 @@ b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
 d41d8cd98f00b204e9800998ecf8427e-0 0 \r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
-f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
+File copy progress:  70.4%                       \r
+File copy progress: 100.0%\r
+f81f70dceaca8b0cec354f33fa3f0909-0 145461\r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 fef51838cd3cfe8ed96355742eb71fbd-0 161       \r
                                       \r
@@ -1519,7 +1494,7 @@ Found 15 valid and 0 broken data files
 Database closed
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -1634,7 +1609,7 @@ Database open in read-only mode
 Database closed
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -1750,7 +1725,7 @@ Database closed: myhost
 Database closed
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -1866,7 +1841,7 @@ Database closed: myhost
 Database closed
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -1985,7 +1960,7 @@ Database closed: myhost
 Database closed
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -2104,7 +2079,7 @@ Database closed: myhost
 Database closed
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -2219,7 +2194,7 @@ Database closed: myhost
 Database closed
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -2363,7 +2338,7 @@ Database closed: myhost
 Database closed
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -2489,7 +2464,7 @@ Database closed: myhost
 Database closed
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -2638,7 +2613,7 @@ Database closed: myhost
 Database closed
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)
@@ -2675,7 +2650,7 @@ Error: at line: 91: keyword 'what_the_f...?' incorrect or misplaced, aborting
 Note: the default configuration path has changed from '/etc/hbackup/hbackup.conf' to '/etc/hbackup/config'
  
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
-   operator new(unsigned) (vg_replace_malloc.c:224)
+   operator new(unsigned int) (vg_replace_malloc.c:224)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
    main (hbackup.cpp:221)

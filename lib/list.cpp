@@ -152,7 +152,7 @@ const Line& List::getData() const {
 
 List::Status List::fetchLine(bool init) {
   // Check current status
-  if ((_d->status == List::got_nothing) || init) {
+  if (init || (_d->status == List::got_nothing)) {
     // Line contains no re-usable data
     bool    eol;
     ssize_t length = getLine(_d->data, &eol);
