@@ -1,6 +1,7 @@
 SUBDIRS = . test
 
 AM_CXXFLAGS = \
+  -I$(top_srcdir)/include \
   -I$(top_srcdir)/base \
   $(NULL)
 
