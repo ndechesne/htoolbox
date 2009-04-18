@@ -205,7 +205,6 @@ int main(void) {
   int     sys_rc;
 
   cout << "Tools Test" << endl;
-  setVerbosityLevel(debug);
 
   mode_t mask = umask(0022);
   mask = umask(0022);
