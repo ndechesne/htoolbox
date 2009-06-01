@@ -129,7 +129,12 @@ int HBackup::readConfig(const char* config_path) {
   ConfigSyntax config_syntax;
 
   // db
-  config_syntax.add(new ConfigItem("db", 0, 1, 1));
+  {
+    ConfigItem* db = new ConfigItem("db", 0, 1, 1);
+    config_syntax.add(db);
+    // compress [always, auto_now, auto_later, never]
+    db->add(new ConfigItem("compress", 0, 1, 1, 1));
+  }
   // filter
   {
     ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
@@ -139,8 +144,6 @@ int HBackup::readConfig(const char* config_path) {
   }
   // ignore
   config_syntax.add(new ConfigItem("ignore", 0, 1, 1));
-  // db_compress [always, auto_now, auto_later, never]
-  config_syntax.add(new ConfigItem("db_compress", 0, 1, 1, 1));
   // timeout_nowarning
   config_syntax.add(new ConfigItem("timeout_nowarning", 0, 1));
   // report_copy_error_once
@@ -403,7 +406,7 @@ int HBackup::readConfig(const char* config_path) {
         }
       }
     } else {
-      if ((*params)[0] == "db_compress") {
+      if ((*params)[0] == "compress") {
         if ((*params)[1] == "always") {
           _d->db_compress_mode = OpData::always;
         } else

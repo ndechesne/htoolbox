@@ -631,7 +631,7 @@ cvs\r
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:178)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:266)
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:596)
-   hbackup::HBackup::backup(bool) (interface.cpp:547)
+   hbackup::HBackup::backup(bool) (interface.cpp:550)
    main (hbackup.cpp:450)
  --> dirbad: D
  --> dirutd: D
@@ -974,7 +974,7 @@ cvs\r
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:178)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:266)
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:596)
-   hbackup::HBackup::backup(bool) (interface.cpp:547)
+   hbackup::HBackup::backup(bool) (interface.cpp:550)
    main (hbackup.cpp:450)
  --> dirbad: D
  --> dirutd: D

@@ -25,6 +25,14 @@ class Data {
   struct            Private;
   Private* const    _d;
 protected: // So I can test them
+  enum CompressionCase {
+    forced_no = '-',
+    forced_yes = '+',
+    size_no = '<',
+    size_yes = '>',
+    later = ' ',
+    unknown = '?'
+  };
   // Get path for given checksum
   int getDir(
     const string&   checksum,
@@ -34,12 +42,12 @@ protected: // So I can test them
   int getMetadata(
     const char*     path,
     long long*      size,
-    char*           comp_status) const;
+    CompressionCase* comp_status) const;
   // Set size of orginal data for given checksum path
   int setMetadata(
     const char*     path,
     long long       size,
-    char            comp_status) const;
+    CompressionCase comp_status) const;
   // Remove given path
   int removePath(const char* path) const;
   // Make sure we don't have too many files per directory
@@ -76,11 +84,15 @@ public:
     const char*     path,
     const char*     checksum) const;
   // Add new item to database
+  // * compress:
+  //    < 0  => never compress this file
+  //    == 0 => do not compress this file now
+  //    > 0  => compress now, or auto-compress (depends on auto_comp)
   int write(                          // <0: error, >0: written, =0: no need
     Stream&         source,           // Stream to read from
     const char*     temp_name,        // Name for temporary data file
     char**          checksum,         // Copy checksum here
-    int             compress  = 0,    // Compression to apply (negative: never)
+    int             compress  = 0,    // Compression to apply now (< 0: never)
     bool            auto_comp = false,// Choose whether to store compressed
     int*            acompress = NULL, // Compression actually applied
     bool            src_open  = true) const;// Open source file

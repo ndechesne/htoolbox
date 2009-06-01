@@ -73,13 +73,13 @@ int Data::getDir(
 int Data::getMetadata(
     const char*     path,
     long long*      size,
-    char*           comp_status) const {
+    CompressionCase* comp_status) const {
   bool         failed        = false;
   char*        meta_str      = NULL;
   unsigned int meta_str_size = 0;
 
   *size = -1;
-  *comp_status = '?';
+  *comp_status = unknown;
   Stream meta_file(Path(path, "meta"));
   if (meta_file.open(O_RDONLY) < 0) {
     failed = true;
@@ -91,7 +91,7 @@ int Data::getMetadata(
     meta_file.close();
   }
   if (! failed) {
-    sscanf(meta_str, "%lld\t%c", size, comp_status);
+    sscanf(meta_str, "%lld\t%c", size, reinterpret_cast<char*>(comp_status));
   }
   free(meta_str);
   return failed ? -1 : 0;
@@ -100,7 +100,7 @@ int Data::getMetadata(
 int Data::setMetadata(
     const char*     path,
     long long       size,
-    char            comp_status) const {
+    CompressionCase comp_status) const {
   bool  failed   = false;
   char* meta_str = NULL;
   if (asprintf(&meta_str, "%lld\t%c", size, comp_status) < 0) {
@@ -408,6 +408,7 @@ int Data::write(
     bool            auto_comp,
     int*            acompress,
     bool            src_open) const {
+  CompressionCase comp_case;
   bool failed  = false;
 
   // Open source file
@@ -418,13 +419,20 @@ int Data::write(
   // Temporary file(s) to write to
   Stream* temp1 = new Stream(Path(_d->temp, temp_name));
   Stream* temp2 = NULL;
-  bool never_compress = false;
+  // compress < 0 => required to not compress by filter or configuration
   if (compress < 0) {
+    comp_case = forced_no;
     auto_comp = false;
     compress  = 0;
-    never_compress = true;
-  }
+  } else
+  // compress = 0 => do not compress
+  if (compress == 0) {
+    comp_case = later;
+    auto_comp = false;
+  } else
+  // compress > 0 && auto_comp => decide whether to compress or not
   if (auto_comp) {
+    comp_case = later;
     // Automatic compression: copy twice, compressed and not, and choose best
     char* temp_path_gz;
     if (asprintf(&temp_path_gz, "%s.gz", temp1->path()) < 0) {
@@ -433,13 +441,17 @@ int Data::write(
     } else {
       temp2 = new Stream(temp_path_gz);
       free(temp_path_gz);
-      if (temp2->open(O_WRONLY, compress, false)) {
+      if (temp2->open(O_WRONLY, 0, false)) {
         out(error, msg_errno, "opening write temp file", errno, temp2->path());
         failed = true;
       }
     }
+  } else
+  // compress > 0 && ! auto_comp => compress
+  {
+    comp_case = forced_yes;
   }
-  if (temp1->open(O_WRONLY, (! auto_comp && compress) ? compress : 0, false)) {
+  if (temp1->open(O_WRONLY, compress, false)) {
     out(error, msg_errno, "opening write temp file", errno, temp1->path());
     failed = true;
   }
@@ -475,21 +487,21 @@ int Data::write(
   long long size_cmp = temp1->size();
   if (temp2 != NULL) {
     // Add ~1.6% to gzip'd size
-    long long size_gz = temp2->size() + (temp2->size() >> 6);
+    long long size_gz = temp1->size() + (temp1->size() >> 6);
     stringstream s;
-    s << "Checking data, sizes: f=" << temp1->size() << " z=" << temp2->size();
-    s << " (" << size_gz << ")";
+    s << "Checking data, sizes: f=" << temp2->size() << " z=" << temp1->size()
+      << " (" << size_gz << ")";
     out(debug, msg_standard, s.str().c_str());
-    // Keep compressed file (temp2)?
-    if (temp1->size() > size_gz) {
+    // Keep non-compressed file (temp2)?
+    if (temp2->size() <= size_gz) {
       temp1->remove();
       delete temp1;
       dest     = temp2;
       size_cmp = size_gz;
+      compress = 0;
     } else {
       temp2->remove();
       delete temp2;
-      compress = 0;
     }
   }
 
@@ -597,16 +609,19 @@ int Data::write(
       } else {
         // Always add metadata (size) file (no action on failure)
         setMetadata(final_path, source.dataSize(),
-          never_compress ? '-' : (auto_comp ? '+' : ' '));
+          (comp_case == forced_no) ? forced_no :
+            (auto_comp ? forced_yes : later));
       }
       free(name);
     }
-  } else if (never_compress) {
+  } else
+  /* Make sure we have metadata information */
+  if (comp_case == forced_no) {
     long long size;
-    char      comp_status;
+    CompressionCase comp_status;
     if (! getMetadata(final_path, &size, &comp_status)
-    &&  (comp_status != '-')) {
-      setMetadata(final_path, size, '-');
+    &&  (comp_status != forced_no)) {
+      setMetadata(final_path, size, forced_no);
     }
   }
 
@@ -669,7 +684,7 @@ int Data::check(
   }
   // Get original file size
   long long original_size;
-  char      comp_status;
+  CompressionCase comp_status;
   getMetadata(path.c_str(), &original_size, &comp_status);
 
   // Check data for corruption
@@ -715,7 +730,7 @@ int Data::check(
           out(warning, msg_standard, "Adding missing metadata", -1, checksum);
         }
         original_size = data->dataSize();
-        setMetadata(path.c_str(), original_size, ' ');
+        setMetadata(path.c_str(), original_size, later);
       }
     }
   } else
@@ -734,7 +749,7 @@ int Data::check(
       if (no == 0) {
         out(warning, msg_standard, "Setting missing metadata", -1, checksum);
         original_size = data->size();
-        setMetadata(path.c_str(), original_size, ' ');
+        setMetadata(path.c_str(), original_size, later);
       } else
       // Compressed file, check it thoroughly, which shall add the metadata
       {

@@ -434,8 +434,7 @@ l1 and l2 differ
 
 getParams
 db	test_db	
-
-db_compress	auto	
+compress	auto	
 
 filter	all	nothing	
 condition	type	pipe	

@@ -114,7 +114,13 @@ int main(void) {
   ConfigSyntax syntax;
 
   // db
-  syntax.add(new ConfigItem("db", 0, 1, 1));
+  {
+    ConfigItem* item = new ConfigItem("db", 0, 1, 1);
+    syntax.add(item);
+
+    // compress
+    item->add(new ConfigItem("compress", 0, 1, 1, 1));
+  }
 
   // filter
   {
@@ -127,9 +133,6 @@ int main(void) {
 
   // ignore
   syntax.add(new ConfigItem("ignore", 0, 1, 1));
-
-  // db_compress
-  syntax.add(new ConfigItem("db_compress", 0, 1, 1, 1));
 
   // timeout_nowarning
   syntax.add(new ConfigItem("timeout_nowarning", 0, 1));
