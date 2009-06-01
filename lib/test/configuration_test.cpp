@@ -128,8 +128,8 @@ int main(void) {
   // ignore
   syntax.add(new ConfigItem("ignore", 0, 1, 1));
 
-  // compress_auto
-  syntax.add(new ConfigItem("compress_auto", 0, 1));
+  // db_compress
+  syntax.add(new ConfigItem("db_compress", 0, 1, 1, 1));
 
   // timeout_nowarning
   syntax.add(new ConfigItem("timeout_nowarning", 0, 1));

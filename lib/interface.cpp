@@ -79,12 +79,12 @@ bool hbackup::aborting(unsigned short test) {
 }
 
 struct HBackup::Private {
-  Database*         db;
-  list<string>      selected_clients;
-  list<Client*>     clients;
-  bool              remote_clients;
-  bool              compress_auto;
-  Attributes        attributes;
+  Database*               db;
+  list<string>            selected_clients;
+  list<Client*>           clients;
+  bool                    remote_clients;
+  OpData::CompressionMode db_compress_mode;
+  Attributes              attributes;
 };
 
 HBackup::HBackup() : _d(new Private) {
@@ -139,8 +139,8 @@ int HBackup::readConfig(const char* config_path) {
   }
   // ignore
   config_syntax.add(new ConfigItem("ignore", 0, 1, 1));
-  // compress_auto
-  config_syntax.add(new ConfigItem("compress_auto", 0, 1));
+  // db_compress [always, auto_now, auto_later, never]
+  config_syntax.add(new ConfigItem("db_compress", 0, 1, 1, 1));
   // timeout_nowarning
   config_syntax.add(new ConfigItem("timeout_nowarning", 0, 1));
   // report_copy_error_once
@@ -403,8 +403,24 @@ int HBackup::readConfig(const char* config_path) {
         }
       }
     } else {
-      if ((*params)[0] == "compress_auto") {
-        _d->compress_auto = true;
+      if ((*params)[0] == "db_compress") {
+        if ((*params)[1] == "always") {
+          _d->db_compress_mode = OpData::always;
+        } else
+        if ((*params)[1] == "auto") {
+          _d->db_compress_mode = OpData::auto_now;
+        } else
+        if ((*params)[1] == "later") {
+          _d->db_compress_mode = OpData::auto_later;
+        } else
+        if ((*params)[1] == "never") {
+          _d->db_compress_mode = OpData::never;
+        } else
+        {
+          out(error, msg_number, "Unsupported DB compression mode",
+            (*params).lineNo(), config_path);
+          return -1;
+        }
       } else
       if ((*params)[0] == "report_copy_error_once") {
         _d->attributes.setReportCopyErrorOnce();
@@ -423,8 +439,8 @@ int HBackup::open(
     const char*   path,
     bool          user_mode,
     bool          check_config) {
-  _d->remote_clients         = false;
-  _d->compress_auto          = false;
+  _d->remote_clients   = false;
+  _d->db_compress_mode = OpData::auto_later;
 
   bool failed = false;
   if (user_mode) {
@@ -496,7 +512,7 @@ int HBackup::backup(
   bool              initialize) {
   if (! _d->db->open(false, initialize)) {
     // Set auto-compression mode
-    _d->db->setAutoCompression(_d->compress_auto);
+    _d->db->setCompressionMode(_d->db_compress_mode);
 
     Directory mount_dir(Path(_d->db->path(), ".mount"));
     if (_d->remote_clients && (mount_dir.create() < 0)) {
@@ -597,8 +613,19 @@ void HBackup::show(int level) const {
   } else {
     out(debug, msg_standard, _d->db->path(), level, "DB path");
   }
-  if (_d->compress_auto) {
-    out(debug, msg_standard, "Automatic compression", level);
+  switch (_d->db_compress_mode) {
+    case OpData::always:
+      out(debug, msg_standard, "DB compression: always", level);
+      break;
+    case OpData::auto_now:
+      out(debug, msg_standard, "DB compression: automatic", level);
+      break;
+    case OpData::auto_later:
+      out(debug, msg_standard, "DB compression: later", level);
+      break;
+    case OpData::never:
+      out(debug, msg_standard, "DB compression: never", level);
+      break;
   }
   if (! _d->selected_clients.empty()) {
     out(debug, msg_standard, "Selected clients:", level);

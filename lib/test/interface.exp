@@ -5,7 +5,7 @@ Error: : No such file or directory opening file
 Test: backup, not initialized
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -106,7 +106,7 @@ Error: Given DB path does not exist: test_db
 Test: check config
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -214,7 +214,7 @@ Test: check config
 Test: typical backup
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -748,7 +748,7 @@ path "test1"
 Test: same backup
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -1159,7 +1159,7 @@ path "test1"
 Test: interrupted backup
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -1530,7 +1530,7 @@ path "test1"
   no_compress "cvs_entries"
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -1906,7 +1906,7 @@ Test: force-compress DB data
 Test: specify clients
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -2241,7 +2241,7 @@ path "test1"
 Test: scan DB
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -2402,7 +2402,7 @@ Database closed
 Test: check DB
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -2525,7 +2525,7 @@ Database closed
 Test: list clients
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -2632,7 +2632,7 @@ Database closed
 Test: list paths in UNIX client 'myClient'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -2737,7 +2737,7 @@ Database closed
 Test: list paths in DOS client 'client.xp'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -2842,7 +2842,7 @@ Database closed
 Test: restore file
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -2947,7 +2947,7 @@ Database closed
 Test: restore dir
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -3083,7 +3083,7 @@ test1/testfile metadata: gid = 24, mtime = 1161475200, perms = 0750
 Test: restore subdir
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -3199,7 +3199,7 @@ Database closed
 Test: restore client
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -3339,7 +3339,7 @@ Database closed
 Test: typical backup
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -3750,7 +3750,7 @@ path "test1"
 Test: specify clients
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -3995,6 +3995,7 @@ path "test1"
 
 Test: user-mode backup
  --> DB path: test_user/.hbackup
+ --> DB compression: later
  --> Selected clients:
  ---> localhost
  --> Clients:
@@ -4037,7 +4038,7 @@ Database closed
 Test: list clients
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -4144,7 +4145,7 @@ Database closed
 Test: list paths in DOS client 'myClient.xp'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -4249,7 +4250,7 @@ Database closed
 Test: list paths in dual-boot client 'myClient*'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  ---> myClient.xp
@@ -4360,7 +4361,7 @@ Database closed
 Test: list sub-paths in UNIX client 'myClient'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -4465,7 +4466,7 @@ Database closed
 Test: list sub-paths in DOS client 'myClient.xp', 'C:'
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -4572,7 +4573,7 @@ Database closed
 Test: restore file (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -4684,7 +4685,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore subdir (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -4800,7 +4801,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore dir (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -4916,7 +4917,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore client (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -5032,7 +5033,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore file (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -5143,7 +5144,7 @@ f	test_r/C:/Test Dir/My File.TXT
 Test: restore subdir (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -5258,7 +5259,7 @@ f	test_r/C:/Test Dir/My Dir/another File.TXT
 Test: restore dir (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -5375,7 +5376,7 @@ f	test_r/C:/Test Dir/My File.TXT
 Test: restore client (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -5492,7 +5493,7 @@ f	test_r/C:/Test Dir/My File.TXT
 Test: restore client (dual-boot)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  ---> myClient.xp
@@ -5621,7 +5622,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore (symlinks) file (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -5733,7 +5734,7 @@ l	test_r/home/User/test/File2.txt
 Test: restore (symlinks) subdir (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -5849,7 +5850,7 @@ l	test_r/home/User/test/File2.txt
 Test: restore (symlinks) dir (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -5965,7 +5966,7 @@ l	test_r/home/User/test/File2.txt
 Test: restore (symlinks) client (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -6081,7 +6082,7 @@ l	test_r/home/User/test/File2.txt
 Test: restore (symlinks) file (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -6192,7 +6193,7 @@ l	test_r/C:/Test Dir/My File.TXT
 Test: restore (symlinks) subdir (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -6307,7 +6308,7 @@ l	test_r/C:/Test Dir/My Dir/another File.TXT
 Test: restore (symlinks) dir (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -6424,7 +6425,7 @@ l	test_r/C:/Test Dir/My File.TXT
 Test: restore (symlinks) client (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -6541,7 +6542,7 @@ l	test_r/C:/Test Dir/My File.TXT
 Test: restore (symlinks) client (dual-boot)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  ---> myClient.xp
@@ -6671,7 +6672,7 @@ l	test_r/home/User/test/File2.txt
 Test: restore (hard links) file (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -6783,7 +6784,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore (hard links) subdir (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -6899,7 +6900,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore (hard links) dir (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -7015,7 +7016,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore (hard links) client (UNIX)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -7131,7 +7132,7 @@ f	test_r/home/User/test/File2.txt
 Test: restore (hard links) file (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -7242,7 +7243,7 @@ f	test_r/C:/Test Dir/My File.TXT
 Test: restore (hard links) subdir (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -7357,7 +7358,7 @@ f	test_r/C:/Test Dir/My Dir/another File.TXT
 Test: restore (hard links) dir (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -7474,7 +7475,7 @@ f	test_r/C:/Test Dir/My File.TXT
 Test: restore (hard links) client (DOS)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -7591,7 +7592,7 @@ f	test_r/C:/Test Dir/My File.TXT
 Test: restore (hard links) client (dual-boot)
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Selected clients:
  ---> myClient
  ---> myClient.xp
@@ -7720,7 +7721,7 @@ f	test_r/home/User/test/File2.txt
 Test: check for corrupted data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -7853,7 +7854,7 @@ Database closed
 Test: check for corrupted data again
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -7983,7 +7984,7 @@ Database closed
 Test: scan for missing data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -8218,7 +8219,7 @@ Database closed
 Test: scan for obsolete data, case1
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -8521,7 +8522,7 @@ Database closed
 Test: scan for obsolete data, case 2
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -8820,7 +8821,7 @@ Database closed
 Test: backup recovers broken checksums + replace data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -9257,7 +9258,7 @@ path "test1"
 Test: second backup should not recover again
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -9600,7 +9601,7 @@ Database closed
 Test: scan shows recovered data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -9767,7 +9768,7 @@ Database closed
 Test: check finds corrupted data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -9892,7 +9893,7 @@ Database closed
 Test: scan removes corrupted data
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -10058,7 +10059,7 @@ Database closed
 Test: third backup should not recover again
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -10477,7 +10478,7 @@ path "test1"
 Test: declared path missing
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
- --> Automatic compression
+ --> DB compression: automatic
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista

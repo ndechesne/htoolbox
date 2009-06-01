@@ -7,7 +7,7 @@
 
 case $1 in
   "bf" )
-    export DIR="lib"
+    export DIR="base"
     export NAME="buffer"
     ;;
   "bzr" )
@@ -39,7 +39,7 @@ case $1 in
     export NAME="db"
     ;;
   "fl" )
-    export DIR="lib"
+    export DIR="base"
     export NAME="files"
     ;;
   "ft" )
@@ -67,7 +67,7 @@ case $1 in
     export NAME="list"
     ;;
   "ln" )
-    export DIR="lib"
+    export DIR="base"
     export NAME="line"
     ;;
   "ml" | "memleak" )

@@ -129,14 +129,17 @@ int ClientPath::parse_recurse(
             if ((*i)->type() == 'f') {
               if ((_no_compress != NULL) && _no_compress->match(**i, start)) {
                 /* If in no-compress list, don't compress */
-                op.setCompressionStatus(OpData::never);
-              } else if (op.compressionStatus() == OpData::automatic) {
+                op.setCompressionMode(OpData::never);
+              } else
+              if (op.compressionMode() == OpData::auto_now) {
                 /* If auto-compress list, let it be */
                 op.setCompression(compression_level);
-              } else if ((_compress != NULL) && _compress->match(**i, start)) {
+              } else
+              if ((_compress != NULL) && _compress->match(**i, start)) {
                 /* If in compress list, compress */
                 op.setCompression(compression_level);
-              } else {
+              } else
+              {
                 /* Do not compress for now */
                 op.setCompression(0);
               }

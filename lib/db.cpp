@@ -55,14 +55,14 @@ namespace hbackup {
 using namespace hbackup;
 
 struct Database::Private {
-  char*             path;
-  Access            access;
-  Data              data;
-  Missing           missing;
-  bool              load_missing;
-  bool              compress_auto;
-  Owner*            owner;
-  progress_f        progress;
+  char*                   path;
+  Access                  access;
+  Data                    data;
+  Missing                 missing;
+  bool                    load_missing;
+  OpData::CompressionMode compress_mode;
+  Owner*                  owner;
+  progress_f              progress;
 };
 
 int Database::lock() {
@@ -192,8 +192,8 @@ int Database::open(
       return -1;
   }
 
-  // Disable auto-compression mode
-  _d->compress_auto = false;
+  // Auto-compression at scan time
+  _d->compress_mode = OpData::auto_later;
   // Reset client's data
   _d->owner = NULL;
   // Do not load list of missing items for now
@@ -258,8 +258,9 @@ int Database::close() {
   return failed ? -1 : 0;
 }
 
-void Database::setAutoCompression(bool enabled) {
-  _d->compress_auto = enabled;
+void Database::setCompressionMode(
+    OpData::CompressionMode mode) {
+  _d->compress_mode = mode;
 }
 
 void Database::setProgressCallback(progress_f progress) {
@@ -684,10 +685,8 @@ int Database::closeClient(
 void Database::sendEntry(
     OpData&         op) {
   _d->owner->send(op, _d->missing);
-  // Tell caller about auto compression
-  if (_d->compress_auto) {
-    op.setCompressionStatus(OpData::automatic);
-  }
+  // Tell caller about compression mode
+  op.setCompressionMode(_d->compress_mode);
 }
 
 int Database::add(
@@ -706,14 +705,14 @@ int Database::add(
       // Copy data
       char* checksum = NULL;
       int compression;
-      if (op._comp_status == OpData::never) {
+      if (op._comp_mode == OpData::never) {
         compression = -1;
       } else {
         compression = op._compression;
       }
       Stream source(op._node.path());
       int rc = _d->data.write(source, _d->owner->name(), &checksum,
-        compression, op._comp_status == OpData::automatic, &compression);
+        compression, op._comp_mode == OpData::auto_now, &compression);
       if (rc >= 0) {
         if (rc > 0) {
           if (compression > 0) {

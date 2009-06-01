@@ -23,10 +23,11 @@ namespace hbackup {
 
 class OpData {
 public:
-  enum CompressionStatus {
-    maybe,
-    never,
-    automatic
+  enum CompressionMode {
+    always,
+    auto_now,
+    auto_later,
+    never
   };
 private:
   friend class Database;
@@ -35,7 +36,7 @@ private:
   char              _type;            // Letter showing concerned type
   char              _info;            // Letter showing internal information
   int               _id;              // Missing checksum ID
-  CompressionStatus _comp_status;     // Compression decision
+  CompressionMode   _comp_mode;       // Compression decision
   int               _compression;     // Compression level for regular files
   const Path&       _path;            // Real file path, on client
   Node&             _node;            // File metadata
@@ -45,10 +46,10 @@ public:
   OpData(
     const Path&     path,             // Real file path, on client
     Node&           node)             // File metadata
-    : _operation(' '), _type(' '), _info(' '), _id(-1), _comp_status(maybe),
+    : _operation(' '), _type(' '), _info(' '), _id(-1), _comp_mode(auto_later),
       _compression(0), _path(path), _node(node), _same_list_entry(false) {}
-  void setCompressionStatus(CompressionStatus s) { _comp_status = s; }
-  CompressionStatus compressionStatus() const { return _comp_status; }
+  void setCompressionMode(CompressionMode m) { _comp_mode = m; }
+  CompressionMode compressionMode() const { return _comp_mode; }
   void setCompression(int compression) { _compression = compression; }
   int compression() const              { return _compression;        }
   bool sameListEntry() const           { return _same_list_entry;    }

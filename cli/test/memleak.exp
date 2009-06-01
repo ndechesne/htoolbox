@@ -182,7 +182,7 @@ Error: Given DB path does not contain a database: test_db
 Backup, DB missing
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -289,7 +289,7 @@ Error: Given DB path does not exist: test_db
 Typical backup, initialize DB
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -628,10 +628,10 @@ cvs\r
    hbackup::CvsParser::isControlled(std::string const&) const (cvs_parser.cpp:58)
    hbackup::Parsers::isControlled(std::string const&) const (parsers.cpp:37)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:60)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:175)
-   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:263)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:178)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:266)
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:596)
-   hbackup::HBackup::backup(bool) (interface.cpp:531)
+   hbackup::HBackup::backup(bool) (interface.cpp:547)
    main (hbackup.cpp:450)
  --> dirbad: D
  --> dirutd: D
@@ -772,7 +772,7 @@ Database closed
 Specify clients
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> client.xp
  --> myhost
@@ -971,10 +971,10 @@ cvs\r
    hbackup::CvsParser::isControlled(std::string const&) const (cvs_parser.cpp:58)
    hbackup::Parsers::isControlled(std::string const&) const (parsers.cpp:37)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:60)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:175)
-   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:263)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:178)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:266)
    hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:596)
-   hbackup::HBackup::backup(bool) (interface.cpp:531)
+   hbackup::HBackup::backup(bool) (interface.cpp:547)
    main (hbackup.cpp:450)
  --> dirbad: D
  --> dirutd: D
@@ -1053,6 +1053,7 @@ Database closed
    main (hbackup.cpp:221)
 User-mode backup
  -> DB path: test_user/.hbackup
+ -> DB compression: later
  -> Selected clients:
  --> localhost
  -> Clients:
@@ -1101,7 +1102,7 @@ Database closed
 Fix DB
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1209,7 +1210,7 @@ Database closed
 Scan DB
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1373,7 +1374,7 @@ Database closed
 Check DB
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1503,7 +1504,7 @@ List clients
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1618,7 +1619,7 @@ Try to list paths in both myhost and smb://client (fails)
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -1734,7 +1735,7 @@ List paths in myhost
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -1850,7 +1851,7 @@ List paths in myhost under test2/
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -1969,7 +1970,7 @@ List paths in myhost under test1/cvs
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2088,7 +2089,7 @@ Restore a file
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2203,7 +2204,7 @@ Restore all data in a client/dir path that's not by itself in DB
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2347,7 +2348,7 @@ Restore all data in a client/dir path
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2473,7 +2474,7 @@ Restore all data in a client
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:

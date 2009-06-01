@@ -44,9 +44,9 @@ public:
     bool            initialize = false);  // Initialize DB if needed
   // Close database
   int  close();
-  // Set auto-compression mode
-  void setAutoCompression(
-    bool            enabled);
+  // Set compression mode
+  void setCompressionMode(
+    OpData::CompressionMode mode);
   // Set progress callback function
   void setProgressCallback(progress_f progress);
   // Get list of clients in DB

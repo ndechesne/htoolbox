@@ -237,7 +237,7 @@ mkdir "$CONFIGDIR"
 cat << EOF > "$CONFIGDIR/hbackup.conf"
 db "$TESTDBDIR"
 
-compress_auto
+db_compress auto
 
 filter all nothing
   condition type pipe

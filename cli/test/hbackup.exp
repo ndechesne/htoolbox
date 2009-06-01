@@ -128,7 +128,7 @@ Error: Given DB path does not contain a database: test_db
 Backup, DB missing
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -229,7 +229,7 @@ Error: Given DB path does not exist: test_db
 Typical backup, initialize DB
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -693,7 +693,7 @@ Database closed
 Specify clients
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> client.xp
  --> myhost
@@ -955,6 +955,7 @@ Database closed: myhost
 Database closed
 User-mode backup
  -> DB path: test_user/.hbackup
+ -> DB compression: later
  -> Selected clients:
  --> localhost
  -> Clients:
@@ -1028,7 +1029,7 @@ User-mode backup: quiet
 Fix DB
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1130,7 +1131,7 @@ Database closed
 Scan DB
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1288,7 +1289,7 @@ Database closed
 Check DB
  -> Reading configuration file: etc/hbackup.conf
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1412,7 +1413,7 @@ List clients
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1521,7 +1522,7 @@ List paths in myhost
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -1631,7 +1632,7 @@ List paths in myhost under test2/
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -1744,7 +1745,7 @@ List paths in myhost under test1/cvs
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -1857,7 +1858,7 @@ List paths in both myhost and aClient.vista
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> aClient.vista
  --> myhost
@@ -1971,7 +1972,7 @@ List paths in dual-boot client myClient
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myClient
  --> myClient.xp
@@ -2084,7 +2085,7 @@ List paths in all clients
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> aClient.vista
  --> client.xp
@@ -2210,7 +2211,7 @@ Restore a file
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2319,7 +2320,7 @@ Restore all data in a client/dir path that's not by itself in DB
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2457,7 +2458,7 @@ Restore all data in a client/dir path
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2577,7 +2578,7 @@ Restore all data in a client
 Database open in read-only mode
 Database closed
  -> DB path: test_db
- -> Automatic compression
+ -> DB compression: automatic
  -> Selected clients:
  --> myhost
  -> Clients:
