@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2009  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -22,6 +22,7 @@
 
 using namespace std;
 
+#include <stdio.h>
 #include <ctype.h>
 #include <errno.h>
 

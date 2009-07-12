@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2009  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -21,6 +21,7 @@
 #include <sstream>
 #include <string>
 
+#include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -134,7 +135,7 @@ int Data::removePath(const char* path) const {
   int errno_keep = errno;
   File(Path(path, "corrupted")).remove();
   File(Path(path, "meta")).remove();
-  std::remove(path);
+  ::remove(path);
   errno = errno_keep;
   return rc;
 }
@@ -393,7 +394,7 @@ int Data::read(
   }
 
   if (failed) {
-    std::remove(temp_path.c_str());
+    ::remove(temp_path.c_str());
   }
   delete data;
 

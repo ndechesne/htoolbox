@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2009  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -22,6 +22,7 @@
 #include <string>
 #include <list>
 
+#include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -85,7 +86,7 @@ int Database::lock() {
       kill(pid, 0);
       if (errno == ESRCH) {
         out(warning, msg_standard, "Database lock reset");
-        std::remove(lock_path);
+        ::remove(lock_path);
       } else {
         stringstream s;
         s << "Database lock taken by process with pid " << pid;

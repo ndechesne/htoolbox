@@ -19,6 +19,8 @@
 #include <iostream>
 #include <string>
 #include <list>
+
+#include <stdio.h>
 #include <sys/stat.h>
 #include <errno.h>
 

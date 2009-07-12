@@ -18,6 +18,7 @@
 
 #include <iostream>
 
+#include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <errno.h>

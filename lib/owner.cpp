@@ -19,6 +19,7 @@
 #include <sstream>
 #include <list>
 
+#include <stdio.h>
 #include <errno.h>
 
 using namespace std;

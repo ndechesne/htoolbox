@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2009  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -19,6 +19,8 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+
+#include <stdio.h>
 #include <sys/stat.h>
 #include <errno.h>
 
