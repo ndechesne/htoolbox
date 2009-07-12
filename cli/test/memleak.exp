@@ -10,9 +10,9 @@ HBackup (c) 2006-2008 Hervé Fache version 1.0a
  
  2,022 bytes in 87 blocks are possibly lost in loss record 13 of 13
    operator new(unsigned int) (vg_replace_malloc.c:224)
-   std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
-   (within /usr/lib/libstdc++.so.6.0.10)
-   std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
+   std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.12)
+   (within /usr/lib/libstdc++.so.6.0.12)
+   std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.12)
    main (hbackup.cpp:203)
 Help
 HBackup (c) 2006-2008 Hervé Fache
@@ -83,9 +83,9 @@ HBackup (c) 2006-2008 Hervé Fache
  
  2,015 bytes in 87 blocks are possibly lost in loss record 13 of 13
    operator new(unsigned int) (vg_replace_malloc.c:224)
-   std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
-   (within /usr/lib/libstdc++.so.6.0.10)
-   std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
+   std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.12)
+   (within /usr/lib/libstdc++.so.6.0.12)
+   std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.12)
    main (hbackup.cpp:203)
 Error
 Error: -! -- Couldn't find match for argument
@@ -155,11 +155,18 @@ HBackup (c) 2006-2008 Hervé Fache
    main (hbackup.cpp:221)
  
  
+ 112 bytes in 1 blocks are possibly lost in loss record 11 of 13
+   malloc (vg_replace_malloc.c:207)
+   __cxa_allocate_exception (in /usr/lib/libstdc++.so.6.0.12)
+   TCLAP::CmdLine::parse(int, char**) (CmdLine.h:407)
+   main (hbackup.cpp:290)
+ 
+ 
  2,159 bytes in 88 blocks are possibly lost in loss record 13 of 13
    operator new(unsigned int) (vg_replace_malloc.c:224)
-   std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
-   (within /usr/lib/libstdc++.so.6.0.10)
-   std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.10)
+   std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.12)
+   (within /usr/lib/libstdc++.so.6.0.12)
+   std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.12)
    main (hbackup.cpp:203)
 List clients (missing DB path)
  -> Reading configuration file: etc/hbackup.conf
@@ -627,11 +634,24 @@ cvs\r
    hbackup::CvsParser::CvsParser(hbackup::Parser::Mode, std::string const&) (cvs_parser.cpp:148)
    hbackup::CvsParser::isControlled(std::string const&) const (cvs_parser.cpp:58)
    hbackup::Parsers::isControlled(std::string const&) const (parsers.cpp:37)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:60)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:178)
-   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:266)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:596)
-   hbackup::HBackup::backup(bool) (interface.cpp:550)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:62)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:180)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:268)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:597)
+   hbackup::HBackup::backup(bool) (interface.cpp:552)
+   main (hbackup.cpp:450)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+   __mktime_internal (mktime.c:428)
+   mktime (mktime.c:518)
+   hbackup::CvsParser::CvsParser(hbackup::Parser::Mode, std::string const&) (cvs_parser.cpp:148)
+   hbackup::CvsParser::isControlled(std::string const&) const (cvs_parser.cpp:58)
+   hbackup::Parsers::isControlled(std::string const&) const (parsers.cpp:37)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:62)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:180)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:268)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:597)
+   hbackup::HBackup::backup(bool) (interface.cpp:552)
    main (hbackup.cpp:450)
  --> dirbad: D
  --> dirutd: D
@@ -970,11 +990,24 @@ cvs\r
    hbackup::CvsParser::CvsParser(hbackup::Parser::Mode, std::string const&) (cvs_parser.cpp:148)
    hbackup::CvsParser::isControlled(std::string const&) const (cvs_parser.cpp:58)
    hbackup::Parsers::isControlled(std::string const&) const (parsers.cpp:37)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:60)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:178)
-   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:266)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:596)
-   hbackup::HBackup::backup(bool) (interface.cpp:550)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:62)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:180)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:268)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:597)
+   hbackup::HBackup::backup(bool) (interface.cpp:552)
+   main (hbackup.cpp:450)
+ 
+ Conditional jump or move depends on uninitialised value(s)
+   __mktime_internal (mktime.c:428)
+   mktime (mktime.c:518)
+   hbackup::CvsParser::CvsParser(hbackup::Parser::Mode, std::string const&) (cvs_parser.cpp:148)
+   hbackup::CvsParser::isControlled(std::string const&) const (cvs_parser.cpp:58)
+   hbackup::Parsers::isControlled(std::string const&) const (parsers.cpp:37)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:62)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:180)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:268)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:597)
+   hbackup::HBackup::backup(bool) (interface.cpp:552)
    main (hbackup.cpp:450)
  --> dirbad: D
  --> dirutd: D
