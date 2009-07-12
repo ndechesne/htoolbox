@@ -355,7 +355,7 @@ int Data::read(
   if (data == NULL) {
     return -1;
   }
-  if (data->open(O_RDONLY, (no > 0) ? 1 : 0)) {
+  if (data->open(O_RDONLY, (no > 0) ? 1 : 0), false) {
     out(error, msg_errno, "opening read source file", errno, data->path());
     return -1;
   }
