@@ -513,6 +513,7 @@ D       /home/User/cvs/fileutd.h
 dir space\r
          \r
 !d !    /home/User/subdir
+myClient:/home/User/subdirfile: Permission denied backing up file
 !f !    /home/User/subdirfile
 svn\r
 svn/.svn\r
@@ -867,6 +868,7 @@ cvs/dirutd/CVS\r
 dir space     \r
 subdir   \r
       \r
+myClient:/home/User/subdir/testfile: Permission denied backing up file
 !f !    /home/User/subdir/testfile
 svn\r
 svn/.svn\r

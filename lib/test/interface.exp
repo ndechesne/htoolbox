@@ -1826,6 +1826,7 @@ If p    test1/cvs/fileoth
 dir space\r
          \r
 Killing trigger reached: 2
+myhost:test1/dir space/big_file: Operation canceled backing up file
 !f !    test1/dir space/big_file
 Database closed: myhost
 Database closed
