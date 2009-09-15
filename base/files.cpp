@@ -241,10 +241,8 @@ static int direntFilter(const struct dirent* a) {
   return 1;
 }
 
-static int direntCompare(const void* a, const void* b) {
-  const struct dirent* l = *static_cast<const struct dirent* const *>(a);
-  const struct dirent* r = *static_cast<const struct dirent* const *>(b);
-  return Path::compare(l->d_name, r->d_name);
+static int direntCompare(const dirent** a, const dirent** b) {
+  return Path::compare((*a)->d_name, (*b)->d_name);
 }
 
 int Directory::createList() {
