@@ -718,7 +718,7 @@ Backing up client: newClient
 Register created: newClient
 Database open r/w: newClient
 Backing up path: /home/Blah/test
- -> umount -fl test_db/.mount/newClient
+ -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 Checking data, sizes: f=5 z=25 (25)
 Adding uncompressed data for b8bbb1294db5d59366b7d1827e2158d6-0
@@ -731,7 +731,7 @@ Adding uncompressed data for 8a61083e712200a30c6ccf5f5c697b76-0
 Af f    /home/Blah/test/dir/file3.txt
 Register modified: newClient
 Database closed: newClient
- -> umount -fl test_db/.mount/newClient
+ -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
 Error: other: Protocol not supported none
 Database closed
@@ -1181,12 +1181,12 @@ Trying client 'newClient' using protocol 'ssh'
 Backing up client: newClient
 Database open r/w: newClient
 Backing up path: /home/Blah/test
- -> umount -fl test_db/.mount/newClient
+ -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 dir\r
    \r
 Database closed: newClient
- -> umount -fl test_db/.mount/newClient
+ -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
 Error: other: Protocol not supported none
 Database closed
@@ -3944,12 +3944,12 @@ Trying client 'newClient' using protocol 'ssh'
 Backing up client: newClient
 Database open r/w: newClient
 Backing up path: /home/Blah/test
- -> umount -fl test_db/.mount/newClient
+ -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 dir\r
    \r
 Database closed: newClient
- -> umount -fl test_db/.mount/newClient
+ -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
 Error: other: Protocol not supported none
 Database closed
@@ -9864,12 +9864,12 @@ Trying client 'newClient' using protocol 'ssh'
 Backing up client: newClient
 Database open r/w: newClient
 Backing up path: /home/Blah/test
- -> umount -fl test_db/.mount/newClient
+ -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 dir\r
    \r
 Database closed: newClient
- -> umount -fl test_db/.mount/newClient
+ -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
 Error: other: Protocol not supported none
 Missing checksums list updated
@@ -10325,12 +10325,12 @@ Trying client 'newClient' using protocol 'ssh'
 Backing up client: newClient
 Database open r/w: newClient
 Backing up path: /home/Blah/test
- -> umount -fl test_db/.mount/newClient
+ -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 dir\r
    \r
 Database closed: newClient
- -> umount -fl test_db/.mount/newClient
+ -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
 Error: other: Protocol not supported none
 List of problematic checksums contains 2 item(s)
@@ -11207,12 +11207,12 @@ Trying client 'newClient' using protocol 'ssh'
 Backing up client: newClient
 Database open r/w: newClient
 Backing up path: /home/Blah/test
- -> umount -fl test_db/.mount/newClient
+ -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 dir\r
    \r
 Database closed: newClient
- -> umount -fl test_db/.mount/newClient
+ -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
 Error: other: Protocol not supported none
 Missing checksums list updated

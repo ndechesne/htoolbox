@@ -248,7 +248,7 @@ Backing up client: otherClient
 Register created: otherClient
 Database open r/w: otherClient
 Backing up path: /home/Blah/test
- -> umount -fl test_db/mount
+ -> fusermount -u test_db/mount
  -> echo barZ? | sshfs -o password_stdin foo@otherClient:/home/Blah/test test_db/mount
 Adding compressed data for b8bbb1294db5d59366b7d1827e2158d6-0
 Af z    /home/Blah/test/File2.txt
@@ -259,7 +259,7 @@ Adding compressed data for 8a61083e712200a30c6ccf5f5c697b76-0
 Af z    /home/Blah/test/dir/file3.txt
 Register modified: otherClient
 Database closed: otherClient
- -> umount -fl test_db/mount
+ -> fusermount -u test_db/mount
 Trying client 'Client' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
 Error: test_db/mount/home/BlaH/Backup.list: Client configuration file not found

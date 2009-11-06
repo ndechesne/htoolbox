@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Only support unmount operation for now
+if [ "$1" != "-u" ]; then
+  exit 1
+fi
+dest="$2"
+
+rm -rf "$dest"
+mkdir "$dest"
+
+exit 0

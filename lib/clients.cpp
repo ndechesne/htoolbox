@@ -55,6 +55,8 @@ struct Client::Private {
   string            home_path;
   Config            config;
   string            mounted;
+  bool              classic_mount;
+  bool              fuse_mount;
   int               expire;
 };
 
@@ -64,8 +66,9 @@ int Client::mountPath(
     const char*     mount_point) {
   string command;
   string share;
-  bool classic_mount;
   errno = EINVAL;
+  _d->classic_mount = false;
+  _d->fuse_mount = false;
 
   // Determine share and path
   if (_d->protocol == "file") {
@@ -75,13 +78,13 @@ int Client::mountPath(
     return 0;
   } else
   if (_d->protocol == "nfs") {
-    classic_mount = true;
+    _d->classic_mount = true;
     command = "mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr";
     share = _d->host_or_ip + ":" + backup_path;
     path  = mount_point;
   } else
   if (_d->protocol == "smb") {
-    classic_mount = true;
+    _d->classic_mount = true;
     command = "mount -t cifs -o ro,nocase";
     if (backup_path.size() < 3) {
       return -1;
@@ -95,7 +98,7 @@ int Client::mountPath(
     path += "/" +  backup_path.substr(3);
   } else
   if (_d->protocol == "ssh") {
-    classic_mount = false;
+    _d->fuse_mount = true;
     const string username = getOption("username");
     const string password = getOption("password");
     if ((password == "") || (username == "")) {
@@ -123,7 +126,7 @@ int Client::mountPath(
     }
   }
 
-  if (classic_mount) {
+  if (_d->classic_mount) {
     // Add mount options to command
     for (list<Option>::iterator i = _d->options.begin(); i != _d->options.end();
         i++ ){
@@ -150,8 +153,13 @@ int Client::mountPath(
 int Client::umount(
     const char*     mount_point) {
   if (_d->mounted != "") {
-    string command = "umount -fl ";
-
+    string command;
+    if (_d->classic_mount) {
+      command = "umount -fl ";
+    } else
+    if (_d->fuse_mount) {
+      command = "fusermount -u ";
+    }
     command += mount_point;
     out(debug, msg_standard, command.c_str(), 1);
     _d->mounted = "";
