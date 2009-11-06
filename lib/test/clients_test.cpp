@@ -121,7 +121,9 @@ int main(void) {
   clients.push_back(client);
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
-  client->setListfile("c:/home/backup/Backup.list");
+  client->addOption("username", "foo");
+  client->addOption("password", "barZ?");
+  client->setListfile("/home/Blah/hbackup.list");
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);

@@ -27,8 +27,8 @@ class Option {
 public:
   Option(const string& name, const string& value) :
     _name(name), _value(value) {}
-  string name()   { return _name;  }
-  string value()  { return _value; }
+  const string& name() const { return _name;  }
+  const string& value() const { return _value; }
   string option() const {
     if (_name.empty())
       return _value;
@@ -54,6 +54,7 @@ public:
   string internalName() const;
   void addOption(const string& value);
   void addOption(const string& name, const string& value);
+  const string getOption(const string& name) const;
   void addUser(const string& user);
   void setHostOrIp(string value);
   bool setProtocol(string value);     // return true if remote protocol

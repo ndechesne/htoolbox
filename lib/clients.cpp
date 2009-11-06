@@ -62,20 +62,27 @@ int Client::mountPath(
     const string&   backup_path,
     string&         path,
     const char*     mount_point) {
-  string command = "mount ";
+  string command;
   string share;
+  bool classic_mount;
   errno = EINVAL;
 
   // Determine share and path
   if (_d->protocol == "file") {
+    command = "";
     share = "";
     path  = backup_path;
+    return 0;
   } else
   if (_d->protocol == "nfs") {
+    classic_mount = true;
+    command = "mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr";
     share = _d->host_or_ip + ":" + backup_path;
     path  = mount_point;
   } else
   if (_d->protocol == "smb") {
+    classic_mount = true;
+    command = "mount -t cifs -o ro,nocase";
     if (backup_path.size() < 3) {
       return -1;
     }
@@ -86,13 +93,26 @@ int Client::mountPath(
     share = "//" + _d->host_or_ip + "/" + drive_letter + "$";
     path  = mount_point;
     path += "/" +  backup_path.substr(3);
+  } else
+  if (_d->protocol == "ssh") {
+    classic_mount = false;
+    const string username = getOption("username");
+    const string password = getOption("password");
+    if ((password == "") || (username == "")) {
+      errno = EINVAL;
+      return -1;
+    }
+    // echo <password> | sshfs -o password_stdin <user>@<server>:<path> <mount path>
+    command = "echo " + password + " | sshfs -o password_stdin";
+    share   = username + "@" + _d->host_or_ip + ":" + backup_path;
+    path    = mount_point;
   } else {
     errno = EPROTONOSUPPORT;
     return -1;
   }
   errno = 0;
 
-  // Check what is mounted
+  // Unmount previous share if different
   if (_d->mounted != "") {
     if (_d->mounted != share) {
       // Different share mounted: unmount
@@ -103,23 +123,12 @@ int Client::mountPath(
     }
   }
 
-  // Build mount command
-  if (_d->protocol == "file") {
-    return 0;
-  } else {
-    // Set protocol and default options
-    if (_d->protocol == "nfs") {
-      command += "-t nfs -o ro,noatime,nolock,soft,timeo=30,intr";
-    } else
-    if (_d->protocol == "smb") {
-      // codepage=858
-      command += "-t cifs -o ro,nocase";
+  if (classic_mount) {
+    // Add mount options to command
+    for (list<Option>::iterator i = _d->options.begin(); i != _d->options.end();
+        i++ ){
+      command += "," + i->option();
     }
-  }
-  // Additional options
-  for (list<Option>::iterator i = _d->options.begin(); i != _d->options.end();
-      i++ ){
-    command += "," + i->option();
   }
   // Paths
   command += " " + share + " " + mount_point;
@@ -419,6 +428,16 @@ void Client::addOption(const string& name, const string& value) {
   _d->options.push_back(Option(name, value));
 }
 
+const string Client::getOption(const string& name) const {
+  for (list<Option>::const_iterator i = _d->options.begin();
+      i != _d->options.end(); i++ ) {
+    if (i->name() == name) {
+      return i->value();
+    }
+  }
+  return "";
+}
+
 void Client::addUser(const string& user) {
   _d->users.push_back(user);
 }
@@ -510,10 +529,6 @@ int Client::backup(
     string config_path;
     if (mountPath(string(_d->list_file.dirname()), config_path, mount_point)) {
       switch (errno) {
-        case EPROTONOSUPPORT:
-          out(error, msg_errno, _d->protocol.c_str(), errno,
-            internalName().c_str());
-          return -1;
         case ETIMEDOUT:
           if (! _d->timeout_nowarning) {
             out(warning, msg_errno, "connecting to client", errno,
@@ -524,7 +539,12 @@ int Client::backup(
               internalName().c_str());
             return 0;
           }
+          break;
+        default:
+          out(error, msg_errno, _d->protocol.c_str(), errno,
+            internalName().c_str());
       }
+      return -1;
     }
     first_mount_try = false;
     if (config_path.size() != 0) {

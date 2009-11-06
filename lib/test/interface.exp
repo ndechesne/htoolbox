@@ -60,10 +60,18 @@ Test: backup, not initialized
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -161,10 +169,18 @@ Test: check config
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -269,10 +285,18 @@ Test: typical backup
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -670,8 +694,46 @@ If f    test2/testfile~
 Al      test2/testlink
 Register modified: myhost
 Database closed: myhost
-Trying client 'other' using protocol 'ssh'
-Error: other: Protocol not supported ssh
+Trying client 'newClient' using protocol 'ssh'
+ -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
+ -> Reading client configuration file: newClient
+ -> Client: newClient
+ --> Protocol: ssh
+ --> Options: username=user, password=p4sS?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ --> No error if same file fails copy again
+ --> Ignore filters:
+ ---> nothing
+ --> Paths: 
+ ---> Path: /home/Blah/test
+ ----> No error if same file fails copy again
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Ignore filters:
+ -----> nothing
+ ----> Compress filter: compress
+Backing up client: newClient
+Register created: newClient
+Database open r/w: newClient
+Backing up path: /home/Blah/test
+ -> umount -fl test_db/.mount/newClient
+ -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
+Checking data, sizes: f=5 z=25 (25)
+Adding uncompressed data for b8bbb1294db5d59366b7d1827e2158d6-0
+Af f    /home/Blah/test/File2.txt
+Ad      /home/Blah/test/dir
+dir\r
+   \r
+Checking data, sizes: f=5 z=25 (25)
+Adding uncompressed data for 8a61083e712200a30c6ccf5f5c697b76-0
+Af f    /home/Blah/test/dir/file3.txt
+Register modified: newClient
+Database closed: newClient
+ -> umount -fl test_db/.mount/newClient
+Trying client 'other' using protocol 'none'
+Error: other: Protocol not supported none
 Database closed
 Config for test_db/.configs/client.xp
 subset "xp"
@@ -744,6 +806,13 @@ path "test1"
   filter "and" "cvs_entries"
     condition "name" "Entries"
   no_compress "cvs_entries"
+Config for test_db/.configs/newClient
+report_copy_error_once
+path "/home/Blah/test/"
+  filter "or" "compress"
+    condition "name" "File2.txt"
+    condition "path" "dir/file3.txt"
+  compress "compress"
 
 Test: same backup
  -> Reading configuration file: etc/hbackup.conf
@@ -803,10 +872,18 @@ Test: same backup
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -1081,8 +1158,37 @@ testdir\r
        \r
 If f    test2/testfile~
 Database closed: myhost
-Trying client 'other' using protocol 'ssh'
-Error: other: Protocol not supported ssh
+Trying client 'newClient' using protocol 'ssh'
+ -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
+ -> Reading client configuration file: newClient
+ -> Client: newClient
+ --> Protocol: ssh
+ --> Options: username=user, password=p4sS?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ --> No error if same file fails copy again
+ --> Ignore filters:
+ ---> nothing
+ --> Paths: 
+ ---> Path: /home/Blah/test
+ ----> No error if same file fails copy again
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Ignore filters:
+ -----> nothing
+ ----> Compress filter: compress
+Backing up client: newClient
+Database open r/w: newClient
+Backing up path: /home/Blah/test
+ -> umount -fl test_db/.mount/newClient
+ -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
+dir\r
+   \r
+Database closed: newClient
+ -> umount -fl test_db/.mount/newClient
+Trying client 'other' using protocol 'none'
+Error: other: Protocol not supported none
 Database closed
 Config for test_db/.configs/client.xp
 subset "xp"
@@ -1155,6 +1261,13 @@ path "test1"
   filter "and" "cvs_entries"
     condition "name" "Entries"
   no_compress "cvs_entries"
+Config for test_db/.configs/newClient
+report_copy_error_once
+path "/home/Blah/test/"
+  filter "or" "compress"
+    condition "name" "File2.txt"
+    condition "path" "dir/file3.txt"
+  compress "compress"
 
 Test: interrupted backup
  -> Reading configuration file: etc/hbackup.conf
@@ -1214,10 +1327,18 @@ Test: interrupted backup
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -1528,6 +1649,13 @@ path "test1"
   filter "and" "cvs_entries"
     condition "name" "Entries"
   no_compress "cvs_entries"
+Config for test_db/.configs/newClient
+report_copy_error_once
+path "/home/Blah/test/"
+  filter "or" "compress"
+    condition "name" "File2.txt"
+    condition "path" "dir/file3.txt"
+  compress "compress"
  -> Reading configuration file: etc/hbackup.conf
  --> DB path: test_db
  --> DB compression: automatic
@@ -1585,10 +1713,18 @@ path "test1"
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -1901,6 +2037,13 @@ path "test1"
   filter "and" "cvs_entries"
     condition "name" "Entries"
   no_compress "cvs_entries"
+Config for test_db/.configs/newClient
+report_copy_error_once
+path "/home/Blah/test/"
+  filter "or" "compress"
+    condition "name" "File2.txt"
+    condition "path" "dir/file3.txt"
+  compress "compress"
 
 Test: force-compress DB data
 
@@ -1962,10 +2105,18 @@ Test: specify clients
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -2238,6 +2389,13 @@ path "test1"
   filter "and" "cvs_entries"
     condition "name" "Entries"
   no_compress "cvs_entries"
+Config for test_db/.configs/newClient
+report_copy_error_once
+path "/home/Blah/test/"
+  filter "or" "compress"
+    condition "name" "File2.txt"
+    condition "path" "dir/file3.txt"
+  compress "compress"
 
 Test: scan DB
  -> Reading configuration file: etc/hbackup.conf
@@ -2297,10 +2455,18 @@ Test: scan DB
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -2344,7 +2510,8 @@ Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
 Reading list: myhost
-Found 16 checksums
+Reading list: newClient
+Found 18 checksums
 Crawling through DB
 0f2ea973d77135dc3d06c8e68da6dc59-0 77 65\r
 26ab0db90d72e28ad0ba1e22ee510510-0 2    \r
@@ -2353,8 +2520,10 @@ Crawling through DB
 59ca0efa9f5633cb0371bbc0355478d8-0 13\r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
+8a61083e712200a30c6ccf5f5c697b76-0 5         \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
 d41d8cd98f00b204e9800998ecf8427e-0 0 \r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
@@ -2363,8 +2532,8 @@ f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 fef51838cd3cfe8ed96355742eb71fbd-0 161       \r
                                       \r
-Found 16 valid and 0 broken data files
-Checksum(s) from list: 16
+Found 18 valid and 0 broken data files
+Checksum(s) from list: 18
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
@@ -2372,8 +2541,10 @@ Checksum(s) from list: 16
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -2381,7 +2552,7 @@ Checksum(s) from list: 16
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Checksum(s) with data: 16
+Checksum(s) with data: 18
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
@@ -2389,8 +2560,10 @@ Checksum(s) with data: 16
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -2458,10 +2631,18 @@ Test: check DB
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -2508,8 +2689,10 @@ Crawling through DB data
 59ca0efa9f5633cb0371bbc0355478d8-0 13\r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
+8a61083e712200a30c6ccf5f5c697b76-0 5         \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
 d41d8cd98f00b204e9800998ecf8427e-0 0 \r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
@@ -2520,7 +2703,7 @@ f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 fef51838cd3cfe8ed96355742eb71fbd-0 161       \r
                                       \r
-Found 16 valid and 0 broken data files
+Found 18 valid and 0 broken data files
 Database closed
 
 Test: list clients
@@ -2581,10 +2764,18 @@ Test: list clients
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -2628,6 +2819,7 @@ Value: client.xp
 Value: myClient
 Value: myClient.xp
 Value: myhost
+Value: newClient
 Database closed
 
 Test: list paths in UNIX client 'myClient'
@@ -2688,10 +2880,18 @@ Test: list paths in UNIX client 'myClient'
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -2793,10 +2993,18 @@ Test: list paths in DOS client 'client.xp'
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -2898,10 +3106,18 @@ Test: restore file
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -3003,10 +3219,18 @@ Test: restore dir
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -3139,10 +3363,18 @@ Test: restore subdir
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -3255,10 +3487,18 @@ Test: restore client
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -3395,10 +3635,18 @@ Test: typical backup
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -3673,8 +3921,37 @@ testdir\r
        \r
 If f    test2/testfile~
 Database closed: myhost
-Trying client 'other' using protocol 'ssh'
-Error: other: Protocol not supported ssh
+Trying client 'newClient' using protocol 'ssh'
+ -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
+ -> Reading client configuration file: newClient
+ -> Client: newClient
+ --> Protocol: ssh
+ --> Options: username=user, password=p4sS?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ --> No error if same file fails copy again
+ --> Ignore filters:
+ ---> nothing
+ --> Paths: 
+ ---> Path: /home/Blah/test
+ ----> No error if same file fails copy again
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Ignore filters:
+ -----> nothing
+ ----> Compress filter: compress
+Backing up client: newClient
+Database open r/w: newClient
+Backing up path: /home/Blah/test
+ -> umount -fl test_db/.mount/newClient
+ -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
+dir\r
+   \r
+Database closed: newClient
+ -> umount -fl test_db/.mount/newClient
+Trying client 'other' using protocol 'none'
+Error: other: Protocol not supported none
 Database closed
 Config for test_db/.configs/client.xp
 subset "xp"
@@ -3747,6 +4024,13 @@ path "test1"
   filter "and" "cvs_entries"
     condition "name" "Entries"
   no_compress "cvs_entries"
+Config for test_db/.configs/newClient
+report_copy_error_once
+path "/home/Blah/test/"
+  filter "or" "compress"
+    condition "name" "File2.txt"
+    condition "path" "dir/file3.txt"
+  compress "compress"
 
 Test: specify clients
  -> Reading configuration file: etc/hbackup.conf
@@ -3806,10 +4090,18 @@ Test: specify clients
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -3993,6 +4285,13 @@ path "test1"
   filter "and" "cvs_entries"
     condition "name" "Entries"
   no_compress "cvs_entries"
+Config for test_db/.configs/newClient
+report_copy_error_once
+path "/home/Blah/test/"
+  filter "or" "compress"
+    condition "name" "File2.txt"
+    condition "path" "dir/file3.txt"
+  compress "compress"
 
 Test: user-mode backup
  --> DB path: test_user/.hbackup
@@ -4094,10 +4393,18 @@ Test: list clients
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -4141,6 +4448,7 @@ Value: client.xp
 Value: myClient
 Value: myClient.xp
 Value: myhost
+Value: newClient
 Database closed
 
 Test: list paths in DOS client 'myClient.xp'
@@ -4201,10 +4509,18 @@ Test: list paths in DOS client 'myClient.xp'
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -4309,10 +4625,18 @@ Test: list paths in dual-boot client 'myClient*'
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -4417,10 +4741,18 @@ Test: list sub-paths in UNIX client 'myClient'
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -4524,10 +4856,18 @@ Test: list sub-paths in DOS client 'myClient.xp', 'C:'
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -4631,10 +4971,18 @@ Test: restore file (UNIX)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -4743,10 +5091,18 @@ Test: restore subdir (UNIX)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -4859,10 +5215,18 @@ Test: restore dir (UNIX)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -4975,10 +5339,18 @@ Test: restore client (UNIX)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -5091,10 +5463,18 @@ Test: restore file (DOS)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -5202,10 +5582,18 @@ Test: restore subdir (DOS)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -5317,10 +5705,18 @@ Test: restore dir (DOS)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -5434,10 +5830,18 @@ Test: restore client (DOS)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -5552,10 +5956,18 @@ Test: restore client (dual-boot)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -5680,10 +6092,18 @@ Test: restore (symlinks) file (UNIX)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -5792,10 +6212,18 @@ Test: restore (symlinks) subdir (UNIX)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -5908,10 +6336,18 @@ Test: restore (symlinks) dir (UNIX)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -6024,10 +6460,18 @@ Test: restore (symlinks) client (UNIX)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -6140,10 +6584,18 @@ Test: restore (symlinks) file (DOS)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -6251,10 +6703,18 @@ Test: restore (symlinks) subdir (DOS)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -6366,10 +6826,18 @@ Test: restore (symlinks) dir (DOS)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -6483,10 +6951,18 @@ Test: restore (symlinks) client (DOS)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -6601,10 +7077,18 @@ Test: restore (symlinks) client (dual-boot)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -6730,10 +7214,18 @@ Test: restore (hard links) file (UNIX)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -6842,10 +7334,18 @@ Test: restore (hard links) subdir (UNIX)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -6958,10 +7458,18 @@ Test: restore (hard links) dir (UNIX)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -7074,10 +7582,18 @@ Test: restore (hard links) client (UNIX)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -7190,10 +7706,18 @@ Test: restore (hard links) file (DOS)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -7301,10 +7825,18 @@ Test: restore (hard links) subdir (DOS)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -7416,10 +7948,18 @@ Test: restore (hard links) dir (DOS)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -7533,10 +8073,18 @@ Test: restore (hard links) client (DOS)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -7651,10 +8199,18 @@ Test: restore (hard links) client (dual-boot)
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -7777,10 +8333,18 @@ Test: check for corrupted data
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -7831,8 +8395,10 @@ Checksum: d41d8cd98f00b204e9800998ecf8427e
 Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Data missing
 6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
+8a61083e712200a30c6ccf5f5c697b76-0 5         \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
                                     \r
 Error: b90f8fa56ea1d39881d4a199c7a81d35-0: Data corrupted
 Checksum: 68b329da9893e34099c7d8ad5cb9c940
@@ -7849,7 +8415,7 @@ Error: fef51838cd3cfe8ed96355742eb71fbd-0: Data corrupted
 Checksum: 68b329da9893e34099c7d8ad5cb9c940
 fef51838cd3cfe8ed96355742eb71fbd-0 -1\r
                                      \r
-Found 12 valid and 4 broken data files
+Found 14 valid and 4 broken data files
 Database closed
 
 Test: check for corrupted data again
@@ -7910,10 +8476,18 @@ Test: check for corrupted data again
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -7963,8 +8537,10 @@ Warning: 0f2ea973d77135dc3d06c8e68da6dc59-0: Data corruption reported
 Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Data missing
 6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
+8a61083e712200a30c6ccf5f5c697b76-0 5         \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
                                     \r
 Warning: b90f8fa56ea1d39881d4a199c7a81d35-0: Data corruption reported
 b90f8fa56ea1d39881d4a199c7a81d35-0 -1\r
@@ -7979,7 +8555,7 @@ fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 Warning: fef51838cd3cfe8ed96355742eb71fbd-0: Data corruption reported
 fef51838cd3cfe8ed96355742eb71fbd-0 -1\r
                                      \r
-Found 12 valid and 4 broken data files
+Found 14 valid and 4 broken data files
 Database closed
 
 Test: scan for missing data
@@ -8040,10 +8616,18 @@ Test: scan for missing data
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -8088,7 +8672,8 @@ Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
 Reading list: myhost
-Found 15 checksums
+Reading list: newClient
+Found 17 checksums
 Crawling through DB
 Error: 0f2ea973d77135dc3d06c8e68da6dc59-0: Data missing
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -8098,8 +8683,10 @@ Error: 0f2ea973d77135dc3d06c8e68da6dc59-0: Data missing
 Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Data missing
 6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
+8a61083e712200a30c6ccf5f5c697b76-0 5         \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
                                     \r
 b90f8fa56ea1d39881d4a199c7a81d35-0: Removed corrupted data
 b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
@@ -8112,16 +8699,18 @@ fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 fef51838cd3cfe8ed96355742eb71fbd-0: Removed corrupted data
 fef51838cd3cfe8ed96355742eb71fbd-0 161\r
                                       \r
-Found 12 valid and 4 broken data files
-Checksum(s) from list: 15
+Found 14 valid and 4 broken data files
+Checksum(s) from list: 17
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -8129,14 +8718,16 @@ Checksum(s) from list: 15
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Checksum(s) with data: 12
+Checksum(s) with data: 14
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
@@ -8160,31 +8751,36 @@ Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
 Reading list: myhost
-Found 15 checksums
+Reading list: newClient
+Found 17 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42        \r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
+8a61083e712200a30c6ccf5f5c697b76-0 5         \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
                                              \r
-Found 12 valid and 0 broken data files
-Checksum(s) from list: 15
+Found 14 valid and 0 broken data files
+Checksum(s) from list: 17
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -8192,14 +8788,16 @@ Checksum(s) from list: 15
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Checksum(s) with data: 12
+Checksum(s) with data: 14
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
@@ -8275,10 +8873,18 @@ Test: scan for obsolete data, case1
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -8323,7 +8929,8 @@ Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
 Reading list: myhost
-Found 15 checksums
+Reading list: newClient
+Found 17 checksums
 Crawling through DB
 00000000000000000000000000000000-0 1\r
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -8332,8 +8939,10 @@ Crawling through DB
 6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
 88888888888888888888888888888888-0 1000      \r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30  \r
+8a61083e712200a30c6ccf5f5c697b76-0 5   \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
@@ -8341,16 +8950,18 @@ f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 ffffffffffffffffffffffffffffffff-0 1000000   \r
                                           \r
-Found 15 valid and 0 broken data files
-Checksum(s) from list: 15
+Found 17 valid and 0 broken data files
+Checksum(s) from list: 17
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -8358,7 +8969,7 @@ Checksum(s) from list: 15
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Checksum(s) with data: 15
+Checksum(s) with data: 17
  -> 00000000000000000000000000000000-0, 1
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
@@ -8366,8 +8977,10 @@ Checksum(s) with data: 15
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
  -> 88888888888888888888888888888888-0, 1000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
@@ -8395,7 +9008,8 @@ Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
 Reading list: myhost
-Found 15 checksums
+Reading list: newClient
+Found 17 checksums
 Crawling through DB
 00000000000000000000000000000000-0 1\r
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -8404,8 +9018,10 @@ Crawling through DB
 6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
 88888888888888888888888888888888-0 1000      \r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30  \r
+8a61083e712200a30c6ccf5f5c697b76-0 5   \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
@@ -8413,16 +9029,18 @@ f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 ffffffffffffffffffffffffffffffff-0 1000000   \r
                                           \r
-Found 15 valid and 0 broken data files
-Checksum(s) from list: 15
+Found 17 valid and 0 broken data files
+Checksum(s) from list: 17
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -8430,7 +9048,7 @@ Checksum(s) from list: 15
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Checksum(s) with data: 15
+Checksum(s) with data: 17
  -> 00000000000000000000000000000000-0, 1
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
@@ -8438,8 +9056,10 @@ Checksum(s) with data: 15
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
  -> 88888888888888888888888888888888-0, 1000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
@@ -8467,30 +9087,35 @@ Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
 Reading list: myhost
-Found 15 checksums
+Reading list: newClient
+Found 17 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42        \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
+8a61083e712200a30c6ccf5f5c697b76-0 5         \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
                                              \r
-Found 11 valid and 0 broken data files
-Checksum(s) from list: 15
+Found 13 valid and 0 broken data files
+Checksum(s) from list: 17
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -8498,13 +9123,15 @@ Checksum(s) from list: 15
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Checksum(s) with data: 11
+Checksum(s) with data: 13
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
@@ -8578,10 +9205,18 @@ Test: scan for obsolete data, case 2
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -8626,7 +9261,8 @@ Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
 Reading list: myhost
-Found 15 checksums
+Reading list: newClient
+Found 17 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 33333333333333333333333333333333-0 3\r
@@ -8634,8 +9270,10 @@ Crawling through DB
 5252f242d27b8c2c9fdbdcbb33545d07-0 42        \r
 77777777777777777777777777777777-0 7 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
+8a61083e712200a30c6ccf5f5c697b76-0 5         \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
                                     \r
 Warning: dddddddddddddddddddddddddddddddd-0: Setting missing metadata
@@ -8645,16 +9283,18 @@ f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
                                              \r
-Found 14 valid and 0 broken data files
-Checksum(s) from list: 15
+Found 16 valid and 0 broken data files
+Checksum(s) from list: 17
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -8662,15 +9302,17 @@ Checksum(s) from list: 15
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Checksum(s) with data: 14
+Checksum(s) with data: 16
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 33333333333333333333333333333333-0, 3
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 77777777777777777777777777777777-0, 7
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> dddddddddddddddddddddddddddddddd-0, 2
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -8697,7 +9339,8 @@ Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
 Reading list: myhost
-Found 15 checksums
+Reading list: newClient
+Found 17 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 33333333333333333333333333333333-0 3\r
@@ -8705,8 +9348,10 @@ Crawling through DB
 5252f242d27b8c2c9fdbdcbb33545d07-0 42        \r
 77777777777777777777777777777777-0 7 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
+8a61083e712200a30c6ccf5f5c697b76-0 5         \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
 dddddddddddddddddddddddddddddddd-0 2\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
@@ -8714,16 +9359,18 @@ f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
                                              \r
-Found 14 valid and 0 broken data files
-Checksum(s) from list: 15
+Found 16 valid and 0 broken data files
+Checksum(s) from list: 17
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -8731,15 +9378,17 @@ Checksum(s) from list: 15
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Checksum(s) with data: 14
+Checksum(s) with data: 16
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 33333333333333333333333333333333-0, 3
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 77777777777777777777777777777777-0, 7
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> dddddddddddddddddddddddddddddddd-0, 2
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -8766,30 +9415,35 @@ Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
 Reading list: myhost
-Found 15 checksums
+Reading list: newClient
+Found 17 checksums
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42        \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
+8a61083e712200a30c6ccf5f5c697b76-0 5         \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
                                              \r
-Found 11 valid and 0 broken data files
-Checksum(s) from list: 15
+Found 13 valid and 0 broken data files
+Checksum(s) from list: 17
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -8797,13 +9451,15 @@ Checksum(s) from list: 15
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Checksum(s) with data: 11
+Checksum(s) with data: 13
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
@@ -8877,10 +9533,18 @@ Test: backup recovers broken checksums + replace data
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -9177,8 +9841,37 @@ Mf zr   test2/testfile2
 If f    test2/testfile~
 Register modified: myhost
 Database closed: myhost
-Trying client 'other' using protocol 'ssh'
-Error: other: Protocol not supported ssh
+Trying client 'newClient' using protocol 'ssh'
+ -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
+ -> Reading client configuration file: newClient
+ -> Client: newClient
+ --> Protocol: ssh
+ --> Options: username=user, password=p4sS?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ --> No error if same file fails copy again
+ --> Ignore filters:
+ ---> nothing
+ --> Paths: 
+ ---> Path: /home/Blah/test
+ ----> No error if same file fails copy again
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Ignore filters:
+ -----> nothing
+ ----> Compress filter: compress
+Backing up client: newClient
+Database open r/w: newClient
+Backing up path: /home/Blah/test
+ -> umount -fl test_db/.mount/newClient
+ -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
+dir\r
+   \r
+Database closed: newClient
+ -> umount -fl test_db/.mount/newClient
+Trying client 'other' using protocol 'none'
+Error: other: Protocol not supported none
 Missing checksums list updated
 List of problematic checksums contains 2 item(s)
 Database closed
@@ -9255,6 +9948,13 @@ path "test1"
   filter "and" "cvs_entries"
     condition "name" "Entries"
   no_compress "cvs_entries"
+Config for test_db/.configs/newClient
+report_copy_error_once
+path "/home/Blah/test/"
+  filter "or" "compress"
+    condition "name" "File2.txt"
+    condition "path" "dir/file3.txt"
+  compress "compress"
 
 Test: second backup should not recover again
  -> Reading configuration file: etc/hbackup.conf
@@ -9314,10 +10014,18 @@ Test: second backup should not recover again
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -9594,8 +10302,37 @@ testdir\r
        \r
 If f    test2/testfile~
 Database closed: myhost
-Trying client 'other' using protocol 'ssh'
-Error: other: Protocol not supported ssh
+Trying client 'newClient' using protocol 'ssh'
+ -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
+ -> Reading client configuration file: newClient
+ -> Client: newClient
+ --> Protocol: ssh
+ --> Options: username=user, password=p4sS?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ --> No error if same file fails copy again
+ --> Ignore filters:
+ ---> nothing
+ --> Paths: 
+ ---> Path: /home/Blah/test
+ ----> No error if same file fails copy again
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Ignore filters:
+ -----> nothing
+ ----> Compress filter: compress
+Backing up client: newClient
+Database open r/w: newClient
+Backing up path: /home/Blah/test
+ -> umount -fl test_db/.mount/newClient
+ -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
+dir\r
+   \r
+Database closed: newClient
+ -> umount -fl test_db/.mount/newClient
+Trying client 'other' using protocol 'none'
+Error: other: Protocol not supported none
 List of problematic checksums contains 2 item(s)
 Database closed
 
@@ -9657,10 +10394,18 @@ Test: scan shows recovered data
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -9704,7 +10449,8 @@ Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
 Reading list: myhost
-Found 16 checksums
+Reading list: newClient
+Found 18 checksums
 Crawling through DB
 0f2ea973d77135dc3d06c8e68da6dc59-0 77 65\r
 26ab0db90d72e28ad0ba1e22ee510510-0 2    \r
@@ -9714,8 +10460,10 @@ Warning: 5252f242d27b8c2c9fdbdcbb33545d07-0: Adding missing metadata
 5252f242d27b8c2c9fdbdcbb33545d07-0 42 67\r
 6d7fce9fee471194aa8b5b6e47267f03-0 2    \r
 816df6f64deba63b029ca19d880ee10a-0 512000 536\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
+8a61083e712200a30c6ccf5f5c697b76-0 5         \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
 d41d8cd98f00b204e9800998ecf8427e-0 0 \r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
@@ -9724,8 +10472,8 @@ f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 185   \r
 fef51838cd3cfe8ed96355742eb71fbd-0 161\r
                                       \r
-Found 15 valid and 0 broken data files
-Checksum(s) from list: 16
+Found 17 valid and 0 broken data files
+Checksum(s) from list: 18
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
@@ -9733,8 +10481,10 @@ Checksum(s) from list: 16
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -9742,15 +10492,17 @@ Checksum(s) from list: 16
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Checksum(s) with data: 15
+Checksum(s) with data: 17
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -9824,10 +10576,18 @@ Test: check finds corrupted data
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -9873,8 +10633,10 @@ Crawling through DB data
 5252f242d27b8c2c9fdbdcbb33545d07-0 42 67     \r
 6d7fce9fee471194aa8b5b6e47267f03-0 2    \r
 816df6f64deba63b029ca19d880ee10a-0 512000 536\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
+8a61083e712200a30c6ccf5f5c697b76-0 5         \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
 d41d8cd98f00b204e9800998ecf8427e-0 0 \r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
@@ -9888,7 +10650,7 @@ Checksum: 0de026794b4612fbca289ed619a3ea9a
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 -1\r
 fef51838cd3cfe8ed96355742eb71fbd-0 161\r
                                       \r
-Found 14 valid and 1 broken data files
+Found 16 valid and 1 broken data files
 Database closed
 
 Test: scan removes corrupted data
@@ -9949,10 +10711,18 @@ Test: scan removes corrupted data
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -9996,7 +10766,8 @@ Reading list: client.xp
 Reading list: myClient
 Reading list: myClient.xp
 Reading list: myhost
-Found 16 checksums
+Reading list: newClient
+Found 18 checksums
 Crawling through DB
 0f2ea973d77135dc3d06c8e68da6dc59-0 77 65\r
 26ab0db90d72e28ad0ba1e22ee510510-0 2    \r
@@ -10004,8 +10775,10 @@ Crawling through DB
 5252f242d27b8c2c9fdbdcbb33545d07-0 42 67     \r
 6d7fce9fee471194aa8b5b6e47267f03-0 2    \r
 816df6f64deba63b029ca19d880ee10a-0 512000 536\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30        \r
+8a61083e712200a30c6ccf5f5c697b76-0 5         \r
+8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
 d41d8cd98f00b204e9800998ecf8427e-0 0 \r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
@@ -10016,8 +10789,8 @@ fb00cd74a5f35e89a7fbdd3c1d05375a-0: Removed corrupted data
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 185\r
 fef51838cd3cfe8ed96355742eb71fbd-0 161\r
                                       \r
-Found 14 valid and 1 broken data files
-Checksum(s) from list: 16
+Found 16 valid and 1 broken data files
+Checksum(s) from list: 18
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
@@ -10025,8 +10798,10 @@ Checksum(s) from list: 16
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, -1
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -10034,15 +10809,17 @@ Checksum(s) from list: 16
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
  -> fef51838cd3cfe8ed96355742eb71fbd-0, 161
-Checksum(s) with data: 14
+Checksum(s) with data: 16
  -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 816df6f64deba63b029ca19d880ee10a-0, 512000
+ -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
  -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
+ -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
@@ -10115,10 +10892,18 @@ Test: third backup should not recover again
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -10399,8 +11184,37 @@ Rf ~    test2/testfile2
 If f    test2/testfile~
 Register modified: myhost
 Database closed: myhost
-Trying client 'other' using protocol 'ssh'
-Error: other: Protocol not supported ssh
+Trying client 'newClient' using protocol 'ssh'
+ -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
+ -> Reading client configuration file: newClient
+ -> Client: newClient
+ --> Protocol: ssh
+ --> Options: username=user, password=p4sS?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ --> No error if same file fails copy again
+ --> Ignore filters:
+ ---> nothing
+ --> Paths: 
+ ---> Path: /home/Blah/test
+ ----> No error if same file fails copy again
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Ignore filters:
+ -----> nothing
+ ----> Compress filter: compress
+Backing up client: newClient
+Database open r/w: newClient
+Backing up path: /home/Blah/test
+ -> umount -fl test_db/.mount/newClient
+ -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
+dir\r
+   \r
+Database closed: newClient
+ -> umount -fl test_db/.mount/newClient
+Trying client 'other' using protocol 'none'
+Error: other: Protocol not supported none
 Missing checksums list updated
 List of problematic checksums contains 2 item(s)
 Database closed
@@ -10475,6 +11289,13 @@ path "test1"
   filter "and" "cvs_entries"
     condition "name" "Entries"
   no_compress "cvs_entries"
+Config for test_db/.configs/newClient
+report_copy_error_once
+path "/home/Blah/test/"
+  filter "or" "compress"
+    condition "name" "File2.txt"
+    condition "path" "dir/file3.txt"
+  compress "compress"
 
 Test: declared path missing
  -> Reading configuration file: etc/hbackup.conf
@@ -10534,10 +11355,18 @@ Test: declared path missing
  ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
- ---> Client: other
+ ---> Client: newClient
  ----> Protocol: ssh
+ ----> Options: username=user, password=p4sS?
+ ----> Config: /home/Blah/hbackup.list
+ ----> Expiry: none
+ ----> Ignore filters:
+ -----> nothing
+ ---> Client: other
+ ----> Protocol: none
  ----> Hostname: otherClient
- ----> Config: /home/backup/Backup.list
+ ----> Options: username=foo, password=bar
+ ----> Config: /home/Blah/hbackup.list
  ----> Expiry: 86400s (1d)
  ----> Filter: and subdir
  -----> Condition: path_start subdir
@@ -10661,3 +11490,10 @@ path "test1"
   filter "and" "cvs_entries"
     condition "name" "Entries"
   no_compress "cvs_entries"
+Config for test_db/.configs/newClient
+report_copy_error_once
+path "/home/Blah/test/"
+  filter "or" "compress"
+    condition "name" "File2.txt"
+    condition "path" "dir/file3.txt"
+  compress "compress"

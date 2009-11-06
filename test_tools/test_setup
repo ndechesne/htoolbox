@@ -10,11 +10,13 @@ TESTDIR="test1"
 TESTDIR2="test2"
 TESTDIRCIFS="test_cifs"
 TESTDIRNFS="test_nfs"
+TESTDIRSSH="test_ssh"
 TESTDIRUSER="test_user"
 TESTDBDIR="test_db"
 TESTRESTORE="test_r"
 
 ROOTDIRNFS="/home/User"
+ROOTDIRSSH="/home/Blah"
 
 # Create given directory, enter it
 if [ -n "$1" ]; then
@@ -27,6 +29,7 @@ else
   rm -rf "$TESTDIR2"
   rm -rf "$TESTDIRCIFS"
   rm -rf "$TESTDIRNFS"
+  rm -rf "$TESTDIRSSH"
   rm -rf "$TESTDIRUSER"
   rm -rf "$TESTRESTORE"
 fi
@@ -38,10 +41,12 @@ export TESTDIR="$TESTDIR"
 export TESTDIR2="$TESTDIR2"
 export TESTDIRCIFS="$TESTDIRCIFS"
 export TESTDIRNFS="$TESTDIRNFS"
+export TESTDIRSSH="$TESTDIRSSH"
 export TESTDIRUSER="$TESTDIRUSER"
 export TESTDBDIR="$TESTDBDIR"
 export TESTRESTORE="$TESTRESTORE"
 export ROOTDIRNFS="$ROOTDIRNFS"
+export ROOTDIRSSH="$ROOTDIRSSH"
 EOF
 
 # Test bench
@@ -215,6 +220,26 @@ path "$ROOTDIRNFS/test/"
   compress compress
 EOF
 
+# SSH test
+mkdir -p "$TESTDIRSSH/test"
+echo ssh1 > "$TESTDIRSSH/test/File2.txt"
+mkdir -p "$TESTDIRSSH/test/dir"
+echo ssh3 > "$TESTDIRSSH/test/dir/file3.txt"
+mkdir -p "$TESTDIRSSH/test1"
+mkdir -p "$TESTDIRSSH/test2"
+echo ssh3 > "$TESTDIRSSH/test2/File3.txt"
+echo ssh4 > "$TESTDIRSSH/test2/File4.txt"
+cat << EOF > "$TESTDIRSSH/hbackup.list"
+report_copy_error_once
+path "$ROOTDIRSSH/test/"
+
+  filter or compress
+    condition name File2.txt
+    condition path dir/file3.txt
+
+  compress compress
+EOF
+
 # User-mode test
 mkdir -p "$TESTDIRUSER/testuser"
 echo 10 > "$TESTDIRUSER/testuser/f1.txt"
@@ -263,10 +288,18 @@ client myClient
   hostname myClient
   config $ROOTDIRNFS/hbackup.list
 
-client other
+client newClient
   protocol ssh
+  option username user
+  option password p4sS?
+  config $ROOTDIRSSH/hbackup.list
+
+client other
+  protocol none
   hostname otherClient
-  config /home/backup/Backup.list
+  option username foo
+  option password bar
+  config $ROOTDIRSSH/hbackup.list
   # This is a comment
   filter and subdir
     condition path_start subdir

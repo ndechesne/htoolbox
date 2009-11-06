@@ -461,10 +461,18 @@ users	backup	root
 hostname	myClient	
 config	/home/User/hbackup.list	
 
-client	other	
+client	newClient	
 protocol	ssh	
+option	username	user	
+option	password	p4sS?	
+config	/home/Blah/hbackup.list	
+
+client	other	
+protocol	none	
 hostname	otherClient	
-config	/home/backup/Backup.list	
+option	username	foo	
+option	password	bar	
+config	/home/Blah/hbackup.list	
 
 filter	and	subdir	
 condition	path_start	subdir	

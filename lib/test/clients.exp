@@ -42,7 +42,8 @@ Database closed
  --> Expiry: none
  -> Client: otherClient
  --> Protocol: ssh
- --> Config: c:/home/backup/Backup.list
+ --> Options: username=foo, password=barZ?
+ --> Config: /home/Blah/hbackup.list
  --> Expiry: none
 >List 4 client(s):
  -> Client: myClient
@@ -57,7 +58,8 @@ Database closed
  --> Expiry: none
  -> Client: otherClient
  --> Protocol: ssh
- --> Config: c:/home/backup/Backup.list
+ --> Options: username=foo, password=barZ?
+ --> Config: /home/Blah/hbackup.list
  --> Expiry: none
  -> Client: Client
  --> Protocol: smb
@@ -77,7 +79,8 @@ Database closed
  --> Expiry: none
  -> Client: otherClient
  --> Protocol: ssh
- --> Config: c:/home/backup/Backup.list
+ --> Options: username=foo, password=barZ?
+ --> Config: /home/Blah/hbackup.list
  --> Expiry: none
  -> Client: Client
  --> Protocol: smb
@@ -103,7 +106,8 @@ Database closed
  --> Expiry: none
  -> Client: otherClient
  --> Protocol: ssh
- --> Config: c:/home/backup/Backup.list
+ --> Options: username=foo, password=barZ?
+ --> Config: /home/Blah/hbackup.list
  --> Expiry: none
  -> Client: Client
  --> Protocol: smb
@@ -135,7 +139,8 @@ Database closed
  --> Expiry: none
  -> Client: otherClient
  --> Protocol: ssh
- --> Config: c:/home/backup/Backup.list
+ --> Options: username=foo, password=barZ?
+ --> Config: /home/Blah/hbackup.list
  --> Expiry: none
  -> Client: Client
  --> Protocol: smb
@@ -224,7 +229,37 @@ Error: Cannot decode multiplier
 Error: test_db/mount/Backup/Backup2.LST: 17: Failed to add condition
  -> umount -fl test_db/mount
 Trying client 'otherClient' using protocol 'ssh'
-Error: otherClient: Protocol not supported ssh
+ -> echo barZ? | sshfs -o password_stdin foo@otherClient:/home/Blah test_db/mount
+ -> Reading client configuration file: otherClient
+ -> Client: otherClient
+ --> Protocol: ssh
+ --> Options: username=foo, password=barZ?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ --> No error if same file fails copy again
+ --> Paths: 
+ ---> Path: /home/Blah/test
+ ----> No error if same file fails copy again
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
+Backing up client: otherClient
+Register created: otherClient
+Database open r/w: otherClient
+Backing up path: /home/Blah/test
+ -> umount -fl test_db/mount
+ -> echo barZ? | sshfs -o password_stdin foo@otherClient:/home/Blah/test test_db/mount
+Adding compressed data for b8bbb1294db5d59366b7d1827e2158d6-0
+Af z    /home/Blah/test/File2.txt
+Ad      /home/Blah/test/dir
+dir\r
+   \r
+Adding compressed data for 8a61083e712200a30c6ccf5f5c697b76-0
+Af z    /home/Blah/test/dir/file3.txt
+Register modified: otherClient
+Database closed: otherClient
+ -> umount -fl test_db/mount
 Trying client 'Client' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
 Error: test_db/mount/home/BlaH/Backup.list: Client configuration file not found
@@ -672,11 +707,12 @@ Database closed
 Database open in read-only mode
 
 Clients in DB
-Records found: 5
+Records found: 6
  myClient
  myhost
  myhost2
  myhost3
+ otherClient
  testhost
 
 Paths in 'myhost' client in DB
@@ -1094,10 +1130,11 @@ Database closed: myClient.xp
 Database closed
 
 Clients in DB
-Records found: 6
+Records found: 7
  myClient
  myClient.xp
  myhost
  myhost2
  myhost3
+ otherClient
  testhost

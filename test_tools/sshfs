@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# echo <password> | sshfs -o password_stdin <user>@<server>:<path> <mount path>
+
+if [ "$1" !=  "-o" ]; then
+  exit -EINVAL
+fi
+shift
+
+if [ "$1" !=  "password_stdin" ]; then
+  exit -EINVAL
+fi
+shift
+
+# Get source path
+src="$TESTDIRSSH`echo $1 | sed "s%.*$ROOTDIRSSH%%"`"
+shift
+
+# Get destination
+dest="$1"
+shift
+
+# See if told to fail (nfs)
+if [ -r "$src/fail" ]; then
+  exit 1
+fi
+
+# Simulate mounting of share
+rm -rf "$dest"
+cp -a "$src" "$dest"
+
+# Success
+exit 0
