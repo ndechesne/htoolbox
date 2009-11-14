@@ -150,7 +150,12 @@ if [ -n "$HWBACKUP_VERBOSE" ]; then
 fi
 
 # Clients
-CLIENTS=`ls "$HWBACKUP_DB"`
+CLIENTS=
+for CLIENT in `ls "$HWBACKUP_DB"`; do
+  if [ -r "$HWBACKUP_DB/$CLIENT/list" ]; then
+    CLIENTS="$CLIENTS $CLIENT"
+  fi
+done
 if [ -z "$CLIENTS" ]; then
   if [ -n "$HWBACKUP_VERBOSE" ]; then
     echo "No clients found"

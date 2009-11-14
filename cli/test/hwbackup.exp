@@ -159,3 +159,35 @@ Index:
     <p>Last unfinished backup on 2008-07-28 at 00:45:00 UTC.</p>
   </body>
 </html>
+
+Same as above, with unrelated directory
+Looking at DB in 'test_db'
+Web pages will be created in 'test_web'
+Clients: 'aClient.vista' 'myClient' 'myClient.xp'
+Index:
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>HBackup report</title>
+    <meta name="GENERATOR" content="Hand-coded HTML" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="refresh" content="600" />
+  </head>
+  <body>
+    <h1>HBackup report</h1>
+    <p>Generated on 1971-03-07 at 21:40:00 UTC.</p>
+    <h2>Database</h2>
+    <p>Last full scan on 2008-07-28 at 00:00:00 UTC.</p>
+    <p>Last full check on 2008-07-28 at 00:01:00 UTC.</p>
+    <h2>Clients</h2>
+    <h3>aClient.vista</h3>
+    <p>Last full backup on 2008-07-27 at 23:59:00 UTC.</p>
+    <p>No unfinished backup.</p>
+    <h3>myClient</h3>
+    <p>No full backup.</p>
+    <p>Last unfinished backup on 2008-07-28 at 00:15:00 UTC.</p>
+    <h3>myClient.xp</h3>
+    <p>Last full backup on 2008-07-28 at 00:32:00 UTC.</p>
+    <p>Last unfinished backup on 2008-07-28 at 00:45:00 UTC.</p>
+  </body>
+</html>

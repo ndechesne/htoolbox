@@ -82,3 +82,10 @@ echo "Backup for three clients, second and third not finished"
 $prog -c etc/hbackup.conf -v -w test_web
 echo "Index:"
 cat test_web/index.xhtml
+
+echo
+echo "Same as above, with unrelated directory"
+mkdir test_db/stupid_dir
+$prog -c etc/hbackup.conf -v -w test_web
+echo "Index:"
+cat test_web/index.xhtml
