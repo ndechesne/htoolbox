@@ -99,7 +99,7 @@ by the keywords below:</p>
       <br>network address (e.g. IP address)</td>
     <td><code>hostname "&lt;client host name&gt;"</code>
       <br><code>hostname "&lt;client IP address&gt;"</code></td>
-    <td><code>hostname "everest"</code>
+    <td><code>hostname "everest.local"</code>
       <br><code>hostname "192.168.0.2"</code></td>
   </tr>
   <tr>
@@ -116,8 +116,17 @@ by the keywords below:</p>
 <p>The config option may be omitted and a <a href="client.html">client
 configuration</a> inlined in its place (cf. example below).</p>
 
-<p>Note: for SMB protocol users: hbackup uses CIFS, and as such will
-<b>NOT</b> use the SMB protocol to resolve client names into IP addresses.</p>
+<p>Note for SMB protocol users: hbackup uses CIFS, and as such will not use the
+SMB protocol to resolve client names into IP addresses. See below.</p>
+
+<p>Note on client names: if you do not have a name server (DNS) in your network
+(very likely if you are a home user), you will need to use the hostname keyword
+to either specify an IP address (make sure it never changes!) or a
+zero-configuration networking hostname (<code>hostname "&lt;client host
+name&gt;.local"</code>), using the Zeroconf protocol.
+Modern Linux distribution come with it pre-installed,
+and you can install Apple Bonjour on your Windows machines.
+MacOS X machines obviously have Bonjour as standard (since 10.2).</p>
 
 <h2>Filter section</h2>
 
