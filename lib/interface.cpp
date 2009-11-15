@@ -136,6 +136,8 @@ int HBackup::readConfig(const char* config_path) {
     config_syntax.add(db);
     // compress [always, auto_now, auto_later, never]
     db->add(new ConfigItem("compress", 0, 1, 1, 1));
+    // old keyword for compress auto
+    db->add(new ConfigItem("compress_auto", 0, 1));
   }
   // filter
   {
@@ -373,7 +375,7 @@ int HBackup::readConfig(const char* config_path) {
       } else
       if (c_path != NULL) {
         if (((*params)[0] == "compress")
-	||  ((*params)[0] == "no_compress")) {
+         || ((*params)[0] == "no_compress")) {
           Filter* filter = c_path->attributes.findFilter((*params)[1]);
           if (filter == NULL) {
             filter = client->attributes.findFilter((*params)[1]);
@@ -426,6 +428,10 @@ int HBackup::readConfig(const char* config_path) {
             (*params).lineNo(), config_path);
           return -1;
         }
+      } else
+      // Backwards compatibility
+      if ((*params)[0] == "compress_auto") {
+        _d->db_compress_mode = OpData::auto_now;
       } else
       if ((*params)[0] == "report_copy_error_once") {
         _d->attributes.setReportCopyErrorOnce();

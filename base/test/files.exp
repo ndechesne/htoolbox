@@ -436,6 +436,8 @@ getParams
 db	test_db	
 compress	auto	
 
+compress_auto	
+
 filter	all	nothing	
 condition	type	pipe	
 condition	size>	10	

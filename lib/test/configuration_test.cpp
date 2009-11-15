@@ -120,6 +120,9 @@ int main(void) {
 
     // compress
     item->add(new ConfigItem("compress", 0, 1, 1, 1));
+
+    // compress_auto: to be ignored
+    item->add(new ConfigItem("compress_auto", 0, 1));
   }
 
   // filter

@@ -262,6 +262,8 @@ mkdir "$CONFIGDIR"
 cat << EOF > "$CONFIGDIR/hbackup.conf"
 db "$TESTDBDIR"
   compress auto
+  # Check backwards compatibility
+  compress_auto
 
 filter all nothing
   condition type pipe
