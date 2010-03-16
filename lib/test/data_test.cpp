@@ -119,63 +119,14 @@ int main(void) {
     << ", getdir_path: " << getdir_path << endl;
 
 
-  cout << endl << "Test: write and read back with auto-compression" << endl;
-  /* Write */
   char*     chksm = NULL;
   long long size;
   bool      compressed;
-  Stream testfile("test1/testfile");
-  if ((status = db.write(testfile, "temp_data", &chksm, 5, true)) < 0) {
-    printf("db.write error status %d\n", status);
-    db.close();
-    return 0;
-  }
-  if (chksm == NULL) {
-    printf("db.write returned unexpected null checksum\n");
-    db.close();
-    return 0;
-  }
-  cout << chksm << "  test1/testfile" << endl;
-  cout << "Meta file contents: " << endl;
-  sys_rc = system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
-  cout << endl;
-  /* Check */
-  if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
-    printf("db.check error status %d\n", status);
-    db.close();
-    return 0;
-  }
-
-  /* Read */
-  if ((status = db.read("test_db/blah", chksm))) {
-    printf("db.read error status %d\n", status);
-    db.close();
-    return 0;
-  }
-  /* Write again */
-  free(chksm);
-  chksm = NULL;
-  Stream blah("test_db/blah");
-  if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
-    printf("db.write error status %d\n", status);
-    db.close();
-    return 0;
-  }
-  if (chksm == NULL) {
-    printf("db.write returned unexpected null checksum\n");
-    db.close();
-    return 0;
-  }
-  cout << chksm << "  test_db/blah" << endl;
-
-
   {
-    cout << endl << "Test: write and read back with forbidden compression"
-      << endl;
+    cout << endl << "Test: write and read back with no compression (auto)" << endl;
     /* Write */
-    free(chksm);
     Stream testfile("test1/testfile");
-    if ((status = db.write(testfile, "temp_data", &chksm, -1, true)) < 0) {
+    if ((status = db.write(testfile, "temp_data", &chksm, 5, true)) < 0) {
       printf("db.write error status %d\n", status);
       db.close();
       return 0;
@@ -185,10 +136,9 @@ int main(void) {
       db.close();
       return 0;
     }
-    cout << chksm << "  test1/testfile" << endl;
+    cout << chksm << "  " << testfile.path() << endl;
     cout << "Meta file contents: " << endl;
-    sys_rc =
-      system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+    sys_rc = system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
     cout << endl;
     /* Check */
     if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
@@ -217,11 +167,112 @@ int main(void) {
       db.close();
       return 0;
     }
-    cout << chksm << "  test_db/blah" << endl;
+    cout << chksm << "  " << blah.path() << endl;
   }
 
 
-  cout << endl << "Test: write and read back with compression" << endl;
+  {
+    cout << endl << "Test: write and read back with compression (auto)" << endl;
+    /* Write */
+    Stream testfile("test1/big_file");
+    if ((status = db.write(testfile, "temp_data", &chksm, 5, true)) < 0) {
+      printf("db.write error status %d\n", status);
+      db.close();
+      return 0;
+    }
+    if (chksm == NULL) {
+      printf("db.write returned unexpected null checksum\n");
+      db.close();
+      return 0;
+    }
+    cout << chksm << "  " << testfile.path() << endl;
+    cout << "Meta file contents: " << endl;
+    sys_rc = system("cat test_db/data/f1/c9645dbc14efddc7d8a322685f26eb-0/meta");
+    cout << endl;
+    /* Check */
+    if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
+      printf("db.check error status %d\n", status);
+      db.close();
+      return 0;
+    }
+
+    /* Read */
+    if ((status = db.read("test_db/blah", chksm))) {
+      printf("db.read error status %d\n", status);
+      db.close();
+      return 0;
+    }
+    /* Write again */
+    free(chksm);
+    chksm = NULL;
+    Stream blah("test_db/blah");
+    if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
+      printf("db.write error status %d\n", status);
+      db.close();
+      return 0;
+    }
+    if (chksm == NULL) {
+      printf("db.write returned unexpected null checksum\n");
+      db.close();
+      return 0;
+    }
+    cout << chksm << "  " << blah.path() << endl;
+  }
+
+
+  Stream testfile("test1/testfile");
+  Stream blah("test_db/blah");
+  {
+    cout << endl << "Test: write and read back with forbidden compression"
+      << endl;
+    /* Write */
+    free(chksm);
+    if ((status = db.write(testfile, "temp_data", &chksm, -1, true)) < 0) {
+      printf("db.write error status %d\n", status);
+      db.close();
+      return 0;
+    }
+    if (chksm == NULL) {
+      printf("db.write returned unexpected null checksum\n");
+      db.close();
+      return 0;
+    }
+    cout << chksm << "  " << testfile.path() << endl;
+    cout << "Meta file contents: " << endl;
+    sys_rc =
+      system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+    cout << endl;
+    /* Check */
+    if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
+      printf("db.check error status %d\n", status);
+      db.close();
+      return 0;
+    }
+
+    /* Read */
+    if ((status = db.read("test_db/blah", chksm))) {
+      printf("db.read error status %d\n", status);
+      db.close();
+      return 0;
+    }
+    /* Write again */
+    free(chksm);
+    chksm = NULL;
+    if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
+      printf("db.write error status %d\n", status);
+      db.close();
+      return 0;
+    }
+    if (chksm == NULL) {
+      printf("db.write returned unexpected null checksum\n");
+      db.close();
+      return 0;
+    }
+    cout << chksm << "  " << blah.path() << endl;
+  }
+
+
+  cout << endl << "Test: write and read back with forced compression" << endl;
   Node("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data").remove();
   /* Write */
   free(chksm);
@@ -236,7 +287,7 @@ int main(void) {
     db.close();
     return 0;
   }
-  cout << chksm << "  test1/testfile" << endl;
+  cout << chksm << "  " << testfile.path() << endl;
   cout << "Meta file contents: " << endl;
   sys_rc = system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
   cout << endl;
@@ -292,7 +343,7 @@ int main(void) {
     db.close();
     return 0;
   }
-  cout << chksm << "  test_db/blah" << endl;
+  cout << chksm << "  " << blah.path() << endl;
 
 
   cout << endl << "Test: organise" << endl;

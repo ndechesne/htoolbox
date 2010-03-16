@@ -486,6 +486,7 @@ int Data::write(
   Stream* dest = temp1;
   // Size for comparison with existing DB data
   long long size_cmp = temp1->size();
+  // If temp2 is not NULL then auto_comp is true
   if (temp2 != NULL) {
     // Add ~1.6% to gzip'd size
     long long size_gz = temp1->size() + (temp1->size() >> 6);
@@ -499,10 +500,12 @@ int Data::write(
       delete temp1;
       dest     = temp2;
       size_cmp = size_gz;
+      comp_case = size_no;
       compress = 0;
     } else {
       temp2->remove();
       delete temp2;
+      comp_case = size_yes;
     }
   }
 
@@ -609,9 +612,7 @@ int Data::write(
         failed = true;
       } else {
         // Always add metadata (size) file (no action on failure)
-        setMetadata(final_path, source.dataSize(),
-          (comp_case == forced_no) ? forced_no :
-            (auto_comp ? forced_yes : later));
+        setMetadata(final_path, source.dataSize(), comp_case);
       }
       free(name);
     }
