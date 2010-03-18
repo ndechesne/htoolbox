@@ -27,9 +27,9 @@ class Data {
 protected: // So I can test them
   enum CompressionCase {
     forced_no = '-',
-    forced_yes = '+',
-    size_no = '<',
-    size_yes = '>',
+    forced_yes = 'f',
+    size_no = '.',
+    size_yes = '+',
     later = ' ',
     unknown = '?'
   };
