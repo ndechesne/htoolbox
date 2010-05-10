@@ -38,7 +38,7 @@ paths_test_SOURCES = paths_test.cpp
 report_test_SOURCES = report_test.cpp
 svn_parser_test_SOURCES = svn_parser_test.cpp
 
-LDADD = $(top_srcdir)/lib/libhbackup.la
+LDADD = $(top_builddir)/base/libhtools.la $(top_srcdir)/lib/libhbackup.la
 
 check_SUCCESSES = \
   report.done \
