@@ -128,6 +128,35 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
+  client = new Client("otherClient1");
+  clients.push_back(client);
+  client->setProtocol("ssh");
+  client->setHostOrIp("otherClient");
+  client->addOption("password", "barZ?");
+  client->setListfile("/home/Blah/hbackup.list");
+  printf(">List %u client(s):\n", clients.size());
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->show(1);
+  }
+  client = new Client("otherClient2");
+  clients.push_back(client);
+  client->setProtocol("ssh");
+  client->setHostOrIp("otherClient");
+  client->addOption("username", "foo");
+  client->setListfile("/home/Blah/hbackup.list");
+  printf(">List %u client(s):\n", clients.size());
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->show(1);
+  }
+  client = new Client("otherClient3");
+  clients.push_back(client);
+  client->setProtocol("ssh");
+  client->setHostOrIp("otherClient");
+  client->setListfile("/home/Blah/hbackup.list");
+  printf(">List %u client(s):\n", clients.size());
+  for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
+    (*i)->show(1);
+  }
   client = new Client("Client");
   clients.push_back(client);
   client->setProtocol("smb");

@@ -61,10 +61,11 @@ Database closed
  --> Options: username=foo, password=barZ?
  --> Config: /home/Blah/hbackup.list
  --> Expiry: none
- -> Client: Client
- --> Protocol: smb
- --> Options: username=user, iocharset=utf8
- --> Config: C:/home/BlaH/Backup.list
+ -> Client: otherClient1
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: password=barZ?
+ --> Config: /home/Blah/hbackup.list
  --> Expiry: none
 >List 5 client(s):
  -> Client: myClient
@@ -82,16 +83,17 @@ Database closed
  --> Options: username=foo, password=barZ?
  --> Config: /home/Blah/hbackup.list
  --> Expiry: none
- -> Client: Client
- --> Protocol: smb
- --> Options: username=user, iocharset=utf8
- --> Config: C:/home/BlaH/Backup.list
+ -> Client: otherClient1
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: password=barZ?
+ --> Config: /home/Blah/hbackup.list
  --> Expiry: none
- -> Client: Client2
- --> Protocol: smb
- --> Hostname: Client
- --> Options: nocase, username=user, password=
- --> Config: C:/home/BlaH/Backup.list
+ -> Client: otherClient2
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: username=foo
+ --> Config: /home/Blah/hbackup.list
  --> Expiry: none
 >List 6 client(s):
  -> Client: myClient
@@ -107,6 +109,138 @@ Database closed
  -> Client: otherClient
  --> Protocol: ssh
  --> Options: username=foo, password=barZ?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient1
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: password=barZ?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient2
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: username=foo
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient3
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+>List 7 client(s):
+ -> Client: myClient
+ --> Protocol: nfs
+ --> Config: /home/User/hbackup.list
+ --> Expiry: none
+ -> Client: myClient2
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options: username=Myself, password=flesyM
+ --> Config: C:/Backup/Backup2.LST
+ --> Expiry: none
+ -> Client: otherClient
+ --> Protocol: ssh
+ --> Options: username=foo, password=barZ?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient1
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: password=barZ?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient2
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: username=foo
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient3
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: Client
+ --> Protocol: smb
+ --> Options: username=user, iocharset=utf8
+ --> Config: C:/home/BlaH/Backup.list
+ --> Expiry: none
+>List 8 client(s):
+ -> Client: myClient
+ --> Protocol: nfs
+ --> Config: /home/User/hbackup.list
+ --> Expiry: none
+ -> Client: myClient2
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options: username=Myself, password=flesyM
+ --> Config: C:/Backup/Backup2.LST
+ --> Expiry: none
+ -> Client: otherClient
+ --> Protocol: ssh
+ --> Options: username=foo, password=barZ?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient1
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: password=barZ?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient2
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: username=foo
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient3
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: Client
+ --> Protocol: smb
+ --> Options: username=user, iocharset=utf8
+ --> Config: C:/home/BlaH/Backup.list
+ --> Expiry: none
+ -> Client: Client2
+ --> Protocol: smb
+ --> Hostname: Client
+ --> Options: nocase, username=user, password=
+ --> Config: C:/home/BlaH/Backup.list
+ --> Expiry: none
+>List 9 client(s):
+ -> Client: myClient
+ --> Protocol: nfs
+ --> Config: /home/User/hbackup.list
+ --> Expiry: none
+ -> Client: myClient2
+ --> Protocol: smb
+ --> Hostname: myClient
+ --> Options: username=Myself, password=flesyM
+ --> Config: C:/Backup/Backup2.LST
+ --> Expiry: none
+ -> Client: otherClient
+ --> Protocol: ssh
+ --> Options: username=foo, password=barZ?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient1
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: password=barZ?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient2
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: username=foo
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient3
+ --> Protocol: ssh
+ --> Hostname: otherClient
  --> Config: /home/Blah/hbackup.list
  --> Expiry: none
  -> Client: Client
@@ -126,7 +260,7 @@ Database closed
  --> Options: username=
  --> Config: C:/home/BlaH/Backup.list
  --> Expiry: none
->List 7 client(s):
+>List 10 client(s):
  -> Client: myClient
  --> Protocol: nfs
  --> Config: /home/User/hbackup.list
@@ -140,6 +274,23 @@ Database closed
  -> Client: otherClient
  --> Protocol: ssh
  --> Options: username=foo, password=barZ?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient1
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: password=barZ?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient2
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: username=foo
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ -> Client: otherClient3
+ --> Protocol: ssh
+ --> Hostname: otherClient
  --> Config: /home/Blah/hbackup.list
  --> Expiry: none
  -> Client: Client
@@ -260,6 +411,43 @@ Af z    /home/Blah/test/dir/file3.txt
 Register modified: otherClient
 Database closed: otherClient
  -> fusermount -u test_db/mount
+Trying client 'otherClient1' using protocol 'ssh'
+ -> echo barZ? | sshfs -o password_stdin otherClient:/home/Blah test_db/mount
+ -> Reading client configuration file: otherClient1
+ -> Client: otherClient1
+ --> Protocol: ssh
+ --> Hostname: otherClient
+ --> Options: password=barZ?
+ --> Config: /home/Blah/hbackup.list
+ --> Expiry: none
+ --> No error if same file fails copy again
+ --> Paths: 
+ ---> Path: /home/Blah/test
+ ----> No error if same file fails copy again
+ ----> Filter: or compress
+ -----> Condition: name File2.txt
+ -----> Condition: path dir/file3.txt
+ ----> Compress filter: compress
+Backing up client: otherClient1
+Register created: otherClient1
+Database open r/w: otherClient1
+Backing up path: /home/Blah/test
+ -> fusermount -u test_db/mount
+ -> echo barZ? | sshfs -o password_stdin otherClient:/home/Blah/test test_db/mount
+Af ~    /home/Blah/test/File2.txt
+Ad      /home/Blah/test/dir
+dir\r
+   \r
+Af ~    /home/Blah/test/dir/file3.txt
+Register modified: otherClient1
+Database closed: otherClient1
+ -> fusermount -u test_db/mount
+Trying client 'otherClient2' using protocol 'ssh'
+ -> sshfs foo@otherClient:/home/Blah test_db/mount
+Warning: otherClient2: Connection timed out connecting to client
+Trying client 'otherClient3' using protocol 'ssh'
+ -> sshfs otherClient:/home/Blah test_db/mount
+Warning: otherClient3: Connection timed out connecting to client
 Trying client 'Client' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
 Error: test_db/mount/home/BlaH/Backup.list: Client configuration file not found
@@ -707,12 +895,13 @@ Database closed
 Database open in read-only mode
 
 Clients in DB
-Records found: 6
+Records found: 7
  myClient
  myhost
  myhost2
  myhost3
  otherClient
+ otherClient1
  testhost
 
 Paths in 'myhost' client in DB
@@ -1130,11 +1319,12 @@ Database closed: myClient.xp
 Database closed
 
 Clients in DB
-Records found: 7
+Records found: 8
  myClient
  myClient.xp
  myhost
  myhost2
  myhost3
  otherClient
+ otherClient1
  testhost
