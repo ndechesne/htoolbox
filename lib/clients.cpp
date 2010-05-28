@@ -100,14 +100,17 @@ int Client::mountPath(
   if (_d->protocol == "ssh") {
     _d->fuse_mount = true;
     const string username = getOption("username");
+    if (username != "") {
+      share = username + "@";
+    }
     const string password = getOption("password");
-    if ((password == "") || (username == "")) {
-      errno = EINVAL;
-      return -1;
+    if (password != "") {
+      command = "echo " + password + " | sshfs -o password_stdin";
+    } else {
+      command = "sshfs";
     }
     // echo <password> | sshfs -o password_stdin <user>@<server>:<path> <mount path>
-    command = "echo " + password + " | sshfs -o password_stdin";
-    share   = username + "@" + _d->host_or_ip + ":" + backup_path;
+    share   += _d->host_or_ip + ":" + backup_path;
     path    = mount_point;
   } else {
     errno = EPROTONOSUPPORT;
