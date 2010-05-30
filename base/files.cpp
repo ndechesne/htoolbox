@@ -142,7 +142,8 @@ int Path::compare(const char* s1, const char* s2, ssize_t length) {
             s1++;
             s2++;
           } else {
-            if (*s2 < ' ') {
+	    // For TAB and LF
+            if ((*s2 == '\t') || (*s2 == '\n')) {
               return 1;
             } else {
               return -1;
@@ -150,7 +151,7 @@ int Path::compare(const char* s1, const char* s2, ssize_t length) {
           }
         } else {
           if (*s2 == '/') {
-            if (*s1 < ' ') {
+            if ((*s1 == '\t') || (*s1 == '\n')) {
               return -1;
             } else {
               return 1;

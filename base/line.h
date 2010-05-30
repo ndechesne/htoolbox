@@ -258,6 +258,9 @@ public:
   operator const char* () const {
     return *_line;
   }
+  const char* c_str() const {
+    return _line->c_str();
+  }
   char* buffer() {
     return instance().str();
   }

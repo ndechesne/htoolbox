@@ -215,6 +215,14 @@ int main(void) {
   }
   sys_rc = system("echo \"this is my new test\" > test1/testfile");
 
+  node = new Link("test1/testlink");
+  add(journal, "CR/x", time(NULL), node);
+  free(node);
+
+  node = new Link("test1/testlink");
+  add(journal, "CR\r", time(NULL), node);
+  free(node);
+
   node = new Stream("test1/test space");
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
