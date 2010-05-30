@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # Set mask
 umask 0022
@@ -89,9 +89,21 @@ mkdir "$CVSDIR/dirbad"
 touch "$CVSDIR/dirbad/fileoth"
 touch "$CVSDIR/dirbad/fileutd"
 mkdir "$CVSDIR/diroth"
+mkdir "$CVSDIR/dir space"
+touch "$CVSDIR/dir space/file space"
+touch "$CVSDIR/dir space/file other"
 mkdir "$CVSDIR/dirutd"
 touch "$CVSDIR/dirutd/fileoth"
 touch "$CVSDIR/dirutd/fileutd"
+
+mkdir "$CVSDIR/dir space/CVS"
+cat << EOF > "$CVSDIR/dir space/CVS/Entries"
+/file space/1.5/Sun May 30 22:19:13 2010//
+D
+EOF
+echo "Some space root" > "$CVSDIR/dir space/CVS/Root"
+echo "Some space thing" > "$CVSDIR/dir space/CVS/Whatever"
+
 mkdir "$CVSDIR/dirutd/CVS"
 cat << EOF > "$CVSDIR/dirutd/CVS/Entries"
 /fileutd/1.2/Wed Oct  4 18:04:40 2006//
@@ -99,6 +111,7 @@ D
 EOF
 echo "Some root" > "$CVSDIR/dirutd/CVS/Root"
 echo "Some thing" > "$CVSDIR/dirutd/CVS/Whatever"
+
 mkdir "$CVSDIR/CVS"
 cat << EOF > "$CVSDIR/CVS/Entries"
 /filenew.c/0/dummy timestamp//
@@ -106,9 +119,11 @@ cat << EOF > "$CVSDIR/CVS/Entries"
 /fileutd.h/1.2/Wed Oct  4 18:04:40 2006//
 D/dirbad////
 D/dirutd////
+D/dir space////
 EOF
 echo "Some other root" > "$CVSDIR/CVS/Root"
 echo "Some other thing" > "$CVSDIR/CVS/Whatever"
+
 mkdir "$CVSDIR/CVS/Wherever"
 touch "$CVSDIR/CVS/Wherever/Whichever"
 
@@ -119,6 +134,8 @@ touch "$SVNDIR/filemod.o"
 touch "$SVNDIR/filenew.c"
 touch "$SVNDIR/fileoth"
 touch "$SVNDIR/fileutd.h"
+mkdir "$SVNDIR/dir space"
+touch "$SVNDIR/dir space/file space"
 mkdir "$SVNDIR/dirbad"
 touch "$SVNDIR/dirbad/fileoth"
 touch "$SVNDIR/dirbad/fileutd"
@@ -126,6 +143,15 @@ mkdir "$SVNDIR/diroth"
 mkdir "$SVNDIR/dirutd"
 touch "$SVNDIR/dirutd/fileoth"
 touch "$SVNDIR/dirutd/fileutd"
+
+mkdir "$SVNDIR/dir space/.svn"
+cat << EOF > "$SVNDIR/dir space/.svn/entries"
+A      file space
+?      file other
+EOF
+echo "Some format" > "$SVNDIR/dir space/.svn/format"
+echo "Something" > "$SVNDIR/dir space/.svn/whatever"
+
 mkdir "$SVNDIR/dirutd/.svn"
 cat << EOF > "$SVNDIR/dirutd/.svn/entries"
 C      fileutd
@@ -133,6 +159,7 @@ C      fileutd
 EOF
 echo "Some format" > "$SVNDIR/dirutd/.svn/format"
 echo "Something" > "$SVNDIR/dirutd/.svn/whatever"
+
 mkdir "$SVNDIR/.svn"
 cat << EOF > "$SVNDIR/.svn/entries"
 A      filenew.c
@@ -143,6 +170,7 @@ I      fileoth
 EOF
 echo "Some other format" > "$SVNDIR/.svn/format"
 echo "Someotherthing" > "$SVNDIR/.svn/whatever"
+
 mkdir "$SVNDIR/.svn/wherever"
 touch "$SVNDIR/.svn/wherever/whichever"
 

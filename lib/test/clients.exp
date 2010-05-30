@@ -537,6 +537,7 @@ Ad      test1/cvs
 cvs\r
    \r
  -> Parsing CVS entries
+ --> dir space: D
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
@@ -545,12 +546,27 @@ cvs\r
 Ad      test1/cvs/CVS
 cvs/CVS\r
        \r
-Adding uncompressed data for fef51838cd3cfe8ed96355742eb71fbd-0
+Adding uncompressed data for f899d6f61138a37484c8a2294656e903-0
 Af f    test1/cvs/CVS/Entries
 Adding compressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 Af z    test1/cvs/CVS/Root
 If p    test1/cvs/CVS/Whatever
 Id p    test1/cvs/CVS/Wherever
+Ad      test1/cvs/dir space
+cvs/dir space\r
+             \r
+ -> Parsing CVS entries
+ --> file space: 1275257953
+Ad      test1/cvs/dir space/CVS
+cvs/dir space/CVS\r
+                 \r
+Adding uncompressed data for 662ae0524981c10b4736be799fc8650a-0
+Af f    test1/cvs/dir space/CVS/Entries
+Adding compressed data for 328b42839732650180b213aadebe494d-0
+Af z    test1/cvs/dir space/CVS/Root
+If p    test1/cvs/dir space/CVS/Whatever
+If p    test1/cvs/dir space/file other
+Af ~    test1/cvs/dir space/file space
 Ad      test1/cvs/dirbad
 cvs/dirbad\r
           \r
@@ -608,6 +624,20 @@ Af z    test1/svn/.svn/entries
 If p    test1/svn/.svn/format
 If p    test1/svn/.svn/whatever
 Id p    test1/svn/.svn/wherever
+Ad      test1/svn/dir space
+svn/dir space\r
+             \r
+ -> Parsing Subversion entries
+ --> file other: o
+ --> file space: m
+Ad      test1/svn/dir space/.svn
+svn/dir space/.svn\r
+                  \r
+Adding compressed data for a1d7fdc1ad743aa02983f5078c67335c-0
+Af z    test1/svn/dir space/.svn/entries
+If p    test1/svn/dir space/.svn/format
+If p    test1/svn/dir space/.svn/whatever
+Af ~    test1/svn/dir space/file space
 Ad      test1/svn/dirbad
 svn/dirbad\r
           \r
@@ -704,6 +734,7 @@ Backing up path: test1
 cvs\r
    \r
  -> Parsing CVS entries
+ --> dir space: D
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
@@ -713,6 +744,14 @@ cvs/CVS\r
        \r
 If p    test1/cvs/CVS/Whatever
 Id p    test1/cvs/CVS/Wherever
+cvs/dir space\r
+             \r
+ -> Parsing CVS entries
+ --> file space: 1275257953
+cvs/dir space/CVS\r
+                 \r
+If p    test1/cvs/dir space/CVS/Whatever
+If p    test1/cvs/dir space/file other
 cvs/dirbad\r
           \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
@@ -750,6 +789,15 @@ svn/.svn\r
 If p    test1/svn/.svn/format
 If p    test1/svn/.svn/whatever
 Id p    test1/svn/.svn/wherever
+svn/dir space\r
+             \r
+ -> Parsing Subversion entries
+ --> file other: o
+ --> file space: m
+svn/dir space/.svn\r
+                  \r
+If p    test1/svn/dir space/.svn/format
+If p    test1/svn/dir space/.svn/whatever
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
@@ -879,6 +927,19 @@ Ad      test1/cvs/CVS/Wherever
 CVS/Wherever\r
             \r
 Af ~    test1/cvs/CVS/Wherever/Whichever
+Ad      test1/cvs/dir space
+dir space\r
+         \r
+Ad      test1/cvs/dir space/CVS
+dir space/CVS\r
+             \r
+Af ~    test1/cvs/dir space/CVS/Entries
+Replacing with uncompressed data for 328b42839732650180b213aadebe494d-0
+Af fr   test1/cvs/dir space/CVS/Root
+Adding uncompressed data for 947c302ec365383856310621ac3fbf2f-0
+Af f    test1/cvs/dir space/CVS/Whatever
+Af ~    test1/cvs/dir space/file other
+Af ~    test1/cvs/dir space/file space
 Ad      test1/cvs/dirbad
 dirbad\r
       \r
@@ -934,8 +995,9 @@ Records found: 1
 Paths in 'myhost' client under test1/cvs/ in DB
 Database open r-o: myhost
 Database closed: myhost
-Records found: 8
+Records found: 9
  test1/cvs/CVS/
+ test1/cvs/dir space/
  test1/cvs/dirbad/
  test1/cvs/diroth/
  test1/cvs/dirutd/
@@ -988,7 +1050,9 @@ Database open r/w: myhost
 Backing up path: test1/cvs
 CVS\r
 CVS/Wherever\r
-dirbad      \r
+dir space   \r
+dir space/CVS\r
+dirbad       \r
 diroth\r
 dirutd\r
 dirutd/CVS\r
@@ -1100,7 +1164,9 @@ Database open r/w: myhost
 Backing up path: test1/cvs
 CVS\r
 CVS/Wherever\r
-dirbad      \r
+dir space   \r
+dir space/CVS\r
+dirbad       \r
 diroth\r
 dirutd\r
 dirutd/CVS\r
@@ -1149,7 +1215,9 @@ Database open r/w: myhost
 Backing up path: test1/cvs
 CVS\r
 CVS/Wherever\r
-dirbad      \r
+dir space   \r
+dir space/CVS\r
+dirbad       \r
 diroth\r
 dirutd\r
 dirutd/CVS\r

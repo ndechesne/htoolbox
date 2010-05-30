@@ -2,6 +2,7 @@
 Only consider controlled files
 test1 is not controlled
  -> Parsing CVS entries
+ --> dir space: D
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
@@ -29,6 +30,7 @@ test1/cvs/CVS is not controlled
 Only consider controlled modified files
 test1 is not controlled
  -> Parsing CVS entries
+ --> dir space: D
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
@@ -56,6 +58,7 @@ test1/cvs/CVS is not controlled
 Only consider controlled modified and non-controlled files
 test1 is not controlled
  -> Parsing CVS entries
+ --> dir space: D
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431
@@ -83,6 +86,7 @@ test1/cvs/CVS is not controlled
 Only consider non-controlled files
 test1 is not controlled
  -> Parsing CVS entries
+ --> dir space: D
  --> dirbad: D
  --> dirutd: D
  --> filemod.o: 1159806431

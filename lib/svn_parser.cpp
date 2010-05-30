@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2009  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -67,7 +67,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) {
 
   /* Fill in list of files */
   out(debug, msg_standard, "Parsing Subversion entries", 1);
-  string command = "svn status --no-ignore --non-interactive -N " + dir_path;
+  string command = "svn st --no-ignore --non-interactive -N \"" + dir_path + "\"";
   FILE* fd = popen(command.c_str(), "r");
   if (fd != NULL) {
     char*   buffer = NULL;
