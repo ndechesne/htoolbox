@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Set mask
 umask 0022
@@ -72,6 +72,11 @@ ln -s "linked space" "$TESTDIR/dir space/link space"
 
 # Big file
 dd if=/dev/zero of=test1/big_file bs=1M count=10 status=noxfer 2> /dev/null
+
+# Strange names
+touch "`echo -e "$TESTDIR/strange1\\01TAB\\tCR\\r"`"
+touch "`echo -e "$TESTDIR/strange2\\01TAB\\tLF\\n"`"
+touch "`echo -e "$TESTDIR/strange3\\01TAB\\tLF\\nCR\\r"`"
 
 # CVS test
 CVSDIR="$TESTDIR/cvs"
@@ -371,7 +376,7 @@ filter and subdir
   condition path_start subdir
   condition !size< 100
 EOF
-echo "\r" >> "$CONFIGDIR/localhost.list"
+echo -e "\r" >> "$CONFIGDIR/localhost.list"
 cat << EOF >> "$CONFIGDIR/localhost.list"
 users biloute machin
 

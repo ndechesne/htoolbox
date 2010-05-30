@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2009  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -69,12 +69,20 @@ int ClientPath::parse_recurse(
         i != dir.nodesList().end(); delete *i, i = dir.nodesList().erase(i)) {
       if (! aborting() && ! give_up) {
         Path rem_path(remote_path, (*i)->name());
-        // Ignore inaccessible files (should not happen)
         char code[] = "       ";
+        // Ignore inaccessible files (should not happen)
         if ((*i)->type() == '?') {
           code[0] = 'I';
           code[1] = (*i)->type();
           code[3] = 'u';
+        } else
+
+        // Ignore files which names contain LF
+        if (strchr((*i)->name(), '\n') != NULL) {
+          out(error, msg_standard, "File name contains LF", -1, (*i)->name());
+          code[0] = 'I';
+          code[1] = (*i)->type();
+          code[3] = 'n';
         } else
 
         // Always ignore a dir named '.hbackup'
