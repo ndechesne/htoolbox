@@ -2,3 +2,7 @@ TODO - non-organised list of things I want to do
   * test 'no space left on device' somehow
   * sort out list interface
   * restoration via web gui
+  * properly handle compression requirements
+  * make parsers a separate things with a proper API
+  * get rid of logging system  and use something that works
+  * sort out lists management the right way

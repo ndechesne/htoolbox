@@ -1,3 +1,8 @@
+1.0 - 2010-06-04 (SVN r761)
+  * add SSH support (with and without username and/or password)
+  * fix SVN parser (still based on command-line tool though)
+  * greatly improve performance
+
 0.9.1 - 2008-06-28 (SVN r600)
   * fix re-organisation of first level makes backup fail (the .t/emp bug)
 
