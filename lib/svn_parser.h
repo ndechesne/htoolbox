@@ -19,6 +19,8 @@
 #ifndef SVN_PARSER_H
 #define SVN_PARSER_H
 
+#include "parsers.h"
+
 namespace hbackup {
 
 class SvnParser : public Parser {

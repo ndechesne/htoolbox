@@ -24,10 +24,6 @@
 
 using namespace std;
 
-#include "hbackup.h"
-#include "files.h"
-#include "report.h"
-#include "parsers.h"
 #include "svn_parser.h"
 
 using namespace hbackup;

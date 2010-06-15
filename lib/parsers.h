@@ -21,6 +21,10 @@
 
 #include <list>
 
+#include "hbackup.h"
+#include "files.h"
+#include "report.h"
+
 namespace hbackup {
 
 class Parser {
