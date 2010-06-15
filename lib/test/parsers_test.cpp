@@ -31,18 +31,17 @@ using namespace hbackup;
 class TestParser : public Parser {
   int           _index;
 public:
-  // Constructor for parsers list
-  TestParser(Mode mode) : Parser(mode) {
-    _index = 1;
-    cout << "Contructing for list, mode: " << _mode << ", dummy: " << _master
-      << endl;
-  }
-  // Constructor for directory parsing
-  TestParser(Mode mode, const string& dir_path) {
-    _mode = mode;
-    _index = 2;
-    cout << "Contructing for use, mode: " << mode << ", dummy: " << _master
-      << ", path: " << dir_path << endl;
+  TestParser(Mode mode = master, const string& dir_path = "") :
+      Parser(mode, dir_path) {
+    if (dir_path == "") {
+      _index = 1;
+      cout << "Contructing for list, mode: " << _mode << ", no parsing: "
+        << _no_parsing << endl;
+    } else {
+      _index = 2;
+      cout << "Contructing for use, mode: " << mode << ", no parsing: "
+        << _no_parsing << ", path: " << dir_path << endl;
+    }
   }
   ~TestParser() {
     cout << "Destroying (index " << _index << ")" << endl;

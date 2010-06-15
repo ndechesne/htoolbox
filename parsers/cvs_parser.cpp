@@ -50,7 +50,7 @@ public:
 
 Parser *CvsParser::isControlled(const string& dir_path) const {
   // Parent under control, this is the control directory
-  if (! _master
+  if (! _no_parsing
    && (dir_path.size() > control_dir.size())
    && (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
     return new CvsControlParser;
@@ -58,7 +58,7 @@ Parser *CvsParser::isControlled(const string& dir_path) const {
 
   // If control directory exists and contains an entries file, assume control
   if (! File(Path((dir_path + control_dir).c_str(), &entries[1])).isValid()) {
-    if (! _master) {
+    if (! _no_parsing) {
       out(warning, msg_standard, "Directory should be under CVS control", -1,
         dir_path.c_str());
       return new IgnoreParser;
@@ -70,7 +70,10 @@ Parser *CvsParser::isControlled(const string& dir_path) const {
   }
 }
 
-CvsParser::CvsParser(Mode mode, const string& dir_path) {
+CvsParser::CvsParser(Mode mode, const string& dir_path) : Parser(mode, dir_path) {
+  if (dir_path == "") {
+    return;
+  }
   string path = dir_path + control_dir + entries;
   Stream entries_file(path.c_str());
 

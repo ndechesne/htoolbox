@@ -25,13 +25,13 @@ namespace hbackup {
 
 class SvnParser : public Parser {
 public:
-  // Constructor for parsers list (MUST call specific base constructor)
-  SvnParser(Mode mode) : Parser(mode) {}
-  // Constructor for directory parsing (uses default base constructor)
-  SvnParser(Mode mode, const string& dir_path);
+  // Constructor
+  SvnParser(Mode mode = master, const string& dir_path = "");
   // Tell them who we are
   const char* name() const { return "Subversion"; };
   const char* code() const { return "svn"; };
+  // Factory
+  Parser* createInstance(Mode mode) { return new SvnParser(mode); }
   // This will create an appropriate parser for the directory if relevant
   Parser* isControlled(const string& dir_path) const;
   // That tells us whether to ignore the file, i.e. not back it up

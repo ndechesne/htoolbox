@@ -52,7 +52,7 @@ public:
 
 Parser *SvnParser::isControlled(const string& dir_path) const {
   // Parent under control, this is the control directory
-  if (! _master
+  if (! _no_parsing
    && (dir_path.size() > control_dir.size())
    && (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
     return new SvnControlParser;
@@ -60,7 +60,7 @@ Parser *SvnParser::isControlled(const string& dir_path) const {
 
   // If control directory exists and contains an entries file, assume control
   if (! File(Path((dir_path + control_dir).c_str(), &entries[1])).isValid()) {
-    if (! _master) {
+    if (! _no_parsing) {
       out(warning, msg_standard,
         "Directory should be under Subversion control", -1, dir_path.c_str());
       return new IgnoreParser;
@@ -72,10 +72,10 @@ Parser *SvnParser::isControlled(const string& dir_path) const {
   }
 }
 
-SvnParser::SvnParser(Mode mode, const string& dir_path) {
-  // Save mode
-  _mode = mode;
-
+SvnParser::SvnParser(Mode mode, const string& dir_path): Parser(mode, dir_path)  {
+  if (dir_path == "") {
+    return;
+  }
   /* Fill in list of files */
   out(debug, msg_standard, "Parsing Subversion entries", 1);
   string command = "svn st --no-ignore --non-interactive -N \"" + dir_path + "\"";

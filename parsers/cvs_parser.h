@@ -25,13 +25,13 @@ namespace hbackup {
 
 class CvsParser : public Parser {
 public:
-  // Constructor for parsers list (MUST call specific base constructor)
-  CvsParser(Mode mode) : Parser(mode) {}
-  // Constructor for directory parsing (uses default base constructor)
-  CvsParser(Mode mode, const string& dir_path);
+  // Constructor
+  CvsParser(Mode mode = master, const string& dir_path = "");
   // Tell them who we are
   const char* name() const { return "CVS"; };
   const char* code() const { return "cvs"; };
+  // Factory
+  Parser* createInstance(Mode mode) { return new CvsParser(mode); }
   // This will create an appropriate parser for the directory if relevant
   Parser* isControlled(const string& dir_path) const;
   // That tells use whether to ignore the file, i.e. not back it up

@@ -30,31 +30,31 @@ namespace hbackup {
 class Parser {
 public:
   enum Mode {
-    controlled = 1,     //!< controlled files only
-    modified,           //!< controlled modified files only
-    modifiedandothers,  //!< controlled modified files and non-controlled files
-    others              //!< non-controlled files
+    master            = 0,  //!< master object
+    controlled        = 1,  //!< controlled files only
+    modified          = 2,  //!< controlled modified files only
+    modifiedandothers = 3,  //!< controlled modified files and non-controlled files
+    others            = 4   //!< non-controlled files
   };
 protected:
   // Declare list stuff here to overcome apparent bug in GCC
-  list<Node>            _files;   // Files under control in current dir
-  Mode                  _mode;    // What kind of nodes to backup
-  bool                  _master;  // Object is used only in list
+  list<Node>            _files;       // Files under control in current dir
+  Mode                  _mode;        // What kind of nodes to backup
+  bool                  _no_parsing;
 public:
-  // Constructor for parsers list
-  // Note: inherited classes MUST PURELY INHERIT this constructor
-  // Example: MyParser(parser_mode_t mode) : Parser(mode) {}
-  Parser(Mode mode) : _mode(mode), _master(true) {}
-  // Default constructor
-  // Again MUST BE INHERITED when classes define a default constructor
-  // Example1: MyParser() : Parser() { ... }, inherited
-  // Example2: MyParser(blah_t blah) { ... }, called implicitely
-  Parser() : _mode(controlled), _master(false) {}
+  // Constructor
+  // Note: all parsers MUST INHERIT this constructor as sole constructor, see
+  // IgnoreParser below as an example
+  Parser(Mode mode = master, const string& dir_path = "") : _mode(mode) {
+    _no_parsing = (dir_path == "");
+  }
   // Need a virtual destructor
   virtual ~Parser() {};
   // Tell them who we are
   virtual const char* name() const = 0;
   virtual const char* code() const = 0;
+  // Factory
+  virtual Parser* createInstance(Mode mode) { (void) mode; return NULL; }
   // This will create an appropriate parser for the directory if relevant
   virtual Parser* isControlled(const string& dir_path) const = 0;
   // That tells use whether to ignore the file, i.e. not back it up
@@ -65,10 +65,9 @@ public:
 
 class IgnoreParser : public Parser {
 public:
-  // Default contructor
-  IgnoreParser() : Parser() {}
-  // Useless here as IgnoreParser never gets enlisted, but rules are rules.
-  IgnoreParser(Mode mode) : Parser(mode) {}
+  // Only need default constructor here in fact, but rules are rules
+  IgnoreParser(Mode mode = master, const string& dir_path = "") :
+    Parser(mode, dir_path) {}
   // Tell them who we are
   const char* name() const { return "ignore"; };
   const char* code() const { return "ign"; };

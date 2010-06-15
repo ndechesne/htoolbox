@@ -73,17 +73,21 @@ Parser* Parsers::createParser(const string& name, const string& mode_str) {
       return NULL;
   }
 
-  /* Add specified parser */
-  if (name == "cvs") {
-    return new CvsParser(mode);
-  } else
-  if (name == "svn") {
-    return new SvnParser(mode);
-  } else
-  {
-    out(error, msg_standard, "Unsupported parser", -1, name.c_str());
-    return NULL;
+  /* FIXME Create list of parsers */
+  if (empty()) {
+    push_back(new CvsParser);
+    push_back(new SvnParser);
   }
+
+  /* Create instance of specified parser */
+  Parsers::iterator i;
+  for (i = begin(); i != end(); i++) {
+    if ((*i)->code() == name) {
+      return (*i)->createInstance(mode);
+    }
+  }
+  out(error, msg_standard, "Unsupported parser", -1, name.c_str());
+  return NULL;
 }
 
 void Parsers::show(int level) const {
