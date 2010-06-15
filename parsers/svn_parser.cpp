@@ -35,7 +35,8 @@ static const char* entries = "/entries";
 class SvnControlParser : public Parser {
 public:
   // Just to know the parser used
-  const char* name() const;
+  const char* name() const { return "Subversion Control"; }
+  const char* code() const { return "svn_c"; }
   // This directory has no controlled children
   Parser* isControlled(const string& dir_path) const {
     (void) dir_path;
@@ -49,13 +50,9 @@ public:
   }
 };
 
-const char* SvnParser::name() const {
-  return "Subversion";
-}
-
 Parser *SvnParser::isControlled(const string& dir_path) const {
   // Parent under control, this is the control directory
-  if (! _dummy
+  if (! _master
    && (dir_path.size() > control_dir.size())
    && (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
     return new SvnControlParser;
@@ -63,7 +60,7 @@ Parser *SvnParser::isControlled(const string& dir_path) const {
 
   // If control directory exists and contains an entries file, assume control
   if (! File(Path((dir_path + control_dir).c_str(), &entries[1])).isValid()) {
-    if (! _dummy) {
+    if (! _master) {
       out(warning, msg_standard,
         "Directory should be under Subversion control", -1, dir_path.c_str());
       return new IgnoreParser;
@@ -128,10 +125,11 @@ bool SvnParser::ignore(const Node& node) {
   // Look for match in list
   bool file_controlled = true;
   bool file_modified   = false;
-  for (_i = _files.begin(); _i != _files.end(); _i++) {
+  list<Node>::iterator  i;
+  for (i = _files.begin(); i != _files.end(); i++) {
     // Find file
-    if (! strcmp(_i->name(), node.name())) {
-      if (_i->type() == 'm') {
+    if (! strcmp(i->name(), node.name())) {
+      if (i->type() == 'm') {
         file_modified   = true;
       } else {
         file_controlled = false;
@@ -172,15 +170,12 @@ bool SvnParser::ignore(const Node& node) {
 }
 
 void SvnParser::show(int level) {
-  for (_i = _files.begin(); _i != _files.end(); _i++) {
+  list<Node>::iterator  i;
+  for (i = _files.begin(); i != _files.end(); i++) {
     stringstream type;
-    type << _i->type();
-    out(debug, msg_standard, type.str().c_str(), level, _i->name());
+    type << i->type();
+    out(debug, msg_standard, type.str().c_str(), level, i->name());
   }
-}
-
-const char* SvnControlParser::name() const {
-  return "Subversion Control";
 }
 
 bool SvnControlParser::ignore(const Node& node) {

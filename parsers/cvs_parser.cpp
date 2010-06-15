@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -33,7 +33,8 @@ static const char* entries = "/Entries";
 class CvsControlParser : public Parser {
 public:
   // Just to know the parser used
-  const char* name() const;
+  const char* name() const { return "CVS Control"; }
+  const char* code() const { return "cvs_c"; }
   // This directory has no controlled children
   Parser* isControlled(const string& dir_path) const {
     (void) dir_path;
@@ -47,13 +48,9 @@ public:
   }
 };
 
-const char* CvsParser::name() const {
-  return "CVS";
-}
-
 Parser *CvsParser::isControlled(const string& dir_path) const {
   // Parent under control, this is the control directory
-  if (! _dummy
+  if (! _master
    && (dir_path.size() > control_dir.size())
    && (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
     return new CvsControlParser;
@@ -61,7 +58,7 @@ Parser *CvsParser::isControlled(const string& dir_path) const {
 
   // If control directory exists and contains an entries file, assume control
   if (! File(Path((dir_path + control_dir).c_str(), &entries[1])).isValid()) {
-    if (! _dummy) {
+    if (! _master) {
       out(warning, msg_standard, "Directory should be under CVS control", -1,
         dir_path.c_str());
       return new IgnoreParser;
@@ -189,10 +186,11 @@ bool CvsParser::ignore(const Node& node) {
   // Look for match in list
   bool file_controlled = false;
   bool file_modified   = false;
-  for (_i = _files.begin(); _i != _files.end(); _i++) {
-    if (! strcmp(_i->name(), node.name()) && (_i->type() == node.type())) {
+  list<Node>::iterator  i;
+  for (i = _files.begin(); i != _files.end(); i++) {
+    if (! strcmp(i->name(), node.name()) && (i->type() == node.type())) {
       file_controlled = true;
-      if (_i->mtime() != node.mtime()) {
+      if (i->mtime() != node.mtime()) {
         file_modified = true;
       }
       break;
@@ -228,19 +226,16 @@ bool CvsParser::ignore(const Node& node) {
 }
 
 void CvsParser::show(int level) {
-  for (_i = _files.begin(); _i != _files.end(); _i++) {
-    if (_i->type() == 'd') {
-      out(debug, msg_standard, "D", level, _i->name());
+  list<Node>::iterator  i;
+  for (i = _files.begin(); i != _files.end(); i++) {
+    if (i->type() == 'd') {
+      out(debug, msg_standard, "D", level, i->name());
     } else {
       stringstream mtime;
-      mtime << _i->mtime();
-      out(debug, msg_standard, mtime.str().c_str(), level, _i->name());
+      mtime << i->mtime();
+      out(debug, msg_standard, mtime.str().c_str(), level, i->name());
     }
   }
-}
-
-const char* CvsControlParser::name() const {
-  return "CVS Control";
 }
 
 bool CvsControlParser::ignore(const Node& node) {

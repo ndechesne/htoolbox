@@ -29,8 +29,9 @@ public:
   SvnParser(Mode mode) : Parser(mode) {}
   // Constructor for directory parsing (uses default base constructor)
   SvnParser(Mode mode, const string& dir_path);
-  // Just to know the parser used
-  const char* name() const;
+  // Tell them who we are
+  const char* name() const { return "Subversion"; };
+  const char* code() const { return "svn"; };
   // This will create an appropriate parser for the directory if relevant
   Parser* isControlled(const string& dir_path) const;
   // That tells us whether to ignore the file, i.e. not back it up

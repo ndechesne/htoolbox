@@ -29,8 +29,9 @@ public:
   CvsParser(Mode mode) : Parser(mode) {}
   // Constructor for directory parsing (uses default base constructor)
   CvsParser(Mode mode, const string& dir_path);
-  // Just to know the parser used
-  const char* name() const;
+  // Tell them who we are
+  const char* name() const { return "CVS"; };
+  const char* code() const { return "cvs"; };
   // This will create an appropriate parser for the directory if relevant
   Parser* isControlled(const string& dir_path) const;
   // That tells use whether to ignore the file, i.e. not back it up

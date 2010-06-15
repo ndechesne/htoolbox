@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -37,24 +37,24 @@ public:
   };
 protected:
   // Declare list stuff here to overcome apparent bug in GCC
-  list<Node>            _files;
-  list<Node>::iterator  _i;
-  Mode                  _mode;
-  bool                  _dummy;
+  list<Node>            _files;   // Files under control in current dir
+  Mode                  _mode;    // What kind of nodes to backup
+  bool                  _master;  // Object is used only in list
 public:
   // Constructor for parsers list
   // Note: inherited classes MUST PURELY INHERIT this constructor
   // Example: MyParser(parser_mode_t mode) : Parser(mode) {}
-  Parser(Mode mode) : _mode(mode), _dummy(true) {}
+  Parser(Mode mode) : _mode(mode), _master(true) {}
   // Default constructor
   // Again MUST BE INHERITED when classes define a default constructor
   // Example1: MyParser() : Parser() { ... }, inherited
   // Example2: MyParser(blah_t blah) { ... }, called implicitely
-  Parser() : _mode(controlled), _dummy(false) {}
+  Parser() : _mode(controlled), _master(false) {}
   // Need a virtual destructor
   virtual ~Parser() {};
-  // Just to know the parser used
+  // Tell them who we are
   virtual const char* name() const = 0;
+  virtual const char* code() const = 0;
   // This will create an appropriate parser for the directory if relevant
   virtual Parser* isControlled(const string& dir_path) const = 0;
   // That tells use whether to ignore the file, i.e. not back it up
@@ -70,9 +70,8 @@ public:
   // Useless here as IgnoreParser never gets enlisted, but rules are rules.
   IgnoreParser(Mode mode) : Parser(mode) {}
   // Tell them who we are
-  const char* name() const {
-    return "ignore";
-  };
+  const char* name() const { return "ignore"; };
+  const char* code() const { return "ign"; };
   // Fail on directory
   Parser* isControlled(const string& dir_path) const {
     (void) dir_path;

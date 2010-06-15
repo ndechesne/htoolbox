@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -34,23 +34,22 @@ public:
   // Constructor for parsers list
   TestParser(Mode mode) : Parser(mode) {
     _index = 1;
-    cout << "Contructing for list, mode: " << _mode << ", dummy: " << _dummy
+    cout << "Contructing for list, mode: " << _mode << ", dummy: " << _master
       << endl;
   }
   // Constructor for directory parsing
   TestParser(Mode mode, const string& dir_path) {
     _mode = mode;
     _index = 2;
-    cout << "Contructing for use, mode: " << mode << ", dummy: " << _dummy
+    cout << "Contructing for use, mode: " << mode << ", dummy: " << _master
       << ", path: " << dir_path << endl;
   }
   ~TestParser() {
     cout << "Destroying (index " << _index << ")" << endl;
   }
   // Just to know the parser used
-  const char* name() const {
-    return "test";
-  }
+  const char* name() const { return "test"; }
+  const char* code() const { return "tst"; }
   // This will create an appropriate parser for the directory if relevant
   Parser* isControlled(const string& dir_path) const {
     return new TestParser(_mode, dir_path);
