@@ -82,6 +82,7 @@ AC_CONFIG_FILES([Makefile
                  include/Makefile
                  base/Makefile
                  base/test/Makefile
+                 parsers/Makefile
                  lib/Makefile
                  lib/test/Makefile
                  cli/Makefile

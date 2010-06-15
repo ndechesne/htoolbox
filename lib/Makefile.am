@@ -3,9 +3,14 @@ SUBDIRS = . test
 AM_CXXFLAGS = \
   -I$(top_srcdir)/include \
   -I$(top_srcdir)/base \
+  -I$(top_srcdir)/parsers \
   $(NULL)
 
-LIBS = $(top_builddir)/base/libhtools.la
+LIBS = \
+  $(top_builddir)/base/libhtools.la \
+  $(top_builddir)/parsers/libhbackup_cvs.la \
+  $(top_builddir)/parsers/libhbackup_svn.la \
+  $(NULL)
 
 # Library
 lib_LTLIBRARIES = libhbackup.la
@@ -15,7 +20,6 @@ libhbackup_la_SOURCES = \
   clients.cpp \
   conditions.cpp \
   configuration.cpp \
-  cvs_parser.cpp \
   data.cpp \
   db.cpp \
   filters.cpp \
@@ -26,7 +30,6 @@ libhbackup_la_SOURCES = \
   parsers.cpp \
   paths.cpp \
   report.cpp \
-  svn_parser.cpp \
   $(NULL)
 
 EXTRA_DIST = \
@@ -34,7 +37,6 @@ EXTRA_DIST = \
   compdata.h \
   conditions.h \
   configuration.h \
-  cvs_parser.h \
   data.h \
   db.h \
   filters.h \
@@ -45,5 +47,4 @@ EXTRA_DIST = \
   parsers.h \
   paths.h \
   report.h \
-  svn_parser.h \
   $(NULL)
