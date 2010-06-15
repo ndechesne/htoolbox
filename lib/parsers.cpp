@@ -22,8 +22,13 @@ using namespace std;
 #include "files.h"
 #include "report.h"
 #include "parsers.h"
+// Make it dynamic!
+#include "cvs_parser.h"
+#include "svn_parser.h"
 
 using namespace hbackup;
+
+Parsers hbackup::parsers_registered;
 
 Parsers::~Parsers() {
   for (Parsers::iterator i = begin(); i != end(); i++) {
@@ -40,6 +45,45 @@ Parser* Parsers::isControlled(const string& dir_path) const {
     }
   }
   return NULL;
+}
+
+Parser* Parsers::createParser(const string& name, const string& mode_str) {
+  Parser::Mode mode;
+
+  /* Determine mode */
+  switch (mode_str[0]) {
+    case 'c':
+      // All controlled files
+      mode = Parser::controlled;
+      break;
+    case 'l':
+      // Local files
+      mode = Parser::modifiedandothers;
+      break;
+    case 'm':
+      // Modified controlled files
+      mode = Parser::modified;
+      break;
+    case 'o':
+      // Non controlled files
+      mode = Parser::others;
+      break;
+    default:
+      out(error, msg_standard, "Undefined parser mode", -1, mode_str.c_str());
+      return NULL;
+  }
+
+  /* Add specified parser */
+  if (name == "cvs") {
+    return new CvsParser(mode);
+  } else
+  if (name == "svn") {
+    return new SvnParser(mode);
+  } else
+  {
+    out(error, msg_standard, "Unsupported parser", -1, name.c_str());
+    return NULL;
+  }
 }
 
 void Parsers::show(int level) const {

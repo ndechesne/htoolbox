@@ -30,8 +30,6 @@ using namespace std;
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"
-#include "cvs_parser.h"
-#include "svn_parser.h"
 #include "opdata.h"
 #include "db.h"
 #include "attributes.h"
@@ -213,44 +211,13 @@ ClientPath::ClientPath(const char* path) {
 }
 
 int ClientPath::addParser(
-    const string&   type,
-    const string&   string) {
-  Parser::Mode mode;
-
-  /* Determine mode */
-  switch (string[0]) {
-    case 'c':
-      // All controlled files
-      mode = Parser::controlled;
-      break;
-    case 'l':
-      // Local files
-      mode = Parser::modifiedandothers;
-      break;
-    case 'm':
-      // Modified controlled files
-      mode = Parser::modified;
-      break;
-    case 'o':
-      // Non controlled files
-      mode = Parser::others;
-      break;
-    default:
-      out(error, msg_standard, "Undefined parser mode", -1, string.c_str());
-      return -1;
-  }
-
-  /* Add specified parser */
-  if (type == "cvs") {
-    _parsers.push_back(new CvsParser(mode));
-  } else
-  if (type == "svn") {
-    _parsers.push_back(new SvnParser(mode));
-  } else
-  {
-    out(error, msg_standard, "Unsupported parser", -1, type.c_str());
+    const string&   name,
+    const string&   mode) {
+  Parser* parser = parsers_registered.createParser(name, mode);
+  if (parser == NULL) {
     return -1;
   }
+  _parsers.push_back(parser);
   return 0;
 }
 

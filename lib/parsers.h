@@ -93,9 +93,14 @@ class Parsers : public list<Parser*> {
 public:
   ~Parsers();
   Parser* isControlled(const string& dir_path) const;
+  /* create new parser of given name with given mode */
+  Parser* createParser(const string& name, const string& mode);
   /* For verbosity */
   void show(int level = 0) const;
 };
+
+/* List of registered parsers */
+extern Parsers parsers_registered;
 
 }
 

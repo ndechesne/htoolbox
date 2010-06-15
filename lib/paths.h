@@ -44,8 +44,8 @@ public:
   // Set no-compress filter
   void setNoCompress(const Filter* filter) { _no_compress = filter; }
   int addParser(
-    const string&   type,
-    const string&   string);
+    const string&   name,
+    const string&   mode);
   int parse(
     Database&       db,
     const char*     backup_path,
