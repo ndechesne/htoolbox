@@ -29,6 +29,24 @@ using namespace hbackup;
 static const string control_dir = "/CVS";
 static const char* entries = "/Entries";
 
+// Parser for CVS control directory 'CVS'
+class CvsControlParser : public Parser {
+public:
+  // Just to know the parser used
+  const char* name() const;
+  // This directory has no controlled children
+  Parser* isControlled(const string& dir_path) const {
+    (void) dir_path;
+    return new IgnoreParser;
+  }
+  // That tells use whether to ignore the file, i.e. not back it up
+  bool ignore(const Node& node);
+  // For debug purposes
+  void show(int level = 0) {
+    (void) level;
+  }
+};
+
 const char* CvsParser::name() const {
   return "CVS";
 }
