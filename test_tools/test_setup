@@ -132,8 +132,8 @@ touch "$CVSDIR/CVS/Wherever/Whichever"
 # Subversion test
 SVNDIR="$TESTDIR/svn"
 rm -rf "$SVNDIR"
-cp -a "../`dirname $0`/svn_test_dir" "$SVNDIR"
-svn up -r 770 "$SVNDIR" > /dev/null
+tar -x -z -f "../`dirname $0`/svn_test_dir.tar.gz"
+mv "svn_test_dir" "$SVNDIR"
 echo 1 >  "$SVNDIR/filemod.o"
 touch "$SVNDIR/filenew.c"
 svn add "$SVNDIR/filenew.c" > /dev/null
