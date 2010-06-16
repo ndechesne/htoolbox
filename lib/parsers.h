@@ -54,9 +54,12 @@ public:
   virtual const char* name() const = 0;
   virtual const char* code() const = 0;
   // Factory
-  virtual Parser* createInstance(Mode mode) { (void) mode; return NULL; }
+  virtual Parser* createInstance(Mode mode) {
+    (void) mode;
+    return NULL;
+  }
   // This will create an appropriate parser for the directory if relevant
-  virtual Parser* isControlled(const string& dir_path) const = 0;
+  virtual Parser* createChildIfControlled(const string& dir_path) const = 0;
   // That tells use whether to ignore the file, i.e. not back it up
   virtual bool ignore(const Node& node) = 0;
   // For debug purposes
@@ -72,7 +75,7 @@ public:
   const char* name() const { return "ignore"; };
   const char* code() const { return "ign"; };
   // Fail on directory
-  Parser* isControlled(const string& dir_path) const {
+  Parser* createChildIfControlled(const string& dir_path) const {
     (void) dir_path;
     return NULL;
   };
@@ -90,10 +93,11 @@ public:
 class Parsers : public list<Parser*> {
 public:
   ~Parsers();
-  Parser* isControlled(const string& dir_path) const;
-  /* create new parser of given name with given mode */
+  // Create new controlling parser if justified
+  Parser* createParserIfControlled(const string& dir_path) const;
+  // create new managing parser of given name with given mode
   Parser* createParser(const string& name, const string& mode);
-  /* For verbosity */
+  // For verbosity
   void show(int level = 0) const;
 };
 

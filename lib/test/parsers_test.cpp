@@ -50,7 +50,7 @@ public:
   const char* name() const { return "test"; }
   const char* code() const { return "tst"; }
   // This will create an appropriate parser for the directory if relevant
-  Parser* isControlled(const string& dir_path) const {
+  Parser* createChildIfControlled(const string& dir_path) const {
     return new TestParser(_mode, dir_path);
   }
   // That tells use whether to ignore the file, i.e. not back it up
@@ -77,7 +77,7 @@ int main(void) {
   cout << "Add IgnoreParser to list" << endl;
   parsers->push_back(new IgnoreParser(Parser::modified));  // Whatever mode...
   cout << "Check parsers against test directory" << endl;
-  parser = parsers->isControlled("test");
+  parser = parsers->createParserIfControlled("test");
   if (parser != NULL) {
     parser->show();
     delete parser;

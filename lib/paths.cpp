@@ -53,11 +53,11 @@ int ClientPath::parse_recurse(
   if (! _parsers.empty()) {
     // We have a parser, check this directory with it
     if (current_parser != NULL) {
-      parser = current_parser->isControlled(dir.path());
+      parser = current_parser->createChildIfControlled(dir.path());
     }
     // We don't have a parser [anymore], check this directory
     if (parser == NULL) {
-      parser = _parsers.isControlled(dir.path());
+      parser = _parsers.createParserIfControlled(dir.path());
     }
   }
 

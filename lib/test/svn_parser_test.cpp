@@ -45,14 +45,14 @@ int main(void) {
   parser_list = new SvnParser(Parser::controlled);
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1")) == NULL) {
     cout << "test1" << " is not controlled" << endl;
   } else {
     delete parser;
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/svn")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn")) == NULL) {
     cout << "test1/svn" << " is not controlled" << endl;
   } else {
     /* Nodes */
@@ -112,7 +112,7 @@ int main(void) {
     }
     cout << " be ignored" << endl;
     delete node;
-    if ((parser2 = parser->isControlled("test1/svn/.svn")) == NULL) {
+    if ((parser2 = parser->createChildIfControlled("test1/svn/.svn")) == NULL) {
       cout << "test1/svn/.svn" << " is not controlled" << endl;
     } else {
       node = new File("test1/svn/.svn/entries");
@@ -139,7 +139,7 @@ int main(void) {
       delete parser2;
     }
     // Use parser so directory appears as child of controlled directory
-    if ((parser2 = parser->isControlled("test1/svn/dirbad")) == NULL) {
+    if ((parser2 = parser->createChildIfControlled("test1/svn/dirbad")) == NULL) {
       cout << "test1/svn/dirbad" << " is not controlled" << endl;
     } else {
       delete parser2;
@@ -148,7 +148,7 @@ int main(void) {
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/svn/dirutd")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn/dirutd")) == NULL) {
     cout << "test1/svn/dirutd" << " is not controlled" << endl;
   } else {
     /* Nodes */
@@ -170,7 +170,7 @@ int main(void) {
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/svn/diroth")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn/diroth")) == NULL) {
     cout << "test1/svn/diroth" << " is not controlled" << endl;
   } else {
     /* Nodes */
@@ -192,7 +192,7 @@ int main(void) {
   }
 
   /* Subversion directory */
-  if ((parser = parser_list->isControlled("test1/svn/.svn")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn/.svn")) == NULL) {
     cout << "test1/svn/.svn" << " is not controlled" << endl;
   } else {
     node = new File("test1/svn/.svn/entries");
@@ -226,14 +226,14 @@ int main(void) {
   parser_list = new SvnParser(Parser::modified);
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1")) == NULL) {
     cout << "test1" << " is not controlled" << endl;
   } else {
     delete parser;
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/svn")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn")) == NULL) {
     cout << "test1/svn" << " is not controlled" << endl;
   } else {
     /* Nodes */
@@ -293,7 +293,7 @@ int main(void) {
     }
     cout << " be ignored" << endl;
     delete node;
-    if ((parser2 = parser->isControlled("test1/svn/.svn")) == NULL) {
+    if ((parser2 = parser->createChildIfControlled("test1/svn/.svn")) == NULL) {
       cout << "test1/svn/.svn" << " is not controlled" << endl;
     } else {
       node = new File("test1/svn/.svn/entries");
@@ -320,7 +320,7 @@ int main(void) {
       delete parser2;
     }
     // Use parser so directory appears as child of controlled directory
-    if ((parser2 = parser->isControlled("test1/svn/dirbad")) == NULL) {
+    if ((parser2 = parser->createChildIfControlled("test1/svn/dirbad")) == NULL) {
       cout << "test1/svn/dirbad" << " is not controlled" << endl;
     } else {
       delete parser2;
@@ -329,7 +329,7 @@ int main(void) {
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/svn/dirutd")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn/dirutd")) == NULL) {
     cout << "test1/svn/dirutd" << " is not controlled" << endl;
   } else {
     /* Nodes */
@@ -351,7 +351,7 @@ int main(void) {
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/svn/diroth")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn/diroth")) == NULL) {
     cout << "test1/svn/diroth" << " is not controlled" << endl;
   } else {
     /* Nodes */
@@ -373,7 +373,7 @@ int main(void) {
   }
 
   /* Subversion directory */
-  if ((parser = parser_list->isControlled("test1/svn/.svn")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn/.svn")) == NULL) {
     cout << "test1/svn/.svn" << " is not controlled" << endl;
   } else {
     node = new File("test1/svn/.svn/entries");
@@ -408,14 +408,14 @@ int main(void) {
   parser_list = new SvnParser(Parser::modifiedandothers);
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1")) == NULL) {
     cout << "test1" << " is not controlled" << endl;
   } else {
     delete parser;
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/svn")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn")) == NULL) {
     cout << "test1/svn" << " is not controlled" << endl;
   } else {
     /* Nodes */
@@ -475,7 +475,7 @@ int main(void) {
     }
     cout << " be ignored" << endl;
     delete node;
-    if ((parser2 = parser->isControlled("test1/svn/.svn")) == NULL) {
+    if ((parser2 = parser->createChildIfControlled("test1/svn/.svn")) == NULL) {
       cout << "test1/svn/.svn" << " is not controlled" << endl;
     } else {
       node = new File("test1/svn/.svn/entries");
@@ -502,7 +502,7 @@ int main(void) {
       delete parser2;
     }
     // Use parser so directory appears as child of controlled directory
-    if ((parser2 = parser->isControlled("test1/svn/dirbad")) == NULL) {
+    if ((parser2 = parser->createChildIfControlled("test1/svn/dirbad")) == NULL) {
       cout << "test1/svn/dirbad" << " is not controlled" << endl;
     } else {
       delete parser2;
@@ -511,7 +511,7 @@ int main(void) {
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/svn/dirutd")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn/dirutd")) == NULL) {
     cout << "test1/svn/dirutd" << " is not controlled" << endl;
   } else {
     /* Nodes */
@@ -533,7 +533,7 @@ int main(void) {
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/svn/diroth")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn/diroth")) == NULL) {
     cout << "test1/svn/diroth" << " is not controlled" << endl;
   } else {
     /* Nodes */
@@ -555,7 +555,7 @@ int main(void) {
   }
 
   /* Subversion directory */
-  if ((parser = parser_list->isControlled("test1/svn/.svn")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn/.svn")) == NULL) {
     cout << "test1/svn/.svn" << " is not controlled" << endl;
   } else {
     node = new File("test1/svn/.svn/entries");
@@ -590,14 +590,14 @@ int main(void) {
   parser_list = new SvnParser(Parser::others);
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1")) == NULL) {
     cout << "test1" << " is not controlled" << endl;
   } else {
     delete parser;
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/svn")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn")) == NULL) {
     cout << "test1/svn" << " is not controlled" << endl;
   } else {
     /* Nodes */
@@ -657,7 +657,7 @@ int main(void) {
     }
     cout << " be ignored" << endl;
     delete node;
-    if ((parser2 = parser->isControlled("test1/svn/.svn")) == NULL) {
+    if ((parser2 = parser->createChildIfControlled("test1/svn/.svn")) == NULL) {
       cout << "test1/svn/.svn" << " is not controlled" << endl;
     } else {
       node = new File("test1/svn/.svn/entries");
@@ -684,7 +684,7 @@ int main(void) {
       delete parser2;
     }
     // Use parser so directory appears as child of controlled directory
-    if ((parser2 = parser->isControlled("test1/svn/dirbad")) == NULL) {
+    if ((parser2 = parser->createChildIfControlled("test1/svn/dirbad")) == NULL) {
       cout << "test1/svn/dirbad" << " is not controlled" << endl;
     } else {
       delete parser2;
@@ -693,7 +693,7 @@ int main(void) {
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/svn/dirutd")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn/dirutd")) == NULL) {
     cout << "test1/svn/dirutd" << " is not controlled" << endl;
   } else {
     /* Nodes */
@@ -715,7 +715,7 @@ int main(void) {
   }
 
   /* Directory */
-  if ((parser = parser_list->isControlled("test1/svn/diroth")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn/diroth")) == NULL) {
     cout << "test1/svn/diroth" << " is not controlled" << endl;
   } else {
     /* Nodes */
@@ -737,7 +737,7 @@ int main(void) {
   }
 
   /* Subversion directory */
-  if ((parser = parser_list->isControlled("test1/svn/.svn")) == NULL) {
+  if ((parser = parser_list->createChildIfControlled("test1/svn/.svn")) == NULL) {
     cout << "test1/svn/.svn" << " is not controlled" << endl;
   } else {
     node = new File("test1/svn/.svn/entries");

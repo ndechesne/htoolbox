@@ -38,7 +38,7 @@ public:
   const char* name() const { return "Subversion Control"; }
   const char* code() const { return "svn_c"; }
   // This directory has no controlled children
-  Parser* isControlled(const string& dir_path) const {
+  Parser* createChildIfControlled(const string& dir_path) const {
     (void) dir_path;
     return new IgnoreParser;
   }
@@ -50,7 +50,7 @@ public:
   }
 };
 
-Parser *SvnParser::isControlled(const string& dir_path) const {
+Parser *SvnParser::createChildIfControlled(const string& dir_path) const {
   // Parent under control, this is the control directory
   if (! _no_parsing
    && (dir_path.size() > control_dir.size())

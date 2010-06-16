@@ -33,7 +33,7 @@ public:
   // Factory
   Parser* createInstance(Mode mode) { return new SvnParser(mode); }
   // This will create an appropriate parser for the directory if relevant
-  Parser* isControlled(const string& dir_path) const;
+  Parser* createChildIfControlled(const string& dir_path) const;
   // That tells us whether to ignore the file, i.e. not back it up
   bool ignore(const Node& node);
   // For debug purposes

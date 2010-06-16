@@ -36,10 +36,10 @@ Parsers::~Parsers() {
   }
 }
 
-Parser* Parsers::isControlled(const string& dir_path) const {
+Parser* Parsers::createParserIfControlled(const string& dir_path) const {
   Parser *parser;
   for (Parsers::const_iterator i = begin(); i != end(); i++) {
-    parser = (*i)->isControlled(dir_path);
+    parser = (*i)->createChildIfControlled(dir_path);
     if (parser != NULL) {
       return parser;
     }
