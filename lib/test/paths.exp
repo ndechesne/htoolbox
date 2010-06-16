@@ -121,7 +121,7 @@ Adding uncompressed data for b43487abe52b0721fa53957eef4917e7-0
 Af f    /home/User/svn/.svn/all-wcprops
 Adding uncompressed data for 31f8dac8a89739e4030e8e0e9ea219a5-0
 Af f    /home/User/svn/.svn/dir-prop-base
-Adding uncompressed data for ae3c985546676bb062f813d01f75aa54-0
+Adding uncompressed data for 5173c1e86196c05c124452a401e92a22-0
 Af f    /home/User/svn/.svn/entries
 Ad      /home/User/svn/.svn/prop-base
 svn/.svn/prop-base\r
@@ -196,7 +196,7 @@ svn/dirutd/.svn\r
                \r
 Adding uncompressed data for 8c24b7e5642e642b5edb12400de15d03-0
 Af f    /home/User/svn/dirutd/.svn/all-wcprops
-Adding uncompressed data for 41ed542742117a345a6cde90963ce1e5-0
+Adding uncompressed data for 33b426a9cdc8a98729e5dbe6d5feb619-0
 Af f    /home/User/svn/dirutd/.svn/entries
 Ad      /home/User/svn/dirutd/.svn/prop-base
 svn/dirutd/.svn/prop-base\r
@@ -288,7 +288,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -319,7 +319,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -387,7 +387,7 @@ myClient's journal:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -418,7 +418,7 @@ myClient's journal:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -447,16 +447,16 @@ Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 31f8dac8a89739e4030e8e0e9ea219a5-0 33\r
 328b42839732650180b213aadebe494d-0 16\r
-41ed542742117a345a6cde90963ce1e5-0 338\r
+33b426a9cdc8a98729e5dbe6d5feb619-0 388\r
 512047d1b2605a59dabf850370d41370-0 112\r
+5173c1e86196c05c124452a401e92a22-0 602\r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42 \r
 59ca0efa9f5633cb0371bbc0355478d8-0 13\r
 662ae0524981c10b4736be799fc8650a-0 45\r
 8c24b7e5642e642b5edb12400de15d03-0 230\r
 9283e2c51868272850bd2d89b63c58e8-0 17 \r
 947c302ec365383856310621ac3fbf2f-0 17\r
-ae3c985546676bb062f813d01f75aa54-0 502\r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2  \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
 b43487abe52b0721fa53957eef4917e7-0 340\r
 b90f8fa56ea1d39881d4a199c7a81d35-0 16 \r
 caecaacc7fdee8a7667d4f4f315858a9-0 11\r
@@ -471,15 +471,15 @@ Checksum(s) from list: 21
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 31f8dac8a89739e4030e8e0e9ea219a5-0, 33
  -> 328b42839732650180b213aadebe494d-0, 16
- -> 41ed542742117a345a6cde90963ce1e5-0, 338
+ -> 33b426a9cdc8a98729e5dbe6d5feb619-0, 388
  -> 512047d1b2605a59dabf850370d41370-0, 112
+ -> 5173c1e86196c05c124452a401e92a22-0, 602
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 662ae0524981c10b4736be799fc8650a-0, 45
  -> 8c24b7e5642e642b5edb12400de15d03-0, 230
  -> 9283e2c51868272850bd2d89b63c58e8-0, 17
  -> 947c302ec365383856310621ac3fbf2f-0, 17
- -> ae3c985546676bb062f813d01f75aa54-0, 502
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b43487abe52b0721fa53957eef4917e7-0, 340
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
@@ -493,15 +493,15 @@ Checksum(s) with data: 21
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 31f8dac8a89739e4030e8e0e9ea219a5-0, 33
  -> 328b42839732650180b213aadebe494d-0, 16
- -> 41ed542742117a345a6cde90963ce1e5-0, 338
+ -> 33b426a9cdc8a98729e5dbe6d5feb619-0, 388
  -> 512047d1b2605a59dabf850370d41370-0, 112
+ -> 5173c1e86196c05c124452a401e92a22-0, 602
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 662ae0524981c10b4736be799fc8650a-0, 45
  -> 8c24b7e5642e642b5edb12400de15d03-0, 230
  -> 9283e2c51868272850bd2d89b63c58e8-0, 17
  -> 947c302ec365383856310621ac3fbf2f-0, 17
- -> ae3c985546676bb062f813d01f75aa54-0, 502
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b43487abe52b0721fa53957eef4917e7-0, 340
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
@@ -625,7 +625,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -656,7 +656,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -724,7 +724,7 @@ myClient's journal:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -755,7 +755,7 @@ myClient's journal:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -941,7 +941,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -972,7 +972,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -1246,7 +1246,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -1277,7 +1277,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -1512,7 +1512,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -1543,7 +1543,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -1732,7 +1732,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -1763,7 +1763,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -1973,7 +1973,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -2004,7 +2004,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -2219,7 +2219,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -2250,7 +2250,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -2474,7 +2474,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -2505,7 +2505,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -2729,7 +2729,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -2760,7 +2760,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -2992,7 +2992,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -3023,7 +3023,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -3308,7 +3308,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -3339,7 +3339,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -3622,7 +3622,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [ 1] /home/User/svn/.svn/props      d        0 755
 [ 1] /home/User/svn/.svn/text-base  d        0 755
@@ -3653,7 +3653,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd          d        0 755
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [ 1] /home/User/svn/dirutd/.svn/props d        0 755
 [ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
@@ -3997,7 +3997,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [14] /home/User/svn/.svn/dir-prop-base [rm]
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [14] /home/User/svn/.svn/props      [rm]
@@ -4051,7 +4051,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [14] /home/User/svn/dirutd/.svn/all-wcprops [rm]
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [14] /home/User/svn/dirutd/.svn/prop-base [rm]
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [14] /home/User/svn/dirutd/.svn/props [rm]
@@ -4409,7 +4409,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [14] /home/User/svn/.svn/dir-prop-base [rm]
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [14] /home/User/svn/.svn/props      [rm]
@@ -4463,7 +4463,7 @@ myClient's list:
 [ 1] /home/User/svn/dirutd/.svn     d        0 755
 [14] /home/User/svn/dirutd/.svn/all-wcprops [rm]
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [14] /home/User/svn/dirutd/.svn/prop-base [rm]
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [14] /home/User/svn/dirutd/.svn/props [rm]
@@ -4781,7 +4781,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [14] /home/User/svn/.svn/dir-prop-base [rm]
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [14] /home/User/svn/.svn/props      [rm]
@@ -4838,7 +4838,7 @@ myClient's list:
 [14] /home/User/svn/dirutd/.svn/all-wcprops [rm]
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
 [16] /home/User/svn/dirutd/.svn/entries [rm]
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [14] /home/User/svn/dirutd/.svn/prop-base [rm]
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [14] /home/User/svn/dirutd/.svn/props [rm]
@@ -5153,7 +5153,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [14] /home/User/svn/.svn/dir-prop-base [rm]
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [14] /home/User/svn/.svn/props      [rm]
@@ -5210,7 +5210,7 @@ myClient's list:
 [14] /home/User/svn/dirutd/.svn/all-wcprops [rm]
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
 [16] /home/User/svn/dirutd/.svn/entries [rm]
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [14] /home/User/svn/dirutd/.svn/prop-base [rm]
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [14] /home/User/svn/dirutd/.svn/props [rm]
@@ -5524,7 +5524,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [14] /home/User/svn/.svn/dir-prop-base [rm]
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [14] /home/User/svn/.svn/props      [rm]
@@ -5581,7 +5581,7 @@ myClient's list:
 [14] /home/User/svn/dirutd/.svn/all-wcprops [rm]
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
 [16] /home/User/svn/dirutd/.svn/entries [rm]
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [14] /home/User/svn/dirutd/.svn/prop-base [rm]
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [14] /home/User/svn/dirutd/.svn/props [rm]
@@ -5900,7 +5900,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [14] /home/User/svn/.svn/dir-prop-base [rm]
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [14] /home/User/svn/.svn/props      [rm]
@@ -5957,7 +5957,7 @@ myClient's list:
 [14] /home/User/svn/dirutd/.svn/all-wcprops [rm]
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
 [16] /home/User/svn/dirutd/.svn/entries [rm]
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [14] /home/User/svn/dirutd/.svn/prop-base [rm]
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [14] /home/User/svn/dirutd/.svn/props [rm]
@@ -6325,7 +6325,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [14] /home/User/svn/.svn/dir-prop-base [rm]
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [14] /home/User/svn/.svn/props      [rm]
@@ -6382,7 +6382,7 @@ myClient's list:
 [14] /home/User/svn/dirutd/.svn/all-wcprops [rm]
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
 [16] /home/User/svn/dirutd/.svn/entries [rm]
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [14] /home/User/svn/dirutd/.svn/prop-base [rm]
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [14] /home/User/svn/dirutd/.svn/props [rm]
@@ -6744,7 +6744,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [14] /home/User/svn/.svn/dir-prop-base [rm]
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [14] /home/User/svn/.svn/props      [rm]
@@ -6801,7 +6801,7 @@ myClient's list:
 [14] /home/User/svn/dirutd/.svn/all-wcprops [rm]
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
 [16] /home/User/svn/dirutd/.svn/entries [rm]
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [14] /home/User/svn/dirutd/.svn/prop-base [rm]
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [14] /home/User/svn/dirutd/.svn/props [rm]
@@ -7244,7 +7244,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [14] /home/User/svn/.svn/dir-prop-base [rm]
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [14] /home/User/svn/.svn/props      [rm]
@@ -7301,7 +7301,7 @@ myClient's list:
 [14] /home/User/svn/dirutd/.svn/all-wcprops [rm]
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
 [16] /home/User/svn/dirutd/.svn/entries [rm]
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [14] /home/User/svn/dirutd/.svn/prop-base [rm]
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [14] /home/User/svn/dirutd/.svn/props [rm]
@@ -7531,7 +7531,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [14] /home/User/svn/.svn/dir-prop-base [rm]
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [14] /home/User/svn/.svn/props      [rm]
@@ -7588,7 +7588,7 @@ myClient's list:
 [14] /home/User/svn/dirutd/.svn/all-wcprops [rm]
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
 [16] /home/User/svn/dirutd/.svn/entries [rm]
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [14] /home/User/svn/dirutd/.svn/prop-base [rm]
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [14] /home/User/svn/dirutd/.svn/props [rm]
@@ -7965,7 +7965,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [14] /home/User/svn/.svn/dir-prop-base [rm]
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [14] /home/User/svn/.svn/props      [rm]
@@ -8022,7 +8022,7 @@ myClient's list:
 [14] /home/User/svn/dirutd/.svn/all-wcprops [rm]
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
 [16] /home/User/svn/dirutd/.svn/entries [rm]
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [14] /home/User/svn/dirutd/.svn/prop-base [rm]
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [14] /home/User/svn/dirutd/.svn/props [rm]
@@ -8314,7 +8314,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
 [14] /home/User/svn/.svn/dir-prop-base [rm]
 [ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [ 1] /home/User/svn/.svn/prop-base  d        0 755
 [14] /home/User/svn/.svn/props      [rm]
@@ -8371,7 +8371,7 @@ myClient's list:
 [14] /home/User/svn/dirutd/.svn/all-wcprops [rm]
 [ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
 [16] /home/User/svn/dirutd/.svn/entries [rm]
-[ 1] /home/User/svn/dirutd/.svn/entries f      338 444 41ed542742117a345a6cde90963ce1e5-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
 [14] /home/User/svn/dirutd/.svn/prop-base [rm]
 [ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
 [14] /home/User/svn/dirutd/.svn/props [rm]
@@ -8664,7 +8664,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [14] /home/User/svn/.svn/all-wcprops [rm]
 [14] /home/User/svn/.svn/dir-prop-base [rm]
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [14] /home/User/svn/.svn/props      [rm]
 [14] /home/User/svn/.svn/text-base  [rm]
@@ -8959,7 +8959,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [14] /home/User/svn/.svn/all-wcprops [rm]
 [14] /home/User/svn/.svn/dir-prop-base [rm]
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [14] /home/User/svn/.svn/props      [rm]
 [14] /home/User/svn/.svn/text-base  [rm]
@@ -9247,7 +9247,7 @@ myClient's list:
 [ 1] /home/User/svn/.svn            d        0 755
 [14] /home/User/svn/.svn/all-wcprops [rm]
 [14] /home/User/svn/.svn/dir-prop-base [rm]
-[ 1] /home/User/svn/.svn/entries    f      502 444 ae3c985546676bb062f813d01f75aa54-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
 [14] /home/User/svn/.svn/prop-base  [rm]
 [14] /home/User/svn/.svn/props      [rm]
 [14] /home/User/svn/.svn/text-base  [rm]

@@ -133,12 +133,13 @@ touch "$CVSDIR/CVS/Wherever/Whichever"
 SVNDIR="$TESTDIR/svn"
 rm -rf "$SVNDIR"
 cp -a "../`dirname $0`/svn_test_dir" "$SVNDIR"
+svn up -r 770 "$SVNDIR" > /dev/null
 echo 1 >  "$SVNDIR/filemod.o"
 touch "$SVNDIR/filenew.c"
-svn add "$SVNDIR/filenew.c"
+svn add "$SVNDIR/filenew.c" > /dev/null
 touch "$SVNDIR/fileoth"
 touch "$SVNDIR/dir space/file space"
-svn add "$SVNDIR/dir space/file space"
+svn add "$SVNDIR/dir space/file space" > /dev/null
 rm -rf "$SVNDIR/dirbad/.svn"
 touch "$SVNDIR/dirbad/fileoth"
 mkdir "$SVNDIR/diroth"
