@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+echo "$0" >&2
+
 # Set mask
 umask 0022
 
@@ -129,20 +131,19 @@ touch "$CVSDIR/CVS/Wherever/Whichever"
 
 # Subversion test
 SVNDIR="$TESTDIR/svn"
-mkdir "$SVNDIR"
-touch "$SVNDIR/filemod.o"
+rm -rf "$SVNDIR"
+cp -a "../`dirname $0`/svn_test_dir" "$SVNDIR"
+echo 1 >  "$SVNDIR/filemod.o"
 touch "$SVNDIR/filenew.c"
+svn add "$SVNDIR/filenew.c"
 touch "$SVNDIR/fileoth"
-touch "$SVNDIR/fileutd.h"
-mkdir "$SVNDIR/dir space"
 touch "$SVNDIR/dir space/file space"
-mkdir "$SVNDIR/dirbad"
+svn add "$SVNDIR/dir space/file space"
+rm -rf "$SVNDIR/dirbad/.svn"
 touch "$SVNDIR/dirbad/fileoth"
-touch "$SVNDIR/dirbad/fileutd"
 mkdir "$SVNDIR/diroth"
-mkdir "$SVNDIR/dirutd"
 touch "$SVNDIR/dirutd/fileoth"
-touch "$SVNDIR/dirutd/fileutd"
+touch "$SVNDIR/dirutd/fileutd.mine"
 
 mkdir "$SVNDIR/dir space/.svn"
 cat << EOF > "$SVNDIR/dir space/.svn/entries"
