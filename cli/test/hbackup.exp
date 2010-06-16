@@ -662,6 +662,7 @@ Ad      test1/svn
 svn\r
    \r
  -> Parsing Subversion entries
+ --> dirbad: m
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
@@ -669,26 +670,31 @@ svn\r
 Ad      test1/svn/.svn
 svn/.svn\r
         \r
-Checking data, sizes: f=77 z=65 (66)
-Adding compressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
+If p    test1/svn/.svn/all-wcprops
+If p    test1/svn/.svn/dir-prop-base
+Checking data, sizes: f=502 z=249 (252)
+Adding compressed data for ae3c985546676bb062f813d01f75aa54-0
 Af z    test1/svn/.svn/entries
-If p    test1/svn/.svn/format
-If p    test1/svn/.svn/whatever
-Id p    test1/svn/.svn/wherever
+Id p    test1/svn/.svn/prop-base
+Id p    test1/svn/.svn/props
+Id p    test1/svn/.svn/text-base
+Id p    test1/svn/.svn/tmp
 Ad      test1/svn/dir space
 svn/dir space\r
              \r
  -> Parsing Subversion entries
- --> file other: o
  --> file space: m
 Ad      test1/svn/dir space/.svn
 svn/dir space/.svn\r
                   \r
-Checking data, sizes: f=36 z=43 (43)
-Adding uncompressed data for a1d7fdc1ad743aa02983f5078c67335c-0
-Af f    test1/svn/dir space/.svn/entries
-If p    test1/svn/dir space/.svn/format
-If p    test1/svn/dir space/.svn/whatever
+If p    test1/svn/dir space/.svn/all-wcprops
+Checking data, sizes: f=278 z=189 (191)
+Adding compressed data for f2b4c9d3f0830dea53972d208979feb0-0
+Af z    test1/svn/dir space/.svn/entries
+Id p    test1/svn/dir space/.svn/prop-base
+Id p    test1/svn/dir space/.svn/props
+Id p    test1/svn/dir space/.svn/text-base
+Id p    test1/svn/dir space/.svn/tmp
 Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/svn/dir space/file space
 Ad      test1/svn/dirbad
@@ -707,13 +713,16 @@ svn/dirutd\r
 Ad      test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
                \r
-Checking data, sizes: f=30 z=38 (38)
-Adding uncompressed data for 8bdef5751e46ed57d237cbe3f4a5061c-0
-Af f    test1/svn/dirutd/.svn/entries
-If p    test1/svn/dirutd/.svn/format
-If p    test1/svn/dirutd/.svn/whatever
+If p    test1/svn/dirutd/.svn/all-wcprops
+Checking data, sizes: f=338 z=202 (205)
+Adding compressed data for 41ed542742117a345a6cde90963ce1e5-0
+Af z    test1/svn/dirutd/.svn/entries
+Id p    test1/svn/dirutd/.svn/prop-base
+Id p    test1/svn/dirutd/.svn/props
+Id p    test1/svn/dirutd/.svn/text-base
+Id p    test1/svn/dirutd/.svn/tmp
 If p    test1/svn/dirutd/fileoth
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=2 z=22 (22)
 Af ~    test1/svn/dirutd/fileutd
 If f    test1/svn/filemod.o
 Checking data, sizes: f=0 z=0 (0)
@@ -1038,24 +1047,30 @@ Id f    test1/subdir
 svn\r
    \r
  -> Parsing Subversion entries
+ --> dirbad: m
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
 svn/.svn\r
         \r
-If p    test1/svn/.svn/format
-If p    test1/svn/.svn/whatever
-Id p    test1/svn/.svn/wherever
+If p    test1/svn/.svn/all-wcprops
+If p    test1/svn/.svn/dir-prop-base
+Id p    test1/svn/.svn/prop-base
+Id p    test1/svn/.svn/props
+Id p    test1/svn/.svn/text-base
+Id p    test1/svn/.svn/tmp
 svn/dir space\r
              \r
  -> Parsing Subversion entries
- --> file other: o
  --> file space: m
 svn/dir space/.svn\r
                   \r
-If p    test1/svn/dir space/.svn/format
-If p    test1/svn/dir space/.svn/whatever
+If p    test1/svn/dir space/.svn/all-wcprops
+Id p    test1/svn/dir space/.svn/prop-base
+Id p    test1/svn/dir space/.svn/props
+Id p    test1/svn/dir space/.svn/text-base
+Id p    test1/svn/dir space/.svn/tmp
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
@@ -1069,8 +1084,11 @@ svn/dirutd\r
  --> fileutd: m
 svn/dirutd/.svn\r
                \r
-If p    test1/svn/dirutd/.svn/format
-If p    test1/svn/dirutd/.svn/whatever
+If p    test1/svn/dirutd/.svn/all-wcprops
+Id p    test1/svn/dirutd/.svn/prop-base
+Id p    test1/svn/dirutd/.svn/props
+Id p    test1/svn/dirutd/.svn/text-base
+Id p    test1/svn/dirutd/.svn/tmp
 If p    test1/svn/dirutd/fileoth
 If f    test1/svn/filemod.o
 If p    test1/svn/fileoth
@@ -1384,67 +1402,67 @@ Reading list: myhost
 Reading list: newClient
 Found 20 checksums
 Crawling through DB
-0f2ea973d77135dc3d06c8e68da6dc59-0 77 65\r
-26ab0db90d72e28ad0ba1e22ee510510-0 2    \r
+26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
-5252f242d27b8c2c9fdbdcbb33545d07-0 42        \r
+41ed542742117a345a6cde90963ce1e5-0 338 202   \r
+5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
 59ca0efa9f5633cb0371bbc0355478d8-0 13\r
 662ae0524981c10b4736be799fc8650a-0 45\r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 8a61083e712200a30c6ccf5f5c697b76-0 5\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
-a1d7fdc1ad743aa02983f5078c67335c-0 36\r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+ae3c985546676bb062f813d01f75aa54-0 502 249\r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2      \r
 b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
 d41d8cd98f00b204e9800998ecf8427e-0 0 \r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
-f81f70dceaca8b0cec354f33fa3f0909-0 145461        \r
+f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
+f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
                                              \r
 Found 20 valid and 0 broken data files
 Checksum(s) from list: 20
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
+ -> 41ed542742117a345a6cde90963ce1e5-0, 338
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 662ae0524981c10b4736be799fc8650a-0, 45
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
- -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
- -> a1d7fdc1ad743aa02983f5078c67335c-0, 36
+ -> ae3c985546676bb062f813d01f75aa54-0, 502
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
+ -> f2b4c9d3f0830dea53972d208979feb0-0, 278
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> f899d6f61138a37484c8a2294656e903-0, 177
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
 Checksum(s) with data: 20
- -> 0f2ea973d77135dc3d06c8e68da6dc59-0, 77
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
+ -> 41ed542742117a345a6cde90963ce1e5-0, 338
  -> 5252f242d27b8c2c9fdbdcbb33545d07-0, 42
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 13
  -> 662ae0524981c10b4736be799fc8650a-0, 45
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> 8a61083e712200a30c6ccf5f5c697b76-0, 5
- -> 8bdef5751e46ed57d237cbe3f4a5061c-0, 30
- -> a1d7fdc1ad743aa02983f5078c67335c-0, 36
+ -> ae3c985546676bb062f813d01f75aa54-0, 502
  -> b026324c6904b2a9cb4b88d6d61c81d1-0, 2
  -> b8bbb1294db5d59366b7d1827e2158d6-0, 5
  -> b90f8fa56ea1d39881d4a199c7a81d35-0, 16
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
  -> eb75fb33b2019ef3c840eb5ccdc2e795-0, 10
  -> f1c9645dbc14efddc7d8a322685f26eb-0, 10485760
+ -> f2b4c9d3f0830dea53972d208979feb0-0, 278
  -> f81f70dceaca8b0cec354f33fa3f0909-0, 145461
  -> f899d6f61138a37484c8a2294656e903-0, 177
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
@@ -1559,24 +1577,24 @@ Check DB
 Checking database
 Database open in read-only mode
 Crawling through DB data
-0f2ea973d77135dc3d06c8e68da6dc59-0 77 65\r
-26ab0db90d72e28ad0ba1e22ee510510-0 2    \r
+26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
-5252f242d27b8c2c9fdbdcbb33545d07-0 42        \r
+41ed542742117a345a6cde90963ce1e5-0 338 202   \r
+5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
 59ca0efa9f5633cb0371bbc0355478d8-0 13\r
 662ae0524981c10b4736be799fc8650a-0 45\r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 8a61083e712200a30c6ccf5f5c697b76-0 5\r
-8bdef5751e46ed57d237cbe3f4a5061c-0 30\r
-a1d7fdc1ad743aa02983f5078c67335c-0 36\r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2 \r
+ae3c985546676bb062f813d01f75aa54-0 502 249\r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2      \r
 b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
 d41d8cd98f00b204e9800998ecf8427e-0 0 \r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
-File copy progress:  70.4%                       \r
+f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
+File copy progress:  70.4%                \r
 File copy progress: 100.0%\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461\r
 f899d6f61138a37484c8a2294656e903-0 177   \r

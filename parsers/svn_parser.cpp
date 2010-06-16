@@ -20,6 +20,7 @@
 #include <list>
 
 #include <stdio.h>
+#include <errno.h>
 #include <sys/stat.h>
 
 using namespace std;
@@ -43,13 +44,19 @@ public:
     return new IgnoreParser;
   }
   // That tells us whether to ignore the file, i.e. not back it up
-  bool ignore(const Node& node);
+  bool ignore(const Node& node) {
+    if (strcmp(node.name(), "entries") == 0) {
+      return false;
+    }
+    return true;
+  }
   // For debug purposes
   void show(int level = 0) {
     (void) level;
   }
 };
 
+// dir_path is the relative or absolute complete path to the dir
 Parser *SvnParser::createChildIfControlled(const string& dir_path) const {
   // Parent under control, this is the control directory
   if (! _no_parsing
@@ -72,47 +79,66 @@ Parser *SvnParser::createChildIfControlled(const string& dir_path) const {
   }
 }
 
-SvnParser::SvnParser(Mode mode, const string& dir_path): Parser(mode, dir_path)  {
+SvnParser::SvnParser(Mode mode, const string& dir_path, const string& path) :
+    Parser(mode, dir_path), _dir_path(path) {
   if (dir_path == "") {
     return;
   }
-  /* Fill in list of files */
-  out(debug, msg_standard, "Parsing Subversion entries", 1);
-  string command = "svn st --no-ignore --non-interactive -N \"" + dir_path + "\"";
-  FILE* fd = popen(command.c_str(), "r");
-  if (fd != NULL) {
-    char*   buffer = NULL;
-    size_t  buflen = 0;
-    ssize_t length;
-    while ((length = getline(&buffer, &buflen, fd)) >= 0) {
-      if (length == 0) {
-        continue;
-      }
-      buffer[length - 1] = '\0';
-      char type;
-      switch (buffer[0]) {
-        case ' ': // controlled
+  if (path == "") {
+    /* Fill in list of files */
+    out(debug, msg_standard, "Parsing Subversion entries", 1);
+    string command = "svn status --no-ignore --non-interactive -N \"" +
+      dir_path + "\"";
+    FILE* fd = popen(command.c_str(), "r");
+    if (fd != NULL) {
+      char*   buffer = NULL;
+      size_t  buflen = 0;
+      ssize_t length;
+      while ((length = getline(&buffer, &buflen, fd)) >= 0) {
+        if (length == 0) {
           continue;
-        case 'D': // deleted
-          type = 'd';
-          break;
-        case 'I': // ignored
-          type = 'i';
-          break;
-        case '?': // other
-          type = 'o';
-          break;
-        case 'A': // added
-        default:  // modified/conflict/etc... => controlled and not up-to-date
-          type = 'm';
+        }
+        buffer[length - 1] = '\0';
+// out(debug, msg_standard, buffer, -1, "Blah");
+        // Get status
+        char status;
+        switch (buffer[0]) {
+          case ' ': // controlled
+            continue;
+          case 'D': // deleted
+            status = 'd';
+            break;
+          case 'I': // ignored
+            status = 'i';
+            break;
+          case '?': // other
+            status = 'o';
+            break;
+          case 'A': // added
+          default:  // modified/conflict/etc... => controlled and not up-to-date
+            status = 'm';
+        }
+        // Add to list of Nodes, with status
+//         if (strchr(&buffer[7], '/') == NULL) {
+// out(debug, msg_standard, buffer, 3, "Blah");
+          _files.push_back(Node(&buffer[7], status, 0, 0, 0, 0, 0));
+//         } else {
+// out(debug, msg_standard, buffer, 10, "Blah");
+//         }
       }
-      // Add to list of Nodes, with status
-      _files.push_back(Node(&buffer[7], type, 0, 0, 0, 0, 0));
+      free(buffer);
+      pclose(fd);
+      _files.sort();
+      show(2);
+    } else {
+      out(error, msg_errno, "running svn status", errno);
     }
-    free(buffer);
-    pclose(fd);
-    _files.sort();
-    show(2);
+  }
+}
+
+SvnParser::~SvnParser() {
+  for (list<Parser*>::iterator c = _children.begin(); c != _children.end(); ++c) {
+    delete *c;
   }
 }
 
@@ -178,9 +204,3 @@ void SvnParser::show(int level) {
   }
 }
 
-bool SvnControlParser::ignore(const Node& node) {
-  if (strcmp(node.name(), "entries") == 0) {
-    return false;
-  }
-  return true;
-}

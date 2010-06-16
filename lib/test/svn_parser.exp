@@ -2,6 +2,7 @@
 Only consider controlled files
 test1 is not controlled
  -> Parsing Subversion entries
+ --> dirbad: m
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
@@ -29,6 +30,7 @@ test1/svn/.svn is not controlled
 Only consider controlled modified files
 test1 is not controlled
  -> Parsing Subversion entries
+ --> dirbad: m
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
@@ -56,6 +58,7 @@ test1/svn/.svn is not controlled
 Only consider controlled modified and non-controlled files
 test1 is not controlled
  -> Parsing Subversion entries
+ --> dirbad: m
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
@@ -83,6 +86,7 @@ test1/svn/.svn is not controlled
 Only consider non-controlled files
 test1 is not controlled
  -> Parsing Subversion entries
+ --> dirbad: m
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m

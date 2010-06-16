@@ -143,37 +143,8 @@ rm -rf "$SVNDIR/dirbad/.svn"
 touch "$SVNDIR/dirbad/fileoth"
 mkdir "$SVNDIR/diroth"
 touch "$SVNDIR/dirutd/fileoth"
-touch "$SVNDIR/dirutd/fileutd.mine"
+echo 2 > "$SVNDIR/dirutd/fileutd"
 
-mkdir "$SVNDIR/dir space/.svn"
-cat << EOF > "$SVNDIR/dir space/.svn/entries"
-A      file space
-?      file other
-EOF
-echo "Some format" > "$SVNDIR/dir space/.svn/format"
-echo "Something" > "$SVNDIR/dir space/.svn/whatever"
-
-mkdir "$SVNDIR/dirutd/.svn"
-cat << EOF > "$SVNDIR/dirutd/.svn/entries"
-C      fileutd
-?      fileoth
-EOF
-echo "Some format" > "$SVNDIR/dirutd/.svn/format"
-echo "Something" > "$SVNDIR/dirutd/.svn/whatever"
-
-mkdir "$SVNDIR/.svn"
-cat << EOF > "$SVNDIR/.svn/entries"
-A      filenew.c
-M      filemod.o
-I      fileoth
- M     dirbad
-?      diroth
-EOF
-echo "Some other format" > "$SVNDIR/.svn/format"
-echo "Someotherthing" > "$SVNDIR/.svn/whatever"
-
-mkdir "$SVNDIR/.svn/wherever"
-touch "$SVNDIR/.svn/wherever/whichever"
 
 # Multiple backup
 mkdir "$TESTDIR2"

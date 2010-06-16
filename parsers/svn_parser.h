@@ -24,9 +24,15 @@
 namespace hbackup {
 
 class SvnParser : public Parser {
+  string        _dir_path;
+  list<Parser*> _children;
 public:
   // Constructor
-  SvnParser(Mode mode = master, const string& dir_path = "");
+  SvnParser(
+    Mode mode              = master,
+    const string& dir_path = "",
+    const string& path     = "");
+  ~SvnParser();
   // Tell them who we are
   const char* name() const { return "Subversion"; };
   const char* code() const { return "svn"; };

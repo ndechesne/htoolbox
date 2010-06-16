@@ -612,6 +612,7 @@ Ad      test1/svn
 svn\r
    \r
  -> Parsing Subversion entries
+ --> dirbad: m
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
@@ -619,24 +620,29 @@ svn\r
 Ad      test1/svn/.svn
 svn/.svn\r
         \r
-Adding compressed data for 0f2ea973d77135dc3d06c8e68da6dc59-0
+If p    test1/svn/.svn/all-wcprops
+If p    test1/svn/.svn/dir-prop-base
+Adding compressed data for ae3c985546676bb062f813d01f75aa54-0
 Af z    test1/svn/.svn/entries
-If p    test1/svn/.svn/format
-If p    test1/svn/.svn/whatever
-Id p    test1/svn/.svn/wherever
+Id p    test1/svn/.svn/prop-base
+Id p    test1/svn/.svn/props
+Id p    test1/svn/.svn/text-base
+Id p    test1/svn/.svn/tmp
 Ad      test1/svn/dir space
 svn/dir space\r
              \r
  -> Parsing Subversion entries
- --> file other: o
  --> file space: m
 Ad      test1/svn/dir space/.svn
 svn/dir space/.svn\r
                   \r
-Adding compressed data for a1d7fdc1ad743aa02983f5078c67335c-0
+If p    test1/svn/dir space/.svn/all-wcprops
+Adding compressed data for f2b4c9d3f0830dea53972d208979feb0-0
 Af z    test1/svn/dir space/.svn/entries
-If p    test1/svn/dir space/.svn/format
-If p    test1/svn/dir space/.svn/whatever
+Id p    test1/svn/dir space/.svn/prop-base
+Id p    test1/svn/dir space/.svn/props
+Id p    test1/svn/dir space/.svn/text-base
+Id p    test1/svn/dir space/.svn/tmp
 Af ~    test1/svn/dir space/file space
 Ad      test1/svn/dirbad
 svn/dirbad\r
@@ -654,12 +660,16 @@ svn/dirutd\r
 Ad      test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
                \r
-Adding compressed data for 8bdef5751e46ed57d237cbe3f4a5061c-0
+If p    test1/svn/dirutd/.svn/all-wcprops
+Adding compressed data for 41ed542742117a345a6cde90963ce1e5-0
 Af z    test1/svn/dirutd/.svn/entries
-If p    test1/svn/dirutd/.svn/format
-If p    test1/svn/dirutd/.svn/whatever
+Id p    test1/svn/dirutd/.svn/prop-base
+Id p    test1/svn/dirutd/.svn/props
+Id p    test1/svn/dirutd/.svn/text-base
+Id p    test1/svn/dirutd/.svn/tmp
 If p    test1/svn/dirutd/fileoth
-Af ~    test1/svn/dirutd/fileutd
+Adding uncompressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
+Af f    test1/svn/dirutd/fileutd
 If f    test1/svn/filemod.o
 Af ~    test1/svn/filenew.c
 If p    test1/svn/fileoth
@@ -780,24 +790,30 @@ Id f    test1/subdir
 svn\r
    \r
  -> Parsing Subversion entries
+ --> dirbad: m
  --> diroth: o
  --> filemod.o: m
  --> filenew.c: m
  --> fileoth: i
 svn/.svn\r
         \r
-If p    test1/svn/.svn/format
-If p    test1/svn/.svn/whatever
-Id p    test1/svn/.svn/wherever
+If p    test1/svn/.svn/all-wcprops
+If p    test1/svn/.svn/dir-prop-base
+Id p    test1/svn/.svn/prop-base
+Id p    test1/svn/.svn/props
+Id p    test1/svn/.svn/text-base
+Id p    test1/svn/.svn/tmp
 svn/dir space\r
              \r
  -> Parsing Subversion entries
- --> file other: o
  --> file space: m
 svn/dir space/.svn\r
                   \r
-If p    test1/svn/dir space/.svn/format
-If p    test1/svn/dir space/.svn/whatever
+If p    test1/svn/dir space/.svn/all-wcprops
+Id p    test1/svn/dir space/.svn/prop-base
+Id p    test1/svn/dir space/.svn/props
+Id p    test1/svn/dir space/.svn/text-base
+Id p    test1/svn/dir space/.svn/tmp
 svn/dirbad\r
           \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
@@ -811,8 +827,11 @@ svn/dirutd\r
  --> fileutd: m
 svn/dirutd/.svn\r
                \r
-If p    test1/svn/dirutd/.svn/format
-If p    test1/svn/dirutd/.svn/whatever
+If p    test1/svn/dirutd/.svn/all-wcprops
+Id p    test1/svn/dirutd/.svn/prop-base
+Id p    test1/svn/dirutd/.svn/props
+Id p    test1/svn/dirutd/.svn/text-base
+Id p    test1/svn/dirutd/.svn/tmp
 If p    test1/svn/dirutd/fileoth
 If f    test1/svn/filemod.o
 If p    test1/svn/fileoth
@@ -868,8 +887,7 @@ My Dir\r
       \r
 Adding uncompressed data for b026324c6904b2a9cb4b88d6d61c81d1-0
 Af f    C:/Test Dir/My Dir/a File.TXT
-Adding uncompressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
-Af f    C:/Test Dir/My Dir/another File.TXT
+Af ~    C:/Test Dir/My Dir/another File.TXT
 Af ~    C:/Test Dir/My File.TXT
 Register modified: myhost2
 Database closed: myhost2
