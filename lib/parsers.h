@@ -61,9 +61,11 @@ public:
   // This will create an appropriate parser for the directory if relevant
   virtual Parser* createChildIfControlled(const string& dir_path) const = 0;
   // That tells use whether to ignore the file, i.e. not back it up
-  virtual bool ignore(const Node& node) = 0;
+  virtual bool ignore(const Node& node) const = 0;
   // For debug purposes
-  virtual void show(int level = 0) = 0;
+  virtual void show(int level = 0) {
+    (void) level;
+  }
 };
 
 class IgnoreParser : public Parser {
@@ -80,14 +82,10 @@ public:
     return NULL;
   };
   // Ignore all files
-  bool ignore(const Node& node) {
+  bool ignore(const Node& node) const {
     (void) node;
     return true;
   };
-  // For debug purposes
-  void show(int level = 0) {
-    (void) level;
-  }
 };
 
 class Parsers : public list<Parser*> {

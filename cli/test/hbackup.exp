@@ -662,14 +662,18 @@ Ad      test1/svn
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 Ad      test1/svn/.svn
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Checking data, sizes: f=602 z=260 (264)
@@ -682,11 +686,10 @@ Id p    test1/svn/.svn/tmp
 Ad      test1/svn/dir space
 svn/dir space\r
              \r
- -> Parsing Subversion entries
- --> file space: m
 Ad      test1/svn/dir space/.svn
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    test1/svn/dir space/.svn/all-wcprops
 Checking data, sizes: f=278 z=189 (191)
 Adding compressed data for f2b4c9d3f0830dea53972d208979feb0-0
@@ -707,12 +710,10 @@ Id p    test1/svn/diroth
 Ad      test1/svn/dirutd
 svn/dirutd\r
           \r
- -> Parsing Subversion entries
- --> fileoth: o
- --> fileutd: m
 Ad      test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
                \r
+control dir: test1/svn/dirutd/.svn
 If p    test1/svn/dirutd/.svn/all-wcprops
 Checking data, sizes: f=388 z=211 (214)
 Adding compressed data for 33b426a9cdc8a98729e5dbe6d5feb619-0
@@ -1047,13 +1048,17 @@ Id f    test1/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Id p    test1/svn/.svn/prop-base
@@ -1061,11 +1066,9 @@ Id p    test1/svn/.svn/props
 Id p    test1/svn/.svn/text-base
 Id p    test1/svn/.svn/tmp
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    test1/svn/dir space/.svn/all-wcprops
 Id p    test1/svn/dir space/.svn/prop-base
 Id p    test1/svn/dir space/.svn/props
@@ -1078,12 +1081,9 @@ If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
 svn/dirutd\r
-          \r
- -> Parsing Subversion entries
- --> fileoth: o
- --> fileutd: m
 svn/dirutd/.svn\r
                \r
+control dir: test1/svn/dirutd/.svn
 If p    test1/svn/dirutd/.svn/all-wcprops
 Id p    test1/svn/dirutd/.svn/prop-base
 Id p    test1/svn/dirutd/.svn/props

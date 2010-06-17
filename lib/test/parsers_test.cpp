@@ -54,7 +54,7 @@ public:
     return new TestParser(_mode, dir_path);
   }
   // That tells use whether to ignore the file, i.e. not back it up
-  bool ignore(const Node& node) {
+  bool ignore(const Node& node) const {
     (void) node;
     return false;
   }

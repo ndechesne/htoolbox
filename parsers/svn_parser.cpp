@@ -44,13 +44,34 @@ public:
     return new IgnoreParser;
   }
   // That tells us whether to ignore the file, i.e. not back it up
-  bool ignore(const Node& node) {
+  bool ignore(const Node& node) const {
     if (strcmp(node.name(), "entries") == 0) {
       return false;
     }
     return true;
   }
-  // For debug purposes
+};
+
+class SvnParserProxy : public Parser {
+  const SvnParser* _head;
+  SvnParserProxy(Mode mode, const string& dir_path);
+public:
+  SvnParserProxy(const SvnParser* head) : _head(head) {}
+  const char* name() const { return "Subversion Proxy"; }
+  const char* code() const { return "svn_p"; }
+  Parser* createChildIfControlled(const string& dir_path) const {
+    // Parent under control, this is the control directory
+    if ((dir_path.size() > control_dir.size())
+    &&  (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
+      out(debug, msg_standard, dir_path.c_str(), -1, "control dir");
+      return new SvnControlParser;
+    }
+    // Otherwise just return proxy
+    return new SvnParserProxy(_head);
+  }
+  bool ignore(const Node& node) const {
+    return _head->ignore(node);
+  }
   void show(int level = 0) {
     (void) level;
   }
@@ -62,6 +83,7 @@ Parser *SvnParser::createChildIfControlled(const string& dir_path) const {
   if (! _no_parsing
    && (dir_path.size() > control_dir.size())
    && (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
+    out(debug, msg_standard, dir_path.c_str(), -1, "control dir");
     return new SvnControlParser;
   }
 
@@ -75,74 +97,66 @@ Parser *SvnParser::createChildIfControlled(const string& dir_path) const {
       return NULL;
     }
   } else {
-    return new SvnParser(_mode, dir_path);
-  }
-}
-
-SvnParser::SvnParser(Mode mode, const string& dir_path, const string& path) :
-    Parser(mode, dir_path), _dir_path(path) {
-  if (dir_path == "") {
-    return;
-  }
-  if (path == "") {
-    /* Fill in list of files */
-    out(debug, msg_standard, "Parsing Subversion entries", 1);
-    string command = "svn status --no-ignore --non-interactive -N \"" +
-      dir_path + "\"";
-    FILE* fd = popen(command.c_str(), "r");
-    if (fd != NULL) {
-      char*   buffer = NULL;
-      size_t  buflen = 0;
-      ssize_t length;
-      while ((length = getline(&buffer, &buflen, fd)) >= 0) {
-        if (length == 0) {
-          continue;
-        }
-        buffer[length - 1] = '\0';
-// out(debug, msg_standard, buffer, -1, "Blah");
-        // Get status
-        char status;
-        switch (buffer[0]) {
-          case ' ': // controlled
-            continue;
-          case 'D': // deleted
-            status = 'd';
-            break;
-          case 'I': // ignored
-            status = 'i';
-            break;
-          case '?': // other
-            status = 'o';
-            break;
-          case 'A': // added
-          default:  // modified/conflict/etc... => controlled and not up-to-date
-            status = 'm';
-        }
-        // Add to list of Nodes, with status
-//         if (strchr(&buffer[7], '/') == NULL) {
-// out(debug, msg_standard, buffer, 3, "Blah");
-          _files.push_back(Node(&buffer[7], status, 0, 0, 0, 0, 0));
-//         } else {
-// out(debug, msg_standard, buffer, 10, "Blah");
-//         }
-      }
-      free(buffer);
-      pclose(fd);
-      _files.sort();
-      show(2);
+    if (_head) {
+      SvnParser* parser = new SvnParser(_mode, dir_path);
+      parser->_head = false;
+      return parser;
     } else {
-      out(error, msg_errno, "running svn status", errno);
+      return new SvnParserProxy(this);
     }
   }
 }
 
-SvnParser::~SvnParser() {
-  for (list<Parser*>::iterator c = _children.begin(); c != _children.end(); ++c) {
-    delete *c;
+SvnParser::SvnParser(Mode mode, const string& dir_path) :
+    Parser(mode, dir_path), _head(true) {
+  if (dir_path == "") {
+    return;
+  }
+  /* Fill in list of files */
+  out(debug, msg_standard, "Parsing Subversion entries", 1);
+  string command = "svn status --no-ignore --non-interactive \"" +
+    dir_path + "\"";
+  FILE* fd = popen(command.c_str(), "r");
+  if (fd != NULL) {
+    char*   buffer = NULL;
+    size_t  buflen = 0;
+    ssize_t length;
+    while ((length = getline(&buffer, &buflen, fd)) >= 0) {
+      if (length == 0) {
+        continue;
+      }
+      buffer[length - 1] = '\0';
+      // Get status
+      char status;
+      switch (buffer[0]) {
+        case ' ': // controlled
+          continue;
+        case 'D': // deleted
+          status = 'd';
+          break;
+        case 'I': // ignored
+          status = 'i';
+          break;
+        case '?': // other
+          status = 'o';
+          break;
+        case 'A': // added
+        default:  // modified/conflict/etc... => controlled and not up-to-date
+          status = 'm';
+      }
+      // Add to list of Nodes, with status
+      _files.push_back(Node(&buffer[8], status, 0, 0, 0, 0, 0));
+    }
+    free(buffer);
+    pclose(fd);
+    _files.sort();
+    show(2);
+  } else {
+    out(error, msg_errno, "running svn status", errno);
   }
 }
 
-bool SvnParser::ignore(const Node& node) {
+bool SvnParser::ignore(const Node& node) const {
   // Do not ignore control directory
   if ((node.type() == 'd') && (strcmp(node.name(), &control_dir[1]) == 0)) {
     return false;
@@ -151,10 +165,10 @@ bool SvnParser::ignore(const Node& node) {
   // Look for match in list
   bool file_controlled = true;
   bool file_modified   = false;
-  list<Node>::iterator  i;
+  list<Node>::const_iterator  i;
   for (i = _files.begin(); i != _files.end(); i++) {
     // Find file
-    if (! strcmp(i->name(), node.name())) {
+    if (! strcmp(i->path(), node.path())) {
       if (i->type() == 'm') {
         file_modified   = true;
       } else {
@@ -200,7 +214,7 @@ void SvnParser::show(int level) {
   for (i = _files.begin(); i != _files.end(); i++) {
     stringstream type;
     type << i->type();
-    out(debug, msg_standard, type.str().c_str(), level, i->name());
+    out(debug, msg_standard, type.str().c_str(), level, i->path());
   }
 }
 

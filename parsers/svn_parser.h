@@ -24,15 +24,10 @@
 namespace hbackup {
 
 class SvnParser : public Parser {
-  string        _dir_path;
-  list<Parser*> _children;
+  bool _head;
 public:
   // Constructor
-  SvnParser(
-    Mode mode              = master,
-    const string& dir_path = "",
-    const string& path     = "");
-  ~SvnParser();
+  SvnParser(Mode mode = master, const string& dir_path = "");
   // Tell them who we are
   const char* name() const { return "Subversion"; };
   const char* code() const { return "svn"; };
@@ -41,7 +36,7 @@ public:
   // This will create an appropriate parser for the directory if relevant
   Parser* createChildIfControlled(const string& dir_path) const;
   // That tells us whether to ignore the file, i.e. not back it up
-  bool ignore(const Node& node);
+  bool ignore(const Node& node) const;
   // For debug purposes
   void show(int level = 0);
 };

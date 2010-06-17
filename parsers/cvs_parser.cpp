@@ -41,10 +41,12 @@ public:
     return new IgnoreParser;
   }
   // That tells use whether to ignore the file, i.e. not back it up
-  bool ignore(const Node& node);
-  // For debug purposes
-  void show(int level = 0) {
-    (void) level;
+  bool ignore(const Node& node) const {
+    if ((strcmp(node.name(), "Entries") == 0)
+    || (strcmp(node.name(), "Root") == 0)) {
+      return false;
+    }
+    return true;
   }
 };
 
@@ -180,7 +182,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) : Parser(mode, dir_path)
   show(2);
 }
 
-bool CvsParser::ignore(const Node& node) {
+bool CvsParser::ignore(const Node& node) const {
   // Do not ignore control directory
   if ((node.type() == 'd') && (strcmp(node.name(), &control_dir[1]) == 0)) {
     return false;
@@ -189,7 +191,7 @@ bool CvsParser::ignore(const Node& node) {
   // Look for match in list
   bool file_controlled = false;
   bool file_modified   = false;
-  list<Node>::iterator  i;
+  list<Node>::const_iterator  i;
   for (i = _files.begin(); i != _files.end(); i++) {
     if (! strcmp(i->name(), node.name()) && (i->type() == node.type())) {
       file_controlled = true;
@@ -241,10 +243,3 @@ void CvsParser::show(int level) {
   }
 }
 
-bool CvsControlParser::ignore(const Node& node) {
-  if ((strcmp(node.name(), "Entries") == 0)
-   || (strcmp(node.name(), "Root") == 0)) {
-    return false;
-  }
-  return true;
-}

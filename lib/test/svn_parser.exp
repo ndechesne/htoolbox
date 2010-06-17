@@ -2,11 +2,14 @@
 Only consider controlled files
 test1 is not controlled
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 test1/svn/nofile will not be ignored
 test1/svn/filenew.c will not be ignored
 test1/svn/filemod.o will not be ignored
@@ -15,13 +18,14 @@ test1/svn/fileoth will be ignored
 test1/svn/dirutd will not be ignored
 test1/svn/dirbad will not be ignored
 test1/svn/.svn will not be ignored
+control dir: test1/svn/.svn
 test1/svn/.svn/entries will not be ignored
 test1/svn/.svn/format will be ignored
 test1/svn/.svn/whatever will be ignored
 Warning: test1/svn/dirbad: Directory should be under Subversion control
  -> Parsing Subversion entries
- --> fileoth: o
- --> fileutd: m
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
 test1/svn/dirutd/fileutd will not be ignored
 test1/svn/dirutd/fileoth will be ignored
 test1/svn/diroth is not controlled
@@ -30,11 +34,14 @@ test1/svn/.svn is not controlled
 Only consider controlled modified files
 test1 is not controlled
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 test1/svn/nofile will be ignored
 test1/svn/filenew.c will not be ignored
 test1/svn/filemod.o will not be ignored
@@ -43,13 +50,14 @@ test1/svn/fileoth will be ignored
 test1/svn/dirutd will not be ignored
 test1/svn/dirbad will not be ignored
 test1/svn/.svn will not be ignored
+control dir: test1/svn/.svn
 test1/svn/.svn/entries will not be ignored
 test1/svn/.svn/format will be ignored
 test1/svn/.svn/whatever will be ignored
 Warning: test1/svn/dirbad: Directory should be under Subversion control
  -> Parsing Subversion entries
- --> fileoth: o
- --> fileutd: m
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
 test1/svn/dirutd/fileutd will not be ignored
 test1/svn/dirutd/fileoth will be ignored
 test1/svn/diroth is not controlled
@@ -58,11 +66,14 @@ test1/svn/.svn is not controlled
 Only consider controlled modified and non-controlled files
 test1 is not controlled
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 test1/svn/nofile will be ignored
 test1/svn/filenew.c will not be ignored
 test1/svn/filemod.o will not be ignored
@@ -71,13 +82,14 @@ test1/svn/fileoth will not be ignored
 test1/svn/dirutd will not be ignored
 test1/svn/dirbad will not be ignored
 test1/svn/.svn will not be ignored
+control dir: test1/svn/.svn
 test1/svn/.svn/entries will not be ignored
 test1/svn/.svn/format will be ignored
 test1/svn/.svn/whatever will be ignored
 Warning: test1/svn/dirbad: Directory should be under Subversion control
  -> Parsing Subversion entries
- --> fileoth: o
- --> fileutd: m
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
 test1/svn/dirutd/fileutd will not be ignored
 test1/svn/dirutd/fileoth will not be ignored
 test1/svn/diroth is not controlled
@@ -86,11 +98,14 @@ test1/svn/.svn is not controlled
 Only consider non-controlled files
 test1 is not controlled
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 test1/svn/nofile will be ignored
 test1/svn/filenew.c will be ignored
 test1/svn/filemod.o will be ignored
@@ -99,13 +114,14 @@ test1/svn/fileoth will not be ignored
 test1/svn/dirutd will be ignored
 test1/svn/dirbad will be ignored
 test1/svn/.svn will not be ignored
+control dir: test1/svn/.svn
 test1/svn/.svn/entries will not be ignored
 test1/svn/.svn/format will be ignored
 test1/svn/.svn/whatever will be ignored
 Warning: test1/svn/dirbad: Directory should be under Subversion control
  -> Parsing Subversion entries
- --> fileoth: o
- --> fileutd: m
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
 test1/svn/dirutd/fileutd will be ignored
 test1/svn/dirutd/fileoth will not be ignored
 test1/svn/diroth is not controlled

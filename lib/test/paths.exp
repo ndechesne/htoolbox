@@ -3778,13 +3778,17 @@ Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 D       /home/User/svn/.svn/all-wcprops
@@ -3805,11 +3809,9 @@ D       /home/User/svn/.svn/tmp/prop-base
 D       /home/User/svn/.svn/tmp/props
 D       /home/User/svn/.svn/tmp/text-base
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    /home/User/svn/dir space/.svn/all-wcprops
 D       /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
@@ -3833,12 +3835,9 @@ D       /home/User/svn/dirbad/fileoth
 D       /home/User/svn/dirbad/fileutd
 D       /home/User/svn/diroth
 svn/dirutd\r
-          \r
- -> Parsing Subversion entries
- --> fileoth: o
- --> fileutd: m
 svn/dirutd/.svn\r
                \r
+control dir: test1/svn/dirutd/.svn
 If p    /home/User/svn/dirutd/.svn/all-wcprops
 D       /home/User/svn/dirutd/.svn/all-wcprops
 Id p    /home/User/svn/dirutd/.svn/prop-base
@@ -4222,13 +4221,17 @@ Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -4236,11 +4239,9 @@ Id p    /home/User/svn/.svn/props
 Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
@@ -4253,12 +4254,9 @@ If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
 svn/dirutd\r
-          \r
- -> Parsing Subversion entries
- --> fileoth: o
- --> fileutd: m
 svn/dirutd/.svn\r
                \r
+control dir: test1/svn/dirutd/.svn
 If p    /home/User/svn/dirutd/.svn/all-wcprops
 Id p    /home/User/svn/dirutd/.svn/prop-base
 Id p    /home/User/svn/dirutd/.svn/props
@@ -4602,13 +4600,17 @@ Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -4616,11 +4618,9 @@ Id p    /home/User/svn/.svn/props
 Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
@@ -4977,13 +4977,17 @@ Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -4991,11 +4995,9 @@ Id p    /home/User/svn/.svn/props
 Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
@@ -5347,13 +5349,17 @@ Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -5361,11 +5367,9 @@ Id p    /home/User/svn/.svn/props
 Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
@@ -5723,13 +5727,17 @@ Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -5737,11 +5745,9 @@ Id p    /home/User/svn/.svn/props
 Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
@@ -6127,13 +6133,17 @@ Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -6141,11 +6151,9 @@ Id p    /home/User/svn/.svn/props
 Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
@@ -6553,13 +6561,17 @@ Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -6567,11 +6579,9 @@ Id p    /home/User/svn/.svn/props
 Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
@@ -7041,13 +7051,17 @@ Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -7055,11 +7069,9 @@ Id p    /home/User/svn/.svn/props
 Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
@@ -7768,13 +7780,17 @@ Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -7782,11 +7798,9 @@ Id p    /home/User/svn/.svn/props
 Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
@@ -8548,13 +8562,17 @@ Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -8562,11 +8580,9 @@ Id p    /home/User/svn/.svn/props
 Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
@@ -8845,13 +8861,17 @@ Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -8859,11 +8879,9 @@ Id p    /home/User/svn/.svn/props
 Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
@@ -9134,13 +9152,17 @@ Id f    /home/User/subdir
 svn\r
    \r
  -> Parsing Subversion entries
- --> dirbad: m
- --> diroth: o
- --> filemod.o: m
- --> filenew.c: m
- --> fileoth: i
+ --> test1/svn/dir space/file space: m
+ --> test1/svn/dirbad: m
+ --> test1/svn/diroth: o
+ --> test1/svn/dirutd/fileoth: o
+ --> test1/svn/dirutd/fileutd: m
+ --> test1/svn/filemod.o: m
+ --> test1/svn/filenew.c: m
+ --> test1/svn/fileoth: i
 svn/.svn\r
         \r
+control dir: test1/svn/.svn
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -9148,11 +9170,9 @@ Id p    /home/User/svn/.svn/props
 Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
-             \r
- -> Parsing Subversion entries
- --> file space: m
 svn/dir space/.svn\r
                   \r
+control dir: test1/svn/dir space/.svn
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props

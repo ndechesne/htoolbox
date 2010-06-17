@@ -35,7 +35,7 @@ public:
   // This will create an appropriate parser for the directory if relevant
   Parser* createChildIfControlled(const string& dir_path) const;
   // That tells use whether to ignore the file, i.e. not back it up
-  bool ignore(const Node& node);
+  bool ignore(const Node& node) const;
   // For debug purposes
   void show(int level = 0);
 };

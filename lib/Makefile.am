@@ -6,15 +6,15 @@ AM_CXXFLAGS = \
   -I$(top_srcdir)/parsers \
   $(NULL)
 
-LIBS = \
+# Library
+lib_LTLIBRARIES = libhbackup.la
+libhbackup_la_LDFLAGS= -version-info $(LIB_VERSION)
+
+libhbackup_la_LIBADD = \
   $(top_builddir)/base/libhtools.la \
   $(top_builddir)/parsers/libhbackup_cvs.la \
   $(top_builddir)/parsers/libhbackup_svn.la \
   $(NULL)
-
-# Library
-lib_LTLIBRARIES = libhbackup.la
-libhbackup_la_LDFLAGS= -version-info $(LIB_VERSION)
 
 libhbackup_la_SOURCES = \
   clients.cpp \
