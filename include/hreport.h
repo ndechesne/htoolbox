@@ -66,13 +66,18 @@ namespace hreport {
     static Report*    _self;
     //! Current output criticality levels (default: info)
     static Level      _out_level;
-    char              _buffer[1024];
-    unsigned int      _size_to_overwrite;
+    struct Private;
+    Private* const    _d;
     static size_t utf8_len(const char* s);
-    Report() : _size_to_overwrite(0) {}
+    Report();
+    int lock();
+    int unlock();
   public:
-    // Create/get current instance of this singleton
+    ~Report();
+    // Create/get current instance of this singleton (not thread-safe)
     static Report* self();
+    // Destroy instance (not thread-safe)
+    static void destroy();
     // Set output verbosity level
     static void setLevel(Level level) { _out_level = level; }
     // Get current output verbosity level

@@ -342,5 +342,6 @@ int main(int argc, char **argv) {
   } catch (ArgException &e) {
     cerr << "Error: " << e.error() << " for arg " << e.argId() << endl;
   };
+  hreport::Report::destroy();
   return 0;
 }
