@@ -65,27 +65,22 @@ namespace hreport {
     const char*     prepend);
 
   class Report {
-    static Report*    _self;
     //! Current output criticality levels (default: info)
-    static Level      _out_level;
+    Level           _out_level;
     struct Private;
-    Private* const    _d;
+    Private* const  _d;
     static size_t utf8_len(const char* s);
-    Report();
     int lock();
     int unlock();
   public:
+    Report();
     ~Report();
-    // Create/get current instance of this singleton (not thread-safe)
-    static Report* self();
-    // Destroy instance (not thread-safe)
-    static void destroy();
     // Set output verbosity level
-    static void setLevel(Level level) { _out_level = level; }
+    void setLevel(Level level) { _out_level = level; }
     // Get current output verbosity level
-    static Level level() { return _out_level; }
+    Level level() { return _out_level; }
     // Display message on standard output
-    static int log(
+    int log(
       const char*     file,
       int             line,
       Level           level,
@@ -94,14 +89,16 @@ namespace hreport {
       ...);
   };
 
+  extern Report report;
+
 }
 
 #define hlog_is_worth(l) \
-  ((l) <= hreport::Report::level())
+  ((l) <= hreport::report.level())
 
 #define hlog_generic(level, temp, format, ...) \
   hlog_is_worth(level) ? \
-    hreport::Report::log(__FILE__,__LINE__,(level),(temp),(format),##__VA_ARGS__) : 0
+    hreport::report.log(__FILE__,__LINE__,(level),(temp),(format),##__VA_ARGS__) : 0
 
 #define hlog_alert(t, f, ...) \
   hlog_generic(hreport::alert,(t),(f),##__VA_ARGS__)

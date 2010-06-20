@@ -109,7 +109,7 @@ int main(void) {
 
   cout << "Test: DB lists" << endl;
   mkdir("test_db", 0755);
-  Report::setLevel(debug);
+  report.setLevel(debug);
 
 
   cout << endl << "Test: list creation" << endl;

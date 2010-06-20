@@ -29,7 +29,7 @@ int main(void) {
   Config*           config;
   ConfigErrors      errors;
 
-  Report::setLevel(debug);
+  report.setLevel(debug);
 
   cout << endl << "Test: client configuration" << endl;
   ConfigSyntax client_syntax;

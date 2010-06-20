@@ -72,7 +72,7 @@ int main(void) {
   DataTest          db;
   int               sys_rc;
 
-  Report::setLevel(debug);
+  report.setLevel(debug);
 
   /* Test database */
   Directory("test_db").create();

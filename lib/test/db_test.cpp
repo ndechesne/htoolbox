@@ -62,7 +62,7 @@ int main(void) {
   List        dblist_reader("test_db/myClient/list");
   int         sys_rc;
 
-  Report::setLevel(debug);
+  report.setLevel(debug);
   Database db("test_db");
 
 

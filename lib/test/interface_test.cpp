@@ -58,7 +58,7 @@ static int showClientConfigs() {
   bool failed = false;
   const list<Node*> ls = dir.nodesListConst();
   for (list<Node*>::const_iterator i = ls.begin(); i != ls.end(); i++) {
-cout << "Config for " << (*i)->path() << endl;
+    cout << "Config for " << (*i)->path() << endl;
     Config config;
     Stream stream((*i)->path());
     if (! stream.open(O_RDONLY)) {
@@ -80,7 +80,7 @@ int main(void) {
   list<string> names;
   int          sys_rc;
 
-  Report::setLevel(debug);
+  report.setLevel(debug);
   hbackup::setProgressCallback(progress);
 
   cout << endl << "Test: wrong config file" << endl;

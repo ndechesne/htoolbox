@@ -54,7 +54,7 @@ int main(void) {
   Filters       filters;
   int           sys_rc;
 
-  Report::setLevel(debug);
+  report.setLevel(debug);
   db.setProgressCallback(progress);
 
   // Create global filter

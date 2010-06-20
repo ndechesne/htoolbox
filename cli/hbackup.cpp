@@ -179,21 +179,21 @@ int main(int argc, char **argv) {
 
 
     // Set verbosity level to info
-    hreport::Report::setLevel(hreport::info);
+    hreport::report.setLevel(hreport::info);
 
     // Set verbosity level to quiet
     if (quietSwitch.getValue()) {
-      hreport::Report::setLevel(hreport::warning);
+      hreport::report.setLevel(hreport::warning);
     }
 
     // Set verbosity level to verbose
     if (verboseSwitch.getValue()) {
-      hreport::Report::setLevel(hreport::verbose);
+      hreport::report.setLevel(hreport::verbose);
     }
 
     // Set verbosity level to debug
     if (debugSwitch.getValue()) {
-      hreport::Report::setLevel(hreport::debug);
+      hreport::report.setLevel(hreport::debug);
     }
 
     // Set progress callback function
@@ -342,6 +342,5 @@ int main(int argc, char **argv) {
   } catch (ArgException &e) {
     cerr << "Error: " << e.error() << " for arg " << e.argId() << endl;
   };
-  hreport::Report::destroy();
   return 0;
 }

@@ -34,7 +34,7 @@ int main(void) {
   Parser*     parser2;
   Node*       node;
 
-  Report::setLevel(debug);
+  report.setLevel(debug);
 
   // Test
   cout << endl << "Only consider controlled files" << endl;

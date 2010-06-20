@@ -29,7 +29,7 @@ using namespace std;
 int main(void) {
   Node* node;
 
-  Report::setLevel(debug);
+  report.setLevel(debug);
 
   cout << "OR filter test" << endl;
   Filter* or_filter = new Filter(Filter::any, "my_filter_or");

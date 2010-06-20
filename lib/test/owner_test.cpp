@@ -92,7 +92,7 @@ int main(void) {
   int sys_rc;
 
   cout << "Owner tests" << endl;
-  Report::setLevel(debug);
+  report.setLevel(debug);
 
   mkdir("test_db", 0755);
   Owner   o("test_db", "client", 10);

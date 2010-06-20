@@ -51,7 +51,7 @@ int main(void) {
   out(debug, msg_standard, "debug 2 level", 2, NULL);
 
   cout << endl << "Verbosity level: alert" << endl;
-  Report::setLevel(alert);
+  report.setLevel(alert);
   out(info, msg_standard, "default level", -1, NULL);
   out(alert, msg_standard, "alert level", -1, NULL);
   out(alert, msg_standard, "alert 0 level", 0, NULL);
@@ -75,7 +75,7 @@ int main(void) {
   out(debug, msg_standard, "debug 2 level", 2, NULL);
 
   cout << endl << "Verbosity level: error" << endl;
-  Report::setLevel(error);
+  report.setLevel(error);
   out(info, msg_standard, "default level", -1, NULL);
   out(alert, msg_standard, "alert level", -1, NULL);
   out(alert, msg_standard, "alert 0 level", 0, NULL);
@@ -99,7 +99,7 @@ int main(void) {
   out(debug, msg_standard, "debug 2 level", 2, NULL);
 
   cout << endl << "Verbosity level: warning" << endl;
-  Report::setLevel(warning);
+  report.setLevel(warning);
   out(info, msg_standard, "default level", -1, NULL);
   out(alert, msg_standard, "alert level", -1, NULL);
   out(alert, msg_standard, "alert 0 level", 0, NULL);
@@ -123,7 +123,7 @@ int main(void) {
   out(debug, msg_standard, "debug 2 level", 2, NULL);
 
   cout << endl << "Verbosity level: info" << endl;
-  Report::setLevel(info);
+  report.setLevel(info);
   out(info, msg_standard, "default level", -1, NULL);
   out(alert, msg_standard, "alert level", -1, NULL);
   out(alert, msg_standard, "alert 0 level", 0, NULL);
@@ -147,7 +147,7 @@ int main(void) {
   out(debug, msg_standard, "debug 2 level", 2, NULL);
 
   cout << endl << "Verbosity level: verbose" << endl;
-  Report::setLevel(verbose);
+  report.setLevel(verbose);
   out(info, msg_standard, "default level", -1, NULL);
   out(alert, msg_standard, "alert level", -1, NULL);
   out(alert, msg_standard, "alert 0 level", 0, NULL);
@@ -171,7 +171,7 @@ int main(void) {
   out(debug, msg_standard, "debug 2 level", 2, NULL);
 
   cout << endl << "Verbosity level: debug" << endl;
-  Report::setLevel(debug);
+  report.setLevel(debug);
   out(info, msg_standard, "default level", -1, NULL);
   out(alert, msg_standard, "alert level", -1, NULL);
   out(alert, msg_standard, "alert 0 level", 0, NULL);

@@ -57,7 +57,7 @@ int main(void) {
   int sys_rc;
 
   umask(0022);
-  Report::setLevel(debug);
+  report.setLevel(debug);
 
   ClientPath* path = new ClientPath("/home/User");
   Database    db("test_db");

@@ -34,7 +34,7 @@ int main(void) {
   Condition*  condition;
   Node*       node;
 
-  Report::setLevel(debug);
+  report.setLevel(debug);
 
   cout << "Conditions test" << endl;
   node = new Node("this is/a path/to a file.txt", 'f', 0, 0, 0, 0, 0);

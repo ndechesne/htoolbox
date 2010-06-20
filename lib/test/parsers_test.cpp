@@ -67,7 +67,7 @@ int main(void) {
   Parsers*  parsers;
   Parser*   parser;
 
-  Report::setLevel(debug);
+  report.setLevel(debug);
 
   parsers = new Parsers;
   cout << "Add TestParser to list" << endl;

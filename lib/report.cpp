@@ -31,6 +31,8 @@ using namespace std;
 
 using namespace hreport;
 
+Report hreport::report;
+
 void hreport::out_hidden(
     const char*     file,
     int             line,
@@ -39,12 +41,7 @@ void hreport::out_hidden(
     const char*     message,
     int             number,
     const char*     prepend) {
-  // get instance
-  Report* report = Report::self();
-  if (report == NULL) {
-    return;
-  }
-  if (level > report->level()) {
+  if (level > report.level()) {
     return;
   }
   stringstream s;
@@ -80,7 +77,7 @@ void hreport::out_hidden(
     }
     s << message;
   }
-  Report::log(file, line, level, (number == -3), "%s", s.str().c_str());
+  report.log(file, line, level, (number == -3), "%s", s.str().c_str());
 }
 
 struct Report::Private {
@@ -88,10 +85,6 @@ struct Report::Private {
   char            buffer[1024];
   unsigned int    size_to_overwrite;
 };
-
-Report* Report::_self = NULL;
-
-Level Report::_out_level = info;
 
 size_t Report::utf8_len(const char* s) {
   size_t size = 0;
@@ -104,7 +97,7 @@ size_t Report::utf8_len(const char* s) {
   return size;
 }
 
-Report::Report() : _d(new Private) {
+Report::Report() : _out_level(info), _d(new Private) {
   pthread_mutex_init(&_d->mutex, NULL);
   _d->size_to_overwrite = 0;
 }
@@ -121,20 +114,6 @@ Report::~Report() {
   delete _d;
 }
 
-Report* Report::self() {
-  if (_self == NULL) {
-    _self = new Report;
-  }
-  return _self;
-}
-
-void Report::destroy() {
-  if (_self != NULL) {
-    delete _self;
-    _self = NULL;
-  }
-}
-
 int Report::log(
     const char*     file,
     int             line,
@@ -142,11 +121,6 @@ int Report::log(
     bool            temporary,
     const char*     format,
     ...) {
-  // get instance
-  Report* report = Report::self();
-  if (report == NULL) {
-    return -1;
-  }
   // print only if required
   if (level > _out_level) {
     return 0;
@@ -156,46 +130,46 @@ int Report::log(
   FILE* fd;
   switch (level) {
     case alert:
-      rc += sprintf(report->_d->buffer, "ALERT! ");
+      rc += sprintf(_d->buffer, "ALERT! ");
       fd = stderr;
       break;
     case error:
-      rc += sprintf(report->_d->buffer, "Error: ");
+      rc += sprintf(_d->buffer, "Error: ");
       fd = stderr;
       break;
     case warning:
-      rc += sprintf(report->_d->buffer, "Warning: ");
+      rc += sprintf(_d->buffer, "Warning: ");
       fd = stderr;
       break;
     default:
       fd = stdout;
   }
   // lock
-  report->lock();
+  lock();
   // fill in buffer
   va_list ap;
   va_start(ap, format);
-  rc += vsnprintf(&report->_d->buffer[rc], sizeof(_d->buffer), format, ap);
+  rc += vsnprintf(&_d->buffer[rc], sizeof(_d->buffer), format, ap);
   va_end(ap);
-  size_t buffer_size = sizeof(report->_d->buffer) - 1;
-  report->_d->buffer[buffer_size] = '\0';
+  size_t buffer_size = sizeof(_d->buffer) - 1;
+  _d->buffer[buffer_size] = '\0';
   // compute UTF-8 string length
   size_t size = 0;
-  if (temporary || (report->_d->size_to_overwrite != 0)) {
-    size = utf8_len(report->_d->buffer);
+  if (temporary || (_d->size_to_overwrite != 0)) {
+    size = utf8_len(_d->buffer);
   }
   // if previous length stored, overwrite end of previous line
-  if ((report->_d->size_to_overwrite != 0) &&
-      (report->_d->size_to_overwrite > size)){
-    size_t diff = report->_d->size_to_overwrite - size;
+  if ((_d->size_to_overwrite != 0) &&
+      (_d->size_to_overwrite > size)){
+    size_t diff = _d->size_to_overwrite - size;
     if (diff > (buffer_size - rc)) {
       diff = buffer_size - rc;
     }
-    memset(&report->_d->buffer[rc], ' ', diff);
+    memset(&_d->buffer[rc], ' ', diff);
     rc += diff;
   }
   // print
-  fwrite(report->_d->buffer, rc, 1, fd);
+  fwrite(_d->buffer, rc, 1, fd);
   if (temporary) {
     fprintf(fd, "\r");
   } else {
@@ -204,11 +178,11 @@ int Report::log(
   fflush(fd);
   // if temp, store length (should be UTF-8 length...)
   if (temporary) {
-    report->_d->size_to_overwrite = size;
+    _d->size_to_overwrite = size;
   } else {
-    report->_d->size_to_overwrite = 0;
+    _d->size_to_overwrite = 0;
   }
   // unlock
-  report->unlock();
+  unlock();
   return rc;
 }
