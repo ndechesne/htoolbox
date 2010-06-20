@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2007-2009  Herve Fache
+     Copyright (C) 2007-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -26,7 +26,7 @@ using namespace std;
 
 #include "hbackup.h"
 #include "files.h"
-#include "report.h"
+#include "hreport.h"
 #include "configuration.h"
 #include "conditions.h"
 #include "filters.h"
@@ -82,8 +82,8 @@ bool hbackup::aborting(unsigned short test) {
 
 struct HBackup::Private {
   Database*               db;
-  list<string>            selected_clients;
-  list<Client*>           clients;
+  std::list<string>       selected_clients;
+  std::list<Client*>      clients;
   bool                    remote_clients;
   OpData::CompressionMode db_compress_mode;
   Attributes              attributes;
@@ -96,7 +96,7 @@ HBackup::HBackup() : _d(new Private) {
 }
 
 HBackup::~HBackup() {
-  for (list<Client*>::iterator client = _d->clients.begin();
+  for (std::list<Client*>::iterator client = _d->clients.begin();
       client != _d->clients.end(); client++){
     delete *client;
   }
@@ -106,7 +106,7 @@ HBackup::~HBackup() {
 
 int HBackup::addClient(const char* name) {
   int cmp = 1;
-  list<string>::iterator client = _d->selected_clients.begin();
+  std::list<string>::iterator client = _d->selected_clients.begin();
   while ((client != _d->selected_clients.end())
       && ((cmp = client->compare(name)) < 0)) {
     client++;
@@ -310,7 +310,7 @@ int HBackup::readConfig(const char* config_path) {
 
       // Clients MUST BE in alphabetic order
       int cmp = 1;
-      list<Client*>::iterator i = _d->clients.begin();
+      std::list<Client*>::iterator i = _d->clients.begin();
       while (i != _d->clients.end()) {
         cmp = client->internalName().compare((*i)->internalName());
         if (cmp <= 0) {
@@ -530,7 +530,7 @@ int HBackup::backup(
       return -1;
     }
     bool failed = false;
-    for (list<Client*>::iterator client = _d->clients.begin();
+    for (std::list<Client*>::iterator client = _d->clients.begin();
         client != _d->clients.end(); client++) {
       if (aborting()) {
         break;
@@ -538,7 +538,7 @@ int HBackup::backup(
       // Skip unrequested clients
       if (_d->selected_clients.size() != 0) {
         bool found = false;
-        for (list<string>::iterator i = _d->selected_clients.begin();
+        for (std::list<string>::iterator i = _d->selected_clients.begin();
           i != _d->selected_clients.end(); i++) {
           if (*i == (*client)->internalName()) {
             found = true;
@@ -572,16 +572,21 @@ int HBackup::backup(
   return -1;
 }
 
-int HBackup::restore(
-    const char*     dest,
-    LinkType        links,
-    const char*     path,
-    time_t          date) {
+int HBackup::list_or_restore(
+    const char*         dest,
+    std::list<string>*  names,
+    LinkType            links,
+    const char*         path,
+    time_t              date) {
   bool failed = false;
   if (_d->db->open(true) < 0) {
     return -1;
   }
-  list<string> records;
+  if ((dest == NULL) && (names == NULL)) {
+    out(error, msg_standard, "Neither destination nor list given");
+    return -1;
+  }
+  std::list<string>& records = *names;
   if (_d->selected_clients.empty()) {
     if (dest == NULL) {
       failed = (_d->db->getClients(records) != 0);
@@ -590,13 +595,13 @@ int HBackup::restore(
       failed = true;
     }
   } else {
-    for (list<string>::iterator client = _d->selected_clients.begin();
+    for (std::list<string>::iterator client = _d->selected_clients.begin();
         client != _d->selected_clients.end(); client++) {
       if (_d->db->openClient(client->c_str())) {
         failed = true;
       } else {
         if (dest == NULL) {
-          if (_d->db->getRecords(records, path, date) != 0) {
+          if (_d->db->getRecords(*names, path, date) != 0) {
             failed = true;
           }
         } else {
@@ -606,12 +611,6 @@ int HBackup::restore(
         }
         _d->db->closeClient();
       }
-    }
-  }
-  if (! failed && (dest == NULL)) {
-    for (list<string>::iterator record = records.begin();
-        record != records.end(); record++) {
-      out(value, msg_standard, record->c_str());
     }
   }
   _d->db->close();
@@ -640,14 +639,14 @@ void HBackup::show(int level) const {
   }
   if (! _d->selected_clients.empty()) {
     out(debug, msg_standard, "Selected clients:", level);
-    for (list<string>::iterator client = _d->selected_clients.begin();
+    for (std::list<string>::iterator client = _d->selected_clients.begin();
         client != _d->selected_clients.end(); client++) {
       out(debug, msg_standard, client->c_str(), level + 1);
     }
   }
   if (! _d->clients.empty()) {
     out(debug, msg_standard, "Clients:", level);
-    for (list<Client*>::iterator client = _d->clients.begin();
+    for (std::list<Client*>::iterator client = _d->clients.begin();
         client != _d->clients.end(); client++) {
       (*client)->show(level + 1);
     }

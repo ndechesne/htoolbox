@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -30,7 +30,9 @@ using namespace std;
 #include <errno.h>
 
 #include "config.h"
+
 #include "hbackup.h"
+#include "hreport.h"
 
 // Verbosity
 static hbackup::VerbosityLevel verbose_level = hbackup::info;
@@ -46,115 +48,6 @@ void sighandler(int signal) {
  }
 }
 
-static list<string>* _records = NULL;
-
-static void setValueReceiver(list<string>* values) {
-  _records = values;
-}
-
-static void resetValueReceiver() {
-  _records = NULL;
-}
-
-// Messages
-static void output(
-    hbackup::VerbosityLevel  level,
-    hbackup::MessageType     type,
-    const char*     message = NULL,
-    int             number  = -1,
-    const char*     prepend = NULL) {
-  static unsigned int _size_to_overwrite = 0;
-  if (level > verbose_level) {
-    return;
-  }
-  stringstream s;
-  if ((type != hbackup::msg_standard) || (number < 0)) {
-    switch (level) {
-      case hbackup::alert:
-        s << "ALERT! ";
-        break;
-      case hbackup::error:
-        s << "Error: ";
-        break;
-      case hbackup::warning:
-        s << "Warning: ";
-        break;
-      default:;
-    }
-  } else if (number > 0) {
-    string arrow;
-    arrow = " ";
-    arrow.append(number, '-');
-    arrow.append("> ");
-    s << arrow;
-  }
-  if (prepend != NULL) {
-    s << prepend;
-    if (number >= -1) {
-      s << ":";
-    }
-    s << " ";
-  }
-  bool add_colon = false;
-  switch (type) {
-    case hbackup::msg_errno:
-      s << strerror(number);
-      s << " ";
-      break;
-    case hbackup::msg_number:
-      s << number;
-      add_colon = true;
-      break;
-    default:;
-  }
-  if (message != NULL) {
-    if (add_colon) {
-      s << ": ";
-    }
-    s << message;
-  }
-  if (number == -3) {
-    if (s.str().size() > _size_to_overwrite) {
-      _size_to_overwrite = s.str().size();
-    } else
-    if (s.str().size() < _size_to_overwrite) {
-      string blank;
-      blank.append(_size_to_overwrite - s.str().size(), ' ');
-      _size_to_overwrite = s.str().size();
-      s << blank;
-    }
-    s << '\r';
-  } else {
-    if (_size_to_overwrite > 0) {
-      string blank;
-      blank.append(_size_to_overwrite, ' ');
-      cout << blank << '\r' << flush;
-      _size_to_overwrite = 0;
-    }
-    s << endl;
-  }
-  switch (level) {
-    case hbackup::value:
-      if (_records != NULL) {
-        string value = s.str();
-        value.erase(value.size() - 1);
-        _records->push_back(value);
-      } else {
-        cout << '\t' << s.str() << flush;
-      }
-      break;
-    case hbackup::alert:
-    case hbackup::error:
-      cerr << s.str() << flush;
-      break;
-    case hbackup::warning:
-    case hbackup::info:
-    case hbackup::verbose:
-    case hbackup::debug:
-      cout << s.str() << flush;
-  }
-}
-
 // Progress
 static void progress(long long previous, long long current, long long total) {
   if ((current != total) || (previous != 0)) {
@@ -163,7 +56,7 @@ static void progress(long long previous, long long current, long long total) {
       << setprecision(1)
       << 100.0 * static_cast<double>(current) / static_cast<double>(total)
       << "%";
-    output(hbackup::info, hbackup::msg_standard, s.str().c_str(), -3);
+    hout_info(true, "%s", s.str().c_str());
   }
 }
 
@@ -195,8 +88,6 @@ static list<string> clients;
 
 int main(int argc, char **argv) {
   hbackup::HBackup hbackup;
-
-  setMessageCallback(output);
 
   // Accept hubackup as a replacement for hbackup -u
   bool   user_mode = false;
@@ -334,13 +225,11 @@ int main(int argc, char **argv) {
     }
     // If listing or restoring., need list of clients
     if ((restoreArg.getValue().size() != 0) || (listSwitch.getValue())) {
-      setValueReceiver(&clients);
-      if (hbackup.restore() != 0) {
+      if (hbackup.list(&clients) != 0) {
         return 1;
       } else {
         use_clients = true;
       }
-      resetValueReceiver();
     }
     // Report specified clients
     for (vector<string>::const_iterator i = clientArg.getValue().begin();
@@ -408,9 +297,13 @@ int main(int argc, char **argv) {
         cerr << "Error: Wrong number of clients" << endl;
         return 1;
       }
-      if (hbackup.restore(NULL, hbackup::HBackup::none,
+      list<string> names;
+      if (hbackup.list(&names, hbackup::HBackup::none,
           pathArg.getValue().c_str(), dateArg.getValue())) {
         return 3;
+      }
+      for (list<string>::const_iterator i = names.begin(); i != names.end(); ++i) {
+        cout << "\t" << *i << endl;
       }
     } else
     // Restore data

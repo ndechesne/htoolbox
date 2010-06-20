@@ -23,7 +23,7 @@
 
 #include "hbackup.h"
 #include "files.h"
-#include "report.h"
+#include "hreport.h"
 
 namespace hbackup {
 

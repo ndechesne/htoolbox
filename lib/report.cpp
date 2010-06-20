@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008  Herve Fache
+     Copyright (C) 2008-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -21,10 +21,12 @@
 
 using namespace std;
 
+#include "stdio.h"
+#include "stdarg.h"
 #include "string.h"
 
 #include "hbackup.h"
-#include "report.h"
+#include "hreport.h"
 
 using namespace hbackup;
 
@@ -49,6 +51,17 @@ void hbackup::out(
 }
 
 Report* Report::_self = NULL;
+
+size_t Report::utf8_len(const char* s) {
+  size_t size = 0;
+  while (*s) {
+    if ((*s & 0xc0) != 0x80) {
+      ++size;
+    }
+    ++s;
+  }
+  return size;
+}
 
 Report* Report::self() {
   if (_self == NULL) {
@@ -124,38 +137,69 @@ void Report::out(
     }
     s << message;
   }
-  if (number == -3) {
-    if (s.str().size() > _size_to_overwrite) {
-      _size_to_overwrite = s.str().size();
-    } else
-    if (s.str().size() < _size_to_overwrite) {
-      string blank;
-      blank.append(_size_to_overwrite - s.str().size(), ' ');
-      _size_to_overwrite = s.str().size();
-      s << blank;
-    }
-    s << '\r';
-  } else {
-    if (_size_to_overwrite > 0) {
-      string blank;
-      blank.append(_size_to_overwrite, ' ');
-      cout << blank << '\r' << flush;
-      _size_to_overwrite = 0;
-    }
-    s << endl;
+  Report::out(level, (number == -3), "%s", s.str().c_str());
+}
+
+int Report::out(
+    VerbosityLevel  level,
+    bool            temporary,
+    const char*     format,
+    ...) {
+  // get instance
+  Report* report = Report::self();
+  if (report == NULL) {
+    return -1;
   }
+  // print only if required
+  if (level > report->_level) {
+    return 0;
+  }
+  // output fd depends on level
+  FILE* fd;
   switch (level) {
-    case value:
-      cout << "Value: " << s.str() << flush;
-      break;
     case alert:
     case error:
-      cerr << s.str() << flush;
+      fd = stderr;
       break;
-    case warning:
-    case info:
-    case verbose:
-    case debug:
-      cout << s.str() << flush;
+    default:
+      fd = stdout;
   }
+  // lock
+  // fill in buffer
+  va_list ap;
+  va_start(ap, format);
+  int rc = vsnprintf(report->_buffer, sizeof(_buffer), format, ap);
+  va_end(ap);
+  size_t buffer_size = sizeof(report->_buffer) - 1;
+  report->_buffer[buffer_size] = '\0';
+  // compute UTF-8 string length
+  size_t size = 0;
+  if (temporary || (report->_size_to_overwrite != 0)) {
+    size = utf8_len(report->_buffer);
+  }
+  // if previous length stored, overwrite end of previous line
+  if ((report->_size_to_overwrite != 0) && (report->_size_to_overwrite > size)){
+    size_t diff = report->_size_to_overwrite - size;
+    if (diff > (buffer_size - rc)) {
+      diff = buffer_size - rc;
+    }
+    memset(&report->_buffer[rc], ' ', diff);
+    rc += diff;
+  }
+  // print
+  fwrite(report->_buffer, rc, 1, fd);
+  if (temporary) {
+    fprintf(fd, "\r");
+  } else {
+    fprintf(fd, "\n");
+  }
+  fflush(fd);
+  // if temp, store length (should be UTF-8 length...)
+  if (temporary) {
+    report->_size_to_overwrite = size;
+  } else {
+    report->_size_to_overwrite = 0;
+  }
+  // unlock
+  return rc;
 }

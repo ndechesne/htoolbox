@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2009  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -29,7 +29,7 @@ using namespace std;
 #include "line.h"
 #include "files.h"
 #include "configuration.h"
-#include "report.h"
+#include "hreport.h"
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"
@@ -78,8 +78,9 @@ cout << "Config for " << (*i)->path() << endl;
 }
 
 int main(void) {
-  HBackup* hbackup;
-  int      sys_rc;
+  HBackup*     hbackup;
+  list<string> names;
+  int          sys_rc;
 
   setVerbosityLevel(debug);
   hbackup::setProgressCallback(progress);
@@ -214,7 +215,11 @@ int main(void) {
     return 1;
   }
   hbackup->show(2);
-  hbackup->restore();
+  names.clear();
+  hbackup->list(&names);
+  for (list<string>::const_iterator i = names.begin(); i != names.end(); ++i) {
+    cout << "\t" << *i << endl;
+  }
   hbackup->close();
   delete hbackup;
 
@@ -225,7 +230,11 @@ int main(void) {
   }
   hbackup->show(2);
   hbackup->addClient("myClient");
-  hbackup->restore();
+  names.clear();
+  hbackup->list(&names);
+  for (list<string>::const_iterator i = names.begin(); i != names.end(); ++i) {
+    cout << "\t" << *i << endl;
+  }
   hbackup->close();
   delete hbackup;
 
@@ -236,7 +245,11 @@ int main(void) {
   }
   hbackup->show(2);
   hbackup->addClient("client.xp");
-  hbackup->restore();
+  names.clear();
+  hbackup->list(&names);
+  for (list<string>::const_iterator i = names.begin(); i != names.end(); ++i) {
+    cout << "\t" << *i << endl;
+  }
   hbackup->close();
   delete hbackup;
 
@@ -332,7 +345,11 @@ int main(void) {
     return 1;
   }
   hbackup->show(2);
-  hbackup->restore();
+  names.clear();
+  hbackup->list(&names);
+  for (list<string>::const_iterator i = names.begin(); i != names.end(); ++i) {
+    cout << "\t" << *i << endl;
+  }
   hbackup->close();
   delete hbackup;
 
@@ -343,7 +360,11 @@ int main(void) {
   }
   hbackup->show(2);
   hbackup->addClient("myClient.xp");
-  hbackup->restore();
+  names.clear();
+  hbackup->list(&names);
+  for (list<string>::const_iterator i = names.begin(); i != names.end(); ++i) {
+    cout << "\t" << *i << endl;
+  }
   hbackup->close();
   delete hbackup;
 
@@ -355,7 +376,11 @@ int main(void) {
   if ((hbackup->addClient("myClient") == 0)
   && (hbackup->addClient("myClient.xp") == 0)) {
     hbackup->show(2);
-    hbackup->restore();
+    names.clear();
+    hbackup->list(&names);
+    for (list<string>::const_iterator i = names.begin(); i != names.end(); ++i) {
+      cout << "\t" << *i << endl;
+    }
   }
   hbackup->close();
   delete hbackup;
@@ -367,7 +392,11 @@ int main(void) {
   }
   hbackup->show(2);
   hbackup->addClient("myClient");
-  hbackup->restore(NULL, HBackup::none, "/home");
+  names.clear();
+  hbackup->list(&names, HBackup::none, "/home");
+  for (list<string>::const_iterator i = names.begin(); i != names.end(); ++i) {
+    cout << "\t" << *i << endl;
+  }
   hbackup->close();
   delete hbackup;
 
@@ -379,7 +408,11 @@ int main(void) {
   }
   hbackup->addClient("myClient.xp");
   hbackup->show(2);
-  hbackup->restore(NULL, HBackup::none, "C:");
+  names.clear();
+  hbackup->list(&names, HBackup::none, "C:");
+  for (list<string>::const_iterator i = names.begin(); i != names.end(); ++i) {
+    cout << "\t" << *i << endl;
+  }
   hbackup->close();
   delete hbackup;
 

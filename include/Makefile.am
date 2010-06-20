@@ -1,1 +1,4 @@
-include_HEADERS = hbackup.h
+include_HEADERS = \
+  hbackup.h \
+  hreport.h \
+  $(NULL)

@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2009  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -21,13 +21,14 @@
 
 #include <time.h>
 
+#include <list>
+#include <string>
+
 namespace hbackup {
   //! Compression level: nest compromise between speed and size
   static const int compression_level = 5;
   //! Verbosity level
   enum VerbosityLevel {
-    // This is to return string data
-    value,        /*!< Data is to be used in a specific way */
     // These should go to error output
     alert,        /*!< Your're dead */
     error,        /*!< Big issue, but might recover */
@@ -111,6 +112,14 @@ namespace hbackup {
     configuration files to behave as expected.
   */
   class HBackup {
+  public:
+    //! Type of UNIX link
+    enum LinkType {
+      none,         /*!< Do not create links */
+      symbolic,     /*!< Create a symbolic link */
+      hard          /*!< Create a hard link */
+    };
+  private:
     struct          Private;
     Private* const  _d;
     //! \brief Read configuration file for server-mode backup, open database
@@ -122,6 +131,12 @@ namespace hbackup {
     */
     int readConfig(
       const char*   config_path);
+    int list_or_restore(
+      const char*   destination,
+      std::list<std::string>* names,
+      LinkType      links         = none,
+      const char*   path          = "",
+      time_t        date          = 0);
   public:
     //! \brief Constructor
     HBackup();
@@ -185,26 +200,38 @@ namespace hbackup {
     */
     int backup(
       bool          initialize    = false);
-    //! Type of UNIX link
-    enum LinkType {
-      none,         /*!< Do not create links */
-      symbolic,     /*!< Create a symbolic link */
-      hard          /*!< Create a hard link */
-    };
-    //! \brief List or restore specified database contents
+    //! \brief List specified database contents
     /*!
       Lists contents, using the given parameters as filters.
-      \param destination  path where to restore the data (NULL to list only)
+      \param destination  list where to store the data
+      \param hard_links   whether to create hard links to DB insted of new files
+      \param path         path (if none given, restore all client's paths)
+      \param date         date (negative: use relative time from now, zero: all)
+      \return 0 on success, -1 on failure
+    */
+    int list(
+      std::list<std::string>* names,
+      LinkType      links         = none,
+      const char*   path          = "",
+      time_t        date          = 0) {
+      return list_or_restore(NULL, names, links, path, date);
+    }
+    //! \brief Restore specified database contents
+    /*!
+      Lists contents, using the given parameters as filters.
+      \param destination  path where to restore the data
       \param hard_links   whether to create hard links to DB insted of new files
       \param path         path (if none given, restore all client's paths)
       \param date         date (negative: use relative time from now, zero: all)
       \return 0 on success, -1 on failure
     */
     int restore(
-      const char*   destination   = NULL,
+      const char*   destination,
       LinkType      links         = none,
       const char*   path          = "",
-      time_t        date          = 0);
+      time_t        date          = 0) {
+      return list_or_restore(destination, NULL, links, path, date);
+    }
     //! \brief Show configuration
     /*!
       Lists recursively all configuration data. Only works if verbosity level
@@ -214,5 +241,19 @@ namespace hbackup {
     void show(int level = 0) const;
   };
 }
+
+#include "hreport.h"
+#define hout_alert(t, f, ...) \
+  hbackup::Report::out(hbackup::alert,(t),(f),##__VA_ARGS__)
+#define hout_error(t, f, ...) \
+  hbackup::Report::out(hbackup::error,(t),(f),##__VA_ARGS__)
+#define hout_warning(t, f, ...) \
+  hbackup::Report::out(hbackup::warning,(t),(f),##__VA_ARGS__)
+#define hout_info(t, f, ...) \
+  hbackup::Report::out(hbackup::info,(t),(f),##__VA_ARGS__)
+#define hout_verbose(t, f, ...) \
+  hbackup::Report::out(hbackup::verbose,(t),(f),##__VA_ARGS__)
+#define hout_debug(t, f, ...) \
+  hbackup::Report::out(hbackup::debug,(t),(f),##__VA_ARGS__)
 
 #endif  // _HBACKUP_H

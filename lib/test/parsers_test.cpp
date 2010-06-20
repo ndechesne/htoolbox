@@ -22,7 +22,7 @@ using namespace std;
 #include <list>
 
 #include "hbackup.h"
-#include "report.h"
+#include "hreport.h"
 #include "files.h"
 #include "parsers.h"
 

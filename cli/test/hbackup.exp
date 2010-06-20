@@ -353,7 +353,6 @@ Backing up path: C:/Test Dir
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 Ad      C:/Test Dir/My Dir
 My Dir\r
-      \r
 Checking data, sizes: f=2 z=22 (22)
 Adding uncompressed data for b026324c6904b2a9cb4b88d6d61c81d1-0
 Af f    C:/Test Dir/My Dir/a File.TXT
@@ -408,7 +407,6 @@ Database open r/w: client.xp
 Backing up path: C:/Test Dir
 Ad      C:/Test Dir/My Dir
 My Dir\r
-      \r
 Checking data, sizes: f=2 z=22 (22)
 Af ~    C:/Test Dir/My Dir/a File.TXT
 Checking data, sizes: f=2 z=22 (22)
@@ -448,7 +446,6 @@ Checking data, sizes: f=0 z=0 (0)
 Af ~    /home/User/test/File2.txt
 Ad      /home/User/test/dir
 dir\r
-   \r
 Checking data, sizes: f=2 z=22 (22)
 Adding uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Af f    /home/User/test/dir/file3.txt
@@ -494,7 +491,6 @@ Database open r/w: myClient.xp
 Backing up path: C:/Test Dir
 Ad      C:/Test Dir/My Dir
 My Dir\r
-      \r
 Checking data, sizes: f=2 z=22 (22)
 Af ~    C:/Test Dir/My Dir/a File.TXT
 Checking data, sizes: f=2 z=22 (22)
@@ -569,13 +565,11 @@ File copy progress:  85.0%\r
 File copy progress:  90.0%\r
 File copy progress:  95.0%\r
 File copy progress: 100.0%\r
-                          \r
 Checking data, sizes: f=10485760 z=10208 (10367)
 Adding compressed data for f1c9645dbc14efddc7d8a322685f26eb-0
 Af z    test1/big_file
 Ad      test1/cvs
 cvs\r
-   \r
  -> Parsing CVS entries
  --> dir space: D
  --> dirbad: D
@@ -585,7 +579,6 @@ cvs\r
  --> fileutd.h: 1159985080
 Ad      test1/cvs/CVS
 cvs/CVS\r
-       \r
 Adding uncompressed data for f899d6f61138a37484c8a2294656e903-0
 Af f    test1/cvs/CVS/Entries
 Checking data, sizes: f=16 z=36 (36)
@@ -595,12 +588,10 @@ If p    test1/cvs/CVS/Whatever
 Id p    test1/cvs/CVS/Wherever
 Ad      test1/cvs/dir space
 cvs/dir space\r
-             \r
  -> Parsing CVS entries
  --> file space: 1275257953
 Ad      test1/cvs/dir space/CVS
 cvs/dir space/CVS\r
-                 \r
 Adding uncompressed data for 662ae0524981c10b4736be799fc8650a-0
 Af f    test1/cvs/dir space/CVS/Entries
 Checking data, sizes: f=16 z=36 (36)
@@ -612,19 +603,16 @@ Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/cvs/dir space/file space
 Ad      test1/cvs/dirbad
 cvs/dirbad\r
-          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
 Ad      test1/cvs/dirutd
 cvs/dirutd\r
-          \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 Ad      test1/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
-              \r
 Adding uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
 Af f    test1/cvs/dirutd/CVS/Entries
 Checking data, sizes: f=10 z=30 (30)
@@ -642,7 +630,6 @@ Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/cvs/fileutd.h
 Ad      test1/dir space
 dir space\r
-         \r
 Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/dir space/file space
 Al      test1/dir space/link space
@@ -660,7 +647,6 @@ CR\r
 Id f    test1/subdir
 Ad      test1/svn
 svn\r
-   \r
  -> Parsing Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
@@ -672,7 +658,6 @@ svn\r
  --> test1/svn/fileoth: i
 Ad      test1/svn/.svn
 svn/.svn\r
-        \r
 control dir: test1/svn/.svn
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
@@ -685,10 +670,8 @@ Id p    test1/svn/.svn/text-base
 Id p    test1/svn/.svn/tmp
 Ad      test1/svn/dir space
 svn/dir space\r
-             \r
 Ad      test1/svn/dir space/.svn
 svn/dir space/.svn\r
-                  \r
 control dir: test1/svn/dir space/.svn
 If p    test1/svn/dir space/.svn/all-wcprops
 Checking data, sizes: f=278 z=189 (191)
@@ -702,17 +685,14 @@ Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/svn/dir space/file space
 Ad      test1/svn/dirbad
 svn/dirbad\r
-          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
 Ad      test1/svn/dirutd
 svn/dirutd\r
-          \r
 Ad      test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
-               \r
 control dir: test1/svn/dirutd/.svn
 If p    test1/svn/dirutd/.svn/all-wcprops
 Checking data, sizes: f=388 z=211 (214)
@@ -734,7 +714,6 @@ Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/test space
 Ad      test1/testdir
 testdir\r
-       \r
 Checking data, sizes: f=13 z=33 (33)
 Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Af f    test1/testfile
@@ -744,7 +723,6 @@ Ap      test1/testpipe
 Backing up path: test2
 Ad      test2/testdir
 testdir\r
-       \r
 Checking data, sizes: f=145408 z=176 (178)
 Adding compressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
 Af z    test2/testfile
@@ -789,7 +767,6 @@ Adding uncompressed data for b8bbb1294db5d59366b7d1827e2158d6-0
 Af f    /home/Blah/test/File2.txt
 Ad      /home/Blah/test/dir
 dir\r
-   \r
 Checking data, sizes: f=5 z=25 (25)
 Adding uncompressed data for 8a61083e712200a30c6ccf5f5c697b76-0
 Af f    /home/Blah/test/dir/file3.txt
@@ -952,7 +929,6 @@ Reading list of problematic checksums
 Database open r/w: client.xp
 Backing up path: C:/Test Dir
 My Dir\r
-      \r
 Database closed: client.xp
  -> umount -fl test_db/.mount/client.xp
  -> Reading client configuration file: myhost
@@ -1000,7 +976,6 @@ Backing up client: myhost
 Database open r/w: myhost
 Backing up path: test1
 cvs\r
-   \r
  -> Parsing CVS entries
  --> dir space: D
  --> dirbad: D
@@ -1009,35 +984,28 @@ cvs\r
  --> filenew.c: 0
  --> fileutd.h: 1159985080
 cvs/CVS\r
-       \r
 If p    test1/cvs/CVS/Whatever
 Id p    test1/cvs/CVS/Wherever
 cvs/dir space\r
-             \r
  -> Parsing CVS entries
  --> file space: 1275257953
 cvs/dir space/CVS\r
-                 \r
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
 cvs/dirbad\r
-          \r
 Warning: test1/cvs/dirbad: Directory should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
 cvs/dirutd\r
-          \r
  -> Parsing CVS entries
  --> fileutd: 1159985080
 cvs/dirutd/CVS\r
-              \r
 If p    test1/cvs/dirutd/CVS/Whatever
 If p    test1/cvs/dirutd/fileoth
 If f    test1/cvs/filemod.o
 If p    test1/cvs/fileoth
 dir space\r
-         \r
 Error: strange3TAB	LF
 CR\r
 : File name contains LF
@@ -1046,7 +1014,6 @@ CR\r
 
 Id f    test1/subdir
 svn\r
-   \r
  -> Parsing Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
@@ -1057,7 +1024,6 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-        \r
 control dir: test1/svn/.svn
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
@@ -1067,7 +1033,6 @@ Id p    test1/svn/.svn/text-base
 Id p    test1/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-                  \r
 control dir: test1/svn/dir space/.svn
 If p    test1/svn/dir space/.svn/all-wcprops
 Id p    test1/svn/dir space/.svn/prop-base
@@ -1075,14 +1040,12 @@ Id p    test1/svn/dir space/.svn/props
 Id p    test1/svn/dir space/.svn/text-base
 Id p    test1/svn/dir space/.svn/tmp
 svn/dirbad\r
-          \r
 Warning: test1/svn/dirbad: Directory should be under Subversion control
 If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
 svn/dirutd\r
 svn/dirutd/.svn\r
-               \r
 control dir: test1/svn/dirutd/.svn
 If p    test1/svn/dirutd/.svn/all-wcprops
 Id p    test1/svn/dirutd/.svn/prop-base
@@ -1094,11 +1057,9 @@ If f    test1/svn/filemod.o
 If p    test1/svn/fileoth
 If p    test1/svn/fileutd.h
 testdir\r
-       \r
 If f    test1/testfile~
 Backing up path: test2
 testdir\r
-       \r
 If f    test2/testfile~
 Database closed: myhost
 Database closed
@@ -1131,12 +1092,10 @@ Adding uncompressed data for 31d30eea8d0968d6458e0ad0027c9f80-0
 Af f    test_user/testuser/f1.txt
 Ad      test_user/testuser/subdir
 subdir\r
-      \r
 Adding uncompressed data for dbbf8220893d497d403bb9cdf49db7a4-0
 Af f    test_user/testuser/subdir/f2.txt
 Ad      test_user/testuser/subdir2
 subdir2\r
-       \r
 Adding uncompressed data for d5b4c7d9b06b60a7846c4529834c9812-0
 Af f    test_user/testuser/subdir2/f3.txt
 Adding uncompressed data for 90e2a51705594d033a3abe9d77b2b7ad-0
@@ -1154,11 +1113,9 @@ Backing up path: test_user/testuser
 Af ~    test_user/testuser/f1.txt
 Ad      test_user/testuser/subdir
 subdir\r
-      \r
 Af ~    test_user/testuser/subdir/f2.txt
 Ad      test_user/testuser/subdir2
 subdir2\r
-       \r
 Af ~    test_user/testuser/subdir2/f3.txt
 Af ~    test_user/testuser/subdir2/f4.txt
 Register modified: localhost
@@ -1422,8 +1379,7 @@ f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-                                             \r
-Found 20 valid and 0 broken data files
+Found 20 valid and 0 broken data files       
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -1599,8 +1555,7 @@ File copy progress: 100.0%\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461\r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-                                             \r
-Found 20 valid and 0 broken data files
+Found 20 valid and 0 broken data files       
 Database closed
 List clients
  -> Reading configuration file: etc/hbackup.conf
@@ -1713,13 +1668,13 @@ Database closed
  --> nothing
 Showing list
 Database open in read-only mode
+Database closed
 	aClient.vista
 	client.xp
 	myClient
 	myClient.xp
 	myhost
 	newClient
-Database closed
 List paths in myhost
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1835,9 +1790,9 @@ Showing list
 Database open in read-only mode
 Database open r-o: myhost
 Database closed: myhost
+Database closed
 	test1/
 	test2/
-Database closed
 List paths in myhost under test2/
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -1953,12 +1908,12 @@ Showing list
 Database open in read-only mode
 Database open r-o: myhost
 Database closed: myhost
+Database closed
 	test2/testdir/
 	test2/testfile
 	test2/testfile2
 	test2/testfile2.gz
 	test2/testlink
-Database closed
 List paths in myhost under test1/cvs
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -2074,13 +2029,13 @@ Showing list
 Database open in read-only mode
 Database open r-o: myhost
 Database closed: myhost
+Database closed
 	test1/cvs/CVS/
 	test1/cvs/dir space/
 	test1/cvs/dirbad/
 	test1/cvs/dirutd/
 	test1/cvs/filenew.c
 	test1/cvs/fileutd.h
-Database closed
 List paths in both myhost and aClient.vista
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -2199,10 +2154,10 @@ Database open r-o: aClient.vista
 Database closed: aClient.vista
 Database open r-o: myhost
 Database closed: myhost
+Database closed
 	C:/
 	test1/
 	test2/
-Database closed
 List paths in dual-boot client myClient
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -2321,9 +2276,9 @@ Database open r-o: myClient
 Database closed: myClient
 Database open r-o: myClient.xp
 Database closed: myClient.xp
+Database closed
 	/home/
 	C:/
-Database closed
 List paths in all clients
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
@@ -2454,6 +2409,7 @@ Database open r-o: myhost
 Database closed: myhost
 Database open r-o: newClient
 Database closed: newClient
+Database closed
 	C:/
 	C:/
 	/home/
@@ -2461,7 +2417,6 @@ Database closed: newClient
 	test1/
 	test2/
 	/home/
-Database closed
 Restore a file
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode

@@ -20,7 +20,6 @@ Meta file contents:
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 
 Test: write and read back with compression (auto)
-                                     \r
 Checking data, sizes: f=10485760 z=10208 (10367)
 Adding compressed data for f1c9645dbc14efddc7d8a322685f26eb-0
 f1c9645dbc14efddc7d8a322685f26eb-0  test1/big_file
@@ -37,7 +36,6 @@ Meta file contents:
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 
 Test: write and read back with forced compression
-                                     \r
 Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
 Meta file contents: 
@@ -48,7 +46,6 @@ Size reported: 13
 Meta file contents: 
 13	 
 59ca0efa9f5633cb0371bbc0355478d8-0 13 33\r
-                                        \r
 Replacing with uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 
@@ -101,7 +98,6 @@ Warning: 59ca0efa9f5633cb0371bbc0355478d8-0: Adding missing metadata
  * check
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * missing
-                                        \r
 Warning: d41d8cd98f00b204e9800998ecf8427e: Setting missing metadata
 d41d8cd98f00b204e9800998ecf8427e 0\r
  * check
@@ -109,21 +105,17 @@ d41d8cd98f00b204e9800998ecf8427e 0\r
 
 Test: check - metadata check/correct
  * missing
-                                  \r
 Warning: 59ca0efa9f5633cb0371bbc0355478d8-0: Adding missing metadata
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * wrong
-                                        \r
 Error: 59ca0efa9f5633cb0371bbc0355478d8-0: -1: Correcting wrong metadata
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * check
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * missing
-                                        \r
 Warning: d41d8cd98f00b204e9800998ecf8427e: Adding missing metadata
 d41d8cd98f00b204e9800998ecf8427e 0\r
  * wrong
-                                  \r
 Error: d41d8cd98f00b204e9800998ecf8427e: -1: Correcting wrong metadata
 d41d8cd98f00b204e9800998ecf8427e 0\r
  * check

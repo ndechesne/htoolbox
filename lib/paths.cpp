@@ -26,7 +26,7 @@ using namespace std;
 
 #include "hbackup.h"
 #include "files.h"
-#include "report.h"
+#include "hreport.h"
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"

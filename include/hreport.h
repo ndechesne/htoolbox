@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008  Herve Fache
+     Copyright (C) 2008-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -46,8 +46,10 @@ extern void out(
 class Report {
   static Report*    _self;
   VerbosityLevel    _level;
+  char              _buffer[1024];
   unsigned int      _size_to_overwrite;
   message_f         _message;
+  static size_t utf8_len(const char* s);
   Report() {
     // Display all non-debug messages
     _level             = info;
@@ -73,6 +75,12 @@ public:
     const char*     message,
     int             number  = -1, // Either line no or error no or arrow length
     const char*     prepend = NULL);
+  // Display message on standard output
+  static int out(
+    VerbosityLevel  level,
+    bool            temporary,  // erase this message with next one
+    const char*     format,
+    ...);
 };
 
 }

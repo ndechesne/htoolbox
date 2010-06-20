@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 target="$1"
 test_dir="${target}_test_dir"
