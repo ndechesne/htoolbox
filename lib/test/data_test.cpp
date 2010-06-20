@@ -26,13 +26,11 @@
 
 using namespace std;
 
-#include "hbackup.h"
+#include "test.h"
+
 #include "files.h"
-#include "hreport.h"
 #include "compdata.h"
 #include "data.h"
-
-using namespace hbackup;
 
 // Tests status:
 //   getDir:          tested
@@ -74,7 +72,7 @@ int main(void) {
   DataTest          db;
   int               sys_rc;
 
-  setVerbosityLevel(debug);
+  Report::setLevel(debug);
 
   /* Test database */
   Directory("test_db").create();

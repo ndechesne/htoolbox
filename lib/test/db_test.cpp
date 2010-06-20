@@ -26,14 +26,12 @@
 
 using namespace std;
 
-#include "hbackup.h"
+#include "test.h"
+
 #include "files.h"
-#include "hreport.h"
 #include "list.h"
 #include "opdata.h"
 #include "db.h"
-
-using namespace hbackup;
 
 // Tests status:
 //   lock:        tested
@@ -64,7 +62,7 @@ int main(void) {
   List        dblist_reader("test_db/myClient/list");
   int         sys_rc;
 
-  setVerbosityLevel(debug);
+  Report::setLevel(debug);
   Database db("test_db");
 
 

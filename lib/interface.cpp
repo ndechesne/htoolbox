@@ -38,22 +38,15 @@ using namespace std;
 #include "clients.h"
 
 using namespace hbackup;
+using namespace hreport;
 
 #define DEFAULT_DB_PATH "/backup"
 
 static int        _aborted  = 0;
 static progress_f _progress = NULL;
 
-void hbackup::setMessageCallback(message_f message) {
-  Report::self()->setMessageCallback(message);
-}
-
 void hbackup::setProgressCallback(progress_f progress) {
   _progress = progress;
-}
-
-void hbackup::setVerbosityLevel(VerbosityLevel level) {
-  Report::self()->setVerbosityLevel(level);
 }
 
 void hbackup::abort(unsigned short test) {

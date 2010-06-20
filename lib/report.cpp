@@ -25,10 +25,9 @@ using namespace std;
 #include "stdarg.h"
 #include "string.h"
 
-#include "hbackup.h"
 #include "hreport.h"
 
-using namespace hbackup;
+using namespace hreport;
 
 struct nullstream : std::ostream {
   struct nullbuf : std::streambuf {
@@ -41,54 +40,18 @@ struct nullstream : std::ostream {
 
 static nullstream null;
 
-void hbackup::out(
-    VerbosityLevel  level,
+void hreport::out(
+    Level           level,
     MessageType     type,
     const char*     message,
     int             number,
     const char*     prepend) {
-  Report::self()->out(level, type, message, number, prepend);
-}
-
-Report* Report::_self = NULL;
-
-size_t Report::utf8_len(const char* s) {
-  size_t size = 0;
-  while (*s) {
-    if ((*s & 0xc0) != 0x80) {
-      ++size;
-    }
-    ++s;
-  }
-  return size;
-}
-
-Report* Report::self() {
-  if (_self == NULL) {
-    _self = new Report;
-  }
-  return _self;
-}
-
-void Report::setVerbosityLevel(VerbosityLevel level) {
-  _level = level;
-}
-
-void Report::setMessageCallback(message_f message) {
-  _message = message;
-}
-
-void Report::out(
-    VerbosityLevel  level,
-    MessageType     type,
-    const char*     message,
-    int             number,
-    const char*     prepend) {
-  if (_message != NULL) {
-    (*_message)(level, type, message, number, prepend);
+  // get instance
+  Report* report = Report::self();
+  if (report == NULL) {
     return;
   }
-  if (level > _level) {
+  if (level > report->level()) {
     return;
   }
   stringstream s;
@@ -140,8 +103,30 @@ void Report::out(
   Report::out(level, (number == -3), "%s", s.str().c_str());
 }
 
+Report* Report::_self = NULL;
+
+Level Report::_out_level = info;
+
+size_t Report::utf8_len(const char* s) {
+  size_t size = 0;
+  while (*s) {
+    if ((*s & 0xc0) != 0x80) {
+      ++size;
+    }
+    ++s;
+  }
+  return size;
+}
+
+Report* Report::self() {
+  if (_self == NULL) {
+    _self = new Report;
+  }
+  return _self;
+}
+
 int Report::out(
-    VerbosityLevel  level,
+    Level  level,
     bool            temporary,
     const char*     format,
     ...) {
@@ -151,7 +136,7 @@ int Report::out(
     return -1;
   }
   // print only if required
-  if (level > report->_level) {
+  if (level > _out_level) {
     return 0;
   }
   // output fd depends on level
@@ -159,6 +144,7 @@ int Report::out(
   switch (level) {
     case alert:
     case error:
+    case warning:
       fd = stderr;
       break;
     default:

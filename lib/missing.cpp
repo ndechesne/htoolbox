@@ -53,6 +53,7 @@ namespace hbackup {
 }
 
 using namespace hbackup;
+using namespace hreport;
 
 struct Missing::Private {
   char*               path;

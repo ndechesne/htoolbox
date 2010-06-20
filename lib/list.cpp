@@ -26,6 +26,7 @@
 #include "list.h"
 
 using namespace hbackup;
+using namespace hreport;
 
 struct List::Private {
   Path              s_path;

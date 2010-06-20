@@ -20,17 +20,16 @@
 
 using namespace std;
 
+#include "test.h"
+
 #include "files.h"
 #include "configuration.h"
-#include "hbackup.h"
-
-using namespace hbackup;
 
 int main(void) {
   Config*           config;
   ConfigErrors      errors;
 
-  setVerbosityLevel(debug);
+  Report::setLevel(debug);
 
   cout << endl << "Test: client configuration" << endl;
   ConfigSyntax client_syntax;

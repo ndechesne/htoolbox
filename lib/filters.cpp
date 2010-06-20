@@ -30,6 +30,7 @@ using namespace std;
 #include "filters.h"
 
 using namespace hbackup;
+using namespace hreport;
 
 Filter::~Filter() {
   list<Condition*>::const_iterator condition;

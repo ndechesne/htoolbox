@@ -34,6 +34,7 @@ using namespace std;
 #include "owner.h"
 
 using namespace hbackup;
+using namespace hreport;
 
 struct Owner::Private {
   Path              path;

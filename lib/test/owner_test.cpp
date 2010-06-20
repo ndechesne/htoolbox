@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008-2009  Herve Fache
+     Copyright (C) 2008-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -25,15 +25,14 @@
 
 using namespace std;
 
-#include "hbackup.h"
+#include "test.h"
+
 #include "files.h"
 #include "list.h"
 #include "missing.h"
 #include "opdata.h"
 #include "compdata.h"
 #include "owner.h"
-
-using namespace hbackup;
 
 // Owner:               tested
 // ~Owner:              tested
@@ -93,7 +92,7 @@ int main(void) {
   int sys_rc;
 
   cout << "Owner tests" << endl;
-  setVerbosityLevel(debug);
+  Report::setLevel(debug);
 
   mkdir("test_db", 0755);
   Owner   o("test_db", "client", 10);

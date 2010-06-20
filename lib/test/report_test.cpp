@@ -20,10 +20,9 @@
 
 using namespace std;
 
-#include "hbackup.h"
 #include "hreport.h"
 
-using namespace hbackup;
+using namespace hreport;
 
 int main(void) {
   cout << "Report tests" << endl;
@@ -52,7 +51,7 @@ int main(void) {
   out(debug, msg_standard, "debug 2 level", 2);
 
   cout << endl << "Verbosity level: alert" << endl;
-  setVerbosityLevel(alert);
+  Report::setLevel(alert);
   out(info, msg_standard, "default level");
   out(alert, msg_standard, "alert level");
   out(alert, msg_standard, "alert 0 level", 0);
@@ -76,7 +75,7 @@ int main(void) {
   out(debug, msg_standard, "debug 2 level", 2);
 
   cout << endl << "Verbosity level: error" << endl;
-  setVerbosityLevel(error);
+  Report::setLevel(error);
   out(info, msg_standard, "default level");
   out(alert, msg_standard, "alert level");
   out(alert, msg_standard, "alert 0 level", 0);
@@ -100,7 +99,7 @@ int main(void) {
   out(debug, msg_standard, "debug 2 level", 2);
 
   cout << endl << "Verbosity level: warning" << endl;
-  setVerbosityLevel(warning);
+  Report::setLevel(warning);
   out(info, msg_standard, "default level");
   out(alert, msg_standard, "alert level");
   out(alert, msg_standard, "alert 0 level", 0);
@@ -124,7 +123,7 @@ int main(void) {
   out(debug, msg_standard, "debug 2 level", 2);
 
   cout << endl << "Verbosity level: info" << endl;
-  setVerbosityLevel(info);
+  Report::setLevel(info);
   out(info, msg_standard, "default level");
   out(alert, msg_standard, "alert level");
   out(alert, msg_standard, "alert 0 level", 0);
@@ -148,7 +147,7 @@ int main(void) {
   out(debug, msg_standard, "debug 2 level", 2);
 
   cout << endl << "Verbosity level: verbose" << endl;
-  setVerbosityLevel(verbose);
+  Report::setLevel(verbose);
   out(info, msg_standard, "default level");
   out(alert, msg_standard, "alert level");
   out(alert, msg_standard, "alert 0 level", 0);
@@ -172,7 +171,7 @@ int main(void) {
   out(debug, msg_standard, "debug 2 level", 2);
 
   cout << endl << "Verbosity level: debug" << endl;
-  setVerbosityLevel(debug);
+  Report::setLevel(debug);
   out(info, msg_standard, "default level");
   out(alert, msg_standard, "alert level");
   out(alert, msg_standard, "alert 0 level", 0);
@@ -196,14 +195,14 @@ int main(void) {
   out(debug, msg_standard, "debug 2 level", 2);
 
   cout << endl << "Line autoblanking" << endl;
-  out(hbackup::info, hbackup::msg_standard, "", -3);
-  out(hbackup::info, hbackup::msg_standard, "Short line", -3);
-  out(hbackup::info, hbackup::msg_standard, "A longer line", -3);
-  out(hbackup::info, hbackup::msg_standard, "Tiny one", -3);
-  out(hbackup::info, hbackup::msg_standard, ".", -3);
-  out(hbackup::info, hbackup::msg_standard, "A longer line", -3);
-  out(hbackup::info, hbackup::msg_standard, "An even longer line", -3);
-  out(hbackup::info, hbackup::msg_standard, "A normal line");
+  out(info, msg_standard, "", -3);
+  out(info, msg_standard, "Short line", -3);
+  out(info, msg_standard, "A longer line", -3);
+  out(info, msg_standard, "Tiny one", -3);
+  out(info, msg_standard, ".", -3);
+  out(info, msg_standard, "A longer line", -3);
+  out(info, msg_standard, "An even longer line", -3);
+  out(info, msg_standard, "A normal line");
 
 
   cout << endl << "End of tests" << endl;

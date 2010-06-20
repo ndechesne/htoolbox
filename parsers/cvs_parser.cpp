@@ -25,6 +25,7 @@ using namespace std;
 #include "cvs_parser.h"
 
 using namespace hbackup;
+using namespace hreport;
 
 static const string control_dir = "/CVS";
 static const char* entries = "/Entries";

@@ -28,6 +28,7 @@ using namespace std;
 #include "svn_parser.h"
 
 using namespace hbackup;
+using namespace hreport;
 
 static const string control_dir = "/.svn";
 static const char* entries = "/entries";

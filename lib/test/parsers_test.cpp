@@ -21,12 +21,10 @@ using namespace std;
 #include <iostream>
 #include <list>
 
-#include "hbackup.h"
-#include "hreport.h"
+#include "test.h"
+
 #include "files.h"
 #include "parsers.h"
-
-using namespace hbackup;
 
 class TestParser : public Parser {
   int           _index;
@@ -69,7 +67,7 @@ int main(void) {
   Parsers*  parsers;
   Parser*   parser;
 
-  setVerbosityLevel(debug);
+  Report::setLevel(debug);
 
   parsers = new Parsers;
   cout << "Add TestParser to list" << endl;

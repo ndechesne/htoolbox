@@ -24,46 +24,11 @@
 #include <list>
 #include <string>
 
+#include <hreport.h>
+
 namespace hbackup {
   //! Compression level: nest compromise between speed and size
   static const int compression_level = 5;
-  //! Verbosity level
-  enum VerbosityLevel {
-    // These should go to error output
-    alert,        /*!< Your're dead */
-    error,        /*!< Big issue, but might recover */
-    // These should go to standard output
-    warning,      /*!< Non-blocking issue */
-    info,         /*!< Normal information, typically if 'quiet' not selected */
-    verbose,      /*!< Extra information, typically if 'verbose' selected */
-    debug         /*!< Developper information, typically if 'debug' selected */
-  };
-  enum MessageType {
-    msg_standard, /*!< number represents arrow length */
-    msg_errno,    /*!< number represents error no */
-    msg_number    /*!< number represents a number (often a line number) */
-  };
-  //! \brief Type for message callback function
-  /*!
-    \param level        the verbosity level
-    \param type         the message type
-    \param message      the message
-    \param number       the arrows/error/line number
-    \param prepend      the prepended text/file name
-  */
-  typedef void (*message_f)(
-    VerbosityLevel  level,
-    MessageType     type,
-    const char*     message,
-    int             number,
-    const char*     prepend);
-
-  //! \brief Set the message callback
-  /*!
-    \param message      the function to be called
-  */
-  void setMessageCallback(
-    message_f       message);
 
   //! \brief Type for progress callback function
   /*!
@@ -82,14 +47,6 @@ namespace hbackup {
   */
   void setProgressCallback(
     progress_f      progress);
-
-  //! \brief Set verbosity level
-  /*!
-    Sets the level of messages that the use should see
-    \param level        the verbosity level
-  */
-  void setVerbosityLevel(
-    VerbosityLevel  level);
 
   //! \brief Tell any process to stop
   /*!
@@ -241,19 +198,5 @@ namespace hbackup {
     void show(int level = 0) const;
   };
 }
-
-#include "hreport.h"
-#define hout_alert(t, f, ...) \
-  hbackup::Report::out(hbackup::alert,(t),(f),##__VA_ARGS__)
-#define hout_error(t, f, ...) \
-  hbackup::Report::out(hbackup::error,(t),(f),##__VA_ARGS__)
-#define hout_warning(t, f, ...) \
-  hbackup::Report::out(hbackup::warning,(t),(f),##__VA_ARGS__)
-#define hout_info(t, f, ...) \
-  hbackup::Report::out(hbackup::info,(t),(f),##__VA_ARGS__)
-#define hout_verbose(t, f, ...) \
-  hbackup::Report::out(hbackup::verbose,(t),(f),##__VA_ARGS__)
-#define hout_debug(t, f, ...) \
-  hbackup::Report::out(hbackup::debug,(t),(f),##__VA_ARGS__)
 
 #endif  // _HBACKUP_H

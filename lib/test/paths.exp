@@ -7166,6 +7166,7 @@ hisClient's journal:
 myClient's real journal:
 Error: test_db/myClient/journal: Unexpected end of list
 Error: Failed to read list
+Warning: Previous backup interrupted: myClient
 [22] /home/User/crash               d        0 755
 [22] /home/User/crash/file          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [22] /home/User/test space          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -7175,7 +7176,6 @@ Error: Failed to read list
 [22] /home/User/testdir/biblio/biblio.dbt [rm]
 [22] /home/User/testdir/biblio.odb  [rm]
 [22] /home/User/testdir/evolocal.odb [rm]
-Warning: Previous backup interrupted: myClient
 Register modified: myClient
 Warning: test_db/myClient/journal: Unexpected end of journal
 Database open in read/write mode

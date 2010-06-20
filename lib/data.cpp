@@ -39,6 +39,7 @@ using namespace std;
 #include "data.h"
 
 using namespace hbackup;
+using namespace hreport;
 
 struct Data::Private {
   char*             path;
@@ -767,7 +768,7 @@ int Data::check(
     out(error, msg_standard, "Metadata missing", -1, checksum);
   }
 
-  if (display && (Report::self()->verbosityLevel() >= verbose)) {
+  if (display && hout_is_worth(verbose)) {
     char* size_str;
     if (((no == 0) && (asprintf(&size_str, "%lld", original_size) < 0))
     ||  ((no > 0)

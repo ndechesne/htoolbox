@@ -25,9 +25,9 @@
 
 using namespace std;
 
-#include "hbackup.h"
+#include "test.h"
+
 #include "files.h"
-#include "hreport.h"
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"
@@ -36,8 +36,6 @@ using namespace std;
 #include "db.h"
 #include "attributes.h"
 #include "paths.h"
-
-using namespace hbackup;
 
 static void progress(long long previous, long long current, long long total) {
   if (current < total) {
@@ -59,7 +57,7 @@ int main(void) {
   int sys_rc;
 
   umask(0022);
-  setVerbosityLevel(debug);
+  Report::setLevel(debug);
 
   ClientPath* path = new ClientPath("/home/User");
   Database    db("test_db");

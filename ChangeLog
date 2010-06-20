@@ -1,5 +1,6 @@
 1.1 - future
   * speedup SVN parsing by parsing all in one go (x20)
+  * sensible console message logger
 
 1.0 - 2010-06-04 (SVN r761)
   * add SSH support (with and without username and/or password)

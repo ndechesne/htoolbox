@@ -27,6 +27,7 @@ using namespace std;
 #include "svn_parser.h"
 
 using namespace hbackup;
+using namespace hreport;
 
 Parsers hbackup::parsers_registered;
 

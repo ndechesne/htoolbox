@@ -25,12 +25,10 @@
 
 using namespace std;
 
-#include "hbackup.h"
-#include "files.h"
-#include "hreport.h"
-#include "list.h"
+#include "test.h"
 
-using namespace hbackup;
+#include "files.h"
+#include "list.h"
 
 static time_t my_time = 0;
 time_t time(time_t *t) {
@@ -111,7 +109,7 @@ int main(void) {
 
   cout << "Test: DB lists" << endl;
   mkdir("test_db", 0755);
-  setVerbosityLevel(debug);
+  Report::setLevel(debug);
 
 
   cout << endl << "Test: list creation" << endl;

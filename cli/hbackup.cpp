@@ -34,9 +34,6 @@ using namespace std;
 #include "hbackup.h"
 #include "hreport.h"
 
-// Verbosity
-static hbackup::VerbosityLevel verbose_level = hbackup::info;
-
 // Signals
 void sighandler(int signal) {
   (void) signal;
@@ -108,7 +105,7 @@ int main(int argc, char **argv) {
   // Analyse arguments
   try {
     // Description
-    CmdLine cmd(PACKAGE_NAME " (c) 2006-2008 Hervé Fache", ' ',
+    CmdLine cmd(PACKAGE_NAME " (c) 2006-2010 Hervé Fache", ' ',
       PACKAGE_VERSION);
     MyOutput output;
     cmd.setOutput(&output);
@@ -182,28 +179,25 @@ int main(int argc, char **argv) {
 
 
     // Set verbosity level to info
-    setVerbosityLevel(hbackup::info);
+    hreport::Report::setLevel(hreport::info);
 
     // Set verbosity level to quiet
     if (quietSwitch.getValue()) {
-      verbose_level = hbackup::warning;
+      hreport::Report::setLevel(hreport::warning);
     }
 
     // Set verbosity level to verbose
     if (verboseSwitch.getValue()) {
-      verbose_level = hbackup::verbose;
+      hreport::Report::setLevel(hreport::verbose);
     }
 
     // Set verbosity level to debug
     if (debugSwitch.getValue()) {
-      verbose_level = hbackup::debug;
+      hreport::Report::setLevel(hreport::debug);
     }
 
-    // Send chosen verbosity level to hbackup (used to save computation)
-    setVerbosityLevel(verbose_level);
-
     // Set progress callback function
-    if (verbose_level >= hbackup::verbose) {
+    if (hout_is_worth(hreport::verbose)) {
       hbackup::setProgressCallback(progress);
     }
 
@@ -262,7 +256,7 @@ int main(int argc, char **argv) {
     hbackup.show(1);
     // Fix any interrupted backup
     if (fixSwitch.getValue()) {
-      if (verbose_level >= hbackup::info) {
+      if (hout_is_worth(hreport::info)) {
         cout << "Fixing database" << endl;
       }
       if (hbackup.fix()) {
@@ -271,7 +265,7 @@ int main(int argc, char **argv) {
     } else
     // Check that data referenced in DB exists
     if (scanSwitch.getValue()) {
-      if (verbose_level >= hbackup::info) {
+      if (hout_is_worth(hreport::info)) {
         cout << "Scanning database" << endl;
       }
       if (hbackup.scan()) {
@@ -280,7 +274,7 @@ int main(int argc, char **argv) {
     } else
     // Check that data in DB is not corrupted
     if (checkSwitch.getValue()) {
-      if (verbose_level >= hbackup::info) {
+      if (hout_is_worth(hreport::info)) {
         cout << "Checking database" << endl;
       }
       if (hbackup.check()) {
@@ -289,7 +283,7 @@ int main(int argc, char **argv) {
     } else
     // List DB contents
     if (listSwitch.getValue()) {
-      if (verbose_level >= hbackup::info) {
+      if (hout_is_worth(hreport::info)) {
         cout << "Showing list" << endl;
       }
       string path;
@@ -308,7 +302,7 @@ int main(int argc, char **argv) {
     } else
     // Restore data
     if (restoreArg.getValue().size() != 0) {
-      if (verbose_level >= hbackup::info) {
+      if (hout_is_worth(hreport::info)) {
         cout << "Restoring" << endl;
       }
       if (clientArg.getValue().size() != (user_mode ? 0 : 1)) {
@@ -336,7 +330,7 @@ int main(int argc, char **argv) {
     } else
     // Backup
     {
-      if (verbose_level >= hbackup::info) {
+      if (hout_is_worth(hreport::info)) {
         cout << "Backing up in " << (user_mode ? "user" : "server") << " mode"
           << endl;
       }

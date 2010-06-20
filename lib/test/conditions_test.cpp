@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -24,18 +24,17 @@
 
 using namespace std;
 
+#include "test.h"
+
 #include "files.h"
 #include "conditions.h"
 #include "filters.h"
-#include "hbackup.h"
-
-using namespace hbackup;
 
 int main(void) {
   Condition*  condition;
   Node*       node;
 
-  setVerbosityLevel(debug);
+  Report::setLevel(debug);
 
   cout << "Conditions test" << endl;
   node = new Node("this is/a path/to a file.txt", 'f', 0, 0, 0, 0, 0);
