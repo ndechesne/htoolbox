@@ -141,7 +141,7 @@ int Client::mountPath(
   command += " " + share + " " + mount_point;
 
   // Issue mount command
-  out(debug, msg_standard, command.c_str(), 1);
+  out(debug, msg_standard, command.c_str(), 1, NULL);
   command += " > /dev/null 2>&1";
 
   int result = system(command.c_str());
@@ -165,7 +165,7 @@ int Client::umount(
       command = "fusermount -u ";
     }
     command += mount_point;
-    out(debug, msg_standard, command.c_str(), 1);
+    out(debug, msg_standard, command.c_str(), 1, NULL);
     _d->mounted = "";
     return system(command.c_str());
   }
@@ -534,7 +534,7 @@ int Client::backup(
     stringstream s;
     s << "Trying client '" << internalName() << "' using protocol '"
       << _d->protocol << "'";
-    out(info, msg_standard, s.str().c_str());
+    out(info, msg_standard, s.str().c_str(), -1, NULL);
   }
 
   if (_d->list_file.length() != 0) {
@@ -570,22 +570,22 @@ int Client::backup(
       stringstream s;
       s << "Subsets don't match in server and client configuration files: '"
         << _d->subset_server << "' != '" << _d->subset_client << "', skipping";
-      out(info, msg_standard, s.str().c_str());
+      out(info, msg_standard, s.str().c_str(), -1, NULL);
       failed = true;
     } else {
       // Save configuration
       Directory dir(Path(db.path(), ".configs"));
       if (dir.create() < 0) {
-        out(error, msg_errno, "creating configuration directory", errno);
+        out(error, msg_errno, "creating configuration directory", errno, NULL);
       } else {
         Stream stream(Path(dir.path(), internalName().c_str()));
         if (stream.open(O_WRONLY) >= 0) {
           if (_d->config.write(stream) < 0) {
-            out(error, msg_errno, "writing configuration file", errno);
+            out(error, msg_errno, "writing configuration file", errno, NULL);
           }
           stream.close();
         } else {
-          out(error, msg_errno, "creating configuration file", errno);
+          out(error, msg_errno, "creating configuration file", errno, NULL);
         }
       }
     }
@@ -629,7 +629,7 @@ int Client::backup(
             if ((*i)->parse(db, backup_path.c_str(), internalName().c_str())) {
               // prepare_share sets errno
               if (! aborting()) {
-                out(error, msg_standard, "Aborting client");
+                out(error, msg_standard, "Aborting client", -1, NULL);
               }
               abort  = true;
               failed = true;
@@ -689,7 +689,7 @@ void Client::show(int level) const {
     out(debug, msg_standard, s.str().c_str(), level, "Users");
   }
   if (_d->timeout_nowarning) {
-    out(debug, msg_standard, "No warning on time out", level);
+    out(debug, msg_standard, "No warning on time out", level, NULL);
   }
   if (_d->list_file.length() != 0) {
     out(debug, msg_standard, _d->list_file, level, "Config");

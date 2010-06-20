@@ -93,21 +93,21 @@ int Owner::finishOff(
           if (! _d->original->open()) {
             _d->original->setProgressCallback(_d->progress);
             if (List::merge(_d->original, _d->partial, &journal) < 0) {
-              out(error, msg_standard, "Merge failed");
+              out(error, msg_standard, "Merge failed", -1, NULL);
               failed = true;
             }
             _d->original->setProgressCallback(NULL);
             _d->original->close();
           } else {
-            out(error, msg_errno, "opening list", errno);
+            out(error, msg_errno, "opening list", errno, NULL);
             failed = true;
           }
           if (_d->partial->close()) {
-            out(error, msg_errno, "closing merge", errno);
+            out(error, msg_errno, "closing merge", errno, NULL);
             failed = true;
           }
         } else {
-          out(error, msg_errno, "opening merge", errno);
+          out(error, msg_errno, "opening merge", errno, NULL);
           failed = true;
         }
       }
@@ -122,21 +122,21 @@ int Owner::finishOff(
       }
     } else
     if (errno != ENOENT) {
-      out(error, msg_errno, "opening journal", errno);
+      out(error, msg_errno, "opening journal", errno, NULL);
       return -1;
     }
   }
 
   // list._d->partial -> list.next (step 1)
   if (! got_next && rename(_d->partial->path(), next.path())) {
-    out(error, msg_errno, "renaming next list", errno);
+    out(error, msg_errno, "renaming next list", errno, NULL);
     return -1;
   }
 
   // Discard journal (step 2)
   if (! got_next || File(_d->journal->path()).isValid()) {
     if (rename(_d->journal->path(), Path(_d->path, "journal~"))) {
-      out(error, msg_errno, "renaming journal", errno);
+      out(error, msg_errno, "renaming journal", errno, NULL);
       return -1;
     }
   }
@@ -144,14 +144,14 @@ int Owner::finishOff(
   // list -> list~ (step 3)
   if (! got_next || File(_d->original->path()).isValid()) {
     if (rename(_d->original->path(), Path(_d->path, "list~"))) {
-      out(error, msg_errno, "renaming backup list", errno);
+      out(error, msg_errno, "renaming backup list", errno, NULL);
       return -1;
     }
   }
 
   // list.next -> list (step 4)
   if (rename(next.path(), _d->original->path())) {
-    out(error, msg_errno, "renaming list", errno);
+    out(error, msg_errno, "renaming list", errno, NULL);
     return -1;
   }
   return 0;
@@ -203,7 +203,7 @@ int Owner::hold() const {
   stringstream file_name;
   file_name << owner_list.path() << "." << getpid();
   if (link(owner_list.path(), file_name.str().c_str())) {
-    out(error, msg_errno, "creating hard link to list, aborting");
+    out(error, msg_errno, "creating hard link to list, aborting", -1, NULL);
     return -1;
   }
 
@@ -287,7 +287,7 @@ int Owner::open(
       out(warning, msg_standard, _d->path.basename(), -1,
         "Previous backup interrupted");
       if (finishOff(true)) {
-        out(error, msg_standard, "Failed to recover previous data");
+        out(error, msg_standard, "Failed to recover previous data", -1, NULL);
         failed = true;
       }
     }
@@ -367,7 +367,7 @@ int Owner::close(
     } else
     // Merge now
     if (finishOff(false)) {
-      out(error, msg_standard, "Failed to close lists");
+      out(error, msg_standard, "Failed to close lists", -1, NULL);
       failed = true;
     }
     // Free lists

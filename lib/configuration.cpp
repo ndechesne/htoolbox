@@ -89,7 +89,7 @@ void ConfigLine::show(int level) const {
     }
     s << (*this)[j];
   }
-  out(debug, msg_number, s.str().c_str(), lineNo());
+  out(debug, msg_number, s.str().c_str(), lineNo(), NULL);
 }
 
 bool ConfigCounter::operator<(const ConfigCounter& counter) const {
@@ -214,7 +214,7 @@ void ConfigItem::show(int level) const {
     } else {
       s << "min = max = " << (*i)->_min_params;
     }
-    out(verbose, msg_standard, s.str().c_str());
+    out(verbose, msg_standard, s.str().c_str(), -1, NULL);
     (*i)->show(level + 2);
   }
 }
@@ -402,7 +402,7 @@ void Config::clear() {
 }
 
 void Config::show() const {
-  out(debug, msg_standard, "Config:");
+  out(debug, msg_standard, "Config:", -1, NULL);
   ConfigLine* params;
   int level;
   while ((level = line(&params)) >= 0) {

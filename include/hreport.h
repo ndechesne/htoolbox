@@ -55,12 +55,14 @@ namespace hreport {
     \param prepend      prepended text (often the name of the file concerned)
     \return the output stream
   */
-  extern void out(
+  extern void out_hidden(
+    const char*     file,
+    int             line,
     Level           level,
     MessageType     type,
     const char*     message,
-    int             number        = -1,
-    const char*     prepend       = NULL);
+    int             number,
+    const char*     prepend);
 
   class Report {
     static Report*    _self;
@@ -83,7 +85,9 @@ namespace hreport {
     // Get current output verbosity level
     static Level level() { return _out_level; }
     // Display message on standard output
-    static int out(
+    static int log(
+      const char*     file,
+      int             line,
       Level           level,
       bool            temporary,  // erase this message with next one
       const char*     format,
@@ -92,29 +96,32 @@ namespace hreport {
 
 }
 
-#define hout_is_worth(l) \
+#define hlog_is_worth(l) \
   ((l) <= hreport::Report::level())
 
-#define hout_generic(level, temp, format, ...) \
-  hout_is_worth(level) ? \
-    hreport::Report::out((level),(temp),(format),##__VA_ARGS__) : 0
+#define hlog_generic(level, temp, format, ...) \
+  hlog_is_worth(level) ? \
+    hreport::Report::log(__FILE__,__LINE__,(level),(temp),(format),##__VA_ARGS__) : 0
 
-#define hout_alert(t, f, ...) \
-  hout_generic(hreport::alert,(t),(f),##__VA_ARGS__)
+#define hlog_alert(t, f, ...) \
+  hlog_generic(hreport::alert,(t),(f),##__VA_ARGS__)
 
-#define hout_error(t, f, ...) \
-  hout_generic(hreport::error,(t),(f),##__VA_ARGS__)
+#define hlog_error(t, f, ...) \
+  hlog_generic(hreport::error,(t),(f),##__VA_ARGS__)
 
-#define hout_warning(t, f, ...) \
-  hout_generic(hreport::warning,(t),(f),##__VA_ARGS__)
+#define hlog_warning(t, f, ...) \
+  hlog_generic(hreport::warning,(t),(f),##__VA_ARGS__)
 
-#define hout_info(t, f, ...) \
-  hout_generic(hreport::info,(t),(f),##__VA_ARGS__)
+#define hlog_info(t, f, ...) \
+  hlog_generic(hreport::info,(t),(f),##__VA_ARGS__)
 
-#define hout_verbose(t, f, ...) \
-  hout_generic(hreport::verbose,(t),(f),##__VA_ARGS__)
+#define hlog_verbose(t, f, ...) \
+  hlog_generic(hreport::verbose,(t),(f),##__VA_ARGS__)
 
-#define hout_debug(t, f, ...) \
-  hout_generic(hreport::debug,(t),(f),##__VA_ARGS__)
+#define hlog_debug(t, f, ...) \
+  hlog_generic(hreport::debug,(t),(f),##__VA_ARGS__)
+
+#define out(level,type,msg,no,prepend) \
+  hreport::out_hidden(__FILE__,__LINE__,(level),(type),(msg),(no),(prepend))
 
 #endif  // _HREPORT_H

@@ -267,7 +267,7 @@ int List::decodeLine(
     return -1;
   }
   if (num < 2) {
-    out(error, msg_standard, "Wrong number of arguments for line");
+    out(error, msg_standard, "Wrong number of arguments for line", -1, NULL);
     return -1;
   }
 
@@ -597,7 +597,7 @@ int List::merge(
         rc_list = search(list, "", -1, 0, new_list);
         if (rc_list < 0) {
           // Error copying list
-          out(error, msg_standard, "End of list copy failed");
+          out(error, msg_standard, "End of list copy failed", -1, NULL);
           return -1;
         }
       }
@@ -621,7 +621,7 @@ int List::merge(
         rc_list = search(list, path, -1, 0, new_list);
         if (rc_list < 0) {
           // Error copying list
-          out(error, msg_standard, "Path search failed");
+          out(error, msg_standard, "Path search failed", -1, NULL);
           return -1;
         }
       }
@@ -639,7 +639,7 @@ int List::merge(
       // Write
       if (new_list->putLine(journal->getData()) < 0) {
         // Could not write
-        out(error, msg_standard, "Journal copy failed");
+        out(error, msg_standard, "Journal copy failed", -1, NULL);
         return -1;
       }
     }
@@ -686,7 +686,7 @@ void List::show(
       free(path);
       free(node);
       if (rc < 0) {
-        out(error, msg_standard, "Failed to read list");
+        out(error, msg_standard, "Failed to read list", -1, NULL);
       }
     }
     close();

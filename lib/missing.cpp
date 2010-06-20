@@ -89,11 +89,11 @@ int Missing::close() {
   if (_d->modified || _d->force_save) {
     // Save list of missing items
     if (_d->modified) {
-      out(info, msg_standard, "Missing checksums list updated");
+      out(info, msg_standard, "Missing checksums list updated", -1, NULL);
     }
     Stream missing_list((path + ".part").c_str());
     if (missing_list.open(O_WRONLY)) {
-      out(error, msg_errno, "saving problematic checksums list", errno);
+      out(error, msg_errno, "saving problematic checksums list", errno, NULL);
       failed = true;
     }
     int rc = 0;
@@ -123,7 +123,7 @@ int Missing::close() {
   if (count > 0) {
     stringstream s;
     s << "List of problematic checksums contains " << count << " item(s)";
-    out(info, msg_standard, s.str().c_str());
+    out(info, msg_standard, s.str().c_str(), -1, NULL);
   }
   return failed ? -1 : 0;
 }
@@ -137,7 +137,7 @@ void Missing::open(const char* path) {
 int Missing::load() {
   bool failed = false;
   // Read list of problematic checksums (it is ordered and contains no dup)
-  out(verbose, msg_standard, "Reading list of problematic checksums", -1);
+  out(verbose, msg_standard, "Reading list of problematic checksums", -1, NULL);
   Stream missing_list(_d->path);
   if (! missing_list.open(O_RDONLY)) {
     missing_list.setProgressCallback(_d->progress);
@@ -151,7 +151,7 @@ int Missing::load() {
         if (params.size() == 1) {
           // Backwards compatibility
           _d->data.push_back(MissingData(line, -1, missing));
-          out(debug, msg_standard, line, 1);
+          out(debug, msg_standard, line, 1, NULL);
           continue;
         } else {
           out(error, msg_standard, "wrong number of parameters", -1,
@@ -254,7 +254,7 @@ void Missing::show() const {
   if (! _d->data.empty()) {
     stringstream s;
     s << "Problematic checksum(s): " << _d->data.size();
-    out(warning, msg_standard, s.str().c_str());
+    out(warning, msg_standard, s.str().c_str(), -1, NULL);
     for (unsigned int i = 0; i < _d->data.size(); i++) {
       const char* checksum = _d->data[i].checksum.c_str();
       switch (_d->data[i].status) {

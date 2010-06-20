@@ -114,7 +114,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) :
     return;
   }
   /* Fill in list of files */
-  out(debug, msg_standard, "Parsing Subversion entries", 1);
+  out(debug, msg_standard, "Parsing Subversion entries", 1, NULL);
   string command = "svn status --no-ignore --non-interactive \"" +
     dir_path + "\"";
   FILE* fd = popen(command.c_str(), "r");
@@ -153,7 +153,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) :
     _files.sort();
     show(2);
   } else {
-    out(error, msg_errno, "running svn status", errno);
+    out(error, msg_errno, "running svn status", errno, NULL);
   }
 }
 

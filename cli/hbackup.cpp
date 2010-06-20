@@ -53,7 +53,7 @@ static void progress(long long previous, long long current, long long total) {
       << setprecision(1)
       << 100.0 * static_cast<double>(current) / static_cast<double>(total)
       << "%";
-    hout_info(true, "%s", s.str().c_str());
+    hlog_info(true, "%s", s.str().c_str());
   }
 }
 
@@ -197,7 +197,7 @@ int main(int argc, char **argv) {
     }
 
     // Set progress callback function
-    if (hout_is_worth(hreport::verbose)) {
+    if (hlog_is_worth(hreport::verbose)) {
       hbackup::setProgressCallback(progress);
     }
 
@@ -256,7 +256,7 @@ int main(int argc, char **argv) {
     hbackup.show(1);
     // Fix any interrupted backup
     if (fixSwitch.getValue()) {
-      if (hout_is_worth(hreport::info)) {
+      if (hlog_is_worth(hreport::info)) {
         cout << "Fixing database" << endl;
       }
       if (hbackup.fix()) {
@@ -265,7 +265,7 @@ int main(int argc, char **argv) {
     } else
     // Check that data referenced in DB exists
     if (scanSwitch.getValue()) {
-      if (hout_is_worth(hreport::info)) {
+      if (hlog_is_worth(hreport::info)) {
         cout << "Scanning database" << endl;
       }
       if (hbackup.scan()) {
@@ -274,7 +274,7 @@ int main(int argc, char **argv) {
     } else
     // Check that data in DB is not corrupted
     if (checkSwitch.getValue()) {
-      if (hout_is_worth(hreport::info)) {
+      if (hlog_is_worth(hreport::info)) {
         cout << "Checking database" << endl;
       }
       if (hbackup.check()) {
@@ -283,7 +283,7 @@ int main(int argc, char **argv) {
     } else
     // List DB contents
     if (listSwitch.getValue()) {
-      if (hout_is_worth(hreport::info)) {
+      if (hlog_is_worth(hreport::info)) {
         cout << "Showing list" << endl;
       }
       string path;
@@ -302,7 +302,7 @@ int main(int argc, char **argv) {
     } else
     // Restore data
     if (restoreArg.getValue().size() != 0) {
-      if (hout_is_worth(hreport::info)) {
+      if (hlog_is_worth(hreport::info)) {
         cout << "Restoring" << endl;
       }
       if (clientArg.getValue().size() != (user_mode ? 0 : 1)) {
@@ -330,7 +330,7 @@ int main(int argc, char **argv) {
     } else
     // Backup
     {
-      if (hout_is_worth(hreport::info)) {
+      if (hlog_is_worth(hreport::info)) {
         cout << "Backing up in " << (user_mode ? "user" : "server") << " mode"
           << endl;
       }

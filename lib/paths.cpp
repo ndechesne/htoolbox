@@ -182,7 +182,7 @@ int ClientPath::parse_recurse(
           // For directory, recurse into it
           if ((*i)->type() == 'd') {
             if ((*i)->size() != -1) {
-              out(verbose, msg_standard, &rem_path[_path.length() + 1], -3);
+              out(verbose, msg_standard, &rem_path[_path.length() + 1], -3, NULL);
             }
             if (parse_recurse(db, rem_path, client_name, start,
                 static_cast<Directory&>(**i), parser) < 0) {

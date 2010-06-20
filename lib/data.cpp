@@ -383,7 +383,7 @@ int Data::read(
   if (! failed) {
     // Verify that checksums match before overwriting final destination
     if (strncmp(checksum, temp.checksum(), strlen(temp.checksum()))) {
-      out(error, msg_standard, "Read checksums don't match");
+      out(error, msg_standard, "Read checksums don't match", -1, NULL);
       failed = true;
     } else
 
@@ -494,7 +494,7 @@ int Data::write(
     stringstream s;
     s << "Checking data, sizes: f=" << temp2->size() << " z=" << temp1->size()
       << " (" << size_gz << ")";
-    out(debug, msg_standard, s.str().c_str());
+    out(debug, msg_standard, s.str().c_str(), -1, NULL);
     // Keep non-compressed file (temp2)?
     if (temp2->size() <= size_gz) {
       temp1->remove();
@@ -595,12 +595,12 @@ int Data::write(
     s << ((action == add) ? "Adding " : "Replacing with ")
       << ((compress != 0) ? "" : "un") << "compressed data for "
       << source.checksum() << "-" << index;
-    out(debug, msg_standard, s.str().c_str());
+    out(debug, msg_standard, s.str().c_str(), -1, NULL);
     if (Directory(final_path).create() < 0) {
       out(error, msg_errno, "creating directory", errno, final_path);
     } else
     if ((action == replace) && (data->remove() < 0)) {
-      out(error, msg_errno, "removing previous data", errno);
+      out(error, msg_errno, "removing previous data", errno, NULL);
     } else {
       char* name = NULL;
       if (asprintf(&name, "%s/data%s", final_path,
@@ -768,13 +768,13 @@ int Data::check(
     out(error, msg_standard, "Metadata missing", -1, checksum);
   }
 
-  if (display && hout_is_worth(verbose)) {
+  if (display && hlog_is_worth(verbose)) {
     char* size_str;
     if (((no == 0) && (asprintf(&size_str, "%lld", original_size) < 0))
     ||  ((no > 0)
       && (asprintf(&size_str, "%lld %lld", original_size, data->size()) < 0)))
     {
-      out(alert, msg_errno, "creating size str", errno);
+      out(alert, msg_errno, "creating size str", errno, NULL);
     } else {
       out(verbose, msg_standard, size_str, -3, checksum);
       free(size_str);
@@ -812,6 +812,6 @@ int Data::crawl(
   int rc = crawl_recurse(d, "", data, thorough, repair, &valid, &broken);
   stringstream s;
   s << "Found " << valid << " valid and " << broken << " broken data files";
-  out(verbose, msg_standard, s.str().c_str());
+  out(verbose, msg_standard, s.str().c_str(), -1, NULL);
   return rc;
 }

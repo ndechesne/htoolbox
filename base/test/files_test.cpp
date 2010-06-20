@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2009  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -28,7 +28,6 @@ using namespace std;
 
 #include "line.h"
 #include "files.h"
-#include "hbackup.h"
 
 using namespace hbackup;
 

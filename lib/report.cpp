@@ -31,18 +31,9 @@ using namespace std;
 
 using namespace hreport;
 
-struct nullstream : std::ostream {
-  struct nullbuf : std::streambuf {
-    int overflow(int c) {
-      return traits_type::not_eof(c);
-    }
-  } m_sbuf;
-  nullstream() : std::ios(&m_sbuf), std::ostream(&m_sbuf) {}
-};
-
-static nullstream null;
-
-void hreport::out(
+void hreport::out_hidden(
+    const char*     file,
+    int             line,
     Level           level,
     MessageType     type,
     const char*     message,
@@ -57,20 +48,7 @@ void hreport::out(
     return;
   }
   stringstream s;
-  if ((type != msg_standard) || (number < 0)) {
-    switch (level) {
-      case alert:
-        s << "ALERT! ";
-        break;
-      case error:
-        s << "Error: ";
-        break;
-      case warning:
-        s << "Warning: ";
-        break;
-      default:;
-    }
-  } else if (number > 0) {
+  if ((type == msg_standard) && (number > 0)) {
     string arrow;
     arrow = " ";
     arrow.append(number, '-');
@@ -102,7 +80,7 @@ void hreport::out(
     }
     s << message;
   }
-  Report::out(level, (number == -3), "%s", s.str().c_str());
+  Report::log(file, line, level, (number == -3), "%s", s.str().c_str());
 }
 
 struct Report::Private {
@@ -157,8 +135,10 @@ void Report::destroy() {
   }
 }
 
-int Report::out(
-    Level  level,
+int Report::log(
+    const char*     file,
+    int             line,
+    Level           level,
     bool            temporary,
     const char*     format,
     ...) {
@@ -172,11 +152,19 @@ int Report::out(
     return 0;
   }
   // output fd depends on level
+  int rc = 0;
   FILE* fd;
   switch (level) {
     case alert:
+      rc += sprintf(report->_d->buffer, "ALERT! ");
+      fd = stderr;
+      break;
     case error:
+      rc += sprintf(report->_d->buffer, "Error: ");
+      fd = stderr;
+      break;
     case warning:
+      rc += sprintf(report->_d->buffer, "Warning: ");
       fd = stderr;
       break;
     default:
@@ -187,7 +175,7 @@ int Report::out(
   // fill in buffer
   va_list ap;
   va_start(ap, format);
-  int rc = vsnprintf(report->_d->buffer, sizeof(_d->buffer), format, ap);
+  rc += vsnprintf(&report->_d->buffer[rc], sizeof(_d->buffer), format, ap);
   va_end(ap);
   size_t buffer_size = sizeof(report->_d->buffer) - 1;
   report->_d->buffer[buffer_size] = '\0';

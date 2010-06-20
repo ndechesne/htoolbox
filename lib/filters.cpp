@@ -53,7 +53,7 @@ int Filter::add(
     unit[3] = '\0';
     if (rc < 1) {
       failed = true;
-      out(error, msg_standard, "Cannot decode decimal value");
+      out(error, msg_standard, "Cannot decode decimal value", -1, NULL);
     } else {
       int kilo = 0;
       if (rc > 1) {
@@ -63,7 +63,8 @@ int Filter::add(
         } else if ((unit[1] == 'B') || (unit[1] == '\0')) {
           kilo = 1000;
         } else {
-          out(error, msg_standard, "Cannot decode unit, must be 'iB' or 'B'");
+          out(error, msg_standard, "Cannot decode unit, must be 'iB' or 'B'",
+            -1, NULL);
           failed = true;
         }
       }
@@ -91,7 +92,7 @@ int Filter::add(
             break;
           default:
             failed = true;
-            out(error, msg_standard, "Cannot decode multiplier");
+            out(error, msg_standard, "Cannot decode multiplier", -1, NULL);
         }
       }
     }
@@ -115,7 +116,7 @@ int Filter::add(
     if (cond->match(test) >= 0) {
       add(cond);
     } else {
-      out(error, msg_standard, "Cannot create regex");
+      out(error, msg_standard, "Cannot create regex", -1, NULL);
       failed = true;
     }
   } else
@@ -134,7 +135,7 @@ int Filter::add(
     if (cond->match(test) >= 0) {
       add(cond);
     } else {
-      out(error, msg_standard, "Cannot create regex");
+      out(error, msg_standard, "Cannot create regex", -1, NULL);
       failed = true;
     }
   } else
@@ -162,7 +163,7 @@ int Filter::add(
     mode_t mode;
     failed = (sscanf(value, "%o", &mode) != 1);
     if (failed) {
-      out(error, msg_standard, "Cannot decode octal value");
+      out(error, msg_standard, "Cannot decode octal value", -1, NULL);
     } else {
       add(new Condition(Condition::mode_and, mode, negated));
     }
@@ -171,7 +172,7 @@ int Filter::add(
     mode_t mode;
     failed = (sscanf(value, "%o", &mode) != 1);
     if (failed) {
-      out(error, msg_standard, "Cannot decode octal value");
+      out(error, msg_standard, "Cannot decode octal value", -1, NULL);
     } else {
       add(new Condition(Condition::mode_eq, mode, negated));
     }
