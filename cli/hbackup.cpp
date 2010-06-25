@@ -53,7 +53,7 @@ static void progress(long long previous, long long current, long long total) {
       << setprecision(1)
       << 100.0 * static_cast<double>(current) / static_cast<double>(total)
       << "%";
-    hlog_info(true, "%s", s.str().c_str());
+    hlog_info_temp("%s", s.str().c_str());
   }
 }
 

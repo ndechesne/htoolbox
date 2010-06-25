@@ -96,27 +96,40 @@ namespace hreport {
 #define hlog_is_worth(l) \
   ((l) <= hreport::report.level())
 
+
+#define hlog_alert(f, ...) \
+  hlog_generic(hreport::alert,false,(f),##__VA_ARGS__)
+
+#define hlog_error(f, ...) \
+  hlog_generic(hreport::error,false,(f),##__VA_ARGS__)
+
+#define hlog_warning(f, ...) \
+  hlog_generic(hreport::warning,false,(f),##__VA_ARGS__)
+
+#define hlog_info(f, ...) \
+  hlog_generic(hreport::info,false,(f),##__VA_ARGS__)
+
+#define hlog_verbose(f, ...) \
+  hlog_generic(hreport::verbose,false,(f),##__VA_ARGS__)
+
+#define hlog_debug(f, ...) \
+  hlog_generic(hreport::debug,false,(f),##__VA_ARGS__)
+
+
+#define hlog_info_temp(f, ...) \
+  hlog_generic(hreport::info,true,(f),##__VA_ARGS__)
+
+#define hlog_verbose_temp(f, ...) \
+  hlog_generic(hreport::verbose,true,(f),##__VA_ARGS__)
+
+#define hlog_debug_temp(f, ...) \
+  hlog_generic(hreport::debug,true,(f),##__VA_ARGS__)
+
+
 #define hlog_generic(level, temp, format, ...) \
   hlog_is_worth(level) ? \
     hreport::report.log(__FILE__,__LINE__,(level),(temp),(format),##__VA_ARGS__) : 0
 
-#define hlog_alert(t, f, ...) \
-  hlog_generic(hreport::alert,(t),(f),##__VA_ARGS__)
-
-#define hlog_error(t, f, ...) \
-  hlog_generic(hreport::error,(t),(f),##__VA_ARGS__)
-
-#define hlog_warning(t, f, ...) \
-  hlog_generic(hreport::warning,(t),(f),##__VA_ARGS__)
-
-#define hlog_info(t, f, ...) \
-  hlog_generic(hreport::info,(t),(f),##__VA_ARGS__)
-
-#define hlog_verbose(t, f, ...) \
-  hlog_generic(hreport::verbose,(t),(f),##__VA_ARGS__)
-
-#define hlog_debug(t, f, ...) \
-  hlog_generic(hreport::debug,(t),(f),##__VA_ARGS__)
 
 #define out(level,type,msg,no,prepend) \
   hreport::out_hidden(__FILE__,__LINE__,(level),(type),(msg),(no),(prepend))
