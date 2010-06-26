@@ -2171,7 +2171,7 @@ HBackup (c) 2006-2010 Hervé Fache
 List clients (missing DB path)
  -> Reading configuration file: etc/hbackup.conf
 Error: Given DB path does not exist: test_db
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -2180,7 +2180,7 @@ Error: Given DB path does not exist: test_db
 List clients (empty DB path)
  -> Reading configuration file: etc/hbackup.conf
 Error: Given DB path does not contain a database: test_db
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -2295,7 +2295,7 @@ Backup, DB missing
  --> nothing
 Backing up in server mode
 Error: Given DB path does not exist: test_db
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -2856,7 +2856,7 @@ Database closed: newClient
 Trying client 'other' using protocol 'none'
 Error: other: Protocol not supported none
 Database closed
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -3162,7 +3162,7 @@ testdir\r
 If f    test2/testfile~
 Database closed: myhost
 Database closed
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -3208,7 +3208,7 @@ Af f    test_user/testuser/subdir2/f4.txt
 Register modified: localhost
 Database closed: localhost
 Database closed
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -3324,7 +3324,7 @@ Fix DB
 Fixing database
 Database open in read/write mode
 Database closed
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -3511,7 +3511,7 @@ Checksum(s) with data: 20
  -> f899d6f61138a37484c8a2294656e903-0, 177
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
 Database closed
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -3651,7 +3651,7 @@ f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 Found 20 valid and 0 broken data files       
 Database closed
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -3775,7 +3775,7 @@ Database closed
 	myClient.xp
 	myhost
 	newClient
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -3899,7 +3899,7 @@ Database closed: myhost
 Database closed
 	test1/
 	test2/
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -4023,7 +4023,7 @@ Database closed: myhost
 Database closed
 	test1/
 	test2/
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -4150,7 +4150,7 @@ Database closed
 	test2/testfile2
 	test2/testfile2.gz
 	test2/testlink
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -4278,7 +4278,7 @@ Database closed
 	test1/cvs/dirutd/
 	test1/cvs/filenew.c
 	test1/cvs/fileutd.h
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -4401,7 +4401,7 @@ Database open r-o: myhost
 U test_r/test2/testfile
 Database closed: myhost
 Database closed
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -4565,7 +4565,7 @@ U test_r/test1/testlink
 U test_r/test1/testpipe
 Database closed: myhost
 Database closed
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -4704,7 +4704,7 @@ U test_r/test1/cvs/filenew.c
 U test_r/test1/cvs/fileutd.h
 Database closed: myhost
 Database closed
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -4873,7 +4873,7 @@ U test_r/test2/testfile2.gz
 U test_r/test2/testlink
 Database closed: myhost
 Database closed
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
@@ -4910,7 +4910,7 @@ Error: at line: 88: keyword 'ignore' requires 1 parameter(s), found 0
 Error: at line: 89: keyword 'compress' requires 1 parameter(s), found 0
 Error: at line: 91: keyword 'what_the_f...?' incorrect or misplaced, aborting
 Note: the default configuration path has changed from '/etc/hbackup/hbackup.conf' to '/etc/hbackup/config'
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)

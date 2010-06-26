@@ -93,8 +93,8 @@ struct Report::Private {
   size_t          max_files;
   FILE*           fd;
   size_t          lines;
-  Private() : size_to_overwrite(0), console_log(true), max_lines(0),
-      max_files(0), fd(NULL) {
+  Private() : size_to_overwrite(0), console_log(true), file_log(false),
+      max_lines(0), max_files(0), fd(NULL) {
     pthread_mutex_init(&mutex, NULL);
   }
   int lock() {
