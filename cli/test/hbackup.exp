@@ -127,6 +127,9 @@ List clients (empty DB path)
 Error: Given DB path does not contain a database: test_db
 Backup, DB missing
  -> Reading configuration file: etc/hbackup.conf
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Clients:
@@ -236,6 +239,9 @@ Backing up in server mode
 Error: Given DB path does not exist: test_db
 Typical backup, initialize DB
  -> Reading configuration file: etc/hbackup.conf
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Clients:
@@ -778,6 +784,9 @@ Error: other: Protocol not supported none
 Database closed
 Specify clients
  -> Reading configuration file: etc/hbackup.conf
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -1064,6 +1073,7 @@ If f    test2/testfile~
 Database closed: myhost
 Database closed
 User-mode backup
+ -> Log path not set
  -> DB path: test_user/.hbackup
  -> DB compression: later
  -> Selected clients:
@@ -1134,6 +1144,9 @@ Af ~    test_user/testuser/subdir2/f4.txt
 User-mode backup: quiet
 Fix DB
  -> Reading configuration file: etc/hbackup.conf
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Clients:
@@ -1244,6 +1257,9 @@ Database open in read/write mode
 Database closed
 Scan DB
  -> Reading configuration file: etc/hbackup.conf
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Clients:
@@ -1425,6 +1441,9 @@ Checksum(s) with data: 20
 Database closed
 Check DB
  -> Reading configuration file: etc/hbackup.conf
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Clients:
@@ -1561,6 +1580,9 @@ List clients
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Clients:
@@ -1679,6 +1701,9 @@ List paths in myhost
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -1797,6 +1822,9 @@ List paths in myhost under test2/
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -1918,6 +1946,9 @@ List paths in myhost under test1/cvs
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2040,6 +2071,9 @@ List paths in both myhost and aClient.vista
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2162,6 +2196,9 @@ List paths in dual-boot client myClient
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2283,6 +2320,9 @@ List paths in all clients
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2421,6 +2461,9 @@ Restore a file
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2538,6 +2581,9 @@ Restore all data in a client/dir path that's not by itself in DB
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2696,6 +2742,9 @@ Restore all data in a client/dir path
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2829,6 +2878,9 @@ Restore all data in a client
  -> Reading configuration file: etc/hbackup.conf
 Database open in read-only mode
 Database closed
+ -> Log path: hbackup.log
+ --> Max lines per log: 100000
+ --> Backup(s): 10
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:

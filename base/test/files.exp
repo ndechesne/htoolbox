@@ -442,6 +442,9 @@ l1 and l2 differ
 l1 and l2 differ
 
 getParams
+log	hbackup.log	
+max_lines	100000	
+backups	10	
 db	test_db	
 compress	auto	
 

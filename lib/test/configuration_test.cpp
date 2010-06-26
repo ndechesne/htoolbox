@@ -112,6 +112,16 @@ int main(void) {
   cout << "Test: server configuration" << endl;
   ConfigSyntax syntax;
 
+  // log
+  {
+    ConfigItem* log = new ConfigItem("log", 0, 1, 1);
+    syntax.add(log);
+    // compress [always, auto_now, auto_later, never]
+    log->add(new ConfigItem("max_lines", 0, 1, 1, 1));
+    // old keyword for compress auto
+    log->add(new ConfigItem("backups", 0, 1, 1, 1));
+  }
+
   // db
   {
     ConfigItem* item = new ConfigItem("db", 0, 1, 1);

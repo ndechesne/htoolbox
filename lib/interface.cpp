@@ -74,12 +74,19 @@ bool hbackup::aborting(unsigned short test) {
 }
 
 struct HBackup::Private {
+  // db
   Database*               db;
+  OpData::CompressionMode db_compress_mode;
+  // clients
   std::list<string>       selected_clients;
   std::list<Client*>      clients;
   bool                    remote_clients;
-  OpData::CompressionMode db_compress_mode;
+  // attributes
   Attributes              attributes;
+  // log
+  string                  log_file_name;
+  size_t                  max_lines;
+  size_t                  backups;
 };
 
 HBackup::HBackup() : _d(new Private) {
@@ -123,6 +130,15 @@ int HBackup::readConfig(const char* config_path) {
   // Set up config syntax and grammar
   ConfigSyntax config_syntax;
 
+  // log
+  {
+    ConfigItem* log = new ConfigItem("log", 0, 1, 1);
+    config_syntax.add(log);
+    // compress [always, auto_now, auto_later, never]
+    log->add(new ConfigItem("max_lines", 0, 1, 1, 1));
+    // old keyword for compress auto
+    log->add(new ConfigItem("backups", 0, 1, 1, 1));
+  }
   // db
   {
     ConfigItem* db = new ConfigItem("db", 0, 1, 1);
@@ -220,6 +236,15 @@ int HBackup::readConfig(const char* config_path) {
   Attributes* attr   = &_d->attributes;
   ConfigLine* params;
   while (config.line(&params) >= 0) {
+    if ((*params)[0] == "log") {
+      _d->log_file_name = (*params)[1];
+    } else
+    if ((*params)[0] == "max_lines") {
+      _d->max_lines = atoi((*params)[1].c_str());
+    } else
+    if ((*params)[0] == "backups") {
+      _d->backups = atoi((*params)[1].c_str());
+    } else
     if ((*params)[0] == "db") {
       _d->db = new Database((*params)[1].c_str());
     } else
@@ -432,6 +457,11 @@ int HBackup::readConfig(const char* config_path) {
     }
   }
 
+  // Log to file if required
+  if (_d->log_file_name != "") {
+    report.startFileLog(_d->log_file_name.c_str(), _d->max_lines, _d->backups);
+  }
+
   // Use default DB path if none specified
   if (_d->db == NULL) {
     _d->db = new Database(DEFAULT_DB_PATH);
@@ -611,6 +641,25 @@ int HBackup::list_or_restore(
 }
 
 void HBackup::show(int level) const {
+  if (_d->log_file_name == "") {
+    out(debug, msg_standard, "Log path not set", level, NULL);
+  } else {
+    out(debug, msg_standard, _d->log_file_name.c_str(), level, "Log path");
+    if (_d->max_lines == 0) {
+      out(debug, msg_standard, "No size limit", level + 1, NULL);
+    } else {
+      char number[32];
+      sprintf(number, "%u", _d->max_lines);
+      out(debug, msg_standard, number, level + 1, "Max lines per log");
+    }
+    if (_d->backups == 0) {
+      out(debug, msg_standard, "No log file backup", level + 1, NULL);
+    } else {
+      char number[32];
+      sprintf(number, "%u", _d->backups);
+      out(debug, msg_standard, number, level + 1, "Backup(s)");
+    }
+  }
   if (_d->db == NULL) {
     out(debug, msg_standard, "DB path not set", level, NULL);
   } else {

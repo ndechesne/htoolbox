@@ -12,6 +12,12 @@ which can be overriden with the <code>-c</code> option.</p>
     <td width="25%"><b>Example</b></td>
   </tr>
   <tr>
+    <td>log</td>
+    <td>log file path (default: no logging)</td>
+    <td><code>log "&lt;log file path&gt;"</code></td>
+    <td><code>db "/var/log/hbackup.log"</code></td>
+  </tr>
+  <tr>
     <td>db</td>
     <td>backup database path (default: "/hbackup")</td>
     <td><code>db "&lt;path to backup database&gt;"</code></td>
@@ -51,6 +57,31 @@ which can be overriden with the <code>-c</code> option.</p>
     <td>do not emit an error if a file copy fails again</td>
     <td><code>report_copy_error_once</code></td>
     <td><code>report_copy_error_once</code></td>
+  </tr>
+</table>
+
+<h2>Log section</h2>
+
+<p>The <i>log</i> keyword can be followed by the keywords below:</p>
+
+<table border="1" width="100%">
+  <tr>
+    <td><b>Keyword</b></td>
+    <td><b>Description</b></td>
+    <td width="25%"><b>Syntax</b></td>
+    <td width="25%"><b>Example</b></td>
+  </tr>
+  <tr>
+    <td>max_lines</td>
+    <td>maximum number of lines in log file</td>
+    <td><code>max_lines "&lt;n&gt;"</code></td>
+    <td><code>max_lines "100000"</code></td>
+  </tr>
+  <tr>
+    <td>backups</td>
+    <td>maximum number of log file backups to keep</td>
+    <td><code>backups "&lt;n&gt;"</code></td>
+    <td><code>backups "10"</code></td>
   </tr>
 </table>
 
