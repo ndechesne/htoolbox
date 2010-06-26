@@ -80,8 +80,8 @@ namespace hreport {
     // Log to file
     int startFileLog(
       const char*     name,
-      size_t          max_lines = 0,
-      size_t          max_files = 0);
+      size_t          max_lines = 0,  // default: no limit
+      size_t          backups   = 0); // default: no backup
     // Stop logging to file
     void stopFileLog();
     // Set output verbosity level

@@ -103,13 +103,19 @@ struct Report::Private {
   int unlock() {
     return pthread_mutex_unlock(&mutex);
   }
-  int checkRotate() {
-    bool need_open = file_log ? false : true;
+  int checkRotate(bool init = false) {
+    bool need_open = false;
     // check file still exists and size
     struct stat stat_buf;
     if (stat(file_name.c_str(), &stat_buf) < 0) {
       if (file_log) {
         fclose(fd);
+      }
+      need_open = true;
+    } else
+    if (init) {
+      if (stat_buf.st_size != 0) {
+        rotate();
       }
       need_open = true;
     } else
@@ -317,7 +323,7 @@ int Report::startFileLog(const char* name, size_t max_lines, size_t max_files) {
   _d->max_lines = max_lines;
   _d->max_files = max_files;
   _d->lines = 0;
-  if (_d->checkRotate() < 0) {
+  if (_d->checkRotate(true) < 0) {
     hlog_error("%s creating log file: '%s'", strerror(errno),
       _d->file_name.c_str());
     return -1;

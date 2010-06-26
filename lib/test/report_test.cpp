@@ -25,6 +25,14 @@ using namespace std;
 
 using namespace hreport;
 
+time_t time(time_t* tm) {
+  time_t val = 1249617904;
+  if (tm != NULL) {
+    *tm = val;
+  }
+  return val;
+}
+
 int main(void) {
   cout << "Report tests" << endl;
 
@@ -220,7 +228,7 @@ int main(void) {
 
 
   cout << endl << "Log to file" << endl;
-  report.startFileLog("report.log", 3, 2);
+  report.startFileLog("report.log", 1, 100);
   report.stopConsoleLog();
   report.setLevel(debug);
   hlog_alert("message: %s", "alert");
@@ -234,13 +242,50 @@ int main(void) {
   hlog_debug_temp("temporary message: %s", "debug");
   hlog_info_temp("%s", "");
 
-  int _unused;
-  _unused = system("stat --format=%n:%s report.log*");
-
   cout << endl << "Error logging to file" << endl;
   report.startFileLog("missing/report.log");
   report.startConsoleLog();
   report.startFileLog("missing/report.log");
+  report.stopConsoleLog();
+  report.stopFileLog();
+  report.stopFileLog();
+
+
+  cout << endl << "Rotate file" << endl;
+  int _unused;
+  _unused = system("for name in `ls report.log*`; do "
+                   "echo \"$name:\"; cat $name; done");
+  // should rotate, log then empty
+  report.startFileLog("report.log", 3, 5);
+  _unused = system("for name in `ls report.log*`; do "
+                   "echo \"$name:\"; cat $name; done");
+  // should not rotate
+  report.startFileLog("report.log", 3, 5);
+  _unused = system("for name in `ls report.log*`; do "
+                   "echo \"$name:\"; cat $name; done");
+  _unused = system("echo \"1\" > report.log");
+  // should rotate
+  report.startFileLog("report.log", 3, 5);
+
+  _unused = system("for name in `ls report.log*`; do "
+                   "echo \"$name:\"; cat $name; done");
+  _unused = system("echo \"1\" > report.log");
+  // should rotate
+  report.startFileLog("report.log", 3, 5);
+
+  _unused = system("for name in `ls report.log*`; do "
+                   "echo \"$name:\"; cat $name; done");
+  _unused = system("echo \"1\" > report.log");
+  // should rotate
+  report.startFileLog("report.log", 3, 5);
+
+  _unused = system("for name in `ls report.log*`; do "
+                   "echo \"$name:\"; cat $name; done");
+  // should not rotate
+  report.startFileLog("report.log", 3, 5);
+
+  _unused = system("for name in `ls report.log*`; do "
+                   "echo \"$name:\"; cat $name; done");
 
 
   cout << endl << "End of tests" << endl;
