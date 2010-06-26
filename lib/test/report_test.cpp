@@ -16,6 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
+#include "stdlib.h" // for system
 #include <iostream>
 
 using namespace std;
@@ -219,7 +220,7 @@ int main(void) {
 
 
   cout << endl << "Log to file" << endl;
-  report.startFileLog("report.log");
+  report.startFileLog("report.log", 3, 2);
   report.stopConsoleLog();
   report.setLevel(debug);
   hlog_alert("message: %s", "alert");
@@ -232,6 +233,14 @@ int main(void) {
   hlog_verbose_temp("temporary message: %s", "verbose");
   hlog_debug_temp("temporary message: %s", "debug");
   hlog_info_temp("%s", "");
+
+  int _unused;
+  _unused = system("stat --format=%n:%s report.log*");
+
+  cout << endl << "Error logging to file" << endl;
+  report.startFileLog("missing/report.log");
+  report.startConsoleLog();
+  report.startFileLog("missing/report.log");
 
 
   cout << endl << "End of tests" << endl;

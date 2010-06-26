@@ -115,5 +115,10 @@ temporary message: debug  \r
                         \r
 
 Log to file
+report.log:184
+report.log-1:185
+
+Error logging to file
+Error: No such file or directory creating log file: 'missing/report.log'
 
 End of tests

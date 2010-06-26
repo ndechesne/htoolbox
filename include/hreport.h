@@ -80,7 +80,7 @@ namespace hreport {
     // Log to file
     int startFileLog(
       const char*     name,
-      size_t          max_size = 0,
+      size_t          max_lines = 0,
       size_t          max_files = 0);
     // Stop logging to file
     void stopFileLog();
