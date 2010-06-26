@@ -85,12 +85,15 @@ struct HBackup::Private {
   Attributes              attributes;
   // log
   string                  log_file_name;
-  size_t                  max_lines;
-  size_t                  backups;
+  size_t                  log_max_lines;
+  size_t                  log_backups;
+  Level                   log_level;
+  Private() : db(NULL), log_max_lines(0), log_backups(0), log_level(info) {
+    log_file_name = "";
+  }
 };
 
 HBackup::HBackup() : _d(new Private) {
-  _d->db           = NULL;
   _d->selected_clients.clear();
   _d->clients.clear();
 }
@@ -134,10 +137,12 @@ int HBackup::readConfig(const char* config_path) {
   {
     ConfigItem* log = new ConfigItem("log", 0, 1, 1);
     config_syntax.add(log);
-    // compress [always, auto_now, auto_later, never]
+    // max lines per file
     log->add(new ConfigItem("max_lines", 0, 1, 1, 1));
-    // old keyword for compress auto
+    // max backups to keep
     log->add(new ConfigItem("backups", 0, 1, 1, 1));
+    // log level
+    log->add(new ConfigItem("level", 0, 1, 1, 1));
   }
   // db
   {
@@ -240,10 +245,41 @@ int HBackup::readConfig(const char* config_path) {
       _d->log_file_name = (*params)[1];
     } else
     if ((*params)[0] == "max_lines") {
-      _d->max_lines = atoi((*params)[1].c_str());
+      _d->log_max_lines = atoi((*params)[1].c_str());
     } else
     if ((*params)[0] == "backups") {
-      _d->backups = atoi((*params)[1].c_str());
+      _d->log_backups = atoi((*params)[1].c_str());
+    } else
+    if ((*params)[0] == "level") {
+      switch ((*params)[1][0]) {
+        case 'A':
+        case 'a':
+          _d->log_level = hreport::alert;
+          break;
+        case 'E':
+        case 'e':
+          _d->log_level = hreport::error;
+          break;
+        case 'W':
+        case 'w':
+          _d->log_level = hreport::warning;
+          break;
+        case 'I':
+        case 'i':
+          _d->log_level = hreport::info;
+          break;
+        case 'V':
+        case 'v':
+          _d->log_level = hreport::verbose;
+          break;
+        case 'D':
+        case 'd':
+          _d->log_level = hreport::debug;
+          break;
+        default:
+          hlog_error("wrong name for log level: '%s'", (*params)[1].c_str());
+          return -1;
+      }
     } else
     if ((*params)[0] == "db") {
       _d->db = new Database((*params)[1].c_str());
@@ -459,7 +495,9 @@ int HBackup::readConfig(const char* config_path) {
 
   // Log to file if required
   if (_d->log_file_name != "") {
-    report.startFileLog(_d->log_file_name.c_str(), _d->max_lines, _d->backups);
+    report.startFileLog(_d->log_file_name.c_str(), _d->log_max_lines,
+      _d->log_backups);
+    report.setFileLogLevel(_d->log_level);
   }
 
   // Use default DB path if none specified
@@ -642,23 +680,25 @@ int HBackup::list_or_restore(
 
 void HBackup::show(int level) const {
   if (_d->log_file_name == "") {
-    out(debug, msg_standard, "Log path not set", level, NULL);
+    out(debug, msg_standard, "No file logging", level, NULL);
   } else {
     out(debug, msg_standard, _d->log_file_name.c_str(), level, "Log path");
-    if (_d->max_lines == 0) {
+    if (_d->log_max_lines == 0) {
       out(debug, msg_standard, "No size limit", level + 1, NULL);
     } else {
       char number[32];
-      sprintf(number, "%u", _d->max_lines);
+      sprintf(number, "%u", _d->log_max_lines);
       out(debug, msg_standard, number, level + 1, "Max lines per log");
     }
-    if (_d->backups == 0) {
+    if (_d->log_backups == 0) {
       out(debug, msg_standard, "No log file backup", level + 1, NULL);
     } else {
       char number[32];
-      sprintf(number, "%u", _d->backups);
+      sprintf(number, "%u", _d->log_backups);
       out(debug, msg_standard, number, level + 1, "Backup(s)");
     }
+    out(debug, msg_standard, Report::levelString(_d->log_level), level + 1,
+      "Level");
   }
   if (_d->db == NULL) {
     out(debug, msg_standard, "DB path not set", level, NULL);

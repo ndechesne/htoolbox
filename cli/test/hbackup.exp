@@ -130,6 +130,7 @@ Backup, DB missing
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Clients:
@@ -242,6 +243,7 @@ Typical backup, initialize DB
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Clients:
@@ -787,6 +789,7 @@ Specify clients
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -1073,7 +1076,7 @@ If f    test2/testfile~
 Database closed: myhost
 Database closed
 User-mode backup
- -> Log path not set
+ -> No file logging
  -> DB path: test_user/.hbackup
  -> DB compression: later
  -> Selected clients:
@@ -1147,6 +1150,7 @@ Fix DB
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Clients:
@@ -1260,6 +1264,7 @@ Scan DB
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Clients:
@@ -1444,6 +1449,7 @@ Check DB
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Clients:
@@ -1583,6 +1589,7 @@ Database closed
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Clients:
@@ -1704,6 +1711,7 @@ Database closed
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -1825,6 +1833,7 @@ Database closed
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -1949,6 +1958,7 @@ Database closed
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2074,6 +2084,7 @@ Database closed
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2199,6 +2210,7 @@ Database closed
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2323,6 +2335,7 @@ Database closed
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2464,6 +2477,7 @@ Database closed
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2584,6 +2598,7 @@ Database closed
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2745,6 +2760,7 @@ Database closed
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:
@@ -2881,6 +2897,7 @@ Database closed
  -> Log path: hbackup.log
  --> Max lines per log: 100000
  --> Backup(s): 10
+ --> Level: verbose
  -> DB path: test_db
  -> DB compression: automatic
  -> Selected clients:

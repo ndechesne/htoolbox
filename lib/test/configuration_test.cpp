@@ -116,10 +116,12 @@ int main(void) {
   {
     ConfigItem* log = new ConfigItem("log", 0, 1, 1);
     syntax.add(log);
-    // compress [always, auto_now, auto_later, never]
+    // max lines per file
     log->add(new ConfigItem("max_lines", 0, 1, 1, 1));
-    // old keyword for compress auto
+    // max backups to keep
     log->add(new ConfigItem("backups", 0, 1, 1, 1));
+    // log level
+    log->add(new ConfigItem("level", 0, 1, 1, 1));
   }
 
   // db

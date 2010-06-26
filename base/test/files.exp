@@ -445,6 +445,7 @@ getParams
 log	hbackup.log	
 max_lines	100000	
 backups	10	
+level	verbose	
 db	test_db	
 compress	auto	
 

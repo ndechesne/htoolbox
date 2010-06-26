@@ -5,3 +5,4 @@ TODO - non-organised list of things I want to do
   * properly handle compression requirements
   * make parsers a separate things with a proper API
   * sort out lists management the right way
+  * need automatic configuration reading

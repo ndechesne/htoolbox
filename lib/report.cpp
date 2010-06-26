@@ -302,11 +302,29 @@ size_t Report::utf8_len(const char* s) {
   return size;
 }
 
-Report::Report() : _out_level(info), _d(new Private) {}
+Report::Report() : _console_level(info), _file_level(info), _d(new Private) {}
 
 Report::~Report() {
   stopFileLog();
   delete _d;
+}
+
+const char* Report::levelString(Level level) {
+  switch (level) {
+    case alert:
+      return "alert";
+    case error:
+      return "error";
+    case warning:
+      return "warning";
+    case info:
+      return "info";
+    case verbose:
+      return "verbose";
+    case debug:
+      return "debug";
+  }
+  return "unknown";
 }
 
 void Report::startConsoleLog() {
@@ -347,7 +365,7 @@ int Report::log(
     const char*     format,
     ...) {
   // print only if required
-  if (level > _out_level) {
+  if (level > this->level()) {
     return 0;
   }
   va_list ap;

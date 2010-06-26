@@ -66,17 +66,25 @@ namespace hreport {
 
   class Report {
     //! Current output criticality levels (default: info)
-    Level           _out_level;
+    Level           _console_level;
+    Level           _file_level;
     struct Private;
     Private* const  _d;
     static size_t utf8_len(const char* s);
   public:
     Report();
     ~Report();
+    static const char* levelString(Level level);
+
     // Log to console
     void startConsoleLog();
     // Stop logging to console
     void stopConsoleLog();
+    // Set console log level
+    void setConsoleLogLevel(Level level) { _console_level = level; }
+    // Get console log level
+    Level consoleLogLevel() const { return _console_level; }
+
     // Log to file
     int startFileLog(
       const char*     name,
@@ -84,10 +92,17 @@ namespace hreport {
       size_t          backups   = 0); // default: no backup
     // Stop logging to file
     void stopFileLog();
+    // Set file log level
+    void setFileLogLevel(Level level) { _file_level = level; }
+    // Get file log level
+    Level fileLogLevel() const { return _file_level; }
+
     // Set output verbosity level
-    void setLevel(Level level) { _out_level = level; }
+    void setLevel(Level level) { _console_level = _file_level = level; }
     // Get current output verbosity level
-    Level level() { return _out_level; }
+    Level level() const {
+      return _console_level > _file_level ? _console_level : _file_level;
+    }
     // Display message on standard output
     int log(
       const char*     file,
