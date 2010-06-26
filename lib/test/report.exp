@@ -102,4 +102,18 @@ A longer line\r
 An even longer line\r
 A normal line      
 
+Macros
+ALERT! message: alert
+Error: message: error
+Warning: message: warning
+message: info
+message: verbose
+message: debug
+temporary message: info\r
+temporary message: verbose\r
+temporary message: debug  \r
+                        \r
+
+Log to file
+
 End of tests

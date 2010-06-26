@@ -70,11 +70,20 @@ namespace hreport {
     struct Private;
     Private* const  _d;
     static size_t utf8_len(const char* s);
-    int lock();
-    int unlock();
   public:
     Report();
     ~Report();
+    // Log to console
+    void startConsoleLog();
+    // Stop logging to console
+    void stopConsoleLog();
+    // Log to file
+    int startFileLog(
+      const char*     name,
+      size_t          max_size = 0,
+      size_t          max_files = 0);
+    // Stop logging to file
+    void stopFileLog();
     // Set output verbosity level
     void setLevel(Level level) { _out_level = level; }
     // Get current output verbosity level
@@ -86,7 +95,7 @@ namespace hreport {
       Level           level,
       bool            temporary,  // erase this message with next one
       const char*     format,
-      ...);
+      ...) __attribute__ ((format (printf, 6, 7)));
   };
 
   extern Report report;

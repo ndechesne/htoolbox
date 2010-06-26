@@ -205,6 +205,35 @@ int main(void) {
   out(info, msg_standard, "A normal line", -1, NULL);
 
 
+  cout << endl << "Macros" << endl;
+  hlog_alert("message: %s", "alert");
+  hlog_error("message: %s", "error");
+  hlog_warning("message: %s", "warning");
+  hlog_info("message: %s", "info");
+  hlog_verbose("message: %s", "verbose");
+  hlog_debug("message: %s", "debug");
+  hlog_info_temp("temporary message: %s", "info");
+  hlog_verbose_temp("temporary message: %s", "verbose");
+  hlog_debug_temp("temporary message: %s", "debug");
+  hlog_info_temp("%s", "");
+
+
+  cout << endl << "Log to file" << endl;
+  report.startFileLog("report.log");
+  report.stopConsoleLog();
+  report.setLevel(debug);
+  hlog_alert("message: %s", "alert");
+  hlog_error("message: %s", "error");
+  hlog_warning("message: %s", "warning");
+  hlog_info("message: %s", "info");
+  hlog_verbose("message: %s", "verbose");
+  hlog_debug("message: %s", "debug");
+  hlog_info_temp("temporary message: %s", "info");
+  hlog_verbose_temp("temporary message: %s", "verbose");
+  hlog_debug_temp("temporary message: %s", "debug");
+  hlog_info_temp("%s", "");
+
+
   cout << endl << "End of tests" << endl;
 
   return 0;
