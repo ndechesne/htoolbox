@@ -307,12 +307,12 @@ int HBackup::readConfig(const char* config_path) {
       if (filter_type == "filter") {
         Filter* subfilter = NULL;
         if (c_path != NULL) {
-          subfilter = c_path->attributes.findFilter((*params)[2]);
-        }
-        if ((subfilter == NULL) && (client != NULL)) {
-          subfilter = client->attributes.findFilter((*params)[2]);
-        }
-        if (subfilter == NULL) {
+          subfilter = c_path->findFilter((*params)[2]);
+        } else
+        if (client != NULL) {
+          subfilter = client->findFilter((*params)[2]);
+        } else
+        {
           subfilter = _d->attributes.findFilter((*params)[2]);
         }
         if (subfilter == NULL) {
@@ -341,12 +341,12 @@ int HBackup::readConfig(const char* config_path) {
     if ((*params)[0] == "ignore") {
       Filter* filter = NULL;
       if (c_path != NULL) {
-        filter = c_path->attributes.findFilter((*params)[1]);
-      }
-      if ((filter == NULL) && (client != NULL)) {
-        filter = client->attributes.findFilter((*params)[1]);
-      }
-      if (filter == NULL) {
+        filter = c_path->findFilter((*params)[1]);
+      } else
+      if (client != NULL) {
+        filter = client->findFilter((*params)[1]);
+      } else
+      {
         filter = _d->attributes.findFilter((*params)[1]);
       }
       if (filter == NULL) {
@@ -430,13 +430,7 @@ int HBackup::readConfig(const char* config_path) {
       if (c_path != NULL) {
         if (((*params)[0] == "compress")
          || ((*params)[0] == "no_compress")) {
-          Filter* filter = c_path->attributes.findFilter((*params)[1]);
-          if (filter == NULL) {
-            filter = client->attributes.findFilter((*params)[1]);
-          }
-          if (filter == NULL) {
-            filter = _d->attributes.findFilter((*params)[1]);
-          }
+          Filter* filter = c_path->findFilter((*params)[1]);
           if (filter == NULL) {
             out(error, msg_number, "Filter not found", (*params).lineNo(),
               config_path);
