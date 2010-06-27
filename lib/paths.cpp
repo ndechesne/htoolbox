@@ -34,6 +34,7 @@ using namespace std;
 #include "db.h"
 #include "attributes.h"
 #include "paths.h"
+#include "clients.h"
 
 using namespace hbackup;
 using namespace hreport;
@@ -201,14 +202,20 @@ int ClientPath::parse_recurse(
   return give_up ? -1 : 0;
 }
 
-ClientPath::ClientPath(const char* path) {
-  _compress           = NULL;
-  _no_compress        = NULL;
-  _path = path;
+ClientPath::ClientPath(const Client& parent, const char* path)
+    :   _path(path), _parent(parent), _compress(NULL), _no_compress(NULL) {
   // Change '\' into '/'
   _path.fromDos();
   // Remove trailing '/'s
   _path.noTrailingSlashes();
+}
+
+Filter* ClientPath::findFilter(const string& name) const {
+  Filter* filter = attributes.findFilter(name);
+  if (filter == NULL) {
+    filter = _parent.findFilter(name);
+  }
+  return filter;
 }
 
 int ClientPath::addParser(

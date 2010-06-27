@@ -43,6 +43,7 @@ using namespace hbackup;
 using namespace hreport;
 
 struct Client::Private {
+  const Attributes& parent_attr;
   list<ClientPath*> paths;
   string            subset_client;
   string            name;
@@ -59,6 +60,7 @@ struct Client::Private {
   bool              classic_mount;
   bool              fuse_mount;
   int               expire;
+  Private(const Attributes& a) : parent_attr(a) {}
 };
 
 int Client::mountPath(
@@ -173,8 +175,7 @@ int Client::umount(
 }
 
 int Client::readConfig(
-    const char*     config_path,
-    const Filters&  global_filters) {
+    const char*     config_path) {
   bool   failed  = false;
 
   // Open client configuration file
@@ -265,17 +266,13 @@ int Client::readConfig(
       if ((*params)[0] == "ignore") {
         Filter* filter = NULL;
         if (path != NULL) {
-          filter = path->attributes.findFilter((*params)[1]);
+          filter = path->findFilter((*params)[1]);
+        } else {
+          filter = findFilter((*params)[1]);
         }
         if (filter == NULL) {
-          filter = attributes.findFilter((*params)[1]);
-        }
-        if (filter == NULL) {
-          filter = global_filters.find((*params)[1]);
-        }
-        if (filter == NULL) {
-          out(error, msg_number, "Filter not found", (*params).lineNo(),
-            config_path);
+          hlog_error("%s:%d filter '%s' not found",
+            config_path, (*params).lineNo(), (*params)[1].c_str());
           failed = true;
         } else {
           attr->addIgnore(filter);
@@ -319,17 +316,13 @@ int Client::readConfig(
         if (filter_type == "filter") {
           Filter* subfilter = NULL;
           if (path != NULL) {
-            subfilter = path->attributes.findFilter((*params)[2]);
+            subfilter = path->findFilter((*params)[2]);
+          } else {
+            subfilter = findFilter((*params)[2]);
           }
           if (subfilter == NULL) {
-            subfilter = attributes.findFilter((*params)[2]);
-          }
-          if (subfilter == NULL) {
-            subfilter = global_filters.find((*params)[2]);
-          }
-          if (subfilter == NULL) {
-            out(error, msg_number, "Filter not found", (*params).lineNo(),
-              config_path);
+            hlog_error("%s:%d filter '%s' not found",
+              config_path, (*params).lineNo(), (*params)[2].c_str());
             failed = 2;
           } else {
             attr->addFilterCondition(new Condition(Condition::filter,
@@ -354,13 +347,7 @@ int Client::readConfig(
         // Path attributes
         if (((*params)[0] == "compress")
         ||  ((*params)[0] == "no_compress")) {
-          Filter* filter = path->attributes.findFilter((*params)[1]);
-          if (filter == NULL) {
-            filter = attributes.findFilter((*params)[1]);
-          }
-          if (filter == NULL) {
-            filter = global_filters.find((*params)[1]);
-          }
+          Filter* filter = path->findFilter((*params)[1]);
           if (filter == NULL) {
             out(error, msg_number, "Filter not found", (*params).lineNo(),
               config_path);
@@ -405,12 +392,13 @@ int Client::readConfig(
   return failed ? -1 : 0;
 }
 
-Client::Client(const string& name, const string& subset) : _d(new Private) {
-  _d->name                   = name;
-  _d->subset_server          = subset;
-  _d->host_or_ip             = name;
-  _d->expire                 = -1;
-  _d->timeout_nowarning      = false;
+Client::Client(const Attributes& attr, const string& name, const string& subset)
+    : _d(new Private(attr)) {
+  _d->name = name;
+  _d->subset_server = subset;
+  _d->host_or_ip = name;
+  _d->expire = -1;
+  _d->timeout_nowarning = false;
 }
 
 Client::~Client() {
@@ -489,9 +477,9 @@ void Client::setBasePath(const string& home_path) {
 ClientPath* Client::addClientPath(const string& name) {
   ClientPath* path;
   if (name[0] == '~') {
-    path = new ClientPath((_d->home_path + &name[1]).c_str());
+    path = new ClientPath(*this, (_d->home_path + &name[1]).c_str());
   } else {
-    path = new ClientPath(name.c_str());
+    path = new ClientPath(*this, name.c_str());
   }
   list<ClientPath*>::iterator i = _d->paths.begin();
   while ((i != _d->paths.end())
@@ -521,9 +509,16 @@ ClientPath* Client::addClientPath(const string& name) {
   return path;
 }
 
+Filter* Client::findFilter(const string& name) const {
+  Filter* filter = attributes.findFilter(name);
+  if (filter == NULL) {
+    filter = _d->parent_attr.findFilter(name);
+  }
+  return filter;
+}
+
 int Client::backup(
     Database&       db,
-    const Filters&  global_filters,
     const char*     mount_point,
     bool            config_check) {
   bool    first_mount_try = true;
@@ -565,7 +560,7 @@ int Client::backup(
     }
     config_path += Path::basename(_d->list_file);
 
-    if (readConfig(config_path.c_str(), global_filters) != 0) {
+    if (readConfig(config_path.c_str()) != 0) {
       failed = true;
     } else if (_d->subset_client !=  _d->subset_server) {
       stringstream s;

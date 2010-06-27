@@ -48,7 +48,10 @@ class Client {
     const char*     mount_point);
 public:
   Attributes        attributes;
-  Client(const string& name, const string& sub_name = "");
+  Client(
+    const Attributes& parent_attr,
+    const string&     name,
+    const string&     sub_name = "");
   ~Client();
   const char* name() const;
   string internalName() const;
@@ -67,12 +70,10 @@ public:
   void setInitialised();
   void setBasePath(const string& home_path);
   ClientPath* addClientPath(const string& path);
-  int  readConfig(
-    const char*     list_path,
-    const Filters&  global_filters);
-  int  backup(
+  int readConfig(const char* list_path);
+  Filter* findFilter(const string& name) const;
+  int backup(
     Database&       db,
-    const Filters&  global_filters,
     const char*     mount_point,
     bool            config_check = false);
   void show(int level = 0) const;

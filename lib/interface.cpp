@@ -359,7 +359,7 @@ int HBackup::readConfig(const char* config_path) {
     } else
     if ((*params)[0] == "client") {
       c_path = NULL;
-      client = new Client((*params)[1],
+      client = new Client(_d->attributes, (*params)[1],
         (params->size() > 2) ? (*params)[2] : "");
 
       // Clients MUST BE in alphabetic order
@@ -519,13 +519,12 @@ int HBackup::open(
     // Give 'selected' client name
     addClient("localhost");
     // Set-up client info
-    Client* client = new Client("localhost");
+    Client* client = new Client(_d->attributes, "localhost");
     client->setProtocol("file");
     client->setListfile(Path(path, ".hbackup/config"));
     client->setBasePath(path);
     if (check_config) {
-      failed = client->readConfig(client->listfile(),
-        _d->attributes.filters()) < 0;
+      failed = client->readConfig(client->listfile()) < 0;
     } else {
       _d->clients.push_back(client);
       // Set-up DB
@@ -616,8 +615,7 @@ int HBackup::backup(
       if (_d->remote_clients && (mount_point.create() < 0)) {
         return -1;
       }
-      if ((*client)->backup(*_d->db, _d->attributes.filters(),
-          mount_point.path())) {
+      if ((*client)->backup(*_d->db, mount_point.path())) {
         failed = true;
       }
       if (_d->remote_clients) {

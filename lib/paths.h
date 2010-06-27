@@ -21,8 +21,11 @@
 
 namespace hbackup {
 
+class Client;
+
 class ClientPath {
   Path              _path;
+  const Client&     _parent;
   Parsers           _parsers;
   const Filter*     _compress;
   const Filter*     _no_compress;
@@ -36,13 +39,14 @@ class ClientPath {
     const Parser*   parser);
 public:
   Attributes        attributes;
-  ClientPath(const char* path);
+  ClientPath(const Client& parent, const char* path);
   const char* path() const               { return _path;  }
   int nodes() const                      { return _nodes; }
   // Set compress filter
   void setCompress(const Filter* filter) { _compress = filter; }
   // Set no-compress filter
   void setNoCompress(const Filter* filter) { _no_compress = filter; }
+  Filter* findFilter(const string& name) const;
   int addParser(
     const string&   name,
     const string&   mode);

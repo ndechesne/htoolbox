@@ -48,27 +48,27 @@ static void progress(long long previous, long long current, long long total) {
 }
 
 int main(void) {
-  Client*       client;
+  Attributes attr;
+  Client* client;
   list<Client*> clients;
-  Database      db("test_db");
-  Filters       filters;
-  int           sys_rc;
+  Database db("test_db");
+  int sys_rc;
 
   report.setLevel(debug);
   db.setProgressCallback(progress);
 
   // Create global filter
   cout << "Global filter" << endl;
-  Filter* filter = filters.add("and", "backup");
-  filter->add("type", "file", false);
-  filter->add("path_end", "~", false);
-  filter->show(1);
+  attr.addFilter("and", "backup");
+  attr.addFilterCondition("type", "file", false);
+  attr.addFilterCondition("path_end", "~", false);
+  attr.show(1);
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("localhost");
+  client = new Client(attr, "localhost");
   clients.push_back(client);
   client->setProtocol("file");
   client->setHostOrIp("localhost");
@@ -82,7 +82,7 @@ int main(void) {
     return 0;
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, filters, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -94,7 +94,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("myClient");
+  client = new Client(attr, "myClient");
   clients.push_back(client);
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
@@ -104,7 +104,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("myClient2");
+  client = new Client(attr, "myClient2");
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("myClient");
@@ -115,7 +115,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("otherClient");
+  client = new Client(attr, "otherClient");
   clients.push_back(client);
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
@@ -126,7 +126,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("otherClient1");
+  client = new Client(attr, "otherClient1");
   clients.push_back(client);
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
@@ -136,7 +136,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("otherClient2");
+  client = new Client(attr, "otherClient2");
   clients.push_back(client);
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
@@ -146,7 +146,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("otherClient3");
+  client = new Client(attr, "otherClient3");
   clients.push_back(client);
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
@@ -155,7 +155,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("Client");
+  client = new Client(attr, "Client");
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("Client");
@@ -166,7 +166,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("Client2");
+  client = new Client(attr, "Client2");
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("Client");
@@ -178,7 +178,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("Client3");
+  client = new Client(attr, "Client3");
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("Client");
@@ -188,7 +188,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("Client4");
+  client = new Client(attr, "Client4");
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("Client");
@@ -201,7 +201,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, filters, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -209,7 +209,7 @@ int main(void) {
   clients.clear();
   db.close();
 
-  client = new Client("testhost");
+  client = new Client(attr, "testhost");
   clients.push_back(client);
   client->setProtocol("file");
   client->setHostOrIp("localhost");
@@ -220,7 +220,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, filters, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -228,7 +228,7 @@ int main(void) {
   clients.clear();
   db.close();
 
-  client = new Client("testhost");
+  client = new Client(attr, "testhost");
   clients.push_back(client);
   client->setProtocol("file");
   client->setListfile("etc/localhost.list");
@@ -238,7 +238,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, filters, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -246,7 +246,7 @@ int main(void) {
   clients.clear();
   db.close();
 
-  client = new Client("testhost");
+  client = new Client(attr, "testhost");
   clients.push_back(client);
   client->setProtocol("file");
   client->setListfile("etc/localhost.list");
@@ -257,7 +257,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, filters, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -265,7 +265,7 @@ int main(void) {
   clients.clear();
   db.close();
 
-  client = new Client("testhost");
+  client = new Client(attr, "testhost");
   clients.push_back(client);
   client->setProtocol("file");
   sys_rc = system("sed \"s%expire.*%path test2/subdir%\" etc/localhost.list > etc/localhost.list2");
@@ -276,7 +276,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    if ((*i)->backup(db, filters, "test_db/mount", 0) < 0) {
+    if ((*i)->backup(db, "test_db/mount", 0) < 0) {
       cerr << "backup failed" << endl;
     }
   }
@@ -288,30 +288,30 @@ int main(void) {
 
   cout << endl << "Test: missing clients" << endl;
 
-  client = new Client("myhost2");
+  client = new Client(attr, "myhost2");
   client->setProtocol("smb");
   sys_rc = system("echo \"path 'C:\\Test Dir'\" > test_cifs/Backup/testhost2.list");
   client->setListfile("C:\\Backup\\testhost2.list");
   db.open();
-  client->backup(db, filters, "test_db/mount", 0);
+  client->backup(db, "test_db/mount", 0);
   db.close();
   delete client;
 
-  client = new Client("myhost3");
+  client = new Client(attr, "myhost3");
   client->setProtocol("nfs");
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
   client->setListfile("/home/User/testhost3.list");
   db.open();
-  client->backup(db, filters, "test_db/mount", 0);
+  client->backup(db, "test_db/mount", 0);
   db.close();
   delete client;
 
-  client = new Client("myhost");
+  client = new Client(attr, "myhost");
   client->setProtocol("file");
   sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
   db.open();
-  client->backup(db, filters, "test_db/mount", 0);
+  client->backup(db, "test_db/mount", 0);
   db.close();
   delete client;
 
@@ -392,18 +392,18 @@ int main(void) {
   db.close();
 
   printf("Create list of clients\n");
-  client = new Client("myhost");
+  client = new Client(attr, "myhost");
   clients.push_back(client);
   client->setProtocol("file");
   sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
 
-  client = new Client("myhost2");
+  client = new Client(attr, "myhost2");
   clients.push_back(client);
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\testhost2.list");
 
-  client = new Client("myhost3");
+  client = new Client(attr, "myhost3");
   clients.push_back(client);
   client->setProtocol("nfs");
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
@@ -415,7 +415,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, filters, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -424,12 +424,12 @@ int main(void) {
   db.close();
 
   printf("Create list of clients\n");
-  client = new Client("myhost2");
+  client = new Client(attr, "myhost2");
   clients.push_back(client);
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\testhost2.list");
 
-  client = new Client("myhost3");
+  client = new Client(attr, "myhost3");
   clients.push_back(client);
   client->setProtocol("nfs");
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
@@ -441,7 +441,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, filters, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -450,13 +450,13 @@ int main(void) {
   db.close();
 
   printf("Create list of clients\n");
-  client = new Client("myhost");
+  client = new Client(attr, "myhost");
   clients.push_back(client);
   client->setProtocol("file");
   sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
 
-  client = new Client("myhost3");
+  client = new Client(attr, "myhost3");
   clients.push_back(client);
   client->setProtocol("nfs");
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
@@ -468,7 +468,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, filters, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -477,13 +477,13 @@ int main(void) {
   db.close();
 
   printf("Create list of clients\n");
-  client = new Client("myhost");
+  client = new Client(attr, "myhost");
   clients.push_back(client);
   client->setProtocol("file");
   sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
 
-  client = new Client("myhost2");
+  client = new Client(attr, "myhost2");
   clients.push_back(client);
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\testhost2.list");
@@ -494,7 +494,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, filters, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -503,7 +503,7 @@ int main(void) {
   db.close();
 
   printf("Second mount fails\n");
-  client = new Client("myClient");
+  client = new Client(attr, "myClient");
   clients.push_back(client);
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
@@ -515,7 +515,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, filters, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -524,7 +524,7 @@ int main(void) {
   db.close();
 
   printf("First mount fails\n");
-  client = new Client("myClient");
+  client = new Client(attr, "myClient");
   clients.push_back(client);
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
@@ -537,7 +537,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, filters, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -546,7 +546,7 @@ int main(void) {
   db.close();
 
   printf("Works again\n");
-  client = new Client("myClient");
+  client = new Client(attr, "myClient");
   clients.push_back(client);
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
@@ -558,7 +558,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, filters, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -567,7 +567,7 @@ int main(void) {
   db.close();
 
   printf("Test with dual boot client\n");
-  client = new Client("myClient", "xp");
+  client = new Client(attr, "myClient", "xp");
   clients.push_back(client);
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\Backup.LST");
@@ -578,7 +578,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, filters, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", 0);
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
