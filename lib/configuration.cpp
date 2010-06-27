@@ -16,16 +16,18 @@
      Boston, MA 02111-1307, USA.
 */
 
+#include <stdio.h>
+
 #include <sstream>
 #include <string>
 #include <list>
 
 using namespace std;
 
-#include "hbackup.h"
-#include "files.h"
 #include "hreport.h"
-#include <configuration.h>
+#include "files.h"
+
+#include "configuration.h"
 
 using namespace hbackup;
 using namespace hreport;
@@ -101,6 +103,7 @@ bool ConfigError::operator<(const ConfigError& error) const {
 }
 
 void ConfigError::show() const {
+  char details[32] = "";
   stringstream s;
   if (_line_no >= 0) {
     if (_type != 0) {
@@ -109,8 +112,9 @@ void ConfigError::show() const {
       s << "at";
     }
     s << " line";
+    sprintf(details, "%s line %d: ", (_type != 0) ? "after" : "at", _line_no);
   }
-  out(error, msg_number, _message.c_str(), _line_no, s.str().c_str());
+  hlog_error("%s%s", details, _message.c_str());
 }
 
 ConfigItem::~ConfigItem() {
@@ -185,36 +189,28 @@ bool ConfigItem::isValid(
 void ConfigItem::show(int level) const {
   list<ConfigItem*>::const_iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
-    stringstream s;
-    for (int j = 0; j < level; j++) {
-      s << " ";
-    }
-    s << (*i)->_keyword;
-    s << ", occ.: ";
+    char minimum[64] = "optional";
     if ((*i)->_min_occurrences != 0) {
-      s << "min = " << (*i)->_min_occurrences;
-    } else {
-      s << "optional";
+      sprintf(minimum, "min = %d", (*i)->_min_occurrences);
     }
-    s << ", ";
+    char maximum[64] = "no max";
     if ((*i)->_max_occurrences != 0) {
-      s << "max = " << (*i)->_max_occurrences;
-    } else {
-      s << "no max";
+      sprintf(maximum, "max = %d", (*i)->_max_occurrences);
     }
-    s << "; params: ";
+    char min_max[64] = "";
     if ((*i)->_min_params != (*i)->_max_params) {
-      s << "min = " << (*i)->_min_params;
-      s << ", ";
+      int offset = sprintf(min_max, "min = %d, ", (*i)->_min_params);
       if ((*i)->_max_params > (*i)->_min_params) {
-        s << "max = " << (*i)->_max_params;
+        sprintf(&min_max[offset], "max = %d", (*i)->_max_params);
       } else {
-        s << "no max";
+        sprintf(&min_max[offset], "no max");
       }
     } else {
-      s << "min = max = " << (*i)->_min_params;
+      sprintf(min_max, "min = max = %d", (*i)->_min_params);
     }
-    out(verbose, msg_standard, s.str().c_str(), -1, NULL);
+    char format[128];
+    sprintf(format, "%%%ds%%s, occ.: %%s, %%s; params: %%s", level);
+    hlog_verbose(format, " ", (*i)->_keyword, minimum, maximum, min_max);
     (*i)->show(level + 2);
   }
 }
@@ -402,7 +398,7 @@ void Config::clear() {
 }
 
 void Config::show() const {
-  out(debug, msg_standard, "Config:", -1, NULL);
+  hlog_debug("Config:");
   ConfigLine* params;
   int level;
   while ((level = line(&params)) >= 0) {

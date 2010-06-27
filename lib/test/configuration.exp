@@ -13,8 +13,8 @@ Syntax:
     no_compress, occ.: optional, max = 1; params: min = max = 1
     parser, occ.: optional, no max; params: min = 1, max = 2
   users, occ.: optional, max = 1; params: min = 1, no max
-Error: after line: 0: missing keyword 'path'
-Error: at line: 5: found CR character, aborting
+Error: after line 0: missing keyword 'path'
+Error: at line 5: found CR character, aborting
 Config:
 2:   filter and subdir
 3:     condition path_start subdir
@@ -242,34 +242,34 @@ Config:
 82:       parser svn modified
 83:     report_copy_error_once
 Test: broken configuration
-Error: after line: 0: need at most 1 occurence(s) of keyword 'db'
-Error: after line: 0: need at most 1 occurence(s) of keyword 'report_copy_error_once'
-Error: after line: 0: need at most 1 occurence(s) of keyword 'timeout_nowarning'
-Error: at line: 10: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line: 14: missing keyword 'condition'
-Error: after line: 16: need at most 1 occurence(s) of keyword 'ignore'
-Error: at line: 18: keyword 'users' requires at least 1 parameter(s), found 0
-Error: at line: 20: keyword 'ignore' requires 1 parameter(s), found 0
-Error: after line: 22: need at most 1 occurence(s) of keyword 'config'
-Error: after line: 22: need at most 1 occurence(s) of keyword 'expire'
-Error: after line: 22: need at most 1 occurence(s) of keyword 'hostname'
-Error: at line: 26: keyword 'option' requires at most 2 parameter(s), found 3
-Error: at line: 27: keyword 'option' requires at least 1 parameter(s), found 0
-Error: at line: 35: keyword 'filter' requires 2 parameter(s), found 3
-Error: at line: 36: keyword 'condition' requires 2 parameter(s), found 3
-Error: at line: 37: keyword 'condition' requires 2 parameter(s), found 1
-Error: at line: 40: keyword 'expire' requires 1 parameter(s), found 2
-Error: after line: 44: need at most 1 occurence(s) of keyword 'compress'
-Error: after line: 44: need at most 1 occurence(s) of keyword 'ignore'
-Error: after line: 54: missing keyword 'condition'
-Error: at line: 56: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line: 56: missing keyword 'condition'
-Error: after line: 68: missing keyword 'protocol'
-Error: at line: 74: keyword 'ignore' requires 1 parameter(s), found 2
-Error: at line: 75: keyword 'compress' requires 1 parameter(s), found 2
-Error: at line: 88: keyword 'ignore' requires 1 parameter(s), found 0
-Error: at line: 89: keyword 'compress' requires 1 parameter(s), found 0
-Error: at line: 91: keyword 'what_the_f...?' incorrect or misplaced, aborting
+Error: after line 0: need at most 1 occurence(s) of keyword 'db'
+Error: after line 0: need at most 1 occurence(s) of keyword 'report_copy_error_once'
+Error: after line 0: need at most 1 occurence(s) of keyword 'timeout_nowarning'
+Error: at line 10: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line 14: missing keyword 'condition'
+Error: after line 16: need at most 1 occurence(s) of keyword 'ignore'
+Error: at line 18: keyword 'users' requires at least 1 parameter(s), found 0
+Error: at line 20: keyword 'ignore' requires 1 parameter(s), found 0
+Error: after line 22: need at most 1 occurence(s) of keyword 'config'
+Error: after line 22: need at most 1 occurence(s) of keyword 'expire'
+Error: after line 22: need at most 1 occurence(s) of keyword 'hostname'
+Error: at line 26: keyword 'option' requires at most 2 parameter(s), found 3
+Error: at line 27: keyword 'option' requires at least 1 parameter(s), found 0
+Error: at line 35: keyword 'filter' requires 2 parameter(s), found 3
+Error: at line 36: keyword 'condition' requires 2 parameter(s), found 3
+Error: at line 37: keyword 'condition' requires 2 parameter(s), found 1
+Error: at line 40: keyword 'expire' requires 1 parameter(s), found 2
+Error: after line 44: need at most 1 occurence(s) of keyword 'compress'
+Error: after line 44: need at most 1 occurence(s) of keyword 'ignore'
+Error: after line 54: missing keyword 'condition'
+Error: at line 56: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line 56: missing keyword 'condition'
+Error: after line 68: missing keyword 'protocol'
+Error: at line 74: keyword 'ignore' requires 1 parameter(s), found 2
+Error: at line 75: keyword 'compress' requires 1 parameter(s), found 2
+Error: at line 88: keyword 'ignore' requires 1 parameter(s), found 0
+Error: at line 89: keyword 'compress' requires 1 parameter(s), found 0
+Error: at line 91: keyword 'what_the_f...?' incorrect or misplaced, aborting
 Config:
 1:   db test_db
 2:   db blah
