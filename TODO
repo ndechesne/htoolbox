@@ -1,8 +1,8 @@
 TODO - non-organised list of things I want to do
   * test 'no space left on device' somehow
   * sort out list interface
+  * sort out lists management the right way
   * restoration via web gui
   * properly handle compression requirements
-  * make parsers a separate things with a proper API
-  * sort out lists management the right way
-  * need automatic configuration reading
+  * make parsers independent plugins
+  * automatic configuration reading

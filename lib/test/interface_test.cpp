@@ -39,6 +39,14 @@ using namespace std;
 #include "paths.h"
 #include "clients.h"
 
+time_t time(time_t* tm) {
+  time_t val = 1249617904;
+  if (tm != NULL) {
+    *tm = val;
+  }
+  return val;
+}
+
 static void progress(long long previous, long long current, long long total) {
   if (current < total) {
     cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
@@ -936,6 +944,10 @@ int main(void) {
   hbackup->close();
   delete hbackup;
   showClientConfigs();
+
+  int _unused;
+  _unused = system("for name in `ls hbackup.log*`; do "
+                   "echo \"$name:\"; cat $name; done");
 
   return 0;
 }

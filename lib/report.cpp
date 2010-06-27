@@ -373,11 +373,11 @@ int Report::log(
   // lock
   _d->lock();
   int rc = 0;
-  if (_d->console_log) {
+  if (_d->console_log && (level <= _console_level)) {
     FILE* fd = (level <= warning) ? stderr : stdout;
     rc = _d->consoleLog(fd, file, line, level, temporary, format, &ap);
   }
-  if (_d->file_log) {
+  if (_d->file_log && (level <= _file_level)) {
     rc = _d->fileLog(_d->fd, file, line, level, temporary, format, &ap);
   }
   // unlock
