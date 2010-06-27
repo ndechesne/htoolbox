@@ -82,16 +82,17 @@ void ConfigLine::clear() {
 
 void ConfigLine::show(int level) const {
   stringstream s;
-  for (int j = 0; j < level; j++) {
-    s << " ";
-  }
   for (unsigned int j = 0; j < size(); j++) {
     if (j != 0) {
       s << " ";
     }
     s << (*this)[j];
   }
-  out(debug, msg_number, s.str().c_str(), lineNo(), NULL);
+
+  char format[16];
+  sprintf(format, "%%d:%%%ds%%s", level + 1);
+  hlog_verbose(format, lineNo(), " ", s.str().c_str());
+
 }
 
 bool ConfigCounter::operator<(const ConfigCounter& counter) const {
