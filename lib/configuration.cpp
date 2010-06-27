@@ -220,6 +220,7 @@ int Config::read(
     Stream&         stream,
     unsigned char   flags,
     ConfigSyntax&   syntax,
+    ConfigObject*   root,
     ConfigErrors*   errors) {
   // Where we are in the items tree
   list<const ConfigItem*> items_hierarchy;
@@ -228,6 +229,10 @@ int Config::read(
   // Where are we in the lines tree
   list<ConfigLine*> lines_hierarchy;
   lines_hierarchy.push_back(&_lines_top);
+
+  // Where we are in the objects tree (follows the items/syntax closely)
+  list<ConfigObject*> objects_hierarchy;
+  objects_hierarchy.push_back(root);
 
   // Read through the file
   ConfigLine *params = new ConfigLine;
@@ -247,6 +252,9 @@ int Config::read(
         if (child != NULL) {
           // Add under current hierarchy
           items_hierarchy.push_back(child);
+          if (objects_hierarchy.back() != NULL) {
+            objects_hierarchy.push_back(objects_hierarchy.back()->factory(*params));
+          }
           // Add in configuration lines tree, however incorrect it may be
           params->setLineNo(line_no);
           lines_hierarchy.back()->add(params);
@@ -303,6 +311,9 @@ int Config::read(
           }
           // Keyword not found in children, go up the tree
           items_hierarchy.pop_back();
+          if (objects_hierarchy.size() > 1) {
+            objects_hierarchy.pop_back();
+          }
           lines_hierarchy.back()->sortChildren();
           lines_hierarchy.pop_back();
           if ((items_hierarchy.size() == 0) && (rc != 0)) {

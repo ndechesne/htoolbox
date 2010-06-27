@@ -236,6 +236,7 @@ int Client::readConfig(
   if (_d->config.read(config_file,
                       Stream::flags_dos_catch | Stream::flags_accept_cr_lf,
                       config_syntax,
+                      NULL,
                       &errors) >= 0) {
     // Read client configuration file
     ClientPath* path   = NULL;

@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008  Herve Fache
+     Copyright (C) 2008-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -16,8 +16,8 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef _CONFIG_H
-#define _CONFIG_H
+#ifndef _CONFIGURATION_H
+#define _CONFIGURATION_H
 
 namespace hbackup {
 
@@ -120,6 +120,11 @@ public:
   void show(int level = 0) const;
 };
 
+class ConfigObject {
+public:
+  virtual ConfigObject* factory(ConfigLine& params) = 0;
+};
+
 class ConfigSyntax : public ConfigItem {
 public:
   ConfigSyntax() : ConfigItem("") {}
@@ -133,6 +138,7 @@ public:
     Stream&         stream,
     unsigned char   flags,
     ConfigSyntax&   syntax,
+    ConfigObject*   root = NULL,
     ConfigErrors*   errors = NULL);
   // Write configuration to file
   int write(

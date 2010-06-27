@@ -15,6 +15,31 @@ Syntax:
   users, occ.: optional, max = 1; params: min = 1, no max
 Error: after line 0: missing keyword 'path'
 Error: at line 5: found CR character, aborting
+Test: accept CRLF
+0: root
+0:   filter and subdir
+0:     condition path_start subdir
+0:     condition !size< 100
+0:   users biloute machin
+0:   ignore backup
+0:   filter and bigfile
+0:     condition size>= 10
+0:     condition type file
+0:   expire 1
+0:   path test2//
+0:   path test1
+0:     filter and not_object
+0:       condition !path_end .o
+0:     filter or to_be_ignored
+0:       condition filter subdir
+0:       condition !filter not_object
+0:     ignore to_be_ignored
+0:     compress bigfile
+0:     parser cvs controlled
+0:     parser svn modified
+0:     filter and cvs_entries
+0:       condition name Entries
+0:     no_compress cvs_entries
 Config:
 2:   filter and subdir
 3:     condition path_start subdir
@@ -72,6 +97,90 @@ Syntax:
     max_lines, occ.: optional, max = 1; params: min = max = 1
   report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
   timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
+0: root
+0:   log hbackup.log
+0:     max_lines 100000
+0:     backups 10
+0:     level verbose
+0:   db test_db
+0:     compress auto
+0:     compress_auto
+0:   filter all nothing
+0:     condition type pipe
+0:     condition size> 10
+0:   ignore nothing
+0:   filter all backup
+0:     condition type file
+0:     condition path_end ~
+0:   filter any test_or
+0:     condition filter backup
+0:     condition !size< 1000
+0:   client myClient xp
+0:     protocol smb
+0:     users backup
+0:     config C:\Backup\Backup.LST
+0:   client myClient
+0:     protocol nfs
+0:     users backup root
+0:     hostname myClient
+0:     config /home/User/hbackup.list
+0:   client newClient
+0:     protocol ssh
+0:     option username user
+0:     option password p4sS?
+0:     config /home/Blah/hbackup.list
+0:   client other
+0:     protocol none
+0:     hostname otherClient
+0:     option username foo
+0:     option password bar
+0:     config /home/Blah/hbackup.list
+0:     filter and subdir
+0:       condition path_start subdir
+0:       condition !size< 100
+0:     filter and bigfile
+0:       condition size>= 10
+0:       condition type file
+0:     expire 1
+0:     path test2//
+0:     path test1
+0:       filter and not_object
+0:         condition !path_end .o
+0:       filter or to_be_ignored
+0:         condition filter subdir
+0:         condition filter backup
+0:         condition !filter not_object
+0:       ignore to_be_ignored
+0:       compress bigfile
+0:       parser cvs controlled
+0:       parser svn modified
+0:   client myhost
+0:     report_copy_error_once
+0:     protocol file
+0:     hostname myhost.mynetwork.lan
+0:     timeout_nowarning
+0:     config etc/localhost.list
+0:     expire 1
+0:   client client xp
+0:     ignore backup
+0:     protocol smb
+0:     option username Myself
+0:     option password flesyM
+0:     option nocase
+0:     hostname myClient
+0:     config C:\Backup\Backup.LST
+0:   client aClient vista
+0:     protocol smb
+0:     filter and huge_file
+0:       condition !filter backup
+0:       condition !size< 100
+0:     path C:\Test Dir
+0:       filter and compress_m
+0:         condition !filter huge_file
+0:       compress compress_m
+0:       ignore backup
+0:       parser svn modified
+0:     report_copy_error_once
 Config:
 1:   log hbackup.log
 2:     max_lines 100000
@@ -157,6 +266,90 @@ Config:
 105:       parser svn modified
 106:     report_copy_error_once
 Test: configuration save
+0: root
+0:   log hbackup.log
+0:     max_lines 100000
+0:     backups 10
+0:     level verbose
+0:   db test_db
+0:     compress auto
+0:     compress_auto
+0:   filter all nothing
+0:     condition type pipe
+0:     condition size> 10
+0:   ignore nothing
+0:   filter all backup
+0:     condition type file
+0:     condition path_end ~
+0:   filter any test_or
+0:     condition filter backup
+0:     condition !size< 1000
+0:   client myClient xp
+0:     protocol smb
+0:     users backup
+0:     config C:\Backup\Backup.LST
+0:   client myClient
+0:     protocol nfs
+0:     users backup root
+0:     hostname myClient
+0:     config /home/User/hbackup.list
+0:   client newClient
+0:     protocol ssh
+0:     option username user
+0:     option password p4sS?
+0:     config /home/Blah/hbackup.list
+0:   client other
+0:     protocol none
+0:     hostname otherClient
+0:     option username foo
+0:     option password bar
+0:     config /home/Blah/hbackup.list
+0:     filter and subdir
+0:       condition path_start subdir
+0:       condition !size< 100
+0:     filter and bigfile
+0:       condition size>= 10
+0:       condition type file
+0:     expire 1
+0:     path test2//
+0:     path test1
+0:       filter and not_object
+0:         condition !path_end .o
+0:       filter or to_be_ignored
+0:         condition filter subdir
+0:         condition filter backup
+0:         condition !filter not_object
+0:       ignore to_be_ignored
+0:       compress bigfile
+0:       parser cvs controlled
+0:       parser svn modified
+0:   client myhost
+0:     report_copy_error_once
+0:     protocol file
+0:     hostname myhost.mynetwork.lan
+0:     timeout_nowarning
+0:     config etc/localhost.list
+0:     expire 1
+0:   client client xp
+0:     ignore backup
+0:     protocol smb
+0:     option username Myself
+0:     option password flesyM
+0:     option nocase
+0:     hostname myClient
+0:     config C:\Backup\Backup.LST
+0:   client aClient vista
+0:     protocol smb
+0:     filter and huge_file
+0:       condition !filter backup
+0:       condition !size< 100
+0:     path C:\Test Dir
+0:       filter and compress_m
+0:         condition !filter huge_file
+0:       compress compress_m
+0:       ignore backup
+0:       parser svn modified
+0:     report_copy_error_once
 Config:
 1:   log hbackup.log
 2:     max_lines 100000
@@ -270,6 +463,73 @@ Error: at line 75: keyword 'compress' requires 1 parameter(s), found 2
 Error: at line 88: keyword 'ignore' requires 1 parameter(s), found 0
 Error: at line 89: keyword 'compress' requires 1 parameter(s), found 0
 Error: at line 91: keyword 'what_the_f...?' incorrect or misplaced, aborting
+0: root
+0:   db test_db
+0:   db blah
+0:   timeout_nowarning
+0:   timeout_nowarning
+0:   report_copy_error_once
+0:   report_copy_error_once
+0:   filter all
+0:     condition type file
+0:     condition path_end ~
+0:   filter any test_or
+0:   client myClient
+0:     protocol nfs
+0:     users
+0:     ignore test_or
+0:     ignore
+0:   client other
+0:     protocol ssh
+0:     hostname otherClient
+0:     hostname 192.168.0.132
+0:     option I am happy
+0:     option
+0:     config /home/backup/Backup.list
+0:     config /home/backup/Backup2.list
+0:     filter and subdir
+0:       condition path_start subdir
+0:       condition !size< 100
+0:     filter and bigfile 3
+0:       condition size>= 10 yeah
+0:       condition type
+0:     expire 1
+0:     expire 2 3
+0:     path test2//
+0:     path test1
+0:       filter and not_object
+0:         condition !path_end .o
+0:       filter or to_be_ignored
+0:         condition filter subdir
+0:         condition filter backup
+0:         condition !filter not_object
+0:       filter and blah
+0:       filter or
+0:       ignore to_be_ignored
+0:       ignore to_be_ignored2
+0:       compress bigfile
+0:       compress bigfile2
+0:       parser cvs controlled
+0:       parser svn modified
+0:   client myhost
+0:     hostname myhost.mynetwork.lan
+0:     config etc/localhost.list
+0:     expire 1
+0:     path blah
+0:       ignore 2 3
+0:       compress 4 5
+0:   client client xp
+0:     protocol smb
+0:     option username Myself
+0:     option password flesyM
+0:     option nocase
+0:     hostname myClient
+0:     config C:\Backup\Backup.LST
+0:     path C:\Crash"
+0:     path C:\Crash
+0:     path blah
+0:       ignore
+0:       compress
 Config:
 1:   db test_db
 2:   db blah

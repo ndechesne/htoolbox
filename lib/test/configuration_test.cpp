@@ -25,6 +25,49 @@ using namespace std;
 #include "files.h"
 #include "configuration.h"
 
+class MyObject : public ConfigObject {
+  string _name;
+  ConfigLine _line;
+  list<MyObject*> _children;
+  MyObject();
+public:
+  MyObject(string name) : _name(name) {}
+  MyObject(ConfigLine& line) : _name(line[0]), _line(line) {}
+  virtual ConfigObject* factory(ConfigLine& params) {
+#if 0
+    hlog_debug("got line below:");
+    params.show();
+    hlog_debug("object named %s builds object named %s",
+      _name.c_str(), params[0].c_str());
+#endif
+    MyObject* o = new MyObject(params);
+    _children.push_back(o);
+    return o;
+  }
+  void show(int level = 0) const {
+    if (_name == "root") {
+      hlog_verbose("0: root");
+    } else {
+      _line.show(level);
+    }
+#if 0
+    hlog_debug("object name: %s has %d child(ren)", _name.c_str(), _children.size());
+#endif
+    for (list<MyObject*>::const_iterator it = _children.begin();
+        it != _children.end(); ++it) {
+      (*it)->show(level + 2);
+    }
+  }
+  void clear() {
+    for (list<MyObject*>::iterator it = _children.begin();
+        it != _children.end(); ++it) {
+      (*it)->clear();
+      delete *it;
+    }
+    _children.clear();
+  }
+};
+
 int main(void) {
   Config*           config;
   ConfigErrors      errors;
@@ -86,7 +129,7 @@ int main(void) {
   config = new Config;
   Stream client_config("etc/localhost.list");
   if (client_config.open(O_RDONLY) == 0) {
-    config->read(client_config, 0, client_syntax, &errors);
+    config->read(client_config, 0, client_syntax, NULL, &errors);
     client_config.close();
   } else {
     cout << "failed to open it!" << endl;
@@ -94,15 +137,22 @@ int main(void) {
   errors.show();
   errors.clear();
   config->clear();
+
+  cout << "Test: accept CRLF" << endl;
+
+  MyObject object("root");
+
   if (client_config.open(O_RDONLY) == 0) {
     config->read(client_config, Stream::flags_accept_cr_lf, client_syntax,
-      &errors);
+      &object, &errors);
     client_config.close();
   } else {
     cout << "failed to open it!" << endl;
   }
   errors.show();
   errors.clear();
+  object.show();
+  object.clear();
 
   // show debug
   config->show();
@@ -230,13 +280,15 @@ int main(void) {
   config = new Config;
   Stream general_config("etc/hbackup.conf");
   if (general_config.open(O_RDONLY) == 0) {
-    config->read(general_config, 0, syntax, &errors);
+    config->read(general_config, 0, syntax, &object, &errors);
     general_config.close();
   } else {
     cout << "failed to open it!" << endl;
   }
   errors.show();
   errors.clear();
+  object.show();
+  object.clear();
 
   // show debug
   config->show();
@@ -258,13 +310,15 @@ int main(void) {
   config->clear();
 
   if (save_config.open(O_RDONLY, 1) == 0) {
-    config->read(save_config, 0, syntax, &errors);
+    config->read(save_config, 0, syntax, &object, &errors);
     save_config.close();
   } else {
     cout << "failed to open it!" << endl;
   }
   errors.show();
   errors.clear();
+  object.show();
+  object.clear();
 
   // show debug
   config->show();
@@ -275,13 +329,15 @@ int main(void) {
   cout << "Test: broken configuration" << endl;
   Stream broken_config("etc/broken.conf");
   if (broken_config.open(O_RDONLY) == 0) {
-    config->read(broken_config, 0, syntax, &errors);
+    config->read(broken_config, 0, syntax, &object, &errors);
     broken_config.close();
   } else {
     cout << "failed to open it!" << endl;
   }
   errors.show();
   errors.clear();
+  object.show();
+  object.clear();
 
   // show debug
   config->show();

@@ -228,7 +228,7 @@ int HBackup::readConfig(const char* config_path) {
   Config       config;
   ConfigErrors errors;
   int rc = config.read(config_file, Stream::flags_accept_cr_lf, config_syntax,
-    &errors);
+    NULL, &errors);
   config_file.close();
 
   if (rc < 0) {

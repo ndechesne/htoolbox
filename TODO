@@ -5,4 +5,4 @@ TODO - non-organised list of things I want to do
   * restoration via web gui
   * properly handle compression requirements
   * make parsers independent plugins
-  * automatic configuration reading
+  * use automatic configuration reading

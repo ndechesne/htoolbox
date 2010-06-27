@@ -2655,7 +2655,7 @@ cvs\r
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:61)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:187)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:244)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:629)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:630)
    hbackup::HBackup::backup(bool) (interface.cpp:619)
    main (hbackup.cpp:337)
  
@@ -3084,7 +3084,7 @@ cvs\r
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:61)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, int, hbackup::Directory&, hbackup::Parser const*) (paths.cpp:187)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*) (paths.cpp:244)
-   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:629)
+   hbackup::Client::backup(hbackup::Database&, hbackup::Filters const&, char const*, bool) (clients.cpp:630)
    hbackup::HBackup::backup(bool) (interface.cpp:619)
    main (hbackup.cpp:337)
  
@@ -4942,34 +4942,34 @@ Database closed
  
 Broken configuration
  -> Reading configuration file: etc/broken.conf
-Error: after line: 0: need at most 1 occurence(s) of keyword 'db'
-Error: after line: 0: need at most 1 occurence(s) of keyword 'report_copy_error_once'
-Error: after line: 0: need at most 1 occurence(s) of keyword 'timeout_nowarning'
-Error: at line: 10: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line: 14: missing keyword 'condition'
-Error: after line: 16: need at most 1 occurence(s) of keyword 'ignore'
-Error: at line: 18: keyword 'users' requires at least 1 parameter(s), found 0
-Error: at line: 20: keyword 'ignore' requires 1 parameter(s), found 0
-Error: after line: 22: need at most 1 occurence(s) of keyword 'config'
-Error: after line: 22: need at most 1 occurence(s) of keyword 'expire'
-Error: after line: 22: need at most 1 occurence(s) of keyword 'hostname'
-Error: at line: 26: keyword 'option' requires at most 2 parameter(s), found 3
-Error: at line: 27: keyword 'option' requires at least 1 parameter(s), found 0
-Error: at line: 35: keyword 'filter' requires 2 parameter(s), found 3
-Error: at line: 36: keyword 'condition' requires 2 parameter(s), found 3
-Error: at line: 37: keyword 'condition' requires 2 parameter(s), found 1
-Error: at line: 40: keyword 'expire' requires 1 parameter(s), found 2
-Error: after line: 44: need at most 1 occurence(s) of keyword 'compress'
-Error: after line: 44: need at most 1 occurence(s) of keyword 'ignore'
-Error: after line: 54: missing keyword 'condition'
-Error: at line: 56: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line: 56: missing keyword 'condition'
-Error: after line: 68: missing keyword 'protocol'
-Error: at line: 74: keyword 'ignore' requires 1 parameter(s), found 2
-Error: at line: 75: keyword 'compress' requires 1 parameter(s), found 2
-Error: at line: 88: keyword 'ignore' requires 1 parameter(s), found 0
-Error: at line: 89: keyword 'compress' requires 1 parameter(s), found 0
-Error: at line: 91: keyword 'what_the_f...?' incorrect or misplaced, aborting
+Error: after line 0: need at most 1 occurence(s) of keyword 'db'
+Error: after line 0: need at most 1 occurence(s) of keyword 'report_copy_error_once'
+Error: after line 0: need at most 1 occurence(s) of keyword 'timeout_nowarning'
+Error: at line 10: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line 14: missing keyword 'condition'
+Error: after line 16: need at most 1 occurence(s) of keyword 'ignore'
+Error: at line 18: keyword 'users' requires at least 1 parameter(s), found 0
+Error: at line 20: keyword 'ignore' requires 1 parameter(s), found 0
+Error: after line 22: need at most 1 occurence(s) of keyword 'config'
+Error: after line 22: need at most 1 occurence(s) of keyword 'expire'
+Error: after line 22: need at most 1 occurence(s) of keyword 'hostname'
+Error: at line 26: keyword 'option' requires at most 2 parameter(s), found 3
+Error: at line 27: keyword 'option' requires at least 1 parameter(s), found 0
+Error: at line 35: keyword 'filter' requires 2 parameter(s), found 3
+Error: at line 36: keyword 'condition' requires 2 parameter(s), found 3
+Error: at line 37: keyword 'condition' requires 2 parameter(s), found 1
+Error: at line 40: keyword 'expire' requires 1 parameter(s), found 2
+Error: after line 44: need at most 1 occurence(s) of keyword 'compress'
+Error: after line 44: need at most 1 occurence(s) of keyword 'ignore'
+Error: after line 54: missing keyword 'condition'
+Error: at line 56: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line 56: missing keyword 'condition'
+Error: after line 68: missing keyword 'protocol'
+Error: at line 74: keyword 'ignore' requires 1 parameter(s), found 2
+Error: at line 75: keyword 'compress' requires 1 parameter(s), found 2
+Error: at line 88: keyword 'ignore' requires 1 parameter(s), found 0
+Error: at line 89: keyword 'compress' requires 1 parameter(s), found 0
+Error: at line 91: keyword 'what_the_f...?' incorrect or misplaced, aborting
 Note: the default configuration path has changed from '/etc/hbackup/hbackup.conf' to '/etc/hbackup/config'
  4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
