@@ -252,8 +252,16 @@ int Config::read(
         if (child != NULL) {
           // Add under current hierarchy
           items_hierarchy.push_back(child);
-          if (objects_hierarchy.back() != NULL) {
-            objects_hierarchy.push_back(objects_hierarchy.back()->factory(*params));
+          if (root != NULL) {
+            ConfigObject* child_object =
+              objects_hierarchy.back()->configChildFactory(*params);
+            if (child_object == NULL) {
+              hlog_alert("unexpected NULL pointer");
+              failed = true;
+              goto end;
+            } else {
+              objects_hierarchy.push_back(child_object);
+            }
           }
           // Add in configuration lines tree, however incorrect it may be
           params->setLineNo(line_no);
@@ -311,7 +319,7 @@ int Config::read(
           }
           // Keyword not found in children, go up the tree
           items_hierarchy.pop_back();
-          if (objects_hierarchy.size() > 1) {
+          if (root != NULL) {
             objects_hierarchy.pop_back();
           }
           lines_hierarchy.back()->sortChildren();

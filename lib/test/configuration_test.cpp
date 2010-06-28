@@ -33,7 +33,7 @@ class MyObject : public ConfigObject {
 public:
   MyObject(string name) : _name(name) {}
   MyObject(ConfigLine& line) : _name(line[0]), _line(line) {}
-  virtual ConfigObject* factory(ConfigLine& params) {
+  virtual ConfigObject* configChildFactory(ConfigLine& params) {
 #if 0
     hlog_debug("got line below:");
     params.show();

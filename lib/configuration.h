@@ -122,7 +122,7 @@ public:
 
 class ConfigObject {
 public:
-  virtual ConfigObject* factory(ConfigLine& params) = 0;
+  virtual ConfigObject* configChildFactory(ConfigLine& params) = 0;
 };
 
 class ConfigSyntax : public ConfigItem {
