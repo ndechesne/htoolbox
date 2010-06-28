@@ -88,13 +88,18 @@ public:
   };
 };
 
-class Parsers : public list<Parser*> {
+class Parsers {
+  list<Parser*> _children;
 public:
   ~Parsers();
   // Create new controlling parser if justified
   Parser* createParserIfControlled(const string& dir_path) const;
   // create new managing parser of given name with given mode
   Parser* createParser(const string& name, const string& mode);
+  // List management
+  bool empty() const { return _children.empty(); }
+  size_t size() const { return _children.size(); }
+  void push_back(Parser* parser) { return _children.push_back(parser); }
   // For verbosity
   void show(int level = 0) const;
 };

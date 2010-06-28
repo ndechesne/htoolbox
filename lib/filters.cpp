@@ -34,7 +34,8 @@ using namespace hreport;
 
 Filter::~Filter() {
   list<Condition*>::const_iterator condition;
-  for (condition = begin(); condition != end(); condition++) {
+  for (condition = _children.begin(); condition != _children.end();
+      condition++) {
     delete *condition;
   }
 }
@@ -189,7 +190,8 @@ bool Filter::match(
     int             start) const {
   // Test all conditions
   list<Condition*>::const_iterator condition;
-  for (condition = begin(); condition != end(); condition++) {
+  for (condition = _children.begin(); condition != _children.end();
+      condition++) {
     bool matches = (*condition)->match(node, start);
     if (_type == any) {
       if (matches) {
@@ -215,7 +217,8 @@ void Filter::show(int level) const {
   out(debug, msg_standard, s.str().c_str(), level, "Filter");
   // Show all conditions
   list<Condition*>::const_iterator condition;
-  for (condition = begin(); condition != end(); condition++) {
+  for (condition = _children.begin(); condition != _children.end();
+      condition++) {
     (*condition)->show(level + 1);
   }
 }
@@ -223,7 +226,7 @@ void Filter::show(int level) const {
 Filters::~Filters() {
   // Delete all filters
   list<Filter*>::const_iterator filter;
-  for (filter = begin(); filter != end(); filter++) {
+  for (filter = _children.begin(); filter != _children.end(); filter++) {
     delete *filter;
   }
 }
@@ -231,7 +234,7 @@ Filters::~Filters() {
 Filter* Filters::find(
     const string&   name) const {
   list<Filter*>::const_iterator filter;
-  for (filter = begin(); filter != end(); filter++) {
+  for (filter = _children.begin(); filter != _children.end(); filter++) {
     if ((*filter)->name() == name) {
       return *filter;
     }
@@ -253,13 +256,13 @@ Filter* Filters::add(
     return NULL;
   }
   Filter* filter = new Filter(ftype, name.c_str());
-  push_back(filter);
+  _children.push_back(filter);
   return filter;
 }
 
 void Filters::show(int level) const {
   list<Filter*>::const_iterator filter;
-  for (filter = begin(); filter != end(); filter++) {
+  for (filter = _children.begin(); filter != _children.end(); filter++) {
     (*filter)->show(level);
   }
 }

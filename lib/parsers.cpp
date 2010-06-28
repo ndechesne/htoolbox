@@ -32,14 +32,16 @@ using namespace hreport;
 Parsers hbackup::parsers_registered;
 
 Parsers::~Parsers() {
-  for (Parsers::iterator i = begin(); i != end(); i++) {
+  list<Parser*>::iterator i;
+  for (i = _children.begin(); i != _children.end(); i++) {
     delete *i;
   }
 }
 
 Parser* Parsers::createParserIfControlled(const string& dir_path) const {
   Parser *parser;
-  for (Parsers::const_iterator i = begin(); i != end(); i++) {
+  list<Parser*>::const_iterator i;
+  for (i = _children.begin(); i != _children.end(); i++) {
     parser = (*i)->createChildIfControlled(dir_path);
     if (parser != NULL) {
       return parser;
@@ -81,8 +83,8 @@ Parser* Parsers::createParser(const string& name, const string& mode_str) {
   }
 
   /* Create instance of specified parser */
-  Parsers::iterator i;
-  for (i = begin(); i != end(); i++) {
+  list<Parser*>::iterator i;
+  for (i = _children.begin(); i != _children.end(); i++) {
     if ((*i)->code() == name) {
       return (*i)->createInstance(mode);
     }
@@ -92,7 +94,8 @@ Parser* Parsers::createParser(const string& name, const string& mode_str) {
 }
 
 void Parsers::show(int level) const {
-  for (Parsers::const_iterator i = begin(); i != end(); i++) {
+  list<Parser*>::const_iterator i;
+  for (i = _children.begin(); i != _children.end(); i++) {
     out(debug, msg_standard, (*i)->name(), level, "Parser");
   }
 }

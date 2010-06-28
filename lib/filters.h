@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -24,7 +24,8 @@ namespace hbackup {
 // Each filter can be declared as a logical AND or OR of its conditions
 // A special condition runs a filter, so expressions of any complexity can be
 // defined. This is why the name is needed and must be unique.
-class Filter : public list<Condition*> {
+class Filter {
+  list<Condition*> _children;
 public:
   enum Mode {
     any = 1,            //!< matches if at least one condition matches
@@ -40,7 +41,9 @@ public:
       _type(type), _name(name) {}
   ~Filter();
   const string& name() const     { return _name; }
-  void add(Condition* condition) { push_back(condition); }
+  void add(Condition* condition) {
+    _children.push_back(condition);
+  }
   int add(
     const string&   type,
     const char*     value,
@@ -52,7 +55,8 @@ public:
   void show(int level = 0) const;
 };
 
-class Filters : public list<Filter*> {
+class Filters {
+  list<Filter*> _children;
 public:
   ~Filters();
   Filter* find(
