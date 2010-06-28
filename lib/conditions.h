@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -19,6 +19,8 @@
 #ifndef CONDITIONS_H
 #define CONDITIONS_H
 
+#include "configuration.h"
+
 namespace hbackup {
 
 /* The filter stores a list of rules, each containing a list of conditions.
@@ -32,7 +34,7 @@ namespace hbackup {
 // Stub
 class Filter;
 
-class Condition {
+class Condition : public ConfigObject {
 public:
   enum Type {
     filter      = 1,    //!< sub-filter
@@ -85,6 +87,11 @@ public:
   bool match(
     const Node&     node,
     int             start = 0) const;
+  // No children
+  virtual ConfigObject* configChildFactory(ConfigLine& params) {
+    (void) params;
+    return NULL;
+  }
   /* For verbosity */
   void show(int level = 0) const;
 };
