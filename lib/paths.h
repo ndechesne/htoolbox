@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -21,11 +21,8 @@
 
 namespace hbackup {
 
-class Client;
-
 class ClientPath {
   Path              _path;
-  const Client&     _parent;
   Parsers           _parsers;
   const Filter*     _compress;
   const Filter*     _no_compress;
@@ -39,7 +36,7 @@ class ClientPath {
     const Parser*   parser);
 public:
   Attributes        attributes;
-  ClientPath(const Client& parent, const char* path);
+  ClientPath(const char* path, const Filters* filters = NULL);
   const char* path() const               { return _path;  }
   int nodes() const                      { return _nodes; }
   // Set compress filter

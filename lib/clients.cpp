@@ -43,7 +43,6 @@ using namespace hbackup;
 using namespace hreport;
 
 struct Client::Private {
-  const Attributes& parent_attr;
   list<ClientPath*> paths;
   string            subset_client;
   string            name;
@@ -60,7 +59,6 @@ struct Client::Private {
   bool              classic_mount;
   bool              fuse_mount;
   int               expire;
-  Private(const Attributes& a) : parent_attr(a) {}
 };
 
 int Client::mountPath(
@@ -392,8 +390,8 @@ int Client::readConfig(
   return failed ? -1 : 0;
 }
 
-Client::Client(const Attributes& attr, const string& name, const string& subset)
-    : _d(new Private(attr)) {
+Client::Client(const string& name, const Filters* filters, const string& subset)
+    : _d(new Private), attributes(filters) {
   _d->name = name;
   _d->subset_server = subset;
   _d->host_or_ip = name;
@@ -477,9 +475,10 @@ void Client::setBasePath(const string& home_path) {
 ClientPath* Client::addClientPath(const string& name) {
   ClientPath* path;
   if (name[0] == '~') {
-    path = new ClientPath(*this, (_d->home_path + &name[1]).c_str());
+    path = new ClientPath((_d->home_path + &name[1]).c_str(),
+      &attributes.filters());
   } else {
-    path = new ClientPath(*this, name.c_str());
+    path = new ClientPath(name.c_str(), &attributes.filters());
   }
   list<ClientPath*>::iterator i = _d->paths.begin();
   while ((i != _d->paths.end())
@@ -510,11 +509,7 @@ ClientPath* Client::addClientPath(const string& name) {
 }
 
 Filter* Client::findFilter(const string& name) const {
-  Filter* filter = attributes.findFilter(name);
-  if (filter == NULL) {
-    filter = _d->parent_attr.findFilter(name);
-  }
-  return filter;
+  return attributes.filters().find(name);
 }
 
 int Client::backup(

@@ -88,7 +88,8 @@ struct HBackup::Private {
   size_t                  log_max_lines;
   size_t                  log_backups;
   Level                   log_level;
-  Private() : db(NULL), log_max_lines(0), log_backups(0), log_level(info) {
+  Private() : db(NULL), attributes(NULL),
+      log_max_lines(0), log_backups(0), log_level(info) {
     log_file_name = "";
   }
 };
@@ -313,7 +314,7 @@ int HBackup::readConfig(const char* config_path) {
           subfilter = client->findFilter((*params)[2]);
         } else
         {
-          subfilter = _d->attributes.findFilter((*params)[2]);
+          subfilter = _d->attributes.filters().find((*params)[2]);
         }
         if (subfilter == NULL) {
           out(error, msg_number, "Filter not found", (*params).lineNo(),
@@ -347,7 +348,7 @@ int HBackup::readConfig(const char* config_path) {
         filter = client->findFilter((*params)[1]);
       } else
       {
-        filter = _d->attributes.findFilter((*params)[1]);
+        filter = _d->attributes.filters().find((*params)[1]);
       }
       if (filter == NULL) {
         out(error, msg_number, "Filter not found", (*params).lineNo(),
@@ -359,7 +360,7 @@ int HBackup::readConfig(const char* config_path) {
     } else
     if ((*params)[0] == "client") {
       c_path = NULL;
-      client = new Client(_d->attributes, (*params)[1],
+      client = new Client((*params)[1], &_d->attributes.filters(),
         (params->size() > 2) ? (*params)[2] : "");
 
       // Clients MUST BE in alphabetic order
@@ -513,7 +514,7 @@ int HBackup::open(
     // Give 'selected' client name
     addClient("localhost");
     // Set-up client info
-    Client* client = new Client(_d->attributes, "localhost");
+    Client* client = new Client("localhost", &_d->attributes.filters());
     client->setProtocol("file");
     client->setListfile(Path(path, ".hbackup/config"));
     client->setBasePath(path);

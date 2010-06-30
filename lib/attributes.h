@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008  Herve Fache
+     Copyright (C) 2008-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -28,7 +28,8 @@ class Attributes {
   list<const Filter*> _ignore_list;
   Attributes(const Attributes&);
 public:
-  Attributes() : _report_copy_error_once(false), _last_filter(NULL) {}
+  Attributes(const Filters* filters)
+    : _report_copy_error_once(false), _filters(filters), _last_filter(NULL) {}
   const Attributes& operator=(const Attributes& attr) {
     _report_copy_error_once = attr._report_copy_error_once;
     _last_filter            = NULL;
@@ -47,9 +48,6 @@ public:
   }
   int addFilterCondition(const string& type, const char* value, bool negated) {
     return _last_filter->add(type, value, negated);
-  }
-  Filter* findFilter(const string& name) const {
-    return _filters.find(name);
   }
   void addIgnore(const Filter* filter)  { _ignore_list.push_back(filter); }
   bool mustBeIgnored(const Node& node, int start = 0) const {

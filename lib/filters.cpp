@@ -239,7 +239,10 @@ Filter* Filters::find(
       return *filter;
     }
   }
-  return NULL;
+  if (_parent == NULL) {
+    return NULL;
+  }
+  return _parent->find(name);
 }
 
 Filter* Filters::add(

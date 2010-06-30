@@ -36,7 +36,6 @@ using namespace std;
 #include "db.h"
 #include "attributes.h"
 #include "paths.h"
-#include "clients.h"
 
 static void progress(long long previous, long long current, long long total) {
   if (current < total) {
@@ -55,14 +54,12 @@ time_t time(time_t *t) {
 }
 
 int main(void) {
-  Attributes attr;
-  Client client(attr, "blah");
   int sys_rc;
 
   umask(0022);
   report.setLevel(debug);
 
-  ClientPath* path = new ClientPath(client, "/home/User");
+  ClientPath* path = new ClientPath("/home/User");
   Database    db("test_db");
   db.setProgressCallback(progress);
   // myClient's lists

@@ -56,8 +56,10 @@ public:
 };
 
 class Filters {
-  list<Filter*> _children;
+  list<Filter*>   _children;
+  const Filters*  _parent;
 public:
+  Filters(const Filters* parent = NULL) : _parent(parent) {}
   ~Filters();
   Filter* find(
     const string&   name) const;
