@@ -201,8 +201,8 @@ int ClientPath::parse_recurse(
   return give_up ? -1 : 0;
 }
 
-ClientPath::ClientPath(const char* path, const Filters* filters)
-    :   _path(path), _compress(NULL), _no_compress(NULL), attributes(filters) {
+ClientPath::ClientPath(const char* path, const Attributes& a)
+    : _path(path), _compress(NULL), _no_compress(NULL), attributes(a) {
   // Change '\' into '/'
   _path.fromDos();
   // Remove trailing '/'s

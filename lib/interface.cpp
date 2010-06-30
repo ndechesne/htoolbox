@@ -88,8 +88,7 @@ struct HBackup::Private {
   size_t                  log_max_lines;
   size_t                  log_backups;
   Level                   log_level;
-  Private() : db(NULL), attributes(NULL),
-      log_max_lines(0), log_backups(0), log_level(info) {
+  Private() : db(NULL), log_max_lines(0), log_backups(0), log_level(info) {
     log_file_name = "";
   }
 };
@@ -360,7 +359,7 @@ int HBackup::readConfig(const char* config_path) {
     } else
     if ((*params)[0] == "client") {
       c_path = NULL;
-      client = new Client((*params)[1], &_d->attributes.filters(),
+      client = new Client((*params)[1], _d->attributes,
         (params->size() > 2) ? (*params)[2] : "");
 
       // Clients MUST BE in alphabetic order
@@ -380,8 +379,6 @@ int HBackup::readConfig(const char* config_path) {
       }
       _d->clients.insert(i, client);
       attr = &client->attributes;
-      // Inherit some attributes when set
-      *attr = _d->attributes;
     } else
     if (client != NULL) {
       if ((*params)[0] == "hostname") {
@@ -425,8 +422,6 @@ int HBackup::readConfig(const char* config_path) {
       if ((*params)[0] == "path") {
         c_path = client->addClientPath((*params)[1]);
         attr = &c_path->attributes;
-        // Inherit some attributes when set
-        *attr = client->attributes;
       } else
       if (c_path != NULL) {
         if (((*params)[0] == "compress")
@@ -514,7 +509,7 @@ int HBackup::open(
     // Give 'selected' client name
     addClient("localhost");
     // Set-up client info
-    Client* client = new Client("localhost", &_d->attributes.filters());
+    Client* client = new Client("localhost", _d->attributes);
     client->setProtocol("file");
     client->setListfile(Path(path, ".hbackup/config"));
     client->setBasePath(path);

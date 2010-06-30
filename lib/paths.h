@@ -36,7 +36,7 @@ class ClientPath {
     const Parser*   parser);
 public:
   Attributes        attributes;
-  ClientPath(const char* path, const Filters* filters = NULL);
+  ClientPath(const char* path, const Attributes& attributes);
   const char* path() const               { return _path;  }
   int nodes() const                      { return _nodes; }
   // Set compress filter

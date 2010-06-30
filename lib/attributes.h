@@ -26,15 +26,14 @@ class Attributes {
   Filters             _filters;
   Filter*             _last_filter;
   list<const Filter*> _ignore_list;
-  Attributes(const Attributes&);
+  Attributes& operator=(const Attributes& a);
 public:
-  Attributes(const Filters* filters)
-    : _report_copy_error_once(false), _filters(filters), _last_filter(NULL) {}
-  const Attributes& operator=(const Attributes& attr) {
-    _report_copy_error_once = attr._report_copy_error_once;
+  Attributes()
+    : _report_copy_error_once(false), _filters(NULL), _last_filter(NULL) {}
+  Attributes(const Attributes& attributes) : _filters(&attributes.filters()) {
+    _report_copy_error_once = attributes._report_copy_error_once;
     _last_filter            = NULL;
-    _ignore_list            = attr._ignore_list;
-    return *this;
+    _ignore_list            = attributes._ignore_list;
   }
   bool reportCopyErrorOnceIsSet() const { return _report_copy_error_once; }
   const Filters& filters() const        { return _filters;                }

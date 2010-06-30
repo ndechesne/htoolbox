@@ -48,7 +48,6 @@ static void progress(long long previous, long long current, long long total) {
 }
 
 int main(void) {
-  Filters filters;
   Client* client;
   list<Client*> clients;
   Database db("test_db");
@@ -59,16 +58,17 @@ int main(void) {
 
   // Create global filter
   cout << "Global filter" << endl;
-  Filter* filter = filters.add("and", "backup");
-  filter->add("type", "file", false);
-  filter->add("path_end", "~", false);
-  filters.show(1);
+  Attributes attributes;
+  attributes.addFilter("and", "backup");
+  attributes.addFilterCondition("type", "file", false);
+  attributes.addFilterCondition("path_end", "~", false);
+  attributes.show(1);
 
   printf(">List %u client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("localhost", &filters);
+  client = new Client("localhost", attributes);
   clients.push_back(client);
   client->setProtocol("file");
   client->setHostOrIp("localhost");
@@ -94,7 +94,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("myClient", &filters);
+  client = new Client("myClient", attributes);
   clients.push_back(client);
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
@@ -104,7 +104,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("myClient2", &filters);
+  client = new Client("myClient2", attributes);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("myClient");
@@ -115,7 +115,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("otherClient", &filters);
+  client = new Client("otherClient", attributes);
   clients.push_back(client);
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
@@ -126,7 +126,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("otherClient1", &filters);
+  client = new Client("otherClient1", attributes);
   clients.push_back(client);
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
@@ -136,7 +136,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("otherClient2", &filters);
+  client = new Client("otherClient2", attributes);
   clients.push_back(client);
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
@@ -146,7 +146,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("otherClient3", &filters);
+  client = new Client("otherClient3", attributes);
   clients.push_back(client);
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
@@ -155,7 +155,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("Client", &filters);
+  client = new Client("Client", attributes);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("Client");
@@ -166,7 +166,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("Client2", &filters);
+  client = new Client("Client2", attributes);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("Client");
@@ -178,7 +178,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("Client3", &filters);
+  client = new Client("Client3", attributes);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("Client");
@@ -188,7 +188,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("Client4", &filters);
+  client = new Client("Client4", attributes);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("Client");
@@ -209,7 +209,7 @@ int main(void) {
   clients.clear();
   db.close();
 
-  client = new Client("testhost", &filters);
+  client = new Client("testhost", attributes);
   clients.push_back(client);
   client->setProtocol("file");
   client->setHostOrIp("localhost");
@@ -228,7 +228,7 @@ int main(void) {
   clients.clear();
   db.close();
 
-  client = new Client("testhost", &filters);
+  client = new Client("testhost", attributes);
   clients.push_back(client);
   client->setProtocol("file");
   client->setListfile("etc/localhost.list");
@@ -246,7 +246,7 @@ int main(void) {
   clients.clear();
   db.close();
 
-  client = new Client("testhost", &filters);
+  client = new Client("testhost", attributes);
   clients.push_back(client);
   client->setProtocol("file");
   client->setListfile("etc/localhost.list");
@@ -265,7 +265,7 @@ int main(void) {
   clients.clear();
   db.close();
 
-  client = new Client("testhost", &filters);
+  client = new Client("testhost", attributes);
   clients.push_back(client);
   client->setProtocol("file");
   sys_rc = system("sed \"s%expire.*%path test2/subdir%\" etc/localhost.list > etc/localhost.list2");
@@ -288,7 +288,7 @@ int main(void) {
 
   cout << endl << "Test: missing clients" << endl;
 
-  client = new Client("myhost2", &filters);
+  client = new Client("myhost2", attributes);
   client->setProtocol("smb");
   sys_rc = system("echo \"path 'C:\\Test Dir'\" > test_cifs/Backup/testhost2.list");
   client->setListfile("C:\\Backup\\testhost2.list");
@@ -297,7 +297,7 @@ int main(void) {
   db.close();
   delete client;
 
-  client = new Client("myhost3", &filters);
+  client = new Client("myhost3", attributes);
   client->setProtocol("nfs");
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
   client->setListfile("/home/User/testhost3.list");
@@ -306,7 +306,7 @@ int main(void) {
   db.close();
   delete client;
 
-  client = new Client("myhost", &filters);
+  client = new Client("myhost", attributes);
   client->setProtocol("file");
   sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
@@ -392,18 +392,18 @@ int main(void) {
   db.close();
 
   printf("Create list of clients\n");
-  client = new Client("myhost", &filters);
+  client = new Client("myhost", attributes);
   clients.push_back(client);
   client->setProtocol("file");
   sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
 
-  client = new Client("myhost2", &filters);
+  client = new Client("myhost2", attributes);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\testhost2.list");
 
-  client = new Client("myhost3", &filters);
+  client = new Client("myhost3", attributes);
   clients.push_back(client);
   client->setProtocol("nfs");
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
@@ -424,12 +424,12 @@ int main(void) {
   db.close();
 
   printf("Create list of clients\n");
-  client = new Client("myhost2", &filters);
+  client = new Client("myhost2", attributes);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\testhost2.list");
 
-  client = new Client("myhost3", &filters);
+  client = new Client("myhost3", attributes);
   clients.push_back(client);
   client->setProtocol("nfs");
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
@@ -450,13 +450,13 @@ int main(void) {
   db.close();
 
   printf("Create list of clients\n");
-  client = new Client("myhost", &filters);
+  client = new Client("myhost", attributes);
   clients.push_back(client);
   client->setProtocol("file");
   sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
 
-  client = new Client("myhost3", &filters);
+  client = new Client("myhost3", attributes);
   clients.push_back(client);
   client->setProtocol("nfs");
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
@@ -477,13 +477,13 @@ int main(void) {
   db.close();
 
   printf("Create list of clients\n");
-  client = new Client("myhost", &filters);
+  client = new Client("myhost", attributes);
   clients.push_back(client);
   client->setProtocol("file");
   sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
 
-  client = new Client("myhost2", &filters);
+  client = new Client("myhost2", attributes);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\testhost2.list");
@@ -503,7 +503,7 @@ int main(void) {
   db.close();
 
   printf("Second mount fails\n");
-  client = new Client("myClient", &filters);
+  client = new Client("myClient", attributes);
   clients.push_back(client);
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
@@ -524,7 +524,7 @@ int main(void) {
   db.close();
 
   printf("First mount fails\n");
-  client = new Client("myClient", &filters);
+  client = new Client("myClient", attributes);
   clients.push_back(client);
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
@@ -546,7 +546,7 @@ int main(void) {
   db.close();
 
   printf("Works again\n");
-  client = new Client("myClient", &filters);
+  client = new Client("myClient", attributes);
   clients.push_back(client);
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
@@ -567,7 +567,7 @@ int main(void) {
   db.close();
 
   printf("Test with dual boot client\n");
-  client = new Client("myClient", &filters, "xp");
+  client = new Client("myClient", attributes, "xp");
   clients.push_back(client);
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\Backup.LST");

@@ -288,8 +288,6 @@ int Client::readConfig(
           failed = true;
         } else {
           attr = &path->attributes;
-          // Inherit some attributes when set
-          *attr = attributes;
         }
       } else
       if ((*params)[0] == "filter") {
@@ -390,8 +388,8 @@ int Client::readConfig(
   return failed ? -1 : 0;
 }
 
-Client::Client(const string& name, const Filters* filters, const string& subset)
-    : _d(new Private), attributes(filters) {
+Client::Client(const string& name, const Attributes& a, const string& subset)
+    : _d(new Private), attributes(a) {
   _d->name = name;
   _d->subset_server = subset;
   _d->host_or_ip = name;
@@ -475,10 +473,9 @@ void Client::setBasePath(const string& home_path) {
 ClientPath* Client::addClientPath(const string& name) {
   ClientPath* path;
   if (name[0] == '~') {
-    path = new ClientPath((_d->home_path + &name[1]).c_str(),
-      &attributes.filters());
+    path = new ClientPath((_d->home_path + &name[1]).c_str(), attributes);
   } else {
-    path = new ClientPath(name.c_str(), &attributes.filters());
+    path = new ClientPath(name.c_str(), attributes);
   }
   list<ClientPath*>::iterator i = _d->paths.begin();
   while ((i != _d->paths.end())

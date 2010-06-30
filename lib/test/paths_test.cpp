@@ -59,7 +59,8 @@ int main(void) {
   umask(0022);
   report.setLevel(debug);
 
-  ClientPath* path = new ClientPath("/home/User");
+  Attributes attributes;
+  ClientPath* path = new ClientPath("/home/User", attributes);
   Database    db("test_db");
   db.setProgressCallback(progress);
   // myClient's lists

@@ -50,7 +50,7 @@ public:
   Attributes        attributes;
   Client(
     const string&     name,
-    const Filters*    filters,
+    const Attributes& attributes,
     const string&     sub_name = "");
   ~Client();
   const char* name() const;
