@@ -24,29 +24,23 @@ namespace hbackup {
 class Attributes {
   bool                _report_copy_error_once;
   Filters             _filters;
-  Filter*             _last_filter;
   list<const Filter*> _ignore_list;
   Attributes& operator=(const Attributes& a);
 public:
   Attributes()
-    : _report_copy_error_once(false), _filters(NULL), _last_filter(NULL) {}
+    : _report_copy_error_once(false), _filters(NULL) {}
   Attributes(const Attributes& attributes) : _filters(&attributes.filters()) {
     _report_copy_error_once = attributes._report_copy_error_once;
-    _last_filter            = NULL;
-    _ignore_list            = attributes._ignore_list;
+    _ignore_list = attributes._ignore_list;
   }
   bool reportCopyErrorOnceIsSet() const { return _report_copy_error_once; }
-  const Filters& filters() const        { return _filters;                }
+  const Filters& filters() const        { return _filters; }
   void setReportCopyErrorOnce()         { _report_copy_error_once = true; }
-  Filter* addFilter(const string& type, const string& name) {
-    _last_filter = _filters.add(type, name);
-    return _last_filter;
+  Filter* addFilter(const vector<string>& params) {
+    return _filters.add(params[1], params[2]);
   }
-  void addFilterCondition(Condition* condition) {
-    _last_filter->add(condition);
-  }
-  int addFilterCondition(const string& type, const char* value, bool negated) {
-    return _last_filter->add(type, value, negated);
+  int addFilterCondition(const vector<string>& params) {
+    return _filters.addCondition(params[1], params[2]);
   }
   void addIgnore(const Filter* filter)  { _ignore_list.push_back(filter); }
   bool mustBeIgnored(const Node& node, int start = 0) const {

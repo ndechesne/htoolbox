@@ -68,7 +68,12 @@ int main(void) {
   List journal_reader(Path("test_db", "myClient/journal~"));
   List dblist_reader(Path("test_db", "myClient/list"));
   // Filter
-  Filter* bazaar = path->attributes.addFilter("and", "bazaar");
+  vector<string> params;
+  params.resize(3);
+  params[0] = "filter";
+  params[1] = "and";
+  params[2] = "bazaar";
+  Filter* bazaar = path->attributes.addFilter(params);
   if ((bazaar == NULL)
    || bazaar->add("type", "d", false)
    || bazaar->add("path", "bzr", false)) {
@@ -276,13 +281,16 @@ int main(void) {
   my_time++;
   db.open();
 
-  Filter* testfile = path->attributes.addFilter("and", "testfile");
+  params[2] = "testfile";
+  Filter* testfile = path->attributes.addFilter(params);
   if ((testfile == NULL)
    || testfile->add("type", "file", false)
    || testfile->add("path", "subdir/testfile", false)) {
     cout << "Failed to add filter" << endl;
   }
-  Filter* filter = path->attributes.addFilter("or", "ignore1");
+  params[1] = "or";
+  params[2] = "ignore1";
+  Filter* filter = path->attributes.addFilter(params);
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
@@ -312,13 +320,17 @@ int main(void) {
   my_time++;
   db.open();
 
-  Filter* subdir = path->attributes.addFilter("and", "subdir");
+  params[1] = "and";
+  params[2] = "subdir";
+  Filter* subdir = path->attributes.addFilter(params);
   if ((subdir == NULL)
    || subdir->add("type", "dir", false)
    || subdir->add("path", "subdir", false)) {
     cout << "Failed to add subdir 'and' filter" << endl;
   }
-  filter = path->attributes.addFilter("or", "ignore1");
+  params[1] = "or";
+  params[2] = "ignore1";
+  filter = path->attributes.addFilter(params);
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
@@ -372,13 +384,17 @@ int main(void) {
   my_time++;
   db.open();
 
-  Filter* testlink = path->attributes.addFilter("and", "testlink");
+  params[1] = "and";
+  params[2] = "testlink";
+  Filter* testlink = path->attributes.addFilter(params);
   if ((testlink == NULL)
    || testlink->add("type", "link", false)
    || testlink->add("path_start", "testlink", false)) {
     cout << "Failed to add testlink 'and' filter" << endl;
   }
-  filter = path->attributes.addFilter("or", "ignore1");
+  params[1] = "or";
+  params[2] = "ignore1";
+  filter = path->attributes.addFilter(params);
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
@@ -487,14 +503,20 @@ int main(void) {
   my_time++;
   db.open();
 
-  Filter* cvs_dirutd = path->attributes.addFilter("and", "cvs_dirutd");
+  params[1] = "and";
+  params[2] = "cvs_dirutd";
+  Filter* cvs_dirutd = path->attributes.addFilter(params);
   if ((cvs_dirutd == NULL)
    || cvs_dirutd->add("type", "dir", false)
    || cvs_dirutd->add("path", "cvs/dirutd", false)) {
     cout << "Failed to add 'and' filter" << endl;
   }
-  Filter* empty = path->attributes.addFilter("or", "empty");
-  filter = path->attributes.addFilter("or", "ignore2");
+  params[1] = "or";
+  params[2] = "empty";
+  Filter* empty = path->attributes.addFilter(params);
+  params[1] = "or";
+  params[2] = "ignore2";
+  filter = path->attributes.addFilter(params);
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
@@ -527,7 +549,9 @@ int main(void) {
   my_time++;
   db.open();
 
-  Filter* svn_dirutd = path->attributes.addFilter("and", "svn_dirutd");
+  params[1] = "and";
+  params[2] = "svn_dirutd";
+  Filter* svn_dirutd = path->attributes.addFilter(params);
   if ((svn_dirutd == NULL)
    || svn_dirutd->add("type", "dir", false)
    || svn_dirutd->add("path", "svn/dirutd", false)) {

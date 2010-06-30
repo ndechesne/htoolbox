@@ -59,9 +59,18 @@ int main(void) {
   // Create global filter
   cout << "Global filter" << endl;
   Attributes attributes;
-  attributes.addFilter("and", "backup");
-  attributes.addFilterCondition("type", "file", false);
-  attributes.addFilterCondition("path_end", "~", false);
+  vector<string> params;
+  params.push_back("filter");
+  params.push_back("and");
+  params.push_back("backup");
+  attributes.addFilter(params);
+  params[0] = "condition";
+  params[1] = "type";
+  params[2] = "file";
+  attributes.addFilterCondition(params);
+  params[1] = "path_end";
+  params[2] = "~";
+  attributes.addFilterCondition(params);
   attributes.show(1);
 
   printf(">List %u client(s):\n", clients.size());

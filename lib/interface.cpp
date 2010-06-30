@@ -286,56 +286,26 @@ int HBackup::readConfig(const char* config_path) {
     } else
     if ((*params)[0] == "filter") {
       // Add filter at the right level (global, client, path)
-      if (attr->addFilter((*params)[1], (*params)[2]) == NULL) {
+      if (attr->addFilter(*params) == NULL) {
         out(error, msg_number, "Unsupported filter type", (*params).lineNo(),
           config_path);
         return -1;
       }
     } else
     if ((*params)[0] == "condition") {
-      string  filter_type;
-      bool    negated;
-      if ((*params)[1][0] == '!') {
-        filter_type = (*params)[1].substr(1);
-        negated     = true;
-      } else {
-        filter_type = (*params)[1];
-        negated     = false;
-      }
-
-      /* Add specified filter */
-      if (filter_type == "filter") {
-        Filter* subfilter = NULL;
-        if (c_path != NULL) {
-          subfilter = c_path->findFilter((*params)[2]);
-        } else
-        if (client != NULL) {
-          subfilter = client->findFilter((*params)[2]);
-        } else
-        {
-          subfilter = _d->attributes.filters().find((*params)[2]);
-        }
-        if (subfilter == NULL) {
-          out(error, msg_number, "Filter not found", (*params).lineNo(),
-            config_path);
+      switch (attr->addFilterCondition(*params)) {
+        case -3:
+          hlog_error("%s:%d filter '%s' not found",
+            config_path, (*params).lineNo(), (*params)[2].c_str());
           return -1;
-        } else {
-          attr->addFilterCondition(new Condition(Condition::filter, subfilter,
-            negated));
-        }
-      } else {
-        switch (attr->addFilterCondition(filter_type, (*params)[2].c_str(),
-            negated)) {
-          case 1:
-            out(error, msg_number, "Unsupported condition type",
-              (*params).lineNo(), config_path);
-            return -1;
-            break;
-          case 2:
-            out(error, msg_number, "No filter defined",
-              (*params).lineNo(), config_path);
-            return -1;
-        }
+        case -2:
+          hlog_error("%s:%d unsupported condition type '%s'",
+            config_path, (*params).lineNo(), (*params)[1].c_str());
+          return -1;
+        case -1:
+          hlog_error("%s:%d failed to add condition '%s'",
+            config_path, (*params).lineNo(), (*params)[1].c_str());
+          return -1;
       }
     } else
     if ((*params)[0] == "ignore") {

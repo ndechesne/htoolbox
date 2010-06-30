@@ -46,7 +46,7 @@ public:
   }
   int add(
     const string&   type,
-    const char*     value,
+    const string&   value,
     bool            negated);
   bool match(
     const Node&     node,
@@ -58,14 +58,19 @@ public:
 class Filters {
   list<Filter*>   _children;
   const Filters*  _parent;
+  Filter*         _last_filter;
 public:
-  Filters(const Filters* parent = NULL) : _parent(parent) {}
+  Filters(const Filters* parent = NULL) : _parent(parent), _last_filter(NULL) {}
   ~Filters();
   Filter* find(
     const string&   name) const;
   Filter* add(
     const string&   type,
     const string&   name);
+  void addCondition(Condition* condition) {
+    _last_filter->add(condition);
+  }
+  int addCondition(const string& type, const string& value);
   /* For verbosity */
   void show(int level = 0) const;
 };

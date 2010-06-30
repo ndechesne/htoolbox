@@ -359,24 +359,24 @@ Database closed: myClient
 Trying client 'myClient2' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM //myClient/C$ test_db/mount
  -> Reading client configuration file: myClient2
-Error: Cannot decode decimal value
-Error: test_db/mount/Backup/Backup2.LST: 8: Failed to add condition
-Error: Cannot decode decimal value
-Error: test_db/mount/Backup/Backup2.LST: 9: Failed to add condition
-Error: Cannot decode decimal value
-Error: test_db/mount/Backup/Backup2.LST: 10: Failed to add condition
-Error: Cannot decode decimal value
-Error: test_db/mount/Backup/Backup2.LST: 11: Failed to add condition
+Error: cannot decode decimal value from string 'a'
+Error: test_db/mount/Backup/Backup2.LST:8 failed to add condition 'size>='
+Error: cannot decode decimal value from string 'b'
+Error: test_db/mount/Backup/Backup2.LST:9 failed to add condition 'size>'
+Error: cannot decode decimal value from string 'c'
+Error: test_db/mount/Backup/Backup2.LST:10 failed to add condition 'size<='
+Error: cannot decode decimal value from string 'd'
+Error: test_db/mount/Backup/Backup2.LST:11 failed to add condition 'size<'
 Error: Cannot decode octal value
-Error: test_db/mount/Backup/Backup2.LST: 12: Failed to add condition
+Error: test_db/mount/Backup/Backup2.LST:12 failed to add condition 'mode&'
 Error: Cannot decode octal value
-Error: test_db/mount/Backup/Backup2.LST: 13: Failed to add condition
-Error: Cannot decode unit, must be 'iB' or 'B'
-Error: test_db/mount/Backup/Backup2.LST: 14: Failed to add condition
-Error: Cannot decode unit, must be 'iB' or 'B'
-Error: test_db/mount/Backup/Backup2.LST: 15: Failed to add condition
-Error: Cannot decode multiplier
-Error: test_db/mount/Backup/Backup2.LST: 17: Failed to add condition
+Error: test_db/mount/Backup/Backup2.LST:13 failed to add condition 'mode='
+Error: cannot decode unit from string '1Kb', must end in 'iB' or 'B'
+Error: test_db/mount/Backup/Backup2.LST:14 failed to add condition 'size>='
+Error: cannot decode unit from string '2MiC', must end in 'iB' or 'B'
+Error: test_db/mount/Backup/Backup2.LST:15 failed to add condition 'size>'
+Error: cannot decode multiplier from string '4iB', must be k, K, M, G, T, P, E, Z or Y
+Error: test_db/mount/Backup/Backup2.LST:17 failed to add condition 'size<'
  -> umount -fl test_db/mount
 Trying client 'otherClient' using protocol 'ssh'
  -> echo barZ? | sshfs -o password_stdin foo@otherClient:/home/Blah test_db/mount

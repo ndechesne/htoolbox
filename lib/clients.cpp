@@ -291,52 +291,28 @@ int Client::readConfig(
         }
       } else
       if ((*params)[0] == "filter") {
-        if (attr->addFilter((*params)[1], (*params)[2]) == NULL) {
+        if (attr->addFilter(*params) == NULL) {
           out(error, msg_number, "Unsupported filter type",
             (*params).lineNo(), config_path);
           failed = true;
         }
       } else
       if ((*params)[0] == "condition") {
-        string filter_type;
-        bool   negated;
-        if ((*params)[1][0] == '!') {
-          filter_type = (*params)[1].substr(1);
-          negated     = true;
-        } else {
-          filter_type = (*params)[1];
-          negated     = false;
-        }
-
-        // Add specified filter
-        if (filter_type == "filter") {
-          Filter* subfilter = NULL;
-          if (path != NULL) {
-            subfilter = path->findFilter((*params)[2]);
-          } else {
-            subfilter = findFilter((*params)[2]);
-          }
-          if (subfilter == NULL) {
+        switch (attr->addFilterCondition(*params)) {
+          case -3:
             hlog_error("%s:%d filter '%s' not found",
               config_path, (*params).lineNo(), (*params)[2].c_str());
-            failed = 2;
-          } else {
-            attr->addFilterCondition(new Condition(Condition::filter,
-              subfilter, negated));
-          }
-        } else {
-          switch (attr->addFilterCondition(filter_type, (*params)[2].c_str(),
-              negated)) {
-            case -2:
-              out(error, msg_number, "Unsupported condition type",
-                (*params).lineNo(), config_path);
-              failed = true;
-              break;
-            case -1:
-              out(error, msg_number, "Failed to add condition",
-                (*params).lineNo(), config_path);
-              failed = true;
-          }
+            failed = true;
+            break;
+          case -2:
+            hlog_error("%s:%d unsupported condition type '%s'",
+              config_path, (*params).lineNo(), (*params)[1].c_str());
+            failed = true;
+            break;
+          case -1:
+            hlog_error("%s:%d failed to add condition '%s'",
+              config_path, (*params).lineNo(), (*params)[1].c_str());
+            failed = true;
         }
       } else
       if (path != NULL) {

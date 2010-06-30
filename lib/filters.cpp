@@ -42,7 +42,7 @@ Filter::~Filter() {
 
 int Filter::add(
     const string&   type,
-    const char*     value,
+    const string&   value,
     bool            negated) {
   /* Add specified filter */
   bool    failed = false;
@@ -50,11 +50,11 @@ int Filter::add(
 
   if (type.substr(0, 4) == "size") {
     char    unit[4] = { '\0', '\0', '\0', '\0' };
-    int     rc = sscanf(value, "%lld%3s", &size, unit);
+    int     rc = sscanf(value.c_str(), "%lld%3s", &size, unit);
     unit[3] = '\0';
     if (rc < 1) {
+      hlog_error("cannot decode decimal value from string '%s'", value.c_str());
       failed = true;
-      out(error, msg_standard, "Cannot decode decimal value", -1, NULL);
     } else {
       int kilo = 0;
       if (rc > 1) {
@@ -64,8 +64,8 @@ int Filter::add(
         } else if ((unit[1] == 'B') || (unit[1] == '\0')) {
           kilo = 1000;
         } else {
-          out(error, msg_standard, "Cannot decode unit, must be 'iB' or 'B'",
-            -1, NULL);
+          hlog_error("cannot decode unit from string '%s', must end in 'iB' or 'B'",
+            value.c_str());
           failed = true;
         }
       }
@@ -92,8 +92,9 @@ int Filter::add(
           case '\0':
             break;
           default:
+            hlog_error("cannot decode multiplier from string '%s', "
+              "must be k, K, M, G, T, P, E, Z or Y", value.c_str());
             failed = true;
-            out(error, msg_standard, "Cannot decode multiplier", -1, NULL);
         }
       }
     }
@@ -103,16 +104,16 @@ int Filter::add(
     add(new Condition(Condition::type, value[0], negated));
   } else
   if (type == "name") {
-    add(new Condition(Condition::name, value, negated));
+    add(new Condition(Condition::name, value.c_str(), negated));
   } else
   if (type == "name_start") {
-    add(new Condition(Condition::name_start, value, negated));
+    add(new Condition(Condition::name_start, value.c_str(), negated));
   } else
   if (type == "name_end") {
-    add(new Condition(Condition::name_end, value, negated));
+    add(new Condition(Condition::name_end, value.c_str(), negated));
   } else
   if (type == "name_regex") {
-    Condition* cond = new Condition(Condition::name_regex, value, negated);
+    Condition* cond = new Condition(Condition::name_regex, value.c_str(), negated);
     Node test("");
     if (cond->match(test) >= 0) {
       add(cond);
@@ -122,16 +123,16 @@ int Filter::add(
     }
   } else
   if (type == "path") {
-    add(new Condition(Condition::path, value, negated));
+    add(new Condition(Condition::path, value.c_str(), negated));
   } else
   if (type == "path_start") {
-    add(new Condition(Condition::path_start, value, negated));
+    add(new Condition(Condition::path_start, value.c_str(), negated));
   } else
   if (type == "path_end") {
-    add(new Condition(Condition::path_end, value, negated));
+    add(new Condition(Condition::path_end, value.c_str(), negated));
   } else
   if (type == "path_regex") {
-    Condition* cond = new Condition(Condition::name_regex, value, negated);
+    Condition* cond = new Condition(Condition::name_regex, value.c_str(), negated);
     Node test("");
     if (cond->match(test) >= 0) {
       add(cond);
@@ -162,7 +163,7 @@ int Filter::add(
   } else
   if (type == "mode&") {
     mode_t mode;
-    failed = (sscanf(value, "%o", &mode) != 1);
+    failed = (sscanf(value.c_str(), "%o", &mode) != 1);
     if (failed) {
       out(error, msg_standard, "Cannot decode octal value", -1, NULL);
     } else {
@@ -171,7 +172,7 @@ int Filter::add(
   } else
   if (type == "mode=") {
     mode_t mode;
-    failed = (sscanf(value, "%o", &mode) != 1);
+    failed = (sscanf(value.c_str(), "%o", &mode) != 1);
     if (failed) {
       out(error, msg_standard, "Cannot decode octal value", -1, NULL);
     } else {
@@ -258,9 +259,34 @@ Filter* Filters::add(
   {
     return NULL;
   }
-  Filter* filter = new Filter(ftype, name.c_str());
-  _children.push_back(filter);
-  return filter;
+  _last_filter = new Filter(ftype, name.c_str());
+  _children.push_back(_last_filter);
+  return _last_filter;
+}
+
+int Filters::addCondition(const string& type, const string& value) {
+  string filter_type;
+  bool   negated;
+  if (type[0] == '!') {
+    filter_type = type.substr(1);
+    negated     = true;
+  } else {
+    filter_type = type;
+    negated     = false;
+  }
+
+  if (filter_type == "filter") {
+    Filter* subfilter = NULL;
+    subfilter = find(value);
+    if (subfilter == NULL) {
+      return -2;
+    } else {
+      _last_filter->add(new Condition(Condition::filter, subfilter, negated));
+      return 0;
+    }
+  } else {
+    return _last_filter->add(filter_type, value, negated);
+  }
 }
 
 void Filters::show(int level) const {
