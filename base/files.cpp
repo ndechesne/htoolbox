@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -95,9 +95,9 @@ Path Path::dirname() const {
 }
 
 const Path& Path::fromDos() {
-  int   count  = size();
-  bool  proven = false;
-  char* reader = this->buffer();
+  size_t count  = size();
+  bool   proven = false;
+  char*  reader = this->buffer();
   while (count--) {
     if (*reader == '\\') {
       *reader = '/';
@@ -556,7 +556,7 @@ int Stream::close() {
   // Compute checksum
   if (_d->ctx != NULL) {
     unsigned char checksum[36];
-    size_t        length;
+    unsigned int  length;
 
     EVP_DigestFinal(_d->ctx, checksum, &length);
     free(_checksum);
@@ -640,11 +640,11 @@ ssize_t Stream::read_decompress(
         eof = true;
       }
       _d->buffer_comp.written(size);
-      _d->strm->avail_in = _d->reader_comp.readable();
+      _d->strm->avail_in = static_cast<uInt>(_d->reader_comp.readable());
       _d->strm->next_in  = reinterpret_cast<unsigned char*>(
         const_cast<char*>(_d->reader_comp.reader()));
     }
-    _d->strm->avail_out = asked;
+    _d->strm->avail_out = static_cast<uInt>(asked);
     _d->strm->next_out  = static_cast<unsigned char*>(buffer);
     switch (inflate(_d->strm, Z_NO_FLUSH)) {
       case Z_NEED_DICT:
@@ -756,13 +756,13 @@ ssize_t Stream::write_compress(
     const void*     buffer,
     size_t          count,
     bool            finish) {
-  _d->strm->avail_in = count;
+  _d->strm->avail_in = static_cast<uInt>(count);
   _d->strm->next_in  = static_cast<Bytef*>(const_cast<void*>(buffer));
 
   // Flush result to file (no real cacheing)
   do {
     // Buffer is considered empty to start with. and is always flushed
-    _d->strm->avail_out = _d->buffer_comp.writeable();
+    _d->strm->avail_out = static_cast<uInt>(_d->buffer_comp.writeable());
     // Casting away the constness here!!!
     _d->strm->next_out  =
       reinterpret_cast<unsigned char*>(_d->buffer_comp.writer());
@@ -865,7 +865,7 @@ ssize_t Stream::write(
 
 ssize_t Stream::getLine(
     char**          buffer,
-    unsigned int*   buffer_capacity,
+    size_t*         buffer_capacity,
     bool*           end_of_line_found) {
   // Need a buffer to speed things up
   if (! _d->buffer_data.exists()) {

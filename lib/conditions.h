@@ -86,7 +86,7 @@ public:
   ~Condition();
   bool match(
     const Node&     node,
-    int             start = 0) const;
+    size_t          start = 0) const;
   // No children
   virtual ConfigObject* configChildFactory(ConfigLine& params) {
     (void) params;

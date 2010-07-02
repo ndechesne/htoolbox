@@ -76,9 +76,9 @@ int Data::getMetadata(
     const char*     path,
     long long*      size,
     CompressionCase* comp_status) const {
-  bool         failed        = false;
-  char*        meta_str      = NULL;
-  unsigned int meta_str_size = 0;
+  bool   failed        = false;
+  char*  meta_str      = NULL;
+  size_t meta_str_size = 0;
 
   *size = -1;
   *comp_status = unknown;
@@ -643,7 +643,7 @@ int Data::write(
 
     // Make sure we won't exceed the file number limit
     // dest_path is /path/to/checksum
-    unsigned int pos = dest_path.rfind('/');
+    size_t pos = dest_path.rfind('/');
 
     if (pos != string::npos) {
       dest_path.erase(pos);

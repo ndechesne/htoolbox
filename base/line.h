@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008  Herve Fache
+     Copyright (C) 2008-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -34,11 +34,11 @@ extern bool         __Line_debug;
 extern unsigned int __Line_address;
 
 class LineBuffer {
-  static const unsigned int  _min_capacity = 128;
+  static const size_t _min_capacity = 128;
   char*             _line;
-  unsigned int      _capacity;
-  unsigned int      _size;
-  int grow(unsigned int required, bool discard = false);
+  size_t            _capacity;
+  size_t            _size;
+  int grow(size_t required, bool discard = false);
   LineBuffer(const LineBuffer&);
   LineBuffer& operator=(const LineBuffer&);
 public:
@@ -96,7 +96,7 @@ public:
     return *this;
   }
   LineBuffer& set(const LineBuffer& line, const char* line2) {
-    unsigned int size2 = strlen(line2);
+    size_t size2 = strlen(line2);
     _size = line._size + size2;
     grow(_size + 1, true);
     memcpy(_line, line._line, line._size);
@@ -110,13 +110,13 @@ public:
     return *this;
   }
   LineBuffer& operator+=(const char* line) {
-    unsigned int size = strlen(line);
+    size_t size = strlen(line);
     grow(_size + size + 1);
     memcpy(&_line[_size], line, size + 1);
     _size += size;
     return *this;
   }
-  const LineBuffer& erase(unsigned int pos = 0) {
+  const LineBuffer& erase(size_t pos = 0) {
     if (pos < _size) {
       _size = pos;
       _line[_size] = '\0';
@@ -125,11 +125,11 @@ public:
   }
   // For compatibility
   char**        bufferPtr()     { return &_line;     }
-  unsigned int* sizePtr()       { return &_size;     }
-  unsigned int* capacityPtr()   { return &_capacity; }
+  size_t* sizePtr()       { return &_size;     }
+  size_t* capacityPtr()   { return &_capacity; }
   // For test
-  unsigned int size() const     { return _size;      }
-  unsigned int capacity() const { return _capacity;  }
+  size_t size() const     { return _size;      }
+  size_t capacity() const { return _capacity;  }
 #ifdef _DEBUG
   unsigned int address() const  { return _address;   }
 #endif
@@ -267,7 +267,7 @@ public:
   operator LineBuffer& () {
     return instance();
   }
-  unsigned int size() const {
+  size_t size() const {
     return _line->size();
   }
   Line& operator=(const Line& line) {
@@ -379,7 +379,7 @@ public:
     _line = other._line;
     other._line = temp;
   }
-  const Line& erase(unsigned int pos = 0) {
+  const Line& erase(size_t pos = 0) {
     if (_line->_instances > 1) {
       _line->_instances--;
       LineBuffer* temp = _line;
@@ -411,7 +411,7 @@ public:
     return *this;
   }
   // For compatibility
-  int find(char c, unsigned int pos = 0) const {
+  int find(char c, size_t pos = 0) const {
     const char* buffer = *_line;
     const char* r;
     for (r = &buffer[pos]; r < &buffer[_line->size()]; r++) {
@@ -419,9 +419,9 @@ public:
         break;
       }
     }
-    return r < &buffer[_line->size()] ? r - buffer : -1;
+    return r < &buffer[_line->size()] ? static_cast<int>(r - buffer) : -1;
   }
-  int rfind(char c, unsigned int pos = 0) const {
+  int rfind(char c, size_t pos = 0) const {
     const char* buffer = *_line;
     const char* r = &buffer[_line->size()];
     while (--r >= &buffer[pos]) {
@@ -429,7 +429,7 @@ public:
         break;
       }
     }
-    return r >= &buffer[pos] ? r - buffer : -1;
+    return r >= &buffer[pos] ? static_cast<int>(r - buffer) : -1;
   }
   const Line& append(const char* line, int pos = -1) {
     if (pos >= 0) {

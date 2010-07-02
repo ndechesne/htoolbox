@@ -42,7 +42,7 @@ int ClientPath::parse_recurse(
     Database&       db,
     const char*     remote_path,
     const char*     client_name,
-    int             start,
+    size_t          start,
     Directory&      dir,
     const Parser*   current_parser) {
   if (aborting()) {

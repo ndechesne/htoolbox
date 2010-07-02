@@ -833,7 +833,7 @@ int main(void) {
   while (true) {
     Line line;
     bool eol;
-    int rc = readfile->getLine(line, &eol);
+    ssize_t rc = readfile->getLine(line, &eol);
     if (rc < 0) {
       cout << "Error reading line, " << strerror(errno) << endl;
       return 0;
@@ -861,7 +861,7 @@ int main(void) {
   while (true) {
     Line line;
     bool eol;
-    int rc = readfile->getLine(line, &eol);
+    ssize_t rc = readfile->getLine(line, &eol);
     if (rc < 0) {
       cout << "Error reading line, " << strerror(errno) << endl;
       return 0;
@@ -1025,8 +1025,8 @@ int main(void) {
   cout << "Checksum: " << writefile->checksum() << endl;
   delete writefile;
   readfile = new Stream("test2/testfile");
-  char*        line_test = NULL;
-  unsigned int line_test_capacity = 0;
+  char* line_test = NULL;
+  size_t line_test_capacity = 0;
   readfile->open(O_RDONLY);
   cout << "Reading empty file:" << endl;
   while (readfile->getLine(&line_test, &line_test_capacity) > 0) {

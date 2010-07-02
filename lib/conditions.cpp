@@ -113,7 +113,7 @@ Condition::~Condition() {
 
 bool Condition::match(
     const Node&     node,
-    int             start) const {
+    size_t          start) const {
   const char* path = &node.path()[start];
   bool result = false;
   bool failed = false;
@@ -132,7 +132,7 @@ bool Condition::match(
       result = strncmp(node.name(), _d->string, strlen(_d->string)) == 0;
       break;
     case Condition::name_end: {
-      signed int diff = strlen(node.name()) - strlen(_d->string);
+      ssize_t diff = strlen(node.name()) - strlen(_d->string);
       if (diff < 0) {
         result = false;
       } else {
@@ -155,7 +155,7 @@ bool Condition::match(
       result = strncmp(path, _d->string, strlen(_d->string)) == 0;
       break;
     case Condition::path_end: {
-        signed int diff = strlen(path) - strlen(_d->string);
+        ssize_t diff = strlen(path) - strlen(_d->string);
         if (diff < 0) {
           result = false;
         } else {

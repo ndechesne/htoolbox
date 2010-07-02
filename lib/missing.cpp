@@ -85,7 +85,7 @@ int Missing::close() {
   free(_d->path);
   _d->path = NULL;
   bool failed = false;
-  int  count  = _d->data.size();
+  size_t count  = _d->data.size();
   if (_d->modified || _d->force_save) {
     // Save list of missing items
     if (_d->modified) {
@@ -96,7 +96,7 @@ int Missing::close() {
       out(error, msg_errno, "saving problematic checksums list", errno, NULL);
       failed = true;
     }
-    int rc = 0;
+    ssize_t rc = 0;
     count = 0;
     for (unsigned int i = 0; i < _d->data.size(); i++) {
       if (_d->progress != NULL) {
@@ -141,8 +141,8 @@ int Missing::load() {
   Stream missing_list(_d->path);
   if (! missing_list.open(O_RDONLY)) {
     missing_list.setProgressCallback(_d->progress);
-    char*          line = NULL;
-    unsigned int   line_capacity = 0;
+    char* line = NULL;
+    size_t line_capacity = 0;
     while (missing_list.getLine(&line, &line_capacity) > 0) {
       vector<string> params;
       Stream::extractParams(line, params);
@@ -192,7 +192,7 @@ void Missing::forceSave() {
   _d->force_save = true;
 }
 
-unsigned int Missing::size() const {
+size_t Missing::size() const {
   return _d->data.size();
 }
 
@@ -224,10 +224,10 @@ const string& Missing::operator[](unsigned int id) const {
 
 int Missing::search(const char* checksum) const {
   // Look for checksum in list (binary search)
-  int start  = 0;
-  int end    = _d->data.size() - 1;
-  int middle;
-  int found = -1;
+  ssize_t start  = 0;
+  ssize_t end    = _d->data.size() - 1;
+  ssize_t middle;
+  ssize_t found = -1;
   while (start <= end) {
     middle = (end + start) / 2;
     int cmp = _d->data[middle].checksum.compare(checksum);
@@ -242,7 +242,7 @@ int Missing::search(const char* checksum) const {
       break;
     }
   }
-  return found;
+  return static_cast<int>(found);
 }
 
 void Missing::setRecovered(unsigned int id) {

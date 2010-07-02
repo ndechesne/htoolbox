@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008  Herve Fache
+     Copyright (C) 2008-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -37,7 +37,7 @@ public:
   // Make sure list will be saved on exit
   void forceSave();
   // Get size of list
-  unsigned int size() const;
+  size_t size() const;
   // Get checksum at row id
   const string& operator[](unsigned int id) const;
   // Get row of given checksum

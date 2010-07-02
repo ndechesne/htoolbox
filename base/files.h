@@ -51,7 +51,7 @@ public:
   }
   const Path& fromDos();
   const Path& noTrailingSlashes();
-  unsigned int length() const  { return size(); }
+  size_t length() const  { return size(); }
   Path dirname() const;
   const char* basename() const { return basename(*this); }
   int compare(const char* s, ssize_t length = -1) const {
@@ -124,7 +124,7 @@ public:
   // Data read access
   virtual bool  isValid()     const { return _type != '?';     }
   const char*   path()        const { return _path;            }
-  int           pathLength()  const { return _path.length();   }
+  size_t        pathLength()  const { return _path.length();   }
   const char*   name()        const { return _path.basename(); }
   char          type()        const { return _type;            }
   time_t        mtime()       const { return _mtime;           }
@@ -347,7 +347,7 @@ public:
   // Read a line of characters from file until end of line or file
   virtual ssize_t getLine(
     char**          buffer,
-    unsigned int*   buffer_capacity,
+    size_t*         buffer_capacity,
     bool*           end_of_line_found = NULL);
   virtual ssize_t getLine(
     LineBuffer&     line,

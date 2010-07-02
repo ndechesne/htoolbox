@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008  Herve Fache
+     Copyright (C) 2008-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -39,13 +39,13 @@ template<class T>
 class Buffer {
   T*                _buffer_start;
   const T*          _buffer_end;
-  unsigned int      _capacity;
+  size_t            _capacity;
   T*                _write_start;
-  unsigned int      _write_count;
-  unsigned int      _read_count;
+  size_t            _write_count;
+  size_t            _read_count;
   std::list<BufferReader<T>*>
                     _readers;
-  unsigned int      _readers_size;
+  size_t            _readers_size;
   bool              _readers_update;
   friend class      BufferReader<T>;
   // Registering
@@ -82,7 +82,7 @@ public:
   void empty();
     // Multithread irrelevant: must be done synchronously
   //! \brief Check whether the write limit can be increased
-  inline void reader_update(unsigned int reader_count) {
+  inline void reader_update(size_t reader_count) {
     // Multithread safe
     if (_readers_size == 1) {
       _read_count = reader_count;
@@ -145,8 +145,8 @@ public:
   */
   inline size_t writeable() {
     // Multithread safe
-    unsigned int total_free    = _capacity - usage();
-    unsigned int straight_free = _buffer_end - _write_start;
+    size_t total_free    = _capacity - usage();
+    size_t straight_free = _buffer_end - _write_start;
     return (straight_free < total_free) ? straight_free : total_free;
   }
   //! \brief Set how much space was used
@@ -177,7 +177,7 @@ template<class T>
 class BufferReader {
   Buffer<T>&         _buffer;
   const T*          _read_start;
-  unsigned int      _read_count;
+  size_t            _read_count;
   bool              _auto_unreg;
   friend class      Buffer<T>;
 public:
@@ -229,8 +229,8 @@ public:
   */
   inline size_t readable() const {
     // Multithread safe: only _buffer._write_count can change, read only once
-    unsigned int total_free    = _buffer._write_count - _read_count;
-    unsigned int straight_free = _buffer._buffer_end - _read_start;
+    size_t total_free    = _buffer._write_count - _read_count;
+    size_t straight_free = _buffer._buffer_end - _read_start;
     return (straight_free < total_free) ? straight_free : total_free;
   }
   //! \brief Set how much space was freed
@@ -306,11 +306,11 @@ void Buffer<T>::empty() {
 
 template<class T>
 void Buffer<T>::update() {
-  int max_used = 0;
+  size_t max_used = 0;
   for (typename std::list<BufferReader<T>*>::iterator i = _readers.begin();
       i != _readers.end(); i++) {
-    // Unread space for this reader
-    int this_used = _write_count - (*i)->_read_count;;
+    // Unread space for this reader (wrap around safe)
+    size_t this_used = _write_count - (*i)->_read_count;;
     if (this_used > max_used) {
       max_used = this_used;
     }

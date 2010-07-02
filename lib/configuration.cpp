@@ -410,7 +410,7 @@ int Config::line(
   if (parents.size() > 0) {
     *params = *i;
   }
-  return parents.size() - 1;
+  return static_cast<int>(parents.size()) - 1;
 }
 
 void Config::clear() {

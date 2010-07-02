@@ -31,7 +31,7 @@ class ClientPath {
     Database&       db,
     const char*     remote_path,      // Dir where the file resides, remotely
     const char*     client_name,
-    int             start,
+    size_t          start,
     Directory&      dir,
     const Parser*   parser);
 public:

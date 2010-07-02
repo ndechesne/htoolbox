@@ -46,7 +46,7 @@ int Filter::add(
     bool            negated) {
   /* Add specified filter */
   bool    failed = false;
-  off64_t size;
+  long long int size;
 
   if (type.substr(0, 4) == "size") {
     char    unit[4] = { '\0', '\0', '\0', '\0' };
@@ -188,7 +188,7 @@ int Filter::add(
 
 bool Filter::match(
     const Node&     node,
-    int             start) const {
+    size_t          start) const {
   // Test all conditions
   list<Condition*>::const_iterator condition;
   for (condition = _children.begin(); condition != _children.end();

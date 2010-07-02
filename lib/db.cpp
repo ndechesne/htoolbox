@@ -292,7 +292,7 @@ int Database::getRecords(
     list<string>&   records,
     const char*     path,
     time_t          date) {
-  unsigned int path_len = 0;
+  size_t path_len = 0;
   if (path != NULL) {
     path_len = strlen(path);
     // Make sure we compare excluding any trailing slashes
@@ -523,7 +523,8 @@ int Database::scan(
   }
 
   if (! list_data.empty()) {
-    out(debug, msg_number, NULL, list_data.size(), "Checksum(s) from list");
+    out(debug, msg_number, NULL, static_cast<int>(list_data.size()),
+      "Checksum(s) from list");
     for (list<CompData>::iterator i = list_data.begin();
         i != list_data.end(); i++) {
       stringstream s;
@@ -532,7 +533,8 @@ int Database::scan(
     }
   }
   if (! data_data.empty()) {
-    out(debug, msg_number, NULL, data_data.size(), "Checksum(s) with data");
+    out(debug, msg_number, NULL, static_cast<int>(data_data.size()),
+      "Checksum(s) with data");
     for (list<CompData>::iterator i = data_data.begin();
         i != data_data.end(); i++) {
       stringstream s;
@@ -577,7 +579,8 @@ int Database::scan(
   list_data.clear();
 
   if (! data_data.empty()) {
-    out(info, msg_number, NULL, data_data.size(), "Obsolete checksum(s)");
+    out(info, msg_number, NULL, static_cast<int>(data_data.size()),
+      "Obsolete checksum(s)");
     for (list<CompData>::iterator i = data_data.begin();
         i != data_data.end(); i++) {
       if (i->checksum()[0] != '\0') {

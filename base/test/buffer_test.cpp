@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008  Herve Fache
+     Copyright (C) 2008-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -35,7 +35,7 @@ int main(void) {
     BufferReader<char>  reader(buffer);
     const char*         string1;
     char                string2[16];
-    int                 number;
+    size_t              number;
 
     cout << "Test: one reader" << endl;
     cout << endl;
@@ -497,7 +497,7 @@ int main(void) {
     const wchar_t*        string1;
     wchar_t               string2[16];
     char                  stringd[100];
-    int                   number;
+    ssize_t               number;
 
     cout << "Test: one reader" << endl;
     cout << endl;

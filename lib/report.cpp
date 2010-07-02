@@ -85,7 +85,7 @@ void hreport::out_hidden(
 
 struct Report::Private {
   pthread_mutex_t mutex;
-  unsigned int    size_to_overwrite;
+  size_t          size_to_overwrite;
   bool            console_log;
   bool            file_log;
   string          file_name;
@@ -189,7 +189,7 @@ struct Report::Private {
     (void) file;
     (void) line;
     char buffer[1024];
-    int offset = 0;
+    size_t offset = 0;
     // prefix
     switch (level) {
       case alert:
@@ -237,7 +237,7 @@ struct Report::Private {
     } else {
       size_to_overwrite = 0;
     }
-    return offset;
+    return static_cast<int>(offset);
   }
   int fileLog(
       FILE*           fd,
@@ -364,6 +364,8 @@ int Report::log(
     bool            temporary,
     const char*     format,
     ...) {
+  (void) file;
+  (void) line;
   // print only if required
   if (level > this->level()) {
     return 0;

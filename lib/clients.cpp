@@ -461,9 +461,9 @@ ClientPath* Client::addClientPath(const string& name) {
   list<ClientPath*>::iterator j = _d->paths.insert(i, path);
   // Check that we don't have a path inside another, such as
   // '/home' and '/home/user'
-  int jlen = strlen((*j)->path());
+  size_t jlen = strlen((*j)->path());
   if (i != _d->paths.end()) {
-    int ilen = strlen((*i)->path());
+    size_t ilen = strlen((*i)->path());
     if ((ilen > jlen)
     && (Path::compare((*i)->path(), (*j)->path(), jlen) == 0)) {
       return NULL;
@@ -472,7 +472,7 @@ ClientPath* Client::addClientPath(const string& name) {
     i--;
   }
   if (i != _d->paths.end()) {
-    int ilen = strlen((*i)->path());
+    size_t ilen = strlen((*i)->path());
     if ((ilen < jlen)
     && (Path::compare((*i)->path(), (*j)->path(), ilen) == 0)) {
       return NULL;

@@ -230,7 +230,7 @@ int main(int argc, char **argv) {
         i != clientArg.getValue().end(); i++) {
       if (use_clients) {
         // Length of name excluding last character
-        int length = strlen(i->c_str()) - 1;
+        ssize_t length = strlen(i->c_str()) - 1;
         if (length < 0) {
           cerr << "Error: Empty client name" << endl;
           return 1;

@@ -43,7 +43,7 @@ struct Owner::Private {
   List*             original;
   List*             journal;
   List*             partial;
-  int               expiration;
+  time_t            expiration;
   progress_f        progress;
 };
 
@@ -490,7 +490,7 @@ int Owner::getNextRecord(
     time_t          date,
     char**          fpath,
     Node**          fnode) const {
-  int  len = strlen(path);
+  size_t len = strlen(path);
   bool path_is_dir = false;
   if ((len > 0) && (path[len - 1] == '/')) {
     path_is_dir = true;
@@ -513,7 +513,7 @@ int Owner::getNextRecord(
     if (cmp < 0) continue;
     // Exceeded
     if (cmp > 0) return 0;
-    int flen = strlen(*fpath);
+    size_t flen = strlen(*fpath);
     // Not reached, but on the right path
     if (flen < len) continue;
     if ((flen > len) && ((*fpath)[len] != '/')) return 0;

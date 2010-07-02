@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008  Herve Fache
+     Copyright (C) 2008-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -27,8 +27,8 @@ bool         hbackup::__Line_debug   = false;
 #endif
 unsigned int hbackup::__Line_address = 0;
 
-int LineBuffer::grow(unsigned int required, bool discard) {
-  unsigned int new_capacity;
+int LineBuffer::grow(size_t required, bool discard) {
+  size_t new_capacity;
   if (_capacity != 0) {
     new_capacity = _capacity;
   } else {

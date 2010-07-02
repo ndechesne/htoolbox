@@ -208,7 +208,7 @@ ssize_t List::putLine(const Line& line) {
   return line.size();
 }
 
-int List::encodeLine(
+ssize_t List::encodeLine(
     char**          linep,
     time_t          timestamp,
     const Node*     node) {
@@ -301,7 +301,7 @@ int List::add(
   int rc = 0;
   if (new_list != NULL) {
     char* line = NULL;
-    int   size = encodeLine(&line, time(NULL), node);
+    ssize_t size = encodeLine(&line, time(NULL), node);
 
     if (new_list->putLine(line) != size) {
       rc = -1;
