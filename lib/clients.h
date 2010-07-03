@@ -37,7 +37,7 @@ public:
   }
 };
 
-class Client : ConfigObject {
+class Client : public ConfigObject {
   list<ClientPath*> _paths;
   string            _subset_client;
   string            _name;
@@ -82,9 +82,6 @@ public:
     _options.push_back(Option(name, value));
   }
   const string getOption(const string& name) const;
-  void addUser(const string& user) {
-    _users.push_back(user);
-  }
   void setHostOrIp(string value) {
     _host_or_ip = value;
   }
@@ -92,15 +89,9 @@ public:
     _protocol = value;
     return value != "file";
   }
-  void setTimeOutNoWarning() {
-    _timeout_nowarning = true;
-  }
   void setListfile(const char* value);
   const char* listfile() const {
     return _list_file;
-  }
-  void setExpire(int expire) {
-    _expire = expire;
   }
   //
   bool initialised() const;

@@ -269,6 +269,30 @@ ConfigObject* Client::configChildFactory(
     }
     co = this;
   } else
+  if (keyword == "hostname") {
+    _host_or_ip = params[1];
+    co = this;
+  } else
+  if (keyword == "protocol") {
+    _protocol = params[1];
+    co = this;
+  } else
+  if (keyword == "option") {
+    if (params.size() == 2) {
+      _options.push_back(Option("", params[1]));
+    } else {
+      _options.push_back(Option(params[1], params[2]));
+    }
+    co = this;
+  } else
+  if (keyword == "timeout_nowarning") {
+    _timeout_nowarning = true;
+    co = this;
+  } else
+  if (keyword == "config") {
+    setListfile(params[1].c_str());
+    co = this;
+  } else
   if (keyword == "path") {
     co = addClientPath(params[1]);
     if (co == NULL) {

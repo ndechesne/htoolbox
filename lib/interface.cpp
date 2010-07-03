@@ -73,14 +73,13 @@ bool hbackup::aborting(unsigned short test) {
   return false;
 }
 
-struct HBackup::Private {
+struct HBackup::Private : ConfigObject {
   // db
   Database*               db;
   OpData::CompressionMode db_compress_mode;
   // clients
   std::list<string>       selected_clients;
   std::list<Client*>      clients;
-  bool                    remote_clients;
   // attributes
   Attributes              attributes;
   // log
@@ -91,7 +90,120 @@ struct HBackup::Private {
   Private() : db(NULL), log_max_lines(0), log_backups(0), log_level(info) {
     log_file_name = "";
   }
+  virtual ConfigObject* configChildFactory(
+      const vector<string>& params,
+      const char*           file_path = NULL,
+      size_t                line_no   = 0);
 };
+
+ConfigObject* HBackup::Private::configChildFactory(
+    const vector<string>& params,
+    const char*           file_path,
+    size_t                line_no) {
+  ConfigObject* co = NULL;
+  const string& keyword = params[0];
+  if (keyword == "log") {
+    log_file_name = params[1];
+    co = this;
+  } else
+  if (keyword == "max_lines") {
+    log_max_lines = atoi(params[1].c_str());
+    co = this;
+  } else
+  if (keyword == "backups") {
+    log_backups = atoi(params[1].c_str());
+    co = this;
+  } else
+  if (keyword == "level") {
+    co = this;
+    switch (params[1][0]) {
+      case 'A':
+      case 'a':
+        log_level = hreport::alert;
+        break;
+      case 'E':
+      case 'e':
+        log_level = hreport::error;
+        break;
+      case 'W':
+      case 'w':
+        log_level = hreport::warning;
+        break;
+      case 'I':
+      case 'i':
+        log_level = hreport::info;
+        break;
+      case 'V':
+      case 'v':
+        log_level = hreport::verbose;
+        break;
+      case 'D':
+      case 'd':
+        log_level = hreport::debug;
+        break;
+      default:
+        hlog_error("wrong name for log level: '%s'", params[1].c_str());
+        co = NULL;
+    }
+  } else
+  if (keyword == "db") {
+    db = new Database(params[1].c_str());
+    co = this;
+  } else
+  if (keyword == "compress") {
+    if (params[1] == "always") {
+      db_compress_mode = OpData::always;
+      co = this;
+    } else
+    if (params[1] == "auto") {
+      db_compress_mode = OpData::auto_now;
+      co = this;
+    } else
+    if (params[1] == "later") {
+      db_compress_mode = OpData::auto_later;
+      co = this;
+    } else
+    if (params[1] == "never") {
+      db_compress_mode = OpData::never;
+      co = this;
+    } else
+    {
+      out(error, msg_number, "Unsupported DB compression mode",
+        line_no, file_path);
+    }
+  } else
+  // Backwards compatibility
+  if (keyword == "compress_auto") {
+    db_compress_mode = OpData::auto_now;
+    co = this;
+  } else
+  if (keyword == "client") {
+    Client* client = new Client(params[1], attributes,
+      (params.size() > 2) ? params[2] : "");
+    // Clients MUST BE in alphabetic order
+    int cmp = 1;
+    std::list<Client*>::iterator i = clients.begin();
+    while (i != clients.end()) {
+      cmp = client->internalName().compare((*i)->internalName());
+      if (cmp <= 0) {
+        break;
+      }
+      i++;
+    }
+    if (cmp == 0) {
+      hlog_error("client already selected: '%s'",
+        client->internalName().c_str());
+      delete client;
+    } else {
+      clients.insert(i, client);
+      co = client;
+    }
+  } else
+  {
+    co = attributes.configChildFactory(params, file_path, line_no);
+  }
+  return co;
+}
 
 HBackup::HBackup() : _d(new Private) {
   _d->selected_clients.clear();
@@ -199,25 +311,21 @@ int HBackup::readConfig(const char* config_path) {
     {
       ConfigItem* path = new ConfigItem("path", 0, 0, 1);
       client->add(path);
-
       // parser
       path->add(new ConfigItem("parser", 0, 0, 2));
-
       // filter
       {
         ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
         path->add(filter);
-
         // condition
         filter->add(new ConfigItem("condition", 1, 0, 2));
       }
-
+      // report_copy_error_once
+      path->add(new ConfigItem("report_copy_error_once", 0, 1));
       // ignore
       path->add(new ConfigItem("ignore", 0, 1, 1));
-
       // compress
       path->add(new ConfigItem("compress", 0, 1, 1));
-
       // no_compress
       path->add(new ConfigItem("no_compress", 0, 1, 1));
     }
@@ -228,216 +336,12 @@ int HBackup::readConfig(const char* config_path) {
   Config       config;
   ConfigErrors errors;
   int rc = config.read(config_file, Stream::flags_accept_cr_lf, config_syntax,
-    NULL, &errors);
+    _d, &errors);
   config_file.close();
 
   if (rc < 0) {
     errors.show();
     return -1;
-  }
-
-  Client*     client = NULL;
-  ClientPath* c_path = NULL;
-  Attributes* attr   = &_d->attributes;
-  ConfigLine* params;
-  while (config.line(&params) >= 0) {
-    if ((*params)[0] == "log") {
-      _d->log_file_name = (*params)[1];
-    } else
-    if ((*params)[0] == "max_lines") {
-      _d->log_max_lines = atoi((*params)[1].c_str());
-    } else
-    if ((*params)[0] == "backups") {
-      _d->log_backups = atoi((*params)[1].c_str());
-    } else
-    if ((*params)[0] == "level") {
-      switch ((*params)[1][0]) {
-        case 'A':
-        case 'a':
-          _d->log_level = hreport::alert;
-          break;
-        case 'E':
-        case 'e':
-          _d->log_level = hreport::error;
-          break;
-        case 'W':
-        case 'w':
-          _d->log_level = hreport::warning;
-          break;
-        case 'I':
-        case 'i':
-          _d->log_level = hreport::info;
-          break;
-        case 'V':
-        case 'v':
-          _d->log_level = hreport::verbose;
-          break;
-        case 'D':
-        case 'd':
-          _d->log_level = hreport::debug;
-          break;
-        default:
-          hlog_error("wrong name for log level: '%s'", (*params)[1].c_str());
-          return -1;
-      }
-    } else
-    if ((*params)[0] == "db") {
-      _d->db = new Database((*params)[1].c_str());
-    } else
-    if ((*params)[0] == "filter") {
-      // Add filter at the right level (global, client, path)
-      if (attr->addFilter(*params) == NULL) {
-        return -1;
-      }
-    } else
-    if ((*params)[0] == "condition") {
-      if (attr->addFilterCondition(*params) == NULL) {
-        return -1;
-      }
-    } else
-    if ((*params)[0] == "ignore") {
-      Filter* filter = NULL;
-      if (c_path != NULL) {
-        filter = c_path->findFilter((*params)[1]);
-      } else
-      if (client != NULL) {
-        filter = client->findFilter((*params)[1]);
-      } else
-      {
-        filter = _d->attributes.filters().find((*params)[1]);
-      }
-      if (filter == NULL) {
-        out(error, msg_number, "Filter not found", (*params).lineNo(),
-          config_path);
-        return -1;
-      } else {
-        attr->addIgnore(filter);
-      }
-    } else
-    if ((*params)[0] == "client") {
-      c_path = NULL;
-      client = new Client((*params)[1], _d->attributes,
-        (params->size() > 2) ? (*params)[2] : "");
-
-      // Clients MUST BE in alphabetic order
-      int cmp = 1;
-      std::list<Client*>::iterator i = _d->clients.begin();
-      while (i != _d->clients.end()) {
-        cmp = client->internalName().compare((*i)->internalName());
-        if (cmp <= 0) {
-          break;
-        }
-        i++;
-      }
-      if (cmp == 0) {
-        out(error, msg_standard, "Client already selected", -1,
-          client->internalName().c_str());
-        return -1;
-      }
-      _d->clients.insert(i, client);
-      attr = &client->attributes;
-    } else
-    if (client != NULL) {
-      if ((*params)[0] == "hostname") {
-        client->setHostOrIp((*params)[1]);
-      } else
-      if ((*params)[0] == "protocol") {
-        if (client->setProtocol((*params)[1])) {
-          _d->remote_clients = true;
-        }
-      } else
-      if ((*params)[0] == "option") {
-        if ((*params).size() == 2) {
-          client->addOption((*params)[1]);
-        } else {
-          client->addOption((*params)[1], (*params)[2]);
-        }
-      } else
-      if ((*params)[0] == "users") {
-        for (unsigned int i = 1; i < params->size(); i++) {
-          client->addUser((*params)[i]);
-        }
-      } else
-      if ((*params)[0] == "timeout_nowarning") {
-        client->setTimeOutNoWarning();
-      } else
-      if ((*params)[0] == "report_copy_error_once") {
-        attr->setReportCopyErrorOnce();
-      } else
-      if ((*params)[0] == "config") {
-        client->setListfile((*params)[1].c_str());
-      } else
-      if ((*params)[0] == "expire") {
-        unsigned int expire;
-        if (sscanf((*params)[1].c_str(), "%u", &expire) != 1) {
-          out(error, msg_number, "Expected decimal argument",
-            (*params).lineNo(), config_path);
-          return -1;
-        }
-        client->setExpire(expire * 3600 * 24);
-      } else
-      if ((*params)[0] == "path") {
-        c_path = client->addClientPath((*params)[1]);
-        attr = &c_path->attributes;
-      } else
-      if (c_path != NULL) {
-        if (((*params)[0] == "compress")
-         || ((*params)[0] == "no_compress")) {
-          Filter* filter = c_path->findFilter((*params)[1]);
-          if (filter == NULL) {
-            out(error, msg_number, "Filter not found", (*params).lineNo(),
-              config_path);
-            return -1;
-          } else {
-            if ((*params)[0] == "compress") {
-              c_path->setCompress(filter);
-            } else
-            if ((*params)[0] == "no_compress") {
-              c_path->setNoCompress(filter);
-            }
-          }
-        } else
-        if ((*params)[0] == "parser") {
-          switch (c_path->addParser((*params)[1], (*params)[2])) {
-            case 1:
-              out(error, msg_number, "Unsupported parser type",
-                (*params).lineNo(), config_path);
-              return -1;
-            case 2:
-              out(error, msg_number, "Unsupported parser mode",
-                (*params).lineNo(), config_path);
-              return -1;
-          }
-        }
-      }
-    } else {
-      if ((*params)[0] == "compress") {
-        if ((*params)[1] == "always") {
-          _d->db_compress_mode = OpData::always;
-        } else
-        if ((*params)[1] == "auto") {
-          _d->db_compress_mode = OpData::auto_now;
-        } else
-        if ((*params)[1] == "later") {
-          _d->db_compress_mode = OpData::auto_later;
-        } else
-        if ((*params)[1] == "never") {
-          _d->db_compress_mode = OpData::never;
-        } else
-        {
-          out(error, msg_number, "Unsupported DB compression mode",
-            (*params).lineNo(), config_path);
-          return -1;
-        }
-      } else
-      // Backwards compatibility
-      if ((*params)[0] == "compress_auto") {
-        _d->db_compress_mode = OpData::auto_now;
-      } else
-      if ((*params)[0] == "report_copy_error_once") {
-        _d->attributes.setReportCopyErrorOnce();
-      }
-    }
   }
 
   // Log to file if required
@@ -458,7 +362,6 @@ int HBackup::open(
     const char*   path,
     bool          user_mode,
     bool          check_config) {
-  _d->remote_clients   = false;
   _d->db_compress_mode = OpData::auto_later;
 
   bool failed = false;
@@ -533,7 +436,7 @@ int HBackup::backup(
     _d->db->setCompressionMode(_d->db_compress_mode);
 
     Directory mount_dir(Path(_d->db->path(), ".mount"));
-    if (_d->remote_clients && (mount_dir.create() < 0)) {
+    if (mount_dir.create() < 0) {
       return -1;
     }
     bool failed = false;
@@ -559,19 +462,15 @@ int HBackup::backup(
       Directory mount_point(Path(mount_dir.path(),
         (*client)->internalName().c_str()));
       // Check that mount dir exists, if not create it
-      if (_d->remote_clients && (mount_point.create() < 0)) {
+      if (mount_point.create() < 0) {
         return -1;
       }
       if ((*client)->backup(*_d->db, mount_point.path())) {
         failed = true;
       }
-      if (_d->remote_clients) {
-        mount_point.remove();
-      }
+      mount_point.remove();
     }
-    if (_d->remote_clients) {
-      mount_dir.remove();
-    }
+    mount_dir.remove();
     _d->db->close();
     return failed ? -1 : 0;
   }
