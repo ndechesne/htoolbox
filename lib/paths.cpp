@@ -209,6 +209,44 @@ ClientPath::ClientPath(const char* path, const Attributes& a)
   _path.noTrailingSlashes();
 }
 
+ConfigObject* ClientPath::configChildFactory(
+    const vector<string>& params,
+    const char*           file_path,
+    size_t                line_no) {
+  ConfigObject* co = NULL;
+  const string& keyword = params[0];
+  if ((keyword == "compress") ||  (keyword == "no_compress")) {
+    Filter* filter = attributes.filters().find(params[1]);
+    if (filter == NULL) {
+      out(error, msg_number, "Filter not found", line_no, file_path);
+    } else {
+      if (keyword == "compress") {
+        _compress = filter;
+      } else
+      if (keyword == "no_compress") {
+        _no_compress = filter;
+      }
+      co = this;  // Anything but NULL
+    }
+  } else
+  if (keyword == "parser") {
+    switch (addParser(params[1], params[2])) {
+      case 1:
+        out(error, msg_number, "Unsupported parser type", line_no, file_path);
+        break;
+      case 2:
+        out(error, msg_number, "Unsupported parser mode", line_no, file_path);
+        break;
+      default:
+        co = this;  // Anything but NULL
+    }
+  } else
+  {
+    co = attributes.configChildFactory(params, file_path, line_no);
+  }
+  return co;
+}
+
 Filter* ClientPath::findFilter(const string& name) const {
   return attributes.filters().find(name);
 }

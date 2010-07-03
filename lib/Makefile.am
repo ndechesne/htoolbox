@@ -17,6 +17,7 @@ libhbackup_la_LIBADD = \
   $(NULL)
 
 libhbackup_la_SOURCES = \
+  attributes.cpp \
   clients.cpp \
   conditions.cpp \
   configuration.cpp \
@@ -33,6 +34,7 @@ libhbackup_la_SOURCES = \
   $(NULL)
 
 EXTRA_DIST = \
+  attributes.h \
   clients.h \
   compdata.h \
   conditions.h \

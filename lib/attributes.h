@@ -21,7 +21,7 @@
 
 namespace hbackup {
 
-class Attributes {
+class Attributes : ConfigObject {
   bool                _report_copy_error_once;
   Filters             _filters;
   list<const Filter*> _ignore_list;
@@ -36,6 +36,10 @@ public:
   bool reportCopyErrorOnceIsSet() const { return _report_copy_error_once; }
   const Filters& filters() const        { return _filters; }
   void setReportCopyErrorOnce()         { _report_copy_error_once = true; }
+  virtual ConfigObject* configChildFactory(
+    const vector<string>& params,
+    const char*           file_path = NULL,
+    size_t                line_no   = 0);
   Filter* addFilter(
     const vector<string>& params,
     const char*           file_path = NULL,

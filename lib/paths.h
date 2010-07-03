@@ -21,7 +21,7 @@
 
 namespace hbackup {
 
-class ClientPath {
+class ClientPath : public ConfigObject {
   Path              _path;
   Parsers           _parsers;
   const Filter*     _compress;
@@ -37,6 +37,10 @@ class ClientPath {
 public:
   Attributes        attributes;
   ClientPath(const char* path, const Attributes& attributes);
+  virtual ConfigObject* configChildFactory(
+    const vector<string>& params,
+    const char*           file_path = NULL,
+    size_t                line_no   = 0);
   const char* path() const               { return _path;  }
   int nodes() const                      { return _nodes; }
   // Set compress filter

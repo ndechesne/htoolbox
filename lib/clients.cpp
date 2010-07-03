@@ -302,37 +302,11 @@ int Client::readConfig(
       } else
       if (path != NULL) {
         // Path attributes
-        if (((*params)[0] == "compress")
-        ||  ((*params)[0] == "no_compress")) {
-          Filter* filter = path->findFilter((*params)[1]);
-          if (filter == NULL) {
-            out(error, msg_number, "Filter not found", (*params).lineNo(),
-              config_path);
-            failed = true;
-          } else {
-            if ((*params)[0] == "compress") {
-              path->setCompress(filter);
-            } else
-            if ((*params)[0] == "no_compress") {
-              path->setNoCompress(filter);
-            }
-          }
-        } else
-        if ((*params)[0] == "parser") {
-          switch (path->addParser((*params)[1], (*params)[2])) {
-            case 1:
-              out(error, msg_number, "Unsupported parser type",
-                (*params).lineNo(), config_path);
-              failed = true;
-              break;
-            case 2:
-              out(error, msg_number, "Unsupported parser mode",
-                (*params).lineNo(), config_path);
-              failed = true;
-              break;
-          }
+        if (path->configChildFactory(*params, config_path, (*params).lineNo()) == NULL) {
+          failed = true;
         }
-      } else {
+      } else
+      {
         out(error, msg_number, "Keyword unexpected ouside of path block",
           (*params).lineNo(), config_path);
         failed = true;
