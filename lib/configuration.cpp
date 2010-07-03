@@ -246,21 +246,11 @@ int Config::read(
     if (params->size() > 0) {
       // Look for keyword in children of items in the current items hierarchy
       while (items_hierarchy.size() > 0) {
+        // Is this a child of the current item?
         const ConfigItem* child = items_hierarchy.back()->find((*params)[0]);
         if (child != NULL) {
-          // Add under current hierarchy
+          // Yes. Add under current hierarchy
           items_hierarchy.push_back(child);
-          if (root != NULL) {
-            ConfigObject* child_object =
-              objects_hierarchy.back()->configChildFactory(*params,
-                stream.path(), line_no);
-            if (child_object == NULL) {
-              failed = true;
-              goto end;
-            } else {
-              objects_hierarchy.push_back(child_object);
-            }
-          }
           // Add in configuration lines tree, however incorrect it may be
           params->setLineNo(line_no);
           lines_hierarchy.back()->add(params);
@@ -286,13 +276,31 @@ int Config::read(
               message << " parameter(s), found " << params->size() - 1;
               errors->push_back(ConfigError(message.str(), line_no));
             }
+            // Stop creating objects
+            root = NULL;
+            // Keep going to find all errors
             failed = true;
+          } else
+          if (root != NULL) {
+            ConfigObject* child_object =
+              objects_hierarchy.back()->configChildFactory(*params,
+                stream.path(), line_no);
+            if (child_object == NULL) {
+              // Stop creating objects
+              root = NULL;
+              // Keep going to find all errors
+              failed = true;
+            } else {
+              // Add under current hierarchy
+              objects_hierarchy.push_back(child_object);
+            }
           }
           // Prepare new config line
           params = new ConfigLine;
           break;
         } else {
-          // Compute children occurrences
+          // No: we are going to go up one level, but compute/check children
+          // occurrences first
           list<ConfigCounter> entries;
           for (list<ConfigLine*>::const_iterator
               i = lines_hierarchy.back()->begin();
@@ -312,7 +320,10 @@ int Config::read(
           }
           // Check against expected
           if (! items_hierarchy.back()->isValid(entries, errors,
-              lines_hierarchy.back()->lineNo())) {
+                  lines_hierarchy.back()->lineNo())) {
+            // Stop creating objects
+            root = NULL;
+            // Keep going to find all errors
             failed = true;
           }
           // Keyword not found in children, go up the tree

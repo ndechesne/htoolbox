@@ -3059,5 +3059,31 @@ Database closed: myhost
 Database closed
 Broken configuration
  -> Reading configuration file: etc/broken.conf
-Error: etc/broken.conf:4 unknown keyword 'timeout_nowarning'
+Error: after line 0: need at most 1 occurence(s) of keyword 'db'
+Error: after line 0: need at most 1 occurence(s) of keyword 'report_copy_error_once'
+Error: at line 7: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line 11: missing keyword 'condition'
+Error: after line 13: need at most 1 occurence(s) of keyword 'ignore'
+Error: at line 15: keyword 'users' requires at least 1 parameter(s), found 0
+Error: at line 17: keyword 'ignore' requires 1 parameter(s), found 0
+Error: after line 19: need at most 1 occurence(s) of keyword 'config'
+Error: after line 19: need at most 1 occurence(s) of keyword 'expire'
+Error: after line 19: need at most 1 occurence(s) of keyword 'hostname'
+Error: at line 23: keyword 'option' requires at most 2 parameter(s), found 3
+Error: at line 24: keyword 'option' requires at least 1 parameter(s), found 0
+Error: at line 32: keyword 'filter' requires 2 parameter(s), found 3
+Error: at line 33: keyword 'condition' requires 2 parameter(s), found 3
+Error: at line 34: keyword 'condition' requires 2 parameter(s), found 1
+Error: at line 37: keyword 'expire' requires 1 parameter(s), found 2
+Error: after line 41: need at most 1 occurence(s) of keyword 'compress'
+Error: after line 41: need at most 1 occurence(s) of keyword 'ignore'
+Error: after line 51: missing keyword 'condition'
+Error: at line 53: keyword 'filter' requires 2 parameter(s), found 1
+Error: after line 53: missing keyword 'condition'
+Error: after line 65: missing keyword 'protocol'
+Error: at line 71: keyword 'ignore' requires 1 parameter(s), found 2
+Error: at line 72: keyword 'compress' requires 1 parameter(s), found 2
+Error: at line 85: keyword 'ignore' requires 1 parameter(s), found 0
+Error: at line 86: keyword 'compress' requires 1 parameter(s), found 0
+Error: at line 88: keyword 'what_the_f...?' incorrect or misplaced, aborting
 Note: the default configuration path has changed from '/etc/hbackup/hbackup.conf' to '/etc/hbackup/config'

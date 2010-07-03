@@ -64,10 +64,15 @@ public:
   void show() const;
 };
 
-class ConfigErrors : public list<ConfigError> {
+class ConfigErrors {
+  list<ConfigError> _children;
 public:
+  void push_back(const ConfigError& error) { _children.push_back(error); }
+  void sort() { _children.sort(); }
+  void clear() { _children.clear(); }
   void show() const {
-    for (ConfigErrors::const_iterator i = begin(); i != end(); i++) {
+    for (list<ConfigError>::const_iterator i = _children.begin();
+        i != _children.end(); i++) {
       i->show();
     }
   }

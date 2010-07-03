@@ -274,8 +274,6 @@ int HBackup::readConfig(const char* config_path) {
   }
   // ignore
   config_syntax.add(new ConfigItem("ignore", 0, 1, 1));
-  // timeout_nowarning
-  config_syntax.add(new ConfigItem("timeout_nowarning", 0, 1));
   // report_copy_error_once
   config_syntax.add(new ConfigItem("report_copy_error_once", 0, 1));
   // client

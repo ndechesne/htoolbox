@@ -422,9 +422,6 @@ cat << EOF > "$CONFIGDIR/broken.conf"
 db "$TESTDBDIR"
 db blah
 
-timeout_nowarning
-timeout_nowarning
-
 report_copy_error_once
 report_copy_error_once
 
