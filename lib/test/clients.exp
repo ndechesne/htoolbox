@@ -361,20 +361,6 @@ Trying client 'myClient2' using protocol 'smb'
  -> Reading client configuration file: myClient2
 Error: test_db/mount/Backup/Backup2.LST:8 cannot decode decimal value 'a'
 Error: test_db/mount/Backup/Backup2.LST:8 failed to add condition 'size>='
-Error: test_db/mount/Backup/Backup2.LST:9 cannot decode decimal value 'b'
-Error: test_db/mount/Backup/Backup2.LST:9 failed to add condition 'size>'
-Error: test_db/mount/Backup/Backup2.LST:10 cannot decode decimal value 'c'
-Error: test_db/mount/Backup/Backup2.LST:10 failed to add condition 'size<='
-Error: test_db/mount/Backup/Backup2.LST:11 cannot decode decimal value 'd'
-Error: test_db/mount/Backup/Backup2.LST:11 failed to add condition 'size<'
-Error: test_db/mount/Backup/Backup2.LST:12 cannot decode octal value 'e'
-Error: test_db/mount/Backup/Backup2.LST:12 failed to add condition 'mode&'
-Error: test_db/mount/Backup/Backup2.LST:13 cannot decode octal value 'f'
-Error: test_db/mount/Backup/Backup2.LST:13 failed to add condition 'mode='
-Error: test_db/mount/Backup/Backup2.LST:15 cannot decode unit of '2MiC', must end in 'iB' or 'B'
-Error: test_db/mount/Backup/Backup2.LST:15 failed to add condition 'size>'
-Error: test_db/mount/Backup/Backup2.LST:17 cannot decode multiplier from string '4iB', must be k, K, M, G, T, P, E, Z or Y
-Error: test_db/mount/Backup/Backup2.LST:17 failed to add condition 'size<'
  -> umount -fl test_db/mount
 Trying client 'otherClient' using protocol 'ssh'
  -> echo barZ? | sshfs -o password_stdin foo@otherClient:/home/Blah test_db/mount
@@ -815,7 +801,7 @@ Database closed
  --> Expiry: none
 Database open in read/write mode
  -> Reading client configuration file: testhost
-Error: etc/localhost.list: 38: Path inside another
+Error: etc/localhost.list:38 path inside another 'test1/subdir'
 Database closed
 >List 1 client(s):
  -> Client: testhost
@@ -824,8 +810,7 @@ Database closed
  --> Expiry: none
 Database open in read/write mode
  -> Reading client configuration file: testhost
-Error: etc/localhost.list2: 16: Path inside another
-Error: etc/localhost.list2: 38: Path inside another
+Error: etc/localhost.list2:16 path inside another 'test2//'
 backup failed
 Database closed
 

@@ -255,7 +255,6 @@ int Config::read(
               objects_hierarchy.back()->configChildFactory(*params,
                 stream.path(), line_no);
             if (child_object == NULL) {
-              hlog_alert("error creating child");
               failed = true;
               goto end;
             } else {

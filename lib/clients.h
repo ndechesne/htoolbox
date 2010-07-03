@@ -37,7 +37,7 @@ public:
   }
 };
 
-class Client {
+class Client : ConfigObject {
   list<ClientPath*> _paths;
   string            _subset_client;
   string            _name;
@@ -67,6 +67,10 @@ public:
     const Attributes& attributes,
     const string&     sub_name = "");
   ~Client();
+  virtual ConfigObject* configChildFactory(
+    const vector<string>& params,
+    const char*           file_path = NULL,
+    size_t                line_no   = 0);
   const char* name() const {
     return _name.c_str();
   }

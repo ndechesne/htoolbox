@@ -177,10 +177,10 @@ int Client::readConfig(
   config_syntax.add(new ConfigItem("expire", 0, 1, 1));
   // users
   config_syntax.add(new ConfigItem("users", 0, 1, 1, -1));
-  // ignore
-  config_syntax.add(new ConfigItem("ignore", 0, 1, 1));
   // timeout_nowarning
   config_syntax.add(new ConfigItem("report_copy_error_once", 0, 1));
+  // ignore
+  config_syntax.add(new ConfigItem("ignore", 0, 1, 1));
   // filter
   {
     ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
@@ -202,6 +202,8 @@ int Client::readConfig(
       // condition
       filter->add(new ConfigItem("condition", 1, 0, 2));
     }
+    // timeout_nowarning
+    path->add(new ConfigItem("report_copy_error_once", 0, 1));
     // ignore
     path->add(new ConfigItem("ignore", 0, 1, 1));
     // compress
@@ -214,94 +216,15 @@ int Client::readConfig(
     "Reading client configuration file");
   ConfigErrors errors;
   if (_config.read(config_file,
-                      Stream::flags_dos_catch | Stream::flags_accept_cr_lf,
-                      config_syntax,
-                      NULL,
-                      &errors) >= 0) {
-    // Read client configuration file
-    ClientPath* path   = NULL;
-    Attributes* attr   = &attributes;
-    ConfigLine* params;
-    while (_config.line(&params) >= 0) {
-      if ((*params)[0] == "subset") {
-        _subset_client = (*params)[1];
-      } else
-      if ((*params)[0] == "expire") {
-        int expire;
-        if ((sscanf((*params)[1].c_str(), "%d", &expire) != 0)
-        &&  (expire >= 0)) {
-          _expire = expire * 3600 * 24;
-        } else {
-          out(error, msg_number, "Wrong expiration value",
-            (*params).lineNo(), config_path);
-          failed = true;
-        }
-      } else
-      if ((*params)[0] == "users") {
-        for (unsigned int i = 1; i < params->size(); i++) {
-          addUser((*params)[i]);
-        }
-      } else
-      if ((*params)[0] == "ignore") {
-        Filter* filter = NULL;
-        if (path != NULL) {
-          filter = path->findFilter((*params)[1]);
-        } else {
-          filter = findFilter((*params)[1]);
-        }
-        if (filter == NULL) {
-          hlog_error("%s:%d filter '%s' not found",
-            config_path, (*params).lineNo(), (*params)[1].c_str());
-          failed = true;
-        } else {
-          attr->addIgnore(filter);
-        }
-      } else
-      if ((*params)[0] == "report_copy_error_once") {
-        attr->setReportCopyErrorOnce();
-      } else
-      if ((*params)[0] == "path") {
-        // New backup path
-        path = addClientPath((*params)[1]);
-        if (path == NULL) {
-          out(error, msg_number, "Path inside another", (*params).lineNo(),
-            config_path);
-          failed = true;
-        } else {
-          attr = &path->attributes;
-        }
-      } else
-      if ((*params)[0] == "filter") {
-        if (attr->addFilter(*params, config_path, (*params).lineNo()) == NULL) {
-          failed = true;
-        }
-      } else
-      if ((*params)[0] == "condition") {
-        if (attr->addFilterCondition(*params, config_path, (*params).lineNo()) == NULL) {
-          failed = true;
-        }
-      } else
-      if (path != NULL) {
-        // Path attributes
-        if (path->configChildFactory(*params, config_path, (*params).lineNo()) == NULL) {
-          failed = true;
-        }
-      } else
-      {
-        out(error, msg_number, "Keyword unexpected ouside of path block",
-          (*params).lineNo(), config_path);
-        failed = true;
-      }
-    }
+        Stream::flags_dos_catch | Stream::flags_accept_cr_lf, config_syntax,
+        this, &errors) >= 0) {
     // Close client configuration file
     config_file.close();
-  } else {
-    errors.show();
-  }
-  if (! failed) {
     show(1);
+    return 0;
   }
-  return failed ? -1 : 0;
+  errors.show();
+  return -1;
 }
 
 Client::Client(const string& name, const Attributes& a, const string& subset)
@@ -318,6 +241,45 @@ Client::~Client() {
       i++) {
     delete *i;
   }
+}
+
+ConfigObject* Client::configChildFactory(
+    const vector<string>& params,
+    const char*           file_path,
+    size_t                line_no) {
+  ConfigObject* co = NULL;
+  const string& keyword = params[0];
+  if (keyword == "subset") {
+    _subset_client = params[1];
+    co = this;
+  } else
+  if (keyword == "expire") {
+    int expire;
+    if ((sscanf(params[1].c_str(), "%d", &expire) != 0) && (expire >= 0)) {
+      _expire = expire * 3600 * 24;
+      co = this;
+    } else {
+      hlog_error("%s:%d incorrect expiration value '%s'",
+        file_path, line_no, params[1].c_str());
+    }
+  } else
+  if (keyword == "users") {
+    for (size_t i = 1; i < params.size(); i++) {
+      _users.push_back(params[i]);
+    }
+    co = this;
+  } else
+  if (keyword == "path") {
+    co = addClientPath(params[1]);
+    if (co == NULL) {
+      hlog_error("%s:%d path inside another '%s'",
+        file_path, line_no, params[1].c_str());
+    }
+  } else
+  {
+    co = attributes.configChildFactory(params, file_path, line_no);
+  }
+  return co;
 }
 
 string Client::internalName() const {
