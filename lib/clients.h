@@ -38,8 +38,22 @@ public:
 };
 
 class Client {
-  struct            Private;
-  Private* const    _d;
+  list<ClientPath*> _paths;
+  string            _subset_client;
+  string            _name;
+  string            _subset_server;
+  string            _host_or_ip;
+  Path              _list_file;
+  string            _protocol;
+  list<Option>      _options;
+  bool              _timeout_nowarning;
+  list<string>      _users;
+  string            _home_path;
+  Config            _config;
+  string            _mounted;
+  bool              _classic_mount;
+  bool              _fuse_mount;
+  int               _expire;
   int mountPath(
     const string&   backup_path,
     string&         path,
@@ -53,22 +67,43 @@ public:
     const Attributes& attributes,
     const string&     sub_name = "");
   ~Client();
-  const char* name() const;
+  const char* name() const {
+    return _name.c_str();
+  }
   string internalName() const;
-  void addOption(const string& value);
-  void addOption(const string& name, const string& value);
+  void addOption(const string& value) {
+    _options.push_back(Option("", value));
+  }
+  void addOption(const string& name, const string& value) {
+    _options.push_back(Option(name, value));
+  }
   const string getOption(const string& name) const;
-  void addUser(const string& user);
-  void setHostOrIp(string value);
-  bool setProtocol(string value);     // return true if remote protocol
-  void setTimeOutNoWarning();
+  void addUser(const string& user) {
+    _users.push_back(user);
+  }
+  void setHostOrIp(string value) {
+    _host_or_ip = value;
+  }
+  bool setProtocol(string value) {
+    _protocol = value;
+    return value != "file";
+  }
+  void setTimeOutNoWarning() {
+    _timeout_nowarning = true;
+  }
   void setListfile(const char* value);
-  const char* listfile() const;
-  void setExpire(int expire);
+  const char* listfile() const {
+    return _list_file;
+  }
+  void setExpire(int expire) {
+    _expire = expire;
+  }
   //
   bool initialised() const;
   void setInitialised();
-  void setBasePath(const string& home_path);
+  void setBasePath(const string& home_path) {
+    _home_path = home_path;
+  }
   ClientPath* addClientPath(const string& path);
   int readConfig(const char* list_path);
   Filter* findFilter(const string& name) const;

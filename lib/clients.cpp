@@ -42,25 +42,6 @@ using namespace std;
 using namespace hbackup;
 using namespace hreport;
 
-struct Client::Private {
-  list<ClientPath*> paths;
-  string            subset_client;
-  string            name;
-  string            subset_server;
-  string            host_or_ip;
-  Path              list_file;
-  string            protocol;
-  list<Option>      options;
-  bool              timeout_nowarning;
-  list<string>      users;
-  string            home_path;
-  Config            config;
-  string            mounted;
-  bool              classic_mount;
-  bool              fuse_mount;
-  int               expire;
-};
-
 int Client::mountPath(
     const string&   backup_path,
     string&         path,
@@ -68,24 +49,24 @@ int Client::mountPath(
   string command;
   string share;
   errno = EINVAL;
-  _d->classic_mount = false;
-  _d->fuse_mount = false;
+  _classic_mount = false;
+  _fuse_mount = false;
 
   // Determine share and path
-  if (_d->protocol == "file") {
+  if (_protocol == "file") {
     command = "";
     share = "";
     path  = backup_path;
     return 0;
   } else
-  if (_d->protocol == "nfs") {
-    _d->classic_mount = true;
+  if (_protocol == "nfs") {
+    _classic_mount = true;
     command = "mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr";
-    share = _d->host_or_ip + ":" + backup_path;
+    share = _host_or_ip + ":" + backup_path;
     path  = mount_point;
   } else
-  if (_d->protocol == "smb") {
-    _d->classic_mount = true;
+  if (_protocol == "smb") {
+    _classic_mount = true;
     command = "mount -t cifs -o ro,nocase";
     if (backup_path.size() < 3) {
       return -1;
@@ -94,12 +75,12 @@ int Client::mountPath(
     if (! isupper(drive_letter)) {
       return -1;
     }
-    share = "//" + _d->host_or_ip + "/" + drive_letter + "$";
+    share = "//" + _host_or_ip + "/" + drive_letter + "$";
     path  = mount_point;
     path += "/" +  backup_path.substr(3);
   } else
-  if (_d->protocol == "ssh") {
-    _d->fuse_mount = true;
+  if (_protocol == "ssh") {
+    _fuse_mount = true;
     const string username = getOption("username");
     if (username != "") {
       share = username + "@";
@@ -111,7 +92,7 @@ int Client::mountPath(
       command = "sshfs";
     }
     // echo <password> | sshfs -o password_stdin <user>@<server>:<path> <mount path>
-    share   += _d->host_or_ip + ":" + backup_path;
+    share   += _host_or_ip + ":" + backup_path;
     path    = mount_point;
   } else {
     errno = EPROTONOSUPPORT;
@@ -120,8 +101,8 @@ int Client::mountPath(
   errno = 0;
 
   // Unmount previous share if different
-  if (_d->mounted != "") {
-    if (_d->mounted != share) {
+  if (_mounted != "") {
+    if (_mounted != share) {
       // Different share mounted: unmount
       umount(mount_point);
     } else {
@@ -130,9 +111,9 @@ int Client::mountPath(
     }
   }
 
-  if (_d->classic_mount) {
+  if (_classic_mount) {
     // Add mount options to command
-    for (list<Option>::iterator i = _d->options.begin(); i != _d->options.end();
+    for (list<Option>::iterator i = _options.begin(); i != _options.end();
         i++ ){
       command += "," + i->option();
     }
@@ -149,24 +130,24 @@ int Client::mountPath(
     errno = ETIMEDOUT;
   } else {
     errno = 0;
-    _d->mounted = share;
+    _mounted = share;
   }
   return result;
 }
 
 int Client::umount(
     const char*     mount_point) {
-  if (_d->mounted != "") {
+  if (_mounted != "") {
     string command;
-    if (_d->classic_mount) {
+    if (_classic_mount) {
       command = "umount -fl ";
     } else
-    if (_d->fuse_mount) {
+    if (_fuse_mount) {
       command = "fusermount -u ";
     }
     command += mount_point;
     out(debug, msg_standard, command.c_str(), 1, NULL);
-    _d->mounted = "";
+    _mounted = "";
     return system(command.c_str());
   }
   return 0;
@@ -186,7 +167,7 @@ int Client::readConfig(
     return -1;
   }
   // Set up config syntax and grammar
-  _d->config.clear();
+  _config.clear();
 
   ConfigSyntax config_syntax;
 
@@ -232,7 +213,7 @@ int Client::readConfig(
   out(debug, msg_standard, internalName().c_str(), 1,
     "Reading client configuration file");
   ConfigErrors errors;
-  if (_d->config.read(config_file,
+  if (_config.read(config_file,
                       Stream::flags_dos_catch | Stream::flags_accept_cr_lf,
                       config_syntax,
                       NULL,
@@ -241,15 +222,15 @@ int Client::readConfig(
     ClientPath* path   = NULL;
     Attributes* attr   = &attributes;
     ConfigLine* params;
-    while (_d->config.line(&params) >= 0) {
+    while (_config.line(&params) >= 0) {
       if ((*params)[0] == "subset") {
-        _d->subset_client = (*params)[1];
+        _subset_client = (*params)[1];
       } else
       if ((*params)[0] == "expire") {
         int expire;
         if ((sscanf((*params)[1].c_str(), "%d", &expire) != 0)
         &&  (expire >= 0)) {
-          _d->expire = expire * 3600 * 24;
+          _expire = expire * 3600 * 24;
         } else {
           out(error, msg_number, "Wrong expiration value",
             (*params).lineNo(), config_path);
@@ -324,45 +305,32 @@ int Client::readConfig(
 }
 
 Client::Client(const string& name, const Attributes& a, const string& subset)
-    : _d(new Private), attributes(a) {
-  _d->name = name;
-  _d->subset_server = subset;
-  _d->host_or_ip = name;
-  _d->expire = -1;
-  _d->timeout_nowarning = false;
+    : attributes(a) {
+  _name = name;
+  _subset_server = subset;
+  _host_or_ip = name;
+  _expire = -1;
+  _timeout_nowarning = false;
 }
 
 Client::~Client() {
-  for (list<ClientPath*>::iterator i = _d->paths.begin(); i != _d->paths.end();
+  for (list<ClientPath*>::iterator i = _paths.begin(); i != _paths.end();
       i++) {
     delete *i;
   }
-  delete _d;
-}
-
-const char* Client::name() const {
-  return _d->name.c_str();
 }
 
 string Client::internalName() const {
-  if (_d->subset_server.empty()) {
-    return _d->name;
+  if (_subset_server.empty()) {
+    return _name;
   } else {
-    return _d->name + "." + _d->subset_server;
+    return _name + "." + _subset_server;
   }
 }
 
-void Client::addOption(const string& value) {
-  _d->options.push_back(Option("", value));
-}
-
-void Client::addOption(const string& name, const string& value) {
-  _d->options.push_back(Option(name, value));
-}
-
 const string Client::getOption(const string& name) const {
-  for (list<Option>::const_iterator i = _d->options.begin();
-      i != _d->options.end(); i++ ) {
+  for (list<Option>::const_iterator i = _options.begin();
+      i != _options.end(); i++ ) {
     if (i->name() == name) {
       return i->value();
     }
@@ -370,58 +338,29 @@ const string Client::getOption(const string& name) const {
   return "";
 }
 
-void Client::addUser(const string& user) {
-  _d->users.push_back(user);
-}
-
-void Client::setHostOrIp(string value) {
-  _d->host_or_ip = value;
-}
-
-bool Client::setProtocol(string value) {
-  _d->protocol = value;
-  return value != "file";
-}
-
-void Client::setTimeOutNoWarning() {
-  _d->timeout_nowarning = true;
-}
-
 void Client::setListfile(const char* value) {
-  _d->list_file = value;
-  _d->list_file.fromDos();
-  _d->list_file.noTrailingSlashes();
-}
-
-const char* Client::listfile() const {
-  return _d->list_file;
-}
-
-void Client::setExpire(int expire) {
-  _d->expire = expire;
-}
-
-void Client::setBasePath(const string& home_path) {
-  _d->home_path = home_path;
+  _list_file = value;
+  _list_file.fromDos();
+  _list_file.noTrailingSlashes();
 }
 
 ClientPath* Client::addClientPath(const string& name) {
   ClientPath* path;
   if (name[0] == '~') {
-    path = new ClientPath((_d->home_path + &name[1]).c_str(), attributes);
+    path = new ClientPath((_home_path + &name[1]).c_str(), attributes);
   } else {
     path = new ClientPath(name.c_str(), attributes);
   }
-  list<ClientPath*>::iterator i = _d->paths.begin();
-  while ((i != _d->paths.end())
+  list<ClientPath*>::iterator i = _paths.begin();
+  while ((i != _paths.end())
       && (Path::compare((*i)->path(), path->path()) < 0)) {
     i++;
   }
-  list<ClientPath*>::iterator j = _d->paths.insert(i, path);
+  list<ClientPath*>::iterator j = _paths.insert(i, path);
   // Check that we don't have a path inside another, such as
   // '/home' and '/home/user'
   size_t jlen = strlen((*j)->path());
-  if (i != _d->paths.end()) {
+  if (i != _paths.end()) {
     size_t ilen = strlen((*i)->path());
     if ((ilen > jlen)
     && (Path::compare((*i)->path(), (*j)->path(), jlen) == 0)) {
@@ -430,7 +369,7 @@ ClientPath* Client::addClientPath(const string& name) {
     i = j;
     i--;
   }
-  if (i != _d->paths.end()) {
+  if (i != _paths.end()) {
     size_t ilen = strlen((*i)->path());
     if ((ilen < jlen)
     && (Path::compare((*i)->path(), (*j)->path(), ilen) == 0)) {
@@ -453,19 +392,19 @@ int Client::backup(
   string  share;
 
   // Do not print this if in user-mode backup
-  if (_d->protocol != "file") {
+  if (_protocol != "file") {
     stringstream s;
     s << "Trying client '" << internalName() << "' using protocol '"
-      << _d->protocol << "'";
+      << _protocol << "'";
     out(info, msg_standard, s.str().c_str(), -1, NULL);
   }
 
-  if (_d->list_file.length() != 0) {
+  if (_list_file.length() != 0) {
     string config_path;
-    if (mountPath(string(_d->list_file.dirname()), config_path, mount_point)) {
+    if (mountPath(string(_list_file.dirname()), config_path, mount_point)) {
       switch (errno) {
         case ETIMEDOUT:
-          if (! _d->timeout_nowarning) {
+          if (! _timeout_nowarning) {
             out(warning, msg_errno, "connecting to client", errno,
               internalName().c_str());
             return 1;
@@ -476,7 +415,7 @@ int Client::backup(
           }
           break;
         default:
-          out(error, msg_errno, _d->protocol.c_str(), errno,
+          out(error, msg_errno, _protocol.c_str(), errno,
             internalName().c_str());
       }
       return -1;
@@ -485,14 +424,14 @@ int Client::backup(
     if (config_path.size() != 0) {
       config_path += "/";
     }
-    config_path += Path::basename(_d->list_file);
+    config_path += Path::basename(_list_file);
 
     if (readConfig(config_path.c_str()) != 0) {
       failed = true;
-    } else if (_d->subset_client !=  _d->subset_server) {
+    } else if (_subset_client !=  _subset_server) {
       stringstream s;
       s << "Subsets don't match in server and client configuration files: '"
-        << _d->subset_server << "' != '" << _d->subset_client << "', skipping";
+        << _subset_server << "' != '" << _subset_client << "', skipping";
       out(info, msg_standard, s.str().c_str(), -1, NULL);
       failed = true;
     } else {
@@ -503,7 +442,7 @@ int Client::backup(
       } else {
         Stream stream(Path(dir.path(), internalName().c_str()));
         if (stream.open(O_WRONLY) >= 0) {
-          if (_d->config.write(stream) < 0) {
+          if (_config.write(stream) < 0) {
             out(error, msg_errno, "writing configuration file", errno, NULL);
           }
           stream.close();
@@ -515,19 +454,19 @@ int Client::backup(
   }
   if (! failed) {
     // Do not print this if in user-mode backup
-    if (_d->home_path.length() == 0) {
+    if (_home_path.length() == 0) {
       out(info, msg_standard, internalName().c_str(), -1, "Backing up client");
     }
     // Backup
-    if (_d->paths.empty()) {
+    if (_paths.empty()) {
       out(warning, msg_standard, "No paths specified", -1,
         internalName().c_str());
       failed = true;
     } else if (! config_check) {
-      if (db.openClient(internalName().c_str(), _d->expire) >= 0) {
+      if (db.openClient(internalName().c_str(), _expire) >= 0) {
         bool abort = false;
-        for (list<ClientPath*>::iterator i = _d->paths.begin();
-            i != _d->paths.end(); i++) {
+        for (list<ClientPath*>::iterator i = _paths.begin();
+            i != _paths.end(); i++) {
           if (aborting()) {
             break;
           }
@@ -539,7 +478,7 @@ int Client::backup(
               out(error, msg_errno, "- aborting client", errno,
                 internalName().c_str());
             } else
-            if (! _d->timeout_nowarning) {
+            if (! _timeout_nowarning) {
               out(warning, msg_errno, "connecting to client", errno,
                 internalName().c_str());
             } else {
@@ -571,23 +510,23 @@ int Client::backup(
 }
 
 void Client::show(int level) const {
-  out(debug, msg_standard, _d->name.c_str(), level++, "Client");
-  if (! _d->subset_server.empty()) {
-    out(debug, msg_standard, _d->subset_server.c_str(), level,
+  out(debug, msg_standard, _name.c_str(), level++, "Client");
+  if (! _subset_server.empty()) {
+    out(debug, msg_standard, _subset_server.c_str(), level,
       "Required subset");
   }
-  if (! _d->subset_client.empty()) {
-    out(debug, msg_standard, _d->subset_client.c_str(), level, "Subset");
+  if (! _subset_client.empty()) {
+    out(debug, msg_standard, _subset_client.c_str(), level, "Subset");
   }
-  out(debug, msg_standard, _d->protocol.c_str(), level, "Protocol");
-  if (_d->host_or_ip != _d->name) {
-    out(debug, msg_standard, _d->host_or_ip.c_str(), level, "Hostname");
+  out(debug, msg_standard, _protocol.c_str(), level, "Protocol");
+  if (_host_or_ip != _name) {
+    out(debug, msg_standard, _host_or_ip.c_str(), level, "Hostname");
   }
-  if (! _d->options.empty()) {
+  if (! _options.empty()) {
     stringstream s;
     bool         first = true;
-    for (list<Option>::const_iterator i = _d->options.begin();
-        i != _d->options.end(); i++ ) {
+    for (list<Option>::const_iterator i = _options.begin();
+        i != _options.end(); i++ ) {
       if (first) {
         first = false;
       } else {
@@ -597,11 +536,11 @@ void Client::show(int level) const {
     }
     out(debug, msg_standard, s.str().c_str(), level, "Options");
   }
-  if (! _d->users.empty()) {
+  if (! _users.empty()) {
     stringstream s;
     bool         first = true;
-    for (list<string>::const_iterator i = _d->users.begin();
-        i != _d->users.end(); i++ ) {
+    for (list<string>::const_iterator i = _users.begin();
+        i != _users.end(); i++ ) {
       if (first) {
         first = false;
       } else {
@@ -611,26 +550,26 @@ void Client::show(int level) const {
     }
     out(debug, msg_standard, s.str().c_str(), level, "Users");
   }
-  if (_d->timeout_nowarning) {
+  if (_timeout_nowarning) {
     out(debug, msg_standard, "No warning on time out", level, NULL);
   }
-  if (_d->list_file.length() != 0) {
-    out(debug, msg_standard, _d->list_file, level, "Config");
+  if (_list_file.length() != 0) {
+    out(debug, msg_standard, _list_file, level, "Config");
   }
   {
     stringstream s;
-    if (_d->expire >= 0) {
-      s << _d->expire << "s (" << _d->expire / 86400 << "d)";
+    if (_expire >= 0) {
+      s << _expire << "s (" << _expire / 86400 << "d)";
     } else {
       s << "none";
     }
     out(debug, msg_standard, s.str().c_str(), level, "Expiry");
   }
   attributes.show(level);
-  if (_d->paths.size() > 0) {
+  if (_paths.size() > 0) {
     out(debug, msg_standard, "", level, "Paths");
-    for (list<ClientPath*>::iterator i = _d->paths.begin();
-        i != _d->paths.end(); i++) {
+    for (list<ClientPath*>::const_iterator i = _paths.begin();
+        i != _paths.end(); i++) {
       (*i)->show(level + 1);
     }
   }
