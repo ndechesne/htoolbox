@@ -155,8 +155,6 @@ int Client::umount(
 
 int Client::readConfig(
     const char*     config_path) {
-  bool   failed  = false;
-
   // Open client configuration file
   Stream config_file(config_path);
 
@@ -215,16 +213,18 @@ int Client::readConfig(
   out(debug, msg_standard, internalName().c_str(), 1,
     "Reading client configuration file");
   ConfigErrors errors;
+  bool failed = false;
   if (_config.read(config_file,
         Stream::flags_dos_catch | Stream::flags_accept_cr_lf, config_syntax,
-        this, &errors) >= 0) {
-    // Close client configuration file
-    config_file.close();
+        this, &errors) < 0) {
+    errors.show();
+    failed = true;
+  } else {
     show(1);
-    return 0;
   }
-  errors.show();
-  return -1;
+  // Close client configuration file
+  config_file.close();
+  return failed ? -1 : 0;
 }
 
 Client::Client(const string& name, const Attributes& a, const string& subset)
