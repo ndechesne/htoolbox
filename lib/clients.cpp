@@ -228,7 +228,7 @@ int Client::readConfig(
 }
 
 Client::Client(const string& name, const Attributes& a, const string& subset)
-    : attributes(a) {
+    : _attributes(a) {
   _name = name;
   _subset_server = subset;
   _host_or_ip = name;
@@ -301,7 +301,7 @@ ConfigObject* Client::configChildFactory(
     }
   } else
   {
-    co = attributes.configChildFactory(params, file_path, line_no);
+    co = _attributes.configChildFactory(params, file_path, line_no);
   }
   return co;
 }
@@ -333,9 +333,9 @@ void Client::setListfile(const char* value) {
 ClientPath* Client::addClientPath(const string& name) {
   ClientPath* path;
   if (name[0] == '~') {
-    path = new ClientPath((_home_path + &name[1]).c_str(), attributes);
+    path = new ClientPath((_home_path + &name[1]).c_str(), _attributes);
   } else {
-    path = new ClientPath(name.c_str(), attributes);
+    path = new ClientPath(name.c_str(), _attributes);
   }
   list<ClientPath*>::iterator i = _paths.begin();
   while ((i != _paths.end())
@@ -363,10 +363,6 @@ ClientPath* Client::addClientPath(const string& name) {
     }
   }
   return path;
-}
-
-Filter* Client::findFilter(const string& name) const {
-  return attributes.filters().find(name);
 }
 
 int Client::backup(
@@ -551,7 +547,7 @@ void Client::show(int level) const {
     }
     out(debug, msg_standard, s.str().c_str(), level, "Expiry");
   }
-  attributes.show(level);
+  _attributes.show(level);
   if (_paths.size() > 0) {
     out(debug, msg_standard, "", level, "Paths");
     for (list<ClientPath*>::const_iterator i = _paths.begin();

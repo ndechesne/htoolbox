@@ -73,13 +73,13 @@ int main(void) {
   params[0] = "filter";
   params[1] = "and";
   params[2] = "bazaar";
-  Filter* bazaar = path->attributes.addFilter(params);
+  Filter* bazaar = path->attributes().addFilter(params);
   if ((bazaar == NULL)
    || bazaar->add("type", "d", false)
    || bazaar->add("path", "bzr", false)) {
     cout << "Failed to add filter" << endl;
   }
-  path->attributes.addIgnore(bazaar);
+  path->attributes().addIgnore(bazaar);
 
   // Initialisation
   cout << endl << "Initial backup, check '/' precedence" << endl;
@@ -149,7 +149,7 @@ int main(void) {
   cout << endl << "As previous, with newly inaccessible dir and report once"
     << endl;
   sys_rc = system("chmod 000 test1/cvs");
-  path->attributes.setReportCopyErrorOnce();
+  path->attributes().setReportCopyErrorOnce();
   my_time++;
   db.open();
 
@@ -282,7 +282,7 @@ int main(void) {
   db.open();
 
   params[2] = "testfile";
-  Filter* testfile = path->attributes.addFilter(params);
+  Filter* testfile = path->attributes().addFilter(params);
   if ((testfile == NULL)
    || testfile->add("type", "file", false)
    || testfile->add("path", "subdir/testfile", false)) {
@@ -290,13 +290,13 @@ int main(void) {
   }
   params[1] = "or";
   params[2] = "ignore1";
-  Filter* filter = path->attributes.addFilter(params);
+  Filter* filter = path->attributes().addFilter(params);
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
   filter->add(new Condition(Condition::filter, bazaar, false));
   filter->add(new Condition(Condition::filter, testfile, false));
-  path->attributes.addIgnore(filter);
+  path->attributes().addIgnore(filter);
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {
@@ -322,7 +322,7 @@ int main(void) {
 
   params[1] = "and";
   params[2] = "subdir";
-  Filter* subdir = path->attributes.addFilter(params);
+  Filter* subdir = path->attributes().addFilter(params);
   if ((subdir == NULL)
    || subdir->add("type", "dir", false)
    || subdir->add("path", "subdir", false)) {
@@ -330,13 +330,13 @@ int main(void) {
   }
   params[1] = "or";
   params[2] = "ignore1";
-  filter = path->attributes.addFilter(params);
+  filter = path->attributes().addFilter(params);
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
   filter->add(new Condition(Condition::filter, bazaar, false));
   filter->add(new Condition(Condition::filter, subdir, false));
-  path->attributes.addIgnore(filter);
+  path->attributes().addIgnore(filter);
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {
@@ -386,7 +386,7 @@ int main(void) {
 
   params[1] = "and";
   params[2] = "testlink";
-  Filter* testlink = path->attributes.addFilter(params);
+  Filter* testlink = path->attributes().addFilter(params);
   if ((testlink == NULL)
    || testlink->add("type", "link", false)
    || testlink->add("path_start", "testlink", false)) {
@@ -394,14 +394,14 @@ int main(void) {
   }
   params[1] = "or";
   params[2] = "ignore1";
-  filter = path->attributes.addFilter(params);
+  filter = path->attributes().addFilter(params);
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
   filter->add(new Condition(Condition::filter, bazaar, false));
   filter->add(new Condition(Condition::filter, subdir, false));
   filter->add(new Condition(Condition::filter, testlink, false));
-  path->attributes.addIgnore(filter);
+  path->attributes().addIgnore(filter);
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {
@@ -505,7 +505,7 @@ int main(void) {
 
   params[1] = "and";
   params[2] = "cvs_dirutd";
-  Filter* cvs_dirutd = path->attributes.addFilter(params);
+  Filter* cvs_dirutd = path->attributes().addFilter(params);
   if ((cvs_dirutd == NULL)
    || cvs_dirutd->add("type", "dir", false)
    || cvs_dirutd->add("path", "cvs/dirutd", false)) {
@@ -513,10 +513,10 @@ int main(void) {
   }
   params[1] = "or";
   params[2] = "empty";
-  Filter* empty = path->attributes.addFilter(params);
+  Filter* empty = path->attributes().addFilter(params);
   params[1] = "or";
   params[2] = "ignore2";
-  filter = path->attributes.addFilter(params);
+  filter = path->attributes().addFilter(params);
   if (filter == NULL) {
     cout << "Failed to add 'or' filter" << endl;
   }
@@ -525,7 +525,7 @@ int main(void) {
   filter->add(new Condition(Condition::filter, testlink, false));
   filter->add(new Condition(Condition::filter, cvs_dirutd, false));
   filter->add(new Condition(Condition::filter, empty, false));
-  path->attributes.addIgnore(filter);
+  path->attributes().addIgnore(filter);
   path->show();
   db.openClient("myClient");
   if (! path->parse(db, "test1", "host")) {
@@ -551,7 +551,7 @@ int main(void) {
 
   params[1] = "and";
   params[2] = "svn_dirutd";
-  Filter* svn_dirutd = path->attributes.addFilter(params);
+  Filter* svn_dirutd = path->attributes().addFilter(params);
   if ((svn_dirutd == NULL)
    || svn_dirutd->add("type", "dir", false)
    || svn_dirutd->add("path", "svn/dirutd", false)) {

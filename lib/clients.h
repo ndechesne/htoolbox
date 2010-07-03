@@ -38,6 +38,7 @@ public:
 };
 
 class Client : public ConfigObject {
+  Attributes        _attributes;
   list<ClientPath*> _paths;
   string            _subset_client;
   string            _name;
@@ -61,7 +62,6 @@ class Client : public ConfigObject {
   int umount(
     const char*     mount_point);
 public:
-  Attributes        attributes;
   Client(
     const string&     name,
     const Attributes& attributes,
@@ -101,7 +101,6 @@ public:
   }
   ClientPath* addClientPath(const string& path);
   int readConfig(const char* list_path);
-  Filter* findFilter(const string& name) const;
   int backup(
     Database&       db,
     const char*     mount_point,

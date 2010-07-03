@@ -99,7 +99,7 @@ int ClientPath::parse_recurse(
         } else
 
         // Now pass it through the filters
-        if (attributes.mustBeIgnored(**i, start)) {
+        if (_attributes.mustBeIgnored(**i, start)) {
           code[0] = 'I';
           code[1] = (*i)->type();
           code[3] = 'f';
@@ -153,7 +153,7 @@ int ClientPath::parse_recurse(
                 op.setCompression(0);
               }
             }
-            if (db.add(op, attributes.reportCopyErrorOnceIsSet())
+            if (db.add(op, _attributes.reportCopyErrorOnceIsSet())
             &&  (  (errno != EBUSY)       // Ignore busy resources
                 && (errno != ETXTBSY)     // Ignore busy files
                 && (errno != ENOENT)      // Ignore files gone
@@ -163,7 +163,7 @@ int ClientPath::parse_recurse(
             }
             op.verbose(code);
 
-            if (create_list_failed && ! (attributes.reportCopyErrorOnceIsSet()
+            if (create_list_failed && ! (_attributes.reportCopyErrorOnceIsSet()
                 && op.sameListEntry())) {
               char* full_name = NULL;
               if (asprintf(&full_name, "%s:%s/%s", client_name, remote_path,
@@ -202,7 +202,7 @@ int ClientPath::parse_recurse(
 }
 
 ClientPath::ClientPath(const char* path, const Attributes& a)
-    : _path(path), _compress(NULL), _no_compress(NULL), attributes(a) {
+    : _path(path), _attributes(a), _compress(NULL), _no_compress(NULL) {
   // Change '\' into '/'
   _path.fromDos();
   // Remove trailing '/'s
@@ -216,7 +216,7 @@ ConfigObject* ClientPath::configChildFactory(
   ConfigObject* co = NULL;
   const string& keyword = params[0];
   if ((keyword == "compress") ||  (keyword == "no_compress")) {
-    Filter* filter = attributes.filters().find(params[1]);
+    Filter* filter = _attributes.filters().find(params[1]);
     if (filter == NULL) {
       out(error, msg_number, "Filter not found", line_no, file_path);
     } else {
@@ -242,13 +242,9 @@ ConfigObject* ClientPath::configChildFactory(
     }
   } else
   {
-    co = attributes.configChildFactory(params, file_path, line_no);
+    co = _attributes.configChildFactory(params, file_path, line_no);
   }
   return co;
-}
-
-Filter* ClientPath::findFilter(const string& name) const {
-  return attributes.filters().find(name);
 }
 
 int ClientPath::addParser(
@@ -290,7 +286,7 @@ int ClientPath::parse(
 
 void ClientPath::show(int level) const {
   out(debug, msg_standard, _path, level++, "Path");
-  attributes.show(level);
+  _attributes.show(level);
   if (_compress != NULL) {
     out(debug, msg_standard, _compress->name().c_str(), level,
       "Compress filter");
