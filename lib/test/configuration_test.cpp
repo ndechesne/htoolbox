@@ -16,7 +16,11 @@
      Boston, MA 02111-1307, USA.
 */
 
+#include <stdio.h>
+
 #include <iostream>
+#include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -27,20 +31,31 @@ using namespace std;
 
 class MyObject : public ConfigObject {
   string _name;
-  ConfigLine _line;
+  string _path;
+  size_t _line_no;
+  vector<string> _params;
   list<MyObject*> _children;
   MyObject();
 public:
-  MyObject(string name) : _name(name) {}
-  MyObject(ConfigLine& line) : _name(line[0]), _line(line) {}
-  virtual ConfigObject* configChildFactory(ConfigLine& params) {
+  MyObject(string name) : _name(name), _line_no(0) {}
+  MyObject(
+    const vector<string>& params,
+    const char*         file_path = NULL,
+    size_t              line_no   = 0)
+    : _name(params[0]), _line_no(line_no), _params(params) {
+      _path = file_path;
+  }
+  virtual ConfigObject* configChildFactory(
+    const vector<string>& params,
+    const char*           file_path = NULL,
+    size_t                line_no   = 0) {
 #if 0
     hlog_debug("got line below:");
     params.show();
     hlog_debug("object named %s builds object named %s",
       _name.c_str(), params[0].c_str());
 #endif
-    MyObject* o = new MyObject(params);
+    MyObject* o = new MyObject(params, file_path, line_no);
     _children.push_back(o);
     return o;
   }
@@ -48,7 +63,16 @@ public:
     if (_name == "root") {
       hlog_verbose("0: root");
     } else {
-      _line.show(level);
+      stringstream s;
+      for (size_t j = 0; j < _params.size(); j++) {
+        if (j != 0) {
+          s << " ";
+        }
+        s << _params[j];
+      }
+      char format[16];
+      sprintf(format, "%%d:%%%ds%%s", level + 1);
+      hlog_verbose(format, _line_no, " ", s.str().c_str());
     }
 #if 0
     hlog_debug("object name: %s has %d child(ren)", _name.c_str(), _children.size());

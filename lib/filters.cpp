@@ -40,12 +40,25 @@ Filter::~Filter() {
   }
 }
 
-int Filter::add(
-    const string&   type,
-    const string&   value,
-    bool            negated) {
+Condition* Filter::configChildFactory(
+    const vector<string>& params,
+    const char*           file_path,
+    size_t                line_no) {
+  const string& filter_type = params[1];
+  const string& value = params[2];
+  string type;
+  bool negated;
+  if (filter_type[0] == '!') {
+    type = filter_type.substr(1);
+    negated     = true;
+  } else {
+    type = filter_type;
+    negated     = false;
+  }
+
   /* Add specified filter */
-  bool    failed = false;
+  Condition* cond = NULL;
+  bool failed = false;
   long long int size;
 
   if (type.substr(0, 4) == "size") {
@@ -53,7 +66,8 @@ int Filter::add(
     int     rc = sscanf(value.c_str(), "%lld%3s", &size, unit);
     unit[3] = '\0';
     if (rc < 1) {
-      hlog_error("cannot decode decimal value from string '%s'", value.c_str());
+      hlog_error("%s:%d cannot decode decimal value '%s'",
+        file_path, line_no, value.c_str());
       failed = true;
     } else {
       int kilo = 0;
@@ -61,11 +75,11 @@ int Filter::add(
         // *iB or *i
         if ((unit[1] == 'i') && ((unit[2] == 'B') || (unit[2] == '\0'))) {
           kilo = 1024;
-        } else if ((unit[1] == 'B') || (unit[1] == '\0')) {
+        } else if ((unit[1] == 'B') || (unit[1] == 'b') || (unit[1] == '\0')) {
           kilo = 1000;
         } else {
-          hlog_error("cannot decode unit from string '%s', must end in 'iB' or 'B'",
-            value.c_str());
+          hlog_error("%s:%d cannot decode unit of '%s', must end in 'iB' or 'B'",
+            file_path, line_no, value.c_str());
           failed = true;
         }
       }
@@ -92,98 +106,116 @@ int Filter::add(
           case '\0':
             break;
           default:
-            hlog_error("cannot decode multiplier from string '%s', "
-              "must be k, K, M, G, T, P, E, Z or Y", value.c_str());
+            hlog_error("%s:%d cannot decode multiplier from string '%s', "
+              "must be k, K, M, G, T, P, E, Z or Y",
+              file_path, line_no, value.c_str());
             failed = true;
         }
       }
     }
   }
 
+  if (type == "filter") {
+    if (_parent != NULL) {
+      Filter* subfilter = _parent->find(value);
+      if (subfilter != NULL) {
+        cond = new Condition(Condition::filter, subfilter, negated);
+      }
+    }
+  } else
   if (type == "type") {
-    add(new Condition(Condition::type, value[0], negated));
+    cond = new Condition(Condition::type, value[0], negated);
   } else
   if (type == "name") {
-    add(new Condition(Condition::name, value.c_str(), negated));
+    cond = new Condition(Condition::name, value.c_str(), negated);
   } else
   if (type == "name_start") {
-    add(new Condition(Condition::name_start, value.c_str(), negated));
+    cond = new Condition(Condition::name_start, value.c_str(), negated);
   } else
   if (type == "name_end") {
-    add(new Condition(Condition::name_end, value.c_str(), negated));
+    cond = new Condition(Condition::name_end, value.c_str(), negated);
   } else
   if (type == "name_regex") {
-    Condition* cond = new Condition(Condition::name_regex, value.c_str(), negated);
+    cond = new Condition(Condition::name_regex, value.c_str(), negated);
     Node test("");
-    if (cond->match(test) >= 0) {
-      add(cond);
-    } else {
-      out(error, msg_standard, "Cannot create regex", -1, NULL);
-      failed = true;
+    if (cond->match(test) < 0) {
+      hlog_error("%s:%d cannot create regex '%s'",
+        file_path, line_no, value.c_str());
+      delete cond;
+      cond = NULL;
     }
   } else
   if (type == "path") {
-    add(new Condition(Condition::path, value.c_str(), negated));
+    cond = new Condition(Condition::path, value.c_str(), negated);
   } else
   if (type == "path_start") {
-    add(new Condition(Condition::path_start, value.c_str(), negated));
+    cond = new Condition(Condition::path_start, value.c_str(), negated);
   } else
   if (type == "path_end") {
-    add(new Condition(Condition::path_end, value.c_str(), negated));
+    cond = new Condition(Condition::path_end, value.c_str(), negated);
   } else
   if (type == "path_regex") {
-    Condition* cond = new Condition(Condition::name_regex, value.c_str(), negated);
+    cond = new Condition(Condition::name_regex, value.c_str(), negated);
     Node test("");
-    if (cond->match(test) >= 0) {
-      add(cond);
-    } else {
-      out(error, msg_standard, "Cannot create regex", -1, NULL);
-      failed = true;
+    if (cond->match(test) < 0) {
+      hlog_error("%s:%d cannot create regex '%s'",
+        file_path, line_no, value.c_str());
+      delete cond;
+      cond = NULL;
     }
   } else
   if (type == "size<") {
     if (! failed) {
-      add(new Condition(Condition::size_lt, size, negated));
+      cond = new Condition(Condition::size_lt, size, negated);
     }
   } else
   if (type == "size<=") {
     if (! failed) {
-      add(new Condition(Condition::size_le, size, negated));
+      cond = new Condition(Condition::size_le, size, negated);
     }
   } else
   if (type == "size>=") {
     if (! failed) {
-      add(new Condition(Condition::size_ge, size, negated));
+      cond = new Condition(Condition::size_ge, size, negated);
     }
   } else
   if (type == "size>") {
     if (! failed) {
-      add(new Condition(Condition::size_gt, size, negated));
+      cond = new Condition(Condition::size_gt, size, negated);
     }
   } else
   if (type == "mode&") {
     mode_t mode;
     failed = (sscanf(value.c_str(), "%o", &mode) != 1);
     if (failed) {
-      out(error, msg_standard, "Cannot decode octal value", -1, NULL);
+      hlog_error("%s:%d cannot decode octal value '%s'",
+        file_path, line_no, value.c_str());
     } else {
-      add(new Condition(Condition::mode_and, mode, negated));
+      cond = new Condition(Condition::mode_and, mode, negated);
     }
   } else
   if (type == "mode=") {
     mode_t mode;
     failed = (sscanf(value.c_str(), "%o", &mode) != 1);
     if (failed) {
-      out(error, msg_standard, "Cannot decode octal value", -1, NULL);
+      hlog_error("%s:%d cannot decode octal value '%s'",
+        file_path, line_no, value.c_str());
     } else {
-      add(new Condition(Condition::mode_eq, mode, negated));
+      cond = new Condition(Condition::mode_eq, mode, negated);
     }
   } else
   {
-    // Wrong type
-    return -2;
+    hlog_error("%s:%d unsupported condition type '%s'",
+      file_path, line_no, type.c_str());
+    return NULL;
   }
-  return failed ? -1 : 0;
+  if (cond != NULL) {
+    add(cond);
+  } else {
+    hlog_error("%s:%d failed to add condition '%s'",
+      file_path, line_no, type.c_str());
+  }
+  return cond;
 }
 
 bool Filter::match(
@@ -246,9 +278,12 @@ Filter* Filters::find(
   return _parent->find(name);
 }
 
-Filter* Filters::add(
-    const string&   type,
-    const string&   name) {
+Filter* Filters::configChildFactory(
+    const vector<string>& params,
+    const char*           file_path,
+    size_t                line_no) {
+  const string& type = params[1];
+  const string& name = params[2];
   Filter::Mode ftype;
   if ((type == "and") || (type == "all")) {
     ftype = Filter::all;
@@ -257,36 +292,13 @@ Filter* Filters::add(
     ftype = Filter::any;
   } else
   {
+    hlog_error("%s:%d unsupported filter type '%s'",
+      file_path, line_no, type.c_str());
     return NULL;
   }
-  _last_filter = new Filter(ftype, name.c_str());
+  _last_filter = new Filter(ftype, name.c_str(), this);
   _children.push_back(_last_filter);
   return _last_filter;
-}
-
-int Filters::addCondition(const string& type, const string& value) {
-  string filter_type;
-  bool   negated;
-  if (type[0] == '!') {
-    filter_type = type.substr(1);
-    negated     = true;
-  } else {
-    filter_type = type;
-    negated     = false;
-  }
-
-  if (filter_type == "filter") {
-    Filter* subfilter = NULL;
-    subfilter = find(value);
-    if (subfilter == NULL) {
-      return -2;
-    } else {
-      _last_filter->add(new Condition(Condition::filter, subfilter, negated));
-      return 0;
-    }
-  } else {
-    return _last_filter->add(filter_type, value, negated);
-  }
 }
 
 void Filters::show(int level) const {

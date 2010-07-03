@@ -36,11 +36,17 @@ public:
   bool reportCopyErrorOnceIsSet() const { return _report_copy_error_once; }
   const Filters& filters() const        { return _filters; }
   void setReportCopyErrorOnce()         { _report_copy_error_once = true; }
-  Filter* addFilter(const vector<string>& params) {
-    return _filters.add(params[1], params[2]);
+  Filter* addFilter(
+    const vector<string>& params,
+    const char*           file_path = NULL,
+    size_t                line_no   = 0) {
+    return _filters.configChildFactory(params, file_path, line_no);
   }
-  int addFilterCondition(const vector<string>& params) {
-    return _filters.addCondition(params[1], params[2]);
+  Condition* addFilterCondition(
+    const vector<string>& params,
+    const char*           file_path = NULL,
+    size_t                line_no   = 0) {
+    return _filters.addCondition(params, file_path, line_no);
   }
   void addIgnore(const Filter* filter)  { _ignore_list.push_back(filter); }
   bool mustBeIgnored(const Node& node, size_t start = 0) const {

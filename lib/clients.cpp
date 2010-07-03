@@ -291,28 +291,13 @@ int Client::readConfig(
         }
       } else
       if ((*params)[0] == "filter") {
-        if (attr->addFilter(*params) == NULL) {
-          out(error, msg_number, "Unsupported filter type",
-            (*params).lineNo(), config_path);
+        if (attr->addFilter(*params, config_path, (*params).lineNo()) == NULL) {
           failed = true;
         }
       } else
       if ((*params)[0] == "condition") {
-        switch (attr->addFilterCondition(*params)) {
-          case -3:
-            hlog_error("%s:%d filter '%s' not found",
-              config_path, (*params).lineNo(), (*params)[2].c_str());
-            failed = true;
-            break;
-          case -2:
-            hlog_error("%s:%d unsupported condition type '%s'",
-              config_path, (*params).lineNo(), (*params)[1].c_str());
-            failed = true;
-            break;
-          case -1:
-            hlog_error("%s:%d failed to add condition '%s'",
-              config_path, (*params).lineNo(), (*params)[1].c_str());
-            failed = true;
+        if (attr->addFilterCondition(*params, config_path, (*params).lineNo()) == NULL) {
+          failed = true;
         }
       } else
       if (path != NULL) {

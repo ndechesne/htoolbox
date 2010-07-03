@@ -122,7 +122,10 @@ public:
 
 class ConfigObject {
 public:
-  virtual ConfigObject* configChildFactory(ConfigLine& params) = 0;
+  virtual ConfigObject* configChildFactory(
+    const vector<string>& params,
+    const char*           file_path = NULL,
+    size_t                line_no   = 0) = 0;
 };
 
 class ConfigSyntax : public ConfigItem {

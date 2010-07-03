@@ -19,13 +19,16 @@
 #ifndef FILTERS_H
 #define FILTERS_H
 
+#include "configuration.h"
+
 namespace hbackup {
+
+class Filters;
 
 // Each filter can be declared as a logical AND or OR of its conditions
 // A special condition runs a filter, so expressions of any complexity can be
 // defined. This is why the name is needed and must be unique.
-class Filter {
-  list<Condition*> _children;
+class Filter : public ConfigObject {
 public:
   enum Mode {
     any = 1,            //!< matches if at least one condition matches
@@ -34,20 +37,39 @@ public:
 private:
   Mode              _type;
   string            _name;
+  const Filters*    _parent;
+  list<Condition*>  _children;
+  Filter();
+  Filter(const Filter&);
+  const Filter& operator=(const Filter&);
 public:
   Filter(
     Mode            type,
-    const char*     name) :
-      _type(type), _name(name) {}
+    const char*     name,
+    const Filters*  parent = NULL) :
+      _type(type), _name(name), _parent(parent) {}
   ~Filter();
   const string& name() const     { return _name; }
   void add(Condition* condition) {
     _children.push_back(condition);
   }
-  int add(
-    const string&   type,
-    const string&   value,
-    bool            negated);
+  /* this is only to simplify path_test.cpp... for now */
+  int add(const string& type, const string& value, bool negated) {
+    string type_str;
+    if (negated) {
+      type_str = "!";
+    }
+    type_str += type;
+    vector<string> params;
+    params.push_back("");
+    params.push_back(type_str);
+    params.push_back(value);
+    return configChildFactory(params) == NULL ? -1 : 0;
+  }
+  virtual Condition* configChildFactory(
+    const vector<string>& params,
+    const char*           file_path = NULL,
+    size_t                line_no   = 0);
   bool match(
     const Node&     node,
     size_t          start = 0) const;
@@ -55,7 +77,7 @@ public:
   void show(int level = 0) const;
 };
 
-class Filters {
+class Filters : public ConfigObject {
   list<Filter*>   _children;
   const Filters*  _parent;
   Filter*         _last_filter;
@@ -64,13 +86,16 @@ public:
   ~Filters();
   Filter* find(
     const string&   name) const;
-  Filter* add(
-    const string&   type,
-    const string&   name);
-  void addCondition(Condition* condition) {
-    _last_filter->add(condition);
+  Condition* addCondition(
+    const vector<string>& params,
+    const char*           file_path = NULL,
+    size_t                line_no   = 0) {
+    return _last_filter->configChildFactory(params, file_path, line_no);
   }
-  int addCondition(const string& type, const string& value);
+  virtual Filter* configChildFactory(
+    const vector<string>& params,
+    const char*           file_path = NULL,
+    size_t                line_no   = 0);
   /* For verbosity */
   void show(int level = 0) const;
 };

@@ -88,8 +88,13 @@ public:
     const Node&     node,
     size_t          start = 0) const;
   // No children
-  virtual ConfigObject* configChildFactory(ConfigLine& params) {
+  virtual ConfigObject* configChildFactory(
+    const vector<string>& params,
+    const char*           file_path = NULL,
+    size_t                line_no   = 0) {
     (void) params;
+    (void) file_path;
+    (void) line_no;
     return NULL;
   }
   /* For verbosity */

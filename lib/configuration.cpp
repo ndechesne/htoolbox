@@ -88,11 +88,9 @@ void ConfigLine::show(int level) const {
     }
     s << (*this)[j];
   }
-
   char format[16];
   sprintf(format, "%%d:%%%ds%%s", level + 1);
   hlog_verbose(format, lineNo(), " ", s.str().c_str());
-
 }
 
 bool ConfigCounter::operator<(const ConfigCounter& counter) const {
@@ -254,9 +252,10 @@ int Config::read(
           items_hierarchy.push_back(child);
           if (root != NULL) {
             ConfigObject* child_object =
-              objects_hierarchy.back()->configChildFactory(*params);
+              objects_hierarchy.back()->configChildFactory(*params,
+                stream.path(), line_no);
             if (child_object == NULL) {
-              hlog_alert("unexpected NULL pointer");
+              hlog_alert("error creating child");
               failed = true;
               goto end;
             } else {
