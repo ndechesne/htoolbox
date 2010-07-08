@@ -73,7 +73,7 @@ int main(void) {
   attributes.addFilterCondition(params);
   attributes.show(1);
 
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -82,7 +82,7 @@ int main(void) {
   client->setProtocol("file");
   client->setHostOrIp("localhost");
   client->setListfile("etc/doesnotexist");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -99,7 +99,7 @@ int main(void) {
   clients.clear();
   db.close();
 
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -109,7 +109,7 @@ int main(void) {
   client->setHostOrIp("myClient");
   client->setListfile("/home/User/hbackup.list");
   sys_rc = system("echo path /home/User/test2 >> test_nfs/hbackup.list");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -120,7 +120,7 @@ int main(void) {
   client->addOption("username", "Myself");
   client->addOption("password", "flesyM");
   client->setListfile("C:\\Backup\\Backup2.LST");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -131,7 +131,7 @@ int main(void) {
   client->addOption("username", "foo");
   client->addOption("password", "barZ?");
   client->setListfile("/home/Blah/hbackup.list");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -141,7 +141,7 @@ int main(void) {
   client->setHostOrIp("otherClient");
   client->addOption("password", "barZ?");
   client->setListfile("/home/Blah/hbackup.list");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -151,7 +151,7 @@ int main(void) {
   client->setHostOrIp("otherClient");
   client->addOption("username", "foo");
   client->setListfile("/home/Blah/hbackup.list");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -160,7 +160,7 @@ int main(void) {
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
   client->setListfile("/home/Blah/hbackup.list");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -171,7 +171,7 @@ int main(void) {
   client->addOption("username", "user");
   client->addOption("iocharset", "utf8");
   client->setListfile("c:\\home\\BlaH\\Backup.list");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -183,7 +183,7 @@ int main(void) {
   client->addOption("username", "user");
   client->addOption("password", "");
   client->setListfile("c:\\home\\BlaH\\Backup.list");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -193,7 +193,7 @@ int main(void) {
   client->setHostOrIp("Client");
   client->addOption("username", "");
   client->setListfile("c:\\home\\BlaH\\Backup.list");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -204,7 +204,7 @@ int main(void) {
   client->addOption("username", "");
   client->addOption("password", "");
   client->setListfile("c:\\home\\BlaH\\Backup.list");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -223,7 +223,7 @@ int main(void) {
   client->setProtocol("file");
   client->setHostOrIp("localhost");
   client->setListfile("etc/localhost.list");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -241,7 +241,7 @@ int main(void) {
   clients.push_back(client);
   client->setProtocol("file");
   client->setListfile("etc/localhost.list");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -260,7 +260,7 @@ int main(void) {
   client->setProtocol("file");
   client->setListfile("etc/localhost.list");
   sys_rc = system("echo path test1/subdir >> etc/localhost.list");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -279,7 +279,7 @@ int main(void) {
   client->setProtocol("file");
   sys_rc = system("sed \"s%expire.*%path test2/subdir%\" etc/localhost.list > etc/localhost.list2");
   client->setListfile("etc/localhost.list2");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -418,7 +418,7 @@ int main(void) {
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
   client->setListfile("/home/User/testhost3.list");
 
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -444,7 +444,7 @@ int main(void) {
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
   client->setListfile("/home/User/testhost3.list");
 
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -471,7 +471,7 @@ int main(void) {
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
   client->setListfile("/home/User/testhost3.list");
 
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -497,7 +497,7 @@ int main(void) {
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\testhost2.list");
 
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -518,7 +518,7 @@ int main(void) {
   client->setHostOrIp("myClient");
   client->setListfile("/home/User/hbackup.list");
   sys_rc = system("touch test_nfs/test2/fail");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -540,7 +540,7 @@ int main(void) {
   client->setListfile("/home/User/hbackup.list");
   sys_rc = system("touch test_nfs/test/fail");
   sys_rc = system("rm -f test_nfs/test2/fail");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -561,7 +561,7 @@ int main(void) {
   client->setHostOrIp("myClient");
   client->setListfile("/home/User/hbackup.list");
   sys_rc = system("rm -f test_nfs/test/fail");
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
@@ -581,7 +581,7 @@ int main(void) {
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\Backup.LST");
 
-  printf(">List %u client(s):\n", clients.size());
+  printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }

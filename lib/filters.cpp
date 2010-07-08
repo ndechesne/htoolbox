@@ -66,7 +66,7 @@ Condition* Filter::configChildFactory(
     int     rc = sscanf(value.c_str(), "%lld%3s", &size, unit);
     unit[3] = '\0';
     if (rc < 1) {
-      hlog_error("%s:%d cannot decode decimal value '%s'",
+      hlog_error("%s:%zd cannot decode decimal value '%s'",
         file_path, line_no, value.c_str());
       failed = true;
     } else {
@@ -78,7 +78,7 @@ Condition* Filter::configChildFactory(
         } else if ((unit[1] == 'B') || (unit[1] == 'b') || (unit[1] == '\0')) {
           kilo = 1000;
         } else {
-          hlog_error("%s:%d cannot decode unit of '%s', must end in 'iB' or 'B'",
+          hlog_error("%s:%zd cannot decode unit of '%s', must end in 'iB' or 'B'",
             file_path, line_no, value.c_str());
           failed = true;
         }
@@ -106,7 +106,7 @@ Condition* Filter::configChildFactory(
           case '\0':
             break;
           default:
-            hlog_error("%s:%d cannot decode multiplier from string '%s', "
+            hlog_error("%s:%zd cannot decode multiplier from string '%s', "
               "must be k, K, M, G, T, P, E, Z or Y",
               file_path, line_no, value.c_str());
             failed = true;
@@ -139,7 +139,7 @@ Condition* Filter::configChildFactory(
     cond = new Condition(Condition::name_regex, value.c_str(), negated);
     Node test("");
     if (cond->match(test) < 0) {
-      hlog_error("%s:%d cannot create regex '%s'",
+      hlog_error("%s:%zd cannot create regex '%s'",
         file_path, line_no, value.c_str());
       delete cond;
       cond = NULL;
@@ -158,7 +158,7 @@ Condition* Filter::configChildFactory(
     cond = new Condition(Condition::name_regex, value.c_str(), negated);
     Node test("");
     if (cond->match(test) < 0) {
-      hlog_error("%s:%d cannot create regex '%s'",
+      hlog_error("%s:%zd cannot create regex '%s'",
         file_path, line_no, value.c_str());
       delete cond;
       cond = NULL;
@@ -188,7 +188,7 @@ Condition* Filter::configChildFactory(
     mode_t mode;
     failed = (sscanf(value.c_str(), "%o", &mode) != 1);
     if (failed) {
-      hlog_error("%s:%d cannot decode octal value '%s'",
+      hlog_error("%s:%zd cannot decode octal value '%s'",
         file_path, line_no, value.c_str());
     } else {
       cond = new Condition(Condition::mode_and, mode, negated);
@@ -198,21 +198,21 @@ Condition* Filter::configChildFactory(
     mode_t mode;
     failed = (sscanf(value.c_str(), "%o", &mode) != 1);
     if (failed) {
-      hlog_error("%s:%d cannot decode octal value '%s'",
+      hlog_error("%s:%zd cannot decode octal value '%s'",
         file_path, line_no, value.c_str());
     } else {
       cond = new Condition(Condition::mode_eq, mode, negated);
     }
   } else
   {
-    hlog_error("%s:%d unsupported condition type '%s'",
+    hlog_error("%s:%zd unsupported condition type '%s'",
       file_path, line_no, type.c_str());
     return NULL;
   }
   if (cond != NULL) {
     add(cond);
   } else {
-    hlog_error("%s:%d failed to add condition '%s'",
+    hlog_error("%s:%zd failed to add condition '%s'",
       file_path, line_no, type.c_str());
   }
   return cond;
@@ -292,7 +292,7 @@ Filter* Filters::configChildFactory(
     ftype = Filter::any;
   } else
   {
-    hlog_error("%s:%d unsupported filter type '%s'",
+    hlog_error("%s:%zd unsupported filter type '%s'",
       file_path, line_no, type.c_str());
     return NULL;
   }

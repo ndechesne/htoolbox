@@ -529,14 +529,14 @@ void HBackup::show(int level) const {
       out(debug, msg_standard, "No size limit", level + 1, NULL);
     } else {
       char number[32];
-      sprintf(number, "%u", _d->log_max_lines);
+      sprintf(number, "%zu", _d->log_max_lines);
       out(debug, msg_standard, number, level + 1, "Max lines per log");
     }
     if (_d->log_backups == 0) {
       out(debug, msg_standard, "No log file backup", level + 1, NULL);
     } else {
       char number[32];
-      sprintf(number, "%u", _d->log_backups);
+      sprintf(number, "%zu", _d->log_backups);
       out(debug, msg_standard, number, level + 1, "Backup(s)");
     }
     out(debug, msg_standard, Report::levelString(_d->log_level), level + 1,

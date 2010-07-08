@@ -146,7 +146,7 @@ struct Report::Private {
       int num_chars;
       struct stat buf;
       if (i != 0) {
-        num_chars = sprintf(&name[len], "-%u", i);
+        num_chars = sprintf(&name[len], "-%zu", i);
       } else {
         name[len] = '\0';
         num_chars = 0;
@@ -162,7 +162,7 @@ struct Report::Private {
         if (i == max_files) {
           remove(name);
         } else {
-          num_chars = sprintf(&new_name[len], "-%u", i + 1);
+          num_chars = sprintf(&new_name[len], "-%zu", i + 1);
           if (zipped) {
             sprintf(&new_name[len + num_chars], ".gz");
           }

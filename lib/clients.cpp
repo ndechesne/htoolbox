@@ -259,7 +259,7 @@ ConfigObject* Client::configChildFactory(
       _expire = expire * 3600 * 24;
       co = this;
     } else {
-      hlog_error("%s:%d incorrect expiration value '%s'",
+      hlog_error("%s:%zd incorrect expiration value '%s'",
         file_path, line_no, params[1].c_str());
     }
   } else
@@ -296,7 +296,7 @@ ConfigObject* Client::configChildFactory(
   if (keyword == "path") {
     co = addClientPath(params[1]);
     if (co == NULL) {
-      hlog_error("%s:%d path inside another '%s'",
+      hlog_error("%s:%zd path inside another '%s'",
         file_path, line_no, params[1].c_str());
     }
   } else

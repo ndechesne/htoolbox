@@ -46,7 +46,7 @@ ConfigObject* Attributes::configChildFactory(
   if (keyword == "ignore") {
     Filter* filter = _filters.find(params[1]);
     if (filter == NULL) {
-      hlog_error("%s:%d filter '%s' not found",
+      hlog_error("%s:%zd filter '%s' not found",
         file_path, line_no, params[1].c_str());
     } else {
       _ignore_list.push_back(filter);
@@ -57,7 +57,7 @@ ConfigObject* Attributes::configChildFactory(
     co = _filters.configChildFactory(params, file_path, line_no);
   } else
   {
-    hlog_error("%s:%d unknown keyword '%s'",
+    hlog_error("%s:%zd unknown keyword '%s'",
       file_path, line_no, keyword.c_str());
   }
   return co;
