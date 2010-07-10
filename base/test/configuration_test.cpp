@@ -21,13 +21,16 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
+#include <list>
 
 using namespace std;
 
-#include "test.h"
-
-#include "files.h"
+#include <hreport.h>
 #include "configuration.h"
+
+using namespace hbackup;
+using namespace hreport;
 
 class MyObject : public ConfigObject {
   string _name;

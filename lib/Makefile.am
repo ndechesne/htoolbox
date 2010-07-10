@@ -20,7 +20,6 @@ libhbackup_la_SOURCES = \
   attributes.cpp \
   clients.cpp \
   conditions.cpp \
-  configuration.cpp \
   data.cpp \
   db.cpp \
   filters.cpp \
@@ -30,7 +29,6 @@ libhbackup_la_SOURCES = \
   owner.cpp \
   parsers.cpp \
   paths.cpp \
-  report.cpp \
   $(NULL)
 
 EXTRA_DIST = \
@@ -38,7 +36,6 @@ EXTRA_DIST = \
   clients.h \
   compdata.h \
   conditions.h \
-  configuration.h \
   data.h \
   db.h \
   filters.h \
@@ -48,5 +45,4 @@ EXTRA_DIST = \
   owner.h \
   parsers.h \
   paths.h \
-  report.h \
   $(NULL)

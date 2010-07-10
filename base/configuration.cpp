@@ -17,6 +17,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 
@@ -28,7 +29,6 @@
 using namespace std;
 
 #include "hreport.h"
-#include "files.h"
 
 #include "configuration.h"
 
