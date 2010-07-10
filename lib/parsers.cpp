@@ -36,6 +36,7 @@ Parsers::~Parsers() {
   for (i = _children.begin(); i != _children.end(); i++) {
     delete *i;
   }
+  _children.clear();
 }
 
 Parser* Parsers::createParserIfControlled(const string& dir_path) const {

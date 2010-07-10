@@ -154,6 +154,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) : Parser(mode, dir_path)
       date.erase(pos - reader);
       // Decode the date
       struct tm tm;
+      memset(&tm, 0, sizeof(struct tm));
       char* rc = strptime(date.c_str(), "%a %b %d %H:%M:%S %Y", &tm);
       if ((rc == NULL) || (*rc != '\0')) {
         mtime = 0;

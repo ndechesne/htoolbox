@@ -3059,6 +3059,7 @@ Database closed: myhost
 Database closed
 Broken configuration
  -> Reading configuration file: etc/broken.conf
+Error: db redefined in 'blah'
 Error: after line 0: need at most 1 occurence(s) of keyword 'db'
 Error: after line 0: need at most 1 occurence(s) of keyword 'report_copy_error_once'
 Error: at line 7: keyword 'filter' requires 2 parameter(s), found 1

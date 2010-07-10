@@ -90,6 +90,15 @@ struct HBackup::Private : ConfigObject {
   Private() : db(NULL), log_max_lines(0), log_backups(0), log_level(info) {
     log_file_name = "";
   }
+  ~Private() {
+    if (db != NULL) {
+      delete db;
+    }
+    for (std::list<Client*>::iterator i = clients.begin(); i != clients.end();
+        ++i) {
+      delete *i;
+    }
+  }
   virtual ConfigObject* configChildFactory(
       const vector<string>& params,
       const char*           file_path = NULL,
@@ -147,8 +156,12 @@ ConfigObject* HBackup::Private::configChildFactory(
     }
   } else
   if (keyword == "db") {
-    db = new Database(params[1].c_str());
-    co = this;
+    if (db != NULL) {
+      hlog_error("db redefined in '%s'", params[1].c_str());
+    } else {
+      db = new Database(params[1].c_str());
+      co = this;
+    }
   } else
   if (keyword == "compress") {
     if (params[1] == "always") {
@@ -211,10 +224,6 @@ HBackup::HBackup() : _d(new Private) {
 }
 
 HBackup::~HBackup() {
-  for (std::list<Client*>::iterator client = _d->clients.begin();
-      client != _d->clients.end(); client++){
-    delete *client;
-  }
   close();
   delete _d;
 }
@@ -379,8 +388,10 @@ int HBackup::open(
 }
 
 void HBackup::close() {
-  delete _d->db;
-  _d->db = NULL;
+  if (_d->db != NULL) {
+    delete _d->db;
+    _d->db = NULL;
+  }
 }
 
 int HBackup::fix() {
