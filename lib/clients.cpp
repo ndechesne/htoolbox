@@ -205,7 +205,7 @@ int Client::readConfig(
     "Reading client configuration file");
   ConfigErrors errors;
   bool failed = false;
-  if (_config.read(config_path, Stream::flags_dos_catch, config_syntax, this,
+  if (_config.read(config_path, Config::flags_dos_catch, config_syntax, this,
         &errors) < 0) {
     errors.show();
     failed = true;

@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -369,27 +369,6 @@ public:
   int compare(Stream& other, long long length = -1);
   // Get real file size
   long long dataSize() const;
-  // Line feed MUST be present at EOL
-  static const unsigned char flags_need_lf      = 0x1;
-  // Silently accept DOS format for end of line
-  static const unsigned char flags_accept_cr_lf = 0x2;
-  // Treat escape characters ('\') as normal characters
-  static const unsigned char flags_no_escape    = 0x4;
-  // Do not escape last char (and fail to find ending quote) in an end-of-line
-  // parameter such as "c:\foo\" (-> c:\foo\ and not c:\foo")
-  static const unsigned char flags_dos_catch    = 0x8;
-  // Treat spaces as field separators
-  static const unsigned char flags_empty_params = 0x10;
-  // Extract parameters from given line
-  // Returns 1 if missing ending quote, 0 otherwise
-  static int extractParams(
-    const char*     line,
-    vector<string>& params,
-    unsigned char   flags      = 0,
-    unsigned int    max_params = 0,     // Number of parameters to decode
-    const char*     delims     = "\t ", // Default: tabulation and space
-    const char*     quotes     = "'\"", // Default: single and double quotes
-    const char*     comments   = "#");  // Default: hash
 };
 
 }

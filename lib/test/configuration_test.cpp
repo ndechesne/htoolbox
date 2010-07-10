@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008  Herve Fache
+     Copyright (C) 2008-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -93,6 +93,239 @@ public:
 };
 
 int main(void) {
+  cout << endl << "extractParams" << endl;
+  string line;
+  vector<string> *params;
+  vector<string>::iterator i;
+
+  // Start simple: one argument
+  line = "a";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " <<
+    Config::extractParams(line.c_str(), *params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // Two arguments, test blanks
+  line = " \ta \tb";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " <<
+    Config::extractParams(line.c_str(), *params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // Not single character argument
+  line = "\t ab";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " <<
+    Config::extractParams(line.c_str(), *params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // Two of them
+  line = "\t ab cd";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " <<
+    Config::extractParams(line.c_str(), *params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // Three, with comment
+  line = "\t ab cd\tef # blah";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " <<
+    Config::extractParams(line.c_str(), *params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // Single quotes
+  line = "\t 'ab' 'cd'\t'ef' # blah";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " <<
+    Config::extractParams(line.c_str(), *params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // And double quotes
+  line = "\t \"ab\" 'cd'\t\"ef\" # blah";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " <<
+    Config::extractParams(line.c_str(), *params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // With blanks in quotes
+  line = "\t ab cd\tef 'gh ij\tkl' \"mn op\tqr\" \t# blah";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " <<
+    Config::extractParams(line.c_str(), *params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // With quotes in quotes
+  line = "\t ab cd\tef 'gh \"ij\\\'\tkl' \"mn 'op\\\"\tqr\" \t# blah";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " <<
+    Config::extractParams(line.c_str(), *params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // With escape characters
+  line = "\t a\\b cd\tef 'g\\h \"ij\\\'\tkl' \"m\\n 'op\\\"\tqr\" \t# blah";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " <<
+    Config::extractParams(line.c_str(), *params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // Missing ending single quote
+  line = "\t a\\b cd\tef 'g\\h \"ij\\\'\tkl";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " <<
+    Config::extractParams(line.c_str(), *params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // Missing ending double quote
+  line = "\t a\\b cd\tef 'g\\h \"ij\\\'\tkl' \"m\\n 'op\\\"\tqr";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " <<
+    Config::extractParams(line.c_str(), *params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // The DOS catch: undealt with
+  line = "path \"C:\\Backup\\\"";
+  params = new vector<string>;
+  cout << "readline(" << line << "): " <<
+    Config::extractParams(line.c_str(), *params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // The DOS catch: ignoring escape characters altogether
+  line = "path \"C:\\Backup\\\"";
+  params = new vector<string>;
+  cout << "readline(" << line << "): "
+    << Config::extractParams(line.c_str(), *params, Config::flags_no_escape)
+    << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // The DOS catch: dealing with the particular case
+  line = "path \"C:\\Backup\\\"";
+  params = new vector<string>;
+  cout << "readline(" << line << "): "
+    << Config::extractParams(line.c_str(), *params, Config::flags_dos_catch)
+    << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // Extract a line where spaces matter
+  line = " this is a path \"C:\\Backup\"   and  spaces matter ";
+  params = new vector<string>;
+  cout << "readline(" << line << "): "
+    << Config::extractParams(line.c_str(), *params, Config::flags_dos_catch
+      | Config::flags_empty_params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // Extract part of a line where spaces matter
+  line = " this is a path \"C:\\Backup\"   and  spaces matter ";
+  params = new vector<string>;
+  cout << "readline(" << line << "): "
+    << Config::extractParams(line.c_str(), *params, Config::flags_dos_catch
+      | Config::flags_empty_params, 5) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // And another
+  line = "\t\tf\tblah\t''";
+  params = new vector<string>;
+  cout << "readline(" << line << "): "
+    << Config::extractParams(line.c_str(), *params, Config::flags_dos_catch
+      | Config::flags_empty_params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // And one missing the ending quote
+  line = "\t\tf\tblah\t'";
+  params = new vector<string>;
+  cout << "readline(" << line << "): "
+    << Config::extractParams(line.c_str(), *params, Config::flags_dos_catch
+      | Config::flags_empty_params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+  // And another one missing with empty last argument
+  line = "\t\tf\tblah\t\t";
+  params = new vector<string>;
+  cout << "readline(" << line << "): "
+    << Config::extractParams(line.c_str(), *params, Config::flags_dos_catch
+      | Config::flags_empty_params) << endl;
+  for (i = params->begin(); i != params->end(); i++) {
+    cout << *i << endl;
+  }
+  cout << endl;
+  delete params;
+
+
   Config*           config;
   ConfigErrors      errors;
 

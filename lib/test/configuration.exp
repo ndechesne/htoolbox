@@ -1,4 +1,126 @@
 
+extractParams
+readline(a): 0
+a
+
+readline( 	a 	b): 0
+a
+b
+
+readline(	 ab): 0
+ab
+
+readline(	 ab cd): 0
+ab
+cd
+
+readline(	 ab cd	ef # blah): 0
+ab
+cd
+ef
+
+readline(	 'ab' 'cd'	'ef' # blah): 0
+ab
+cd
+ef
+
+readline(	 "ab" 'cd'	"ef" # blah): 0
+ab
+cd
+ef
+
+readline(	 ab cd	ef 'gh ij	kl' "mn op	qr" 	# blah): 0
+ab
+cd
+ef
+gh ij	kl
+mn op	qr
+
+readline(	 ab cd	ef 'gh "ij\'	kl' "mn 'op\"	qr" 	# blah): 0
+ab
+cd
+ef
+gh "ij'	kl
+mn 'op"	qr
+
+readline(	 a\b cd	ef 'g\h "ij\'	kl' "m\n 'op\"	qr" 	# blah): 0
+a\b
+cd
+ef
+g\h "ij'	kl
+m\n 'op"	qr
+
+readline(	 a\b cd	ef 'g\h "ij\'	kl): 1
+a\b
+cd
+ef
+g\h "ij'	kl
+
+readline(	 a\b cd	ef 'g\h "ij\'	kl' "m\n 'op\"	qr): 1
+a\b
+cd
+ef
+g\h "ij'	kl
+m\n 'op"	qr
+
+readline(path "C:\Backup\"): 1
+path
+C:\Backup"
+
+readline(path "C:\Backup\"): 0
+path
+C:\Backup\
+
+readline(path "C:\Backup\"): 0
+path
+C:\Backup\
+
+readline( this is a path "C:\Backup"   and  spaces matter ): 0
+
+this
+is
+a
+path
+C:\Backup
+
+
+
+and
+
+spaces
+matter
+
+
+readline( this is a path "C:\Backup"   and  spaces matter ): 0
+
+this
+is
+a
+path
+
+readline(		f	blah	''): 0
+
+
+f
+blah
+
+
+readline(		f	blah	'): 1
+
+
+f
+blah
+
+
+readline(		f	blah		): 0
+
+
+f
+blah
+
+
+
+
 Test: client configuration
 Syntax:
   expire, occ.: optional, max = 1; params: min = max = 1

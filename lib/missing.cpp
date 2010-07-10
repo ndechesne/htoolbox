@@ -27,6 +27,7 @@ using namespace std;
 
 #include "hbackup.h"
 #include "files.h"
+#include "configuration.h"
 #include "hreport.h"
 #include "missing.h"
 
@@ -145,7 +146,7 @@ int Missing::load() {
     size_t line_capacity = 0;
     while (missing_list.getLine(&line, &line_capacity) > 0) {
       vector<string> params;
-      Stream::extractParams(line, params);
+      Config::extractParams(line, params);
       long long size;
       if (params.size() < 3) {
         if (params.size() == 1) {

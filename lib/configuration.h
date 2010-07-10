@@ -166,6 +166,23 @@ public:
   void clear();
   // Debug
   void show() const;
+  // Treat escape characters ('\') as normal characters
+  static const unsigned char flags_no_escape    = 0x1;
+  // Do not escape last char (and fail to find ending quote) in an end-of-line
+  // parameter such as "c:\foo\" (-> c:\foo\ and not c:\foo")
+  static const unsigned char flags_dos_catch    = 0x2;
+  // Treat spaces as field separators
+  static const unsigned char flags_empty_params = 0x4;
+  // Extract parameters from given line
+  // Returns 1 if missing ending quote, 0 otherwise
+  static int extractParams(
+    const char*     line,
+    vector<string>& params,
+    unsigned char   flags      = 0,
+    unsigned int    max_params = 0,     // Number of parameters to decode
+    const char*     delims     = "\t ", // Default: tabulation and space
+    const char*     quotes     = "'\"", // Default: single and double quotes
+    const char*     comments   = "#");  // Default: hash
 };
 
 }
