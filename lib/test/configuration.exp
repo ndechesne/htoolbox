@@ -13,9 +13,7 @@ Syntax:
     no_compress, occ.: optional, max = 1; params: min = max = 1
     parser, occ.: optional, no max; params: min = 1, max = 2
   users, occ.: optional, max = 1; params: min = 1, no max
-Error: after line 0: missing keyword 'path'
-Error: at line 5: found CR character, aborting
-Test: accept CRLF
+Test: with object
 0: root
 2:   filter and subdir
 3:     condition path_start subdir
@@ -435,6 +433,7 @@ Config:
 82:       parser svn modified
 83:     report_copy_error_once
 Test: broken configuration
+failed to read config!
 Error: after line 0: need at most 1 occurence(s) of keyword 'db'
 Error: after line 0: need at most 1 occurence(s) of keyword 'report_copy_error_once'
 Error: at line 7: keyword 'filter' requires 2 parameter(s), found 1

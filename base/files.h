@@ -380,13 +380,6 @@ public:
   static const unsigned char flags_dos_catch    = 0x8;
   // Treat spaces as field separators
   static const unsigned char flags_empty_params = 0x10;
-  // Extract parameters from line read from file
-  int getParams(                          // -1: error, 0: eof, 1: success
-    vector<string>& params,
-    unsigned char   flags    = 0,
-    const char*     delims   = "\t ",   // Default: tabulation and space
-    const char*     quotes   = "'\"",   // Default: single and double quotes
-    const char*     comments = "#");    // Default: hash
   // Extract parameters from given line
   // Returns 1 if missing ending quote, 0 otherwise
   static int extractParams(

@@ -235,13 +235,6 @@ int HBackup::addClient(const char* name) {
 }
 
 int HBackup::readConfig(const char* config_path) {
-  /* Open configuration file */
-  Stream config_file(config_path);
-
-  if (config_file.open(O_RDONLY)) {
-    out(error, msg_errno, "opening file", errno, config_path);
-    return -1;
-  }
   // Set up config syntax and grammar
   ConfigSyntax config_syntax;
 
@@ -333,10 +326,8 @@ int HBackup::readConfig(const char* config_path) {
   out(debug, msg_standard, config_path, 1, "Reading configuration file");
   Config       config;
   ConfigErrors errors;
-  int rc = config.read(config_file, Stream::flags_accept_cr_lf, config_syntax,
+  int rc = config.read(config_path, Stream::flags_accept_cr_lf, config_syntax,
     _d, &errors);
-  config_file.close();
-
   if (rc < 0) {
     errors.show();
     return -1;

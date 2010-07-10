@@ -151,27 +151,19 @@ int main(void) {
   client_syntax.show(2);
 
   config = new Config;
-  Stream client_config("etc/localhost.list");
-  if (client_config.open(O_RDONLY) == 0) {
-    config->read(client_config, 0, client_syntax, NULL, &errors);
-    client_config.close();
-  } else {
-    cout << "failed to open it!" << endl;
+  if (config->read("etc/localhost.list", 0, client_syntax, NULL, &errors) < 0) {
+    cout << "failed to read config!" << endl;
   }
   errors.show();
   errors.clear();
   config->clear();
 
-  cout << "Test: accept CRLF" << endl;
+  cout << "Test: with object" << endl;
 
   MyObject object("root");
 
-  if (client_config.open(O_RDONLY) == 0) {
-    config->read(client_config, Stream::flags_accept_cr_lf, client_syntax,
-      &object, &errors);
-    client_config.close();
-  } else {
-    cout << "failed to open it!" << endl;
+  if (config->read("etc/localhost.list", 0, client_syntax, &object, &errors) < 0) {
+    cout << "failed to read config!" << endl;
   }
   errors.show();
   errors.clear();
@@ -302,12 +294,8 @@ int main(void) {
   syntax.show(2);
 
   config = new Config;
-  Stream general_config("etc/hbackup.conf");
-  if (general_config.open(O_RDONLY) == 0) {
-    config->read(general_config, 0, syntax, &object, &errors);
-    general_config.close();
-  } else {
-    cout << "failed to open it!" << endl;
+  if (config->read("etc/hbackup.conf", 0, syntax, &object, &errors) < 0) {
+    cout << "failed to read config!" << endl;
   }
   errors.show();
   errors.clear();
@@ -320,24 +308,15 @@ int main(void) {
   cout << "Test: configuration save" << endl;
 
   // save configuration
-  Stream save_config("etc/config.gz");
-  if (save_config.open(O_WRONLY, 5) == 0) {
-    if (config->write(save_config)) {
-      cout << "failed to save it!" << endl;
-    }
-    save_config.close();
-  } else {
-    cout << "failed to open it!" << endl;
+  if (config->write("etc/config.saved") < 0) {
+    cout << "failed to write config!" << endl;
   }
 
   // clear list
   config->clear();
 
-  if (save_config.open(O_RDONLY, 1) == 0) {
-    config->read(save_config, 0, syntax, &object, &errors);
-    save_config.close();
-  } else {
-    cout << "failed to open it!" << endl;
+  if (config->read("etc/config.saved", 0, syntax, &object, &errors) < 0) {
+    cout << "failed to read config!" << endl;
   }
   errors.show();
   errors.clear();
@@ -351,12 +330,8 @@ int main(void) {
   config->clear();
 
   cout << "Test: broken configuration" << endl;
-  Stream broken_config("etc/broken.conf");
-  if (broken_config.open(O_RDONLY) == 0) {
-    config->read(broken_config, 0, syntax, &object, &errors);
-    broken_config.close();
-  } else {
-    cout << "failed to open it!" << endl;
+  if (config->read("etc/broken.conf", 0, syntax, &object, &errors) < 0) {
+    cout << "failed to read config!" << endl;
   }
   errors.show();
   errors.clear();

@@ -155,15 +155,6 @@ int Client::umount(
 
 int Client::readConfig(
     const char*     config_path) {
-  // Open client configuration file
-  Stream config_file(config_path);
-
-  // Open client configuration file
-  if (config_file.open(O_RDONLY)) {
-    out(error, msg_standard, "Client configuration file not found", -1,
-      config_path);
-    return -1;
-  }
   // Set up config syntax and grammar
   _config.clear();
 
@@ -214,16 +205,13 @@ int Client::readConfig(
     "Reading client configuration file");
   ConfigErrors errors;
   bool failed = false;
-  if (_config.read(config_file,
-        Stream::flags_dos_catch | Stream::flags_accept_cr_lf, config_syntax,
-        this, &errors) < 0) {
+  if (_config.read(config_path, Stream::flags_dos_catch, config_syntax, this,
+        &errors) < 0) {
     errors.show();
     failed = true;
   } else {
     show(1);
   }
-  // Close client configuration file
-  config_file.close();
   return failed ? -1 : 0;
 }
 
@@ -422,15 +410,7 @@ int Client::backup(
       if (dir.create() < 0) {
         out(error, msg_errno, "creating configuration directory", errno, NULL);
       } else {
-        Stream stream(Path(dir.path(), internalName().c_str()));
-        if (stream.open(O_WRONLY) >= 0) {
-          if (_config.write(stream) < 0) {
-            out(error, msg_errno, "writing configuration file", errno, NULL);
-          }
-          stream.close();
-        } else {
-          out(error, msg_errno, "creating configuration file", errno, NULL);
-        }
+        _config.write(Path(dir.path(), internalName().c_str()));
       }
     }
   }

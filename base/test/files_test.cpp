@@ -1524,26 +1524,6 @@ int main(void) {
   delete l1;
 
 
-  cout << endl << "getParams" << endl;
-  Stream config("etc/hbackup.conf");
-  if (! config.open(O_RDONLY)) {
-    int rc = 1;
-    while (rc > 0) {
-      params = new vector<string>;
-      rc = config.getParams(*params);
-      if (rc > 0) {
-        for (vector<string>::iterator i = params->begin(); i != params->end();
-            i++) {
-          cout << *i << "\t";
-        }
-        cout << endl;
-      }
-      delete params;
-    }
-    config.close();
-  }
-
-
   cout << endl << "Stream select" << endl;
   Stream* selected;
   unsigned int which;

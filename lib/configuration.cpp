@@ -17,10 +17,13 @@
 */
 
 #include <stdio.h>
+#include <string.h>
+#include <errno.h>
 
 #include <sstream>
 #include <string>
 #include <list>
+#include <vector>
 
 using namespace std;
 
@@ -37,13 +40,12 @@ namespace hbackup {
 // To check occurrences
 class ConfigCounter {
   const string&     _keyword;
-  int               _occurrences;
+  size_t            _occurrences;
 public:
   ConfigCounter(const string& keyword) : _keyword(keyword), _occurrences(1) {}
-  bool operator<(const ConfigCounter& counter) const;
-  const string& keyword() const { return _keyword;    }
-  int occurrences()        const { return _occurrences; }
-  void increment()              { _occurrences++;      }
+  const string& keyword() const { return _keyword; }
+  size_t occurrences() const { return _occurrences; }
+  void increment() { _occurrences++; }
 };
 
 }
@@ -55,7 +57,7 @@ ConfigLine::~ConfigLine() {
 void ConfigLine::add(ConfigLine* child) {
   list<ConfigLine*>:: iterator i = _children.begin();
   while (i != _children.end()) {
-    if ((**i)[0] > (*child)[0]) break;
+    if ((*i)->_params[0] > child->_params[0]) break;
     i++;
   }
   _children.insert(i, child);
@@ -82,19 +84,15 @@ void ConfigLine::clear() {
 
 void ConfigLine::show(int level) const {
   stringstream s;
-  for (unsigned int j = 0; j < size(); j++) {
+  for (unsigned int j = 0; j < _params.size(); j++) {
     if (j != 0) {
       s << " ";
     }
-    s << (*this)[j];
+    s << _params[j];
   }
   char format[16];
   sprintf(format, "%%d:%%%ds%%s", level + 1);
   hlog_verbose(format, lineNo(), " ", s.str().c_str());
-}
-
-bool ConfigCounter::operator<(const ConfigCounter& counter) const {
-  return _keyword < counter._keyword;
 }
 
 bool ConfigError::operator<(const ConfigError& error) const {
@@ -121,7 +119,6 @@ ConfigItem::~ConfigItem() {
   for (i = _children.begin(); i != _children.end(); i = _children.erase(i)) {
     delete *i;
   }
-  free(_keyword);
 }
 
 void ConfigItem::add(ConfigItem* child) {
@@ -209,17 +206,24 @@ void ConfigItem::show(int level) const {
     }
     char format[128];
     sprintf(format, "%%%ds%%s, occ.: %%s, %%s; params: %%s", level);
-    hlog_verbose(format, " ", (*i)->_keyword, minimum, maximum, min_max);
+    hlog_verbose(format, " ", (*i)->_keyword.c_str(), minimum, maximum, min_max);
     (*i)->show(level + 2);
   }
 }
 
-int Config::read(
-    Stream&         stream,
+ssize_t Config::read(
+    const char*     path,
     unsigned char   flags,
     ConfigSyntax&   syntax,
     ConfigObject*   root,
     ConfigErrors*   errors) {
+  // Open client configuration file
+  FILE* fd = fopen(path, "r");
+  if (fd == NULL) {
+    hlog_error("failed to open configuation file '%s': %s",
+      path, strerror(errno));
+    return -1;
+  }
   // Where we are in the items tree
   list<const ConfigItem*> items_hierarchy;
   items_hierarchy.push_back(&syntax);
@@ -233,47 +237,74 @@ int Config::read(
   objects_hierarchy.push_back(root);
 
   // Read through the file
-  ConfigLine *params = new ConfigLine;
   int line_no = 0;
   bool failed = false;
-  int rc;
-  while ((rc = stream.getParams(*params, flags)) >= 0) {
-    if (rc == 0) {
-      // Force unstacking of elements and final check
-      params->push_back("");
-    }
+  ssize_t rc;
+  char* buffer = NULL;
+  size_t buffer_capacity = 0;
+  do {
     line_no++;
-    if (params->size() > 0) {
+    rc = getline(&buffer, &buffer_capacity, fd);
+    bool eof = false;
+    vector<string> params;
+    if (rc < 0) {
+      if (feof(fd)) {
+        eof = true;
+        // Force unstacking of elements and final check
+        params.push_back("");
+      } else {
+        hlog_error("getline failure");
+        failed = true;
+        goto end;
+      }
+    } else {
+      // Remove LF
+      if ((rc > 0) && (buffer[rc - 1] == '\n')) {
+        buffer[rc - 1] = '\0';
+        --rc;
+        // Remove CR
+        if ((rc > 0) && (buffer[rc - 1] == '\r')) {
+          buffer[rc - 1] = '\0';
+          --rc;
+        }
+      }
+      if ((rc > 0) && (Stream::extractParams(buffer, params, flags) < 0)) {
+        hlog_error("extractParams failure");
+        failed = true;
+        break;
+      }
+    }
+    if (params.size() > 0) {
       // Look for keyword in children of items in the current items hierarchy
       while (items_hierarchy.size() > 0) {
         // Is this a child of the current item?
-        const ConfigItem* child = items_hierarchy.back()->find((*params)[0]);
+        const ConfigItem* child = items_hierarchy.back()->find(params[0]);
         if (child != NULL) {
           // Yes. Add under current hierarchy
           items_hierarchy.push_back(child);
           // Add in configuration lines tree, however incorrect it may be
-          params->setLineNo(line_no);
-          lines_hierarchy.back()->add(params);
+          ConfigLine* ln = new ConfigLine(params, line_no);
+          lines_hierarchy.back()->add(ln);
           // Add under current hierarchy
-          lines_hierarchy.push_back(params);
+          lines_hierarchy.push_back(ln);
           // Check number of parameters (params.size() - 1)
-          if (   ((params->size() - 1) < child->min_params())
+          if (   ((params.size() - 1) < child->min_params())
               || ( (child->min_params() <= child->max_params())
-                && ((params->size() - 1) > child->max_params()))) {
+                && ((params.size() - 1) > child->max_params()))) {
             if (errors != NULL) {
               ostringstream message;
-              message << "keyword '" << (*params)[0]
+              message << "keyword '" << params[0]
                 << "' requires ";
               if (child->min_params() == child->max_params()) {
                 message << child->min_params();
               } else
-              if ((params->size() - 1) < child->min_params()) {
+              if ((params.size() - 1) < child->min_params()) {
                 message << "at least " << child->min_params();
               } else
               {
                 message << "at most " << child->max_params();
               }
-              message << " parameter(s), found " << params->size() - 1;
+              message << " parameter(s), found " << params.size() - 1;
               errors->push_back(ConfigError(message.str(), line_no));
             }
             // Stop creating objects
@@ -283,8 +314,8 @@ int Config::read(
           } else
           if (root != NULL) {
             ConfigObject* child_object =
-              objects_hierarchy.back()->configChildFactory(*params,
-                stream.path(), line_no);
+              objects_hierarchy.back()->configChildFactory(params, path,
+                line_no);
             if (child_object == NULL) {
               // Stop creating objects
               root = NULL;
@@ -295,8 +326,6 @@ int Config::read(
               objects_hierarchy.push_back(child_object);
             }
           }
-          // Prepare new config line
-          params = new ConfigLine;
           break;
         } else {
           // No: we are going to go up one level, but compute/check children
@@ -333,15 +362,10 @@ int Config::read(
           }
           lines_hierarchy.back()->sortChildren();
           lines_hierarchy.pop_back();
-          if ((items_hierarchy.size() == 0) && (rc != 0)) {
+          if ((items_hierarchy.size() == 0) && ! eof) {
             if (errors != NULL) {
-              if ((*params)[0][0] != '\r'){
-                errors->push_back(ConfigError("keyword '" + (*params)[0]
-                  + "' incorrect or misplaced, aborting", line_no));
-              } else {
-                errors->push_back(ConfigError("found CR character, aborting",
-                  line_no));
-              }
+              errors->push_back(ConfigError("keyword '" + params[0]
+                + "' incorrect or misplaced, aborting", line_no));
             }
             failed = true;
             goto end;
@@ -349,18 +373,27 @@ int Config::read(
         }
       }
     }
-    if (rc == 0) break;
-  }
+  } while (! feof(fd));
 end:
+  free(buffer);
+  if (fclose(fd) < 0) {
+    failed = true;
+  }
   if (errors != NULL) {
     errors->sort();
   }
-  delete params;
   return failed ? -1 : 0;
 }
 
 int Config::write(
-    Stream&         stream) const {
+    const char*     path) const {
+  // Open client configuration file
+  FILE* fd = fopen(path, "w");
+  if (fd == NULL) {
+    hlog_error("failed to open configuation file '%s': %s",
+      path, strerror(errno));
+    return -1;
+  }
   ConfigLine* params;
   int level;
   while ((level = line(&params)) >= 0) {
@@ -377,11 +410,13 @@ int Config::write(
         s << "\"";
       }
     }
-    if (stream.putLine(s.str().c_str()) < 0) {
-      return -1;
+    s << "\n";
+    const string& str = s.str();
+    if (fwrite(str.c_str(), str.size(), 1, fd) != 1) {
+      break;
     }
   }
-  return 0;
+  return fclose(fd);
 }
 
 int Config::line(

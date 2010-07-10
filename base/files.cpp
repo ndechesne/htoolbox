@@ -1216,44 +1216,6 @@ long long Stream::dataSize() const {
   return _d->size;
 }
 
-int Stream::getParams(
-    vector<string>& params,
-    unsigned char   flags,
-    const char*     delims,
-    const char*     quotes,
-    const char*     comments) {
-  LineBuffer line;
-  bool       eol;
-
-  params.clear();
-  int rc = getLine(line, &eol);
-  if (rc < 0) {
-    return -1;
-  } else
-  if (! eol) {
-    if (rc == 0) {
-      return 0;
-    } else
-    if ((flags & flags_need_lf) != 0) {
-      return -1;
-    }
-  }
-  if ((flags & flags_accept_cr_lf)
-  && (line.size() > 0)
-  && (line[line.size() - 1] == '\r')) {
-    line.erase(line.size() - 1);
-  }
-  rc = extractParams(line, params, flags, 0, delims, quotes, comments);
-  if (rc < 0) {
-    return -1;
-  }
-  // Signal warning
-  if (rc > 0) {
-    return 2;
-  }
-  return 1;
-}
-
 // Public functions
 int Stream::extractParams(
     const char*     line,

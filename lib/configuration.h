@@ -22,16 +22,23 @@
 namespace hbackup {
 
 // The configuration tree, line per line
-class ConfigLine : public vector<string> {
-  list<ConfigLine*> _children;
+class ConfigLine {
+  vector<string>    _params;
   unsigned int      _line_no;
+  list<ConfigLine*> _children;
 public:
-  ConfigLine(unsigned int line_no = 0) : _line_no(line_no) {}
+  ConfigLine(
+    unsigned int          line_no = 0) : _line_no(line_no) {}
+  ConfigLine(
+    const vector<string>& params,
+    unsigned int          line_no = 0) : _params(params), _line_no(line_no) {}
   ~ConfigLine();
+  // Number of parameters
+  size_t size() const { return _params.size(); }
+  // Parameter
+  const string& operator[](size_t index) const { return _params[index]; }
   // Get line no
-  unsigned int lineNo(void) const                 { return _line_no;          }
-  // Set line no
-  void setLineNo(unsigned int line_no)            { _line_no = line_no;       }
+  unsigned int lineNo(void) const { return _line_no;          }
   // Add a child
   void add(ConfigLine* child);
   // Sort children back into config file line order
@@ -42,7 +49,7 @@ public:
   void show(int level = 0) const;
   // Iterator boundaries
   list<ConfigLine*>::const_iterator begin() const { return _children.begin(); }
-  list<ConfigLine*>::const_iterator end() const   { return _children.end();   }
+  list<ConfigLine*>::const_iterator end() const { return _children.end();   }
 };
 
 class ConfigCounter;
@@ -79,7 +86,7 @@ public:
 };
 
 class ConfigItem {
-  char*             _keyword;
+  string            _keyword;
   unsigned int      _min_occurrences;
   unsigned int      _max_occurrences;
   unsigned int      _min_params;
@@ -88,12 +95,12 @@ class ConfigItem {
   ConfigItem(const hbackup::ConfigItem&) {}
 public:
   ConfigItem(
-    const char*     keyword,
+    const string&   keyword,
     unsigned int    min_occurrences = 0,
     unsigned int    max_occurrences = 0,
     unsigned int    min_params = 0,
     int             max_params = 0) :
-      _keyword(strdup(keyword)),
+      _keyword(keyword),
       _min_occurrences(min_occurrences),
       _max_occurrences(max_occurrences),
       _min_params(min_params),
@@ -107,11 +114,11 @@ public:
   }
   ~ConfigItem();
   // Parameters accessers
-  string keyword() const                { return _keyword;          }
-  unsigned int min_occurrences() const  { return _min_occurrences;  }
-  unsigned int max_occurrences() const  { return _max_occurrences;  }
-  unsigned int min_params() const       { return _min_params;       }
-  unsigned int max_params() const       { return _max_params;       }
+  const string& keyword() const { return _keyword; }
+  unsigned int min_occurrences() const { return _min_occurrences; }
+  unsigned int max_occurrences() const { return _max_occurrences; }
+  unsigned int min_params() const { return _min_params; }
+  unsigned int max_params() const { return _max_params; }
   // Add a child
   void add(ConfigItem* child);
   // Find a child
@@ -142,15 +149,15 @@ class Config {
   ConfigLine        _lines_top;
 public:
   // Read file, using Stream's flags as given
-  int read(
-    Stream&         stream,
+  ssize_t read(
+    const char*     path,
     unsigned char   flags,
     ConfigSyntax&   syntax,
     ConfigObject*   root = NULL,
     ConfigErrors*   errors = NULL);
   // Write configuration to file
   int write(
-    Stream&         stream) const;
+    const char*     path) const;
   // Lines tree accessor
   int line(
     ConfigLine**    params,

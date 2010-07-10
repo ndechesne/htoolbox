@@ -10,7 +10,8 @@ Global filter
  --> Expiry: none
 Database initialized: test_db
 Database open in read/write mode
-Error: etc/doesnotexist: Client configuration file not found
+ -> Reading client configuration file: localhost
+Error: failed to open configuation file 'etc/doesnotexist': No such file or directory
 Database closed
 >List 0 client(s):
 >List 1 client(s):
@@ -431,19 +432,23 @@ Trying client 'otherClient3' using protocol 'ssh'
 Warning: otherClient3: Connection timed out connecting to client
 Trying client 'Client' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
-Error: test_db/mount/home/BlaH/Backup.list: Client configuration file not found
+ -> Reading client configuration file: Client
+Error: failed to open configuation file 'test_db/mount/home/BlaH/Backup.list': No such file or directory
  -> umount -fl test_db/mount
 Trying client 'Client2' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,nocase,username=user,password= //Client/C$ test_db/mount
-Error: test_db/mount/home/BlaH/Backup.list: Client configuration file not found
+ -> Reading client configuration file: Client2
+Error: failed to open configuation file 'test_db/mount/home/BlaH/Backup.list': No such file or directory
  -> umount -fl test_db/mount
 Trying client 'Client3' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username= //Client/C$ test_db/mount
-Error: test_db/mount/home/BlaH/Backup.list: Client configuration file not found
+ -> Reading client configuration file: Client3
+Error: failed to open configuation file 'test_db/mount/home/BlaH/Backup.list': No such file or directory
  -> umount -fl test_db/mount
 Trying client 'Client4' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=,password= //Client/C$ test_db/mount
-Error: test_db/mount/home/BlaH/Backup.list: Client configuration file not found
+ -> Reading client configuration file: Client4
+Error: failed to open configuation file 'test_db/mount/home/BlaH/Backup.list': No such file or directory
  -> umount -fl test_db/mount
 Database closed
 >List 1 client(s):
