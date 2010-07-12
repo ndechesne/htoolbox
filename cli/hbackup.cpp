@@ -62,6 +62,7 @@ class MyOutput : public StdOutput {
     virtual void failure(CmdLineInterface& c, ArgException& e) {
       cerr << "Error: " << e.what() << endl;
       usage(c);
+      exit(1);
     }
 
     virtual void usage(CmdLineInterface& c) {
@@ -341,6 +342,7 @@ int main(int argc, char **argv) {
     hbackup.close();
   } catch (ArgException &e) {
     cerr << "Error: " << e.error() << " for arg " << e.argId() << endl;
+    return 1;
   };
   return 0;
 }
