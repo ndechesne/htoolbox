@@ -150,7 +150,7 @@ bool ConfigItem::isValid(
   for (list<ConfigItem*>::const_iterator i = _children.begin();
       i != _children.end(); i++) {
     // Find keyword in counters list
-    unsigned int occurrences = 0;
+    size_t occurrences = 0;
     while ((j != counters.end()) && (j->keyword() < (*i)->keyword())) j++;
     if ((j != counters.end()) && (j->keyword() == (*i)->keyword())) {
       occurrences = j->occurrences();
