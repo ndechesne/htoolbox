@@ -43,23 +43,18 @@ struct List::Private {
     header("# version 4"), old_header("# version 4"), footer("# end") {}
 };
 
-ssize_t List::getLine(Line& line, bool* eol) {
+ssize_t List::getLine(Line& line) {
   LineBuffer& buffer = line;
-  bool local_eol = false;
   ssize_t rc = getline(buffer.bufferPtr(), buffer.capacityPtr(), _d->stream);
-  if (rc >= 0) {
-    *buffer.sizePtr() = rc;
-    if ((rc > 0) && (line[rc - 1] == '\n')) {
-      line.erase(rc - 1);
-      local_eol = true;
-    }
-  } else
-  if (feof(_d->stream)) {
-    rc = 0;
+  if (rc <= 0) {
+    return feof(_d->stream) ? 0 : -1;
   }
-  if (eol != NULL) {
-    *eol = local_eol ;
+  --rc;
+  if (line[rc] != '\n') {
+    return 0;
   }
+  *buffer.sizePtr() = rc + 1;
+  buffer.erase(rc);
   return rc;
 }
 
@@ -93,8 +88,7 @@ int List::open() {
   }
   // Check rights
   Line data;
-  bool eol;
-  if ((getLine(data, &eol) < 0) || (! eol)) {
+  if (getLine(data) < 0) {
     close();
     return -1;
   }
@@ -155,14 +149,13 @@ List::Status List::fetchLine(bool init) {
   // Check current status
   if (init || (_d->status == List::got_nothing)) {
     // Line contains no re-usable data
-    bool    eol;
-    ssize_t length = getLine(_d->data, &eol);
+    ssize_t length = getLine(_d->data);
     // Read error
     if (length < 0) {
       _d->status = List::failed;
     } else
     // Unexpected end of list or incorrect end of line
-    if ((length == 0) || (! eol)) {
+    if (length == 0) {
       // All lines MUST end in end-of-line character
       _d->status = List::eof;
     } else

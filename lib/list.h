@@ -26,8 +26,7 @@ class List {
   Private* const    _d;
   // Read a line, removing the LF character
   ssize_t getLine(
-    Line&           line,                   // Line to read
-    bool*           eol);                   // Whether EOL was found
+    Line&           line);                  // Line to read
 public:
   enum Status {
     eof         = -2,         // unexpected end of file

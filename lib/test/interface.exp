@@ -12263,7 +12263,7 @@ CR\r
 2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/fileoth
 2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/fileutd.h
 2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test1/testfile~
-2009-08-07 06:05:04 list.cpp:489 INFO  D       test1/testfile
+2009-08-07 06:05:04 list.cpp:482 INFO  D       test1/testfile
 2009-08-07 06:05:04 clients.cpp:436 INFO  Backing up path: test2
 2009-08-07 06:05:04 paths.cpp:179 INFO  Mf zr   test2/testfile2
 2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test2/testfile~
