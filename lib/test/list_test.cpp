@@ -436,7 +436,7 @@ int main(void) {
   cout << "Merge:" << endl;
   showList(merge_reader);
   cout << "Merge tail:" << endl;
-  sys_rc = system("tail -2 test_db/merge | grep -v 1");
+  sys_rc = system("sed \"s/.$//\" test_db/merge | tail -2 | grep -v 1");
   rename("test_db/merge", "test_db/list");
 
 
@@ -584,6 +584,13 @@ int main(void) {
   if (rename("test_db/merge", "test_db/list")) {
     cerr << "Failed to rename merge into list" << endl;
   }
+
+
+  cout << endl << "Test: read version 4 list" << endl;
+  my_time++;
+
+  List old_list("../../../test_tools/list.v4");
+  showList(old_list);
 
   return 0;
 }

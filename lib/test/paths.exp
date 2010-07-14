@@ -90,10 +90,7 @@ Al      /home/User/dir space/link space
 Af ~    /home/User/strange1TAB	CR\r
 
 Af ~    /home/User/strange2TAB	LF
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
+Af ~    /home/User/strange3TAB	LF
 CR\r
 
 Error: host:/home/User/subdir: Permission denied reading directory
@@ -198,7 +195,7 @@ Af f    /home/User/testfile
 Af ~    /home/User/testfile~
 Al      /home/User/testlink
 Ap      /home/User/testpipe
-Parsed 96 file(s)
+Parsed 97 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -241,6 +238,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdir              d       -1 000
 [ 1] /home/User/subdir-file         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdirfile          f        0 000 
@@ -340,6 +340,9 @@ myClient's journal:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdir              d       -1 000
 [ 1] /home/User/subdir-file         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdirfile          f        0 000 
@@ -493,12 +496,6 @@ cvs/diroth\r
 cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Error: host:/home/User/subdir: Permission denied reading directory
 !d !    /home/User/subdir
 Error: myClient:/home/User/subdirfile: Permission denied backing up file
@@ -533,7 +530,7 @@ svn/dirutd/.svn/tmp/prop-base\r
 svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
-Parsed 96 file(s)
+Parsed 97 file(s)
 Database closed: myClient
 Database closed
 
@@ -575,6 +572,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdir              d       -1 000
 [ 1] /home/User/subdir-file         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdirfile          f        0 000 
@@ -674,6 +674,9 @@ myClient's journal:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdir              d       -1 000
 [ 1] /home/User/subdir-file         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdirfile          f        0 000 
@@ -778,12 +781,6 @@ D       /home/User/cvs/filenew.c
 D       /home/User/cvs/fileoth
 D       /home/User/cvs/fileutd.h
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 !d !    /home/User/subdir
 myClient:/home/User/subdirfile: Permission denied backing up file
 !f !    /home/User/subdirfile
@@ -817,7 +814,7 @@ svn/dirutd/.svn/tmp/prop-base\r
 svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
-Parsed 68 file(s)
+Parsed 69 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -889,6 +886,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdir              d       -1 000
 [ 1] /home/User/subdir-file         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/subdirfile          f        0 000 
@@ -1032,12 +1032,6 @@ Af ~    /home/User/cvs/filenew.c
 Af ~    /home/User/cvs/fileoth
 Af ~    /home/User/cvs/fileutd.h
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Md      /home/User/subdir
 subdir\r
 Error: myClient:/home/User/subdir/testfile: Permission denied backing up file
@@ -1076,7 +1070,7 @@ svn/dirutd/.svn/tmp/prop-base\r
 svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
-Parsed 99 file(s)
+Parsed 100 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -1177,6 +1171,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
 [ 4] /home/User/subdir/testfile     f       12 000 
@@ -1301,13 +1298,7 @@ cvs/diroth\r
 cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
-subdir\r
+subdir   \r
 myClient:/home/User/subdir/testfile: Permission denied backing up file
 !f !    /home/User/subdir/testfile
 svn\r
@@ -1340,7 +1331,7 @@ svn/dirutd/.svn/tmp/prop-base\r
 svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
-Parsed 99 file(s)
+Parsed 100 file(s)
 Database closed: myClient
 Database closed
 
@@ -1440,6 +1431,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
 [ 4] /home/User/subdir/testfile     f       12 000 
@@ -1659,6 +1653,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
 [ 4] /home/User/subdir/testfile     f       12 000 
@@ -1754,14 +1751,247 @@ cvs/diroth\r
 cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
-subdir\r
+subdir   \r
 ~f ~    /home/User/subdir/testfile
+svn\r
+svn/.svn\r
+svn/.svn/prop-base\r
+svn/.svn/props    \r
+svn/.svn/text-base\r
+svn/.svn/tmp      \r
+svn/.svn/tmp/prop-base\r
+svn/.svn/tmp/props    \r
+svn/.svn/tmp/text-base\r
+svn/dir space         \r
+svn/dir space/.svn\r
+svn/dir space/.svn/prop-base\r
+svn/dir space/.svn/props    \r
+svn/dir space/.svn/text-base\r
+svn/dir space/.svn/tmp      \r
+svn/dir space/.svn/tmp/prop-base\r
+svn/dir space/.svn/tmp/props    \r
+svn/dir space/.svn/tmp/text-base\r
+svn/dirbad                      \r
+svn/diroth\r
+svn/dirutd\r
+svn/dirutd/.svn\r
+svn/dirutd/.svn/prop-base\r
+svn/dirutd/.svn/props    \r
+svn/dirutd/.svn/text-base\r
+svn/dirutd/.svn/tmp      \r
+svn/dirutd/.svn/tmp/prop-base\r
+svn/dirutd/.svn/tmp/props    \r
+svn/dirutd/.svn/tmp/text-base\r
+testdir                      \r
+Parsed 101 file(s)
+Register modified: myClient
+Database closed: myClient
+Database closed
+
+myClient's list:
+[ 1] /home/User/àccénts_test      f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[ 4] /home/User/cvs                 d        0 755
+[ 3] /home/User/cvs                 d       -1 000
+[ 1] /home/User/cvs                 d        0 755
+[ 4] /home/User/cvs/CVS             d        0 755
+[ 3] /home/User/cvs/CVS             [rm]
+[ 1] /home/User/cvs/CVS             d        0 755
+[ 4] /home/User/cvs/CVS/Entries     f      177 644 f899d6f61138a37484c8a2294656e903-0
+[ 3] /home/User/cvs/CVS/Entries     [rm]
+[ 1] /home/User/cvs/CVS/Entries     f      177 644 f899d6f61138a37484c8a2294656e903-0
+[ 4] /home/User/cvs/CVS/Root        f       16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 3] /home/User/cvs/CVS/Root        [rm]
+[ 1] /home/User/cvs/CVS/Root        f       16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[ 4] /home/User/cvs/CVS/Whatever    f       17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 3] /home/User/cvs/CVS/Whatever    [rm]
+[ 1] /home/User/cvs/CVS/Whatever    f       17 644 9283e2c51868272850bd2d89b63c58e8-0
+[ 4] /home/User/cvs/CVS/Wherever    d        0 755
+[ 3] /home/User/cvs/CVS/Wherever    [rm]
+[ 1] /home/User/cvs/CVS/Wherever    d        0 755
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 1] /home/User/cvs/CVS/Wherever/Whichever f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 7] /home/User/cvs/big_file        f   512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 6] /home/User/cvs/big_file        f   512000 644 
+[ 4] /home/User/cvs/dir space       d        0 755
+[ 3] /home/User/cvs/dir space       [rm]
+[ 1] /home/User/cvs/dir space       d        0 755
+[ 4] /home/User/cvs/dir space/CVS   d        0 755
+[ 3] /home/User/cvs/dir space/CVS   [rm]
+[ 1] /home/User/cvs/dir space/CVS   d        0 755
+[ 4] /home/User/cvs/dir space/CVS/Entries f       45 644 662ae0524981c10b4736be799fc8650a-0
+[ 3] /home/User/cvs/dir space/CVS/Entries [rm]
+[ 1] /home/User/cvs/dir space/CVS/Entries f       45 644 662ae0524981c10b4736be799fc8650a-0
+[ 4] /home/User/cvs/dir space/CVS/Root f       16 644 328b42839732650180b213aadebe494d-0
+[ 3] /home/User/cvs/dir space/CVS/Root [rm]
+[ 1] /home/User/cvs/dir space/CVS/Root f       16 644 328b42839732650180b213aadebe494d-0
+[ 4] /home/User/cvs/dir space/CVS/Whatever f       17 644 947c302ec365383856310621ac3fbf2f-0
+[ 3] /home/User/cvs/dir space/CVS/Whatever [rm]
+[ 1] /home/User/cvs/dir space/CVS/Whatever f       17 644 947c302ec365383856310621ac3fbf2f-0
+[ 4] /home/User/cvs/dir space/file other f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dir space/file other [rm]
+[ 1] /home/User/cvs/dir space/file other f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dir space/file space [rm]
+[ 1] /home/User/cvs/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad          d        0 755
+[ 3] /home/User/cvs/dirbad          [rm]
+[ 1] /home/User/cvs/dirbad          d        0 755
+[ 4] /home/User/cvs/dirbad/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileoth  [rm]
+[ 1] /home/User/cvs/dirbad/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirbad/fileutd  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirbad/fileutd  [rm]
+[ 1] /home/User/cvs/dirbad/fileutd  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/diroth          d        0 755
+[ 3] /home/User/cvs/diroth          [rm]
+[ 1] /home/User/cvs/diroth          d        0 755
+[ 4] /home/User/cvs/dirutd          d        0 755
+[ 3] /home/User/cvs/dirutd          [rm]
+[ 1] /home/User/cvs/dirutd          d        0 755
+[ 4] /home/User/cvs/dirutd/CVS      d        0 755
+[ 3] /home/User/cvs/dirutd/CVS      [rm]
+[ 1] /home/User/cvs/dirutd/CVS      d        0 755
+[ 4] /home/User/cvs/dirutd/CVS/Entries f       42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 1] /home/User/cvs/dirutd/CVS/Entries f       42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[ 4] /home/User/cvs/dirutd/CVS/Root f       10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 1] /home/User/cvs/dirutd/CVS/Root f       10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f       11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 1] /home/User/cvs/dirutd/CVS/Whatever f       11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[ 4] /home/User/cvs/dirutd/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileoth  [rm]
+[ 1] /home/User/cvs/dirutd/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/dirutd/fileutd  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/dirutd/fileutd  [rm]
+[ 1] /home/User/cvs/dirutd/fileutd  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filemod.o       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filemod.o       [rm]
+[ 1] /home/User/cvs/filemod.o       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/filenew.c       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/filenew.c       [rm]
+[ 1] /home/User/cvs/filenew.c       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileoth         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileoth         [rm]
+[ 1] /home/User/cvs/fileoth         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/cvs/fileutd.h       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 3] /home/User/cvs/fileutd.h       [rm]
+[ 1] /home/User/cvs/fileutd.h       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space           d        0 755
+[ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/strange1TAB	CR\r
+    f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/subdir              d        0 755
+[ 1] /home/User/subdir              d       -1 000
+[ 7] /home/User/subdir/testfile     f       12 644 285b35198a5e188b3a0df3ed33f93a26-0
+[ 4] /home/User/subdir/testfile     f       12 000 
+[ 4] /home/User/subdir/testfile1    f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/subdir/testfile2    f       12 644 285b35198a5e188b3a0df3ed33f93a26-0
+[ 1] /home/User/subdir-file         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 4] /home/User/subdirfile          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/subdirfile          f        0 000 
+[ 1] /home/User/svn                 d        0 755
+[ 1] /home/User/svn/.svn            d        0 755
+[ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
+[ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
+[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
+[ 1] /home/User/svn/.svn/prop-base  d        0 755
+[ 1] /home/User/svn/.svn/props      d        0 755
+[ 1] /home/User/svn/.svn/text-base  d        0 755
+[ 1] /home/User/svn/.svn/text-base/filemod.o.svn-base f        0 444 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/svn/.svn/text-base/fileutd.h.svn-base f        0 444 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/svn/.svn/tmp        d        0 755
+[ 1] /home/User/svn/.svn/tmp/filemod.o.tmp f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/svn/.svn/tmp/fileutd.h.tmp f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/svn/.svn/tmp/prop-base d        0 755
+[ 1] /home/User/svn/.svn/tmp/props  d        0 755
+[ 1] /home/User/svn/.svn/tmp/text-base d        0 755
+[ 1] /home/User/svn/dir space       d        0 755
+[ 1] /home/User/svn/dir space/.svn  d        0 755
+[ 1] /home/User/svn/dir space/.svn/all-wcprops f      112 444 512047d1b2605a59dabf850370d41370-0
+[ 1] /home/User/svn/dir space/.svn/entries f      278 444 f2b4c9d3f0830dea53972d208979feb0-0
+[ 1] /home/User/svn/dir space/.svn/prop-base d        0 755
+[ 1] /home/User/svn/dir space/.svn/props d        0 755
+[ 1] /home/User/svn/dir space/.svn/text-base d        0 755
+[ 1] /home/User/svn/dir space/.svn/tmp d        0 755
+[ 1] /home/User/svn/dir space/.svn/tmp/prop-base d        0 755
+[ 1] /home/User/svn/dir space/.svn/tmp/props d        0 755
+[ 1] /home/User/svn/dir space/.svn/tmp/text-base d        0 755
+[ 1] /home/User/svn/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/svn/dirbad          d        0 755
+[ 1] /home/User/svn/dirbad/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/svn/dirbad/fileutd  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/svn/diroth          d        0 755
+[ 1] /home/User/svn/dirutd          d        0 755
+[ 1] /home/User/svn/dirutd/.svn     d        0 755
+[ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
+[ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
+[ 1] /home/User/svn/dirutd/.svn/props d        0 755
+[ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
+[ 1] /home/User/svn/dirutd/.svn/text-base/fileutd.svn-base f        0 444 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/svn/dirutd/.svn/tmp d        0 755
+[ 1] /home/User/svn/dirutd/.svn/tmp/fileutd.tmp f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/svn/dirutd/.svn/tmp/prop-base d        0 755
+[ 1] /home/User/svn/dirutd/.svn/tmp/props d        0 755
+[ 1] /home/User/svn/dirutd/.svn/tmp/text-base d        0 755
+[ 1] /home/User/svn/dirutd/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/svn/dirutd/fileutd  f        2 644 26ab0db90d72e28ad0ba1e22ee510510-0
+[ 1] /home/User/svn/filemod.o       f        2 644 b026324c6904b2a9cb4b88d6d61c81d1-0
+[ 1] /home/User/svn/filenew.c       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/svn/fileoth         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/svn/fileutd.h       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/test space          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/testdir             d        0 755
+[ 1] /home/User/testfile            f       13 750 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] /home/User/testfile~           f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/testlink            l        8 777 testfile
+[ 1] /home/User/testpipe            p        0 600
+
+myClient's journal:
+[ 7] /home/User/cvs/big_file        f   512000 644 816df6f64deba63b029ca19d880ee10a-0
+[ 7] /home/User/subdir/testfile     f       12 644 285b35198a5e188b3a0df3ed33f93a26-0
+
+As previous with subdir/testfile in ignore list
+Database open in read/write mode
+Path: /home/User
+ -> No error if same file fails copy again
+ -> Filter: and bazaar
+ --> Condition: type d
+ --> Condition: path bzr
+ -> Filter: and testfile
+ --> Condition: type f
+ --> Condition: path subdir/testfile
+ -> Filter: or ignore1
+ --> Condition: filter bazaar
+ --> Condition: filter testfile
+ -> Ignore filters:
+ --> bazaar
+ --> ignore1
+Reading list of problematic checksums
+Database open r/w: myClient
+Id s    /home/User/.hbackup
+cvs\r
+cvs/CVS\r
+cvs/CVS/Wherever\r
+cvs/dir space   \r
+cvs/dir space/CVS\r
+cvs/dirbad       \r
+cvs/diroth\r
+cvs/dirutd\r
+cvs/dirutd/CVS\r
+dir space     \r
+subdir   \r
+If f    /home/User/subdir/testfile
+D       /home/User/subdir/testfile
 svn\r
 svn/.svn\r
 svn/.svn/prop-base\r
@@ -1895,248 +2125,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 4] /home/User/subdir              d        0 755
-[ 1] /home/User/subdir              d       -1 000
-[ 7] /home/User/subdir/testfile     f       12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 4] /home/User/subdir/testfile     f       12 000 
-[ 4] /home/User/subdir/testfile1    f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 4] /home/User/subdir/testfile2    f       12 644 285b35198a5e188b3a0df3ed33f93a26-0
-[ 1] /home/User/subdir-file         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 4] /home/User/subdirfile          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/subdirfile          f        0 000 
-[ 1] /home/User/svn                 d        0 755
-[ 1] /home/User/svn/.svn            d        0 755
-[ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
-[ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
-[ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
-[ 1] /home/User/svn/.svn/prop-base  d        0 755
-[ 1] /home/User/svn/.svn/props      d        0 755
-[ 1] /home/User/svn/.svn/text-base  d        0 755
-[ 1] /home/User/svn/.svn/text-base/filemod.o.svn-base f        0 444 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/.svn/text-base/fileutd.h.svn-base f        0 444 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/.svn/tmp        d        0 755
-[ 1] /home/User/svn/.svn/tmp/filemod.o.tmp f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/.svn/tmp/fileutd.h.tmp f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/.svn/tmp/prop-base d        0 755
-[ 1] /home/User/svn/.svn/tmp/props  d        0 755
-[ 1] /home/User/svn/.svn/tmp/text-base d        0 755
-[ 1] /home/User/svn/dir space       d        0 755
-[ 1] /home/User/svn/dir space/.svn  d        0 755
-[ 1] /home/User/svn/dir space/.svn/all-wcprops f      112 444 512047d1b2605a59dabf850370d41370-0
-[ 1] /home/User/svn/dir space/.svn/entries f      278 444 f2b4c9d3f0830dea53972d208979feb0-0
-[ 1] /home/User/svn/dir space/.svn/prop-base d        0 755
-[ 1] /home/User/svn/dir space/.svn/props d        0 755
-[ 1] /home/User/svn/dir space/.svn/text-base d        0 755
-[ 1] /home/User/svn/dir space/.svn/tmp d        0 755
-[ 1] /home/User/svn/dir space/.svn/tmp/prop-base d        0 755
-[ 1] /home/User/svn/dir space/.svn/tmp/props d        0 755
-[ 1] /home/User/svn/dir space/.svn/tmp/text-base d        0 755
-[ 1] /home/User/svn/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/dirbad          d        0 755
-[ 1] /home/User/svn/dirbad/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/dirbad/fileutd  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/diroth          d        0 755
-[ 1] /home/User/svn/dirutd          d        0 755
-[ 1] /home/User/svn/dirutd/.svn     d        0 755
-[ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
-[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
-[ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
-[ 1] /home/User/svn/dirutd/.svn/props d        0 755
-[ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
-[ 1] /home/User/svn/dirutd/.svn/text-base/fileutd.svn-base f        0 444 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/dirutd/.svn/tmp d        0 755
-[ 1] /home/User/svn/dirutd/.svn/tmp/fileutd.tmp f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/dirutd/.svn/tmp/prop-base d        0 755
-[ 1] /home/User/svn/dirutd/.svn/tmp/props d        0 755
-[ 1] /home/User/svn/dirutd/.svn/tmp/text-base d        0 755
-[ 1] /home/User/svn/dirutd/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/dirutd/fileutd  f        2 644 26ab0db90d72e28ad0ba1e22ee510510-0
-[ 1] /home/User/svn/filemod.o       f        2 644 b026324c6904b2a9cb4b88d6d61c81d1-0
-[ 1] /home/User/svn/filenew.c       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/fileoth         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/svn/fileutd.h       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/test space          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/testdir             d        0 755
-[ 1] /home/User/testfile            f       13 750 59ca0efa9f5633cb0371bbc0355478d8-0
-[ 1] /home/User/testfile~           f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/testlink            l        8 777 testfile
-[ 1] /home/User/testpipe            p        0 600
-
-myClient's journal:
-[ 7] /home/User/cvs/big_file        f   512000 644 816df6f64deba63b029ca19d880ee10a-0
-[ 7] /home/User/subdir/testfile     f       12 644 285b35198a5e188b3a0df3ed33f93a26-0
-
-As previous with subdir/testfile in ignore list
-Database open in read/write mode
-Path: /home/User
- -> No error if same file fails copy again
- -> Filter: and bazaar
- --> Condition: type d
- --> Condition: path bzr
- -> Filter: and testfile
- --> Condition: type f
- --> Condition: path subdir/testfile
- -> Filter: or ignore1
- --> Condition: filter bazaar
- --> Condition: filter testfile
- -> Ignore filters:
- --> bazaar
- --> ignore1
-Reading list of problematic checksums
-Database open r/w: myClient
-Id s    /home/User/.hbackup
-cvs\r
-cvs/CVS\r
-cvs/CVS/Wherever\r
-cvs/dir space   \r
-cvs/dir space/CVS\r
-cvs/dirbad       \r
-cvs/diroth\r
-cvs/dirutd\r
-cvs/dirutd/CVS\r
-dir space     \r
-Error: strange3TAB	LF
+[ 1] /home/User/strange3TAB	LF
 CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
-subdir\r
-If f    /home/User/subdir/testfile
-D       /home/User/subdir/testfile
-svn\r
-svn/.svn\r
-svn/.svn/prop-base\r
-svn/.svn/props    \r
-svn/.svn/text-base\r
-svn/.svn/tmp      \r
-svn/.svn/tmp/prop-base\r
-svn/.svn/tmp/props    \r
-svn/.svn/tmp/text-base\r
-svn/dir space         \r
-svn/dir space/.svn\r
-svn/dir space/.svn/prop-base\r
-svn/dir space/.svn/props    \r
-svn/dir space/.svn/text-base\r
-svn/dir space/.svn/tmp      \r
-svn/dir space/.svn/tmp/prop-base\r
-svn/dir space/.svn/tmp/props    \r
-svn/dir space/.svn/tmp/text-base\r
-svn/dirbad                      \r
-svn/diroth\r
-svn/dirutd\r
-svn/dirutd/.svn\r
-svn/dirutd/.svn/prop-base\r
-svn/dirutd/.svn/props    \r
-svn/dirutd/.svn/text-base\r
-svn/dirutd/.svn/tmp      \r
-svn/dirutd/.svn/tmp/prop-base\r
-svn/dirutd/.svn/tmp/props    \r
-svn/dirutd/.svn/tmp/text-base\r
-testdir                      \r
-Parsed 99 file(s)
-Register modified: myClient
-Database closed: myClient
-Database closed
-
-myClient's list:
-[ 1] /home/User/àccénts_test      f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/big_file            f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
-[ 4] /home/User/cvs                 d        0 755
-[ 3] /home/User/cvs                 d       -1 000
-[ 1] /home/User/cvs                 d        0 755
-[ 4] /home/User/cvs/CVS             d        0 755
-[ 3] /home/User/cvs/CVS             [rm]
-[ 1] /home/User/cvs/CVS             d        0 755
-[ 4] /home/User/cvs/CVS/Entries     f      177 644 f899d6f61138a37484c8a2294656e903-0
-[ 3] /home/User/cvs/CVS/Entries     [rm]
-[ 1] /home/User/cvs/CVS/Entries     f      177 644 f899d6f61138a37484c8a2294656e903-0
-[ 4] /home/User/cvs/CVS/Root        f       16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
-[ 3] /home/User/cvs/CVS/Root        [rm]
-[ 1] /home/User/cvs/CVS/Root        f       16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
-[ 4] /home/User/cvs/CVS/Whatever    f       17 644 9283e2c51868272850bd2d89b63c58e8-0
-[ 3] /home/User/cvs/CVS/Whatever    [rm]
-[ 1] /home/User/cvs/CVS/Whatever    f       17 644 9283e2c51868272850bd2d89b63c58e8-0
-[ 4] /home/User/cvs/CVS/Wherever    d        0 755
-[ 3] /home/User/cvs/CVS/Wherever    [rm]
-[ 1] /home/User/cvs/CVS/Wherever    d        0 755
-[ 4] /home/User/cvs/CVS/Wherever/Whichever f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 3] /home/User/cvs/CVS/Wherever/Whichever [rm]
-[ 1] /home/User/cvs/CVS/Wherever/Whichever f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 7] /home/User/cvs/big_file        f   512000 644 816df6f64deba63b029ca19d880ee10a-0
-[ 6] /home/User/cvs/big_file        f   512000 644 
-[ 4] /home/User/cvs/dir space       d        0 755
-[ 3] /home/User/cvs/dir space       [rm]
-[ 1] /home/User/cvs/dir space       d        0 755
-[ 4] /home/User/cvs/dir space/CVS   d        0 755
-[ 3] /home/User/cvs/dir space/CVS   [rm]
-[ 1] /home/User/cvs/dir space/CVS   d        0 755
-[ 4] /home/User/cvs/dir space/CVS/Entries f       45 644 662ae0524981c10b4736be799fc8650a-0
-[ 3] /home/User/cvs/dir space/CVS/Entries [rm]
-[ 1] /home/User/cvs/dir space/CVS/Entries f       45 644 662ae0524981c10b4736be799fc8650a-0
-[ 4] /home/User/cvs/dir space/CVS/Root f       16 644 328b42839732650180b213aadebe494d-0
-[ 3] /home/User/cvs/dir space/CVS/Root [rm]
-[ 1] /home/User/cvs/dir space/CVS/Root f       16 644 328b42839732650180b213aadebe494d-0
-[ 4] /home/User/cvs/dir space/CVS/Whatever f       17 644 947c302ec365383856310621ac3fbf2f-0
-[ 3] /home/User/cvs/dir space/CVS/Whatever [rm]
-[ 1] /home/User/cvs/dir space/CVS/Whatever f       17 644 947c302ec365383856310621ac3fbf2f-0
-[ 4] /home/User/cvs/dir space/file other f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 3] /home/User/cvs/dir space/file other [rm]
-[ 1] /home/User/cvs/dir space/file other f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 4] /home/User/cvs/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 3] /home/User/cvs/dir space/file space [rm]
-[ 1] /home/User/cvs/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 4] /home/User/cvs/dirbad          d        0 755
-[ 3] /home/User/cvs/dirbad          [rm]
-[ 1] /home/User/cvs/dirbad          d        0 755
-[ 4] /home/User/cvs/dirbad/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 3] /home/User/cvs/dirbad/fileoth  [rm]
-[ 1] /home/User/cvs/dirbad/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 4] /home/User/cvs/dirbad/fileutd  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 3] /home/User/cvs/dirbad/fileutd  [rm]
-[ 1] /home/User/cvs/dirbad/fileutd  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 4] /home/User/cvs/diroth          d        0 755
-[ 3] /home/User/cvs/diroth          [rm]
-[ 1] /home/User/cvs/diroth          d        0 755
-[ 4] /home/User/cvs/dirutd          d        0 755
-[ 3] /home/User/cvs/dirutd          [rm]
-[ 1] /home/User/cvs/dirutd          d        0 755
-[ 4] /home/User/cvs/dirutd/CVS      d        0 755
-[ 3] /home/User/cvs/dirutd/CVS      [rm]
-[ 1] /home/User/cvs/dirutd/CVS      d        0 755
-[ 4] /home/User/cvs/dirutd/CVS/Entries f       42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 3] /home/User/cvs/dirutd/CVS/Entries [rm]
-[ 1] /home/User/cvs/dirutd/CVS/Entries f       42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
-[ 4] /home/User/cvs/dirutd/CVS/Root f       10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
-[ 3] /home/User/cvs/dirutd/CVS/Root [rm]
-[ 1] /home/User/cvs/dirutd/CVS/Root f       10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
-[ 4] /home/User/cvs/dirutd/CVS/Whatever f       11 644 caecaacc7fdee8a7667d4f4f315858a9-0
-[ 3] /home/User/cvs/dirutd/CVS/Whatever [rm]
-[ 1] /home/User/cvs/dirutd/CVS/Whatever f       11 644 caecaacc7fdee8a7667d4f4f315858a9-0
-[ 4] /home/User/cvs/dirutd/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 3] /home/User/cvs/dirutd/fileoth  [rm]
-[ 1] /home/User/cvs/dirutd/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 4] /home/User/cvs/dirutd/fileutd  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 3] /home/User/cvs/dirutd/fileutd  [rm]
-[ 1] /home/User/cvs/dirutd/fileutd  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 4] /home/User/cvs/filemod.o       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 3] /home/User/cvs/filemod.o       [rm]
-[ 1] /home/User/cvs/filemod.o       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 4] /home/User/cvs/filenew.c       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 3] /home/User/cvs/filenew.c       [rm]
-[ 1] /home/User/cvs/filenew.c       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 4] /home/User/cvs/fileoth         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 3] /home/User/cvs/fileoth         [rm]
-[ 1] /home/User/cvs/fileoth         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 4] /home/User/cvs/fileutd.h       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 3] /home/User/cvs/fileutd.h       [rm]
-[ 1] /home/User/cvs/fileutd.h       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/dir space           d        0 755
-[ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/dir space/link space l       12 777 linked space
-[ 1] /home/User/strange1TAB	CR\r
-    f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
 [ 8] /home/User/subdir/testfile     [rm]
@@ -2244,12 +2235,6 @@ cvs/diroth\r
 cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 D       /home/User/subdir
 D       /home/User/subdir/testfile1
@@ -2284,7 +2269,7 @@ svn/dirutd/.svn/tmp/prop-base\r
 svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
-Parsed 96 file(s)
+Parsed 97 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -2387,6 +2372,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -2499,12 +2487,6 @@ cvs/diroth\r
 cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
 svn/.svn\r
@@ -2537,7 +2519,7 @@ svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Ml      /home/User/testlink
-Parsed 96 file(s)
+Parsed 97 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -2640,6 +2622,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -2759,12 +2744,6 @@ cvs/diroth\r
 cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
 svn/.svn\r
@@ -2798,7 +2777,7 @@ svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Il f    /home/User/testlink
 D       /home/User/testlink
-Parsed 95 file(s)
+Parsed 96 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -2901,6 +2880,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -3055,12 +3037,6 @@ D       /home/User/cvs/dirutd/fileoth
 If p    /home/User/cvs/fileoth
 D       /home/User/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
 svn/.svn\r
@@ -3093,7 +3069,7 @@ svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Il f    /home/User/testlink
-Parsed 83 file(s)
+Parsed 84 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -3208,6 +3184,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -3361,12 +3340,6 @@ If p    /home/User/cvs/dirutd/CVS/Whatever
 If p    /home/User/cvs/dirutd/fileoth
 If p    /home/User/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
 svn/.svn\r
@@ -3399,7 +3372,7 @@ svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Il f    /home/User/testlink
-Parsed 83 file(s)
+Parsed 84 file(s)
 Database closed: myClient
 Database closed
 
@@ -3513,6 +3486,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -3668,12 +3644,6 @@ If p    /home/User/cvs/dirutd/CVS/Whatever
 If p    /home/User/cvs/dirutd/fileoth
 If p    /home/User/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
  -> Parsing Subversion entries
@@ -3756,7 +3726,7 @@ D       /home/User/svn/fileoth
 D       /home/User/svn/fileutd.h
 testdir\r
 Il f    /home/User/testlink
-Parsed 46 file(s)
+Parsed 47 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -3871,6 +3841,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -4099,12 +4072,6 @@ D       /home/User/cvs/dirutd/CVS/Root
 D       /home/User/cvs/dirutd/fileutd
 If p    /home/User/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
  -> Parsing Subversion entries
@@ -4150,7 +4117,7 @@ If p    /home/User/svn/fileoth
 If p    /home/User/svn/fileutd.h
 testdir\r
 Il f    /home/User/testlink
-Parsed 41 file(s)
+Parsed 42 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -4270,6 +4237,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -4466,12 +4436,6 @@ Id p    /home/User/cvs/diroth
 Id f    /home/User/cvs/dirutd
 If p    /home/User/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
  -> Parsing Subversion entries
@@ -4513,7 +4477,7 @@ If p    /home/User/svn/fileoth
 If p    /home/User/svn/fileutd.h
 testdir\r
 Il f    /home/User/testlink
-Parsed 37 file(s)
+Parsed 38 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -4633,6 +4597,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -4832,12 +4799,6 @@ Id p    /home/User/cvs/diroth
 Id f    /home/User/cvs/dirutd
 If p    /home/User/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
  -> Parsing Subversion entries
@@ -4875,7 +4836,7 @@ If p    /home/User/svn/fileoth
 If p    /home/User/svn/fileutd.h
 testdir\r
 Il f    /home/User/testlink
-Parsed 36 file(s)
+Parsed 37 file(s)
 D       /home/User/testpipe
 Register modified: myClient
 Database closed: myClient
@@ -4996,6 +4957,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -5193,12 +5157,6 @@ Id p    /home/User/cvs/diroth
 Id f    /home/User/cvs/dirutd
 If p    /home/User/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
  -> Parsing Subversion entries
@@ -5238,7 +5196,7 @@ If p    /home/User/svn/fileutd.h
 testdir\r
 ~f      /home/User/testfile
 Il f    /home/User/testlink
-Parsed 36 file(s)
+Parsed 37 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -5358,6 +5316,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -5560,12 +5521,6 @@ Adding uncompressed data for 0d599f0ec05c3bda8c3b8a68c32a1b47-0
 Mf f    /home/User/cvs/filenew.c
 If p    /home/User/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
  -> Parsing Subversion entries
@@ -5604,7 +5559,7 @@ If p    /home/User/svn/fileutd.h
 testdir\r
 Il f    /home/User/testlink
 Ap      /home/User/testpipe
-Parsed 37 file(s)
+Parsed 38 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -5725,6 +5680,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -5948,12 +5906,6 @@ docbook-xml/4.4\r
 Af ~    /home/User/docbook-xml/4.4/dbgenent.mod
 Af ~    /home/User/docbook-xml.cat
 Af ~    /home/User/docbook-xml.cat.old
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
  -> Parsing Subversion entries
@@ -5997,7 +5949,7 @@ Af ~    /home/User/testdir/biblio/biblio.dbt
 Af ~    /home/User/testdir/biblio.odb
 Af ~    /home/User/testdir/evolocal.odb
 Il f    /home/User/testlink
-Parsed 57 file(s)
+Parsed 58 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -6133,6 +6085,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -6364,12 +6319,6 @@ docbook-xml/4.1.2\r
 docbook-xml/4.2  \r
 docbook-xml/4.3\r
 docbook-xml/4.4\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
  -> Parsing Subversion entries
@@ -6408,7 +6357,7 @@ If p    /home/User/svn/fileutd.h
 testdir\r
 testdir/biblio\r
 Il f    /home/User/testlink
-Parsed 57 file(s)
+Parsed 58 file(s)
 Database closed: myClient
 Database closed
 
@@ -6543,6 +6492,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -6841,12 +6793,6 @@ docbook-xml/4.1.2\r
 docbook-xml/4.2  \r
 docbook-xml/4.3\r
 docbook-xml/4.4\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
  -> Parsing Subversion entries
@@ -6890,7 +6836,7 @@ D       /home/User/testdir/biblio/biblio.dbt
 D       /home/User/testdir/biblio.odb
 D       /home/User/testdir/evolocal.odb
 Il f    /home/User/testlink
-Parsed 53 file(s)
+Parsed 54 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -7033,6 +6979,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -7320,6 +7269,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -7560,12 +7512,6 @@ docbook-xml/4.1.2\r
 docbook-xml/4.2  \r
 docbook-xml/4.3\r
 docbook-xml/4.4\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
  -> Parsing Subversion entries
@@ -7602,7 +7548,7 @@ Id f    /home/User/svn/dirutd
 If p    /home/User/svn/fileoth
 If p    /home/User/svn/fileutd.h
 Il f    /home/User/testlink
-Parsed 53 file(s)
+Parsed 54 file(s)
 Database closed: myClient
 Database closed
 
@@ -7746,6 +7692,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -8094,6 +8043,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 4] /home/User/subdir              d        0 755
 [ 1] /home/User/subdir              d       -1 000
@@ -8331,12 +8283,6 @@ docbook-xml/4.1.2\r
 docbook-xml/4.2  \r
 docbook-xml/4.3\r
 docbook-xml/4.4\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
  -> Parsing Subversion entries
@@ -8375,7 +8321,7 @@ If p    /home/User/svn/fileutd.h
 Error: myClient:/home/User/testfile: Permission denied backing up file
 Mf !    /home/User/testfile
 Il f    /home/User/testlink
-Parsed 53 file(s)
+Parsed 54 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -8444,6 +8390,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 8] /home/User/subdir/testfile     [rm]
 [ 7] /home/User/subdir/testfile     f       12 644 285b35198a5e188b3a0df3ed33f93a26-0
@@ -8620,12 +8569,6 @@ docbook-xml/4.1.2\r
 docbook-xml/4.2  \r
 docbook-xml/4.3\r
 docbook-xml/4.4\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
  -> Parsing Subversion entries
@@ -8664,7 +8607,7 @@ If p    /home/User/svn/fileutd.h
 D       /home/User/testfile
 Mf ~    /home/User/testfile~
 Il f    /home/User/testlink
-Parsed 52 file(s)
+Parsed 53 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -8732,6 +8675,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 8] /home/User/subdir/testfile     [rm]
 [ 9] /home/User/subdir/testfile1    [rm]
@@ -8901,12 +8847,6 @@ docbook-xml/4.1.2\r
 docbook-xml/4.2  \r
 docbook-xml/4.3\r
 docbook-xml/4.4\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    /home/User/strange3TAB	LF
-CR\r
-
 Id f    /home/User/subdir
 svn\r
  -> Parsing Subversion entries
@@ -8944,7 +8884,7 @@ If p    /home/User/svn/fileoth
 If p    /home/User/svn/fileutd.h
 Mf ~    /home/User/testfile~
 Il f    /home/User/testlink
-Parsed 52 file(s)
+Parsed 53 file(s)
 Register modified: myClient
 Database closed: myClient
 Database closed
@@ -9012,6 +8952,9 @@ myClient's list:
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/strange3TAB	LF
+CR\r
+ f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 9] /home/User/subdir              [rm]
 [ 8] /home/User/subdir/testfile     [rm]
 [ 9] /home/User/subdir/testfile1    [rm]

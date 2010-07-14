@@ -194,3 +194,58 @@ Test: merge read
 [ 1] file_new                       f       13 750 59ca0efa9f5633cb0371bbc0355478d8
 [ 1] link                           l        8 777 testfile
 [ 1] path                           d        0 755
+
+Test: read version 4 list
+[1249617904] test1/big_file                 f 10485760 644 f1c9645dbc14efddc7d8a322685f26eb-0
+[1249617904] test1/cvs                      d        0 755
+[1249617904] test1/cvs/CVS                  d        0 755
+[1249617904] test1/cvs/CVS/Entries          f      177 644 f899d6f61138a37484c8a2294656e903-0
+[1249617904] test1/cvs/CVS/Root             f       16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[1249617904] test1/cvs/CVS/Root             f       16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[1249617904] test1/cvs/dir space            d        0 755
+[1249617904] test1/cvs/dir space/CVS        d        0 755
+[1249617904] test1/cvs/dir space/CVS/Entries f       45 644 662ae0524981c10b4736be799fc8650a-0
+[1249617904] test1/cvs/dir space/CVS/Root   f       16 644 328b42839732650180b213aadebe494d-0
+[1249617904] test1/cvs/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1249617904] test1/cvs/dirbad               d        0 755
+[1249617904] test1/cvs/dirutd               d        0 755
+[1249617904] test1/cvs/dirutd/CVS           d        0 755
+[1249617904] test1/cvs/dirutd/CVS/Entries   f       42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[1249617904] test1/cvs/dirutd/CVS/Root      f       10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[1249617904] test1/cvs/dirutd/fileutd       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1249617904] test1/cvs/filenew.c            f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1249617904] test1/cvs/fileutd.h            f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1249617904] test1/dir space                d        0 755
+[1249617904] test1/dir space/big_file       f   512000 644 816df6f64deba63b029ca19d880ee10a-0
+[1249617904] test1/dir space/big_file       f   512000 644 
+[1249617904] test1/dir space/file space     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1249617904] test1/dir space/link space     l       12 777 linked space
+[1249617904] test1/strange1TAB	CR\r
+         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1249617904] test1/strange2TAB	LF          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1249617904] test1/svn                      d        0 755
+[1249617904] test1/svn/.svn                 d        0 755
+[1249617904] test1/svn/.svn/entries         f      602 444 5173c1e86196c05c124452a401e92a22-0
+[1249617904] test1/svn/dir space            d        0 755
+[1249617904] test1/svn/dir space/.svn       d        0 755
+[1249617904] test1/svn/dir space/.svn/entries f      278 444 f2b4c9d3f0830dea53972d208979feb0-0
+[1249617904] test1/svn/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1249617904] test1/svn/dirbad               d        0 755
+[1249617904] test1/svn/dirutd               d        0 755
+[1249617904] test1/svn/dirutd/.svn          d        0 755
+[1249617904] test1/svn/dirutd/.svn/entries  f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
+[1249617904] test1/svn/dirutd/fileutd       f        2 644 26ab0db90d72e28ad0ba1e22ee510510-0
+[1249617904] test1/svn/filenew.c            f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1249617904] test1/test space               f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[1249617904] test1/testdir                  d        0 755
+[1249617904] test1/testfile                 [rm]
+[1249617904] test1/testfile                 f       13 750 59ca0efa9f5633cb0371bbc0355478d8-0
+[1249617904] test1/testlink                 l        8 777 testfile
+[1249617904] test1/testpipe                 p        0 600
+[1249617904] test2/testdir                  d        0 755
+[1249617904] test2/testfile                 f   145408 644 3d546a1ce46c6ae10ad34ab8a81c542e-0
+[1249617904] test2/testfile2                f   259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[1249617904] test2/testfile2                f   259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[1249617904] test2/testfile2                f   259072 644 fb00cd74a5f35e89a7fbdd3c1d05375a-0
+[1249617904] test2/testfile2.gz             f   145461 644 f81f70dceaca8b0cec354f33fa3f0909-0
+[1249617904] test2/testlink                 l        8 777 testfile

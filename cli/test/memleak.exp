@@ -1,31 +1,31 @@
 Version
-HBackup (c) 2006-2010 Hervé Fache version 1.0a
+HBackup (c) 2006-2010 Hervé Fache version 1.1a
  4 bytes in 1 blocks are definitely lost in loss record 2 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  14 bytes in 1 blocks are possibly lost in loss record 31 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:143)
+   main (hbackup.cpp:144)
  
  14 bytes in 1 blocks are possibly lost in loss record 32 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:147)
+   main (hbackup.cpp:148)
  
  14 bytes in 1 blocks are possibly lost in loss record 33 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  14 bytes in 1 blocks are possibly lost in loss record 34 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -34,7 +34,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:310)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  14 bytes in 1 blocks are possibly lost in loss record 35 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -44,133 +44,133 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    TCLAP::Arg::flagStartString() (Arg.h:199)
    TCLAP::CmdLine::_constructor() (CmdLine.h:328)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  14 bytes in 1 blocks are possibly lost in loss record 36 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  14 bytes in 1 blocks are possibly lost in loss record 37 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  14 bytes in 1 blocks are possibly lost in loss record 38 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:123)
+   main (hbackup.cpp:124)
  
  14 bytes in 1 blocks are possibly lost in loss record 39 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  14 bytes in 1 blocks are possibly lost in loss record 40 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:131)
+   main (hbackup.cpp:132)
  
  14 bytes in 1 blocks are possibly lost in loss record 41 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:135)
+   main (hbackup.cpp:136)
  
  14 bytes in 1 blocks are possibly lost in loss record 42 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:139)
+   main (hbackup.cpp:140)
  
  14 bytes in 1 blocks are possibly lost in loss record 43 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:155)
+   main (hbackup.cpp:156)
  
  14 bytes in 1 blocks are possibly lost in loss record 44 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  14 bytes in 1 blocks are possibly lost in loss record 45 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:163)
+   main (hbackup.cpp:164)
  
  14 bytes in 1 blocks are possibly lost in loss record 46 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:167)
+   main (hbackup.cpp:168)
  
  14 bytes in 1 blocks are possibly lost in loss record 47 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:171)
+   main (hbackup.cpp:172)
  
  14 bytes in 1 blocks are possibly lost in loss record 48 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:175)
+   main (hbackup.cpp:176)
  
  16 bytes in 1 blocks are possibly lost in loss record 49 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:131)
+   main (hbackup.cpp:132)
  
  17 bytes in 1 blocks are possibly lost in loss record 50 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:143)
+   main (hbackup.cpp:144)
  
  17 bytes in 1 blocks are possibly lost in loss record 51 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  17 bytes in 1 blocks are possibly lost in loss record 52 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  17 bytes in 1 blocks are possibly lost in loss record 53 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  17 bytes in 1 blocks are possibly lost in loss record 54 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -179,77 +179,77 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:310)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  17 bytes in 1 blocks are possibly lost in loss record 55 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  17 bytes in 1 blocks are possibly lost in loss record 56 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:163)
+   main (hbackup.cpp:164)
  
  17 bytes in 1 blocks are possibly lost in loss record 57 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:171)
+   main (hbackup.cpp:172)
  
  18 bytes in 1 blocks are possibly lost in loss record 58 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:155)
+   main (hbackup.cpp:156)
  
  18 bytes in 1 blocks are possibly lost in loss record 59 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:123)
+   main (hbackup.cpp:124)
  
  18 bytes in 1 blocks are possibly lost in loss record 60 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:167)
+   main (hbackup.cpp:168)
  
  19 bytes in 1 blocks are possibly lost in loss record 61 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  19 bytes in 1 blocks are possibly lost in loss record 62 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  19 bytes in 1 blocks are possibly lost in loss record 63 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  20 bytes in 1 blocks are possibly lost in loss record 64 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:91)
+   main (hbackup.cpp:92)
  
  20 bytes in 1 blocks are possibly lost in loss record 65 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -258,21 +258,21 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:318)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  20 bytes in 1 blocks are possibly lost in loss record 66 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  20 bytes in 1 blocks are possibly lost in loss record 67 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:175)
+   main (hbackup.cpp:176)
  
  21 bytes in 1 blocks are possibly lost in loss record 68 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -281,14 +281,14 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:143)
+   main (hbackup.cpp:144)
  
  21 bytes in 1 blocks are possibly lost in loss record 69 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:147)
+   main (hbackup.cpp:148)
  
  21 bytes in 1 blocks are possibly lost in loss record 70 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -297,7 +297,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:147)
+   main (hbackup.cpp:148)
  
  21 bytes in 1 blocks are possibly lost in loss record 71 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -306,14 +306,14 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::ValueArg<std::string>::ValueArg(std::string const&, std::string const&, std::string const&, bool, std::string, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (ValueArg.h:391)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  21 bytes in 1 blocks are possibly lost in loss record 72 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:155)
+   main (hbackup.cpp:156)
  
  21 bytes in 1 blocks are possibly lost in loss record 73 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -324,7 +324,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, bool, TCLAP::Visitor*) (SwitchArg.h:122)
    TCLAP::CmdLine::_constructor() (CmdLine.h:310)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  21 bytes in 1 blocks are possibly lost in loss record 74 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -335,7 +335,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, bool, TCLAP::Visitor*) (SwitchArg.h:122)
    TCLAP::CmdLine::_constructor() (CmdLine.h:318)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  21 bytes in 1 blocks are possibly lost in loss record 75 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -346,7 +346,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, bool, TCLAP::Visitor*) (SwitchArg.h:122)
    TCLAP::CmdLine::_constructor() (CmdLine.h:328)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  21 bytes in 1 blocks are possibly lost in loss record 76 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -355,7 +355,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::ValueArg<std::string>::ValueArg(std::string const&, std::string const&, std::string const&, bool, std::string, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (ValueArg.h:391)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  21 bytes in 1 blocks are possibly lost in loss record 77 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -364,7 +364,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::MultiArg<std::string>::MultiArg(std::string const&, std::string const&, std::string const&, bool, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (MultiArg.h:359)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  21 bytes in 1 blocks are possibly lost in loss record 78 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -373,7 +373,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:123)
+   main (hbackup.cpp:124)
  
  21 bytes in 1 blocks are possibly lost in loss record 79 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -382,7 +382,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::ValueArg<long>::ValueArg(std::string const&, std::string const&, std::string const&, bool, long, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (ValueArg.h:391)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  21 bytes in 1 blocks are possibly lost in loss record 80 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -391,7 +391,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:131)
+   main (hbackup.cpp:132)
  
  21 bytes in 1 blocks are possibly lost in loss record 81 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -400,7 +400,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:135)
+   main (hbackup.cpp:136)
  
  21 bytes in 1 blocks are possibly lost in loss record 82 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -409,7 +409,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:139)
+   main (hbackup.cpp:140)
  
  21 bytes in 1 blocks are possibly lost in loss record 83 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -418,7 +418,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:155)
+   main (hbackup.cpp:156)
  
  21 bytes in 1 blocks are possibly lost in loss record 84 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -427,7 +427,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::ValueArg<std::string>::ValueArg(std::string const&, std::string const&, std::string const&, bool, std::string, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (ValueArg.h:391)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  21 bytes in 1 blocks are possibly lost in loss record 85 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -436,7 +436,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:163)
+   main (hbackup.cpp:164)
  
  21 bytes in 1 blocks are possibly lost in loss record 86 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -445,7 +445,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:167)
+   main (hbackup.cpp:168)
  
  21 bytes in 1 blocks are possibly lost in loss record 87 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -454,7 +454,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:171)
+   main (hbackup.cpp:172)
  
  21 bytes in 1 blocks are possibly lost in loss record 88 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -463,42 +463,42 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:175)
+   main (hbackup.cpp:176)
  
  22 bytes in 1 blocks are possibly lost in loss record 89 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  22 bytes in 1 blocks are possibly lost in loss record 90 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:135)
+   main (hbackup.cpp:136)
  
  22 bytes in 1 blocks are possibly lost in loss record 91 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  23 bytes in 1 blocks are possibly lost in loss record 92 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  23 bytes in 1 blocks are possibly lost in loss record 93 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:139)
+   main (hbackup.cpp:140)
  
  24 bytes in 1 blocks are possibly lost in loss record 94 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -508,63 +508,63 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    TCLAP::Arg::ignoreNameString() (Arg.h:210)
    TCLAP::CmdLine::_constructor() (CmdLine.h:328)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  25 bytes in 1 blocks are possibly lost in loss record 95 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  25 bytes in 1 blocks are possibly lost in loss record 96 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  32 bytes in 1 blocks are possibly lost in loss record 97 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  32 bytes in 1 blocks are possibly lost in loss record 98 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  32 bytes in 1 blocks are possibly lost in loss record 99 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:131)
+   main (hbackup.cpp:132)
  
  32 bytes in 1 blocks are possibly lost in loss record 100 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:143)
+   main (hbackup.cpp:144)
  
  33 bytes in 1 blocks are possibly lost in loss record 101 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:139)
+   main (hbackup.cpp:140)
  
  33 bytes in 1 blocks are possibly lost in loss record 102 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  35 bytes in 1 blocks are possibly lost in loss record 103 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -574,35 +574,35 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
    std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::parse(int, char**) (CmdLine.h:378)
-   main (hbackup.cpp:178)
+   main (hbackup.cpp:179)
  
  36 bytes in 1 blocks are possibly lost in loss record 107 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:123)
+   main (hbackup.cpp:124)
  
  37 bytes in 1 blocks are possibly lost in loss record 108 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:163)
+   main (hbackup.cpp:164)
  
  37 bytes in 1 blocks are possibly lost in loss record 109 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:171)
+   main (hbackup.cpp:172)
  
  37 bytes in 1 blocks are possibly lost in loss record 110 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:175)
+   main (hbackup.cpp:176)
  
  37 bytes in 2 blocks are possibly lost in loss record 111 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -610,42 +610,42 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::parse(int, char**) (CmdLine.h:383)
-   main (hbackup.cpp:178)
+   main (hbackup.cpp:179)
  
  39 bytes in 1 blocks are possibly lost in loss record 112 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  40 bytes in 1 blocks are possibly lost in loss record 113 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:167)
+   main (hbackup.cpp:168)
  
  41 bytes in 1 blocks are possibly lost in loss record 114 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:147)
+   main (hbackup.cpp:148)
  
  43 bytes in 1 blocks are possibly lost in loss record 115 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:135)
+   main (hbackup.cpp:136)
  
  47 bytes in 1 blocks are possibly lost in loss record 116 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  50 bytes in 1 blocks are possibly lost in loss record 117 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -654,7 +654,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:310)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  52 bytes in 1 blocks are possibly lost in loss record 118 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -663,7 +663,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:318)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  75 bytes in 1 blocks are possibly lost in loss record 119 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -672,7 +672,7 @@ HBackup (c) 2006-2010 Hervé Fache version 1.0a
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:328)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Help
 HBackup (c) 2006-2010 Hervé Fache
@@ -737,28 +737,28 @@ HBackup (c) 2006-2010 Hervé Fache
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  14 bytes in 1 blocks are possibly lost in loss record 31 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:143)
+   main (hbackup.cpp:144)
  
  14 bytes in 1 blocks are possibly lost in loss record 32 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:147)
+   main (hbackup.cpp:148)
  
  14 bytes in 1 blocks are possibly lost in loss record 33 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  14 bytes in 1 blocks are possibly lost in loss record 34 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -767,7 +767,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:310)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  14 bytes in 1 blocks are possibly lost in loss record 35 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -777,133 +777,133 @@ HBackup (c) 2006-2010 Hervé Fache
    TCLAP::Arg::flagStartString() (Arg.h:199)
    TCLAP::CmdLine::_constructor() (CmdLine.h:328)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  14 bytes in 1 blocks are possibly lost in loss record 36 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  14 bytes in 1 blocks are possibly lost in loss record 37 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  14 bytes in 1 blocks are possibly lost in loss record 38 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:123)
+   main (hbackup.cpp:124)
  
  14 bytes in 1 blocks are possibly lost in loss record 39 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  14 bytes in 1 blocks are possibly lost in loss record 40 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:131)
+   main (hbackup.cpp:132)
  
  14 bytes in 1 blocks are possibly lost in loss record 41 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:135)
+   main (hbackup.cpp:136)
  
  14 bytes in 1 blocks are possibly lost in loss record 42 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:139)
+   main (hbackup.cpp:140)
  
  14 bytes in 1 blocks are possibly lost in loss record 43 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:155)
+   main (hbackup.cpp:156)
  
  14 bytes in 1 blocks are possibly lost in loss record 44 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  14 bytes in 1 blocks are possibly lost in loss record 45 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:163)
+   main (hbackup.cpp:164)
  
  14 bytes in 1 blocks are possibly lost in loss record 46 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:167)
+   main (hbackup.cpp:168)
  
  14 bytes in 1 blocks are possibly lost in loss record 47 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:171)
+   main (hbackup.cpp:172)
  
  14 bytes in 1 blocks are possibly lost in loss record 48 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:175)
+   main (hbackup.cpp:176)
  
  16 bytes in 1 blocks are possibly lost in loss record 49 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:131)
+   main (hbackup.cpp:132)
  
  17 bytes in 1 blocks are possibly lost in loss record 50 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:143)
+   main (hbackup.cpp:144)
  
  17 bytes in 1 blocks are possibly lost in loss record 51 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  17 bytes in 1 blocks are possibly lost in loss record 52 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  17 bytes in 1 blocks are possibly lost in loss record 53 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  17 bytes in 1 blocks are possibly lost in loss record 54 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -912,77 +912,77 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:310)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  17 bytes in 1 blocks are possibly lost in loss record 55 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  17 bytes in 1 blocks are possibly lost in loss record 56 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:163)
+   main (hbackup.cpp:164)
  
  17 bytes in 1 blocks are possibly lost in loss record 57 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:171)
+   main (hbackup.cpp:172)
  
  18 bytes in 1 blocks are possibly lost in loss record 58 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:155)
+   main (hbackup.cpp:156)
  
  18 bytes in 1 blocks are possibly lost in loss record 59 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:123)
+   main (hbackup.cpp:124)
  
  18 bytes in 1 blocks are possibly lost in loss record 60 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:167)
+   main (hbackup.cpp:168)
  
  19 bytes in 1 blocks are possibly lost in loss record 61 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  19 bytes in 1 blocks are possibly lost in loss record 62 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  19 bytes in 1 blocks are possibly lost in loss record 63 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  20 bytes in 1 blocks are possibly lost in loss record 64 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:91)
+   main (hbackup.cpp:92)
  
  20 bytes in 1 blocks are possibly lost in loss record 65 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -991,21 +991,21 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:318)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  20 bytes in 1 blocks are possibly lost in loss record 66 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  20 bytes in 1 blocks are possibly lost in loss record 67 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:175)
+   main (hbackup.cpp:176)
  
  21 bytes in 1 blocks are possibly lost in loss record 68 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1014,14 +1014,14 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:143)
+   main (hbackup.cpp:144)
  
  21 bytes in 1 blocks are possibly lost in loss record 69 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:147)
+   main (hbackup.cpp:148)
  
  21 bytes in 1 blocks are possibly lost in loss record 70 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1030,7 +1030,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:147)
+   main (hbackup.cpp:148)
  
  21 bytes in 1 blocks are possibly lost in loss record 71 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1039,14 +1039,14 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::ValueArg<std::string>::ValueArg(std::string const&, std::string const&, std::string const&, bool, std::string, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (ValueArg.h:391)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  21 bytes in 1 blocks are possibly lost in loss record 72 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:155)
+   main (hbackup.cpp:156)
  
  21 bytes in 1 blocks are possibly lost in loss record 73 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1057,7 +1057,7 @@ HBackup (c) 2006-2010 Hervé Fache
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, bool, TCLAP::Visitor*) (SwitchArg.h:122)
    TCLAP::CmdLine::_constructor() (CmdLine.h:310)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  21 bytes in 1 blocks are possibly lost in loss record 74 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1068,7 +1068,7 @@ HBackup (c) 2006-2010 Hervé Fache
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, bool, TCLAP::Visitor*) (SwitchArg.h:122)
    TCLAP::CmdLine::_constructor() (CmdLine.h:318)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  21 bytes in 1 blocks are possibly lost in loss record 75 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1079,7 +1079,7 @@ HBackup (c) 2006-2010 Hervé Fache
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, bool, TCLAP::Visitor*) (SwitchArg.h:122)
    TCLAP::CmdLine::_constructor() (CmdLine.h:328)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  21 bytes in 1 blocks are possibly lost in loss record 76 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1088,7 +1088,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::ValueArg<std::string>::ValueArg(std::string const&, std::string const&, std::string const&, bool, std::string, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (ValueArg.h:391)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  21 bytes in 1 blocks are possibly lost in loss record 77 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1097,7 +1097,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::MultiArg<std::string>::MultiArg(std::string const&, std::string const&, std::string const&, bool, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (MultiArg.h:359)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  21 bytes in 1 blocks are possibly lost in loss record 78 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1106,7 +1106,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:123)
+   main (hbackup.cpp:124)
  
  21 bytes in 1 blocks are possibly lost in loss record 79 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1115,7 +1115,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::ValueArg<long>::ValueArg(std::string const&, std::string const&, std::string const&, bool, long, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (ValueArg.h:391)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  21 bytes in 1 blocks are possibly lost in loss record 80 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1124,7 +1124,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:131)
+   main (hbackup.cpp:132)
  
  21 bytes in 1 blocks are possibly lost in loss record 81 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1133,7 +1133,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:135)
+   main (hbackup.cpp:136)
  
  21 bytes in 1 blocks are possibly lost in loss record 82 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1142,7 +1142,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:139)
+   main (hbackup.cpp:140)
  
  21 bytes in 1 blocks are possibly lost in loss record 83 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1151,7 +1151,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:155)
+   main (hbackup.cpp:156)
  
  21 bytes in 1 blocks are possibly lost in loss record 84 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1160,7 +1160,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::ValueArg<std::string>::ValueArg(std::string const&, std::string const&, std::string const&, bool, std::string, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (ValueArg.h:391)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  21 bytes in 1 blocks are possibly lost in loss record 85 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1169,7 +1169,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:163)
+   main (hbackup.cpp:164)
  
  21 bytes in 1 blocks are possibly lost in loss record 86 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1178,7 +1178,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:167)
+   main (hbackup.cpp:168)
  
  21 bytes in 1 blocks are possibly lost in loss record 87 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1187,7 +1187,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:171)
+   main (hbackup.cpp:172)
  
  21 bytes in 1 blocks are possibly lost in loss record 88 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1196,42 +1196,42 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:175)
+   main (hbackup.cpp:176)
  
  22 bytes in 1 blocks are possibly lost in loss record 89 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  22 bytes in 1 blocks are possibly lost in loss record 90 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:135)
+   main (hbackup.cpp:136)
  
  22 bytes in 1 blocks are possibly lost in loss record 91 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  23 bytes in 1 blocks are possibly lost in loss record 92 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  23 bytes in 1 blocks are possibly lost in loss record 93 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:139)
+   main (hbackup.cpp:140)
  
  24 bytes in 1 blocks are possibly lost in loss record 94 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1241,21 +1241,21 @@ HBackup (c) 2006-2010 Hervé Fache
    TCLAP::Arg::ignoreNameString() (Arg.h:210)
    TCLAP::CmdLine::_constructor() (CmdLine.h:328)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  25 bytes in 1 blocks are possibly lost in loss record 95 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  25 bytes in 1 blocks are possibly lost in loss record 96 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  30 bytes in 2 blocks are possibly lost in loss record 97 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1263,49 +1263,49 @@ HBackup (c) 2006-2010 Hervé Fache
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::parse(int, char**) (CmdLine.h:383)
-   main (hbackup.cpp:178)
+   main (hbackup.cpp:179)
  
  32 bytes in 1 blocks are possibly lost in loss record 98 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  32 bytes in 1 blocks are possibly lost in loss record 99 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  32 bytes in 1 blocks are possibly lost in loss record 100 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:131)
+   main (hbackup.cpp:132)
  
  32 bytes in 1 blocks are possibly lost in loss record 101 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:143)
+   main (hbackup.cpp:144)
  
  33 bytes in 1 blocks are possibly lost in loss record 102 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:139)
+   main (hbackup.cpp:140)
  
  33 bytes in 1 blocks are possibly lost in loss record 103 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  35 bytes in 1 blocks are possibly lost in loss record 104 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1315,70 +1315,70 @@ HBackup (c) 2006-2010 Hervé Fache
    std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
    std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::parse(int, char**) (CmdLine.h:378)
-   main (hbackup.cpp:178)
+   main (hbackup.cpp:179)
  
  36 bytes in 1 blocks are possibly lost in loss record 108 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:123)
+   main (hbackup.cpp:124)
  
  37 bytes in 1 blocks are possibly lost in loss record 109 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:163)
+   main (hbackup.cpp:164)
  
  37 bytes in 1 blocks are possibly lost in loss record 110 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:171)
+   main (hbackup.cpp:172)
  
  37 bytes in 1 blocks are possibly lost in loss record 111 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:175)
+   main (hbackup.cpp:176)
  
  39 bytes in 1 blocks are possibly lost in loss record 112 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  40 bytes in 1 blocks are possibly lost in loss record 113 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:167)
+   main (hbackup.cpp:168)
  
  41 bytes in 1 blocks are possibly lost in loss record 114 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:147)
+   main (hbackup.cpp:148)
  
  43 bytes in 1 blocks are possibly lost in loss record 115 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:135)
+   main (hbackup.cpp:136)
  
  47 bytes in 1 blocks are possibly lost in loss record 116 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  50 bytes in 1 blocks are possibly lost in loss record 117 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1387,7 +1387,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:310)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  52 bytes in 1 blocks are possibly lost in loss record 118 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1396,7 +1396,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:318)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  75 bytes in 1 blocks are possibly lost in loss record 119 of 120
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1405,7 +1405,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:328)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Error
 Error: -! -- Couldn't find match for argument
@@ -1471,28 +1471,28 @@ HBackup (c) 2006-2010 Hervé Fache
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  14 bytes in 1 blocks are possibly lost in loss record 30 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:143)
+   main (hbackup.cpp:144)
  
  14 bytes in 1 blocks are possibly lost in loss record 31 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:147)
+   main (hbackup.cpp:148)
  
  14 bytes in 1 blocks are possibly lost in loss record 32 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  14 bytes in 1 blocks are possibly lost in loss record 33 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1501,7 +1501,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:310)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  14 bytes in 1 blocks are possibly lost in loss record 34 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1511,98 +1511,98 @@ HBackup (c) 2006-2010 Hervé Fache
    TCLAP::Arg::flagStartString() (Arg.h:199)
    TCLAP::CmdLine::_constructor() (CmdLine.h:328)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  14 bytes in 1 blocks are possibly lost in loss record 35 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  14 bytes in 1 blocks are possibly lost in loss record 36 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  14 bytes in 1 blocks are possibly lost in loss record 37 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:123)
+   main (hbackup.cpp:124)
  
  14 bytes in 1 blocks are possibly lost in loss record 38 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  14 bytes in 1 blocks are possibly lost in loss record 39 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:131)
+   main (hbackup.cpp:132)
  
  14 bytes in 1 blocks are possibly lost in loss record 40 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:135)
+   main (hbackup.cpp:136)
  
  14 bytes in 1 blocks are possibly lost in loss record 41 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:139)
+   main (hbackup.cpp:140)
  
  14 bytes in 1 blocks are possibly lost in loss record 42 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:155)
+   main (hbackup.cpp:156)
  
  14 bytes in 1 blocks are possibly lost in loss record 43 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  14 bytes in 1 blocks are possibly lost in loss record 44 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:163)
+   main (hbackup.cpp:164)
  
  14 bytes in 1 blocks are possibly lost in loss record 45 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:167)
+   main (hbackup.cpp:168)
  
  14 bytes in 1 blocks are possibly lost in loss record 46 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:171)
+   main (hbackup.cpp:172)
  
  14 bytes in 1 blocks are possibly lost in loss record 47 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:175)
+   main (hbackup.cpp:176)
  
  15 bytes in 1 blocks are possibly lost in loss record 48 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1612,42 +1612,42 @@ HBackup (c) 2006-2010 Hervé Fache
    TCLAP::ArgException::ArgException(std::string const&, std::string const&, std::string const&) (ArgException.h:52)
    TCLAP::CmdLineParseException::CmdLineParseException(std::string const&, std::string const&) (ArgException.h:158)
    TCLAP::CmdLine::parse(int, char**) (CmdLine.h:407)
-   main (hbackup.cpp:178)
+   main (hbackup.cpp:179)
  
  16 bytes in 1 blocks are possibly lost in loss record 49 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:131)
+   main (hbackup.cpp:132)
  
  17 bytes in 1 blocks are possibly lost in loss record 50 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:143)
+   main (hbackup.cpp:144)
  
  17 bytes in 1 blocks are possibly lost in loss record 51 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  17 bytes in 1 blocks are possibly lost in loss record 52 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  17 bytes in 1 blocks are possibly lost in loss record 53 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  17 bytes in 1 blocks are possibly lost in loss record 54 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1656,77 +1656,77 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:310)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  17 bytes in 1 blocks are possibly lost in loss record 55 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  17 bytes in 1 blocks are possibly lost in loss record 56 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:163)
+   main (hbackup.cpp:164)
  
  17 bytes in 1 blocks are possibly lost in loss record 57 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:171)
+   main (hbackup.cpp:172)
  
  18 bytes in 1 blocks are possibly lost in loss record 58 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:155)
+   main (hbackup.cpp:156)
  
  18 bytes in 1 blocks are possibly lost in loss record 59 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:123)
+   main (hbackup.cpp:124)
  
  18 bytes in 1 blocks are possibly lost in loss record 60 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:167)
+   main (hbackup.cpp:168)
  
  19 bytes in 1 blocks are possibly lost in loss record 61 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  19 bytes in 1 blocks are possibly lost in loss record 62 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  19 bytes in 1 blocks are possibly lost in loss record 63 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  20 bytes in 1 blocks are possibly lost in loss record 64 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:91)
+   main (hbackup.cpp:92)
  
  20 bytes in 1 blocks are possibly lost in loss record 65 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1735,21 +1735,21 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:318)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  20 bytes in 1 blocks are possibly lost in loss record 66 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  20 bytes in 1 blocks are possibly lost in loss record 67 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:175)
+   main (hbackup.cpp:176)
  
  21 bytes in 1 blocks are possibly lost in loss record 68 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1758,14 +1758,14 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:143)
+   main (hbackup.cpp:144)
  
  21 bytes in 1 blocks are possibly lost in loss record 69 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:147)
+   main (hbackup.cpp:148)
  
  21 bytes in 1 blocks are possibly lost in loss record 70 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1774,7 +1774,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:147)
+   main (hbackup.cpp:148)
  
  21 bytes in 1 blocks are possibly lost in loss record 71 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1783,14 +1783,14 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::ValueArg<std::string>::ValueArg(std::string const&, std::string const&, std::string const&, bool, std::string, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (ValueArg.h:391)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  21 bytes in 1 blocks are possibly lost in loss record 72 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:155)
+   main (hbackup.cpp:156)
  
  21 bytes in 1 blocks are possibly lost in loss record 73 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1801,7 +1801,7 @@ HBackup (c) 2006-2010 Hervé Fache
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, bool, TCLAP::Visitor*) (SwitchArg.h:122)
    TCLAP::CmdLine::_constructor() (CmdLine.h:310)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  21 bytes in 1 blocks are possibly lost in loss record 74 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1812,7 +1812,7 @@ HBackup (c) 2006-2010 Hervé Fache
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, bool, TCLAP::Visitor*) (SwitchArg.h:122)
    TCLAP::CmdLine::_constructor() (CmdLine.h:318)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  21 bytes in 1 blocks are possibly lost in loss record 75 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1823,7 +1823,7 @@ HBackup (c) 2006-2010 Hervé Fache
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, bool, TCLAP::Visitor*) (SwitchArg.h:122)
    TCLAP::CmdLine::_constructor() (CmdLine.h:328)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  21 bytes in 1 blocks are possibly lost in loss record 76 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1832,7 +1832,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::ValueArg<std::string>::ValueArg(std::string const&, std::string const&, std::string const&, bool, std::string, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (ValueArg.h:391)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  21 bytes in 1 blocks are possibly lost in loss record 77 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1841,7 +1841,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::MultiArg<std::string>::MultiArg(std::string const&, std::string const&, std::string const&, bool, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (MultiArg.h:359)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  21 bytes in 1 blocks are possibly lost in loss record 78 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1850,7 +1850,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:123)
+   main (hbackup.cpp:124)
  
  21 bytes in 1 blocks are possibly lost in loss record 79 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1859,7 +1859,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::ValueArg<long>::ValueArg(std::string const&, std::string const&, std::string const&, bool, long, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (ValueArg.h:391)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  21 bytes in 1 blocks are possibly lost in loss record 80 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1868,7 +1868,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:131)
+   main (hbackup.cpp:132)
  
  21 bytes in 1 blocks are possibly lost in loss record 81 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1877,7 +1877,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:135)
+   main (hbackup.cpp:136)
  
  21 bytes in 1 blocks are possibly lost in loss record 82 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1886,7 +1886,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:139)
+   main (hbackup.cpp:140)
  
  21 bytes in 1 blocks are possibly lost in loss record 83 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1895,7 +1895,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:155)
+   main (hbackup.cpp:156)
  
  21 bytes in 1 blocks are possibly lost in loss record 84 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1904,7 +1904,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::ValueArg<std::string>::ValueArg(std::string const&, std::string const&, std::string const&, bool, std::string, std::string const&, TCLAP::CmdLineInterface&, TCLAP::Visitor*) (ValueArg.h:391)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  21 bytes in 1 blocks are possibly lost in loss record 85 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1913,7 +1913,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:163)
+   main (hbackup.cpp:164)
  
  21 bytes in 1 blocks are possibly lost in loss record 86 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1922,7 +1922,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:167)
+   main (hbackup.cpp:168)
  
  21 bytes in 1 blocks are possibly lost in loss record 87 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1931,7 +1931,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:171)
+   main (hbackup.cpp:172)
  
  21 bytes in 1 blocks are possibly lost in loss record 88 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1940,42 +1940,42 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::Arg::Arg(std::string const&, std::string const&, std::string const&, bool, bool, TCLAP::Visitor*) (Arg.h:375)
    TCLAP::SwitchArg::SwitchArg(std::string const&, std::string const&, std::string const&, TCLAP::CmdLineInterface&, bool, TCLAP::Visitor*) (SwitchArg.h:132)
-   main (hbackup.cpp:175)
+   main (hbackup.cpp:176)
  
  22 bytes in 1 blocks are possibly lost in loss record 89 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  22 bytes in 1 blocks are possibly lost in loss record 90 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:135)
+   main (hbackup.cpp:136)
  
  22 bytes in 1 blocks are possibly lost in loss record 91 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  23 bytes in 1 blocks are possibly lost in loss record 92 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  23 bytes in 1 blocks are possibly lost in loss record 93 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:139)
+   main (hbackup.cpp:140)
  
  24 bytes in 1 blocks are possibly lost in loss record 94 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -1985,63 +1985,63 @@ HBackup (c) 2006-2010 Hervé Fache
    TCLAP::Arg::ignoreNameString() (Arg.h:210)
    TCLAP::CmdLine::_constructor() (CmdLine.h:328)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  25 bytes in 1 blocks are possibly lost in loss record 95 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:151)
+   main (hbackup.cpp:152)
  
  25 bytes in 1 blocks are possibly lost in loss record 96 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:127)
+   main (hbackup.cpp:128)
  
  32 bytes in 1 blocks are possibly lost in loss record 97 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  32 bytes in 1 blocks are possibly lost in loss record 98 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:119)
+   main (hbackup.cpp:120)
  
  32 bytes in 1 blocks are possibly lost in loss record 99 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:131)
+   main (hbackup.cpp:132)
  
  32 bytes in 1 blocks are possibly lost in loss record 100 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:143)
+   main (hbackup.cpp:144)
  
  33 bytes in 1 blocks are possibly lost in loss record 101 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:139)
+   main (hbackup.cpp:140)
  
  33 bytes in 1 blocks are possibly lost in loss record 102 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:159)
+   main (hbackup.cpp:160)
  
  35 bytes in 1 blocks are possibly lost in loss record 103 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -2051,63 +2051,63 @@ HBackup (c) 2006-2010 Hervé Fache
    std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
    std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::parse(int, char**) (CmdLine.h:378)
-   main (hbackup.cpp:178)
+   main (hbackup.cpp:179)
  
  36 bytes in 1 blocks are possibly lost in loss record 107 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:123)
+   main (hbackup.cpp:124)
  
  37 bytes in 1 blocks are possibly lost in loss record 108 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:163)
+   main (hbackup.cpp:164)
  
  37 bytes in 1 blocks are possibly lost in loss record 109 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:171)
+   main (hbackup.cpp:172)
  
  37 bytes in 1 blocks are possibly lost in loss record 110 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:175)
+   main (hbackup.cpp:176)
  
  39 bytes in 1 blocks are possibly lost in loss record 111 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:115)
+   main (hbackup.cpp:116)
  
  40 bytes in 1 blocks are possibly lost in loss record 112 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:167)
+   main (hbackup.cpp:168)
  
  41 bytes in 1 blocks are possibly lost in loss record 113 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:147)
+   main (hbackup.cpp:148)
  
  43 bytes in 1 blocks are possibly lost in loss record 114 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:135)
+   main (hbackup.cpp:136)
  
  45 bytes in 1 blocks are possibly lost in loss record 115 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -2115,14 +2115,14 @@ HBackup (c) 2006-2010 Hervé Fache
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::parse(int, char**) (CmdLine.h:407)
-   main (hbackup.cpp:178)
+   main (hbackup.cpp:179)
  
  47 bytes in 1 blocks are possibly lost in loss record 116 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    ??? (in /usr/lib/libstdc++.so.6.0.13)
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  50 bytes in 1 blocks are possibly lost in loss record 117 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -2131,7 +2131,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:310)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  52 bytes in 1 blocks are possibly lost in loss record 118 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -2140,7 +2140,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:318)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  75 bytes in 1 blocks are possibly lost in loss record 119 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -2149,13 +2149,13 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::_constructor() (CmdLine.h:328)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
  112 bytes in 1 blocks are possibly lost in loss record 121 of 122
    malloc (vg_replace_malloc.c:236)
    __cxa_allocate_exception (in /usr/lib/libstdc++.so.6.0.13)
    TCLAP::CmdLine::parse(int, char**) (CmdLine.h:407)
-   main (hbackup.cpp:178)
+   main (hbackup.cpp:179)
  
  114 bytes in 1 blocks are possibly lost in loss record 122 of 122
    operator new(unsigned int) (vg_replace_malloc.c:255)
@@ -2166,7 +2166,7 @@ HBackup (c) 2006-2010 Hervé Fache
    std::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (basic_string.h:2168)
    TCLAP::CmdLineParseException::CmdLineParseException(std::string const&, std::string const&) (ArgException.h:158)
    TCLAP::CmdLine::parse(int, char**) (CmdLine.h:407)
-   main (hbackup.cpp:178)
+   main (hbackup.cpp:179)
  
 List clients (missing DB path)
  -> Reading configuration file: etc/hbackup.conf
@@ -2175,7 +2175,7 @@ Error: Given DB path does not exist: test_db
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 List clients (empty DB path)
  -> Reading configuration file: etc/hbackup.conf
@@ -2184,7 +2184,7 @@ Error: Given DB path does not contain a database: test_db
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Backup, DB missing
  -> Reading configuration file: etc/hbackup.conf
@@ -2303,7 +2303,7 @@ Error: Given DB path does not exist: test_db
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Typical backup, initialize DB
  -> Reading configuration file: etc/hbackup.conf
@@ -2855,7 +2855,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Specify clients
  -> Reading configuration file: etc/hbackup.conf
@@ -3152,7 +3152,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 User-mode backup
  -> No file logging
@@ -3199,7 +3199,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Fix DB
  -> Reading configuration file: etc/hbackup.conf
@@ -3319,7 +3319,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Scan DB
  -> Reading configuration file: etc/hbackup.conf
@@ -3510,7 +3510,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Check DB
  -> Reading configuration file: etc/hbackup.conf
@@ -3654,7 +3654,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 List clients
  -> Reading configuration file: etc/hbackup.conf
@@ -3782,7 +3782,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Try to list paths in both myhost and smb://client (fails)
  -> Reading configuration file: etc/hbackup.conf
@@ -3910,7 +3910,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 List paths in myhost
  -> Reading configuration file: etc/hbackup.conf
@@ -4038,7 +4038,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 List paths in myhost under test2/
  -> Reading configuration file: etc/hbackup.conf
@@ -4169,7 +4169,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 List paths in myhost under test1/cvs
  -> Reading configuration file: etc/hbackup.conf
@@ -4301,7 +4301,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Restore a file
  -> Reading configuration file: etc/hbackup.conf
@@ -4428,7 +4428,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Restore all data in a client/dir path that's not by itself in DB
  -> Reading configuration file: etc/hbackup.conf
@@ -4596,7 +4596,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Restore all data in a client/dir path
  -> Reading configuration file: etc/hbackup.conf
@@ -4739,7 +4739,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Restore all data in a client
  -> Reading configuration file: etc/hbackup.conf
@@ -4912,7 +4912,7 @@ Database closed
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  
 Broken configuration
  -> Reading configuration file: etc/broken.conf
@@ -4949,5 +4949,5 @@ Note: the default configuration path has changed from '/etc/hbackup/hbackup.conf
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:275)
-   main (hbackup.cpp:109)
+   main (hbackup.cpp:110)
  

@@ -40,20 +40,33 @@ struct List::Private {
   Line              data;
   Path              path;
   Private(const char* path_in) : s_path(path_in), stream(NULL),
-    header("# version 4"), old_header("# version 4"), footer("# end") {}
+    header("# version 5"), old_header("# version 4"), footer("# end") {}
 };
 
-ssize_t List::getLine(Line& line) {
+ssize_t List::getLine(Line& line, bool version) {
   LineBuffer& buffer = line;
-  ssize_t rc = getline(buffer.bufferPtr(), buffer.capacityPtr(), _d->stream);
+  ssize_t rc;
+  char delim;
+  if (! version && ! _d->old_version) {
+    delim = '\0';
+  } else {
+    delim = '\n';
+  }
+  rc = getdelim(buffer.bufferPtr(), buffer.capacityPtr(), delim, _d->stream);
   if (rc <= 0) {
     return feof(_d->stream) ? 0 : -1;
   }
-  --rc;
-  if (line[rc] != '\n') {
+  if (line[rc - 1] != delim) {
     return 0;
   }
-  *buffer.sizePtr() = rc + 1;
+  if (! version && ! _d->old_version) {
+    char lf[1];
+    if ((fread(lf, 1, 1, _d->stream) < 1) || (*lf != '\n')) {
+      return 0;
+    }
+  }
+  *buffer.sizePtr() = rc;
+  --rc;
   buffer.erase(rc);
   return rc;
 }
@@ -88,7 +101,7 @@ int List::open() {
   }
   // Check rights
   Line data;
-  if (getLine(data) < 0) {
+  if (getLine(data, true) < 0) {
     close();
     return -1;
   }
@@ -197,7 +210,7 @@ bool List::end() const {
 
 ssize_t List::putLine(const Line& line) {
   if (fwrite(line, line.size(), 1, _d->stream) < 1) return -1;
-  if (fwrite("\n", 1, 1, _d->stream) < 1) return -1;
+  if (fwrite("\0\n", 2, 1, _d->stream) < 1) return -1;
   return line.size();
 }
 

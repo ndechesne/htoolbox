@@ -646,10 +646,8 @@ Af ~    test1/strange1TAB	CR\r
 
 Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/strange2TAB	LF
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    test1/strange3TAB	LF
+Checking data, sizes: f=0 z=0 (0)
+Af ~    test1/strange3TAB	LF
 CR\r
 
 Id f    test1/subdir
@@ -1018,12 +1016,6 @@ If p    test1/cvs/dirutd/fileoth
 If f    test1/cvs/filemod.o
 If p    test1/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    test1/strange3TAB	LF
-CR\r
-
 Id f    test1/subdir
 svn\r
  -> Parsing Subversion entries
@@ -2733,6 +2725,9 @@ U test_r/test1/dir space/link space
 U test_r/test1/strange1TAB	CR\r
 
 U test_r/test1/strange2TAB	LF
+U test_r/test1/strange3TAB	LF
+CR\r
+
 U test_r/test1/svn
 U test_r/test1/svn/.svn
 U test_r/test1/svn/.svn/entries
@@ -3032,6 +3027,9 @@ U test_r/test1/dir space/link space
 U test_r/test1/strange1TAB	CR\r
 
 U test_r/test1/strange2TAB	LF
+U test_r/test1/strange3TAB	LF
+CR\r
+
 U test_r/test1/svn
 U test_r/test1/svn/.svn
 U test_r/test1/svn/.svn/entries

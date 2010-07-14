@@ -26,7 +26,8 @@ class List {
   Private* const    _d;
   // Read a line, removing the LF character
   ssize_t getLine(
-    Line&           line);                  // Line to read
+    Line&           line,             // Line to read
+    bool            version = false); // First line that contains version
 public:
   enum Status {
     eof         = -2,         // unexpected end of file
@@ -64,7 +65,7 @@ public:
   bool end() const;
   // Write a line, adding the LF character
   ssize_t putLine(
-    const Line&     line);                  // Line to write
+    const Line&     line);            // Line to write
   // Encode line from metadata
   static ssize_t encodeLine(
     char*           line[],                 // Line to decode

@@ -647,10 +647,8 @@ Af ~    test1/strange1TAB	CR\r
 
 Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/strange2TAB	LF
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    test1/strange3TAB	LF
+Checking data, sizes: f=0 z=0 (0)
+Af ~    test1/strange3TAB	LF
 CR\r
 
 Id f    test1/subdir
@@ -1169,12 +1167,6 @@ If p    test1/cvs/dirutd/fileoth
 If f    test1/cvs/filemod.o
 If p    test1/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    test1/strange3TAB	LF
-CR\r
-
 Id f    test1/subdir
 svn\r
  -> Parsing Subversion entries
@@ -2348,12 +2340,6 @@ dir space\r
 Checking data, sizes: f=512000 z=531 (539)
 Adding compressed data for 816df6f64deba63b029ca19d880ee10a-0
 !f z    test1/dir space/big_file
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    test1/strange3TAB	LF
-CR\r
-
 Id f    test1/subdir
 svn\r
  -> Parsing Subversion entries
@@ -3421,6 +3407,9 @@ U test_r/test1/dir space/link space
 U test_r/test1/strange1TAB	CR\r
 
 U test_r/test1/strange2TAB	LF
+U test_r/test1/strange3TAB	LF
+CR\r
+
 U test_r/test1/svn
 U test_r/test1/svn/.svn
 U test_r/test1/svn/.svn/entries
@@ -3714,6 +3703,9 @@ U test_r/test1/dir space/link space
 U test_r/test1/strange1TAB	CR\r
 
 U test_r/test1/strange2TAB	LF
+U test_r/test1/strange3TAB	LF
+CR\r
+
 U test_r/test1/svn
 U test_r/test1/svn/.svn
 U test_r/test1/svn/.svn/entries
@@ -4045,12 +4037,6 @@ If p    test1/cvs/dirutd/fileoth
 If f    test1/cvs/filemod.o
 If p    test1/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    test1/strange3TAB	LF
-CR\r
-
 Id f    test1/subdir
 svn\r
  -> Parsing Subversion entries
@@ -10187,12 +10173,6 @@ If p    test1/cvs/dirutd/fileoth
 If f    test1/cvs/filemod.o
 If p    test1/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    test1/strange3TAB	LF
-CR\r
-
 Id f    test1/subdir
 svn\r
  -> Parsing Subversion entries
@@ -10669,12 +10649,6 @@ If p    test1/cvs/dirutd/fileoth
 If f    test1/cvs/filemod.o
 If p    test1/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    test1/strange3TAB	LF
-CR\r
-
 Id f    test1/subdir
 svn\r
  -> Parsing Subversion entries
@@ -11591,12 +11565,6 @@ If p    test1/cvs/dirutd/fileoth
 If f    test1/cvs/filemod.o
 If p    test1/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    test1/strange3TAB	LF
-CR\r
-
 Id f    test1/subdir
 svn\r
  -> Parsing Subversion entries
@@ -11973,7 +11941,7 @@ hbackup.log:
 2009-08-07 06:05:04 missing.cpp:141 VERB  Reading list of problematic checksums
 2009-08-07 06:05:04 db.cpp:667 VERB  Database open r/w: aClient.vista
 2009-08-07 06:05:04 clients.cpp:436 INFO  Backing up path: C:/Test Dir
-2009-08-07 06:05:04 paths.cpp:275 ERROR aClient.vista:C:/Test Dir: No such file or directory reading initial directory
+2009-08-07 06:05:04 paths.cpp:267 ERROR aClient.vista:C:/Test Dir: No such file or directory reading initial directory
 2009-08-07 06:05:04 clients.cpp:456 ERROR Aborting client
 2009-08-07 06:05:04 db.cpp:678 VERB  Database closed: aClient.vista
 2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 2 item(s)
@@ -12004,53 +11972,47 @@ hbackup.log-1:
 2009-08-07 06:05:04 clients.cpp:420 INFO  Backing up client: myhost
 2009-08-07 06:05:04 db.cpp:667 VERB  Database open r/w: myhost
 2009-08-07 06:05:04 clients.cpp:436 INFO  Backing up path: test1
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/CVS/Whatever
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/cvs/CVS/Wherever
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dir space/CVS/Whatever
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dir space/file other
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/CVS/Whatever
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/cvs/CVS/Wherever
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dir space/CVS/Whatever
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dir space/file other
 2009-08-07 06:05:04 cvs_parser.cpp:66 WARN  test1/cvs/dirbad: Directory should be under CVS control
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dirbad/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dirbad/fileutd
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/cvs/diroth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dirutd/CVS/Whatever
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dirutd/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test1/cvs/filemod.o
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/fileoth
-2009-08-07 06:05:04 paths.cpp:81 ERROR strange3TAB	LF
-CR\r
-: File name contains LF
-2009-08-07 06:05:04 paths.cpp:195 VERB  If n    test1/strange3TAB	LF
-CR\r
-
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id f    test1/subdir
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/.svn/all-wcprops
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/.svn/dir-prop-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/.svn/prop-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/.svn/props
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/.svn/text-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/.svn/tmp
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dir space/.svn/all-wcprops
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dir space/.svn/prop-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dir space/.svn/props
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dir space/.svn/text-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dir space/.svn/tmp
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dirbad/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dirbad/fileutd
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/cvs/diroth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dirutd/CVS/Whatever
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dirutd/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If f    test1/cvs/filemod.o
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id f    test1/subdir
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/.svn/all-wcprops
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/.svn/dir-prop-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/.svn/prop-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/.svn/props
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/.svn/text-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/.svn/tmp
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dir space/.svn/all-wcprops
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dir space/.svn/prop-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dir space/.svn/props
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dir space/.svn/text-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dir space/.svn/tmp
 2009-08-07 06:05:04 svn_parser.cpp:95 WARN  test1/svn/dirbad: Directory should be under Subversion control
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dirbad/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dirbad/fileutd
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/diroth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dirutd/.svn/all-wcprops
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dirutd/.svn/prop-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dirutd/.svn/props
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dirutd/.svn/text-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dirutd/.svn/tmp
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dirutd/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test1/svn/filemod.o
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/fileutd.h
-2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test1/testfile~
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dirbad/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dirbad/fileutd
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/diroth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dirutd/.svn/all-wcprops
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dirutd/.svn/prop-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dirutd/.svn/props
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dirutd/.svn/text-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dirutd/.svn/tmp
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dirutd/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If f    test1/svn/filemod.o
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/fileutd.h
+2009-08-07 06:05:04 paths.cpp:187 VERB  If f    test1/testfile~
 2009-08-07 06:05:04 clients.cpp:436 INFO  Backing up path: test2
-2009-08-07 06:05:04 paths.cpp:179 INFO  Rf ~    test2/testfile2
-2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test2/testfile~
+2009-08-07 06:05:04 paths.cpp:171 INFO  Rf ~    test2/testfile2
+2009-08-07 06:05:04 paths.cpp:187 VERB  If f    test2/testfile~
 2009-08-07 06:05:04 owner.cpp:355 VERB  Register modified: myhost
 2009-08-07 06:05:04 db.cpp:678 VERB  Database closed: myhost
 2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'newClient' using protocol 'ssh'
@@ -12134,52 +12096,46 @@ hbackup.log-5:
 2009-08-07 06:05:04 clients.cpp:420 INFO  Backing up client: myhost
 2009-08-07 06:05:04 db.cpp:667 VERB  Database open r/w: myhost
 2009-08-07 06:05:04 clients.cpp:436 INFO  Backing up path: test1
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/CVS/Whatever
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/cvs/CVS/Wherever
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dir space/CVS/Whatever
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dir space/file other
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/CVS/Whatever
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/cvs/CVS/Wherever
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dir space/CVS/Whatever
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dir space/file other
 2009-08-07 06:05:04 cvs_parser.cpp:66 WARN  test1/cvs/dirbad: Directory should be under CVS control
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dirbad/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dirbad/fileutd
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/cvs/diroth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dirutd/CVS/Whatever
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dirutd/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test1/cvs/filemod.o
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/fileoth
-2009-08-07 06:05:04 paths.cpp:81 ERROR strange3TAB	LF
-CR\r
-: File name contains LF
-2009-08-07 06:05:04 paths.cpp:195 VERB  If n    test1/strange3TAB	LF
-CR\r
-
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id f    test1/subdir
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/.svn/all-wcprops
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/.svn/dir-prop-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/.svn/prop-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/.svn/props
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/.svn/text-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/.svn/tmp
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dir space/.svn/all-wcprops
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dir space/.svn/prop-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dir space/.svn/props
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dir space/.svn/text-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dir space/.svn/tmp
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dirbad/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dirbad/fileutd
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/cvs/diroth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dirutd/CVS/Whatever
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dirutd/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If f    test1/cvs/filemod.o
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id f    test1/subdir
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/.svn/all-wcprops
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/.svn/dir-prop-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/.svn/prop-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/.svn/props
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/.svn/text-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/.svn/tmp
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dir space/.svn/all-wcprops
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dir space/.svn/prop-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dir space/.svn/props
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dir space/.svn/text-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dir space/.svn/tmp
 2009-08-07 06:05:04 svn_parser.cpp:95 WARN  test1/svn/dirbad: Directory should be under Subversion control
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dirbad/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dirbad/fileutd
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/diroth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dirutd/.svn/all-wcprops
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dirutd/.svn/prop-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dirutd/.svn/props
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dirutd/.svn/text-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dirutd/.svn/tmp
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dirutd/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test1/svn/filemod.o
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/fileutd.h
-2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test1/testfile~
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dirbad/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dirbad/fileutd
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/diroth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dirutd/.svn/all-wcprops
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dirutd/.svn/prop-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dirutd/.svn/props
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dirutd/.svn/text-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dirutd/.svn/tmp
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dirutd/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If f    test1/svn/filemod.o
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/fileutd.h
+2009-08-07 06:05:04 paths.cpp:187 VERB  If f    test1/testfile~
 2009-08-07 06:05:04 clients.cpp:436 INFO  Backing up path: test2
-2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test2/testfile~
+2009-08-07 06:05:04 paths.cpp:187 VERB  If f    test2/testfile~
 2009-08-07 06:05:04 db.cpp:678 VERB  Database closed: myhost
 2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'newClient' using protocol 'ssh'
 2009-08-07 06:05:04 clients.cpp:420 INFO  Backing up client: newClient
@@ -12207,7 +12163,7 @@ hbackup.log-6:
 2009-08-07 06:05:04 clients.cpp:420 INFO  Backing up client: myClient
 2009-08-07 06:05:04 db.cpp:667 VERB  Database open r/w: myClient
 2009-08-07 06:05:04 clients.cpp:436 INFO  Backing up path: /home/User/test
-2009-08-07 06:05:04 paths.cpp:179 INFO  Cf f    /home/User/test/dir/file3.txt
+2009-08-07 06:05:04 paths.cpp:171 INFO  Cf f    /home/User/test/dir/file3.txt
 2009-08-07 06:05:04 owner.cpp:355 VERB  Register modified: myClient
 2009-08-07 06:05:04 db.cpp:678 VERB  Database closed: myClient
 2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'myClient.xp' using protocol 'smb'
@@ -12218,55 +12174,49 @@ hbackup.log-6:
 2009-08-07 06:05:04 clients.cpp:420 INFO  Backing up client: myhost
 2009-08-07 06:05:04 db.cpp:667 VERB  Database open r/w: myhost
 2009-08-07 06:05:04 clients.cpp:436 INFO  Backing up path: test1
-2009-08-07 06:05:04 paths.cpp:179 INFO  Rf f    test1/cvs/CVS/Root
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/CVS/Whatever
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/cvs/CVS/Wherever
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dir space/CVS/Whatever
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dir space/file other
+2009-08-07 06:05:04 paths.cpp:171 INFO  Rf f    test1/cvs/CVS/Root
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/CVS/Whatever
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/cvs/CVS/Wherever
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dir space/CVS/Whatever
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dir space/file other
 2009-08-07 06:05:04 cvs_parser.cpp:66 WARN  test1/cvs/dirbad: Directory should be under CVS control
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dirbad/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dirbad/fileutd
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/cvs/diroth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dirutd/CVS/Whatever
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/dirutd/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test1/cvs/filemod.o
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/cvs/fileoth
-2009-08-07 06:05:04 paths.cpp:81 ERROR strange3TAB	LF
-CR\r
-: File name contains LF
-2009-08-07 06:05:04 paths.cpp:195 VERB  If n    test1/strange3TAB	LF
-CR\r
-
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id f    test1/subdir
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/.svn/all-wcprops
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/.svn/dir-prop-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/.svn/prop-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/.svn/props
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/.svn/text-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/.svn/tmp
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dir space/.svn/all-wcprops
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dir space/.svn/prop-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dir space/.svn/props
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dir space/.svn/text-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dir space/.svn/tmp
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dirbad/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dirbad/fileutd
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/cvs/diroth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dirutd/CVS/Whatever
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/dirutd/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If f    test1/cvs/filemod.o
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/cvs/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id f    test1/subdir
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/.svn/all-wcprops
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/.svn/dir-prop-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/.svn/prop-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/.svn/props
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/.svn/text-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/.svn/tmp
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dir space/.svn/all-wcprops
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dir space/.svn/prop-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dir space/.svn/props
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dir space/.svn/text-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dir space/.svn/tmp
 2009-08-07 06:05:04 svn_parser.cpp:95 WARN  test1/svn/dirbad: Directory should be under Subversion control
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dirbad/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dirbad/fileutd
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/diroth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dirutd/.svn/all-wcprops
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dirutd/.svn/prop-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dirutd/.svn/props
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dirutd/.svn/text-base
-2009-08-07 06:05:04 paths.cpp:195 VERB  Id p    test1/svn/dirutd/.svn/tmp
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/dirutd/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test1/svn/filemod.o
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/fileoth
-2009-08-07 06:05:04 paths.cpp:195 VERB  If p    test1/svn/fileutd.h
-2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test1/testfile~
-2009-08-07 06:05:04 list.cpp:482 INFO  D       test1/testfile
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dirbad/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dirbad/fileutd
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/diroth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dirutd/.svn/all-wcprops
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dirutd/.svn/prop-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dirutd/.svn/props
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dirutd/.svn/text-base
+2009-08-07 06:05:04 paths.cpp:187 VERB  Id p    test1/svn/dirutd/.svn/tmp
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/dirutd/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If f    test1/svn/filemod.o
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/fileoth
+2009-08-07 06:05:04 paths.cpp:187 VERB  If p    test1/svn/fileutd.h
+2009-08-07 06:05:04 paths.cpp:187 VERB  If f    test1/testfile~
+2009-08-07 06:05:04 list.cpp:495 INFO  D       test1/testfile
 2009-08-07 06:05:04 clients.cpp:436 INFO  Backing up path: test2
-2009-08-07 06:05:04 paths.cpp:179 INFO  Mf zr   test2/testfile2
-2009-08-07 06:05:04 paths.cpp:195 VERB  If f    test2/testfile~
+2009-08-07 06:05:04 paths.cpp:171 INFO  Mf zr   test2/testfile2
+2009-08-07 06:05:04 paths.cpp:187 VERB  If f    test2/testfile~
 2009-08-07 06:05:04 owner.cpp:355 VERB  Register modified: myhost
 2009-08-07 06:05:04 db.cpp:678 VERB  Database closed: myhost
 2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'newClient' using protocol 'ssh'

@@ -76,14 +76,6 @@ int ClientPath::parse_recurse(
           code[3] = 'u';
         } else
 
-        // Ignore files which names contain LF
-        if (strchr((*i)->name(), '\n') != NULL) {
-          out(error, msg_standard, "File name contains LF", -1, (*i)->name());
-          code[0] = 'I';
-          code[1] = (*i)->type();
-          code[3] = 'n';
-        } else
-
         // Always ignore a dir named '.hbackup'
         if (((*i)->type() == 'd') && (strcmp((*i)->name(), ".hbackup") == 0)) {
           code[0] = 'I';

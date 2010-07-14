@@ -7,7 +7,7 @@ Register created: client
 Register modified: client
 Register:
 [11] /remote/path/testfile          f       13 750 
-# version 4
+# version 5
 /remote/path/testfile
 	11	f	    13	750
 # end

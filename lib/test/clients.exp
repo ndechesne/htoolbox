@@ -579,10 +579,7 @@ Al      test1/dir space/link space
 Af ~    test1/strange1TAB	CR\r
 
 Af ~    test1/strange2TAB	LF
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    test1/strange3TAB	LF
+Af ~    test1/strange3TAB	LF
 CR\r
 
 Id f    test1/subdir
@@ -742,12 +739,6 @@ If p    test1/cvs/dirutd/fileoth
 If f    test1/cvs/filemod.o
 If p    test1/cvs/fileoth
 dir space\r
-Error: strange3TAB	LF
-CR\r
-: File name contains LF
-If n    test1/strange3TAB	LF
-CR\r
-
 Id f    test1/subdir
 svn\r
  -> Parsing Subversion entries
