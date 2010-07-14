@@ -1,6 +1,8 @@
-1.1 - future
+1.1 - near future
   * speedup SVN parsing by parsing all in one go (x20)
-  * sensible console message logger
+  * sensible message logger, with file logging
+  * object-oriented configuration parser/reader
+  * support for non-printable characters (except NUL) in file names
 
 1.0 - 2010-06-04 (SVN r761)
   * add SSH support (with and without username and/or password)
