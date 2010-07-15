@@ -44,6 +44,10 @@ echo "User-mode backup: quiet"
 rm -r "$TESTDIRUSER/.hbackup/localhost"
 "$hbackup" -uq -- 2>&1
 
+echo "User-mode backup: very quiet"
+rm -r "$TESTDIRUSER/.hbackup/localhost"
+"$hbackup" -uQ -- 2>&1
+
 echo "Fix DB"
 "$hbackup" -d -c etc/hbackup.conf -f 2>&1
 

@@ -155,6 +155,10 @@ int main(int argc, char **argv) {
     SwitchArg quietSwitch("q", "quiet", "Be quiet",
       cmd, false);
 
+    // Very quiet
+    SwitchArg veryQuietSwitch("Q", "veryquiet", "Do not even print warnings",
+      cmd, false);
+
     // Restore
     ValueArg<string> restoreArg("r", "restore", "Restore to directory",
       false, "", "directory", cmd);
@@ -181,6 +185,11 @@ int main(int argc, char **argv) {
 
     // Set verbosity level to info
     hreport::report.setLevel(hreport::info);
+
+    // Set verbosity level to very quiet
+    if (veryQuietSwitch.getValue()) {
+      hreport::report.setLevel(hreport::error);
+    }
 
     // Set verbosity level to quiet
     if (quietSwitch.getValue()) {

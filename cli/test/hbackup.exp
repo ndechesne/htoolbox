@@ -44,6 +44,9 @@ HBackup (c) 2006-2010 Hervé Fache
   -q,  --quiet
     Be quiet
 
+  -Q,  --veryquiet
+    Do not even print warnings
+
   -r <directory>,  --restore <directory>
     Restore to directory
 
@@ -103,6 +106,9 @@ HBackup (c) 2006-2010 Hervé Fache
 
   -q,  --quiet
     Be quiet
+
+  -Q,  --veryquiet
+    Do not even print warnings
 
   -r <directory>,  --restore <directory>
     Restore to directory
@@ -1137,6 +1143,7 @@ Ad      test_user/testuser/subdir2
 Af ~    test_user/testuser/subdir2/f3.txt
 Af ~    test_user/testuser/subdir2/f4.txt
 User-mode backup: quiet
+User-mode backup: very quiet
 Fix DB
  -> Reading configuration file: etc/hbackup.conf
  -> Log path: hbackup.log
