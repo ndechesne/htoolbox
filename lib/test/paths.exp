@@ -93,10 +93,10 @@ Af ~    /home/User/strange2TAB	LF
 Af ~    /home/User/strange3TAB	LF
 CR\r
 
-Error: host:/home/User/subdir: Permission denied reading directory
+Error: Permission denied reading directory 'host:/home/User/subdir'
 Ad !    /home/User/subdir
 Af ~    /home/User/subdir-file
-Error: myClient:/home/User/subdirfile: Permission denied backing up file
+Error: Permission denied backing up file 'myClient:/home/User/subdirfile'
 Af !    /home/User/subdirfile
 Ad      /home/User/svn
 svn\r
@@ -496,9 +496,9 @@ cvs/diroth\r
 cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
-Error: host:/home/User/subdir: Permission denied reading directory
+Error: Permission denied reading directory 'host:/home/User/subdir'
 !d !    /home/User/subdir
-Error: myClient:/home/User/subdirfile: Permission denied backing up file
+Error: Permission denied backing up file 'myClient:/home/User/subdirfile'
 !f !    /home/User/subdirfile
 svn\r
 svn/.svn\r
@@ -750,7 +750,7 @@ Path: /home/User
 Reading list of problematic checksums
 Database open r/w: myClient
 Id s    /home/User/.hbackup
-Error: host:/home/User/cvs: Permission denied reading directory
+Error: Permission denied reading directory 'host:/home/User/cvs'
 Md !    /home/User/cvs
 D       /home/User/cvs/CVS
 D       /home/User/cvs/CVS/Entries
@@ -781,8 +781,9 @@ D       /home/User/cvs/filenew.c
 D       /home/User/cvs/fileoth
 D       /home/User/cvs/fileutd.h
 dir space\r
+Warning: Permission denied reading directory 'host:/home/User/subdir'
 !d !    /home/User/subdir
-myClient:/home/User/subdirfile: Permission denied backing up file
+Warning: Permission denied backing up file 'myClient:/home/User/subdirfile'
 !f !    /home/User/subdirfile
 svn\r
 svn/.svn\r
@@ -1034,7 +1035,7 @@ Af ~    /home/User/cvs/fileutd.h
 dir space\r
 Md      /home/User/subdir
 subdir\r
-Error: myClient:/home/User/subdir/testfile: Permission denied backing up file
+Error: Permission denied backing up file 'myClient:/home/User/subdir/testfile'
 Af !    /home/User/subdir/testfile
 Af ~    /home/User/subdir/testfile1
 Adding uncompressed data for 285b35198a5e188b3a0df3ed33f93a26-0
@@ -1299,7 +1300,7 @@ cvs/dirutd\r
 cvs/dirutd/CVS\r
 dir space     \r
 subdir   \r
-myClient:/home/User/subdir/testfile: Permission denied backing up file
+Warning: Permission denied backing up file 'myClient:/home/User/subdir/testfile'
 !f !    /home/User/subdir/testfile
 svn\r
 svn/.svn\r
@@ -1552,7 +1553,7 @@ cvs\r
 cvs/CVS\r
 cvs/CVS/Wherever\r
 Killing trigger reached: 2
-Error: myClient:/home/User/cvs/big_file: Operation canceled backing up file
+Error: Operation canceled backing up file 'myClient:/home/User/cvs/big_file'
 Af !    /home/User/cvs/big_file
 Database closed: myClient
 Database closed
@@ -8318,7 +8319,7 @@ Id p    /home/User/svn/diroth
 Id f    /home/User/svn/dirutd
 If p    /home/User/svn/fileoth
 If p    /home/User/svn/fileutd.h
-Error: myClient:/home/User/testfile: Permission denied backing up file
+Error: Permission denied backing up file 'myClient:/home/User/testfile'
 Mf !    /home/User/testfile
 Il f    /home/User/testlink
 Parsed 54 file(s)

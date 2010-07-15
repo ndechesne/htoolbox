@@ -739,18 +739,12 @@ int Database::add(
           _d->missing.setRecovered(op._id);
         }
       } else {
-        char* full_name;
-        if (asprintf(&full_name, "%s:%s", _d->owner->name(),
-            static_cast<const char*>(op._path)) < 0) {
-          out(alert, msg_errno, "creating full name", errno, op._path);
-          failed = true;
+        if ((op._operation == '!') && report_copy_error_once) {
+          hlog_warning("%s backing up file '%s:%s'", strerror(errno),
+            _d->owner->name(), static_cast<const char*>(op._path));
         } else {
-          if ((op._operation == '!') && report_copy_error_once) {
-            out(verbose, msg_errno, "backing up file", errno, full_name);
-          } else {
-            out(error, msg_errno, "backing up file", errno, full_name);
-          }
-          free(full_name);
+          hlog_error("%s backing up file '%s:%s'", strerror(errno),
+            _d->owner->name(), static_cast<const char*>(op._path));
         }
         op._type = '!';
         failed = true;

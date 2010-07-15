@@ -155,17 +155,14 @@ int ClientPath::parse_recurse(
             }
             op.verbose(code);
 
-            if (create_list_failed && ! (_attributes.reportCopyErrorOnceIsSet()
-                && op.sameListEntry())) {
-              char* full_name = NULL;
-              if (asprintf(&full_name, "%s:%s/%s", client_name, remote_path,
-                  (*i)->name()) < 0) {
-                out(alert, msg_errno, "creating final path", errno,
-                  remote_path);
-                give_up = true;
+            if (create_list_failed) {
+              if (! (_attributes.reportCopyErrorOnceIsSet() &&
+                  op.sameListEntry())) {
+                hlog_error("%s reading directory '%s:%s/%s'", strerror(errno),
+                  client_name, remote_path, (*i)->name());
               } else {
-                out(error, msg_errno, "reading directory", errno, full_name);
-                free(full_name);
+                hlog_warning("%s reading directory '%s:%s/%s'", strerror(errno),
+                  client_name, remote_path, (*i)->name());
               }
             }
             out(info, msg_standard, rem_path, -2, code);
