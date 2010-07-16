@@ -266,36 +266,28 @@ int main(int argc, char **argv) {
     hbackup.show(1);
     // Fix any interrupted backup
     if (fixSwitch.getValue()) {
-      if (hlog_is_worth(hreport::info)) {
-        cout << "Fixing database" << endl;
-      }
+      hlog_info("Fixing database");
       if (hbackup.fix()) {
         return 3;
       }
     } else
     // Check that data referenced in DB exists
     if (scanSwitch.getValue()) {
-      if (hlog_is_worth(hreport::info)) {
-        cout << "Scanning database" << endl;
-      }
+      hlog_info("Scanning database");
       if (hbackup.scan()) {
         return 3;
       }
     } else
     // Check that data in DB is not corrupted
     if (checkSwitch.getValue()) {
-      if (hlog_is_worth(hreport::info)) {
-        cout << "Checking database" << endl;
-      }
+      hlog_info("Checking database");
       if (hbackup.check()) {
         return 3;
       }
     } else
     // List DB contents
     if (listSwitch.getValue()) {
-      if (hlog_is_worth(hreport::info)) {
-        cout << "Showing list" << endl;
-      }
+      hlog_info("Showing list");
       string path;
       if (user_mode && (clientArg.getValue().size() > 0)) {
         cerr << "Error: Wrong number of clients" << endl;
@@ -312,9 +304,7 @@ int main(int argc, char **argv) {
     } else
     // Restore data
     if (restoreArg.getValue().size() != 0) {
-      if (hlog_is_worth(hreport::info)) {
-        cout << "Restoring" << endl;
-      }
+      hlog_info("Restoring");
       if (clientArg.getValue().size() != (user_mode ? 0 : 1)) {
         cerr << "Error: Wrong number of clients" << endl;
         return 1;
@@ -340,10 +330,7 @@ int main(int argc, char **argv) {
     } else
     // Backup
     {
-      if (hlog_is_worth(hreport::info)) {
-        cout << "Backing up in " << (user_mode ? "user" : "server") << " mode"
-          << endl;
-      }
+      hlog_info("Backing up in %s mode", user_mode ? "user" : "server");
       if (hbackup.backup(initSwitch.getValue())) {
         return 3;
       }
