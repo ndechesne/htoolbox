@@ -220,7 +220,7 @@ ssize_t Config::read(
   // Open client configuration file
   FILE* fd = fopen(path, "r");
   if (fd == NULL) {
-    hlog_error("failed to open configuation file '%s': %s",
+    hlog_error("failed to open configuration file '%s': %s",
       path, strerror(errno));
     return -1;
   }

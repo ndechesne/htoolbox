@@ -1,7 +1,7 @@
 
 Test: wrong config file
  -> Reading configuration file: 
-Error: failed to open configuation file '': No such file or directory
+Error: failed to open configuration file '': No such file or directory
 
 Test: backup, not initialized
  -> Reading configuration file: etc/hbackup.conf
