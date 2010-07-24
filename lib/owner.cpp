@@ -87,13 +87,13 @@ int Owner::finishOff(
       bool empty  = true;
       if (! journal.end()) {
         empty = false;
-        out(verbose, msg_standard, _d->path.basename(), -1,
+        out(verbose, _d->path.basename(), -1,
           "Register modified");
         if (! _d->partial->create()) {
           if (! _d->original->open()) {
             _d->original->setProgressCallback(_d->progress);
             if (List::merge(_d->original, _d->partial, &journal) < 0) {
-              out(error, msg_standard, "Merge failed", -1, NULL);
+              out(error, "Merge failed", -1, NULL);
               failed = true;
             }
             _d->original->setProgressCallback(NULL);
@@ -195,14 +195,14 @@ const char* Owner::path() const {
 int Owner::hold() const {
   Directory owner_dir(_d->path);
   if (! owner_dir.isValid()) {
-    out(error, msg_standard, "Directory does not exist, aborting", -1,
+    out(error, "Directory does not exist, aborting", -1,
       _d->path.basename());
     return -1;
   }
 
   File owner_list(Path(_d->path, "list"));
   if (! owner_list.isValid()) {
-    out(error, msg_standard, "Register not accessible, aborting", -1,
+    out(error, "Register not accessible, aborting", -1,
       _d->path.basename());
     return -1;
   }
@@ -243,7 +243,7 @@ int Owner::open(
   if (! owner_dir.isValid()) {
     if (initialize) {
       if (owner_dir.create() < 0) {
-        out(error, msg_standard, "Directory cannot be created, aborting", -1,
+        out(error, "Directory cannot be created, aborting", -1,
           _d->path.basename());
         return -1;
       }
@@ -253,7 +253,7 @@ int Owner::open(
       return 0;
     } else
     {
-      out(error, msg_standard, "Directory does not exist, aborting", -1,
+      out(error, "Directory does not exist, aborting", -1,
         _d->path.basename());
       return -1;
     }
@@ -269,7 +269,7 @@ int Owner::open(
 
     if (backup.isValid()) {
       rename(backup.path(), _d->original->path());
-      out(warning, msg_standard, "Register not accessible, using backup", -1,
+      out(warning, "Register not accessible, using backup", -1,
         _d->path.basename());
     } else if (initialize) {
       List original(owner_list.path());
@@ -279,7 +279,7 @@ int Owner::open(
         failed = true;
       } else {
         original.close();
-        out(info, msg_standard, _d->path.basename(), -1, "Register created");
+        out(info, _d->path.basename(), -1, "Register created");
       }
     }
   } else {
@@ -293,10 +293,10 @@ int Owner::open(
     if (! journal.open()) {
       // Check previous crash
       journal.close();
-      out(warning, msg_standard, _d->path.basename(), -1,
+      out(warning, _d->path.basename(), -1,
         "Previous backup interrupted");
       if (finishOff(true)) {
-        out(error, msg_standard, "Failed to recover previous data", -1, NULL);
+        out(error, "Failed to recover previous data", -1, NULL);
         failed = true;
       }
     }
@@ -364,7 +364,7 @@ int Owner::close(
       remove(_d->journal->path());
     } else
     if (! aborting()) {
-      out(verbose, msg_standard, _d->path.basename(), -1, "Register modified");
+      out(verbose, _d->path.basename(), -1, "Register modified");
     }
     // Close list (was open read-only)
     _d->original->close();
@@ -379,7 +379,7 @@ int Owner::close(
     } else
     // Merge now
     if (finishOff(false)) {
-      out(error, msg_standard, "Failed to close lists", -1, NULL);
+      out(error, "Failed to close lists", -1, NULL);
       failed = true;
     }
     // Free lists

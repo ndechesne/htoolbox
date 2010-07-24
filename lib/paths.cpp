@@ -165,13 +165,13 @@ int ClientPath::parse_recurse(
                   client_name, remote_path, (*i)->name());
               }
             }
-            out(info, msg_standard, rem_path, -2, code);
+            out(info, rem_path, -2, code);
           }
 
           // For directory, recurse into it
           if ((*i)->type() == 'd') {
             if ((*i)->size() != -1) {
-              out(verbose, msg_standard, &rem_path[_path.length() + 1], -3, NULL);
+              out(verbose, &rem_path[_path.length() + 1], -3, NULL);
             }
             if (parse_recurse(db, rem_path, client_name, start,
                 static_cast<Directory&>(**i), parser) < 0) {
@@ -181,7 +181,7 @@ int ClientPath::parse_recurse(
           continue;
         }
         if (code[0] == 'I') {
-          out(verbose, msg_standard, rem_path, -2, code);
+          out(verbose, rem_path, -2, code);
         }
       }
     }
@@ -278,14 +278,14 @@ int ClientPath::parse(
 }
 
 void ClientPath::show(int level) const {
-  out(debug, msg_standard, _path, level++, "Path");
+  out(debug, _path, level++, "Path");
   _attributes.show(level);
   if (_compress != NULL) {
-    out(debug, msg_standard, _compress->name().c_str(), level,
+    out(debug, _compress->name().c_str(), level,
       "Compress filter");
   }
   if (_no_compress != NULL) {
-    out(debug, msg_standard, _no_compress->name().c_str(), level,
+    out(debug, _no_compress->name().c_str(), level,
       "No compress filter");
   }
   _parsers.show(level);

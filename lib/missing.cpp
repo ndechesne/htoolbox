@@ -90,7 +90,7 @@ int Missing::close() {
   if (_d->modified || _d->force_save) {
     // Save list of missing items
     if (_d->modified) {
-      out(info, msg_standard, "Missing checksums list updated", -1, NULL);
+      out(info, "Missing checksums list updated", -1, NULL);
     }
     Stream missing_list((path + ".part").c_str());
     if (missing_list.open(O_WRONLY)) {
@@ -125,7 +125,7 @@ int Missing::close() {
   if (count > 0) {
     stringstream s;
     s << "List of problematic checksums contains " << count << " item(s)";
-    out(info, msg_standard, s.str().c_str(), -1, NULL);
+    out(info, s.str().c_str(), -1, NULL);
   }
   return failed ? -1 : 0;
 }
@@ -139,7 +139,7 @@ void Missing::open(const char* path) {
 int Missing::load() {
   bool failed = false;
   // Read list of problematic checksums (it is ordered and contains no dup)
-  out(verbose, msg_standard, "Reading list of problematic checksums", -1, NULL);
+  out(verbose, "Reading list of problematic checksums", -1, NULL);
   Stream missing_list(_d->path);
   if (! missing_list.open(O_RDONLY)) {
     missing_list.setProgressCallback(_d->progress);
@@ -153,31 +153,31 @@ int Missing::load() {
         if (params.size() == 1) {
           // Backwards compatibility
           _d->data.push_back(MissingData(line, -1, missing));
-          out(debug, msg_standard, line, 1, NULL);
+          out(debug, line, 1, NULL);
           continue;
         } else {
-          out(error, msg_standard, "wrong number of parameters", -1,
+          out(error, "wrong number of parameters", -1,
             "Missing checksums list");
           break;
         }
       }
       const char* checksum = params[0].c_str();
       if (sscanf(params[2].c_str(), "%lld", &size) != 1) {
-        out(error, msg_standard, "wrong type for size parameter", -1,
+        out(error, "wrong type for size parameter", -1,
           "Missing checksums list");
         continue;
       }
       switch (params[1][0]) {
         case 'm':
           _d->data.push_back(MissingData(checksum, -1, missing));
-          out(debug, msg_standard, checksum, 1, "Missing");
+          out(debug, checksum, 1, "Missing");
           break;
         case 'i':
           _d->data.push_back(MissingData(checksum, size, inconsistent));
-          out(debug, msg_standard, checksum, 1, "Inconsistent");
+          out(debug, checksum, 1, "Inconsistent");
           break;
         default:
-          out(warning, msg_standard, "wrong identifier", -1,
+          out(warning, "wrong identifier", -1,
             "Missing checksums list");
       }
     }
@@ -257,18 +257,18 @@ void Missing::show() const {
   if (! _d->data.empty()) {
     stringstream s;
     s << "Problematic checksum(s): " << _d->data.size();
-    out(warning, msg_standard, s.str().c_str(), -1, NULL);
+    out(warning, s.str().c_str(), -1, NULL);
     for (unsigned int i = 0; i < _d->data.size(); i++) {
       const char* checksum = _d->data[i].checksum.c_str();
       switch (_d->data[i].status) {
         case missing:
-          out(debug, msg_standard, "missing", 1, checksum);
+          out(debug, "missing", 1, checksum);
           break;
         case inconsistent:
-          out(debug, msg_standard, "inconsistent", 1, checksum);
+          out(debug, "inconsistent", 1, checksum);
           break;
         default:
-          out(debug, msg_standard, "recovered", 1, checksum);
+          out(debug, "recovered", 1, checksum);
       }
     }
   }

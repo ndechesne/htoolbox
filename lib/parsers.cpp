@@ -73,7 +73,7 @@ Parser* Parsers::createParser(const string& name, const string& mode_str) {
       mode = Parser::others;
       break;
     default:
-      out(error, msg_standard, "Undefined parser mode", -1, mode_str.c_str());
+      out(error, "Undefined parser mode", -1, mode_str.c_str());
       return NULL;
   }
 
@@ -90,13 +90,13 @@ Parser* Parsers::createParser(const string& name, const string& mode_str) {
       return (*i)->createInstance(mode);
     }
   }
-  out(error, msg_standard, "Unsupported parser", -1, name.c_str());
+  out(error, "Unsupported parser", -1, name.c_str());
   return NULL;
 }
 
 void Parsers::show(int level) const {
   list<Parser*>::const_iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
-    out(debug, msg_standard, (*i)->name(), level, "Parser");
+    out(debug, (*i)->name(), level, "Parser");
   }
 }

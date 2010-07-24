@@ -40,7 +40,6 @@ void hreport::out_hidden(
     const char*     file,
     int             line,
     Level           level,
-    MessageType     type,
     const char*     message,
     int             number,
     const char*     prepend) {
@@ -48,7 +47,7 @@ void hreport::out_hidden(
     return;
   }
   stringstream s;
-  if ((type == msg_standard) && (number > 0)) {
+  if (number > 0) {
     string arrow;
     arrow = " ";
     arrow.append(number, '-');

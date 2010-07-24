@@ -62,7 +62,7 @@ Parser *CvsParser::createChildIfControlled(const string& dir_path) const {
   // If control directory exists and contains an entries file, assume control
   if (! File(Path((dir_path + control_dir).c_str(), &entries[1])).isValid()) {
     if (! _no_parsing) {
-      out(warning, msg_standard, "Directory should be under CVS control", -1,
+      out(warning, "Directory should be under CVS control", -1,
         dir_path.c_str());
       return new IgnoreParser;
     } else {
@@ -85,7 +85,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) : Parser(mode, dir_path)
 
   /* Fill in list of controlled files */
   entries_file.open(O_RDONLY);
-  out(debug, msg_standard, "Parsing CVS entries", 1, NULL);
+  out(debug, "Parsing CVS entries", 1, NULL);
   int    line_no = 0;
   char*  buffer = NULL;
   size_t buffer_capacity = 0;
@@ -232,11 +232,11 @@ void CvsParser::show(int level) {
   list<Node>::iterator  i;
   for (i = _files.begin(); i != _files.end(); i++) {
     if (i->type() == 'd') {
-      out(debug, msg_standard, "D", level, i->name());
+      out(debug, "D", level, i->name());
     } else {
       stringstream mtime;
       mtime << i->mtime();
-      out(debug, msg_standard, mtime.str().c_str(), level, i->name());
+      out(debug, mtime.str().c_str(), level, i->name());
     }
   }
 }

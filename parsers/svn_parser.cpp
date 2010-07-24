@@ -64,7 +64,7 @@ public:
     // Parent under control, this is the control directory
     if ((dir_path.size() > control_dir.size())
     &&  (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
-      out(debug, msg_standard, dir_path.c_str(), -1, "control dir");
+      out(debug, dir_path.c_str(), -1, "control dir");
       return new SvnControlParser;
     }
     // Otherwise just return proxy
@@ -84,14 +84,14 @@ Parser *SvnParser::createChildIfControlled(const string& dir_path) const {
   if (! _no_parsing
    && (dir_path.size() > control_dir.size())
    && (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
-    out(debug, msg_standard, dir_path.c_str(), -1, "control dir");
+    out(debug, dir_path.c_str(), -1, "control dir");
     return new SvnControlParser;
   }
 
   // If control directory exists and contains an entries file, assume control
   if (! File(Path((dir_path + control_dir).c_str(), &entries[1])).isValid()) {
     if (! _no_parsing) {
-      out(warning, msg_standard,
+      out(warning,
         "Directory should be under Subversion control", -1, dir_path.c_str());
       return new IgnoreParser;
     } else {
@@ -114,7 +114,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) :
     return;
   }
   /* Fill in list of files */
-  out(debug, msg_standard, "Parsing Subversion entries", 1, NULL);
+  out(debug, "Parsing Subversion entries", 1, NULL);
   string command = "svn status --no-ignore --non-interactive \"" +
     dir_path + "\"";
   FILE* fd = popen(command.c_str(), "r");
@@ -215,7 +215,7 @@ void SvnParser::show(int level) {
   for (i = _files.begin(); i != _files.end(); i++) {
     stringstream type;
     type << i->type();
-    out(debug, msg_standard, type.str().c_str(), level, i->path());
+    out(debug, type.str().c_str(), level, i->path());
   }
 }
 

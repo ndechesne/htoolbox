@@ -247,7 +247,7 @@ bool Filter::match(
 void Filter::show(int level) const {
   stringstream s;
   s << ((_type == any) ? "or" : "and") << " " << _name;
-  out(debug, msg_standard, s.str().c_str(), level, "Filter");
+  out(debug, s.str().c_str(), level, "Filter");
   // Show all conditions
   list<Condition*>::const_iterator condition;
   for (condition = _children.begin(); condition != _children.end();

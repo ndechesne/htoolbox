@@ -86,16 +86,16 @@ int Database::lock() {
       // Find out whether process is still running, if not, reset lock
       kill(pid, 0);
       if (errno == ESRCH) {
-        out(warning, msg_standard, "Database lock reset", -1, NULL);
+        out(warning, "Database lock reset", -1, NULL);
         ::remove(lock_path);
       } else {
         stringstream s;
         s << "Database lock taken by process with pid " << pid;
-        out(error, msg_standard, s.str().c_str(), -1, NULL);
+        out(error, s.str().c_str(), -1, NULL);
         failed = true;
       }
     } else {
-      out(error, msg_standard,
+      out(error,
         "Database lock taken by an unidentified process!", -1, NULL);
       failed = true;
     }
@@ -147,17 +147,17 @@ int Database::open(
     bool            initialize) {
 
   if (read_only && initialize) {
-    out(error, msg_standard, "Cannot initialize in read-only mode", -1, NULL);
+    out(error, "Cannot initialize in read-only mode", -1, NULL);
     return -1;
   }
 
   if (! Directory(_d->path).isValid()) {
     if (read_only || ! initialize) {
-      out(error, msg_standard, _d->path, -1, "Given DB path does not exist");
+      out(error, _d->path, -1, "Given DB path does not exist");
       return -1;
     } else
     if (mkdir(_d->path, 0755)) {
-      out(error, msg_standard, "Cannot create DB base directory", -1, NULL);
+      out(error, "Cannot create DB base directory", -1, NULL);
       return -1;
     }
   }
@@ -171,7 +171,7 @@ int Database::open(
     case 1:
       // Creation successful
       File(Path(_d->path, ".checksums")).create();
-      out(verbose, msg_standard, _d->path, -1, "Database initialized");
+      out(verbose, _d->path, -1, "Database initialized");
     case 0:
       // Open successful
       break;
@@ -181,10 +181,10 @@ int Database::open(
         hlog_error("%s creating data directory in '%s'", strerror(errno),
           _d->path);
       } else {
-        out(error, msg_standard, _d->path, -1,
+        out(error, _d->path, -1,
           "Given DB path does not contain a database");
         if (! read_only) {
-          out(info, msg_standard,
+          out(info,
             "See help for information on how to initialize the DB", -1, NULL);
         }
       }
@@ -203,7 +203,7 @@ int Database::open(
 
   if (read_only) {
     _d->access = ro;
-    out(verbose, msg_standard, "Database open in read-only mode", -1, NULL);
+    out(verbose, "Database open in read-only mode", -1, NULL);
   } else {
     // Open problematic checksums list
     _d->missing.open(Path(_d->path, ".checksums"));
@@ -232,7 +232,7 @@ int Database::open(
     _d->access = rw;
     // Load list of missing items if/when required
     _d->load_missing = true;
-    out(verbose, msg_standard, "Database open in read/write mode", -1, NULL);
+    out(verbose, "Database open in read/write mode", -1, NULL);
   }
   return 0;
 }
@@ -241,7 +241,7 @@ int Database::close() {
   bool failed = false;
 
   if (_d->access == no) {
-    out(alert, msg_standard, "Cannot close: DB not open!", -1, NULL);
+    out(alert, "Cannot close: DB not open!", -1, NULL);
   } else {
     if (_d->owner != NULL) {
       closeClient(true);
@@ -255,7 +255,7 @@ int Database::close() {
       unlock();
     }
   }
-  out(verbose, msg_standard, "Database closed", -1, NULL);
+  out(verbose, "Database closed", -1, NULL);
   _d->access = no;
   return failed ? -1 : 0;
 }
@@ -363,22 +363,22 @@ int Database::restore(
     if (db_node->type() == 'f') {
       switch (links) {
         case HBackup::none:
-          out(info, msg_standard, base, -2, "U");
+          out(info, base, -2, "U");
           break;
         case HBackup::symbolic:
-          out(info, msg_standard, base, -2, "L");
+          out(info, base, -2, "L");
           break;
         case HBackup::hard:
-          out(info, msg_standard, base, -2, "H");
+          out(info, base, -2, "H");
       }
     } else {
-      out(info, msg_standard, base, -2, "U");
+      out(info, base, -2, "U");
     }
     switch (db_node->type()) {
       case 'f': {
           File* f = static_cast<File*>(db_node);
           if (f->checksum()[0] == '\0') {
-            out(error, msg_standard, "Failed to restore file: data missing",
+            out(error, "Failed to restore file: data missing",
               -1, NULL);
             this_failed = true;
           } else
@@ -489,7 +489,7 @@ int Database::scan(
   _d->load_missing = false;
   bool failed = false;
   for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
-    out(verbose, msg_standard, i->c_str(), -1, "Reading list");
+    out(verbose, i->c_str(), -1, "Reading list");
     Owner client(_d->path, i->c_str());
     client.getChecksums(list_data);
     if (failed || aborting()) {
@@ -517,11 +517,11 @@ int Database::scan(
   {
     stringstream s;
     s << "Found " << list_data.size() << " checksums";
-    out(verbose, msg_standard, s.str().c_str(), -1, NULL);
+    out(verbose, s.str().c_str(), -1, NULL);
   }
 
   // Get checksums from DB
-  out(verbose, msg_standard, "Crawling through DB", -1, NULL);
+  out(verbose, "Crawling through DB", -1, NULL);
   list<CompData> data_data;
   // Check surficially, remove empty dirs
   int rc = _d->data.crawl(false, true, &data_data);
@@ -535,7 +535,7 @@ int Database::scan(
         i != list_data.end(); i++) {
       stringstream s;
       s << i->checksum() << ", " << i->size();
-      out(debug, msg_standard, s.str().c_str(), 1, NULL);
+      out(debug, s.str().c_str(), 1, NULL);
     }
   }
   if (! data_data.empty()) {
@@ -544,7 +544,7 @@ int Database::scan(
         i != data_data.end(); i++) {
       stringstream s;
       s << i->checksum() << ", " << i->size();
-      out(debug, msg_standard, s.str().c_str(), 1, NULL);
+      out(debug, s.str().c_str(), 1, NULL);
     }
   }
 
@@ -590,13 +590,13 @@ int Database::scan(
       if (i->checksum()[0] != '\0') {
         if (rm_obsolete) {
           if (_d->data.remove(i->checksum()) == 0) {
-            out(debug, msg_standard, "removed", 1, i->checksum());
+            out(debug, "removed", 1, i->checksum());
           } else {
             hlog_error("%s removing data '%s'", strerror(errno),
               i->checksum().c_str());
           }
         } else {
-          out(debug, msg_standard, i->checksum(), 1, NULL);
+          out(debug, i->checksum(), 1, NULL);
         }
       }
     }
@@ -618,7 +618,7 @@ int Database::scan(
 
 int Database::check(
     bool            remove) const {
-  out(verbose, msg_standard, "Crawling through DB data", -1, NULL);
+  out(verbose, "Crawling through DB data", -1, NULL);
   // Check thoroughly, remove corrupted data if told (but not empty dirs)
   int rc = _d->data.crawl(true, remove);
   if (rc >= 0) {
@@ -634,7 +634,7 @@ int Database::openClient(
     const char*     client,
     time_t          expire) {
   if (_d->access == no) {
-    out(alert, msg_standard, "Open DB before opening client!", -1, NULL);
+    out(alert, "Open DB before opening client!", -1, NULL);
     return -1;
   }
 
@@ -666,10 +666,10 @@ int Database::openClient(
   // Report and set temporary data path
   switch (_d->access) {
     case ro:
-      out(verbose, msg_standard, _d->owner->name(), -1, "Database open r-o");
+      out(verbose, _d->owner->name(), -1, "Database open r-o");
       break;
     case rw:
-      out(verbose, msg_standard, _d->owner->name(), -1, "Database open r/w");
+      out(verbose, _d->owner->name(), -1, "Database open r/w");
       break;
     default:;
   }
@@ -680,7 +680,7 @@ int Database::closeClient(
     bool            abort) {
   bool failed = (_d->owner->close(abort) < 0);
   if (_d->access < quiet_rw) {
-    out(verbose, msg_standard, _d->owner->name(), -1, "Database closed");
+    out(verbose, _d->owner->name(), -1, "Database closed");
   }
   if (! failed && ! abort) {
     // Leave trace of successful check
@@ -707,7 +707,7 @@ int Database::add(
 
   // Add new record to active list
   if ((op._node.type() == 'l') && ! op._node.parsed()) {
-    out(error, msg_standard, "Bug in db add: link was not parsed!", -1, NULL);
+    out(error, "Bug in db add: link was not parsed!", -1, NULL);
     return -1;
   }
 
@@ -772,7 +772,7 @@ int Database::add(
   if (! failed || ! op._same_list_entry) {
     // Add entry info to journal
     if (_d->owner->add(op._path, &op._node) < 0) {
-      out(error, msg_standard, "Cannot add to client's list", -1, NULL);
+      out(error, "Cannot add to client's list", -1, NULL);
       failed = true;
     }
   }

@@ -35,11 +35,6 @@ namespace hreport {
     debug         /*!< Developper information, typically if 'debug' selected */
   };
 
-  //! Message types
-  enum MessageType {
-    msg_standard, /*!< number represents arrow length */
-  };
-
   //! \brief Function called throughout the code to output data
   /*!
     \param level        the level of verbosity associated with the message
@@ -57,7 +52,6 @@ namespace hreport {
     const char*     file,
     int             line,
     Level           level,
-    MessageType     type,
     const char*     message,
     int             number,
     const char*     prepend);
@@ -153,7 +147,7 @@ namespace hreport {
     hreport::report.log(__FILE__,__LINE__,(level),(temp),(format),##__VA_ARGS__) : 0
 
 
-#define out(level,type,msg,no,prepend) \
-  hreport::out_hidden(__FILE__,__LINE__,(level),(type),(msg),(no),(prepend))
+#define out(level,msg,no,prepend) \
+  hreport::out_hidden(__FILE__,__LINE__,(level),(msg),(no),(prepend))
 
 #endif  // _HREPORT_H

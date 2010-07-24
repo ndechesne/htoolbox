@@ -236,7 +236,7 @@ int HBackup::addClient(const char* name) {
     client++;
   }
   if (cmp == 0) {
-    out(error, msg_standard, "Client already selected", -1, name);
+    out(error, "Client already selected", -1, name);
     return -1;
   }
   _d->selected_clients.insert(client, name);
@@ -332,7 +332,7 @@ int HBackup::readConfig(const char* config_path) {
   }
 
   /* Read configuration file */
-  out(debug, msg_standard, config_path, 1, "Reading configuration file");
+  out(debug, config_path, 1, "Reading configuration file");
   Config       config;
   ConfigErrors errors;
   int rc = config.read(config_path, 0, config_syntax, _d, &errors);
@@ -487,7 +487,7 @@ int HBackup::list_or_restore(
     return -1;
   }
   if ((dest == NULL) && (names == NULL)) {
-    out(error, msg_standard, "Neither destination nor list given", -1, NULL);
+    out(error, "Neither destination nor list given", -1, NULL);
     return -1;
   }
   std::list<string>& records = *names;
@@ -495,7 +495,7 @@ int HBackup::list_or_restore(
     if (dest == NULL) {
       failed = (_d->db->getClients(records) != 0);
     } else {
-      out(error, msg_standard, "No client given", -1, NULL);
+      out(error, "No client given", -1, NULL);
       failed = true;
     }
   } else {
@@ -523,54 +523,54 @@ int HBackup::list_or_restore(
 
 void HBackup::show(int level) const {
   if (_d->log_file_name == "") {
-    out(debug, msg_standard, "No file logging", level, NULL);
+    out(debug, "No file logging", level, NULL);
   } else {
-    out(debug, msg_standard, _d->log_file_name.c_str(), level, "Log path");
+    out(debug, _d->log_file_name.c_str(), level, "Log path");
     if (_d->log_max_lines == 0) {
-      out(debug, msg_standard, "No size limit", level + 1, NULL);
+      out(debug, "No size limit", level + 1, NULL);
     } else {
       char number[32];
       sprintf(number, "%zu", _d->log_max_lines);
-      out(debug, msg_standard, number, level + 1, "Max lines per log");
+      out(debug, number, level + 1, "Max lines per log");
     }
     if (_d->log_backups == 0) {
-      out(debug, msg_standard, "No log file backup", level + 1, NULL);
+      out(debug, "No log file backup", level + 1, NULL);
     } else {
       char number[32];
       sprintf(number, "%zu", _d->log_backups);
-      out(debug, msg_standard, number, level + 1, "Backup(s)");
+      out(debug, number, level + 1, "Backup(s)");
     }
-    out(debug, msg_standard, Report::levelString(_d->log_level), level + 1,
+    out(debug, Report::levelString(_d->log_level), level + 1,
       "Level");
   }
   if (_d->db == NULL) {
-    out(debug, msg_standard, "DB path not set", level, NULL);
+    out(debug, "DB path not set", level, NULL);
   } else {
-    out(debug, msg_standard, _d->db->path(), level, "DB path");
+    out(debug, _d->db->path(), level, "DB path");
   }
   switch (_d->db_compress_mode) {
     case OpData::always:
-      out(debug, msg_standard, "DB compression: always", level, NULL);
+      out(debug, "DB compression: always", level, NULL);
       break;
     case OpData::auto_now:
-      out(debug, msg_standard, "DB compression: automatic", level, NULL);
+      out(debug, "DB compression: automatic", level, NULL);
       break;
     case OpData::auto_later:
-      out(debug, msg_standard, "DB compression: later", level, NULL);
+      out(debug, "DB compression: later", level, NULL);
       break;
     case OpData::never:
-      out(debug, msg_standard, "DB compression: never", level, NULL);
+      out(debug, "DB compression: never", level, NULL);
       break;
   }
   if (! _d->selected_clients.empty()) {
-    out(debug, msg_standard, "Selected clients:", level, NULL);
+    out(debug, "Selected clients:", level, NULL);
     for (std::list<string>::iterator client = _d->selected_clients.begin();
         client != _d->selected_clients.end(); client++) {
-      out(debug, msg_standard, client->c_str(), level + 1, NULL);
+      out(debug, client->c_str(), level + 1, NULL);
     }
   }
   if (! _d->clients.empty()) {
-    out(debug, msg_standard, "Clients:", level, NULL);
+    out(debug, "Clients:", level, NULL);
     for (std::list<Client*>::iterator client = _d->clients.begin();
         client != _d->clients.end(); client++) {
       (*client)->show(level + 1);
