@@ -258,10 +258,11 @@ int ClientPath::parse(
     char* full_name;
     if (asprintf(&full_name, "%s:%s", client_name,
                  static_cast<const char*>(_path)) < 0) {
-      out(alert, msg_errno, "creating final path", errno, _path);
+      hlog_error("%s creating final path '%s'", strerror(errno), _path.c_str());
       rc = -1;
     } else {
-      out(error, msg_errno, "reading initial directory", errno, full_name);
+      hlog_error("%s reading initial directory '%s'", strerror(errno),
+        full_name);
       free(full_name);
     }
     rc = -1;

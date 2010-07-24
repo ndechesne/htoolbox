@@ -87,7 +87,8 @@ int Data::getMetadata(
     failed = true;
   } else {
     if (meta_file.getLine(&meta_str, &meta_str_size) < 0) {
-      out(error, msg_errno, "reading metadata file", errno, meta_file.path());
+      hlog_error("%s reading metadata file '%s'", strerror(errno),
+        meta_file.path());
       failed = true;
     }
     meta_file.close();
@@ -110,11 +111,13 @@ int Data::setMetadata(
   }
   Stream meta_file(Path(path, "meta"));
   if (meta_file.open(O_WRONLY) < 0) {
-    out(error, msg_errno, "creating metadata file", errno, meta_file.path());
+    hlog_error("%s creating metadata file '%s'", strerror(errno),
+      meta_file.path());
     failed = true;
   } else {
     if (meta_file.write(meta_str, strlen(meta_str)) < 0) {
-      out(error, msg_errno, "writing metadata file", errno, meta_file.path());
+      hlog_error("%s writing metadata file '%s'", strerror(errno),
+        meta_file.path());
       failed = true;
     }
     meta_file.close();
@@ -172,7 +175,7 @@ int Data::organise(
       }
       Node source_path(Path(path, dir_entry->d_name));
       if (source_path.stat()) {
-        out(error, msg_errno, "stating source file", errno,
+        hlog_error("%s stating source file '%s'", strerror(errno),
           source_path.path());
         failed = true;
       } else
@@ -357,7 +360,8 @@ int Data::read(
     return -1;
   }
   if (data->open(O_RDONLY, (no > 0) ? 1 : 0), false) {
-    out(error, msg_errno, "opening read source file", errno, data->path());
+    hlog_error("%s opening read source file '%s'", strerror(errno),
+      data->path());
     return -1;
   }
 
@@ -366,7 +370,7 @@ int Data::read(
   temp_path += ".hbackup-part";
   Stream temp(temp_path.c_str());
   if (temp.open(O_WRONLY)) {
-    out(error, msg_errno, "opening read temp file", errno, data->path());
+    hlog_error("%s opening read temp file '%s'", strerror(errno), temp.path());
     failed = true;
   } else {
     // Copy file to temporary name (size not checked: checksum suffices)
@@ -389,7 +393,7 @@ int Data::read(
 
     // All done
     if (rename(temp_path.c_str(), path)) {
-      out(error, msg_errno, "renaming read file", errno, path);
+      hlog_error("%s renaming read file '%s'", strerror(errno), path);
       failed = true;
     }
   }
@@ -438,13 +442,15 @@ int Data::write(
     // Automatic compression: copy twice, compressed and not, and choose best
     char* temp_path_gz;
     if (asprintf(&temp_path_gz, "%s.gz", temp1->path()) < 0) {
-      out(alert, msg_errno, "creating temporary path", errno, temp1->path());
+      hlog_error("%s creating temporary path '%s'", strerror(errno),
+        temp1->path());
       failed = true;
     } else {
       temp2 = new Stream(temp_path_gz);
       free(temp_path_gz);
       if (temp2->open(O_WRONLY, 0, false)) {
-        out(error, msg_errno, "opening write temp file", errno, temp2->path());
+        hlog_error("%s opening write temp file '%s'", strerror(errno),
+          temp2->path());
         failed = true;
       }
     }
@@ -454,7 +460,8 @@ int Data::write(
     comp_case = forced_yes;
   }
   if (temp1->open(O_WRONLY, compress, false)) {
-    out(error, msg_errno, "opening write temp file", errno, temp1->path());
+    hlog_error("%s opening write temp file '%s'", strerror(errno),
+      temp1->path());
     failed = true;
   }
 
@@ -533,7 +540,8 @@ int Data::write(
   char*   final_path = NULL;
   do {
     if (asprintf(&final_path, "%s-%u", dest_path.c_str(), index) < 0) {
-      out(alert, msg_errno, "creating final path", errno, dest_path.c_str());
+      hlog_error("%s creating final path '%s'", strerror(errno),
+        dest_path.c_str());
       failed = true;
       break;
     }
@@ -581,7 +589,7 @@ int Data::write(
             break;
           // Error
           default:
-            out(error, msg_errno, "comparing data", errno,
+            hlog_error("%s comparing data '%s'", strerror(errno),
               source.checksum());
             failed = true;
         }
@@ -597,19 +605,20 @@ int Data::write(
       << source.checksum() << "-" << index;
     out(debug, msg_standard, s.str().c_str(), -1, NULL);
     if (Directory(final_path).create() < 0) {
-      out(error, msg_errno, "creating directory", errno, final_path);
+      hlog_error("%s creating directory '%s'", strerror(errno), final_path);
     } else
     if ((action == replace) && (data->remove() < 0)) {
-      out(error, msg_errno, "removing previous data", errno, NULL);
+      hlog_error("%s removing previous data '%s'", strerror(errno),
+        data->path());
     } else {
       char* name = NULL;
       if (asprintf(&name, "%s/data%s", final_path,
                    ((compress != 0) ? ".gz" : "")) < 0) {
-        out(alert, msg_errno, "creating final name", errno, final_path);
+        hlog_error("%s creating final name '%s'", strerror(errno), final_path);
         failed = true;
       } else
       if (rename(dest->path(), name)) {
-        out(error, msg_errno, "moving file", errno, name);
+        hlog_error("%s moving file '%s'", strerror(errno), name);
         failed = true;
       } else {
         // Always add metadata (size) file (no action on failure)
@@ -637,7 +646,8 @@ int Data::write(
   *dchecksum = NULL;
   if (! failed) {
     if (asprintf(dchecksum, "%s-%d", source.checksum(), index) < 0) {
-      out(alert, msg_errno, "creating checksum", errno, source.checksum());
+      hlog_error("%s creating checksum '%s'", strerror(errno),
+        source.checksum());
       failed = true;
     }
 
@@ -702,12 +712,12 @@ int Data::check(
       data->setProgressCallback(_d->progress);
       // Open file
       if (data->open(O_RDONLY, (no > 0) ? 1 : 0)) {
-        out(error, msg_errno, "opening file", errno, data->path());
+        hlog_error("%s opening file '%s'", strerror(errno), data->path());
         failed = true;
       } else
       // Compute file checksum
       if (data->computeChecksum() || data->close()) {
-        out(error, msg_errno, "reading file", errno, data->path());
+        hlog_error("%s reading file '%s'", strerror(errno), data->path());
         failed = true;
       } else
       // Compare with given checksum
@@ -743,7 +753,7 @@ int Data::check(
       if (removePath(path.c_str()) == 0) {
         out(info, msg_standard, "Removed corrupted data", -1, checksum);
       } else {
-        out(error, msg_errno, "removing data", errno, checksum);
+        hlog_error("%s removing data '%s'", strerror(errno), checksum);
       }
       failed = true;
     } else
@@ -774,7 +784,7 @@ int Data::check(
     ||  ((no > 0)
       && (asprintf(&size_str, "%lld %lld", original_size, data->size()) < 0)))
     {
-      out(alert, msg_errno, "creating size str", errno, NULL);
+      hlog_error("%s creating size str", strerror(errno));
     } else {
       out(verbose, msg_standard, size_str, -3, checksum);
       free(size_str);

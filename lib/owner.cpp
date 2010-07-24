@@ -99,15 +99,18 @@ int Owner::finishOff(
             _d->original->setProgressCallback(NULL);
             _d->original->close();
           } else {
-            out(error, msg_errno, "opening list", errno, NULL);
+            hlog_error("%s opening list '%s'", strerror(errno),
+              _d->original->path().c_str());
             failed = true;
           }
           if (_d->partial->close()) {
-            out(error, msg_errno, "closing merge", errno, NULL);
+            hlog_error("%s closing merge '%s'", strerror(errno),
+              _d->partial->path().c_str());
             failed = true;
           }
         } else {
-          out(error, msg_errno, "opening merge", errno, NULL);
+          hlog_error("%s opening merge '%s'", strerror(errno),
+            _d->partial->path().c_str());
           failed = true;
         }
       }
@@ -122,21 +125,23 @@ int Owner::finishOff(
       }
     } else
     if (errno != ENOENT) {
-      out(error, msg_errno, "opening journal", errno, NULL);
+      hlog_error("%s opening journal '%s'", strerror(errno),
+        journal.path().c_str());
       return -1;
     }
   }
 
   // list._d->partial -> list.next (step 1)
   if (! got_next && rename(_d->partial->path(), next.path())) {
-    out(error, msg_errno, "renaming next list", errno, NULL);
+    hlog_error("%s renaming next list to '%s'", strerror(errno), next.path());
     return -1;
   }
 
   // Discard journal (step 2)
   if (! got_next || File(_d->journal->path()).isValid()) {
     if (rename(_d->journal->path(), Path(_d->path, "journal~"))) {
-      out(error, msg_errno, "renaming journal", errno, NULL);
+      hlog_error("%s renaming journal to '%s/journal~'", strerror(errno),
+        _d->path.c_str());
       return -1;
     }
   }
@@ -144,14 +149,16 @@ int Owner::finishOff(
   // list -> list~ (step 3)
   if (! got_next || File(_d->original->path()).isValid()) {
     if (rename(_d->original->path(), Path(_d->path, "list~"))) {
-      out(error, msg_errno, "renaming backup list", errno, NULL);
+      hlog_error("%s renaming backup list to '%s/list~'", strerror(errno),
+        _d->path.c_str());
       return -1;
     }
   }
 
   // list.next -> list (step 4)
   if (rename(next.path(), _d->original->path())) {
-    out(error, msg_errno, "renaming list", errno, NULL);
+    hlog_error("%s renaming list to '%s'", strerror(errno),
+      _d->original->path().c_str());
     return -1;
   }
   return 0;
@@ -203,13 +210,14 @@ int Owner::hold() const {
   stringstream file_name;
   file_name << owner_list.path() << "." << getpid();
   if (link(owner_list.path(), file_name.str().c_str())) {
-    out(error, msg_errno, "creating hard link to list, aborting", -1, NULL);
+    hlog_error("%s creating hard link to list, aborting", strerror(errno));
     return -1;
   }
 
   _d->original = new List(file_name.str().c_str());
   if (_d->original->open()) {
-    out(error, msg_errno, "opening list, aborting", -1, _d->path.basename());
+    hlog_error("%s opening list '%s', aborting", strerror(errno),
+      _d->path.basename());
     release();
     return -1;
   }
@@ -266,7 +274,8 @@ int Owner::open(
     } else if (initialize) {
       List original(owner_list.path());
       if (original.create()) {
-        out(error, msg_errno, "creating list", errno, _d->path.basename());
+        hlog_error("%s creating list '%s'", strerror(errno),
+          _d->path.basename());
         failed = true;
       } else {
         original.close();
@@ -295,20 +304,23 @@ int Owner::open(
   if (! failed && ! check) {
     // Open list
     if (_d->original->open()) {
-      out(error, msg_errno, "opening list", errno, _d->path.basename());
+      hlog_error("%s opening list in '%s'", strerror(errno),
+        _d->path.basename());
       failed = true;
     } else
     // Open journal
     if (_d->journal->create()) {
       _d->original->close();
-      out(error, msg_errno, "creating journal", errno, _d->path.basename());
+      hlog_error("%s creating journal in '%s'", strerror(errno),
+        _d->path.basename());
       failed = true;
     } else
     // Open list
     if (_d->partial->create()) {
       _d->original->close();
       _d->journal->close();
-      out(error, msg_errno, "creating merge list", errno, _d->path.basename());
+      hlog_error("%s creating merge list in '%s'", strerror(errno),
+        _d->path.basename());
       failed = true;
     }
   }

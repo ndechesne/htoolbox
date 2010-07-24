@@ -375,17 +375,17 @@ int Client::backup(
       switch (errno) {
         case ETIMEDOUT:
           if (! _timeout_nowarning) {
-            out(warning, msg_errno, "connecting to client", errno,
+            hlog_warning("%s connecting to client '%s'", strerror(errno),
               internalName().c_str());
             return 1;
           } else {
-            out(info, msg_errno, "connecting to client", errno,
+            hlog_info("%s connecting to client '%s'", strerror(errno),
               internalName().c_str());
             return 0;
           }
           break;
         default:
-          out(error, msg_errno, _protocol.c_str(), errno,
+          hlog_error("%s '%s' for '%s'", strerror(errno), _protocol.c_str(),
             internalName().c_str());
       }
       return -1;
@@ -408,7 +408,8 @@ int Client::backup(
       // Save configuration
       Directory dir(Path(db.path(), ".configs"));
       if (dir.create() < 0) {
-        out(error, msg_errno, "creating configuration directory", errno, NULL);
+        hlog_error("%s creating configuration directory '%s'", strerror(errno),
+          dir.path());
       } else {
         _config.write(Path(dir.path(), internalName().c_str()));
       }
@@ -437,14 +438,14 @@ int Client::backup(
 
           if (mountPath((*i)->path(), backup_path, mount_point)) {
             if (! first_mount_try) {
-              out(error, msg_errno, "- aborting client", errno,
-                internalName().c_str());
+              hlog_error("%s connecting to client '%s', aborting client",
+                strerror(errno), internalName().c_str());
             } else
             if (! _timeout_nowarning) {
-              out(warning, msg_errno, "connecting to client", errno,
+              hlog_warning("%s connecting to client '%s'", strerror(errno),
                 internalName().c_str());
             } else {
-              out(info, msg_errno, "connecting to client", errno,
+              hlog_info("%s connecting to client '%s'", strerror(errno),
                 internalName().c_str());
             }
             abort = true;

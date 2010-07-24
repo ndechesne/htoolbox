@@ -426,10 +426,10 @@ Database closed: otherClient1
  -> fusermount -u test_db/mount
 Trying client 'otherClient2' using protocol 'ssh'
  -> sshfs foo@otherClient:/home/Blah test_db/mount
-Warning: otherClient2: Connection timed out connecting to client
+Warning: Connection timed out connecting to client 'otherClient2'
 Trying client 'otherClient3' using protocol 'ssh'
  -> sshfs otherClient:/home/Blah test_db/mount
-Warning: otherClient3: Connection timed out connecting to client
+Warning: Connection timed out connecting to client 'otherClient3'
 Trying client 'Client' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=user,iocharset=utf8 //Client/C$ test_db/mount
  -> Reading client configuration file: Client
@@ -1217,7 +1217,7 @@ dir\r
 Backing up path: /home/User/test2
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
-Error: myClient: Connection timed out - aborting client
+Error: Connection timed out connecting to client 'myClient', aborting client
 Database closed: myClient
 Database closed
 First mount fails
@@ -1250,7 +1250,7 @@ Database open r/w: myClient
 Backing up path: /home/User/test
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
-Error: myClient: Connection timed out - aborting client
+Error: Connection timed out connecting to client 'myClient', aborting client
 Database closed: myClient
 Database closed
 Works again

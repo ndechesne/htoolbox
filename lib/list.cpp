@@ -80,11 +80,11 @@ List::~List() {
 int List::create() {
   _d->stream = fopen(_d->s_path, "w");
   if (_d->stream == NULL) {
-    out(error, msg_errno, "creating list", errno, _d->s_path);
+    hlog_error("%s creating '%s'", strerror(errno), _d->s_path.c_str());
     return -1;
   }
   if (putLine(_d->header) < 0) {
-    out(error, msg_errno, "writing list header", errno, _d->s_path);
+    hlog_error("%s writing header in '%s'", strerror(errno), _d->s_path.c_str());
     fclose(_d->stream);
     _d->stream = NULL;
     return -1;
@@ -130,12 +130,12 @@ int List::close() {
   int rc = 0;
   if (! _d->read_only) {
     if (putLine(_d->footer) < 0) {
-      out(error, msg_errno, "writing list footer", errno, _d->s_path);
+      hlog_error("%s writing footer in '%s'", strerror(errno), _d->s_path.c_str());
       rc = -1;
     }
   }
   if (fclose(_d->stream)) {
-    out(error, msg_errno, "closing list", errno, _d->s_path);
+    hlog_error("%s closing '%s'", strerror(errno), _d->s_path.c_str());
     rc = -1;
   }
   _d->stream = NULL;
@@ -616,7 +616,8 @@ int List::merge(
       if (path.length() != 0) {
         if (path.compare(journal->getPath()) > 0) {
           // Cannot go back
-          out(error, msg_number, "Path out of order", j_line_no, "journal");
+          hlog_error("journal, line %d: path out of order: '%s' > '%s'",
+            j_line_no, path.c_str(), journal->getPath().c_str());
           return -1;
         }
       }
@@ -697,6 +698,6 @@ void List::show(
     }
     close();
   } else {
-    out(error, msg_errno, "opening list", errno, path());
+    hlog_error("%s opening '%s'", strerror(errno), _d->s_path.c_str());
   }
 }

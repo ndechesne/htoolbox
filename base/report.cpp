@@ -64,10 +64,6 @@ void hreport::out_hidden(
   }
   bool add_colon = false;
   switch (type) {
-    case msg_errno:
-      s << strerror(number);
-      s << " ";
-      break;
     case msg_number:
       s << number;
       add_colon = true;

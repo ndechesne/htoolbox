@@ -109,7 +109,7 @@ int Database::lock() {
       fclose(file);
     } else {
       // Lock cannot be taken
-      out(error, msg_errno, "trying to lock database", errno, NULL);
+      hlog_error("%s trying to lock database", strerror(errno));
       failed = true;
     }
   }
@@ -178,7 +178,7 @@ int Database::open(
     default:
       // Creation failed
       if (initialize) {
-        out(error, msg_errno, "create data directory in given DB path", errno,
+        hlog_error("%s creating data directory in '%s'", strerror(errno),
           _d->path);
       } else {
         out(error, msg_standard, _d->path, -1,
@@ -357,7 +357,7 @@ int Database::restore(
       command += dir;
       command += "\"";
       if (system(command.c_str())) {
-        out(error, msg_errno, "creating path", errno, dir);
+        hlog_error("%s creating path '%s'", strerror(errno), dir.c_str());
       }
     }
     if (db_node->type() == 'f') {
@@ -384,7 +384,8 @@ int Database::restore(
           } else
           if (links == HBackup::none) {
             if (_d->data.read(base, f->checksum())) {
-              out(error, msg_errno, "restoring file", errno, NULL);
+              hlog_error("%s restoring file '%s'", strerror(errno),
+                base.c_str());
               this_failed = true;
             }
           } else {
@@ -397,12 +398,14 @@ int Database::restore(
               dest += extension;
               if (links == HBackup::symbolic) {
                 if (symlink(path.c_str(), dest.c_str())) {
-                  out(error, msg_errno, "sym-linking file", errno, NULL);
+                  hlog_error("%s sym-linking file %s", strerror(errno),
+                    dest.c_str());
                   this_failed = true;
                 }
               } else {
                 if (link(path.c_str(), dest.c_str())) {
-                  out(error, msg_errno, "hard-linking file", errno, NULL);
+                  hlog_error("%s hard-linking file %s", strerror(errno),
+                    dest.c_str());
                   this_failed = true;
                 }
               }
@@ -411,26 +414,27 @@ int Database::restore(
         } break;
       case 'd':
         if (mkdir(base, db_node->mode())) {
-          out(error, msg_errno, "restoring dir", errno, NULL);
+          hlog_error("%s restoring dir '%s'", strerror(errno), base.c_str());
           this_failed = true;
         }
         break;
       case 'l': {
           Link* l = static_cast<Link*>(db_node);
           if (symlink(l->link(), base)) {
-            out(error, msg_errno, "restoring file", errno, NULL);
+            hlog_error("%s restoring file '%s'", strerror(errno), base.c_str());
             this_failed = true;
           }
         } break;
       case 'p':
         if (mkfifo(base, db_node->mode())) {
-          out(error, msg_errno, "restoring pipe (FIFO)", errno, NULL);
+          hlog_error("%s restoring pipe (FIFO) '%s'", strerror(errno),
+            base.c_str());
           this_failed = true;
         }
         break;
       default:
         char type[2] = { db_node->type(), '\0' };
-        out(error, msg_errno, "type not supported", -1, type);
+        hlog_error("type not supported '%s'", type);
         this_failed = true;
     }
     // Report error and go on
@@ -446,18 +450,21 @@ int Database::restore(
     {
       struct utimbuf times = { -1, db_node->mtime() };
       if (utime(base, &times)) {
-        out(error, msg_errno, "restoring modification time", -1, NULL);
+        hlog_error("%s restoring modification time for '%s'", strerror(errno),
+          base.c_str());
         this_failed = true;
       }
     }
     // Restore permissions
     if (chmod(base, db_node->mode())) {
-      out(error, msg_errno, "restoring permissions", -1, NULL);
+      hlog_error("%s restoring permissions for '%s'", strerror(errno),
+        base.c_str());
       this_failed = true;
     }
     // Restore owner and group
     if (chown(base, db_node->uid(), db_node->gid())) {
-      out(error, msg_errno, "restoring owner/group", -1, NULL);
+      hlog_error("%s restoring owner/group for '%s'", strerror(errno),
+        base.c_str());
       this_failed = true;
     }
     // Report error and go on
@@ -588,7 +595,8 @@ int Database::scan(
           if (_d->data.remove(i->checksum()) == 0) {
             out(debug, msg_standard, "removed", 1, i->checksum());
           } else {
-            out(error, msg_errno, "removing data", errno, i->checksum());
+            hlog_error("%s removing data '%s'", strerror(errno),
+              i->checksum().c_str());
           }
         } else {
           out(debug, msg_standard, i->checksum(), 1, NULL);

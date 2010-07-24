@@ -786,7 +786,7 @@ Register modified: newClient
 Database closed: newClient
  -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
-Error: other: Protocol not supported none
+Error: Protocol not supported 'none' for 'other'
 Database closed
 Specify clients
  -> Reading configuration file: etc/hbackup.conf

@@ -153,7 +153,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) :
     _files.sort();
     show(2);
   } else {
-    out(error, msg_errno, "running svn status", errno, NULL);
+    hlog_error("%s running svn status", strerror(errno));
   }
 }
 

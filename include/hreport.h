@@ -38,7 +38,6 @@ namespace hreport {
   //! Message types
   enum MessageType {
     msg_standard, /*!< number represents arrow length */
-    msg_errno,    /*!< number represents error no */
     msg_number    /*!< number represents a number (often a line number) */
   };
 
