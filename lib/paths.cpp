@@ -207,7 +207,8 @@ ConfigObject* ClientPath::configChildFactory(
   if ((keyword == "compress") ||  (keyword == "no_compress")) {
     Filter* filter = _attributes.filters().find(params[1]);
     if (filter == NULL) {
-      out(error, msg_number, "Filter not found", line_no, file_path);
+      hlog_error("filter not found '%s' in file '%s', at line %zu",
+        params[1].c_str(), file_path, line_no);
     } else {
       if (keyword == "compress") {
         _compress = filter;
@@ -221,10 +222,12 @@ ConfigObject* ClientPath::configChildFactory(
   if (keyword == "parser") {
     switch (addParser(params[1], params[2])) {
       case 1:
-        out(error, msg_number, "Unsupported parser type", line_no, file_path);
+        hlog_error("unsupported parser type '%s' in file '%s', at line %zu",
+          params[1].c_str(), file_path, line_no);
         break;
       case 2:
-        out(error, msg_number, "Unsupported parser mode", line_no, file_path);
+        hlog_error("unsupported parser mode '%s' in file '%s', at line %zu",
+          params[2].c_str(), file_path, line_no);
         break;
       default:
         co = this;  // Anything but NULL

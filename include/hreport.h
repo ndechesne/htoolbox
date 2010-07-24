@@ -38,7 +38,6 @@ namespace hreport {
   //! Message types
   enum MessageType {
     msg_standard, /*!< number represents arrow length */
-    msg_number    /*!< number represents a number (often a line number) */
   };
 
   //! \brief Function called throughout the code to output data

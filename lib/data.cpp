@@ -738,7 +738,7 @@ int Data::check(
       // Compare data size and stored size for compress files
       if (data->dataSize() != original_size) {
         if (original_size >= 0) {
-          out(error, msg_number, "Correcting wrong metadata", -1, checksum);
+          out(error, msg_standard, "Correcting wrong metadata", -1, checksum);
         } else {
           out(warning, msg_standard, "Adding missing metadata", -1, checksum);
         }

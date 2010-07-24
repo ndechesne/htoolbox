@@ -66,7 +66,7 @@ bool hbackup::aborting(unsigned short test) {
   }
   // Test case
   if ((_aborted >> 16) == test) {
-    out(debug, msg_number, NULL, test, "Killing trigger reached");
+    hlog_debug("Killing trigger reached: %u", test);
     _aborted = 1;
     return true;
   }
@@ -181,8 +181,8 @@ ConfigObject* HBackup::Private::configChildFactory(
       co = this;
     } else
     {
-      out(error, msg_number, "Unsupported DB compression mode",
-        line_no, file_path);
+      hlog_error("unsupported DB compression mode in '%s', at line %d",
+        file_path, line_no);
     }
   } else
   // Backwards compatibility

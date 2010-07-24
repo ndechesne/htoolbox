@@ -530,8 +530,7 @@ int Database::scan(
   }
 
   if (! list_data.empty()) {
-    out(debug, msg_number, NULL, static_cast<int>(list_data.size()),
-      "Checksum(s) from list");
+    hlog_debug("Checksum(s) from list: %zu", list_data.size());
     for (list<CompData>::iterator i = list_data.begin();
         i != list_data.end(); i++) {
       stringstream s;
@@ -540,8 +539,7 @@ int Database::scan(
     }
   }
   if (! data_data.empty()) {
-    out(debug, msg_number, NULL, static_cast<int>(data_data.size()),
-      "Checksum(s) with data");
+    hlog_debug("Checksum(s) with data: %zu", data_data.size());
     for (list<CompData>::iterator i = data_data.begin();
         i != data_data.end(); i++) {
       stringstream s;
@@ -586,8 +584,7 @@ int Database::scan(
   list_data.clear();
 
   if (! data_data.empty()) {
-    out(info, msg_number, NULL, static_cast<int>(data_data.size()),
-      "Obsolete checksum(s)");
+    hlog_info("Obsolete checksum(s): %zu", data_data.size());
     for (list<CompData>::iterator i = data_data.begin();
         i != data_data.end(); i++) {
       if (i->checksum()[0] != '\0') {

@@ -114,18 +114,16 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) : Parser(mode, dir_path)
     }
     // We expect a separator
     if (*reader != '/') {
-      out(error, msg_number,
-        "Can't find first delimiter parsing CVS entries file", line_no,
-        dir_path.c_str());
+      hlog_error("can't find first delimiter parsing CVS entries file '%s', "
+        "at line %d", dir_path.c_str(), line_no);
       continue;
     }
     reader++;
     // Get name
     pos = strchr(reader, '/');
     if (pos == NULL) {
-      out(error, msg_number,
-        "Can't find second delimiter parsing CVS entries file", line_no,
-        dir_path.c_str());
+      hlog_error("can't find second delimiter parsing CVS entries file '%s', "
+        "at line %d", dir_path.c_str(), line_no);
       continue;
     }
     string name = reader;
@@ -136,18 +134,16 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) : Parser(mode, dir_path)
       reader = pos + 1;
       pos = strchr(reader, '/');
       if (pos == NULL) {
-      out(error, msg_number,
-        "Can't find third delimiter parsing CVS entries file", line_no,
-        dir_path.c_str());
+        hlog_error("can't find third delimiter parsing CVS entries file '%s', "
+          "at line %d", dir_path.c_str(), line_no);
         continue;
       }
       // Get date
       reader = pos + 1;
       pos = strchr(reader, '/');
       if (pos == NULL) {
-      out(error, msg_number,
-        "Can't find fourth delimiter parsing CVS entries file", line_no,
-        dir_path.c_str());
+        hlog_error("can't find fourth delimiter parsing CVS entries file '%s', "
+          "at line %d", dir_path.c_str(), line_no);
         continue;
       }
       string date = reader;

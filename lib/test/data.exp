@@ -108,7 +108,7 @@ Test: check - metadata check/correct
 Warning: 59ca0efa9f5633cb0371bbc0355478d8-0: Adding missing metadata
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * wrong
-Error: 59ca0efa9f5633cb0371bbc0355478d8-0: -1: Correcting wrong metadata
+Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Correcting wrong metadata
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * check
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
@@ -116,7 +116,7 @@ Error: 59ca0efa9f5633cb0371bbc0355478d8-0: -1: Correcting wrong metadata
 Warning: d41d8cd98f00b204e9800998ecf8427e: Adding missing metadata
 d41d8cd98f00b204e9800998ecf8427e 0\r
  * wrong
-Error: d41d8cd98f00b204e9800998ecf8427e: -1: Correcting wrong metadata
+Error: d41d8cd98f00b204e9800998ecf8427e: Correcting wrong metadata
 d41d8cd98f00b204e9800998ecf8427e 0\r
  * check
 d41d8cd98f00b204e9800998ecf8427e 0\r

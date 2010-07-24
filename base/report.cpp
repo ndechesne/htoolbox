@@ -63,13 +63,6 @@ void hreport::out_hidden(
     s << " ";
   }
   bool add_colon = false;
-  switch (type) {
-    case msg_number:
-      s << number;
-      add_colon = true;
-      break;
-    default:;
-  }
   if (message != NULL) {
     if (add_colon) {
       s << ": ";

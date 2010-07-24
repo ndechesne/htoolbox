@@ -592,7 +592,7 @@ int List::merge(
           journal->path());
         rc_journal = 0;
       } else {
-        out(error, msg_number, "Reading line", j_line_no, "journal");
+        hlog_error("reading journal, at line %d", j_line_no);
         return -1;
       }
     }
@@ -639,7 +639,7 @@ int List::merge(
       // Must have a path before then
       if (path.length() == 0) {
         // Did not get anything before data
-        out(error, msg_number, "Data out of order", j_line_no, "journal");
+        hlog_error("data out of order in journal, at line %d", j_line_no);
         return -1;
       }
 
