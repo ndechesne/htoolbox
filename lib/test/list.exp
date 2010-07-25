@@ -62,7 +62,7 @@ Test: journal read
 [10] file_gone                      f       20 750 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: journal merge into list
-Error: journal, line 3: path out of order: 'file_new' > 'file_gone'
+Error: Journal, line 3: path out of order: 'file_new' > 'file_gone'
 Failed to merge
 
 Test: merge read
@@ -177,7 +177,7 @@ Test: journal read
 Unexpected end of journal
 
 Test: broken journal merge
-Warning: test_db/journal: Unexpected end of journal
+Warning: Unexpected end of journal 'test_db/journal'
 
 Test: merge read
 [ 5] CR/x                           l        8 777 testfile

@@ -201,8 +201,7 @@ int Client::readConfig(
     path->add(new ConfigItem("no_compress", 0, 1, 1));
   }
 
-  out(debug, internalName().c_str(), 1,
-    "Reading client configuration file");
+  out(debug, internalName().c_str(), 1, "Reading client configuration file");
   ConfigErrors errors;
   bool failed = false;
   if (_config.read(config_path, Config::flags_dos_catch, config_syntax, this,
@@ -363,10 +362,8 @@ int Client::backup(
 
   // Do not print this if in user-mode backup
   if (_protocol != "file") {
-    stringstream s;
-    s << "Trying client '" << internalName() << "' using protocol '"
-      << _protocol << "'";
-    out(info, s.str().c_str(), -1, NULL);
+    hlog_info("Trying client '%s' using protocol '%s'",
+      internalName().c_str(), _protocol.c_str());
   }
 
   if (_list_file.length() != 0) {
@@ -398,13 +395,14 @@ int Client::backup(
 
     if (readConfig(config_path.c_str()) != 0) {
       failed = true;
-    } else if (_subset_client !=  _subset_server) {
-      stringstream s;
-      s << "Subsets don't match in server and client configuration files: '"
-        << _subset_server << "' != '" << _subset_client << "', skipping";
-      out(info, s.str().c_str(), -1, NULL);
+    } else
+    if (_subset_client != _subset_server) {
+      hlog_info("Subsets don't match in server and client configuration files: "
+        "'%s' != '%s', skipping",
+        _subset_server.c_str(), _subset_client.c_str());
       failed = true;
-    } else {
+    } else
+    {
       // Save configuration
       Directory dir(Path(db.path(), ".configs"));
       if (dir.create() < 0) {
@@ -418,12 +416,11 @@ int Client::backup(
   if (! failed) {
     // Do not print this if in user-mode backup
     if (_home_path.length() == 0) {
-      out(info, internalName().c_str(), -1, "Backing up client");
+      hlog_info("Backing up client '%s'", internalName().c_str());
     }
     // Backup
     if (_paths.empty()) {
-      out(warning, "No paths specified", -1,
-        internalName().c_str());
+      hlog_warning("No paths specified fot '%s'", internalName().c_str());
       failed = true;
     } else if (! config_check) {
       if (db.openClient(internalName().c_str(), _expire) >= 0) {
@@ -434,7 +431,7 @@ int Client::backup(
             break;
           }
           string backup_path;
-          out(info, (*i)->path(), -1, "Backing up path");
+          hlog_info("Backing up path '%s'", (*i)->path());
 
           if (mountPath((*i)->path(), backup_path, mount_point)) {
             if (! first_mount_try) {
@@ -454,7 +451,7 @@ int Client::backup(
             if ((*i)->parse(db, backup_path.c_str(), internalName().c_str())) {
               // prepare_share sets errno
               if (! aborting()) {
-                out(error, "Aborting client", -1, NULL);
+                hlog_error("Aborting client");
               }
               abort  = true;
               failed = true;

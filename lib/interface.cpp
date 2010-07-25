@@ -151,13 +151,14 @@ ConfigObject* HBackup::Private::configChildFactory(
         log_level = hreport::debug;
         break;
       default:
-        hlog_error("wrong name for log level: '%s'", params[1].c_str());
+        hlog_error("Wrong name for log level: '%s'", params[1].c_str());
         co = NULL;
     }
   } else
   if (keyword == "db") {
     if (db != NULL) {
-      hlog_error("db redefined in '%s'", params[1].c_str());
+      hlog_error("Keyword '%s' redefined in '%s'",
+        keyword.c_str(), params[1].c_str());
     } else {
       db = new Database(params[1].c_str());
       co = this;
@@ -181,7 +182,7 @@ ConfigObject* HBackup::Private::configChildFactory(
       co = this;
     } else
     {
-      hlog_error("unsupported DB compression mode in '%s', at line %d",
+      hlog_error("Unsupported DB compression mode in '%s', at line %d",
         file_path, line_no);
     }
   } else
@@ -204,7 +205,7 @@ ConfigObject* HBackup::Private::configChildFactory(
       i++;
     }
     if (cmp == 0) {
-      hlog_error("client already selected: '%s'",
+      hlog_error("Client already selected: '%s'",
         client->internalName().c_str());
       delete client;
     } else {
@@ -236,7 +237,7 @@ int HBackup::addClient(const char* name) {
     client++;
   }
   if (cmp == 0) {
-    out(error, "Client already selected", -1, name);
+    hlog_error("Client already selected '%s'", name);
     return -1;
   }
   _d->selected_clients.insert(client, name);
@@ -487,7 +488,7 @@ int HBackup::list_or_restore(
     return -1;
   }
   if ((dest == NULL) && (names == NULL)) {
-    out(error, "Neither destination nor list given", -1, NULL);
+    hlog_error("Neither destination nor list given");
     return -1;
   }
   std::list<string>& records = *names;
@@ -495,7 +496,7 @@ int HBackup::list_or_restore(
     if (dest == NULL) {
       failed = (_d->db->getClients(records) != 0);
     } else {
-      out(error, "No client given", -1, NULL);
+      hlog_error("No client given");
       failed = true;
     }
   } else {

@@ -346,7 +346,7 @@ int Data::read(
 
   string source;
   if (getDir(checksum, source)) {
-    out(error, "Cannot access DB data for", -1, checksum);
+    hlog_error("Cannot access DB data for %s", checksum);
     return -1;
   }
 
@@ -387,7 +387,7 @@ int Data::read(
   if (! failed) {
     // Verify that checksums match before overwriting final destination
     if (strncmp(checksum, temp.checksum(), strlen(temp.checksum()))) {
-      out(error, "Read checksums don't match", -1, NULL);
+      hlog_error("Read checksums don't match");
       failed = true;
     } else
 
@@ -498,10 +498,8 @@ int Data::write(
   if (temp2 != NULL) {
     // Add ~1.6% to gzip'd size
     long long size_gz = temp1->size() + (temp1->size() >> 6);
-    stringstream s;
-    s << "Checking data, sizes: f=" << temp2->size() << " z=" << temp1->size()
-      << " (" << size_gz << ")";
-    out(debug, s.str().c_str(), -1, NULL);
+    hlog_debug("Checking data, sizes: f=%lld z=%lld (%lld)",
+      temp2->size(), temp1->size(), size_gz);
     // Keep non-compressed file (temp2)?
     if (temp2->size() <= size_gz) {
       temp1->remove();
@@ -524,7 +522,7 @@ int Data::write(
   // Get file final location
   string dest_path;
   if (getDir(source.checksum(), dest_path, true) < 0) {
-    out(error, "Cannot create DB data", -1, source.checksum());
+    hlog_error("Cannot create DB data '%s'", source.checksum());
     return -1;
   }
 
@@ -599,11 +597,9 @@ int Data::write(
 
   // Now move the file in its place
   if ((action == add) || (action == replace)) {
-    stringstream s;
-    s << ((action == add) ? "Adding " : "Replacing with ")
-      << ((compress != 0) ? "" : "un") << "compressed data for "
-      << source.checksum() << "-" << index;
-    out(debug, s.str().c_str(), -1, NULL);
+    hlog_debug("%s %scompressed data for %s-%zu",
+      (action == add) ? "Adding" : "Replacing with",
+      (compress != 0) ? "" : "un", source.checksum(), index);
     if (Directory(final_path).create() < 0) {
       hlog_error("%s creating directory '%s'", strerror(errno), final_path);
     } else
@@ -689,7 +685,7 @@ int Data::check(
   Stream *data = Stream::select(Path(path.c_str(), "data"), extensions, &no);
   // Missing data
   if (data == NULL) {
-    out(error, "Data missing", -1, checksum);
+    hlog_error("Data missing for %s", checksum);
     if (repair) {
       removePath(path.c_str());
     }
@@ -704,7 +700,7 @@ int Data::check(
   if (thorough) {
     // Already marked corrupted?
     if (File(Path(path.c_str(), "corrupted")).isValid()) {
-      out(warning, "Data corruption reported", -1, checksum);
+      hlog_warning("Data corruption reported for %s", checksum);
       original_size = -1;
       failed = true;
     } else {
@@ -723,9 +719,8 @@ int Data::check(
       // Compare with given checksum
       if (strncmp(data->checksum(), checksum, strlen(data->checksum()))) {
         stringstream s;
-        s << "Data corrupted" << (repair ? ", remove" : "");
-        out(error, s.str().c_str(), -1, checksum);
-        out(debug, data->checksum(), -1, "Checksum");
+        hlog_error("Data corrupted for %s%s", checksum, repair ? ", remove" : "");
+        hlog_debug("Checksum: %s", data->checksum());
         failed = true;
         if (repair) {
           removePath(path.c_str());
@@ -738,9 +733,9 @@ int Data::check(
       // Compare data size and stored size for compress files
       if (data->dataSize() != original_size) {
         if (original_size >= 0) {
-          out(error, "Correcting wrong metadata", -1, checksum);
+          hlog_error("Correcting wrong metadata for %s", checksum);
         } else {
-          out(warning, "Adding missing metadata", -1, checksum);
+          hlog_warning("Adding missing metadata for %s", checksum);
         }
         original_size = data->dataSize();
         setMetadata(path.c_str(), original_size, later);
@@ -751,7 +746,7 @@ int Data::check(
     // Remove data marked corrupted
     if (File(Path(path.c_str(), "corrupted")).isValid()) {
       if (removePath(path.c_str()) == 0) {
-        out(info, "Removed corrupted data", -1, checksum);
+        hlog_info("Removed corrupted data for %s", checksum);
       } else {
         hlog_error("%s removing data '%s'", strerror(errno), checksum);
       }
@@ -760,7 +755,7 @@ int Data::check(
     // Compute size if missing
     if (original_size < 0) {
       if (no == 0) {
-        out(warning, "Setting missing metadata", -1, checksum);
+        hlog_warning("Setting missing metadata for %s", checksum);
         original_size = data->size();
         setMetadata(path.c_str(), original_size, later);
       } else
@@ -775,19 +770,14 @@ int Data::check(
     }
   } else
   if ((original_size < 0) && (errno == ENOENT)) {
-    out(error, "Metadata missing", -1, checksum);
+    hlog_error("Metadata missing for %s", checksum);
   }
 
-  if (display && hlog_is_worth(verbose)) {
-    char* size_str;
-    if (((no == 0) && (asprintf(&size_str, "%lld", original_size) < 0))
-    ||  ((no > 0)
-      && (asprintf(&size_str, "%lld %lld", original_size, data->size()) < 0)))
-    {
-      hlog_error("%s creating size str", strerror(errno));
+  if (display) {
+    if (no == 0) {
+      hlog_verbose_temp("%s %lld", checksum, original_size);
     } else {
-      out(verbose, size_str, -3, checksum);
-      free(size_str);
+      hlog_verbose_temp("%s %lld %lld", checksum, original_size, data->size());
     }
   }
 
@@ -817,11 +807,9 @@ int Data::crawl(
     bool            repair,
     list<CompData>* data) const {
   Directory d(_d->path);
-  unsigned int valid  = 0;
-  unsigned int broken = 0;
+  size_t valid  = 0;
+  size_t broken = 0;
   int rc = crawl_recurse(d, "", data, thorough, repair, &valid, &broken);
-  stringstream s;
-  s << "Found " << valid << " valid and " << broken << " broken data files";
-  out(verbose, s.str().c_str(), -1, NULL);
+  hlog_verbose("Found %zu valid and %zu broken data file(s)", valid, broken);
   return rc;
 }

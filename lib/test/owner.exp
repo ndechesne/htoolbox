@@ -3,8 +3,8 @@ Name: client
 Path: test_db/client
 
 First operation
-Register created: client
-Register modified: client
+Register created for 'client'
+Register modified for 'client'
 Register:
 [11] /remote/path/testfile          f       13 750 
 # version 5
@@ -21,7 +21,7 @@ list
 list~
 
 Update
-Register modified: client
+Register modified for 'client'
 Register:
 [12] /remote/path/testfile          f   145408 644 
 [11] /remote/path/testfile          f       13 750 
@@ -35,7 +35,7 @@ list
 list~
 
 Abort client
-Register modified: client
+Register modified for 'client'
 Register:
 [13] /remote/path/testfile          f       13 750 
 [12] /remote/path/testfile          f   145408 644 
@@ -65,8 +65,8 @@ list
 list~
 
 Recover client
-Warning: Previous backup interrupted: client
-Register modified: client
+Warning: Previous backup interrupted for 'client'
+Register modified for 'client'
 Register:
 [14] /remote/path/testfile          f   145408 644 checksum test
 [13] /remote/path/testfile          f       13 750 
@@ -82,7 +82,7 @@ list
 list~
 
 Recover client (empty journal)
-Warning: Previous backup interrupted: client
+Warning: Previous backup interrupted for 'client'
 Register:
 [14] /remote/path/testfile          f   145408 644 checksum test
 [13] /remote/path/testfile          f       13 750 
@@ -98,7 +98,7 @@ list
 list~
 
 Recover client (empty, not closed journal)
-Warning: Previous backup interrupted: client
+Warning: Previous backup interrupted for 'client'
 Register:
 [14] /remote/path/testfile          f   145408 644 checksum test
 [13] /remote/path/testfile          f       13 750 

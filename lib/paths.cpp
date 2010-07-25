@@ -165,13 +165,13 @@ int ClientPath::parse_recurse(
                   client_name, remote_path, (*i)->name());
               }
             }
-            out(info, rem_path, -2, code);
+            hlog_info("%-8s%s", code, rem_path.c_str());
           }
 
           // For directory, recurse into it
           if ((*i)->type() == 'd') {
             if ((*i)->size() != -1) {
-              out(verbose, &rem_path[_path.length() + 1], -3, NULL);
+              hlog_verbose_temp("%s", &rem_path[_path.length() + 1]);
             }
             if (parse_recurse(db, rem_path, client_name, start,
                 static_cast<Directory&>(**i), parser) < 0) {
@@ -181,7 +181,7 @@ int ClientPath::parse_recurse(
           continue;
         }
         if (code[0] == 'I') {
-          out(verbose, rem_path, -2, code);
+          hlog_verbose("%-8s%s", code, rem_path.c_str());
         }
       }
     }
@@ -207,7 +207,7 @@ ConfigObject* ClientPath::configChildFactory(
   if ((keyword == "compress") ||  (keyword == "no_compress")) {
     Filter* filter = _attributes.filters().find(params[1]);
     if (filter == NULL) {
-      hlog_error("filter not found '%s' in file '%s', at line %zu",
+      hlog_error("Filter not found '%s' in file '%s', at line %zu",
         params[1].c_str(), file_path, line_no);
     } else {
       if (keyword == "compress") {
@@ -222,11 +222,11 @@ ConfigObject* ClientPath::configChildFactory(
   if (keyword == "parser") {
     switch (addParser(params[1], params[2])) {
       case 1:
-        hlog_error("unsupported parser type '%s' in file '%s', at line %zu",
+        hlog_error("Unsupported parser type '%s' in file '%s', at line %zu",
           params[1].c_str(), file_path, line_no);
         break;
       case 2:
-        hlog_error("unsupported parser mode '%s' in file '%s', at line %zu",
+        hlog_error("Unsupported parser mode '%s' in file '%s', at line %zu",
           params[2].c_str(), file_path, line_no);
         break;
       default:

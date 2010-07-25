@@ -40,7 +40,7 @@ Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
 Meta file contents: 
 13	f
-Warning: 59ca0efa9f5633cb0371bbc0355478d8-0: Adding missing metadata
+Warning: Adding missing metadata for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0 13 33\r
 Size reported: 13
 Meta file contents: 
@@ -93,30 +93,30 @@ Test: do nothing
 
 Test: scan - metadata check/correct
  * missing
-Warning: 59ca0efa9f5633cb0371bbc0355478d8-0: Adding missing metadata
+Warning: Adding missing metadata for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * check
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * missing
-Warning: d41d8cd98f00b204e9800998ecf8427e: Setting missing metadata
+Warning: Setting missing metadata for d41d8cd98f00b204e9800998ecf8427e
 d41d8cd98f00b204e9800998ecf8427e 0\r
  * check
 d41d8cd98f00b204e9800998ecf8427e 0\r
 
 Test: check - metadata check/correct
  * missing
-Warning: 59ca0efa9f5633cb0371bbc0355478d8-0: Adding missing metadata
+Warning: Adding missing metadata for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * wrong
-Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Correcting wrong metadata
+Error: Correcting wrong metadata for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * check
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * missing
-Warning: d41d8cd98f00b204e9800998ecf8427e: Adding missing metadata
+Warning: Adding missing metadata for d41d8cd98f00b204e9800998ecf8427e
 d41d8cd98f00b204e9800998ecf8427e 0\r
  * wrong
-Error: d41d8cd98f00b204e9800998ecf8427e: Correcting wrong metadata
+Error: Correcting wrong metadata for d41d8cd98f00b204e9800998ecf8427e
 d41d8cd98f00b204e9800998ecf8427e 0\r
  * check
 d41d8cd98f00b204e9800998ecf8427e 0\r

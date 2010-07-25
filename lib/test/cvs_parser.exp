@@ -19,7 +19,7 @@ test1/cvs/CVS will not be ignored
 test1/cvs/CVS/Entries will not be ignored
 test1/cvs/CVS/Root will not be ignored
 test1/cvs/CVS/Whatever will be ignored
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
  -> Parsing CVS entries
  --> fileutd: 1159985080
 test1/cvs/dirutd/fileutd will not be ignored
@@ -47,7 +47,7 @@ test1/cvs/CVS will not be ignored
 test1/cvs/CVS/Entries will not be ignored
 test1/cvs/CVS/Root will not be ignored
 test1/cvs/CVS/Whatever will be ignored
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
  -> Parsing CVS entries
  --> fileutd: 1159985080
 test1/cvs/dirutd/fileutd will not be ignored
@@ -75,7 +75,7 @@ test1/cvs/CVS will not be ignored
 test1/cvs/CVS/Entries will not be ignored
 test1/cvs/CVS/Root will not be ignored
 test1/cvs/CVS/Whatever will be ignored
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
  -> Parsing CVS entries
  --> fileutd: 1159985080
 test1/cvs/dirutd/fileutd will not be ignored
@@ -103,7 +103,7 @@ test1/cvs/CVS will not be ignored
 test1/cvs/CVS/Entries will not be ignored
 test1/cvs/CVS/Root will not be ignored
 test1/cvs/CVS/Whatever will be ignored
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
  -> Parsing CVS entries
  --> fileutd: 1159985080
 test1/cvs/dirutd/fileutd will be ignored

@@ -114,7 +114,7 @@ Test: backup, not initialized
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
-Error: Given DB path does not exist: test_db
+Error: Given DB path does not exist 'test_db'
 
 Test: check config
  -> Reading configuration file: etc/hbackup.conf
@@ -351,14 +351,14 @@ Test: typical backup
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
-Database initialized: test_db
+Database initialized in 'test_db'
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
-Backing up client: aClient.vista
+Backing up client 'aClient.vista'
 Reading list of problematic checksums
-Register created: aClient.vista
-Database open r/w: aClient.vista
-Backing up path: C:/Test Dir
+Register created for 'aClient.vista'
+Database open r/w for 'aClient.vista'
+Backing up path 'C:/Test Dir'
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 Ad      C:/Test Dir/My Dir
 My Dir\r
@@ -371,8 +371,8 @@ Af f    C:/Test Dir/My Dir/another File.TXT
 Checking data, sizes: f=0 z=0 (0)
 Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
 Af f    C:/Test Dir/My File.TXT
-Register modified: aClient.vista
-Database closed: aClient.vista
+Register modified for 'aClient.vista'
+Database closed for 'aClient.vista'
  -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -410,10 +410,10 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: client.xp
-Register created: client.xp
-Database open r/w: client.xp
-Backing up path: C:/Test Dir
+Backing up client 'client.xp'
+Register created for 'client.xp'
+Database open r/w for 'client.xp'
+Backing up path 'C:/Test Dir'
 Ad      C:/Test Dir/My Dir
 My Dir\r
 Checking data, sizes: f=2 z=22 (22)
@@ -422,8 +422,8 @@ Checking data, sizes: f=2 z=22 (22)
 Af ~    C:/Test Dir/My Dir/another File.TXT
 Checking data, sizes: f=0 z=0 (0)
 Af ~    C:/Test Dir/My File.TXT
-Register modified: client.xp
-Database closed: client.xp
+Register modified for 'client.xp'
+Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
@@ -445,10 +445,10 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: myClient
-Register created: myClient
-Database open r/w: myClient
-Backing up path: /home/User/test
+Backing up client 'myClient'
+Register created for 'myClient'
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 Checking data, sizes: f=0 z=0 (0)
@@ -458,8 +458,8 @@ dir\r
 Checking data, sizes: f=2 z=22 (22)
 Adding uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Af f    /home/User/test/dir/file3.txt
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase //myClient/C$ test_db/.mount/myClient.xp
@@ -494,10 +494,10 @@ Trying client 'myClient.xp' using protocol 'smb'
  -----> Condition: mode= 644
  ----> Ignore filters:
  -----> nothing
-Backing up client: myClient.xp
-Register created: myClient.xp
-Database open r/w: myClient.xp
-Backing up path: C:/Test Dir
+Backing up client 'myClient.xp'
+Register created for 'myClient.xp'
+Database open r/w for 'myClient.xp'
+Backing up path 'C:/Test Dir'
 Ad      C:/Test Dir/My Dir
 My Dir\r
 Checking data, sizes: f=2 z=22 (22)
@@ -506,8 +506,8 @@ Checking data, sizes: f=2 z=22 (22)
 Af ~    C:/Test Dir/My Dir/another File.TXT
 Checking data, sizes: f=0 z=0 (0)
 Af ~    C:/Test Dir/My File.TXT
-Register modified: myClient.xp
-Database closed: myClient.xp
+Register modified for 'myClient.xp'
+Database closed for 'myClient.xp'
  -> umount -fl test_db/.mount/myClient.xp
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -550,10 +550,10 @@ Database closed: myClient.xp
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: myhost
-Register created: myhost
-Database open r/w: myhost
-Backing up path: test1
+Backing up client 'myhost'
+Register created for 'myhost'
+Database open r/w for 'myhost'
+Backing up path 'test1'
 Done:   5.0%\r
 Done:  10.0%\r
 Done:  15.0%\r
@@ -612,7 +612,7 @@ Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/cvs/dir space/file space
 Ad      test1/cvs/dirbad
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
@@ -665,7 +665,7 @@ svn\r
  --> test1/svn/fileoth: i
 Ad      test1/svn/.svn
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Checking data, sizes: f=602 z=260 (264)
@@ -679,7 +679,7 @@ Ad      test1/svn/dir space
 svn/dir space\r
 Ad      test1/svn/dir space/.svn
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
 Checking data, sizes: f=278 z=189 (191)
 Adding compressed data for f2b4c9d3f0830dea53972d208979feb0-0
@@ -692,7 +692,7 @@ Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/svn/dir space/file space
 Ad      test1/svn/dirbad
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
@@ -700,7 +700,7 @@ Ad      test1/svn/dirutd
 svn/dirutd\r
 Ad      test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
-control dir: test1/svn/dirutd/.svn
+Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
 Checking data, sizes: f=388 z=211 (214)
 Adding compressed data for 33b426a9cdc8a98729e5dbe6d5feb619-0
@@ -727,7 +727,7 @@ Af f    test1/testfile
 If f    test1/testfile~
 Al      test1/testlink
 Ap      test1/testpipe
-Backing up path: test2
+Backing up path 'test2'
 Ad      test2/testdir
 testdir\r
 Checking data, sizes: f=145408 z=176 (178)
@@ -741,8 +741,8 @@ Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
 Af f    test2/testfile2.gz
 If f    test2/testfile~
 Al      test2/testlink
-Register modified: myhost
-Database closed: myhost
+Register modified for 'myhost'
+Database closed for 'myhost'
 Trying client 'newClient' using protocol 'ssh'
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
  -> Reading client configuration file: newClient
@@ -763,10 +763,10 @@ Trying client 'newClient' using protocol 'ssh'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: newClient
-Register created: newClient
-Database open r/w: newClient
-Backing up path: /home/Blah/test
+Backing up client 'newClient'
+Register created for 'newClient'
+Database open r/w for 'newClient'
+Backing up path '/home/Blah/test'
  -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 Checking data, sizes: f=5 z=25 (25)
@@ -777,8 +777,8 @@ dir\r
 Checking data, sizes: f=5 z=25 (25)
 Adding uncompressed data for 8a61083e712200a30c6ccf5f5c697b76-0
 Af f    /home/Blah/test/dir/file3.txt
-Register modified: newClient
-Database closed: newClient
+Register modified for 'newClient'
+Database closed for 'newClient'
  -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
 Error: Protocol not supported 'none' for 'other'
@@ -975,13 +975,13 @@ Test: same backup
  ---> nothing
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
-Backing up client: aClient.vista
+Backing up client 'aClient.vista'
 Reading list of problematic checksums
-Database open r/w: aClient.vista
-Backing up path: C:/Test Dir
+Database open r/w for 'aClient.vista'
+Backing up path 'C:/Test Dir'
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 My Dir\r
-Database closed: aClient.vista
+Database closed for 'aClient.vista'
  -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -1019,11 +1019,11 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: client.xp
-Database open r/w: client.xp
-Backing up path: C:/Test Dir
+Backing up client 'client.xp'
+Database open r/w for 'client.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: client.xp
+Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
@@ -1045,13 +1045,13 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: myClient
-Database open r/w: myClient
-Backing up path: /home/User/test
+Backing up client 'myClient'
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
-Database closed: myClient
+Database closed for 'myClient'
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase //myClient/C$ test_db/.mount/myClient.xp
@@ -1086,11 +1086,11 @@ Trying client 'myClient.xp' using protocol 'smb'
  -----> Condition: mode= 644
  ----> Ignore filters:
  -----> nothing
-Backing up client: myClient.xp
-Database open r/w: myClient.xp
-Backing up path: C:/Test Dir
+Backing up client 'myClient.xp'
+Database open r/w for 'myClient.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: myClient.xp
+Database closed for 'myClient.xp'
  -> umount -fl test_db/.mount/myClient.xp
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -1133,9 +1133,9 @@ Database closed: myClient.xp
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: myhost
-Database open r/w: myhost
-Backing up path: test1
+Backing up client 'myhost'
+Database open r/w for 'myhost'
+Backing up path 'test1'
 cvs\r
  -> Parsing CVS entries
  --> dir space: D
@@ -1154,7 +1154,7 @@ cvs/dir space/CVS\r
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
@@ -1179,7 +1179,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Id p    test1/svn/.svn/prop-base
@@ -1188,20 +1188,20 @@ Id p    test1/svn/.svn/text-base
 Id p    test1/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
 Id p    test1/svn/dir space/.svn/prop-base
 Id p    test1/svn/dir space/.svn/props
 Id p    test1/svn/dir space/.svn/text-base
 Id p    test1/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
 svn/dirutd\r
 svn/dirutd/.svn\r
-control dir: test1/svn/dirutd/.svn
+Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
 Id p    test1/svn/dirutd/.svn/prop-base
 Id p    test1/svn/dirutd/.svn/props
@@ -1213,10 +1213,10 @@ If p    test1/svn/fileoth
 If p    test1/svn/fileutd.h
 testdir\r
 If f    test1/testfile~
-Backing up path: test2
+Backing up path 'test2'
 testdir\r
 If f    test2/testfile~
-Database closed: myhost
+Database closed for 'myhost'
 Trying client 'newClient' using protocol 'ssh'
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
  -> Reading client configuration file: newClient
@@ -1237,13 +1237,13 @@ Trying client 'newClient' using protocol 'ssh'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: newClient
-Database open r/w: newClient
-Backing up path: /home/Blah/test
+Backing up client 'newClient'
+Database open r/w for 'newClient'
+Backing up path '/home/Blah/test'
  -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 dir\r
-Database closed: newClient
+Database closed for 'newClient'
  -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
 Error: Protocol not supported 'none' for 'other'
@@ -1440,13 +1440,13 @@ Test: interrupted backup
  ---> nothing
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
-Backing up client: aClient.vista
+Backing up client 'aClient.vista'
 Reading list of problematic checksums
-Database open r/w: aClient.vista
-Backing up path: C:/Test Dir
+Database open r/w for 'aClient.vista'
+Backing up path 'C:/Test Dir'
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 My Dir\r
-Database closed: aClient.vista
+Database closed for 'aClient.vista'
  -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -1484,11 +1484,11 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: client.xp
-Database open r/w: client.xp
-Backing up path: C:/Test Dir
+Backing up client 'client.xp'
+Database open r/w for 'client.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: client.xp
+Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
@@ -1510,13 +1510,13 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: myClient
-Database open r/w: myClient
-Backing up path: /home/User/test
+Backing up client 'myClient'
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
-Database closed: myClient
+Database closed for 'myClient'
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase //myClient/C$ test_db/.mount/myClient.xp
@@ -1551,11 +1551,11 @@ Trying client 'myClient.xp' using protocol 'smb'
  -----> Condition: mode= 644
  ----> Ignore filters:
  -----> nothing
-Backing up client: myClient.xp
-Database open r/w: myClient.xp
-Backing up path: C:/Test Dir
+Backing up client 'myClient.xp'
+Database open r/w for 'myClient.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: myClient.xp
+Database closed for 'myClient.xp'
  -> umount -fl test_db/.mount/myClient.xp
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -1598,9 +1598,9 @@ Database closed: myClient.xp
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: myhost
-Database open r/w: myhost
-Backing up path: test1
+Backing up client 'myhost'
+Database open r/w for 'myhost'
+Backing up path 'test1'
 cvs\r
  -> Parsing CVS entries
  --> dir space: D
@@ -1619,7 +1619,7 @@ cvs/dir space/CVS\r
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
@@ -1635,7 +1635,7 @@ dir space\r
 Killing trigger reached: 2
 Error: Operation canceled backing up file 'myhost:test1/dir space/big_file'
 Af !    test1/dir space/big_file
-Database closed: myhost
+Database closed for 'myhost'
 Database closed
 Config for test_db/.configs/client.xp
 subset "xp"
@@ -1825,17 +1825,17 @@ path "/home/Blah/test/"
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
-Warning: Previous backup interrupted: myhost
-Register modified: myhost
+Warning: Previous backup interrupted for 'myhost'
+Register modified for 'myhost'
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
-Backing up client: aClient.vista
+Backing up client 'aClient.vista'
 Reading list of problematic checksums
-Database open r/w: aClient.vista
-Backing up path: C:/Test Dir
+Database open r/w for 'aClient.vista'
+Backing up path 'C:/Test Dir'
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 My Dir\r
-Database closed: aClient.vista
+Database closed for 'aClient.vista'
  -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -1873,11 +1873,11 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: client.xp
-Database open r/w: client.xp
-Backing up path: C:/Test Dir
+Backing up client 'client.xp'
+Database open r/w for 'client.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: client.xp
+Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
@@ -1899,13 +1899,13 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: myClient
-Database open r/w: myClient
-Backing up path: /home/User/test
+Backing up client 'myClient'
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
-Database closed: myClient
+Database closed for 'myClient'
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase //myClient/C$ test_db/.mount/myClient.xp
@@ -1940,11 +1940,11 @@ Trying client 'myClient.xp' using protocol 'smb'
  -----> Condition: mode= 644
  ----> Ignore filters:
  -----> nothing
-Backing up client: myClient.xp
-Database open r/w: myClient.xp
-Backing up path: C:/Test Dir
+Backing up client 'myClient.xp'
+Database open r/w for 'myClient.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: myClient.xp
+Database closed for 'myClient.xp'
  -> umount -fl test_db/.mount/myClient.xp
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -1987,9 +1987,9 @@ Database closed: myClient.xp
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: myhost
-Database open r/w: myhost
-Backing up path: test1
+Backing up client 'myhost'
+Database open r/w for 'myhost'
+Backing up path 'test1'
 cvs\r
  -> Parsing CVS entries
  --> dir space: D
@@ -2008,7 +2008,7 @@ cvs/dir space/CVS\r
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
@@ -2024,7 +2024,7 @@ dir space\r
 Killing trigger reached: 2
 Warning: Operation canceled backing up file 'myhost:test1/dir space/big_file'
 !f !    test1/dir space/big_file
-Database closed: myhost
+Database closed for 'myhost'
 Database closed
 Config for test_db/.configs/client.xp
 subset "xp"
@@ -2255,12 +2255,12 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: client.xp
+Backing up client 'client.xp'
 Reading list of problematic checksums
-Database open r/w: client.xp
-Backing up path: C:/Test Dir
+Database open r/w for 'client.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: client.xp
+Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -2303,9 +2303,9 @@ Database closed: client.xp
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: myhost
-Database open r/w: myhost
-Backing up path: test1
+Backing up client 'myhost'
+Database open r/w for 'myhost'
+Backing up path 'test1'
 cvs\r
  -> Parsing CVS entries
  --> dir space: D
@@ -2324,7 +2324,7 @@ cvs/dir space/CVS\r
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
@@ -2352,7 +2352,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Id p    test1/svn/.svn/prop-base
@@ -2361,20 +2361,20 @@ Id p    test1/svn/.svn/text-base
 Id p    test1/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
 Id p    test1/svn/dir space/.svn/prop-base
 Id p    test1/svn/dir space/.svn/props
 Id p    test1/svn/dir space/.svn/text-base
 Id p    test1/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
 svn/dirutd\r
 svn/dirutd/.svn\r
-control dir: test1/svn/dirutd/.svn
+Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
 Id p    test1/svn/dirutd/.svn/prop-base
 Id p    test1/svn/dirutd/.svn/props
@@ -2386,11 +2386,11 @@ If p    test1/svn/fileoth
 If p    test1/svn/fileutd.h
 testdir\r
 If f    test1/testfile~
-Backing up path: test2
+Backing up path 'test2'
 testdir\r
 If f    test2/testfile~
-Register modified: myhost
-Database closed: myhost
+Register modified for 'myhost'
+Database closed for 'myhost'
 Database closed
 Config for test_db/.configs/client.xp
 subset "xp"
@@ -2583,13 +2583,13 @@ Test: scan DB
  --> Ignore filters:
  ---> nothing
 Database open in read/write mode
-Reading list: aClient.vista
-Reading list: client.xp
-Reading list: myClient
-Reading list: myClient.xp
-Reading list: myhost
-Reading list: newClient
-Found 21 checksums
+Reading list for 'aClient.vista'
+Reading list for 'client.xp'
+Reading list for 'myClient'
+Reading list for 'myClient.xp'
+Reading list for 'myhost'
+Reading list for 'newClient'
+Found 21 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
@@ -2612,7 +2612,7 @@ f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-Found 21 valid and 0 broken data files       
+Found 21 valid and 0 broken data file(s)     
 Checksum(s) from list: 21
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -2795,7 +2795,7 @@ Done:  70.4%\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-Found 21 valid and 0 broken data files       
+Found 21 valid and 0 broken data file(s)     
 Database closed
 
 Test: list clients
@@ -3030,8 +3030,8 @@ Test: list paths in UNIX client 'myClient'
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-Database closed: myClient
+Database open r-o for 'myClient'
+Database closed for 'myClient'
 Database closed
 	/home/
 
@@ -3147,8 +3147,8 @@ Test: list paths in DOS client 'client.xp'
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: client.xp
-Database closed: client.xp
+Database open r-o for 'client.xp'
+Database closed for 'client.xp'
 Database closed
 	C:/
 
@@ -3264,9 +3264,9 @@ Test: restore file
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myhost
-U test_r/test2/testfile
-Database closed: myhost
+Database open r-o for 'myhost'
+U       test_r/test2/testfile
+Database closed for 'myhost'
 Database closed
 
 Test: restore dir
@@ -3381,54 +3381,54 @@ Test: restore dir
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myhost
-U test_r/test1/big_file
-U test_r/test1/cvs
-U test_r/test1/cvs/CVS
-U test_r/test1/cvs/CVS/Entries
-U test_r/test1/cvs/CVS/Root
-U test_r/test1/cvs/dir space
-U test_r/test1/cvs/dir space/CVS
-U test_r/test1/cvs/dir space/CVS/Entries
-U test_r/test1/cvs/dir space/CVS/Root
-U test_r/test1/cvs/dir space/file space
-U test_r/test1/cvs/dirbad
-U test_r/test1/cvs/dirutd
-U test_r/test1/cvs/dirutd/CVS
-U test_r/test1/cvs/dirutd/CVS/Entries
-U test_r/test1/cvs/dirutd/CVS/Root
-U test_r/test1/cvs/dirutd/fileutd
-U test_r/test1/cvs/filenew.c
-U test_r/test1/cvs/fileutd.h
-U test_r/test1/dir space
-U test_r/test1/dir space/big_file
-U test_r/test1/dir space/file space
-U test_r/test1/dir space/link space
-U test_r/test1/strange1TAB	CR\r
+Database open r-o for 'myhost'
+U       test_r/test1/big_file
+U       test_r/test1/cvs
+U       test_r/test1/cvs/CVS
+U       test_r/test1/cvs/CVS/Entries
+U       test_r/test1/cvs/CVS/Root
+U       test_r/test1/cvs/dir space
+U       test_r/test1/cvs/dir space/CVS
+U       test_r/test1/cvs/dir space/CVS/Entries
+U       test_r/test1/cvs/dir space/CVS/Root
+U       test_r/test1/cvs/dir space/file space
+U       test_r/test1/cvs/dirbad
+U       test_r/test1/cvs/dirutd
+U       test_r/test1/cvs/dirutd/CVS
+U       test_r/test1/cvs/dirutd/CVS/Entries
+U       test_r/test1/cvs/dirutd/CVS/Root
+U       test_r/test1/cvs/dirutd/fileutd
+U       test_r/test1/cvs/filenew.c
+U       test_r/test1/cvs/fileutd.h
+U       test_r/test1/dir space
+U       test_r/test1/dir space/big_file
+U       test_r/test1/dir space/file space
+U       test_r/test1/dir space/link space
+U       test_r/test1/strange1TAB	CR\r
 
-U test_r/test1/strange2TAB	LF
-U test_r/test1/strange3TAB	LF
+U       test_r/test1/strange2TAB	LF
+U       test_r/test1/strange3TAB	LF
 CR\r
 
-U test_r/test1/svn
-U test_r/test1/svn/.svn
-U test_r/test1/svn/.svn/entries
-U test_r/test1/svn/dir space
-U test_r/test1/svn/dir space/.svn
-U test_r/test1/svn/dir space/.svn/entries
-U test_r/test1/svn/dir space/file space
-U test_r/test1/svn/dirbad
-U test_r/test1/svn/dirutd
-U test_r/test1/svn/dirutd/.svn
-U test_r/test1/svn/dirutd/.svn/entries
-U test_r/test1/svn/dirutd/fileutd
-U test_r/test1/svn/filenew.c
-U test_r/test1/test space
-U test_r/test1/testdir
-U test_r/test1/testfile
-U test_r/test1/testlink
-U test_r/test1/testpipe
-Database closed: myhost
+U       test_r/test1/svn
+U       test_r/test1/svn/.svn
+U       test_r/test1/svn/.svn/entries
+U       test_r/test1/svn/dir space
+U       test_r/test1/svn/dir space/.svn
+U       test_r/test1/svn/dir space/.svn/entries
+U       test_r/test1/svn/dir space/file space
+U       test_r/test1/svn/dirbad
+U       test_r/test1/svn/dirutd
+U       test_r/test1/svn/dirutd/.svn
+U       test_r/test1/svn/dirutd/.svn/entries
+U       test_r/test1/svn/dirutd/fileutd
+U       test_r/test1/svn/filenew.c
+U       test_r/test1/test space
+U       test_r/test1/testdir
+U       test_r/test1/testfile
+U       test_r/test1/testlink
+U       test_r/test1/testpipe
+Database closed for 'myhost'
 Database closed
 test1/testfile metadata: gid = 24, mtime = 1161475200, perms = 0750
 
@@ -3544,25 +3544,25 @@ Test: restore subdir
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myhost
-U test_r/test1/cvs
-U test_r/test1/cvs/CVS
-U test_r/test1/cvs/CVS/Entries
-U test_r/test1/cvs/CVS/Root
-U test_r/test1/cvs/dir space
-U test_r/test1/cvs/dir space/CVS
-U test_r/test1/cvs/dir space/CVS/Entries
-U test_r/test1/cvs/dir space/CVS/Root
-U test_r/test1/cvs/dir space/file space
-U test_r/test1/cvs/dirbad
-U test_r/test1/cvs/dirutd
-U test_r/test1/cvs/dirutd/CVS
-U test_r/test1/cvs/dirutd/CVS/Entries
-U test_r/test1/cvs/dirutd/CVS/Root
-U test_r/test1/cvs/dirutd/fileutd
-U test_r/test1/cvs/filenew.c
-U test_r/test1/cvs/fileutd.h
-Database closed: myhost
+Database open r-o for 'myhost'
+U       test_r/test1/cvs
+U       test_r/test1/cvs/CVS
+U       test_r/test1/cvs/CVS/Entries
+U       test_r/test1/cvs/CVS/Root
+U       test_r/test1/cvs/dir space
+U       test_r/test1/cvs/dir space/CVS
+U       test_r/test1/cvs/dir space/CVS/Entries
+U       test_r/test1/cvs/dir space/CVS/Root
+U       test_r/test1/cvs/dir space/file space
+U       test_r/test1/cvs/dirbad
+U       test_r/test1/cvs/dirutd
+U       test_r/test1/cvs/dirutd/CVS
+U       test_r/test1/cvs/dirutd/CVS/Entries
+U       test_r/test1/cvs/dirutd/CVS/Root
+U       test_r/test1/cvs/dirutd/fileutd
+U       test_r/test1/cvs/filenew.c
+U       test_r/test1/cvs/fileutd.h
+Database closed for 'myhost'
 Database closed
 
 Test: restore client
@@ -3677,59 +3677,59 @@ Test: restore client
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myhost
-U test_r/test1/big_file
-U test_r/test1/cvs
-U test_r/test1/cvs/CVS
-U test_r/test1/cvs/CVS/Entries
-U test_r/test1/cvs/CVS/Root
-U test_r/test1/cvs/dir space
-U test_r/test1/cvs/dir space/CVS
-U test_r/test1/cvs/dir space/CVS/Entries
-U test_r/test1/cvs/dir space/CVS/Root
-U test_r/test1/cvs/dir space/file space
-U test_r/test1/cvs/dirbad
-U test_r/test1/cvs/dirutd
-U test_r/test1/cvs/dirutd/CVS
-U test_r/test1/cvs/dirutd/CVS/Entries
-U test_r/test1/cvs/dirutd/CVS/Root
-U test_r/test1/cvs/dirutd/fileutd
-U test_r/test1/cvs/filenew.c
-U test_r/test1/cvs/fileutd.h
-U test_r/test1/dir space
-U test_r/test1/dir space/big_file
-U test_r/test1/dir space/file space
-U test_r/test1/dir space/link space
-U test_r/test1/strange1TAB	CR\r
+Database open r-o for 'myhost'
+U       test_r/test1/big_file
+U       test_r/test1/cvs
+U       test_r/test1/cvs/CVS
+U       test_r/test1/cvs/CVS/Entries
+U       test_r/test1/cvs/CVS/Root
+U       test_r/test1/cvs/dir space
+U       test_r/test1/cvs/dir space/CVS
+U       test_r/test1/cvs/dir space/CVS/Entries
+U       test_r/test1/cvs/dir space/CVS/Root
+U       test_r/test1/cvs/dir space/file space
+U       test_r/test1/cvs/dirbad
+U       test_r/test1/cvs/dirutd
+U       test_r/test1/cvs/dirutd/CVS
+U       test_r/test1/cvs/dirutd/CVS/Entries
+U       test_r/test1/cvs/dirutd/CVS/Root
+U       test_r/test1/cvs/dirutd/fileutd
+U       test_r/test1/cvs/filenew.c
+U       test_r/test1/cvs/fileutd.h
+U       test_r/test1/dir space
+U       test_r/test1/dir space/big_file
+U       test_r/test1/dir space/file space
+U       test_r/test1/dir space/link space
+U       test_r/test1/strange1TAB	CR\r
 
-U test_r/test1/strange2TAB	LF
-U test_r/test1/strange3TAB	LF
+U       test_r/test1/strange2TAB	LF
+U       test_r/test1/strange3TAB	LF
 CR\r
 
-U test_r/test1/svn
-U test_r/test1/svn/.svn
-U test_r/test1/svn/.svn/entries
-U test_r/test1/svn/dir space
-U test_r/test1/svn/dir space/.svn
-U test_r/test1/svn/dir space/.svn/entries
-U test_r/test1/svn/dir space/file space
-U test_r/test1/svn/dirbad
-U test_r/test1/svn/dirutd
-U test_r/test1/svn/dirutd/.svn
-U test_r/test1/svn/dirutd/.svn/entries
-U test_r/test1/svn/dirutd/fileutd
-U test_r/test1/svn/filenew.c
-U test_r/test1/test space
-U test_r/test1/testdir
-U test_r/test1/testfile
-U test_r/test1/testlink
-U test_r/test1/testpipe
-U test_r/test2/testdir
-U test_r/test2/testfile
-U test_r/test2/testfile2
-U test_r/test2/testfile2.gz
-U test_r/test2/testlink
-Database closed: myhost
+U       test_r/test1/svn
+U       test_r/test1/svn/.svn
+U       test_r/test1/svn/.svn/entries
+U       test_r/test1/svn/dir space
+U       test_r/test1/svn/dir space/.svn
+U       test_r/test1/svn/dir space/.svn/entries
+U       test_r/test1/svn/dir space/file space
+U       test_r/test1/svn/dirbad
+U       test_r/test1/svn/dirutd
+U       test_r/test1/svn/dirutd/.svn
+U       test_r/test1/svn/dirutd/.svn/entries
+U       test_r/test1/svn/dirutd/fileutd
+U       test_r/test1/svn/filenew.c
+U       test_r/test1/test space
+U       test_r/test1/testdir
+U       test_r/test1/testfile
+U       test_r/test1/testlink
+U       test_r/test1/testpipe
+U       test_r/test2/testdir
+U       test_r/test2/testfile
+U       test_r/test2/testfile2
+U       test_r/test2/testfile2.gz
+U       test_r/test2/testlink
+Database closed for 'myhost'
 Database closed
 
 Test: typical backup
@@ -3845,13 +3845,13 @@ Test: typical backup
  ---> nothing
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
-Backing up client: aClient.vista
+Backing up client 'aClient.vista'
 Reading list of problematic checksums
-Database open r/w: aClient.vista
-Backing up path: C:/Test Dir
+Database open r/w for 'aClient.vista'
+Backing up path 'C:/Test Dir'
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 My Dir\r
-Database closed: aClient.vista
+Database closed for 'aClient.vista'
  -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -3889,11 +3889,11 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: client.xp
-Database open r/w: client.xp
-Backing up path: C:/Test Dir
+Backing up client 'client.xp'
+Database open r/w for 'client.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: client.xp
+Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
@@ -3915,13 +3915,13 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: myClient
-Database open r/w: myClient
-Backing up path: /home/User/test
+Backing up client 'myClient'
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
-Database closed: myClient
+Database closed for 'myClient'
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase //myClient/C$ test_db/.mount/myClient.xp
@@ -3956,11 +3956,11 @@ Trying client 'myClient.xp' using protocol 'smb'
  -----> Condition: mode= 644
  ----> Ignore filters:
  -----> nothing
-Backing up client: myClient.xp
-Database open r/w: myClient.xp
-Backing up path: C:/Test Dir
+Backing up client 'myClient.xp'
+Database open r/w for 'myClient.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: myClient.xp
+Database closed for 'myClient.xp'
  -> umount -fl test_db/.mount/myClient.xp
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -4003,9 +4003,9 @@ Database closed: myClient.xp
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: myhost
-Database open r/w: myhost
-Backing up path: test1
+Backing up client 'myhost'
+Database open r/w for 'myhost'
+Backing up path 'test1'
 cvs\r
  -> Parsing CVS entries
  --> dir space: D
@@ -4024,7 +4024,7 @@ cvs/dir space/CVS\r
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
@@ -4049,7 +4049,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Id p    test1/svn/.svn/prop-base
@@ -4058,20 +4058,20 @@ Id p    test1/svn/.svn/text-base
 Id p    test1/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
 Id p    test1/svn/dir space/.svn/prop-base
 Id p    test1/svn/dir space/.svn/props
 Id p    test1/svn/dir space/.svn/text-base
 Id p    test1/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
 svn/dirutd\r
 svn/dirutd/.svn\r
-control dir: test1/svn/dirutd/.svn
+Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
 Id p    test1/svn/dirutd/.svn/prop-base
 Id p    test1/svn/dirutd/.svn/props
@@ -4083,10 +4083,10 @@ If p    test1/svn/fileoth
 If p    test1/svn/fileutd.h
 testdir\r
 If f    test1/testfile~
-Backing up path: test2
+Backing up path 'test2'
 testdir\r
 If f    test2/testfile~
-Database closed: myhost
+Database closed for 'myhost'
 Trying client 'newClient' using protocol 'ssh'
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
  -> Reading client configuration file: newClient
@@ -4107,13 +4107,13 @@ Trying client 'newClient' using protocol 'ssh'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: newClient
-Database open r/w: newClient
-Backing up path: /home/Blah/test
+Backing up client 'newClient'
+Database open r/w for 'newClient'
+Backing up path '/home/Blah/test'
  -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 dir\r
-Database closed: newClient
+Database closed for 'newClient'
  -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
 Error: Protocol not supported 'none' for 'other'
@@ -4345,12 +4345,12 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: client.xp
+Backing up client 'client.xp'
 Reading list of problematic checksums
-Database open r/w: client.xp
-Backing up path: C:/Test Dir
+Database open r/w for 'client.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: client.xp
+Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
@@ -4372,13 +4372,13 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: myClient
-Database open r/w: myClient
-Backing up path: /home/User/test
+Backing up client 'myClient'
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
-Database closed: myClient
+Database closed for 'myClient'
  -> umount -fl test_db/.mount/myClient
 Database closed
 Config for test_db/.configs/client.xp
@@ -4471,7 +4471,7 @@ Test: user-mode backup
  ----> Protocol: file
  ----> Config: test_user/.hbackup/config
  ----> Expiry: none
-Database initialized: test_user/.hbackup
+Database initialized in 'test_user/.hbackup'
 Database open in read/write mode
  -> Reading client configuration file: localhost
  -> Client: localhost
@@ -4482,9 +4482,9 @@ Database open in read/write mode
  ---> Path: test_user/testuser
  ----> No error if same file fails copy again
 Reading list of problematic checksums
-Register created: localhost
-Database open r/w: localhost
-Backing up path: test_user/testuser
+Register created for 'localhost'
+Database open r/w for 'localhost'
+Backing up path 'test_user/testuser'
 Adding uncompressed data for 31d30eea8d0968d6458e0ad0027c9f80-0
 Af f    test_user/testuser/f1.txt
 Ad      test_user/testuser/subdir
@@ -4497,8 +4497,8 @@ Adding uncompressed data for d5b4c7d9b06b60a7846c4529834c9812-0
 Af f    test_user/testuser/subdir2/f3.txt
 Adding uncompressed data for 90e2a51705594d033a3abe9d77b2b7ad-0
 Af f    test_user/testuser/subdir2/f4.txt
-Register modified: localhost
-Database closed: localhost
+Register modified for 'localhost'
+Database closed for 'localhost'
 Database closed
 
 Test: list clients
@@ -4733,8 +4733,8 @@ Test: list paths in DOS client 'myClient.xp'
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+Database closed for 'myClient.xp'
 Database closed
 	C:/
 
@@ -4853,10 +4853,10 @@ Test: list paths in dual-boot client 'myClient*'
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-Database closed: myClient
-Database open r-o: myClient.xp
-Database closed: myClient.xp
+Database open r-o for 'myClient'
+Database closed for 'myClient'
+Database open r-o for 'myClient.xp'
+Database closed for 'myClient.xp'
 Database closed
 	/home/
 	C:/
@@ -4973,8 +4973,8 @@ Test: list sub-paths in UNIX client 'myClient'
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-Database closed: myClient
+Database open r-o for 'myClient'
+Database closed for 'myClient'
 Database closed
 	/home/User/
 
@@ -5092,8 +5092,8 @@ Test: list sub-paths in DOS client 'myClient.xp', 'C:'
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+Database closed for 'myClient.xp'
 Database closed
 	C:/Test Dir/
 
@@ -5211,9 +5211,9 @@ Test: restore file (UNIX)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-U test_r//home/User/test/File2.txt
-Database closed: myClient
+Database open r-o for 'myClient'
+U       test_r//home/User/test/File2.txt
+Database closed for 'myClient'
 Database closed
 d	test_r
 d	test_r/home
@@ -5335,11 +5335,11 @@ Test: restore subdir (UNIX)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-U test_r//home/User/test/File2.txt
-U test_r//home/User/test/dir
-U test_r//home/User/test/dir/file3.txt
-Database closed: myClient
+Database open r-o for 'myClient'
+U       test_r//home/User/test/File2.txt
+U       test_r//home/User/test/dir
+U       test_r//home/User/test/dir/file3.txt
+Database closed for 'myClient'
 Database closed
 d	test_r
 d	test_r/home
@@ -5463,11 +5463,11 @@ Test: restore dir (UNIX)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-U test_r//home/User/test/File2.txt
-U test_r//home/User/test/dir
-U test_r//home/User/test/dir/file3.txt
-Database closed: myClient
+Database open r-o for 'myClient'
+U       test_r//home/User/test/File2.txt
+U       test_r//home/User/test/dir
+U       test_r//home/User/test/dir/file3.txt
+Database closed for 'myClient'
 Database closed
 d	test_r
 d	test_r/home
@@ -5591,11 +5591,11 @@ Test: restore client (UNIX)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-U test_r//home/User/test/File2.txt
-U test_r//home/User/test/dir
-U test_r//home/User/test/dir/file3.txt
-Database closed: myClient
+Database open r-o for 'myClient'
+U       test_r//home/User/test/File2.txt
+U       test_r//home/User/test/dir
+U       test_r//home/User/test/dir/file3.txt
+Database closed for 'myClient'
 Database closed
 d	test_r
 d	test_r/home
@@ -5719,9 +5719,9 @@ Test: restore file (DOS)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-U test_r/C:/Test Dir/My File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+U       test_r/C:/Test Dir/My File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -5842,11 +5842,11 @@ Test: restore subdir (DOS)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-U test_r/C:/Test Dir/My Dir
-U test_r/C:/Test Dir/My Dir/a File.TXT
-U test_r/C:/Test Dir/My Dir/another File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+U       test_r/C:/Test Dir/My Dir
+U       test_r/C:/Test Dir/My Dir/a File.TXT
+U       test_r/C:/Test Dir/My Dir/another File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -5969,12 +5969,12 @@ Test: restore dir (DOS)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-U test_r/C:/Test Dir/My Dir
-U test_r/C:/Test Dir/My Dir/a File.TXT
-U test_r/C:/Test Dir/My Dir/another File.TXT
-U test_r/C:/Test Dir/My File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+U       test_r/C:/Test Dir/My Dir
+U       test_r/C:/Test Dir/My Dir/a File.TXT
+U       test_r/C:/Test Dir/My Dir/another File.TXT
+U       test_r/C:/Test Dir/My File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -6098,12 +6098,12 @@ Test: restore client (DOS)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-U test_r/C:/Test Dir/My Dir
-U test_r/C:/Test Dir/My Dir/a File.TXT
-U test_r/C:/Test Dir/My Dir/another File.TXT
-U test_r/C:/Test Dir/My File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+U       test_r/C:/Test Dir/My Dir
+U       test_r/C:/Test Dir/My Dir/a File.TXT
+U       test_r/C:/Test Dir/My Dir/another File.TXT
+U       test_r/C:/Test Dir/My File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -6228,17 +6228,17 @@ Test: restore client (dual-boot)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-U test_r//home/User/test/File2.txt
-U test_r//home/User/test/dir
-U test_r//home/User/test/dir/file3.txt
-Database closed: myClient
-Database open r-o: myClient.xp
-U test_r/C:/Test Dir/My Dir
-U test_r/C:/Test Dir/My Dir/a File.TXT
-U test_r/C:/Test Dir/My Dir/another File.TXT
-U test_r/C:/Test Dir/My File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient'
+U       test_r//home/User/test/File2.txt
+U       test_r//home/User/test/dir
+U       test_r//home/User/test/dir/file3.txt
+Database closed for 'myClient'
+Database open r-o for 'myClient.xp'
+U       test_r/C:/Test Dir/My Dir
+U       test_r/C:/Test Dir/My Dir/a File.TXT
+U       test_r/C:/Test Dir/My Dir/another File.TXT
+U       test_r/C:/Test Dir/My File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -6368,9 +6368,9 @@ Test: restore (symlinks) file (UNIX)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-L test_r//home/User/test/File2.txt
-Database closed: myClient
+Database open r-o for 'myClient'
+L       test_r//home/User/test/File2.txt
+Database closed for 'myClient'
 Database closed
 d	test_r
 d	test_r/home
@@ -6492,11 +6492,11 @@ Test: restore (symlinks) subdir (UNIX)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-L test_r//home/User/test/File2.txt
-U test_r//home/User/test/dir
-L test_r//home/User/test/dir/file3.txt
-Database closed: myClient
+Database open r-o for 'myClient'
+L       test_r//home/User/test/File2.txt
+U       test_r//home/User/test/dir
+L       test_r//home/User/test/dir/file3.txt
+Database closed for 'myClient'
 Database closed
 d	test_r
 d	test_r/home
@@ -6620,11 +6620,11 @@ Test: restore (symlinks) dir (UNIX)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-L test_r//home/User/test/File2.txt
-U test_r//home/User/test/dir
-L test_r//home/User/test/dir/file3.txt
-Database closed: myClient
+Database open r-o for 'myClient'
+L       test_r//home/User/test/File2.txt
+U       test_r//home/User/test/dir
+L       test_r//home/User/test/dir/file3.txt
+Database closed for 'myClient'
 Database closed
 d	test_r
 d	test_r/home
@@ -6748,11 +6748,11 @@ Test: restore (symlinks) client (UNIX)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-L test_r//home/User/test/File2.txt
-U test_r//home/User/test/dir
-L test_r//home/User/test/dir/file3.txt
-Database closed: myClient
+Database open r-o for 'myClient'
+L       test_r//home/User/test/File2.txt
+U       test_r//home/User/test/dir
+L       test_r//home/User/test/dir/file3.txt
+Database closed for 'myClient'
 Database closed
 d	test_r
 d	test_r/home
@@ -6876,9 +6876,9 @@ Test: restore (symlinks) file (DOS)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-L test_r/C:/Test Dir/My File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+L       test_r/C:/Test Dir/My File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -6999,11 +6999,11 @@ Test: restore (symlinks) subdir (DOS)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-U test_r/C:/Test Dir/My Dir
-L test_r/C:/Test Dir/My Dir/a File.TXT
-L test_r/C:/Test Dir/My Dir/another File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+U       test_r/C:/Test Dir/My Dir
+L       test_r/C:/Test Dir/My Dir/a File.TXT
+L       test_r/C:/Test Dir/My Dir/another File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -7126,12 +7126,12 @@ Test: restore (symlinks) dir (DOS)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-U test_r/C:/Test Dir/My Dir
-L test_r/C:/Test Dir/My Dir/a File.TXT
-L test_r/C:/Test Dir/My Dir/another File.TXT
-L test_r/C:/Test Dir/My File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+U       test_r/C:/Test Dir/My Dir
+L       test_r/C:/Test Dir/My Dir/a File.TXT
+L       test_r/C:/Test Dir/My Dir/another File.TXT
+L       test_r/C:/Test Dir/My File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -7255,12 +7255,12 @@ Test: restore (symlinks) client (DOS)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-U test_r/C:/Test Dir/My Dir
-L test_r/C:/Test Dir/My Dir/a File.TXT
-L test_r/C:/Test Dir/My Dir/another File.TXT
-L test_r/C:/Test Dir/My File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+U       test_r/C:/Test Dir/My Dir
+L       test_r/C:/Test Dir/My Dir/a File.TXT
+L       test_r/C:/Test Dir/My Dir/another File.TXT
+L       test_r/C:/Test Dir/My File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -7385,17 +7385,17 @@ Test: restore (symlinks) client (dual-boot)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-L test_r//home/User/test/File2.txt
-U test_r//home/User/test/dir
-L test_r//home/User/test/dir/file3.txt
-Database closed: myClient
-Database open r-o: myClient.xp
-U test_r/C:/Test Dir/My Dir
-L test_r/C:/Test Dir/My Dir/a File.TXT
-L test_r/C:/Test Dir/My Dir/another File.TXT
-L test_r/C:/Test Dir/My File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient'
+L       test_r//home/User/test/File2.txt
+U       test_r//home/User/test/dir
+L       test_r//home/User/test/dir/file3.txt
+Database closed for 'myClient'
+Database open r-o for 'myClient.xp'
+U       test_r/C:/Test Dir/My Dir
+L       test_r/C:/Test Dir/My Dir/a File.TXT
+L       test_r/C:/Test Dir/My Dir/another File.TXT
+L       test_r/C:/Test Dir/My File.TXT
+Database closed for 'myClient.xp'
 Database closed
 test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data.gz
 d	test_r
@@ -7526,9 +7526,9 @@ Test: restore (hard links) file (UNIX)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-H test_r//home/User/test/File2.txt
-Database closed: myClient
+Database open r-o for 'myClient'
+H       test_r//home/User/test/File2.txt
+Database closed for 'myClient'
 Database closed
 d	test_r
 d	test_r/home
@@ -7650,11 +7650,11 @@ Test: restore (hard links) subdir (UNIX)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-H test_r//home/User/test/File2.txt
-U test_r//home/User/test/dir
-H test_r//home/User/test/dir/file3.txt
-Database closed: myClient
+Database open r-o for 'myClient'
+H       test_r//home/User/test/File2.txt
+U       test_r//home/User/test/dir
+H       test_r//home/User/test/dir/file3.txt
+Database closed for 'myClient'
 Database closed
 d	test_r
 d	test_r/home
@@ -7778,11 +7778,11 @@ Test: restore (hard links) dir (UNIX)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-H test_r//home/User/test/File2.txt
-U test_r//home/User/test/dir
-H test_r//home/User/test/dir/file3.txt
-Database closed: myClient
+Database open r-o for 'myClient'
+H       test_r//home/User/test/File2.txt
+U       test_r//home/User/test/dir
+H       test_r//home/User/test/dir/file3.txt
+Database closed for 'myClient'
 Database closed
 d	test_r
 d	test_r/home
@@ -7906,11 +7906,11 @@ Test: restore (hard links) client (UNIX)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-H test_r//home/User/test/File2.txt
-U test_r//home/User/test/dir
-H test_r//home/User/test/dir/file3.txt
-Database closed: myClient
+Database open r-o for 'myClient'
+H       test_r//home/User/test/File2.txt
+U       test_r//home/User/test/dir
+H       test_r//home/User/test/dir/file3.txt
+Database closed for 'myClient'
 Database closed
 d	test_r
 d	test_r/home
@@ -8034,9 +8034,9 @@ Test: restore (hard links) file (DOS)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-H test_r/C:/Test Dir/My File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+H       test_r/C:/Test Dir/My File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -8157,11 +8157,11 @@ Test: restore (hard links) subdir (DOS)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-U test_r/C:/Test Dir/My Dir
-H test_r/C:/Test Dir/My Dir/a File.TXT
-H test_r/C:/Test Dir/My Dir/another File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+U       test_r/C:/Test Dir/My Dir
+H       test_r/C:/Test Dir/My Dir/a File.TXT
+H       test_r/C:/Test Dir/My Dir/another File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -8284,12 +8284,12 @@ Test: restore (hard links) dir (DOS)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-U test_r/C:/Test Dir/My Dir
-H test_r/C:/Test Dir/My Dir/a File.TXT
-H test_r/C:/Test Dir/My Dir/another File.TXT
-H test_r/C:/Test Dir/My File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+U       test_r/C:/Test Dir/My Dir
+H       test_r/C:/Test Dir/My Dir/a File.TXT
+H       test_r/C:/Test Dir/My Dir/another File.TXT
+H       test_r/C:/Test Dir/My File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -8413,12 +8413,12 @@ Test: restore (hard links) client (DOS)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient.xp
-U test_r/C:/Test Dir/My Dir
-H test_r/C:/Test Dir/My Dir/a File.TXT
-H test_r/C:/Test Dir/My Dir/another File.TXT
-H test_r/C:/Test Dir/My File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient.xp'
+U       test_r/C:/Test Dir/My Dir
+H       test_r/C:/Test Dir/My Dir/a File.TXT
+H       test_r/C:/Test Dir/My Dir/another File.TXT
+H       test_r/C:/Test Dir/My File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -8543,17 +8543,17 @@ Test: restore (hard links) client (dual-boot)
  --> Ignore filters:
  ---> nothing
 Database open in read-only mode
-Database open r-o: myClient
-H test_r//home/User/test/File2.txt
-U test_r//home/User/test/dir
-H test_r//home/User/test/dir/file3.txt
-Database closed: myClient
-Database open r-o: myClient.xp
-U test_r/C:/Test Dir/My Dir
-H test_r/C:/Test Dir/My Dir/a File.TXT
-H test_r/C:/Test Dir/My Dir/another File.TXT
-H test_r/C:/Test Dir/My File.TXT
-Database closed: myClient.xp
+Database open r-o for 'myClient'
+H       test_r//home/User/test/File2.txt
+U       test_r//home/User/test/dir
+H       test_r//home/User/test/dir/file3.txt
+Database closed for 'myClient'
+Database open r-o for 'myClient.xp'
+U       test_r/C:/Test Dir/My Dir
+H       test_r/C:/Test Dir/My Dir/a File.TXT
+H       test_r/C:/Test Dir/My Dir/another File.TXT
+H       test_r/C:/Test Dir/My File.TXT
+Database closed for 'myClient.xp'
 Database closed
 d	test_r
 d	test_r/C:
@@ -8691,14 +8691,14 @@ Crawling through DB data
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
-Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Data missing
+Error: Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 662ae0524981c10b4736be799fc8650a-0 45\r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
 8a61083e712200a30c6ccf5f5c697b76-0 5         \r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
 b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-Error: b90f8fa56ea1d39881d4a199c7a81d35-0: Data corrupted
+Error: Data corrupted for b90f8fa56ea1d39881d4a199c7a81d35-0
 Checksum: 68b329da9893e34099c7d8ad5cb9c940
 b90f8fa56ea1d39881d4a199c7a81d35-0 -1\r
 d41d8cd98f00b204e9800998ecf8427e-0 0 \r
@@ -8710,7 +8710,7 @@ Done:  70.4%\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-Found 19 valid and 2 broken data files       
+Found 19 valid and 2 broken data file(s)     
 Database closed
 
 Test: check for corrupted data again
@@ -8835,14 +8835,14 @@ Crawling through DB data
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
-Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Data missing
+Error: Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 662ae0524981c10b4736be799fc8650a-0 45\r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
 8a61083e712200a30c6ccf5f5c697b76-0 5         \r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
 b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-Warning: b90f8fa56ea1d39881d4a199c7a81d35-0: Data corruption reported
+Warning: Data corruption reported for b90f8fa56ea1d39881d4a199c7a81d35-0
 b90f8fa56ea1d39881d4a199c7a81d35-0 -1\r
 d41d8cd98f00b204e9800998ecf8427e-0 0 \r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
@@ -8853,7 +8853,7 @@ Done:  70.4%\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-Found 19 valid and 2 broken data files       
+Found 19 valid and 2 broken data file(s)     
 Database closed
 
 Test: scan for missing data
@@ -8969,13 +8969,13 @@ Test: scan for missing data
  ---> nothing
 Just scan
 Database open in read/write mode
-Reading list: aClient.vista
-Reading list: client.xp
-Reading list: myClient
-Reading list: myClient.xp
-Reading list: myhost
-Reading list: newClient
-Found 20 checksums
+Reading list for 'aClient.vista'
+Reading list for 'client.xp'
+Reading list for 'myClient'
+Reading list for 'myClient.xp'
+Reading list for 'myhost'
+Reading list for 'newClient'
+Found 20 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
@@ -8983,14 +8983,14 @@ Crawling through DB
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
-Error: 59ca0efa9f5633cb0371bbc0355478d8-0: Data missing
+Error: Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 662ae0524981c10b4736be799fc8650a-0 45\r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
 8a61083e712200a30c6ccf5f5c697b76-0 5         \r
 b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
 b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-b90f8fa56ea1d39881d4a199c7a81d35-0: Removed corrupted data
+Removed corrupted data for b90f8fa56ea1d39881d4a199c7a81d35-0
 b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
 d41d8cd98f00b204e9800998ecf8427e-0 0 \r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
@@ -8999,7 +8999,7 @@ f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-Found 19 valid and 2 broken data files       
+Found 19 valid and 2 broken data file(s)     
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -9048,17 +9048,17 @@ Warning: Problematic checksum(s): 3
  -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
  -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
 Missing checksums list updated
-List of problematic checksums contains 3 item(s)
+List of problematic checksums contains 3 items
 Database closed
 Just scan again
 Database open in read/write mode
-Reading list: aClient.vista
-Reading list: client.xp
-Reading list: myClient
-Reading list: myClient.xp
-Reading list: myhost
-Reading list: newClient
-Found 20 checksums
+Reading list for 'aClient.vista'
+Reading list for 'client.xp'
+Reading list for 'myClient'
+Reading list for 'myClient.xp'
+Reading list for 'myhost'
+Reading list for 'newClient'
+Found 20 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
@@ -9079,7 +9079,7 @@ f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-Found 19 valid and 0 broken data files       
+Found 19 valid and 0 broken data file(s)     
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -9128,7 +9128,7 @@ Warning: Problematic checksum(s): 3
  -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
  -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
 Missing checksums list updated
-List of problematic checksums contains 3 item(s)
+List of problematic checksums contains 3 items
 Database closed
 
 Test: scan for obsolete data, case1
@@ -9244,13 +9244,13 @@ Test: scan for obsolete data, case1
  ---> nothing
 Just scan
 Database open in read/write mode
-Reading list: aClient.vista
-Reading list: client.xp
-Reading list: myClient
-Reading list: myClient.xp
-Reading list: myhost
-Reading list: newClient
-Found 20 checksums
+Reading list for 'aClient.vista'
+Reading list for 'client.xp'
+Reading list for 'myClient'
+Reading list for 'myClient.xp'
+Reading list for 'myhost'
+Reading list for 'newClient'
+Found 20 checksum(s)
 Crawling through DB
 00000000000000000000000000000000-0 1\r
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -9274,7 +9274,7 @@ f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 ffffffffffffffffffffffffffffffff-0 1000000   \r
-Found 22 valid and 0 broken data files    
+Found 22 valid and 0 broken data file(s)  
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -9329,17 +9329,17 @@ Warning: Problematic checksum(s): 3
  -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
  -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
 Missing checksums list updated
-List of problematic checksums contains 3 item(s)
+List of problematic checksums contains 3 items
 Database closed
 Scan and remove
 Database open in read/write mode
-Reading list: aClient.vista
-Reading list: client.xp
-Reading list: myClient
-Reading list: myClient.xp
-Reading list: myhost
-Reading list: newClient
-Found 20 checksums
+Reading list for 'aClient.vista'
+Reading list for 'client.xp'
+Reading list for 'myClient'
+Reading list for 'myClient.xp'
+Reading list for 'myhost'
+Reading list for 'newClient'
+Found 20 checksum(s)
 Crawling through DB
 00000000000000000000000000000000-0 1\r
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -9363,7 +9363,7 @@ f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 ffffffffffffffffffffffffffffffff-0 1000000   \r
-Found 22 valid and 0 broken data files    
+Found 22 valid and 0 broken data file(s)  
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -9418,17 +9418,17 @@ Warning: Problematic checksum(s): 3
  -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
  -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
 Missing checksums list updated
-List of problematic checksums contains 3 item(s)
+List of problematic checksums contains 3 items
 Database closed
 Just scan again
 Database open in read/write mode
-Reading list: aClient.vista
-Reading list: client.xp
-Reading list: myClient
-Reading list: myClient.xp
-Reading list: myhost
-Reading list: newClient
-Found 20 checksums
+Reading list for 'aClient.vista'
+Reading list for 'client.xp'
+Reading list for 'myClient'
+Reading list for 'myClient.xp'
+Reading list for 'myhost'
+Reading list for 'newClient'
+Found 20 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
@@ -9448,7 +9448,7 @@ f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-Found 18 valid and 0 broken data files       
+Found 18 valid and 0 broken data file(s)     
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -9494,7 +9494,7 @@ Warning: Problematic checksum(s): 3
  -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
  -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
 Missing checksums list updated
-List of problematic checksums contains 3 item(s)
+List of problematic checksums contains 3 items
 Database closed
 
 Test: scan for obsolete data, case 2
@@ -9610,13 +9610,13 @@ Test: scan for obsolete data, case 2
  ---> nothing
 Just scan
 Database open in read/write mode
-Reading list: aClient.vista
-Reading list: client.xp
-Reading list: myClient
-Reading list: myClient.xp
-Reading list: myhost
-Reading list: newClient
-Found 20 checksums
+Reading list for 'aClient.vista'
+Reading list for 'client.xp'
+Reading list for 'myClient'
+Reading list for 'myClient.xp'
+Reading list for 'myhost'
+Reading list for 'newClient'
+Found 20 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
@@ -9632,7 +9632,7 @@ Crawling through DB
 b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
 b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
-Warning: dddddddddddddddddddddddddddddddd-0: Setting missing metadata
+Warning: Setting missing metadata for dddddddddddddddddddddddddddddddd-0
 dddddddddddddddddddddddddddddddd-0 2\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
@@ -9640,7 +9640,7 @@ f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-Found 21 valid and 0 broken data files       
+Found 21 valid and 0 broken data file(s)     
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -9693,17 +9693,17 @@ Warning: Problematic checksum(s): 3
  -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
  -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
 Missing checksums list updated
-List of problematic checksums contains 3 item(s)
+List of problematic checksums contains 3 items
 Database closed
 Scan and remove
 Database open in read/write mode
-Reading list: aClient.vista
-Reading list: client.xp
-Reading list: myClient
-Reading list: myClient.xp
-Reading list: myhost
-Reading list: newClient
-Found 20 checksums
+Reading list for 'aClient.vista'
+Reading list for 'client.xp'
+Reading list for 'myClient'
+Reading list for 'myClient.xp'
+Reading list for 'myhost'
+Reading list for 'newClient'
+Found 20 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
@@ -9726,7 +9726,7 @@ f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-Found 21 valid and 0 broken data files       
+Found 21 valid and 0 broken data file(s)     
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -9779,17 +9779,17 @@ Warning: Problematic checksum(s): 3
  -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
  -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
 Missing checksums list updated
-List of problematic checksums contains 3 item(s)
+List of problematic checksums contains 3 items
 Database closed
 Just scan again
 Database open in read/write mode
-Reading list: aClient.vista
-Reading list: client.xp
-Reading list: myClient
-Reading list: myClient.xp
-Reading list: myhost
-Reading list: newClient
-Found 20 checksums
+Reading list for 'aClient.vista'
+Reading list for 'client.xp'
+Reading list for 'myClient'
+Reading list for 'myClient.xp'
+Reading list for 'myhost'
+Reading list for 'newClient'
+Found 20 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
@@ -9809,7 +9809,7 @@ f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-Found 18 valid and 0 broken data files       
+Found 18 valid and 0 broken data file(s)     
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -9855,7 +9855,7 @@ Warning: Problematic checksum(s): 3
  -> b90f8fa56ea1d39881d4a199c7a81d35-0: missing
  -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
 Missing checksums list updated
-List of problematic checksums contains 3 item(s)
+List of problematic checksums contains 3 items
 Database closed
 
 Test: backup recovers broken checksums + replace data
@@ -9971,16 +9971,16 @@ Test: backup recovers broken checksums + replace data
  ---> nothing
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
-Backing up client: aClient.vista
+Backing up client 'aClient.vista'
 Reading list of problematic checksums
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Missing: b90f8fa56ea1d39881d4a199c7a81d35-0
  -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
-Database open r/w: aClient.vista
-Backing up path: C:/Test Dir
+Database open r/w for 'aClient.vista'
+Backing up path 'C:/Test Dir'
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 My Dir\r
-Database closed: aClient.vista
+Database closed for 'aClient.vista'
  -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -10018,11 +10018,11 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: client.xp
-Database open r/w: client.xp
-Backing up path: C:/Test Dir
+Backing up client 'client.xp'
+Database open r/w for 'client.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: client.xp
+Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
@@ -10044,17 +10044,17 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: myClient
-Database open r/w: myClient
-Backing up path: /home/User/test
+Backing up client 'myClient'
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
 Checking data, sizes: f=2 z=22 (22)
 Adding uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Cf f    /home/User/test/dir/file3.txt
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase //myClient/C$ test_db/.mount/myClient.xp
@@ -10089,11 +10089,11 @@ Trying client 'myClient.xp' using protocol 'smb'
  -----> Condition: mode= 644
  ----> Ignore filters:
  -----> nothing
-Backing up client: myClient.xp
-Database open r/w: myClient.xp
-Backing up path: C:/Test Dir
+Backing up client 'myClient.xp'
+Database open r/w for 'myClient.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: myClient.xp
+Database closed for 'myClient.xp'
  -> umount -fl test_db/.mount/myClient.xp
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -10136,9 +10136,9 @@ Database closed: myClient.xp
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: myhost
-Database open r/w: myhost
-Backing up path: test1
+Backing up client 'myhost'
+Database open r/w for 'myhost'
+Backing up path 'test1'
 cvs\r
  -> Parsing CVS entries
  --> dir space: D
@@ -10160,7 +10160,7 @@ cvs/dir space/CVS\r
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
@@ -10185,7 +10185,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Id p    test1/svn/.svn/prop-base
@@ -10194,20 +10194,20 @@ Id p    test1/svn/.svn/text-base
 Id p    test1/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
 Id p    test1/svn/dir space/.svn/prop-base
 Id p    test1/svn/dir space/.svn/props
 Id p    test1/svn/dir space/.svn/text-base
 Id p    test1/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
 svn/dirutd\r
 svn/dirutd/.svn\r
-control dir: test1/svn/dirutd/.svn
+Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
 Id p    test1/svn/dirutd/.svn/prop-base
 Id p    test1/svn/dirutd/.svn/props
@@ -10220,14 +10220,14 @@ If p    test1/svn/fileutd.h
 testdir\r
 If f    test1/testfile~
 D       test1/testfile
-Backing up path: test2
+Backing up path 'test2'
 testdir\r
 Checking data, sizes: f=259072 z=286 (290)
 Replacing with compressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 Mf zr   test2/testfile2
 If f    test2/testfile~
-Register modified: myhost
-Database closed: myhost
+Register modified for 'myhost'
+Database closed for 'myhost'
 Trying client 'newClient' using protocol 'ssh'
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
  -> Reading client configuration file: newClient
@@ -10248,18 +10248,18 @@ Trying client 'newClient' using protocol 'ssh'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: newClient
-Database open r/w: newClient
-Backing up path: /home/Blah/test
+Backing up client 'newClient'
+Database open r/w for 'newClient'
+Backing up path '/home/Blah/test'
  -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 dir\r
-Database closed: newClient
+Database closed for 'newClient'
  -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
 Error: Protocol not supported 'none' for 'other'
 Missing checksums list updated
-List of problematic checksums contains 2 item(s)
+List of problematic checksums contains 2 items
 Database closed
 data
 meta
@@ -10455,15 +10455,15 @@ Test: second backup should not recover again
  ---> nothing
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
-Backing up client: aClient.vista
+Backing up client 'aClient.vista'
 Reading list of problematic checksums
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
-Database open r/w: aClient.vista
-Backing up path: C:/Test Dir
+Database open r/w for 'aClient.vista'
+Backing up path 'C:/Test Dir'
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 My Dir\r
-Database closed: aClient.vista
+Database closed for 'aClient.vista'
  -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -10501,11 +10501,11 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: client.xp
-Database open r/w: client.xp
-Backing up path: C:/Test Dir
+Backing up client 'client.xp'
+Database open r/w for 'client.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: client.xp
+Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
@@ -10527,13 +10527,13 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: myClient
-Database open r/w: myClient
-Backing up path: /home/User/test
+Backing up client 'myClient'
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
-Database closed: myClient
+Database closed for 'myClient'
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase //myClient/C$ test_db/.mount/myClient.xp
@@ -10568,11 +10568,11 @@ Trying client 'myClient.xp' using protocol 'smb'
  -----> Condition: mode= 644
  ----> Ignore filters:
  -----> nothing
-Backing up client: myClient.xp
-Database open r/w: myClient.xp
-Backing up path: C:/Test Dir
+Backing up client 'myClient.xp'
+Database open r/w for 'myClient.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: myClient.xp
+Database closed for 'myClient.xp'
  -> umount -fl test_db/.mount/myClient.xp
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -10615,9 +10615,9 @@ Database closed: myClient.xp
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: myhost
-Database open r/w: myhost
-Backing up path: test1
+Backing up client 'myhost'
+Database open r/w for 'myhost'
+Backing up path 'test1'
 cvs\r
  -> Parsing CVS entries
  --> dir space: D
@@ -10636,7 +10636,7 @@ cvs/dir space/CVS\r
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
@@ -10661,7 +10661,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Id p    test1/svn/.svn/prop-base
@@ -10670,20 +10670,20 @@ Id p    test1/svn/.svn/text-base
 Id p    test1/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
 Id p    test1/svn/dir space/.svn/prop-base
 Id p    test1/svn/dir space/.svn/props
 Id p    test1/svn/dir space/.svn/text-base
 Id p    test1/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
 svn/dirutd\r
 svn/dirutd/.svn\r
-control dir: test1/svn/dirutd/.svn
+Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
 Id p    test1/svn/dirutd/.svn/prop-base
 Id p    test1/svn/dirutd/.svn/props
@@ -10695,10 +10695,10 @@ If p    test1/svn/fileoth
 If p    test1/svn/fileutd.h
 testdir\r
 If f    test1/testfile~
-Backing up path: test2
+Backing up path 'test2'
 testdir\r
 If f    test2/testfile~
-Database closed: myhost
+Database closed for 'myhost'
 Trying client 'newClient' using protocol 'ssh'
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
  -> Reading client configuration file: newClient
@@ -10719,17 +10719,17 @@ Trying client 'newClient' using protocol 'ssh'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: newClient
-Database open r/w: newClient
-Backing up path: /home/Blah/test
+Backing up client 'newClient'
+Database open r/w for 'newClient'
+Backing up path '/home/Blah/test'
  -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 dir\r
-Database closed: newClient
+Database closed for 'newClient'
  -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
 Error: Protocol not supported 'none' for 'other'
-List of problematic checksums contains 2 item(s)
+List of problematic checksums contains 2 items
 Database closed
 
 Test: scan shows recovered data
@@ -10844,20 +10844,20 @@ Test: scan shows recovered data
  --> Ignore filters:
  ---> nothing
 Database open in read/write mode
-Reading list: aClient.vista
-Reading list: client.xp
-Reading list: myClient
-Reading list: myClient.xp
-Reading list: myhost
-Reading list: newClient
-Found 21 checksums
+Reading list for 'aClient.vista'
+Reading list for 'client.xp'
+Reading list for 'myClient'
+Reading list for 'myClient.xp'
+Reading list for 'myhost'
+Reading list for 'newClient'
+Found 21 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
-Warning: 5252f242d27b8c2c9fdbdcbb33545d07-0: Adding missing metadata
+Warning: Adding missing metadata for 5252f242d27b8c2c9fdbdcbb33545d07-0
 5252f242d27b8c2c9fdbdcbb33545d07-0 42 67\r
 662ae0524981c10b4736be799fc8650a-0 45   \r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
@@ -10873,7 +10873,7 @@ f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 185\r
-Found 20 valid and 0 broken data files
+Found 20 valid and 0 broken data file(s)
 Checksum(s) from list: 21
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -10922,7 +10922,7 @@ Warning: Problematic checksum(s): 3
  -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0: inconsistent
 Missing checksums list updated
-List of problematic checksums contains 3 item(s)
+List of problematic checksums contains 3 items
 Database closed
 
 Test: check finds corrupted data
@@ -11059,10 +11059,10 @@ Done:  70.4%\r
             \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
-Error: fb00cd74a5f35e89a7fbdd3c1d05375a-0: Data corrupted
+Error: Data corrupted for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 Checksum: 0de026794b4612fbca289ed619a3ea9a
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 -1\r
-Found 19 valid and 1 broken data files
+Found 19 valid and 1 broken data file(s)
 Database closed
 
 Test: scan removes corrupted data
@@ -11177,13 +11177,13 @@ Test: scan removes corrupted data
  --> Ignore filters:
  ---> nothing
 Database open in read/write mode
-Reading list: aClient.vista
-Reading list: client.xp
-Reading list: myClient
-Reading list: myClient.xp
-Reading list: myhost
-Reading list: newClient
-Found 21 checksums
+Reading list for 'aClient.vista'
+Reading list for 'client.xp'
+Reading list for 'myClient'
+Reading list for 'myClient.xp'
+Reading list for 'myhost'
+Reading list for 'newClient'
+Found 21 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
@@ -11204,9 +11204,9 @@ f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
-fb00cd74a5f35e89a7fbdd3c1d05375a-0: Removed corrupted data
+Removed corrupted data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 185\r
-Found 19 valid and 1 broken data files
+Found 19 valid and 1 broken data file(s)
 Checksum(s) from list: 21
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -11254,7 +11254,7 @@ Warning: Problematic checksum(s): 3
  -> d41d8cd98f00b204e9800998ecf8427e-0: inconsistent
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0: missing
 Missing checksums list updated
-List of problematic checksums contains 3 item(s)
+List of problematic checksums contains 3 items
 Database closed
 
 Test: third backup should not recover again
@@ -11370,16 +11370,16 @@ Test: third backup should not recover again
  ---> nothing
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
-Backing up client: aClient.vista
+Backing up client 'aClient.vista'
 Reading list of problematic checksums
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
  -> Missing: fb00cd74a5f35e89a7fbdd3c1d05375a-0
-Database open r/w: aClient.vista
-Backing up path: C:/Test Dir
+Database open r/w for 'aClient.vista'
+Backing up path 'C:/Test Dir'
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 My Dir\r
-Database closed: aClient.vista
+Database closed for 'aClient.vista'
  -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -11417,11 +11417,11 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: client.xp
-Database open r/w: client.xp
-Backing up path: C:/Test Dir
+Backing up client 'client.xp'
+Database open r/w for 'client.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: client.xp
+Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
@@ -11443,13 +11443,13 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: myClient
-Database open r/w: myClient
-Backing up path: /home/User/test
+Backing up client 'myClient'
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
-Database closed: myClient
+Database closed for 'myClient'
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase //myClient/C$ test_db/.mount/myClient.xp
@@ -11484,11 +11484,11 @@ Trying client 'myClient.xp' using protocol 'smb'
  -----> Condition: mode= 644
  ----> Ignore filters:
  -----> nothing
-Backing up client: myClient.xp
-Database open r/w: myClient.xp
-Backing up path: C:/Test Dir
+Backing up client 'myClient.xp'
+Database open r/w for 'myClient.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: myClient.xp
+Database closed for 'myClient.xp'
  -> umount -fl test_db/.mount/myClient.xp
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -11531,9 +11531,9 @@ Database closed: myClient.xp
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: myhost
-Database open r/w: myhost
-Backing up path: test1
+Backing up client 'myhost'
+Database open r/w for 'myhost'
+Backing up path 'test1'
 cvs\r
  -> Parsing CVS entries
  --> dir space: D
@@ -11552,7 +11552,7 @@ cvs/dir space/CVS\r
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
@@ -11577,7 +11577,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Id p    test1/svn/.svn/prop-base
@@ -11586,20 +11586,20 @@ Id p    test1/svn/.svn/text-base
 Id p    test1/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
 Id p    test1/svn/dir space/.svn/prop-base
 Id p    test1/svn/dir space/.svn/props
 Id p    test1/svn/dir space/.svn/text-base
 Id p    test1/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
 svn/dirutd\r
 svn/dirutd/.svn\r
-control dir: test1/svn/dirutd/.svn
+Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
 Id p    test1/svn/dirutd/.svn/prop-base
 Id p    test1/svn/dirutd/.svn/props
@@ -11611,13 +11611,13 @@ If p    test1/svn/fileoth
 If p    test1/svn/fileutd.h
 testdir\r
 If f    test1/testfile~
-Backing up path: test2
+Backing up path 'test2'
 testdir\r
 Checking data, sizes: f=259072 z=286 (290)
 Rf ~    test2/testfile2
 If f    test2/testfile~
-Register modified: myhost
-Database closed: myhost
+Register modified for 'myhost'
+Database closed for 'myhost'
 Trying client 'newClient' using protocol 'ssh'
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
  -> Reading client configuration file: newClient
@@ -11638,18 +11638,18 @@ Trying client 'newClient' using protocol 'ssh'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: newClient
-Database open r/w: newClient
-Backing up path: /home/Blah/test
+Backing up client 'newClient'
+Database open r/w for 'newClient'
+Backing up path '/home/Blah/test'
  -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 dir\r
-Database closed: newClient
+Database closed for 'newClient'
  -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
 Error: Protocol not supported 'none' for 'other'
 Missing checksums list updated
-List of problematic checksums contains 2 item(s)
+List of problematic checksums contains 2 items
 Database closed
 Config for test_db/.configs/client.xp
 subset "xp"
@@ -11843,18 +11843,18 @@ Test: declared path missing
  ---> nothing
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
-Backing up client: aClient.vista
+Backing up client 'aClient.vista'
 Reading list of problematic checksums
  -> Missing: 59ca0efa9f5633cb0371bbc0355478d8-0
  -> Inconsistent: d41d8cd98f00b204e9800998ecf8427e-0
-Database open r/w: aClient.vista
-Backing up path: C:/Test Dir
+Database open r/w for 'aClient.vista'
+Backing up path 'C:/Test Dir'
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 Error: No such file or directory reading initial directory 'aClient.vista:C:/Test Dir'
 Error: Aborting client
-Database closed: aClient.vista
+Database closed for 'aClient.vista'
  -> umount -fl test_db/.mount/aClient.vista
-List of problematic checksums contains 2 item(s)
+List of problematic checksums contains 2 items
 Database closed
 Config for test_db/.configs/client.xp
 subset "xp"
@@ -11935,48 +11935,48 @@ path "/home/Blah/test/"
     condition "path" "dir/file3.txt"
   compress "compress"
 hbackup.log:
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: aClient.vista
-2009-08-07 06:05:04 missing.cpp:142 VERB  Reading list of problematic checksums
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: aClient.vista
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: C:/Test Dir
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'aClient.vista'
+2009-08-07 06:05:04 missing.cpp:141 VERB  Reading list of problematic checksums
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'aClient.vista'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 paths.cpp:268 ERROR No such file or directory reading initial directory 'aClient.vista:C:/Test Dir'
-2009-08-07 06:05:04 clients.cpp:457 ERROR Aborting client
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: aClient.vista
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 2 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
+2009-08-07 06:05:04 clients.cpp:454 ERROR Aborting client
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'aClient.vista'
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 2 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
 hbackup.log-1:
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: aClient.vista
-2009-08-07 06:05:04 missing.cpp:142 VERB  Reading list of problematic checksums
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: aClient.vista
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: C:/Test Dir
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: aClient.vista
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'client.xp' using protocol 'smb'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: client.xp
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: client.xp
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: C:/Test Dir
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: client.xp
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'myClient' using protocol 'nfs'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: myClient
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: myClient
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: /home/User/test
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: myClient
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'myClient.xp' using protocol 'smb'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: myClient.xp
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: myClient.xp
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: C:/Test Dir
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: myClient.xp
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: myhost
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: myhost
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: test1
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'aClient.vista'
+2009-08-07 06:05:04 missing.cpp:141 VERB  Reading list of problematic checksums
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'aClient.vista'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'aClient.vista'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'client.xp' using protocol 'smb'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'client.xp'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'client.xp'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'client.xp'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'myClient' using protocol 'nfs'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'myClient'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'myClient'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path '/home/User/test'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'myClient'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'myClient.xp' using protocol 'smb'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'myClient.xp'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'myClient.xp'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'myClient.xp'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'myhost'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'myhost'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'test1'
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/CVS/Whatever
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/cvs/CVS/Wherever
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/dir space/CVS/Whatever
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/dir space/file other
-2009-08-07 06:05:04 cvs_parser.cpp:66 WARN  test1/cvs/dirbad: Directory should be under CVS control
+2009-08-07 06:05:04 cvs_parser.cpp:66 WARN  Directory 'test1/cvs/dirbad' should be under CVS control
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/dirbad/fileoth
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/dirbad/fileutd
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/cvs/diroth
@@ -11996,7 +11996,7 @@ hbackup.log-1:
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/svn/dir space/.svn/props
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/svn/dir space/.svn/text-base
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/svn/dir space/.svn/tmp
-2009-08-07 06:05:04 svn_parser.cpp:95 WARN  test1/svn/dirbad: Directory should be under Subversion control
+2009-08-07 06:05:04 svn_parser.cpp:95 WARN  Directory 'test1/svn/dirbad' should be under Subversion control
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/svn/dirbad/fileoth
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/svn/dirbad/fileutd
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/svn/diroth
@@ -12010,97 +12010,97 @@ hbackup.log-1:
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/svn/fileoth
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/svn/fileutd.h
 2009-08-07 06:05:04 paths.cpp:184 VERB  If f    test1/testfile~
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: test2
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'test2'
 2009-08-07 06:05:04 paths.cpp:168 INFO  Rf ~    test2/testfile2
 2009-08-07 06:05:04 paths.cpp:184 VERB  If f    test2/testfile~
-2009-08-07 06:05:04 owner.cpp:367 VERB  Register modified: myhost
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: myhost
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'newClient' using protocol 'ssh'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: newClient
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: newClient
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: /home/Blah/test
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: newClient
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'other' using protocol 'none'
-2009-08-07 06:05:04 clients.cpp:389 ERROR Protocol not supported 'none' for 'other'
+2009-08-07 06:05:04 owner.cpp:363 VERB  Register modified for 'myhost'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'myhost'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'newClient' using protocol 'ssh'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'newClient'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'newClient'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path '/home/Blah/test'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'newClient'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'other' using protocol 'none'
+2009-08-07 06:05:04 clients.cpp:386 ERROR Protocol not supported 'none' for 'other'
 2009-08-07 06:05:04 missing.cpp:93 INFO  Missing checksums list updated
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 2 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 2 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
 hbackup.log-10:
-2009-08-07 06:05:04 db.cpp:206 VERB  Database open in read-only mode
-2009-08-07 06:05:04 db.cpp:621 VERB  Crawling through DB data
-2009-08-07 06:05:04 data.cpp:692 ERROR 59ca0efa9f5633cb0371bbc0355478d8-0: Data missing
-2009-08-07 06:05:04 data.cpp:707 WARN  b90f8fa56ea1d39881d4a199c7a81d35-0: Data corruption reported
-2009-08-07 06:05:04 data.cpp:825 VERB  Found 19 valid and 2 broken data files
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
+2009-08-07 06:05:04 db.cpp:201 VERB  Database open in read-only mode
+2009-08-07 06:05:04 db.cpp:611 VERB  Crawling through DB data
+2009-08-07 06:05:04 data.cpp:688 ERROR Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
+2009-08-07 06:05:04 data.cpp:703 WARN  Data corruption reported for b90f8fa56ea1d39881d4a199c7a81d35-0
+2009-08-07 06:05:04 data.cpp:813 VERB  Found 19 valid and 2 broken data file(s)
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
 hbackup.log-2:
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: aClient.vista
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: client.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myhost
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: newClient
-2009-08-07 06:05:04 db.cpp:520 VERB  Found 21 checksums
-2009-08-07 06:05:04 db.cpp:524 VERB  Crawling through DB
-2009-08-07 06:05:04 data.cpp:754 INFO  fb00cd74a5f35e89a7fbdd3c1d05375a-0: Removed corrupted data
-2009-08-07 06:05:04 data.cpp:825 VERB  Found 19 valid and 1 broken data files
-2009-08-07 06:05:04 missing.cpp:260 WARN  Problematic checksum(s): 3
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'aClient.vista'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'client.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myhost'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'newClient'
+2009-08-07 06:05:04 db.cpp:512 VERB  Found 21 checksum(s)
+2009-08-07 06:05:04 db.cpp:515 VERB  Crawling through DB
+2009-08-07 06:05:04 data.cpp:749 INFO  Removed corrupted data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+2009-08-07 06:05:04 data.cpp:813 VERB  Found 19 valid and 1 broken data file(s)
+2009-08-07 06:05:04 missing.cpp:254 WARN  Problematic checksum(s): 3
 2009-08-07 06:05:04 missing.cpp:93 INFO  Missing checksums list updated
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 3 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 3 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
 hbackup.log-3:
-2009-08-07 06:05:04 db.cpp:206 VERB  Database open in read-only mode
-2009-08-07 06:05:04 db.cpp:621 VERB  Crawling through DB data
-2009-08-07 06:05:04 data.cpp:727 ERROR fb00cd74a5f35e89a7fbdd3c1d05375a-0: Data corrupted
-2009-08-07 06:05:04 data.cpp:825 VERB  Found 19 valid and 1 broken data files
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
+2009-08-07 06:05:04 db.cpp:201 VERB  Database open in read-only mode
+2009-08-07 06:05:04 db.cpp:611 VERB  Crawling through DB data
+2009-08-07 06:05:04 data.cpp:722 ERROR Data corrupted for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+2009-08-07 06:05:04 data.cpp:813 VERB  Found 19 valid and 1 broken data file(s)
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
 hbackup.log-4:
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: aClient.vista
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: client.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myhost
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: newClient
-2009-08-07 06:05:04 db.cpp:520 VERB  Found 21 checksums
-2009-08-07 06:05:04 db.cpp:524 VERB  Crawling through DB
-2009-08-07 06:05:04 data.cpp:743 WARN  5252f242d27b8c2c9fdbdcbb33545d07-0: Adding missing metadata
-2009-08-07 06:05:04 data.cpp:825 VERB  Found 20 valid and 0 broken data files
-2009-08-07 06:05:04 missing.cpp:260 WARN  Problematic checksum(s): 3
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'aClient.vista'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'client.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myhost'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'newClient'
+2009-08-07 06:05:04 db.cpp:512 VERB  Found 21 checksum(s)
+2009-08-07 06:05:04 db.cpp:515 VERB  Crawling through DB
+2009-08-07 06:05:04 data.cpp:738 WARN  Adding missing metadata for 5252f242d27b8c2c9fdbdcbb33545d07-0
+2009-08-07 06:05:04 data.cpp:813 VERB  Found 20 valid and 0 broken data file(s)
+2009-08-07 06:05:04 missing.cpp:254 WARN  Problematic checksum(s): 3
 2009-08-07 06:05:04 missing.cpp:93 INFO  Missing checksums list updated
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 3 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 3 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
 hbackup.log-5:
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: aClient.vista
-2009-08-07 06:05:04 missing.cpp:142 VERB  Reading list of problematic checksums
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: aClient.vista
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: C:/Test Dir
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: aClient.vista
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'client.xp' using protocol 'smb'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: client.xp
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: client.xp
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: C:/Test Dir
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: client.xp
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'myClient' using protocol 'nfs'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: myClient
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: myClient
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: /home/User/test
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: myClient
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'myClient.xp' using protocol 'smb'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: myClient.xp
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: myClient.xp
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: C:/Test Dir
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: myClient.xp
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: myhost
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: myhost
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: test1
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'aClient.vista'
+2009-08-07 06:05:04 missing.cpp:141 VERB  Reading list of problematic checksums
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'aClient.vista'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'aClient.vista'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'client.xp' using protocol 'smb'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'client.xp'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'client.xp'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'client.xp'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'myClient' using protocol 'nfs'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'myClient'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'myClient'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path '/home/User/test'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'myClient'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'myClient.xp' using protocol 'smb'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'myClient.xp'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'myClient.xp'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'myClient.xp'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'myhost'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'myhost'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'test1'
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/CVS/Whatever
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/cvs/CVS/Wherever
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/dir space/CVS/Whatever
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/dir space/file other
-2009-08-07 06:05:04 cvs_parser.cpp:66 WARN  test1/cvs/dirbad: Directory should be under CVS control
+2009-08-07 06:05:04 cvs_parser.cpp:66 WARN  Directory 'test1/cvs/dirbad' should be under CVS control
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/dirbad/fileoth
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/dirbad/fileutd
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/cvs/diroth
@@ -12120,7 +12120,7 @@ hbackup.log-5:
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/svn/dir space/.svn/props
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/svn/dir space/.svn/text-base
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/svn/dir space/.svn/tmp
-2009-08-07 06:05:04 svn_parser.cpp:95 WARN  test1/svn/dirbad: Directory should be under Subversion control
+2009-08-07 06:05:04 svn_parser.cpp:95 WARN  Directory 'test1/svn/dirbad' should be under Subversion control
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/svn/dirbad/fileoth
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/svn/dirbad/fileutd
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/svn/diroth
@@ -12134,52 +12134,52 @@ hbackup.log-5:
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/svn/fileoth
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/svn/fileutd.h
 2009-08-07 06:05:04 paths.cpp:184 VERB  If f    test1/testfile~
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: test2
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'test2'
 2009-08-07 06:05:04 paths.cpp:184 VERB  If f    test2/testfile~
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: myhost
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'newClient' using protocol 'ssh'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: newClient
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: newClient
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: /home/Blah/test
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: newClient
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'other' using protocol 'none'
-2009-08-07 06:05:04 clients.cpp:389 ERROR Protocol not supported 'none' for 'other'
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 2 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'myhost'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'newClient' using protocol 'ssh'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'newClient'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'newClient'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path '/home/Blah/test'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'newClient'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'other' using protocol 'none'
+2009-08-07 06:05:04 clients.cpp:386 ERROR Protocol not supported 'none' for 'other'
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 2 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
 hbackup.log-6:
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: aClient.vista
-2009-08-07 06:05:04 missing.cpp:142 VERB  Reading list of problematic checksums
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: aClient.vista
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: C:/Test Dir
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: aClient.vista
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'client.xp' using protocol 'smb'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: client.xp
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: client.xp
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: C:/Test Dir
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: client.xp
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'myClient' using protocol 'nfs'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: myClient
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: myClient
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: /home/User/test
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'aClient.vista'
+2009-08-07 06:05:04 missing.cpp:141 VERB  Reading list of problematic checksums
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'aClient.vista'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'aClient.vista'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'client.xp' using protocol 'smb'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'client.xp'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'client.xp'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'client.xp'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'myClient' using protocol 'nfs'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'myClient'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'myClient'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path '/home/User/test'
 2009-08-07 06:05:04 paths.cpp:168 INFO  Cf f    /home/User/test/dir/file3.txt
-2009-08-07 06:05:04 owner.cpp:367 VERB  Register modified: myClient
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: myClient
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'myClient.xp' using protocol 'smb'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: myClient.xp
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: myClient.xp
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: C:/Test Dir
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: myClient.xp
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: myhost
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: myhost
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: test1
+2009-08-07 06:05:04 owner.cpp:363 VERB  Register modified for 'myClient'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'myClient'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'myClient.xp' using protocol 'smb'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'myClient.xp'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'myClient.xp'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'myClient.xp'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'myhost'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'myhost'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'test1'
 2009-08-07 06:05:04 paths.cpp:168 INFO  Rf f    test1/cvs/CVS/Root
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/CVS/Whatever
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/cvs/CVS/Wherever
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/dir space/CVS/Whatever
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/dir space/file other
-2009-08-07 06:05:04 cvs_parser.cpp:66 WARN  test1/cvs/dirbad: Directory should be under CVS control
+2009-08-07 06:05:04 cvs_parser.cpp:66 WARN  Directory 'test1/cvs/dirbad' should be under CVS control
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/dirbad/fileoth
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/cvs/dirbad/fileutd
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/cvs/diroth
@@ -12199,7 +12199,7 @@ hbackup.log-6:
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/svn/dir space/.svn/props
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/svn/dir space/.svn/text-base
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/svn/dir space/.svn/tmp
-2009-08-07 06:05:04 svn_parser.cpp:95 WARN  test1/svn/dirbad: Directory should be under Subversion control
+2009-08-07 06:05:04 svn_parser.cpp:95 WARN  Directory 'test1/svn/dirbad' should be under Subversion control
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/svn/dirbad/fileoth
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/svn/dirbad/fileutd
 2009-08-07 06:05:04 paths.cpp:184 VERB  Id p    test1/svn/diroth
@@ -12214,142 +12214,142 @@ hbackup.log-6:
 2009-08-07 06:05:04 paths.cpp:184 VERB  If p    test1/svn/fileutd.h
 2009-08-07 06:05:04 paths.cpp:184 VERB  If f    test1/testfile~
 2009-08-07 06:05:04 list.cpp:495 INFO  D       test1/testfile
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: test2
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path 'test2'
 2009-08-07 06:05:04 paths.cpp:168 INFO  Mf zr   test2/testfile2
 2009-08-07 06:05:04 paths.cpp:184 VERB  If f    test2/testfile~
-2009-08-07 06:05:04 owner.cpp:367 VERB  Register modified: myhost
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: myhost
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'newClient' using protocol 'ssh'
-2009-08-07 06:05:04 clients.cpp:421 INFO  Backing up client: newClient
-2009-08-07 06:05:04 db.cpp:672 VERB  Database open r/w: newClient
-2009-08-07 06:05:04 clients.cpp:437 INFO  Backing up path: /home/Blah/test
-2009-08-07 06:05:04 db.cpp:683 VERB  Database closed: newClient
-2009-08-07 06:05:04 clients.cpp:369 INFO  Trying client 'other' using protocol 'none'
-2009-08-07 06:05:04 clients.cpp:389 ERROR Protocol not supported 'none' for 'other'
+2009-08-07 06:05:04 owner.cpp:363 VERB  Register modified for 'myhost'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'myhost'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'newClient' using protocol 'ssh'
+2009-08-07 06:05:04 clients.cpp:419 INFO  Backing up client 'newClient'
+2009-08-07 06:05:04 db.cpp:659 VERB  Database open r/w for 'newClient'
+2009-08-07 06:05:04 clients.cpp:434 INFO  Backing up path '/home/Blah/test'
+2009-08-07 06:05:04 db.cpp:668 VERB  Database closed for 'newClient'
+2009-08-07 06:05:04 clients.cpp:366 INFO  Trying client 'other' using protocol 'none'
+2009-08-07 06:05:04 clients.cpp:386 ERROR Protocol not supported 'none' for 'other'
 2009-08-07 06:05:04 missing.cpp:93 INFO  Missing checksums list updated
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 2 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 2 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
 hbackup.log-7:
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: aClient.vista
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: client.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myhost
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: newClient
-2009-08-07 06:05:04 db.cpp:520 VERB  Found 20 checksums
-2009-08-07 06:05:04 db.cpp:524 VERB  Crawling through DB
-2009-08-07 06:05:04 data.cpp:763 WARN  dddddddddddddddddddddddddddddddd-0: Setting missing metadata
-2009-08-07 06:05:04 data.cpp:825 VERB  Found 21 valid and 0 broken data files
-2009-08-07 06:05:04 db.cpp:587 INFO  Obsolete checksum(s): 3
-2009-08-07 06:05:04 missing.cpp:260 WARN  Problematic checksum(s): 3
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'aClient.vista'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'client.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myhost'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'newClient'
+2009-08-07 06:05:04 db.cpp:512 VERB  Found 20 checksum(s)
+2009-08-07 06:05:04 db.cpp:515 VERB  Crawling through DB
+2009-08-07 06:05:04 data.cpp:758 WARN  Setting missing metadata for dddddddddddddddddddddddddddddddd-0
+2009-08-07 06:05:04 data.cpp:813 VERB  Found 21 valid and 0 broken data file(s)
+2009-08-07 06:05:04 db.cpp:577 INFO  Obsolete checksum(s): 3
+2009-08-07 06:05:04 missing.cpp:254 WARN  Problematic checksum(s): 3
 2009-08-07 06:05:04 missing.cpp:93 INFO  Missing checksums list updated
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 3 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: aClient.vista
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: client.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myhost
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: newClient
-2009-08-07 06:05:04 db.cpp:520 VERB  Found 20 checksums
-2009-08-07 06:05:04 db.cpp:524 VERB  Crawling through DB
-2009-08-07 06:05:04 data.cpp:825 VERB  Found 21 valid and 0 broken data files
-2009-08-07 06:05:04 db.cpp:587 INFO  Obsolete checksum(s): 3
-2009-08-07 06:05:04 missing.cpp:260 WARN  Problematic checksum(s): 3
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 3 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'aClient.vista'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'client.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myhost'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'newClient'
+2009-08-07 06:05:04 db.cpp:512 VERB  Found 20 checksum(s)
+2009-08-07 06:05:04 db.cpp:515 VERB  Crawling through DB
+2009-08-07 06:05:04 data.cpp:813 VERB  Found 21 valid and 0 broken data file(s)
+2009-08-07 06:05:04 db.cpp:577 INFO  Obsolete checksum(s): 3
+2009-08-07 06:05:04 missing.cpp:254 WARN  Problematic checksum(s): 3
 2009-08-07 06:05:04 missing.cpp:93 INFO  Missing checksums list updated
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 3 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: aClient.vista
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: client.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myhost
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: newClient
-2009-08-07 06:05:04 db.cpp:520 VERB  Found 20 checksums
-2009-08-07 06:05:04 db.cpp:524 VERB  Crawling through DB
-2009-08-07 06:05:04 data.cpp:825 VERB  Found 18 valid and 0 broken data files
-2009-08-07 06:05:04 missing.cpp:260 WARN  Problematic checksum(s): 3
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 3 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'aClient.vista'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'client.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myhost'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'newClient'
+2009-08-07 06:05:04 db.cpp:512 VERB  Found 20 checksum(s)
+2009-08-07 06:05:04 db.cpp:515 VERB  Crawling through DB
+2009-08-07 06:05:04 data.cpp:813 VERB  Found 18 valid and 0 broken data file(s)
+2009-08-07 06:05:04 missing.cpp:254 WARN  Problematic checksum(s): 3
 2009-08-07 06:05:04 missing.cpp:93 INFO  Missing checksums list updated
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 3 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 3 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
 hbackup.log-8:
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: aClient.vista
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: client.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myhost
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: newClient
-2009-08-07 06:05:04 db.cpp:520 VERB  Found 20 checksums
-2009-08-07 06:05:04 db.cpp:524 VERB  Crawling through DB
-2009-08-07 06:05:04 data.cpp:825 VERB  Found 22 valid and 0 broken data files
-2009-08-07 06:05:04 db.cpp:587 INFO  Obsolete checksum(s): 4
-2009-08-07 06:05:04 missing.cpp:260 WARN  Problematic checksum(s): 3
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'aClient.vista'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'client.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myhost'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'newClient'
+2009-08-07 06:05:04 db.cpp:512 VERB  Found 20 checksum(s)
+2009-08-07 06:05:04 db.cpp:515 VERB  Crawling through DB
+2009-08-07 06:05:04 data.cpp:813 VERB  Found 22 valid and 0 broken data file(s)
+2009-08-07 06:05:04 db.cpp:577 INFO  Obsolete checksum(s): 4
+2009-08-07 06:05:04 missing.cpp:254 WARN  Problematic checksum(s): 3
 2009-08-07 06:05:04 missing.cpp:93 INFO  Missing checksums list updated
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 3 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: aClient.vista
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: client.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myhost
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: newClient
-2009-08-07 06:05:04 db.cpp:520 VERB  Found 20 checksums
-2009-08-07 06:05:04 db.cpp:524 VERB  Crawling through DB
-2009-08-07 06:05:04 data.cpp:825 VERB  Found 22 valid and 0 broken data files
-2009-08-07 06:05:04 db.cpp:587 INFO  Obsolete checksum(s): 4
-2009-08-07 06:05:04 missing.cpp:260 WARN  Problematic checksum(s): 3
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 3 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'aClient.vista'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'client.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myhost'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'newClient'
+2009-08-07 06:05:04 db.cpp:512 VERB  Found 20 checksum(s)
+2009-08-07 06:05:04 db.cpp:515 VERB  Crawling through DB
+2009-08-07 06:05:04 data.cpp:813 VERB  Found 22 valid and 0 broken data file(s)
+2009-08-07 06:05:04 db.cpp:577 INFO  Obsolete checksum(s): 4
+2009-08-07 06:05:04 missing.cpp:254 WARN  Problematic checksum(s): 3
 2009-08-07 06:05:04 missing.cpp:93 INFO  Missing checksums list updated
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 3 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: aClient.vista
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: client.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myhost
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: newClient
-2009-08-07 06:05:04 db.cpp:520 VERB  Found 20 checksums
-2009-08-07 06:05:04 db.cpp:524 VERB  Crawling through DB
-2009-08-07 06:05:04 data.cpp:825 VERB  Found 18 valid and 0 broken data files
-2009-08-07 06:05:04 missing.cpp:260 WARN  Problematic checksum(s): 3
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 3 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'aClient.vista'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'client.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myhost'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'newClient'
+2009-08-07 06:05:04 db.cpp:512 VERB  Found 20 checksum(s)
+2009-08-07 06:05:04 db.cpp:515 VERB  Crawling through DB
+2009-08-07 06:05:04 data.cpp:813 VERB  Found 18 valid and 0 broken data file(s)
+2009-08-07 06:05:04 missing.cpp:254 WARN  Problematic checksum(s): 3
 2009-08-07 06:05:04 missing.cpp:93 INFO  Missing checksums list updated
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 3 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 3 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
 hbackup.log-9:
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: aClient.vista
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: client.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myhost
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: newClient
-2009-08-07 06:05:04 db.cpp:520 VERB  Found 20 checksums
-2009-08-07 06:05:04 db.cpp:524 VERB  Crawling through DB
-2009-08-07 06:05:04 data.cpp:692 ERROR 59ca0efa9f5633cb0371bbc0355478d8-0: Data missing
-2009-08-07 06:05:04 data.cpp:754 INFO  b90f8fa56ea1d39881d4a199c7a81d35-0: Removed corrupted data
-2009-08-07 06:05:04 data.cpp:825 VERB  Found 19 valid and 2 broken data files
-2009-08-07 06:05:04 db.cpp:587 INFO  Obsolete checksum(s): 1
-2009-08-07 06:05:04 missing.cpp:260 WARN  Problematic checksum(s): 3
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'aClient.vista'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'client.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myhost'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'newClient'
+2009-08-07 06:05:04 db.cpp:512 VERB  Found 20 checksum(s)
+2009-08-07 06:05:04 db.cpp:515 VERB  Crawling through DB
+2009-08-07 06:05:04 data.cpp:688 ERROR Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
+2009-08-07 06:05:04 data.cpp:749 INFO  Removed corrupted data for b90f8fa56ea1d39881d4a199c7a81d35-0
+2009-08-07 06:05:04 data.cpp:813 VERB  Found 19 valid and 2 broken data file(s)
+2009-08-07 06:05:04 db.cpp:577 INFO  Obsolete checksum(s): 1
+2009-08-07 06:05:04 missing.cpp:254 WARN  Problematic checksum(s): 3
 2009-08-07 06:05:04 missing.cpp:93 INFO  Missing checksums list updated
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 3 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
-2009-08-07 06:05:04 db.cpp:235 VERB  Database open in read/write mode
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: aClient.vista
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: client.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myClient.xp
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: myhost
-2009-08-07 06:05:04 db.cpp:492 VERB  Reading list: newClient
-2009-08-07 06:05:04 db.cpp:520 VERB  Found 20 checksums
-2009-08-07 06:05:04 db.cpp:524 VERB  Crawling through DB
-2009-08-07 06:05:04 data.cpp:825 VERB  Found 19 valid and 0 broken data files
-2009-08-07 06:05:04 db.cpp:587 INFO  Obsolete checksum(s): 1
-2009-08-07 06:05:04 missing.cpp:260 WARN  Problematic checksum(s): 3
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 3 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed
+2009-08-07 06:05:04 db.cpp:230 VERB  Database open in read/write mode
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'aClient.vista'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'client.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myClient.xp'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'myhost'
+2009-08-07 06:05:04 db.cpp:488 VERB  Reading list for 'newClient'
+2009-08-07 06:05:04 db.cpp:512 VERB  Found 20 checksum(s)
+2009-08-07 06:05:04 db.cpp:515 VERB  Crawling through DB
+2009-08-07 06:05:04 data.cpp:813 VERB  Found 19 valid and 0 broken data file(s)
+2009-08-07 06:05:04 db.cpp:577 INFO  Obsolete checksum(s): 1
+2009-08-07 06:05:04 missing.cpp:254 WARN  Problematic checksum(s): 3
 2009-08-07 06:05:04 missing.cpp:93 INFO  Missing checksums list updated
-2009-08-07 06:05:04 missing.cpp:128 INFO  List of problematic checksums contains 3 item(s)
-2009-08-07 06:05:04 db.cpp:258 VERB  Database closed
+2009-08-07 06:05:04 missing.cpp:127 INFO  List of problematic checksums contains 3 items
+2009-08-07 06:05:04 db.cpp:253 VERB  Database closed

@@ -8,7 +8,7 @@ Global filter
  --> Protocol: file
  --> Config: etc/doesnotexist
  --> Expiry: none
-Database initialized: test_db
+Database initialized in 'test_db'
 Database open in read/write mode
  -> Reading client configuration file: localhost
 Error: failed to open configuration file 'etc/doesnotexist': No such file or directory
@@ -335,11 +335,11 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
  ----> No error if same file fails copy again
-Backing up client: myClient
+Backing up client 'myClient'
 Reading list of problematic checksums
-Register created: myClient
-Database open r/w: myClient
-Backing up path: /home/User/test
+Register created for 'myClient'
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
 Adding compressed data for d41d8cd98f00b204e9800998ecf8427e-0
@@ -348,14 +348,14 @@ Ad      /home/User/test/dir
 dir\r
 Adding compressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Af z    /home/User/test/dir/file3.txt
-Backing up path: /home/User/test2
+Backing up path '/home/User/test2'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
 Replacing with uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
 Af fr   /home/User/test2/File3.txt
 Af ~    /home/User/test2/File4.txt
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
  -> umount -fl test_db/mount
 Trying client 'myClient2' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM //myClient/C$ test_db/mount
@@ -379,10 +379,10 @@ Trying client 'otherClient' using protocol 'ssh'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
-Backing up client: otherClient
-Register created: otherClient
-Database open r/w: otherClient
-Backing up path: /home/Blah/test
+Backing up client 'otherClient'
+Register created for 'otherClient'
+Database open r/w for 'otherClient'
+Backing up path '/home/Blah/test'
  -> fusermount -u test_db/mount
  -> echo barZ? | sshfs -o password_stdin foo@otherClient:/home/Blah/test test_db/mount
 Adding compressed data for b8bbb1294db5d59366b7d1827e2158d6-0
@@ -391,8 +391,8 @@ Ad      /home/Blah/test/dir
 dir\r
 Adding compressed data for 8a61083e712200a30c6ccf5f5c697b76-0
 Af z    /home/Blah/test/dir/file3.txt
-Register modified: otherClient
-Database closed: otherClient
+Register modified for 'otherClient'
+Database closed for 'otherClient'
  -> fusermount -u test_db/mount
 Trying client 'otherClient1' using protocol 'ssh'
  -> echo barZ? | sshfs -o password_stdin otherClient:/home/Blah test_db/mount
@@ -411,18 +411,18 @@ Trying client 'otherClient1' using protocol 'ssh'
  -----> Condition: name File2.txt
  -----> Condition: path dir/file3.txt
  ----> Compress filter: compress
-Backing up client: otherClient1
-Register created: otherClient1
-Database open r/w: otherClient1
-Backing up path: /home/Blah/test
+Backing up client 'otherClient1'
+Register created for 'otherClient1'
+Database open r/w for 'otherClient1'
+Backing up path '/home/Blah/test'
  -> fusermount -u test_db/mount
  -> echo barZ? | sshfs -o password_stdin otherClient:/home/Blah/test test_db/mount
 Af ~    /home/Blah/test/File2.txt
 Ad      /home/Blah/test/dir
 dir\r
 Af ~    /home/Blah/test/dir/file3.txt
-Register modified: otherClient1
-Database closed: otherClient1
+Register modified for 'otherClient1'
+Database closed for 'otherClient1'
  -> fusermount -u test_db/mount
 Trying client 'otherClient2' using protocol 'ssh'
  -> sshfs foo@otherClient:/home/Blah test_db/mount
@@ -492,11 +492,11 @@ Database open in read/write mode
  ---> Path: test2
  ----> Ignore filters:
  -----> backup
-Backing up client: testhost
+Backing up client 'testhost'
 Reading list of problematic checksums
-Register created: testhost
-Database open r/w: testhost
-Backing up path: test1
+Register created for 'testhost'
+Database open r/w for 'testhost'
+Backing up path 'test1'
 Done:   5.0%\r
 Done:  10.0%\r
 Done:  15.0%\r
@@ -551,7 +551,7 @@ If p    test1/cvs/dir space/file other
 Af ~    test1/cvs/dir space/file space
 Ad      test1/cvs/dirbad
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
@@ -596,7 +596,7 @@ svn\r
  --> test1/svn/fileoth: i
 Ad      test1/svn/.svn
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Adding compressed data for 5173c1e86196c05c124452a401e92a22-0
@@ -609,7 +609,7 @@ Ad      test1/svn/dir space
 svn/dir space\r
 Ad      test1/svn/dir space/.svn
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
 Adding compressed data for f2b4c9d3f0830dea53972d208979feb0-0
 Af z    test1/svn/dir space/.svn/entries
@@ -620,7 +620,7 @@ Id p    test1/svn/dir space/.svn/tmp
 Af ~    test1/svn/dir space/file space
 Ad      test1/svn/dirbad
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
@@ -628,7 +628,7 @@ Ad      test1/svn/dirutd
 svn/dirutd\r
 Ad      test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
-control dir: test1/svn/dirutd/.svn
+Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
 Adding compressed data for 33b426a9cdc8a98729e5dbe6d5feb619-0
 Af z    test1/svn/dirutd/.svn/entries
@@ -651,7 +651,7 @@ Af z    test1/testfile
 If f    test1/testfile~
 Al      test1/testlink
 Ap      test1/testpipe
-Backing up path: test2
+Backing up path 'test2'
 Ad      test2/testdir
 testdir\r
 Adding uncompressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
@@ -662,8 +662,8 @@ Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
 Af f    test2/testfile2.gz
 If f    test2/testfile~
 Al      test2/testlink
-Register modified: testhost
-Database closed: testhost
+Register modified for 'testhost'
+Database closed for 'testhost'
 Database closed
 >List 1 client(s):
  -> Client: testhost
@@ -704,10 +704,10 @@ Database open in read/write mode
  ---> Path: test2
  ----> Ignore filters:
  -----> backup
-Backing up client: testhost
+Backing up client 'testhost'
 Reading list of problematic checksums
-Database open r/w: testhost
-Backing up path: test1
+Database open r/w for 'testhost'
+Backing up path 'test1'
 cvs\r
  -> Parsing CVS entries
  --> dir space: D
@@ -726,7 +726,7 @@ cvs/dir space/CVS\r
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
@@ -751,7 +751,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Id p    test1/svn/.svn/prop-base
@@ -760,20 +760,20 @@ Id p    test1/svn/.svn/text-base
 Id p    test1/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
 Id p    test1/svn/dir space/.svn/prop-base
 Id p    test1/svn/dir space/.svn/props
 Id p    test1/svn/dir space/.svn/text-base
 Id p    test1/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
 svn/dirutd\r
 svn/dirutd/.svn\r
-control dir: test1/svn/dirutd/.svn
+Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
 Id p    test1/svn/dirutd/.svn/prop-base
 Id p    test1/svn/dirutd/.svn/props
@@ -785,10 +785,10 @@ If p    test1/svn/fileoth
 If p    test1/svn/fileutd.h
 testdir\r
 If f    test1/testfile~
-Backing up path: test2
+Backing up path 'test2'
 testdir\r
 If f    test2/testfile~
-Database closed: testhost
+Database closed for 'testhost'
 Database closed
 >List 1 client(s):
  -> Client: testhost
@@ -821,19 +821,19 @@ Trying client 'myhost2' using protocol 'smb'
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test Dir
-Backing up client: myhost2
+Backing up client 'myhost2'
 Reading list of problematic checksums
-Register created: myhost2
-Database open r/w: myhost2
-Backing up path: C:/Test Dir
+Register created for 'myhost2'
+Database open r/w for 'myhost2'
+Backing up path 'C:/Test Dir'
 Ad      C:/Test Dir/My Dir
 My Dir\r
 Adding uncompressed data for b026324c6904b2a9cb4b88d6d61c81d1-0
 Af f    C:/Test Dir/My Dir/a File.TXT
 Af ~    C:/Test Dir/My Dir/another File.TXT
 Af ~    C:/Test Dir/My File.TXT
-Register modified: myhost2
-Database closed: myhost2
+Register modified for 'myhost2'
+Database closed for 'myhost2'
  -> umount -fl test_db/mount
 Database closed
 Database open in read/write mode
@@ -846,11 +846,11 @@ Trying client 'myhost3' using protocol 'nfs'
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
-Backing up client: myhost3
+Backing up client 'myhost3'
 Reading list of problematic checksums
-Register created: myhost3
-Database open r/w: myhost3
-Backing up path: /home/User/test
+Register created for 'myhost3'
+Database open r/w for 'myhost3'
+Backing up path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
 Af ~    /home/User/test/File2.txt
@@ -858,8 +858,8 @@ Ad      /home/User/test/dir
 dir\r
 Replacing with uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Af fr   /home/User/test/dir/file3.txt
-Register modified: myhost3
-Database closed: myhost3
+Register modified for 'myhost3'
+Database closed for 'myhost3'
  -> umount -fl test_db/mount
 Database closed
 Database open in read/write mode
@@ -870,11 +870,11 @@ Database open in read/write mode
  --> Expiry: none
  --> Paths: 
  ---> Path: test1/cvs
-Backing up client: myhost
+Backing up client 'myhost'
 Reading list of problematic checksums
-Register created: myhost
-Database open r/w: myhost
-Backing up path: test1/cvs
+Register created for 'myhost'
+Database open r/w for 'myhost'
+Backing up path 'test1/cvs'
 Ad      test1/cvs/CVS
 CVS\r
 Af ~    test1/cvs/CVS/Entries
@@ -917,8 +917,8 @@ Af ~    test1/cvs/filemod.o
 Af ~    test1/cvs/filenew.c
 Af ~    test1/cvs/fileoth
 Af ~    test1/cvs/fileutd.h
-Register modified: myhost
-Database closed: myhost
+Register modified for 'myhost'
+Database closed for 'myhost'
 Database closed
 Database open in read-only mode
 
@@ -933,20 +933,20 @@ Records found: 7
  testhost
 
 Paths in 'myhost' client in DB
-Database open r-o: myhost
-Database closed: myhost
+Database open r-o for 'myhost'
+Database closed for 'myhost'
 Records found: 1
  test1/
 
 Paths in 'myhost' client under test1 in DB
-Database open r-o: myhost
-Database closed: myhost
+Database open r-o for 'myhost'
+Database closed for 'myhost'
 Records found: 1
  test1/cvs/
 
 Paths in 'myhost' client under test1/cvs/ in DB
-Database open r-o: myhost
-Database closed: myhost
+Database open r-o for 'myhost'
+Database closed for 'myhost'
 Records found: 9
  test1/cvs/CVS/
  test1/cvs/dir space/
@@ -959,20 +959,20 @@ Records found: 9
  test1/cvs/fileutd.h
 
 Paths in 'myhost' client under test1/cvs/diroth in DB
-Database open r-o: myhost
-Database closed: myhost
+Database open r-o for 'myhost'
+Database closed for 'myhost'
 Records found: 0
 
 Paths in 'myhost' client under test1/cvs/dirutd in DB
-Database open r-o: myhost
-Database closed: myhost
+Database open r-o for 'myhost'
+Database closed for 'myhost'
 Records found: 3
  test1/cvs/dirutd/CVS/
  test1/cvs/dirutd/fileoth
  test1/cvs/dirutd/fileutd
 
 Paths in 'not_here' client
-Error: not_here: Directory does not exist, aborting
+Error: Directory does not exist 'not_here', aborting
 Database closed
 Create list of clients
 >List 3 client(s):
@@ -996,10 +996,10 @@ Database open in read/write mode
  --> Expiry: none
  --> Paths: 
  ---> Path: test1/cvs
-Backing up client: myhost
+Backing up client 'myhost'
 Reading list of problematic checksums
-Database open r/w: myhost
-Backing up path: test1/cvs
+Database open r/w for 'myhost'
+Backing up path 'test1/cvs'
 CVS\r
 CVS/Wherever\r
 dir space   \r
@@ -1008,7 +1008,7 @@ dirbad       \r
 diroth\r
 dirutd\r
 dirutd/CVS\r
-Database closed: myhost
+Database closed for 'myhost'
 Trying client 'myhost2' using protocol 'smb'
  -> mount -t cifs -o ro,nocase //myhost2/C$ test_db/mount
  -> Reading client configuration file: myhost2
@@ -1018,11 +1018,11 @@ Trying client 'myhost2' using protocol 'smb'
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test Dir
-Backing up client: myhost2
-Database open r/w: myhost2
-Backing up path: C:/Test Dir
+Backing up client 'myhost2'
+Database open r/w for 'myhost2'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: myhost2
+Database closed for 'myhost2'
  -> umount -fl test_db/mount
 Trying client 'myhost3' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
@@ -1033,13 +1033,13 @@ Trying client 'myhost3' using protocol 'nfs'
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
-Backing up client: myhost3
-Database open r/w: myhost3
-Backing up path: /home/User/test
+Backing up client 'myhost3'
+Database open r/w for 'myhost3'
+Backing up path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
 dir\r
-Database closed: myhost3
+Database closed for 'myhost3'
  -> umount -fl test_db/mount
 Database closed
 Create list of clients
@@ -1062,12 +1062,12 @@ Trying client 'myhost2' using protocol 'smb'
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test Dir
-Backing up client: myhost2
+Backing up client 'myhost2'
 Reading list of problematic checksums
-Database open r/w: myhost2
-Backing up path: C:/Test Dir
+Database open r/w for 'myhost2'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: myhost2
+Database closed for 'myhost2'
  -> umount -fl test_db/mount
 Trying client 'myhost3' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
@@ -1078,13 +1078,13 @@ Trying client 'myhost3' using protocol 'nfs'
  --> Expiry: none
  --> Paths: 
  ---> Path: /home/User/test
-Backing up client: myhost3
-Database open r/w: myhost3
-Backing up path: /home/User/test
+Backing up client 'myhost3'
+Database open r/w for 'myhost3'
+Backing up path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
 dir\r
-Database closed: myhost3
+Database closed for 'myhost3'
  -> umount -fl test_db/mount
 Database closed
 Create list of clients
@@ -1096,55 +1096,6 @@ Create list of clients
  -> Client: myhost3
  --> Protocol: nfs
  --> Config: /home/User/testhost3.list
- --> Expiry: none
-Database open in read/write mode
- -> Reading client configuration file: myhost
- -> Client: myhost
- --> Protocol: file
- --> Config: etc/testhost.list
- --> Expiry: none
- --> Paths: 
- ---> Path: test1/cvs
-Backing up client: myhost
-Reading list of problematic checksums
-Database open r/w: myhost
-Backing up path: test1/cvs
-CVS\r
-CVS/Wherever\r
-dir space   \r
-dir space/CVS\r
-dirbad       \r
-diroth\r
-dirutd\r
-dirutd/CVS\r
-Database closed: myhost
-Trying client 'myhost3' using protocol 'nfs'
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
- -> Reading client configuration file: myhost3
- -> Client: myhost3
- --> Protocol: nfs
- --> Config: /home/User/testhost3.list
- --> Expiry: none
- --> Paths: 
- ---> Path: /home/User/test
-Backing up client: myhost3
-Database open r/w: myhost3
-Backing up path: /home/User/test
- -> umount -fl test_db/mount
- -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
-dir\r
-Database closed: myhost3
- -> umount -fl test_db/mount
-Database closed
-Create list of clients
->List 2 client(s):
- -> Client: myhost
- --> Protocol: file
- --> Config: etc/testhost.list
- --> Expiry: none
- -> Client: myhost2
- --> Protocol: smb
- --> Config: C:/Backup/testhost2.list
  --> Expiry: none
 Database open in read/write mode
  -> Reading client configuration file: myhost
@@ -1154,10 +1105,10 @@ Database open in read/write mode
  --> Expiry: none
  --> Paths: 
  ---> Path: test1/cvs
-Backing up client: myhost
+Backing up client 'myhost'
 Reading list of problematic checksums
-Database open r/w: myhost
-Backing up path: test1/cvs
+Database open r/w for 'myhost'
+Backing up path 'test1/cvs'
 CVS\r
 CVS/Wherever\r
 dir space   \r
@@ -1166,7 +1117,56 @@ dirbad       \r
 diroth\r
 dirutd\r
 dirutd/CVS\r
-Database closed: myhost
+Database closed for 'myhost'
+Trying client 'myhost3' using protocol 'nfs'
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User test_db/mount
+ -> Reading client configuration file: myhost3
+ -> Client: myhost3
+ --> Protocol: nfs
+ --> Config: /home/User/testhost3.list
+ --> Expiry: none
+ --> Paths: 
+ ---> Path: /home/User/test
+Backing up client 'myhost3'
+Database open r/w for 'myhost3'
+Backing up path '/home/User/test'
+ -> umount -fl test_db/mount
+ -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myhost3:/home/User/test test_db/mount
+dir\r
+Database closed for 'myhost3'
+ -> umount -fl test_db/mount
+Database closed
+Create list of clients
+>List 2 client(s):
+ -> Client: myhost
+ --> Protocol: file
+ --> Config: etc/testhost.list
+ --> Expiry: none
+ -> Client: myhost2
+ --> Protocol: smb
+ --> Config: C:/Backup/testhost2.list
+ --> Expiry: none
+Database open in read/write mode
+ -> Reading client configuration file: myhost
+ -> Client: myhost
+ --> Protocol: file
+ --> Config: etc/testhost.list
+ --> Expiry: none
+ --> Paths: 
+ ---> Path: test1/cvs
+Backing up client 'myhost'
+Reading list of problematic checksums
+Database open r/w for 'myhost'
+Backing up path 'test1/cvs'
+CVS\r
+CVS/Wherever\r
+dir space   \r
+dir space/CVS\r
+dirbad       \r
+diroth\r
+dirutd\r
+dirutd/CVS\r
+Database closed for 'myhost'
 Trying client 'myhost2' using protocol 'smb'
  -> mount -t cifs -o ro,nocase //myhost2/C$ test_db/mount
  -> Reading client configuration file: myhost2
@@ -1176,11 +1176,11 @@ Trying client 'myhost2' using protocol 'smb'
  --> Expiry: none
  --> Paths: 
  ---> Path: C:/Test Dir
-Backing up client: myhost2
-Database open r/w: myhost2
-Backing up path: C:/Test Dir
+Backing up client 'myhost2'
+Database open r/w for 'myhost2'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: myhost2
+Database closed for 'myhost2'
  -> umount -fl test_db/mount
 Database closed
 Second mount fails
@@ -1207,18 +1207,18 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
  ----> No error if same file fails copy again
-Backing up client: myClient
+Backing up client 'myClient'
 Reading list of problematic checksums
-Database open r/w: myClient
-Backing up path: /home/User/test
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
 dir\r
-Backing up path: /home/User/test2
+Backing up path '/home/User/test2'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
 Error: Connection timed out connecting to client 'myClient', aborting client
-Database closed: myClient
+Database closed for 'myClient'
 Database closed
 First mount fails
 >List 1 client(s):
@@ -1244,14 +1244,14 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
  ----> No error if same file fails copy again
-Backing up client: myClient
+Backing up client 'myClient'
 Reading list of problematic checksums
-Database open r/w: myClient
-Backing up path: /home/User/test
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
 Error: Connection timed out connecting to client 'myClient', aborting client
-Database closed: myClient
+Database closed for 'myClient'
 Database closed
 Works again
 >List 1 client(s):
@@ -1277,17 +1277,17 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
  ----> No error if same file fails copy again
-Backing up client: myClient
+Backing up client 'myClient'
 Reading list of problematic checksums
-Database open r/w: myClient
-Backing up path: /home/User/test
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/mount
 dir\r
-Backing up path: /home/User/test2
+Backing up path '/home/User/test2'
  -> umount -fl test_db/mount
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test2 test_db/mount
-Database closed: myClient
+Database closed for 'myClient'
  -> umount -fl test_db/mount
 Database closed
 Test with dual boot client
@@ -1326,18 +1326,18 @@ Trying client 'myClient.xp' using protocol 'smb'
  -----> Condition: size< 4294967296
  -----> Condition: mode& 777
  -----> Condition: mode= 644
-Backing up client: myClient.xp
+Backing up client 'myClient.xp'
 Reading list of problematic checksums
-Register created: myClient.xp
-Database open r/w: myClient.xp
-Backing up path: C:/Test Dir
+Register created for 'myClient.xp'
+Database open r/w for 'myClient.xp'
+Backing up path 'C:/Test Dir'
 Ad      C:/Test Dir/My Dir
 My Dir\r
 Af ~    C:/Test Dir/My Dir/a File.TXT
 Af ~    C:/Test Dir/My Dir/another File.TXT
 Af ~    C:/Test Dir/My File.TXT
-Register modified: myClient.xp
-Database closed: myClient.xp
+Register modified for 'myClient.xp'
+Database closed for 'myClient.xp'
  -> umount -fl test_db/mount
 Database closed
 

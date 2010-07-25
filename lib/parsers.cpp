@@ -73,7 +73,7 @@ Parser* Parsers::createParser(const string& name, const string& mode_str) {
       mode = Parser::others;
       break;
     default:
-      out(error, "Undefined parser mode", -1, mode_str.c_str());
+      hlog_error("Undefined parser mode '%s'", mode_str.c_str());
       return NULL;
   }
 
@@ -90,7 +90,7 @@ Parser* Parsers::createParser(const string& name, const string& mode_str) {
       return (*i)->createInstance(mode);
     }
   }
-  out(error, "Unsupported parser", -1, name.c_str());
+  hlog_error("Unsupported parser '%s'", name.c_str());
   return NULL;
 }
 

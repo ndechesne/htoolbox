@@ -127,10 +127,10 @@ HBackup (c) 2006-2010 Hervé Fache
 
 List clients (missing DB path)
  -> Reading configuration file: etc/hbackup.conf
-Error: Given DB path does not exist: test_db
+Error: Given DB path does not exist 'test_db'
 List clients (empty DB path)
  -> Reading configuration file: etc/hbackup.conf
-Error: Given DB path does not contain a database: test_db
+Error: Given DB path does not contain a database 'test_db'
 Backup, DB missing
  -> Reading configuration file: etc/hbackup.conf
  -> Log path: hbackup.log
@@ -243,7 +243,7 @@ Backup, DB missing
  -> Ignore filters:
  --> nothing
 Backing up in server mode
-Error: Given DB path does not exist: test_db
+Error: Given DB path does not exist 'test_db'
 Typical backup, initialize DB
  -> Reading configuration file: etc/hbackup.conf
  -> Log path: hbackup.log
@@ -356,14 +356,14 @@ Typical backup, initialize DB
  -> Ignore filters:
  --> nothing
 Backing up in server mode
-Database initialized: test_db
+Database initialized in 'test_db'
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
-Backing up client: aClient.vista
+Backing up client 'aClient.vista'
 Reading list of problematic checksums
-Register created: aClient.vista
-Database open r/w: aClient.vista
-Backing up path: C:/Test Dir
+Register created for 'aClient.vista'
+Database open r/w for 'aClient.vista'
+Backing up path 'C:/Test Dir'
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 Ad      C:/Test Dir/My Dir
 My Dir\r
@@ -376,8 +376,8 @@ Af f    C:/Test Dir/My Dir/another File.TXT
 Checking data, sizes: f=0 z=0 (0)
 Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
 Af f    C:/Test Dir/My File.TXT
-Register modified: aClient.vista
-Database closed: aClient.vista
+Register modified for 'aClient.vista'
+Database closed for 'aClient.vista'
  -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -415,10 +415,10 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: client.xp
-Register created: client.xp
-Database open r/w: client.xp
-Backing up path: C:/Test Dir
+Backing up client 'client.xp'
+Register created for 'client.xp'
+Database open r/w for 'client.xp'
+Backing up path 'C:/Test Dir'
 Ad      C:/Test Dir/My Dir
 My Dir\r
 Checking data, sizes: f=2 z=22 (22)
@@ -427,8 +427,8 @@ Checking data, sizes: f=2 z=22 (22)
 Af ~    C:/Test Dir/My Dir/another File.TXT
 Checking data, sizes: f=0 z=0 (0)
 Af ~    C:/Test Dir/My File.TXT
-Register modified: client.xp
-Database closed: client.xp
+Register modified for 'client.xp'
+Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
@@ -450,10 +450,10 @@ Trying client 'myClient' using protocol 'nfs'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: myClient
-Register created: myClient
-Database open r/w: myClient
-Backing up path: /home/User/test
+Backing up client 'myClient'
+Register created for 'myClient'
+Database open r/w for 'myClient'
+Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 Checking data, sizes: f=0 z=0 (0)
@@ -463,8 +463,8 @@ dir\r
 Checking data, sizes: f=2 z=22 (22)
 Adding uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Af f    /home/User/test/dir/file3.txt
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase //myClient/C$ test_db/.mount/myClient.xp
@@ -499,10 +499,10 @@ Trying client 'myClient.xp' using protocol 'smb'
  -----> Condition: mode= 644
  ----> Ignore filters:
  -----> nothing
-Backing up client: myClient.xp
-Register created: myClient.xp
-Database open r/w: myClient.xp
-Backing up path: C:/Test Dir
+Backing up client 'myClient.xp'
+Register created for 'myClient.xp'
+Database open r/w for 'myClient.xp'
+Backing up path 'C:/Test Dir'
 Ad      C:/Test Dir/My Dir
 My Dir\r
 Checking data, sizes: f=2 z=22 (22)
@@ -511,8 +511,8 @@ Checking data, sizes: f=2 z=22 (22)
 Af ~    C:/Test Dir/My Dir/another File.TXT
 Checking data, sizes: f=0 z=0 (0)
 Af ~    C:/Test Dir/My File.TXT
-Register modified: myClient.xp
-Database closed: myClient.xp
+Register modified for 'myClient.xp'
+Database closed for 'myClient.xp'
  -> umount -fl test_db/.mount/myClient.xp
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -555,10 +555,10 @@ Database closed: myClient.xp
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: myhost
-Register created: myhost
-Database open r/w: myhost
-Backing up path: test1
+Backing up client 'myhost'
+Register created for 'myhost'
+Database open r/w for 'myhost'
+Backing up path 'test1'
 File copy progress:   5.0%\r
 File copy progress:  10.0%\r
 File copy progress:  15.0%\r
@@ -617,7 +617,7 @@ Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/cvs/dir space/file space
 Ad      test1/cvs/dirbad
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
@@ -670,7 +670,7 @@ svn\r
  --> test1/svn/fileoth: i
 Ad      test1/svn/.svn
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Checking data, sizes: f=602 z=260 (264)
@@ -684,7 +684,7 @@ Ad      test1/svn/dir space
 svn/dir space\r
 Ad      test1/svn/dir space/.svn
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
 Checking data, sizes: f=278 z=189 (191)
 Adding compressed data for f2b4c9d3f0830dea53972d208979feb0-0
@@ -697,7 +697,7 @@ Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/svn/dir space/file space
 Ad      test1/svn/dirbad
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
@@ -705,7 +705,7 @@ Ad      test1/svn/dirutd
 svn/dirutd\r
 Ad      test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
-control dir: test1/svn/dirutd/.svn
+Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
 Checking data, sizes: f=388 z=211 (214)
 Adding compressed data for 33b426a9cdc8a98729e5dbe6d5feb619-0
@@ -732,7 +732,7 @@ Af f    test1/testfile
 If f    test1/testfile~
 Al      test1/testlink
 Ap      test1/testpipe
-Backing up path: test2
+Backing up path 'test2'
 Ad      test2/testdir
 testdir\r
 Checking data, sizes: f=145408 z=176 (178)
@@ -746,8 +746,8 @@ Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
 Af f    test2/testfile2.gz
 If f    test2/testfile~
 Al      test2/testlink
-Register modified: myhost
-Database closed: myhost
+Register modified for 'myhost'
+Database closed for 'myhost'
 Trying client 'newClient' using protocol 'ssh'
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
  -> Reading client configuration file: newClient
@@ -768,10 +768,10 @@ Trying client 'newClient' using protocol 'ssh'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
-Backing up client: newClient
-Register created: newClient
-Database open r/w: newClient
-Backing up path: /home/Blah/test
+Backing up client 'newClient'
+Register created for 'newClient'
+Database open r/w for 'newClient'
+Backing up path '/home/Blah/test'
  -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 Checking data, sizes: f=5 z=25 (25)
@@ -782,8 +782,8 @@ dir\r
 Checking data, sizes: f=5 z=25 (25)
 Adding uncompressed data for 8a61083e712200a30c6ccf5f5c697b76-0
 Af f    /home/Blah/test/dir/file3.txt
-Register modified: newClient
-Database closed: newClient
+Register modified for 'newClient'
+Database closed for 'newClient'
  -> fusermount -u test_db/.mount/newClient
 Trying client 'other' using protocol 'none'
 Error: Protocol not supported 'none' for 'other'
@@ -940,12 +940,12 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: client.xp
+Backing up client 'client.xp'
 Reading list of problematic checksums
-Database open r/w: client.xp
-Backing up path: C:/Test Dir
+Database open r/w for 'client.xp'
+Backing up path 'C:/Test Dir'
 My Dir\r
-Database closed: client.xp
+Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
  -> Reading client configuration file: myhost
  -> Client: myhost
@@ -988,9 +988,9 @@ Database closed: client.xp
  ----> Ignore filters:
  -----> nothing
  -----> backup
-Backing up client: myhost
-Database open r/w: myhost
-Backing up path: test1
+Backing up client 'myhost'
+Database open r/w for 'myhost'
+Backing up path 'test1'
 cvs\r
  -> Parsing CVS entries
  --> dir space: D
@@ -1009,7 +1009,7 @@ cvs/dir space/CVS\r
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    test1/cvs/dirbad/fileoth
 If p    test1/cvs/dirbad/fileutd
 Id p    test1/cvs/diroth
@@ -1034,7 +1034,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Id p    test1/svn/.svn/prop-base
@@ -1043,20 +1043,20 @@ Id p    test1/svn/.svn/text-base
 Id p    test1/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
 Id p    test1/svn/dir space/.svn/prop-base
 Id p    test1/svn/dir space/.svn/props
 Id p    test1/svn/dir space/.svn/text-base
 Id p    test1/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    test1/svn/dirbad/fileoth
 If p    test1/svn/dirbad/fileutd
 Id p    test1/svn/diroth
 svn/dirutd\r
 svn/dirutd/.svn\r
-control dir: test1/svn/dirutd/.svn
+Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
 Id p    test1/svn/dirutd/.svn/prop-base
 Id p    test1/svn/dirutd/.svn/props
@@ -1068,10 +1068,10 @@ If p    test1/svn/fileoth
 If p    test1/svn/fileutd.h
 testdir\r
 If f    test1/testfile~
-Backing up path: test2
+Backing up path 'test2'
 testdir\r
 If f    test2/testfile~
-Database closed: myhost
+Database closed for 'myhost'
 Database closed
 User-mode backup
  -> No file logging
@@ -1085,7 +1085,7 @@ User-mode backup
  ---> Config: test_user/.hbackup/config
  ---> Expiry: none
 Backing up in user mode
-Database initialized: test_user/.hbackup
+Database initialized in 'test_user/.hbackup'
 Database open in read/write mode
  -> Reading client configuration file: localhost
  -> Client: localhost
@@ -1096,9 +1096,9 @@ Database open in read/write mode
  ---> Path: test_user/testuser
  ----> No error if same file fails copy again
 Reading list of problematic checksums
-Register created: localhost
-Database open r/w: localhost
-Backing up path: test_user/testuser
+Register created for 'localhost'
+Database open r/w for 'localhost'
+Backing up path 'test_user/testuser'
 Adding uncompressed data for 31d30eea8d0968d6458e0ad0027c9f80-0
 Af f    test_user/testuser/f1.txt
 Ad      test_user/testuser/subdir
@@ -1111,16 +1111,16 @@ Adding uncompressed data for d5b4c7d9b06b60a7846c4529834c9812-0
 Af f    test_user/testuser/subdir2/f3.txt
 Adding uncompressed data for 90e2a51705594d033a3abe9d77b2b7ad-0
 Af f    test_user/testuser/subdir2/f4.txt
-Register modified: localhost
-Database closed: localhost
+Register modified for 'localhost'
+Database closed for 'localhost'
 Database closed
 User-mode backup: upper verbosity level
 Backing up in user mode
 Database open in read/write mode
 Reading list of problematic checksums
-Register created: localhost
-Database open r/w: localhost
-Backing up path: test_user/testuser
+Register created for 'localhost'
+Database open r/w for 'localhost'
+Backing up path 'test_user/testuser'
 Af ~    test_user/testuser/f1.txt
 Ad      test_user/testuser/subdir
 subdir\r
@@ -1129,13 +1129,13 @@ Ad      test_user/testuser/subdir2
 subdir2\r
 Af ~    test_user/testuser/subdir2/f3.txt
 Af ~    test_user/testuser/subdir2/f4.txt
-Register modified: localhost
-Database closed: localhost
+Register modified for 'localhost'
+Database closed for 'localhost'
 Database closed
 User-mode backup: standard verbosity level
 Backing up in user mode
-Register created: localhost
-Backing up path: test_user/testuser
+Register created for 'localhost'
+Backing up path 'test_user/testuser'
 Af ~    test_user/testuser/f1.txt
 Ad      test_user/testuser/subdir
 Af ~    test_user/testuser/subdir/f2.txt
@@ -1371,13 +1371,13 @@ Scan DB
  --> nothing
 Scanning database
 Database open in read/write mode
-Reading list: aClient.vista
-Reading list: client.xp
-Reading list: myClient
-Reading list: myClient.xp
-Reading list: myhost
-Reading list: newClient
-Found 20 checksums
+Reading list for 'aClient.vista'
+Reading list for 'client.xp'
+Reading list for 'myClient'
+Reading list for 'myClient.xp'
+Reading list for 'myhost'
+Reading list for 'newClient'
+Found 20 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
@@ -1399,7 +1399,7 @@ f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-Found 20 valid and 0 broken data files       
+Found 20 valid and 0 broken data file(s)     
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -1579,7 +1579,7 @@ File copy progress: 100.0%\r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461\r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
-Found 20 valid and 0 broken data files       
+Found 20 valid and 0 broken data file(s)     
 Database closed
 List clients
  -> Reading configuration file: etc/hbackup.conf
@@ -1820,8 +1820,8 @@ Database closed
  --> nothing
 Showing list
 Database open in read-only mode
-Database open r-o: myhost
-Database closed: myhost
+Database open r-o for 'myhost'
+Database closed for 'myhost'
 Database closed
 	test1/
 	test2/
@@ -1942,8 +1942,8 @@ Database closed
  --> nothing
 Showing list
 Database open in read-only mode
-Database open r-o: myhost
-Database closed: myhost
+Database open r-o for 'myhost'
+Database closed for 'myhost'
 Database closed
 	test2/testdir/
 	test2/testfile
@@ -2067,8 +2067,8 @@ Database closed
  --> nothing
 Showing list
 Database open in read-only mode
-Database open r-o: myhost
-Database closed: myhost
+Database open r-o for 'myhost'
+Database closed for 'myhost'
 Database closed
 	test1/cvs/CVS/
 	test1/cvs/dir space/
@@ -2194,10 +2194,10 @@ Database closed
  --> nothing
 Showing list
 Database open in read-only mode
-Database open r-o: aClient.vista
-Database closed: aClient.vista
-Database open r-o: myhost
-Database closed: myhost
+Database open r-o for 'aClient.vista'
+Database closed for 'aClient.vista'
+Database open r-o for 'myhost'
+Database closed for 'myhost'
 Database closed
 	C:/
 	test1/
@@ -2320,10 +2320,10 @@ Database closed
  --> nothing
 Showing list
 Database open in read-only mode
-Database open r-o: myClient
-Database closed: myClient
-Database open r-o: myClient.xp
-Database closed: myClient.xp
+Database open r-o for 'myClient'
+Database closed for 'myClient'
+Database open r-o for 'myClient.xp'
+Database closed for 'myClient.xp'
 Database closed
 	/home/
 	C:/
@@ -2449,18 +2449,18 @@ Database closed
  --> nothing
 Showing list
 Database open in read-only mode
-Database open r-o: aClient.vista
-Database closed: aClient.vista
-Database open r-o: client.xp
-Database closed: client.xp
-Database open r-o: myClient
-Database closed: myClient
-Database open r-o: myClient.xp
-Database closed: myClient.xp
-Database open r-o: myhost
-Database closed: myhost
-Database open r-o: newClient
-Database closed: newClient
+Database open r-o for 'aClient.vista'
+Database closed for 'aClient.vista'
+Database open r-o for 'client.xp'
+Database closed for 'client.xp'
+Database open r-o for 'myClient'
+Database closed for 'myClient'
+Database open r-o for 'myClient.xp'
+Database closed for 'myClient.xp'
+Database open r-o for 'myhost'
+Database closed for 'myhost'
+Database open r-o for 'newClient'
+Database closed for 'newClient'
 Database closed
 	C:/
 	C:/
@@ -2586,9 +2586,9 @@ Database closed
  --> nothing
 Restoring
 Database open in read-only mode
-Database open r-o: myhost
-U test_r/test2/testfile
-Database closed: myhost
+Database open r-o for 'myhost'
+U       test_r/test2/testfile
+Database closed for 'myhost'
 Database closed
 Restore all data in a client/dir path that's not by itself in DB
  -> Reading configuration file: etc/hbackup.conf
@@ -2707,53 +2707,53 @@ Database closed
  --> nothing
 Restoring
 Database open in read-only mode
-Database open r-o: myhost
-U test_r/test1/big_file
-U test_r/test1/cvs
-U test_r/test1/cvs/CVS
-U test_r/test1/cvs/CVS/Entries
-U test_r/test1/cvs/CVS/Root
-U test_r/test1/cvs/dir space
-U test_r/test1/cvs/dir space/CVS
-U test_r/test1/cvs/dir space/CVS/Entries
-U test_r/test1/cvs/dir space/CVS/Root
-U test_r/test1/cvs/dir space/file space
-U test_r/test1/cvs/dirbad
-U test_r/test1/cvs/dirutd
-U test_r/test1/cvs/dirutd/CVS
-U test_r/test1/cvs/dirutd/CVS/Entries
-U test_r/test1/cvs/dirutd/CVS/Root
-U test_r/test1/cvs/dirutd/fileutd
-U test_r/test1/cvs/filenew.c
-U test_r/test1/cvs/fileutd.h
-U test_r/test1/dir space
-U test_r/test1/dir space/file space
-U test_r/test1/dir space/link space
-U test_r/test1/strange1TAB	CR\r
+Database open r-o for 'myhost'
+U       test_r/test1/big_file
+U       test_r/test1/cvs
+U       test_r/test1/cvs/CVS
+U       test_r/test1/cvs/CVS/Entries
+U       test_r/test1/cvs/CVS/Root
+U       test_r/test1/cvs/dir space
+U       test_r/test1/cvs/dir space/CVS
+U       test_r/test1/cvs/dir space/CVS/Entries
+U       test_r/test1/cvs/dir space/CVS/Root
+U       test_r/test1/cvs/dir space/file space
+U       test_r/test1/cvs/dirbad
+U       test_r/test1/cvs/dirutd
+U       test_r/test1/cvs/dirutd/CVS
+U       test_r/test1/cvs/dirutd/CVS/Entries
+U       test_r/test1/cvs/dirutd/CVS/Root
+U       test_r/test1/cvs/dirutd/fileutd
+U       test_r/test1/cvs/filenew.c
+U       test_r/test1/cvs/fileutd.h
+U       test_r/test1/dir space
+U       test_r/test1/dir space/file space
+U       test_r/test1/dir space/link space
+U       test_r/test1/strange1TAB	CR\r
 
-U test_r/test1/strange2TAB	LF
-U test_r/test1/strange3TAB	LF
+U       test_r/test1/strange2TAB	LF
+U       test_r/test1/strange3TAB	LF
 CR\r
 
-U test_r/test1/svn
-U test_r/test1/svn/.svn
-U test_r/test1/svn/.svn/entries
-U test_r/test1/svn/dir space
-U test_r/test1/svn/dir space/.svn
-U test_r/test1/svn/dir space/.svn/entries
-U test_r/test1/svn/dir space/file space
-U test_r/test1/svn/dirbad
-U test_r/test1/svn/dirutd
-U test_r/test1/svn/dirutd/.svn
-U test_r/test1/svn/dirutd/.svn/entries
-U test_r/test1/svn/dirutd/fileutd
-U test_r/test1/svn/filenew.c
-U test_r/test1/test space
-U test_r/test1/testdir
-U test_r/test1/testfile
-U test_r/test1/testlink
-U test_r/test1/testpipe
-Database closed: myhost
+U       test_r/test1/svn
+U       test_r/test1/svn/.svn
+U       test_r/test1/svn/.svn/entries
+U       test_r/test1/svn/dir space
+U       test_r/test1/svn/dir space/.svn
+U       test_r/test1/svn/dir space/.svn/entries
+U       test_r/test1/svn/dir space/file space
+U       test_r/test1/svn/dirbad
+U       test_r/test1/svn/dirutd
+U       test_r/test1/svn/dirutd/.svn
+U       test_r/test1/svn/dirutd/.svn/entries
+U       test_r/test1/svn/dirutd/fileutd
+U       test_r/test1/svn/filenew.c
+U       test_r/test1/test space
+U       test_r/test1/testdir
+U       test_r/test1/testfile
+U       test_r/test1/testlink
+U       test_r/test1/testpipe
+Database closed for 'myhost'
 Database closed
 Restore all data in a client/dir path
  -> Reading configuration file: etc/hbackup.conf
@@ -2872,25 +2872,25 @@ Database closed
  --> nothing
 Restoring
 Database open in read-only mode
-Database open r-o: myhost
-U test_r/test1/cvs
-U test_r/test1/cvs/CVS
-U test_r/test1/cvs/CVS/Entries
-U test_r/test1/cvs/CVS/Root
-U test_r/test1/cvs/dir space
-U test_r/test1/cvs/dir space/CVS
-U test_r/test1/cvs/dir space/CVS/Entries
-U test_r/test1/cvs/dir space/CVS/Root
-U test_r/test1/cvs/dir space/file space
-U test_r/test1/cvs/dirbad
-U test_r/test1/cvs/dirutd
-U test_r/test1/cvs/dirutd/CVS
-U test_r/test1/cvs/dirutd/CVS/Entries
-U test_r/test1/cvs/dirutd/CVS/Root
-U test_r/test1/cvs/dirutd/fileutd
-U test_r/test1/cvs/filenew.c
-U test_r/test1/cvs/fileutd.h
-Database closed: myhost
+Database open r-o for 'myhost'
+U       test_r/test1/cvs
+U       test_r/test1/cvs/CVS
+U       test_r/test1/cvs/CVS/Entries
+U       test_r/test1/cvs/CVS/Root
+U       test_r/test1/cvs/dir space
+U       test_r/test1/cvs/dir space/CVS
+U       test_r/test1/cvs/dir space/CVS/Entries
+U       test_r/test1/cvs/dir space/CVS/Root
+U       test_r/test1/cvs/dir space/file space
+U       test_r/test1/cvs/dirbad
+U       test_r/test1/cvs/dirutd
+U       test_r/test1/cvs/dirutd/CVS
+U       test_r/test1/cvs/dirutd/CVS/Entries
+U       test_r/test1/cvs/dirutd/CVS/Root
+U       test_r/test1/cvs/dirutd/fileutd
+U       test_r/test1/cvs/filenew.c
+U       test_r/test1/cvs/fileutd.h
+Database closed for 'myhost'
 Database closed
 Restore all data in a client
  -> Reading configuration file: etc/hbackup.conf
@@ -3009,62 +3009,62 @@ Database closed
  --> nothing
 Restoring
 Database open in read-only mode
-Database open r-o: myhost
-U test_r/test1/big_file
-U test_r/test1/cvs
-U test_r/test1/cvs/CVS
-U test_r/test1/cvs/CVS/Entries
-U test_r/test1/cvs/CVS/Root
-U test_r/test1/cvs/dir space
-U test_r/test1/cvs/dir space/CVS
-U test_r/test1/cvs/dir space/CVS/Entries
-U test_r/test1/cvs/dir space/CVS/Root
-U test_r/test1/cvs/dir space/file space
-U test_r/test1/cvs/dirbad
-U test_r/test1/cvs/dirutd
-U test_r/test1/cvs/dirutd/CVS
-U test_r/test1/cvs/dirutd/CVS/Entries
-U test_r/test1/cvs/dirutd/CVS/Root
-U test_r/test1/cvs/dirutd/fileutd
-U test_r/test1/cvs/filenew.c
-U test_r/test1/cvs/fileutd.h
-U test_r/test1/dir space
-U test_r/test1/dir space/file space
-U test_r/test1/dir space/link space
-U test_r/test1/strange1TAB	CR\r
+Database open r-o for 'myhost'
+U       test_r/test1/big_file
+U       test_r/test1/cvs
+U       test_r/test1/cvs/CVS
+U       test_r/test1/cvs/CVS/Entries
+U       test_r/test1/cvs/CVS/Root
+U       test_r/test1/cvs/dir space
+U       test_r/test1/cvs/dir space/CVS
+U       test_r/test1/cvs/dir space/CVS/Entries
+U       test_r/test1/cvs/dir space/CVS/Root
+U       test_r/test1/cvs/dir space/file space
+U       test_r/test1/cvs/dirbad
+U       test_r/test1/cvs/dirutd
+U       test_r/test1/cvs/dirutd/CVS
+U       test_r/test1/cvs/dirutd/CVS/Entries
+U       test_r/test1/cvs/dirutd/CVS/Root
+U       test_r/test1/cvs/dirutd/fileutd
+U       test_r/test1/cvs/filenew.c
+U       test_r/test1/cvs/fileutd.h
+U       test_r/test1/dir space
+U       test_r/test1/dir space/file space
+U       test_r/test1/dir space/link space
+U       test_r/test1/strange1TAB	CR\r
 
-U test_r/test1/strange2TAB	LF
-U test_r/test1/strange3TAB	LF
+U       test_r/test1/strange2TAB	LF
+U       test_r/test1/strange3TAB	LF
 CR\r
 
-U test_r/test1/svn
-U test_r/test1/svn/.svn
-U test_r/test1/svn/.svn/entries
-U test_r/test1/svn/dir space
-U test_r/test1/svn/dir space/.svn
-U test_r/test1/svn/dir space/.svn/entries
-U test_r/test1/svn/dir space/file space
-U test_r/test1/svn/dirbad
-U test_r/test1/svn/dirutd
-U test_r/test1/svn/dirutd/.svn
-U test_r/test1/svn/dirutd/.svn/entries
-U test_r/test1/svn/dirutd/fileutd
-U test_r/test1/svn/filenew.c
-U test_r/test1/test space
-U test_r/test1/testdir
-U test_r/test1/testfile
-U test_r/test1/testlink
-U test_r/test1/testpipe
-U test_r/test2/testdir
-U test_r/test2/testfile
-U test_r/test2/testfile2
-U test_r/test2/testfile2.gz
-U test_r/test2/testlink
-Database closed: myhost
+U       test_r/test1/svn
+U       test_r/test1/svn/.svn
+U       test_r/test1/svn/.svn/entries
+U       test_r/test1/svn/dir space
+U       test_r/test1/svn/dir space/.svn
+U       test_r/test1/svn/dir space/.svn/entries
+U       test_r/test1/svn/dir space/file space
+U       test_r/test1/svn/dirbad
+U       test_r/test1/svn/dirutd
+U       test_r/test1/svn/dirutd/.svn
+U       test_r/test1/svn/dirutd/.svn/entries
+U       test_r/test1/svn/dirutd/fileutd
+U       test_r/test1/svn/filenew.c
+U       test_r/test1/test space
+U       test_r/test1/testdir
+U       test_r/test1/testfile
+U       test_r/test1/testlink
+U       test_r/test1/testpipe
+U       test_r/test2/testdir
+U       test_r/test2/testfile
+U       test_r/test2/testfile2
+U       test_r/test2/testfile2.gz
+U       test_r/test2/testlink
+Database closed for 'myhost'
 Database closed
 Broken configuration
  -> Reading configuration file: etc/broken.conf
-Error: db redefined in 'blah'
+Error: Keyword 'db' redefined in 'blah'
 Error: after line 0: need at most 1 occurence(s) of keyword 'db'
 Error: after line 0: need at most 1 occurence(s) of keyword 'report_copy_error_once'
 Error: at line 7: keyword 'filter' requires 2 parameter(s), found 1

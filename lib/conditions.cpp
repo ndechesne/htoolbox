@@ -143,8 +143,7 @@ bool Condition::match(
         if (_d->regex != NULL) {
           result = ! regexec(_d->regex, node.name(), 0, NULL, 0);
         } else {
-          out(error, "incorrect regular expression", -1,
-            "Filters");
+          hlog_error("Filters: incorrect regular expression");
           failed = true;
         }
       break;
@@ -166,8 +165,7 @@ bool Condition::match(
         if (_d->regex != NULL) {
           result = ! regexec(_d->regex, path, 0, NULL, 0);
         } else {
-          out(error, "incorrect regular expression", -1,
-            "Filters");
+          hlog_error("Filters: incorrect regular expression");
           failed = true;
         }
       break;
@@ -190,8 +188,7 @@ bool Condition::match(
       result = node.mode() == _d->value;
       break;
     default:
-      out(error, "unknown condition type to match", -1,
-        "Filters");
+      hlog_error("Filters: unknown condition type to match");
   }
   return failed ? -1 : (_d->negated ? ! result : result);
 }
@@ -284,7 +281,7 @@ void Condition::show(int level) const {
         << dec;
       } break;
     default:
-      out(error, "Unknown type", -1, "Condition");
+      hlog_error("Condition: unknown type");
       return;
   }
   out(debug, s.str().c_str(), level, "Condition");

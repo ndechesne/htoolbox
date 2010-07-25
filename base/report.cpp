@@ -16,8 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <iostream>
-#include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -41,34 +40,32 @@ void hreport::out_hidden(
     int             line,
     Level           level,
     const char*     message,
-    int             number,
+    size_t          number,
     const char*     prepend) {
   if (level > report.level()) {
     return;
   }
-  stringstream s;
-  if (number > 0) {
-    string arrow;
-    arrow = " ";
-    arrow.append(number, '-');
-    arrow.append("> ");
-    s << arrow;
-  }
-  if (prepend != NULL) {
-    s << prepend;
-    if (number >= -1) {
-      s << ":";
+  char tmp[32];
+  report.log(file, line, level, false, "%s%s%s%s",
+    arrow(tmp, number),
+    prepend != NULL ? prepend : "",
+    prepend != NULL ? ": " : "",
+    message);
+}
+
+const char* hreport::arrow(char* buf, size_t n) {
+  /* " --n--> \0" */
+  const char* rc = buf;
+  if (n > 0) {
+    *buf++ = ' ';
+    for (size_t i = 0; i < n; ++i) {
+      *buf++ = '-';
     }
-    s << " ";
+    *buf++ = '>';
+    *buf++ = ' ';
   }
-  bool add_colon = false;
-  if (message != NULL) {
-    if (add_colon) {
-      s << ": ";
-    }
-    s << message;
-  }
-  report.log(file, line, level, (number == -3), "%s", s.str().c_str());
+  *buf = '\0';
+  return rc;
 }
 
 struct Report::Private {

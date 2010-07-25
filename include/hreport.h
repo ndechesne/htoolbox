@@ -35,6 +35,9 @@ namespace hreport {
     debug         /*!< Developper information, typically if 'debug' selected */
   };
 
+  // buf need to be at least n+4 bytes long
+  const char* arrow(char* buf, size_t n);
+
   //! \brief Function called throughout the code to output data
   /*!
     \param level        the level of verbosity associated with the message
@@ -53,7 +56,7 @@ namespace hreport {
     int             line,
     Level           level,
     const char*     message,
-    int             number,
+    size_t          number,
     const char*     prepend);
 
   class Report {

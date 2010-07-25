@@ -1,6 +1,6 @@
 
 Initial backup, check '/' precedence
-Database initialized: test_db
+Database initialized in 'test_db'
 Database open in read/write mode
 first with subdir NOT readable
 Path: /home/User
@@ -10,8 +10,8 @@ Path: /home/User
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
-Register created: myClient
-Database open r/w: myClient
+Register created for 'myClient'
+Database open r/w for 'myClient'
 Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
 Af f    /home/User/àccénts_test
 Done:   5.0%\r
@@ -196,8 +196,8 @@ Af ~    /home/User/testfile~
 Al      /home/User/testlink
 Ap      /home/User/testpipe
 Parsed 97 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -404,8 +404,8 @@ CR\r
 [ 1] /home/User/testlink            l        8 777 testfile
 [ 1] /home/User/testpipe            p        0 600
 Database open in read/write mode
-Reading list: myClient
-Found 21 checksums
+Reading list for 'myClient'
+Found 21 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 31f8dac8a89739e4030e8e0e9ea219a5-0 33\r
@@ -428,7 +428,7 @@ eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760\r
 f2b4c9d3f0830dea53972d208979feb0-0 278     \r
 f899d6f61138a37484c8a2294656e903-0 177\r
-Found 21 valid and 0 broken data files
+Found 21 valid and 0 broken data file(s)
 Checksum(s) from list: 21
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 31f8dac8a89739e4030e8e0e9ea219a5-0, 33
@@ -484,7 +484,7 @@ Path: /home/User
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
@@ -531,7 +531,7 @@ svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Parsed 97 file(s)
-Database closed: myClient
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -748,7 +748,7 @@ Path: /home/User
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 Error: Permission denied reading directory 'host:/home/User/cvs'
 Md !    /home/User/cvs
@@ -816,8 +816,8 @@ svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Parsed 69 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -992,7 +992,7 @@ Path: /home/User
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 Md      /home/User/cvs
 cvs\r
@@ -1072,8 +1072,8 @@ svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Parsed 100 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -1287,7 +1287,7 @@ Path: /home/User
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
@@ -1333,7 +1333,7 @@ svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Parsed 100 file(s)
-Database closed: myClient
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -1547,7 +1547,7 @@ Path: /home/User
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
@@ -1555,7 +1555,7 @@ cvs/CVS/Wherever\r
 Killing trigger reached: 2
 Error: Operation canceled backing up file 'myClient:/home/User/cvs/big_file'
 Af !    /home/User/cvs/big_file
-Database closed: myClient
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -1727,8 +1727,8 @@ myClient's real journal:
 [ 6] /home/User/cvs/big_file        f   512000 644 
 
 As previous with subdir/testfile readable
-Warning: Previous backup interrupted: myClient
-Register modified: myClient
+Warning: Previous backup interrupted for 'myClient'
+Register modified for 'myClient'
 Database open in read/write mode
 Path: /home/User
  -> No error if same file fails copy again
@@ -1738,7 +1738,7 @@ Path: /home/User
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
@@ -1785,8 +1785,8 @@ svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Parsed 101 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -1978,7 +1978,7 @@ Path: /home/User
  --> bazaar
  --> ignore1
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
@@ -2024,8 +2024,8 @@ svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Parsed 100 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -2224,7 +2224,7 @@ Path: /home/User
  --> ignore1
  --> ignore1
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
@@ -2271,8 +2271,8 @@ svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Parsed 97 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -2476,7 +2476,7 @@ Path: /home/User
  --> ignore1
  --> ignore1
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
@@ -2521,8 +2521,8 @@ svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Ml      /home/User/testlink
 Parsed 97 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -2733,7 +2733,7 @@ Path: /home/User
  --> ignore1
  --> ignore1
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
 cvs/CVS\r
@@ -2779,8 +2779,8 @@ testdir                      \r
 Il f    /home/User/testlink
 D       /home/User/testlink
 Parsed 96 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -2993,7 +2993,7 @@ Path: /home/User
  --> ignore1
  -> Parser: CVS
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
  -> Parsing CVS entries
@@ -3020,7 +3020,7 @@ If p    /home/User/cvs/dir space/file other
 D       /home/User/cvs/dir space/CVS/Whatever
 D       /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -3071,8 +3071,8 @@ svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Il f    /home/User/testlink
 Parsed 84 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -3308,7 +3308,7 @@ Path: /home/User
  --> ignore1
  -> Parser: CVS
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
  -> Parsing CVS entries
@@ -3329,7 +3329,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -3374,7 +3374,7 @@ svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Il f    /home/User/testlink
 Parsed 84 file(s)
-Database closed: myClient
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -3612,7 +3612,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
  -> Parsing CVS entries
@@ -3633,7 +3633,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -3657,7 +3657,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 D       /home/User/svn/.svn/all-wcprops
@@ -3679,7 +3679,7 @@ D       /home/User/svn/.svn/tmp/props
 D       /home/User/svn/.svn/tmp/text-base
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    /home/User/svn/dir space/.svn/all-wcprops
 D       /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
@@ -3694,7 +3694,7 @@ D       /home/User/svn/dir space/.svn/tmp/prop-base
 D       /home/User/svn/dir space/.svn/tmp/props
 D       /home/User/svn/dir space/.svn/tmp/text-base
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
@@ -3703,7 +3703,7 @@ D       /home/User/svn/dirbad/fileutd
 D       /home/User/svn/diroth
 svn/dirutd\r
 svn/dirutd/.svn\r
-control dir: test1/svn/dirutd/.svn
+Control dir 'test1/svn/dirutd/.svn'
 If p    /home/User/svn/dirutd/.svn/all-wcprops
 D       /home/User/svn/dirutd/.svn/all-wcprops
 Id p    /home/User/svn/dirutd/.svn/prop-base
@@ -3728,8 +3728,8 @@ D       /home/User/svn/fileutd.h
 testdir\r
 Il f    /home/User/testlink
 Parsed 47 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -4040,7 +4040,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
  -> Parsing CVS entries
@@ -4061,7 +4061,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -4085,7 +4085,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -4094,20 +4094,20 @@ Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
 Id p    /home/User/svn/dir space/.svn/text-base
 Id p    /home/User/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
 svn/dirutd\r
 svn/dirutd/.svn\r
-control dir: test1/svn/dirutd/.svn
+Control dir 'test1/svn/dirutd/.svn'
 If p    /home/User/svn/dirutd/.svn/all-wcprops
 Id p    /home/User/svn/dirutd/.svn/prop-base
 Id p    /home/User/svn/dirutd/.svn/props
@@ -4119,8 +4119,8 @@ If p    /home/User/svn/fileutd.h
 testdir\r
 Il f    /home/User/testlink
 Parsed 42 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -4409,7 +4409,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
  -> Parsing CVS entries
@@ -4430,7 +4430,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -4449,7 +4449,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -4458,14 +4458,14 @@ Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
 Id p    /home/User/svn/dir space/.svn/text-base
 Id p    /home/User/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
@@ -4479,8 +4479,8 @@ If p    /home/User/svn/fileutd.h
 testdir\r
 Il f    /home/User/testlink
 Parsed 38 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -4772,7 +4772,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
  -> Parsing CVS entries
@@ -4793,7 +4793,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -4812,7 +4812,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -4821,14 +4821,14 @@ Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
 Id p    /home/User/svn/dir space/.svn/text-base
 Id p    /home/User/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
@@ -4839,8 +4839,8 @@ testdir\r
 Il f    /home/User/testlink
 Parsed 37 file(s)
 D       /home/User/testpipe
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -5130,7 +5130,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
  -> Parsing CVS entries
@@ -5151,7 +5151,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -5170,7 +5170,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -5179,14 +5179,14 @@ Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
 Id p    /home/User/svn/dir space/.svn/text-base
 Id p    /home/User/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
@@ -5198,8 +5198,8 @@ testdir\r
 ~f      /home/User/testfile
 Il f    /home/User/testlink
 Parsed 37 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -5492,7 +5492,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
  -> Parsing CVS entries
@@ -5513,7 +5513,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -5534,7 +5534,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -5543,14 +5543,14 @@ Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
 Id p    /home/User/svn/dir space/.svn/text-base
 Id p    /home/User/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
@@ -5561,8 +5561,8 @@ testdir\r
 Il f    /home/User/testlink
 Ap      /home/User/testpipe
 Parsed 38 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -5857,7 +5857,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
  -> Parsing CVS entries
@@ -5878,7 +5878,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -5919,7 +5919,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -5928,14 +5928,14 @@ Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
 Id p    /home/User/svn/dir space/.svn/text-base
 Id p    /home/User/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
@@ -5951,8 +5951,8 @@ Af ~    /home/User/testdir/biblio.odb
 Af ~    /home/User/testdir/evolocal.odb
 Il f    /home/User/testlink
 Parsed 58 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -6285,7 +6285,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 cvs\r
  -> Parsing CVS entries
@@ -6306,7 +6306,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -6332,7 +6332,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -6341,14 +6341,14 @@ Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
 Id p    /home/User/svn/dir space/.svn/text-base
 Id p    /home/User/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
@@ -6359,7 +6359,7 @@ testdir\r
 testdir/biblio\r
 Il f    /home/User/testlink
 Parsed 58 file(s)
-Database closed: myClient
+Database closed for 'myClient'
 Database closed
 
 myClient's list:
@@ -6692,8 +6692,8 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Register created: hisClient
-Database open r/w: hisClient
+Register created for 'hisClient'
+Database open r/w for 'hisClient'
 Ad      /home/User/testdir
 testdir\r
 Adding uncompressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
@@ -6706,8 +6706,8 @@ Adding uncompressed data for 59071590099d21dd439896592338bf95-0
 Af f    /home/User/testfile~
 Il f    /home/User/testlink
 Parsed 5 file(s)
-Register modified: hisClient
-Database closed: hisClient
+Register modified for 'hisClient'
+Database closed for 'hisClient'
 Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
@@ -6756,7 +6756,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: CVS
  -> Parser: Subversion
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 Ad      /home/User/crash
 crash\r
@@ -6780,7 +6780,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -6806,7 +6806,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -6815,14 +6815,14 @@ Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
 Id p    /home/User/svn/dir space/.svn/text-base
 Id p    /home/User/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
@@ -6838,8 +6838,8 @@ D       /home/User/testdir/biblio.odb
 D       /home/User/testdir/evolocal.odb
 Il f    /home/User/testlink
 Parsed 54 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 hisClient's list:
@@ -7114,9 +7114,9 @@ hisClient's journal:
 [22] /home/User/testfile~           f   524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's real journal:
-Error: test_db/myClient/journal: Unexpected end of list
+Error: Unexpected end of list in 'test_db/myClient/journal'
 Error: Failed to read list
-Warning: Previous backup interrupted: myClient
+Warning: Previous backup interrupted for 'myClient'
 [22] /home/User/crash               d        0 755
 [22] /home/User/crash/file          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [22] /home/User/test space          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -7126,8 +7126,8 @@ Warning: Previous backup interrupted: myClient
 [22] /home/User/testdir/biblio/biblio.dbt [rm]
 [22] /home/User/testdir/biblio.odb  [rm]
 [22] /home/User/testdir/evolocal.odb [rm]
-Register modified: myClient
-Warning: test_db/myClient/journal: Unexpected end of journal
+Register modified for 'myClient'
+Warning: Unexpected end of journal 'test_db/myClient/journal'
 Database open in read/write mode
 
 hisClient's list:
@@ -7411,7 +7411,7 @@ hisClient's journal:
 [22] /home/User/testfile~           f   524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's journal:
-Error: test_db/myClient/journal~: Unexpected end of list
+Error: Unexpected end of list in 'test_db/myClient/journal~'
 Error: Failed to read list
 [22] /home/User/crash               d        0 755
 [22] /home/User/crash/file          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -7477,7 +7477,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 crash\r
 cvs  \r
@@ -7499,7 +7499,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -7525,7 +7525,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -7534,14 +7534,14 @@ Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
 Id p    /home/User/svn/dir space/.svn/text-base
 Id p    /home/User/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
@@ -7550,7 +7550,7 @@ If p    /home/User/svn/fileoth
 If p    /home/User/svn/fileutd.h
 Il f    /home/User/testlink
 Parsed 54 file(s)
-Database closed: myClient
+Database closed for 'myClient'
 Database closed
 
 hisClient's list:
@@ -7834,7 +7834,7 @@ hisClient's journal:
 [22] /home/User/testfile~           f   524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's journal:
-Error: test_db/myClient/journal~: Unexpected end of list
+Error: Unexpected end of list in 'test_db/myClient/journal~'
 Error: Failed to read list
 [22] /home/User/crash               d        0 755
 [22] /home/User/crash/file          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -7897,11 +7897,11 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Database open r/w: hisClient
+Database open r/w for 'hisClient'
 testdir\r
 Il f    /home/User/testlink
 Parsed 5 file(s)
-Database closed: hisClient
+Database closed for 'hisClient'
 Database closed
 
 hisClient's list:
@@ -8185,7 +8185,7 @@ hisClient's journal:
 [22] /home/User/testfile~           f   524288 644 59071590099d21dd439896592338bf95-0
 
 myClient's journal:
-Error: test_db/myClient/journal~: Unexpected end of list
+Error: Unexpected end of list in 'test_db/myClient/journal~'
 Error: Failed to read list
 [22] /home/User/crash               d        0 755
 [22] /home/User/crash/file          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -8248,7 +8248,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 crash\r
 cvs  \r
@@ -8270,7 +8270,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -8296,7 +8296,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -8305,14 +8305,14 @@ Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
 Id p    /home/User/svn/dir space/.svn/text-base
 Id p    /home/User/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
@@ -8323,8 +8323,8 @@ Error: Permission denied backing up file 'myClient:/home/User/testfile'
 Mf !    /home/User/testfile
 Il f    /home/User/testlink
 Parsed 54 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 hisClient's list:
@@ -8534,7 +8534,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 crash\r
 cvs  \r
@@ -8556,7 +8556,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -8582,7 +8582,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -8591,14 +8591,14 @@ Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
 Id p    /home/User/svn/dir space/.svn/text-base
 Id p    /home/User/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
@@ -8609,8 +8609,8 @@ D       /home/User/testfile
 Mf ~    /home/User/testfile~
 Il f    /home/User/testlink
 Parsed 53 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 hisClient's list:
@@ -8812,7 +8812,7 @@ Path: /home/User
  -> Parser: CVS
  -> Parser: Subversion
 Reading list of problematic checksums
-Database open r/w: myClient
+Database open r/w for 'myClient'
 Id s    /home/User/.hbackup
 crash\r
 cvs  \r
@@ -8834,7 +8834,7 @@ cvs/dir space/CVS\r
 If p    /home/User/cvs/dir space/CVS/Whatever
 If p    /home/User/cvs/dir space/file other
 cvs/dirbad\r
-Warning: test1/cvs/dirbad: Directory should be under CVS control
+Warning: Directory 'test1/cvs/dirbad' should be under CVS control
 If p    /home/User/cvs/dirbad/fileoth
 If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
@@ -8860,7 +8860,7 @@ svn\r
  --> test1/svn/filenew.c: m
  --> test1/svn/fileoth: i
 svn/.svn\r
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 If p    /home/User/svn/.svn/all-wcprops
 If p    /home/User/svn/.svn/dir-prop-base
 Id p    /home/User/svn/.svn/prop-base
@@ -8869,14 +8869,14 @@ Id p    /home/User/svn/.svn/text-base
 Id p    /home/User/svn/.svn/tmp
 svn/dir space\r
 svn/dir space/.svn\r
-control dir: test1/svn/dir space/.svn
+Control dir 'test1/svn/dir space/.svn'
 If p    /home/User/svn/dir space/.svn/all-wcprops
 Id p    /home/User/svn/dir space/.svn/prop-base
 Id p    /home/User/svn/dir space/.svn/props
 Id p    /home/User/svn/dir space/.svn/text-base
 Id p    /home/User/svn/dir space/.svn/tmp
 svn/dirbad\r
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
 If p    /home/User/svn/dirbad/fileoth
 If p    /home/User/svn/dirbad/fileutd
 Id p    /home/User/svn/diroth
@@ -8886,8 +8886,8 @@ If p    /home/User/svn/fileutd.h
 Mf ~    /home/User/testfile~
 Il f    /home/User/testlink
 Parsed 53 file(s)
-Register modified: myClient
-Database closed: myClient
+Register modified for 'myClient'
+Database closed for 'myClient'
 Database closed
 
 hisClient's list:

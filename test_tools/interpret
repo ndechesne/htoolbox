@@ -23,7 +23,7 @@ case $1 in
     export NAME="conditions"
     ;;
   "cf" )
-    export DIR="lib"
+    export DIR="base"
     export NAME="configuration"
     ;;
   "cvs" )
@@ -87,7 +87,7 @@ case $1 in
     export NAME="paths"
     ;;
   "rp" )
-    export DIR="lib"
+    export DIR="base"
     export NAME="report"
     ;;
   "svn" )

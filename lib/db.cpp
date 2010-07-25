@@ -86,17 +86,14 @@ int Database::lock() {
       // Find out whether process is still running, if not, reset lock
       kill(pid, 0);
       if (errno == ESRCH) {
-        out(warning, "Database lock reset", -1, NULL);
+        hlog_warning("Database lock reset");
         ::remove(lock_path);
       } else {
-        stringstream s;
-        s << "Database lock taken by process with pid " << pid;
-        out(error, s.str().c_str(), -1, NULL);
+        hlog_error("Database lock taken by process with pid %d", pid);
         failed = true;
       }
     } else {
-      out(error,
-        "Database lock taken by an unidentified process!", -1, NULL);
+      hlog_error("Database lock taken by an unidentified process!");
       failed = true;
     }
   }
@@ -147,17 +144,17 @@ int Database::open(
     bool            initialize) {
 
   if (read_only && initialize) {
-    out(error, "Cannot initialize in read-only mode", -1, NULL);
+    hlog_error("Cannot initialize in read-only mode");
     return -1;
   }
 
   if (! Directory(_d->path).isValid()) {
     if (read_only || ! initialize) {
-      out(error, _d->path, -1, "Given DB path does not exist");
+      hlog_error("Given DB path does not exist '%s'", _d->path);
       return -1;
     } else
     if (mkdir(_d->path, 0755)) {
-      out(error, "Cannot create DB base directory", -1, NULL);
+      hlog_error("Cannot create DB base directory");
       return -1;
     }
   }
@@ -171,7 +168,7 @@ int Database::open(
     case 1:
       // Creation successful
       File(Path(_d->path, ".checksums")).create();
-      out(verbose, _d->path, -1, "Database initialized");
+      hlog_verbose("Database initialized in '%s'", _d->path);
     case 0:
       // Open successful
       break;
@@ -181,11 +178,9 @@ int Database::open(
         hlog_error("%s creating data directory in '%s'", strerror(errno),
           _d->path);
       } else {
-        out(error, _d->path, -1,
-          "Given DB path does not contain a database");
+        hlog_error("Given DB path does not contain a database '%s'", _d->path);
         if (! read_only) {
-          out(info,
-            "See help for information on how to initialize the DB", -1, NULL);
+          hlog_info("See help for information on how to initialize the DB");
         }
       }
       if (! read_only) {
@@ -203,7 +198,7 @@ int Database::open(
 
   if (read_only) {
     _d->access = ro;
-    out(verbose, "Database open in read-only mode", -1, NULL);
+    hlog_verbose("Database open in read-only mode");
   } else {
     // Open problematic checksums list
     _d->missing.open(Path(_d->path, ".checksums"));
@@ -232,7 +227,7 @@ int Database::open(
     _d->access = rw;
     // Load list of missing items if/when required
     _d->load_missing = true;
-    out(verbose, "Database open in read/write mode", -1, NULL);
+    hlog_verbose("Database open in read/write mode");
   }
   return 0;
 }
@@ -241,7 +236,7 @@ int Database::close() {
   bool failed = false;
 
   if (_d->access == no) {
-    out(alert, "Cannot close: DB not open!", -1, NULL);
+    hlog_alert("Cannot close: DB not open!");
   } else {
     if (_d->owner != NULL) {
       closeClient(true);
@@ -255,7 +250,7 @@ int Database::close() {
       unlock();
     }
   }
-  out(verbose, "Database closed", -1, NULL);
+  hlog_verbose("Database closed");
   _d->access = no;
   return failed ? -1 : 0;
 }
@@ -360,26 +355,27 @@ int Database::restore(
         hlog_error("%s creating path '%s'", strerror(errno), dir.c_str());
       }
     }
+    char code;
     if (db_node->type() == 'f') {
       switch (links) {
         case HBackup::none:
-          out(info, base, -2, "U");
+          code = 'U';
           break;
         case HBackup::symbolic:
-          out(info, base, -2, "L");
+          code = 'L';
           break;
         case HBackup::hard:
-          out(info, base, -2, "H");
+          code = 'H';
       }
     } else {
-      out(info, base, -2, "U");
+      code = 'U';
     }
+    hlog_info("%-8c%s", code, base.c_str());
     switch (db_node->type()) {
       case 'f': {
           File* f = static_cast<File*>(db_node);
           if (f->checksum()[0] == '\0') {
-            out(error, "Failed to restore file: data missing",
-              -1, NULL);
+            hlog_error("Failed to restore file: data missing");
             this_failed = true;
           } else
           if (links == HBackup::none) {
@@ -434,7 +430,7 @@ int Database::restore(
         break;
       default:
         char type[2] = { db_node->type(), '\0' };
-        hlog_error("type not supported '%s'", type);
+        hlog_error("Type not supported '%s'", type);
         this_failed = true;
     }
     // Report error and go on
@@ -489,7 +485,7 @@ int Database::scan(
   _d->load_missing = false;
   bool failed = false;
   for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
-    out(verbose, i->c_str(), -1, "Reading list");
+    hlog_verbose("Reading list for '%s'", i->c_str());
     Owner client(_d->path, i->c_str());
     client.getChecksums(list_data);
     if (failed || aborting()) {
@@ -513,15 +509,10 @@ int Database::scan(
       j = list_data.erase(j);
     }
   }
-
-  {
-    stringstream s;
-    s << "Found " << list_data.size() << " checksums";
-    out(verbose, s.str().c_str(), -1, NULL);
-  }
+  hlog_verbose("Found %zu checksum(s)", list_data.size());
 
   // Get checksums from DB
-  out(verbose, "Crawling through DB", -1, NULL);
+  hlog_verbose("Crawling through DB");
   list<CompData> data_data;
   // Check surficially, remove empty dirs
   int rc = _d->data.crawl(false, true, &data_data);
@@ -533,9 +524,8 @@ int Database::scan(
     hlog_debug("Checksum(s) from list: %zu", list_data.size());
     for (list<CompData>::iterator i = list_data.begin();
         i != list_data.end(); i++) {
-      stringstream s;
-      s << i->checksum() << ", " << i->size();
-      out(debug, s.str().c_str(), 1, NULL);
+      char tmp[8];
+      hlog_debug("%s%s, %lld", arrow(tmp, 1), i->checksum().c_str(), i->size());
     }
   }
   if (! data_data.empty()) {
@@ -618,7 +608,7 @@ int Database::scan(
 
 int Database::check(
     bool            remove) const {
-  out(verbose, "Crawling through DB data", -1, NULL);
+  hlog_verbose("Crawling through DB data");
   // Check thoroughly, remove corrupted data if told (but not empty dirs)
   int rc = _d->data.crawl(true, remove);
   if (rc >= 0) {
@@ -634,7 +624,7 @@ int Database::openClient(
     const char*     client,
     time_t          expire) {
   if (_d->access == no) {
-    out(alert, "Open DB before opening client!", -1, NULL);
+    hlog_alert("Open DB before opening client!");
     return -1;
   }
 
@@ -663,15 +653,10 @@ int Database::openClient(
       return -1;
     }
   }
-  // Report and set temporary data path
-  switch (_d->access) {
-    case ro:
-      out(verbose, _d->owner->name(), -1, "Database open r-o");
-      break;
-    case rw:
-      out(verbose, _d->owner->name(), -1, "Database open r/w");
-      break;
-    default:;
+  // Report
+  if ((_d->access == ro) || (_d->access == rw)) {
+    hlog_verbose("Database open %s for '%s'",
+      _d->access == ro ? "r-o" : "r/w", _d->owner->name());
   }
   return 0;
 }
@@ -680,7 +665,7 @@ int Database::closeClient(
     bool            abort) {
   bool failed = (_d->owner->close(abort) < 0);
   if (_d->access < quiet_rw) {
-    out(verbose, _d->owner->name(), -1, "Database closed");
+    hlog_verbose("Database closed for '%s'", _d->owner->name());
   }
   if (! failed && ! abort) {
     // Leave trace of successful check
@@ -707,7 +692,7 @@ int Database::add(
 
   // Add new record to active list
   if ((op._node.type() == 'l') && ! op._node.parsed()) {
-    out(error, "Bug in db add: link was not parsed!", -1, NULL);
+    hlog_error("Bug in db add: link was not parsed!");
     return -1;
   }
 
@@ -772,7 +757,7 @@ int Database::add(
   if (! failed || ! op._same_list_entry) {
     // Add entry info to journal
     if (_d->owner->add(op._path, &op._node) < 0) {
-      out(error, "Cannot add to client's list", -1, NULL);
+      hlog_error("Cannot add to client's list");
       failed = true;
     }
   }

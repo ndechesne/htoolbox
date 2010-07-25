@@ -90,7 +90,7 @@ int Missing::close() {
   if (_d->modified || _d->force_save) {
     // Save list of missing items
     if (_d->modified) {
-      out(info, "Missing checksums list updated", -1, NULL);
+      hlog_info("Missing checksums list updated");
     }
     Stream missing_list((path + ".part").c_str());
     if (missing_list.open(O_WRONLY)) {
@@ -123,9 +123,8 @@ int Missing::close() {
     failed = (rc != 0);
   }
   if (count > 0) {
-    stringstream s;
-    s << "List of problematic checksums contains " << count << " item(s)";
-    out(info, s.str().c_str(), -1, NULL);
+    hlog_info("List of problematic checksums contains %zu item%s",
+      count, count > 1 ? "s" : "");
   }
   return failed ? -1 : 0;
 }
@@ -139,7 +138,7 @@ void Missing::open(const char* path) {
 int Missing::load() {
   bool failed = false;
   // Read list of problematic checksums (it is ordered and contains no dup)
-  out(verbose, "Reading list of problematic checksums", -1, NULL);
+  hlog_verbose("Reading list of problematic checksums");
   Stream missing_list(_d->path);
   if (! missing_list.open(O_RDONLY)) {
     missing_list.setProgressCallback(_d->progress);
@@ -156,15 +155,13 @@ int Missing::load() {
           out(debug, line, 1, NULL);
           continue;
         } else {
-          out(error, "wrong number of parameters", -1,
-            "Missing checksums list");
+          hlog_error("Missing checksums list: wrong number of parameters");
           break;
         }
       }
       const char* checksum = params[0].c_str();
       if (sscanf(params[2].c_str(), "%lld", &size) != 1) {
-        out(error, "wrong type for size parameter", -1,
-          "Missing checksums list");
+        hlog_error("Missing checksums list: wrong type for size parameter");
         continue;
       }
       switch (params[1][0]) {
@@ -177,8 +174,7 @@ int Missing::load() {
           out(debug, checksum, 1, "Inconsistent");
           break;
         default:
-          out(warning, "wrong identifier", -1,
-            "Missing checksums list");
+          hlog_warning("Missing checksums list: wrong identifier");
       }
     }
     free(line);
@@ -255,9 +251,7 @@ void Missing::setRecovered(unsigned int id) {
 
 void Missing::show() const {
   if (! _d->data.empty()) {
-    stringstream s;
-    s << "Problematic checksum(s): " << _d->data.size();
-    out(warning, s.str().c_str(), -1, NULL);
+    hlog_warning("Problematic checksum(s): %zu", _d->data.size());
     for (unsigned int i = 0; i < _d->data.size(); i++) {
       const char* checksum = _d->data[i].checksum.c_str();
       switch (_d->data[i].status) {

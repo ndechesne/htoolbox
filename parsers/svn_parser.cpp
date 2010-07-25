@@ -64,7 +64,7 @@ public:
     // Parent under control, this is the control directory
     if ((dir_path.size() > control_dir.size())
     &&  (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
-      out(debug, dir_path.c_str(), -1, "control dir");
+      hlog_debug("Control dir '%s'", dir_path.c_str());
       return new SvnControlParser;
     }
     // Otherwise just return proxy
@@ -81,18 +81,18 @@ public:
 // dir_path is the relative or absolute complete path to the dir
 Parser *SvnParser::createChildIfControlled(const string& dir_path) const {
   // Parent under control, this is the control directory
-  if (! _no_parsing
-   && (dir_path.size() > control_dir.size())
-   && (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
-    out(debug, dir_path.c_str(), -1, "control dir");
+  if (! _no_parsing &&
+       (dir_path.size() > control_dir.size()) &&
+       (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
+    hlog_debug("Control dir '%s'", dir_path.c_str());
     return new SvnControlParser;
   }
 
   // If control directory exists and contains an entries file, assume control
   if (! File(Path((dir_path + control_dir).c_str(), &entries[1])).isValid()) {
     if (! _no_parsing) {
-      out(warning,
-        "Directory should be under Subversion control", -1, dir_path.c_str());
+      hlog_warning("Directory '%s' should be under Subversion control",
+        dir_path.c_str());
       return new IgnoreParser;
     } else {
       return NULL;

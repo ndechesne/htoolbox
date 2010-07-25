@@ -186,7 +186,7 @@ List::Status List::fetchLine(bool init) {
         if (strcmp(_d->path, _d->data)) {
           _d->path.swap(_d->data);
         } else {
-          out(warning, "Repeated path in list", -1, _d->path);
+          hlog_warning("Repeated path in list '%s'", _d->path.c_str());
         }
         _d->status = List::got_path;
       } else {
@@ -273,7 +273,7 @@ int List::decodeLine(
     return -1;
   }
   if (num < 2) {
-    out(error, "Wrong number of arguments for line", -1, NULL);
+    hlog_error("Wrong number of arguments for line");
     return -1;
   }
 
@@ -362,7 +362,7 @@ int List::getEntry(
 
     if (rc < 0) {
       if (rc == List::eof) {
-        out(error, "Unexpected end of list", -1, list->path());
+        hlog_error("Unexpected end of list in '%s'", list->path().c_str());
       }
       return -1;
     }
@@ -440,7 +440,7 @@ int List::search(
     // Failed
     if (rc < 0) {
       // Unexpected end of list
-      out(error, "Unexpected end of list", -1, list->path());
+      hlog_error("Unexpected end of list '%s'", list->path().c_str());
       return -1;
     }
 
@@ -492,7 +492,7 @@ int List::search(
                 if (modified != NULL) {
                   *modified = true;
                 }
-                out(info, list->getPath(), -2, "D      ");
+                hlog_info("%-8c%s", 'D', list->getPath().c_str());
               }
             }
           } else {
@@ -588,11 +588,10 @@ int List::merge(
     // Failed
     if (rc_journal < 0) {
       if (rc_journal == List::eof) {
-        out(warning, "Unexpected end of journal", -1,
-          journal->path());
+        hlog_warning("Unexpected end of journal '%s'", journal->path().c_str());
         rc_journal = 0;
       } else {
-        hlog_error("reading journal, at line %d", j_line_no);
+        hlog_error("Reading journal, at line %d", j_line_no);
         return -1;
       }
     }
@@ -603,7 +602,7 @@ int List::merge(
         rc_list = search(list, "", -1, 0, new_list);
         if (rc_list < 0) {
           // Error copying list
-          out(error, "End of list copy failed", -1, NULL);
+          hlog_error("End of list copy failed");
           return -1;
         }
       }
@@ -616,7 +615,7 @@ int List::merge(
       if (path.length() != 0) {
         if (path.compare(journal->getPath()) > 0) {
           // Cannot go back
-          hlog_error("journal, line %d: path out of order: '%s' > '%s'",
+          hlog_error("Journal, line %d: path out of order: '%s' > '%s'",
             j_line_no, path.c_str(), journal->getPath().c_str());
           return -1;
         }
@@ -628,7 +627,7 @@ int List::merge(
         rc_list = search(list, path, -1, 0, new_list);
         if (rc_list < 0) {
           // Error copying list
-          out(error, "Path search failed", -1, NULL);
+          hlog_error("Path search failed");
           return -1;
         }
       }
@@ -639,14 +638,14 @@ int List::merge(
       // Must have a path before then
       if (path.length() == 0) {
         // Did not get anything before data
-        hlog_error("data out of order in journal, at line %d", j_line_no);
+        hlog_error("Data out of order in journal, at line %d", j_line_no);
         return -1;
       }
 
       // Write
       if (new_list->putLine(journal->getData()) < 0) {
         // Could not write
-        out(error, "Journal copy failed", -1, NULL);
+        hlog_error("Journal copy failed");
         return -1;
       }
     }
@@ -693,7 +692,7 @@ void List::show(
       free(path);
       free(node);
       if (rc < 0) {
-        out(error, "Failed to read list", -1, NULL);
+        hlog_error("Failed to read list");
       }
     }
     close();

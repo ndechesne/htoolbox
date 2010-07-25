@@ -18,11 +18,11 @@ test1/svn/fileoth will be ignored
 test1/svn/dirutd will not be ignored
 test1/svn/dirbad will not be ignored
 test1/svn/.svn will not be ignored
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 test1/svn/.svn/entries will not be ignored
 test1/svn/.svn/format will be ignored
 test1/svn/.svn/whatever will be ignored
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
  -> Parsing Subversion entries
  --> test1/svn/dirutd/fileoth: o
  --> test1/svn/dirutd/fileutd: m
@@ -50,11 +50,11 @@ test1/svn/fileoth will be ignored
 test1/svn/dirutd will not be ignored
 test1/svn/dirbad will not be ignored
 test1/svn/.svn will not be ignored
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 test1/svn/.svn/entries will not be ignored
 test1/svn/.svn/format will be ignored
 test1/svn/.svn/whatever will be ignored
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
  -> Parsing Subversion entries
  --> test1/svn/dirutd/fileoth: o
  --> test1/svn/dirutd/fileutd: m
@@ -82,11 +82,11 @@ test1/svn/fileoth will not be ignored
 test1/svn/dirutd will not be ignored
 test1/svn/dirbad will not be ignored
 test1/svn/.svn will not be ignored
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 test1/svn/.svn/entries will not be ignored
 test1/svn/.svn/format will be ignored
 test1/svn/.svn/whatever will be ignored
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
  -> Parsing Subversion entries
  --> test1/svn/dirutd/fileoth: o
  --> test1/svn/dirutd/fileutd: m
@@ -114,11 +114,11 @@ test1/svn/fileoth will not be ignored
 test1/svn/dirutd will be ignored
 test1/svn/dirbad will be ignored
 test1/svn/.svn will not be ignored
-control dir: test1/svn/.svn
+Control dir 'test1/svn/.svn'
 test1/svn/.svn/entries will not be ignored
 test1/svn/.svn/format will be ignored
 test1/svn/.svn/whatever will be ignored
-Warning: test1/svn/dirbad: Directory should be under Subversion control
+Warning: Directory 'test1/svn/dirbad' should be under Subversion control
  -> Parsing Subversion entries
  --> test1/svn/dirutd/fileoth: o
  --> test1/svn/dirutd/fileutd: m
