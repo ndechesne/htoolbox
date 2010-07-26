@@ -214,8 +214,8 @@ int Data::crawl_recurse(
     list<CompData>* data,
     bool            thorough,
     bool            repair,
-    unsigned int*   valid,
-    unsigned int*   broken) const {
+    size_t*         valid,
+    size_t*         broken) const {
   bool failed = false;
   if (dir.isValid() && ! dir.createList()) {
     bool no_files   = false;
@@ -597,7 +597,7 @@ int Data::write(
 
   // Now move the file in its place
   if ((action == add) || (action == replace)) {
-    hlog_debug("%s %scompressed data for %s-%zu",
+    hlog_debug("%s %scompressed data for %s-%d",
       (action == add) ? "Adding" : "Replacing with",
       (compress != 0) ? "" : "un", source.checksum(), index);
     if (Directory(final_path).create() < 0) {

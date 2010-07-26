@@ -358,14 +358,14 @@ int Database::restore(
     char code;
     if (db_node->type() == 'f') {
       switch (links) {
-        case HBackup::none:
-          code = 'U';
-          break;
         case HBackup::symbolic:
           code = 'L';
           break;
         case HBackup::hard:
           code = 'H';
+          break;
+        default:
+          code = 'U';
       }
     } else {
       code = 'U';

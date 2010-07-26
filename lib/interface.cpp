@@ -182,7 +182,7 @@ ConfigObject* HBackup::Private::configChildFactory(
       co = this;
     } else
     {
-      hlog_error("Unsupported DB compression mode in '%s', at line %d",
+      hlog_error("Unsupported DB compression mode in '%s', at line %zu",
         file_path, line_no);
     }
   } else
@@ -336,7 +336,7 @@ int HBackup::readConfig(const char* config_path) {
   out(debug, config_path, 1, "Reading configuration file");
   Config       config;
   ConfigErrors errors;
-  int rc = config.read(config_path, 0, config_syntax, _d, &errors);
+  ssize_t rc = config.read(config_path, 0, config_syntax, _d, &errors);
   if (rc < 0) {
     errors.show();
     return -1;

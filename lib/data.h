@@ -61,8 +61,8 @@ protected: // So I can test them
     list<CompData>* data,             // List of collected data
     bool            thorough,         // Whether to check for data corruption
     bool            remove,           // Whether to remove damaged data
-    unsigned int*   valid,            // Number of valid data files found
-    unsigned int*   broken) const;    // Number of broken data files found
+    size_t*         valid,            // Number of valid data files found
+    size_t*         broken) const;    // Number of broken data files found
 public:
   Data();
   ~Data();
