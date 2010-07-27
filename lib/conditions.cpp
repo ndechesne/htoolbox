@@ -16,7 +16,6 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <sstream>
 #include <regex.h>
 
 using namespace std;
@@ -194,13 +193,14 @@ bool Condition::match(
 }
 
 void Condition::show(int level) const {
-  stringstream s;
+  const char* neg = _d->negated ? "not " : "";
   switch (_d->type) {
     case Condition::filter:
-      s << (_d->negated ? "not " : "") << "filter " << _d->filter->name();
+      hlog_debug_arrow(level, "Condition: %sfilter %s", neg,
+        _d->filter->name().c_str());
       break;
     case Condition::type:
-      s << (_d->negated ? "not " : "") << "type " << _d->file_type;
+      hlog_debug_arrow(level, "Condition: %stype %c", neg, _d->file_type);
       break;
     case Condition::name:
     case Condition::name_end:
@@ -210,7 +210,7 @@ void Condition::show(int level) const {
     case Condition::path_end:
     case Condition::path_start:
     case Condition::path_regex: {
-      string type;
+      const char* type;
       switch (_d->type) {
         case Condition::name:
           type = "name";
@@ -239,13 +239,13 @@ void Condition::show(int level) const {
         default:
           type = "unknown";
       }
-      s << (_d->negated ? "not " : "") << type << " " << _d->string;
+      hlog_debug_arrow(level, "Condition: %s%s %s", neg, type, _d->string);
       } break;
     case Condition::size_ge:
     case Condition::size_gt:
     case Condition::size_le:
     case Condition::size_lt: {
-      string type;
+      const char* type;
       switch (_d->type) {
         case Condition::size_ge:
           type = "size>=";
@@ -262,11 +262,11 @@ void Condition::show(int level) const {
         default:
           type = "unknown";
       }
-      s << (_d->negated ? "not " : "") << type << " " << _d->value;
+      hlog_debug_arrow(level, "Condition: %s%s %lld", neg, type, _d->value);
       } break;
     case Condition::mode_and:
     case Condition::mode_eq: {
-      string type;
+      const char* type;
       switch (_d->type) {
         case Condition::mode_and:
           type = "mode&";
@@ -277,12 +277,10 @@ void Condition::show(int level) const {
         default:
           type = "unknown";
       }
-      s << (_d->negated ? "not " : "") << type << " " << oct << _d->value
-        << dec;
+      hlog_debug_arrow(level, "Condition: %s%s 0%03llo", neg, type, _d->value);
       } break;
     default:
       hlog_error("Condition: unknown type");
       return;
   }
-  out(debug, s.str().c_str(), level, "Condition");
 }

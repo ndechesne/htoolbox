@@ -3,67 +3,35 @@ Report tests
 Default behaviour
 default level
 ALERT! alert level
-ALERT! alert 0 level
 Error: error level
-Error: error 0 level
 Warning: warning level
-Warning: warning 0 level
-Warning:  -> warning 1 level
-Warning:  --> warning 2 level
 info level
-info 0 level
- -> info 1 level
- --> info 2 level
 
 Verbosity level: alert
 ALERT! alert level
-ALERT! alert 0 level
 
 Verbosity level: error
 ALERT! alert level
-ALERT! alert 0 level
 Error: error level
-Error: error 0 level
 
 Verbosity level: warning
 ALERT! alert level
-ALERT! alert 0 level
 Error: error level
-Error: error 0 level
 Warning: warning level
-Warning: warning 0 level
-Warning:  -> warning 1 level
-Warning:  --> warning 2 level
 
 Verbosity level: info
 default level
 ALERT! alert level
-ALERT! alert 0 level
 Error: error level
-Error: error 0 level
 Warning: warning level
-Warning: warning 0 level
-Warning:  -> warning 1 level
-Warning:  --> warning 2 level
 info level
-info 0 level
- -> info 1 level
- --> info 2 level
 
 Verbosity level: verbose
 default level
 ALERT! alert level
-ALERT! alert 0 level
 Error: error level
-Error: error 0 level
 Warning: warning level
-Warning: warning 0 level
-Warning:  -> warning 1 level
-Warning:  --> warning 2 level
 info level
-info 0 level
- -> info 1 level
- --> info 2 level
 verbose level
 verbose 0 level
  -> verbose 1 level
@@ -72,17 +40,9 @@ verbose 0 level
 Verbosity level: debug
 default level
 ALERT! alert level
-ALERT! alert 0 level
 Error: error level
-Error: error 0 level
 Warning: warning level
-Warning: warning 0 level
-Warning:  -> warning 1 level
-Warning:  --> warning 2 level
 info level
-info 0 level
- -> info 1 level
- --> info 2 level
 verbose level
 verbose 0 level
  -> verbose 1 level
@@ -121,72 +81,61 @@ Error: No such file or directory creating log file: 'missing/report.log'
 
 Rotate file
 report.log:
-2009-08-07 06:05:04 report_test.cpp:239 DEBUG message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:183 message: debug
 report.log-1:
-2009-08-07 06:05:04 report_test.cpp:238 VERB  message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:182 message: verbose
 report.log-2:
-2009-08-07 06:05:04 report_test.cpp:237 INFO  message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:181 message: info
 report.log-3:
-2009-08-07 06:05:04 report_test.cpp:236 WARN  message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:180 message: warning
 report.log-4:
-2009-08-07 06:05:04 report_test.cpp:235 ERROR message: error
+2009-08-07 06:05:04 ERROR report_test.cpp:179 message: error
 report.log-5:
-2009-08-07 06:05:04 report_test.cpp:234 ALERT message: alert
+2009-08-07 06:05:04 ALERT report_test.cpp:178 message: alert
 report.log:
 report.log-1:
-2009-08-07 06:05:04 report_test.cpp:239 DEBUG message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:183 message: debug
 report.log-2:
-2009-08-07 06:05:04 report_test.cpp:238 VERB  message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:182 message: verbose
 report.log-3:
-2009-08-07 06:05:04 report_test.cpp:237 INFO  message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:181 message: info
 report.log-4:
-2009-08-07 06:05:04 report_test.cpp:236 WARN  message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:180 message: warning
 report.log-5:
-2009-08-07 06:05:04 report_test.cpp:235 ERROR message: error
+2009-08-07 06:05:04 ERROR report_test.cpp:179 message: error
 report.log:
 report.log-1:
-2009-08-07 06:05:04 report_test.cpp:239 DEBUG message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:183 message: debug
 report.log-2:
-2009-08-07 06:05:04 report_test.cpp:238 VERB  message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:182 message: verbose
 report.log-3:
-2009-08-07 06:05:04 report_test.cpp:237 INFO  message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:181 message: info
 report.log-4:
-2009-08-07 06:05:04 report_test.cpp:236 WARN  message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:180 message: warning
 report.log-5:
-2009-08-07 06:05:04 report_test.cpp:235 ERROR message: error
-report.log:
-report.log-1:
-1
-report.log-2:
-2009-08-07 06:05:04 report_test.cpp:239 DEBUG message: debug
-report.log-3:
-2009-08-07 06:05:04 report_test.cpp:238 VERB  message: verbose
-report.log-4:
-2009-08-07 06:05:04 report_test.cpp:237 INFO  message: info
-report.log-5:
-2009-08-07 06:05:04 report_test.cpp:236 WARN  message: warning
+2009-08-07 06:05:04 ERROR report_test.cpp:179 message: error
 report.log:
 report.log-1:
 1
 report.log-2:
-1
+2009-08-07 06:05:04 DEBUG report_test.cpp:183 message: debug
 report.log-3:
-2009-08-07 06:05:04 report_test.cpp:239 DEBUG message: debug
+2009-08-07 06:05:04 VERB  report_test.cpp:182 message: verbose
 report.log-4:
-2009-08-07 06:05:04 report_test.cpp:238 VERB  message: verbose
+2009-08-07 06:05:04 INFO  report_test.cpp:181 message: info
 report.log-5:
-2009-08-07 06:05:04 report_test.cpp:237 INFO  message: info
+2009-08-07 06:05:04 WARN  report_test.cpp:180 message: warning
 report.log:
 report.log-1:
 1
 report.log-2:
 1
 report.log-3:
-1
+2009-08-07 06:05:04 DEBUG report_test.cpp:183 message: debug
 report.log-4:
-2009-08-07 06:05:04 report_test.cpp:239 DEBUG message: debug
+2009-08-07 06:05:04 VERB  report_test.cpp:182 message: verbose
 report.log-5:
-2009-08-07 06:05:04 report_test.cpp:238 VERB  message: verbose
+2009-08-07 06:05:04 INFO  report_test.cpp:181 message: info
 report.log:
 report.log-1:
 1
@@ -195,8 +144,19 @@ report.log-2:
 report.log-3:
 1
 report.log-4:
-2009-08-07 06:05:04 report_test.cpp:239 DEBUG message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:183 message: debug
 report.log-5:
-2009-08-07 06:05:04 report_test.cpp:238 VERB  message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:182 message: verbose
+report.log:
+report.log-1:
+1
+report.log-2:
+1
+report.log-3:
+1
+report.log-4:
+2009-08-07 06:05:04 DEBUG report_test.cpp:183 message: debug
+report.log-5:
+2009-08-07 06:05:04 VERB  report_test.cpp:182 message: verbose
 
 End of tests

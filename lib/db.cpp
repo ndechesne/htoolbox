@@ -18,7 +18,6 @@
 
 // Compression to use when required: gzip -5 (best speed/ratio)
 
-#include <sstream>
 #include <string>
 #include <list>
 
@@ -524,17 +523,14 @@ int Database::scan(
     hlog_debug("Checksum(s) from list: %zu", list_data.size());
     for (list<CompData>::iterator i = list_data.begin();
         i != list_data.end(); i++) {
-      char tmp[8];
-      hlog_debug("%s%s, %lld", arrow(tmp, 1), i->checksum().c_str(), i->size());
+      hlog_debug_arrow(1, "%s, %lld", i->checksum().c_str(), i->size());
     }
   }
   if (! data_data.empty()) {
     hlog_debug("Checksum(s) with data: %zu", data_data.size());
     for (list<CompData>::iterator i = data_data.begin();
         i != data_data.end(); i++) {
-      stringstream s;
-      s << i->checksum() << ", " << i->size();
-      out(debug, s.str().c_str(), 1, NULL);
+      hlog_debug_arrow(1, "%s, %lld", i->checksum().c_str(), i->size());
     }
   }
 
@@ -580,13 +576,13 @@ int Database::scan(
       if (i->checksum()[0] != '\0') {
         if (rm_obsolete) {
           if (_d->data.remove(i->checksum()) == 0) {
-            out(debug, "removed", 1, i->checksum());
+            hlog_debug_arrow(1, "removed data for %s", i->checksum().c_str());
           } else {
-            hlog_error("%s removing data '%s'", strerror(errno),
+            hlog_error("%s removing data for %s", strerror(errno),
               i->checksum().c_str());
           }
         } else {
-          out(debug, i->checksum(), 1, NULL);
+          hlog_debug_arrow(1, "%s", i->checksum().c_str());
         }
       }
     }

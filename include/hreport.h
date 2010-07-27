@@ -35,30 +35,6 @@ namespace hreport {
     debug         /*!< Developper information, typically if 'debug' selected */
   };
 
-  // buf need to be at least n+4 bytes long
-  const char* arrow(char* buf, size_t n);
-
-  //! \brief Function called throughout the code to output data
-  /*!
-    \param level        the level of verbosity associated with the message
-    \param type         type of message (meaning of number)
-    \param message      text of the message
-    \param number       either line no or error no or arrow length or size
-                        special cases:
-                          -1: default
-                          -2: do not print a colon (':') after the prepended text
-                          -3: overwritable string
-    \param prepend      prepended text (often the name of the file concerned)
-    \return the output stream
-  */
-  extern void out_hidden(
-    const char*     file,
-    int             line,
-    Level           level,
-    const char*     message,
-    size_t          number,
-    const char*     prepend);
-
   class Report {
     //! Current output criticality levels (default: info)
     Level           _console_level;
@@ -104,8 +80,9 @@ namespace hreport {
       int             line,
       Level           level,
       bool            temporary,  // erase this message with next one
+      size_t          ident,      // text identation
       const char*     format,
-      ...) __attribute__ ((format (printf, 6, 7)));
+      ...) __attribute__ ((format (printf, 7, 8)));
   };
 
   extern Report report;
@@ -147,10 +124,18 @@ namespace hreport {
 
 #define hlog_generic(level, temp, format, ...) \
   hlog_is_worth(level) ? \
-    hreport::report.log(__FILE__,__LINE__,(level),(temp),(format),##__VA_ARGS__) : 0
+    hreport::report.log(__FILE__,__LINE__,(level),(temp),0,(format),##__VA_ARGS__) : 0
 
 
-#define out(level,msg,no,prepend) \
-  hreport::out_hidden(__FILE__,__LINE__,(level),(msg),(no),(prepend))
+#define hlog_verbose_arrow(i, f, ...) \
+  hlog_generic_arrow(hreport::verbose,(i),(f),##__VA_ARGS__)
+
+#define hlog_debug_arrow(i, f, ...) \
+  hlog_generic_arrow(hreport::debug,(i),(f),##__VA_ARGS__)
+
+
+#define hlog_generic_arrow(level, ident, format, ...) \
+  hlog_is_worth(level) ? \
+    hreport::report.log(__FILE__,__LINE__,(level),false,(ident),(format),##__VA_ARGS__) : 0
 
 #endif  // _HREPORT_H

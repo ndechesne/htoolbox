@@ -33,7 +33,7 @@ Found 1 valid and 0 broken data file(s)
 Checksum(s) with data: 1
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 0
 Obsolete checksum(s): 1
- -> 59ca0efa9f5633cb0371bbc0355478d8-0: removed
+ -> removed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Database closed
 Database open in read/write mode
 Found 0 checksum(s)
@@ -163,9 +163,9 @@ Checksum(s) with data: 4
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
 Obsolete checksum(s): 1
- -> 6d7fce9fee471194aa8b5b6e47267f03-0: removed
+ -> removed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Warning: Problematic checksum(s): 1
- -> 3d546a1ce46c6ae10ad34ab8a81c542e-0: missing
+ -> 3d546a1ce46c6ae10ad34ab8a81c542e-0 missing
 Missing checksums list updated
 List of problematic checksums contains 1 item
 Database closed
@@ -175,7 +175,7 @@ Database open in read/write mode
 Database open in read-only mode
 Database open r-o for 'myClient'
 Reading list of problematic checksums
- -> Missing: 3d546a1ce46c6ae10ad34ab8a81c542e-0
+ -> Missing 3d546a1ce46c6ae10ad34ab8a81c542e-0
 Database open r/w for 'myClient'
 D       /client_path/subdir
 D       /client_path/subdir/testfile

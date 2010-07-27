@@ -122,7 +122,7 @@ int Client::mountPath(
   command += " " + share + " " + mount_point;
 
   // Issue mount command
-  out(debug, command.c_str(), 1, NULL);
+  hlog_debug_arrow(1, "%s", command.c_str());
   command += " > /dev/null 2>&1";
 
   int result = system(command.c_str());
@@ -146,7 +146,7 @@ int Client::umount(
       command = "fusermount -u ";
     }
     command += mount_point;
-    out(debug, command.c_str(), 1, NULL);
+    hlog_debug_arrow(1, "%s", command.c_str());
     _mounted = "";
     return system(command.c_str());
   }
@@ -201,7 +201,8 @@ int Client::readConfig(
     path->add(new ConfigItem("no_compress", 0, 1, 1));
   }
 
-  out(debug, internalName().c_str(), 1, "Reading client configuration file");
+  hlog_debug_arrow(1, "Reading client configuration file for '%s'",
+    internalName().c_str());
   ConfigErrors errors;
   bool failed = false;
   if (_config.read(config_path, Config::flags_dos_catch, config_syntax, this,
@@ -470,17 +471,16 @@ int Client::backup(
 }
 
 void Client::show(int level) const {
-  out(debug, _name.c_str(), level++, "Client");
+  hlog_debug_arrow(level++, "Client: %s", _name.c_str());
   if (! _subset_server.empty()) {
-    out(debug, _subset_server.c_str(), level,
-      "Required subset");
+    hlog_debug_arrow(level, "Required subset: %s", _subset_server.c_str());
   }
   if (! _subset_client.empty()) {
-    out(debug, _subset_client.c_str(), level, "Subset");
+    hlog_debug_arrow(level, "Subset: %s", _subset_client.c_str());
   }
-  out(debug, _protocol.c_str(), level, "Protocol");
+    hlog_debug_arrow(level, "Protocol: %s", _protocol.c_str());
   if (_host_or_ip != _name) {
-    out(debug, _host_or_ip.c_str(), level, "Hostname");
+    hlog_debug_arrow(level, "Hostname: %s", _host_or_ip.c_str());
   }
   if (! _options.empty()) {
     stringstream s;
@@ -494,7 +494,7 @@ void Client::show(int level) const {
       }
       s << i->option();
     }
-    out(debug, s.str().c_str(), level, "Options");
+    hlog_debug_arrow(level, "Options: %s", s.str().c_str());
   }
   if (! _users.empty()) {
     stringstream s;
@@ -508,26 +508,25 @@ void Client::show(int level) const {
       }
       s << *i;
     }
-    out(debug, s.str().c_str(), level, "Users");
+    hlog_debug_arrow(level, "Users: %s", s.str().c_str());
   }
   if (_timeout_nowarning) {
-    out(debug, "No warning on time out", level, NULL);
+    hlog_debug_arrow(level, "No warning on time out");
   }
   if (_list_file.length() != 0) {
-    out(debug, _list_file, level, "Config");
+    hlog_debug_arrow(level, "Config: %s", _list_file.c_str());
   }
   {
-    stringstream s;
     if (_expire >= 0) {
-      s << _expire << "s (" << _expire / 86400 << "d)";
+      hlog_debug_arrow(level, "Expiry: %d second(s) / %d day(s)",
+        _expire, _expire / 86400);
     } else {
-      s << "none";
+      hlog_debug_arrow(level, "Expiry: none");
     }
-    out(debug, s.str().c_str(), level, "Expiry");
   }
   _attributes.show(level);
   if (_paths.size() > 0) {
-    out(debug, "", level, "Paths");
+    hlog_debug_arrow(level, "Paths:");
     for (list<ClientPath*>::const_iterator i = _paths.begin();
         i != _paths.end(); i++) {
       (*i)->show(level + 1);

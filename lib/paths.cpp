@@ -278,15 +278,15 @@ int ClientPath::parse(
 }
 
 void ClientPath::show(int level) const {
-  out(debug, _path, level++, "Path");
+  hlog_debug_arrow(level++, "Path: %s", _path.c_str());
   _attributes.show(level);
   if (_compress != NULL) {
-    out(debug, _compress->name().c_str(), level,
-      "Compress filter");
+    hlog_debug_arrow(level, "Compress filter: %s",
+      _compress->name().c_str());
   }
   if (_no_compress != NULL) {
-    out(debug, _no_compress->name().c_str(), level,
-      "No compress filter");
+    hlog_debug_arrow(level, "No compress filter: %s",
+      _no_compress->name().c_str());
   }
   _parsers.show(level);
 }

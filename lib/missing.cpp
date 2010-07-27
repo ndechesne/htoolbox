@@ -152,7 +152,7 @@ int Missing::load() {
         if (params.size() == 1) {
           // Backwards compatibility
           _d->data.push_back(MissingData(line, -1, missing));
-          out(debug, line, 1, NULL);
+          hlog_debug_arrow(1, "%s", line);
           continue;
         } else {
           hlog_error("Missing checksums list: wrong number of parameters");
@@ -167,11 +167,11 @@ int Missing::load() {
       switch (params[1][0]) {
         case 'm':
           _d->data.push_back(MissingData(checksum, -1, missing));
-          out(debug, checksum, 1, "Missing");
+          hlog_debug_arrow(1, "Missing %s", checksum);
           break;
         case 'i':
           _d->data.push_back(MissingData(checksum, size, inconsistent));
-          out(debug, checksum, 1, "Inconsistent");
+          hlog_debug_arrow(1, "Inconsistent %s", checksum);
           break;
         default:
           hlog_warning("Missing checksums list: wrong identifier");
@@ -256,13 +256,13 @@ void Missing::show() const {
       const char* checksum = _d->data[i].checksum.c_str();
       switch (_d->data[i].status) {
         case missing:
-          out(debug, "missing", 1, checksum);
+          hlog_debug_arrow(1, "%s missing", checksum);
           break;
         case inconsistent:
-          out(debug, "inconsistent", 1, checksum);
+          hlog_debug_arrow(1, "%s inconsistent", checksum);
           break;
         default:
-          out(debug, "recovered", 1, checksum);
+          hlog_debug_arrow(1, "%s recovered", checksum);
       }
     }
   }

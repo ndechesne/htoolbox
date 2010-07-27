@@ -35,39 +35,6 @@ using namespace hreport;
 
 Report hreport::report;
 
-void hreport::out_hidden(
-    const char*     file,
-    int             line,
-    Level           level,
-    const char*     message,
-    size_t          number,
-    const char*     prepend) {
-  if (level > report.level()) {
-    return;
-  }
-  char tmp[32];
-  report.log(file, line, level, false, "%s%s%s%s",
-    arrow(tmp, number),
-    prepend != NULL ? prepend : "",
-    prepend != NULL ? ": " : "",
-    message);
-}
-
-const char* hreport::arrow(char* buf, size_t n) {
-  /* " --n--> \0" */
-  const char* rc = buf;
-  if (n > 0) {
-    *buf++ = ' ';
-    for (size_t i = 0; i < n; ++i) {
-      *buf++ = '-';
-    }
-    *buf++ = '>';
-    *buf++ = ' ';
-  }
-  *buf = '\0';
-  return rc;
-}
-
 struct Report::Private {
   pthread_mutex_t mutex;
   size_t          size_to_overwrite;
@@ -169,6 +136,7 @@ struct Report::Private {
       int             line,
       Level           level,
       bool            temporary,
+      size_t          ident,
       const char*     format,
       va_list*        args) {
     (void) file;
@@ -186,10 +154,23 @@ struct Report::Private {
       case warning:
         offset += sprintf(&buffer[offset], "Warning: ");
         break;
+      case verbose:
+      case debug:
+        // add arrow
+        if (ident > 0) {
+          /* " --n--> " */
+          buffer[offset++] = ' ';
+          for (size_t i = 0; i < ident; ++i) {
+            buffer[offset++] = '-';
+          }
+          buffer[offset++] = '>';
+          buffer[offset++] = ' ';
+        }
+        break;
       default:
         ;
     }
-    // fill in buffer
+    // message
     offset += vsnprintf(&buffer[offset], sizeof(buffer), format, *args);
     size_t buffer_size = sizeof(buffer) - 1;
     buffer[buffer_size] = '\0';
@@ -210,6 +191,7 @@ struct Report::Private {
     }
     // print
     fwrite(buffer, offset, 1, fd);
+    // end
     if (temporary) {
       fprintf(fd, "\r");
     } else {
@@ -230,8 +212,10 @@ struct Report::Private {
       int             line,
       Level           level,
       bool            temporary,
+      size_t          ident,
       const char*     format,
       va_list*        args) {
+    (void) ident;
     if (temporary) {
       return 0;
     }
@@ -239,14 +223,13 @@ struct Report::Private {
       return -1;
     }
     int rc = 0;
-    // info
+    // time
     time_t epoch = time(NULL);
     struct tm date;
     localtime_r(&epoch, &date); // voluntarily ignore error case
     rc += fprintf(fd, "%04d-%02d-%02d %02d:%02d:%02d ", date.tm_year + 1900,
       date.tm_mon + 1, date.tm_mday, date.tm_hour, date.tm_min, date.tm_sec);
-    rc += fprintf(fd, "%s:%d ", file, line);
-    // prefix
+    // level
     switch (level) {
       case alert:
         rc += fprintf(fd, "ALERT ");
@@ -267,8 +250,11 @@ struct Report::Private {
         rc += fprintf(fd, "DEBUG ");
         break;
     }
-    // print message
+    // location
+    rc += fprintf(fd, "%s:%d ", file, line);
+    // message
     rc += vfprintf(fd, format, *args);
+    // end
     rc += fprintf(fd, "\n");
     fflush(fd);
     ++lines;
@@ -346,11 +332,10 @@ int Report::log(
     const char*     file,
     int             line,
     Level           level,
-    bool            temporary,
+    bool            temp,
+    size_t          ident,
     const char*     format,
     ...) {
-  (void) file;
-  (void) line;
   // print only if required
   if (level > this->level()) {
     return 0;
@@ -362,10 +347,10 @@ int Report::log(
   int rc = 0;
   if (_d->console_log && (level <= _console_level)) {
     FILE* fd = (level <= warning) ? stderr : stdout;
-    rc = _d->consoleLog(fd, file, line, level, temporary, format, &ap);
+    rc = _d->consoleLog(fd, file, line, level, temp, ident, format, &ap);
   }
   if (_d->file_log && (level <= _file_level)) {
-    rc = _d->fileLog(_d->fd, file, line, level, temporary, format, &ap);
+    rc = _d->fileLog(_d->fd, file, line, level, temp, ident, format, &ap);
   }
   // unlock
   _d->unlock();

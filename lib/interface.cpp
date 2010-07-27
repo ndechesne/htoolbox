@@ -333,8 +333,8 @@ int HBackup::readConfig(const char* config_path) {
   }
 
   /* Read configuration file */
-  out(debug, config_path, 1, "Reading configuration file");
-  Config       config;
+  hlog_debug_arrow(1, "Reading configuration file '%s'", config_path);
+  Config config;
   ConfigErrors errors;
   ssize_t rc = config.read(config_path, 0, config_syntax, _d, &errors);
   if (rc < 0) {
@@ -524,54 +524,51 @@ int HBackup::list_or_restore(
 
 void HBackup::show(int level) const {
   if (_d->log_file_name == "") {
-    out(debug, "No file logging", level, NULL);
+    hlog_debug_arrow(level, "No file logging");
   } else {
-    out(debug, _d->log_file_name.c_str(), level, "Log path");
+    hlog_debug_arrow(level, "Log path: '%s'", _d->log_file_name.c_str());
     if (_d->log_max_lines == 0) {
-      out(debug, "No size limit", level + 1, NULL);
+      hlog_debug_arrow(level + 1, "No size limit");
     } else {
-      char number[32];
-      sprintf(number, "%zu", _d->log_max_lines);
-      out(debug, number, level + 1, "Max lines per log");
+      hlog_debug_arrow(level + 1, "Max lines per log: %zu", _d->log_max_lines);
     }
     if (_d->log_backups == 0) {
-      out(debug, "No log file backup", level + 1, NULL);
+      hlog_debug_arrow(level + 1, "No log file backup");
     } else {
-      char number[32];
-      sprintf(number, "%zu", _d->log_backups);
-      out(debug, number, level + 1, "Backup(s)");
+      hlog_debug_arrow(level + 1, "Backup(s): %zu", _d->log_backups);
     }
-    out(debug, Report::levelString(_d->log_level), level + 1,
-      "Level");
+    hlog_debug_arrow(level + 1, "Level: %s", Report::levelString(_d->log_level));
   }
   if (_d->db == NULL) {
-    out(debug, "DB path not set", level, NULL);
+    hlog_debug_arrow(level, "DB path not set");
   } else {
-    out(debug, _d->db->path(), level, "DB path");
+    hlog_debug_arrow(level, "DB path: '%s'", _d->db->path());
   }
+  const char* comp_str;
   switch (_d->db_compress_mode) {
     case OpData::always:
-      out(debug, "DB compression: always", level, NULL);
+      comp_str = "always";
       break;
     case OpData::auto_now:
-      out(debug, "DB compression: automatic", level, NULL);
+      comp_str = "automatic";
       break;
     case OpData::auto_later:
-      out(debug, "DB compression: later", level, NULL);
+      comp_str = "later";
       break;
     case OpData::never:
-      out(debug, "DB compression: never", level, NULL);
+      comp_str = "never";
       break;
   }
+  hlog_debug_arrow(level, "DB compression: %s", comp_str);
   if (! _d->selected_clients.empty()) {
-    out(debug, "Selected clients:", level, NULL);
+    hlog_debug_arrow(level, "Selected clients:");
     for (std::list<string>::iterator client = _d->selected_clients.begin();
         client != _d->selected_clients.end(); client++) {
-      out(debug, client->c_str(), level + 1, NULL);
+      hlog_debug_arrow(level + 1, "%s", client->c_str());
     }
   }
   if (! _d->clients.empty()) {
-    out(debug, "Clients:", level, NULL);
+    hlog_debug_arrow(level, "Clients:");
     for (std::list<Client*>::iterator client = _d->clients.begin();
         client != _d->clients.end(); client++) {
       (*client)->show(level + 1);

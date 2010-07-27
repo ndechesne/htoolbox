@@ -16,7 +16,6 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <sstream>
 #include <list>
 #include <sys/stat.h>
 
@@ -85,7 +84,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path) : Parser(mode, dir_path)
 
   /* Fill in list of controlled files */
   entries_file.open(O_RDONLY);
-  out(debug, "Parsing CVS entries", 1, NULL);
+  hlog_debug_arrow(1, "Parsing CVS entries");
   int    line_no = 0;
   char*  buffer = NULL;
   size_t buffer_capacity = 0;
@@ -232,11 +231,9 @@ void CvsParser::show(int level) {
   list<Node>::iterator  i;
   for (i = _files.begin(); i != _files.end(); i++) {
     if (i->type() == 'd') {
-      out(debug, "D", level, i->name());
+      hlog_debug_arrow(level, "%s: D", i->name());
     } else {
-      stringstream mtime;
-      mtime << i->mtime();
-      out(debug, mtime.str().c_str(), level, i->name());
+      hlog_debug_arrow(level, "%s: %ld", i->name(), i->mtime());
     }
   }
 }

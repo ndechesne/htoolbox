@@ -16,7 +16,6 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <sstream>
 #include <string>
 
 #include <stdio.h>
@@ -245,9 +244,8 @@ bool Filter::match(
 }
 
 void Filter::show(int level) const {
-  stringstream s;
-  s << ((_type == any) ? "or" : "and") << " " << _name;
-  out(debug, s.str().c_str(), level, "Filter");
+  hlog_debug_arrow(level, "Filter: %s %s", _type == any ? "or" : "and",
+    _name.c_str());
   // Show all conditions
   list<Condition*>::const_iterator condition;
   for (condition = _children.begin(); condition != _children.end();

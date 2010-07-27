@@ -16,7 +16,6 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <sstream>
 #include <list>
 
 #include <stdio.h>
@@ -114,7 +113,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) :
     return;
   }
   /* Fill in list of files */
-  out(debug, "Parsing Subversion entries", 1, NULL);
+  hlog_debug_arrow(1, "Parsing Subversion entries");
   string command = "svn status --no-ignore --non-interactive \"" +
     dir_path + "\"";
   FILE* fd = popen(command.c_str(), "r");
@@ -213,9 +212,7 @@ bool SvnParser::ignore(const Node& node) const {
 void SvnParser::show(int level) {
   list<Node>::iterator  i;
   for (i = _files.begin(); i != _files.end(); i++) {
-    stringstream type;
-    type << i->type();
-    out(debug, type.str().c_str(), level, i->path());
+    hlog_debug_arrow(level, "%s: %c", i->path(), i->type());
   }
 }
 

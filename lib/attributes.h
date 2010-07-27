@@ -64,15 +64,14 @@ public:
   }
   void show(int level = 0) const {
     if (_report_copy_error_once) {
-      out(hreport::debug,
-        "No error if same file fails copy again", level, NULL);
+      hlog_debug_arrow(level, "No error if same file fails copy again");
     }
     _filters.show(level);
     if (_ignore_list.size() > 0) {
-      out(hreport::debug, "Ignore filters:", level, NULL);
+      hlog_debug_arrow(level, "Ignore filters:");
       for (list<const Filter*>::const_iterator filter = _ignore_list.begin();
           filter != _ignore_list.end(); filter++) {
-        out(hreport::debug, (*filter)->name().c_str(), level + 1, NULL);
+        hlog_debug_arrow(level + 1, "%s", (*filter)->name().c_str());
       }
     }
   }

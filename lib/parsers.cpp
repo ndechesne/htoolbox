@@ -97,6 +97,6 @@ Parser* Parsers::createParser(const string& name, const string& mode_str) {
 void Parsers::show(int level) const {
   list<Parser*>::const_iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
-    out(debug, (*i)->name(), level, "Parser");
+    hlog_debug_arrow(level, "Parser: %s", (*i)->name());
   }
 }

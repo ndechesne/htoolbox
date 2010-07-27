@@ -126,18 +126,18 @@ HBackup (c) 2006-2010 Hervé Fache
     Be verbose about actions
 
 List clients (missing DB path)
- -> Reading configuration file: etc/hbackup.conf
+ -> Reading configuration file 'etc/hbackup.conf'
 Error: Given DB path does not exist 'test_db'
 List clients (empty DB path)
- -> Reading configuration file: etc/hbackup.conf
+ -> Reading configuration file 'etc/hbackup.conf'
 Error: Given DB path does not contain a database 'test_db'
 Backup, DB missing
- -> Reading configuration file: etc/hbackup.conf
- -> Log path: hbackup.log
+ -> Reading configuration file 'etc/hbackup.conf'
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Clients:
  --> Client: aClient
@@ -149,7 +149,7 @@ Backup, DB missing
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -189,7 +189,7 @@ Backup, DB missing
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -205,7 +205,7 @@ Backup, DB missing
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -214,7 +214,7 @@ Backup, DB missing
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -245,12 +245,12 @@ Backup, DB missing
 Backing up in server mode
 Error: Given DB path does not exist 'test_db'
 Typical backup, initialize DB
- -> Reading configuration file: etc/hbackup.conf
- -> Log path: hbackup.log
+ -> Reading configuration file 'etc/hbackup.conf'
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Clients:
  --> Client: aClient
@@ -262,7 +262,7 @@ Typical backup, initialize DB
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -302,7 +302,7 @@ Typical backup, initialize DB
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -318,7 +318,7 @@ Typical backup, initialize DB
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -327,7 +327,7 @@ Typical backup, initialize DB
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -381,7 +381,7 @@ Database closed for 'aClient.vista'
  -> umount -fl test_db/.mount/aClient.vista
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
- -> Reading client configuration file: client.xp
+ -> Reading client configuration file for 'client.xp'
  -> Client: client
  --> Required subset: xp
  --> Subset: xp
@@ -393,7 +393,7 @@ Trying client 'client.xp' using protocol 'smb'
  --> Ignore filters:
  ---> nothing
  ---> backup
- --> Paths: 
+ --> Paths:
  ---> Path: C:/Test Dir
  ----> Filter: and silly
  -----> Condition: filter backup
@@ -410,8 +410,8 @@ Trying client 'client.xp' using protocol 'smb'
  -----> Condition: size> 2048
  -----> Condition: size<= 3000000
  -----> Condition: size< 4294967296
- -----> Condition: mode& 777
- -----> Condition: mode= 644
+ -----> Condition: mode& 0777
+ -----> Condition: mode= 0644
  ----> Ignore filters:
  -----> nothing
  -----> backup
@@ -432,7 +432,7 @@ Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/.mount/myClient
- -> Reading client configuration file: myClient
+ -> Reading client configuration file for 'myClient'
  -> Client: myClient
  --> Protocol: nfs
  --> Users: backup, root
@@ -441,7 +441,7 @@ Trying client 'myClient' using protocol 'nfs'
  --> No error if same file fails copy again
  --> Ignore filters:
  ---> nothing
- --> Paths: 
+ --> Paths:
  ---> Path: /home/User/test
  ----> No error if same file fails copy again
  ----> Filter: or compress
@@ -468,7 +468,7 @@ Database closed for 'myClient'
  -> umount -fl test_db/.mount/myClient
 Trying client 'myClient.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase //myClient/C$ test_db/.mount/myClient.xp
- -> Reading client configuration file: myClient.xp
+ -> Reading client configuration file for 'myClient.xp'
  -> Client: myClient
  --> Required subset: xp
  --> Subset: xp
@@ -478,7 +478,7 @@ Trying client 'myClient.xp' using protocol 'smb'
  --> Expiry: none
  --> Ignore filters:
  ---> nothing
- --> Paths: 
+ --> Paths:
  ---> Path: C:/Test Dir
  ----> Filter: and silly
  -----> Condition: filter backup
@@ -495,8 +495,8 @@ Trying client 'myClient.xp' using protocol 'smb'
  -----> Condition: size> 2048
  -----> Condition: size<= 3000000
  -----> Condition: size< 4294967296
- -----> Condition: mode& 777
- -----> Condition: mode= 644
+ -----> Condition: mode& 0777
+ -----> Condition: mode= 0644
  ----> Ignore filters:
  -----> nothing
 Backing up client 'myClient.xp'
@@ -514,14 +514,14 @@ Af ~    C:/Test Dir/My File.TXT
 Register modified for 'myClient.xp'
 Database closed for 'myClient.xp'
  -> umount -fl test_db/.mount/myClient.xp
- -> Reading client configuration file: myhost
+ -> Reading client configuration file for 'myhost'
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
  --> Users: biloute, machin
  --> No warning on time out
  --> Config: etc/localhost.list
- --> Expiry: 86400s (1d)
+ --> Expiry: 86400 second(s) / 1 day(s)
  --> No error if same file fails copy again
  --> Filter: and subdir
  ---> Condition: path_start subdir
@@ -532,7 +532,7 @@ Database closed for 'myClient.xp'
  --> Ignore filters:
  ---> nothing
  ---> backup
- --> Paths: 
+ --> Paths:
  ---> Path: test1
  ----> No error if same file fails copy again
  ----> Filter: and not_object
@@ -750,7 +750,7 @@ Register modified for 'myhost'
 Database closed for 'myhost'
 Trying client 'newClient' using protocol 'ssh'
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah test_db/.mount/newClient
- -> Reading client configuration file: newClient
+ -> Reading client configuration file for 'newClient'
  -> Client: newClient
  --> Protocol: ssh
  --> Options: username=user, password=p4sS?
@@ -759,7 +759,7 @@ Trying client 'newClient' using protocol 'ssh'
  --> No error if same file fails copy again
  --> Ignore filters:
  ---> nothing
- --> Paths: 
+ --> Paths:
  ---> Path: /home/Blah/test
  ----> No error if same file fails copy again
  ----> Filter: or compress
@@ -789,12 +789,12 @@ Trying client 'other' using protocol 'none'
 Error: Protocol not supported 'none' for 'other'
 Database closed
 Specify clients
- -> Reading configuration file: etc/hbackup.conf
- -> Log path: hbackup.log
+ -> Reading configuration file 'etc/hbackup.conf'
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Selected clients:
  --> client.xp
@@ -809,7 +809,7 @@ Specify clients
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -849,7 +849,7 @@ Specify clients
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -865,7 +865,7 @@ Specify clients
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -874,7 +874,7 @@ Specify clients
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -906,7 +906,7 @@ Backing up in server mode
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
- -> Reading client configuration file: client.xp
+ -> Reading client configuration file for 'client.xp'
  -> Client: client
  --> Required subset: xp
  --> Subset: xp
@@ -918,7 +918,7 @@ Trying client 'client.xp' using protocol 'smb'
  --> Ignore filters:
  ---> nothing
  ---> backup
- --> Paths: 
+ --> Paths:
  ---> Path: C:/Test Dir
  ----> Filter: and silly
  -----> Condition: filter backup
@@ -935,8 +935,8 @@ Trying client 'client.xp' using protocol 'smb'
  -----> Condition: size> 2048
  -----> Condition: size<= 3000000
  -----> Condition: size< 4294967296
- -----> Condition: mode& 777
- -----> Condition: mode= 644
+ -----> Condition: mode& 0777
+ -----> Condition: mode= 0644
  ----> Ignore filters:
  -----> nothing
  -----> backup
@@ -947,14 +947,14 @@ Backing up path 'C:/Test Dir'
 My Dir\r
 Database closed for 'client.xp'
  -> umount -fl test_db/.mount/client.xp
- -> Reading client configuration file: myhost
+ -> Reading client configuration file for 'myhost'
  -> Client: myhost
  --> Protocol: file
  --> Hostname: myhost.mynetwork.lan
  --> Users: biloute, machin
  --> No warning on time out
  --> Config: etc/localhost.list
- --> Expiry: 86400s (1d)
+ --> Expiry: 86400 second(s) / 1 day(s)
  --> No error if same file fails copy again
  --> Filter: and subdir
  ---> Condition: path_start subdir
@@ -965,7 +965,7 @@ Database closed for 'client.xp'
  --> Ignore filters:
  ---> nothing
  ---> backup
- --> Paths: 
+ --> Paths:
  ---> Path: test1
  ----> No error if same file fails copy again
  ----> Filter: and not_object
@@ -1075,7 +1075,7 @@ Database closed for 'myhost'
 Database closed
 User-mode backup
  -> No file logging
- -> DB path: test_user/.hbackup
+ -> DB path: 'test_user/.hbackup'
  -> DB compression: later
  -> Selected clients:
  --> localhost
@@ -1087,12 +1087,12 @@ User-mode backup
 Backing up in user mode
 Database initialized in 'test_user/.hbackup'
 Database open in read/write mode
- -> Reading client configuration file: localhost
+ -> Reading client configuration file for 'localhost'
  -> Client: localhost
  --> Protocol: file
  --> Config: test_user/.hbackup/config
  --> Expiry: none
- --> Paths: 
+ --> Paths:
  ---> Path: test_user/testuser
  ----> No error if same file fails copy again
 Reading list of problematic checksums
@@ -1145,12 +1145,12 @@ Af ~    test_user/testuser/subdir2/f4.txt
 User-mode backup: quiet
 User-mode backup: very quiet
 Fix DB
- -> Reading configuration file: etc/hbackup.conf
- -> Log path: hbackup.log
+ -> Reading configuration file 'etc/hbackup.conf'
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Clients:
  --> Client: aClient
@@ -1162,7 +1162,7 @@ Fix DB
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -1202,7 +1202,7 @@ Fix DB
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -1218,7 +1218,7 @@ Fix DB
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -1227,7 +1227,7 @@ Fix DB
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -1259,12 +1259,12 @@ Fixing database
 Database open in read/write mode
 Database closed
 Scan DB
- -> Reading configuration file: etc/hbackup.conf
- -> Log path: hbackup.log
+ -> Reading configuration file 'etc/hbackup.conf'
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Clients:
  --> Client: aClient
@@ -1276,7 +1276,7 @@ Scan DB
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -1316,7 +1316,7 @@ Scan DB
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -1332,7 +1332,7 @@ Scan DB
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -1341,7 +1341,7 @@ Scan DB
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -1444,12 +1444,12 @@ Checksum(s) with data: 20
  -> fb00cd74a5f35e89a7fbdd3c1d05375a-0, 259072
 Database closed
 Check DB
- -> Reading configuration file: etc/hbackup.conf
- -> Log path: hbackup.log
+ -> Reading configuration file 'etc/hbackup.conf'
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Clients:
  --> Client: aClient
@@ -1461,7 +1461,7 @@ Check DB
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -1501,7 +1501,7 @@ Check DB
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -1517,7 +1517,7 @@ Check DB
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -1526,7 +1526,7 @@ Check DB
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -1582,14 +1582,14 @@ fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 Found 20 valid and 0 broken data file(s)     
 Database closed
 List clients
- -> Reading configuration file: etc/hbackup.conf
+ -> Reading configuration file 'etc/hbackup.conf'
 Database open in read-only mode
 Database closed
- -> Log path: hbackup.log
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Clients:
  --> Client: aClient
@@ -1601,7 +1601,7 @@ Database closed
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -1641,7 +1641,7 @@ Database closed
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -1657,7 +1657,7 @@ Database closed
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -1666,7 +1666,7 @@ Database closed
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -1704,14 +1704,14 @@ Database closed
 	myhost
 	newClient
 List paths in myhost
- -> Reading configuration file: etc/hbackup.conf
+ -> Reading configuration file 'etc/hbackup.conf'
 Database open in read-only mode
 Database closed
- -> Log path: hbackup.log
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Selected clients:
  --> myhost
@@ -1725,7 +1725,7 @@ Database closed
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -1765,7 +1765,7 @@ Database closed
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -1781,7 +1781,7 @@ Database closed
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -1790,7 +1790,7 @@ Database closed
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -1826,14 +1826,14 @@ Database closed
 	test1/
 	test2/
 List paths in myhost under test2/
- -> Reading configuration file: etc/hbackup.conf
+ -> Reading configuration file 'etc/hbackup.conf'
 Database open in read-only mode
 Database closed
- -> Log path: hbackup.log
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Selected clients:
  --> myhost
@@ -1847,7 +1847,7 @@ Database closed
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -1887,7 +1887,7 @@ Database closed
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -1903,7 +1903,7 @@ Database closed
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -1912,7 +1912,7 @@ Database closed
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -1951,14 +1951,14 @@ Database closed
 	test2/testfile2.gz
 	test2/testlink
 List paths in myhost under test1/cvs
- -> Reading configuration file: etc/hbackup.conf
+ -> Reading configuration file 'etc/hbackup.conf'
 Database open in read-only mode
 Database closed
- -> Log path: hbackup.log
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Selected clients:
  --> myhost
@@ -1972,7 +1972,7 @@ Database closed
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -2012,7 +2012,7 @@ Database closed
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -2028,7 +2028,7 @@ Database closed
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -2037,7 +2037,7 @@ Database closed
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -2077,14 +2077,14 @@ Database closed
 	test1/cvs/filenew.c
 	test1/cvs/fileutd.h
 List paths in both myhost and aClient.vista
- -> Reading configuration file: etc/hbackup.conf
+ -> Reading configuration file 'etc/hbackup.conf'
 Database open in read-only mode
 Database closed
- -> Log path: hbackup.log
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Selected clients:
  --> aClient.vista
@@ -2099,7 +2099,7 @@ Database closed
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -2139,7 +2139,7 @@ Database closed
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -2155,7 +2155,7 @@ Database closed
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -2164,7 +2164,7 @@ Database closed
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -2203,14 +2203,14 @@ Database closed
 	test1/
 	test2/
 List paths in dual-boot client myClient
- -> Reading configuration file: etc/hbackup.conf
+ -> Reading configuration file 'etc/hbackup.conf'
 Database open in read-only mode
 Database closed
- -> Log path: hbackup.log
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Selected clients:
  --> myClient
@@ -2225,7 +2225,7 @@ Database closed
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -2265,7 +2265,7 @@ Database closed
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -2281,7 +2281,7 @@ Database closed
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -2290,7 +2290,7 @@ Database closed
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -2328,14 +2328,14 @@ Database closed
 	/home/
 	C:/
 List paths in all clients
- -> Reading configuration file: etc/hbackup.conf
+ -> Reading configuration file 'etc/hbackup.conf'
 Database open in read-only mode
 Database closed
- -> Log path: hbackup.log
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Selected clients:
  --> aClient.vista
@@ -2354,7 +2354,7 @@ Database closed
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -2394,7 +2394,7 @@ Database closed
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -2410,7 +2410,7 @@ Database closed
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -2419,7 +2419,7 @@ Database closed
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -2470,14 +2470,14 @@ Database closed
 	test2/
 	/home/
 Restore a file
- -> Reading configuration file: etc/hbackup.conf
+ -> Reading configuration file 'etc/hbackup.conf'
 Database open in read-only mode
 Database closed
- -> Log path: hbackup.log
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Selected clients:
  --> myhost
@@ -2491,7 +2491,7 @@ Database closed
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -2531,7 +2531,7 @@ Database closed
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -2547,7 +2547,7 @@ Database closed
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -2556,7 +2556,7 @@ Database closed
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -2591,14 +2591,14 @@ U       test_r/test2/testfile
 Database closed for 'myhost'
 Database closed
 Restore all data in a client/dir path that's not by itself in DB
- -> Reading configuration file: etc/hbackup.conf
+ -> Reading configuration file 'etc/hbackup.conf'
 Database open in read-only mode
 Database closed
- -> Log path: hbackup.log
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Selected clients:
  --> myhost
@@ -2612,7 +2612,7 @@ Database closed
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -2652,7 +2652,7 @@ Database closed
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -2668,7 +2668,7 @@ Database closed
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -2677,7 +2677,7 @@ Database closed
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -2756,14 +2756,14 @@ U       test_r/test1/testpipe
 Database closed for 'myhost'
 Database closed
 Restore all data in a client/dir path
- -> Reading configuration file: etc/hbackup.conf
+ -> Reading configuration file 'etc/hbackup.conf'
 Database open in read-only mode
 Database closed
- -> Log path: hbackup.log
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Selected clients:
  --> myhost
@@ -2777,7 +2777,7 @@ Database closed
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -2817,7 +2817,7 @@ Database closed
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -2833,7 +2833,7 @@ Database closed
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -2842,7 +2842,7 @@ Database closed
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -2893,14 +2893,14 @@ U       test_r/test1/cvs/fileutd.h
 Database closed for 'myhost'
 Database closed
 Restore all data in a client
- -> Reading configuration file: etc/hbackup.conf
+ -> Reading configuration file 'etc/hbackup.conf'
 Database open in read-only mode
 Database closed
- -> Log path: hbackup.log
+ -> Log path: 'hbackup.log'
  --> Max lines per log: 100000
  --> Backup(s): 10
  --> Level: verbose
- -> DB path: test_db
+ -> DB path: 'test_db'
  -> DB compression: automatic
  -> Selected clients:
  --> myhost
@@ -2914,7 +2914,7 @@ Database closed
  ----> Condition: not size< 100
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: C:/Test Dir
  -----> No error if same file fails copy again
  -----> Filter: and compress_m
@@ -2954,7 +2954,7 @@ Database closed
  ---> Hostname: myhost.mynetwork.lan
  ---> No warning on time out
  ---> Config: etc/localhost.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> No error if same file fails copy again
  ---> Ignore filters:
  ----> nothing
@@ -2970,7 +2970,7 @@ Database closed
  ---> Hostname: otherClient
  ---> Options: username=foo, password=bar
  ---> Config: /home/Blah/hbackup.list
- ---> Expiry: 86400s (1d)
+ ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
  ----> Condition: path_start subdir
  ----> Condition: not size< 100
@@ -2979,7 +2979,7 @@ Database closed
  ----> Condition: type f
  ---> Ignore filters:
  ----> nothing
- ---> Paths: 
+ ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
  ------> Condition: not path_end .o
@@ -3063,7 +3063,7 @@ U       test_r/test2/testlink
 Database closed for 'myhost'
 Database closed
 Broken configuration
- -> Reading configuration file: etc/broken.conf
+ -> Reading configuration file 'etc/broken.conf'
 Error: Keyword 'db' redefined in 'blah'
 Error: after line 0: need at most 1 occurence(s) of keyword 'db'
 Error: after line 0: need at most 1 occurence(s) of keyword 'report_copy_error_once'
