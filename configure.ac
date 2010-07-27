@@ -4,10 +4,10 @@
 AC_PREREQ(2.61)
 
 # This contains version information
-AC_INIT([HBackup],[1.1a],[herve@lucidia.net])
+AC_INIT([HBackup],[1.1b],[herve@lucidia.net])
 AC_DEFINE([HBACKUP_CONFIG], ["/etc/hbackup/config"],
   [Default configuration file path])
-AC_SUBST(LIB_VERSION, [1:0:1])
+AC_SUBST(LIB_VERSION, [2:0:1])
 
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([config.h.in])
