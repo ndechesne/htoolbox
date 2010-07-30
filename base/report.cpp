@@ -298,6 +298,37 @@ const char* Report::levelString(Level level) {
   return "unknown";
 }
 
+int Report::stringToLevel(const char* str, Level* level) {
+  switch (str[0]) {
+    case 'a':
+    case 'A':
+      *level = alert;
+      return 0;
+    case 'e':
+    case 'E':
+      *level = error;
+      return 0;
+    case 'w':
+    case 'W':
+      *level = warning;
+      return 0;
+    case 'i':
+    case 'I':
+      *level = info;
+      return 0;
+    case 'v':
+    case 'V':
+      *level = verbose;
+      return 0;
+    case 'd':
+    case 'D':
+      *level = debug;
+      return 0;
+    default:
+      return -1;
+  }
+}
+
 void Report::startConsoleLog() {
   _d->console_log = true;
 }

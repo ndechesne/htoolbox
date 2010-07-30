@@ -46,6 +46,7 @@ namespace hreport {
     Report();
     ~Report();
     static const char* levelString(Level level);
+    static int stringToLevel(const char* str, Level* level);
 
     // Log to console
     void startConsoleLog();

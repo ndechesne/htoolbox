@@ -125,34 +125,9 @@ ConfigObject* HBackup::Private::configChildFactory(
   } else
   if (keyword == "level") {
     co = this;
-    switch (params[1][0]) {
-      case 'A':
-      case 'a':
-        log_level = hreport::alert;
-        break;
-      case 'E':
-      case 'e':
-        log_level = hreport::error;
-        break;
-      case 'W':
-      case 'w':
-        log_level = hreport::warning;
-        break;
-      case 'I':
-      case 'i':
-        log_level = hreport::info;
-        break;
-      case 'V':
-      case 'v':
-        log_level = hreport::verbose;
-        break;
-      case 'D':
-      case 'd':
-        log_level = hreport::debug;
-        break;
-      default:
-        hlog_error("Wrong name for log level: '%s'", params[1].c_str());
-        co = NULL;
+    if (Report::stringToLevel(params[1].c_str(), &log_level) != 0) {
+      hlog_error("Wrong name for log level: '%s'", params[1].c_str());
+      co = NULL;
     }
   } else
   if (keyword == "db") {
