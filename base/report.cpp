@@ -167,6 +167,8 @@ struct Report::Private {
           buffer[offset++] = ' ';
         }
         break;
+      case regression:
+        break;
       default:
         ;
     }
@@ -249,6 +251,9 @@ struct Report::Private {
       case debug:
         rc += fprintf(fd, "DEBUG ");
         break;
+      case regression:
+        rc += fprintf(fd, "REGR  ");
+        break;
     }
     // location
     rc += fprintf(fd, "%s:%d ", file, line);
@@ -294,6 +299,8 @@ const char* Report::levelString(Level level) {
       return "verbose";
     case debug:
       return "debug";
+    case regression:
+      return "regression";
   }
   return "unknown";
 }

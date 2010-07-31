@@ -50,6 +50,7 @@ int main(void) {
   hlog_debug_arrow(0, "debug 0 level");
   hlog_debug_arrow(1, "debug 1 level");
   hlog_debug_arrow(2, "debug 2 level");
+  hlog_regression("regression level");
 
   cout << endl << "Verbosity level: alert" << endl;
   report.setLevel(alert);
@@ -66,6 +67,7 @@ int main(void) {
   hlog_debug_arrow(0, "debug 0 level");
   hlog_debug_arrow(1, "debug 1 level");
   hlog_debug_arrow(2, "debug 2 level");
+  hlog_regression("regression level");
 
   cout << endl << "Verbosity level: error" << endl;
   report.setLevel(error);
@@ -82,6 +84,7 @@ int main(void) {
   hlog_debug_arrow(0, "debug 0 level");
   hlog_debug_arrow(1, "debug 1 level");
   hlog_debug_arrow(2, "debug 2 level");
+  hlog_regression("regression level");
 
   cout << endl << "Verbosity level: warning" << endl;
   report.setLevel(warning);
@@ -98,6 +101,7 @@ int main(void) {
   hlog_debug_arrow(0, "debug 0 level");
   hlog_debug_arrow(1, "debug 1 level");
   hlog_debug_arrow(2, "debug 2 level");
+  hlog_regression("regression level");
 
   cout << endl << "Verbosity level: info" << endl;
   report.setLevel(info);
@@ -114,6 +118,7 @@ int main(void) {
   hlog_debug_arrow(0, "debug 0 level");
   hlog_debug_arrow(1, "debug 1 level");
   hlog_debug_arrow(2, "debug 2 level");
+  hlog_regression("regression level");
 
   cout << endl << "Verbosity level: verbose" << endl;
   report.setLevel(verbose);
@@ -130,6 +135,7 @@ int main(void) {
   hlog_debug_arrow(0, "debug 0 level");
   hlog_debug_arrow(1, "debug 1 level");
   hlog_debug_arrow(2, "debug 2 level");
+  hlog_regression("regression level");
 
   cout << endl << "Verbosity level: debug" << endl;
   report.setLevel(debug);
@@ -146,6 +152,24 @@ int main(void) {
   hlog_debug_arrow(0, "debug 0 level");
   hlog_debug_arrow(1, "debug 1 level");
   hlog_debug_arrow(2, "debug 2 level");
+  hlog_regression("regression level");
+
+  cout << endl << "Verbosity level: regression" << endl;
+  report.setLevel(regression);
+  hlog_info("default level");
+  hlog_alert("alert level");
+  hlog_error("error level");
+  hlog_warning("warning level");
+  hlog_info("info level");
+  hlog_verbose("verbose level");
+  hlog_verbose_arrow(0, "verbose 0 level");
+  hlog_verbose_arrow(1, "verbose 1 level");
+  hlog_verbose_arrow(2, "verbose 2 level");
+  hlog_debug("debug level");
+  hlog_debug_arrow(0, "debug 0 level");
+  hlog_debug_arrow(1, "debug 1 level");
+  hlog_debug_arrow(2, "debug 2 level");
+  hlog_regression("regression level");
 
   cout << endl << "Line autoblanking" << endl;
   hlog_info_temp("%s", "");
@@ -165,6 +189,7 @@ int main(void) {
   hlog_info("message: %s", "info");
   hlog_verbose("message: %s", "verbose");
   hlog_debug("message: %s", "debug");
+  hlog_regression("message: %s", "regression");
   hlog_info_temp("temporary message: %s", "info");
   hlog_verbose_temp("temporary message: %s", "verbose");
   hlog_debug_temp("temporary message: %s", "debug");
@@ -181,6 +206,7 @@ int main(void) {
   hlog_info("message: %s", "info");
   hlog_verbose("message: %s", "verbose");
   hlog_debug("message: %s", "debug");
+  hlog_regression("message: %s", "regression");
   hlog_info_temp("temporary message: %s", "info");
   hlog_verbose_temp("temporary message: %s", "verbose");
   hlog_debug_temp("temporary message: %s", "debug");

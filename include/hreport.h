@@ -30,9 +30,10 @@ namespace hreport {
     error,        /*!< Big issue, but might recover */
     warning,      /*!< Non-blocking issue */
     // These go to standard output
-    info,         /*!< Normal information, typically if 'quiet' not selected */
-    verbose,      /*!< Extra information, typically if 'verbose' selected */
-    debug         /*!< Developper information, typically if 'debug' selected */
+    info,         /*!< Basic information */
+    verbose,      /*!< Extra information */
+    debug,        /*!< Developper information */
+    regression    /*!< For regression testing purposes */
   };
 
   class Report {
@@ -111,6 +112,9 @@ namespace hreport {
 
 #define hlog_debug(f, ...) \
   hlog_generic(hreport::debug,false,(f),##__VA_ARGS__)
+
+#define hlog_regression(f, ...) \
+  hlog_generic(hreport::regression,false,(f),##__VA_ARGS__)
 
 
 #define hlog_info_temp(f, ...) \
