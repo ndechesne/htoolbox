@@ -60,11 +60,10 @@ static void showLine(time_t timestamp, const char* path, const Node* node) {
 
 static void showList(List& list) {
   if (list.open() < 0) {
-    cerr << "Failed to open " << list.path().basename() << ": "
-      << strerror(errno) << endl;
+    cerr << "Failed to open " << list.path() << ": " << strerror(errno) << endl;
   } else {
     if (list.end()) {
-      cout << list.path().basename() << " is empty" << endl;
+      cout << list.path() << " is empty" << endl;
     } else {
       List::Status rc;
       Path         path;
@@ -81,10 +80,10 @@ static void showList(List& list) {
         }
       }
       if (rc == List::failed) {
-        cerr << "Failed to read " << list.path().basename() << endl;
+        cerr << "Failed to read " << list.path() << endl;
       } else
       if (rc == List::eof) {
-        cerr << "Unexpected end of " << list.path().basename() << endl;
+        cerr << "Unexpected end of " << list.path() << endl;
       }
     }
     list.close();

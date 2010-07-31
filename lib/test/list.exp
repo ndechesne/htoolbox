@@ -174,7 +174,7 @@ Test: journal read
 [14] file sp                        f        0 644 
 [14] file_gone                      [rm]
 [14] file_new                       f       22 750 246dccb0301976d765609dfb0efd68f9
-Unexpected end of journal
+Unexpected end of test_db/journal
 
 Test: broken journal merge
 Warning: Unexpected end of journal 'test_db/journal'

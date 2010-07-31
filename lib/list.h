@@ -22,13 +22,8 @@
 namespace hbackup {
 
 class List {
-protected:
   struct            Private;
   Private* const    _d;
-  // Read a line, removing the LF character
-  ssize_t getLine(
-    Line&           line,             // Line to read
-    bool            version = false); // First line that contains version
 public:
   enum Status {
     eof         = -2,         // unexpected end of file
@@ -40,13 +35,13 @@ public:
   };
   List(
     const Path&     path);
-  virtual ~List();
+  ~List();
   // Open file (for read)
-  virtual int open();
+  int open(bool quiet_if_not_exists = false);
   // Close file
-  virtual int close();
+  int close();
   // File path
-  const Path& path() const;
+  const char* path() const;
   // Current path
   const Path& getPath() const;
   // Current data line
@@ -90,18 +85,21 @@ public:
     time_t          time_base   = 1);       // Time base
 };
 
-class ListWriter : public List {
-protected: // for tests...
-  // Write a line, adding the LF character
-  ssize_t putLine(
-    const Line&     line);            // Line to write
+class ListWriter {
+  struct            Private;
+  Private* const    _d;
+protected: // Tests
+  ssize_t putLine(const char* line);
 public:
   ListWriter(
-    const Path&     path) : List(path) {}
+    const Path&     path);
+  ~ListWriter();
   // Open file
   int open();
   // Close file
   int close();
+  // File path
+  const char* path() const;
   // Flush all data to file
   int flush();
   // Add info

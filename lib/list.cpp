@@ -28,48 +28,167 @@
 using namespace hbackup;
 using namespace hreport;
 
+class ListFile {
+  string _name;
+  bool _read_only;
+  FILE* _fd;
+  bool _old_version;
+  const char* _header() { return "# version 5"; }
+  const char* _old_header() { return "# version 4\n"; }
+  const char* _footer() { return "# end"; }
+public:
+  ListFile(const char* name, bool ro) : _name(name), _read_only(ro), _fd(NULL) {}
+  ~ListFile() { if (_fd != NULL) close(); }
+  const char* name() const { return _name.c_str(); }
+  int open(bool quiet_if_not_exists = false);
+  int close();
+  int flush() const {
+    return fflush(_fd);
+  }
+  ssize_t putLine(const char* line);
+  // Called only once, leave inline
+  ssize_t getLine(Line& line) {
+    if (_fd == NULL) return -1;
+    if (!_read_only) return -1;
+    LineBuffer& buffer = line;
+    ssize_t rc;
+    char delim;
+    if (! _old_version) {
+      delim = '\0';
+    } else {
+      delim = '\n';
+    }
+    rc = getdelim(buffer.bufferPtr(), buffer.capacityPtr(), delim, _fd);
+    if (rc <= 0) {
+      return feof(_fd) ? 0 : -1;
+    }
+    if (line[rc - 1] != delim) {
+      return 0;
+    }
+    if (! _old_version) {
+      char lf[1];
+      if ((fread(lf, 1, 1, _fd) < 1) || (*lf != '\n')) {
+        return 0;
+      }
+    }
+    *buffer.sizePtr() = rc;
+    --rc;
+    buffer.erase(rc);
+    return rc;
+  }
+};
+
+int ListFile::open(bool quiet_if_not_exists) {
+  // Choose mode
+  const char* mode;
+  if (_read_only) {
+    mode = "r";
+  } else {
+    mode = "w";
+  }
+  // Open
+  _fd = fopen(_name.c_str(), mode);
+  if (_fd == NULL) {
+    if (! quiet_if_not_exists) {
+      hlog_error("%s opening '%s' for %sing",
+        strerror(errno), _name.c_str(), _read_only ? "read" : "writ");
+    }
+    goto failed;
+  }
+  if (_read_only) {
+    bool went_wrong = false;
+    char* buffer = NULL;
+    size_t capacity;
+    if (getline(&buffer, &capacity, _fd) <= 0) {
+      const char* error_str;
+      if (feof(_fd)) {
+        error_str = "EOF reached";
+      } else {
+        error_str = strerror(errno);
+      }
+      hlog_error("%s getting version for '%s'", error_str, _name.c_str());
+      went_wrong = true;
+    } else {
+      if (strcmp(buffer, _header()) == 0) {
+        _old_version = false;
+      } else
+      if (strcmp(buffer, _old_header()) == 0) {
+        _old_version = true;
+      } else
+      {
+        buffer[sizeof(buffer) - 1] = '\0';
+        hlog_error("Unknown version for '%s': '%s'", _name.c_str(), buffer);
+        went_wrong = true;
+      }
+    }
+    free(buffer);
+    if (went_wrong) goto failed;
+  } else {
+    if (putLine(_header()) < 0) {
+      hlog_error("%s writing header in '%s'", strerror(errno), _name.c_str());
+      goto failed;
+    }
+  }
+  hlog_regression("opened '%s' for %sing",
+    _name.c_str(), _read_only ? "read" : "writ");
+  return 0;
+failed:
+  close();
+  return -1;
+}
+
+int ListFile::close() {
+  int rc;
+  if (_fd != NULL) {
+    if (! _read_only) {
+      if (putLine(_footer()) < 0) {
+        hlog_error("%s writing footer in '%s'", strerror(errno), _name.c_str());
+        /* the error is reported by fclose */
+      }
+    }
+    rc = fclose(_fd);
+    _fd = NULL;
+    hlog_regression("closed '%s'", _name.c_str());
+  } else {
+    errno = EBADF;
+    rc = -1;
+  }
+  return rc;
+}
+
+ssize_t ListFile::putLine(const char* line) {
+  if (_fd == NULL) {
+    hlog_error("'%s' not open", _name.c_str());
+    return -1;
+  }
+  if (_read_only) {
+    hlog_error("'%s' read only", _name.c_str());
+    return -1;
+  }
+  size_t line_size = strlen(line);
+  if (fwrite(line, line_size, 1, _fd) < 1) {
+    hlog_error("'%s' write line", _name.c_str());
+    return -1;
+  }
+  if (fwrite("\0\n", 2, 1, _fd) < 1) {
+    hlog_error("'%s' write end of line", _name.c_str());
+    return -1;
+  }
+  return line_size;
+}
+
 struct List::Private {
-  Path              s_path;
-  FILE*             stream;
-  const char*       header;
-  const char*       old_header;
-  const char*       footer;
-  bool              read_only;
-  bool              old_version;
+  ListFile          file;
   Status            status;
   Line              data;
   Path              path;
-  Private(const char* path_in) : s_path(path_in), stream(NULL),
-    header("# version 5"), old_header("# version 4"), footer("# end") {}
+  Private(const char* path) : file(path, true) {}
 };
 
-ssize_t List::getLine(Line& line, bool version) {
-  LineBuffer& buffer = line;
-  ssize_t rc;
-  char delim;
-  if (! version && ! _d->old_version) {
-    delim = '\0';
-  } else {
-    delim = '\n';
-  }
-  rc = getdelim(buffer.bufferPtr(), buffer.capacityPtr(), delim, _d->stream);
-  if (rc <= 0) {
-    return feof(_d->stream) ? 0 : -1;
-  }
-  if (line[rc - 1] != delim) {
-    return 0;
-  }
-  if (! version && ! _d->old_version) {
-    char lf[1];
-    if ((fread(lf, 1, 1, _d->stream) < 1) || (*lf != '\n')) {
-      return 0;
-    }
-  }
-  *buffer.sizePtr() = rc;
-  --rc;
-  buffer.erase(rc);
-  return rc;
-}
+struct ListWriter::Private {
+  ListFile          file;
+  Private(const char* path) : file(path, false) {}
+};
 
 List::List(const Path& path) : _d(new Private(path)) {}
 
@@ -77,83 +196,20 @@ List::~List() {
   delete _d;
 }
 
-int ListWriter::open() {
-  _d->stream = fopen(_d->s_path, "w");
-  if (_d->stream == NULL) {
-    hlog_error("%s creating '%s'", strerror(errno), _d->s_path.c_str());
+int List::open(bool quiet_if_not_exists) {
+  if (_d->file.open(quiet_if_not_exists) < 0) {
     return -1;
-  }
-  if (putLine(_d->header) < 0) {
-    hlog_error("%s writing header in '%s'", strerror(errno), _d->s_path.c_str());
-    fclose(_d->stream);
-    _d->stream = NULL;
-    return -1;
-  }
-  _d->read_only = false;
-  return 0;
-}
-
-int List::open() {
-  _d->read_only = true;
-  _d->stream = fopen(_d->s_path, "r");
-  if (_d->stream == NULL) {
-    return -1;
-  }
-  // Check rights
-  Line data;
-  if (getLine(data, true) < 0) {
-    close();
-    return -1;
-  }
-  int rc = 0;
-  // Expected header?
-  if (strcmp(data, _d->header) == 0) {
-    _d->old_version = false;
-  } else
-  // Old header?
-  if (strcmp(data, _d->old_header) == 0) {
-    _d->old_version = true;
-  } else
-  // Unknown header
-  {
-    errno = EPROTO;
-    rc = -1;
   }
   // Get first line to check for empty list
-  if ((rc == 0) && (fetchLine(true) == List::failed)) {
-    rc = -1;
-  }
-  return rc;
+  return (fetchLine(true) == List::failed) ? -1 : 0;
 }
 
 int List::close() {
-  int rc = 0;
-  if (fclose(_d->stream)) {
-    hlog_error("%s closing '%s'", strerror(errno), _d->s_path.c_str());
-    rc = -1;
-  }
-  _d->stream = NULL;
-  return rc;
+  return _d->file.close();
 }
 
-int ListWriter::close() {
-  int rc = 0;
-  if (putLine(_d->footer) < 0) {
-    hlog_error("%s writing footer in '%s'", strerror(errno), _d->s_path.c_str());
-    rc = -1;
-  }
-  if (List::close()) {
-    rc = -1;
-  }
-  return rc;
-}
-
-int ListWriter::flush() {
-  return fflush(_d->stream);
-}
-
-const Path& List::path() const {
-  return _d->s_path;
+const char* List::path() const {
+  return _d->file.name();
 }
 
 const Path& List::getPath() const {
@@ -164,11 +220,33 @@ const Line& List::getData() const {
   return _d->data;
 }
 
+ListWriter::ListWriter(const Path& path) : _d(new Private(path)) {}
+
+ListWriter::~ListWriter() {
+  delete _d;
+}
+
+int ListWriter::open() {
+  return _d->file.open();
+}
+
+int ListWriter::close() {
+  return _d->file.close();
+}
+
+int ListWriter::flush() {
+  return _d->file.flush();
+}
+
+const char* ListWriter::path() const {
+  return _d->file.name();
+}
+
 List::Status List::fetchLine(bool init) {
   // Check current status
   if (init || (_d->status == List::got_nothing)) {
     // Line contains no re-usable data
-    ssize_t length = getLine(_d->data);
+    ssize_t length = _d->file.getLine(_d->data);
     // Read error
     if (length < 0) {
       _d->status = List::failed;
@@ -214,10 +292,8 @@ bool List::end() const {
   return (_d->status == eor) || (_d->status == eof);
 }
 
-ssize_t ListWriter::putLine(const Line& line) {
-  if (fwrite(line, line.size(), 1, _d->stream) < 1) return -1;
-  if (fwrite("\0\n", 2, 1, _d->stream) < 1) return -1;
-  return line.size();
+ssize_t ListWriter::putLine(const char* line) {
+  return _d->file.putLine(line);
 }
 
 ssize_t List::encodeLine(
@@ -311,7 +387,7 @@ int ListWriter::add(
     ListWriter*     journal) {
   int rc = 0;
   char* line = NULL;
-  ssize_t size = encodeLine(&line, time(NULL), node);
+  ssize_t size = List::encodeLine(&line, time(NULL), node);
 
   if (putLine(line) != size) {
     rc = -1;
@@ -358,7 +434,7 @@ int List::getEntry(
 
     if (rc < 0) {
       if (rc == List::eof) {
-        hlog_error("Unexpected end of list in '%s'", _d->s_path.c_str());
+        hlog_error("Unexpected end of list in '%s'", _d->file.name());
       }
       return -1;
     }
@@ -436,7 +512,7 @@ int ListWriter::search(
     // Failed
     if (rc < 0) {
       // Unexpected end of list
-      hlog_error("Unexpected end of list '%s'", list->path().c_str());
+      hlog_error("Unexpected end of list '%s'", list->path());
       return -1;
     }
 
@@ -583,7 +659,7 @@ int ListWriter::merge(
     // Failed
     if (rc_journal < 0) {
       if (rc_journal == List::eof) {
-        hlog_warning("Unexpected end of journal '%s'", journal->path().c_str());
+        hlog_warning("Unexpected end of journal '%s'", journal->path());
         rc_journal = 0;
       } else {
         hlog_error("Reading journal, at line %d", j_line_no);
@@ -692,6 +768,6 @@ void List::show(
     }
     close();
   } else {
-    hlog_error("%s opening '%s'", strerror(errno), _d->s_path.c_str());
+    hlog_error("%s opening '%s'", strerror(errno), _d->file.name());
   }
 }

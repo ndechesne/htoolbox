@@ -99,17 +99,17 @@ int Owner::finishOff(
             _d->original->close();
           } else {
             hlog_error("%s opening list '%s'", strerror(errno),
-              _d->original->path().c_str());
+              _d->original->path());
             failed = true;
           }
           if (_d->partial->close()) {
             hlog_error("%s closing merge '%s'", strerror(errno),
-              _d->partial->path().c_str());
+              _d->partial->path());
             failed = true;
           }
         } else {
           hlog_error("%s opening merge '%s'", strerror(errno),
-            _d->partial->path().c_str());
+            _d->partial->path());
           failed = true;
         }
       }
@@ -124,8 +124,7 @@ int Owner::finishOff(
       }
     } else
     if (errno != ENOENT) {
-      hlog_error("%s opening journal '%s'", strerror(errno),
-        journal.path().c_str());
+      hlog_error("%s opening journal '%s'", strerror(errno), journal.path());
       return -1;
     }
   }
@@ -157,7 +156,7 @@ int Owner::finishOff(
   // list.next -> list (step 4)
   if (rename(next.path(), _d->original->path())) {
     hlog_error("%s renaming list to '%s'", strerror(errno),
-      _d->original->path().c_str());
+      _d->original->path());
     return -1;
   }
   return 0;
@@ -261,7 +260,7 @@ int Owner::open(
   // Open list
   _d->modified = false;
   _d->original = new List(owner_list.path());
-  if (_d->original->open()) {
+  if (_d->original->open(initialize)) {
     File backup(Path(_d->path, "list~"));
 
     if (backup.isValid()) {
@@ -287,7 +286,7 @@ int Owner::open(
     _d->journal = new ListWriter(Path(_d->path, "journal"));
     _d->partial = new ListWriter(Path(_d->path, "partial"));
     List journal(_d->journal->path());
-    if (! journal.open()) {
+    if (! journal.open(true)) {
       // Check previous crash
       journal.close();
       hlog_warning("Previous backup interrupted for '%s'", _d->path.basename());
