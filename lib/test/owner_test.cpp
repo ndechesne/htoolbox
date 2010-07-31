@@ -259,8 +259,8 @@ int main(void) {
 
   cout << endl << "Recover client (empty journal)" << endl;
   {
-    List journal("test_db/client/journal");
-    journal.create();
+    ListWriter journal("test_db/client/journal");
+    journal.open();
     journal.close();
   }
   rc = o.open(false, false);
@@ -281,8 +281,8 @@ int main(void) {
 
   cout << endl << "Recover client (empty, not closed journal)" << endl;
   {
-    List journal("test_db/client/journal2");
-    journal.create();
+    ListWriter journal("test_db/client/journal2");
+    journal.open();
     journal.close();
     sys_rc = system("head -1 test_db/client/journal2 > test_db/client/journal");
     sys_rc = system("rm test_db/client/journal2");

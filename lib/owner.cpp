@@ -41,8 +41,8 @@ struct Owner::Private {
   char*             name;
   bool              modified;
   List*             original;
-  List*             journal;
-  List*             partial;
+  ListWriter*       journal;
+  ListWriter*       partial;
   time_t            expiration;
   progress_f        progress;
 };
@@ -88,10 +88,10 @@ int Owner::finishOff(
       if (! journal.end()) {
         empty = false;
         hlog_verbose("Register modified for '%s'", _d->path.basename());
-        if (! _d->partial->create()) {
+        if (! _d->partial->open()) {
           if (! _d->original->open()) {
             _d->original->setProgressCallback(_d->progress);
-            if (List::merge(_d->original, _d->partial, &journal) < 0) {
+            if (_d->partial->merge(_d->original, &journal) < 0) {
               hlog_error("Merge failed");
               failed = true;
             }
@@ -269,8 +269,8 @@ int Owner::open(
       hlog_warning("Register not accessible '%s', using backup",
         _d->path.basename());
     } else if (initialize) {
-      List original(owner_list.path());
-      if (original.create()) {
+      ListWriter original(owner_list.path());
+      if (original.open()) {
         hlog_error("%s creating list '%s'", strerror(errno),
           _d->path.basename());
         failed = true;
@@ -284,8 +284,8 @@ int Owner::open(
   }
   if (! failed) {
     // Check journal
-    _d->journal = new List(Path(_d->path, "journal"));
-    _d->partial = new List(Path(_d->path, "partial"));
+    _d->journal = new ListWriter(Path(_d->path, "journal"));
+    _d->partial = new ListWriter(Path(_d->path, "partial"));
     List journal(_d->journal->path());
     if (! journal.open()) {
       // Check previous crash
@@ -305,14 +305,14 @@ int Owner::open(
       failed = true;
     } else
     // Open journal
-    if (_d->journal->create()) {
+    if (_d->journal->open()) {
       _d->original->close();
       hlog_error("%s creating journal in '%s'", strerror(errno),
         _d->path.basename());
       failed = true;
     } else
     // Open list
-    if (_d->partial->create()) {
+    if (_d->partial->open()) {
       _d->original->close();
       _d->journal->close();
       hlog_error("%s creating merge list in '%s'", strerror(errno),
@@ -345,7 +345,7 @@ int Owner::close(
     _d->original->setProgressCallback(_d->progress);
     if (! aborting()) {
       // Finish work (if not aborting, remove items at end of list)
-      if (List::search(_d->original, "",
+      if (ListWriter::search(_d->original, "",
           _d->expiration, abort ? 0 : time(NULL), _d->partial, _d->journal,
           &_d->modified) < 0) {
         failed = true;
@@ -406,7 +406,7 @@ int Owner::send(
   Node* db_node = NULL;
 
   // Search path and get current metadata
-  int rc = List::search(_d->original, op._path, _d->expiration, time(NULL),
+  int rc = ListWriter::search(_d->original, op._path, _d->expiration, time(NULL),
     _d->partial, _d->journal, &_d->modified);
   if (rc < 0) {
     return -1;
@@ -414,7 +414,7 @@ int Owner::send(
   _d->journal->flush();
   if (rc == 2) {
     // Get metadata (needs to be kept, as it will be added after any new)
-    List::getEntry(_d->original, NULL, NULL, &db_node, -2);
+    _d->original->getEntry(NULL, NULL, &db_node, -2);
   }
 
   // New or resurrected file: (re-)add
@@ -486,7 +486,7 @@ int Owner::send(
 int Owner::add(
     const Path&     path,
     const Node*     node) {
-  if (List::add(path, node, _d->partial, _d->journal) || _d->journal->flush()) {
+  if (_d->partial->add(path, node, _d->journal) || _d->journal->flush()) {
     return -1;
   }
   _d->modified = true;
@@ -505,12 +505,12 @@ int Owner::getNextRecord(
     len--;
   }
   bool failed = false;
-  while (List::search(_d->original) == 2) {
+  while (ListWriter::search(_d->original) == 2) {
     if (aborting()) {
       failed = true;
       return -1;
     }
-    if (List::getEntry(_d->original, NULL, fpath, fnode, date) <= 0) {
+    if (_d->original->getEntry(NULL, fpath, fnode, date) <= 0) {
       failed = true;
       return -1;
     }
@@ -538,7 +538,7 @@ int Owner::getChecksums(
   }
   _d->original->setProgressCallback(_d->progress);
   Node* node = NULL;
-  while (List::getEntry(_d->original, NULL, NULL, &node) > 0) {
+  while (_d->original->getEntry(NULL, NULL, &node) > 0) {
     if ((node != NULL) && (node->type() == 'f')) {
       File* f = static_cast<File*>(node);
       if (f->checksum()[0] != '\0') {

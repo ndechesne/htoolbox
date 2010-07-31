@@ -77,7 +77,7 @@ List::~List() {
   delete _d;
 }
 
-int List::create() {
+int ListWriter::open() {
   _d->stream = fopen(_d->s_path, "w");
   if (_d->stream == NULL) {
     hlog_error("%s creating '%s'", strerror(errno), _d->s_path.c_str());
@@ -128,12 +128,6 @@ int List::open() {
 
 int List::close() {
   int rc = 0;
-  if (! _d->read_only) {
-    if (putLine(_d->footer) < 0) {
-      hlog_error("%s writing footer in '%s'", strerror(errno), _d->s_path.c_str());
-      rc = -1;
-    }
-  }
   if (fclose(_d->stream)) {
     hlog_error("%s closing '%s'", strerror(errno), _d->s_path.c_str());
     rc = -1;
@@ -142,7 +136,19 @@ int List::close() {
   return rc;
 }
 
-int List::flush() {
+int ListWriter::close() {
+  int rc = 0;
+  if (putLine(_d->footer) < 0) {
+    hlog_error("%s writing footer in '%s'", strerror(errno), _d->s_path.c_str());
+    rc = -1;
+  }
+  if (List::close()) {
+    rc = -1;
+  }
+  return rc;
+}
+
+int ListWriter::flush() {
   return fflush(_d->stream);
 }
 
@@ -208,7 +214,7 @@ bool List::end() const {
   return (_d->status == eor) || (_d->status == eof);
 }
 
-ssize_t List::putLine(const Line& line) {
+ssize_t ListWriter::putLine(const Line& line) {
   if (fwrite(line, line.size(), 1, _d->stream) < 1) return -1;
   if (fwrite("\0\n", 2, 1, _d->stream) < 1) return -1;
   return line.size();
@@ -299,28 +305,25 @@ int List::decodeLine(
   return 0;
 }
 
-int List::add(
+int ListWriter::add(
     const Path&     path,
     const Node*     node,
-    List*           new_list,
-    List*           journal) {
+    ListWriter*     journal) {
   int rc = 0;
-  if (new_list != NULL) {
-    char* line = NULL;
-    ssize_t size = encodeLine(&line, time(NULL), node);
+  char* line = NULL;
+  ssize_t size = encodeLine(&line, time(NULL), node);
 
-    if (new_list->putLine(line) != size) {
+  if (putLine(line) != size) {
+    rc = -1;
+  }
+  if (journal != NULL) {
+    // Add to journal
+    if ((journal->putLine(path) != static_cast<ssize_t>(path.size())) ||
+        (journal->putLine(line) != size)) {
       rc = -1;
     }
-    if (journal != NULL) {
-      // Add to journal
-      if ((journal->putLine(path) != static_cast<ssize_t>(path.size())) ||
-          (journal->putLine(line) != size)) {
-        rc = -1;
-      }
-    }
-    free(line);
   }
+  free(line);
   return rc;
 }
 
@@ -329,14 +332,7 @@ void List::setProgressCallback(progress_f progress) {
 //   _d->stream.setProgressCallback(progress);
 }
 
-bool List::isEmpty(
-    const List*     list) {
-  // If EOF is reached immediately, list is empty
-  return list->end();
-}
-
 int List::getEntry(
-    List*           list,
     time_t*         timestamp,
     char**          path,
     Node**          node,
@@ -358,11 +354,11 @@ int List::getEntry(
   bool  break_it = false;
   while (! break_it) {
     // Get line
-    rc = list->fetchLine();
+    rc = fetchLine();
 
     if (rc < 0) {
       if (rc == List::eof) {
-        hlog_error("Unexpected end of list in '%s'", list->path().c_str());
+        hlog_error("Unexpected end of list in '%s'", _d->s_path.c_str());
       }
       return -1;
     }
@@ -376,7 +372,7 @@ int List::getEntry(
     if (rc == List::got_path) {
       if (path != NULL) {
         free(*path);
-        *path = strdup(list->getPath());
+        *path = strdup(getPath());
       }
       get_path = false;
     } else
@@ -386,7 +382,7 @@ int List::getEntry(
       time_t ts;
       if ((node != NULL) || (timestamp != NULL) || (date > 0)) {
         // Get all arguments from line
-        List::decodeLine(list->getData(), &ts, list->getPath(), node);
+        List::decodeLine(getData(), &ts, getPath(), node);
         if (timestamp != NULL) {
           *timestamp = ts;
         }
@@ -397,19 +393,19 @@ int List::getEntry(
     }
     // Reset status
     if (date != -2) {
-      list->resetStatus();
+      resetStatus();
     }
   }
   return 1;
 }
 
-int List::search(
+int ListWriter::search(
     List*           list,
     const char*     path_l,
     time_t          expire,
     time_t          remove,
-    List*           new_list,
-    List*           journal,
+    ListWriter*     new_list,
+    ListWriter*     journal,
     bool*           modified) {
   int rc = 0;
 
@@ -568,9 +564,8 @@ int List::search(
   return -1;
 }
 
-int List::merge(
+int ListWriter::merge(
     List*           list,
-    List*           new_list,
     List*           journal) {
   int rc_list = 1;
 
@@ -599,7 +594,7 @@ int List::merge(
     // End of file
     if (rc_journal == 0) {
       if (rc_list > 0) {
-        rc_list = search(list, "", -1, 0, new_list);
+        rc_list = search(list, "", -1, 0, this);
         if (rc_list < 0) {
           // Error copying list
           hlog_error("End of list copy failed");
@@ -624,7 +619,7 @@ int List::merge(
       path = journal->getPath();
       // Search/copy list and append path if needed
       if (rc_list >= 0) {
-        rc_list = search(list, path, -1, 0, new_list);
+        rc_list = search(list, path, -1, 0, this);
         if (rc_list < 0) {
           // Error copying list
           hlog_error("Path search failed");
@@ -643,7 +638,7 @@ int List::merge(
       }
 
       // Write
-      if (new_list->putLine(journal->getData()) < 0) {
+      if (putLine(journal->getData()) < 0) {
         // Could not write
         hlog_error("Journal copy failed");
         return -1;
@@ -667,7 +662,7 @@ void List::show(
       char*  path = NULL;
       Node*  node = NULL;
       int rc = 0;
-      while ((rc = List::getEntry(this, &ts, &path, &node, date)) > 0) {
+      while ((rc = List::getEntry(&ts, &path, &node, date)) > 0) {
         time_t timestamp = 0;
         if (ts != 0) {
           timestamp = ts - time_start;

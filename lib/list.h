@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2007-2009  Herve Fache
+     Copyright (C) 2007-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -16,12 +16,13 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef LIST_H
-#define LIST_H
+#ifndef _LIST_H
+#define _LIST_H
 
 namespace hbackup {
 
 class List {
+protected:
   struct            Private;
   Private* const    _d;
   // Read a line, removing the LF character
@@ -39,22 +40,18 @@ public:
   };
   List(
     const Path&     path);
-  ~List();
-  // Open file (for write)
-  int create();
+  virtual ~List();
   // Open file (for read)
-  int open();
+  virtual int open();
   // Close file
-  int close();
-  // Flush all data to file
-  int flush();
+  virtual int close();
   // File path
   const Path& path() const;
   // Current path
   const Path& getPath() const;
   // Current data line
   const Line& getData() const;
-  // For progress information
+  // For progress information (NOT IMPLEMENTED)
   void setProgressCallback(
     progress_f      progress);
   // Buffer relevant line
@@ -63,9 +60,6 @@ public:
   void resetStatus();
   // End of list reached
   bool end() const;
-  // Write a line, adding the LF character
-  ssize_t putLine(
-    const Line&     line);            // Line to write
   // Encode line from metadata
   static ssize_t encodeLine(
     char*           line[],                 // Line to decode
@@ -77,15 +71,6 @@ public:
     time_t*         ts,                     // Line timestamp
     const char      path[]      = NULL,     // File path to store in metadata
     Node**          node        = NULL);    // File metadata
-  // Add info
-  static int add(
-    const Path&     path,                   // Path
-    const Node*     node,                   // Metadata
-    List*           new_list,               // Merge list
-    List*           journal     = NULL);    // Journal
-  // Empty list (only valid right after opening)
-  static bool isEmpty(
-    const List*     list);
   // Convert one or several line(s) to data
   // Date:
   //    <0: any (if -2, data is not discarded)
@@ -93,12 +78,37 @@ public:
   //    >0: as old or just newer than date
   // Return code:
   //    -1: error, 0: end of file, 1: success
-  static int getEntry(
-    List*           list,
+  int getEntry(
     time_t*         timestamp,
     char*           path[],
     Node**          node,
     time_t          date = -1);
+  // Show the list
+  void show(
+    time_t          date        = -1,       // Date to select
+    time_t          time_start  = 0,        // Origin of time
+    time_t          time_base   = 1);       // Time base
+};
+
+class ListWriter : public List {
+protected: // for tests...
+  // Write a line, adding the LF character
+  ssize_t putLine(
+    const Line&     line);            // Line to write
+public:
+  ListWriter(
+    const Path&     path) : List(path) {}
+  // Open file
+  int open();
+  // Close file
+  int close();
+  // Flush all data to file
+  int flush();
+  // Add info
+  int add(
+    const Path&     path,             // Path
+    const Node*     node,             // Metadata
+    ListWriter*     journal = NULL);  // Journal
   // Search data in list copying contents to new list/journal, marking files
   // removed, and also expiring data on the fly when told to
   // Searches:             Path        Copy
@@ -114,24 +124,18 @@ public:
     const char      path[]      = NULL,     // Path to search
     time_t          expire      = -1,       // Expiration date
     time_t          remove      = 0,        // Mark records removed at date
-    List*           new_list    = NULL,     // Merge list
-    List*           journal     = NULL,     // Journal
+    ListWriter*     new_list    = NULL,     // Merge list
+    ListWriter*     journal     = NULL,     // Journal
     bool*           modified    = NULL);    // To report list modifications
-  // Merge this list and journal into new_list
+  // Merge given list and journal into this list
   //    all lists must be open
   // Return code:
   //    -1: error, 0: success, 1: unexpected end of journal
-  static int merge(
+  int merge(
     List*           list,
-    List*           new_list,
     List*           journal     = NULL);
-  // Show the list
-  void show(
-    time_t          date        = -1,       // Date to select
-    time_t          time_start  = 0,        // Origin of time
-    time_t          time_base   = 1);       // Time base
 };
 
 }
 
-#endif
+#endif // _LIST_H

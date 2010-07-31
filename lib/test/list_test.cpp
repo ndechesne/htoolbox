@@ -30,6 +30,12 @@ using namespace std;
 #include "files.h"
 #include "list.h"
 
+class ListWriterTest : public ListWriter {
+public:
+  ListWriterTest(const Path& path) : ListWriter(path) {}
+  ssize_t putLine(const Line& line) { return ListWriter::putLine(line); }
+};
+
 static time_t my_time = 0;
 time_t time(time_t *t) {
   (void) t;
@@ -86,7 +92,7 @@ static void showList(List& list) {
 }
 
 static void add(
-    List&     list,
+    ListWriterTest& list,
     const char*     path,
     time_t          epoch,
     const Node*     node = NULL) {
@@ -98,14 +104,14 @@ static void add(
 }
 
 int main(void) {
-  List      dblist("test_db/list");
-  List      journal("test_db/journal");
-  List      merge("test_db/merge");
-  List      dblist_reader("test_db/list");
-  List      journal_reader("test_db/journal");
-  List      merge_reader("test_db/merge");
-  Node*     node   = NULL;
-  int       sys_rc;
+  ListWriter dblist("test_db/list");
+  ListWriterTest journal("test_db/journal");
+  ListWriter merge("test_db/merge");
+  List dblist_reader("test_db/list");
+  List journal_reader("test_db/journal");
+  List merge_reader("test_db/merge");
+  Node* node   = NULL;
+  int sys_rc;
 
   cout << "Test: DB lists" << endl;
   mkdir("test_db", 0755);
@@ -114,7 +120,7 @@ int main(void) {
 
   cout << endl << "Test: list creation" << endl;
 
-  if (dblist.create()) {
+  if (dblist.open()) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
@@ -126,7 +132,7 @@ int main(void) {
   cout << endl << "Test: journal write" << endl;
   my_time++;
 
-  if (journal.create()) {
+  if (journal.open()) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -181,11 +187,11 @@ int main(void) {
   if (journal_reader.end()) {
     cout << "Journal is empty" << endl;
   }
-  if (merge.create()) {
+  if (merge.open()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (List::merge(&dblist_reader, &merge, &journal_reader) < 0) {
+  if (merge.merge(&dblist_reader, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
@@ -207,7 +213,7 @@ int main(void) {
   cout << endl << "Test: journal write again" << endl;
   my_time++;
 
-  if (journal.create()) {
+  if (journal.open()) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -259,11 +265,11 @@ int main(void) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
-  if (merge.create()) {
+  if (merge.open()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (List::merge(&dblist_reader, &merge, &journal_reader) < 0) {
+  if (merge.merge(&dblist_reader, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
@@ -288,9 +294,9 @@ int main(void) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
-  while (List::search(&dblist_reader) == 2) {
+  while (ListWriter::search(&dblist_reader) == 2) {
     char *path = NULL;
-    List::getEntry(&dblist_reader, NULL, &path, NULL);
+    dblist_reader.getEntry(NULL, &path, NULL);
     cout << path << endl;
     free(path);
   }
@@ -300,7 +306,7 @@ int main(void) {
   cout << endl << "Test: journal path out of order" << endl;
   my_time++;
 
-  if (journal.create()) {
+  if (journal.open()) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -339,11 +345,11 @@ int main(void) {
   if (journal_reader.end()) {
     cout << "Journal is empty" << endl;
   }
-  if (merge.create()) {
+  if (merge.open()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (List::merge(&dblist_reader, &merge, &journal_reader) < 0) {
+  if (merge.merge(&dblist_reader, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
 //     return 0;
   }
@@ -375,11 +381,11 @@ int main(void) {
   if (dblist_reader.end()) {
     cout << "Register is empty" << endl;
   }
-  if (merge.create()) {
+  if (merge.open()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (List::search(&dblist_reader, "", 4, 0, &merge) < 0) {
+  if (ListWriter::search(&dblist_reader, "", 4, 0, &merge) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -397,11 +403,11 @@ int main(void) {
   if (dblist_reader.end()) {
     cout << "Register is empty" << endl;
   }
-  if (merge.create()) {
+  if (merge.open()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (List::search(&dblist_reader, "", 0, 0, &merge) < 0) {
+  if (ListWriter::search(&dblist_reader, "", 0, 0, &merge) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -422,11 +428,11 @@ int main(void) {
   if (dblist_reader.end()) {
     cout << "Register is empty" << endl;
   }
-  if (merge.create()) {
+  if (merge.open()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (List::search(&dblist_reader, "", -1, 0, &merge) < 0) {
+  if (ListWriter::search(&dblist_reader, "", -1, 0, &merge) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -443,7 +449,7 @@ int main(void) {
   cout << endl << "Test: get latest entry only" << endl;
 
   // Add new entry in journal
-  if (journal.create()) {
+  if (journal.open()) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -471,11 +477,11 @@ int main(void) {
   if (journal_reader.end()) {
     cout << "Journal is empty" << endl;
   }
-  if (merge.create()) {
+  if (merge.open()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (List::merge(&dblist_reader, &merge, &journal_reader) < 0) {
+  if (merge.merge(&dblist_reader, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
@@ -508,7 +514,7 @@ int main(void) {
   cout << endl << "Test: journal write" << endl;
   my_time++;
 
-  if (journal.create()) {
+  if (journal.open()) {
     cerr << "Failed to open journal" << endl;
     return 0;
   }
@@ -563,11 +569,11 @@ int main(void) {
   if (journal_reader.end()) {
     cout << "Journal is empty" << endl;
   }
-  if (merge.create()) {
+  if (merge.open()) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (List::merge(&dblist_reader, &merge, &journal_reader) < 0) {
+  if (merge.merge(&dblist_reader, &journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
