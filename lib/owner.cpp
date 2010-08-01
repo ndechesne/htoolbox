@@ -412,7 +412,7 @@ int Owner::send(
   _d->journal->flush();
   if (rc == 2) {
     // Get metadata (needs to be kept, as it will be added after any new)
-    _d->original->getEntry(NULL, NULL, &db_node, -2);
+    _d->original->fetchData(&db_node, true);
   }
 
   // New or resurrected file: (re-)add
@@ -549,7 +549,7 @@ int Owner::getChecksums(
   }
   _d->original->setProgressCallback(_d->progress);
   Node* node = NULL;
-  while (_d->original->getEntry(NULL, NULL, &node) > 0) {
+  while (_d->original->fetchData(&node, false) > 0) {
     if ((node != NULL) && (node->type() == 'f')) {
       File* f = static_cast<File*>(node);
       if (f->checksum()[0] != '\0') {

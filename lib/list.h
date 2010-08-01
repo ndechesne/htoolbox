@@ -66,9 +66,12 @@ public:
     time_t*         ts,                     // Line timestamp
     const char      path[]      = NULL,     // File path to store in metadata
     Node**          node        = NULL);    // File metadata
+  int fetchData(
+    Node**          node,
+    bool            keep);
   // Convert one or several line(s) to data
   // Date:
-  //    <0: any (if -2, data is not discarded)
+  //    <0: any
   //     0: latest
   //    >0: as old or just newer than date
   // Return code:
@@ -77,7 +80,7 @@ public:
     time_t*         timestamp,
     char*           path[],
     Node**          node,
-    time_t          date = -1);
+    time_t          date);
   // Show the list
   void show(
     time_t          date        = -1,       // Date to select

@@ -402,16 +402,47 @@ void ListReader::setProgressCallback(progress_f progress) {
 //   _d->stream.setProgressCallback(progress);
 }
 
+int ListReader::fetchData(
+    Node**          node,
+    bool            keep) {
+  // Initialise
+  delete *node;
+  *node = NULL;
+
+  int rc;
+  do {
+    // Get line
+    rc = fetchLine();
+    if (rc < 0) {
+      if (rc == ListReader::eof) {
+        hlog_error("Unexpected end of list in '%s'", _d->file.name());
+      }
+      return -1;
+    }
+    // End of file
+    if (rc == ListReader::eor) {
+      return 0;
+    }
+    if (rc == ListReader::got_data) {
+      time_t ts;
+      // Get all arguments from line
+      ListReader::decodeLine(getData(), &ts, getPath(), node);
+    }
+    if (! keep) {
+      resetStatus();
+    }
+  } while (rc != ListReader::got_data);
+  return 1;
+}
+
 int ListReader::getEntry(
     time_t*         timestamp,
     char**          path,
     Node**          node,
     time_t          date) {
   // Initialise
-  if (node != NULL) {
-    delete *node;
-    *node = NULL;
-  }
+  delete *node;
+  *node = NULL;
 
   bool get_path;
   if (date < 0) {
@@ -440,31 +471,25 @@ int ListReader::getEntry(
 
     // Path
     if (rc == ListReader::got_path) {
-      if (path != NULL) {
-        free(*path);
-        *path = strdup(getPath());
-      }
+      free(*path);
+      *path = strdup(getPath());
       get_path = false;
     } else
 
     // Data
     if (! get_path) {
       time_t ts;
-      if ((node != NULL) || (timestamp != NULL) || (date > 0)) {
-        // Get all arguments from line
-        ListReader::decodeLine(getData(), &ts, getPath(), node);
-        if (timestamp != NULL) {
-          *timestamp = ts;
-        }
+      // Get all arguments from line
+      ListReader::decodeLine(getData(), &ts, getPath(), node);
+      if (timestamp != NULL) {
+        *timestamp = ts;
       }
       if ((date <= 0) || (ts <= date)) {
         break_it = true;
       }
     }
     // Reset status
-    if (date != -2) {
-      resetStatus();
-    }
+    resetStatus();
   }
   return 1;
 }
@@ -797,7 +822,7 @@ void ListReader::show(
       char*  path = NULL;
       Node*  node = NULL;
       int rc = 0;
-      while ((rc = ListReader::getEntry(&ts, &path, &node, date)) > 0) {
+      while ((rc = getEntry(&ts, &path, &node, date)) > 0) {
         time_t timestamp = 0;
         if (ts != 0) {
           timestamp = ts - time_start;
@@ -820,7 +845,7 @@ void ListReader::show(
         printf("\n");
       }
       free(path);
-      free(node);
+      delete node;
       if (rc < 0) {
         hlog_error("Failed to read list");
       }

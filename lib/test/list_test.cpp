@@ -293,11 +293,12 @@ int main(void) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
   }
-  while (ListWriter::search(&dblist_reader) == 2) {
-    char *path = NULL;
-    dblist_reader.getEntry(NULL, &path, NULL);
-    cout << path << endl;
-    free(path);
+  ListReader::Status status;
+  while ((status = dblist_reader.fetchLine()) > 0) {
+    if (status == ListReader::got_path) {
+      cout << dblist_reader.getPath() << endl;
+    }
+    dblist_reader.resetStatus();
   }
   dblist_reader.close();
 
