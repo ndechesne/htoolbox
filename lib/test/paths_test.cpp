@@ -64,9 +64,9 @@ int main(void) {
   Database    db("test_db");
   db.setProgressCallback(progress);
   // myClient's lists
-  List real_journal_reader(Path("test_db", "myClient/journal"));
-  List journal_reader(Path("test_db", "myClient/journal~"));
-  List dblist_reader(Path("test_db", "myClient/list"));
+  ListReader real_journal_reader(Path("test_db", "myClient/journal"));
+  ListReader journal_reader(Path("test_db", "myClient/journal~"));
+  ListReader dblist_reader(Path("test_db", "myClient/list"));
   // Filter
   vector<string> params;
   params.resize(3);
@@ -753,8 +753,8 @@ int main(void) {
   }
 
   // hisClient's lists
-  List journal2_reader(Path("test_db", "hisClient/journal~"));
-  List dblist2_reader(Path("test_db", "hisClient/list"));
+  ListReader journal2_reader(Path("test_db", "hisClient/journal~"));
+  ListReader dblist2_reader(Path("test_db", "hisClient/list"));
 
   // Replace files to test recovery
   rename("test_db/myClient/list.cp", "test_db/myClient/list");

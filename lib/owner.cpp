@@ -37,14 +37,14 @@ using namespace hbackup;
 using namespace hreport;
 
 struct Owner::Private {
-  Path              path;
-  char*             name;
-  bool              modified;
-  List*             original;
-  ListWriter*       journal;
-  ListWriter*       partial;
-  time_t            expiration;
-  progress_f        progress;
+  Path            path;
+  char*           name;
+  bool            modified;
+  ListReader*     original;
+  ListWriter*     journal;
+  ListWriter*     partial;
+  time_t          expiration;
+  progress_f      progress;
 };
 
 // The procedure is as follows:
@@ -76,7 +76,7 @@ int Owner::finishOff(
   bool got_next = recovery && next.isValid();
 
   // Need to open journal in read mode
-  List journal(_d->journal->path());
+  ListReader journal(_d->journal->path());
 
   // Recovering from list and journal (step 0)
   if (recovery && ! got_next) {
@@ -210,7 +210,7 @@ int Owner::hold() const {
     return -1;
   }
 
-  _d->original = new List(file_name.str().c_str());
+  _d->original = new ListReader(file_name.str().c_str());
   if (_d->original->open()) {
     hlog_error("%s opening list '%s', aborting", strerror(errno),
       _d->path.basename());
@@ -259,7 +259,7 @@ int Owner::open(
   bool failed = false;
   // Open list
   _d->modified = false;
-  _d->original = new List(owner_list.path());
+  _d->original = new ListReader(owner_list.path());
   if (_d->original->open(initialize)) {
     File backup(Path(_d->path, "list~"));
 
@@ -285,7 +285,7 @@ int Owner::open(
     // Check journal
     _d->journal = new ListWriter(Path(_d->path, "journal"));
     _d->partial = new ListWriter(Path(_d->path, "partial"));
-    List journal(_d->journal->path());
+    ListReader journal(_d->journal->path());
     if (! journal.open(true)) {
       // Check previous crash
       journal.close();

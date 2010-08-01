@@ -73,7 +73,7 @@ static int showRegister(const char* path) {
     } else {
       time_t ts;
       Node*  node = NULL;
-      List::decodeLine(line, &ts, "", &node);
+      ListReader::decodeLine(line, &ts, "", &node);
       cout << "\t" << ts << "\t";
       if (node != NULL) {
         printf("%c\t%6lld\t%03o", node->type(), node->size(), node->mode());
@@ -96,7 +96,7 @@ int main(void) {
 
   mkdir("test_db", 0755);
   Owner   o("test_db", "client", 10);
-  List   owner_list_reader("test_db/client/list");
+  ListReader owner_list_reader("test_db/client/list");
   string remote_path = "/remote/path/";
   cout << "Name: " << o.name() << endl;
   cout << "Path: " << o.path() << endl;

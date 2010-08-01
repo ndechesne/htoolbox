@@ -177,7 +177,7 @@ ssize_t ListFile::putLine(const char* line) {
   return line_size;
 }
 
-struct List::Private {
+struct ListReader::Private {
   ListFile          file;
   Status            status;
   Line              data;
@@ -190,33 +190,33 @@ struct ListWriter::Private {
   Private(const char* path) : file(path, false) {}
 };
 
-List::List(const Path& path) : _d(new Private(path)) {}
+ListReader::ListReader(const Path& path) : _d(new Private(path)) {}
 
-List::~List() {
+ListReader::~ListReader() {
   delete _d;
 }
 
-int List::open(bool quiet_if_not_exists) {
+int ListReader::open(bool quiet_if_not_exists) {
   if (_d->file.open(quiet_if_not_exists) < 0) {
     return -1;
   }
   // Get first line to check for empty list
-  return (fetchLine(true) == List::failed) ? -1 : 0;
+  return (fetchLine(true) == ListReader::failed) ? -1 : 0;
 }
 
-int List::close() {
+int ListReader::close() {
   return _d->file.close();
 }
 
-const char* List::path() const {
+const char* ListReader::path() const {
   return _d->file.name();
 }
 
-const Path& List::getPath() const {
+const Path& ListReader::getPath() const {
   return _d->path;
 }
 
-const Line& List::getData() const {
+const Line& ListReader::getData() const {
   return _d->data;
 }
 
@@ -242,23 +242,23 @@ const char* ListWriter::path() const {
   return _d->file.name();
 }
 
-List::Status List::fetchLine(bool init) {
+ListReader::Status ListReader::fetchLine(bool init) {
   // Check current status
-  if (init || (_d->status == List::got_nothing)) {
+  if (init || (_d->status == ListReader::got_nothing)) {
     // Line contains no re-usable data
     ssize_t length = _d->file.getLine(_d->data);
     // Read error
     if (length < 0) {
-      _d->status = List::failed;
+      _d->status = ListReader::failed;
     } else
     // Unexpected end of list or incorrect end of line
     if (length == 0) {
       // All lines MUST end in end-of-line character
-      _d->status = List::eof;
+      _d->status = ListReader::eof;
     } else
     // End of list
     if (_d->data[0] == '#') {
-      _d->status = List::eor;
+      _d->status = ListReader::eor;
     } else
     // Usable information
     {
@@ -272,22 +272,22 @@ List::Status List::fetchLine(bool init) {
         } else {
           hlog_warning("Repeated path in list '%s'", _d->path.c_str());
         }
-        _d->status = List::got_path;
+        _d->status = ListReader::got_path;
       } else {
-        _d->status = List::got_data;
+        _d->status = ListReader::got_data;
       }
     }
   }
   return _d->status;
 }
 
-void List::resetStatus() {
+void ListReader::resetStatus() {
   if ((_d->status == got_data) || (_d->status == got_path)) {
     _d->status = got_nothing;
   }
 }
 
-bool List::end() const {
+bool ListReader::end() const {
   // If EOF is reached immediately, list is empty
   return (_d->status == eor) || (_d->status == eof);
 }
@@ -296,7 +296,7 @@ ssize_t ListWriter::putLine(const char* line) {
   return _d->file.putLine(line);
 }
 
-ssize_t List::encodeLine(
+ssize_t ListReader::encodeLine(
     char**          linep,
     time_t          timestamp,
     const Node*     node) {
@@ -327,7 +327,7 @@ ssize_t List::encodeLine(
   return size;
 }
 
-int List::decodeLine(
+int ListReader::decodeLine(
     const char*     line,
     time_t*         ts,
     const char*     path,
@@ -387,7 +387,7 @@ int ListWriter::add(
     ListWriter*     journal) {
   int rc = 0;
   char* line = NULL;
-  ssize_t size = List::encodeLine(&line, time(NULL), node);
+  ssize_t size = ListReader::encodeLine(&line, time(NULL), node);
 
   if (putLine(line) != size) {
     rc = -1;
@@ -403,12 +403,12 @@ int ListWriter::add(
   return rc;
 }
 
-void List::setProgressCallback(progress_f progress) {
+void ListReader::setProgressCallback(progress_f progress) {
   (void) progress;
 //   _d->stream.setProgressCallback(progress);
 }
 
-int List::getEntry(
+int ListReader::getEntry(
     time_t*         timestamp,
     char**          path,
     Node**          node,
@@ -433,7 +433,7 @@ int List::getEntry(
     rc = fetchLine();
 
     if (rc < 0) {
-      if (rc == List::eof) {
+      if (rc == ListReader::eof) {
         hlog_error("Unexpected end of list in '%s'", _d->file.name());
       }
       return -1;
@@ -445,7 +445,7 @@ int List::getEntry(
     }
 
     // Path
-    if (rc == List::got_path) {
+    if (rc == ListReader::got_path) {
       if (path != NULL) {
         free(*path);
         *path = strdup(getPath());
@@ -458,7 +458,7 @@ int List::getEntry(
       time_t ts;
       if ((node != NULL) || (timestamp != NULL) || (date > 0)) {
         // Get all arguments from line
-        List::decodeLine(getData(), &ts, getPath(), node);
+        ListReader::decodeLine(getData(), &ts, getPath(), node);
         if (timestamp != NULL) {
           *timestamp = ts;
         }
@@ -476,7 +476,7 @@ int List::getEntry(
 }
 
 int ListWriter::search(
-    List*           list,
+    ListReader*     list,
     const char*     path_l,
     time_t          expire,
     time_t          remove,
@@ -518,7 +518,7 @@ int ListWriter::search(
 
     // Not end of file
     if (rc != 0) {
-      if (rc == List::got_path) {
+      if (rc == ListReader::got_path) {
         path_new = true;
         // Got a path
         if ((path_l != NULL) && (path_l[0] != '\0')) {
@@ -535,7 +535,7 @@ int ListWriter::search(
         // Next line of data is active
         active_data_line = true;
       } else
-      if (rc == List::got_data) {
+      if (rc == ListReader::got_data) {
         // Got data
         if (new_list != NULL) {
           if (active_data_line) {
@@ -550,7 +550,7 @@ int ListWriter::search(
               // Not marked removed yet
               if (*pos != '-') {
                 char* line = NULL;
-                List::encodeLine(&line, remove, NULL);
+                ListReader::encodeLine(&line, remove, NULL);
                 if (new_list->putLine(line) < 0) {
                   // Could not write
                   free(line);
@@ -573,7 +573,7 @@ int ListWriter::search(
               if (expire != 0) {
                 // Check timestamp for expiration
                 time_t ts = 0;
-                if (! List::decodeLine(list->getData(), &ts) && (ts < expire)) {
+                if (! ListReader::decodeLine(list->getData(), &ts) && (ts < expire)) {
                   list->resetStatus();
                   continue;
                 }
@@ -593,7 +593,7 @@ int ListWriter::search(
     // New data, add to merge
     if (new_list != NULL) {
       // Searched path found or status is eof/empty
-      if ((rc == List::eor) || stop) {
+      if ((rc == ListReader::eor) || stop) {
         if (path_found) {
           list->resetStatus();
         }
@@ -606,13 +606,13 @@ int ListWriter::search(
         }
       } else
       // Our data is here or after, so let's copy if required
-      if (rc == List::got_path) {
+      if (rc == ListReader::got_path) {
         if (new_list->putLine(list->getPath()) < 0) {
           // Could not write
           return -1;
         }
       } else
-      if (rc == List::got_data) {
+      if (rc == ListReader::got_data) {
         if (new_list->putLine(list->getData()) < 0) {
           // Could not write
           return -1;
@@ -621,7 +621,7 @@ int ListWriter::search(
     }
 
     // Return search status
-    if (rc == List::eor) {
+    if (rc == ListReader::eor) {
       return 0;
     }
     if (path_found && (path_l == NULL)) {
@@ -641,8 +641,8 @@ int ListWriter::search(
 }
 
 int ListWriter::merge(
-    List*           list,
-    List*           journal) {
+    ListReader*     list,
+    ListReader*     journal) {
   int rc_list = 1;
 
   // Line read from journal
@@ -658,7 +658,7 @@ int ListWriter::merge(
 
     // Failed
     if (rc_journal < 0) {
-      if (rc_journal == List::eof) {
+      if (rc_journal == ListReader::eof) {
         hlog_warning("Unexpected end of journal '%s'", journal->path());
         rc_journal = 0;
       } else {
@@ -681,7 +681,7 @@ int ListWriter::merge(
     }
 
     // Got a path
-    if (rc_journal == List::got_path) {
+    if (rc_journal == ListReader::got_path) {
       // Check path order
       if (path.length() != 0) {
         if (path.compare(journal->getPath()) > 0) {
@@ -726,7 +726,7 @@ int ListWriter::merge(
   return 0;
 }
 
-void List::show(
+void ListReader::show(
     time_t          date,
     time_t          time_start,
     time_t          time_base) {
@@ -738,7 +738,7 @@ void List::show(
       char*  path = NULL;
       Node*  node = NULL;
       int rc = 0;
-      while ((rc = List::getEntry(&ts, &path, &node, date)) > 0) {
+      while ((rc = ListReader::getEntry(&ts, &path, &node, date)) > 0) {
         time_t timestamp = 0;
         if (ts != 0) {
           timestamp = ts - time_start;

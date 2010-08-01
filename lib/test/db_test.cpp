@@ -59,7 +59,7 @@ int main(void) {
   string      checksum;
   string      zchecksum;
   int         status;
-  List        dblist_reader("test_db/myClient/list");
+  ListReader  dblist_reader("test_db/myClient/list");
   int         sys_rc;
 
   report.setLevel(debug);

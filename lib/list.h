@@ -21,7 +21,7 @@
 
 namespace hbackup {
 
-class List {
+class ListReader {
   struct            Private;
   Private* const    _d;
 public:
@@ -33,9 +33,9 @@ public:
     got_path,                 // Got a path
     got_data                  // Got data
   };
-  List(
+  ListReader(
     const Path&     path);
-  ~List();
+  ~ListReader();
   // Open file (for read)
   int open(bool quiet_if_not_exists = false);
   // Close file
@@ -50,7 +50,7 @@ public:
   void setProgressCallback(
     progress_f      progress);
   // Buffer relevant line
-  List::Status fetchLine(bool init = false);
+  ListReader::Status fetchLine(bool init = false);
   // Reset status to 'no data available'
   void resetStatus();
   // End of list reached
@@ -104,9 +104,9 @@ public:
   int flush();
   // Add info
   int add(
-    const Path&     path,             // Path
-    const Node*     node,             // Metadata
-    ListWriter*     journal = NULL);  // Journal
+    const Path&     path,                 // Path
+    const Node*     node,                 // Metadata
+    ListWriter*     journal     = NULL);  // Journal
   // Search data in list copying contents to new list/journal, marking files
   // removed, and also expiring data on the fly when told to
   // Searches:             Path        Copy
@@ -118,20 +118,20 @@ public:
   // Return code:
   //    -1: error, 0: end of file, 1: exceeded, 2: found
   static int search(
-    List*           list,
-    const char      path[]      = NULL,     // Path to search
-    time_t          expire      = -1,       // Expiration date
-    time_t          remove      = 0,        // Mark records removed at date
-    ListWriter*     new_list    = NULL,     // Merge list
-    ListWriter*     journal     = NULL,     // Journal
-    bool*           modified    = NULL);    // To report list modifications
+    ListReader*     list,
+    const char      path[]      = NULL,   // Path to search
+    time_t          expire      = -1,     // Expiration date
+    time_t          remove      = 0,      // Mark records removed at date
+    ListWriter*     new_list    = NULL,   // Merge list
+    ListWriter*     journal     = NULL,   // Journal
+    bool*           modified    = NULL);  // To report list modifications
   // Merge given list and journal into this list
   //    all lists must be open
   // Return code:
   //    -1: error, 0: success, 1: unexpected end of journal
   int merge(
-    List*           list,
-    List*           journal     = NULL);
+    ListReader*     list,
+    ListReader*     journal     = NULL);
 };
 
 }

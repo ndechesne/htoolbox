@@ -58,31 +58,31 @@ static void showLine(time_t timestamp, const char* path, const Node* node) {
   cout << endl;
 }
 
-static void showList(List& list) {
+static void showList(ListReader& list) {
   if (list.open() < 0) {
     cerr << "Failed to open " << list.path() << ": " << strerror(errno) << endl;
   } else {
     if (list.end()) {
       cout << list.path() << " is empty" << endl;
     } else {
-      List::Status rc;
-      Path         path;
+      ListReader::Status rc;
+      Path path;
       while ((rc = list.fetchLine()) > 0) {
-        if (rc == List::got_path) {
+        if (rc == ListReader::got_path) {
           path = list.getPath();
           list.resetStatus();
         } else {
           time_t ts;
           Node*  node;
-          List::decodeLine(list.getData(), &ts, path, &node);
+          ListReader::decodeLine(list.getData(), &ts, path, &node);
           showLine(ts, path, node);
           list.resetStatus();
         }
       }
-      if (rc == List::failed) {
+      if (rc == ListReader::failed) {
         cerr << "Failed to read " << list.path() << endl;
       } else
-      if (rc == List::eof) {
+      if (rc == ListReader::eof) {
         cerr << "Unexpected end of " << list.path() << endl;
       }
     }
@@ -97,7 +97,7 @@ static void add(
     const Node*     node = NULL) {
   list.putLine(path);
   char* line = NULL;
-  List::encodeLine(&line, epoch, node);
+  ListReader::encodeLine(&line, epoch, node);
   list.putLine(line);
   free(line);
 }
@@ -106,9 +106,9 @@ int main(void) {
   ListWriter dblist("test_db/list");
   ListWriterTest journal("test_db/journal");
   ListWriter merge("test_db/merge");
-  List dblist_reader("test_db/list");
-  List journal_reader("test_db/journal");
-  List merge_reader("test_db/merge");
+  ListReader dblist_reader("test_db/list");
+  ListReader journal_reader("test_db/journal");
+  ListReader merge_reader("test_db/merge");
   Node* node   = NULL;
   int sys_rc;
 
@@ -594,7 +594,7 @@ int main(void) {
   cout << endl << "Test: read version 4 list" << endl;
   my_time++;
 
-  List old_list("../../../test_tools/list.v4");
+  ListReader old_list("../../../test_tools/list.v4");
   showList(old_list);
 
   return 0;
