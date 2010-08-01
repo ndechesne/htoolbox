@@ -47,33 +47,37 @@ public:
   }
   ssize_t putLine(const char* line);
   // Called only once, leave inline
-  ssize_t getLine(Line& line) {
+  ssize_t getLine(char** buffer_p, size_t* cap_p) {
     if (_fd == NULL) return -1;
     if (!_read_only) return -1;
-    LineBuffer& buffer = line;
-    ssize_t rc;
     char delim;
     if (! _old_version) {
       delim = '\0';
     } else {
       delim = '\n';
     }
-    rc = getdelim(buffer.bufferPtr(), buffer.capacityPtr(), delim, _fd);
+    ssize_t rc = getdelim(buffer_p, cap_p, delim, _fd);
     if (rc <= 0) {
-      return feof(_fd) ? 0 : -1;
+      if (feof(_fd)) {
+        return -2;
+      }
+      return -1;
     }
+    char* line = *buffer_p;
     if (line[rc - 1] != delim) {
-      return 0;
+      return -2;
     }
     if (! _old_version) {
       char lf[1];
       if ((fread(lf, 1, 1, _fd) < 1) || (*lf != '\n')) {
-        return 0;
+        return -2;
       }
     }
-    *buffer.sizePtr() = rc;
+    if (line[0] == '#') {
+      return 0;
+    }
     --rc;
-    buffer.erase(rc);
+    line[rc] = '\0';
     return rc;
   }
 };
@@ -180,14 +184,17 @@ ssize_t ListFile::putLine(const char* line) {
 struct ListReader::Private {
   ListFile          file;
   Status            status;
-  Line              data;
-  Path              path;
-  Private(const char* path) : file(path, true) {}
-};
-
-struct ListWriter::Private {
-  ListFile          file;
-  Private(const char* path) : file(path, false) {}
+  char*             path;
+  size_t            path_cap;
+  char*             data;
+  size_t            data_cap;
+  Private(const char* path_in) : file(path_in, true) {
+    data_cap = path_cap = 256;
+    path = static_cast<char*>(malloc(path_cap));
+    path[0] = '\0'; // Let it crash if malloc failed
+    data = static_cast<char*>(malloc(data_cap));
+    data[0] = '\0'; // Let it crash if malloc failed
+  }
 };
 
 ListReader::ListReader(const Path& path) : _d(new Private(path)) {}
@@ -200,8 +207,10 @@ int ListReader::open(bool quiet_if_not_exists) {
   if (_d->file.open(quiet_if_not_exists) < 0) {
     return -1;
   }
+  _d->status = got_nothing;
+  _d->path[0] = '\0';
   // Get first line to check for empty list
-  return (fetchLine(true) == ListReader::failed) ? -1 : 0;
+  return (fetchLine() == ListReader::failed) ? -1 : 0;
 }
 
 int ListReader::close() {
@@ -212,13 +221,18 @@ const char* ListReader::path() const {
   return _d->file.name();
 }
 
-const Path& ListReader::getPath() const {
+const char* ListReader::getPath() const {
   return _d->path;
 }
 
-const Line& ListReader::getData() const {
+const char* ListReader::getData() const {
   return _d->data;
 }
+
+struct ListWriter::Private {
+  ListFile          file;
+  Private(const char* path) : file(path, false) {}
+};
 
 ListWriter::ListWriter(const Path& path) : _d(new Private(path)) {}
 
@@ -242,40 +256,42 @@ const char* ListWriter::path() const {
   return _d->file.name();
 }
 
-ListReader::Status ListReader::fetchLine(bool init) {
+// This is read buffer: unless the status is 'got_nothing', we do not fetch
+// anything. The status is reset using resetStatus, and only if the status is
+// got_data or got_path.
+ListReader::Status ListReader::fetchLine() {
   // Check current status
-  if (init || (_d->status == ListReader::got_nothing)) {
+  if (_d->status == ListReader::got_nothing) {
     // Line contains no re-usable data
-    ssize_t length = _d->file.getLine(_d->data);
-    // Read error
-    if (length < 0) {
-      _d->status = ListReader::failed;
-    } else
-    // Unexpected end of list or incorrect end of line
-    if (length == 0) {
-      // All lines MUST end in end-of-line character
-      _d->status = ListReader::eof;
-    } else
-    // End of list
-    if (_d->data[0] == '#') {
-      _d->status = ListReader::eor;
-    } else
-    // Usable information
-    {
-      if (init) {
-        // Initialise path
-        _d->path = "";
-      }
-      if (_d->data[0] != '\t') {
-        if (strcmp(_d->path, _d->data)) {
-          _d->path.swap(_d->data);
+    ssize_t length = _d->file.getLine(&_d->data, &_d->data_cap);
+    switch (length) {
+      case -2:
+        // Unexpected end of list or incorrect end of line
+        _d->status = ListReader::eof;
+        break;
+      case -1:
+        // Read error
+        _d->status = ListReader::failed;
+        break;
+      case 0:
+        // End of list
+        _d->status = ListReader::eor;
+        break;
+      default:
+        // Usable information
+        if (_d->data[0] != '\t') {
+          if (strcmp(_d->path, _d->data) != 0) {
+            // Swap buffers
+            char* temp = _d->data;
+            _d->data = _d->path;
+            _d->path = temp;
+          } else {
+            hlog_error("Repeated path in list '%s'", _d->path);
+          }
+          _d->status = ListReader::got_path;
         } else {
-          hlog_warning("Repeated path in list '%s'", _d->path.c_str());
+          _d->status = ListReader::got_data;
         }
-        _d->status = ListReader::got_path;
-      } else {
-        _d->status = ListReader::got_data;
-      }
     }
   }
   return _d->status;
@@ -381,28 +397,6 @@ int ListReader::decodeLine(
   return 0;
 }
 
-int ListWriter::add(
-    const Path&     path,
-    const Node*     node,
-    ListWriter*     journal) {
-  int rc = 0;
-  char* line = NULL;
-  ssize_t size = ListReader::encodeLine(&line, time(NULL), node);
-
-  if (putLine(line) != size) {
-    rc = -1;
-  }
-  if (journal != NULL) {
-    // Add to journal
-    if ((journal->putLine(path) != static_cast<ssize_t>(path.size())) ||
-        (journal->putLine(line) != size)) {
-      rc = -1;
-    }
-  }
-  free(line);
-  return rc;
-}
-
 void ListReader::setProgressCallback(progress_f progress) {
   (void) progress;
 //   _d->stream.setProgressCallback(progress);
@@ -485,20 +479,6 @@ int ListWriter::search(
     bool*           modified) {
   int rc = 0;
 
-  int path_cmp;
-  // Pre-set path comparison result
-  if (path_l == NULL) {
-    // Any path will match (search for next path)
-    path_cmp = 0;
-  } else
-  if (path_l[0] == '\0') {
-    // No path will match (search for end of list)
-    path_cmp = 1;
-  } else {
-    // Only given path will match (search for given path)
-    path_cmp = -1;
-  }
-
   // Need to know whether line of data is active or not
   bool active_data_line = true;   // First line of data for path
   bool stop             = false;  // Searched-for path found or exceeded
@@ -510,18 +490,32 @@ int ListWriter::search(
     rc = list->fetchLine();
 
     // Failed
-    if (rc < 0) {
+    if (rc == ListReader::eof) {
       // Unexpected end of list
       hlog_error("Unexpected end of list '%s'", list->path());
+      return -1;
+    } else
+    if (rc == ListReader::failed) {
+      // Unexpected end of list
+      hlog_error("Error reading list '%s'", list->path());
       return -1;
     }
 
     // Not end of file
-    if (rc != 0) {
+    if (rc != ListReader::eor) {
       if (rc == ListReader::got_path) {
         path_new = true;
+        int path_cmp;
         // Got a path
-        if ((path_l != NULL) && (path_l[0] != '\0')) {
+        if (path_l == NULL) {
+          // Any path will match (search for next path)
+          path_cmp = 0;
+        } else
+        if (path_l[0] == '\0') {
+          // No path will match (search for end of list)
+          path_cmp = 1;
+        } else
+        {
           // Compare paths
           path_cmp = Path::compare(path_l, list->getPath());
         }
@@ -564,7 +558,7 @@ int ListWriter::search(
                 if (modified != NULL) {
                   *modified = true;
                 }
-                hlog_info("%-8c%s", 'D', list->getPath().c_str());
+                hlog_info("%-8c%s", 'D', list->getPath());
               }
             }
           } else {
@@ -640,6 +634,71 @@ int ListWriter::search(
   return -1;
 }
 
+int ListWriter::copy(
+    ListReader*     list,
+    const char*     path_l) {
+  bool copy_till_end = path_l[0] == '\0';
+  bool stop = false;  // Searched-for path found or exceeded
+
+  while (true) {
+    // Read list or get last data
+    int rc = list->fetchLine();
+
+    // Failed
+    if (rc == ListReader::eof) {
+      // Unexpected end of list
+      hlog_error("Unexpected end of list '%s'", list->path());
+      return -1;
+    } else
+    if (rc == ListReader::failed) {
+      // Unexpected end of list
+      hlog_error("Error reading list '%s'", list->path());
+      return -1;
+    }
+
+    // Got a path
+    if ((rc == ListReader::got_path) && ! copy_till_end) {
+      // Compare paths
+      int path_cmp = Path::compare(path_l, list->getPath());
+      if (path_cmp <= 0) {
+        stop = true;
+        if (path_cmp == 0) {
+          // Looking for path, found
+          list->resetStatus();
+        }
+      }
+    }
+
+    // Searched path found or status is eof/empty
+    if ((rc == ListReader::eor) || stop) {
+      if (! copy_till_end) {
+        // Write path
+        if (_d->file.putLine(path_l) < 0) {
+          // Could not write
+          return -1;
+        }
+      }
+      return (rc == ListReader::eor) ? 0 : 1;
+    } else
+    // Our data is here or after, so let's copy if required
+    if (rc == ListReader::got_path) {
+      if (_d->file.putLine(list->getPath()) < 0) {
+        // Could not write
+        return -1;
+      }
+    } else
+    if (rc == ListReader::got_data) {
+      if (_d->file.putLine(list->getData()) < 0) {
+        // Could not write
+        return -1;
+      }
+    }
+    // Reset status
+    list->resetStatus();
+  }
+  return -1;
+}
+
 int ListWriter::merge(
     ListReader*     list,
     ListReader*     journal) {
@@ -670,7 +729,7 @@ int ListWriter::merge(
     // End of file
     if (rc_journal == 0) {
       if (rc_list > 0) {
-        rc_list = search(list, "", -1, 0, this);
+        rc_list = copy(list, "");
         if (rc_list < 0) {
           // Error copying list
           hlog_error("End of list copy failed");
@@ -687,7 +746,7 @@ int ListWriter::merge(
         if (path.compare(journal->getPath()) > 0) {
           // Cannot go back
           hlog_error("Journal, line %d: path out of order: '%s' > '%s'",
-            j_line_no, path.c_str(), journal->getPath().c_str());
+            j_line_no, path.c_str(), journal->getPath());
           return -1;
         }
       }
@@ -695,7 +754,7 @@ int ListWriter::merge(
       path = journal->getPath();
       // Search/copy list and append path if needed
       if (rc_list >= 0) {
-        rc_list = search(list, path, -1, 0, this);
+        rc_list = copy(list, path);
         if (rc_list < 0) {
           // Error copying list
           hlog_error("Path search failed");

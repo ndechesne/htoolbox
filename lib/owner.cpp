@@ -37,8 +37,8 @@ using namespace hbackup;
 using namespace hreport;
 
 struct Owner::Private {
+  string          name;
   Path            path;
-  char*           name;
   bool            modified;
   ListReader*     original;
   ListWriter*     journal;
@@ -87,7 +87,7 @@ int Owner::finishOff(
       bool empty  = true;
       if (! journal.end()) {
         empty = false;
-        hlog_verbose("Register modified for '%s'", _d->path.basename());
+        hlog_verbose("Register modified for '%s'", _d->name.c_str());
         if (! _d->partial->open()) {
           if (! _d->original->open()) {
             _d->original->setProgressCallback(_d->progress);
@@ -166,6 +166,7 @@ Owner::Owner(
     const char*     path,
     const char*     name,
     time_t          expiration) : _d(new Private) {
+  _d->name       = name;
   _d->path       = Path(path, name);
   _d->original   = NULL;
   _d->journal    = NULL;
@@ -183,7 +184,7 @@ Owner::~Owner() {
 }
 
 const char* Owner::name() const {
-  return _d->path.basename();
+  return _d->name.c_str();
 }
 
 const char* Owner::path() const {
@@ -193,13 +194,13 @@ const char* Owner::path() const {
 int Owner::hold() const {
   Directory owner_dir(_d->path);
   if (! owner_dir.isValid()) {
-    hlog_error("Directory does not exist '%s', aborting", _d->path.basename());
+    hlog_error("Directory does not exist '%s', aborting", _d->name.c_str());
     return -1;
   }
 
   File owner_list(Path(_d->path, "list"));
   if (! owner_list.isValid()) {
-    hlog_error("Register not accessible in '%s', aborting", _d->path.basename());
+    hlog_error("Register not accessible in '%s', aborting", _d->name.c_str());
     return -1;
   }
 
@@ -213,7 +214,7 @@ int Owner::hold() const {
   _d->original = new ListReader(file_name.str().c_str());
   if (_d->original->open()) {
     hlog_error("%s opening list '%s', aborting", strerror(errno),
-      _d->path.basename());
+      _d->name.c_str());
     release();
     return -1;
   }
@@ -240,7 +241,7 @@ int Owner::open(
     if (initialize) {
       if (owner_dir.create() < 0) {
         hlog_error("Directory cannot be created '%s', aborting",
-          _d->path.basename());
+          _d->name.c_str());
         return -1;
       }
     } else
@@ -249,8 +250,7 @@ int Owner::open(
       return 0;
     } else
     {
-      hlog_error("Directory does not exist '%s', aborting",
-        _d->path.basename());
+      hlog_error("Directory does not exist '%s', aborting", _d->name.c_str());
       return -1;
     }
   }
@@ -266,16 +266,15 @@ int Owner::open(
     if (backup.isValid()) {
       rename(backup.path(), _d->original->path());
       hlog_warning("Register not accessible '%s', using backup",
-        _d->path.basename());
+        _d->name.c_str());
     } else if (initialize) {
       ListWriter original(owner_list.path());
       if (original.open()) {
-        hlog_error("%s creating list '%s'", strerror(errno),
-          _d->path.basename());
+        hlog_error("%s creating list '%s'", strerror(errno), _d->name.c_str());
         failed = true;
       } else {
         original.close();
-        hlog_info("Register created for '%s'", _d->path.basename());
+        hlog_info("Register created for '%s'", _d->name.c_str());
       }
     }
   } else {
@@ -289,7 +288,7 @@ int Owner::open(
     if (! journal.open(true)) {
       // Check previous crash
       journal.close();
-      hlog_warning("Previous backup interrupted for '%s'", _d->path.basename());
+      hlog_warning("Previous backup interrupted for '%s'", _d->name.c_str());
       if (finishOff(true)) {
         hlog_error("Failed to recover previous data");
         failed = true;
@@ -300,14 +299,14 @@ int Owner::open(
     // Open list
     if (_d->original->open()) {
       hlog_error("%s opening list in '%s'", strerror(errno),
-        _d->path.basename());
+        _d->name.c_str());
       failed = true;
     } else
     // Open journal
     if (_d->journal->open()) {
       _d->original->close();
       hlog_error("%s creating journal in '%s'", strerror(errno),
-        _d->path.basename());
+        _d->name.c_str());
       failed = true;
     } else
     // Open list
@@ -315,7 +314,7 @@ int Owner::open(
       _d->original->close();
       _d->journal->close();
       hlog_error("%s creating merge list in '%s'", strerror(errno),
-        _d->path.basename());
+        _d->name.c_str());
       failed = true;
     }
   }
@@ -359,7 +358,7 @@ int Owner::close(
       remove(_d->journal->path());
     } else
     if (! aborting()) {
-      hlog_verbose("Register modified for '%s'", _d->path.basename());
+      hlog_verbose("Register modified for '%s'", _d->name.c_str());
     }
     // Close list (was open read-only)
     _d->original->close();
@@ -485,8 +484,21 @@ int Owner::send(
 int Owner::add(
     const Path&     path,
     const Node*     node) {
-  if (_d->partial->add(path, node, _d->journal) || _d->journal->flush()) {
-    return -1;
+  int rc = 0;
+  char* line = NULL;
+  ssize_t size = ListReader::encodeLine(&line, time(NULL), node);
+  // Add to new list
+  if (_d->partial->putLine(line) != size) {
+    rc = -1;
+  }
+  // Add to journal
+  if ((_d->journal->putLine(path) != static_cast<ssize_t>(path.size())) ||
+      (_d->journal->putLine(line) != size) || (_d->journal->flush() != 0)) {
+    rc = -1;
+  }
+  free(line);
+  if (rc != 0) {
+    return rc;
   }
   _d->modified = true;
   return 0;

@@ -43,14 +43,14 @@ public:
   // File path
   const char* path() const;
   // Current path
-  const Path& getPath() const;
+  const char* getPath() const;
   // Current data line
-  const Line& getData() const;
+  const char* getData() const;
   // For progress information (NOT IMPLEMENTED)
   void setProgressCallback(
     progress_f      progress);
   // Buffer relevant line
-  ListReader::Status fetchLine(bool init = false);
+  ListReader::Status fetchLine();
   // Reset status to 'no data available'
   void resetStatus();
   // End of list reached
@@ -88,8 +88,6 @@ public:
 class ListWriter {
   struct            Private;
   Private* const    _d;
-protected: // Tests
-  ssize_t putLine(const char* line);
 public:
   ListWriter(
     const Path&     path);
@@ -100,13 +98,10 @@ public:
   int close();
   // File path
   const char* path() const;
+  // Add line to file
+  ssize_t putLine(const char* line);
   // Flush all data to file
   int flush();
-  // Add info
-  int add(
-    const Path&     path,                 // Path
-    const Node*     node,                 // Metadata
-    ListWriter*     journal     = NULL);  // Journal
   // Search data in list copying contents to new list/journal, marking files
   // removed, and also expiring data on the fly when told to
   // Searches:             Path        Copy
@@ -125,6 +120,10 @@ public:
     ListWriter*     new_list    = NULL,   // Merge list
     ListWriter*     journal     = NULL,   // Journal
     bool*           modified    = NULL);  // To report list modifications
+  // Simplified search for merge
+  int copy(
+    ListReader*     list,                 // Original list
+    const char*     path);                // Path to search
   // Merge given list and journal into this list
   //    all lists must be open
   // Return code:
