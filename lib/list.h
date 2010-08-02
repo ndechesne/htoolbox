@@ -46,7 +46,7 @@ public:
   const char* getPath() const;
   // Current data line
   const char* getData() const;
-  // For progress information (NOT IMPLEMENTED)
+  // For progress information
   void setProgressCallback(
     progress_f      progress);
   // Buffer relevant line

@@ -63,7 +63,7 @@ struct Database::Private {
   bool                    load_missing;
   OpData::CompressionMode compress_mode;
   Owner*                  owner;
-  progress_f              progress;
+  progress_f              list_progress;
 };
 
 int Database::lock() {
@@ -123,7 +123,7 @@ Database::Database(const char* path) : _d(new Private) {
   _d->path     = strdup(path);
   _d->access   = no;
   // Reset progress callback function
-  _d->progress = NULL;
+  _d->list_progress = NULL;
 }
 
 Database::~Database() {
@@ -259,9 +259,12 @@ void Database::setCompressionMode(
   _d->compress_mode = mode;
 }
 
-void Database::setProgressCallback(progress_f progress) {
-  _d->progress = progress;
+void Database::setCopyProgressCallback(progress_f progress) {
   _d->data.setProgressCallback(progress);
+}
+
+void Database::setListProgressCallback(progress_f progress) {
+  _d->list_progress = progress;
 }
 
 int Database::getClients(
@@ -627,7 +630,7 @@ int Database::openClient(
   // Create owner for client
   _d->owner = new Owner(_d->path, client,
     (expire <= 0) ? expire : (time(NULL) - expire));
-  _d->owner->setProgressCallback(_d->progress);
+  _d->owner->setProgressCallback(_d->list_progress);
 
   // Read/write open
   if (_d->access >= rw) {

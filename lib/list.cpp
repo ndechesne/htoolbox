@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 #include <errno.h>
+#include <sys/stat.h>
 
 #include "hbackup.h"
 #include "line.h"
@@ -32,16 +33,37 @@ class ListFile {
   string _name;
   bool _read_only;
   FILE* _fd;
+  progress_f _progress;
+  long long _size;
+  long long _previous_offset;
+  long long _offset;
+  static const long long _offset_threadshold = 102400;
   bool _old_version;
   const char* _header() { return "# version 5"; }
   const char* _old_header() { return "# version 4\n"; }
   const char* _footer() { return "# end"; }
 public:
-  ListFile(const char* name, bool ro) : _name(name), _read_only(ro), _fd(NULL) {}
+  ListFile(const char* name, bool ro) : _name(name), _read_only(ro), _fd(NULL),
+    _progress(NULL), _size(-1), _previous_offset(0), _offset(0),
+    _old_version(false) {}
   ~ListFile() { if (_fd != NULL) close(); }
   const char* name() const { return _name.c_str(); }
   int open(bool quiet_if_not_exists = false);
   int close();
+  void setProgressCallback(progress_f progress) {
+    if (! _read_only) {
+      return;
+    }
+    // Get list file size
+    if (_size < 0) {
+      struct stat64 stat;
+      if (stat64(_name.c_str(), &stat) < 0) {
+        return;
+      }
+      _size = stat.st_size;
+    }
+    _progress = progress;
+  }
   int flush() const {
     return fflush(_fd);
   }
@@ -63,6 +85,7 @@ public:
       }
       return -1;
     }
+    _offset += rc;
     char* line = *buffer_p;
     if (line[rc - 1] != delim) {
       return -2;
@@ -71,6 +94,14 @@ public:
       char lf[1];
       if ((fread(lf, 1, 1, _fd) < 1) || (*lf != '\n')) {
         return -2;
+      }
+      ++_offset;
+    }
+    if ((_progress != NULL) && (_size >= 0)) {
+      if ((_offset == _size) ||
+          ((_offset - _previous_offset) >= _offset_threadshold)) {
+        _progress(_previous_offset, _offset, _size);
+        _previous_offset = _offset;
       }
     }
     if (line[0] == '#') {
@@ -100,10 +131,12 @@ int ListFile::open(bool quiet_if_not_exists) {
     goto failed;
   }
   if (_read_only) {
+    _previous_offset = 0;
     bool went_wrong = false;
     char* buffer = NULL;
     size_t capacity;
-    if (getline(&buffer, &capacity, _fd) <= 0) {
+    _offset = getline(&buffer, &capacity, _fd);
+    if (_offset <= 0) {
       const char* error_str;
       if (feof(_fd)) {
         error_str = "EOF reached";
@@ -402,8 +435,7 @@ int ListReader::decodeLine(
 }
 
 void ListReader::setProgressCallback(progress_f progress) {
-  (void) progress;
-//   _d->stream.setProgressCallback(progress);
+  _d->file.setProgressCallback(progress);
 }
 
 int ListReader::fetchData(

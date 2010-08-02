@@ -47,13 +47,17 @@ time_t time(time_t* tm) {
   return val;
 }
 
-static void progress(long long previous, long long current, long long total) {
-  if (current < total) {
-    cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
-      << 100.0 * static_cast<double>(current) / static_cast<double>(total)
-      << "%\r" << flush;
-  } else if (previous != 0) {
-    cout << "            \r";
+static void copy_progress(long long previous, long long current, long long total) {
+  if ((current != total) || (previous != 0)) {
+    hlog_verbose_temp("Copy: %5.1lf%%",
+      100 * static_cast<double>(current) / static_cast<double>(total));
+  }
+}
+
+static void list_progress(long long previous, long long current, long long total) {
+  if ((current != total) || (previous != 0)) {
+    hlog_verbose_temp("List: %5.1lf%%",
+      100 * static_cast<double>(current) / static_cast<double>(total));
   }
 }
 
@@ -89,7 +93,8 @@ int main(void) {
   int          sys_rc;
 
   report.setLevel(debug);
-  hbackup::setProgressCallback(progress);
+  hbackup::setCopyProgressCallback(copy_progress);
+  hbackup::setListProgressCallback(list_progress);
 
   cout << endl << "Test: wrong config file" << endl;
   hbackup = new HBackup();

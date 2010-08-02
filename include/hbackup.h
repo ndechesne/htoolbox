@@ -41,11 +41,18 @@ namespace hbackup {
     long long       current,
     long long       total);
 
-  //! \brief Set the progress callback
+  //! \brief Set the file copy progress callback
   /*!
     \param progress     the function to be called
   */
-  void setProgressCallback(
+  void setCopyProgressCallback(
+    progress_f      progress);
+
+  //! \brief Set the previous list read progress callback
+  /*!
+    \param progress     the function to be called
+  */
+  void setListProgressCallback(
     progress_f      progress);
 
   //! \brief Tell any process to stop

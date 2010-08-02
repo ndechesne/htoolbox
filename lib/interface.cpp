@@ -43,10 +43,15 @@ using namespace hreport;
 #define DEFAULT_DB_PATH "/backup"
 
 static int        _aborted  = 0;
-static progress_f _progress = NULL;
+static progress_f _copy_progress = NULL;
+static progress_f _list_progress = NULL;
 
-void hbackup::setProgressCallback(progress_f progress) {
-  _progress = progress;
+void hbackup::setCopyProgressCallback(progress_f progress) {
+  _copy_progress = progress;
+}
+
+void hbackup::setListProgressCallback(progress_f progress) {
+  _list_progress = progress;
 }
 
 void hbackup::abort(unsigned short test) {
@@ -352,12 +357,14 @@ int HBackup::open(
       _d->clients.push_back(client);
       // Set-up DB
       _d->db = new Database(Path(path, ".hbackup"));
-      _d->db->setProgressCallback(_progress);
+      _d->db->setCopyProgressCallback(_copy_progress);
+      _d->db->setListProgressCallback(_list_progress);
     }
   } else {
     failed = (readConfig(path) < 0);
     if (! failed) {
-      _d->db->setProgressCallback(_progress);
+      _d->db->setCopyProgressCallback(_copy_progress);
+      _d->db->setListProgressCallback(_list_progress);
     }
   }
   return failed ? -1 : 0;

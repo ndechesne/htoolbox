@@ -47,8 +47,10 @@ public:
   // Set compression mode
   void setCompressionMode(
     OpData::CompressionMode mode);
-  // Set progress callback function
-  void setProgressCallback(progress_f progress);
+  // Set copy progress callback function
+  void setCopyProgressCallback(progress_f progress);
+  // Set previous list read progress callback function
+  void setListProgressCallback(progress_f progress);
   // Get list of clients in DB
   int getClients(
     list<string>&   clients) const;       // List of clients

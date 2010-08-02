@@ -37,13 +37,17 @@ using namespace std;
 #include "attributes.h"
 #include "paths.h"
 
-static void progress(long long previous, long long current, long long total) {
-  if (current < total) {
-    cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
-      << 100.0 * static_cast<double>(current) / static_cast<double>(total)
-      << "%\r" << flush;
-  } else if (previous != 0) {
-    cout << "            \r";
+static void copy_progress(long long previous, long long current, long long total) {
+  if ((current != total) || (previous != 0)) {
+    hlog_verbose_temp("Copy: %5.1lf%%",
+      100 * static_cast<double>(current) / static_cast<double>(total));
+  }
+}
+
+static void list_progress(long long previous, long long current, long long total) {
+  if ((current != total) || (previous != 0)) {
+    hlog_verbose_temp("List: %5.1lf%%",
+      100 * static_cast<double>(current) / static_cast<double>(total));
   }
 }
 
@@ -62,7 +66,8 @@ int main(void) {
   Attributes attributes;
   ClientPath* path = new ClientPath("/home/User", attributes);
   Database    db("test_db");
-  db.setProgressCallback(progress);
+  db.setCopyProgressCallback(copy_progress);
+  db.setListProgressCallback(list_progress);
   // myClient's lists
   ListReader real_journal_reader(Path("test_db", "myClient/journal"));
   ListReader journal_reader(Path("test_db", "myClient/journal~"));

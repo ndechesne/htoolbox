@@ -49,8 +49,10 @@ using namespace std;
 
 // Progress
 static void progress(long long previous, long long current, long long total) {
-  (void) previous;
-  cout << "Done: " << 100 * current / total << "%" << endl;
+  if ((current != total) || (previous != 0)) {
+    hlog_verbose_temp("Done: %5.1lf%%",
+      100 * static_cast<double>(current) / static_cast<double>(total));
+  }
 }
 
 static time_t my_time = 10;

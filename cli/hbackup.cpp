@@ -46,14 +46,17 @@ void sighandler(int signal) {
 }
 
 // Progress
-static void progress(long long previous, long long current, long long total) {
+static void copy_prog(long long previous, long long current, long long total) {
   if ((current != total) || (previous != 0)) {
-    stringstream s;
-    s << "File copy progress: " << setw(5) << setiosflags(ios::fixed)
-      << setprecision(1)
-      << 100.0 * static_cast<double>(current) / static_cast<double>(total)
-      << "%";
-    hlog_info_temp("%s", s.str().c_str());
+    hlog_verbose_temp("File copy progress: %5.1lf%%",
+      100 * static_cast<double>(current) / static_cast<double>(total));
+  }
+}
+
+static void list_prog(long long previous, long long current, long long total) {
+  if ((current != total) || (previous != 0)) {
+    hlog_verbose_temp("List read progress: %5.1lf%%",
+      100 * static_cast<double>(current) / static_cast<double>(total));
   }
 }
 
@@ -206,9 +209,14 @@ int main(int argc, char **argv) {
       hreport::report.setLevel(hreport::debug);
     }
 
-    // Set progress callback function
+    // Set file copy progress callback function
     if (hlog_is_worth(hreport::verbose)) {
-      hbackup::setProgressCallback(progress);
+      hbackup::setCopyProgressCallback(copy_prog);
+    }
+
+    // Set previous list read progress callback function
+    if (hlog_is_worth(hreport::verbose)) {
+      hbackup::setListProgressCallback(list_prog);
     }
 
     // Check mode
