@@ -489,6 +489,7 @@ int Database::scan(
   for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
     hlog_verbose("Reading list for '%s'", i->c_str());
     Owner client(_d->path, i->c_str());
+    client.setProgressCallback(_d->list_progress);
     client.getChecksums(list_data);
     if (failed || aborting()) {
       break;
