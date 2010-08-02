@@ -195,6 +195,10 @@ struct ListReader::Private {
     data = static_cast<char*>(malloc(data_cap));
     data[0] = '\0'; // Let it crash if malloc failed
   }
+  ~Private() {
+    free(path);
+    free(data);
+  }
 };
 
 ListReader::ListReader(const Path& path) : _d(new Private(path)) {}

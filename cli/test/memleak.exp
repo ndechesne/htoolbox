@@ -1,5 +1,5 @@
 Version
-HBackup (c) 2006-2010 Hervé Fache version 1.1a
+HBackup (c) 2006-2010 Hervé Fache version 1.1b
  4 bytes in 1 blocks are definitely lost in loss record 2 of 125
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:299)
