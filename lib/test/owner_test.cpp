@@ -125,7 +125,7 @@ int main(void) {
   o.send(*op, missing);
   delete list_node;
   ++my_time;
-  rc = o.add(p, node);
+  rc = o.add(*op);
   delete node;
   delete op;
   if (rc) {
@@ -158,7 +158,7 @@ int main(void) {
   o.send(*op, missing);
   delete list_node;
   ++my_time;
-  rc = o.add(p, node);
+  rc = o.add(*op);
   delete node;
   delete op;
   if (rc) {
@@ -190,7 +190,7 @@ int main(void) {
   o.send(*op, missing);
   delete list_node;
   ++my_time;
-  rc = o.add(p, node);
+  rc = o.add(*op);
   delete node;
   delete op;
   if (rc) {
@@ -221,9 +221,9 @@ int main(void) {
   op = new Database::OpData(p, *node);
   o.send(*op, missing);
   delete list_node;
-  dynamic_cast<File*>(node)->setChecksum("checksum test");
+  op->extra = "checksum test";
   ++my_time;
-  rc = o.add(p, node);
+  rc = o.add(*op);
   delete node;
   delete op;
   if (rc) {
