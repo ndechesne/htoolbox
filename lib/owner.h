@@ -49,8 +49,7 @@ public:
     Missing&          missing);           // List of missing items
   // Add info
   int add(
-    const Path&     path,
-    const Node*     node);
+    const Database::OpData& op);
   // Get next record matching path and date
   int getNextRecord(                      // -1: error, 0: eof, 1: success
     const char*     path,                 // The base path

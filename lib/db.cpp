@@ -683,6 +683,7 @@ void Database::OpData::encode() {
     node.type(), node.size(), node.mtime());
   end_offset += sprintf(&encoded_metadata[sep_offset], "\t%u\t%u\t%o",
     node.uid(), node.gid(), node.mode());
+  extra = NULL;
 }
 
 void Database::sendEntry(
@@ -698,15 +699,20 @@ int Database::add(
   bool failed = false;
 
   // Add new record to active list
-  if ((op.node.type() == 'l') && ! op.node.parsed()) {
-    hlog_error("Bug in db add: link was not parsed!");
-    return -1;
+  if (op.node.type() == 'l') {
+    if (! op.node.parsed()) {
+      hlog_error("Bug in db add: link was not parsed!");
+      return -1;
+    } else {
+      op.extra = static_cast<Link&>(op.node).link();
+    }
   }
 
+  // checksum must be valid when calling Owner::add
+  char* checksum = NULL;
   if (op.node.type() == 'f') {
-    if (static_cast<const File&>(op.node).checksum()[0] == '\0') {
+    if (op.extra == NULL) {
       // Copy data
-      char* checksum = NULL;
       int compression;
       if (op.comp_mode == never) {
         compression = -1;
@@ -730,7 +736,7 @@ int Database::add(
           // File data found in DB
           op.type = '~';
         }
-        static_cast<File&>(op.node).setChecksum(checksum);
+        op.extra = checksum;
         if ((op.id >= 0) && (_d->missing[op.id] == checksum)) {
           // Mark checksum as recovered
           _d->missing.setRecovered(op.id);
@@ -746,7 +752,6 @@ int Database::add(
         op.type = '!';
         failed = true;
       }
-      free(checksum);
 #if 0
     } else {
       // Checksum copied over
@@ -763,11 +768,12 @@ int Database::add(
   // Even if failed, add data if new
   if (! failed || ! op.same_list_entry) {
     // Add entry info to journal
-    if (_d->owner->add(op.path, &op.node) < 0) {
+    if (_d->owner->add(op) < 0) {
       hlog_error("Cannot add to client's list");
       failed = true;
     }
   }
+  free(checksum);
 
   return failed ? -1 : 0;
 }

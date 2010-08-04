@@ -462,7 +462,7 @@ int Owner::send(
         } else
         // Copy checksum accross
         {
-          static_cast<File&>(op.node).setChecksum(db_node_extra);
+          op.extra = db_node_extra;
         }
       }
     } else
@@ -507,17 +507,18 @@ int Owner::send(
 }
 
 int Owner::add(
-    const Path&     path,
-    const Node*     node) {
+    const Database::OpData& op) {
   int rc = 0;
   char* line = NULL;
-  ssize_t size = ListReader::encodeLine(&line, time(NULL), node);
+  ssize_t size = asprintf(&line, "\t%ld\t%s%s%s",
+    time(NULL), op.encoded_metadata, (op.extra != NULL) ? "\t" : "",
+    (op.extra != NULL) ? op.extra : "");
   // Add to new list
   if (_d->partial->putLine(line) != size) {
     rc = -1;
   }
   // Add to journal
-  if ((_d->journal->putLine(path) != static_cast<ssize_t>(path.size())) ||
+  if ((_d->journal->putLine(op.path) != static_cast<ssize_t>(op.path.size())) ||
       (_d->journal->putLine(line) != size) || (_d->journal->flush() != 0)) {
     rc = -1;
   }

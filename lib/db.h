@@ -108,13 +108,14 @@ public:
     char              encoded_metadata[64];
     size_t            sep_offset;
     size_t            end_offset;
+    const char*       extra;
     // Pointers given to the constructor MUST remain valid during operation!
     OpData(
       const Path&     p,                // Real file path, on client
       Node&           n)                // File metadata
       : operation(' '), type(' '), info(' '), id(-1),
         comp_mode(Database::auto_later), compression(0),
-        path(p), node(n), same_list_entry(false) {}
+        path(p), node(n), same_list_entry(false), extra(NULL) {}
     void encode();
     bool needsAdding() const { return operation != ' ';   }
     void verbose(char* code) {
