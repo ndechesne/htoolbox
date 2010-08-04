@@ -404,7 +404,7 @@ int Owner::send(
   Node* db_node = NULL;
 
   // Search path and get current metadata
-  int rc = ListWriter::search(_d->original, op._path, _d->expiration, time(NULL),
+  int rc = ListWriter::search(_d->original, op.path, _d->expiration, time(NULL),
     _d->partial, _d->journal, &_d->modified);
   if (rc < 0) {
     return -1;
@@ -417,65 +417,65 @@ int Owner::send(
 
   // New or resurrected file: (re-)add
   if ((rc < 2) || (db_node == NULL)) {
-    op._operation = 'A';
+    op.operation = 'A';
   } else
   // Existing file: check for differences
-  if (*db_node != op._node) {
+  if (*db_node != op.node) {
     // Metadata differ but not type, mtime and size: just add new metadata
-    if ((op._node.type() == db_node->type())
-    &&  (op._node.size() == db_node->size())
-    &&  (op._node.mtime() == db_node->mtime())) {
-      op._operation = '~';
-      if (op._node.type() == 'f') {
+    if ((op.node.type() == db_node->type())
+    &&  (op.node.size() == db_node->size())
+    &&  (op.node.mtime() == db_node->mtime())) {
+      op.operation = '~';
+      if (op.node.type() == 'f') {
         const char* node_checksum = static_cast<File*>(db_node)->checksum();
         // Checksum missing: retry
         if (node_checksum[0] == '\0') {
-          op._same_list_entry = true;
+          op.same_list_entry = true;
         } else
         // Copy checksum accross
         {
-          static_cast<File&>(op._node).setChecksum(node_checksum);
+          static_cast<File&>(op.node).setChecksum(node_checksum);
         }
       }
     } else
     // Data differs
     {
-      op._operation = 'M';
+      op.operation = 'M';
     }
   } else
   // Same metadata (hence same type): check for broken data
-  if (op._node.type() == 'f') {
+  if (op.node.type() == 'f') {
     // Check that file data is present
     const char* node_checksum = static_cast<File*>(db_node)->checksum();
     if (node_checksum[0] == '\0') {
       // Checksum missing: retry
-      op._same_list_entry = true;
-      op._operation = '!';
+      op.same_list_entry = true;
+      op.operation = '!';
     } else {
       // Same checksum: look for checksum in missing list (binary search)
-      op._id = missing.search(node_checksum);
-      if (op._id >= 0) {
-        if (missing.isInconsistent(op._id)) {
-          if (missing.dataSize(op._id) != op._node.size()) {
+      op.id = missing.search(node_checksum);
+      if (op.id >= 0) {
+        if (missing.isInconsistent(op.id)) {
+          if (missing.dataSize(op.id) != op.node.size()) {
             // Replace data with correct one
-            op._same_list_entry = true;
-            op._operation = 'C';
+            op.same_list_entry = true;
+            op.operation = 'C';
           }
         } else {
           // Recover missing data
-          op._operation = 'R';
+          op.operation = 'R';
         }
       }
     }
   } else
-  if ((op._node.type() == 'd') && (op._node.size() == -1)) {
-    op._same_list_entry = true;
-    op._operation = '!';
+  if ((op.node.type() == 'd') && (op.node.size() == -1)) {
+    op.same_list_entry = true;
+    op.operation = '!';
   } else
-  if ((op._node.type() == 'l')
-  && (strcmp(static_cast<const Link&>(op._node).link(),
+  if ((op.node.type() == 'l')
+  && (strcmp(static_cast<const Link&>(op.node).link(),
       static_cast<Link*>(db_node)->link()) != 0)) {
-    op._operation = 'L';
+    op.operation = 'L';
   }
   delete db_node;
   return 0;

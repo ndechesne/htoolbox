@@ -681,7 +681,7 @@ void Database::sendEntry(
     OpData&         op) {
   _d->owner->send(op, _d->missing);
   // Tell caller about compression mode
-  op.setCompressionMode(_d->compress_mode);
+  op.comp_mode = _d->compress_mode;
 }
 
 int Database::add(
@@ -690,52 +690,52 @@ int Database::add(
   bool failed = false;
 
   // Add new record to active list
-  if ((op._node.type() == 'l') && ! op._node.parsed()) {
+  if ((op.node.type() == 'l') && ! op.node.parsed()) {
     hlog_error("Bug in db add: link was not parsed!");
     return -1;
   }
 
-  if (op._node.type() == 'f') {
-    if (static_cast<const File&>(op._node).checksum()[0] == '\0') {
+  if (op.node.type() == 'f') {
+    if (static_cast<const File&>(op.node).checksum()[0] == '\0') {
       // Copy data
       char* checksum = NULL;
       int compression;
-      if (op._comp_mode == never) {
+      if (op.comp_mode == never) {
         compression = -1;
       } else {
-        compression = op._compression;
+        compression = op.compression;
       }
-      Stream source(op._node.path());
+      Stream source(op.node.path());
       int rc = _d->data.write(source, _d->owner->name(), &checksum,
-        compression, op._comp_mode == auto_now, &compression);
+        compression, op.comp_mode == auto_now, &compression);
       if (rc >= 0) {
         if (rc > 0) {
           if (compression > 0) {
-            op._type = 'z';
+            op.type = 'z';
           } else {
-            op._type = 'f';
+            op.type = 'f';
           }
           if (rc > 1) {
-            op._info = 'r';
+            op.info = 'r';
           }
         } else {
           // File data found in DB
-          op._type = '~';
+          op.type = '~';
         }
-        static_cast<File&>(op._node).setChecksum(checksum);
-        if ((op._id >= 0) && (_d->missing[op._id] == checksum)) {
+        static_cast<File&>(op.node).setChecksum(checksum);
+        if ((op.id >= 0) && (_d->missing[op.id] == checksum)) {
           // Mark checksum as recovered
-          _d->missing.setRecovered(op._id);
+          _d->missing.setRecovered(op.id);
         }
       } else {
-        if ((op._operation == '!') && report_copy_error_once) {
+        if ((op.operation == '!') && report_copy_error_once) {
           hlog_warning("%s backing up file '%s:%s'", strerror(errno),
-            _d->owner->name(), static_cast<const char*>(op._path));
+            _d->owner->name(), static_cast<const char*>(op.path));
         } else {
           hlog_error("%s backing up file '%s:%s'", strerror(errno),
-            _d->owner->name(), static_cast<const char*>(op._path));
+            _d->owner->name(), static_cast<const char*>(op.path));
         }
-        op._type = '!';
+        op.type = '!';
         failed = true;
       }
       free(checksum);
@@ -745,17 +745,17 @@ int Database::add(
 #endif
     }
   } else
-  if (op._node.type() == 'd') {
-    if (op._node.size() == -1) {
-      op._type = '!';
+  if (op.node.type() == 'd') {
+    if (op.node.size() == -1) {
+      op.type = '!';
       failed = true;
     }
   }
 
   // Even if failed, add data if new
-  if (! failed || ! op._same_list_entry) {
+  if (! failed || ! op.same_list_entry) {
     // Add entry info to journal
-    if (_d->owner->add(op._path, &op._node) < 0) {
+    if (_d->owner->add(op.path, &op.node) < 0) {
       hlog_error("Cannot add to client's list");
       failed = true;
     }

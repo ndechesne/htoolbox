@@ -129,19 +129,19 @@ int ClientPath::parse_recurse(
             if ((*i)->type() == 'f') {
               if ((_no_compress != NULL) && _no_compress->match(**i, start)) {
                 /* If in no-compress list, don't compress */
-                op.setCompressionMode(Database::never);
+                op.comp_mode = Database::never;
               } else
-              if (op.compressionMode() == Database::auto_now) {
+              if (op.comp_mode == Database::auto_now) {
                 /* If auto-compress list, let it be */
-                op.setCompression(compression_level);
+                op.compression = compression_level;
               } else
               if ((_compress != NULL) && _compress->match(**i, start)) {
                 /* If in compress list, compress */
-                op.setCompression(compression_level);
+                op.compression = compression_level;
               } else
               {
                 /* Do not compress for now */
-                op.setCompression(0);
+                op.compression = 0;
               }
             }
             if (db.add(op, _attributes.reportCopyErrorOnceIsSet())
@@ -156,7 +156,7 @@ int ClientPath::parse_recurse(
 
             if (create_list_failed) {
               if (! (_attributes.reportCopyErrorOnceIsSet() &&
-                  op.sameListEntry())) {
+                  op.same_list_entry)) {
                 hlog_error("%s reading directory '%s:%s/%s'", strerror(errno),
                   client_name, remote_path, (*i)->name());
               } else {

@@ -86,39 +86,31 @@ public:
   int  closeClient(
     bool            abort = false);       // Whether to remove remaining items
   // Class for data exchange
-  class OpData {
-    friend class Database;
-    friend class Owner;
-    char              _operation;       // Letter showing current operation
-    char              _type;            // Letter showing concerned type
-    char              _info;            // Letter showing internal information
-    int               _id;              // Missing checksum ID
-    Database::CompressionMode _comp_mode; // Compression decision
-    int               _compression;     // Compression level for regular files
-    const Path&       _path;            // Real file path, on client
-    Node&             _node;            // File metadata
-    bool              _same_list_entry; // Don't add a list entry, replace
-  public:
+  struct OpData {
+    char              operation;        // Letter showing current operation
+    char              type;             // Letter showing concerned type
+    char              info;             // Letter showing internal information
+    int               id;               // Missing checksum ID
+    Database::CompressionMode comp_mode; // Compression decision
+    int               compression;      // Compression level for regular files
+    const Path&       path;             // Real file path, on client
+    Node&             node;             // File metadata
+    bool              same_list_entry;  // Don't add a list entry, replace
     // Pointers given to the constructor MUST remain valid during operation!
     OpData(
-      const Path&     path,             // Real file path, on client
-      Node&           node)             // File metadata
-      : _operation(' '), _type(' '), _info(' '), _id(-1),
-        _comp_mode(Database::auto_later), _compression(0),
-        _path(path), _node(node), _same_list_entry(false) {}
-    void setCompressionMode(Database::CompressionMode m) { _comp_mode = m; }
-    Database::CompressionMode compressionMode() const { return _comp_mode; }
-    void setCompression(int compression) { _compression = compression; }
-    int compression() const              { return _compression;        }
-    bool sameListEntry() const           { return _same_list_entry;    }
-    bool needsAdding() const             { return _operation != ' ';   }
+      const Path&     p,                // Real file path, on client
+      Node&           n)                // File metadata
+      : operation(' '), type(' '), info(' '), id(-1),
+        comp_mode(Database::auto_later), compression(0),
+        path(p), node(n), same_list_entry(false) {}
+    bool needsAdding() const { return operation != ' ';   }
     void verbose(char* code) {
       // File information
-      code[0] = _operation;
-      code[1] = _node.type();
+      code[0] = operation;
+      code[1] = node.type();
       // Database information
-      code[3] = _type;
-      code[4] = _info;
+      code[3] = type;
+      code[4] = info;
     }
   };
   // Send data for comparison

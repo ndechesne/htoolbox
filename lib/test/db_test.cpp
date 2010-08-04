@@ -267,7 +267,7 @@ int main(void) {
   f = new File("test1/subdir/testfile");
   p = "/client_path/subdir/testfile";
   op = new Database::OpData(p, *f);
-  op->setCompression(5);
+  op->compression = 5;
   ++my_time;
   db.sendEntry(*op);
   db.add(*op);
