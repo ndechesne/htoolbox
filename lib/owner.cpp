@@ -29,7 +29,7 @@ using namespace std;
 #include "hreport.h"
 #include "list.h"
 #include "missing.h"
-#include "opdata.h"
+#include "db.h"
 #include "compdata.h"
 #include "owner.h"
 
@@ -399,8 +399,8 @@ void Owner::setProgressCallback(progress_f progress) {
 // * C: conflicting data (size is not what was expected)
 // * R: recoverable data (data not found in DB for checksum)
 int Owner::send(
-    OpData&         op,
-    Missing&        missing) {
+    Database::OpData&   op,
+    Missing&            missing) {
   Node* db_node = NULL;
 
   // Search path and get current metadata

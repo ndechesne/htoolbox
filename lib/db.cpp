@@ -37,11 +37,10 @@ using namespace std;
 #include "files.h"
 #include "hreport.h"
 #include "missing.h"
-#include "opdata.h"
 #include "compdata.h"
-#include "owner.h"
 #include "data.h"
 #include "db.h"
+#include "owner.h"
 
 namespace hbackup {
   typedef enum {
@@ -61,7 +60,7 @@ struct Database::Private {
   Data                    data;
   Missing                 missing;
   bool                    load_missing;
-  OpData::CompressionMode compress_mode;
+  CompressionMode         compress_mode;
   Owner*                  owner;
   progress_f              list_progress;
 };
@@ -189,7 +188,7 @@ int Database::open(
   }
 
   // Auto-compression at scan time
-  _d->compress_mode = OpData::auto_later;
+  _d->compress_mode = auto_later;
   // Reset client's data
   _d->owner = NULL;
   // Do not load list of missing items for now
@@ -255,7 +254,7 @@ int Database::close() {
 }
 
 void Database::setCompressionMode(
-    OpData::CompressionMode mode) {
+    CompressionMode mode) {
   _d->compress_mode = mode;
 }
 
@@ -701,14 +700,14 @@ int Database::add(
       // Copy data
       char* checksum = NULL;
       int compression;
-      if (op._comp_mode == OpData::never) {
+      if (op._comp_mode == never) {
         compression = -1;
       } else {
         compression = op._compression;
       }
       Stream source(op._node.path());
       int rc = _d->data.write(source, _d->owner->name(), &checksum,
-        compression, op._comp_mode == OpData::auto_now, &compression);
+        compression, op._comp_mode == auto_now, &compression);
       if (rc >= 0) {
         if (rc > 0) {
           if (compression > 0) {

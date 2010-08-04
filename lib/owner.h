@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008  Herve Fache
+     Copyright (C) 2008-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -45,8 +45,8 @@ public:
   void setProgressCallback(progress_f progress);
   // Send data for comparison
   int send(
-    OpData&         operation,            // Operation data
-    Missing&        missing);             // List of missing items
+    Database::OpData& operation,          // Operation data
+    Missing&          missing);           // List of missing items
   // Add info
   int add(
     const Path&     path,

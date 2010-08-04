@@ -30,7 +30,6 @@ using namespace std;
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"
-#include "opdata.h"
 #include "db.h"
 #include "attributes.h"
 #include "paths.h"
@@ -101,7 +100,7 @@ int ClientPath::parse_recurse(
           _nodes++;
 
           // Synchronize with DB records
-          OpData op(rem_path, **i);
+          Database::OpData op(rem_path, **i);
 
           // Parse directory, disregard/re-use some irrelevant fields
           bool create_list_failed = false;
@@ -130,9 +129,9 @@ int ClientPath::parse_recurse(
             if ((*i)->type() == 'f') {
               if ((_no_compress != NULL) && _no_compress->match(**i, start)) {
                 /* If in no-compress list, don't compress */
-                op.setCompressionMode(OpData::never);
+                op.setCompressionMode(Database::never);
               } else
-              if (op.compressionMode() == OpData::auto_now) {
+              if (op.compressionMode() == Database::auto_now) {
                 /* If auto-compress list, let it be */
                 op.setCompression(compression_level);
               } else

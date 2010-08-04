@@ -30,8 +30,8 @@ using namespace std;
 #include "files.h"
 #include "list.h"
 #include "missing.h"
-#include "opdata.h"
 #include "compdata.h"
+#include "db.h"
 #include "owner.h"
 
 // Owner:               tested
@@ -107,7 +107,7 @@ int main(void) {
   int     rc;
   Node*   node;
   Node*   list_node;
-  OpData* op;
+  Database::OpData* op;
   Missing missing;
   Path p;
 
@@ -121,7 +121,7 @@ int main(void) {
   node->stat();
   list_node = NULL;
   p = (remote_path + node->name()).c_str();
-  op = new OpData(p, *node);
+  op = new Database::OpData(p, *node);
   o.send(*op, missing);
   delete list_node;
   ++my_time;
@@ -154,7 +154,7 @@ int main(void) {
   node->stat();
   list_node = NULL;
   p = (remote_path + node->name()).c_str();
-  op = new OpData(p, *node);
+  op = new Database::OpData(p, *node);
   o.send(*op, missing);
   delete list_node;
   ++my_time;
@@ -186,7 +186,7 @@ int main(void) {
   node->stat();
   list_node = NULL;
   p = (remote_path + node->name()).c_str();
-  op = new OpData(p, *node);
+  op = new Database::OpData(p, *node);
   o.send(*op, missing);
   delete list_node;
   ++my_time;
@@ -218,7 +218,7 @@ int main(void) {
   node->stat();
   list_node = NULL;
   p = (remote_path + node->name()).c_str();
-  op = new OpData(p, *node);
+  op = new Database::OpData(p, *node);
   o.send(*op, missing);
   delete list_node;
   dynamic_cast<File*>(node)->setChecksum("checksum test");

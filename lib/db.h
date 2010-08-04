@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -44,9 +44,16 @@ public:
     bool            initialize = false);  // Initialize DB if needed
   // Close database
   int  close();
+  // Compression modes
+  enum CompressionMode {
+    always,
+    auto_now,
+    auto_later,
+    never
+  };
   // Set compression mode
   void setCompressionMode(
-    OpData::CompressionMode mode);
+    CompressionMode mode);
   // Set copy progress callback function
   void setCopyProgressCallback(progress_f progress);
   // Set previous list read progress callback function
@@ -78,6 +85,42 @@ public:
   // Close list / journal for current client, can signal if error occurred
   int  closeClient(
     bool            abort = false);       // Whether to remove remaining items
+  // Class for data exchange
+  class OpData {
+    friend class Database;
+    friend class Owner;
+    char              _operation;       // Letter showing current operation
+    char              _type;            // Letter showing concerned type
+    char              _info;            // Letter showing internal information
+    int               _id;              // Missing checksum ID
+    Database::CompressionMode _comp_mode; // Compression decision
+    int               _compression;     // Compression level for regular files
+    const Path&       _path;            // Real file path, on client
+    Node&             _node;            // File metadata
+    bool              _same_list_entry; // Don't add a list entry, replace
+  public:
+    // Pointers given to the constructor MUST remain valid during operation!
+    OpData(
+      const Path&     path,             // Real file path, on client
+      Node&           node)             // File metadata
+      : _operation(' '), _type(' '), _info(' '), _id(-1),
+        _comp_mode(Database::auto_later), _compression(0),
+        _path(path), _node(node), _same_list_entry(false) {}
+    void setCompressionMode(Database::CompressionMode m) { _comp_mode = m; }
+    Database::CompressionMode compressionMode() const { return _comp_mode; }
+    void setCompression(int compression) { _compression = compression; }
+    int compression() const              { return _compression;        }
+    bool sameListEntry() const           { return _same_list_entry;    }
+    bool needsAdding() const             { return _operation != ' ';   }
+    void verbose(char* code) {
+      // File information
+      code[0] = _operation;
+      code[1] = _node.type();
+      // Database information
+      code[3] = _type;
+      code[4] = _info;
+    }
+  };
   // Send data for comparison
   void sendEntry(
     OpData&         operation);           // Operation data

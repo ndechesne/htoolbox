@@ -31,7 +31,6 @@ using namespace std;
 #include "conditions.h"
 #include "filters.h"
 #include "parsers.h"
-#include "opdata.h"
 #include "db.h"
 #include "attributes.h"
 #include "paths.h"
@@ -80,18 +79,18 @@ bool hbackup::aborting(unsigned short test) {
 
 struct HBackup::Private : ConfigObject {
   // db
-  Database*               db;
-  OpData::CompressionMode db_compress_mode;
+  Database*                 db;
+  Database::CompressionMode db_compress_mode;
   // clients
-  std::list<string>       selected_clients;
-  std::list<Client*>      clients;
+  std::list<string>         selected_clients;
+  std::list<Client*>        clients;
   // attributes
-  Attributes              attributes;
+  Attributes                attributes;
   // log
-  string                  log_file_name;
-  size_t                  log_max_lines;
-  size_t                  log_backups;
-  Level                   log_level;
+  string                    log_file_name;
+  size_t                    log_max_lines;
+  size_t                    log_backups;
+  Level                     log_level;
   Private() : db(NULL), log_max_lines(0), log_backups(0), log_level(info) {
     log_file_name = "";
   }
@@ -146,19 +145,19 @@ ConfigObject* HBackup::Private::configChildFactory(
   } else
   if (keyword == "compress") {
     if (params[1] == "always") {
-      db_compress_mode = OpData::always;
+      db_compress_mode = Database::always;
       co = this;
     } else
     if (params[1] == "auto") {
-      db_compress_mode = OpData::auto_now;
+      db_compress_mode = Database::auto_now;
       co = this;
     } else
     if (params[1] == "later") {
-      db_compress_mode = OpData::auto_later;
+      db_compress_mode = Database::auto_later;
       co = this;
     } else
     if (params[1] == "never") {
-      db_compress_mode = OpData::never;
+      db_compress_mode = Database::never;
       co = this;
     } else
     {
@@ -168,7 +167,7 @@ ConfigObject* HBackup::Private::configChildFactory(
   } else
   // Backwards compatibility
   if (keyword == "compress_auto") {
-    db_compress_mode = OpData::auto_now;
+    db_compress_mode = Database::auto_now;
     co = this;
   } else
   if (keyword == "client") {
@@ -340,7 +339,7 @@ int HBackup::open(
     const char*   path,
     bool          user_mode,
     bool          check_config) {
-  _d->db_compress_mode = OpData::auto_later;
+  _d->db_compress_mode = Database::auto_later;
 
   bool failed = false;
   if (user_mode) {
@@ -528,16 +527,16 @@ void HBackup::show(int level) const {
   }
   const char* comp_str;
   switch (_d->db_compress_mode) {
-    case OpData::always:
+    case Database::always:
       comp_str = "always";
       break;
-    case OpData::auto_now:
+    case Database::auto_now:
       comp_str = "automatic";
       break;
-    case OpData::auto_later:
+    case Database::auto_later:
       comp_str = "later";
       break;
-    case OpData::never:
+    case Database::never:
       comp_str = "never";
       break;
   }

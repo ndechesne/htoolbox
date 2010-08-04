@@ -30,7 +30,6 @@ using namespace std;
 
 #include "files.h"
 #include "list.h"
-#include "opdata.h"
 #include "db.h"
 
 // Tests status:
@@ -254,12 +253,12 @@ int main(void) {
 
   Directory* d;
   File* f;
-  OpData* op;
+  Database::OpData* op;
   Path p;
   d = new Directory("test1/subdir");
   d->setSize(0);
   p = "/client_path/subdir";
-  op = new OpData(p, *d);
+  op = new Database::OpData(p, *d);
   ++my_time;
   db.sendEntry(*op);
   db.add(*op);
@@ -267,7 +266,7 @@ int main(void) {
   delete d;
   f = new File("test1/subdir/testfile");
   p = "/client_path/subdir/testfile";
-  op = new OpData(p, *f);
+  op = new Database::OpData(p, *f);
   op->setCompression(5);
   ++my_time;
   db.sendEntry(*op);
@@ -276,7 +275,7 @@ int main(void) {
   delete f;
   f = new File("test1/subdir/testfile2");
   p = "/client_path/subdir/testfile2";
-  op = new OpData(p, *f);
+  op = new Database::OpData(p, *f);
   ++my_time;
   db.sendEntry(*op);
   db.add(*op);
@@ -284,7 +283,7 @@ int main(void) {
   delete f;
   f = new File("test1/test space");
   p = "/client_path/test space";
-  op = new OpData(p, *f);
+  op = new Database::OpData(p, *f);
   ++my_time;
   db.sendEntry(*op);
   db.add(*op);
@@ -292,7 +291,7 @@ int main(void) {
   delete f;
   f = new File("test1/testfile");
   p = "/client_path/testfile";
-  op = new OpData(p, *f);
+  op = new Database::OpData(p, *f);
   ++my_time;
   db.sendEntry(*op);
   db.add(*op);
@@ -301,7 +300,7 @@ int main(void) {
   d = new Directory("test1/testdir");
   d->setSize(0);
   p = "other_path/testdir";
-  op = new OpData(p, *d);
+  op = new Database::OpData(p, *d);
   ++my_time;
   db.sendEntry(*op);
   db.add(*op);
@@ -309,7 +308,7 @@ int main(void) {
   delete d;
   f = new File("test2/testfile");
   p = "other_path/testfile";
-  op = new OpData(p, *f);
+  op = new Database::OpData(p, *f);
   ++my_time;
   db.sendEntry(*op);
   db.add(*op);
@@ -454,7 +453,7 @@ int main(void) {
 
     Link l("test1/testlink");
     p = "/client_path/new_link";
-    OpData o(p, l);
+    Database::OpData o(p, l);
     ++my_time;
     db.sendEntry(o);
     db.add(o);
