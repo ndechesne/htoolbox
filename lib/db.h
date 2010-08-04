@@ -91,11 +91,23 @@ public:
     char              type;             // Letter showing concerned type
     char              info;             // Letter showing internal information
     int               id;               // Missing checksum ID
-    Database::CompressionMode comp_mode; // Compression decision
+    Database::CompressionMode comp_mode;  // Compression decision
     int               compression;      // Compression level for regular files
     const Path&       path;             // Real file path, on client
     Node&             node;             // File metadata
     bool              same_list_entry;  // Don't add a list entry, replace
+    // Pre-encoded node metadata, assumes the following max values:
+    // * type: 1 char => 1
+    // * size: 2^64 => 20
+    // * mtime: 2^32 => 10
+    // * uid: 2^32 => 10
+    // * gid: 2^32 => 10
+    // * mode: 4 octal digits => 4
+    // * separators: 5 TABs => 5
+    // Total = 60 => 64
+    char              encoded_metadata[64];
+    size_t            sep_offset;
+    size_t            end_offset;
     // Pointers given to the constructor MUST remain valid during operation!
     OpData(
       const Path&     p,                // Real file path, on client
@@ -103,6 +115,7 @@ public:
       : operation(' '), type(' '), info(' '), id(-1),
         comp_mode(Database::auto_later), compression(0),
         path(p), node(n), same_list_entry(false) {}
+    void encode();
     bool needsAdding() const { return operation != ' ';   }
     void verbose(char* code) {
       // File information

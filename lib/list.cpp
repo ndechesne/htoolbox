@@ -438,9 +438,17 @@ void ListReader::setProgressCallback(progress_f progress) {
   _d->file.setProgressCallback(progress);
 }
 
+const char* ListReader::fetchData() {
+  if (fetchLine() != ListReader::got_data) {
+    hlog_error("Unexpectedly failed to find data in list in '%s'",
+      _d->file.name());
+    return NULL;
+  }
+  return getData();
+}
+
 int ListReader::fetchData(
-    Node**          node,
-    bool            keep) {
+    Node**          node) {
   // Initialise
   delete *node;
   *node = NULL;
@@ -464,9 +472,7 @@ int ListReader::fetchData(
       // Get all arguments from line
       ListReader::decodeLine(getData(), &ts, getPath(), node);
     }
-    if (! keep) {
-      resetStatus();
-    }
+    resetStatus();
   } while (rc != ListReader::got_data);
   return 1;
 }

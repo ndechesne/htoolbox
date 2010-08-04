@@ -66,9 +66,9 @@ public:
     time_t*         ts,                     // Line timestamp
     const char      path[]      = NULL,     // File path to store in metadata
     Node**          node        = NULL);    // File metadata
+  const char* fetchData();
   int fetchData(
-    Node**          node,
-    bool            keep);
+    Node**          node);
   // Convert one or several line(s) to data
   // Date:
   //    <0: any

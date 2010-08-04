@@ -401,8 +401,6 @@ void Owner::setProgressCallback(progress_f progress) {
 int Owner::send(
     Database::OpData&   op,
     Missing&            missing) {
-  Node* db_node = NULL;
-
   // Search path and get current metadata
   int rc = ListWriter::search(_d->original, op.path, _d->expiration, time(NULL),
     _d->partial, _d->journal, &_d->modified);
@@ -410,31 +408,61 @@ int Owner::send(
     return -1;
   }
   _d->journal->flush();
+
+  const char* db_node = NULL;
+  const char* db_node_type = NULL;
+  const char* db_node_extra = NULL;
   if (rc == 2) {
     // Get metadata (needs to be kept, as it will be added after any new)
-    _d->original->fetchData(&db_node, true);
+    db_node = _d->original->fetchData();
+    if (db_node == NULL) {
+      hlog_error("no data found for '%s' in list", op.path.c_str());
+      return -1;
+    }
+    // Find second TAB (first TAB is first char of string)
+    db_node_type = strchr(&db_node[1], '\t');
+    if (db_node_type == NULL) {
+      hlog_error("strange data found for '%s' in list", op.path.c_str());
+      return -1;
+    }
+    ++db_node_type;
+    // Is the file still active?
+    if (*db_node_type == '-') {
+      db_node = NULL;
+    } else
+    if ((op.node.type() == 'f') || (op.node.type() == 'l')) {
+      // Go get extra, the 8th field, but we already got rid of one!
+      db_node_extra = db_node_type;
+      for (size_t skip_fields = 0; skip_fields < 6; ++skip_fields) {
+        db_node_extra = strchr(db_node_extra, '\t');
+        if ((db_node_extra == NULL) || (++db_node_extra == '\0')) {
+          db_node_extra = NULL;
+          break;
+        }
+      }
+    }
   }
+
+  // Pre-encode metadata
+  op.encode();
 
   // New or resurrected file: (re-)add
   if ((rc < 2) || (db_node == NULL)) {
     op.operation = 'A';
   } else
   // Existing file: check for differences
-  if (*db_node != op.node) {
+  if (strncmp(db_node_type, op.encoded_metadata, op.end_offset) != 0) {
     // Metadata differ but not type, mtime and size: just add new metadata
-    if ((op.node.type() == db_node->type())
-    &&  (op.node.size() == db_node->size())
-    &&  (op.node.mtime() == db_node->mtime())) {
+    if (strncmp(db_node_type, op.encoded_metadata, op.sep_offset) == 0) {
       op.operation = '~';
       if (op.node.type() == 'f') {
-        const char* node_checksum = static_cast<File*>(db_node)->checksum();
         // Checksum missing: retry
-        if (node_checksum[0] == '\0') {
+        if (db_node_extra == NULL) {
           op.same_list_entry = true;
         } else
         // Copy checksum accross
         {
-          static_cast<File&>(op.node).setChecksum(node_checksum);
+          static_cast<File&>(op.node).setChecksum(db_node_extra);
         }
       }
     } else
@@ -446,14 +474,13 @@ int Owner::send(
   // Same metadata (hence same type): check for broken data
   if (op.node.type() == 'f') {
     // Check that file data is present
-    const char* node_checksum = static_cast<File*>(db_node)->checksum();
-    if (node_checksum[0] == '\0') {
+    if (db_node_extra == NULL) {
       // Checksum missing: retry
       op.same_list_entry = true;
       op.operation = '!';
     } else {
       // Same checksum: look for checksum in missing list (binary search)
-      op.id = missing.search(node_checksum);
+      op.id = missing.search(db_node_extra);
       if (op.id >= 0) {
         if (missing.isInconsistent(op.id)) {
           if (missing.dataSize(op.id) != op.node.size()) {
@@ -472,12 +499,10 @@ int Owner::send(
     op.same_list_entry = true;
     op.operation = '!';
   } else
-  if ((op.node.type() == 'l')
-  && (strcmp(static_cast<const Link&>(op.node).link(),
-      static_cast<Link*>(db_node)->link()) != 0)) {
+  if ((op.node.type() == 'l') && (db_node_extra != NULL) &&
+      (strcmp(static_cast<const Link&>(op.node).link(), db_node_extra) != 0)) {
     op.operation = 'L';
   }
-  delete db_node;
   return 0;
 }
 
@@ -549,7 +574,7 @@ int Owner::getChecksums(
   }
   _d->original->setProgressCallback(_d->progress);
   Node* node = NULL;
-  while (_d->original->fetchData(&node, false) > 0) {
+  while (_d->original->fetchData(&node) > 0) {
     if ((node != NULL) && (node->type() == 'f')) {
       File* f = static_cast<File*>(node);
       if (f->checksum()[0] != '\0') {
