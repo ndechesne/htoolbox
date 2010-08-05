@@ -16,8 +16,8 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef DB_H
-#define DB_H
+#ifndef _DB_H
+#define _DB_H
 
 namespace hbackup {
 
@@ -116,7 +116,6 @@ public:
       : operation(' '), type(' '), info(' '), id(-1),
         comp_mode(Database::auto_later), compression(0),
         path(p), node(n), same_list_entry(false), extra(NULL) {}
-    void encode();
     bool needsAdding() const { return operation != ' ';   }
     void verbose(char* code) {
       // File information
@@ -138,4 +137,4 @@ public:
 
 }
 
-#endif
+#endif // _DB_H

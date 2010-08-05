@@ -41,7 +41,6 @@ using namespace std;
 #include "data.h"
 #include "db.h"
 #include "owner.h"
-#include "list.h"   // encode()
 
 namespace hbackup {
   typedef enum {
@@ -676,11 +675,6 @@ int Database::closeClient(
   delete _d->owner;
   _d->owner = NULL;
   return failed ? -1 : 0;
-}
-
-void Database::OpData::encode() {
-  end_offset = ListReader::encode(node, encoded_metadata, &sep_offset);
-  extra = NULL;
 }
 
 void Database::sendEntry(

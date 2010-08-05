@@ -443,8 +443,10 @@ int Owner::send(
     }
   }
 
-  // Pre-encode metadata
-  op.encode();
+  // Prepare metadata and extra
+  op.end_offset = ListReader::encode(op.node, op.encoded_metadata,
+    &op.sep_offset);
+  op.extra = NULL;
 
   // New or resurrected file: (re-)add
   if ((rc < 2) || (db_node == NULL)) {
