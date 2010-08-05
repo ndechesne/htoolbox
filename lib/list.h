@@ -56,10 +56,10 @@ public:
   // End of list reached
   bool end() const;
   // Encode line from metadata
-  static ssize_t encodeLine(
-    char*           line[],                 // Line to decode
-    time_t          ts,                     // Line timestamp
-    const Node*     node);                  // File path and metadata
+  static size_t encode(
+    const Node&     node,
+    char*           line,
+    size_t*         sep_offset_p);
   // Decode metadata from line
   static int decodeLine(
     const char      line[],                 // Line to decode
@@ -103,6 +103,8 @@ public:
   const char* path() const;
   // Add line to file
   ssize_t putLine(const char* line);
+  // Add data to file
+  ssize_t putData(time_t ts, const char* metadata, const char* extra);
   // Flush all data to file
   int flush();
   // Search data in list copying contents to new list/journal, marking files

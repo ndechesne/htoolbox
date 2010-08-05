@@ -41,6 +41,7 @@ using namespace std;
 #include "data.h"
 #include "db.h"
 #include "owner.h"
+#include "list.h"   // encode()
 
 namespace hbackup {
   typedef enum {
@@ -678,11 +679,7 @@ int Database::closeClient(
 }
 
 void Database::OpData::encode() {
-  // Also get offset to the TAB before the UID = necessary length to compare
-  end_offset = sep_offset = sprintf(encoded_metadata, "%c\t%lld\t%ld",
-    node.type(), node.size(), node.mtime());
-  end_offset += sprintf(&encoded_metadata[sep_offset], "\t%u\t%u\t%o",
-    node.uid(), node.gid(), node.mode());
+  end_offset = ListReader::encode(node, encoded_metadata, &sep_offset);
   extra = NULL;
 }
 

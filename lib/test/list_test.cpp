@@ -34,6 +34,27 @@ class ListWriterTest : public ListWriter {
 public:
   ListWriterTest(const Path& path) : ListWriter(path) {}
   ssize_t putLine(const Line& line) { return ListWriter::putLine(line); }
+  void add(
+      const char*     path,
+      time_t          epoch,
+      const Node*     node = NULL) {
+    putLine(path);
+    if (node != NULL) {
+      char line[64];
+      size_t sep_offset;
+      ListReader::encode(*node, line, &sep_offset);
+      const char* extra = NULL;
+      if (node->type() == 'f') {
+        extra = static_cast<const File*>(node)->checksum();
+      } else
+      if (node->type() == 'l') {
+        extra = static_cast<const Link*>(node)->link();
+      }
+      putData(epoch, line, extra);
+    } else {
+      putData(epoch, "-", NULL);
+    }
+  }
 };
 
 static time_t my_time = 0;
@@ -90,18 +111,6 @@ static void showList(ListReader& list) {
   }
 }
 
-static void add(
-    ListWriterTest& list,
-    const char*     path,
-    time_t          epoch,
-    const Node*     node = NULL) {
-  list.putLine(path);
-  char* line = NULL;
-  ListReader::encodeLine(&line, epoch, node);
-  list.putLine(line);
-  free(line);
-}
-
 int main(void) {
   ListWriter dblist("test_db/list");
   ListWriterTest journal("test_db/journal");
@@ -138,25 +147,25 @@ int main(void) {
 
   // No checksum
   node = new Stream("test1/test space");
-  add(journal, "file sp", time(NULL), node);
+  journal.add("file sp", time(NULL), node);
   free(node);
 
-  add(journal, "file_gone", time(NULL));
+  journal.add("file_gone", time(NULL));
 
   node = new Stream("test1/testfile");
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
-  add(journal, "file_new", time(NULL), node);
+  journal.add("file_new", time(NULL), node);
   free(node);
 
   node = new Link("test1/testlink");
-  add(journal, "link", time(NULL), node);
+  journal.add("link", time(NULL), node);
   free(node);
 
   node = new Directory("test1/testdir");
   node->setSize(0);
-  add(journal, "path", time(NULL), node);
+  journal.add("path", time(NULL), node);
   free(node);
 
   journal.close();
@@ -219,25 +228,25 @@ int main(void) {
   sys_rc = system("echo \"this is my new test\" > test1/testfile");
 
   node = new Link("test1/testlink");
-  add(journal, "CR/x", time(NULL), node);
+  journal.add("CR/x", time(NULL), node);
   free(node);
 
   node = new Link("test1/testlink");
-  add(journal, "CR\r", time(NULL), node);
+  journal.add("CR\r", time(NULL), node);
   free(node);
 
   node = new Stream("test1/test space");
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
-  add(journal, "file sp", time(NULL), node);
+  journal.add("file sp", time(NULL), node);
   free(node);
 
   node = new Stream("test1/testfile");
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
-  add(journal, "file_new", time(NULL), node);
+  journal.add("file_new", time(NULL), node);
   free(node);
 
   journal.close();
@@ -315,8 +324,8 @@ int main(void) {
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
-  add(journal, "file_new", time(NULL), node);
-  add(journal, "file_gone", time(NULL), node);
+  journal.add("file_new", time(NULL), node);
+  journal.add("file_gone", time(NULL), node);
   free(node);
   journal.close();
   node = NULL;
@@ -458,7 +467,7 @@ int main(void) {
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
-  add(journal, "file_new", time(NULL), node);
+  journal.add("file_new", time(NULL), node);
   free(node);
   node = NULL;
   journal.close();
@@ -521,24 +530,24 @@ int main(void) {
 
   // No checksum
   node = new Stream("test1/test space");
-  add(journal, "file sp", time(NULL), node);
+  journal.add("file sp", time(NULL), node);
   free(node);
 
-  add(journal, "file_gone", time(NULL));
+  journal.add("file_gone", time(NULL));
 
   node = new Stream("test1/testfile");
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
-  add(journal, "file_new", time(NULL), node);
+  journal.add("file_new", time(NULL), node);
   free(node);
 
   node = new Link("test1/testlink");
-  add(journal, "link2", time(NULL), node);
+  journal.add("link2", time(NULL), node);
   free(node);
 
   node = new Directory("test1/testdir");
-  add(journal, "path", time(NULL), node);
+  journal.add("path", time(NULL), node);
   free(node);
 
   journal.close();

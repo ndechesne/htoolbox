@@ -68,6 +68,7 @@ public:
     return fflush(_fd);
   }
   ssize_t putLine(const char* line);
+  ssize_t putData(time_t ts, const char* metadata, const char* extra);
   // Called only once, leave inline
   ssize_t getLine(char** buffer_p, size_t* cap_p) {
     if (_fd == NULL) return -1;
@@ -214,6 +215,35 @@ ssize_t ListFile::putLine(const char* line) {
   return line_size;
 }
 
+ssize_t ListFile::putData(time_t ts, const char* metadata, const char* extra) {
+  if (_fd == NULL) {
+    hlog_error("'%s' not open", _name.c_str());
+    return -1;
+  }
+  if (_read_only) {
+    hlog_error("'%s' read only", _name.c_str());
+    return -1;
+  }
+  size_t line_size = fprintf(_fd, "\t%ld\t%s", ts, metadata);
+  if (line_size < 1) {
+    hlog_error("'%s' write ts_str", _name.c_str());
+    return -1;
+  }
+  if (extra != NULL) {
+    size_t extra_size = fprintf(_fd, "\t%s", extra);
+    if (extra_size < 1) {
+      hlog_error("'%s' write separator", _name.c_str());
+      return -1;
+    }
+    line_size += extra_size;
+  }
+  if (fwrite("\0\n", 2, 1, _fd) < 1) {
+    hlog_error("'%s' write end of line", _name.c_str());
+    return -1;
+  }
+  return line_size;
+}
+
 struct ListReader::Private {
   ListFile          file;
   Status            status;
@@ -349,35 +379,21 @@ ssize_t ListWriter::putLine(const char* line) {
   return _d->file.putLine(line);
 }
 
-ssize_t ListReader::encodeLine(
-    char**          linep,
-    time_t          timestamp,
-    const Node*     node) {
-  int size;
+ssize_t ListWriter::putData(time_t ts, const char* metadata, const char* extra) {
+  return _d->file.putData(ts, metadata, extra);
+}
 
-  if (node == NULL) {
-    size = asprintf(linep, "\t%ld\t-", timestamp);
-  } else {
-    const char* extra;
-    switch (node->type()) {
-      case 'f': {
-        extra = (static_cast<const File*>(node))->checksum();
-      } break;
-      case 'l': {
-        extra = (static_cast<const Link*>(node))->link();
-      } break;
-      default:
-        extra = "";
-    }
-    size = asprintf(linep, "\t%ld\t%c\t%lld\t%ld\t%u\t%u\t%o\t%s",
-      timestamp, node->type(), node->size(), node->mtime(), node->uid(),
-      node->gid(), node->mode(), extra);
-    // Remove trailing tab
-    if (extra[0] == '\0') {
-      (*linep)[--size] = '\0';
-    }
-  }
-  return size;
+size_t ListReader::encode(
+    const Node&     node,
+    char*           line,
+    size_t*         sep_offset_p) {
+  // Also get offset to the TAB before the UID = necessary length to compare
+  *sep_offset_p = sprintf(line, "%c\t%lld\t%ld",
+    node.type(), node.size(), node.mtime());
+  size_t end_offset = *sep_offset_p;
+  end_offset += sprintf(&line[*sep_offset_p], "\t%u\t%u\t%o",
+    node.uid(), node.gid(), node.mode());
+  return end_offset;
 }
 
 int ListReader::decodeLine(
@@ -610,18 +626,15 @@ int ListWriter::search(
               ++pos;
               // Not marked removed yet
               if (*pos != '-') {
-                char* line = NULL;
-                ListReader::encodeLine(&line, remove, NULL);
-                if (new_list->putLine(line) < 0) {
+                time_t ts = time(NULL);
+                if (new_list->putData(ts, "-", NULL) < 0) {
                   // Could not write
-                  free(line);
                   return -1;
                 }
                 if (journal != NULL) {
                   journal->putLine(list->getPath());
-                  journal->putLine(line);
+                  journal->putData(ts, "-", NULL);
                 }
-                free(line);
                 if (modified != NULL) {
                   *modified = true;
                 }
