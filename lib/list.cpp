@@ -29,92 +29,7 @@
 using namespace hbackup;
 using namespace hreport;
 
-class ListFile {
-  string _name;
-  bool _read_only;
-  FILE* _fd;
-  progress_f _progress;
-  long long _size;
-  long long _previous_offset;
-  long long _offset;
-  static const long long _offset_threadshold = 102400;
-  bool _old_version;
-  const char* _header() { return "# version 5"; }
-  const char* _old_header() { return "# version 4\n"; }
-  const char* _footer() { return "# end"; }
-public:
-  ListFile(const char* name, bool ro) : _name(name), _read_only(ro), _fd(NULL),
-    _progress(NULL), _size(-1), _previous_offset(0), _offset(0),
-    _old_version(false) {}
-  ~ListFile() { if (_fd != NULL) close(); }
-  const char* name() const { return _name.c_str(); }
-  int open(bool quiet_if_not_exists = false);
-  int close();
-  void setProgressCallback(progress_f progress) {
-    if (! _read_only) {
-      return;
-    }
-    // Get list file size
-    if (_size < 0) {
-      struct stat64 stat;
-      if (stat64(_name.c_str(), &stat) < 0) {
-        return;
-      }
-      _size = stat.st_size;
-    }
-    _progress = progress;
-  }
-  int flush() const {
-    return fflush(_fd);
-  }
-  ssize_t putLine(const char* line);
-  ssize_t putData(time_t ts, const char* metadata, const char* extra);
-  // Called only once, leave inline
-  ssize_t getLine(char** buffer_p, size_t* cap_p) {
-    if (_fd == NULL) return -1;
-    if (!_read_only) return -1;
-    char delim;
-    if (! _old_version) {
-      delim = '\0';
-    } else {
-      delim = '\n';
-    }
-    ssize_t rc = getdelim(buffer_p, cap_p, delim, _fd);
-    if (rc <= 0) {
-      if (feof(_fd)) {
-        return -2;
-      }
-      return -1;
-    }
-    _offset += rc;
-    char* line = *buffer_p;
-    if (line[rc - 1] != delim) {
-      return -2;
-    }
-    if (! _old_version) {
-      char lf[1];
-      if ((fread(lf, 1, 1, _fd) < 1) || (*lf != '\n')) {
-        return -2;
-      }
-      ++_offset;
-    }
-    if ((_progress != NULL) && (_size >= 0)) {
-      if ((_offset == _size) ||
-          ((_offset - _previous_offset) >= _offset_threadshold)) {
-        _progress(_previous_offset, _offset, _size);
-        _previous_offset = _offset;
-      }
-    }
-    if (line[0] == '#') {
-      return 0;
-    }
-    --rc;
-    line[rc] = '\0';
-    return rc;
-  }
-};
-
-int ListFile::open(bool quiet_if_not_exists) {
+int List::open(bool quiet_if_not_exists) {
   // Choose mode
   const char* mode;
   if (_read_only) {
@@ -123,11 +38,11 @@ int ListFile::open(bool quiet_if_not_exists) {
     mode = "w";
   }
   // Open
-  _fd = fopen(_name.c_str(), mode);
+  _fd = fopen(_path.c_str(), mode);
   if (_fd == NULL) {
     if (! quiet_if_not_exists) {
       hlog_error("%s opening '%s' for %sing",
-        strerror(errno), _name.c_str(), _read_only ? "read" : "writ");
+        strerror(errno), _path.c_str(), _read_only ? "read" : "writ");
     }
     goto failed;
   }
@@ -144,7 +59,7 @@ int ListFile::open(bool quiet_if_not_exists) {
       } else {
         error_str = strerror(errno);
       }
-      hlog_error("%s getting version for '%s'", error_str, _name.c_str());
+      hlog_error("%s getting version for '%s'", error_str, _path.c_str());
       went_wrong = true;
     } else {
       if (strcmp(buffer, _header()) == 0) {
@@ -155,7 +70,7 @@ int ListFile::open(bool quiet_if_not_exists) {
       } else
       {
         buffer[sizeof(buffer) - 1] = '\0';
-        hlog_error("Unknown version for '%s': '%s'", _name.c_str(), buffer);
+        hlog_error("Unknown version for '%s': '%s'", _path.c_str(), buffer);
         went_wrong = true;
       }
     }
@@ -163,30 +78,30 @@ int ListFile::open(bool quiet_if_not_exists) {
     if (went_wrong) goto failed;
   } else {
     if (putLine(_header()) < 0) {
-      hlog_error("%s writing header in '%s'", strerror(errno), _name.c_str());
+      hlog_error("%s writing header in '%s'", strerror(errno), _path.c_str());
       goto failed;
     }
   }
   hlog_regression("opened '%s' for %sing",
-    _name.c_str(), _read_only ? "read" : "writ");
+    _path.c_str(), _read_only ? "read" : "writ");
   return 0;
 failed:
   close();
   return -1;
 }
 
-int ListFile::close() {
+int List::close() {
   int rc;
   if (_fd != NULL) {
     if (! _read_only) {
       if (putLine(_footer()) < 0) {
-        hlog_error("%s writing footer in '%s'", strerror(errno), _name.c_str());
+        hlog_error("%s writing footer in '%s'", strerror(errno), _path.c_str());
         /* the error is reported by fclose */
       }
     }
     rc = fclose(_fd);
     _fd = NULL;
-    hlog_regression("closed '%s'", _name.c_str());
+    hlog_regression("closed '%s'", _path.c_str());
   } else {
     errno = EBADF;
     rc = -1;
@@ -194,58 +109,116 @@ int ListFile::close() {
   return rc;
 }
 
-ssize_t ListFile::putLine(const char* line) {
+void List::setProgressCallback(progress_f progress) {
+  if (! _read_only) {
+    return;
+  }
+  // Get list file size
+  if (_size < 0) {
+    struct stat64 stat;
+    if (stat64(_path.c_str(), &stat) < 0) {
+      return;
+    }
+    _size = stat.st_size;
+  }
+  _progress = progress;
+}
+
+ssize_t List::putLine(const char* line) {
   if (_fd == NULL) {
-    hlog_error("'%s' not open", _name.c_str());
+    hlog_error("'%s' not open", _path.c_str());
     return -1;
   }
   if (_read_only) {
-    hlog_error("'%s' read only", _name.c_str());
+    hlog_error("'%s' read only", _path.c_str());
     return -1;
   }
   size_t line_size = strlen(line);
   if (fwrite(line, line_size, 1, _fd) < 1) {
-    hlog_error("'%s' write line", _name.c_str());
+    hlog_error("'%s' write line", _path.c_str());
     return -1;
   }
   if (fwrite("\0\n", 2, 1, _fd) < 1) {
-    hlog_error("'%s' write end of line", _name.c_str());
+    hlog_error("'%s' write end of line", _path.c_str());
     return -1;
   }
   return line_size;
 }
 
-ssize_t ListFile::putData(time_t ts, const char* metadata, const char* extra) {
+ssize_t List::putData(time_t ts, const char* metadata, const char* extra) {
   if (_fd == NULL) {
-    hlog_error("'%s' not open", _name.c_str());
+    hlog_error("'%s' not open", _path.c_str());
     return -1;
   }
   if (_read_only) {
-    hlog_error("'%s' read only", _name.c_str());
+    hlog_error("'%s' read only", _path.c_str());
     return -1;
   }
   size_t line_size = fprintf(_fd, "\t%ld\t%s", ts, metadata);
   if (line_size < 1) {
-    hlog_error("'%s' write ts_str", _name.c_str());
+    hlog_error("'%s' write ts_str", _path.c_str());
     return -1;
   }
   if (extra != NULL) {
     size_t extra_size = fprintf(_fd, "\t%s", extra);
     if (extra_size < 1) {
-      hlog_error("'%s' write separator", _name.c_str());
+      hlog_error("'%s' write separator", _path.c_str());
       return -1;
     }
     line_size += extra_size;
   }
   if (fwrite("\0\n", 2, 1, _fd) < 1) {
-    hlog_error("'%s' write end of line", _name.c_str());
+    hlog_error("'%s' write end of line", _path.c_str());
     return -1;
   }
   return line_size;
 }
 
+ssize_t List::getLine(char** buffer_p, size_t* cap_p) {
+  if (_fd == NULL) return -1;
+  if (!_read_only) return -1;
+  char delim;
+  if (! _old_version) {
+    delim = '\0';
+  } else {
+    delim = '\n';
+  }
+  ssize_t rc = getdelim(buffer_p, cap_p, delim, _fd);
+  if (rc <= 0) {
+    if (feof(_fd)) {
+      return -2;
+    }
+    return -1;
+  }
+  _offset += rc;
+  char* line = *buffer_p;
+  if (line[rc - 1] != delim) {
+    return -2;
+  }
+  if (! _old_version) {
+    char lf[1];
+    if ((fread(lf, 1, 1, _fd) < 1) || (*lf != '\n')) {
+      return -2;
+    }
+    ++_offset;
+  }
+  if ((_progress != NULL) && (_size >= 0)) {
+    if ((_offset == _size) ||
+        ((_offset - _previous_offset) >= _offset_threadshold)) {
+      _progress(_previous_offset, _offset, _size);
+      _previous_offset = _offset;
+    }
+  }
+  if (line[0] == '#') {
+    return 0;
+  }
+  --rc;
+  line[rc] = '\0';
+  return rc;
+}
+
 struct ListReader::Private {
-  ListFile          file;
+  List              file;
   Status            status;
   char*             path;
   size_t            path_cap;
@@ -285,7 +258,7 @@ int ListReader::close() {
 }
 
 const char* ListReader::path() const {
-  return _d->file.name();
+  return _d->file.path();
 }
 
 const char* ListReader::getPath() const {
@@ -294,33 +267,6 @@ const char* ListReader::getPath() const {
 
 const char* ListReader::getData() const {
   return _d->data;
-}
-
-struct ListWriter::Private {
-  ListFile          file;
-  Private(const char* path) : file(path, false) {}
-};
-
-ListWriter::ListWriter(const Path& path) : _d(new Private(path)) {}
-
-ListWriter::~ListWriter() {
-  delete _d;
-}
-
-int ListWriter::open() {
-  return _d->file.open();
-}
-
-int ListWriter::close() {
-  return _d->file.close();
-}
-
-int ListWriter::flush() {
-  return _d->file.flush();
-}
-
-const char* ListWriter::path() const {
-  return _d->file.name();
 }
 
 // This is read buffer: unless the status is 'got_nothing', we do not fetch
@@ -373,14 +319,6 @@ void ListReader::resetStatus() {
 bool ListReader::end() const {
   // If EOF is reached immediately, list is empty
   return (_d->status == eor) || (_d->status == eof);
-}
-
-ssize_t ListWriter::putLine(const char* line) {
-  return _d->file.putLine(line);
-}
-
-ssize_t ListWriter::putData(time_t ts, const char* metadata, const char* extra) {
-  return _d->file.putData(ts, metadata, extra);
 }
 
 size_t ListReader::encode(
@@ -457,7 +395,7 @@ void ListReader::setProgressCallback(progress_f progress) {
 const char* ListReader::fetchData() {
   if (fetchLine() != ListReader::got_data) {
     hlog_error("Unexpectedly failed to find data in list in '%s'",
-      _d->file.name());
+      _d->file.path());
     return NULL;
   }
   return getData();
@@ -475,7 +413,7 @@ int ListReader::fetchData(
     rc = fetchLine();
     if (rc < 0) {
       if (rc == ListReader::eof) {
-        hlog_error("Unexpected end of list in '%s'", _d->file.name());
+        hlog_error("Unexpected end of list in '%s'", _d->file.path());
       }
       return -1;
     }
@@ -517,7 +455,7 @@ int ListReader::getEntry(
 
     if (rc < 0) {
       if (rc == ListReader::eof) {
-        hlog_error("Unexpected end of list in '%s'", _d->file.name());
+        hlog_error("Unexpected end of list in '%s'", _d->file.path());
       }
       return -1;
     }
@@ -753,7 +691,7 @@ int ListWriter::copy(
     if ((rc == ListReader::eor) || stop) {
       if (! copy_till_end) {
         // Write path
-        if (_d->file.putLine(path_l) < 0) {
+        if (putLine(path_l) < 0) {
           // Could not write
           return -1;
         }
@@ -762,13 +700,13 @@ int ListWriter::copy(
     } else
     // Our data is here or after, so let's copy if required
     if (rc == ListReader::got_path) {
-      if (_d->file.putLine(list->getPath()) < 0) {
+      if (putLine(list->getPath()) < 0) {
         // Could not write
         return -1;
       }
     } else
     if (rc == ListReader::got_data) {
-      if (_d->file.putLine(list->getData()) < 0) {
+      if (putLine(list->getData()) < 0) {
         // Could not write
         return -1;
       }
@@ -907,6 +845,6 @@ void ListReader::show(
     }
     close();
   } else {
-    hlog_error("%s opening '%s'", strerror(errno), _d->file.name());
+    hlog_error("%s opening '%s'", strerror(errno), _d->file.path());
   }
 }

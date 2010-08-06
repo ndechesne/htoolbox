@@ -19,7 +19,40 @@
 #ifndef _LIST_H
 #define _LIST_H
 
+#include <stdio.h>
+
+#include <string>
+
 namespace hbackup {
+
+class List {
+  std::string _path;
+  bool _read_only;
+  FILE* _fd;
+  progress_f _progress;
+  long long _size;
+  long long _previous_offset;
+  long long _offset;
+  static const long long _offset_threadshold = 102400;
+  bool _old_version;
+  const char* _header() { return "# version 5"; }
+  const char* _old_header() { return "# version 4\n"; }
+  const char* _footer() { return "# end"; }
+public:
+  List(const char* path, bool ro) : _path(path), _read_only(ro), _fd(NULL),
+    _progress(NULL), _size(-1), _previous_offset(0), _offset(0),
+    _old_version(false) {}
+  ~List() { if (_fd != NULL) close(); }
+  const char* path() const { return _path.c_str(); }
+  int open(bool quiet_if_not_exists = false);
+  int close();
+  void setProgressCallback(progress_f progress);
+  int flush() const { return fflush(_fd); }
+  ssize_t putLine(const char* line);
+  ssize_t putData(time_t ts, const char* metadata, const char* extra);
+  // Called only once, leave inline
+  ssize_t getLine(char** buffer_p, size_t* cap_p);
+};
 
 class ListReader {
   struct            Private;
@@ -88,25 +121,10 @@ public:
     time_t          time_base   = 1);       // Time base
 };
 
-class ListWriter {
-  struct            Private;
-  Private* const    _d;
+class ListWriter : public List {
 public:
   ListWriter(
-    const Path&     path);
-  ~ListWriter();
-  // Open file
-  int open();
-  // Close file
-  int close();
-  // File path
-  const char* path() const;
-  // Add line to file
-  ssize_t putLine(const char* line);
-  // Add data to file
-  ssize_t putData(time_t ts, const char* metadata, const char* extra);
-  // Flush all data to file
-  int flush();
+    const Path&     path) : List(path, false) {}
   // Search data in list copying contents to new list/journal, marking files
   // removed, and also expiring data on the fly when told to
   // Searches:             Path        Copy
