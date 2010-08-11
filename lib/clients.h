@@ -43,6 +43,7 @@ class Client : public ConfigObject {
   string            _subset_client;
   string            _name;
   string            _subset_server;
+  string            _internal_name;
   string            _host_or_ip;
   Path              _list_file;
   string            _protocol;
@@ -74,7 +75,7 @@ public:
   const char* name() const {
     return _name.c_str();
   }
-  string internalName() const;
+  const string& internalName() const;
   void addOption(const string& value) {
     _options.push_back(Option("", value));
   }

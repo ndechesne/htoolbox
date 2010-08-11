@@ -218,6 +218,11 @@ Client::Client(const string& name, const Attributes& a, const string& subset)
     : _attributes(a) {
   _name = name;
   _subset_server = subset;
+  if (_subset_server.empty()) {
+    _internal_name = _name;
+  } else {
+    _internal_name = _name + "." + _subset_server;
+  }
   _host_or_ip = name;
   _expire = -1;
   _timeout_nowarning = false;
@@ -293,12 +298,8 @@ ConfigObject* Client::configChildFactory(
   return co;
 }
 
-string Client::internalName() const {
-  if (_subset_server.empty()) {
-    return _name;
-  } else {
-    return _name + "." + _subset_server;
-  }
+const string& Client::internalName() const {
+  return _internal_name;
 }
 
 const string Client::getOption(const string& name) const {
