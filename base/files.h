@@ -67,14 +67,15 @@ public:
 
 class Node {
 protected:
-  Path      _path;      // file path
-  char      _type;      // file type ('?' if metadata not available)
-  time_t    _mtime;     // time of last modification
-  long long _size;      // file size, in bytes
-  uid_t     _uid;       // user ID of owner
-  gid_t     _gid;       // group ID of owner
-  mode_t    _mode;      // permissions
-  bool      _parsed;    // more info available using proper type
+  Path        _path;      // file path
+  const char* _basename;  // file cached base name
+  char        _type;      // file type ('?' if metadata not available)
+  time_t      _mtime;     // time of last modification
+  long long   _size;      // file size, in bytes
+  uid_t       _uid;       // user ID of owner
+  gid_t       _gid;       // group ID of owner
+  mode_t      _mode;      // permissions
+  bool        _parsed;    // more info available using proper type
 public:
   // Default constructor
   Node(const Node& g) :
@@ -85,12 +86,16 @@ public:
         _uid(g._uid),
         _gid(g._gid),
         _mode(g._mode),
-        _parsed(false) {}
+        _parsed(false) {
+      _basename = _path.basename();
+    }
   // Constructor for path in the VFS
   Node(Path path) :
-      _path(path),
-      _type('?'),
-      _parsed(false) {}
+        _path(path),
+        _type('?'),
+        _parsed(false) {
+      _basename = _path.basename();
+    }
   // Constructor for given file metadata
   Node(
       const char* path,
@@ -107,7 +112,9 @@ public:
         _uid(uid),
         _gid(gid),
         _mode(mode),
-        _parsed(false) {}
+        _parsed(false) {
+      _basename = _path.basename();
+    }
   virtual ~Node() {}
   // Stat file metadata
   int stat();
@@ -125,7 +132,7 @@ public:
   virtual bool  isValid()     const { return _type != '?';     }
   const char*   path()        const { return _path;            }
   size_t        pathLength()  const { return _path.length();   }
-  const char*   name()        const { return _path.basename(); }
+  const char*   name()        const { return _basename;        }
   char          type()        const { return _type;            }
   time_t        mtime()       const { return _mtime;           }
   long long     size()        const { return _size;            }
