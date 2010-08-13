@@ -91,7 +91,7 @@ int Owner::finishOff(
         if (! _d->partial->open()) {
           if (! _d->original->open()) {
             _d->original->setProgressCallback(_d->progress);
-            if (_d->partial->merge(_d->original, &journal) < 0) {
+            if (ListWriter::merge(*_d->partial, *_d->original, journal) < 0) {
               hlog_error("Merge failed");
               failed = true;
             }

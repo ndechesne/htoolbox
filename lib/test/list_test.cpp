@@ -199,7 +199,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(&dblist_reader, &journal_reader) < 0) {
+  if (ListWriter::merge(merge, dblist_reader, journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
@@ -277,7 +277,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(&dblist_reader, &journal_reader) < 0) {
+  if (ListWriter::merge(merge, dblist_reader, journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
@@ -358,7 +358,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(&dblist_reader, &journal_reader) < 0) {
+  if (ListWriter::merge(merge, dblist_reader, journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
 //     return 0;
   }
@@ -490,7 +490,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(&dblist_reader, &journal_reader) < 0) {
+  if (ListWriter::merge(merge, dblist_reader, journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }
@@ -582,7 +582,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (merge.merge(&dblist_reader, &journal_reader) < 0) {
+  if (ListWriter::merge(merge, dblist_reader, journal_reader) < 0) {
     cerr << "Failed to merge" << endl;
     return 0;
   }

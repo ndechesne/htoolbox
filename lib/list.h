@@ -144,16 +144,18 @@ public:
     ListWriter*     journal     = NULL,   // Journal
     bool*           modified    = NULL);  // To report list modifications
   // Simplified search for merge
-  int copy(
-    ListReader*     list,                 // Original list
+  static int copy(
+    ListWriter&     final,                // Final list
+    ListReader&     list,                 // Original list
     const char*     path);                // Path to search
   // Merge given list and journal into this list
   //    all lists must be open
   // Return code:
   //    -1: error, 0: success, 1: unexpected end of journal
-  int merge(
-    ListReader*     list,
-    ListReader*     journal     = NULL);
+  static int merge(
+    ListWriter&     final,                // Final list
+    ListReader&     list,                 // Original list
+    ListReader&     journal);             // Journal to merge
 };
 
 }

@@ -653,36 +653,37 @@ int ListWriter::search(
 }
 
 int ListWriter::copy(
-    ListReader*     list,
+    ListWriter&     final,
+    ListReader&     list,
     const char*     path_l) {
   bool copy_till_end = path_l[0] == '\0';
   bool stop = false;  // Searched-for path found or exceeded
 
   while (true) {
     // Read list or get last data
-    int rc = list->fetchLine();
+    int rc = list.fetchLine();
 
     // Failed
     if (rc == ListReader::eof) {
       // Unexpected end of list
-      hlog_error("Unexpected end of list '%s'", list->path());
+      hlog_error("Unexpected end of list '%s'", list.path());
       return -1;
     } else
     if (rc == ListReader::failed) {
       // Unexpected end of list
-      hlog_error("Error reading list '%s'", list->path());
+      hlog_error("Error reading list '%s'", list.path());
       return -1;
     }
 
     // Got a path
     if ((rc == ListReader::got_path) && ! copy_till_end) {
       // Compare paths
-      int path_cmp = Path::compare(path_l, list->getPath());
+      int path_cmp = Path::compare(path_l, list.getPath());
       if (path_cmp <= 0) {
         stop = true;
         if (path_cmp == 0) {
           // Looking for path, found
-          list->resetStatus();
+          list.resetStatus();
         }
       }
     }
@@ -691,7 +692,7 @@ int ListWriter::copy(
     if ((rc == ListReader::eor) || stop) {
       if (! copy_till_end) {
         // Write path
-        if (putLine(path_l) < 0) {
+        if (final.putLine(path_l) < 0) {
           // Could not write
           return -1;
         }
@@ -700,26 +701,27 @@ int ListWriter::copy(
     } else
     // Our data is here or after, so let's copy if required
     if (rc == ListReader::got_path) {
-      if (putLine(list->getPath()) < 0) {
+      if (final.putLine(list.getPath()) < 0) {
         // Could not write
         return -1;
       }
     } else
     if (rc == ListReader::got_data) {
-      if (putLine(list->getData()) < 0) {
+      if (final.putLine(list.getData()) < 0) {
         // Could not write
         return -1;
       }
     }
     // Reset status
-    list->resetStatus();
+    list.resetStatus();
   }
   return -1;
 }
 
 int ListWriter::merge(
-    ListReader*     list,
-    ListReader*     journal) {
+    ListWriter&     final,
+    ListReader&     list,
+    ListReader&     journal) {
   int rc_list = 1;
 
   // Line read from journal
@@ -730,13 +732,13 @@ int ListWriter::merge(
 
   // Parse journal
   while (true) {
-    int rc_journal = journal->fetchLine();
+    int rc_journal = journal.fetchLine();
     j_line_no++;
 
     // Failed
     if (rc_journal < 0) {
       if (rc_journal == ListReader::eof) {
-        hlog_warning("Unexpected end of journal '%s'", journal->path());
+        hlog_warning("Unexpected end of journal '%s'", journal.path());
         rc_journal = 0;
       } else {
         hlog_error("Reading journal, at line %d", j_line_no);
@@ -747,7 +749,7 @@ int ListWriter::merge(
     // End of file
     if (rc_journal == 0) {
       if (rc_list > 0) {
-        rc_list = copy(list, "");
+        rc_list = copy(final, list, "");
         if (rc_list < 0) {
           // Error copying list
           hlog_error("End of list copy failed");
@@ -761,18 +763,18 @@ int ListWriter::merge(
     if (rc_journal == ListReader::got_path) {
       // Check path order
       if (path.length() != 0) {
-        if (path.compare(journal->getPath()) > 0) {
+        if (path.compare(journal.getPath()) > 0) {
           // Cannot go back
           hlog_error("Journal, line %d: path out of order: '%s' > '%s'",
-            j_line_no, path.c_str(), journal->getPath());
+            j_line_no, path.c_str(), journal.getPath());
           return -1;
         }
       }
       // Copy new path
-      path = journal->getPath();
+      path = journal.getPath();
       // Search/copy list and append path if needed
       if (rc_list >= 0) {
-        rc_list = copy(list, path);
+        rc_list = copy(final, list, path);
         if (rc_list < 0) {
           // Error copying list
           hlog_error("Path search failed");
@@ -791,14 +793,14 @@ int ListWriter::merge(
       }
 
       // Write
-      if (putLine(journal->getData()) < 0) {
+      if (final.putLine(journal.getData()) < 0) {
         // Could not write
         hlog_error("Journal copy failed");
         return -1;
       }
     }
     // Reset status to get next data
-    journal->resetStatus();
+    journal.resetStatus();
   }
   return 0;
 }
