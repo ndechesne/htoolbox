@@ -196,8 +196,10 @@ ssize_t List::putData(const char* ts_metadata_extra) {
   time_t ts = 0;
   if (_type != journal_write) {
     char type;
-    if ((decodeType(ts_metadata_extra, &ts, &type) < 0) || (type != '-')) {
+    if ((decodeType(ts_metadata_extra, &type) < 0) || (type != '-')) {
       ts = 0;
+    } else {
+      decodeTimeStamp(ts_metadata_extra, &ts);
     }
     // So it _is_ a removed mark
     if (ts != 0) {
@@ -475,15 +477,25 @@ int List::decodeLine(
   return 0;
 }
 
+int List::decodeTimeStamp(
+    const char*     line,
+    time_t*         ts) {
+  if (sscanf(line, "\t%ld\t", ts) != 1) {
+    *ts = 0;
+    return -1;
+  }
+  return 0;
+}
+
 int List::decodeType(
     const char*     line,
-    time_t*         ts,
     char*           type) {
-  if (sscanf(line, "\t%ld\t%c", ts, type) != 2) {
-    *ts = 0;
+  const char* pos = strchr(&line[1], '\t');
+  if (pos == NULL) {
     *type = '?';
     return -1;
   }
+  *type = *++pos;
   return 0;
 }
 
@@ -678,8 +690,6 @@ int ListWriter::search(
         }
       } else
       if (rc == ListReader::got_data) {
-        time_t data_ts = 0;
-        char data_type = '.';
         // Got data
         if (lines_below_expired) {
           // Always obsolete
@@ -691,7 +701,8 @@ int ListWriter::search(
         } else
         if (expire > 0) {
           // Check for expiry
-          if (List::decodeType(list->getData(), &data_ts, &data_type) == 0) {
+          time_t data_ts = 0;
+          if (List::decodeTimeStamp(list->getData(), &data_ts) == 0) {
             // First line that expired => last that we keep
             if (data_ts <= expire) {
               lines_below_expired = true;
@@ -702,9 +713,8 @@ int ListWriter::search(
           // Mark removed if path gone
           if (remove > 0) {
             // Find type
-            if ((data_type == '?') ||
-                ( (data_type == '.') &&
-                  (decodeType(list->getData(), &data_ts, &data_type) < 0))) {
+            char data_type;
+            if (decodeType(list->getData(), &data_type) < 0) {
               return -1;
             }
             // Not marked removed yet

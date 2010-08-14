@@ -78,10 +78,13 @@ public:
     time_t*         ts,             // Line timestamp
     const char      path[] = NULL,  // File path to store in metadata
     Node**          node   = NULL); // File metadata
+  // Decode time stamp from line
+  static int decodeTimeStamp(
+    const char*     line,           // Line to decode from
+    time_t*         ts);            // Time stamp
   // Decode type from line
   static int decodeType(
-    const char*     line,           // Line to decode type from
-    time_t*         ts,             // Line timestamp
+    const char*     line,           // Line to decode from
     char*           type);          // Type as one letter
 };
 
