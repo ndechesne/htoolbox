@@ -12220,7 +12220,7 @@ hbackup.log-6:
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileoth
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileutd.h
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/testfile~
-2009-08-07 06:05:04 INFO  list.cpp:734 D       test1/testfile
+2009-08-07 06:05:04 INFO  list.cpp:727 D       test1/testfile
 2009-08-07 06:05:04 INFO  clients.cpp:435 Backing up path 'test2'
 2009-08-07 06:05:04 INFO  paths.cpp:167 Mf zr   test2/testfile2
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test2/testfile~

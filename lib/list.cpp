@@ -264,14 +264,7 @@ ssize_t List::putData(time_t ts, const char* metadata, const char* extra) {
 }
 
 ssize_t List::getLine(char** buffer_p, size_t* cap_p) {
-  if (_fd == NULL) return -1;
-  if (_type != list_read) return -1;
-  char delim;
-  if (! _old_version) {
-    delim = '\0';
-  } else {
-    delim = '\n';
-  }
+  char delim = _old_version ? '\n' : '\0';
   ssize_t rc = getdelim(buffer_p, cap_p, delim, _fd);
   if (rc <= 0) {
     if (feof(_fd)) {
