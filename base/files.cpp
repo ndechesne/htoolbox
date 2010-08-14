@@ -124,53 +124,40 @@ const Path& Path::noTrailingSlashes() {
 
 int Path::compare(const char* s1, const char* s2, ssize_t length) {
   while (true) {
-    if (length == 0) {
+    if (length-- == 0) {
       return 0;
     }
-    if (*s1 == '\0') {
-      if (*s2 == '\0') {
+    if (*s1 == *s2) {
+      if (*s1 != '\0') {
+        s1++;
+        s2++;
+        continue;
+      } else {
         return 0;
+      }
+    }
+    if (*s1 == '\0') {
+      return -1;
+    } else
+    if (*s2 == '\0') {
+      return 1;
+    } else
+    if (*s1 == '/') {
+      // For TAB and LF
+      if ((*s2 == '\t') || (*s2 == '\n')) {
+        return 1;
       } else {
         return -1;
       }
-    } else {
-      if (*s2 == '\0') {
-        return 1;
+    } else
+    if (*s2 == '/') {
+      if ((*s1 == '\t') || (*s1 == '\n')) {
+        return -1;
       } else {
-        if (*s1 == '/') {
-          if (*s2 == '/') {
-            s1++;
-            s2++;
-          } else {
-	    // For TAB and LF
-            if ((*s2 == '\t') || (*s2 == '\n')) {
-              return 1;
-            } else {
-              return -1;
-            }
-          }
-        } else {
-          if (*s2 == '/') {
-            if ((*s1 == '\t') || (*s1 == '\n')) {
-              return -1;
-            } else {
-              return 1;
-            }
-          } else {
-            if (*s1 < *s2) {
-              return -1;
-            } else if (*s1 > *s2) {
-              return 1;
-            } else {
-              s1++;
-              s2++;
-            }
-          }
-        }
+        return 1;
       }
-    }
-    if (length > 0) {
-      length--;
+    } else {
+      return *s1 < *s2 ? -1 : 1;
     }
   }
 }
