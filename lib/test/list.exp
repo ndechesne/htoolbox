@@ -81,7 +81,7 @@ Register:
 [ 1] file_new                       f       13 750 59ca0efa9f5633cb0371bbc0355478d8
 [ 1] link                           l        8 777 testfile
 [ 1] path                           d        0 755
-Date: 4
+Date: 5
 [ 5] CR/x                           l        8 777 testfile
 [ 5] CR\r
                             l        8 777 testfile

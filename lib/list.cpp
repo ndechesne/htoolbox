@@ -195,11 +195,8 @@ ssize_t List::putData(const char* ts_metadata_extra) {
   ssize_t line_size = 0;
   time_t ts = 0;
   if (_type != journal_write) {
-    const char* second_tab = strchr(&ts_metadata_extra[1], '\t');
-    if ((second_tab == NULL) ||
-        (second_tab[1] != '-') ||
-        (sscanf(ts_metadata_extra, "%ld", &ts) != 1)) {
-      // Make sure sscanf did not store anything
+    char type;
+    if ((decodeType(ts_metadata_extra, &ts, &type) < 0) || (type != '-')) {
       ts = 0;
     }
     // So it _is_ a removed mark
@@ -411,7 +408,7 @@ bool ListReader::end() const {
   return (_d->status == eor) || (_d->status == eof);
 }
 
-size_t ListReader::encode(
+size_t List::encode(
     const Node&     node,
     char*           line,
     size_t*         sep_offset_p) {
@@ -424,7 +421,7 @@ size_t ListReader::encode(
   return end_offset;
 }
 
-int ListReader::decodeLine(
+int List::decodeLine(
     const char*     line,
     time_t*         ts,
     const char*     path,
@@ -478,6 +475,18 @@ int ListReader::decodeLine(
   return 0;
 }
 
+int List::decodeType(
+    const char*     line,
+    time_t*         ts,
+    char*           type) {
+  if (sscanf(line, "\t%ld\t%c", ts, type) != 2) {
+    *ts = 0;
+    *type = '?';
+    return -1;
+  }
+  return 0;
+}
+
 void ListReader::setProgressCallback(progress_f progress) {
   _d->file.setProgressCallback(progress);
 }
@@ -514,7 +523,7 @@ int ListReader::fetchData(
     if (rc == ListReader::got_data) {
       time_t ts;
       // Get all arguments from line
-      ListReader::decodeLine(getData(), &ts, getPath(), node);
+      List::decodeLine(getData(), &ts, getPath(), node);
     }
     resetStatus();
   } while (rc != ListReader::got_data);
@@ -596,7 +605,7 @@ int ListReader::getEntry(
     if (! get_path) {
       time_t ts;
       // Get all arguments from line
-      ListReader::decodeLine(getData(), &ts, getPath(), node);
+      List::decodeLine(getData(), &ts, getPath(), node);
       if (timestamp != NULL) {
         *timestamp = ts;
       }
@@ -615,16 +624,15 @@ int ListWriter::search(
     const char*     path_l,
     time_t          expire,
     time_t          remove,
-    ListWriter*     new_list,
     ListWriter*     journal,
     bool*           modified) {
   int rc = 0;
 
   // Need to know whether line of data is active or not
-  bool active_data_line = true;   // First line of data for path
-  bool stop             = false;  // Searched-for path found or exceeded
-  bool path_found       = false;  // Searched-for path found
-  bool path_new         = false;  // Current path was found during this search
+  bool stop                = false; // Searched-for path found or exceeded
+  bool path_found          = false; // Searched-for path found
+  bool mark_path_gone      = false; // Current path has gone => mark removed
+  bool lines_below_expired = false; // Found last not-expired line
 
   while (true) {
     // Read list or get last data
@@ -645,7 +653,8 @@ int ListWriter::search(
     // Not end of file
     if (rc != ListReader::eor) {
       if (rc == ListReader::got_path) {
-        path_new = true;
+        lines_below_expired = false;
+        mark_path_gone = true;
         int path_cmp;
         // Got a path
         if (path_l == NULL) {
@@ -667,88 +676,84 @@ int ListWriter::search(
             path_found = true;
           }
         }
-        // Next line of data is active
-        active_data_line = true;
       } else
       if (rc == ListReader::got_data) {
+        time_t data_ts = 0;
+        char data_type = '.';
         // Got data
-        if (new_list != NULL) {
-          if (active_data_line) {
-            // Mark removed
-            if ((remove > 0) && path_new) {
-              // Find type
-              const char* pos = strchr(&list->getData()[2], '\t');
-              if (pos == NULL) {
-                return -1;
-              }
-              ++pos;
-              // Not marked removed yet
-              if (*pos != '-') {
-                time_t ts = time(NULL);
-                if (new_list->putData(ts, "-", NULL) < 0) {
-                  // Could not write
-                  return -1;
-                }
-                if (journal != NULL) {
-                  journal->putPath(list->getPath());
-                  journal->putData(ts, "-", NULL);
-                }
-                if (modified != NULL) {
-                  *modified = true;
-                }
-                hlog_info("%-8c%s", 'D', list->getPath());
-              }
-            }
-          } else {
-            // Check for expiry
-            if (expire >= 0) {
-              if (expire != 0) {
-                // Check timestamp for expiration
-                time_t ts = 0;
-                if (! ListReader::decodeLine(list->getData(), &ts) && (ts < expire)) {
-                  list->resetStatus();
-                  continue;
-                }
-              } else {
-                // Always obsolete
-                list->resetStatus();
-                continue;
-              }
+        if (lines_below_expired) {
+          // Always obsolete
+          list->resetStatus();
+          continue;
+        } else
+        if (expire == 0) {
+          lines_below_expired = true;
+        } else
+        if (expire > 0) {
+          // Check for expiry
+          if (List::decodeType(list->getData(), &data_ts, &data_type) == 0) {
+            // First line that expired => last that we keep
+            if (data_ts <= expire) {
+              lines_below_expired = true;
             }
           }
-        } // list != NULL
-        // Next line of data is not active
-        active_data_line = false;
+        }
+        if (mark_path_gone) {
+          // Mark removed if path gone
+          if (remove > 0) {
+            // Find type
+            if ((data_type == '?') ||
+                ( (data_type == '.') &&
+                  (decodeType(list->getData(), &data_ts, &data_type) < 0))) {
+              return -1;
+            }
+            // Not marked removed yet
+            if (data_type != '-') {
+              time_t ts = time(NULL);
+              if (putData(ts, "-", NULL) < 0) {
+                // Could not write
+                return -1;
+              }
+              if (journal != NULL) {
+                journal->putPath(list->getPath());
+                journal->putData(ts, "-", NULL);
+              }
+              if (modified != NULL) {
+                *modified = true;
+              }
+              hlog_info("%-8c%s", 'D', list->getPath());
+            }
+          }
+          mark_path_gone = false;
+        }
       }
     }
 
     // New data, add to merge
-    if (new_list != NULL) {
+    if ((rc == ListReader::eor) || stop) {
       // Searched path found or status is eof/empty
-      if ((rc == ListReader::eor) || stop) {
-        if (path_found) {
-          list->resetStatus();
+      if (path_found) {
+        list->resetStatus();
+      }
+      if ((path_l != NULL) && (path_l[0] != '\0')) {
+        // Write path
+        if (putPath(path_l) < 0) {
+          // Could not write
+          return -1;
         }
-        if ((path_l != NULL) && (path_l[0] != '\0')) {
-          // Write path
-          if (new_list->putPath(path_l) < 0) {
-            // Could not write
-            return -1;
-          }
-        }
-      } else
+      }
+    } else
+    if (rc == ListReader::got_path) {
       // Our data is here or after, so let's copy if required
-      if (rc == ListReader::got_path) {
-        if (new_list->putPath(list->getPath()) < 0) {
-          // Could not write
-          return -1;
-        }
-      } else
-      if (rc == ListReader::got_data) {
-        if (new_list->putData(list->getData()) < 0) {
-          // Could not write
-          return -1;
-        }
+      if (putPath(list->getPath()) < 0) {
+        // Could not write
+        return -1;
+      }
+    } else
+    if (rc == ListReader::got_data) {
+      if (putData(list->getData()) < 0) {
+        // Could not write
+        return -1;
       }
     }
 

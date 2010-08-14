@@ -67,6 +67,22 @@ public:
   ssize_t putData(const char* ts_metadata_extra); // pre-encoded line
   ssize_t putData(time_t ts, const char* metadata, const char* extra);
   ssize_t getLine(char** buffer_p, size_t* cap_p);
+  // Encode line from metadata
+  static size_t encode(
+    const Node&     node,
+    char*           line,
+    size_t*         sep_offset_p);
+  // Decode metadata from line
+  static int decodeLine(
+    const char*     line,           // Line to decode
+    time_t*         ts,             // Line timestamp
+    const char      path[] = NULL,  // File path to store in metadata
+    Node**          node   = NULL); // File metadata
+  // Decode type from line
+  static int decodeType(
+    const char*     line,           // Line to decode type from
+    time_t*         ts,             // Line timestamp
+    char*           type);          // Type as one letter
 };
 
 class ListReader {
@@ -103,17 +119,6 @@ public:
   void resetStatus();
   // End of list reached
   bool end() const;
-  // Encode line from metadata
-  static size_t encode(
-    const Node&     node,
-    char*           line,
-    size_t*         sep_offset_p);
-  // Decode metadata from line
-  static int decodeLine(
-    const char      line[],                 // Line to decode
-    time_t*         ts,                     // Line timestamp
-    const char      path[]      = NULL,     // File path to store in metadata
-    Node**          node        = NULL);    // File metadata
   const char* fetchData();
   int fetchData(
     Node**          node);
@@ -153,27 +158,26 @@ public:
   //    -1: no expiration, 0: only keep last, otherwise use given date
   // Return code:
   //    -1: error, 0: end of file, 1: exceeded, 2: found
-  static int search(
-    ListReader*     list,
-    const char      path[]      = NULL,   // Path to search
-    time_t          expire      = -1,     // Expiration date
-    time_t          remove      = 0,      // Mark records removed at date
-    ListWriter*     new_list    = NULL,   // Merge list
-    ListWriter*     journal     = NULL,   // Journal
-    bool*           modified    = NULL);  // To report list modifications
+  int search(
+    ListReader*     list,             // List to read from
+    const char*     path,             // Path to search
+    time_t          expire,           // Expiration date
+    time_t          remove,           // Mark records removed at date
+    ListWriter*     journal = NULL,   // Journal
+    bool*           modified = NULL); // To report list modifications
   // Simplified search for merge
   static int copy(
-    ListWriter&     final,                // Final list
-    ListReader&     list,                 // Original list
-    const char*     path);                // Path to search
+    ListWriter&     final,            // Final list
+    ListReader&     list,             // Original list
+    const char*     path);            // Path to search
   // Merge given list and journal into this list
   //    all lists must be open
   // Return code:
   //    -1: error, 0: success, 1: unexpected end of journal
   static int merge(
-    ListWriter&     final,                // Final list
-    ListReader&     list,                 // Original list
-    ListReader&     journal);             // Journal to merge
+    ListWriter&     final,            // Final list
+    ListReader&     list,             // Original list
+    ListReader&     journal);         // Journal to merge
 };
 
 }

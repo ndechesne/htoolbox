@@ -857,7 +857,8 @@ int main(void) {
 
   // Next test
   my_time++;
-  cout << endl << "Expiry delay: 18, date: " << my_time << endl;
+  time_t expire = 17;
+  cout << endl << "Expiry delay: " << expire << ", date: " << my_time << endl;
   db.open();
 
   sys_rc = system("touch test1/testfile");
@@ -865,7 +866,7 @@ int main(void) {
   // Make removal complain
   sys_rc = system("rm -r test_db/.data/285b35198a5e188b3a0df3ed33f93a26-0");
   path->show();
-  db.openClient("myClient", 18 * 24 * 3600);
+  db.openClient("myClient", expire * 24 * 3600);
   if (! path->parse(db, "test1", "host")) {
     cout << "Parsed " << path->nodes() << " file(s)\n";
   }

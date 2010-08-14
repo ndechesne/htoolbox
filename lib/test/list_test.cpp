@@ -41,7 +41,7 @@ public:
     if (node != NULL) {
       char line[64];
       size_t sep_offset;
-      ListReader::encode(*node, line, &sep_offset);
+      List::encode(*node, line, &sep_offset);
       const char* extra = NULL;
       if (node->type() == 'f') {
         extra = static_cast<const File*>(node)->checksum();
@@ -94,7 +94,7 @@ static void showList(ListReader& list) {
         } else {
           time_t ts;
           Node*  node;
-          ListReader::decodeLine(list.getData(), &ts, path, &node);
+          List::decodeLine(list.getData(), &ts, path, &node);
           showLine(ts, path, node);
           list.resetStatus();
         }
@@ -381,7 +381,9 @@ int main(void) {
   list<string>::iterator i;
   list<string>::iterator j;
 
-  cout << "Date: 4" << endl;
+  time_t remove;
+  remove = 5;
+  cout << "Date: " << remove << endl;
   if (dblist_reader.open()) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
@@ -393,7 +395,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (ListWriter::search(&dblist_reader, "", 4, 0, &merge) < 0) {
+  if (merge.search(&dblist_reader, "", remove, 0) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -403,7 +405,8 @@ int main(void) {
   showList(merge_reader);
 
   // All but last
-  cout << "Date: 0" << endl;
+  remove = 0;
+  cout << "Date: " << remove << endl;
   if (dblist_reader.open()) {
     cerr << strerror(errno) << " opening list!" << endl;
     return 0;
@@ -415,7 +418,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (ListWriter::search(&dblist_reader, "", 0, 0, &merge) < 0) {
+  if (merge.search(&dblist_reader, "", remove, 0) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }
@@ -440,7 +443,7 @@ int main(void) {
     cerr << "Failed to open merge" << endl;
     return 0;
   }
-  if (ListWriter::search(&dblist_reader, "", -1, 0, &merge) < 0) {
+  if (merge.search(&dblist_reader, "", -1, 0) < 0) {
     cerr << "Failed to copy: " << strerror(errno) << endl;
     return 0;
   }

@@ -12013,7 +12013,7 @@ hbackup.log-1:
 2009-08-07 06:05:04 INFO  clients.cpp:435 Backing up path 'test2'
 2009-08-07 06:05:04 INFO  paths.cpp:167 Rf ~    test2/testfile2
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test2/testfile~
-2009-08-07 06:05:04 VERB  owner.cpp:361 Register modified for 'myhost'
+2009-08-07 06:05:04 VERB  owner.cpp:360 Register modified for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'myhost'
 2009-08-07 06:05:04 INFO  clients.cpp:367 Trying client 'newClient' using protocol 'ssh'
 2009-08-07 06:05:04 INFO  clients.cpp:420 Backing up client 'newClient'
@@ -12164,7 +12164,7 @@ hbackup.log-6:
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'myClient'
 2009-08-07 06:05:04 INFO  clients.cpp:435 Backing up path '/home/User/test'
 2009-08-07 06:05:04 INFO  paths.cpp:167 Cf f    /home/User/test/dir/file3.txt
-2009-08-07 06:05:04 VERB  owner.cpp:361 Register modified for 'myClient'
+2009-08-07 06:05:04 VERB  owner.cpp:360 Register modified for 'myClient'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'myClient'
 2009-08-07 06:05:04 INFO  clients.cpp:367 Trying client 'myClient.xp' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:420 Backing up client 'myClient.xp'
@@ -12213,11 +12213,11 @@ hbackup.log-6:
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileoth
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileutd.h
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/testfile~
-2009-08-07 06:05:04 INFO  list.cpp:699 D       test1/testfile
+2009-08-07 06:05:04 INFO  list.cpp:724 D       test1/testfile
 2009-08-07 06:05:04 INFO  clients.cpp:435 Backing up path 'test2'
 2009-08-07 06:05:04 INFO  paths.cpp:167 Mf zr   test2/testfile2
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test2/testfile~
-2009-08-07 06:05:04 VERB  owner.cpp:361 Register modified for 'myhost'
+2009-08-07 06:05:04 VERB  owner.cpp:360 Register modified for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'myhost'
 2009-08-07 06:05:04 INFO  clients.cpp:367 Trying client 'newClient' using protocol 'ssh'
 2009-08-07 06:05:04 INFO  clients.cpp:420 Backing up client 'newClient'

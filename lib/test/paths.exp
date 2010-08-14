@@ -8197,7 +8197,7 @@ Error: Failed to read list
 [22] /home/User/testdir/biblio.odb  [rm]
 [22] /home/User/testdir/evolocal.odb [rm]
 
-Expiry delay: 18, date: 25
+Expiry delay: 17, date: 25
 Database open in read/write mode
 Path: /home/User
  -> No error if same file fails copy again
@@ -8343,16 +8343,49 @@ myClient's list:
 [ 4] /home/User/cvs/CVS             d        0 755
 [ 4] /home/User/cvs/CVS/Entries     f      177 644 f899d6f61138a37484c8a2294656e903-0
 [ 4] /home/User/cvs/CVS/Root        f       16 644 b90f8fa56ea1d39881d4a199c7a81d35-0
+[12] /home/User/cvs/CVS/Whatever    [rm]
+[ 4] /home/User/cvs/CVS/Whatever    f       17 644 9283e2c51868272850bd2d89b63c58e8-0
+[12] /home/User/cvs/CVS/Wherever    [rm]
+[ 4] /home/User/cvs/CVS/Wherever    d        0 755
+[12] /home/User/cvs/CVS/Wherever/Whichever [rm]
+[ 4] /home/User/cvs/CVS/Wherever/Whichever f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [12] /home/User/cvs/big_file        [rm]
 [ 7] /home/User/cvs/big_file        f   512000 644 816df6f64deba63b029ca19d880ee10a-0
 [ 4] /home/User/cvs/dir space       d        0 755
 [ 4] /home/User/cvs/dir space/CVS   d        0 755
 [ 4] /home/User/cvs/dir space/CVS/Entries f       45 644 662ae0524981c10b4736be799fc8650a-0
 [ 4] /home/User/cvs/dir space/CVS/Root f       16 644 328b42839732650180b213aadebe494d-0
+[12] /home/User/cvs/dir space/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dir space/CVS/Whatever f       17 644 947c302ec365383856310621ac3fbf2f-0
+[12] /home/User/cvs/dir space/file other [rm]
+[ 4] /home/User/cvs/dir space/file other f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 4] /home/User/cvs/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 4] /home/User/cvs/dirbad          d        0 755
+[12] /home/User/cvs/dirbad/fileoth  [rm]
+[ 4] /home/User/cvs/dirbad/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[12] /home/User/cvs/dirbad/fileutd  [rm]
+[ 4] /home/User/cvs/dirbad/fileutd  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[12] /home/User/cvs/diroth          [rm]
+[ 4] /home/User/cvs/diroth          d        0 755
+[15] /home/User/cvs/dirutd          [rm]
+[ 4] /home/User/cvs/dirutd          d        0 755
+[15] /home/User/cvs/dirutd/CVS      [rm]
+[ 4] /home/User/cvs/dirutd/CVS      d        0 755
+[15] /home/User/cvs/dirutd/CVS/Entries [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Entries f       42 644 5252f242d27b8c2c9fdbdcbb33545d07-0
+[15] /home/User/cvs/dirutd/CVS/Root [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Root f       10 644 eb75fb33b2019ef3c840eb5ccdc2e795-0
+[12] /home/User/cvs/dirutd/CVS/Whatever [rm]
+[ 4] /home/User/cvs/dirutd/CVS/Whatever f       11 644 caecaacc7fdee8a7667d4f4f315858a9-0
+[12] /home/User/cvs/dirutd/fileoth  [rm]
+[ 4] /home/User/cvs/dirutd/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[15] /home/User/cvs/dirutd/fileutd  [rm]
+[ 4] /home/User/cvs/dirutd/fileutd  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 4] /home/User/cvs/filemod.o       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [19] /home/User/cvs/filenew.c       f        5 644 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+[ 4] /home/User/cvs/filenew.c       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[12] /home/User/cvs/fileoth         [rm]
+[ 4] /home/User/cvs/fileoth         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 4] /home/User/cvs/fileutd.h       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -8378,23 +8411,111 @@ myClient's list:
 [ 1] /home/User/strange3TAB	LF
 CR\r
  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
-[ 8] /home/User/subdir/testfile     [rm]
-[ 7] /home/User/subdir/testfile     f       12 644 285b35198a5e188b3a0df3ed33f93a26-0
+[ 9] /home/User/subdir              [rm]
+[ 4] /home/User/subdir              d        0 755
+[ 9] /home/User/subdir/testfile1    [rm]
+[ 4] /home/User/subdir/testfile1    f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 9] /home/User/subdir/testfile2    [rm]
+[ 4] /home/User/subdir/testfile2    f       12 644 285b35198a5e188b3a0df3ed33f93a26-0
 [ 1] /home/User/subdir-file         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 4] /home/User/subdirfile          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/svn                 d        0 755
 [ 1] /home/User/svn/.svn            d        0 755
+[14] /home/User/svn/.svn/all-wcprops [rm]
+[ 1] /home/User/svn/.svn/all-wcprops f      340 444 b43487abe52b0721fa53957eef4917e7-0
+[14] /home/User/svn/.svn/dir-prop-base [rm]
+[ 1] /home/User/svn/.svn/dir-prop-base f       33 444 31f8dac8a89739e4030e8e0e9ea219a5-0
 [ 1] /home/User/svn/.svn/entries    f      602 444 5173c1e86196c05c124452a401e92a22-0
+[14] /home/User/svn/.svn/prop-base  [rm]
+[ 1] /home/User/svn/.svn/prop-base  d        0 755
+[14] /home/User/svn/.svn/props      [rm]
+[ 1] /home/User/svn/.svn/props      d        0 755
+[14] /home/User/svn/.svn/text-base  [rm]
+[ 1] /home/User/svn/.svn/text-base  d        0 755
+[14] /home/User/svn/.svn/text-base/filemod.o.svn-base [rm]
+[ 1] /home/User/svn/.svn/text-base/filemod.o.svn-base f        0 444 d41d8cd98f00b204e9800998ecf8427e-0
+[14] /home/User/svn/.svn/text-base/fileutd.h.svn-base [rm]
+[ 1] /home/User/svn/.svn/text-base/fileutd.h.svn-base f        0 444 d41d8cd98f00b204e9800998ecf8427e-0
+[14] /home/User/svn/.svn/tmp        [rm]
+[ 1] /home/User/svn/.svn/tmp        d        0 755
+[14] /home/User/svn/.svn/tmp/filemod.o.tmp [rm]
+[ 1] /home/User/svn/.svn/tmp/filemod.o.tmp f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[14] /home/User/svn/.svn/tmp/fileutd.h.tmp [rm]
+[ 1] /home/User/svn/.svn/tmp/fileutd.h.tmp f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[14] /home/User/svn/.svn/tmp/prop-base [rm]
+[ 1] /home/User/svn/.svn/tmp/prop-base d        0 755
+[14] /home/User/svn/.svn/tmp/props  [rm]
+[ 1] /home/User/svn/.svn/tmp/props  d        0 755
+[14] /home/User/svn/.svn/tmp/text-base [rm]
+[ 1] /home/User/svn/.svn/tmp/text-base d        0 755
 [ 1] /home/User/svn/dir space       d        0 755
 [ 1] /home/User/svn/dir space/.svn  d        0 755
+[14] /home/User/svn/dir space/.svn/all-wcprops [rm]
+[ 1] /home/User/svn/dir space/.svn/all-wcprops f      112 444 512047d1b2605a59dabf850370d41370-0
 [ 1] /home/User/svn/dir space/.svn/entries f      278 444 f2b4c9d3f0830dea53972d208979feb0-0
+[14] /home/User/svn/dir space/.svn/prop-base [rm]
+[ 1] /home/User/svn/dir space/.svn/prop-base d        0 755
+[14] /home/User/svn/dir space/.svn/props [rm]
+[ 1] /home/User/svn/dir space/.svn/props d        0 755
+[14] /home/User/svn/dir space/.svn/text-base [rm]
+[ 1] /home/User/svn/dir space/.svn/text-base d        0 755
+[14] /home/User/svn/dir space/.svn/tmp [rm]
+[ 1] /home/User/svn/dir space/.svn/tmp d        0 755
+[14] /home/User/svn/dir space/.svn/tmp/prop-base [rm]
+[ 1] /home/User/svn/dir space/.svn/tmp/prop-base d        0 755
+[14] /home/User/svn/dir space/.svn/tmp/props [rm]
+[ 1] /home/User/svn/dir space/.svn/tmp/props d        0 755
+[14] /home/User/svn/dir space/.svn/tmp/text-base [rm]
+[ 1] /home/User/svn/dir space/.svn/tmp/text-base d        0 755
 [ 1] /home/User/svn/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/svn/dirbad          d        0 755
+[14] /home/User/svn/dirbad/fileoth  [rm]
+[ 1] /home/User/svn/dirbad/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[14] /home/User/svn/dirbad/fileutd  [rm]
+[ 1] /home/User/svn/dirbad/fileutd  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[14] /home/User/svn/diroth          [rm]
+[ 1] /home/User/svn/diroth          d        0 755
+[16] /home/User/svn/dirutd          [rm]
+[ 1] /home/User/svn/dirutd          d        0 755
+[16] /home/User/svn/dirutd/.svn     [rm]
+[ 1] /home/User/svn/dirutd/.svn     d        0 755
+[14] /home/User/svn/dirutd/.svn/all-wcprops [rm]
+[ 1] /home/User/svn/dirutd/.svn/all-wcprops f      230 444 8c24b7e5642e642b5edb12400de15d03-0
+[16] /home/User/svn/dirutd/.svn/entries [rm]
+[ 1] /home/User/svn/dirutd/.svn/entries f      388 444 33b426a9cdc8a98729e5dbe6d5feb619-0
+[14] /home/User/svn/dirutd/.svn/prop-base [rm]
+[ 1] /home/User/svn/dirutd/.svn/prop-base d        0 755
+[14] /home/User/svn/dirutd/.svn/props [rm]
+[ 1] /home/User/svn/dirutd/.svn/props d        0 755
+[14] /home/User/svn/dirutd/.svn/text-base [rm]
+[ 1] /home/User/svn/dirutd/.svn/text-base d        0 755
+[14] /home/User/svn/dirutd/.svn/text-base/fileutd.svn-base [rm]
+[ 1] /home/User/svn/dirutd/.svn/text-base/fileutd.svn-base f        0 444 d41d8cd98f00b204e9800998ecf8427e-0
+[14] /home/User/svn/dirutd/.svn/tmp [rm]
+[ 1] /home/User/svn/dirutd/.svn/tmp d        0 755
+[14] /home/User/svn/dirutd/.svn/tmp/fileutd.tmp [rm]
+[ 1] /home/User/svn/dirutd/.svn/tmp/fileutd.tmp f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[14] /home/User/svn/dirutd/.svn/tmp/prop-base [rm]
+[ 1] /home/User/svn/dirutd/.svn/tmp/prop-base d        0 755
+[14] /home/User/svn/dirutd/.svn/tmp/props [rm]
+[ 1] /home/User/svn/dirutd/.svn/tmp/props d        0 755
+[14] /home/User/svn/dirutd/.svn/tmp/text-base [rm]
+[ 1] /home/User/svn/dirutd/.svn/tmp/text-base d        0 755
+[14] /home/User/svn/dirutd/fileoth  [rm]
+[ 1] /home/User/svn/dirutd/fileoth  f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[16] /home/User/svn/dirutd/fileutd  [rm]
+[ 1] /home/User/svn/dirutd/fileutd  f        2 644 26ab0db90d72e28ad0ba1e22ee510510-0
 [ 1] /home/User/svn/filemod.o       f        2 644 b026324c6904b2a9cb4b88d6d61c81d1-0
 [ 1] /home/User/svn/filenew.c       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[14] /home/User/svn/fileoth         [rm]
+[ 1] /home/User/svn/fileoth         f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[14] /home/User/svn/fileutd.h       [rm]
+[ 1] /home/User/svn/fileutd.h       f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [22] /home/User/test space          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/test space          f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [22] /home/User/testdir             [rm]
 [18] /home/User/testdir             d        0 770
+[ 1] /home/User/testdir             d        0 755
 [22] /home/User/testdir/biblio      [rm]
 [20] /home/User/testdir/biblio      d        0 755
 [22] /home/User/testdir/biblio/biblio.dbf [rm]
@@ -8407,10 +8528,14 @@ CR\r
 [20] /home/User/testdir/evolocal.odb f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [25] /home/User/testfile            f       13 000 
 [18] /home/User/testfile            f       13 660 59ca0efa9f5633cb0371bbc0355478d8-0
+[ 1] /home/User/testfile            f       13 750 59ca0efa9f5633cb0371bbc0355478d8-0
 [ 1] /home/User/testfile~           f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [11] /home/User/testlink            [rm]
 [10] /home/User/testlink            l        8 777 testnull
+[ 1] /home/User/testlink            l        8 777 testfile
 [19] /home/User/testpipe            p        0 600
+[17] /home/User/testpipe            [rm]
+[ 1] /home/User/testpipe            p        0 600
 
 hisClient's journal:
 [22] /home/User/testdir             d        0 755

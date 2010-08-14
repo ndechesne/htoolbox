@@ -343,9 +343,8 @@ int Owner::close(
     _d->original->setProgressCallback(_d->progress);
     if (! aborting()) {
       // Finish work (if not aborting, remove items at end of list)
-      if (ListWriter::search(_d->original, "",
-          _d->expiration, abort ? 0 : time(NULL), _d->partial, _d->journal,
-          &_d->modified) < 0) {
+      if (_d->partial->search(_d->original, "", _d->expiration,
+          abort ? 0 : time(NULL), _d->journal, &_d->modified) < 0) {
         failed = true;
       }
       _d->journal->flush();
@@ -402,8 +401,8 @@ int Owner::send(
     Database::OpData&   op,
     Missing&            missing) {
   // Search path and get current metadata
-  int rc = ListWriter::search(_d->original, op.path, _d->expiration, time(NULL),
-    _d->partial, _d->journal, &_d->modified);
+  int rc = _d->partial->search(_d->original, op.path, _d->expiration,
+    time(NULL), _d->journal, &_d->modified);
   if (rc < 0) {
     return -1;
   }
@@ -444,8 +443,7 @@ int Owner::send(
   }
 
   // Prepare metadata and extra
-  op.end_offset = ListReader::encode(op.node, op.encoded_metadata,
-    &op.sep_offset);
+  op.end_offset = List::encode(op.node, op.encoded_metadata, &op.sep_offset);
   op.extra = NULL;
 
   // New or resurrected file: (re-)add
