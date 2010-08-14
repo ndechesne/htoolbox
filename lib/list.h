@@ -20,14 +20,23 @@
 #define _LIST_H
 
 #include <stdio.h>
+#include <limits.h>
+#include <time.h>
 
 #include <string>
 
 namespace hbackup {
 
 class List {
+public:
+  enum Type {
+    list_read,
+    list_write,
+    journal_write
+  };
+private:
   std::string _path;
-  bool _read_only;
+  Type _type;
   FILE* _fd;
   progress_f _progress;
   long long _size;
@@ -35,22 +44,28 @@ class List {
   long long _offset;
   static const long long _offset_threadshold = 102400;
   bool _old_version;
+  char _file_path[PATH_MAX + 1];
+  time_t _removed;
   const char* _header() { return "# version 5"; }
   const char* _old_header() { return "# version 4\n"; }
   const char* _footer() { return "# end"; }
+  ssize_t putLine(const char* line);
+  inline ssize_t flushStored();
 public:
-  List(const char* path, bool ro) : _path(path), _read_only(ro), _fd(NULL),
-    _progress(NULL), _size(-1), _previous_offset(0), _offset(0),
-    _old_version(false) {}
+  List(const char* path, Type type) : _path(path), _type(type), _fd(NULL),
+      _progress(NULL), _size(-1), _previous_offset(0), _offset(0),
+      _old_version(false), _removed(0) {
+    _file_path[0] = '\0';
+  }
   ~List() { if (_fd != NULL) close(); }
   const char* path() const { return _path.c_str(); }
   int open(bool quiet_if_not_exists = false);
   int close();
   void setProgressCallback(progress_f progress);
   int flush() const { return fflush(_fd); }
-  ssize_t putLine(const char* line);
+  ssize_t putPath(const char* path);              // file path
+  ssize_t putData(const char* ts_metadata_extra); // pre-encoded line
   ssize_t putData(time_t ts, const char* metadata, const char* extra);
-  // Called only once, leave inline
   ssize_t getLine(char** buffer_p, size_t* cap_p);
 };
 
@@ -124,7 +139,9 @@ public:
 class ListWriter : public List {
 public:
   ListWriter(
-    const Path&     path) : List(path, false) {}
+    const Path&     path,
+    bool            journal = false)
+      : List(path, journal ? journal_write : list_write) {}
   // Search data in list copying contents to new list/journal, marking files
   // removed, and also expiring data on the fly when told to
   // Searches:             Path        Copy

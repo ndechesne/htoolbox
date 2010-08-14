@@ -17,7 +17,6 @@ Register is empty
 
 Test: merge read
 [ 1] file sp                        f        0 644 
-[ 1] file_gone                      [rm]
 [ 1] file_new                       f       13 750 59ca0efa9f5633cb0371bbc0355478d8
 [ 1] link                           l        8 777 testfile
 [ 1] path                           d        0 755
@@ -39,7 +38,6 @@ Test: merge read
                             l        8 777 testfile
 [ 5] file sp                        f        0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 1] file sp                        f        0 644 
-[ 1] file_gone                      [rm]
 [ 5] file_new                       f       20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] file_new                       f       13 750 59ca0efa9f5633cb0371bbc0355478d8
 [ 1] link                           l        8 777 testfile
@@ -50,7 +48,6 @@ CR/x
 CR\r
 
 file sp
-file_gone
 file_new
 link
 path
@@ -71,7 +68,6 @@ Test: merge read
                             l        8 777 testfile
 [ 5] file sp                        f        0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 1] file sp                        f        0 644 
-[ 1] file_gone                      [rm]
 [10] file_new                       f       20 750 12fec763b7f0a7d6acfc8bfe7606c325
 
 Test: expire
@@ -81,7 +77,6 @@ Register:
                             l        8 777 testfile
 [ 5] file sp                        f        0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 1] file sp                        f        0 644 
-[ 1] file_gone                      [rm]
 [ 5] file_new                       f       20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] file_new                       f       13 750 59ca0efa9f5633cb0371bbc0355478d8
 [ 1] link                           l        8 777 testfile
@@ -91,7 +86,6 @@ Date: 4
 [ 5] CR\r
                             l        8 777 testfile
 [ 5] file sp                        f        0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 1] file_gone                      [rm]
 [ 5] file_new                       f       20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] link                           l        8 777 testfile
 [ 1] path                           d        0 755
@@ -100,7 +94,6 @@ Date: 0
 [ 5] CR\r
                             l        8 777 testfile
 [ 5] file sp                        f        0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 1] file_gone                      [rm]
 [ 5] file_new                       f       20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] link                           l        8 777 testfile
 [ 1] path                           d        0 755
@@ -112,7 +105,6 @@ Register:
                             l        8 777 testfile
 [ 5] file sp                        f        0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 1] file sp                        f        0 644 
-[ 1] file_gone                      [rm]
 [ 5] file_new                       f       20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] file_new                       f       13 750 59ca0efa9f5633cb0371bbc0355478d8
 [ 1] link                           l        8 777 testfile
@@ -123,7 +115,6 @@ Merge:
                             l        8 777 testfile
 [ 5] file sp                        f        0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 1] file sp                        f        0 644 
-[ 1] file_gone                      [rm]
 [ 5] file_new                       f       20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] file_new                       f       13 750 59ca0efa9f5633cb0371bbc0355478d8
 [ 1] link                           l        8 777 testfile
@@ -138,7 +129,6 @@ Register:
                             l        8 777 testfile
 [ 5] file sp                        f        0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 1] file sp                        f        0 644 
-[ 1] file_gone                      [rm]
 [13] file_new                       f       22 750 246dccb0301976d765609dfb0efd68f9
 [ 5] file_new                       f       20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] file_new                       f       13 750 59ca0efa9f5633cb0371bbc0355478d8
@@ -151,7 +141,6 @@ Register:
 [ 5] CR\r
                             l        8 777 testfile
 [ 5] file sp                        f        0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 1] file_gone                      [rm]
 [13] file_new                       f       22 750 246dccb0301976d765609dfb0efd68f9
 [ 1] link                           l        8 777 testfile
 [ 1] path                           d        0 755
@@ -163,7 +152,6 @@ Register:
 [ 5] CR\r
                             l        8 777 testfile
 [ 5] file sp                        f        0 644 d41d8cd98f00b204e9800998ecf8427e
-[ 1] file_gone                      [rm]
 [ 5] file_new                       f       20 750 12fec763b7f0a7d6acfc8bfe7606c325
 [ 1] link                           l        8 777 testfile
 [ 1] path                           d        0 755
@@ -186,8 +174,6 @@ Test: merge read
 [14] file sp                        f        0 644 
 [ 5] file sp                        f        0 644 d41d8cd98f00b204e9800998ecf8427e
 [ 1] file sp                        f        0 644 
-[14] file_gone                      [rm]
-[ 1] file_gone                      [rm]
 [14] file_new                       f       22 750 246dccb0301976d765609dfb0efd68f9
 [13] file_new                       f       22 750 246dccb0301976d765609dfb0efd68f9
 [ 5] file_new                       f       20 750 12fec763b7f0a7d6acfc8bfe7606c325

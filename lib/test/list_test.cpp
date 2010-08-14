@@ -30,15 +30,14 @@ using namespace std;
 #include "files.h"
 #include "list.h"
 
-class ListWriterTest : public ListWriter {
+class ListWriterJournal : public ListWriter {
 public:
-  ListWriterTest(const Path& path) : ListWriter(path) {}
-  ssize_t putLine(const Line& line) { return ListWriter::putLine(line); }
+  ListWriterJournal(const Path& path) : ListWriter(path, true) {}
   void add(
       const char*     path,
       time_t          epoch,
       const Node*     node = NULL) {
-    putLine(path);
+    putPath(path);
     if (node != NULL) {
       char line[64];
       size_t sep_offset;
@@ -113,7 +112,7 @@ static void showList(ListReader& list) {
 
 int main(void) {
   ListWriter dblist("test_db/list");
-  ListWriterTest journal("test_db/journal");
+  ListWriterJournal journal("test_db/journal");
   ListWriter merge("test_db/merge");
   ListReader dblist_reader("test_db/list");
   ListReader journal_reader("test_db/journal");

@@ -282,7 +282,7 @@ int Owner::open(
   }
   if (! failed) {
     // Check journal
-    _d->journal = new ListWriter(Path(_d->path, "journal"));
+    _d->journal = new ListWriter(Path(_d->path, "journal"), true);
     _d->partial = new ListWriter(Path(_d->path, "partial"));
     ListReader journal(_d->journal->path());
     if (! journal.open(true)) {
@@ -517,7 +517,7 @@ int Owner::add(
     rc = -1;
   }
   // Add to journal
-  if ((_d->journal->putLine(op.path) != static_cast<ssize_t>(op.path.size())) ||
+  if ((_d->journal->putPath(op.path) != static_cast<ssize_t>(op.path.size())) ||
       (_d->journal->putData(ts, op.encoded_metadata, op.extra) < 0) ||
       (_d->journal->flush() != 0)) {
     rc = -1;

@@ -32,7 +32,7 @@ using namespace hreport;
 int List::open(bool quiet_if_not_exists) {
   // Choose mode
   const char* mode;
-  if (_read_only) {
+  if (_type == list_read) {
     mode = "r";
   } else {
     mode = "w";
@@ -42,11 +42,11 @@ int List::open(bool quiet_if_not_exists) {
   if (_fd == NULL) {
     if (! quiet_if_not_exists) {
       hlog_error("%s opening '%s' for %sing",
-        strerror(errno), _path.c_str(), _read_only ? "read" : "writ");
+        strerror(errno), _path.c_str(), _type == list_read ? "read" : "writ");
     }
     goto failed;
   }
-  if (_read_only) {
+  if (_type == list_read) {
     _previous_offset = 0;
     bool went_wrong = false;
     char* buffer = NULL;
@@ -83,7 +83,7 @@ int List::open(bool quiet_if_not_exists) {
     }
   }
   hlog_regression("opened '%s' for %sing",
-    _path.c_str(), _read_only ? "read" : "writ");
+    _path.c_str(), _type == list_read ? "read" : "writ");
   return 0;
 failed:
   close();
@@ -93,7 +93,7 @@ failed:
 int List::close() {
   int rc;
   if (_fd != NULL) {
-    if (! _read_only) {
+    if (_type != list_read) {
       if (putLine(_footer()) < 0) {
         hlog_error("%s writing footer in '%s'", strerror(errno), _path.c_str());
         /* the error is reported by fclose */
@@ -110,7 +110,7 @@ int List::close() {
 }
 
 void List::setProgressCallback(progress_f progress) {
-  if (! _read_only) {
+  if (_type != list_read) {
     return;
   }
   // Get list file size
@@ -129,46 +129,136 @@ ssize_t List::putLine(const char* line) {
     hlog_error("'%s' not open", _path.c_str());
     return -1;
   }
-  if (_read_only) {
+  if (_type == list_read) {
     hlog_error("'%s' read only", _path.c_str());
     return -1;
   }
-  size_t line_size = strlen(line);
-  if (fwrite(line, line_size, 1, _fd) < 1) {
-    hlog_error("'%s' write line", _path.c_str());
-    return -1;
+  ssize_t line_size = strlen(line);
+  if (line_size > 0) {
+    if (fwrite(line, line_size, 1, _fd) < 1) {
+      hlog_error("%s writing line to '%s'", strerror(errno), _path.c_str());
+      return -1;
+    }
   }
   if (fwrite("\0\n", 2, 1, _fd) < 1) {
-    hlog_error("'%s' write end of line", _path.c_str());
+    hlog_error("%s writing line ending to '%s'", strerror(errno), _path.c_str());
     return -1;
   }
   return line_size;
 }
 
+inline ssize_t List::flushStored() {
+  size_t line_size = 0;
+  if (_file_path[0] != '\0') {
+    line_size = putLine(_file_path);
+    // Write path, and check that its length is greater than 1
+    if (line_size < 1) {
+      hlog_error("%s flushing file path to '%s'", strerror(errno), _path.c_str());
+      return -1;
+    }
+    hlog_regression("DBG %s flush _file_path = %s into %s", __FUNCTION__,
+      _file_path, _path.c_str());
+    _file_path[0] = '\0';
+  }
+  // Write removed mark if relevant
+  if (_removed > 0) {
+    char line[32];
+    sprintf(line, "\t%ld\t-", _removed);
+    ssize_t ts_size = putLine(line);
+    if (ts_size < 1) {
+      hlog_error("%s flushing line to '%s'", strerror(errno), _path.c_str());
+      return -1;
+    }
+    hlog_regression("DBG %s flush _removed = %ld into %s", __FUNCTION__,
+      _removed, _path.c_str());
+    line_size += ts_size;
+    _removed = 0;
+  }
+  return line_size;
+}
+
+ssize_t List::putPath(const char* path) {
+  if (_type != journal_write) {
+    // Stored data is discarded
+    _removed = 0;
+    // Only store path for now. No, I don't care about size.
+    strcpy(_file_path, path);
+    hlog_regression("DBG %s store _file_path = %s into %s", __FUNCTION__,
+      _file_path, _path.c_str());
+  } else {
+    return putLine(path);
+  }
+  return 0;
+}
+
+ssize_t List::putData(const char* ts_metadata_extra) {
+  ssize_t line_size = 0;
+  time_t ts = 0;
+  if (_type != journal_write) {
+    const char* second_tab = strchr(&ts_metadata_extra[1], '\t');
+    if ((second_tab == NULL) ||
+        (second_tab[1] != '-') ||
+        (sscanf(ts_metadata_extra, "%ld", &ts) != 1)) {
+      // Make sure sscanf did not store anything
+      ts = 0;
+    }
+    // So it _is_ a removed mark
+    if (ts != 0) {
+      _removed = ts;
+      hlog_regression("DBG %s1 store _removed = %ld into %s", __FUNCTION__,
+        _removed, _path.c_str());
+      return 0;
+    } else {
+      line_size = flushStored();
+      if (line_size < 0) {
+        return -1;
+      }
+    }
+  }
+  // Write line of metadata
+  ssize_t ts_metadata_extra_size = putLine(ts_metadata_extra);
+  if (ts_metadata_extra_size < 1) {
+    hlog_error("%s writing ts_metadata_extra to '%s'", strerror(errno),
+      _path.c_str());
+    return -1;
+  }
+  line_size += ts_metadata_extra_size;
+  return line_size;
+}
+
 ssize_t List::putData(time_t ts, const char* metadata, const char* extra) {
-  if (_fd == NULL) {
-    hlog_error("'%s' not open", _path.c_str());
+  ssize_t line_size = 0;
+  if (_type != journal_write) {
+    // So it _is_ a removed mark
+    if (metadata[0] == '-') {
+      _removed = ts;
+      hlog_regression("DBG %s2 store _removed = %ld into %s", __FUNCTION__,
+        _removed, _path.c_str());
+      return 0;
+    } else {
+      line_size = flushStored();
+      if (line_size < 0) {
+        return -1;
+      }
+    }
+  }
+  // Write line of metadata
+  ssize_t metadata_size = fprintf(_fd, "\t%ld\t%s", ts, metadata);
+  if (metadata_size < 1) {
+    hlog_error("%s write ts_str to '%s'", strerror(errno), _path.c_str());
     return -1;
   }
-  if (_read_only) {
-    hlog_error("'%s' read only", _path.c_str());
-    return -1;
-  }
-  size_t line_size = fprintf(_fd, "\t%ld\t%s", ts, metadata);
-  if (line_size < 1) {
-    hlog_error("'%s' write ts_str", _path.c_str());
-    return -1;
-  }
+  line_size += metadata_size;
   if (extra != NULL) {
     size_t extra_size = fprintf(_fd, "\t%s", extra);
     if (extra_size < 1) {
-      hlog_error("'%s' write separator", _path.c_str());
+      hlog_error("%s write separator to '%s'", strerror(errno), _path.c_str());
       return -1;
     }
     line_size += extra_size;
   }
   if (fwrite("\0\n", 2, 1, _fd) < 1) {
-    hlog_error("'%s' write end of line", _path.c_str());
+    hlog_error("%s write end of line to '%s'", strerror(errno), _path.c_str());
     return -1;
   }
   return line_size;
@@ -176,7 +266,7 @@ ssize_t List::putData(time_t ts, const char* metadata, const char* extra) {
 
 ssize_t List::getLine(char** buffer_p, size_t* cap_p) {
   if (_fd == NULL) return -1;
-  if (!_read_only) return -1;
+  if (_type != list_read) return -1;
   char delim;
   if (! _old_version) {
     delim = '\0';
@@ -224,7 +314,7 @@ struct ListReader::Private {
   size_t            path_cap;
   char*             data;
   size_t            data_cap;
-  Private(const char* path_in) : file(path_in, true) {
+  Private(const char* path_in) : file(path_in, List::list_read) {
     data_cap = path_cap = 256;
     path = static_cast<char*>(malloc(path_cap));
     path[0] = '\0'; // Let it crash if malloc failed
@@ -570,7 +660,7 @@ int ListWriter::search(
                   return -1;
                 }
                 if (journal != NULL) {
-                  journal->putLine(list->getPath());
+                  journal->putPath(list->getPath());
                   journal->putData(ts, "-", NULL);
                 }
                 if (modified != NULL) {
@@ -611,7 +701,7 @@ int ListWriter::search(
         }
         if ((path_l != NULL) && (path_l[0] != '\0')) {
           // Write path
-          if (new_list->putLine(path_l) < 0) {
+          if (new_list->putPath(path_l) < 0) {
             // Could not write
             return -1;
           }
@@ -619,13 +709,13 @@ int ListWriter::search(
       } else
       // Our data is here or after, so let's copy if required
       if (rc == ListReader::got_path) {
-        if (new_list->putLine(list->getPath()) < 0) {
+        if (new_list->putPath(list->getPath()) < 0) {
           // Could not write
           return -1;
         }
       } else
       if (rc == ListReader::got_data) {
-        if (new_list->putLine(list->getData()) < 0) {
+        if (new_list->putData(list->getData()) < 0) {
           // Could not write
           return -1;
         }
@@ -692,7 +782,7 @@ int ListWriter::copy(
     if ((rc == ListReader::eor) || stop) {
       if (! copy_till_end) {
         // Write path
-        if (final.putLine(path_l) < 0) {
+        if (final.putPath(path_l) < 0) {
           // Could not write
           return -1;
         }
@@ -701,13 +791,13 @@ int ListWriter::copy(
     } else
     // Our data is here or after, so let's copy if required
     if (rc == ListReader::got_path) {
-      if (final.putLine(list.getPath()) < 0) {
+      if (final.putPath(list.getPath()) < 0) {
         // Could not write
         return -1;
       }
     } else
     if (rc == ListReader::got_data) {
-      if (final.putLine(list.getData()) < 0) {
+      if (final.putData(list.getData()) < 0) {
         // Could not write
         return -1;
       }
@@ -793,7 +883,7 @@ int ListWriter::merge(
       }
 
       // Write
-      if (final.putLine(journal.getData()) < 0) {
+      if (final.putData(journal.getData()) < 0) {
         // Could not write
         hlog_error("Journal copy failed");
         return -1;
