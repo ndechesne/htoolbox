@@ -585,7 +585,8 @@ CR\r
 Id f    test1/subdir
 Ad      test1/svn
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -741,7 +742,8 @@ If p    test1/cvs/fileoth
 dir space\r
 Id f    test1/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o

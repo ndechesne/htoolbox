@@ -113,7 +113,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) :
     return;
   }
   /* Fill in list of files */
-  hlog_debug_arrow(1, "Parsing Subversion entries");
+  hlog_debug_arrow(1, "Parsing Subversion entries in '%s'", dir_path.c_str());
   string command = "svn status --no-ignore --non-interactive \"" +
     dir_path + "\"";
   FILE* fd = popen(command.c_str(), "r");
@@ -149,6 +149,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) :
     }
     free(buffer);
     pclose(fd);
+    hlog_debug_arrow(1, "Sorting Subversion entries");
     _files.sort();
     show(2);
   } else {

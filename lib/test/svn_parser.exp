@@ -1,7 +1,8 @@
 
 Only consider controlled files
 test1 is not controlled
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -23,7 +24,8 @@ test1/svn/.svn/entries will not be ignored
 test1/svn/.svn/format will be ignored
 test1/svn/.svn/whatever will be ignored
 Warning: Directory 'test1/svn/dirbad' should be under Subversion control
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn/dirutd'
+ -> Sorting Subversion entries
  --> test1/svn/dirutd/fileoth: o
  --> test1/svn/dirutd/fileutd: m
 test1/svn/dirutd/fileutd will not be ignored
@@ -33,7 +35,8 @@ test1/svn/.svn is not controlled
 
 Only consider controlled modified files
 test1 is not controlled
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -55,7 +58,8 @@ test1/svn/.svn/entries will not be ignored
 test1/svn/.svn/format will be ignored
 test1/svn/.svn/whatever will be ignored
 Warning: Directory 'test1/svn/dirbad' should be under Subversion control
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn/dirutd'
+ -> Sorting Subversion entries
  --> test1/svn/dirutd/fileoth: o
  --> test1/svn/dirutd/fileutd: m
 test1/svn/dirutd/fileutd will not be ignored
@@ -65,7 +69,8 @@ test1/svn/.svn is not controlled
 
 Only consider controlled modified and non-controlled files
 test1 is not controlled
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -87,7 +92,8 @@ test1/svn/.svn/entries will not be ignored
 test1/svn/.svn/format will be ignored
 test1/svn/.svn/whatever will be ignored
 Warning: Directory 'test1/svn/dirbad' should be under Subversion control
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn/dirutd'
+ -> Sorting Subversion entries
  --> test1/svn/dirutd/fileoth: o
  --> test1/svn/dirutd/fileutd: m
 test1/svn/dirutd/fileutd will not be ignored
@@ -97,7 +103,8 @@ test1/svn/.svn is not controlled
 
 Only consider non-controlled files
 test1 is not controlled
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -119,7 +126,8 @@ test1/svn/.svn/entries will not be ignored
 test1/svn/.svn/format will be ignored
 test1/svn/.svn/whatever will be ignored
 Warning: Directory 'test1/svn/dirbad' should be under Subversion control
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn/dirutd'
+ -> Sorting Subversion entries
  --> test1/svn/dirutd/fileoth: o
  --> test1/svn/dirutd/fileutd: m
 test1/svn/dirutd/fileutd will be ignored

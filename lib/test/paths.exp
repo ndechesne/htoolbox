@@ -3647,7 +3647,8 @@ If p    /home/User/cvs/fileoth
 dir space\r
 Id f    /home/User/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -4075,7 +4076,8 @@ If p    /home/User/cvs/fileoth
 dir space\r
 Id f    /home/User/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -4439,7 +4441,8 @@ If p    /home/User/cvs/fileoth
 dir space\r
 Id f    /home/User/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -4802,7 +4805,8 @@ If p    /home/User/cvs/fileoth
 dir space\r
 Id f    /home/User/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -5160,7 +5164,8 @@ If p    /home/User/cvs/fileoth
 dir space\r
 Id f    /home/User/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -5524,7 +5529,8 @@ If p    /home/User/cvs/fileoth
 dir space\r
 Id f    /home/User/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -5909,7 +5915,8 @@ Af ~    /home/User/docbook-xml.cat
 Af ~    /home/User/docbook-xml.cat.old
 Id f    /home/User/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -6322,7 +6329,8 @@ docbook-xml/4.3\r
 docbook-xml/4.4\r
 Id f    /home/User/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -6796,7 +6804,8 @@ docbook-xml/4.3\r
 docbook-xml/4.4\r
 Id f    /home/User/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -7515,7 +7524,8 @@ docbook-xml/4.3\r
 docbook-xml/4.4\r
 Id f    /home/User/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -8286,7 +8296,8 @@ docbook-xml/4.3\r
 docbook-xml/4.4\r
 Id f    /home/User/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -8636,7 +8647,8 @@ docbook-xml/4.3\r
 docbook-xml/4.4\r
 Id f    /home/User/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -8845,7 +8857,8 @@ docbook-xml/4.3\r
 docbook-xml/4.4\r
 Id f    /home/User/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o

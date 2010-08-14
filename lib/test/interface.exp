@@ -654,7 +654,8 @@ CR\r
 Id f    test1/subdir
 Ad      test1/svn
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -1169,7 +1170,8 @@ If p    test1/cvs/fileoth
 dir space\r
 Id f    test1/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -2342,7 +2344,8 @@ Adding compressed data for 816df6f64deba63b029ca19d880ee10a-0
 !f z    test1/dir space/big_file
 Id f    test1/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -4039,7 +4042,8 @@ If p    test1/cvs/fileoth
 dir space\r
 Id f    test1/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -10175,7 +10179,8 @@ If p    test1/cvs/fileoth
 dir space\r
 Id f    test1/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -10651,7 +10656,8 @@ If p    test1/cvs/fileoth
 dir space\r
 Id f    test1/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
@@ -11567,7 +11573,8 @@ If p    test1/cvs/fileoth
 dir space\r
 Id f    test1/subdir
 svn\r
- -> Parsing Subversion entries
+ -> Parsing Subversion entries in 'test1/svn'
+ -> Sorting Subversion entries
  --> test1/svn/dir space/file space: m
  --> test1/svn/dirbad: m
  --> test1/svn/diroth: o
