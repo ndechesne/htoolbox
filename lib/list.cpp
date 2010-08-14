@@ -521,6 +521,36 @@ int ListReader::fetchData(
   return 1;
 }
 
+int ListReader::searchPath() {
+  while (true) {
+    // Read list or get last data
+    int rc = fetchLine();
+
+    // Failed
+    if (rc == ListReader::eof) {
+      // Unexpected end of list
+      hlog_error("Unexpected end of list '%s'", path());
+      return -1;
+    } else
+    if (rc == ListReader::failed) {
+      // Unexpected end of list
+      hlog_error("Error reading list '%s'", path());
+      return -1;
+    } else
+    if (rc == ListReader::eor) {
+      // Normal end of list
+      return 0;
+    } else
+    if (rc == ListReader::got_path) {
+      // Found a path
+      return 2;
+    }
+    // Reset status
+    resetStatus();
+  }
+  return -1;
+}
+
 int ListReader::getEntry(
     time_t*         timestamp,
     char**          path,

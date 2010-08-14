@@ -541,7 +541,7 @@ int Owner::getNextRecord(
     len--;
   }
   bool failed = false;
-  while (ListWriter::search(_d->original) == 2) {
+  while (_d->original->searchPath() == 2) {
     if (aborting()) {
       failed = true;
       return -1;

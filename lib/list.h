@@ -117,6 +117,7 @@ public:
   const char* fetchData();
   int fetchData(
     Node**          node);
+  int searchPath();
   // Convert one or several line(s) to data
   // Date:
   //    <0: any
