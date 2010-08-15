@@ -212,6 +212,10 @@ int Client::readConfig(
     errors.show();
     failed = true;
   } else {
+    if (! _own_parsers) {
+      _parsers_manager.loadPlugins("/usr/local/lib/hbackup");
+      _parsers_manager.loadPlugins("/usr/lib/hbackup");
+    }
     show(1);
   }
   return failed ? -1 : 0;
