@@ -169,6 +169,8 @@ int Client::readConfig(
   config_syntax.add(new ConfigItem("report_copy_error_once", 0, 1));
   // ignore
   config_syntax.add(new ConfigItem("ignore", 0, 1, 1));
+  // parser plugins
+  config_syntax.add(new ConfigItem("parsers_dir", 0, 0, 1));
   // filter
   {
     ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
@@ -204,6 +206,7 @@ int Client::readConfig(
     internalName().c_str());
   ConfigErrors errors;
   bool failed = false;
+  _own_parsers = false;
   if (_config.read(config_path, Config::flags_dos_catch, config_syntax, this,
         &errors) < 0) {
     errors.show();
@@ -215,11 +218,12 @@ int Client::readConfig(
 }
 
 Client::Client(
-    const string& name,
+    const string&     name,
     const Attributes& attributes,
-    const ParsersManager& parsers_manager,
-    const string& subset)
-    : _attributes(attributes), _parsers_manager(parsers_manager) {
+    ParsersManager&   parsers_manager,
+    const string&     subset)
+    : _attributes(attributes), _parsers_manager(parsers_manager),
+      _own_parsers(false) {
   _name = name;
   _subset_server = subset;
   if (_subset_server.empty()) {
@@ -258,6 +262,11 @@ ConfigObject* Client::configChildFactory(
       hlog_error("%s:%zd incorrect expiration value '%s'",
         file_path, line_no, params[1].c_str());
     }
+  } else
+  if (keyword == "parsers_dir") {
+    _parsers_manager.loadPlugins(params[1].c_str());
+    _own_parsers = true;
+    co = this;
   } else
   if (keyword == "users") {
     for (size_t i = 1; i < params.size(); i++) {
@@ -514,6 +523,9 @@ void Client::show(int level) const {
       s << *i;
     }
     hlog_debug_arrow(level, "Users: %s", s.str().c_str());
+  }
+  if (_own_parsers) {
+    _parsers_manager.show(level);
   }
   if (_timeout_nowarning) {
     hlog_debug_arrow(level, "No warning on time out");

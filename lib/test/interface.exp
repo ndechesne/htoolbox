@@ -13,8 +13,6 @@ Test: backup, not initialized
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -133,8 +131,6 @@ Test: check config
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -244,6 +240,9 @@ Test: check config
  -> Reading client configuration file for 'localhost'
  -> Client: localhost
  --> Protocol: file
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Config: test_user/.hbackup/config
  --> Expiry: none
  --> Ignore filters:
@@ -264,8 +263,6 @@ Test: typical backup
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -894,8 +891,6 @@ Test: same backup
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -1367,8 +1362,6 @@ Test: interrupted backup
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -1761,8 +1754,6 @@ path "/home/Blah/test/"
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -2161,8 +2152,6 @@ Test: specify clients
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -2533,8 +2522,6 @@ Test: scan DB
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -2728,8 +2715,6 @@ Test: check DB
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -2874,8 +2859,6 @@ Test: list clients
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -3001,8 +2984,6 @@ Test: list paths in UNIX client 'myClient'
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -3125,8 +3106,6 @@ Test: list paths in DOS client 'client.xp'
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -3249,8 +3228,6 @@ Test: restore file
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -3373,8 +3350,6 @@ Test: restore dir
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -3543,8 +3518,6 @@ Test: restore subdir
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -3683,8 +3656,6 @@ Test: restore client
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -3857,8 +3828,6 @@ Test: typical backup
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -4330,8 +4299,6 @@ Test: specify clients
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -4594,9 +4561,6 @@ Test: user-mode backup
  --> No file logging
  --> DB path: 'test_user/.hbackup'
  --> DB compression: later
- --> Parser plugins paths:
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Selected clients:
  ---> localhost
  --> Clients:
@@ -4609,6 +4573,9 @@ Database open in read/write mode
  -> Reading client configuration file for 'localhost'
  -> Client: localhost
  --> Protocol: file
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Config: test_user/.hbackup/config
  --> Expiry: none
  --> Paths:
@@ -4644,8 +4611,6 @@ Test: list clients
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -4771,8 +4736,6 @@ Test: list paths in DOS client 'myClient.xp'
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -4895,8 +4858,6 @@ Test: list paths in dual-boot client 'myClient*'
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -5025,8 +4986,6 @@ Test: list sub-paths in UNIX client 'myClient'
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -5149,8 +5108,6 @@ Test: list sub-paths in DOS client 'myClient.xp', 'C:'
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -5275,8 +5232,6 @@ Test: restore file (UNIX)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -5406,8 +5361,6 @@ Test: restore subdir (UNIX)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -5541,8 +5494,6 @@ Test: restore dir (UNIX)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -5676,8 +5627,6 @@ Test: restore client (UNIX)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -5811,8 +5760,6 @@ Test: restore file (DOS)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -5941,8 +5888,6 @@ Test: restore subdir (DOS)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -6075,8 +6020,6 @@ Test: restore dir (DOS)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -6211,8 +6154,6 @@ Test: restore client (DOS)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -6347,8 +6288,6 @@ Test: restore client (dual-boot)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -6495,8 +6434,6 @@ Test: restore (symlinks) file (UNIX)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -6626,8 +6563,6 @@ Test: restore (symlinks) subdir (UNIX)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -6761,8 +6696,6 @@ Test: restore (symlinks) dir (UNIX)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -6896,8 +6829,6 @@ Test: restore (symlinks) client (UNIX)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -7031,8 +6962,6 @@ Test: restore (symlinks) file (DOS)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -7161,8 +7090,6 @@ Test: restore (symlinks) subdir (DOS)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -7295,8 +7222,6 @@ Test: restore (symlinks) dir (DOS)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -7431,8 +7356,6 @@ Test: restore (symlinks) client (DOS)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -7567,8 +7490,6 @@ Test: restore (symlinks) client (dual-boot)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -7716,8 +7637,6 @@ Test: restore (hard links) file (UNIX)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -7847,8 +7766,6 @@ Test: restore (hard links) subdir (UNIX)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -7982,8 +7899,6 @@ Test: restore (hard links) dir (UNIX)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -8117,8 +8032,6 @@ Test: restore (hard links) client (UNIX)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -8252,8 +8165,6 @@ Test: restore (hard links) file (DOS)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -8382,8 +8293,6 @@ Test: restore (hard links) subdir (DOS)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -8516,8 +8425,6 @@ Test: restore (hard links) dir (DOS)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -8652,8 +8559,6 @@ Test: restore (hard links) client (DOS)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -8788,8 +8693,6 @@ Test: restore (hard links) client (dual-boot)
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -8938,8 +8841,6 @@ sh: cannot create test_db/.data/fef51838cd3cfe8ed96355742eb71fbd-0/data: Directo
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -9089,8 +8990,6 @@ sh: cannot create test_db/.data/fef51838cd3cfe8ed96355742eb71fbd-0/data: Directo
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -9237,8 +9136,6 @@ Test: scan for missing data
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -9519,8 +9416,6 @@ Test: scan for obsolete data, case1
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -9892,8 +9787,6 @@ Test: scan for obsolete data, case 2
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -10260,8 +10153,6 @@ Test: backup recovers broken checksums + replace data
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -10752,8 +10643,6 @@ Test: second backup should not recover again
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -11150,8 +11039,6 @@ Test: scan shows recovered data
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -11350,8 +11237,6 @@ Test: check finds corrupted data
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -11497,8 +11382,6 @@ Test: scan removes corrupted data
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -11696,8 +11579,6 @@ Test: third backup should not recover again
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -12177,8 +12058,6 @@ Test: declared path missing
  --> DB compression: automatic
  --> Parser plugins paths:
  ---> ../../../parsers/.libs
- ---> /usr/local/lib/hbackup
- ---> /usr/lib/hbackup
  --> Parsers found:
  ---> cvs (CVS)
  ---> svn (Subversion)
@@ -12380,42 +12259,42 @@ path "/home/Blah/test/"
   compress "compress"
 hbackup.log:
 2009-08-07 06:05:04 VERB  db.cpp:228 Database open in read/write mode
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'aClient.vista'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 ERROR paths.cpp:271 No such file or directory reading initial directory 'aClient.vista:C:/Test Dir'
-2009-08-07 06:05:04 ERROR clients.cpp:460 Aborting client
+2009-08-07 06:05:04 ERROR clients.cpp:469 Aborting client
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'aClient.vista'
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
 2009-08-07 06:05:04 VERB  db.cpp:251 Database closed
 hbackup.log-1:
 2009-08-07 06:05:04 VERB  db.cpp:228 Database open in read/write mode
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'aClient.vista'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'client.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'client.xp'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'client.xp' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'myClient' using protocol 'nfs'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'myClient'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'myClient' using protocol 'nfs'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'myClient'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path '/home/User/test'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path '/home/User/test'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'myClient.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'myClient.xp'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'myClient.xp' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'myhost'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'test1'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'test1'
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/CVS/Whatever
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/cvs/CVS/Wherever
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dir space/CVS/Whatever
@@ -12454,18 +12333,18 @@ hbackup.log-1:
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileoth
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileutd.h
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/testfile~
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'test2'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'test2'
 2009-08-07 06:05:04 INFO  paths.cpp:167 Rf ~    test2/testfile2
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test2/testfile~
 2009-08-07 06:05:04 VERB  owner.cpp:360 Register modified for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'newClient' using protocol 'ssh'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'newClient'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'newClient' using protocol 'ssh'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path '/home/Blah/test'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path '/home/Blah/test'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'other' using protocol 'none'
-2009-08-07 06:05:04 ERROR clients.cpp:392 Protocol not supported 'none' for 'other'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'other' using protocol 'none'
+2009-08-07 06:05:04 ERROR clients.cpp:401 Protocol not supported 'none' for 'other'
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
 2009-08-07 06:05:04 VERB  db.cpp:251 Database closed
@@ -12516,30 +12395,30 @@ hbackup.log-4:
 2009-08-07 06:05:04 VERB  db.cpp:251 Database closed
 hbackup.log-5:
 2009-08-07 06:05:04 VERB  db.cpp:228 Database open in read/write mode
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'aClient.vista'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'client.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'client.xp'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'client.xp' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'myClient' using protocol 'nfs'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'myClient'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'myClient' using protocol 'nfs'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'myClient'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path '/home/User/test'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path '/home/User/test'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'myClient.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'myClient.xp'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'myClient.xp' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'myhost'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'test1'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'test1'
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/CVS/Whatever
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/cvs/CVS/Wherever
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dir space/CVS/Whatever
@@ -12578,46 +12457,46 @@ hbackup.log-5:
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileoth
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileutd.h
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/testfile~
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'test2'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'test2'
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test2/testfile~
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'newClient' using protocol 'ssh'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'newClient'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'newClient' using protocol 'ssh'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path '/home/Blah/test'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path '/home/Blah/test'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'other' using protocol 'none'
-2009-08-07 06:05:04 ERROR clients.cpp:392 Protocol not supported 'none' for 'other'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'other' using protocol 'none'
+2009-08-07 06:05:04 ERROR clients.cpp:401 Protocol not supported 'none' for 'other'
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
 2009-08-07 06:05:04 VERB  db.cpp:251 Database closed
 hbackup.log-6:
 2009-08-07 06:05:04 VERB  db.cpp:228 Database open in read/write mode
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'aClient.vista'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'client.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'client.xp'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'client.xp' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'myClient' using protocol 'nfs'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'myClient'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'myClient' using protocol 'nfs'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'myClient'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path '/home/User/test'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path '/home/User/test'
 2009-08-07 06:05:04 INFO  paths.cpp:167 Cf f    /home/User/test/dir/file3.txt
 2009-08-07 06:05:04 VERB  owner.cpp:360 Register modified for 'myClient'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'myClient.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'myClient.xp'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'myClient.xp' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'myhost'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'test1'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'test1'
 2009-08-07 06:05:04 INFO  paths.cpp:167 Rf f    test1/cvs/CVS/Root
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/CVS/Whatever
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/cvs/CVS/Wherever
@@ -12658,18 +12537,18 @@ hbackup.log-6:
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileutd.h
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/testfile~
 2009-08-07 06:05:04 INFO  list.cpp:727 D       test1/testfile
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path 'test2'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path 'test2'
 2009-08-07 06:05:04 INFO  paths.cpp:167 Mf zr   test2/testfile2
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test2/testfile~
 2009-08-07 06:05:04 VERB  owner.cpp:360 Register modified for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'newClient' using protocol 'ssh'
-2009-08-07 06:05:04 INFO  clients.cpp:425 Backing up client 'newClient'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'newClient' using protocol 'ssh'
+2009-08-07 06:05:04 INFO  clients.cpp:434 Backing up client 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:658 Database open r/w for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:440 Backing up path '/home/Blah/test'
+2009-08-07 06:05:04 INFO  clients.cpp:449 Backing up path '/home/Blah/test'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database closed for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:372 Trying client 'other' using protocol 'none'
-2009-08-07 06:05:04 ERROR clients.cpp:392 Protocol not supported 'none' for 'other'
+2009-08-07 06:05:04 INFO  clients.cpp:381 Trying client 'other' using protocol 'none'
+2009-08-07 06:05:04 ERROR clients.cpp:401 Protocol not supported 'none' for 'other'
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
 2009-08-07 06:05:04 VERB  db.cpp:251 Database closed

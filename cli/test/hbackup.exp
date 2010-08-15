@@ -141,8 +141,6 @@ Backup, DB missing
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -261,8 +259,6 @@ Typical backup, initialize DB
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -813,8 +809,6 @@ Specify clients
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -1100,9 +1094,6 @@ User-mode backup
  -> No file logging
  -> DB path: 'test_user/.hbackup'
  -> DB compression: later
- -> Parser plugins paths:
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Selected clients:
  --> localhost
  -> Clients:
@@ -1116,6 +1107,9 @@ Database open in read/write mode
  -> Reading client configuration file for 'localhost'
  -> Client: localhost
  --> Protocol: file
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Config: test_user/.hbackup/config
  --> Expiry: none
  --> Paths:
@@ -1180,8 +1174,6 @@ Fix DB
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -1301,8 +1293,6 @@ Scan DB
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -1493,8 +1483,6 @@ Check DB
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -1640,8 +1628,6 @@ Database closed
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -1769,8 +1755,6 @@ Database closed
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -1898,8 +1882,6 @@ Database closed
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -2030,8 +2012,6 @@ Database closed
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -2163,8 +2143,6 @@ Database closed
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -2296,8 +2274,6 @@ Database closed
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -2428,8 +2404,6 @@ Database closed
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -2577,8 +2551,6 @@ Database closed
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -2705,8 +2677,6 @@ Database closed
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -2877,8 +2847,6 @@ Database closed
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)
@@ -3021,8 +2989,6 @@ Database closed
  -> DB compression: automatic
  -> Parser plugins paths:
  --> ../../../parsers/.libs
- --> /usr/local/lib/hbackup
- --> /usr/lib/hbackup
  -> Parsers found:
  --> cvs (CVS)
  --> svn (Subversion)

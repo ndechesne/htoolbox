@@ -257,6 +257,7 @@ echo 30 > "$TESTDIRUSER/testuser/subdir2/f3.txt"
 echo 40 > "$TESTDIRUSER/testuser/subdir2/f4.txt"
 mkdir -p "$TESTDIRUSER/.hbackup"
 cat << EOF > "$TESTDIRUSER/.hbackup/config"
+parsers_dir $PARSERSDIR
 path "~/testuser/"
 report_copy_error_once
 EOF

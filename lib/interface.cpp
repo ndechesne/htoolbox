@@ -343,11 +343,13 @@ int HBackup::readConfig(const char* config_path) {
     _d->db = new Database(DEFAULT_DB_PATH);
   }
 
-  // Add default parser plugins paths
-  _d->parser_plugins_paths.push_back("/usr/local/lib/hbackup");
-  _d->parsers_manager.loadPlugins(_d->parser_plugins_paths.back().c_str());
-  _d->parser_plugins_paths.push_back("/usr/lib/hbackup");
-  _d->parsers_manager.loadPlugins(_d->parser_plugins_paths.back().c_str());
+  // Add default parser plugins paths if none specified
+  if (_d->parser_plugins_paths.empty()) {
+    _d->parser_plugins_paths.push_back("/usr/local/lib/hbackup");
+    _d->parsers_manager.loadPlugins(_d->parser_plugins_paths.back().c_str());
+    _d->parser_plugins_paths.push_back("/usr/lib/hbackup");
+    _d->parsers_manager.loadPlugins(_d->parser_plugins_paths.back().c_str());
+  }
 
   return 0;
 }
@@ -360,11 +362,6 @@ int HBackup::open(
 
   bool failed = false;
   if (user_mode) {
-    // Default parser plugins paths
-    _d->parser_plugins_paths.push_back("/usr/local/lib/hbackup");
-    _d->parsers_manager.loadPlugins(_d->parser_plugins_paths.back().c_str());
-    _d->parser_plugins_paths.push_back("/usr/lib/hbackup");
-    _d->parsers_manager.loadPlugins(_d->parser_plugins_paths.back().c_str());
     // Give 'selected' client name
     addClient("localhost");
     // Set-up client info

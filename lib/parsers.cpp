@@ -69,6 +69,7 @@ ParsersManager::~ParsersManager() {
 }
 
 int ParsersManager::loadPlugins(const char* path) {
+  int rc = 0;
   Directory d(path);
   if (d.isValid()) {
     d.createList();
@@ -84,13 +85,14 @@ int ParsersManager::loadPlugins(const char* path) {
             ParserManifest* manifest =
               static_cast<ParserManifest*>(manifest_handle);
             _children.push_back(manifest->parser);
+            ++rc;
             hlog_regression("DBG manifest %s", manifest->parser->name());
           }
         }
       }
     }
   }
-  return 0;
+  return rc;
 }
 
 IParser* ParsersManager::createParser(
@@ -137,8 +139,20 @@ void ParsersManager::show(int level) const {
     return;
   }
   hlog_debug_arrow(level, "Parsers found:");
+  list<string> codes_found;
   list<IParser*>::const_iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
-    hlog_debug_arrow(level + 1, "%s (%s)", (*i)->code(), (*i)->name());
+    bool found = false;
+    for (list<string>::iterator it = codes_found.begin();
+         it != codes_found.end(); ++it) {
+      if (*it == (*i)->code()) {
+        found = true;
+        break;
+      }
+    }
+    if (! found) {
+      hlog_debug_arrow(level + 1, "%s (%s)", (*i)->code(), (*i)->name());
+    }
+    codes_found.push_back((*i)->code());
   }
 }

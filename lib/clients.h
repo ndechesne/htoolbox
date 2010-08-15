@@ -39,7 +39,8 @@ public:
 
 class Client : public ConfigObject {
   Attributes        _attributes;
-  const ParsersManager& _parsers_manager;
+  ParsersManager&   _parsers_manager;
+  bool              _own_parsers;
   list<ClientPath*> _paths;
   string            _subset_client;
   string            _name;
@@ -67,7 +68,7 @@ public:
   Client(
     const string&     name,
     const Attributes& attributes,
-    const ParsersManager& parsers_manager,
+    ParsersManager&   parsers_manager,
     const string&     sub_name = "");
   ~Client();
   virtual ConfigObject* configChildFactory(
