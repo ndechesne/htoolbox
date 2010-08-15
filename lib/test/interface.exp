@@ -15,6 +15,9 @@ Test: backup, not initialized
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -132,6 +135,9 @@ Test: check config
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -260,6 +266,9 @@ Test: typical backup
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -887,6 +896,9 @@ Test: same backup
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -1357,6 +1369,9 @@ Test: interrupted backup
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -1748,6 +1763,9 @@ path "/home/Blah/test/"
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -2145,6 +2163,9 @@ Test: specify clients
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -2514,6 +2535,9 @@ Test: scan DB
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -2706,6 +2730,9 @@ Test: check DB
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -2849,6 +2876,9 @@ Test: list clients
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -2973,6 +3003,9 @@ Test: list paths in UNIX client 'myClient'
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -3094,6 +3127,9 @@ Test: list paths in DOS client 'client.xp'
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -3215,6 +3251,9 @@ Test: restore file
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -3336,6 +3375,9 @@ Test: restore dir
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -3503,6 +3545,9 @@ Test: restore subdir
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -3640,6 +3685,9 @@ Test: restore client
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -3811,6 +3859,9 @@ Test: typical backup
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -4281,6 +4332,9 @@ Test: specify clients
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -4592,6 +4646,9 @@ Test: list clients
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -4716,6 +4773,9 @@ Test: list paths in DOS client 'myClient.xp'
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -4837,6 +4897,9 @@ Test: list paths in dual-boot client 'myClient*'
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  ---> myClient.xp
@@ -4964,6 +5027,9 @@ Test: list sub-paths in UNIX client 'myClient'
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -5085,6 +5151,9 @@ Test: list sub-paths in DOS client 'myClient.xp', 'C:'
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -5208,6 +5277,9 @@ Test: restore file (UNIX)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -5336,6 +5408,9 @@ Test: restore subdir (UNIX)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -5468,6 +5543,9 @@ Test: restore dir (UNIX)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -5600,6 +5678,9 @@ Test: restore client (UNIX)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -5732,6 +5813,9 @@ Test: restore file (DOS)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -5859,6 +5943,9 @@ Test: restore subdir (DOS)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -5990,6 +6077,9 @@ Test: restore dir (DOS)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -6123,6 +6213,9 @@ Test: restore client (DOS)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -6256,6 +6349,9 @@ Test: restore client (dual-boot)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  ---> myClient.xp
@@ -6401,6 +6497,9 @@ Test: restore (symlinks) file (UNIX)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -6529,6 +6628,9 @@ Test: restore (symlinks) subdir (UNIX)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -6661,6 +6763,9 @@ Test: restore (symlinks) dir (UNIX)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -6793,6 +6898,9 @@ Test: restore (symlinks) client (UNIX)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -6925,6 +7033,9 @@ Test: restore (symlinks) file (DOS)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -7052,6 +7163,9 @@ Test: restore (symlinks) subdir (DOS)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -7183,6 +7297,9 @@ Test: restore (symlinks) dir (DOS)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -7316,6 +7433,9 @@ Test: restore (symlinks) client (DOS)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -7449,6 +7569,9 @@ Test: restore (symlinks) client (dual-boot)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  ---> myClient.xp
@@ -7595,6 +7718,9 @@ Test: restore (hard links) file (UNIX)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -7723,6 +7849,9 @@ Test: restore (hard links) subdir (UNIX)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -7855,6 +7984,9 @@ Test: restore (hard links) dir (UNIX)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -7987,6 +8119,9 @@ Test: restore (hard links) client (UNIX)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  --> Clients:
@@ -8119,6 +8254,9 @@ Test: restore (hard links) file (DOS)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -8246,6 +8384,9 @@ Test: restore (hard links) subdir (DOS)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -8377,6 +8518,9 @@ Test: restore (hard links) dir (DOS)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -8510,6 +8654,9 @@ Test: restore (hard links) client (DOS)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient.xp
  --> Clients:
@@ -8643,6 +8790,9 @@ Test: restore (hard links) client (dual-boot)
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Selected clients:
  ---> myClient
  ---> myClient.xp
@@ -8790,6 +8940,9 @@ sh: cannot create test_db/.data/fef51838cd3cfe8ed96355742eb71fbd-0/data: Directo
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -8938,6 +9091,9 @@ sh: cannot create test_db/.data/fef51838cd3cfe8ed96355742eb71fbd-0/data: Directo
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -9083,6 +9239,9 @@ Test: scan for missing data
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -9362,6 +9521,9 @@ Test: scan for obsolete data, case1
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -9732,6 +9894,9 @@ Test: scan for obsolete data, case 2
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -10097,6 +10262,9 @@ Test: backup recovers broken checksums + replace data
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -10586,6 +10754,9 @@ Test: second backup should not recover again
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -10981,6 +11152,9 @@ Test: scan shows recovered data
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -11178,6 +11352,9 @@ Test: check finds corrupted data
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -11322,6 +11499,9 @@ Test: scan removes corrupted data
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -11518,6 +11698,9 @@ Test: third backup should not recover again
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista
@@ -11996,6 +12179,9 @@ Test: declared path missing
  ---> ../../../parsers/.libs
  ---> /usr/local/lib/hbackup
  ---> /usr/lib/hbackup
+ --> Parsers found:
+ ---> cvs (CVS)
+ ---> svn (Subversion)
  --> Clients:
  ---> Client: aClient
  ----> Required subset: vista

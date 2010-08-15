@@ -143,6 +143,9 @@ Backup, DB missing
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -260,6 +263,9 @@ Typical backup, initialize DB
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -809,6 +815,9 @@ Specify clients
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Selected clients:
  --> client.xp
  --> myhost
@@ -1173,6 +1182,9 @@ Fix DB
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1291,6 +1303,9 @@ Scan DB
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1480,6 +1495,9 @@ Check DB
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1624,6 +1642,9 @@ Database closed
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1750,6 +1771,9 @@ Database closed
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -1876,6 +1900,9 @@ Database closed
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2005,6 +2032,9 @@ Database closed
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2135,6 +2165,9 @@ Database closed
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Selected clients:
  --> aClient.vista
  --> myhost
@@ -2265,6 +2298,9 @@ Database closed
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Selected clients:
  --> myClient
  --> myClient.xp
@@ -2394,6 +2430,9 @@ Database closed
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Selected clients:
  --> aClient.vista
  --> client.xp
@@ -2540,6 +2579,9 @@ Database closed
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2665,6 +2707,9 @@ Database closed
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2834,6 +2879,9 @@ Database closed
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2975,6 +3023,9 @@ Database closed
  --> ../../../parsers/.libs
  --> /usr/local/lib/hbackup
  --> /usr/lib/hbackup
+ -> Parsers found:
+ --> cvs (CVS)
+ --> svn (Subversion)
  -> Selected clients:
  --> myhost
  -> Clients:

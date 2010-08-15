@@ -133,8 +133,12 @@ IParser* ParsersManager::createParser(
 }
 
 void ParsersManager::show(int level) const {
+  if (_children.empty()) {
+    return;
+  }
+  hlog_debug_arrow(level, "Parsers found:");
   list<IParser*>::const_iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
-    hlog_debug_arrow(level, "Parser: %s", (*i)->name());
+    hlog_debug_arrow(level + 1, "%s (%s)", (*i)->code(), (*i)->name());
   }
 }

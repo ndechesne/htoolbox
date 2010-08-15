@@ -570,6 +570,7 @@ void HBackup::show(int level) const {
       hlog_debug_arrow(level + 1, "%s", path_it->c_str());
     }
   }
+  _d->parsers_manager.show(level);
   if (! _d->selected_clients.empty()) {
     hlog_debug_arrow(level, "Selected clients:");
     for (std::list<string>::iterator client = _d->selected_clients.begin();
