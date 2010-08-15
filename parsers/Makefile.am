@@ -6,22 +6,10 @@ AM_CXXFLAGS = \
 
 LIBS = $(top_builddir)/base/libhtools.la
 
-# Plugins
-lib_LTLIBRARIES = libhbackup_cvs.la libhbackup_svn.la
+pkglib_LTLIBRARIES = cvs_parser.la svn_parser.la
 
-libhbackup_cvs_la_LDFLAGS= -version-info $(LIB_VERSION)
+cvs_parser_la_LDFLAGS = -version-info $(LIB_VERSION) -module
+cvs_parser_la_SOURCES = cvs_parser.cpp
 
-libhbackup_cvs_la_SOURCES = \
-  cvs_parser.cpp \
-  $(NULL)
-
-libhbackup_svn_la_LDFLAGS= -version-info $(LIB_VERSION)
-
-libhbackup_svn_la_SOURCES = \
-  svn_parser.cpp \
-  $(NULL)
-
-EXTRA_DIST = \
-  cvs_parser.h \
-  svn_parser.h \
-  $(NULL)
+svn_parser_la_LDFLAGS = -version-info $(LIB_VERSION) -module
+svn_parser_la_SOURCES = svn_parser.cpp

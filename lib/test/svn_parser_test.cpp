@@ -18,7 +18,9 @@
 
 #include <iostream>
 #include <list>
+
 #include <sys/stat.h>
+#include <dlfcn.h>
 
 using namespace std;
 
@@ -27,21 +29,34 @@ using namespace std;
 #include "files.h"
 #include "hreport.h"
 #include "parsers.h"
-#include "svn_parser.h"
 
 int main(void) {
-  Parser*     parser_list;
-  Parser*     parser;
-  Parser*     parser2;
-  Node*       node;
+  IParser* parser_list;
+  IParser* parser;
+  IParser* parser2;
+  Node* node;
 
   report.setLevel(debug);
+
+  // Load plugin
+  void* file_handle = dlopen("../../../parsers/.libs/svn_parser.so", RTLD_NOW);
+  if (file_handle == NULL) {
+    hlog_alert("plugin not found");
+    exit(0);
+  }
+  void* manifest_handle = dlsym(file_handle, "manifest");
+  if (manifest_handle == NULL) {
+    hlog_alert("symbol manifest not found in plugin");
+    exit(0);
+  }
+  ParserManifest* manifest = static_cast<ParserManifest*>(manifest_handle);
+  IParser& ParserManager = *manifest->parser;
 
   // Test
   cout << endl << "Only consider controlled files" << endl;
 
   // Create pseudo parsers list member
-  parser_list = new SvnParser(Parser::controlled);
+  parser_list = ParserManager.createInstance(IParser::controlled);
 
   /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1")) == NULL) {
@@ -222,7 +237,7 @@ int main(void) {
   cout << endl << "Only consider controlled modified files" << endl;
 
   // Create pseudo parsers list member
-  parser_list = new SvnParser(Parser::modified);
+  parser_list = ParserManager.createInstance(IParser::modified);
 
   /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1")) == NULL) {
@@ -404,7 +419,7 @@ int main(void) {
     << endl;
 
   // Create pseudo parsers list member
-  parser_list = new SvnParser(Parser::modifiedandothers);
+  parser_list = ParserManager.createInstance(IParser::modifiedandothers);
 
   /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1")) == NULL) {
@@ -586,7 +601,7 @@ int main(void) {
   cout << endl << "Only consider non-controlled files" << endl;
 
   // Create pseudo parsers list member
-  parser_list = new SvnParser(Parser::others);
+  parser_list = ParserManager.createInstance(IParser::others);
 
   /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1")) == NULL) {

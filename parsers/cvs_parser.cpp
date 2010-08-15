@@ -21,7 +21,7 @@
 
 using namespace std;
 
-#include "cvs_parser.h"
+#include "parsers.h"
 
 using namespace hbackup;
 using namespace hreport;
@@ -29,14 +29,31 @@ using namespace hreport;
 static const string control_dir = "/CVS";
 static const char* entries = "/Entries";
 
+class CvsParser : public IParser {
+public:
+  // Constructor
+  CvsParser(Mode mode = master, const string& dir_path = "");
+  // Tell them who we are
+  const char* name() const { return "CVS"; };
+  const char* code() const { return "cvs"; };
+  // Factory
+  IParser* createInstance(Mode mode) { return new CvsParser(mode); }
+  // This will create an appropriate parser for the directory if relevant
+  IParser* createChildIfControlled(const string& dir_path) const;
+  // That tells use whether to ignore the file, i.e. not back it up
+  bool ignore(const Node& node) const;
+  // For debug purposes
+  void show(int level = 0);
+};
+
 // Parser for CVS control directory 'CVS'
-class CvsControlParser : public Parser {
+class CvsControlParser : public IParser {
 public:
   // Just to know the parser used
   const char* name() const { return "CVS Control"; }
   const char* code() const { return "cvs_c"; }
   // This directory has no controlled children
-  Parser* createChildIfControlled(const string& dir_path) const {
+  IParser* createChildIfControlled(const string& dir_path) const {
     (void) dir_path;
     return new IgnoreParser;
   }
@@ -50,7 +67,7 @@ public:
   }
 };
 
-Parser *CvsParser::createChildIfControlled(const string& dir_path) const {
+IParser *CvsParser::createChildIfControlled(const string& dir_path) const {
   // Parent under control, this is the control directory
   if (! _no_parsing
    && (dir_path.size() > control_dir.size())
@@ -72,7 +89,8 @@ Parser *CvsParser::createChildIfControlled(const string& dir_path) const {
   }
 }
 
-CvsParser::CvsParser(Mode mode, const string& dir_path) : Parser(mode, dir_path) {
+CvsParser::CvsParser(Mode mode, const string& dir_path)
+    : IParser(mode, dir_path) {
   if (dir_path == "") {
     return;
   }
@@ -201,22 +219,22 @@ bool CvsParser::ignore(const Node& node) const {
 
   // Deal with result
   switch (_mode) {
-    case Parser::controlled:
+    case IParser::controlled:
       if (file_controlled) {
         return false;
       }
       break;
-    case Parser::modified:
+    case IParser::modified:
       if (file_modified) {
         return false;
       }
       break;
-    case Parser::modifiedandothers:
+    case IParser::modifiedandothers:
       if (file_modified || ! file_controlled) {
         return false;
       }
       break;
-    case Parser::others:
+    case IParser::others:
       if (! file_controlled) {
         return false;
       }
@@ -238,3 +256,9 @@ void CvsParser::show(int level) {
   }
 }
 
+// Plugin stuff
+
+// Default constructor creates a manager
+CvsParser manager;
+
+ParserManifest manifest = { &manager };

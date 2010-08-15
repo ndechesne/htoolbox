@@ -214,8 +214,12 @@ int Client::readConfig(
   return failed ? -1 : 0;
 }
 
-Client::Client(const string& name, const Attributes& a, const string& subset)
-    : _attributes(a) {
+Client::Client(
+    const string& name,
+    const Attributes& attributes,
+    const ParsersManager& parsers_manager,
+    const string& subset)
+    : _attributes(attributes), _parsers_manager(parsers_manager) {
   _name = name;
   _subset_server = subset;
   if (_subset_server.empty()) {
@@ -321,9 +325,10 @@ void Client::setListfile(const char* value) {
 ClientPath* Client::addClientPath(const string& name) {
   ClientPath* path;
   if (name[0] == '~') {
-    path = new ClientPath((_home_path + &name[1]).c_str(), _attributes);
+    path = new ClientPath((_home_path + &name[1]).c_str(), _attributes,
+      _parsers_manager);
   } else {
-    path = new ClientPath(name.c_str(), _attributes);
+    path = new ClientPath(name.c_str(), _attributes, _parsers_manager);
   }
   list<ClientPath*>::iterator i = _paths.begin();
   while ((i != _paths.end())

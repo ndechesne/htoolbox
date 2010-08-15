@@ -20,6 +20,7 @@
 #define PARSERS_H
 
 #include <list>
+#include <string>
 
 #include "hbackup.h"
 #include "files.h"
@@ -27,7 +28,7 @@
 
 namespace hbackup {
 
-class Parser {
+class IParser {
 public:
   enum Mode {
     master            = 0,  //!< master object
@@ -45,21 +46,21 @@ public:
   // Constructor
   // Note: all parsers MUST INHERIT this constructor as sole constructor, see
   // IgnoreParser below as an example
-  Parser(Mode mode = master, const string& dir_path = "") : _mode(mode) {
+  IParser(Mode mode = master, const string& dir_path = "") : _mode(mode) {
     _no_parsing = (dir_path == "");
   }
   // Need a virtual destructor
-  virtual ~Parser() {};
+  virtual ~IParser() {};
   // Tell them who we are
   virtual const char* name() const = 0;
   virtual const char* code() const = 0;
   // Factory
-  virtual Parser* createInstance(Mode mode) {
+  virtual IParser* createInstance(Mode mode) {
     (void) mode;
     return NULL;
   }
   // This will create an appropriate parser for the directory if relevant
-  virtual Parser* createChildIfControlled(const string& dir_path) const = 0;
+  virtual IParser* createChildIfControlled(const string& dir_path) const = 0;
   // That tells use whether to ignore the file, i.e. not back it up
   virtual bool ignore(const Node& node) const = 0;
   // For debug purposes
@@ -68,16 +69,16 @@ public:
   }
 };
 
-class IgnoreParser : public Parser {
+class IgnoreParser : public IParser {
 public:
   // Only need default constructor here in fact, but rules are rules
   IgnoreParser(Mode mode = master, const string& dir_path = "") :
-    Parser(mode, dir_path) {}
+    IParser(mode, dir_path) {}
   // Tell them who we are
   const char* name() const { return "ignore"; };
   const char* code() const { return "ign"; };
   // Fail on directory
-  Parser* createChildIfControlled(const string& dir_path) const {
+  IParser* createChildIfControlled(const string& dir_path) const {
     (void) dir_path;
     return NULL;
   };
@@ -89,23 +90,36 @@ public:
 };
 
 class Parsers {
-  list<Parser*> _children;
+  std::list<IParser*> _children;
 public:
   ~Parsers();
   // Create new controlling parser if justified
-  Parser* createParserIfControlled(const string& dir_path) const;
-  // create new managing parser of given name with given mode
-  Parser* createParser(const string& name, const string& mode);
+  IParser* createParserIfControlled(const string& dir_path) const;
   // List management
   bool empty() const { return _children.empty(); }
   size_t size() const { return _children.size(); }
-  void push_back(Parser* parser) { return _children.push_back(parser); }
+  void push_back(IParser* parser) { return _children.push_back(parser); }
   // For verbosity
   void show(int level = 0) const;
 };
 
-/* List of registered parsers */
-extern Parsers parsers_registered;
+class ParsersManager {
+  std::list<void*> _dls;
+  std::list<IParser*> _children;
+public:
+  ~ParsersManager();
+  // Load parser plugins
+  int loadPlugins(const char* path);
+  // create new managing parser of given name with given mode
+  IParser* createParser(const string& name, const string& mode) const;
+  // For verbosity
+  void show(int level = 0) const;
+};
+
+// Plugins need to provide an object of this type called 'manifest'
+struct ParserManifest {
+  IParser* parser;
+};
 
 }
 

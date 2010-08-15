@@ -81,6 +81,9 @@ struct HBackup::Private : ConfigObject {
   // db
   Database*                 db;
   Database::CompressionMode db_compress_mode;
+  // parsers
+  std::list<string>         parser_plugins_paths;
+  ParsersManager            parsers_manager;
   // clients
   std::list<string>         selected_clients;
   std::list<Client*>        clients;
@@ -170,8 +173,13 @@ ConfigObject* HBackup::Private::configChildFactory(
     db_compress_mode = Database::auto_now;
     co = this;
   } else
+  if (keyword == "parsers_dir") {
+    parser_plugins_paths.push_back(params[1]);
+    parsers_manager.loadPlugins(parser_plugins_paths.back().c_str());
+    co = this;
+  } else
   if (keyword == "client") {
-    Client* client = new Client(params[1], attributes,
+    Client* client = new Client(params[1], attributes, parsers_manager,
       (params.size() > 2) ? params[2] : "");
     // Clients MUST BE in alphabetic order
     int cmp = 1;
@@ -247,6 +255,8 @@ int HBackup::readConfig(const char* config_path) {
     // old keyword for compress auto
     db->add(new ConfigItem("compress_auto", 0, 1));
   }
+  // parser plugins
+  config_syntax.add(new ConfigItem("parsers_dir", 0, 0, 1));
   // filter
   {
     ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
@@ -332,6 +342,13 @@ int HBackup::readConfig(const char* config_path) {
   if (_d->db == NULL) {
     _d->db = new Database(DEFAULT_DB_PATH);
   }
+
+  // Add default parser plugins paths
+  _d->parser_plugins_paths.push_back("/usr/local/lib/hbackup");
+  _d->parsers_manager.loadPlugins(_d->parser_plugins_paths.back().c_str());
+  _d->parser_plugins_paths.push_back("/usr/lib/hbackup");
+  _d->parsers_manager.loadPlugins(_d->parser_plugins_paths.back().c_str());
+
   return 0;
 }
 
@@ -343,10 +360,15 @@ int HBackup::open(
 
   bool failed = false;
   if (user_mode) {
+    // Default parser plugins paths
+    _d->parser_plugins_paths.push_back("/usr/local/lib/hbackup");
+    _d->parsers_manager.loadPlugins(_d->parser_plugins_paths.back().c_str());
+    _d->parser_plugins_paths.push_back("/usr/lib/hbackup");
+    _d->parsers_manager.loadPlugins(_d->parser_plugins_paths.back().c_str());
     // Give 'selected' client name
     addClient("localhost");
     // Set-up client info
-    Client* client = new Client("localhost", _d->attributes);
+    Client* client = new Client("localhost", _d->attributes, _d->parsers_manager);
     client->setProtocol("file");
     client->setListfile(Path(path, ".hbackup/config"));
     client->setBasePath(path);
@@ -541,6 +563,13 @@ void HBackup::show(int level) const {
       break;
   }
   hlog_debug_arrow(level, "DB compression: %s", comp_str);
+  if (! _d->parser_plugins_paths.empty()) {
+    hlog_debug_arrow(level, "Parser plugins paths:");
+    for (std::list<string>::iterator path_it = _d->parser_plugins_paths.begin();
+        path_it != _d->parser_plugins_paths.end(); path_it++) {
+      hlog_debug_arrow(level + 1, "%s", path_it->c_str());
+    }
+  }
   if (! _d->selected_clients.empty()) {
     hlog_debug_arrow(level, "Selected clients:");
     for (std::list<string>::iterator client = _d->selected_clients.begin();

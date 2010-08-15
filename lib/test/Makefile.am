@@ -36,8 +36,6 @@ paths_test_SOURCES = paths_test.cpp
 svn_parser_test_SOURCES = svn_parser_test.cpp
 
 LDADD = \
-  $(top_builddir)/parsers/libhbackup_cvs.la \
-  $(top_builddir)/parsers/libhbackup_svn.la \
   $(top_builddir)/base/libhtools.la \
   $(top_builddir)/lib/libhbackup.la \
   $(NULL)

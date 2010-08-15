@@ -63,8 +63,10 @@ int main(void) {
   report.setLevel(debug);
 
   Attributes attributes;
-  ClientPath* path = new ClientPath("/home/User", attributes);
-  Database    db("test_db");
+  ParsersManager parsers_manager;
+  parsers_manager.loadPlugins("../../../parsers/.libs");
+  ClientPath* path = new ClientPath("/home/User", attributes, parsers_manager);
+  Database db("test_db");
   db.setCopyProgressCallback(copy_progress);
   db.setListProgressCallback(list_progress);
   // myClient's lists

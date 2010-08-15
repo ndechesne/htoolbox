@@ -13,8 +13,7 @@ libhbackup_la_LDFLAGS= -version-info $(LIB_VERSION)
 
 libhbackup_la_LIBADD = \
   $(top_builddir)/base/libhtools.la \
-  $(top_builddir)/parsers/libhbackup_cvs.la \
-  $(top_builddir)/parsers/libhbackup_svn.la \
+  -ldl \
   $(NULL)
 
 libhbackup_la_SOURCES = \

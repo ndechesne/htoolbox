@@ -139,6 +139,10 @@ Backup, DB missing
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -252,6 +256,10 @@ Typical backup, initialize DB
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -797,6 +805,10 @@ Specify clients
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Selected clients:
  --> client.xp
  --> myhost
@@ -1079,6 +1091,9 @@ User-mode backup
  -> No file logging
  -> DB path: 'test_user/.hbackup'
  -> DB compression: later
+ -> Parser plugins paths:
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Selected clients:
  --> localhost
  -> Clients:
@@ -1154,6 +1169,10 @@ Fix DB
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1268,6 +1287,10 @@ Scan DB
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1453,6 +1476,10 @@ Check DB
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1593,6 +1620,10 @@ Database closed
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Clients:
  --> Client: aClient
  ---> Required subset: vista
@@ -1715,6 +1746,10 @@ Database closed
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -1837,6 +1872,10 @@ Database closed
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -1962,6 +2001,10 @@ Database closed
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2088,6 +2131,10 @@ Database closed
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Selected clients:
  --> aClient.vista
  --> myhost
@@ -2214,6 +2261,10 @@ Database closed
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Selected clients:
  --> myClient
  --> myClient.xp
@@ -2339,6 +2390,10 @@ Database closed
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Selected clients:
  --> aClient.vista
  --> client.xp
@@ -2481,6 +2536,10 @@ Database closed
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2602,6 +2661,10 @@ Database closed
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2767,6 +2830,10 @@ Database closed
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Selected clients:
  --> myhost
  -> Clients:
@@ -2904,6 +2971,10 @@ Database closed
  --> Level: verbose
  -> DB path: 'test_db'
  -> DB compression: automatic
+ -> Parser plugins paths:
+ --> ../../../parsers/.libs
+ --> /usr/local/lib/hbackup
+ --> /usr/lib/hbackup
  -> Selected clients:
  --> myhost
  -> Clients:

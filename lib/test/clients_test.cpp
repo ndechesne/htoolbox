@@ -77,11 +77,15 @@ int main(void) {
   attributes.addFilterCondition(params);
   attributes.show(1);
 
+  // Load parser plugins
+  ParsersManager parsers_manager;
+  parsers_manager.loadPlugins("../../../parsers/.libs");
+
   printf(">List %zu client(s):\n", clients.size());
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("localhost", attributes);
+  client = new Client("localhost", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("file");
   client->setHostOrIp("localhost");
@@ -107,7 +111,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("myClient", attributes);
+  client = new Client("myClient", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
@@ -117,7 +121,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("myClient2", attributes);
+  client = new Client("myClient2", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("myClient");
@@ -128,7 +132,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("otherClient", attributes);
+  client = new Client("otherClient", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
@@ -139,7 +143,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("otherClient1", attributes);
+  client = new Client("otherClient1", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
@@ -149,7 +153,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("otherClient2", attributes);
+  client = new Client("otherClient2", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
@@ -159,7 +163,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("otherClient3", attributes);
+  client = new Client("otherClient3", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("ssh");
   client->setHostOrIp("otherClient");
@@ -168,7 +172,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("Client", attributes);
+  client = new Client("Client", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("Client");
@@ -179,7 +183,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("Client2", attributes);
+  client = new Client("Client2", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("Client");
@@ -191,7 +195,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("Client3", attributes);
+  client = new Client("Client3", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("Client");
@@ -201,7 +205,7 @@ int main(void) {
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     (*i)->show(1);
   }
-  client = new Client("Client4", attributes);
+  client = new Client("Client4", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setHostOrIp("Client");
@@ -222,7 +226,7 @@ int main(void) {
   clients.clear();
   db.close();
 
-  client = new Client("testhost", attributes);
+  client = new Client("testhost", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("file");
   client->setHostOrIp("localhost");
@@ -241,7 +245,7 @@ int main(void) {
   clients.clear();
   db.close();
 
-  client = new Client("testhost", attributes);
+  client = new Client("testhost", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("file");
   client->setListfile("etc/localhost.list");
@@ -259,7 +263,7 @@ int main(void) {
   clients.clear();
   db.close();
 
-  client = new Client("testhost", attributes);
+  client = new Client("testhost", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("file");
   client->setListfile("etc/localhost.list");
@@ -278,7 +282,7 @@ int main(void) {
   clients.clear();
   db.close();
 
-  client = new Client("testhost", attributes);
+  client = new Client("testhost", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("file");
   sys_rc = system("sed \"s%expire.*%path test2/subdir%\" etc/localhost.list > etc/localhost.list2");
@@ -301,7 +305,7 @@ int main(void) {
 
   cout << endl << "Test: missing clients" << endl;
 
-  client = new Client("myhost2", attributes);
+  client = new Client("myhost2", attributes, parsers_manager);
   client->setProtocol("smb");
   sys_rc = system("echo \"path 'C:\\Test Dir'\" > test_cifs/Backup/testhost2.list");
   client->setListfile("C:\\Backup\\testhost2.list");
@@ -310,7 +314,7 @@ int main(void) {
   db.close();
   delete client;
 
-  client = new Client("myhost3", attributes);
+  client = new Client("myhost3", attributes, parsers_manager);
   client->setProtocol("nfs");
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
   client->setListfile("/home/User/testhost3.list");
@@ -319,7 +323,7 @@ int main(void) {
   db.close();
   delete client;
 
-  client = new Client("myhost", attributes);
+  client = new Client("myhost", attributes, parsers_manager);
   client->setProtocol("file");
   sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
@@ -405,18 +409,18 @@ int main(void) {
   db.close();
 
   printf("Create list of clients\n");
-  client = new Client("myhost", attributes);
+  client = new Client("myhost", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("file");
   sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
 
-  client = new Client("myhost2", attributes);
+  client = new Client("myhost2", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\testhost2.list");
 
-  client = new Client("myhost3", attributes);
+  client = new Client("myhost3", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("nfs");
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
@@ -437,12 +441,12 @@ int main(void) {
   db.close();
 
   printf("Create list of clients\n");
-  client = new Client("myhost2", attributes);
+  client = new Client("myhost2", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\testhost2.list");
 
-  client = new Client("myhost3", attributes);
+  client = new Client("myhost3", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("nfs");
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
@@ -463,13 +467,13 @@ int main(void) {
   db.close();
 
   printf("Create list of clients\n");
-  client = new Client("myhost", attributes);
+  client = new Client("myhost", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("file");
   sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
 
-  client = new Client("myhost3", attributes);
+  client = new Client("myhost3", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("nfs");
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
@@ -490,13 +494,13 @@ int main(void) {
   db.close();
 
   printf("Create list of clients\n");
-  client = new Client("myhost", attributes);
+  client = new Client("myhost", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("file");
   sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
 
-  client = new Client("myhost2", attributes);
+  client = new Client("myhost2", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\testhost2.list");
@@ -516,7 +520,7 @@ int main(void) {
   db.close();
 
   printf("Second mount fails\n");
-  client = new Client("myClient", attributes);
+  client = new Client("myClient", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
@@ -537,7 +541,7 @@ int main(void) {
   db.close();
 
   printf("First mount fails\n");
-  client = new Client("myClient", attributes);
+  client = new Client("myClient", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
@@ -559,7 +563,7 @@ int main(void) {
   db.close();
 
   printf("Works again\n");
-  client = new Client("myClient", attributes);
+  client = new Client("myClient", attributes, parsers_manager);
   clients.push_back(client);
   client->setProtocol("nfs");
   client->setHostOrIp("myClient");
@@ -580,7 +584,7 @@ int main(void) {
   db.close();
 
   printf("Test with dual boot client\n");
-  client = new Client("myClient", attributes, "xp");
+  client = new Client("myClient", attributes, parsers_manager, "xp");
   clients.push_back(client);
   client->setProtocol("smb");
   client->setListfile("C:\\Backup\\Backup.LST");

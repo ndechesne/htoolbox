@@ -43,13 +43,13 @@ int ClientPath::parse_recurse(
     const char*     client_name,
     size_t          start,
     Directory&      dir,
-    const Parser*   current_parser) {
+    const IParser*   current_parser) {
   if (aborting()) {
     return -1;
   }
 
   // Check whether directory is under SCM control
-  Parser* parser = NULL;
+  IParser* parser = NULL;
   if (! _parsers.empty()) {
     // We have a parser, check this directory with it
     if (current_parser != NULL) {
@@ -189,8 +189,12 @@ int ClientPath::parse_recurse(
   return give_up ? -1 : 0;
 }
 
-ClientPath::ClientPath(const char* path, const Attributes& a)
-    : _path(path), _attributes(a), _compress(NULL), _no_compress(NULL) {
+ClientPath::ClientPath(
+    const char* path,
+    const Attributes& a,
+    const ParsersManager& parsers_manager)
+    : _path(path), _attributes(a), _parsers_manager(parsers_manager),
+      _compress(NULL), _no_compress(NULL) {
   // Change '\' into '/'
   _path.fromDos();
   // Remove trailing '/'s
@@ -241,7 +245,7 @@ ConfigObject* ClientPath::configChildFactory(
 int ClientPath::addParser(
     const string&   name,
     const string&   mode) {
-  Parser* parser = parsers_registered.createParser(name, mode);
+  IParser* parser = _parsers_manager.createParser(name, mode);
   if (parser == NULL) {
     return -1;
   }

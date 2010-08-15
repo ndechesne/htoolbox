@@ -24,7 +24,7 @@
 
 using namespace std;
 
-#include "svn_parser.h"
+#include "parsers.h"
 
 using namespace hbackup;
 using namespace hreport;
@@ -32,14 +32,32 @@ using namespace hreport;
 static const string control_dir = "/.svn";
 static const char* entries = "/entries";
 
+class SvnParser : public IParser {
+  bool _head;
+public:
+  // Constructor
+  SvnParser(Mode mode = master, const string& dir_path = "");
+  // Tell them who we are
+  const char* name() const { return "Subversion"; };
+  const char* code() const { return "svn"; };
+  // Factory
+  IParser* createInstance(Mode mode) { return new SvnParser(mode); }
+  // This will create an appropriate parser for the directory if relevant
+  IParser* createChildIfControlled(const string& dir_path) const;
+  // That tells us whether to ignore the file, i.e. not back it up
+  bool ignore(const Node& node) const;
+  // For debug purposes
+  void show(int level = 0);
+};
+
 // Parser for Subversion control directory '.svn'
-class SvnControlParser : public Parser {
+class SvnControlParser : public IParser {
 public:
   // Just to know the parser used
   const char* name() const { return "Subversion Control"; }
   const char* code() const { return "svn_c"; }
   // This directory has no controlled children
-  Parser* createChildIfControlled(const string& dir_path) const {
+  IParser* createChildIfControlled(const string& dir_path) const {
     (void) dir_path;
     return new IgnoreParser;
   }
@@ -52,14 +70,14 @@ public:
   }
 };
 
-class SvnParserProxy : public Parser {
+class SvnParserProxy : public IParser {
   const SvnParser* _head;
   SvnParserProxy(Mode mode, const string& dir_path);
 public:
   SvnParserProxy(const SvnParser* head) : _head(head) {}
   const char* name() const { return "Subversion Proxy"; }
   const char* code() const { return "svn_p"; }
-  Parser* createChildIfControlled(const string& dir_path) const {
+  IParser* createChildIfControlled(const string& dir_path) const {
     // Parent under control, this is the control directory
     if ((dir_path.size() > control_dir.size())
     &&  (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
@@ -78,7 +96,7 @@ public:
 };
 
 // dir_path is the relative or absolute complete path to the dir
-Parser *SvnParser::createChildIfControlled(const string& dir_path) const {
+IParser *SvnParser::createChildIfControlled(const string& dir_path) const {
   // Parent under control, this is the control directory
   if (! _no_parsing &&
        (dir_path.size() > control_dir.size()) &&
@@ -108,7 +126,7 @@ Parser *SvnParser::createChildIfControlled(const string& dir_path) const {
 }
 
 SvnParser::SvnParser(Mode mode, const string& dir_path) :
-    Parser(mode, dir_path), _head(true) {
+    IParser(mode, dir_path), _head(true) {
   if (dir_path == "") {
     return;
   }
@@ -181,25 +199,25 @@ bool SvnParser::ignore(const Node& node) const {
 
   // Deal with result
   switch (_mode) {
-    case Parser::controlled:
+    case IParser::controlled:
       if (file_controlled) {
         return false;
       }
       break;
-    case Parser::modified:
+    case IParser::modified:
       // Directories under control need to get parsed
       if (file_modified || (file_controlled && (node.type() == 'd'))) {
         return false;
       }
       break;
-    case Parser::modifiedandothers:
+    case IParser::modifiedandothers:
       // Directories under control need to get parsed
       if (file_modified || (file_controlled && (node.type() == 'd'))
        || ! file_controlled) {
         return false;
       }
       break;
-    case Parser::others:
+    case IParser::others:
       if (! file_controlled) {
         return false;
       }
@@ -217,3 +235,9 @@ void SvnParser::show(int level) {
   }
 }
 
+// Plugin stuff
+
+// Default constructor creates a manager
+SvnParser manager;
+
+ParserManifest manifest = { &manager };

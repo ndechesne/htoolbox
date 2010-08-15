@@ -438,6 +438,9 @@ int main(void) {
     item->add(new ConfigItem("compress_auto", 0, 1));
   }
 
+  // parser plugins
+  syntax.add(new ConfigItem("parsers_dir", 0, 0, 1));
+
   // filter
   {
     ConfigItem* item = new ConfigItem("filter", 0, 0, 2);

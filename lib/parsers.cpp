@@ -16,32 +16,31 @@
      Boston, MA 02111-1307, USA.
 */
 
+#include <dlfcn.h>
+
 using namespace std;
 
 #include "hbackup.h"
 #include "files.h"
 #include "hreport.h"
 #include "parsers.h"
-// Make it dynamic!
-#include "cvs_parser.h"
-#include "svn_parser.h"
 
 using namespace hbackup;
 using namespace hreport;
 
-Parsers hbackup::parsers_registered;
+// Parsers
 
 Parsers::~Parsers() {
-  list<Parser*>::iterator i;
+  list<IParser*>::iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
     delete *i;
   }
   _children.clear();
 }
 
-Parser* Parsers::createParserIfControlled(const string& dir_path) const {
-  Parser *parser;
-  list<Parser*>::const_iterator i;
+IParser* Parsers::createParserIfControlled(const string& dir_path) const {
+  IParser *parser;
+  list<IParser*>::const_iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
     parser = (*i)->createChildIfControlled(dir_path);
     if (parser != NULL) {
@@ -51,40 +50,79 @@ Parser* Parsers::createParserIfControlled(const string& dir_path) const {
   return NULL;
 }
 
-Parser* Parsers::createParser(const string& name, const string& mode_str) {
-  Parser::Mode mode;
+void Parsers::show(int level) const {
+  list<IParser*>::const_iterator i;
+  for (i = _children.begin(); i != _children.end(); i++) {
+    hlog_debug_arrow(level, "Parser: %s", (*i)->name());
+  }
+}
+
+// ParsersManager
+
+ParsersManager::~ParsersManager() {
+  _children.clear();
+  list<void*>::iterator dl_it;
+  for (dl_it = _dls.begin(); dl_it != _dls.end(); ++dl_it) {
+    dlclose(*dl_it);
+  }
+  _dls.clear();
+}
+
+int ParsersManager::loadPlugins(const char* path) {
+  Directory d(path);
+  if (d.isValid()) {
+    d.createList();
+    const list<Node*>& nodes = d.nodesListConst();
+    for (list<Node*>::const_iterator node_it = nodes.begin();
+        node_it != nodes.end(); ++node_it) {
+      if (strcmp(&(*node_it)->path()[(*node_it)->pathLength() - 3], ".so") == 0) {
+        void* file_handle = dlopen((*node_it)->path(), RTLD_NOW);
+        if (file_handle != NULL) {
+          _dls.push_back(file_handle);
+          void* manifest_handle = dlsym(file_handle, "manifest");
+          if (manifest_handle != NULL) {
+            ParserManifest* manifest =
+              static_cast<ParserManifest*>(manifest_handle);
+            _children.push_back(manifest->parser);
+            hlog_regression("DBG manifest %s", manifest->parser->name());
+          }
+        }
+      }
+    }
+  }
+  return 0;
+}
+
+IParser* ParsersManager::createParser(
+    const string&   name,
+    const string&   mode_str) const{
+  IParser::Mode mode;
 
   /* Determine mode */
   switch (mode_str[0]) {
     case 'c':
       // All controlled files
-      mode = Parser::controlled;
+      mode = IParser::controlled;
       break;
     case 'l':
       // Local files
-      mode = Parser::modifiedandothers;
+      mode = IParser::modifiedandothers;
       break;
     case 'm':
       // Modified controlled files
-      mode = Parser::modified;
+      mode = IParser::modified;
       break;
     case 'o':
       // Non controlled files
-      mode = Parser::others;
+      mode = IParser::others;
       break;
     default:
       hlog_error("Undefined parser mode '%s'", mode_str.c_str());
       return NULL;
   }
 
-  /* FIXME Create list of parsers */
-  if (empty()) {
-    push_back(new CvsParser);
-    push_back(new SvnParser);
-  }
-
   /* Create instance of specified parser */
-  list<Parser*>::iterator i;
+  list<IParser*>::const_iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
     if ((*i)->code() == name) {
       return (*i)->createInstance(mode);
@@ -94,8 +132,8 @@ Parser* Parsers::createParser(const string& name, const string& mode_str) {
   return NULL;
 }
 
-void Parsers::show(int level) const {
-  list<Parser*>::const_iterator i;
+void ParsersManager::show(int level) const {
+  list<IParser*>::const_iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
     hlog_debug_arrow(level, "Parser: %s", (*i)->name());
   }

@@ -26,11 +26,11 @@ using namespace std;
 #include "files.h"
 #include "parsers.h"
 
-class TestParser : public Parser {
+class TestParser : public IParser {
   int           _index;
 public:
   TestParser(Mode mode = master, const string& dir_path = "") :
-      Parser(mode, dir_path) {
+      IParser(mode, dir_path) {
     if (dir_path == "") {
       _index = 1;
       cout << "Contructing for list, mode: " << _mode << ", no parsing: "
@@ -48,7 +48,7 @@ public:
   const char* name() const { return "test"; }
   const char* code() const { return "tst"; }
   // This will create an appropriate parser for the directory if relevant
-  Parser* createChildIfControlled(const string& dir_path) const {
+  IParser* createChildIfControlled(const string& dir_path) const {
     return new TestParser(_mode, dir_path);
   }
   // That tells use whether to ignore the file, i.e. not back it up
@@ -64,16 +64,16 @@ public:
 };
 
 int main(void) {
-  Parsers*  parsers;
-  Parser*   parser;
+  Parsers* parsers;
+  IParser* parser;
 
   report.setLevel(debug);
 
   parsers = new Parsers;
   cout << "Add TestParser to list" << endl;
-  parsers->push_back(new TestParser(Parser::modified));
+  parsers->push_back(new TestParser(IParser::modified));
   cout << "Add IgnoreParser to list" << endl;
-  parsers->push_back(new IgnoreParser(Parser::modified));  // Whatever mode...
+  parsers->push_back(new IgnoreParser(IParser::modified));  // Whatever mode...
   cout << "Check parsers against test directory" << endl;
   parser = parsers->createParserIfControlled("test");
   if (parser != NULL) {
