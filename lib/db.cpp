@@ -146,15 +146,25 @@ int Database::open(
     return -1;
   }
 
-  if (! Directory(_d->path).isValid()) {
-    if (read_only || ! initialize) {
-      hlog_error("Given DB path does not exist '%s'", _d->path);
-      return -1;
-    } else
-    if (mkdir(_d->path, 0755)) {
-      hlog_error("Cannot create DB base directory");
+  struct stat stat_buf;
+  if (stat(_d->path, &stat_buf) < 0) {
+    if (errno == ENOENT) {
+      if (read_only || ! initialize) {
+        hlog_error("Given DB path does not exist '%s'", _d->path);
+        return -1;
+      } else
+      if (mkdir(_d->path, 0755)) {
+        hlog_error("%s creating DB base directory", strerror(errno));
+        return -1;
+      }
+    } else {
+      hlog_error("%s checking DB base directory", strerror(errno));
       return -1;
     }
+  } else
+  if (! S_ISDIR(stat_buf.st_mode)) {
+    hlog_error("Given DB path exists and is not a directory '%s'", _d->path);
+    return -1;
   }
   // Try to take lock
   if (! read_only && lock()) {
