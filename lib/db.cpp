@@ -386,7 +386,7 @@ int Database::restore(
       case 'f': {
           File* f = static_cast<File*>(db_node);
           if (f->checksum()[0] == '\0') {
-            hlog_error("Failed to restore file: data missing");
+            hlog_error("Data missing restoring file '%s'", base.c_str());
             this_failed = true;
           } else
           if (links == HBackup::none) {
@@ -405,13 +405,13 @@ int Database::restore(
               dest += extension;
               if (links == HBackup::symbolic) {
                 if (symlink(path.c_str(), dest.c_str())) {
-                  hlog_error("%s sym-linking file %s", strerror(errno),
+                  hlog_error("%s sym-linking file '%s'", strerror(errno),
                     dest.c_str());
                   this_failed = true;
                 }
               } else {
                 if (link(path.c_str(), dest.c_str())) {
-                  hlog_error("%s hard-linking file %s", strerror(errno),
+                  hlog_error("%s hard-linking file '%s'", strerror(errno),
                     dest.c_str());
                   this_failed = true;
                 }
