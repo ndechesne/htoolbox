@@ -95,7 +95,7 @@ namespace hbackup {
     */
     int readConfig(
       const char*   config_path);
-    int list_or_restore(
+    int listOrRestore(
       const char*   destination,
       std::list<std::string>* names,
       LinkType      links         = none,
@@ -127,6 +127,7 @@ namespace hbackup {
     */
     int open(
       const char*   path,
+      bool          no_log        = false,
       bool          user_mode     = false,
       bool          check_config  = false);
     //! \brief Close database
@@ -178,7 +179,7 @@ namespace hbackup {
       LinkType      links         = none,
       const char*   path          = "",
       time_t        date          = 0) {
-      return list_or_restore(NULL, names, links, path, date);
+      return listOrRestore(NULL, names, links, path, date);
     }
     //! \brief Restore specified database contents
     /*!
@@ -194,7 +195,7 @@ namespace hbackup {
       LinkType      links         = none,
       const char*   path          = "",
       time_t        date          = 0) {
-      return list_or_restore(destination, NULL, links, path, date);
+      return listOrRestore(destination, NULL, links, path, date);
     }
     //! \brief Show configuration
     /*!

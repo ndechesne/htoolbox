@@ -112,11 +112,11 @@ int main(void) {
 
   cout << endl << "Test: check config" << endl;
   hbackup = new HBackup();
-  if (hbackup->open("etc/hbackup.conf", false, true)) {
+  if (hbackup->open("etc/hbackup.conf", false, false, true)) {
     return 1;
   }
   hbackup->show(2);
-  if (hbackup->open("test_user", true, true)) {
+  if (hbackup->open("test_user", false, true, true)) {
     return 1;
   }
   hbackup->close();
@@ -341,7 +341,7 @@ int main(void) {
 
   cout << endl << "Test: user-mode backup" << endl;
   hbackup = new HBackup();
-  if (hbackup->open("test_user", true)) {
+  if (hbackup->open("test_user", false, true)) {
     return 1;
   }
   hbackup->show(2);

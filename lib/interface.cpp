@@ -331,13 +331,6 @@ int HBackup::readConfig(const char* config_path) {
     return -1;
   }
 
-  // Log to file if required
-  if (_d->log_file_name != "") {
-    report.startFileLog(_d->log_file_name.c_str(), _d->log_max_lines,
-      _d->log_backups);
-    report.setFileLogLevel(_d->log_level);
-  }
-
   // Use default DB path if none specified
   if (_d->db == NULL) {
     _d->db = new Database(DEFAULT_DB_PATH);
@@ -356,6 +349,7 @@ int HBackup::readConfig(const char* config_path) {
 
 int HBackup::open(
     const char*   path,
+    bool          no_log,
     bool          user_mode,
     bool          check_config) {
   _d->db_compress_mode = Database::auto_later;
@@ -384,6 +378,12 @@ int HBackup::open(
       _d->db->setCopyProgressCallback(_copy_progress);
       _d->db->setListProgressCallback(_list_progress);
     }
+  }
+  // Log to file if required
+  if (! no_log && (_d->log_file_name != "")) {
+    report.startFileLog(_d->log_file_name.c_str(), _d->log_max_lines,
+      _d->log_backups);
+    report.setFileLogLevel(_d->log_level);
   }
   return failed ? -1 : 0;
 }
@@ -477,7 +477,7 @@ int HBackup::backup(
   return -1;
 }
 
-int HBackup::list_or_restore(
+int HBackup::listOrRestore(
     const char*         dest,
     std::list<string>*  names,
     LinkType            links,

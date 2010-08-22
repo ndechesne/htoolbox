@@ -38,6 +38,9 @@ HBackup (c) 2006-2010 Hervé Fache
   -L,  --symlinks
     Create hierarchy of symlinks
 
+  -N,  --nolog
+    Do not create a log file
+
   -P <path>,  --path <path>
     Specify path
 
@@ -100,6 +103,9 @@ HBackup (c) 2006-2010 Hervé Fache
 
   -L,  --symlinks
     Create hierarchy of symlinks
+
+  -N,  --nolog
+    Do not create a log file
 
   -P <path>,  --path <path>
     Specify path

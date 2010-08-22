@@ -150,6 +150,10 @@ int main(int argc, char **argv) {
     SwitchArg symSwitch("L", "symlinks", "Create hierarchy of symlinks",
       cmd, false);
 
+    // No log
+    SwitchArg noLogSwitch("N", "nolog", "Do not create a log file",
+      cmd, false);
+
     // Specify path
     ValueArg<string> pathArg("P", "path", "Specify path",
       false, "", "path", cmd);
@@ -225,11 +229,11 @@ int main(int argc, char **argv) {
     }
     // Read config before using HBackup
     if (user_mode) {
-      if (hbackup.open(getenv("HOME"), true)) {
+      if (hbackup.open(getenv("HOME"), noLogSwitch.getValue(), true)) {
         return 2;
       }
     } else {
-      if (hbackup.open(configArg.getValue().c_str(), false)) {
+      if (hbackup.open(configArg.getValue().c_str(), noLogSwitch.getValue())) {
         return 2;
       }
     }
