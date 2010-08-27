@@ -54,6 +54,13 @@ protected: // So I can test them
   int organise(
     const char*     path,
     int             number) const;
+  // Check existence/consistence of given checksum's data
+  int check(
+    const char*     checksum,
+    bool            thorough   = true,
+    bool            repair     = false,
+    long long*      size       = NULL,
+    bool*           compressed = NULL) const;
   // Scan database for missing/corrupted data, return a list of valid checksums
   int crawl_recurse(
     Directory&      dir,              // Base directory
@@ -64,14 +71,12 @@ protected: // So I can test them
     size_t*         valid,            // Number of valid data files found
     size_t*         broken) const;    // Number of broken data files found
 public:
-  Data();
+  Data(
+    const char*     path);
   ~Data();
   // Open
   int open(
-    const char*     path,
     bool            create = false);
-  // Close
-  void close();
   // Set progress callback function
   void setProgressCallback(progress_f progress);
   // Get file name for given checksum
@@ -96,13 +101,6 @@ public:
     bool            auto_comp = false,// Choose whether to store compressed
     int*            acompress = NULL, // Compression actually applied
     bool            src_open  = true) const;// Open source file
-  // Check existence/consistence of given checksum's data
-  int check(
-    const char*     checksum,
-    bool            thorough   = true,
-    bool            repair     = false,
-    long long*      size       = NULL,
-    bool*           compressed = NULL) const;
   // Remove given checksum's data
   int remove(
     const char*     checksum) const;

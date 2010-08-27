@@ -36,7 +36,6 @@ using namespace std;
 //   getDir:          tested
 //   organise:        tested
 //   open:            tested
-//   close:           tested
 //   read:            tested
 //   write:           tested
 //   check:           tested in db through crawl/scan
@@ -46,6 +45,7 @@ using namespace std;
 
 class DataTest : public Data {
 public:
+  DataTest(const char* path) : Data(path) {}
   int getDir(
       const string&   checksum,
       string&         path,
@@ -56,6 +56,14 @@ public:
       const char*     path,
       int             number) {
     return Data::organise(path, number);
+  }
+  int check(
+      const char*     checksum,
+      bool            thorough   = true,
+      bool            repair     = false,
+      long long*      size       = NULL,
+      bool*           compressed = NULL) const {
+    return Data::check(checksum, thorough, repair, size, compressed);
   }
 };
 
@@ -69,14 +77,14 @@ int main(void) {
   string            checksum;
   string            zchecksum;
   int               status;
-  DataTest          db;
+  DataTest          db("test_db/data");
   int               sys_rc;
 
   report.setLevel(debug);
 
   /* Test database */
   Directory("test_db").create();
-  status = db.open("test_db/data", true);
+  status = db.open(true);
   if (status) {
     cout << "db::open status " << status << endl;
     if (status < 0) {
@@ -126,12 +134,10 @@ int main(void) {
     Stream testfile("test1/testfile");
     if ((status = db.write(testfile, "temp_data", &chksm, 5, true)) < 0) {
       printf("db.write error status %d\n", status);
-      db.close();
       return 0;
     }
     if (chksm == NULL) {
       printf("db.write returned unexpected null checksum\n");
-      db.close();
       return 0;
     }
     cout << chksm << "  " << testfile.path() << endl;
@@ -141,14 +147,12 @@ int main(void) {
     /* Check */
     if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
       printf("db.check error status %d\n", status);
-      db.close();
       return 0;
     }
 
     /* Read */
     if ((status = db.read("test_db/blah", chksm))) {
       printf("db.read error status %d\n", status);
-      db.close();
       return 0;
     }
     /* Write again */
@@ -157,12 +161,10 @@ int main(void) {
     Stream blah("test_db/blah");
     if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
       printf("db.write error status %d\n", status);
-      db.close();
       return 0;
     }
     if (chksm == NULL) {
       printf("db.write returned unexpected null checksum\n");
-      db.close();
       return 0;
     }
     cout << chksm << "  " << blah.path() << endl;
@@ -175,12 +177,10 @@ int main(void) {
     Stream testfile("test1/big_file");
     if ((status = db.write(testfile, "temp_data", &chksm, 5, true)) < 0) {
       printf("db.write error status %d\n", status);
-      db.close();
       return 0;
     }
     if (chksm == NULL) {
       printf("db.write returned unexpected null checksum\n");
-      db.close();
       return 0;
     }
     cout << chksm << "  " << testfile.path() << endl;
@@ -190,14 +190,12 @@ int main(void) {
     /* Check */
     if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
       printf("db.check error status %d\n", status);
-      db.close();
       return 0;
     }
 
     /* Read */
     if ((status = db.read("test_db/blah", chksm))) {
       printf("db.read error status %d\n", status);
-      db.close();
       return 0;
     }
     /* Write again */
@@ -206,12 +204,10 @@ int main(void) {
     Stream blah("test_db/blah");
     if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
       printf("db.write error status %d\n", status);
-      db.close();
       return 0;
     }
     if (chksm == NULL) {
       printf("db.write returned unexpected null checksum\n");
-      db.close();
       return 0;
     }
     cout << chksm << "  " << blah.path() << endl;
@@ -227,12 +223,10 @@ int main(void) {
     free(chksm);
     if ((status = db.write(testfile, "temp_data", &chksm, -1, true)) < 0) {
       printf("db.write error status %d\n", status);
-      db.close();
       return 0;
     }
     if (chksm == NULL) {
       printf("db.write returned unexpected null checksum\n");
-      db.close();
       return 0;
     }
     cout << chksm << "  " << testfile.path() << endl;
@@ -243,14 +237,12 @@ int main(void) {
     /* Check */
     if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
       printf("db.check error status %d\n", status);
-      db.close();
       return 0;
     }
 
     /* Read */
     if ((status = db.read("test_db/blah", chksm))) {
       printf("db.read error status %d\n", status);
-      db.close();
       return 0;
     }
     /* Write again */
@@ -258,12 +250,10 @@ int main(void) {
     chksm = NULL;
     if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
       printf("db.write error status %d\n", status);
-      db.close();
       return 0;
     }
     if (chksm == NULL) {
       printf("db.write returned unexpected null checksum\n");
-      db.close();
       return 0;
     }
     cout << chksm << "  " << blah.path() << endl;
@@ -277,12 +267,10 @@ int main(void) {
   chksm = NULL;
   if ((status = db.write(testfile, "temp_data", &chksm, 5)) < 0) {
     printf("db.write error status %d\n", status);
-    db.close();
     return 0;
   }
   if (chksm == NULL) {
     printf("db.write returned unexpected null checksum\n");
-    db.close();
     return 0;
   }
   cout << chksm << "  " << testfile.path() << endl;
@@ -294,7 +282,6 @@ int main(void) {
   Node("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta").remove();
   if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
     printf("db.check error status %d\n", status);
-    db.close();
     return 0;
   }
   cout << "Size reported: " << size << endl;
@@ -305,14 +292,12 @@ int main(void) {
   /* Re-check */
   if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
     printf("db.check error status %d\n", status);
-    db.close();
     return 0;
   }
 
   /* Read */
   if ((status = db.read("test_db/blah", chksm))) {
     printf("db.read error status %d\n", status);
-    db.close();
     return 0;
   }
   /* Write again */
@@ -320,12 +305,10 @@ int main(void) {
   chksm = NULL;
   if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
     printf("db.write error status %d\n", status);
-    db.close();
     return 0;
   }
   if (chksm == NULL) {
     printf("db.write returned unexpected null checksum\n");
-    db.close();
     return 0;
   }
   /* Write again */
@@ -333,12 +316,10 @@ int main(void) {
   chksm = NULL;
   if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
     printf("db.write error status %d\n", status);
-    db.close();
     return 0;
   }
   if (chksm == NULL) {
     printf("db.write returned unexpected null checksum\n");
-    db.close();
     return 0;
   }
   cout << chksm << "  " << blah.path() << endl;
@@ -359,7 +340,6 @@ int main(void) {
   db.organise("test_db/data/zz/00", 2);
   sys_rc = system("LANG=en_US.UTF-8 ls -AR test_db/data/zz");
 
-  db.close();
 
 
   cout << endl << "Test: read-only mode" << endl;
@@ -369,23 +349,21 @@ int main(void) {
       return 0;
     }
   }
-  db.close();
 
 
   cout << endl << "Test: do nothing" << endl;
-  if ((status = db.open("test_db/data", true))) {
+  if ((status = db.open(true))) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
     }
   }
-  db.close();
 
 
   {
     cout << endl << "Test: scan - metadata check/correct" << endl;
     /* Open */
-    if ((status = db.open("test_db/data", true))) {
+    if ((status = db.open(true))) {
       cout << "db::open error status " << status << endl;
       if (status < 0) {
         return 0;
@@ -425,14 +403,13 @@ int main(void) {
       printf("db.check error status %d\n", status);
     }
     /* Close */
-    db.close();
   }
 
 
   {
     cout << endl << "Test: check - metadata check/correct" << endl;
     /* Open */
-    if ((status = db.open("test_db/data", true))) {
+    if ((status = db.open(true))) {
       cout << "db::open error status " << status << endl;
       if (status < 0) {
         return 0;
@@ -481,8 +458,6 @@ int main(void) {
     if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
       printf("db.check error status %d\n", status);
     }
-    /* Close */
-    db.close();
   }
 
 

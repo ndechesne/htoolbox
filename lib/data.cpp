@@ -18,9 +18,6 @@
 
 // Compression to use when required: gzip -5 (best speed/ratio)
 
-#include <sstream>
-#include <string>
-
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -29,6 +26,9 @@
 #include <time.h>
 #include <dirent.h>
 #include <errno.h>
+
+#include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -42,9 +42,10 @@ using namespace hbackup;
 using namespace hreport;
 
 struct Data::Private {
-  char*             path;
-  char*             temp;
+  string            path;
+  string            temp;
   progress_f        progress;
+  Private() : progress(NULL) {}
 };
 
 int Data::getDir(
@@ -275,44 +276,30 @@ int Data::crawl_recurse(
   return failed ? -1 : 0;
 }
 
-Data::Data() : _d(new Private) {
-  _d->path = NULL;
-  _d->temp = NULL;
-  // Reset progress callback function
-  _d->progress = NULL;
+Data::Data(const char* path) : _d(new Private) {
+  _d->path = path;
+  _d->temp = path;
+  _d->temp += "/.temp";
 }
 
 Data::~Data() {
-  close();
   delete _d;
 }
 
-int Data::open(const char* path, bool create) {
-  _d->path = strdup(path);
-  if (_d->path != NULL) {
-    // Base directory
-    Directory dir(_d->path);
-    // Place for temporary files
-    Directory temp_dir(Path(_d->path, ".temp"));
-    _d->temp = strdup(temp_dir.path());
-    // Check for existence
-    if (dir.isValid() && temp_dir.isValid()) {
-      return 0;
-    }
-    if (create && (dir.create() >= 0) && (temp_dir.create() >= 0)) {
-      // Signal creation
-      return 1;
-    }
+int Data::open(bool create) {
+  // Base directory
+  Directory dir(_d->path.c_str());
+  // Place for temporary files
+  Directory temp_dir(_d->temp.c_str());
+  // Check for existence
+  if (dir.isValid() && temp_dir.isValid()) {
+    return 0;
   }
-  close();
+  if (create && (dir.create() >= 0) && (temp_dir.create() >= 0)) {
+    // Signal creation
+    return 1;
+  }
   return -1;
-}
-
-void Data::close() {
-  free(_d->temp);
-  _d->temp = NULL;
-  free(_d->path);
-  _d->path = NULL;
 }
 
 void Data::setProgressCallback(progress_f progress) {
@@ -423,7 +410,7 @@ int Data::write(
   }
 
   // Temporary file(s) to write to
-  Stream* temp1 = new Stream(Path(_d->temp, temp_name));
+  Stream* temp1 = new Stream(Path(_d->temp.c_str(), temp_name));
   Stream* temp2 = NULL;
   // compress < 0 => required to not compress by filter or configuration
   if (compress < 0) {
@@ -806,7 +793,7 @@ int Data::crawl(
     bool            thorough,
     bool            repair,
     list<CompData>* data) const {
-  Directory d(_d->path);
+  Directory d(_d->path.c_str());
   size_t valid  = 0;
   size_t broken = 0;
   int rc = crawl_recurse(d, "", data, thorough, repair, &valid, &broken);

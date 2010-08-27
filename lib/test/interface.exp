@@ -12258,7 +12258,7 @@ path "/home/Blah/test/"
     condition "path" "dir/file3.txt"
   compress "compress"
 hbackup.log:
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'aClient.vista' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
@@ -12270,7 +12270,7 @@ hbackup.log:
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
 hbackup.log-1:
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'aClient.vista' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
@@ -12349,14 +12349,14 @@ hbackup.log-1:
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
 hbackup.log-10:
-2009-08-07 06:05:04 VERB  db.cpp:209 Database open in read-only mode
+2009-08-07 06:05:04 VERB  db.cpp:210 Database open in read-only mode
 2009-08-07 06:05:04 VERB  db.cpp:620 Crawling through DB data
-2009-08-07 06:05:04 ERROR data.cpp:688 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
-2009-08-07 06:05:04 WARN  data.cpp:703 Data corruption reported for b90f8fa56ea1d39881d4a199c7a81d35-0
-2009-08-07 06:05:04 VERB  data.cpp:813 Found 19 valid and 2 broken data file(s)
+2009-08-07 06:05:04 ERROR data.cpp:675 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
+2009-08-07 06:05:04 WARN  data.cpp:690 Data corruption reported for b90f8fa56ea1d39881d4a199c7a81d35-0
+2009-08-07 06:05:04 VERB  data.cpp:800 Found 19 valid and 2 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
 hbackup.log-2:
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'aClient.vista'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'myClient'
@@ -12365,20 +12365,20 @@ hbackup.log-2:
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:524 Found 21 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:527 Crawling through DB
-2009-08-07 06:05:04 INFO  data.cpp:749 Removed corrupted data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-2009-08-07 06:05:04 VERB  data.cpp:813 Found 19 valid and 1 broken data file(s)
+2009-08-07 06:05:04 INFO  data.cpp:736 Removed corrupted data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+2009-08-07 06:05:04 VERB  data.cpp:800 Found 19 valid and 1 broken data file(s)
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
 hbackup.log-3:
-2009-08-07 06:05:04 VERB  db.cpp:209 Database open in read-only mode
+2009-08-07 06:05:04 VERB  db.cpp:210 Database open in read-only mode
 2009-08-07 06:05:04 VERB  db.cpp:620 Crawling through DB data
-2009-08-07 06:05:04 ERROR data.cpp:722 Data corrupted for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-2009-08-07 06:05:04 VERB  data.cpp:813 Found 19 valid and 1 broken data file(s)
+2009-08-07 06:05:04 ERROR data.cpp:709 Data corrupted for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+2009-08-07 06:05:04 VERB  data.cpp:800 Found 19 valid and 1 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
 hbackup.log-4:
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'aClient.vista'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'myClient'
@@ -12387,14 +12387,14 @@ hbackup.log-4:
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:524 Found 21 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:527 Crawling through DB
-2009-08-07 06:05:04 WARN  data.cpp:738 Adding missing metadata for 5252f242d27b8c2c9fdbdcbb33545d07-0
-2009-08-07 06:05:04 VERB  data.cpp:813 Found 20 valid and 0 broken data file(s)
+2009-08-07 06:05:04 WARN  data.cpp:725 Adding missing metadata for 5252f242d27b8c2c9fdbdcbb33545d07-0
+2009-08-07 06:05:04 VERB  data.cpp:800 Found 20 valid and 0 broken data file(s)
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
 hbackup.log-5:
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'aClient.vista' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
@@ -12470,7 +12470,7 @@ hbackup.log-5:
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
 hbackup.log-6:
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'aClient.vista' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
@@ -12553,7 +12553,7 @@ hbackup.log-6:
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
 hbackup.log-7:
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'aClient.vista'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'myClient'
@@ -12562,14 +12562,14 @@ hbackup.log-7:
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:524 Found 20 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:527 Crawling through DB
-2009-08-07 06:05:04 WARN  data.cpp:758 Setting missing metadata for dddddddddddddddddddddddddddddddd-0
-2009-08-07 06:05:04 VERB  data.cpp:813 Found 21 valid and 0 broken data file(s)
+2009-08-07 06:05:04 WARN  data.cpp:745 Setting missing metadata for dddddddddddddddddddddddddddddddd-0
+2009-08-07 06:05:04 VERB  data.cpp:800 Found 21 valid and 0 broken data file(s)
 2009-08-07 06:05:04 INFO  db.cpp:586 Obsolete checksum(s): 3
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'aClient.vista'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'myClient'
@@ -12578,13 +12578,13 @@ hbackup.log-7:
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:524 Found 20 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:527 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:813 Found 21 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  data.cpp:800 Found 21 valid and 0 broken data file(s)
 2009-08-07 06:05:04 INFO  db.cpp:586 Obsolete checksum(s): 3
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'aClient.vista'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'myClient'
@@ -12593,13 +12593,13 @@ hbackup.log-7:
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:524 Found 20 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:527 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:813 Found 18 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  data.cpp:800 Found 18 valid and 0 broken data file(s)
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
 hbackup.log-8:
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'aClient.vista'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'myClient'
@@ -12608,13 +12608,13 @@ hbackup.log-8:
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:524 Found 20 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:527 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:813 Found 22 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  data.cpp:800 Found 22 valid and 0 broken data file(s)
 2009-08-07 06:05:04 INFO  db.cpp:586 Obsolete checksum(s): 4
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'aClient.vista'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'myClient'
@@ -12623,13 +12623,13 @@ hbackup.log-8:
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:524 Found 20 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:527 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:813 Found 22 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  data.cpp:800 Found 22 valid and 0 broken data file(s)
 2009-08-07 06:05:04 INFO  db.cpp:586 Obsolete checksum(s): 4
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'aClient.vista'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'myClient'
@@ -12638,13 +12638,13 @@ hbackup.log-8:
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:524 Found 20 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:527 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:813 Found 18 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  data.cpp:800 Found 18 valid and 0 broken data file(s)
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
 hbackup.log-9:
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'aClient.vista'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'myClient'
@@ -12653,15 +12653,15 @@ hbackup.log-9:
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:524 Found 20 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:527 Crawling through DB
-2009-08-07 06:05:04 ERROR data.cpp:688 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
-2009-08-07 06:05:04 INFO  data.cpp:749 Removed corrupted data for b90f8fa56ea1d39881d4a199c7a81d35-0
-2009-08-07 06:05:04 VERB  data.cpp:813 Found 19 valid and 2 broken data file(s)
+2009-08-07 06:05:04 ERROR data.cpp:675 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
+2009-08-07 06:05:04 INFO  data.cpp:736 Removed corrupted data for b90f8fa56ea1d39881d4a199c7a81d35-0
+2009-08-07 06:05:04 VERB  data.cpp:800 Found 19 valid and 2 broken data file(s)
 2009-08-07 06:05:04 INFO  db.cpp:586 Obsolete checksum(s): 1
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
 2009-08-07 06:05:04 VERB  db.cpp:261 Database closed
-2009-08-07 06:05:04 VERB  db.cpp:238 Database open in read/write mode
+2009-08-07 06:05:04 VERB  db.cpp:239 Database open in read/write mode
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'aClient.vista'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'myClient'
@@ -12670,7 +12670,7 @@ hbackup.log-9:
 2009-08-07 06:05:04 VERB  db.cpp:499 Reading list for 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:524 Found 20 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:527 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:813 Found 19 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  data.cpp:800 Found 19 valid and 0 broken data file(s)
 2009-08-07 06:05:04 INFO  db.cpp:586 Obsolete checksum(s): 1
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated

@@ -63,6 +63,7 @@ struct Database::Private {
   CompressionMode         compress_mode;
   Owner*                  owner;
   progress_f              list_progress;
+  Private(const char* data_path) : data(data_path) {}
 };
 
 int Database::lock() {
@@ -118,7 +119,7 @@ void Database::unlock() {
   File(Path(_d->path, ".lock")).remove();
 }
 
-Database::Database(const char* path) : _d(new Private) {
+Database::Database(const char* path) : _d(new Private(Path(path, ".data"))) {
   _d->path     = strdup(path);
   _d->access   = no;
   // Reset progress callback function
@@ -172,7 +173,7 @@ int Database::open(
   }
 
   // Check DB dir
-  switch (_d->data.open(Path(_d->path, ".data"), initialize)) {
+  switch (_d->data.open(initialize)) {
     case 1:
       // Creation successful
       File(Path(_d->path, ".checksums")).create();
@@ -250,7 +251,6 @@ int Database::close() {
       closeClient(true);
     }
     // Close data manager
-    _d->data.close();
     if (_d->access >= rw) {
       // Save list of missing items
       _d->missing.close();
