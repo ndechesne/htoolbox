@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2008  Herve Fache
+     Copyright (C) 2006-2010  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -16,8 +16,8 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef DATA_H
-#define DATA_H
+#ifndef _DATA_H
+#define _DATA_H
 
 namespace hbackup {
 
@@ -93,14 +93,17 @@ public:
   //    < 0  => never compress this file
   //    == 0 => do not compress this file now
   //    > 0  => compress now, or auto-compress (depends on auto_comp)
-  int write(                          // <0: error, >0: written, =0: no need
+  enum WriteStatus {
+    error   = -1,
+    leave   = 0,
+    add     = 1,
+    replace = 2
+  };
+  WriteStatus write(
     Stream&         source,           // Stream to read from
-    const char*     temp_name,        // Name for temporary data file
-    char**          checksum,         // Copy checksum here
-    int             compress  = 0,    // Compression to apply now (< 0: never)
-    bool            auto_comp = false,// Choose whether to store compressed
-    int*            acompress = NULL, // Compression actually applied
-    bool            src_open  = true) const;// Open source file
+    char            checksum[64],     // Copy checksum here
+    int*            comp_level,       // Comp. to apply (< 0: never) / applied
+    bool            auto_comp) const; // Choose whether to store compressed
   // Remove given checksum's data
   int remove(
     const char*     checksum) const;
@@ -113,4 +116,4 @@ public:
 
 }
 
-#endif
+#endif // _DATA_H

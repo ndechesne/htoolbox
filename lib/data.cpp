@@ -19,6 +19,8 @@
 // Compression to use when required: gzip -5 (best speed/ratio)
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -43,7 +45,8 @@ using namespace hreport;
 
 struct Data::Private {
   string            path;
-  string            temp;
+  string            data;
+  string            data_gz;
   progress_f        progress;
   Private() : progress(NULL) {}
 };
@@ -278,8 +281,8 @@ int Data::crawl_recurse(
 
 Data::Data(const char* path) : _d(new Private) {
   _d->path = path;
-  _d->temp = path;
-  _d->temp += "/.temp";
+  _d->data = _d->path + "/.data";
+  _d->data_gz = _d->data + ".gz";
 }
 
 Data::~Data() {
@@ -289,13 +292,11 @@ Data::~Data() {
 int Data::open(bool create) {
   // Base directory
   Directory dir(_d->path.c_str());
-  // Place for temporary files
-  Directory temp_dir(_d->temp.c_str());
   // Check for existence
-  if (dir.isValid() && temp_dir.isValid()) {
+  if (dir.isValid()) {
     return 0;
   }
-  if (create && (dir.create() >= 0) && (temp_dir.create() >= 0)) {
+  if (create && (dir.create() >= 0)) {
     // Signal creation
     return 1;
   }
@@ -393,60 +394,49 @@ int Data::read(
   return failed ? -1 : 0;
 }
 
-int Data::write(
+Data::WriteStatus Data::write(
     Stream&         source,
-    const char*     temp_name,
-    char**          dchecksum,
-    int             compress,
-    bool            auto_comp,
-    int*            acompress,
-    bool            src_open) const {
-  CompressionCase comp_case;
-  bool failed  = false;
+    char            dchecksum[64],
+    int*            comp_level,
+    bool            comp_auto) const {
+  bool failed = false;
 
   // Open source file
-  if (src_open && source.open(O_RDONLY)) {
-    return -1;
+  if (source.open(O_RDONLY) < 0) {
+    return error;
   }
 
   // Temporary file(s) to write to
-  Stream* temp1 = new Stream(Path(_d->temp.c_str(), temp_name));
+  Stream* temp1 = new Stream(_d->data.c_str());
   Stream* temp2 = NULL;
+  CompressionCase comp_case;
   // compress < 0 => required to not compress by filter or configuration
-  if (compress < 0) {
+  if (*comp_level < 0) {
     comp_case = forced_no;
-    auto_comp = false;
-    compress  = 0;
+    comp_auto = false;
+    *comp_level = 0;
   } else
   // compress = 0 => do not compress
-  if (compress == 0) {
+  if (*comp_level == 0) {
     comp_case = later;
-    auto_comp = false;
+    comp_auto = false;
   } else
-  // compress > 0 && auto_comp => decide whether to compress or not
-  if (auto_comp) {
+  // compress > 0 && comp_auto => decide whether to compress or not
+  if (comp_auto) {
     comp_case = later;
     // Automatic compression: copy twice, compressed and not, and choose best
-    char* temp_path_gz;
-    if (asprintf(&temp_path_gz, "%s.gz", temp1->path()) < 0) {
-      hlog_error("%s creating temporary path '%s'", strerror(errno),
-        temp1->path());
+    temp2 = new Stream(_d->data_gz.c_str());
+    if (temp2->open(O_WRONLY, 0, false)) {
+      hlog_error("%s opening write temp file '%s'", strerror(errno),
+        temp2->path());
       failed = true;
-    } else {
-      temp2 = new Stream(temp_path_gz);
-      free(temp_path_gz);
-      if (temp2->open(O_WRONLY, 0, false)) {
-        hlog_error("%s opening write temp file '%s'", strerror(errno),
-          temp2->path());
-        failed = true;
-      }
     }
   } else
-  // compress > 0 && ! auto_comp => compress
+  // compress > 0 && ! comp_auto => compress
   {
     comp_case = forced_yes;
   }
-  if (temp1->open(O_WRONLY, compress, false)) {
+  if (temp1->open(O_WRONLY, *comp_level, false)) {
     hlog_error("%s opening write temp file '%s'", strerror(errno),
       temp1->path());
     failed = true;
@@ -474,14 +464,14 @@ int Data::write(
       temp2->remove();
       delete temp2;
     }
-    return -1;
+    return error;
   }
 
   // File to add to DB
   Stream* dest = temp1;
   // Size for comparison with existing DB data
   long long size_cmp = temp1->size();
-  // If temp2 is not NULL then auto_comp is true
+  // If temp2 is not NULL then comp_auto is true
   if (temp2 != NULL) {
     // Add ~1.6% to gzip'd size
     long long size_gz = temp1->size() + (temp1->size() >> 6);
@@ -494,7 +484,7 @@ int Data::write(
       dest     = temp2;
       size_cmp = size_gz;
       comp_case = size_no;
-      compress = 0;
+      *comp_level = 0;
     } else {
       temp2->remove();
       delete temp2;
@@ -502,38 +492,23 @@ int Data::write(
     }
   }
 
-  if (acompress != NULL) {
-    *acompress = compress;
-  }
-
   // Get file final location
   string dest_path;
   if (getDir(source.checksum(), dest_path, true) < 0) {
     hlog_error("Cannot create DB data '%s'", source.checksum());
-    return -1;
+    return error;
   }
 
   // Make sure our checksum is unique: compare first bytes of files
   int index = 0;
-  enum {
-    none    = -1,
-    leave   = 0,
-    add     = 1,
-    replace = 2
-  } action = none;
-  Stream* data       = NULL;
-  char*   final_path = NULL;
+  Stream* data = NULL;
+  char final_path[PATH_MAX];
+  WriteStatus status = error;
   do {
-    if (asprintf(&final_path, "%s-%u", dest_path.c_str(), index) < 0) {
-      hlog_error("%s creating final path '%s'", strerror(errno),
-        dest_path.c_str());
-      failed = true;
-      break;
-    }
-
+    sprintf(final_path, "%s-%u", dest_path.c_str(), index);
     // Directory does not exist
     if (! Directory(final_path).isValid()) {
-      action = add;
+      status = add;
     } else {
       vector<string> extensions;
       extensions.push_back("");
@@ -543,13 +518,13 @@ int Data::write(
       data = Stream::select(Path(final_path, "data"), extensions, &no);
       // File does not exist
       if (data == NULL) {
-        action = add;
+        status = add;
       } else
       // Compare files
       {
         data->open(O_RDONLY, (no > 0) ? 1 : 0);
-        dest->open(O_RDONLY, compress);
-        int cmp = dest->compare(*data, 10*1024*1024);
+        dest->open(O_RDONLY, *comp_level);
+        int cmp = dest->compare(*data);
         dest->close();
         data->close();
         switch (cmp) {
@@ -557,15 +532,15 @@ int Data::write(
           case 0:
             // Empty file is compressed
             if ((data->size() == 0) && (no > 0)) {
-              action = replace;
+              status = replace;
             } else
             // Replacing data will save space
             if (size_cmp < data->size()) {
-              action = replace;
+              status = replace;
             } else
             // Nothing to do
             {
-              action = leave;
+              status = leave;
             }
             break;
           // Different data
@@ -576,79 +551,70 @@ int Data::write(
           default:
             hlog_error("%s comparing data '%s'", strerror(errno),
               source.checksum());
+            status = error;
             failed = true;
         }
       }
     }
-  } while (! failed && (action == none));
+  } while (! failed && (status == error));
 
   // Now move the file in its place
-  if ((action == add) || (action == replace)) {
+  if ((status == add) || (status == replace)) {
     hlog_debug("%s %scompressed data for %s-%d",
-      (action == add) ? "Adding" : "Replacing with",
-      (compress != 0) ? "" : "un", source.checksum(), index);
+      (status == add) ? "Adding" : "Replacing with",
+      (*comp_level != 0) ? "" : "un", source.checksum(), index);
     if (Directory(final_path).create() < 0) {
       hlog_error("%s creating directory '%s'", strerror(errno), final_path);
     } else
-    if ((action == replace) && (data->remove() < 0)) {
+    if ((status == replace) && (data->remove() < 0)) {
       hlog_error("%s removing previous data '%s'", strerror(errno),
         data->path());
     } else {
-      char* name = NULL;
-      if (asprintf(&name, "%s/data%s", final_path,
-                   ((compress != 0) ? ".gz" : "")) < 0) {
-        hlog_error("%s creating final name '%s'", strerror(errno), final_path);
-        failed = true;
-      } else
+      char name[PATH_MAX];
+      sprintf(name, "%s/data%s", final_path, (*comp_level != 0) ? ".gz" : "");
       if (rename(dest->path(), name)) {
         hlog_error("%s moving file '%s'", strerror(errno), name);
-        failed = true;
+        status = error;
       } else {
-        // Always add metadata (size) file (no action on failure)
+        // Always add metadata (size) file (no error status on failure)
         setMetadata(final_path, source.dataSize(), comp_case);
       }
-      free(name);
     }
   } else
   /* Make sure we have metadata information */
   if (comp_case == forced_no) {
     long long size;
     CompressionCase comp_status;
-    if (! getMetadata(final_path, &size, &comp_status)
-    &&  (comp_status != forced_no)) {
+    if (! getMetadata(final_path, &size, &comp_status) &&
+        (comp_status != forced_no)) {
       setMetadata(final_path, size, forced_no);
     }
   }
 
-  // If anything failed, delete temporary file
-  if (failed || (action == leave)) {
+  // If anything failed, or nothing happened, delete temporary file
+  if ((status == error) || (status == leave)) {
     dest->remove();
   }
 
   // Report checksum
-  *dchecksum = NULL;
-  if (! failed) {
-    if (asprintf(dchecksum, "%s-%d", source.checksum(), index) < 0) {
-      hlog_error("%s creating checksum '%s'", strerror(errno),
-        source.checksum());
-      failed = true;
-    }
-
+  if (status != error) {
+    sprintf(dchecksum, "%s-%d", source.checksum(), index);
     // Make sure we won't exceed the file number limit
-    // dest_path is /path/to/checksum
-    size_t pos = dest_path.rfind('/');
+    if (status != leave) {
+      // dest_path is /path/to/checksum
+      size_t pos = dest_path.rfind('/');
 
-    if (pos != string::npos) {
-      dest_path.erase(pos);
-      // Now dest_path is /path/to
-      organise(dest_path.c_str(), 256);
+      if (pos != string::npos) {
+        dest_path.erase(pos);
+        // Now dest_path is /path/to
+        organise(dest_path.c_str(), 256);
+      }
     }
   }
 
-  free(final_path);
   delete dest;
   delete data;
-  return failed ? -1 : action;
+  return status;
 }
 
 int Data::check(

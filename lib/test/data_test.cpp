@@ -52,7 +52,7 @@ public:
       bool            create) {
     return Data::getDir(checksum, path, create);
   }
-  int  organise(
+  int organise(
       const char*     path,
       int             number) {
     return Data::organise(path, number);
@@ -125,14 +125,16 @@ int main(void) {
     << ", getdir_path: " << getdir_path << endl;
 
 
-  char*     chksm = NULL;
+  char chksm[64];
   long long size;
-  bool      compressed;
+  bool compressed;
   {
     cout << endl << "Test: write and read back with no compression (auto)" << endl;
     /* Write */
+    chksm[0] = '\0';
     Stream testfile("test1/testfile");
-    if ((status = db.write(testfile, "temp_data", &chksm, 5, true)) < 0) {
+    int comp_level = 5;
+    if ((status = db.write(testfile, chksm, &comp_level, true)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -156,10 +158,10 @@ int main(void) {
       return 0;
     }
     /* Write again */
-    free(chksm);
-    chksm = NULL;
+    chksm[0] = '\0';
     Stream blah("test_db/blah");
-    if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
+    comp_level = 0;
+    if ((status = db.write(blah, chksm, &comp_level, false)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -175,7 +177,8 @@ int main(void) {
     cout << endl << "Test: write and read back with compression (auto)" << endl;
     /* Write */
     Stream testfile("test1/big_file");
-    if ((status = db.write(testfile, "temp_data", &chksm, 5, true)) < 0) {
+    int comp_level = 5;
+    if ((status = db.write(testfile, chksm, &comp_level, true)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -199,10 +202,10 @@ int main(void) {
       return 0;
     }
     /* Write again */
-    free(chksm);
-    chksm = NULL;
+    chksm[0] = '\0';
     Stream blah("test_db/blah");
-    if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
+    comp_level = 0;
+    if ((status = db.write(blah, chksm, &comp_level, false)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -220,8 +223,8 @@ int main(void) {
     cout << endl << "Test: write and read back with forbidden compression"
       << endl;
     /* Write */
-    free(chksm);
-    if ((status = db.write(testfile, "temp_data", &chksm, -1, true)) < 0) {
+    int comp_level = -1;
+    if ((status = db.write(testfile, chksm, &comp_level, true)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -246,9 +249,9 @@ int main(void) {
       return 0;
     }
     /* Write again */
-    free(chksm);
-    chksm = NULL;
-    if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
+    chksm[0] = '\0';
+    comp_level = 0;
+    if ((status = db.write(blah, chksm, &comp_level, false)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -263,9 +266,9 @@ int main(void) {
   cout << endl << "Test: write and read back with forced compression" << endl;
   Node("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data").remove();
   /* Write */
-  free(chksm);
-  chksm = NULL;
-  if ((status = db.write(testfile, "temp_data", &chksm, 5)) < 0) {
+  chksm[0] = '\0';
+  int comp_level = 5;
+  if ((status = db.write(testfile, chksm, &comp_level, false)) < 0) {
     printf("db.write error status %d\n", status);
     return 0;
   }
@@ -301,9 +304,9 @@ int main(void) {
     return 0;
   }
   /* Write again */
-  free(chksm);
-  chksm = NULL;
-  if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
+  chksm[0] = '\0';
+  comp_level = 0;
+  if ((status = db.write(blah, chksm, &comp_level, false)) < 0) {
     printf("db.write error status %d\n", status);
     return 0;
   }
@@ -312,9 +315,9 @@ int main(void) {
     return 0;
   }
   /* Write again */
-  free(chksm);
-  chksm = NULL;
-  if ((status = db.write(blah, "temp_data", &chksm)) < 0) {
+  chksm[0] = '\0';
+  comp_level = 0;
+  if ((status = db.write(blah, chksm, &comp_level, false)) < 0) {
     printf("db.write error status %d\n", status);
     return 0;
   }
@@ -370,8 +373,7 @@ int main(void) {
       }
     }
     /* Compressed */
-    free(chksm);
-    chksm = strdup("59ca0efa9f5633cb0371bbc0355478d8-0");
+    strcpy(chksm, "59ca0efa9f5633cb0371bbc0355478d8-0");
     sys_rc = system("gzip "
       "test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data");
     /* Check */
@@ -389,8 +391,7 @@ int main(void) {
     sys_rc = system("mkdir -p test_db/data/d4/1d8cd98f00b204e9800998ecf8427e");
     sys_rc = system("echo -n > "
       "test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/data");
-    free(chksm);
-    chksm = strdup("d41d8cd98f00b204e9800998ecf8427e");
+    strcpy(chksm, "d41d8cd98f00b204e9800998ecf8427e");
     /* Check */
     cout << " * missing" << endl;
     sys_rc = system("echo -n > "
@@ -416,8 +417,7 @@ int main(void) {
       }
     }
     /* Compressed */
-    free(chksm);
-    chksm = strdup("59ca0efa9f5633cb0371bbc0355478d8-0");
+    strcpy(chksm, "59ca0efa9f5633cb0371bbc0355478d8-0");
     /* Check */
     cout << " * missing" << endl;
     sys_rc = system("echo -n > "
@@ -439,8 +439,7 @@ int main(void) {
     sys_rc = system("mkdir -p test_db/data/d4/1d8cd98f00b204e9800998ecf8427e");
     sys_rc = system("echo -n > "
       "test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/data");
-    free(chksm);
-    chksm = strdup("d41d8cd98f00b204e9800998ecf8427e");
+    strcpy(chksm, "d41d8cd98f00b204e9800998ecf8427e");
     /* Check */
     cout << " * missing" << endl;
     sys_rc = system("echo -n > "

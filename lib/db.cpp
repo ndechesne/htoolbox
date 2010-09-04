@@ -710,7 +710,7 @@ int Database::add(
   }
 
   // checksum must be valid when calling Owner::add
-  char* checksum = NULL;
+  char checksum[64];
   if (op.node.type() == 'f') {
     if (op.extra == NULL) {
       // Copy data
@@ -721,28 +721,9 @@ int Database::add(
         compression = op.compression;
       }
       Stream source(op.node.path());
-      int rc = _d->data.write(source, _d->owner->name(), &checksum,
-        compression, op.comp_mode == auto_now, &compression);
-      if (rc >= 0) {
-        if (rc > 0) {
-          if (compression > 0) {
-            op.type = 'z';
-          } else {
-            op.type = 'f';
-          }
-          if (rc > 1) {
-            op.info = 'r';
-          }
-        } else {
-          // File data found in DB
-          op.type = '~';
-        }
-        op.extra = checksum;
-        if ((op.id >= 0) && (_d->missing[op.id] == checksum)) {
-          // Mark checksum as recovered
-          _d->missing.setRecovered(op.id);
-        }
-      } else {
+      Data::WriteStatus status = _d->data.write(source, checksum, &compression,
+        op.comp_mode == auto_now);
+      if (status == Data::error) {
         if ((op.operation == '!') && report_copy_error_once) {
           hlog_warning("%s backing up file '%s:%s'", strerror(errno),
             _d->owner->name(), static_cast<const char*>(op.path));
@@ -752,11 +733,28 @@ int Database::add(
         }
         op.type = '!';
         failed = true;
+      } else {
+        if (status == Data::leave) {
+          // File data found in DB
+          op.type = '~';
+        } else {
+          if (compression > 0) {
+            op.type = 'z';
+          } else {
+            op.type = 'f';
+          }
+          if (status == Data::replace) {
+            op.info = 'r';
+          }
+        }
+        op.extra = checksum;
+        if ((op.id >= 0) && (_d->missing[op.id] == checksum)) {
+          // Mark checksum as recovered
+          _d->missing.setRecovered(op.id);
+        }
       }
-#if 0
     } else {
       // Checksum copied over
-#endif
     }
   } else
   if (op.node.type() == 'd') {
@@ -774,7 +772,6 @@ int Database::add(
       failed = true;
     }
   }
-  free(checksum);
 
   return failed ? -1 : 0;
 }
