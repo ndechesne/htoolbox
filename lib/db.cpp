@@ -22,6 +22,8 @@
 #include <list>
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -55,7 +57,7 @@ using namespace hbackup;
 using namespace hreport;
 
 struct Database::Private {
-  char*                   path;
+  string                  path;
   Access                  access;
   Data                    data;
   Missing                 missing;
@@ -67,7 +69,7 @@ struct Database::Private {
 };
 
 int Database::lock() {
-  Path  lock_path(_d->path, ".lock");
+  Path  lock_path(_d->path.c_str(), ".lock");
   FILE* file;
   bool  failed = false;
 
@@ -116,7 +118,7 @@ int Database::lock() {
 }
 
 void Database::unlock() {
-  File(Path(_d->path, ".lock")).remove();
+  File(Path(_d->path.c_str(), ".lock")).remove();
 }
 
 Database::Database(const char* path) : _d(new Private(Path(path, ".data"))) {
@@ -130,12 +132,11 @@ Database::~Database() {
   if (_d->access != no) {
     close();
   }
-  free(_d->path);
   delete _d;
 }
 
 const char* Database::path() const {
-  return _d->path;
+  return _d->path.c_str();
 }
 
 int Database::open(
@@ -148,13 +149,13 @@ int Database::open(
   }
 
   struct stat stat_buf;
-  if (stat(_d->path, &stat_buf) < 0) {
+  if (stat(_d->path.c_str(), &stat_buf) < 0) {
     if (errno == ENOENT) {
       if (read_only || ! initialize) {
-        hlog_error("Given DB path does not exist '%s'", _d->path);
+        hlog_error("Given DB path does not exist '%s'", _d->path.c_str());
         return -1;
       } else
-      if (mkdir(_d->path, 0755)) {
+      if (mkdir(_d->path.c_str(), 0755)) {
         hlog_error("%s creating DB base directory", strerror(errno));
         return -1;
       }
@@ -164,7 +165,8 @@ int Database::open(
     }
   } else
   if (! S_ISDIR(stat_buf.st_mode)) {
-    hlog_error("Given DB path exists and is not a directory '%s'", _d->path);
+    hlog_error("Given DB path exists and is not a directory '%s'",
+      _d->path.c_str());
     return -1;
   }
   // Try to take lock
@@ -176,8 +178,8 @@ int Database::open(
   switch (_d->data.open(initialize)) {
     case 1:
       // Creation successful
-      File(Path(_d->path, ".checksums")).create();
-      hlog_verbose("Database initialized in '%s'", _d->path);
+      File(Path(_d->path.c_str(), ".checksums")).create();
+      hlog_verbose("Database initialized in '%s'", _d->path.c_str());
     case 0:
       // Open successful
       break;
@@ -185,9 +187,10 @@ int Database::open(
       // Creation failed
       if (initialize) {
         hlog_error("%s creating data directory in '%s'", strerror(errno),
-          _d->path);
+          _d->path.c_str());
       } else {
-        hlog_error("Given DB path does not contain a database '%s'", _d->path);
+        hlog_error("Given DB path does not contain a database '%s'",
+          _d->path.c_str());
         if (! read_only) {
           hlog_info("See help for information on how to initialize the DB");
         }
@@ -210,7 +213,7 @@ int Database::open(
     hlog_verbose("Database open in read-only mode");
   } else {
     // Open problematic checksums list
-    _d->missing.open(Path(_d->path, ".checksums"));
+    _d->missing.open(Path(_d->path.c_str(), ".checksums"));
     // Set mode to call openClient for checking only
     _d->access = quiet_rw;
     // Finish off any previous backup
@@ -278,7 +281,7 @@ void Database::setListProgressCallback(progress_f progress) {
 
 int Database::getClients(
     list<string>& clients) const {
-  Directory dir(_d->path);
+  Directory dir(_d->path.c_str());
   if (dir.createList() < 0) {
     return -1;
   }
@@ -308,16 +311,16 @@ int Database::getRecords(
   if (date < 0) {
     date = time(NULL) + date;
   }
-  char*  db_path = NULL;
-  Node*  db_node = NULL;
+  char db_path[PATH_MAX];
+  Node* db_node;
   string last_record;
   int   rc;
-  while ((rc = _d->owner->getNextRecord(path, date, &db_path, &db_node)) > 0) {
+  while ((rc = _d->owner->getNextRecord(path, date, db_path, &db_node)) > 0) {
     if (aborting()) {
       return -1;
     }
-    if ((strncmp(path, db_path, path_len) == 0)
-    &&  ((db_path[path_len] == '/') || (path_len == 0))) {
+    if ((strncmp(path, db_path, path_len) == 0) &&
+        ((db_path[path_len] == '/') || (path_len == 0))) {
       char* slash = strchr(&db_path[path_len + 1], '/');
       if (slash != NULL) {
         *slash = '\0';
@@ -326,16 +329,15 @@ int Database::getRecords(
       if (last_record != db_path) {
         last_record = db_path;
         string record = last_record;
-        if ((slash != NULL)   // Was shortened, therefore is dir
-        || ((db_node != NULL) && (db_node->type() == 'd'))) {
+        if ((slash != NULL) ||              // Was shortened, therefore is dir
+            ((db_node != NULL) && (db_node->type() == 'd'))) {
           record += '/';
         }
         records.push_back(record);
       }
     }
+    delete db_node;
   }
-  free(db_path);
-  delete db_node;
   return (rc < 0) ? -1 : 0;
 }
 
@@ -348,10 +350,10 @@ int Database::restore(
     date = time(NULL) + date;
   }
   bool  failed = false;
-  char* db_path  = NULL;
-  Node* db_node  = NULL;
+  char db_path[PATH_MAX];
+  Node* db_node;
   int   rc;
-  while ((rc = _d->owner->getNextRecord(path, date, &db_path, &db_node)) > 0) {
+  while ((rc = _d->owner->getNextRecord(path, date, db_path, &db_node)) > 0) {
     if (db_node == NULL) {
       continue;
     }
@@ -447,40 +449,35 @@ int Database::restore(
     // Report error and go on
     if (this_failed) {
       failed = true;
-      continue;
-    }
+    } else
     // Nothing more to do for links
-    if ((db_node->type() == 'l') || (links != HBackup::none)) {
-      continue;
-    }
-    // Restore modification time
-    {
+    if ((db_node->type() != 'l') && (links == HBackup::none)) {
+      // Restore modification time
       struct utimbuf times = { -1, db_node->mtime() };
       if (utime(base, &times)) {
         hlog_error("%s restoring modification time for '%s'", strerror(errno),
           base.c_str());
         this_failed = true;
       }
+      // Restore permissions
+      if (chmod(base, db_node->mode())) {
+        hlog_error("%s restoring permissions for '%s'", strerror(errno),
+          base.c_str());
+        this_failed = true;
+      }
+      // Restore owner and group
+      if (chown(base, db_node->uid(), db_node->gid())) {
+        hlog_error("%s restoring owner/group for '%s'", strerror(errno),
+          base.c_str());
+        this_failed = true;
+      }
+      // Report error and go on
+      if (this_failed) {
+        failed = true;
+      }
     }
-    // Restore permissions
-    if (chmod(base, db_node->mode())) {
-      hlog_error("%s restoring permissions for '%s'", strerror(errno),
-        base.c_str());
-      this_failed = true;
-    }
-    // Restore owner and group
-    if (chown(base, db_node->uid(), db_node->gid())) {
-      hlog_error("%s restoring owner/group for '%s'", strerror(errno),
-        base.c_str());
-      this_failed = true;
-    }
-    // Report error and go on
-    if (this_failed) {
-      failed = true;
-    }
+    delete db_node;
   }
-  free(db_path);
-  delete db_node;
   return (failed || (rc < 0)) ? -1 : 0;
 }
 
@@ -497,7 +494,7 @@ int Database::scan(
   bool failed = false;
   for (list<string>::iterator i = clients.begin(); i != clients.end(); i++) {
     hlog_verbose("Reading list for '%s'", i->c_str());
-    Owner client(_d->path, i->c_str());
+    Owner client(_d->path.c_str(), i->c_str());
     client.setProgressCallback(_d->list_progress);
     client.getChecksums(list_data);
     if (failed || aborting()) {
@@ -608,7 +605,7 @@ int Database::scan(
   _d->missing.forceSave();
   if (rc >= 0) {
     // Leave trace of successful scan
-    File f(Path(_d->path, ".last-scan"));
+    File f(Path(_d->path.c_str(), ".last-scan"));
     f.remove();
     f.create();
   }
@@ -622,7 +619,7 @@ int Database::check(
   int rc = _d->data.crawl(true, remove);
   if (rc >= 0) {
     // Leave trace of successful check
-    File f(Path(_d->path, ".last-check"));
+    File f(Path(_d->path.c_str(), ".last-check"));
     f.remove();
     f.create();
   }
@@ -638,7 +635,7 @@ int Database::openClient(
   }
 
   // Create owner for client
-  _d->owner = new Owner(_d->path, client,
+  _d->owner = new Owner(_d->path.c_str(), client,
     (expire <= 0) ? expire : (time(NULL) - expire));
   _d->owner->setProgressCallback(_d->list_progress);
 

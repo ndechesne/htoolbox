@@ -419,8 +419,8 @@ size_t List::encode(
 int List::decodeLine(
     const char*     line,
     time_t*         ts,
-    const char*     path,
-    Node**          node) {
+    Node**          node_p,
+    const char*     path) {
   // Fields
   char        type;             // file type
   long long   size;             // on-disk size, in bytes
@@ -428,17 +428,10 @@ int List::decodeLine(
   uid_t       uid;              // user ID of owner
   gid_t       gid;              // group ID of owner
   mode_t      mode;             // permissions
-  char*       extra = NULL;     // linked file or checksum or null
+  char        extra[64];        // linked file or checksum
 
-  int num;
-  if (node != NULL) {
-    num = sscanf(line, "\t%ld\t%c\t%Ld\t%ld\t%d\t%d\t%o\t%a[^\t]",
-      ts, &type, &size, &mtime, &uid, &gid, &mode, &extra);
-  } else {
-    num = sscanf(line, "\t%ld\t%c\t",
-      ts, &type);
-  }
-
+  int num = sscanf(line, "\t%ld\t%c\t%Ld\t%ld\t%d\t%d\t%o\t%[^\t]",
+    ts, &type, &size, &mtime, &uid, &gid, &mode, extra);
   // Check number of params
   if (num < 0) {
     return -1;
@@ -447,26 +440,24 @@ int List::decodeLine(
     hlog_error("Wrong number of arguments for line");
     return -1;
   }
+  if (num < 8) {
+    extra[0] = '\0';
+  }
 
   // Return extracted data
-  if (node != NULL) {
-    switch (type) {
-    case 'f':
-      *node = new File(path, type, mtime, size, uid, gid, mode,
-        extra ? extra : "");
-      break;
-    case 'l':
-      *node = new Link(path, type, mtime, size, uid, gid, mode,
-        extra ? extra : "");
-      break;
-    case '-':
-      *node = NULL;
-      break;
-    default:
-      *node = new Node(path, type, mtime, size, uid, gid, mode);
-    }
+  switch (type) {
+  case 'f':
+    *node_p = new File(path, type, mtime, size, uid, gid, mode, extra);
+    break;
+  case 'l':
+    *node_p = new Link(path, type, mtime, size, uid, gid, mode, extra);
+    break;
+  case '-':
+    *node_p = NULL;
+    break;
+  default:
+    *node_p = new Node(path, type, mtime, size, uid, gid, mode);
   }
-  free(extra);
   return 0;
 }
 
@@ -506,11 +497,7 @@ const char* ListReader::fetchData() {
 }
 
 int ListReader::fetchData(
-    Node**          node) {
-  // Initialise
-  delete *node;
-  *node = NULL;
-
+    Node**          node_p) {
   int rc;
   do {
     // Get line
@@ -528,7 +515,10 @@ int ListReader::fetchData(
     if (rc == ListReader::got_data) {
       time_t ts;
       // Get all arguments from line
-      List::decodeLine(getData(), &ts, getPath(), node);
+      if (List::decodeLine(getData(), &ts, node_p, getPath()) < 0) {
+        hlog_error("failed to decode line");
+        return -1;
+      }
     }
     resetStatus();
   } while (rc != ListReader::got_data);
@@ -567,13 +557,9 @@ int ListReader::searchPath() {
 
 int ListReader::getEntry(
     time_t*         timestamp,
-    char**          path,
-    Node**          node,
+    char*           path,
+    Node**          node_p,
     time_t          date) {
-  // Initialise
-  delete *node;
-  *node = NULL;
-
   bool get_path;
   if (date < 0) {
     get_path = false;
@@ -601,8 +587,7 @@ int ListReader::getEntry(
 
     // Path
     if (rc == ListReader::got_path) {
-      free(*path);
-      *path = strdup(getPath());
+      strcpy(path, getPath());
       get_path = false;
     } else
 
@@ -610,12 +595,17 @@ int ListReader::getEntry(
     if (! get_path) {
       time_t ts;
       // Get all arguments from line
-      List::decodeLine(getData(), &ts, getPath(), node);
+      if (List::decodeLine(getData(), &ts, node_p, getPath()) < 0) {
+        hlog_error("failed to decode line");
+        return -1;
+      }
       if (timestamp != NULL) {
         *timestamp = ts;
       }
       if ((date <= 0) || (ts <= date)) {
         break_it = true;
+      } else {
+        delete *node_p;
       }
     }
     // Reset status
@@ -942,10 +932,10 @@ void ListReader::show(
       printf("Register is empty\n");
     } else {
       time_t ts;
-      char*  path = NULL;
-      Node*  node = NULL;
+      char path[PATH_MAX];
+      Node* node;
       int rc = 0;
-      while ((rc = getEntry(&ts, &path, &node, date)) > 0) {
+      while ((rc = getEntry(&ts, path, &node, date)) > 0) {
         time_t timestamp = 0;
         if (ts != 0) {
           timestamp = ts - time_start;
@@ -962,13 +952,12 @@ void ListReader::show(
           if (node->type() == 'l') {
             printf(" %s", static_cast<const Link*>(node)->link());
           }
+          delete node;
         } else {
           printf(" [rm]");
         }
         printf("\n");
       }
-      free(path);
-      delete node;
       if (rc < 0) {
         hlog_error("Failed to read list");
       }

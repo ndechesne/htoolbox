@@ -94,7 +94,7 @@ static void showList(ListReader& list) {
         } else {
           time_t ts;
           Node*  node;
-          List::decodeLine(list.getData(), &ts, path, &node);
+          List::decodeLine(list.getData(), &ts, &node, path);
           showLine(ts, path, node);
           list.resetStatus();
         }

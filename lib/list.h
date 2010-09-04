@@ -76,8 +76,8 @@ public:
   static int decodeLine(
     const char*     line,           // Line to decode
     time_t*         ts,             // Line timestamp
-    const char      path[] = NULL,  // File path to store in metadata
-    Node**          node   = NULL); // File metadata
+    Node**          node,           // File metadata
+    const char*     path = "");   // Optional file path to store in metadata
   // Decode time stamp from line
   static int decodeTimeStamp(
     const char*     line,           // Line to decode from
@@ -135,7 +135,7 @@ public:
   //    -1: error, 0: end of file, 1: success
   int getEntry(
     time_t*         timestamp,
-    char*           path[],
+    char            path[],
     Node**          node,
     time_t          date);
   // Show the list

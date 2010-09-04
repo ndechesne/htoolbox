@@ -530,7 +530,7 @@ int Owner::add(
 int Owner::getNextRecord(
     const char*     path,
     time_t          date,
-    char**          fpath,
+    char*           fpath,
     Node**          fnode) const {
   size_t len = strlen(path);
   bool path_is_dir = false;
@@ -550,15 +550,15 @@ int Owner::getNextRecord(
     }
     // Start of path must match
     if (len == 0) return 1;
-    int cmp = Path::compare(*fpath, path, len);
+    int cmp = Path::compare(fpath, path, len);
     // Not reached
     if (cmp < 0) continue;
     // Exceeded
     if (cmp > 0) return 0;
-    size_t flen = strlen(*fpath);
+    size_t flen = strlen(fpath);
     // Not reached, but on the right path
     if (flen < len) continue;
-    if ((flen > len) && ((*fpath)[len] != '/')) return 0;
+    if ((flen > len) && (fpath[len] != '/')) return 0;
     // Match
     return 1;
   }
@@ -571,19 +571,21 @@ int Owner::getChecksums(
     return -1;
   }
   _d->original->setProgressCallback(_d->progress);
-  Node* node = NULL;
+  Node* node;
   while (_d->original->fetchData(&node) > 0) {
-    if ((node != NULL) && (node->type() == 'f')) {
-      File* f = static_cast<File*>(node);
-      if (f->checksum()[0] != '\0') {
-        checksums.push_back(CompData(f->checksum(), f->size()));
+    if (node != NULL) {
+      if (node->type() == 'f') {
+        File* f = static_cast<File*>(node);
+        if (f->checksum()[0] != '\0') {
+          checksums.push_back(CompData(f->checksum(), f->size()));
+        }
       }
+      delete node;
     }
     if (aborting()) {
       break;
     }
   }
-  delete node;
   release();
   return aborting() ? -1 : 0;
 }
