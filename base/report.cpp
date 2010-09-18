@@ -173,8 +173,15 @@ struct Report::Private {
         ;
     }
     // message
-    offset += vsnprintf(&buffer[offset], sizeof(buffer), format, *args);
+    offset += vsnprintf(&buffer[offset], sizeof(buffer) - offset, format, *args);
     size_t buffer_size = sizeof(buffer) - 1;
+    /* offset is what _would_ have been written, had there been enough space */
+    if (offset >= buffer_size) {
+      const char ending[] = "... [truncated]";
+      const size_t ending_length = sizeof(ending) - 1;
+      strcpy(&buffer[buffer_size - ending_length], ending);
+      offset = buffer_size;
+    }
     buffer[buffer_size] = '\0';
     // compute UTF-8 string length
     size_t size = 0;
@@ -182,8 +189,7 @@ struct Report::Private {
       size = utf8_len(buffer);
     }
     // if previous length stored, overwrite end of previous line
-    if ((size_to_overwrite != 0) &&
-        (size_to_overwrite > size)){
+    if ((size_to_overwrite != 0) && (size_to_overwrite > size)) {
       size_t diff = size_to_overwrite - size;
       if (diff > (buffer_size - offset)) {
         diff = buffer_size - offset;

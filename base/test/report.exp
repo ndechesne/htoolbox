@@ -72,7 +72,8 @@ Line autoblanking
 \r
 Short line\r
 A longer line\r
-Tiny one     \r
+A huge line: If was an American science fiction magazine launched in March 1952 by Quinn Publications, owned by James L. Quinn. After a series of editors, including Paul W. Fairman, Larry T. Shaw, and Damon Knight, Quinn sold the magazine to Robert Guinn at Galaxy Publishing and in 1961 Frederik Pohl became editor. Under Pohl, If won the Hugo Award  for best professional magazine three years running from 1966 to 1968. In 1969 Guinn sold all his magazines to Universal Publishing and Distribution (UPD). The magazine was not as successful with Ejler Jakobsson as editor and circulation plummeted. In early 1974 Jim Baen took over from Jakobsson as editor, but increasing paper costs meant that UPD could no longer afford to publish both Galaxy and If. Galaxy was regarded as the senior of the two magazines, so If was merged into Galaxy after the December 1974 issue, its 175th issue overall. Over its 22 years, If published many award-winning stories, including Robert A. Heinlein's novel The Moon Is a H... [truncated]\r
+Tiny one                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       \r
 .       \r
 A longer line\r
 An even longer line\r
@@ -98,72 +99,61 @@ Error: No such file or directory creating log file: 'missing/report.log'
 
 Rotate file
 report.log:
-2009-08-07 06:05:04 DEBUG report_test.cpp:208 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:209 message: debug
 report.log-1:
-2009-08-07 06:05:04 VERB  report_test.cpp:207 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:208 message: verbose
 report.log-2:
-2009-08-07 06:05:04 INFO  report_test.cpp:206 message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:207 message: info
 report.log-3:
-2009-08-07 06:05:04 WARN  report_test.cpp:205 message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:206 message: warning
 report.log-4:
-2009-08-07 06:05:04 ERROR report_test.cpp:204 message: error
+2009-08-07 06:05:04 ERROR report_test.cpp:205 message: error
 report.log-5:
-2009-08-07 06:05:04 ALERT report_test.cpp:203 message: alert
+2009-08-07 06:05:04 ALERT report_test.cpp:204 message: alert
 report.log:
 report.log-1:
-2009-08-07 06:05:04 DEBUG report_test.cpp:208 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:209 message: debug
 report.log-2:
-2009-08-07 06:05:04 VERB  report_test.cpp:207 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:208 message: verbose
 report.log-3:
-2009-08-07 06:05:04 INFO  report_test.cpp:206 message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:207 message: info
 report.log-4:
-2009-08-07 06:05:04 WARN  report_test.cpp:205 message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:206 message: warning
 report.log-5:
-2009-08-07 06:05:04 ERROR report_test.cpp:204 message: error
+2009-08-07 06:05:04 ERROR report_test.cpp:205 message: error
 report.log:
 report.log-1:
-2009-08-07 06:05:04 DEBUG report_test.cpp:208 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:209 message: debug
 report.log-2:
-2009-08-07 06:05:04 VERB  report_test.cpp:207 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:208 message: verbose
 report.log-3:
-2009-08-07 06:05:04 INFO  report_test.cpp:206 message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:207 message: info
 report.log-4:
-2009-08-07 06:05:04 WARN  report_test.cpp:205 message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:206 message: warning
 report.log-5:
-2009-08-07 06:05:04 ERROR report_test.cpp:204 message: error
-report.log:
-report.log-1:
-1
-report.log-2:
-2009-08-07 06:05:04 DEBUG report_test.cpp:208 message: debug
-report.log-3:
-2009-08-07 06:05:04 VERB  report_test.cpp:207 message: verbose
-report.log-4:
-2009-08-07 06:05:04 INFO  report_test.cpp:206 message: info
-report.log-5:
-2009-08-07 06:05:04 WARN  report_test.cpp:205 message: warning
+2009-08-07 06:05:04 ERROR report_test.cpp:205 message: error
 report.log:
 report.log-1:
 1
 report.log-2:
-1
+2009-08-07 06:05:04 DEBUG report_test.cpp:209 message: debug
 report.log-3:
-2009-08-07 06:05:04 DEBUG report_test.cpp:208 message: debug
+2009-08-07 06:05:04 VERB  report_test.cpp:208 message: verbose
 report.log-4:
-2009-08-07 06:05:04 VERB  report_test.cpp:207 message: verbose
+2009-08-07 06:05:04 INFO  report_test.cpp:207 message: info
 report.log-5:
-2009-08-07 06:05:04 INFO  report_test.cpp:206 message: info
+2009-08-07 06:05:04 WARN  report_test.cpp:206 message: warning
 report.log:
 report.log-1:
 1
 report.log-2:
 1
 report.log-3:
-1
+2009-08-07 06:05:04 DEBUG report_test.cpp:209 message: debug
 report.log-4:
-2009-08-07 06:05:04 DEBUG report_test.cpp:208 message: debug
+2009-08-07 06:05:04 VERB  report_test.cpp:208 message: verbose
 report.log-5:
-2009-08-07 06:05:04 VERB  report_test.cpp:207 message: verbose
+2009-08-07 06:05:04 INFO  report_test.cpp:207 message: info
 report.log:
 report.log-1:
 1
@@ -172,8 +162,19 @@ report.log-2:
 report.log-3:
 1
 report.log-4:
-2009-08-07 06:05:04 DEBUG report_test.cpp:208 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:209 message: debug
 report.log-5:
-2009-08-07 06:05:04 VERB  report_test.cpp:207 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:208 message: verbose
+report.log:
+report.log-1:
+1
+report.log-2:
+1
+report.log-3:
+1
+report.log-4:
+2009-08-07 06:05:04 DEBUG report_test.cpp:209 message: debug
+report.log-5:
+2009-08-07 06:05:04 VERB  report_test.cpp:208 message: verbose
 
 End of tests
