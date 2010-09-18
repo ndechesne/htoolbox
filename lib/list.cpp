@@ -487,33 +487,24 @@ int List::decodeSizeChecksum(
     const char*     line,
     long long*      size_p,
     char            checksum[MAX_CHECKSUM_LENGTH + 1]) {
-  // Fields
-  time_t      ts;               // timestamp
-  char        type;             // file type
-  time_t      mtime;            // time of last modification
-  uid_t       uid;              // user ID of owner
-  gid_t       gid;              // group ID of owner
-  mode_t      mode;             // permissions
-  char        extra[PATH_MAX];  // linked file or checksum
-
-  int num = sscanf(line, "\t%ld\t%c\t%Ld\t%ld\t%d\t%d\t%o\t%[^\t]",
-    &ts, &type, size_p, &mtime, &uid, &gid, &mode, extra);
-  // Check number of params
-  if (num < 0) {
-    return -1;
+  checksum[0] = '\0';
+  const char* field = &line[1];
+  size_t field_no = 0;
+  while ((field = strchr(field, '\t')) != NULL) {
+    ++field_no;
+    ++field;
+    switch (field_no) {
+      case 1: if (field[0] != 'f') return 1;
+        break;
+      case 2: if (sscanf(field, "%Ld\t", size_p) != 1) return -1;
+        break;
+      case 7:
+        strncpy(checksum, field, MAX_CHECKSUM_LENGTH + 1);
+        checksum[MAX_CHECKSUM_LENGTH] = '\0';
+        return 0;
+    }
   }
-  if (num < 2) {
-    hlog_error("Wrong number of arguments for line");
-    return -1;
-  }
-  if ((num < 8) || (type != 'f')) {
-    checksum[0] = '\0';
-    return 1;
-  } else {
-    strncpy(checksum, extra, MAX_CHECKSUM_LENGTH + 1);
-    checksum[MAX_CHECKSUM_LENGTH] = '\0';
-  }
-  return 0;
+  return 1;
 }
 
 void ListReader::setProgressCallback(progress_f progress) {
