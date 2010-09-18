@@ -408,6 +408,7 @@ CR\r
 [ 1] /home/User/testpipe            p        0 600
 Database open in read/write mode
 Reading list for 'myClient'
+Sorting list
 Found 21 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r

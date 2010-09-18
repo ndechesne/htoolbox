@@ -13,12 +13,14 @@ Database initialized in 'test_db'
 Database open in read/write mode
 
 Test: scan & check
+Sorting list
 Found 0 checksum(s)
 Crawling through DB
 Found 0 valid and 0 broken data file(s)
 Database closed
 Database open in read/write mode
 File data gone
+Sorting list
 Found 0 checksum(s)
 Crawling through DB
 Error: Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
@@ -26,6 +28,7 @@ Found 0 valid and 1 broken data file(s)
 Database closed
 Database open in read/write mode
 File data corrupted, surficial scan
+Sorting list
 Found 0 checksum(s)
 Crawling through DB
 59ca0efa9f5633cb0371bbc0355478d8-0 0\r
@@ -36,6 +39,7 @@ Obsolete checksum(s): 1
  -> removed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Database closed
 Database open in read/write mode
+Sorting list
 Found 0 checksum(s)
 Crawling through DB
 Found 0 valid and 0 broken data file(s)
@@ -49,6 +53,7 @@ Checksum: d41d8cd98f00b204e9800998ecf8427e
 Found 0 valid and 1 broken data file(s)
 Database closed
 Database open in read/write mode
+Sorting list
 Found 0 checksum(s)
 Crawling through DB
 Removed corrupted data for 59ca0efa9f5633cb0371bbc0355478d8-0
@@ -144,6 +149,7 @@ Database closed
 Test: scan
 Database open in read/write mode
 Reading list for 'myClient'
+Sorting list
 Found 4 checksum(s)
 Crawling through DB
 285b35198a5e188b3a0df3ed33f93a26-0 12\r

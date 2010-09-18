@@ -637,6 +637,7 @@ ssize_t Stream::read_decompress(
       case Z_NEED_DICT:
       case Z_DATA_ERROR:
       case Z_MEM_ERROR:
+        errno = EPROTO;
         return -2;
     }
     // Used all decompression buffer
@@ -682,7 +683,7 @@ ssize_t Stream::read(void* buffer, size_t asked) {
   // Check result
   if (size < 0) {
     // errno set by read
-    return -1;
+    return size;
   }
 
   // Update progress indicator (size read)
@@ -938,13 +939,12 @@ int Stream::computeChecksum() {
     _d->buffer_data.create();
   }
   _d->size = 0;
-  bool      eof  = false;
-
+  bool eof = false;
   do {
     ssize_t length = read(NULL, 0);
     _d->buffer_data.empty();
     if (length < 0) {
-      return -1;
+      return length;
     }
     eof = (length == 0);
     _d->size += length;

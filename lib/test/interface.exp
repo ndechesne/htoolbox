@@ -2636,6 +2636,7 @@ Reading list for 'myClient'
 Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
+Sorting list
 Found 21 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -9253,6 +9254,7 @@ Reading list for 'myClient'
 Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
+Sorting list
 Found 20 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -9336,6 +9338,7 @@ Reading list for 'myClient'
 Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
+Sorting list
 Found 20 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -9533,6 +9536,7 @@ Reading list for 'myClient'
 Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
+Sorting list
 Found 20 checksum(s)
 Crawling through DB
 00000000000000000000000000000000-0 1\r
@@ -9622,6 +9626,7 @@ Reading list for 'myClient'
 Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
+Sorting list
 Found 20 checksum(s)
 Crawling through DB
 00000000000000000000000000000000-0 1\r
@@ -9711,6 +9716,7 @@ Reading list for 'myClient'
 Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
+Sorting list
 Found 20 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -9904,6 +9910,7 @@ Reading list for 'myClient'
 Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
+Sorting list
 Found 20 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -9991,6 +9998,7 @@ Reading list for 'myClient'
 Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
+Sorting list
 Found 20 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -10077,6 +10085,7 @@ Reading list for 'myClient'
 Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
+Sorting list
 Found 20 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -11155,6 +11164,7 @@ Reading list for 'myClient'
 Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
+Sorting list
 Found 21 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -11498,6 +11508,7 @@ Reading list for 'myClient'
 Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
+Sorting list
 Found 21 checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -12265,11 +12276,11 @@ hbackup.log:
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'aClient.vista' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'aClient.vista'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'aClient.vista'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 ERROR paths.cpp:271 No such file or directory reading initial directory 'aClient.vista:C:/Test Dir'
 2009-08-07 06:05:04 ERROR clients.cpp:473 Aborting client
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'aClient.vista'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'aClient.vista'
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
 2009-08-07 06:05:04 VERB  db.cpp:264 Database closed
 hbackup.log-1:
@@ -12277,26 +12288,26 @@ hbackup.log-1:
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'aClient.vista' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'aClient.vista'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'aClient.vista'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'aClient.vista'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'aClient.vista'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'client.xp' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'client.xp'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'client.xp'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'client.xp'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'client.xp'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'myClient' using protocol 'nfs'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'myClient'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'myClient'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path '/home/User/test'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'myClient'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'myClient'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'myClient.xp' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'myClient.xp'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'myClient.xp'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'myClient.xp'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'myClient.xp'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'myhost'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'myhost'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'test1'
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/CVS/Whatever
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/cvs/CVS/Wherever
@@ -12340,12 +12351,12 @@ hbackup.log-1:
 2009-08-07 06:05:04 INFO  paths.cpp:167 Rf ~    test2/testfile2
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test2/testfile~
 2009-08-07 06:05:04 VERB  owner.cpp:360 Register modified for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'myhost'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'myhost'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'newClient' using protocol 'ssh'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'newClient'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'newClient'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path '/home/Blah/test'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'newClient'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'newClient'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'other' using protocol 'none'
 2009-08-07 06:05:04 ERROR clients.cpp:405 Protocol not supported 'none' for 'other'
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
@@ -12353,10 +12364,10 @@ hbackup.log-1:
 2009-08-07 06:05:04 VERB  db.cpp:264 Database closed
 hbackup.log-10:
 2009-08-07 06:05:04 VERB  db.cpp:213 Database open in read-only mode
-2009-08-07 06:05:04 VERB  db.cpp:617 Crawling through DB data
+2009-08-07 06:05:04 VERB  db.cpp:618 Crawling through DB data
 2009-08-07 06:05:04 ERROR data.cpp:641 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 2009-08-07 06:05:04 WARN  data.cpp:656 Data corruption reported for b90f8fa56ea1d39881d4a199c7a81d35-0
-2009-08-07 06:05:04 VERB  data.cpp:766 Found 19 valid and 2 broken data file(s)
+2009-08-07 06:05:04 VERB  data.cpp:771 Found 19 valid and 2 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:264 Database closed
 hbackup.log-2:
 2009-08-07 06:05:04 VERB  db.cpp:242 Database open in read/write mode
@@ -12366,19 +12377,20 @@ hbackup.log-2:
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:521 Found 21 checksum(s)
-2009-08-07 06:05:04 VERB  db.cpp:524 Crawling through DB
-2009-08-07 06:05:04 INFO  data.cpp:702 Removed corrupted data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-2009-08-07 06:05:04 VERB  data.cpp:766 Found 19 valid and 1 broken data file(s)
+2009-08-07 06:05:04 VERB  db.cpp:507 Sorting list
+2009-08-07 06:05:04 VERB  db.cpp:522 Found 21 checksum(s)
+2009-08-07 06:05:04 VERB  db.cpp:525 Crawling through DB
+2009-08-07 06:05:04 INFO  data.cpp:707 Removed corrupted data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+2009-08-07 06:05:04 VERB  data.cpp:771 Found 19 valid and 1 broken data file(s)
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
 2009-08-07 06:05:04 VERB  db.cpp:264 Database closed
 hbackup.log-3:
 2009-08-07 06:05:04 VERB  db.cpp:213 Database open in read-only mode
-2009-08-07 06:05:04 VERB  db.cpp:617 Crawling through DB data
-2009-08-07 06:05:04 ERROR data.cpp:675 Data corrupted for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-2009-08-07 06:05:04 VERB  data.cpp:766 Found 19 valid and 1 broken data file(s)
+2009-08-07 06:05:04 VERB  db.cpp:618 Crawling through DB data
+2009-08-07 06:05:04 ERROR data.cpp:680 Data corrupted for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+2009-08-07 06:05:04 VERB  data.cpp:771 Found 19 valid and 1 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:264 Database closed
 hbackup.log-4:
 2009-08-07 06:05:04 VERB  db.cpp:242 Database open in read/write mode
@@ -12388,10 +12400,11 @@ hbackup.log-4:
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:521 Found 21 checksum(s)
-2009-08-07 06:05:04 VERB  db.cpp:524 Crawling through DB
-2009-08-07 06:05:04 WARN  data.cpp:691 Adding missing metadata for 5252f242d27b8c2c9fdbdcbb33545d07-0
-2009-08-07 06:05:04 VERB  data.cpp:766 Found 20 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  db.cpp:507 Sorting list
+2009-08-07 06:05:04 VERB  db.cpp:522 Found 21 checksum(s)
+2009-08-07 06:05:04 VERB  db.cpp:525 Crawling through DB
+2009-08-07 06:05:04 WARN  data.cpp:696 Adding missing metadata for 5252f242d27b8c2c9fdbdcbb33545d07-0
+2009-08-07 06:05:04 VERB  data.cpp:771 Found 20 valid and 0 broken data file(s)
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
@@ -12401,26 +12414,26 @@ hbackup.log-5:
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'aClient.vista' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'aClient.vista'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'aClient.vista'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'aClient.vista'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'aClient.vista'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'client.xp' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'client.xp'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'client.xp'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'client.xp'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'client.xp'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'myClient' using protocol 'nfs'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'myClient'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'myClient'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path '/home/User/test'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'myClient'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'myClient'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'myClient.xp' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'myClient.xp'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'myClient.xp'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'myClient.xp'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'myClient.xp'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'myhost'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'myhost'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'test1'
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/CVS/Whatever
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/cvs/CVS/Wherever
@@ -12462,12 +12475,12 @@ hbackup.log-5:
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/testfile~
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'test2'
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test2/testfile~
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'myhost'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'myhost'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'newClient' using protocol 'ssh'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'newClient'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'newClient'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path '/home/Blah/test'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'newClient'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'newClient'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'other' using protocol 'none'
 2009-08-07 06:05:04 ERROR clients.cpp:405 Protocol not supported 'none' for 'other'
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
@@ -12477,28 +12490,28 @@ hbackup.log-6:
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'aClient.vista' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'aClient.vista'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'aClient.vista'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'aClient.vista'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'aClient.vista'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'client.xp' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'client.xp'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'client.xp'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'client.xp'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'client.xp'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'myClient' using protocol 'nfs'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'myClient'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'myClient'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path '/home/User/test'
 2009-08-07 06:05:04 INFO  paths.cpp:167 Cf f    /home/User/test/dir/file3.txt
 2009-08-07 06:05:04 VERB  owner.cpp:360 Register modified for 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'myClient'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'myClient'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'myClient.xp' using protocol 'smb'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'myClient.xp'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'myClient.xp'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'myClient.xp'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'myClient.xp'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'myhost'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'myhost'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'test1'
 2009-08-07 06:05:04 INFO  paths.cpp:167 Rf f    test1/cvs/CVS/Root
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/CVS/Whatever
@@ -12544,12 +12557,12 @@ hbackup.log-6:
 2009-08-07 06:05:04 INFO  paths.cpp:167 Mf zr   test2/testfile2
 2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test2/testfile~
 2009-08-07 06:05:04 VERB  owner.cpp:360 Register modified for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'myhost'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'myhost'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'newClient' using protocol 'ssh'
 2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:665 Database open r/w for 'newClient'
+2009-08-07 06:05:04 VERB  db.cpp:666 Database open r/w for 'newClient'
 2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path '/home/Blah/test'
-2009-08-07 06:05:04 VERB  db.cpp:674 Database closed for 'newClient'
+2009-08-07 06:05:04 VERB  db.cpp:675 Database closed for 'newClient'
 2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'other' using protocol 'none'
 2009-08-07 06:05:04 ERROR clients.cpp:405 Protocol not supported 'none' for 'other'
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
@@ -12563,11 +12576,12 @@ hbackup.log-7:
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:521 Found 20 checksum(s)
-2009-08-07 06:05:04 VERB  db.cpp:524 Crawling through DB
-2009-08-07 06:05:04 WARN  data.cpp:711 Setting missing metadata for dddddddddddddddddddddddddddddddd-0
-2009-08-07 06:05:04 VERB  data.cpp:766 Found 21 valid and 0 broken data file(s)
-2009-08-07 06:05:04 INFO  db.cpp:583 Obsolete checksum(s): 3
+2009-08-07 06:05:04 VERB  db.cpp:507 Sorting list
+2009-08-07 06:05:04 VERB  db.cpp:522 Found 20 checksum(s)
+2009-08-07 06:05:04 VERB  db.cpp:525 Crawling through DB
+2009-08-07 06:05:04 WARN  data.cpp:716 Setting missing metadata for dddddddddddddddddddddddddddddddd-0
+2009-08-07 06:05:04 VERB  data.cpp:771 Found 21 valid and 0 broken data file(s)
+2009-08-07 06:05:04 INFO  db.cpp:584 Obsolete checksum(s): 3
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
@@ -12579,10 +12593,11 @@ hbackup.log-7:
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:521 Found 20 checksum(s)
-2009-08-07 06:05:04 VERB  db.cpp:524 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:766 Found 21 valid and 0 broken data file(s)
-2009-08-07 06:05:04 INFO  db.cpp:583 Obsolete checksum(s): 3
+2009-08-07 06:05:04 VERB  db.cpp:507 Sorting list
+2009-08-07 06:05:04 VERB  db.cpp:522 Found 20 checksum(s)
+2009-08-07 06:05:04 VERB  db.cpp:525 Crawling through DB
+2009-08-07 06:05:04 VERB  data.cpp:771 Found 21 valid and 0 broken data file(s)
+2009-08-07 06:05:04 INFO  db.cpp:584 Obsolete checksum(s): 3
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
@@ -12594,9 +12609,10 @@ hbackup.log-7:
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:521 Found 20 checksum(s)
-2009-08-07 06:05:04 VERB  db.cpp:524 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:766 Found 18 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  db.cpp:507 Sorting list
+2009-08-07 06:05:04 VERB  db.cpp:522 Found 20 checksum(s)
+2009-08-07 06:05:04 VERB  db.cpp:525 Crawling through DB
+2009-08-07 06:05:04 VERB  data.cpp:771 Found 18 valid and 0 broken data file(s)
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
@@ -12609,10 +12625,11 @@ hbackup.log-8:
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:521 Found 20 checksum(s)
-2009-08-07 06:05:04 VERB  db.cpp:524 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:766 Found 22 valid and 0 broken data file(s)
-2009-08-07 06:05:04 INFO  db.cpp:583 Obsolete checksum(s): 4
+2009-08-07 06:05:04 VERB  db.cpp:507 Sorting list
+2009-08-07 06:05:04 VERB  db.cpp:522 Found 20 checksum(s)
+2009-08-07 06:05:04 VERB  db.cpp:525 Crawling through DB
+2009-08-07 06:05:04 VERB  data.cpp:771 Found 22 valid and 0 broken data file(s)
+2009-08-07 06:05:04 INFO  db.cpp:584 Obsolete checksum(s): 4
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
@@ -12624,10 +12641,11 @@ hbackup.log-8:
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:521 Found 20 checksum(s)
-2009-08-07 06:05:04 VERB  db.cpp:524 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:766 Found 22 valid and 0 broken data file(s)
-2009-08-07 06:05:04 INFO  db.cpp:583 Obsolete checksum(s): 4
+2009-08-07 06:05:04 VERB  db.cpp:507 Sorting list
+2009-08-07 06:05:04 VERB  db.cpp:522 Found 20 checksum(s)
+2009-08-07 06:05:04 VERB  db.cpp:525 Crawling through DB
+2009-08-07 06:05:04 VERB  data.cpp:771 Found 22 valid and 0 broken data file(s)
+2009-08-07 06:05:04 INFO  db.cpp:584 Obsolete checksum(s): 4
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
@@ -12639,9 +12657,10 @@ hbackup.log-8:
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:521 Found 20 checksum(s)
-2009-08-07 06:05:04 VERB  db.cpp:524 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:766 Found 18 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  db.cpp:507 Sorting list
+2009-08-07 06:05:04 VERB  db.cpp:522 Found 20 checksum(s)
+2009-08-07 06:05:04 VERB  db.cpp:525 Crawling through DB
+2009-08-07 06:05:04 VERB  data.cpp:771 Found 18 valid and 0 broken data file(s)
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
@@ -12654,12 +12673,13 @@ hbackup.log-9:
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:521 Found 20 checksum(s)
-2009-08-07 06:05:04 VERB  db.cpp:524 Crawling through DB
+2009-08-07 06:05:04 VERB  db.cpp:507 Sorting list
+2009-08-07 06:05:04 VERB  db.cpp:522 Found 20 checksum(s)
+2009-08-07 06:05:04 VERB  db.cpp:525 Crawling through DB
 2009-08-07 06:05:04 ERROR data.cpp:641 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
-2009-08-07 06:05:04 INFO  data.cpp:702 Removed corrupted data for b90f8fa56ea1d39881d4a199c7a81d35-0
-2009-08-07 06:05:04 VERB  data.cpp:766 Found 19 valid and 2 broken data file(s)
-2009-08-07 06:05:04 INFO  db.cpp:583 Obsolete checksum(s): 1
+2009-08-07 06:05:04 INFO  data.cpp:707 Removed corrupted data for b90f8fa56ea1d39881d4a199c7a81d35-0
+2009-08-07 06:05:04 VERB  data.cpp:771 Found 19 valid and 2 broken data file(s)
+2009-08-07 06:05:04 INFO  db.cpp:584 Obsolete checksum(s): 1
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items
@@ -12671,10 +12691,11 @@ hbackup.log-9:
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:496 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:521 Found 20 checksum(s)
-2009-08-07 06:05:04 VERB  db.cpp:524 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:766 Found 19 valid and 0 broken data file(s)
-2009-08-07 06:05:04 INFO  db.cpp:583 Obsolete checksum(s): 1
+2009-08-07 06:05:04 VERB  db.cpp:507 Sorting list
+2009-08-07 06:05:04 VERB  db.cpp:522 Found 20 checksum(s)
+2009-08-07 06:05:04 VERB  db.cpp:525 Crawling through DB
+2009-08-07 06:05:04 VERB  data.cpp:771 Found 19 valid and 0 broken data file(s)
+2009-08-07 06:05:04 INFO  db.cpp:584 Obsolete checksum(s): 1
 2009-08-07 06:05:04 WARN  missing.cpp:254 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 3 items

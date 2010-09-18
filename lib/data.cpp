@@ -665,8 +665,13 @@ int Data::check(
         failed = true;
       } else
       // Compute file checksum
-      if (data->computeChecksum() || data->close()) {
+      if (data->computeChecksum()) {
         hlog_error("%s reading file '%s'", strerror(errno), data->path());
+        failed = true;
+      } else
+      // Close file
+      if (data->close()) {
+        hlog_error("%s closing file '%s'", strerror(errno), data->path());
         failed = true;
       } else
       // Compare with given checksum

@@ -504,6 +504,7 @@ int Database::scan(
   if (failed || aborting()) {
     return -1;
   }
+  hlog_verbose("Sorting list");
   list_data.sort();
   // Unique, must do something if checksums match, but not sizes
   for (list<CompData>::iterator i = list_data.begin(); i != list_data.end();
