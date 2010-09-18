@@ -86,6 +86,12 @@ public:
   static int decodeType(
     const char*     line,           // Line to decode from
     char*           type);          // Type as one letter
+  // Decode type from line
+  static const int MAX_CHECKSUM_LENGTH = 64;
+  static int decodeSizeChecksum(
+    const char*     line,           // Line to decode from
+    long long*      size,           // Size
+    char            checksum[MAX_CHECKSUM_LENGTH + 1]);  // Checksum or empty
 };
 
 class ListReader {
@@ -123,8 +129,9 @@ public:
   // End of list reached
   bool end() const;
   const char* fetchData();
-  int fetchData(
-    Node**          node);
+  int fetchSizeChecksum(
+    long long*      size,
+    char            checksum[List::MAX_CHECKSUM_LENGTH + 1]);
   int searchPath();
   // Convert one or several line(s) to data
   // Date:

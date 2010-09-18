@@ -483,6 +483,39 @@ int List::decodeType(
   return 0;
 }
 
+int List::decodeSizeChecksum(
+    const char*     line,
+    long long*      size_p,
+    char            checksum[MAX_CHECKSUM_LENGTH + 1]) {
+  // Fields
+  time_t      ts;               // timestamp
+  char        type;             // file type
+  time_t      mtime;            // time of last modification
+  uid_t       uid;              // user ID of owner
+  gid_t       gid;              // group ID of owner
+  mode_t      mode;             // permissions
+  char        extra[PATH_MAX];  // linked file or checksum
+
+  int num = sscanf(line, "\t%ld\t%c\t%Ld\t%ld\t%d\t%d\t%o\t%[^\t]",
+    &ts, &type, size_p, &mtime, &uid, &gid, &mode, extra);
+  // Check number of params
+  if (num < 0) {
+    return -1;
+  }
+  if (num < 2) {
+    hlog_error("Wrong number of arguments for line");
+    return -1;
+  }
+  if ((num < 8) || (type != 'f')) {
+    checksum[0] = '\0';
+    return 1;
+  } else {
+    strncpy(checksum, extra, MAX_CHECKSUM_LENGTH + 1);
+    checksum[MAX_CHECKSUM_LENGTH] = '\0';
+  }
+  return 0;
+}
+
 void ListReader::setProgressCallback(progress_f progress) {
   _d->file.setProgressCallback(progress);
 }
@@ -496,8 +529,9 @@ const char* ListReader::fetchData() {
   return getData();
 }
 
-int ListReader::fetchData(
-    Node**          node_p) {
+int ListReader::fetchSizeChecksum(
+    long long*      size_p,
+    char            checksum[List::MAX_CHECKSUM_LENGTH + 1]) {
   int rc;
   do {
     // Get line
@@ -513,9 +547,8 @@ int ListReader::fetchData(
       return 0;
     }
     if (rc == ListReader::got_data) {
-      time_t ts;
       // Get all arguments from line
-      if (List::decodeLine(getData(), &ts, node_p, getPath()) < 0) {
+      if (List::decodeSizeChecksum(getData(), size_p, checksum) < 0) {
         hlog_error("failed to decode line");
         return -1;
       }

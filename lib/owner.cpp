@@ -571,16 +571,11 @@ int Owner::getChecksums(
     return -1;
   }
   _d->original->setProgressCallback(_d->progress);
-  Node* node;
-  while (_d->original->fetchData(&node) > 0) {
-    if (node != NULL) {
-      if (node->type() == 'f') {
-        File* f = static_cast<File*>(node);
-        if (f->checksum()[0] != '\0') {
-          checksums.push_back(CompData(f->checksum(), f->size()));
-        }
-      }
-      delete node;
+  long long size;
+  char checksum[List::MAX_CHECKSUM_LENGTH + 1];
+  while (_d->original->fetchSizeChecksum(&size, checksum) > 0) {
+    if (checksum[0] != '\0') {
+      checksums.push_back(CompData(checksum, size));
     }
     if (aborting()) {
       break;
