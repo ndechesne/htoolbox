@@ -87,6 +87,7 @@ Ad      /home/User/dir space
 dir space\r
 Af ~    /home/User/dir space/file space
 Al      /home/User/dir space/link space
+Al      /home/User/longlink
 Af ~    /home/User/strange1TAB	CR\r
 
 Af ~    /home/User/strange2TAB	LF
@@ -195,7 +196,7 @@ Af f    /home/User/testfile
 Af ~    /home/User/testfile~
 Al      /home/User/testlink
 Ap      /home/User/testpipe
-Parsed 97 file(s)
+Parsed 98 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -235,6 +236,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -337,6 +339,7 @@ myClient's journal:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -530,7 +533,7 @@ svn/dirutd/.svn/tmp/prop-base\r
 svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
-Parsed 97 file(s)
+Parsed 98 file(s)
 Database closed for 'myClient'
 Database closed
 
@@ -569,6 +572,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -671,6 +675,7 @@ myClient's journal:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -815,7 +820,7 @@ svn/dirutd/.svn/tmp/prop-base\r
 svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
-Parsed 69 file(s)
+Parsed 70 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -884,6 +889,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1071,7 +1077,7 @@ svn/dirutd/.svn/tmp/prop-base\r
 svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
-Parsed 100 file(s)
+Parsed 101 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -1169,6 +1175,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1332,7 +1339,7 @@ svn/dirutd/.svn/tmp/prop-base\r
 svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
-Parsed 100 file(s)
+Parsed 101 file(s)
 Database closed for 'myClient'
 Database closed
 
@@ -1429,6 +1436,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1651,6 +1659,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -1784,7 +1793,7 @@ svn/dirutd/.svn/tmp/prop-base\r
 svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
-Parsed 101 file(s)
+Parsed 102 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -1884,6 +1893,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2023,7 +2033,7 @@ svn/dirutd/.svn/tmp/prop-base\r
 svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
-Parsed 100 file(s)
+Parsed 101 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -2123,6 +2133,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2270,7 +2281,7 @@ svn/dirutd/.svn/tmp/prop-base\r
 svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
-Parsed 97 file(s)
+Parsed 98 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -2370,6 +2381,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2520,7 +2532,7 @@ svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Ml      /home/User/testlink
-Parsed 97 file(s)
+Parsed 98 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -2620,6 +2632,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -2778,7 +2791,7 @@ svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Il f    /home/User/testlink
 D       /home/User/testlink
-Parsed 96 file(s)
+Parsed 97 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -2878,6 +2891,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3070,7 +3084,7 @@ svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Il f    /home/User/testlink
-Parsed 84 file(s)
+Parsed 85 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -3182,6 +3196,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3373,7 +3388,7 @@ svn/dirutd/.svn/tmp/props    \r
 svn/dirutd/.svn/tmp/text-base\r
 testdir                      \r
 Il f    /home/User/testlink
-Parsed 84 file(s)
+Parsed 85 file(s)
 Database closed for 'myClient'
 Database closed
 
@@ -3484,6 +3499,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -3728,7 +3744,7 @@ D       /home/User/svn/fileoth
 D       /home/User/svn/fileutd.h
 testdir\r
 Il f    /home/User/testlink
-Parsed 47 file(s)
+Parsed 48 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -3840,6 +3856,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -4120,7 +4137,7 @@ If p    /home/User/svn/fileoth
 If p    /home/User/svn/fileutd.h
 testdir\r
 Il f    /home/User/testlink
-Parsed 42 file(s)
+Parsed 43 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -4237,6 +4254,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -4481,7 +4499,7 @@ If p    /home/User/svn/fileoth
 If p    /home/User/svn/fileutd.h
 testdir\r
 Il f    /home/User/testlink
-Parsed 38 file(s)
+Parsed 39 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -4598,6 +4616,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -4841,7 +4860,7 @@ If p    /home/User/svn/fileoth
 If p    /home/User/svn/fileutd.h
 testdir\r
 Il f    /home/User/testlink
-Parsed 37 file(s)
+Parsed 38 file(s)
 D       /home/User/testpipe
 Register modified for 'myClient'
 Database closed for 'myClient'
@@ -4959,6 +4978,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -5202,7 +5222,7 @@ If p    /home/User/svn/fileutd.h
 testdir\r
 ~f      /home/User/testfile
 Il f    /home/User/testlink
-Parsed 37 file(s)
+Parsed 38 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -5319,6 +5339,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -5566,7 +5587,7 @@ If p    /home/User/svn/fileutd.h
 testdir\r
 Il f    /home/User/testlink
 Ap      /home/User/testpipe
-Parsed 38 file(s)
+Parsed 39 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -5684,6 +5705,7 @@ myClient's list:
 [ 1] /home/User/dir space           d        0 755
 [ 1] /home/User/dir space/file space f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/dir space/link space l       12 777 linked space
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -5957,7 +5979,7 @@ Af ~    /home/User/testdir/biblio/biblio.dbt
 Af ~    /home/User/testdir/biblio.odb
 Af ~    /home/User/testdir/evolocal.odb
 Il f    /home/User/testlink
-Parsed 58 file(s)
+Parsed 59 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -6090,6 +6112,7 @@ myClient's list:
 [20] /home/User/docbook-xml/4.4/dbgenent.mod f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat.old f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -6366,7 +6389,7 @@ If p    /home/User/svn/fileutd.h
 testdir\r
 testdir/biblio\r
 Il f    /home/User/testlink
-Parsed 58 file(s)
+Parsed 59 file(s)
 Database closed for 'myClient'
 Database closed
 
@@ -6498,6 +6521,7 @@ myClient's list:
 [20] /home/User/docbook-xml/4.4/dbgenent.mod f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat.old f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -6846,7 +6870,7 @@ D       /home/User/testdir/biblio/biblio.dbt
 D       /home/User/testdir/biblio.odb
 D       /home/User/testdir/evolocal.odb
 Il f    /home/User/testlink
-Parsed 54 file(s)
+Parsed 55 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -6986,6 +7010,7 @@ myClient's list:
 [20] /home/User/docbook-xml/4.4/dbgenent.mod f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat.old f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -7276,6 +7301,7 @@ myClient's list:
 [20] /home/User/docbook-xml/4.4/dbgenent.mod f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat.old f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -7559,7 +7585,7 @@ Id f    /home/User/svn/dirutd
 If p    /home/User/svn/fileoth
 If p    /home/User/svn/fileutd.h
 Il f    /home/User/testlink
-Parsed 54 file(s)
+Parsed 55 file(s)
 Database closed for 'myClient'
 Database closed
 
@@ -7700,6 +7726,7 @@ myClient's list:
 [20] /home/User/docbook-xml/4.4/dbgenent.mod f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat.old f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -8051,6 +8078,7 @@ myClient's list:
 [20] /home/User/docbook-xml/4.4/dbgenent.mod f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat.old f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -8333,7 +8361,7 @@ If p    /home/User/svn/fileutd.h
 Error: Permission denied backing up file 'myClient:/home/User/testfile'
 Mf !    /home/User/testfile
 Il f    /home/User/testlink
-Parsed 54 file(s)
+Parsed 55 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -8416,6 +8444,7 @@ myClient's list:
 [20] /home/User/docbook-xml/4.4/dbgenent.mod f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat.old f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -8684,7 +8713,7 @@ If p    /home/User/svn/fileutd.h
 D       /home/User/testfile
 Mf ~    /home/User/testfile~
 Il f    /home/User/testlink
-Parsed 53 file(s)
+Parsed 54 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -8732,6 +8761,7 @@ myClient's list:
 [20] /home/User/docbook-xml/4.4/dbgenent.mod f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat.old f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
@@ -8893,7 +8923,7 @@ If p    /home/User/svn/fileoth
 If p    /home/User/svn/fileutd.h
 Mf ~    /home/User/testfile~
 Il f    /home/User/testlink
-Parsed 53 file(s)
+Parsed 54 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Database closed
@@ -8941,6 +8971,7 @@ myClient's list:
 [20] /home/User/docbook-xml/4.4/dbgenent.mod f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [20] /home/User/docbook-xml.cat.old f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
+[ 1] /home/User/longlink            l      270 777 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 [ 1] /home/User/strange1TAB	CR\r
     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/strange2TAB	LF     f        0 644 d41d8cd98f00b204e9800998ecf8427e-0

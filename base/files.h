@@ -242,8 +242,9 @@ public:
       Node(g),
       _link(NULL) {
     _parsed = true;
-    _link = static_cast<char*>(malloc(static_cast<int>(_size) + 1));
-    ssize_t count = readlink(_path, _link, static_cast<int>(_size));
+    size_t size = static_cast<size_t>(_size);
+    _link = static_cast<char*>(malloc(size + 1));
+    ssize_t count = readlink(_path, _link, size);
     if (count >= 0) {
       _size = count;
     } else {
@@ -252,9 +253,7 @@ public:
     _link[_size] = '\0';
   }
   // Constructor for path in the VFS
-  Link(Path path) :
-      Node(path),
-      _link(NULL) {
+  Link(Path path) : Node(path), _link(NULL) {
     stat();
     _parsed = true;
     _link = static_cast<char*>(malloc(static_cast<int>(_size) + 1));
@@ -288,7 +287,11 @@ public:
   bool operator!=(const Link&) const;
   bool isValid() const { return _type == 'l'; }
   // Data read access
-  const char* link()    const { return _link;  }
+  const char* link() const { return _link; }
+  void setLink(const char* link) {
+    free(_link);
+    _link = strdup(link);
+  }
 };
 
 class Stream : public File {

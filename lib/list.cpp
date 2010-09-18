@@ -264,7 +264,7 @@ ssize_t List::putData(time_t ts, const char* metadata, const char* extra) {
 }
 
 ssize_t List::getLine(char** buffer_p, size_t* cap_p) {
-  char delim = _old_version ? '\n' : '\0';
+  int delim = _old_version ? '\n' : '\0';
   ssize_t rc = getdelim(buffer_p, cap_p, delim, _fd);
   if (rc <= 0) {
     if (feof(_fd)) {
@@ -307,7 +307,7 @@ struct ListReader::Private {
   char*             data;
   size_t            data_cap;
   Private(const char* path_in) : file(path_in, List::list_read) {
-    data_cap = path_cap = 256;
+    data_cap = path_cap = 10240;
     path = static_cast<char*>(malloc(path_cap));
     path[0] = '\0'; // Let it crash if malloc failed
     data = static_cast<char*>(malloc(data_cap));
@@ -428,7 +428,7 @@ int List::decodeLine(
   uid_t       uid;              // user ID of owner
   gid_t       gid;              // group ID of owner
   mode_t      mode;             // permissions
-  char        extra[64];        // linked file or checksum
+  char        extra[PATH_MAX];  // linked file or checksum
 
   int num = sscanf(line, "\t%ld\t%c\t%Ld\t%ld\t%d\t%d\t%o\t%[^\t]",
     ts, &type, &size, &mtime, &uid, &gid, &mode, extra);

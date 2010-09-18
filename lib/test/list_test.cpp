@@ -147,7 +147,7 @@ int main(void) {
   // No checksum
   node = new Stream("test1/test space");
   journal.add("file sp", time(NULL), node);
-  free(node);
+  delete node;
 
   journal.add("file_gone", time(NULL));
 
@@ -156,16 +156,25 @@ int main(void) {
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
-  free(node);
+  delete node;
 
-  node = new Link("test1/testlink");
+  Link* link = new Link("test1/testlink");
+  char max_link[PATH_MAX];
+  memset(max_link, '?', sizeof(max_link));
+  max_link[sizeof(max_link) - 1] = '\0';
+  link->setLink(max_link);
+  node = link;
   journal.add("link", time(NULL), node);
-  free(node);
+  delete node;
+
+  node = new Link("test1/longlink");
+  journal.add("longlink", time(NULL), node);
+  delete node;
 
   node = new Directory("test1/testdir");
   node->setSize(0);
   journal.add("path", time(NULL), node);
-  free(node);
+  delete node;
 
   journal.close();
   node = NULL;
@@ -228,25 +237,25 @@ int main(void) {
 
   node = new Link("test1/testlink");
   journal.add("CR/x", time(NULL), node);
-  free(node);
+  delete node;
 
   node = new Link("test1/testlink");
   journal.add("CR\r", time(NULL), node);
-  free(node);
+  delete node;
 
   node = new Stream("test1/test space");
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file sp", time(NULL), node);
-  free(node);
+  delete node;
 
   node = new Stream("test1/testfile");
   static_cast<Stream*>(node)->open(O_RDONLY);
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
-  free(node);
+  delete node;
 
   journal.close();
   node = NULL;
@@ -325,7 +334,7 @@ int main(void) {
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
   journal.add("file_gone", time(NULL), node);
-  free(node);
+  delete node;
   journal.close();
   node = NULL;
 
@@ -470,7 +479,7 @@ int main(void) {
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
-  free(node);
+  delete node;
   node = NULL;
   journal.close();
   // Merge
@@ -533,7 +542,7 @@ int main(void) {
   // No checksum
   node = new Stream("test1/test space");
   journal.add("file sp", time(NULL), node);
-  free(node);
+  delete node;
 
   journal.add("file_gone", time(NULL));
 
@@ -542,15 +551,15 @@ int main(void) {
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
-  free(node);
+  delete node;
 
   node = new Link("test1/testlink");
   journal.add("link2", time(NULL), node);
-  free(node);
+  delete node;
 
   node = new Directory("test1/testdir");
   journal.add("path", time(NULL), node);
-  free(node);
+  delete node;
 
   journal.close();
   sys_rc = system("head -c 190 test_db/journal > test_db/journal.1");

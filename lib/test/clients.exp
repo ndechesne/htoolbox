@@ -576,6 +576,7 @@ Ad      test1/dir space
 dir space\r
 Af ~    test1/dir space/file space
 Al      test1/dir space/link space
+Al      test1/longlink
 Af ~    test1/strange1TAB	CR\r
 
 Af ~    test1/strange2TAB	LF

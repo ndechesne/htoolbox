@@ -663,6 +663,7 @@ dir space\r
 Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/dir space/file space
 Al      test1/dir space/link space
+Al      test1/longlink
 Checking data, sizes: f=0 z=0 (0)
 Af ~    test1/strange1TAB	CR\r
 
@@ -2815,6 +2816,7 @@ U       test_r/test1/cvs/fileutd.h
 U       test_r/test1/dir space
 U       test_r/test1/dir space/file space
 U       test_r/test1/dir space/link space
+U       test_r/test1/longlink
 U       test_r/test1/strange1TAB	CR\r
 
 U       test_r/test1/strange2TAB	LF
@@ -3127,6 +3129,7 @@ U       test_r/test1/cvs/fileutd.h
 U       test_r/test1/dir space
 U       test_r/test1/dir space/file space
 U       test_r/test1/dir space/link space
+U       test_r/test1/longlink
 U       test_r/test1/strange1TAB	CR\r
 
 U       test_r/test1/strange2TAB	LF

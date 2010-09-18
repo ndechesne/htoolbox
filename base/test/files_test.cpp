@@ -21,6 +21,8 @@
 #include <string>
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
 #include <sys/stat.h>
 #include <errno.h>
 
@@ -67,62 +69,62 @@ static int parseList(Directory *d, const char* cur_dir) {
   return 0;
 }
 
-static void showList(const Directory* d, int level = 0);
+static void showList(const Directory& d, int level = 0);
 
-static void defaultShowFile(const Node* g) {
-  cout << "Oth.: " << g->name()
-    << ", path = " << g->path()
-    << ", type = " << g->type()
-    << ", mtime = " << (g->mtime() != 0)
-    << ", size = " << g->size()
-    << ", uid = " << static_cast<int>(g->uid() != 0)
-    << ", gid = " << static_cast<int>(g->gid() != 0)
-    << oct << ", mode = " << g->mode() << dec
+static void defaultShowFile(const Node& g) {
+  cout << "Oth.: " << g.name()
+    << ", path = " << g.path()
+    << ", type = " << g.type()
+    << ", mtime = " << (g.mtime() != 0)
+    << ", size = " << g.size()
+    << ", uid = " << static_cast<int>(g.uid() != 0)
+    << ", gid = " << static_cast<int>(g.gid() != 0)
+    << oct << ", mode = " << g.mode() << dec
     << endl;
 }
 
-static void showFile(const Node* g, int level = 1) {
+static void showFile(const Node& g, int level = 1) {
   int level_no = level;
   cout << " ";
   while (level_no--) cout << "-";
   cout << "> ";
-  if (g->parsed()) {
-    switch (g->type()) {
+  if (g.parsed()) {
+    switch (g.type()) {
       case 'f': {
-        const File* f = static_cast<const File*>(g);
-        cout << "File: " << f->name()
-          << ", path = " << f->path()
-          << ", type = " << f->type()
-          << ", mtime = " << (f->mtime() != 0)
-          << ", size = " << f->size()
-          << ", uid = " << static_cast<int>(f->uid() != 0)
-          << ", gid = " << static_cast<int>(f->gid() != 0)
-          << oct << ", mode = " << f->mode() << dec
+        const File& f = static_cast<const File&>(g);
+        cout << "File: " << f.name()
+          << ", path = " << f.path()
+          << ", type = " << f.type()
+          << ", mtime = " << (f.mtime() != 0)
+          << ", size = " << f.size()
+          << ", uid = " << static_cast<int>(f.uid() != 0)
+          << ", gid = " << static_cast<int>(f.gid() != 0)
+          << oct << ", mode = " << f.mode() << dec
           << endl;
       } break;
       case 'l': {
-        const Link* l = static_cast<const Link*>(g);
-        cout << "Link: " << l->name()
-          << ", path = " << l->path()
-          << ", type = " << l->type()
-          << ", mtime = " << (l->mtime() != 0)
-          << ", size = " << l->size()
-          << ", uid = " << static_cast<int>(l->uid() != 0)
-          << ", gid = " << static_cast<int>(l->gid() != 0)
-          << oct << ", mode = " << l->mode() << dec
-          << ", link = " << l->link()
+        const Link& l = static_cast<const Link&>(g);
+        cout << "Link: " << l.name()
+          << ", path = " << l.path()
+          << ", type = " << l.type()
+          << ", mtime = " << (l.mtime() != 0)
+          << ", size = " << l.size()
+          << ", uid = " << static_cast<int>(l.uid() != 0)
+          << ", gid = " << static_cast<int>(l.gid() != 0)
+          << oct << ", mode = " << l.mode() << dec
+          << ", link = " << l.link()
           << endl;
       } break;
       case 'd': {
-        const Directory* d = static_cast<const Directory*>(g);
-        cout << "Dir.: " << d->name()
-          << ", path = " << d->path()
-          << ", type = " << d->type()
-          << ", mtime = " << (d->mtime() != 0)
-          << ", size = " << (d->size() != 0)
-          << ", uid = " << static_cast<int>(d->uid() != 0)
-          << ", gid = " << static_cast<int>(d->gid() != 0)
-          << oct << ", mode = " << d->mode() << dec
+        const Directory& d = static_cast<const Directory&>(g);
+        cout << "Dir.: " << d.name()
+          << ", path = " << d.path()
+          << ", type = " << d.type()
+          << ", mtime = " << (d.mtime() != 0)
+          << ", size = " << (d.size() != 0)
+          << ", uid = " << static_cast<int>(d.uid() != 0)
+          << ", gid = " << static_cast<int>(d.gid() != 0)
+          << oct << ", mode = " << d.mode() << dec
           << endl;
         if (level) {
           showList(d, level);
@@ -134,17 +136,17 @@ static void showFile(const Node* g, int level = 1) {
   }
 }
 
-static void showList(const Directory* d, int level) {
+static void showList(const Directory& d, int level) {
   if (level == 0) {
     showFile(d, level);
   }
   ++level;
   list<Node*>::const_iterator i;
-  for (i = d->nodesListConst().begin(); i != d->nodesListConst().end(); i++) {
+  for (i = d.nodesListConst().begin(); i != d.nodesListConst().end(); i++) {
     if (! strcmp((*i)->name(), "cvs")) continue;
     if (! strcmp((*i)->name(), "svn")) continue;
     if (! strcmp((*i)->name(), "bzr")) continue;
-    showFile(*i, level);
+    showFile(**i, level);
   }
 }
 
@@ -178,11 +180,10 @@ static void createNshowFile(const Node &g) {
     delete l; }
     break;
   case 'd': {
-    Directory *d = new Directory(g);
-    d->createList();
+    Directory d(g);
+    d.createList();
     showList(d);
-    delete d; }
-    break;
+    } break;
   default:
     cout << "Unknown file type: " << g.type() << endl;
   }
@@ -1138,6 +1139,19 @@ int main(void) {
   createNshowFile(*g);
   delete g;
 
+
+  cout << endl << "Link change" << endl;
+  Link* l = new Link("test1/testlink");
+  l->stat();
+  showFile(*l);
+  char max_link[PATH_MAX];
+  memset(max_link, '?', sizeof(max_link) - 1);
+  max_link[sizeof(max_link) - 1] = '\0';
+  l->setLink(max_link);
+  showFile(*l);
+  delete l;
+
+
   cout << endl << "Validity tests" << endl;
   cout << "File is file? " << File("test1/testfile").isValid() << endl;
   cout << "File is dir? " << Directory("test1/testfile").isValid() << endl;
@@ -1198,7 +1212,7 @@ int main(void) {
   if (d->isValid()) {
     if (! d->createList()) {
       if (! parseList(d, "test1")) {
-        showList(d);
+        showList(*d);
       }
     } else {
       cerr << "Failed to create list: " << strerror(errno) << endl;
