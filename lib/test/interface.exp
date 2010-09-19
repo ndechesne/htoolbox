@@ -12347,7 +12347,7 @@ hbackup.log-1:
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/props
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/text-base
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/tmp
-2009-08-07 06:05:04 WARN  svn_parser.cpp:113 Directory 'test1/svn/dirbad' should be under Subversion control
+2009-08-07 06:05:04 WARN  svn_parser.cpp:125 Directory 'test1/svn/dirbad' should be under Subversion control
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirbad/fileoth
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirbad/fileutd
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/diroth
@@ -12477,7 +12477,7 @@ hbackup.log-5:
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/props
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/text-base
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/tmp
-2009-08-07 06:05:04 WARN  svn_parser.cpp:113 Directory 'test1/svn/dirbad' should be under Subversion control
+2009-08-07 06:05:04 WARN  svn_parser.cpp:125 Directory 'test1/svn/dirbad' should be under Subversion control
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirbad/fileoth
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirbad/fileutd
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/diroth
@@ -12556,7 +12556,7 @@ hbackup.log-6:
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/props
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/text-base
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/tmp
-2009-08-07 06:05:04 WARN  svn_parser.cpp:113 Directory 'test1/svn/dirbad' should be under Subversion control
+2009-08-07 06:05:04 WARN  svn_parser.cpp:125 Directory 'test1/svn/dirbad' should be under Subversion control
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirbad/fileoth
 2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirbad/fileutd
 2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/diroth

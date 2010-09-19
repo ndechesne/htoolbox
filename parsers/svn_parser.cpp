@@ -19,6 +19,8 @@
 #include <list>
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
 #include <errno.h>
 #include <sys/stat.h>
 
@@ -32,8 +34,18 @@ using namespace hreport;
 static const string control_dir = "/.svn";
 static const char* entries = "/entries";
 
+struct SvnNode {
+  char name[PATH_MAX];
+  char status;
+  bool operator<(const SvnNode& right) const {
+    // Only compare paths
+    return Path::compare(name, right.name) < 0;
+  }
+};
+
 class SvnParser : public IParser {
-  list<Node>            _files;       // Files under control in current dir
+  list<SvnNode> _files;       // Files under control in current dir
+  list<SvnNode>::const_iterator current;
   bool _head;
 public:
   // Constructor
@@ -164,12 +176,15 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) :
           status = 'm';
       }
       // Add to list of Nodes, with status
-      _files.push_back(Node(&buffer[8], status, 0, 0, 0, 0, 0));
+      _files.push_back(SvnNode());
+      strcpy(_files.back().name, &buffer[8]);
+      _files.back().status = status;
     }
     free(buffer);
     pclose(fd);
     hlog_debug_arrow(1, "Sorting Subversion entries");
     _files.sort();
+    current = _files.begin();
     show(2);
   } else {
     hlog_error("%s running svn status", strerror(errno));
@@ -185,16 +200,22 @@ bool SvnParser::ignore(const Node& node) {
   // Look for match in list
   bool file_controlled = true;
   bool file_modified   = false;
-  list<Node>::const_iterator  i;
-  for (i = _files.begin(); i != _files.end(); i++) {
+  int  cmp             = -1;
+  // Nodes are in path order, and so are SvnNodes, so we start where we left off
+  while ((cmp < 0) && (current != _files.end())) {
     // Find file
-    if (! strcmp(i->path(), node.path())) {
-      if (i->type() == 'm') {
-        file_modified   = true;
-      } else {
-        file_controlled = false;
-      }
+    cmp = strcmp(current->name, node.path());
+    if (cmp >= 0) {
       break;
+    }
+    current++;
+  }
+
+  if (cmp == 0) {
+    if (current->status == 'm') {
+      file_modified = true;
+    } else {
+      file_controlled = false;
     }
   }
 
@@ -230,9 +251,9 @@ bool SvnParser::ignore(const Node& node) {
 }
 
 void SvnParser::show(int level) {
-  list<Node>::iterator  i;
+  list<SvnNode>::iterator  i;
   for (i = _files.begin(); i != _files.end(); i++) {
-    hlog_debug_arrow(level, "%s: %c", i->path(), i->type());
+    hlog_debug_arrow(level, "%s: %c", i->name, i->status);
   }
 }
 
