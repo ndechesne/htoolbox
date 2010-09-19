@@ -35,7 +35,7 @@ class ClientPath : public ConfigObject {
     const char*     client_name,
     size_t          start,
     Directory&      dir,
-    const IParser*   parser);
+    IParser*        parser);
 public:
   ClientPath(
     const char* path,

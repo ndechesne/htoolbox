@@ -43,7 +43,7 @@ int ClientPath::parse_recurse(
     const char*     client_name,
     size_t          start,
     Directory&      dir,
-    const IParser*   current_parser) {
+    IParser*        current_parser) {
   if (aborting()) {
     return -1;
   }

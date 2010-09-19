@@ -74,9 +74,9 @@ public:
     return NULL;
   }
   // This will create an appropriate parser for the directory if relevant
-  virtual IParser* createChildIfControlled(const string& dir_path) const = 0;
+  virtual IParser* createChildIfControlled(const string& dir_path) = 0;
   // That tells use whether to ignore the file, i.e. not back it up
-  virtual bool ignore(const Node& node) const = 0;
+  virtual bool ignore(const Node& node) = 0;
   // For debug purposes
   virtual void show(int level = 0) {
     (void) level;
@@ -92,12 +92,12 @@ public:
   const char* name() const { return "ignore"; };
   const char* code() const { return "ign"; };
   // Fail on directory
-  IParser* createChildIfControlled(const string& dir_path) const {
+  IParser* createChildIfControlled(const string& dir_path) {
     (void) dir_path;
     return NULL;
   };
   // Ignore all files
-  bool ignore(const Node& node) const {
+  bool ignore(const Node& node) {
     (void) node;
     return true;
   };

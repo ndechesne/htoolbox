@@ -40,9 +40,9 @@ public:
   // Factory
   IParser* createInstance(Mode mode) { return new CvsParser(mode); }
   // This will create an appropriate parser for the directory if relevant
-  IParser* createChildIfControlled(const string& dir_path) const;
+  IParser* createChildIfControlled(const string& dir_path);
   // That tells use whether to ignore the file, i.e. not back it up
-  bool ignore(const Node& node) const;
+  bool ignore(const Node& node);
   // For debug purposes
   void show(int level = 0);
 };
@@ -54,12 +54,12 @@ public:
   const char* name() const { return "CVS Control"; }
   const char* code() const { return "cvs_c"; }
   // This directory has no controlled children
-  IParser* createChildIfControlled(const string& dir_path) const {
+  IParser* createChildIfControlled(const string& dir_path) {
     (void) dir_path;
     return new IgnoreParser;
   }
   // That tells use whether to ignore the file, i.e. not back it up
-  bool ignore(const Node& node) const {
+  bool ignore(const Node& node) {
     if ((strcmp(node.name(), "Entries") == 0)
     || (strcmp(node.name(), "Root") == 0)) {
       return false;
@@ -68,7 +68,7 @@ public:
   }
 };
 
-IParser *CvsParser::createChildIfControlled(const string& dir_path) const {
+IParser *CvsParser::createChildIfControlled(const string& dir_path) {
   // Parent under control, this is the control directory
   if (! _no_parsing
    && (dir_path.size() > control_dir.size())
@@ -198,7 +198,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path)
   show(2);
 }
 
-bool CvsParser::ignore(const Node& node) const {
+bool CvsParser::ignore(const Node& node) {
   // Do not ignore control directory
   if ((node.type() == 'd') && (strcmp(node.name(), &control_dir[1]) == 0)) {
     return false;

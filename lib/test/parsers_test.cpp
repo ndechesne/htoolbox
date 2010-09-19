@@ -48,11 +48,11 @@ public:
   const char* name() const { return "test"; }
   const char* code() const { return "tst"; }
   // This will create an appropriate parser for the directory if relevant
-  IParser* createChildIfControlled(const string& dir_path) const {
+  IParser* createChildIfControlled(const string& dir_path) {
     return new TestParser(_mode, dir_path);
   }
   // That tells use whether to ignore the file, i.e. not back it up
-  bool ignore(const Node& node) const {
+  bool ignore(const Node& node) {
     (void) node;
     return false;
   }

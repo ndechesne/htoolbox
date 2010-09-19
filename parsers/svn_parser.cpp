@@ -44,9 +44,9 @@ public:
   // Factory
   IParser* createInstance(Mode mode) { return new SvnParser(mode); }
   // This will create an appropriate parser for the directory if relevant
-  IParser* createChildIfControlled(const string& dir_path) const;
+  IParser* createChildIfControlled(const string& dir_path);
   // That tells us whether to ignore the file, i.e. not back it up
-  bool ignore(const Node& node) const;
+  bool ignore(const Node& node);
   // For debug purposes
   void show(int level = 0);
 };
@@ -58,12 +58,12 @@ public:
   const char* name() const { return "Subversion Control"; }
   const char* code() const { return "svn_c"; }
   // This directory has no controlled children
-  IParser* createChildIfControlled(const string& dir_path) const {
+  IParser* createChildIfControlled(const string& dir_path) {
     (void) dir_path;
     return new IgnoreParser;
   }
   // That tells us whether to ignore the file, i.e. not back it up
-  bool ignore(const Node& node) const {
+  bool ignore(const Node& node) {
     if (strcmp(node.name(), "entries") == 0) {
       return false;
     }
@@ -72,13 +72,13 @@ public:
 };
 
 class SvnParserProxy : public IParser {
-  const SvnParser* _head;
+  SvnParser* _head;
   SvnParserProxy(Mode mode, const string& dir_path);
 public:
-  SvnParserProxy(const SvnParser* head) : _head(head) {}
+  SvnParserProxy(SvnParser* head) : _head(head) {}
   const char* name() const { return "Subversion Proxy"; }
   const char* code() const { return "svn_p"; }
-  IParser* createChildIfControlled(const string& dir_path) const {
+  IParser* createChildIfControlled(const string& dir_path) {
     // Parent under control, this is the control directory
     if ((dir_path.size() > control_dir.size())
     &&  (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
@@ -88,7 +88,7 @@ public:
     // Otherwise just return proxy
     return new SvnParserProxy(_head);
   }
-  bool ignore(const Node& node) const {
+  bool ignore(const Node& node) {
     return _head->ignore(node);
   }
   void show(int level = 0) {
@@ -97,7 +97,7 @@ public:
 };
 
 // dir_path is the relative or absolute complete path to the dir
-IParser *SvnParser::createChildIfControlled(const string& dir_path) const {
+IParser *SvnParser::createChildIfControlled(const string& dir_path) {
   // Parent under control, this is the control directory
   if (! _no_parsing &&
        (dir_path.size() > control_dir.size()) &&
@@ -176,7 +176,7 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) :
   }
 }
 
-bool SvnParser::ignore(const Node& node) const {
+bool SvnParser::ignore(const Node& node) {
   // Do not ignore control directory
   if ((node.type() == 'd') && (strcmp(node.name(), &control_dir[1]) == 0)) {
     return false;
