@@ -506,6 +506,7 @@ int Database::scan(
   }
   hlog_verbose("Sorting list");
   list_data.sort();
+  hlog_verbose("Analysing list");
   // Unique, must do something if checksums match, but not sizes
   for (list<CompData>::iterator i = list_data.begin(); i != list_data.end();
       i++) {
@@ -519,7 +520,7 @@ int Database::scan(
       j = list_data.erase(j);
     }
   }
-  hlog_verbose("Found %zu checksum(s)", list_data.size());
+  hlog_verbose("Found %zu unique checksum(s)", list_data.size());
 
   // Get checksums from DB
   hlog_verbose("Crawling through DB");
