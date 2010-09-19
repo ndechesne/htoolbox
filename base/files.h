@@ -314,11 +314,6 @@ class Stream : public File {
     size_t          size,
     bool            finish = false);
 public:
-  // Magic constructor that auto-selects the extension
-  static Stream* select(
-    Path            path,
-    vector<string>& extensions,
-    unsigned int*   no = NULL);
   // Prototype for cancellation function (true cancels)
   typedef bool (*cancel_f) (
     unsigned short  method);

@@ -22,6 +22,8 @@
 #include <sys/stat.h>
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
 #include <errno.h>
 
 using namespace std;
@@ -47,8 +49,8 @@ class DataTest : public Data {
 public:
   DataTest(const char* path) : Data(path) {}
   int getDir(
-      const string&   checksum,
-      string&         path,
+      const char*     checksum,
+      char*           path,
       bool            create) {
     return Data::getDir(checksum, path, create);
   }
@@ -106,7 +108,7 @@ int main(void) {
   Directory("test_db/data/fe/ba/test1").create();
   Directory("test_db/data/fe/98").create();
   Directory("test_db/data/fe/98/test2").create();
-  string  getdir_path;
+  char getdir_path[PATH_MAX];
   cout << "febatest1 status: " << db.getDir("febatest1", getdir_path, true)
     << ", getdir_path: " << getdir_path << endl;
   cout << "fe98test2 status: " << db.getDir("fe98test2", getdir_path, true)

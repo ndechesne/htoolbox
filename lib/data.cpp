@@ -51,20 +51,60 @@ struct Data::Private {
   Private() : progress(NULL) {}
 };
 
-int Data::getDir(
-    const string& checksum,
-    string&       path,
-    bool          create) const {
-  path = _d->path;
-  int level = 0;
+int Data::findExtension(
+    char*           path,
+    const char*     extensions[]) {
+  size_t original_length = strlen(path);
+  int i = 0;
+  while (extensions[i] != NULL) {
+    strcpy(&path[original_length], extensions[i]);
+    if (isReadable(path)) {
+      break;
+    }
+    ++i;
+  }
+  if (extensions[i] == NULL) {
+    path[original_length] = '\0';
+    return -1;
+  }
+  return i;
+}
 
+bool Data::isReadable(
+    const char*     path) {
+  FILE* fd = fopen(path, "r");
+  if (fd != NULL) {
+    fclose(fd);
+    return true;
+  }
+  return false;
+}
+
+int Data::touch(
+    const char*     path) {
+  FILE* fd = fopen(path, "w");
+  if (fd != NULL) {
+    fclose(fd);
+    return 0;
+  }
+  return -1;
+}
+
+int Data::getDir(
+    const char*     checksum,
+    char*           path,
+    bool            create) const {
+  size_t path_len = sprintf(path, "%s", _d->path.c_str());
   // Two cases: either there are files, or a .nofiles file and directories
+  int level = 0;
   do {
     // If we can find a .nofiles file, then go down one more directory
-    if (File(Path(path.c_str(), ".nofiles")).isValid()) {
-      path += "/" + checksum.substr(level, 2);
-      level += 2;
-      if (create && (Directory(path.c_str()).create() < 0)) {
+    strcpy(&path[path_len++], "/.nofiles");
+    if (isReadable(path)) {
+      path[path_len++] = checksum[level++];
+      path[path_len++] = checksum[level++];
+      path[path_len] = '\0';
+      if (create && (Directory(path).create() < 0)) {
         return -1;
       }
     } else {
@@ -72,77 +112,77 @@ int Data::getDir(
     }
   } while (true);
   // Return path
-  path += "/" + checksum.substr(level);
-  return Directory(path.c_str()).isValid() ? 0 : 1;
+  path[path_len] = '/';
+  strcpy(&path[path_len], &checksum[level]);
+  path = path;
+  return Directory(path).isValid() ? 0 : 1;
 }
 
 int Data::getMetadata(
     const char*     path,
-    long long*      size,
-    CompressionCase* comp_status) const {
-  bool   failed        = false;
-  char*  meta_str      = NULL;
-  size_t meta_str_size = 0;
-
-  *size = -1;
-  *comp_status = unknown;
-  Stream meta_file(Path(path, "meta"));
-  if (meta_file.open(O_RDONLY) < 0) {
-    failed = true;
-  } else {
-    if (meta_file.getLine(&meta_str, &meta_str_size) < 0) {
-      hlog_error("%s reading metadata file '%s'", strerror(errno),
-        meta_file.path());
-      failed = true;
-    }
-    meta_file.close();
+    long long*      size_p,
+    CompressionCase* comp_status_p) const {
+  char meta_path[PATH_MAX];
+  sprintf(meta_path, "%s/%s", path, "meta");
+  FILE* fd = fopen(meta_path, "r");
+  if (fd == NULL) {
+    hlog_error("%s opening metadata file '%s'", strerror(errno), meta_path);
+    return -1;
   }
-  if (! failed) {
-    sscanf(meta_str, "%lld\t%c", size, reinterpret_cast<char*>(comp_status));
+  char line[64] = "";
+  ssize_t size = fread(line, 64, 1, fd);
+  if (size < 0) {
+    hlog_error("%s reading metadata file '%s'", strerror(errno), meta_path);
+    return -1;
   }
-  free(meta_str);
-  return failed ? -1 : 0;
+  int rc = sscanf(line, "%lld\t%c", size_p,
+    reinterpret_cast<char*>(comp_status_p));
+  switch (rc) {
+    case 0:
+      *size_p = -1;
+    case 1:
+      *comp_status_p = unknown;
+    case 2:
+      break;
+    default:
+      return -1;
+  }
+  return fclose(fd);
 }
 
 int Data::setMetadata(
     const char*     path,
     long long       size,
     CompressionCase comp_status) const {
-  bool  failed   = false;
-  char* meta_str = NULL;
-  if (asprintf(&meta_str, "%lld\t%c", size, comp_status) < 0) {
+  char meta_path[PATH_MAX];
+  sprintf(meta_path, "%s/%s", path, "meta");
+  FILE* fd = fopen(meta_path, "w");
+  if (fd == NULL) {
+    hlog_error("%s creating metadata file '%s'", strerror(errno), meta_path);
     return -1;
   }
-  Stream meta_file(Path(path, "meta"));
-  if (meta_file.open(O_WRONLY) < 0) {
-    hlog_error("%s creating metadata file '%s'", strerror(errno),
-      meta_file.path());
-    failed = true;
-  } else {
-    if (meta_file.write(meta_str, strlen(meta_str)) < 0) {
-      hlog_error("%s writing metadata file '%s'", strerror(errno),
-        meta_file.path());
-      failed = true;
-    }
-    meta_file.close();
+  int rc = fprintf(fd, "%lld\t%c", size, comp_status);
+  if (rc < 0) {
+    hlog_error("%s writing metadata file '%s'", strerror(errno), meta_path);
+    return -1;
   }
-  free(meta_str);
-  return failed ? -1 : 0;
+  return fclose(fd);
 }
 
 int Data::removePath(const char* path) const {
+  const char* extensions[] = { "", ".gz", NULL };
+  char local_path[PATH_MAX];
+  sprintf(local_path, "%s/%s", path, "data");
+  int no = findExtension(local_path, extensions);
   int rc = 0;
-  vector<string> extensions;
-  extensions.push_back("");
-  extensions.push_back(".gz");
-  Stream *data = Stream::select(Path(path, "data"), extensions);
-  if (data != NULL) {
-    rc = data->remove();
+  if (no >= 0) {
+    rc = ::remove(local_path);
   }
-  delete data;
   int errno_keep = errno;
-  File(Path(path, "corrupted")).remove();
-  File(Path(path, "meta")).remove();
+  sprintf(local_path, "%s/%s", path, "corrupted");
+  ::remove(local_path);
+  sprintf(local_path, "%s/%s", path, "meta");
+  ::remove(local_path);
   ::remove(path);
   errno = errno_keep;
   return rc;
@@ -153,11 +193,12 @@ int Data::organise(
     int             number) const {
   DIR           *directory;
   struct dirent *dir_entry;
-  File          nofiles(Path(path, ".nofiles"));
   bool          failed = false;
 
   // Already organised?
-  if (nofiles.isValid()) {
+  char nofiles_path[PATH_MAX];
+  sprintf(nofiles_path, "%s/%s", path, ".nofiles");
+  if (isReadable(nofiles_path)) {
     return 0;
   }
   // Find out how many entries
@@ -205,7 +246,7 @@ int Data::organise(
       }
     }
     if (! failed) {
-      nofiles.create();
+      touch(nofiles_path);
     }
   }
   closedir(directory);
@@ -311,18 +352,21 @@ int Data::name(
     const char*     checksum,
     string&         path,
     string&         extension) const {
-  if (getDir(checksum, path)) {
+  char temp_path[PATH_MAX];
+  if (getDir(checksum, temp_path)) {
     return -1;
   }
-  unsigned int    no;
-  vector<string>  extensions;
-  extensions.push_back("");
-  extensions.push_back(".gz");
-  Stream *data = Stream::select(Path(path.c_str(), "data"), extensions, &no);
-  if (data == NULL) {
+  path = temp_path;
+  const char* extensions[] = { "", ".gz", NULL };
+  char local_path[PATH_MAX];
+  sprintf(local_path, "%s/%s", path.c_str(), "data");
+  int no = findExtension(local_path, extensions);
+  if (no < 0) {
+    errno = ENOENT;
+    hlog_error("%s looking for file '%s'*", strerror(errno), local_path);
     return -1;
   }
-  path      = data->path();
+  path      = local_path;
   extension = extensions[no];
   return 0;
 }
@@ -332,24 +376,27 @@ int Data::read(
     const char*     checksum) const {
   bool failed = false;
 
-  string source;
+  char source[PATH_MAX];
   if (getDir(checksum, source)) {
     hlog_error("Cannot access DB data for %s", checksum);
     return -1;
   }
 
   // Open source
-  vector<string> extensions;
-  extensions.push_back("");
-  extensions.push_back(".gz");
-  unsigned int no;
-  Stream *data = Stream::select(Path(source.c_str(), "data"), extensions, &no);
-  if (data == NULL) {
+  const char* extensions[] = { "", ".gz", NULL };
+  char local_path[PATH_MAX];
+  sprintf(local_path, "%s/%s", source, "data");
+  int no = findExtension(local_path, extensions);
+  if (no < 0) {
+    errno = ENOENT;
+    hlog_error("%s looking for source file '%s'*", strerror(errno),
+      local_path);
     return -1;
   }
-  if (data->open(O_RDONLY, (no > 0) ? 1 : 0), false) {
-    hlog_error("%s opening read source file '%s'", strerror(errno),
-      data->path());
+  Stream data(local_path);
+  if (data.open(O_RDONLY, (no > 0) ? 1 : 0), false) {
+    hlog_error("%s opening source file '%s'", strerror(errno),
+      data.path());
     return -1;
   }
 
@@ -362,15 +409,15 @@ int Data::read(
     failed = true;
   } else {
     // Copy file to temporary name (size not checked: checksum suffices)
-    data->setCancelCallback(aborting);
-    data->setProgressCallback(_d->progress);
-    if (data->copy(&temp)) {
+    data.setCancelCallback(aborting);
+    data.setProgressCallback(_d->progress);
+    if (data.copy(&temp)) {
       failed = true;
     }
     temp.close();
   }
 
-  data->close();
+  data.close();
 
   if (! failed) {
     // Verify that checksums match before overwriting final destination
@@ -389,7 +436,6 @@ int Data::read(
   if (failed) {
     ::remove(temp_path.c_str());
   }
-  delete data;
 
   return failed ? -1 : 0;
 }
@@ -493,7 +539,7 @@ Data::WriteStatus Data::write(
   }
 
   // Get file final location
-  string dest_path;
+  char dest_path[PATH_MAX];
   if (getDir(source.checksum(), dest_path, true) < 0) {
     hlog_error("Cannot create DB data '%s'", source.checksum());
     return error;
@@ -501,41 +547,39 @@ Data::WriteStatus Data::write(
 
   // Make sure our checksum is unique: compare first bytes of files
   int index = 0;
-  Stream* data = NULL;
   char final_path[PATH_MAX];
+  char data_path[PATH_MAX];
   WriteStatus status = error;
   do {
-    sprintf(final_path, "%s-%u", dest_path.c_str(), index);
+    sprintf(final_path, "%s-%u", dest_path, index);
     // Directory does not exist
     if (! Directory(final_path).isValid()) {
       status = add;
     } else {
-      vector<string> extensions;
-      extensions.push_back("");
-      extensions.push_back(".gz");
-      unsigned int no;
-      delete data;
-      data = Stream::select(Path(final_path, "data"), extensions, &no);
+      const char* extensions[] = { "", ".gz", NULL };
+      sprintf(data_path, "%s/%s", final_path, "data");
+      int no = findExtension(data_path, extensions);
       // File does not exist
-      if (data == NULL) {
+      if (no < 0) {
         status = add;
       } else
       // Compare files
       {
-        data->open(O_RDONLY, (no > 0) ? 1 : 0);
+        Stream data(data_path);
+        data.open(O_RDONLY, (no > 0) ? 1 : 0);
         dest->open(O_RDONLY, *comp_level);
-        int cmp = dest->compare(*data);
+        int cmp = dest->compare(data);
         dest->close();
-        data->close();
+        data.close();
         switch (cmp) {
           // Same data
           case 0:
             // Empty file is compressed
-            if ((data->size() == 0) && (no > 0)) {
+            if ((data.size() == 0) && (no > 0)) {
               status = replace;
             } else
             // Replacing data will save space
-            if (size_cmp < data->size()) {
+            if (size_cmp < data.size()) {
               status = replace;
             } else
             // Nothing to do
@@ -566,9 +610,8 @@ Data::WriteStatus Data::write(
     if (Directory(final_path).create() < 0) {
       hlog_error("%s creating directory '%s'", strerror(errno), final_path);
     } else
-    if ((status == replace) && (data->remove() < 0)) {
-      hlog_error("%s removing previous data '%s'", strerror(errno),
-        data->path());
+    if ((status == replace) && (::remove(data_path) < 0)) {
+      hlog_error("%s removing previous data '%s'", strerror(errno), data_path);
     } else {
       char name[PATH_MAX];
       sprintf(name, "%s/data%s", final_path, (*comp_level != 0) ? ".gz" : "");
@@ -602,18 +645,17 @@ Data::WriteStatus Data::write(
     // Make sure we won't exceed the file number limit
     if (status != leave) {
       // dest_path is /path/to/checksum
-      size_t pos = dest_path.rfind('/');
+      char* pos = strrchr(dest_path, '/');
 
-      if (pos != string::npos) {
-        dest_path.erase(pos);
+      if (pos != NULL) {
+        *pos = '\0';
         // Now dest_path is /path/to
-        organise(dest_path.c_str(), 256);
+        organise(dest_path, 256);
       }
     }
   }
 
   delete dest;
-  delete data;
   return status;
 }
 
@@ -623,7 +665,7 @@ int Data::check(
     bool            repair,
     long long*      size,
     bool*           compressed) const {
-  string path;
+  char path[PATH_MAX];
   // Get dir from checksum
   if (getDir(checksum, path)) {
     return -1;
@@ -631,79 +673,83 @@ int Data::check(
   // Look for data in dir
   bool failed  = false;
   bool display = true;  // To not print twice when calling check
-  unsigned int no;
-  vector<string> extensions;
-  extensions.push_back("");
-  extensions.push_back(".gz");
-  Stream *data = Stream::select(Path(path.c_str(), "data"), extensions, &no);
+
+
+  const char* extensions[] = { "", ".gz", NULL };
+  char local_path[PATH_MAX];
+  sprintf(local_path, "%s/%s", path, "data");
+  int no = findExtension(local_path, extensions);
   // Missing data
-  if (data == NULL) {
+  if (no < 0) {
     hlog_error("Data missing for %s", checksum);
     if (repair) {
-      removePath(path.c_str());
+      removePath(path);
     }
     return -1;
   }
+  Stream data(local_path);
   // Get original file size
-  long long original_size;
-  CompressionCase comp_status;
-  getMetadata(path.c_str(), &original_size, &comp_status);
+  long long original_size = -1;
+  CompressionCase comp_status = unknown;
+  getMetadata(path, &original_size, &comp_status);
 
+  char corrupted_path[PATH_MAX];
+  sprintf(corrupted_path, "%s/%s", path, "corrupted");
   // Check data for corruption
   if (thorough) {
     // Already marked corrupted?
-    if (File(Path(path.c_str(), "corrupted")).isValid()) {
+    if (isReadable(corrupted_path)) {
       hlog_warning("Data corruption reported for %s", checksum);
       original_size = -1;
       failed = true;
     } else {
-      data->setCancelCallback(aborting);
-      data->setProgressCallback(_d->progress);
+      data.setCancelCallback(aborting);
+      data.setProgressCallback(_d->progress);
       // Open file
-      if (data->open(O_RDONLY, (no > 0) ? 1 : 0)) {
-        hlog_error("%s opening file '%s'", strerror(errno), data->path());
+      if (data.open(O_RDONLY, (no > 0) ? 1 : 0)) {
+        hlog_error("%s opening file '%s'", strerror(errno), data.path());
         failed = true;
       } else
       // Compute file checksum
-      if (data->computeChecksum()) {
-        hlog_error("%s reading file '%s'", strerror(errno), data->path());
+      if (data.computeChecksum()) {
+        hlog_error("%s reading file '%s'", strerror(errno), data.path());
         failed = true;
       } else
       // Close file
-      if (data->close()) {
-        hlog_error("%s closing file '%s'", strerror(errno), data->path());
+      if (data.close()) {
+        hlog_error("%s closing file '%s'", strerror(errno), data.path());
         failed = true;
       } else
       // Compare with given checksum
-      if (strncmp(data->checksum(), checksum, strlen(data->checksum()))) {
+      if (strncmp(data.checksum(), checksum, strlen(data.checksum()))) {
         stringstream s;
         hlog_error("Data corrupted for %s%s", checksum, repair ? ", remove" : "");
-        hlog_debug("Checksum: %s", data->checksum());
+        hlog_debug("Checksum: %s", data.checksum());
         failed = true;
         if (repair) {
-          removePath(path.c_str());
+          removePath(path);
         } else {
           // Mark corrupted
-          File(Path(path.c_str(), "corrupted")).create();
+          touch(corrupted_path);
         }
         original_size = -1;
       } else
       // Compare data size and stored size for compress files
-      if (data->dataSize() != original_size) {
+      if (data.dataSize() != original_size) {
         if (original_size >= 0) {
           hlog_error("Correcting wrong metadata for %s", checksum);
         } else {
           hlog_warning("Adding missing metadata for %s", checksum);
         }
-        original_size = data->dataSize();
-        setMetadata(path.c_str(), original_size, later);
+        original_size = data.dataSize();
+        setMetadata(path, original_size, later);
       }
     }
   } else
   if (repair) {
     // Remove data marked corrupted
-    if (File(Path(path.c_str(), "corrupted")).isValid()) {
-      if (removePath(path.c_str()) == 0) {
+    if (isReadable(corrupted_path)) {
+      if (removePath(path) == 0) {
         hlog_info("Removed corrupted data for %s", checksum);
       } else {
         hlog_error("%s removing data '%s'", strerror(errno), checksum);
@@ -714,15 +760,15 @@ int Data::check(
     if (original_size < 0) {
       if (no == 0) {
         hlog_warning("Setting missing metadata for %s", checksum);
-        original_size = data->size();
-        setMetadata(path.c_str(), original_size, later);
+        original_size = data.size();
+        setMetadata(path, original_size, later);
       } else
       // Compressed file, check it thoroughly, which shall add the metadata
       {
         if (check(checksum, true, true, size, compressed)) {
           failed = true;
         }
-        getMetadata(path.c_str(), &original_size, &comp_status);
+        getMetadata(path, &original_size, &comp_status);
         display = false;
       }
     }
@@ -735,11 +781,10 @@ int Data::check(
     if (no == 0) {
       hlog_verbose_temp("%s %lld", checksum, original_size);
     } else {
-      hlog_verbose_temp("%s %lld %lld", checksum, original_size, data->size());
+      hlog_verbose_temp("%s %lld %lld", checksum, original_size, data.size());
     }
   }
 
-  delete data;
   // Return file information if required
   if (size != NULL) {
     *size = original_size;
@@ -752,12 +797,12 @@ int Data::check(
 
 int Data::remove(
     const char*     checksum) const {
-  string path;
+  char path[PATH_MAX];
   if (getDir(checksum, path)) {
     // Warn about directory missing
     return 1;
   }
-  return removePath(path.c_str());
+  return removePath(path);
 }
 
 int Data::crawl(

@@ -33,10 +33,17 @@ protected: // So I can test them
     later = ' ',
     unknown = '?'
   };
+  static int findExtension(
+    char*           path,
+    const char*     extensions[]);
+  static bool isReadable(
+    const char*     path);
+  static int touch(
+    const char*     path);
   // Get path for given checksum
   int getDir(
-    const string&   checksum,
-    string&         path,
+    const char*     checksum,
+    char*           path,
     bool            create = false) const;
   // Get size of orginal data for given checksum path (-1 means failed)
   int getMetadata(

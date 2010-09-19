@@ -1306,48 +1306,6 @@ int main(void) {
   delete l1;
 
 
-  cout << endl << "Stream select" << endl;
-  Stream* selected;
-  unsigned int which;
-  vector<string> extensions;
-  extensions.push_back("");
-  extensions.push_back(".gz");
-  extensions.push_back(".bz2");
-  selected = Stream::select("data", extensions, &which);
-  if (selected != NULL) {
-    cout << "Found (" << which << "): " << selected->path() << endl;
-    delete selected;
-  } else {
-    cout << "Not found." << endl;
-  }
-
-  Stream datagz("data.gz");
-  if (! datagz.open(O_WRONLY, 5)) {
-    datagz.write("compressed\n", strlen("compressed\n"));
-    datagz.close();
-  }
-  selected = Stream::select("data", extensions, &which);
-  if (selected != NULL) {
-    cout << "Found (" << which << "): " << selected->path() << endl;
-    delete selected;
-  } else {
-    cout << "Not found." << endl;
-  }
-
-  Stream data("data");
-  if (! data.open(O_WRONLY)) {
-    data.write("not compressed\n", strlen("not compressed\n"));
-    data.close();
-  }
-  selected = Stream::select("data", extensions, &which);
-  if (selected != NULL) {
-    cout << "Found (" << which << "): " << selected->path() << endl;
-    delete selected;
-  } else {
-    cout << "Not found." << endl;
-  }
-
-
   cout << endl << "End of tests" << endl;
 
   return 0;

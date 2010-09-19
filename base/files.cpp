@@ -412,25 +412,6 @@ void Stream::md5sum(char* out, const unsigned char* in, int bytes) {
   *out = '\0';
 }
 
-Stream* Stream::select(
-    Path            path,
-    vector<string>& extensions,
-    unsigned int*   no) {
-  const char* char_base = path;
-  string base = char_base;
-  for (unsigned int i = 0; i < extensions.size(); i++) {
-    Stream* stream = new Stream((base + extensions[i]).c_str());
-    if (stream->isValid()) {
-      if (no != NULL) {
-        *no = i;
-      }
-      return stream;
-    }
-    delete stream;
-  }
-  return NULL;
-}
-
 Stream::Stream(Path path) : File(path), _d(new Private) {
   _d->fd                = -1;
   _d->progress_callback = NULL;

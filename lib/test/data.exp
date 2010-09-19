@@ -40,6 +40,7 @@ Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
 Meta file contents: 
 13	f
+Error: No such file or directory opening metadata file 'test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta'
 Warning: Adding missing metadata for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0 13 33\r
 Size reported: 13
