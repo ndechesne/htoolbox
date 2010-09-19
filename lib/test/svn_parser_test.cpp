@@ -70,42 +70,7 @@ int main(void) {
     cout << "test1/svn" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/svn/nofile");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/filenew.c");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/filemod.o");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/fileutd.h");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/fileoth");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new Directory("test1/svn/dirutd");
+    node = new Directory("test1/svn/.svn");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -119,7 +84,42 @@ int main(void) {
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new Directory("test1/svn/.svn");
+    node = new Directory("test1/svn/dirutd");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/filemod.o");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/filenew.c");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/fileoth");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/fileutd.h");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/nofile");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -166,6 +166,13 @@ int main(void) {
     cout << "test1/svn/dirutd" << " is not controlled" << endl;
   } else {
     /* Nodes */
+    node = new File("test1/svn/dirutd/fileoth");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
     node = new File("test1/svn/dirutd/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
@@ -173,14 +180,7 @@ int main(void) {
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/svn/dirutd/fileoth");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
     delete parser;
-    delete node;
   }
 
   /* Directory */
@@ -188,14 +188,14 @@ int main(void) {
     cout << "test1/svn/diroth" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/svn/diroth/fileutd");
+    node = new File("test1/svn/diroth/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/svn/diroth/fileoth");
+    node = new File("test1/svn/diroth/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -251,42 +251,7 @@ int main(void) {
     cout << "test1/svn" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/svn/nofile");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/filenew.c");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/filemod.o");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/fileutd.h");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/fileoth");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new Directory("test1/svn/dirutd");
+    node = new Directory("test1/svn/.svn");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -300,7 +265,42 @@ int main(void) {
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new Directory("test1/svn/.svn");
+    node = new Directory("test1/svn/dirutd");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/filemod.o");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/filenew.c");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/fileoth");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/fileutd.h");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/nofile");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -347,6 +347,13 @@ int main(void) {
     cout << "test1/svn/dirutd" << " is not controlled" << endl;
   } else {
     /* Nodes */
+    node = new File("test1/svn/dirutd/fileoth");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
     node = new File("test1/svn/dirutd/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
@@ -354,14 +361,7 @@ int main(void) {
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/svn/dirutd/fileoth");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
     delete parser;
-    delete node;
   }
 
   /* Directory */
@@ -369,14 +369,14 @@ int main(void) {
     cout << "test1/svn/diroth" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/svn/diroth/fileutd");
+    node = new File("test1/svn/diroth/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/svn/diroth/fileoth");
+    node = new File("test1/svn/diroth/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -433,42 +433,7 @@ int main(void) {
     cout << "test1/svn" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/svn/nofile");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/filenew.c");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/filemod.o");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/fileutd.h");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/fileoth");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new Directory("test1/svn/dirutd");
+    node = new Directory("test1/svn/.svn");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -482,7 +447,42 @@ int main(void) {
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new Directory("test1/svn/.svn");
+    node = new Directory("test1/svn/dirutd");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/filemod.o");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/filenew.c");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/fileoth");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/fileutd.h");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/nofile");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -529,6 +529,13 @@ int main(void) {
     cout << "test1/svn/dirutd" << " is not controlled" << endl;
   } else {
     /* Nodes */
+    node = new File("test1/svn/dirutd/fileoth");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
     node = new File("test1/svn/dirutd/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
@@ -536,14 +543,7 @@ int main(void) {
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/svn/dirutd/fileoth");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
     delete parser;
-    delete node;
   }
 
   /* Directory */
@@ -551,14 +551,14 @@ int main(void) {
     cout << "test1/svn/diroth" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/svn/diroth/fileutd");
+    node = new File("test1/svn/diroth/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/svn/diroth/fileoth");
+    node = new File("test1/svn/diroth/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -615,42 +615,7 @@ int main(void) {
     cout << "test1/svn" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/svn/nofile");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/filenew.c");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/filemod.o");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/fileutd.h");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new File("test1/svn/fileoth");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
-    delete node;
-    node = new Directory("test1/svn/dirutd");
+    node = new Directory("test1/svn/.svn");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -664,7 +629,42 @@ int main(void) {
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new Directory("test1/svn/.svn");
+    node = new Directory("test1/svn/dirutd");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/filemod.o");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/filenew.c");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/fileoth");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/fileutd.h");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
+    node = new File("test1/svn/nofile");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -711,6 +711,13 @@ int main(void) {
     cout << "test1/svn/dirutd" << " is not controlled" << endl;
   } else {
     /* Nodes */
+    node = new File("test1/svn/dirutd/fileoth");
+    cout << node->path() << " will";
+    if (! parser->ignore(*node)) {
+      cout << " not";
+    }
+    cout << " be ignored" << endl;
+    delete node;
     node = new File("test1/svn/dirutd/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
@@ -718,14 +725,7 @@ int main(void) {
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/svn/dirutd/fileoth");
-    cout << node->path() << " will";
-    if (! parser->ignore(*node)) {
-      cout << " not";
-    }
-    cout << " be ignored" << endl;
     delete parser;
-    delete node;
   }
 
   /* Directory */
@@ -733,14 +733,14 @@ int main(void) {
     cout << "test1/svn/diroth" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/svn/diroth/fileutd");
+    node = new File("test1/svn/diroth/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/svn/diroth/fileoth");
+    node = new File("test1/svn/diroth/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
