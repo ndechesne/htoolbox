@@ -34,18 +34,40 @@ using namespace hreport;
 static const string control_dir = "/.svn";
 static const char* entries = "/entries";
 
+/* As this is put into a list, it gets constructed, then copied, and the
+ * original gets destroyed. As I do not want to copy strings for no reason, I
+ * made name a pointer, and made sure only the copied version would free it.
+ */
 struct SvnNode {
-  char name[PATH_MAX];
+  char* name;
   char status;
+  bool is_copy;
   bool operator<(const SvnNode& right) const {
     // Only compare paths
     return Path::compare(name, right.name) < 0;
   }
+  SvnNode(const char* a_name, char a_status) {
+    name = strdup(a_name);
+    status = a_status;
+    is_copy = false;
+  }
+  SvnNode(const SvnNode& source) {
+    name = source.name;
+    status = source.status;
+    is_copy = true;
+  }
+  ~SvnNode() {
+    if (is_copy) {
+      free(name);
+    }
+  }
+private:
+  SvnNode();
+  SvnNode& operator=(const SvnNode&);
 };
 
 class SvnParser : public IParser {
   list<SvnNode> _files;       // Files under control in current dir
-  list<SvnNode>::const_iterator current;
   bool _head;
 public:
   // Constructor
@@ -176,15 +198,12 @@ SvnParser::SvnParser(Mode mode, const string& dir_path) :
           status = 'm';
       }
       // Add to list of Nodes, with status
-      _files.push_back(SvnNode());
-      strcpy(_files.back().name, &buffer[8]);
-      _files.back().status = status;
+      _files.push_back(SvnNode(&buffer[8], status));
     }
     free(buffer);
     pclose(fd);
     hlog_debug_arrow(1, "Sorting Subversion entries");
     _files.sort();
-    current = _files.begin();
     show(2);
   } else {
     hlog_error("%s running svn status", strerror(errno));
@@ -201,18 +220,18 @@ bool SvnParser::ignore(const Node& node) {
   bool file_controlled = true;
   bool file_modified   = false;
   int  cmp             = -1;
-  // Nodes are in path order, and so are SvnNodes, so we start where we left off
-  while ((cmp < 0) && (current != _files.end())) {
+  // Nodes are in path order, and so are SvnNodes, so we can delete as we go
+  list<SvnNode>::iterator it;
+  for (it = _files.begin(); it != _files.end(); it = _files.erase(it)) {
     // Find file
-    cmp = strcmp(current->name, node.path());
+    cmp = strcmp(it->name, node.path());
     if (cmp >= 0) {
       break;
     }
-    current++;
   }
 
   if (cmp == 0) {
-    if (current->status == 'm') {
+    if (it->status == 'm') {
       file_modified = true;
     } else {
       file_controlled = false;
