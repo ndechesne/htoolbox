@@ -265,7 +265,13 @@ ssize_t List::putData(time_t ts, const char* metadata, const char* extra) {
 
 ssize_t List::getLine(char** buffer_p, size_t* cap_p) {
   int delim = _old_version ? '\n' : '\0';
+  size_t cap = *cap_p;
   ssize_t rc = getdelim(buffer_p, cap_p, delim, _fd);
+  if (*cap_p != cap) {
+    hlog_error("unexpected buffer capacity change from %zd to %zd",
+      cap, *cap_p);
+    return -3;
+  }
   if (rc <= 0) {
     if (feof(_fd)) {
       return -2;
@@ -307,7 +313,23 @@ struct ListReader::Private {
   char*             data;
   size_t            data_cap;
   Private(const char* path_in) : file(path_in, List::list_read) {
-    data_cap = path_cap = 10240;
+    // Max size for path line:
+    // * path             4096
+    // * ending              2
+    // TOTAL              4098
+    // Max size for data line:
+    // * time stamp         10
+    // * type                1
+    // * size               20
+    // * mtime              10
+    // * uid                10
+    // * gid                10
+    // * mode                4
+    // * path/checksum    4096
+    // * field separators    8
+    // * ending              2
+    // TOTAL              4171
+    data_cap = path_cap = 4352;
     path = static_cast<char*>(malloc(path_cap));
     path[0] = '\0'; // Let it crash if malloc failed
     data = static_cast<char*>(malloc(data_cap));
