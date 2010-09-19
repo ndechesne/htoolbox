@@ -16,6 +16,22 @@
      Boston, MA 02111-1307, USA.
 */
 
+/*
+ * ParsersManager is the entity managing the parsers.  It loads them from the
+ * file system, and gets the master object.  It then gives a main instance when
+ * required given the name of the parser and the selection mode by calling the
+ * createInstance(mode) method on the master object.
+ * The instance is created by passing the mode and no path, which forces the
+ * _noparsing boolean to true.  It is a good idea to store all instances in a
+ * Parsers object.
+ * These instances are then used when crawling directories to find out
+ * controlled trees, using createParserIfControlled(path) from Parsers.
+ * When a parser is in use, we check that sub-dirs are also under control using
+ * createChildIfControlled(path).
+ * Then to check whether to take into account a file or ignore it is just a call
+ * to ignore(node) away.
+ */
+
 #ifndef PARSERS_H
 #define PARSERS_H
 
@@ -38,8 +54,6 @@ public:
     others            = 4   //!< non-controlled files
   };
 protected:
-  // Declare list stuff here to overcome apparent bug in GCC
-  list<Node>            _files;       // Files under control in current dir
   Mode                  _mode;        // What kind of nodes to backup
   bool                  _no_parsing;
 public:
@@ -98,7 +112,7 @@ public:
   // List management
   bool empty() const { return _children.empty(); }
   size_t size() const { return _children.size(); }
-  void push_back(IParser* parser) { return _children.push_back(parser); }
+  void push_back(IParser* parser) { _children.push_back(parser); }
   // For verbosity
   void show(int level = 0) const;
 };

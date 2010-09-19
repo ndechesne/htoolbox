@@ -33,6 +33,7 @@ static const string control_dir = "/.svn";
 static const char* entries = "/entries";
 
 class SvnParser : public IParser {
+  list<Node>            _files;       // Files under control in current dir
   bool _head;
 public:
   // Constructor

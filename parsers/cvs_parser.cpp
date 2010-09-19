@@ -30,6 +30,7 @@ static const string control_dir = "/CVS";
 static const char* entries = "/Entries";
 
 class CvsParser : public IParser {
+  list<Node>            _files;       // Files under control in current dir
 public:
   // Constructor
   CvsParser(Mode mode = master, const string& dir_path = "");
