@@ -41,117 +41,6 @@ using namespace std;
 using namespace hbackup;
 using namespace hreport;
 
-int Client::mountPath(
-    const string&   backup_path,
-    string&         path,
-    const char*     mount_point) {
-  string command;
-  string share;
-  errno = EINVAL;
-  _classic_mount = false;
-  _fuse_mount = false;
-
-  // Determine share and path
-  if (_protocol == "file") {
-    command = "";
-    share = "";
-    path  = backup_path;
-    return 0;
-  } else
-  if (_protocol == "nfs") {
-    _classic_mount = true;
-    command = "mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr";
-    share = _host_or_ip + ":" + backup_path;
-    path  = mount_point;
-  } else
-  if (_protocol == "smb") {
-    _classic_mount = true;
-    command = "mount -t cifs -o ro,nocase";
-    if (backup_path.size() < 3) {
-      return -1;
-    }
-    char drive_letter = backup_path[0];
-    if (! isupper(drive_letter)) {
-      return -1;
-    }
-    share = "//" + _host_or_ip + "/" + drive_letter + "$";
-    path  = mount_point;
-    path += "/" +  backup_path.substr(3);
-  } else
-  if (_protocol == "ssh") {
-    _fuse_mount = true;
-    const string username = getOption("username");
-    if (username != "") {
-      share = username + "@";
-    }
-    const string password = getOption("password");
-    if (password != "") {
-      command = "echo " + password + " | sshfs -o password_stdin";
-    } else {
-      command = "sshfs";
-    }
-    // echo <password> | sshfs -o password_stdin <user>@<server>:<path> <mount path>
-    share   += _host_or_ip + ":" + backup_path;
-    path    = mount_point;
-  } else {
-    errno = EPROTONOSUPPORT;
-    return -1;
-  }
-  errno = 0;
-
-  // Unmount previous share if different
-  if (_mounted != "") {
-    if (_mounted != share) {
-      // Different share mounted: unmount
-      umount(mount_point);
-    } else {
-      // Same share mounted: nothing to do
-      return 0;
-    }
-  }
-
-  if (_classic_mount) {
-    // Add mount options to command
-    for (list<Option>::iterator i = _options.begin(); i != _options.end();
-        i++ ){
-      command += "," + i->option();
-    }
-  }
-  // Paths
-  command += " " + share + " " + mount_point;
-
-  // Issue mount command
-  hlog_debug_arrow(1, "%s", command.c_str());
-  command += " > /dev/null 2>&1";
-
-  int result = system(command.c_str());
-  if (result != 0) {
-    errno = ETIMEDOUT;
-  } else {
-    errno = 0;
-    _mounted = share;
-  }
-  return result;
-}
-
-int Client::umount(
-    const char*     mount_point) {
-  if (_mounted != "") {
-    string command;
-    if (_classic_mount) {
-      command = "umount -fl ";
-    } else
-    if (_fuse_mount) {
-      command = "fusermount -u ";
-    }
-    command += mount_point;
-    hlog_debug_arrow(1, "%s", command.c_str());
-    _mounted = "";
-    return system(command.c_str());
-  }
-  return 0;
-}
-
 int Client::readConfig(
     const char*     config_path) {
   // Set up config syntax and grammar
@@ -320,16 +209,6 @@ const string& Client::internalName() const {
   return _internal_name;
 }
 
-const string Client::getOption(const string& name) const {
-  for (list<Option>::const_iterator i = _options.begin();
-      i != _options.end(); i++ ) {
-    if (i->name() == name) {
-      return i->value();
-    }
-  }
-  return "";
-}
-
 void Client::setListfile(const char* value) {
   free(_list_file);
   _list_file = strdup(value);
@@ -377,9 +256,9 @@ int Client::backup(
     Database&       db,
     const char*     mount_point,
     bool            config_check) {
-  bool    first_mount_try = true;
-  bool    failed = false;
-  string  share;
+  bool  first_mount_try = true;
+  bool  failed = false;
+  Share share(mount_point);
 
   // Do not print this if in user-mode backup
   if (_protocol != "file") {
@@ -394,7 +273,8 @@ int Client::backup(
     if (base != string::npos) {
       list_file_dir.erase(base);
     }
-    if (mountPath(list_file_dir, config_path, mount_point)) {
+    if (share.mount(_protocol, _options, _host_or_ip, list_file_dir,
+          config_path)) {
       switch (errno) {
         case ETIMEDOUT:
           if (! _timeout_nowarning) {
@@ -459,7 +339,8 @@ int Client::backup(
           string backup_path;
           hlog_info("Backing up path '%s'", (*i)->path());
 
-          if (mountPath((*i)->path(), backup_path, mount_point)) {
+          if (share.mount(_protocol, _options, _host_or_ip, (*i)->path(),
+                backup_path)) {
             if (! first_mount_try) {
               hlog_error("%s connecting to client '%s', aborting client",
                 strerror(errno), internalName().c_str());
@@ -491,7 +372,6 @@ int Client::backup(
       }
     }
   }
-  umount(mount_point); // does not change errno
   return failed ? -1 : 0;
 }
 

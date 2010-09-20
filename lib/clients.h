@@ -19,23 +19,9 @@
 #ifndef _CLIENT_H
 #define _CLIENT_H
 
-namespace hbackup {
+#include "share.h"
 
-class Option {
-  string _name;
-  string _value;
-public:
-  Option(const string& name, const string& value) :
-    _name(name), _value(value) {}
-  const string& name() const { return _name;  }
-  const string& value() const { return _value; }
-  string option() const {
-    if (_name.empty())
-      return _value;
-    else
-      return _name + "=" + _value;
-  }
-};
+namespace hbackup {
 
 class Client : public ConfigObject {
   Attributes        _attributes;
@@ -54,16 +40,7 @@ class Client : public ConfigObject {
   list<string>      _users;
   string            _home_path;
   Config            _config;
-  string            _mounted;
-  bool              _classic_mount;
-  bool              _fuse_mount;
   int               _expire;
-  int mountPath(
-    const string&   backup_path,
-    string&         path,
-    const char*     mount_point);
-  int umount(
-    const char*     mount_point);
 public:
   Client(
     const string&     name,
@@ -114,4 +91,4 @@ public:
 
 }
 
-#endif
+#endif // _CLIENT_H

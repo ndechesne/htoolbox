@@ -13,6 +13,7 @@ libhtools_la_SOURCES = \
   files.cpp \
   line.cpp \
   report.cpp \
+  share.cpp \
   $(NULL)
 
 EXTRA_DIST = \
@@ -20,4 +21,5 @@ EXTRA_DIST = \
   configuration.h \
   files.h \
   line.h \
+  share.h \
   $(NULL)
