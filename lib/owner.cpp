@@ -415,13 +415,13 @@ int Owner::send(
     // Get metadata (needs to be kept, as it will be added after any new)
     db_node = _d->original->fetchData();
     if (db_node == NULL) {
-      hlog_error("no data found for '%s' in list", op.path.c_str());
+      hlog_error("no data found for '%s' in list", op.path);
       return -1;
     }
     // Find second TAB (first TAB is first char of string)
     db_node_type = strchr(&db_node[1], '\t');
     if (db_node_type == NULL) {
-      hlog_error("strange data found for '%s' in list", op.path.c_str());
+      hlog_error("strange data found for '%s' in list", op.path);
       return -1;
     }
     ++db_node_type;
@@ -515,7 +515,7 @@ int Owner::add(
     rc = -1;
   }
   // Add to journal
-  if ((_d->journal->putPath(op.path) != static_cast<ssize_t>(op.path.size())) ||
+  if ((_d->journal->putPath(op.path) != static_cast<ssize_t>(op.path_len)) ||
       (_d->journal->putData(ts, op.encoded_metadata, op.extra) < 0) ||
       (_d->journal->flush() != 0)) {
     rc = -1;

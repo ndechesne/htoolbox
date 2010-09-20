@@ -23,8 +23,6 @@
 #include <limits.h>
 #include <time.h>
 
-#include <string>
-
 namespace hbackup {
 
 class List {
@@ -35,7 +33,7 @@ public:
     journal_write
   };
 private:
-  std::string _path;
+  char _path[PATH_MAX];
   Type _type;
   FILE* _fd;
   progress_f _progress;
@@ -52,13 +50,14 @@ private:
   ssize_t putLine(const char* line);
   inline ssize_t flushStored();
 public:
-  List(const char* path, Type type) : _path(path), _type(type), _fd(NULL),
+  List(const char* path, Type type) : _type(type), _fd(NULL),
       _progress(NULL), _size(-1), _previous_offset(0), _offset(0),
       _old_version(false), _removed(0) {
+    strcpy(_path, path);
     _file_path[0] = '\0';
   }
   ~List() { if (_fd != NULL) close(); }
-  const char* path() const { return _path.c_str(); }
+  const char* path() const { return _path; }
   int open(bool quiet_if_not_exists = false);
   int close();
   void setProgressCallback(progress_f progress);
@@ -107,7 +106,7 @@ public:
     got_data                  // Got data
   };
   ListReader(
-    const Path&     path);
+    const char*     path);
   ~ListReader();
   // Open file (for read)
   int open(bool quiet_if_not_exists = false);
@@ -155,7 +154,7 @@ public:
 class ListWriter : public List {
 public:
   ListWriter(
-    const Path&     path,
+    const char*     path,
     bool            journal = false)
       : List(path, journal ? journal_write : list_write) {}
   // Search data in list copying contents to new list/journal, marking files

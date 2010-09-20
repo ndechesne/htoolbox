@@ -93,7 +93,8 @@ public:
     int               id;               // Missing checksum ID
     Database::CompressionMode comp_mode;  // Compression decision
     int               compression;      // Compression level for regular files
-    const Path&       path;             // Real file path, on client
+    const char*       path;             // Real file path, on client
+    size_t            path_len;         // Its length
     Node&             node;             // File metadata
     bool              same_list_entry;  // Don't add a list entry, replace
     // Pre-encoded node metadata, assumes the following max values:
@@ -111,11 +112,12 @@ public:
     const char*       extra;
     // Pointers given to the constructor MUST remain valid during operation!
     OpData(
-      const Path&     p,                // Real file path, on client
+      const char*     p,                // Real file path, on client
+      size_t          l,                // Its length
       Node&           n)                // File metadata
       : operation(' '), type(' '), info(' '), id(-1),
         comp_mode(Database::auto_later), compression(0),
-        path(p), node(n), same_list_entry(false), extra(NULL) {}
+        path(p), path_len(l), node(n), same_list_entry(false), extra(NULL) {}
     bool needsAdding() const { return operation != ' ';   }
     void verbose(char* code) {
       // File information

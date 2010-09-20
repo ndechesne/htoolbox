@@ -95,31 +95,39 @@ Path Path::dirname() const {
 }
 
 const Path& Path::fromDos() {
-  size_t count  = size();
-  bool   proven = false;
-  char*  reader = this->buffer();
-  while (count--) {
-    if (*reader == '\\') {
-      *reader = '/';
-      proven = true;
-    }
-    reader++;
-  }
-  // Upper case drive letter
-  if (proven && (size() >= 2)) {
-    if (((*this)[1] == ':') && ((*this)[2] == '/') && islower((*this)[0])) {
-      this->buffer()[0] = static_cast<char>(toupper((*this)[0]));
-    }
-  }
+  fromDos(buffer());
   return *this;
 }
 
 const Path& Path::noTrailingSlashes() {
-  const char* line   = *this;
-  const char* reader = &line[size()];
-  while ((--reader >= line) && (*reader == '/')) {}
-  erase(reader - line + 1);
+  noTrailingSlashes(buffer());
   return *this;
+}
+
+const char* Path::fromDos(char* path) {
+  bool proven = false;
+  size_t size = 0;
+  for (char* reader = path; *reader != '\0'; ++reader) {
+    if (*reader == '\\') {
+      *reader = '/';
+      proven = true;
+    }
+    ++size;
+  }
+  // Upper case drive letter
+  if (proven && (size >= 3)) {
+    if ((path[1] == ':') && (path[2] == '/') && islower(path[0])) {
+      path[0] = static_cast<char>(toupper(path[0]));
+    }
+  }
+  return path;
+}
+
+const char* Path::noTrailingSlashes(char* path) {
+  char* end = &path[strlen(path)];
+  while ((--end >= path) && (*end == '/')) {}
+  end[1] = '\0';
+  return path;
 }
 
 int Path::compare(const char* s1, const char* s2, ssize_t length) {

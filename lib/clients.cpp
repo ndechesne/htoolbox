@@ -236,15 +236,16 @@ Client::Client(
     _internal_name = _name + "." + _subset_server;
   }
   _host_or_ip = name;
+  _list_file = NULL;
   _expire = -1;
   _timeout_nowarning = false;
 }
 
 Client::~Client() {
-  for (list<ClientPath*>::iterator i = _paths.begin(); i != _paths.end();
-      i++) {
+  for (list<ClientPath*>::iterator i = _paths.begin(); i != _paths.end(); i++) {
     delete *i;
   }
+  free(_list_file);
 }
 
 ConfigObject* Client::configChildFactory(
@@ -330,9 +331,10 @@ const string Client::getOption(const string& name) const {
 }
 
 void Client::setListfile(const char* value) {
-  _list_file = value;
-  _list_file.fromDos();
-  _list_file.noTrailingSlashes();
+  free(_list_file);
+  _list_file = strdup(value);
+  Path::fromDos(_list_file);
+  Path::noTrailingSlashes(_list_file);
 }
 
 ClientPath* Client::addClientPath(const string& name) {
@@ -385,9 +387,14 @@ int Client::backup(
       internalName().c_str(), _protocol.c_str());
   }
 
-  if (_list_file.length() != 0) {
+  if (_list_file != NULL) {
     string config_path;
-    if (mountPath(string(_list_file.dirname()), config_path, mount_point)) {
+    string list_file_dir = _list_file;
+    string::size_type base = list_file_dir.rfind('/');
+    if (base != string::npos) {
+      list_file_dir.erase(base);
+    }
+    if (mountPath(list_file_dir, config_path, mount_point)) {
       switch (errno) {
         case ETIMEDOUT:
           if (! _timeout_nowarning) {
@@ -534,8 +541,8 @@ void Client::show(int level) const {
   if (_timeout_nowarning) {
     hlog_debug_arrow(level, "No warning on time out");
   }
-  if (_list_file.length() != 0) {
-    hlog_debug_arrow(level, "Config: %s", _list_file.c_str());
+  if (_list_file != NULL) {
+    hlog_debug_arrow(level, "Config: %s", _list_file);
   }
   {
     if (_expire >= 0) {

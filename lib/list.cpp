@@ -21,7 +21,6 @@
 #include <sys/stat.h>
 
 #include "hbackup.h"
-#include "line.h"
 #include "files.h"
 #include "hreport.h"
 #include "list.h"
@@ -38,11 +37,11 @@ int List::open(bool quiet_if_not_exists) {
     mode = "w";
   }
   // Open
-  _fd = fopen(_path.c_str(), mode);
+  _fd = fopen(_path, mode);
   if (_fd == NULL) {
     if (! quiet_if_not_exists) {
       hlog_error("%s opening '%s' for %sing",
-        strerror(errno), _path.c_str(), _type == list_read ? "read" : "writ");
+        strerror(errno), _path, _type == list_read ? "read" : "writ");
     }
     goto failed;
   }
@@ -59,7 +58,7 @@ int List::open(bool quiet_if_not_exists) {
       } else {
         error_str = strerror(errno);
       }
-      hlog_error("%s getting version for '%s'", error_str, _path.c_str());
+      hlog_error("%s getting version for '%s'", error_str, _path);
       went_wrong = true;
     } else {
       if (strcmp(buffer, _header()) == 0) {
@@ -70,7 +69,7 @@ int List::open(bool quiet_if_not_exists) {
       } else
       {
         buffer[sizeof(buffer) - 1] = '\0';
-        hlog_error("Unknown version for '%s': '%s'", _path.c_str(), buffer);
+        hlog_error("Unknown version for '%s': '%s'", _path, buffer);
         went_wrong = true;
       }
     }
@@ -78,12 +77,12 @@ int List::open(bool quiet_if_not_exists) {
     if (went_wrong) goto failed;
   } else {
     if (putLine(_header()) < 0) {
-      hlog_error("%s writing header in '%s'", strerror(errno), _path.c_str());
+      hlog_error("%s writing header in '%s'", strerror(errno), _path);
       goto failed;
     }
   }
   hlog_regression("opened '%s' for %sing",
-    _path.c_str(), _type == list_read ? "read" : "writ");
+    _path, _type == list_read ? "read" : "writ");
   return 0;
 failed:
   close();
@@ -95,13 +94,13 @@ int List::close() {
   if (_fd != NULL) {
     if (_type != list_read) {
       if (putLine(_footer()) < 0) {
-        hlog_error("%s writing footer in '%s'", strerror(errno), _path.c_str());
+        hlog_error("%s writing footer in '%s'", strerror(errno), _path);
         /* the error is reported by fclose */
       }
     }
     rc = fclose(_fd);
     _fd = NULL;
-    hlog_regression("closed '%s'", _path.c_str());
+    hlog_regression("closed '%s'", _path);
   } else {
     errno = EBADF;
     rc = -1;
@@ -116,7 +115,7 @@ void List::setProgressCallback(progress_f progress) {
   // Get list file size
   if (_size < 0) {
     struct stat64 stat;
-    if (stat64(_path.c_str(), &stat) < 0) {
+    if (stat64(_path, &stat) < 0) {
       return;
     }
     _size = stat.st_size;
@@ -126,22 +125,22 @@ void List::setProgressCallback(progress_f progress) {
 
 ssize_t List::putLine(const char* line) {
   if (_fd == NULL) {
-    hlog_error("'%s' not open", _path.c_str());
+    hlog_error("'%s' not open", _path);
     return -1;
   }
   if (_type == list_read) {
-    hlog_error("'%s' read only", _path.c_str());
+    hlog_error("'%s' read only", _path);
     return -1;
   }
   ssize_t line_size = strlen(line);
   if (line_size > 0) {
     if (fwrite(line, line_size, 1, _fd) < 1) {
-      hlog_error("%s writing line to '%s'", strerror(errno), _path.c_str());
+      hlog_error("%s writing line to '%s'", strerror(errno), _path);
       return -1;
     }
   }
   if (fwrite("\0\n", 2, 1, _fd) < 1) {
-    hlog_error("%s writing line ending to '%s'", strerror(errno), _path.c_str());
+    hlog_error("%s writing line ending to '%s'", strerror(errno), _path);
     return -1;
   }
   return line_size;
@@ -153,11 +152,11 @@ inline ssize_t List::flushStored() {
     line_size = putLine(_file_path);
     // Write path, and check that its length is greater than 1
     if (line_size < 1) {
-      hlog_error("%s flushing file path to '%s'", strerror(errno), _path.c_str());
+      hlog_error("%s flushing file path to '%s'", strerror(errno), _path);
       return -1;
     }
     hlog_regression("DBG %s flush _file_path = %s into %s", __FUNCTION__,
-      _file_path, _path.c_str());
+      _file_path, _path);
     _file_path[0] = '\0';
   }
   // Write removed mark if relevant
@@ -166,11 +165,11 @@ inline ssize_t List::flushStored() {
     sprintf(line, "\t%ld\t-", _removed);
     ssize_t ts_size = putLine(line);
     if (ts_size < 1) {
-      hlog_error("%s flushing line to '%s'", strerror(errno), _path.c_str());
+      hlog_error("%s flushing line to '%s'", strerror(errno), _path);
       return -1;
     }
     hlog_regression("DBG %s flush _removed = %ld into %s", __FUNCTION__,
-      _removed, _path.c_str());
+      _removed, _path);
     line_size += ts_size;
     _removed = 0;
   }
@@ -184,7 +183,7 @@ ssize_t List::putPath(const char* path) {
     // Only store path for now. No, I don't care about size.
     strcpy(_file_path, path);
     hlog_regression("DBG %s store _file_path = %s into %s", __FUNCTION__,
-      _file_path, _path.c_str());
+      _file_path, _path);
   } else {
     return putLine(path);
   }
@@ -205,7 +204,7 @@ ssize_t List::putData(const char* ts_metadata_extra) {
     if (ts != 0) {
       _removed = ts;
       hlog_regression("DBG %s1 store _removed = %ld into %s", __FUNCTION__,
-        _removed, _path.c_str());
+        _removed, _path);
       return 0;
     } else {
       line_size = flushStored();
@@ -218,7 +217,7 @@ ssize_t List::putData(const char* ts_metadata_extra) {
   ssize_t ts_metadata_extra_size = putLine(ts_metadata_extra);
   if (ts_metadata_extra_size < 1) {
     hlog_error("%s writing ts_metadata_extra to '%s'", strerror(errno),
-      _path.c_str());
+      _path);
     return -1;
   }
   line_size += ts_metadata_extra_size;
@@ -232,7 +231,7 @@ ssize_t List::putData(time_t ts, const char* metadata, const char* extra) {
     if (metadata[0] == '-') {
       _removed = ts;
       hlog_regression("DBG %s2 store _removed = %ld into %s", __FUNCTION__,
-        _removed, _path.c_str());
+        _removed, _path);
       return 0;
     } else {
       line_size = flushStored();
@@ -244,20 +243,20 @@ ssize_t List::putData(time_t ts, const char* metadata, const char* extra) {
   // Write line of metadata
   ssize_t metadata_size = fprintf(_fd, "\t%ld\t%s", ts, metadata);
   if (metadata_size < 1) {
-    hlog_error("%s write ts_str to '%s'", strerror(errno), _path.c_str());
+    hlog_error("%s write ts_str to '%s'", strerror(errno), _path);
     return -1;
   }
   line_size += metadata_size;
   if (extra != NULL) {
     size_t extra_size = fprintf(_fd, "\t%s", extra);
     if (extra_size < 1) {
-      hlog_error("%s write separator to '%s'", strerror(errno), _path.c_str());
+      hlog_error("%s write separator to '%s'", strerror(errno), _path);
       return -1;
     }
     line_size += extra_size;
   }
   if (fwrite("\0\n", 2, 1, _fd) < 1) {
-    hlog_error("%s write end of line to '%s'", strerror(errno), _path.c_str());
+    hlog_error("%s write end of line to '%s'", strerror(errno), _path);
     return -1;
   }
   return line_size;
@@ -341,7 +340,7 @@ struct ListReader::Private {
   }
 };
 
-ListReader::ListReader(const Path& path) : _d(new Private(path)) {}
+ListReader::ListReader(const char* path) : _d(new Private(path)) {}
 
 ListReader::~ListReader() {
   delete _d;
@@ -892,7 +891,7 @@ int ListWriter::merge(
   int j_line_no = 0;
 
   // Current path and data (from journal)
-  Path path;
+  char path[PATH_MAX] = "";
 
   // Parse journal
   while (true) {
@@ -926,16 +925,16 @@ int ListWriter::merge(
     // Got a path
     if (rc_journal == ListReader::got_path) {
       // Check path order
-      if (path.length() != 0) {
-        if (path.compare(journal.getPath()) > 0) {
+      if (path[0] != '\0') {
+        if (Path::compare(path, journal.getPath()) > 0) {
           // Cannot go back
           hlog_error("Journal, line %d: path out of order: '%s' > '%s'",
-            j_line_no, path.c_str(), journal.getPath());
+            j_line_no, path, journal.getPath());
           return -1;
         }
       }
       // Copy new path
-      path = journal.getPath();
+      strcpy(path, journal.getPath());
       // Search/copy list and append path if needed
       if (rc_list >= 0) {
         rc_list = copy(final, list, path);
@@ -950,7 +949,7 @@ int ListWriter::merge(
     // Got data
     {
       // Must have a path before then
-      if (path.length() == 0) {
+      if (path[0] == '\0') {
         // Did not get anything before data
         hlog_error("Data out of order in journal, at line %d", j_line_no);
         return -1;

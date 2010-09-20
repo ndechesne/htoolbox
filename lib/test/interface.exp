@@ -12287,92 +12287,92 @@ path "/home/Blah/test/"
   compress "compress"
 hbackup.log:
 2009-08-07 06:05:04 VERB  db.cpp:242 Database open in read/write mode
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'aClient.vista'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 ERROR paths.cpp:271 No such file or directory reading initial directory 'aClient.vista:C:/Test Dir'
-2009-08-07 06:05:04 ERROR clients.cpp:473 Aborting client
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 ERROR paths.cpp:281 No such file or directory reading initial directory 'aClient.vista:C:/Test Dir'
+2009-08-07 06:05:04 ERROR clients.cpp:480 Aborting client
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'aClient.vista'
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
 2009-08-07 06:05:04 VERB  db.cpp:264 Database closed
 hbackup.log-1:
 2009-08-07 06:05:04 VERB  db.cpp:242 Database open in read/write mode
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'aClient.vista'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'client.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'client.xp'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'client.xp' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'myClient' using protocol 'nfs'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myClient'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'myClient' using protocol 'nfs'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'myClient'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path '/home/User/test'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path '/home/User/test'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'myClient.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myClient.xp'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'myClient.xp' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myhost'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'test1'
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/cvs/CVS/Wherever
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dir space/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dir space/file other
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'test1'
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/CVS/Whatever
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/cvs/CVS/Wherever
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dir space/CVS/Whatever
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dir space/file other
 2009-08-07 06:05:04 WARN  cvs_parser.cpp:83 Directory 'test1/cvs/dirbad' should be under CVS control
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dirbad/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dirbad/fileutd
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/cvs/diroth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dirutd/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dirutd/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/cvs/filemod.o
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id f    test1/subdir
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/.svn/dir-prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/.svn/tmp
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dir space/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/tmp
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dirbad/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dirbad/fileutd
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/cvs/diroth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dirutd/CVS/Whatever
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dirutd/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If f    test1/cvs/filemod.o
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id f    test1/subdir
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/.svn/all-wcprops
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/.svn/dir-prop-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/.svn/prop-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/.svn/props
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/.svn/text-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/.svn/tmp
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dir space/.svn/all-wcprops
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dir space/.svn/prop-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dir space/.svn/props
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dir space/.svn/text-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dir space/.svn/tmp
 2009-08-07 06:05:04 WARN  svn_parser.cpp:147 Directory 'test1/svn/dirbad' should be under Subversion control
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirbad/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirbad/fileutd
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/diroth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirutd/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dirutd/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dirutd/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dirutd/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dirutd/.svn/tmp
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirutd/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/svn/filemod.o
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileutd.h
-2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/testfile~
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'test2'
-2009-08-07 06:05:04 INFO  paths.cpp:167 Rf ~    test2/testfile2
-2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test2/testfile~
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dirbad/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dirbad/fileutd
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/diroth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dirutd/.svn/all-wcprops
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dirutd/.svn/prop-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dirutd/.svn/props
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dirutd/.svn/text-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dirutd/.svn/tmp
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dirutd/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If f    test1/svn/filemod.o
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/fileutd.h
+2009-08-07 06:05:04 VERB  paths.cpp:188 If f    test1/testfile~
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'test2'
+2009-08-07 06:05:04 INFO  paths.cpp:172 Rf ~    test2/testfile2
+2009-08-07 06:05:04 VERB  paths.cpp:188 If f    test2/testfile~
 2009-08-07 06:05:04 VERB  owner.cpp:360 Register modified for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'newClient' using protocol 'ssh'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'newClient'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'newClient' using protocol 'ssh'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path '/home/Blah/test'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path '/home/Blah/test'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'other' using protocol 'none'
-2009-08-07 06:05:04 ERROR clients.cpp:405 Protocol not supported 'none' for 'other'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'other' using protocol 'none'
+2009-08-07 06:05:04 ERROR clients.cpp:412 Protocol not supported 'none' for 'other'
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
 2009-08-07 06:05:04 VERB  db.cpp:264 Database closed
@@ -12429,160 +12429,160 @@ hbackup.log-4:
 2009-08-07 06:05:04 VERB  db.cpp:264 Database closed
 hbackup.log-5:
 2009-08-07 06:05:04 VERB  db.cpp:242 Database open in read/write mode
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'aClient.vista'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'client.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'client.xp'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'client.xp' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'myClient' using protocol 'nfs'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myClient'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'myClient' using protocol 'nfs'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'myClient'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path '/home/User/test'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path '/home/User/test'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'myClient.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myClient.xp'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'myClient.xp' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myhost'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'test1'
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/cvs/CVS/Wherever
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dir space/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dir space/file other
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'test1'
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/CVS/Whatever
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/cvs/CVS/Wherever
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dir space/CVS/Whatever
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dir space/file other
 2009-08-07 06:05:04 WARN  cvs_parser.cpp:83 Directory 'test1/cvs/dirbad' should be under CVS control
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dirbad/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dirbad/fileutd
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/cvs/diroth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dirutd/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dirutd/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/cvs/filemod.o
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id f    test1/subdir
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/.svn/dir-prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/.svn/tmp
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dir space/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/tmp
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dirbad/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dirbad/fileutd
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/cvs/diroth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dirutd/CVS/Whatever
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dirutd/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If f    test1/cvs/filemod.o
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id f    test1/subdir
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/.svn/all-wcprops
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/.svn/dir-prop-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/.svn/prop-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/.svn/props
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/.svn/text-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/.svn/tmp
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dir space/.svn/all-wcprops
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dir space/.svn/prop-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dir space/.svn/props
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dir space/.svn/text-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dir space/.svn/tmp
 2009-08-07 06:05:04 WARN  svn_parser.cpp:147 Directory 'test1/svn/dirbad' should be under Subversion control
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirbad/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirbad/fileutd
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/diroth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirutd/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dirutd/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dirutd/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dirutd/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dirutd/.svn/tmp
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirutd/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/svn/filemod.o
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileutd.h
-2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/testfile~
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'test2'
-2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test2/testfile~
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dirbad/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dirbad/fileutd
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/diroth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dirutd/.svn/all-wcprops
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dirutd/.svn/prop-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dirutd/.svn/props
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dirutd/.svn/text-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dirutd/.svn/tmp
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dirutd/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If f    test1/svn/filemod.o
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/fileutd.h
+2009-08-07 06:05:04 VERB  paths.cpp:188 If f    test1/testfile~
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'test2'
+2009-08-07 06:05:04 VERB  paths.cpp:188 If f    test2/testfile~
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'newClient' using protocol 'ssh'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'newClient'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'newClient' using protocol 'ssh'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path '/home/Blah/test'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path '/home/Blah/test'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'other' using protocol 'none'
-2009-08-07 06:05:04 ERROR clients.cpp:405 Protocol not supported 'none' for 'other'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'other' using protocol 'none'
+2009-08-07 06:05:04 ERROR clients.cpp:412 Protocol not supported 'none' for 'other'
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
 2009-08-07 06:05:04 VERB  db.cpp:264 Database closed
 hbackup.log-6:
 2009-08-07 06:05:04 VERB  db.cpp:242 Database open in read/write mode
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'aClient.vista'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'aClient.vista'
 2009-08-07 06:05:04 VERB  missing.cpp:141 Reading list of problematic checksums
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'client.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'client.xp'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'client.xp' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'client.xp'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'myClient' using protocol 'nfs'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myClient'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'myClient' using protocol 'nfs'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'myClient'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path '/home/User/test'
-2009-08-07 06:05:04 INFO  paths.cpp:167 Cf f    /home/User/test/dir/file3.txt
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path '/home/User/test'
+2009-08-07 06:05:04 INFO  paths.cpp:172 Cf f    /home/User/test/dir/file3.txt
 2009-08-07 06:05:04 VERB  owner.cpp:360 Register modified for 'myClient'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'myClient.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myClient.xp'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'myClient.xp' using protocol 'smb'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'myClient.xp'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'myhost'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'test1'
-2009-08-07 06:05:04 INFO  paths.cpp:167 Rf f    test1/cvs/CVS/Root
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/cvs/CVS/Wherever
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dir space/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dir space/file other
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'test1'
+2009-08-07 06:05:04 INFO  paths.cpp:172 Rf f    test1/cvs/CVS/Root
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/CVS/Whatever
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/cvs/CVS/Wherever
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dir space/CVS/Whatever
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dir space/file other
 2009-08-07 06:05:04 WARN  cvs_parser.cpp:83 Directory 'test1/cvs/dirbad' should be under CVS control
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dirbad/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dirbad/fileutd
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/cvs/diroth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dirutd/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/dirutd/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/cvs/filemod.o
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/cvs/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id f    test1/subdir
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/.svn/dir-prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/.svn/tmp
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dir space/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dir space/.svn/tmp
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dirbad/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dirbad/fileutd
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/cvs/diroth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dirutd/CVS/Whatever
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/dirutd/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If f    test1/cvs/filemod.o
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/cvs/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id f    test1/subdir
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/.svn/all-wcprops
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/.svn/dir-prop-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/.svn/prop-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/.svn/props
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/.svn/text-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/.svn/tmp
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dir space/.svn/all-wcprops
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dir space/.svn/prop-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dir space/.svn/props
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dir space/.svn/text-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dir space/.svn/tmp
 2009-08-07 06:05:04 WARN  svn_parser.cpp:147 Directory 'test1/svn/dirbad' should be under Subversion control
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirbad/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirbad/fileutd
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/diroth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirutd/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dirutd/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dirutd/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dirutd/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:183 Id p    test1/svn/dirutd/.svn/tmp
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/dirutd/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/svn/filemod.o
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:183 If p    test1/svn/fileutd.h
-2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test1/testfile~
-2009-08-07 06:05:04 INFO  list.cpp:763 D       test1/testfile
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path 'test2'
-2009-08-07 06:05:04 INFO  paths.cpp:167 Mf zr   test2/testfile2
-2009-08-07 06:05:04 VERB  paths.cpp:183 If f    test2/testfile~
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dirbad/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dirbad/fileutd
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/diroth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dirutd/.svn/all-wcprops
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dirutd/.svn/prop-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dirutd/.svn/props
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dirutd/.svn/text-base
+2009-08-07 06:05:04 VERB  paths.cpp:188 Id p    test1/svn/dirutd/.svn/tmp
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/dirutd/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If f    test1/svn/filemod.o
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/fileoth
+2009-08-07 06:05:04 VERB  paths.cpp:188 If p    test1/svn/fileutd.h
+2009-08-07 06:05:04 VERB  paths.cpp:188 If f    test1/testfile~
+2009-08-07 06:05:04 INFO  list.cpp:762 D       test1/testfile
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path 'test2'
+2009-08-07 06:05:04 INFO  paths.cpp:172 Mf zr   test2/testfile2
+2009-08-07 06:05:04 VERB  paths.cpp:188 If f    test2/testfile~
 2009-08-07 06:05:04 VERB  owner.cpp:360 Register modified for 'myhost'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'newClient' using protocol 'ssh'
-2009-08-07 06:05:04 INFO  clients.cpp:438 Backing up client 'newClient'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'newClient' using protocol 'ssh'
+2009-08-07 06:05:04 INFO  clients.cpp:445 Backing up client 'newClient'
 2009-08-07 06:05:04 VERB  db.cpp:667 Database open r/w for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:453 Backing up path '/home/Blah/test'
+2009-08-07 06:05:04 INFO  clients.cpp:460 Backing up path '/home/Blah/test'
 2009-08-07 06:05:04 VERB  db.cpp:676 Database closed for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:385 Trying client 'other' using protocol 'none'
-2009-08-07 06:05:04 ERROR clients.cpp:405 Protocol not supported 'none' for 'other'
+2009-08-07 06:05:04 INFO  clients.cpp:387 Trying client 'other' using protocol 'none'
+2009-08-07 06:05:04 ERROR clients.cpp:412 Protocol not supported 'none' for 'other'
 2009-08-07 06:05:04 INFO  missing.cpp:93 Missing checksums list updated
 2009-08-07 06:05:04 INFO  missing.cpp:127 List of problematic checksums contains 2 items
 2009-08-07 06:05:04 VERB  db.cpp:264 Database closed

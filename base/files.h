@@ -63,6 +63,8 @@ public:
   // Some generic methods
   static const char* basename(const char* path);
   static int compare(const char* s1, const char* s2, ssize_t length = -1);
+  static const char* fromDos(char* path);
+  static const char* noTrailingSlashes(char* path);
 };
 
 class Node {

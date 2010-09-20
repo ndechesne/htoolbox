@@ -121,7 +121,7 @@ int main(void) {
   node->stat();
   list_node = NULL;
   p = (remote_path + node->name()).c_str();
-  op = new Database::OpData(p, *node);
+  op = new Database::OpData(p, strlen(p), *node);
   o.send(*op, missing);
   delete list_node;
   ++my_time;
@@ -154,7 +154,7 @@ int main(void) {
   node->stat();
   list_node = NULL;
   p = (remote_path + node->name()).c_str();
-  op = new Database::OpData(p, *node);
+  op = new Database::OpData(p, strlen(p), *node);
   o.send(*op, missing);
   delete list_node;
   ++my_time;
@@ -186,7 +186,7 @@ int main(void) {
   node->stat();
   list_node = NULL;
   p = (remote_path + node->name()).c_str();
-  op = new Database::OpData(p, *node);
+  op = new Database::OpData(p, strlen(p), *node);
   o.send(*op, missing);
   delete list_node;
   ++my_time;
@@ -218,7 +218,7 @@ int main(void) {
   node->stat();
   list_node = NULL;
   p = (remote_path + node->name()).c_str();
-  op = new Database::OpData(p, *node);
+  op = new Database::OpData(p, strlen(p), *node);
   o.send(*op, missing);
   delete list_node;
   op->extra = "checksum test";

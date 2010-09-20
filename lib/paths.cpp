@@ -20,6 +20,8 @@
 #include <list>
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
 #include <errno.h>
 
 using namespace std;
@@ -62,11 +64,14 @@ int ClientPath::parse_recurse(
   }
 
   bool give_up = false;
+  char rem_path[PATH_MAX];
+  size_t remote_path_len = sprintf(rem_path, "%s/", remote_path);
   if (dir.hasList()) {
     for (list<Node*>::iterator i = dir.nodesList().begin();
         i != dir.nodesList().end(); delete *i, i = dir.nodesList().erase(i)) {
       if (! aborting() && ! give_up) {
-        Path rem_path(remote_path, (*i)->name());
+        size_t rem_path_len = remote_path_len +
+          sprintf(&rem_path[remote_path_len], "%s", (*i)->name());
         char code[] = "       ";
         // Ignore inaccessible files (should not happen)
         if ((*i)->type() == '?') {
@@ -100,7 +105,7 @@ int ClientPath::parse_recurse(
           _nodes++;
 
           // Synchronize with DB records
-          Database::OpData op(rem_path, **i);
+          Database::OpData op(rem_path, rem_path_len, **i);
 
           // Parse directory, disregard/re-use some irrelevant fields
           bool create_list_failed = false;
@@ -164,13 +169,13 @@ int ClientPath::parse_recurse(
                   client_name, remote_path, (*i)->name());
               }
             }
-            hlog_info("%-8s%s", code, rem_path.c_str());
+            hlog_info("%-8s%s", code, rem_path);
           }
 
           // For directory, recurse into it
           if ((*i)->type() == 'd') {
             if ((*i)->size() != -1) {
-              hlog_verbose_temp("%s", &rem_path[_path.length() + 1]);
+              hlog_verbose_temp("%s", &rem_path[_path_len + 1]);
             }
             if (parse_recurse(db, rem_path, client_name, start,
                 static_cast<Directory&>(**i), parser) < 0) {
@@ -180,7 +185,7 @@ int ClientPath::parse_recurse(
           continue;
         }
         if (code[0] == 'I') {
-          hlog_verbose("%-8s%s", code, rem_path.c_str());
+          hlog_verbose("%-8s%s", code, rem_path);
         }
       }
     }
@@ -193,14 +198,19 @@ ClientPath::ClientPath(
     const char* path,
     const Attributes& a,
     const ParsersManager& parsers_manager)
-    : _path(path), _attributes(a), _parsers_manager(parsers_manager),
+    : _attributes(a), _parsers_manager(parsers_manager),
       _compress(NULL), _no_compress(NULL) {
+  _path = strdup(path);
   // Change '\' into '/'
-  _path.fromDos();
+  Path::fromDos(_path);
   // Remove trailing '/'s
-  _path.noTrailingSlashes();
+  Path::noTrailingSlashes(_path);
+  _path_len = strlen(_path);
 }
 
+ClientPath::~ClientPath() {
+  free(_path);
+}
 ConfigObject* ClientPath::configChildFactory(
     const vector<string>& params,
     const char*           file_path,
@@ -264,7 +274,7 @@ int ClientPath::parse(
     char* full_name;
     if (asprintf(&full_name, "%s:%s", client_name,
                  static_cast<const char*>(_path)) < 0) {
-      hlog_error("%s creating final path '%s'", strerror(errno), _path.c_str());
+      hlog_error("%s creating final path '%s'", strerror(errno), _path);
       rc = -1;
     } else {
       hlog_error("%s reading initial directory '%s'", strerror(errno),
@@ -281,7 +291,7 @@ int ClientPath::parse(
 }
 
 void ClientPath::show(int level) const {
-  hlog_debug_arrow(level++, "Path: %s", _path.c_str());
+  hlog_debug_arrow(level++, "Path: %s", _path);
   _attributes.show(level);
   if (_compress != NULL) {
     hlog_debug_arrow(level, "Compress filter: %s",

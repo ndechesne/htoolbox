@@ -22,7 +22,8 @@
 namespace hbackup {
 
 class ClientPath : public ConfigObject {
-  Path              _path;
+  char*             _path;
+  size_t            _path_len;
   Attributes        _attributes;
   const ParsersManager& _parsers_manager;
   Parsers           _parsers;
@@ -41,11 +42,12 @@ public:
     const char* path,
     const Attributes& attributes,
     const ParsersManager& parsers_manager);
+  ~ClientPath();
   virtual ConfigObject* configChildFactory(
     const vector<string>& params,
     const char*           file_path = NULL,
     size_t                line_no   = 0);
-  const char* path() const { return _path;  }
+  const char* path() const { return _path; }
   int nodes() const { return _nodes; }
   // For tests
   Attributes& attributes() { return _attributes; }

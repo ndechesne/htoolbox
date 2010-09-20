@@ -47,7 +47,7 @@ class Client : public ConfigObject {
   string            _subset_server;
   string            _internal_name;
   string            _host_or_ip;
-  Path              _list_file;
+  char*             _list_file;
   string            _protocol;
   list<Option>      _options;
   bool              _timeout_nowarning;
