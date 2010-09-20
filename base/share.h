@@ -24,23 +24,24 @@
 
 namespace hbackup {
 
-class Option {
-  std::string _name;
-  std::string _value;
-public:
-  Option(const std::string& name, const std::string& value) :
-    _name(name), _value(value) {}
-  const std::string& name() const { return _name;  }
-  const std::string& value() const { return _value; }
-  std::string option() const {
-    if (_name.empty())
-      return _value;
-    else
-      return _name + "=" + _value;
-  }
-};
-
 class Share {
+public:
+  class Option {
+    std::string _name;
+    std::string _value;
+  public:
+    Option(const std::string& name, const std::string& value) :
+      _name(name), _value(value) {}
+    const std::string& name() const { return _name;  }
+    const std::string& value() const { return _value; }
+    std::string option() const {
+      if (_name.empty())
+        return _value;
+      else
+        return _name + "=" + _value;
+    }
+  };
+private:
   bool        _classic_mount;
   bool        _fuse_mount;
   std::string _mounted;

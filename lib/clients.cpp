@@ -178,9 +178,9 @@ ConfigObject* Client::configChildFactory(
   } else
   if (keyword == "option") {
     if (params.size() == 2) {
-      _options.push_back(Option("", params[1]));
+      _options.push_back(Share::Option("", params[1]));
     } else {
-      _options.push_back(Option(params[1], params[2]));
+      _options.push_back(Share::Option(params[1], params[2]));
     }
     co = this;
   } else
@@ -390,7 +390,7 @@ void Client::show(int level) const {
   if (! _options.empty()) {
     stringstream s;
     bool         first = true;
-    for (list<Option>::const_iterator i = _options.begin();
+    for (list<Share::Option>::const_iterator i = _options.begin();
         i != _options.end(); i++ ) {
       if (first) {
         first = false;
