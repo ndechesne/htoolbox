@@ -66,6 +66,7 @@ int UnzipReader::open() {
 }
 
 int UnzipReader::close() {
+  inflateEnd(_d->strm);
   delete _d->strm;
   _d->strm = NULL;
   return _d->reader.close();
@@ -81,9 +82,7 @@ ssize_t UnzipReader::read(void* buffer, size_t size) {
       if (count_in < 0) {
         return -1;
       }
-      if (count_in == 0) {
-        deflateEnd(_d->strm);
-      } else {
+      if (count_in != 0) {
         _d->strm->avail_in = static_cast<uInt>(count_in);
         _d->strm->next_in  = _d->buffer;
       }

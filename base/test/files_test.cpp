@@ -32,7 +32,9 @@ using namespace std;
 #include "line.h"
 #include "files.h"
 #include "filereader.h"
+#include "filewriter.h"
 #include "unzipreader.h"
+#include "zipwriter.h"
 
 using namespace hbackup;
 using namespace hreport;
@@ -1311,15 +1313,46 @@ int main(void) {
 
 
 
-  cout << endl << "FileReader test" << endl;
+  cout << endl << "Stacking read/writers test" << endl;
   report.setLevel(regression);
   {
+    char buffer[4096];
+    memset(buffer, 0, 4096);
+    ssize_t rc;
     FileReader fr("test1/testfile");
     if (fr.open() < 0) {
       hlog_regression("%s opening file", strerror(errno));
     } else {
-      char buffer[4096] = "bork bork bork bork";
-      ssize_t rc = fr.read(buffer, sizeof(buffer));
+      rc = fr.read(buffer, sizeof(buffer));
+      if (rc < 0) {
+        hlog_regression("%s reading file", strerror(errno));
+      } else {
+        hlog_regression("read %zd bytes: '%s'", rc, buffer);
+      }
+      if (fr.close() < 0) {
+        hlog_regression("%s closing file", strerror(errno));
+      }
+    }
+
+    FileWriter fw("test1/writeback");
+    if (fw.open() < 0) {
+      hlog_regression("%s opening file", strerror(errno));
+    } else {
+      rc = fw.write(buffer, rc);
+      if (rc < 0) {
+        hlog_regression("%s writing file", strerror(errno));
+      } else {
+        hlog_regression("written %zd bytes", rc);
+      }
+      if (fw.close() < 0) {
+        hlog_regression("%s closing file", strerror(errno));
+      }
+    }
+
+    if (fr.open() < 0) {
+      hlog_regression("%s opening file", strerror(errno));
+    } else {
+      rc = fr.read(buffer, sizeof(buffer));
       if (rc < 0) {
         hlog_regression("%s reading file", strerror(errno));
       } else {
@@ -1332,14 +1365,16 @@ int main(void) {
   }
 
   {
+    char buffer[4096];
+    memset(buffer, 0, 4096);
+    ssize_t rc;
     system("gzip -c test1/testfile > test1/testfile.gz");
     FileReader r("test1/testfile.gz");
     UnzipReader fr(r);
     if (fr.open() < 0) {
       hlog_regression("%s opening file", strerror(errno));
     } else {
-      char buffer[4096] = "bork bork bork bork";
-      ssize_t rc = fr.read(buffer, sizeof(buffer));
+      rc = fr.read(buffer, sizeof(buffer));
       if (rc < 0) {
         hlog_regression("%s reading file", strerror(errno));
       } else {
@@ -1349,6 +1384,24 @@ int main(void) {
         hlog_regression("%s closing file", strerror(errno));
       }
     }
+
+    FileWriter w("test1/writeback");
+    ZipWriter fw(w, 5);
+    if (fw.open() < 0) {
+      hlog_regression("%s opening file", strerror(errno));
+    } else {
+      rc = fw.write(buffer, rc);
+      if (rc < 0) {
+        hlog_regression("%s writing file", strerror(errno));
+      } else {
+        hlog_regression("written %zd bytes", rc);
+      }
+      if (fw.close() < 0) {
+        hlog_regression("%s closing file", strerror(errno));
+      }
+    }
+
+    system("zcat test1/testfile.gz");
   }
 
 
