@@ -99,3 +99,5 @@ case $1 in
     export NAME="$1"
     ;;
 esac
+
+DIR="$WHERE/../$DIR"

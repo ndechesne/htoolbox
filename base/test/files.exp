@@ -324,4 +324,10 @@ l1 and l2 are identical
 l1 and l2 differ
 l1 and l2 differ
 
+FileReader test
+read 13 bytes: 'Hello world!
+k bork'
+read 13 bytes: 'Hello world!
+k bork'
+
 End of tests

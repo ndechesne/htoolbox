@@ -28,10 +28,14 @@
 
 using namespace std;
 
+#include "hreport.h"
 #include "line.h"
 #include "files.h"
+#include "filereader.h"
+#include "unzipreader.h"
 
 using namespace hbackup;
+using namespace hreport;
 
 static int parseList(Directory *d, const char* cur_dir) {
   list<Node*>::iterator i = d->nodesList().begin();
@@ -1304,6 +1308,48 @@ int main(void) {
   }
   delete l2;
   delete l1;
+
+
+
+  cout << endl << "FileReader test" << endl;
+  report.setLevel(regression);
+  {
+    FileReader fr("test1/testfile");
+    if (fr.open() < 0) {
+      hlog_regression("%s opening file", strerror(errno));
+    } else {
+      char buffer[4096] = "bork bork bork bork";
+      ssize_t rc = fr.read(buffer, sizeof(buffer));
+      if (rc < 0) {
+        hlog_regression("%s reading file", strerror(errno));
+      } else {
+        hlog_regression("read %zd bytes: '%s'", rc, buffer);
+      }
+      if (fr.close() < 0) {
+        hlog_regression("%s closing file", strerror(errno));
+      }
+    }
+  }
+
+  {
+    system("gzip -c test1/testfile > test1/testfile.gz");
+    FileReader r("test1/testfile.gz");
+    UnzipReader fr(r);
+    if (fr.open() < 0) {
+      hlog_regression("%s opening file", strerror(errno));
+    } else {
+      char buffer[4096] = "bork bork bork bork";
+      ssize_t rc = fr.read(buffer, sizeof(buffer));
+      if (rc < 0) {
+        hlog_regression("%s reading file", strerror(errno));
+      } else {
+        hlog_regression("read %zd bytes: '%s'", rc, buffer);
+      }
+      if (fr.close() < 0) {
+        hlog_regression("%s closing file", strerror(errno));
+      }
+    }
+  }
 
 
   cout << endl << "End of tests" << endl;

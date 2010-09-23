@@ -11,15 +11,20 @@ libhtools_la_LDFLAGS= -version-info $(LIB_VERSION)
 libhtools_la_SOURCES = \
   configuration.cpp \
   files.cpp \
+  filereader.cpp \
   line.cpp \
   report.cpp \
   share.cpp \
+  unzipreader.cpp \
   $(NULL)
 
 EXTRA_DIST = \
   buffer.h \
   configuration.h \
+  filereader.h \
   files.h \
+  ireader.h \
   line.h \
   share.h \
+  unzipreader.h \
   $(NULL)
