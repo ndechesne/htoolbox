@@ -1,7 +1,10 @@
 TODO - non-organised list of things I want to do
   * test 'no space left on device' somehow
-  * sort out list interface
+  * sort out list interface further
   * sort out lists management the right way
   * restoration via web gui
-  * properly handle compression requirements
-  * make parsers independent plugins
+  * handle all compression requirements (maybe 1.2)
+  * make parsers sub-projects (maybe 1.1)
+  * backup's backups (1.2)
+  * review files.h (Path to go, Directory to speed up, no more File/Link) (1.2)
+  * stackable classes for file read, [un]zip and hash computation (maybe 1.1)
