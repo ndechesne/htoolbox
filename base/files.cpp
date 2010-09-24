@@ -390,7 +390,6 @@ struct Stream::Private {
   long long           progress;           // transfered size, for progress
   Buffer<char>        buffer_data;        // Buffer for data
   BufferReader<char>  reader_data;        // Reader for buffer above
-  bool                finish;             // tell compression to finish off
   progress_f          progress_callback;  // function to report progress
   cancel_f            cancel_callback;    // function to check for cancellation
   Private() : reader_data(buffer_data) {}
@@ -432,7 +431,9 @@ int Stream::open(
     errno = EBUSY;
     return -1;
   }
-
+  _d->size     = 0;
+  _d->progress = 0;
+  int rc = 0;
   switch (flags) {
   case O_WRONLY:
     _size = 0;
@@ -447,7 +448,8 @@ int Stream::open(
     } else {
       _d->zw = NULL;
     }
-    if (_d->w->open() < 0) {
+    rc = _d->w->open();
+    if (rc < 0) {
       if (_d->zw != NULL) {
         delete _d->zw;
       }
@@ -470,7 +472,8 @@ int Stream::open(
     } else {
       _d->hh = NULL;
     }
-    if (_d->r->open() < 0) {
+    rc = _d->r->open();
+    if (rc < 0) {
       if (_d->hh != NULL) {
         delete _d->hh;
       }
@@ -483,17 +486,9 @@ int Stream::open(
     break;
   default:
     errno = EINVAL;
-    return -1;
+    rc = -1;
   }
-
-  _d->size     = 0;
-  _d->progress = 0;
-  _d->finish   = true;
-  if (! isOpen()) {
-    // errno set by open
-    return -1;
-  }
-  return 0;
+  return rc;
 }
 
 int Stream::close() {
@@ -501,16 +496,9 @@ int Stream::close() {
     errno = EBADF;
     return -1;
   }
-  bool failed = false;
-  // Write last few bytes in case of compressed write
-  if (isWriteable()) {
-    if (write(NULL, 0) < 0) {
-      failed = true;
-    }
-  }
-
+  int rc = 0;
   if (_d->r != NULL) {
-    failed = _d->r->close() < 0;
+    rc = _d->r->close();
     if (_d->hh != NULL) {
       free(_checksum);
       _checksum = strdup(_d->hash);
@@ -521,9 +509,13 @@ int Stream::close() {
     }
     delete _d->fr;
     _d->r = NULL;
+    // Destroy cacheing buffer if any
+    if (_d->buffer_data.exists()) {
+      _d->buffer_data.destroy();
+    }
   }
   if (_d->w != NULL) {
-    failed = _d->w->close() < 0;
+    rc = _d->w->close();
     if (_d->zw != NULL) {
       delete _d->zw;
     }
@@ -534,16 +526,10 @@ int Stream::close() {
     }
     delete _d->fw;
     _d->w = NULL;
+    // Update metadata
+    stat();
   }
-
-  // Destroy cacheing buffer if any
-  if (_d->buffer_data.exists()) {
-    _d->buffer_data.destroy();
-  }
-
-  // Update metadata
-  stat();
-  return failed ? -1 : 0;
+  return rc;
 }
 
 long long Stream::progress() const {
@@ -559,26 +545,17 @@ ssize_t Stream::read(void* buffer, size_t asked) {
     errno = EBADF;
     return -1;
   }
-
   if (isWriteable()) {
     errno = EPERM;
     return -1;
   }
-
   // Get data
-  ssize_t size;
-  if (! _d->buffer_data.exists()) {
-    size = _d->r->read(buffer, asked);
-  } else if (_d->reader_data.isEmpty()) {
-    size = _d->r->read(_d->buffer_data.writer(), _d->buffer_data.writeable());
-  }
-
+  ssize_t size = _d->r->read(buffer, asked);
   // Check result
   if (size < 0) {
     // errno set by read
-    return size;
+    return -1;
   }
-
   // Update progress indicator (size read)
   if (size > 0) {
     long long previous = _d->progress;
@@ -586,85 +563,27 @@ ssize_t Stream::read(void* buffer, size_t asked) {
     if ((_d->progress_callback != NULL) && (_d->progress != previous)) {
       (*_d->progress_callback)(previous, _d->progress, _size);
     }
+    _d->size += size;
   }
-
-  // Update hash
-  if (_d->buffer_data.exists()) {
-    _d->buffer_data.written(size);
-    // Special case for getLine
-    if ((asked == 0) && (buffer == NULL)) {
-      return _d->reader_data.readable();
-    }
-    size = _d->reader_data.read(static_cast<char*>(buffer), asked);
-  }
-
-  _d->size += size;
   return size;
 }
 
 ssize_t Stream::write(
     const void*     buffer,
-    size_t          given) {
+    size_t          size) {
   if (! isOpen()) {
     errno = EBADF;
     return -1;
   }
-
   if (! isWriteable()) {
     errno = EPERM;
     return -1;
   }
-
-  _d->size += given;
-
-  if ((given == 0) && (buffer == NULL)) {
-    if (_d->finish) {
-      // Finished last time
-      return 0;
-    }
-    _d->finish = true;
-  } else {
-    _d->finish = false;
-  }
-
-  bool direct_write = false;
-  ssize_t size = 0;
-  if (_d->buffer_data.exists()) {
-    // If told to finish or buffer is going to overflow, flush it to file
-    if (_d->finish || (given > _d->buffer_data.writeable())) {
-      // One or two writes (if end of buffer + beginning of it)
-      while (_d->reader_data.readable() > 0) {
-        ssize_t length = _d->reader_data.readable();
-        if (length != _d->w->write(_d->reader_data.reader(), length)) {
-          return -1;
-        }
-        _d->reader_data.readn(length);
-        size += length;
-      }
-      // Buffer is now flushed, restore full writeable capacity
-      _d->buffer_data.empty();
-    }
-
-    // If told to finish or more data than buffer can handle, just write
-    if (_d->finish || (given > _d->buffer_data.writeable())) {
-      direct_write = true;
-    } else {
-      // Refill buffer
-      _d->buffer_data.write(static_cast<const char*>(buffer), given);
-    }
-  } else {
-    direct_write = true;
-  }
-
   // Write data to file
-  if (direct_write) {
-    ssize_t length = given;
-    if ((buffer != NULL) && (length != _d->w->write(buffer, length))) {
-      return -1;
-    }
-    size += length;
+  ssize_t ssize = size;
+  if (_d->w->write(buffer, size) != ssize) {
+    return -1;
   }
-
   // Update progress indicator (size written)
   if (size > 0) {
     long long previous = _d->progress;
@@ -672,10 +591,11 @@ ssize_t Stream::write(
     if (_d->progress_callback != NULL) {
       (*_d->progress_callback)(previous, _d->progress, _size);
     }
+    // Writing, so uncompressed data size and size are the same
+    _size += size;
+    _d->size += size;
   }
-
-  _size += size;
-  return given;
+  return size;
 }
 
 ssize_t Stream::getLine(
@@ -686,42 +606,40 @@ ssize_t Stream::getLine(
   if (! _d->buffer_data.exists()) {
     _d->buffer_data.create();
   }
-
   // Initialize return values
-  bool         found = false;
+  bool         found  = false;
   unsigned int count  = 0;
-  char*        writer = &(*buffer)[count];
-
+  char*        writer = *buffer;
+  // Make sure we have a buffer
+  if (*buffer == NULL) {
+    *buffer_capacity = 1024;
+    *buffer = static_cast<char*>(malloc(*buffer_capacity));
+    writer = *buffer;
+  }
   // Find end of line or end of file
   do {
-    // Make read fill up the buffer
-    ssize_t size = 1;
-    if (_d->reader_data.isEmpty()) {
-      size = read(NULL, 0);
-      if (size < 0) {
-        return -1;
-      }
-    }
-    // Make sure we have a buffer
-    if (*buffer == NULL) {
-      *buffer_capacity = 100;
-      *buffer = static_cast<char*>(malloc(*buffer_capacity));
-      writer = *buffer;
-    }
+    // Fill up the buffer
+    ssize_t size = _d->reader_data.readable();
     if (size == 0) {
-      break;
+      size = read(_d->buffer_data.writer(), _d->buffer_data.writeable());
+      if (size < 0) {
+        return size;
+      }
+      if (size == 0) {
+        break;
+      }
+      _d->buffer_data.written(size);
     }
     const char* reader = _d->reader_data.reader();
-    size_t      length = _d->reader_data.readable();
+    size_t      length = size;
     while (length > 0) {
       length--;
       // Check for space
       if (count >= *buffer_capacity) {
-        *buffer_capacity += 100;
+        *buffer_capacity <<= 1;
         *buffer = static_cast<char*>(realloc(*buffer, *buffer_capacity));
         writer = &(*buffer)[count];
       }
-
       if (*reader == '\n') {
         found = true;
         break;
@@ -729,7 +647,7 @@ ssize_t Stream::getLine(
       *writer++ = *reader++;
       count++;
     }
-    _d->reader_data.readn(_d->reader_data.readable() - length);
+    _d->reader_data.readn(size - length);
   } while (! found);
   *writer = '\0';
 
