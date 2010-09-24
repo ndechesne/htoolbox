@@ -96,13 +96,13 @@ ssize_t UnzipReader::read(void* buffer, size_t size) {
         errno = EPROTO;
           return -1;
     }
+    count = size - _d->strm->avail_out;
     // Used up all input buffer data
     if (_d->strm->avail_out != 0) {
       _d->buffer_empty = true;
-    }
-    count = size - _d->strm->avail_out;
-    if (count_in == 0) {
-      break;
+      if (count_in == 0) {
+        break;
+      }
     }
   }
   return count;

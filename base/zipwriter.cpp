@@ -80,25 +80,24 @@ int ZipWriter::close() {
 }
 
 ssize_t ZipWriter::write(const void* buffer, size_t size) {
-  bool finish = false;
+  if ( _d->finished) {
+    return 0;
+  }
   if (size == 0) {
-    finish = true;
+    _d->finished = true;
   } else {
     _d->strm->avail_in = static_cast<uInt>(size);
-  // Casting away the constness here!!!
+    // Casting away the constness here!!!
     _d->strm->next_in  = static_cast<Bytef*>(const_cast<void*>(buffer));
   }
   do {
     _d->strm->avail_out = static_cast<uInt>(BUFFER_SIZE);
     _d->strm->next_out  = _d->buffer;
-    deflate(_d->strm, finish ? Z_FINISH : Z_NO_FLUSH);
+    deflate(_d->strm, _d->finished ? Z_FINISH : Z_NO_FLUSH);
     ssize_t length = BUFFER_SIZE - _d->strm->avail_out;
     if (_d->writer.write(_d->buffer, length) < 0) {
       return -1;
     }
   } while (_d->strm->avail_out == 0);
-  if (finish) {
-    _d->finished = true;
-  }
   return size;
 }
