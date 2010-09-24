@@ -327,7 +327,9 @@ l1 and l2 differ
 Stacking read/writers test
 read 13 bytes: 'Hello world!
 '
+checksum = '59ca0efa9f5633cb0371bbc0355478d8'
 written 13 bytes
+checksum = '59ca0efa9f5633cb0371bbc0355478d8'
 read 13 bytes: 'Hello world!
 '
 read 13 bytes: 'Hello world!

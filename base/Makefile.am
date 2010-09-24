@@ -14,6 +14,7 @@ libhtools_la_SOURCES = \
   filereader.cpp \
   filewriter.cpp \
   line.cpp \
+  md5sumhasher.cpp \
   report.cpp \
   share.cpp \
   unzipreader.cpp \
@@ -29,6 +30,7 @@ EXTRA_DIST = \
   ireader.h \
   iwriter.h \
   line.h \
+  md5sumhasher.h \
   share.h \
   unzipreader.h \
   zipwriter.h \

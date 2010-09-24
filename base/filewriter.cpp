@@ -46,7 +46,7 @@ FileWriter::~FileWriter() {
 }
 
 int FileWriter::open() {
-  _d->fd = ::open64(_d->path, O_WRONLY | O_CREAT);
+  _d->fd = ::open64(_d->path, O_WRONLY | O_CREAT, 0666);
   return _d->fd;
 }
 
