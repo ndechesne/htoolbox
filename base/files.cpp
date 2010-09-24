@@ -43,6 +43,7 @@ using namespace std;
 #include "filereader.h"
 #include "filewriter.h"
 #include "md5sumhasher.h"
+#include "zipwriter.h"
 #include "files.h"
 
 using namespace hbackup;
@@ -382,9 +383,10 @@ public:
 struct Stream::Private {
   FileReader*         fr;                 // file reader
   FileWriter*         fw;                 // file writer
-  char                hash[64];           // file hash
-  MD5SumHasher*       hw;                 // hash writer
+  MD5SumHasher*       hw;                 // hash computation
+  ZipWriter*          zw;                 // zip
   IWriter*            w;                  // writer
+  char                hash[64];           // file hash
   long long           size;               // uncompressed file data size (bytes)
   long long           progress;           // transfered size, for progress
   Buffer<char>        buffer_comp;        // Buffer for [de]compression
@@ -414,6 +416,7 @@ Stream::Stream(Path path) : File(path), _d(new Private) {
   _d->fr                = NULL;
   _d->fw                = NULL;
   _d->hw                = NULL;
+  _d->zw                = NULL;
   _d->w                 = NULL;
   _d->progress_callback = NULL;
   _d->cancel_callback   = NULL;
@@ -448,15 +451,21 @@ int Stream::open(
   case O_WRONLY:
     _size = 0;
     _d->ctx = NULL;
-    _d->fw = new FileWriter(_path);
+    _d->w = _d->fw = new FileWriter(_path);
     if (checksum) {
-      _d->hw = new MD5SumHasher(*_d->fw, _d->hash);
-      _d->w = _d->hw;
+      _d->w = _d->hw = new MD5SumHasher(*_d->fw, _d->hash);
     } else {
       _d->hw = NULL;
-      _d->w = _d->fw;
+    }
+    if (compression > 0) {
+      _d->w = _d->zw = new ZipWriter(*_d->w, compression);
+    } else {
+      _d->zw = NULL;
     }
     if (_d->w->open() < 0) {
+      if (_d->zw != NULL) {
+        delete _d->zw;
+      }
       if (_d->hw != NULL) {
         delete _d->hw;
       }
@@ -504,14 +513,7 @@ int Stream::open(
     _d->strm->opaque   = Z_NULL;
     _d->strm->avail_in = 0;
     _d->strm->next_in  = Z_NULL;
-    if (isWriteable()) {
-      // Compress
-      if (deflateInit2(_d->strm, compression, Z_DEFLATED, 16 + 15, 9,
-          Z_DEFAULT_STRATEGY) != Z_OK) {
-        errno = ENOMEM;
-        return -2;
-      }
-    } else {
+    if (! isWriteable()) {
       // De-compress
       if (inflateInit2(_d->strm, 32 + 15) != Z_OK) {
         errno = ENOMEM;
@@ -542,9 +544,7 @@ int Stream::close() {
 
   // Destroy zlib resources
   if (_d->strm != NULL) {
-    if (isWriteable()) {
-      deflateEnd(_d->strm);
-    } else {
+    if (! isWriteable()) {
       inflateEnd(_d->strm);
     }
     delete _d->strm;
@@ -559,9 +559,12 @@ int Stream::close() {
   }
   if (_d->w != NULL) {
     failed = _d->w->close() < 0;
+    _checksum = strdup(_d->hash);
+    if (_d->zw != NULL) {
+      delete _d->zw;
+    }
     if (_d->hw != NULL) {
       delete _d->hw;
-      _checksum = strdup(_d->hash);
     }
     delete _d->fw;
     _d->w = NULL;
@@ -726,29 +729,6 @@ ssize_t Stream::read(void* buffer, size_t asked) {
   return given;
 }
 
-ssize_t Stream::write_compress(
-    const void*     buffer,
-    size_t          count,
-    bool            finish) {
-  _d->strm->avail_in = static_cast<uInt>(count);
-  _d->strm->next_in  = static_cast<Bytef*>(const_cast<void*>(buffer));
-
-  // Flush result to file (no real cacheing)
-  do {
-    // Buffer is considered empty to start with. and is always flushed
-    _d->strm->avail_out = static_cast<uInt>(_d->buffer_comp.writeable());
-    // Casting away the constness here!!!
-    _d->strm->next_out  =
-      reinterpret_cast<unsigned char*>(_d->buffer_comp.writer());
-    deflate(_d->strm, finish ? Z_FINISH : Z_NO_FLUSH);
-    ssize_t length = _d->buffer_comp.writeable() - _d->strm->avail_out;
-    if (length != _d->w->write(_d->reader_comp.reader(), length)) {
-      return -1;
-    }
-  } while (_d->strm->avail_out == 0);
-  return count;
-}
-
 ssize_t Stream::write(
     const void*     buffer,
     size_t          given) {
@@ -782,14 +762,8 @@ ssize_t Stream::write(
       // One or two writes (if end of buffer + beginning of it)
       while (_d->reader_data.readable() > 0) {
         ssize_t length = _d->reader_data.readable();
-        if (_d->strm == NULL) {
-          if (length != _d->w->write(_d->reader_data.reader(), length)) {
-            return -1;
-          }
-        } else {
-          if (length != write_compress(_d->reader_data.reader(), length)) {
-            return -1;
-          }
+        if (length != _d->w->write(_d->reader_data.reader(), length)) {
+          return -1;
         }
         _d->reader_data.readn(length);
         size += length;
@@ -812,14 +786,8 @@ ssize_t Stream::write(
   // Write data to file
   if (direct_write) {
     ssize_t length = given;
-    if (_d->strm == NULL) {
-      if ((buffer != NULL) && (length != _d->w->write(buffer, length))) {
-        return -1;
-      }
-    } else {
-      if (length != write_compress(buffer, length, _d->finish)) {
-        return -1;
-      }
+    if ((buffer != NULL) && (length != _d->w->write(buffer, length))) {
+      return -1;
     }
     size += length;
   }

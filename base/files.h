@@ -308,10 +308,6 @@ class Stream : public File {
     void*           buffer,
     size_t          asked,
     size_t*         given);
-  ssize_t write_compress(
-    const void*     buffer,
-    size_t          size,
-    bool            finish = false);
 public:
   // Prototype for cancellation function (true cancels)
   typedef bool (*cancel_f) (

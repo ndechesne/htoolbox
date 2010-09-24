@@ -389,7 +389,7 @@ Af f    C:/Test Dir/My Dir/a File.TXT
 Checking data, sizes: f=2 z=22 (22)
 Adding uncompressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
 Af f    C:/Test Dir/My Dir/another File.TXT
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
 Af f    C:/Test Dir/My File.TXT
 Register modified for 'aClient.vista'
@@ -441,7 +441,7 @@ Checking data, sizes: f=2 z=22 (22)
 Af ~    C:/Test Dir/My Dir/a File.TXT
 Checking data, sizes: f=2 z=22 (22)
 Af ~    C:/Test Dir/My Dir/another File.TXT
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    C:/Test Dir/My File.TXT
 Register modified for 'client.xp'
 Database closed for 'client.xp'
@@ -472,7 +472,7 @@ Database open r/w for 'myClient'
 Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    /home/User/test/File2.txt
 Ad      /home/User/test/dir
 dir\r
@@ -525,7 +525,7 @@ Checking data, sizes: f=2 z=22 (22)
 Af ~    C:/Test Dir/My Dir/a File.TXT
 Checking data, sizes: f=2 z=22 (22)
 Af ~    C:/Test Dir/My Dir/another File.TXT
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    C:/Test Dir/My File.TXT
 Register modified for 'myClient.xp'
 Database closed for 'myClient.xp'
@@ -629,7 +629,7 @@ Adding uncompressed data for 328b42839732650180b213aadebe494d-0
 Af f    test1/cvs/dir space/CVS/Root
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    test1/cvs/dir space/file space
 Ad      test1/cvs/dirbad
 cvs/dirbad\r
@@ -650,26 +650,26 @@ Adding uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
 Af f    test1/cvs/dirutd/CVS/Root
 If p    test1/cvs/dirutd/CVS/Whatever
 If p    test1/cvs/dirutd/fileoth
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    test1/cvs/dirutd/fileutd
 If f    test1/cvs/filemod.o
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    test1/cvs/filenew.c
 If p    test1/cvs/fileoth
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    test1/cvs/fileutd.h
 Ad      test1/dir space
 dir space\r
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    test1/dir space/file space
 Al      test1/dir space/link space
 Al      test1/longlink
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    test1/strange1TAB	CR\r
 
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    test1/strange2TAB	LF
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    test1/strange3TAB	LF
 CR\r
 
@@ -711,7 +711,7 @@ Id p    test1/svn/dir space/.svn/prop-base
 Id p    test1/svn/dir space/.svn/props
 Id p    test1/svn/dir space/.svn/text-base
 Id p    test1/svn/dir space/.svn/tmp
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    test1/svn/dir space/file space
 Ad      test1/svn/dirbad
 svn/dirbad\r
@@ -736,11 +736,11 @@ If p    test1/svn/dirutd/fileoth
 Checking data, sizes: f=2 z=22 (22)
 Af ~    test1/svn/dirutd/fileutd
 If f    test1/svn/filemod.o
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    test1/svn/filenew.c
 If p    test1/svn/fileoth
 If p    test1/svn/fileutd.h
-Checking data, sizes: f=0 z=0 (0)
+Checking data, sizes: f=0 z=20 (20)
 Af ~    test1/test space
 Ad      test1/testdir
 testdir\r
