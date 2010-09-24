@@ -46,7 +46,7 @@ FileReader::~FileReader() {
 }
 
 int FileReader::open() {
-  _d->fd = ::open64(_d->path, O_RDONLY);
+  _d->fd = ::open64(_d->path, O_RDONLY|O_NOATIME|O_LARGEFILE);
   return _d->fd;
 }
 

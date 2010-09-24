@@ -36,26 +36,12 @@
 #include <openssl/evp.h>
 #include <zlib.h>
 
-// I want to use the C file functions
-#undef open
-#undef open64
-#undef close
-#undef lseek
-#undef read
-#undef write
-namespace std {
-  using ::open;
-  using ::open64;
-  using ::close;
-  using ::lseek;
-  using ::read;
-  using ::write;
-}
-
 using namespace std;
 
 #include "buffer.h"
 #include "line.h"
+#include "filereader.h"
+#include "filewriter.h"
 #include "files.h"
 
 using namespace hbackup;
@@ -203,7 +189,7 @@ bool Node::operator!=(const Node& right) const {
 }
 
 int Node::remove() {
-  int rc = std::remove(_path);
+  int rc = ::remove(_path);
   if (! rc) {
     _type = '?';
   }
@@ -219,7 +205,7 @@ int File::create() {
     // Only a warning
     return 1;
   } else {
-    int readfile = open(_path, O_WRONLY | O_CREAT, 0666);
+    int readfile = ::open(_path, O_WRONLY | O_CREAT, 0666);
     if (readfile < 0) {
       return -1;
     }
@@ -393,8 +379,8 @@ public:
 
 
 struct Stream::Private {
-  int                 fd;                 // file descriptor
-  mode_t              mode;               // file open mode
+  FileReader*         fr;                 // file reader
+  FileWriter*         fw;                 // file writer
   long long           size;               // uncompressed file data size (bytes)
   long long           progress;           // transfered size, for progress
   Buffer<char>        buffer_comp;        // Buffer for [de]compression
@@ -421,7 +407,8 @@ void Stream::md5sum(char* out, const unsigned char* in, int bytes) {
 }
 
 Stream::Stream(Path path) : File(path), _d(new Private) {
-  _d->fd                = -1;
+  _d->fr                = NULL;
+  _d->fw                = NULL;
   _d->progress_callback = NULL;
   _d->cancel_callback   = NULL;
   _d->size              = -1;
@@ -435,11 +422,11 @@ Stream::~Stream() {
 }
 
 bool Stream::isOpen() const {
-  return _d->fd != -1;
+  return (_d->fr != NULL) || (_d->fw != NULL);
 }
 
 bool Stream::isWriteable() const {
-  return (_d->mode & O_WRONLY) != 0;
+  return _d->fw != NULL;
 }
 
 int Stream::open(
@@ -451,15 +438,21 @@ int Stream::open(
     return -1;
   }
 
-  _d->mode = O_NOATIME | O_LARGEFILE;
-
   switch (flags) {
   case O_WRONLY:
-    _d->mode = O_WRONLY | O_CREAT | O_TRUNC;
     _size = 0;
+    _d->fw = new FileWriter(_path);
+    if (_d->fw->open() < 0) {
+      delete _d->fw;
+      _d->fw = NULL;
+    }
     break;
   case O_RDONLY:
-    _d->mode = O_RDONLY;
+    _d->fr = new FileReader(_path);
+    if (_d->fr->open() < 0) {
+      delete _d->fr;
+      _d->fr = NULL;
+    }
     break;
   default:
     errno = EPERM;
@@ -469,7 +462,6 @@ int Stream::open(
   _d->size     = 0;
   _d->progress = 0;
   _d->finish   = true;
-  _d->fd = std::open64(_path, _d->mode, 0666);
   if (! isOpen()) {
     // errno set by open
     return -1;
@@ -554,10 +546,16 @@ int Stream::close() {
     _d->buffer_comp.destroy();
   }
 
-  if (std::close(_d->fd)) {
-    failed = true;
+  if (_d->fr != NULL) {
+    failed = _d->fr->close() < 0;
+    delete _d->fr;
+    _d->fr = NULL;
   }
-  _d->fd = -1;
+  if (_d->fw != NULL) {
+    failed = _d->fw->close() < 0;
+    delete _d->fw;
+    _d->fw = NULL;
+  }
 
   // Destroy cacheing buffer if any
   if (_d->buffer_data.exists()) {
@@ -607,7 +605,7 @@ ssize_t Stream::read_decompress(
   // Fill in buffer
   do {
     if (_d->reader_comp.isEmpty()) {
-      size = std::read(_d->fd, _d->buffer_comp.writer(),
+      size = _d->fr->read(_d->buffer_comp.writer(),
         _d->buffer_comp.writeable());
       if (size < 0) {
         return -1;
@@ -657,14 +655,14 @@ ssize_t Stream::read(void* buffer, size_t asked) {
     if (_d->strm != NULL) {
       size = read_decompress(buffer, asked, &given);
     } else {
-      size = given = std::read(_d->fd, buffer, asked);
+      size = given = _d->fr->read(buffer, asked);
     }
   } else if (_d->reader_data.isEmpty()) {
     if (_d->strm != NULL) {
       size = read_decompress(_d->buffer_data.writer(),
         _d->buffer_data.writeable(), &given);
     } else {
-      size = given = std::read(_d->fd, _d->buffer_data.writer(),
+      size = given = _d->fr->read(_d->buffer_data.writer(),
         _d->buffer_data.writeable());
     }
   }
@@ -705,30 +703,6 @@ ssize_t Stream::read(void* buffer, size_t asked) {
   return given;
 }
 
-ssize_t Stream::write_all(
-    const void*     buffer,
-    size_t          count) {
-  // Checksum computation
-  if (_d->ctx != NULL) {
-    if (digest_update(buffer, count)) {
-      return -2;
-    }
-  }
-
-  const char* reader = static_cast<const char*>(buffer);
-  const char* end    = reader + count;
-  ssize_t wlength;
-  do {
-    wlength = std::write(_d->fd, reader, end - reader);
-    if (wlength < 0) {
-      // errno set by write
-      return -1;
-    }
-    reader += wlength;
-  } while ((reader != end) && (errno == 0));  // errno maybe set with wlength 0
-  return (reader != end) ? -1 : static_cast<ssize_t>(count);
-}
-
 ssize_t Stream::write_compress(
     const void*     buffer,
     size_t          count,
@@ -745,8 +719,14 @@ ssize_t Stream::write_compress(
       reinterpret_cast<unsigned char*>(_d->buffer_comp.writer());
     deflate(_d->strm, finish ? Z_FINISH : Z_NO_FLUSH);
     ssize_t length = _d->buffer_comp.writeable() - _d->strm->avail_out;
-    if (length != write_all(_d->reader_comp.reader(), length)) {
+    if (length != _d->fw->write(_d->reader_comp.reader(), length)) {
       return -1;
+    }
+    // Checksum computation
+    if (_d->ctx != NULL) {
+      if (digest_update(_d->reader_comp.reader(), length)) {
+        return -2;
+      }
     }
   } while (_d->strm->avail_out == 0);
   return count;
@@ -786,8 +766,14 @@ ssize_t Stream::write(
       while (_d->reader_data.readable() > 0) {
         ssize_t length = _d->reader_data.readable();
         if (_d->strm == NULL) {
-          if (length != write_all(_d->reader_data.reader(), length)) {
+          if (length != _d->fw->write(_d->reader_data.reader(), length)) {
             return -1;
+          }
+          // Checksum computation
+          if (_d->ctx != NULL) {
+            if (digest_update(_d->reader_data.reader(), length)) {
+              return -2;
+            }
           }
         } else {
           if (length != write_compress(_d->reader_data.reader(), length)) {
@@ -816,8 +802,14 @@ ssize_t Stream::write(
   if (direct_write) {
     ssize_t length = given;
     if (_d->strm == NULL) {
-      if ((buffer != NULL) && (length != write_all(buffer, length))) {
+      if ((buffer != NULL) && (length != _d->fw->write(buffer, length))) {
         return -1;
+      }
+      // Checksum computation
+      if (_d->ctx != NULL) {
+        if (digest_update(buffer, length)) {
+          return -2;
+        }
       }
     } else {
       if (length != write_compress(buffer, length, _d->finish)) {

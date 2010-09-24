@@ -308,9 +308,6 @@ class Stream : public File {
     void*           buffer,
     size_t          asked,
     size_t*         given);
-  ssize_t write_all(
-    const void*     buffer,
-    size_t          size);
   ssize_t write_compress(
     const void*     buffer,
     size_t          size,
