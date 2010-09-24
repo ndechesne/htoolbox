@@ -32,10 +32,6 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include <openssl/md5.h>
-#include <openssl/evp.h>
-#include <zlib.h>
-
 using namespace std;
 
 #include "buffer.h"
@@ -386,40 +382,28 @@ struct Stream::Private {
   UnzipReader*        zr;                 // unzip
   IReader*            r;                  // reader
   FileWriter*         fw;                 // file writer
-  MD5SumHasher*       hw;                 // hash computation
   ZipWriter*          zw;                 // zip
   IWriter*            w;                  // writer
+  MD5SumHasher*       hh;                 // hash computation
   char                hash[64];           // file hash
   long long           size;               // uncompressed file data size (bytes)
   long long           progress;           // transfered size, for progress
   Buffer<char>        buffer_data;        // Buffer for data
   BufferReader<char>  reader_data;        // Reader for buffer above
-  EVP_MD_CTX*         ctx;                // openssl resources
   bool                finish;             // tell compression to finish off
   progress_f          progress_callback;  // function to report progress
   cancel_f            cancel_callback;    // function to check for cancellation
   Private() : reader_data(buffer_data) {}
 };
 
-void Stream::md5sum(char* out, const unsigned char* in, int bytes) {
-  const char* hex = "0123456789abcdef";
-
-  while (bytes-- != 0) {
-    *out++ = hex[*in >> 4];
-    *out++ = hex[*in & 0xf];
-    in++;
-  }
-  *out = '\0';
-}
-
 Stream::Stream(Path path) : File(path), _d(new Private) {
   _d->fr                = NULL;
   _d->zr                = NULL;
   _d->r                 = NULL;
   _d->fw                = NULL;
-  _d->hw                = NULL;
   _d->zw                = NULL;
   _d->w                 = NULL;
+  _d->hh                = NULL;
   _d->progress_callback = NULL;
   _d->cancel_callback   = NULL;
   _d->size              = -1;
@@ -454,9 +438,9 @@ int Stream::open(
     _size = 0;
     _d->w = _d->fw = new FileWriter(_path);
     if (checksum) {
-      _d->w = _d->hw = new MD5SumHasher(*_d->fw, _d->hash);
+      _d->w = _d->hh = new MD5SumHasher(*_d->w, _d->hash);
     } else {
-      _d->hw = NULL;
+      _d->hh = NULL;
     }
     if (compression > 0) {
       _d->w = _d->zw = new ZipWriter(*_d->w, compression);
@@ -467,8 +451,8 @@ int Stream::open(
       if (_d->zw != NULL) {
         delete _d->zw;
       }
-      if (_d->hw != NULL) {
-        delete _d->hw;
+      if (_d->hh != NULL) {
+        delete _d->hh;
       }
       delete _d->fw;
       _d->w = NULL;
@@ -477,11 +461,19 @@ int Stream::open(
   case O_RDONLY:
     _d->r = _d->fr = new FileReader(_path);
     if (compression > 0) {
-      _d->r = _d->zr = new UnzipReader(*_d->fr);
+      _d->r = _d->zr = new UnzipReader(*_d->r);
     } else {
       _d->zr = NULL;
     }
+    if (checksum) {
+      _d->r = _d->hh = new MD5SumHasher(*_d->r, _d->hash);
+    } else {
+      _d->hh = NULL;
+    }
     if (_d->r->open() < 0) {
+      if (_d->hh != NULL) {
+        delete _d->hh;
+      }
       if (_d->zr != NULL) {
         delete _d->zr;
       }
@@ -501,21 +493,6 @@ int Stream::open(
     // errno set by open
     return -1;
   }
-
-  // Create openssl resources
-  if (_d->r != NULL) {
-    if (checksum) {
-      _d->ctx = new EVP_MD_CTX;
-      if (_d->ctx != NULL) {
-        EVP_DigestInit(_d->ctx, EVP_md5());
-      }
-    } else {
-      _d->ctx = NULL;
-    }
-  } else {
-    _d->ctx = NULL;
-  }
-
   return 0;
 }
 
@@ -534,6 +511,11 @@ int Stream::close() {
 
   if (_d->r != NULL) {
     failed = _d->r->close() < 0;
+    if (_d->hh != NULL) {
+      free(_checksum);
+      _checksum = strdup(_d->hash);
+      delete _d->hh;
+    }
     if (_d->zr != NULL) {
       delete _d->zr;
     }
@@ -542,29 +524,16 @@ int Stream::close() {
   }
   if (_d->w != NULL) {
     failed = _d->w->close() < 0;
-    free(_checksum);
-    _checksum = strdup(_d->hash);
     if (_d->zw != NULL) {
       delete _d->zw;
     }
-    if (_d->hw != NULL) {
-      delete _d->hw;
+    if (_d->hh != NULL) {
+      free(_checksum);
+      _checksum = strdup(_d->hash);
+      delete _d->hh;
     }
     delete _d->fw;
     _d->w = NULL;
-  }
-
-  // Compute checksum
-  if (_d->ctx != NULL) {
-    unsigned char checksum[36];
-    unsigned int  length;
-
-    EVP_DigestFinal(_d->ctx, checksum, &length);
-    free(_checksum);
-    _checksum = static_cast<char*>(malloc(2 * length + 1));
-    md5sum(_checksum, checksum, length);
-    delete _d->ctx;
-    _d->ctx = NULL;
   }
 
   // Destroy cacheing buffer if any
@@ -583,27 +552,6 @@ long long Stream::progress() const {
 
 void Stream::setProgressCallback(progress_f progress) {
   _d->progress_callback = progress;
-}
-
-int Stream::digest_update(
-    const void*     buffer,
-    size_t          size) {
-  size_t      max = 409600; // That's as much as openssl/md5 accepts
-  const char* reader = static_cast<const char*>(buffer);
-  while (size > 0) {
-    size_t length;
-    if (size >= max) {
-      length = max;
-    } else {
-      length = size;
-    }
-    if (EVP_DigestUpdate(_d->ctx, reader, length) == 0) {
-      return -1;
-    }
-    reader += length;
-    size   -= length;
-  }
-  return 0;
 }
 
 ssize_t Stream::read(void* buffer, size_t asked) {
@@ -642,19 +590,12 @@ ssize_t Stream::read(void* buffer, size_t asked) {
 
   // Update hash
   if (_d->buffer_data.exists()) {
-    if ((_d->ctx != NULL) && digest_update(_d->buffer_data.writer(), size)) {
-      return -3;
-    }
     _d->buffer_data.written(size);
     // Special case for getLine
     if ((asked == 0) && (buffer == NULL)) {
       return _d->reader_data.readable();
     }
     size = _d->reader_data.read(static_cast<char*>(buffer), asked);
-  } else {
-    if ((_d->ctx != NULL) && digest_update(buffer, size)) {
-      return -3;
-    }
   }
 
   _d->size += size;

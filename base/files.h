@@ -299,15 +299,6 @@ public:
 class Stream : public File {
   struct            Private;
   Private* const    _d;
-  // Convert MD5 to readable string
-  static void md5sum(char* out, const unsigned char* in, int bytes);
-  int digest_update(
-    const void*     buffer,
-    size_t          size);
-  ssize_t read_decompress(
-    void*           buffer,
-    size_t          asked,
-    size_t*         given);
 public:
   // Prototype for cancellation function (true cancels)
   typedef bool (*cancel_f) (
