@@ -28,8 +28,9 @@
 using namespace hbackup;
 
 struct FileReader::Private {
-  char path[PATH_MAX];
-  int  fd;
+  char      path[PATH_MAX];
+  int       fd;
+  long long offset;
   Private(const char* p) : fd(-1) {
     strcpy(path, p);
   }
@@ -46,6 +47,7 @@ FileReader::~FileReader() {
 }
 
 int FileReader::open() {
+  _d->offset = 0;
   _d->fd = ::open64(_d->path, O_RDONLY|O_NOATIME|O_LARGEFILE);
   return _d->fd;
 }
@@ -71,6 +73,11 @@ ssize_t FileReader::read(void* buffer, size_t size) {
     }
     cbuffer += rc;
     count += rc;
+    _d->offset += rc;
   }
   return count;
+}
+
+long long FileReader::offset() const {
+  return _d->offset;
 }

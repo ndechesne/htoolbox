@@ -201,11 +201,16 @@ bool cancel(unsigned short __unused) {
   return true;
 }
 
-static void progress(long long previous, long long current, long long total) {
-  if ((current <= total) && ((current < total) || (previous != 0))) {
-    cout << "Done: " << setw(5) << setiosflags(ios::fixed) << setprecision(1)
-      << 100.0 * static_cast<double>(current) / static_cast<double>(total)
-      << "%" << endl;
+static void read_progress(long long previous, long long current, long long total) {
+  if ((current != total) || (previous != 0)) {
+    printf("Done: %5.1lf%%\n",
+      100 * static_cast<double>(current) / static_cast<double>(total));
+  }
+}
+
+static void write_progress(long long previous, long long current, long long total) {
+  if ((current != total) || (previous != 0)) {
+    printf("Done: %2lld\n", current);
   }
 }
 
@@ -365,7 +370,7 @@ int main(void) {
   if (readfile->open(O_RDONLY)) {
     cout << "Error opening source file: " << strerror(errno) << endl;
   } else {
-    readfile->setProgressCallback(progress);
+    readfile->setProgressCallback(read_progress);
     unsigned char buffer[1 << 20];
     size_t read_size = 0;
     do {
@@ -386,12 +391,12 @@ int main(void) {
   }
   delete readfile;
 
-  cout << endl << "Test: file write (with cache)" << endl;
+  cout << endl << "Test: file write" << endl;
   writefile = new Stream("test1/rwfile_dest");
   if (writefile->open(O_WRONLY)) {
     cout << "Error opening source file: " << strerror(errno) << endl;
   } else {
-    writefile->setProgressCallback(progress);
+    writefile->setProgressCallback(write_progress);
     size_t write_size = 0;
     ssize_t size = writefile->write("123", 3);
     if (size < 0) {
@@ -429,12 +434,12 @@ int main(void) {
   } else if (writefile->open(O_WRONLY)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
-    readfile->setProgressCallback(progress);
-    unsigned char buffer[409600];
+    readfile->setProgressCallback(read_progress);
+    unsigned char buffer[512000];
     size_t read_size = 0;
     size_t write_size = 0;
     do {
-      ssize_t size = readfile->read(buffer, 409600);
+      ssize_t size = readfile->read(buffer, sizeof(buffer));
       if (size < 0) {
         cout << "broken by read: " << strerror(errno) << endl;
         break;
@@ -471,11 +476,11 @@ int main(void) {
   } else if (writefile->open(O_WRONLY, 5)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
-    unsigned char buffer[409600];
+    unsigned char buffer[512000];
     size_t read_size = 0;
     size_t write_size = 0;
     do {
-      ssize_t size = readfile->read(buffer, 409600);
+      ssize_t size = readfile->read(buffer, sizeof(buffer));
       if (size < 0) {
         cout << "broken by read: " << strerror(errno) << endl;
         break;
@@ -519,11 +524,11 @@ int main(void) {
   } else if (writefile->open(O_WRONLY)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
-    unsigned char buffer[409600];
+    unsigned char buffer[512000];
     size_t read_size = 0;
     size_t write_size = 0;
     do {
-      ssize_t size = readfile->read(buffer, 409600);
+      ssize_t size = readfile->read(buffer, sizeof(buffer));
       if (size < 0) {
         cout << "broken by read: " << strerror(errno) << endl;
         break;
@@ -551,8 +556,7 @@ int main(void) {
   delete readfile;
   delete writefile;
 
-  cout << endl << "Test: file compress (cached read + cached compress write)"
-    << endl;
+  cout << endl << "Test: file compress (read + compress write)" << endl;
   readfile = new Stream("test1/rwfile_source");
   writefile = new Stream("test1/rwfile_dest");
   if (readfile->open(O_RDONLY)) {
@@ -560,11 +564,11 @@ int main(void) {
   } else if (writefile->open(O_WRONLY, 5, true)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
-    unsigned char buffer[409600];
+    unsigned char buffer[512000];
     size_t read_size = 0;
     size_t write_size = 0;
     do {
-      ssize_t size = readfile->read(buffer, 409600);
+      ssize_t size = readfile->read(buffer, sizeof(buffer));
       if (size < 0) {
         cout << "broken by read: " << strerror(errno) << endl;
         break;
@@ -597,8 +601,7 @@ int main(void) {
     }
   }
   cout << endl
-    << "Test: file recompress (cached uncompress read + uncached compress "
-      << "write), no closing" << endl;
+    << "Test: file recompress (uncompress read + compress write)" << endl;
   {
     Stream* swap = readfile;
     readfile = writefile;
@@ -609,11 +612,11 @@ int main(void) {
   } else if (writefile->open(O_WRONLY, 5, true)) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
-    unsigned char buffer[409600];
+    unsigned char buffer[512000];
     size_t read_size = 0;
     size_t write_size = 0;
     do {
-      ssize_t size = readfile->read(buffer, 409600);
+      ssize_t size = readfile->read(buffer, sizeof(buffer));
       if (size < 0) {
         cout << "broken by read: " << strerror(errno) << endl;
         break;
@@ -648,9 +651,7 @@ int main(void) {
   delete readfile;
 
 
-  cout << endl
-    << "Test: file compare (both compressed)"
-    << endl;
+  cout << endl << "Test: file compare (both compressed)" << endl;
   readfile = new Stream("test1/rwfile_source");
   writefile = new Stream("test1/rwfile_dest");
   if (readfile->open(O_RDONLY, 1)) {
@@ -713,9 +714,7 @@ int main(void) {
   delete readfile;
   delete writefile;
 
-  cout << endl
-    << "Test: file compare (one compressed)"
-    << endl;
+  cout << endl << "Test: file compare (one compressed)" << endl;
   readfile = new Stream("test1/rwfile_source");
   writefile = new Stream("test1/rwfile_dest");
   if (readfile->open(O_RDONLY, 1)) {
@@ -785,7 +784,7 @@ int main(void) {
   if (readfile->open(O_RDONLY)) {
     return 0;
   }
-  readfile->setProgressCallback(progress);
+  readfile->setProgressCallback(read_progress);
   if (readfile->computeChecksum()) {
     cout << "Error computing checksum, " << strerror(errno) << endl;
     return 0;
@@ -802,7 +801,7 @@ int main(void) {
   if (readfile->open(O_RDONLY)) {
     return 0;
   }
-  readfile->setProgressCallback(progress);
+  readfile->setProgressCallback(read_progress);
   if (readfile->computeChecksum()) {
     cout << "Error computing checksum, " << strerror(errno) << endl;
     return 0;
@@ -819,7 +818,7 @@ int main(void) {
   if (readfile->open(O_RDONLY, 1)) {
     return 0;
   }
-  readfile->setProgressCallback(progress);
+  readfile->setProgressCallback(read_progress);
   if (readfile->computeChecksum()) {
     cout << "Error computing checksum, " << strerror(errno) << endl;
     return 0;
@@ -837,7 +836,7 @@ int main(void) {
   if (readfile->open(O_RDONLY)) {
     return 0;
   }
-  readfile->setProgressCallback(progress);
+  readfile->setProgressCallback(read_progress);
   while (true) {
     Line line;
     bool eol;
@@ -865,7 +864,7 @@ int main(void) {
   if (readfile->open(O_RDONLY, 1)) {
     return 0;
   }
-  readfile->setProgressCallback(progress);
+  readfile->setProgressCallback(read_progress);
   while (true) {
     Line line;
     bool eol;
@@ -892,7 +891,7 @@ int main(void) {
   if (readfile->open(O_RDONLY, 1)) {
     return 0;
   }
-  readfile->setProgressCallback(progress);
+  readfile->setProgressCallback(read_progress);
   if (readfile->computeChecksum()) {
     cout << "Error computing checksum, " << strerror(errno) << endl;
     return 0;

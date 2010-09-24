@@ -41,6 +41,7 @@ using namespace std;
 #include "buffer.h"
 #include "line.h"
 #include "filereader.h"
+#include "unzipreader.h"
 #include "filewriter.h"
 #include "md5sumhasher.h"
 #include "zipwriter.h"
@@ -382,6 +383,8 @@ public:
 
 struct Stream::Private {
   FileReader*         fr;                 // file reader
+  UnzipReader*        zr;                 // unzip
+  IReader*            r;                  // reader
   FileWriter*         fw;                 // file writer
   MD5SumHasher*       hw;                 // hash computation
   ZipWriter*          zw;                 // zip
@@ -389,16 +392,13 @@ struct Stream::Private {
   char                hash[64];           // file hash
   long long           size;               // uncompressed file data size (bytes)
   long long           progress;           // transfered size, for progress
-  Buffer<char>        buffer_comp;        // Buffer for [de]compression
-  BufferReader<char>  reader_comp;        // Reader for buffer above
   Buffer<char>        buffer_data;        // Buffer for data
   BufferReader<char>  reader_data;        // Reader for buffer above
   EVP_MD_CTX*         ctx;                // openssl resources
-  z_stream*           strm;               // zlib resources
   bool                finish;             // tell compression to finish off
   progress_f          progress_callback;  // function to report progress
   cancel_f            cancel_callback;    // function to check for cancellation
-  Private() : reader_comp(buffer_comp), reader_data(buffer_data) {}
+  Private() : reader_data(buffer_data) {}
 };
 
 void Stream::md5sum(char* out, const unsigned char* in, int bytes) {
@@ -414,6 +414,8 @@ void Stream::md5sum(char* out, const unsigned char* in, int bytes) {
 
 Stream::Stream(Path path) : File(path), _d(new Private) {
   _d->fr                = NULL;
+  _d->zr                = NULL;
+  _d->r                 = NULL;
   _d->fw                = NULL;
   _d->hw                = NULL;
   _d->zw                = NULL;
@@ -431,7 +433,7 @@ Stream::~Stream() {
 }
 
 bool Stream::isOpen() const {
-  return (_d->fr != NULL) || (_d->w != NULL);
+  return (_d->r != NULL) || (_d->w != NULL);
 }
 
 bool Stream::isWriteable() const {
@@ -450,7 +452,6 @@ int Stream::open(
   switch (flags) {
   case O_WRONLY:
     _size = 0;
-    _d->ctx = NULL;
     _d->w = _d->fw = new FileWriter(_path);
     if (checksum) {
       _d->w = _d->hw = new MD5SumHasher(*_d->fw, _d->hash);
@@ -474,14 +475,22 @@ int Stream::open(
     }
     break;
   case O_RDONLY:
-    _d->fr = new FileReader(_path);
-    if (_d->fr->open() < 0) {
+    _d->r = _d->fr = new FileReader(_path);
+    if (compression > 0) {
+      _d->r = _d->zr = new UnzipReader(*_d->fr);
+    } else {
+      _d->zr = NULL;
+    }
+    if (_d->r->open() < 0) {
+      if (_d->zr != NULL) {
+        delete _d->zr;
+      }
       delete _d->fr;
-      _d->fr = NULL;
+      _d->r = NULL;
     }
     break;
   default:
-    errno = EPERM;
+    errno = EINVAL;
     return -1;
   }
 
@@ -494,37 +503,19 @@ int Stream::open(
   }
 
   // Create openssl resources
-  if (checksum) {
-    if (_d->fr != NULL) {
+  if (_d->r != NULL) {
+    if (checksum) {
       _d->ctx = new EVP_MD_CTX;
       if (_d->ctx != NULL) {
         EVP_DigestInit(_d->ctx, EVP_md5());
       }
+    } else {
+      _d->ctx = NULL;
     }
   } else {
     _d->ctx = NULL;
   }
 
-  // Create zlib resources
-  if (compression > 0) {
-    _d->strm           = new z_stream;
-    _d->strm->zalloc   = Z_NULL;
-    _d->strm->zfree    = Z_NULL;
-    _d->strm->opaque   = Z_NULL;
-    _d->strm->avail_in = 0;
-    _d->strm->next_in  = Z_NULL;
-    if (! isWriteable()) {
-      // De-compress
-      if (inflateInit2(_d->strm, 32 + 15) != Z_OK) {
-        errno = ENOMEM;
-        return -2;
-      }
-    }
-    // Create buffer for decompression
-    _d->buffer_comp.create();
-  } else {
-    _d->strm = NULL;
-  }
   return 0;
 }
 
@@ -534,7 +525,6 @@ int Stream::close() {
     return -1;
   }
   bool failed = false;
-
   // Write last few bytes in case of compressed write
   if (isWriteable()) {
     if (write(NULL, 0) < 0) {
@@ -542,23 +532,17 @@ int Stream::close() {
     }
   }
 
-  // Destroy zlib resources
-  if (_d->strm != NULL) {
-    if (! isWriteable()) {
-      inflateEnd(_d->strm);
+  if (_d->r != NULL) {
+    failed = _d->r->close() < 0;
+    if (_d->zr != NULL) {
+      delete _d->zr;
     }
-    delete _d->strm;
-    _d->strm = NULL;
-    _d->buffer_comp.destroy();
-  }
-
-  if (_d->fr != NULL) {
-    failed = _d->fr->close() < 0;
     delete _d->fr;
-    _d->fr = NULL;
+    _d->r = NULL;
   }
   if (_d->w != NULL) {
     failed = _d->w->close() < 0;
+    free(_checksum);
     _checksum = strdup(_d->hash);
     if (_d->zw != NULL) {
       delete _d->zw;
@@ -622,47 +606,6 @@ int Stream::digest_update(
   return 0;
 }
 
-ssize_t Stream::read_decompress(
-    void*           buffer,
-    size_t          asked,
-    size_t*         given) {
-  ssize_t size = 0;
-  bool    eof  = false;
-  // Fill in buffer
-  do {
-    if (_d->reader_comp.isEmpty()) {
-      size = _d->fr->read(_d->buffer_comp.writer(),
-        _d->buffer_comp.writeable());
-      if (size < 0) {
-        return -1;
-      }
-      if (size == 0) {
-        eof = true;
-      }
-      _d->buffer_comp.written(size);
-      _d->strm->avail_in = static_cast<uInt>(_d->reader_comp.readable());
-      _d->strm->next_in  = reinterpret_cast<unsigned char*>(
-        const_cast<char*>(_d->reader_comp.reader()));
-    }
-    _d->strm->avail_out = static_cast<uInt>(asked);
-    _d->strm->next_out  = static_cast<unsigned char*>(buffer);
-    switch (inflate(_d->strm, Z_NO_FLUSH)) {
-      case Z_NEED_DICT:
-      case Z_DATA_ERROR:
-      case Z_MEM_ERROR:
-        errno = EPROTO;
-        return -2;
-    }
-    // Used all decompression buffer
-    if (_d->strm->avail_out != 0) {
-      _d->buffer_comp.empty();
-    }
-    *given = asked - _d->strm->avail_out;
-  } while ((*given == 0) && ! eof);
-
-  return size;
-}
-
 ssize_t Stream::read(void* buffer, size_t asked) {
   if (! isOpen()) {
     errno = EBADF;
@@ -675,22 +618,11 @@ ssize_t Stream::read(void* buffer, size_t asked) {
   }
 
   // Get data
-  ssize_t size  = 0;
-  size_t  given = 0;
+  ssize_t size;
   if (! _d->buffer_data.exists()) {
-    if (_d->strm != NULL) {
-      size = read_decompress(buffer, asked, &given);
-    } else {
-      size = given = _d->fr->read(buffer, asked);
-    }
+    size = _d->r->read(buffer, asked);
   } else if (_d->reader_data.isEmpty()) {
-    if (_d->strm != NULL) {
-      size = read_decompress(_d->buffer_data.writer(),
-        _d->buffer_data.writeable(), &given);
-    } else {
-      size = given = _d->fr->read(_d->buffer_data.writer(),
-        _d->buffer_data.writeable());
-    }
+    size = _d->r->read(_d->buffer_data.writer(), _d->buffer_data.writeable());
   }
 
   // Check result
@@ -702,31 +634,31 @@ ssize_t Stream::read(void* buffer, size_t asked) {
   // Update progress indicator (size read)
   if (size > 0) {
     long long previous = _d->progress;
-    _d->progress += size;
-    if (_d->progress_callback != NULL) {
+    _d->progress = _d->r->offset();
+    if ((_d->progress_callback != NULL) && (_d->progress != previous)) {
       (*_d->progress_callback)(previous, _d->progress, _size);
     }
   }
 
   // Update hash
   if (_d->buffer_data.exists()) {
-    if ((_d->ctx != NULL) && digest_update(_d->buffer_data.writer(), given)) {
+    if ((_d->ctx != NULL) && digest_update(_d->buffer_data.writer(), size)) {
       return -3;
     }
-    _d->buffer_data.written(given);
+    _d->buffer_data.written(size);
     // Special case for getLine
     if ((asked == 0) && (buffer == NULL)) {
       return _d->reader_data.readable();
     }
-    given = _d->reader_data.read(static_cast<char*>(buffer), asked);
+    size = _d->reader_data.read(static_cast<char*>(buffer), asked);
   } else {
-    if ((_d->ctx != NULL) && digest_update(buffer, given)) {
+    if ((_d->ctx != NULL) && digest_update(buffer, size)) {
       return -3;
     }
   }
 
-  _d->size += given;
-  return given;
+  _d->size += size;
+  return size;
 }
 
 ssize_t Stream::write(
@@ -888,25 +820,18 @@ int Stream::computeChecksum() {
     errno = EBADF;
     return -1;
   }
-  // Need a buffer to store temporary data
-  if (! _d->buffer_data.exists()) {
-    _d->buffer_data.create();
-  }
-  _d->size = 0;
-  bool eof = false;
+  ssize_t length;
   do {
-    ssize_t length = read(NULL, 0);
-    _d->buffer_data.empty();
+    char buffer[102400];
+    length = read(buffer, sizeof(buffer));
     if (length < 0) {
       return length;
     }
-    eof = (length == 0);
-    _d->size += length;
     if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)(1))) {
       errno = ECANCELED;
       return -1;
     }
-  } while (! eof);
+  } while (length > 0);
   return 0;
 }
 

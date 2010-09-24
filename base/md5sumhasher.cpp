@@ -122,3 +122,7 @@ ssize_t MD5SumHasher::write(const void* buffer, size_t size) {
   }
   return rc;
 }
+
+long long MD5SumHasher::offset() const {
+  return _d->reader->offset();
+}
