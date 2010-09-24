@@ -24,7 +24,7 @@
 
 namespace hbackup {
 
-class MD5SumHasher : public IReader, IWriter {
+class MD5SumHasher : public IReader, public IWriter {
   struct         Private;
   Private* const _d;
 public:

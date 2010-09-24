@@ -42,6 +42,7 @@ using namespace std;
 #include "line.h"
 #include "filereader.h"
 #include "filewriter.h"
+#include "md5sumhasher.h"
 #include "files.h"
 
 using namespace hbackup;
@@ -381,6 +382,9 @@ public:
 struct Stream::Private {
   FileReader*         fr;                 // file reader
   FileWriter*         fw;                 // file writer
+  char                hash[64];           // file hash
+  MD5SumHasher*       hw;                 // hash writer
+  IWriter*            w;                  // writer
   long long           size;               // uncompressed file data size (bytes)
   long long           progress;           // transfered size, for progress
   Buffer<char>        buffer_comp;        // Buffer for [de]compression
@@ -409,6 +413,8 @@ void Stream::md5sum(char* out, const unsigned char* in, int bytes) {
 Stream::Stream(Path path) : File(path), _d(new Private) {
   _d->fr                = NULL;
   _d->fw                = NULL;
+  _d->hw                = NULL;
+  _d->w                 = NULL;
   _d->progress_callback = NULL;
   _d->cancel_callback   = NULL;
   _d->size              = -1;
@@ -422,11 +428,11 @@ Stream::~Stream() {
 }
 
 bool Stream::isOpen() const {
-  return (_d->fr != NULL) || (_d->fw != NULL);
+  return (_d->fr != NULL) || (_d->w != NULL);
 }
 
 bool Stream::isWriteable() const {
-  return _d->fw != NULL;
+  return _d->w != NULL;
 }
 
 int Stream::open(
@@ -441,10 +447,21 @@ int Stream::open(
   switch (flags) {
   case O_WRONLY:
     _size = 0;
+    _d->ctx = NULL;
     _d->fw = new FileWriter(_path);
-    if (_d->fw->open() < 0) {
+    if (checksum) {
+      _d->hw = new MD5SumHasher(*_d->fw, _d->hash);
+      _d->w = _d->hw;
+    } else {
+      _d->hw = NULL;
+      _d->w = _d->fw;
+    }
+    if (_d->w->open() < 0) {
+      if (_d->hw != NULL) {
+        delete _d->hw;
+      }
       delete _d->fw;
-      _d->fw = NULL;
+      _d->w = NULL;
     }
     break;
   case O_RDONLY:
@@ -469,9 +486,11 @@ int Stream::open(
 
   // Create openssl resources
   if (checksum) {
-    _d->ctx = new EVP_MD_CTX;
-    if (_d->ctx != NULL) {
-      EVP_DigestInit(_d->ctx, EVP_md5());
+    if (_d->fr != NULL) {
+      _d->ctx = new EVP_MD_CTX;
+      if (_d->ctx != NULL) {
+        EVP_DigestInit(_d->ctx, EVP_md5());
+      }
     }
   } else {
     _d->ctx = NULL;
@@ -521,19 +540,6 @@ int Stream::close() {
     }
   }
 
-  // Compute checksum
-  if (_d->ctx != NULL) {
-    unsigned char checksum[36];
-    unsigned int  length;
-
-    EVP_DigestFinal(_d->ctx, checksum, &length);
-    free(_checksum);
-    _checksum = static_cast<char*>(malloc(2 * length + 1));
-    md5sum(_checksum, checksum, length);
-    delete _d->ctx;
-    _d->ctx = NULL;
-  }
-
   // Destroy zlib resources
   if (_d->strm != NULL) {
     if (isWriteable()) {
@@ -551,10 +557,27 @@ int Stream::close() {
     delete _d->fr;
     _d->fr = NULL;
   }
-  if (_d->fw != NULL) {
-    failed = _d->fw->close() < 0;
+  if (_d->w != NULL) {
+    failed = _d->w->close() < 0;
+    if (_d->hw != NULL) {
+      delete _d->hw;
+      _checksum = strdup(_d->hash);
+    }
     delete _d->fw;
-    _d->fw = NULL;
+    _d->w = NULL;
+  }
+
+  // Compute checksum
+  if (_d->ctx != NULL) {
+    unsigned char checksum[36];
+    unsigned int  length;
+
+    EVP_DigestFinal(_d->ctx, checksum, &length);
+    free(_checksum);
+    _checksum = static_cast<char*>(malloc(2 * length + 1));
+    md5sum(_checksum, checksum, length);
+    delete _d->ctx;
+    _d->ctx = NULL;
   }
 
   // Destroy cacheing buffer if any
@@ -719,14 +742,8 @@ ssize_t Stream::write_compress(
       reinterpret_cast<unsigned char*>(_d->buffer_comp.writer());
     deflate(_d->strm, finish ? Z_FINISH : Z_NO_FLUSH);
     ssize_t length = _d->buffer_comp.writeable() - _d->strm->avail_out;
-    if (length != _d->fw->write(_d->reader_comp.reader(), length)) {
+    if (length != _d->w->write(_d->reader_comp.reader(), length)) {
       return -1;
-    }
-    // Checksum computation
-    if (_d->ctx != NULL) {
-      if (digest_update(_d->reader_comp.reader(), length)) {
-        return -2;
-      }
     }
   } while (_d->strm->avail_out == 0);
   return count;
@@ -766,14 +783,8 @@ ssize_t Stream::write(
       while (_d->reader_data.readable() > 0) {
         ssize_t length = _d->reader_data.readable();
         if (_d->strm == NULL) {
-          if (length != _d->fw->write(_d->reader_data.reader(), length)) {
+          if (length != _d->w->write(_d->reader_data.reader(), length)) {
             return -1;
-          }
-          // Checksum computation
-          if (_d->ctx != NULL) {
-            if (digest_update(_d->reader_data.reader(), length)) {
-              return -2;
-            }
           }
         } else {
           if (length != write_compress(_d->reader_data.reader(), length)) {
@@ -802,14 +813,8 @@ ssize_t Stream::write(
   if (direct_write) {
     ssize_t length = given;
     if (_d->strm == NULL) {
-      if ((buffer != NULL) && (length != _d->fw->write(buffer, length))) {
+      if ((buffer != NULL) && (length != _d->w->write(buffer, length))) {
         return -1;
-      }
-      // Checksum computation
-      if (_d->ctx != NULL) {
-        if (digest_update(buffer, length)) {
-          return -2;
-        }
       }
     } else {
       if (length != write_compress(buffer, length, _d->finish)) {
