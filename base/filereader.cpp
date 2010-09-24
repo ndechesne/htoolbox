@@ -49,7 +49,7 @@ FileReader::~FileReader() {
 int FileReader::open() {
   _d->offset = 0;
   _d->fd = ::open64(_d->path, O_RDONLY|O_NOATIME|O_LARGEFILE);
-  return _d->fd;
+  return _d->fd < 0 ? -1 : 0;
 }
 
 int FileReader::close() {

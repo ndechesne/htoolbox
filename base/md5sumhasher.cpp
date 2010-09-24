@@ -54,7 +54,7 @@ int MD5SumHasher::Private::update(
     } else {
       length = size;
     }
-    if (EVP_DigestUpdate(&ctx, cbuffer, length) == 0) {
+    if (EVP_DigestUpdate(&ctx, cbuffer, length) != 1) {
       return -1;
     }
     cbuffer += length;
@@ -84,16 +84,18 @@ int MD5SumHasher::open() {
   if ((_d->writer != NULL) && (_d->writer->open() < 0)) {
     return -1;
   }
-  return EVP_DigestInit(&_d->ctx, EVP_md5());
+  if (EVP_DigestInit(&_d->ctx, EVP_md5()) != 1) {
+    return -1;
+  }
+  return 0;
 }
 
 int MD5SumHasher::close() {
   unsigned char checksum[36];
   unsigned int  length;
 
-  int rc = EVP_DigestFinal(&_d->ctx, checksum, &length);
-  if (rc < 0) {
-    return rc;
+  if (EVP_DigestFinal(&_d->ctx, checksum, &length) != 1) {
+    return -1;
   }
   _d->binToHex(_d->checksum, checksum, length);
   if (_d->reader != NULL) {
