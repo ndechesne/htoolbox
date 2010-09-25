@@ -31,12 +31,12 @@ enum {
 struct ZipWriter::Private {
   IReaderWriter* child;
   bool           delete_child;
-  z_stream*      strm;
+  z_stream       strm;
   int            level;
   unsigned char  buffer[BUFFER_SIZE];
   bool           finished;
   Private(IReaderWriter* c, bool d, int l) :
-    child(c), delete_child(d), strm(NULL), level(l) {}
+    child(c), delete_child(d), level(l) {}
 };
 
 ZipWriter::ZipWriter(IReaderWriter* child, bool delete_child, int level) :
@@ -46,9 +46,6 @@ ZipWriter::~ZipWriter() {
   if (_d->delete_child) {
     delete _d->child;
   }
-  if (_d->strm != NULL) {
-    close();
-  }
   delete _d;
 }
 
@@ -56,16 +53,15 @@ int ZipWriter::open() {
   if (_d->child->open() < 0) {
     return -1;
   }
-  _d->strm           = new z_stream;
-  _d->strm->zalloc   = Z_NULL;
-  _d->strm->zfree    = Z_NULL;
-  _d->strm->opaque   = Z_NULL;
-  _d->strm->avail_in = 0;
-  _d->strm->next_in  = Z_NULL;
+  _d->strm.zalloc   = Z_NULL;
+  _d->strm.zfree    = Z_NULL;
+  _d->strm.opaque   = Z_NULL;
+  _d->strm.avail_in = 0;
+  _d->strm.next_in  = Z_NULL;
   // De-compress
-  if (deflateInit2(_d->strm, _d->level, Z_DEFLATED, 16 + 15, 9,
+  if (deflateInit2(&_d->strm, _d->level, Z_DEFLATED, 16 + 15, 9,
                    Z_DEFAULT_STRATEGY) != Z_OK) {
-    close();
+    _d->child->close();
     errno = ENOMEM;
     return -1;
   }
@@ -79,10 +75,14 @@ int ZipWriter::close() {
       return -1;
     }
   }
-  deflateEnd(_d->strm);
-  delete _d->strm;
-  _d->strm = NULL;
-  return _d->child->close();
+  int rc = 0;
+  if (deflateEnd(&_d->strm) != Z_OK) {
+    rc = -1;
+  }
+  if (_d->child->close() < 0) {
+    rc = -1;
+  }
+  return rc;
 }
 
 // Not implemented
@@ -99,19 +99,26 @@ ssize_t ZipWriter::write(const void* buffer, size_t size) {
   if (size == 0) {
     _d->finished = true;
   } else {
-    _d->strm->avail_in = static_cast<uInt>(size);
+    _d->strm.avail_in = static_cast<uInt>(size);
     // Casting away the constness here!!!
-    _d->strm->next_in  = static_cast<Bytef*>(const_cast<void*>(buffer));
+    _d->strm.next_in  = static_cast<Bytef*>(const_cast<void*>(buffer));
   }
   do {
-    _d->strm->avail_out = static_cast<uInt>(BUFFER_SIZE);
-    _d->strm->next_out  = _d->buffer;
-    deflate(_d->strm, _d->finished ? Z_FINISH : Z_NO_FLUSH);
-    ssize_t length = BUFFER_SIZE - _d->strm->avail_out;
+    _d->strm.avail_out = static_cast<uInt>(BUFFER_SIZE);
+    _d->strm.next_out  = _d->buffer;
+    switch (deflate(&_d->strm, _d->finished ? Z_FINISH : Z_NO_FLUSH) != Z_OK) {
+      case Z_OK:
+      case Z_STREAM_END:
+        break;
+      default:
+        errno = EPROTO;
+        return -1;
+    }
+    ssize_t length = BUFFER_SIZE - _d->strm.avail_out;
     if (_d->child->write(_d->buffer, length) < 0) {
       return -1;
     }
-  } while (_d->strm->avail_out == 0);
+  } while (_d->strm.avail_out == 0);
   return size;
 }
 

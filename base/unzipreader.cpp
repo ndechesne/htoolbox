@@ -31,10 +31,10 @@ enum {
 struct UnzipReader::Private {
   IReaderWriter* child;
   bool           delete_child;
-  z_stream*      strm;
+  z_stream       strm;
   unsigned char  buffer[BUFFER_SIZE];
   bool           buffer_empty;
-  Private(IReaderWriter* c, bool d) : child(c), delete_child(d), strm(NULL) {}
+  Private(IReaderWriter* c, bool d) : child(c), delete_child(d) {}
 };
 
 UnzipReader::UnzipReader(IReaderWriter* child, bool delete_child) :
@@ -44,9 +44,6 @@ UnzipReader::~UnzipReader() {
   if (_d->delete_child) {
     delete _d->child;
   }
-  if (_d->strm != NULL) {
-    close();
-  }
   delete _d;
 }
 
@@ -54,15 +51,14 @@ int UnzipReader::open() {
   if (_d->child->open() < 0) {
     return -1;
   }
-  _d->strm           = new z_stream;
-  _d->strm->zalloc   = Z_NULL;
-  _d->strm->zfree    = Z_NULL;
-  _d->strm->opaque   = Z_NULL;
-  _d->strm->avail_in = 0;
-  _d->strm->next_in  = Z_NULL;
+  _d->strm.zalloc   = Z_NULL;
+  _d->strm.zfree    = Z_NULL;
+  _d->strm.opaque   = Z_NULL;
+  _d->strm.avail_in = 0;
+  _d->strm.next_in  = Z_NULL;
   // De-compress
-  if (inflateInit2(_d->strm, 32 + 15) != Z_OK) {
-    close();
+  if (inflateInit2(&_d->strm, 32 + 15) != Z_OK) {
+    _d->child->close();
     errno = ENOMEM;
     return -1;
   }
@@ -71,10 +67,14 @@ int UnzipReader::open() {
 }
 
 int UnzipReader::close() {
-  inflateEnd(_d->strm);
-  delete _d->strm;
-  _d->strm = NULL;
-  return _d->child->close();
+  int rc = 0;
+  if (inflateEnd(&_d->strm) != Z_OK) {
+    rc = -1;
+  }
+  if (_d->child->close() < 0) {
+    rc = -1;
+  }
+  return rc;
 }
 
 ssize_t UnzipReader::read(void* buffer, size_t size) {
@@ -88,22 +88,23 @@ ssize_t UnzipReader::read(void* buffer, size_t size) {
         return -1;
       }
       if (count_in != 0) {
-        _d->strm->avail_in = static_cast<uInt>(count_in);
-        _d->strm->next_in  = _d->buffer;
+        _d->strm.avail_in = static_cast<uInt>(count_in);
+        _d->strm.next_in  = _d->buffer;
       }
     }
-    _d->strm->avail_out = static_cast<uInt>(size - count);
-    _d->strm->next_out  = &cbuffer[count];
-    switch (inflate(_d->strm, Z_NO_FLUSH)) {
-      case Z_NEED_DICT:
-      case Z_DATA_ERROR:
-      case Z_MEM_ERROR:
+    _d->strm.avail_out = static_cast<uInt>(size - count);
+    _d->strm.next_out  = &cbuffer[count];
+    switch (inflate(&_d->strm, Z_NO_FLUSH)) {
+      case Z_OK:
+      case Z_STREAM_END:
+        break;
+      default:
         errno = EPROTO;
-          return -1;
+        return -1;
     }
-    count = size - _d->strm->avail_out;
+    count = size - _d->strm.avail_out;
     // Used up all input buffer data
-    if (_d->strm->avail_out != 0) {
+    if (_d->strm.avail_out != 0) {
       _d->buffer_empty = true;
       if (count_in == 0) {
         break;
