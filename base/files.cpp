@@ -36,10 +36,9 @@ using namespace std;
 
 #include "buffer.h"
 #include "line.h"
-#include "filereader.h"
-#include "unzipreader.h"
-#include "filewriter.h"
+#include "filereaderwriter.h"
 #include "md5sumhasher.h"
+#include "unzipreader.h"
 #include "zipwriter.h"
 #include "files.h"
 
@@ -378,14 +377,8 @@ public:
 
 
 struct Stream::Private {
-  FileReader*         fr;                 // file reader
-  UnzipReader*        zr;                 // unzip
-  IReader*            r;                  // reader
-  FileWriter*         fw;                 // file writer
-  ZipWriter*          zw;                 // zip
-  IWriter*            w;                  // writer
-  MD5SumHasher*       hh;                 // hash computation
-  char                hash[64];           // file hash
+  IReaderWriter*      rw;                 // reader/writer
+  bool                writer;             // know which mode we're in
   long long           size;               // uncompressed file data size (bytes)
   long long           progress;           // transfered size, for progress
   Buffer<char>        buffer_data;        // Buffer for data
@@ -396,13 +389,7 @@ struct Stream::Private {
 };
 
 Stream::Stream(Path path) : File(path), _d(new Private) {
-  _d->fr                = NULL;
-  _d->zr                = NULL;
-  _d->r                 = NULL;
-  _d->fw                = NULL;
-  _d->zw                = NULL;
-  _d->w                 = NULL;
-  _d->hh                = NULL;
+  _d->rw                = NULL;
   _d->progress_callback = NULL;
   _d->cancel_callback   = NULL;
   _d->size              = -1;
@@ -416,119 +403,77 @@ Stream::~Stream() {
 }
 
 bool Stream::isOpen() const {
-  return (_d->r != NULL) || (_d->w != NULL);
+  return (_d->rw != NULL);
 }
 
 bool Stream::isWriteable() const {
-  return _d->w != NULL;
+  return _d->writer;
 }
 
 int Stream::open(
     int             flags,
     unsigned int    compression,
     bool            checksum) {
-  if (isOpen()) {
+  if (_d->rw != NULL) {
     errno = EBUSY;
     return -1;
   }
   _d->size     = 0;
   _d->progress = 0;
-  int rc = 0;
+  _d->rw = new FileReaderWriter(_path, flags == O_WRONLY);
   switch (flags) {
   case O_WRONLY:
+    _d->writer = true;
     _size = 0;
-    _d->w = _d->fw = new FileWriter(_path);
     if (checksum) {
-      _d->w = _d->hh = new MD5SumHasher(*_d->w, _d->hash);
+      _d->rw = new MD5SumHasher(_d->rw, true, _hash);
     } else {
-      _d->hh = NULL;
+      strcpy(_hash, "");
     }
     if (compression > 0) {
-      _d->w = _d->zw = new ZipWriter(*_d->w, compression);
-    } else {
-      _d->zw = NULL;
-    }
-    rc = _d->w->open();
-    if (rc < 0) {
-      if (_d->zw != NULL) {
-        delete _d->zw;
-      }
-      if (_d->hh != NULL) {
-        delete _d->hh;
-      }
-      delete _d->fw;
-      _d->w = NULL;
+      _d->rw = new ZipWriter(_d->rw, true, compression);
     }
     break;
   case O_RDONLY:
-    _d->r = _d->fr = new FileReader(_path);
+    _d->writer = false;
     if (compression > 0) {
-      _d->r = _d->zr = new UnzipReader(*_d->r);
-    } else {
-      _d->zr = NULL;
+      _d->rw = new UnzipReader(_d->rw, true);
     }
     if (checksum) {
-      _d->r = _d->hh = new MD5SumHasher(*_d->r, _d->hash);
+      _d->rw = new MD5SumHasher(_d->rw, true, _hash);
     } else {
-      _d->hh = NULL;
-    }
-    rc = _d->r->open();
-    if (rc < 0) {
-      if (_d->hh != NULL) {
-        delete _d->hh;
-      }
-      if (_d->zr != NULL) {
-        delete _d->zr;
-      }
-      delete _d->fr;
-      _d->r = NULL;
+      strcpy(_hash, "");
     }
     break;
   default:
     errno = EINVAL;
-    rc = -1;
+    return -1;
   }
-  return rc;
+  if (_d->rw->open() < 0) {
+    delete _d->rw;
+    _d->rw = NULL;
+    return -1;
+  }
+  return 0;
 }
 
 int Stream::close() {
-  if (! isOpen()) {
+  if (_d->rw == NULL) {
     errno = EBADF;
     return -1;
   }
-  int rc = 0;
-  if (_d->r != NULL) {
-    rc = _d->r->close();
-    if (_d->hh != NULL) {
-      free(_checksum);
-      _checksum = strdup(_d->hash);
-      delete _d->hh;
-    }
-    if (_d->zr != NULL) {
-      delete _d->zr;
-    }
-    delete _d->fr;
-    _d->r = NULL;
+  int rc = _d->rw->close();
+  if (! _d->writer) {
     // Destroy cacheing buffer if any
     if (_d->buffer_data.exists()) {
       _d->buffer_data.destroy();
     }
-  }
-  if (_d->w != NULL) {
-    rc = _d->w->close();
-    if (_d->zw != NULL) {
-      delete _d->zw;
-    }
-    if (_d->hh != NULL) {
-      free(_checksum);
-      _checksum = strdup(_d->hash);
-      delete _d->hh;
-    }
-    delete _d->fw;
-    _d->w = NULL;
+  } else {
     // Update metadata
     stat();
   }
+  delete _d->rw;
+  _d->rw = NULL;
   return rc;
 }
 
@@ -550,7 +495,7 @@ ssize_t Stream::read(void* buffer, size_t asked) {
     return -1;
   }
   // Get data
-  ssize_t size = _d->r->read(buffer, asked);
+  ssize_t size = _d->rw->read(buffer, asked);
   // Check result
   if (size < 0) {
     // errno set by read
@@ -559,7 +504,7 @@ ssize_t Stream::read(void* buffer, size_t asked) {
   // Update progress indicator (size read)
   if (size > 0) {
     long long previous = _d->progress;
-    _d->progress = _d->r->offset();
+    _d->progress = _d->rw->offset();
     if ((_d->progress_callback != NULL) && (_d->progress != previous)) {
       (*_d->progress_callback)(previous, _d->progress, _size);
     }
@@ -581,7 +526,7 @@ ssize_t Stream::write(
   }
   // Write data to file
   ssize_t ssize = size;
-  if (_d->w->write(buffer, size) != ssize) {
+  if (_d->rw->write(buffer, size) != ssize) {
     return -1;
   }
   // Update progress indicator (size written)

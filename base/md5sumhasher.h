@@ -19,17 +19,15 @@
 #ifndef _MD5SUMHASHER_H
 #define _MD5SUMHASHER_H
 
-#include "ireader.h"
-#include "iwriter.h"
+#include "ireaderwriter.h"
 
 namespace hbackup {
 
-class MD5SumHasher : public IReader, public IWriter {
+class MD5SumHasher : public IReaderWriter {
   struct         Private;
   Private* const _d;
 public:
-  MD5SumHasher(IReader& reader, char* checksum);
-  MD5SumHasher(IWriter& writer, char* checksum);
+  MD5SumHasher(IReaderWriter* child, bool delete_child, char* checksum);
   ~MD5SumHasher();
   int open();
   int close();

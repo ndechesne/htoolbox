@@ -16,24 +16,23 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef _FILEWRITER_H
-#define _FILEWRITER_H
+#ifndef _IREADERWRITER_H
+#define _IREADERWRITER_H
 
-#include <iwriter.h>
+#include <unistd.h>
 
 namespace hbackup {
 
-class FileWriter : public IWriter {
-  struct         Private;
-  Private* const _d;
+class IReaderWriter {
 public:
-  FileWriter(const char* path);
-  ~FileWriter();
-  int open();
-  int close();
-  ssize_t write(const void* buffer, size_t size);
+  virtual int open() = 0;
+  virtual int close() = 0;
+  virtual ssize_t read(void* buffer, size_t size) = 0;
+  virtual ssize_t write(const void* buffer, size_t size) = 0;
+  // Offset of on-disk file
+  virtual long long offset() const = 0;
 };
 
 };
 
-#endif // _FILEWRITER_H
+#endif // _IREADERWRITER_H

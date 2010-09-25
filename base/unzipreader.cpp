@@ -29,16 +29,21 @@ enum {
 };
 
 struct UnzipReader::Private {
-  IReader&      reader;
-  z_stream*     strm;
-  unsigned char buffer[BUFFER_SIZE];
-  bool          buffer_empty;
-  Private(IReader& r) : reader(r), strm(NULL) {}
+  IReaderWriter* child;
+  bool           delete_child;
+  z_stream*      strm;
+  unsigned char  buffer[BUFFER_SIZE];
+  bool           buffer_empty;
+  Private(IReaderWriter* c, bool d) : child(c), delete_child(d), strm(NULL) {}
 };
 
-UnzipReader::UnzipReader(IReader& reader) : _d(new Private(reader)) {}
+UnzipReader::UnzipReader(IReaderWriter* child, bool delete_child) :
+  _d(new Private(child, delete_child)) {}
 
 UnzipReader::~UnzipReader() {
+  if (_d->delete_child) {
+    delete _d->child;
+  }
   if (_d->strm != NULL) {
     close();
   }
@@ -46,7 +51,7 @@ UnzipReader::~UnzipReader() {
 }
 
 int UnzipReader::open() {
-  if (_d->reader.open() < 0) {
+  if (_d->child->open() < 0) {
     return -1;
   }
   _d->strm           = new z_stream;
@@ -69,7 +74,7 @@ int UnzipReader::close() {
   inflateEnd(_d->strm);
   delete _d->strm;
   _d->strm = NULL;
-  return _d->reader.close();
+  return _d->child->close();
 }
 
 ssize_t UnzipReader::read(void* buffer, size_t size) {
@@ -78,7 +83,7 @@ ssize_t UnzipReader::read(void* buffer, size_t size) {
   while (count < size) {
       ssize_t count_in;
     if (_d->buffer_empty) {
-      count_in = _d->reader.read(_d->buffer, BUFFER_SIZE);
+      count_in = _d->child->read(_d->buffer, BUFFER_SIZE);
       if (count_in < 0) {
         return -1;
       }
@@ -108,6 +113,13 @@ ssize_t UnzipReader::read(void* buffer, size_t size) {
   return count;
 }
 
+// Not implemented
+ssize_t UnzipReader::write(const void* buffer, size_t size) {
+  (void) buffer;
+  (void) size;
+  return -1;
+}
+
 long long UnzipReader::offset() const {
-  return _d->reader.offset();
+  return _d->child->offset();
 }

@@ -19,19 +19,21 @@
 #ifndef _ZIPWRITER_H
 #define _ZIPWRITER_H
 
-#include <iwriter.h>
+#include <ireaderwriter.h>
 
 namespace hbackup {
 
-class ZipWriter : public IWriter {
+class ZipWriter : public IReaderWriter {
   struct         Private;
   Private* const _d;
 public:
-  ZipWriter(IWriter& writer, int compression_level);
+  ZipWriter(IReaderWriter* child, bool delete_child, int compression_level);
   ~ZipWriter();
   int open();
   int close();
+  ssize_t read(void* buffer, size_t size);
   ssize_t write(const void* buffer, size_t size);
+  long long offset() const;
 };
 
 };

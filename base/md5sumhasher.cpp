@@ -24,11 +24,12 @@
 using namespace hbackup;
 
 struct MD5SumHasher::Private {
-  IReader*   reader;
-  IWriter*   writer;
-  char*      checksum;
+  IReaderWriter* child;
+  bool           delete_child;
+  char*          hash;
   EVP_MD_CTX ctx;
-  Private(char *c) : checksum(c) {}
+  Private(IReaderWriter* c, bool d, char *h) :
+    child(c), delete_child(d), hash(h) {}
   void binToHex(char* out, const unsigned char* in, int bytes) {
     const char* hex = "0123456789abcdef";
 
@@ -63,53 +64,48 @@ int MD5SumHasher::Private::update(
   return 0;
 }
 
-MD5SumHasher::MD5SumHasher(IReader& r, char* csum) : _d(new Private(csum)) {
-  _d->reader = &r;
-  _d->writer = NULL;
-}
-
-MD5SumHasher::MD5SumHasher(IWriter& w, char* csum) : _d(new Private(csum)) {
-  _d->reader = NULL;
-  _d->writer = &w;
-}
+MD5SumHasher::MD5SumHasher(IReaderWriter* c, bool d, char* h) :
+  _d(new Private(c, d, h)) {}
 
 MD5SumHasher::~MD5SumHasher() {
+  if (_d->delete_child) {
+    delete _d->child;
+  }
   delete _d;
 }
 
 int MD5SumHasher::open() {
-  if ((_d->reader != NULL) && (_d->reader->open() < 0)) {
-    return -1;
-  }
-  if ((_d->writer != NULL) && (_d->writer->open() < 0)) {
+  if (_d->child->open() < 0) {
     return -1;
   }
   if (EVP_DigestInit(&_d->ctx, EVP_md5()) != 1) {
+    _d->child->close();
     return -1;
   }
   return 0;
 }
 
 int MD5SumHasher::close() {
-  unsigned char checksum[36];
+  unsigned char hash[64];
   unsigned int  length;
 
-  if (EVP_DigestFinal(&_d->ctx, checksum, &length) != 1) {
-    return -1;
+  int rc = 0;
+  if (EVP_DigestFinal(&_d->ctx, hash, &length) != 1) {
+    rc = -1;
+  } else {
+    _d->binToHex(_d->hash, hash, length);
   }
-  _d->binToHex(_d->checksum, checksum, length);
-  if (_d->reader != NULL) {
-    return _d->reader->close();
+  if (_d->child->close() < 0) {
+    rc = -1;
   }
-  if (_d->writer != NULL) {
-    return _d->writer->close();
-  }
-  return 0;
+  return rc;
 }
 
 ssize_t MD5SumHasher::read(void* buffer, size_t size) {
-  ssize_t rc = _d->reader->read(buffer, size);
-  if (rc < 0) return rc;
+  ssize_t rc = _d->child->read(buffer, size);
+  if (rc < 0) {
+    return -1;
+  }
   if (_d->update(buffer, rc) < 0) {
     return -1;
   }
@@ -117,8 +113,10 @@ ssize_t MD5SumHasher::read(void* buffer, size_t size) {
 }
 
 ssize_t MD5SumHasher::write(const void* buffer, size_t size) {
-  ssize_t rc = _d->writer->write(buffer, size);
-  if (rc < 0) return rc;
+  ssize_t rc = _d->child->write(buffer, size);
+  if (rc < 0) {
+    return -1;
+  }
   if (_d->update(buffer, rc) < 0) {
     return -1;
   }
@@ -126,5 +124,5 @@ ssize_t MD5SumHasher::write(const void* buffer, size_t size) {
 }
 
 long long MD5SumHasher::offset() const {
-  return _d->reader->offset();
+  return _d->child->offset();
 }

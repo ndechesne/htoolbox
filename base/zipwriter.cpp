@@ -29,17 +29,23 @@ enum {
 };
 
 struct ZipWriter::Private {
-  IWriter&      writer;
-  z_stream*     strm;
-  int           level;
-  unsigned char buffer[BUFFER_SIZE];
-  bool          finished;
-  Private(IWriter& r, int l) : writer(r), strm(NULL), level(l) {}
+  IReaderWriter* child;
+  bool           delete_child;
+  z_stream*      strm;
+  int            level;
+  unsigned char  buffer[BUFFER_SIZE];
+  bool           finished;
+  Private(IReaderWriter* c, bool d, int l) :
+    child(c), delete_child(d), strm(NULL), level(l) {}
 };
 
-ZipWriter::ZipWriter(IWriter& w, int level) : _d(new Private(w, level)) {}
+ZipWriter::ZipWriter(IReaderWriter* child, bool delete_child, int level) :
+  _d(new Private(child, delete_child, level)) {}
 
 ZipWriter::~ZipWriter() {
+  if (_d->delete_child) {
+    delete _d->child;
+  }
   if (_d->strm != NULL) {
     close();
   }
@@ -47,7 +53,7 @@ ZipWriter::~ZipWriter() {
 }
 
 int ZipWriter::open() {
-  if (_d->writer.open() < 0) {
+  if (_d->child->open() < 0) {
     return -1;
   }
   _d->strm           = new z_stream;
@@ -76,7 +82,14 @@ int ZipWriter::close() {
   deflateEnd(_d->strm);
   delete _d->strm;
   _d->strm = NULL;
-  return _d->writer.close();
+  return _d->child->close();
+}
+
+// Not implemented
+ssize_t ZipWriter::read(void* buffer, size_t size) {
+  (void) buffer;
+  (void) size;
+  return -1;
 }
 
 ssize_t ZipWriter::write(const void* buffer, size_t size) {
@@ -95,9 +108,13 @@ ssize_t ZipWriter::write(const void* buffer, size_t size) {
     _d->strm->next_out  = _d->buffer;
     deflate(_d->strm, _d->finished ? Z_FINISH : Z_NO_FLUSH);
     ssize_t length = BUFFER_SIZE - _d->strm->avail_out;
-    if (_d->writer.write(_d->buffer, length) < 0) {
+    if (_d->child->write(_d->buffer, length) < 0) {
       return -1;
     }
   } while (_d->strm->avail_out == 0);
   return size;
+}
+
+long long ZipWriter::offset() const {
+  return _d->child->offset();
 }

@@ -19,19 +19,20 @@
 #ifndef _UNZIPREADER_H
 #define _UNZIPREADER_H
 
-#include <ireader.h>
+#include <ireaderwriter.h>
 
 namespace hbackup {
 
-class UnzipReader : public IReader {
+class UnzipReader : public IReaderWriter {
   struct         Private;
   Private* const _d;
 public:
-  UnzipReader(IReader& reader);
+  UnzipReader(IReaderWriter* child, bool delete_child);
   ~UnzipReader();
   int open();
   int close();
   ssize_t read(void* buffer, size_t size);
+  ssize_t write(const void* buffer, size_t size);
   long long offset() const;
 };
 

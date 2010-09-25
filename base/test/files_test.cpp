@@ -31,8 +31,7 @@ using namespace std;
 #include "hreport.h"
 #include "line.h"
 #include "files.h"
-#include "filereader.h"
-#include "filewriter.h"
+#include "filereaderwriter.h"
 #include "unzipreader.h"
 #include "zipwriter.h"
 #include "md5sumhasher.h"
@@ -1319,9 +1318,9 @@ int main(void) {
     char buffer[4096];
     memset(buffer, 0, 4096);
     ssize_t rc;
-    FileReader r("test1/testfile");
+    FileReaderWriter r("test1/testfile", false);
     char checksum[64] = "";
-    MD5SumHasher fr(r, checksum);
+    MD5SumHasher fr(&r, false, checksum);
     if (fr.open() < 0) {
       hlog_regression("%s opening file", strerror(errno));
     } else {
@@ -1337,9 +1336,9 @@ int main(void) {
       hlog_regression("checksum = '%s'", checksum);
     }
 
-    FileWriter w("test1/writeback");
+    FileReaderWriter w("test1/writeback", true);
     memset(checksum, 0, sizeof(checksum));
-    MD5SumHasher fw(w, checksum);
+    MD5SumHasher fw(&w, false, checksum);
     if (fw.open() < 0) {
       hlog_regression("%s opening file", strerror(errno));
     } else {
@@ -1375,8 +1374,8 @@ int main(void) {
     memset(buffer, 0, 4096);
     ssize_t rc;
     system("gzip -c test1/testfile > test1/testfile.gz");
-    FileReader r("test1/testfile.gz");
-    UnzipReader fr(r);
+    FileReaderWriter r("test1/testfile.gz", false);
+    UnzipReader fr(&r, false);
     if (fr.open() < 0) {
       hlog_regression("%s opening file", strerror(errno));
     } else {
@@ -1391,8 +1390,8 @@ int main(void) {
       }
     }
 
-    FileWriter w("test1/writeback");
-    ZipWriter fw(w, 5);
+    FileReaderWriter w("test1/writeback", true);
+    ZipWriter fw(&w, false, 5);
     if (fw.open() < 0) {
       hlog_regression("%s opening file", strerror(errno));
     } else {

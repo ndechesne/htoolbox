@@ -148,27 +148,22 @@ public:
 
 class File : public Node {
 protected:
-  char*     _checksum;
+  char _hash[64];
 public:
   // Constructor for existing Node
-  File(const File& g) :
-      Node(g),
-      _checksum(NULL) {
+  File(const File& g) : Node(g) {
     _parsed = true;
-    _checksum = strdup(g._checksum);
+    strcpy(_hash, g._hash);
   }
-  File(const Node& g) :
-      Node(g),
-      _checksum(NULL) {
+  File(const Node& g) : Node(g) {
     _parsed = true;
-    _checksum = strdup("");
+    strcpy(_hash, "");
   }
   // Constructor for path in the VFS
-  File(Path path) :
-      Node(path),
-      _checksum(strdup("")) {
+  File(Path path) : Node(path) {
     stat();
     _parsed = true;
+    strcpy(_hash, "");
   }
   // Constructor for given file metadata
   File(
@@ -179,25 +174,16 @@ public:
     uid_t       uid,
     gid_t       gid,
     mode_t      mode,
-    const char* checksum) :
-      Node(name, type, mtime, size, uid, gid, mode),
-      _checksum(NULL) {
+    const char* hash) : Node(name, type, mtime, size, uid, gid, mode) {
     _parsed = true;
-    setChecksum(checksum);
-  }
-  virtual ~File() {
-    free(_checksum);
+    setChecksum(hash);
   }
   bool isValid() const { return _type == 'f'; }
   // Create empty file
   int create();
   // Data read access
-  const char* checksum() const { return _checksum;  }
-  void setChecksum(const char* checksum) {
-    free(_checksum);
-    _checksum = NULL;
-    _checksum = strdup(checksum);
-  }
+  const char* checksum() const { return _hash;  }
+  void setChecksum(const char* hash) { strcpy(_hash, hash); }
 };
 
 class Directory : public Node {

@@ -23,22 +23,24 @@
 #include <limits.h>
 #include <string.h>
 
-#include <filereader.h>
+#include <filereaderwriter.h>
 
 using namespace hbackup;
 
-struct FileReader::Private {
+struct FileReaderWriter::Private {
   char      path[PATH_MAX];
+  bool      writer;
   int       fd;
   long long offset;
-  Private(const char* p) : fd(-1) {
+  Private(const char* p, bool w) : writer(w), fd(-1) {
     strcpy(path, p);
   }
 };
 
-FileReader::FileReader(const char* path) : _d(new Private(path)) {}
+FileReaderWriter::FileReaderWriter(const char* path, bool writer) :
+  _d(new Private(path, writer)) {}
 
-FileReader::~FileReader() {
+FileReaderWriter::~FileReaderWriter() {
   /* Auto-close on destroy */
   if (_d->fd >= 0) {
     close();
@@ -46,19 +48,23 @@ FileReader::~FileReader() {
   delete _d;
 }
 
-int FileReader::open() {
+int FileReaderWriter::open() {
   _d->offset = 0;
-  _d->fd = ::open64(_d->path, O_RDONLY|O_NOATIME|O_LARGEFILE);
+  if (_d->writer) {
+    _d->fd = ::open64(_d->path, O_WRONLY|O_CREAT|O_LARGEFILE|O_TRUNC, 0666);
+  } else {
+    _d->fd = ::open64(_d->path, O_RDONLY|O_NOATIME|O_LARGEFILE);
+  }
   return _d->fd < 0 ? -1 : 0;
 }
 
-int FileReader::close() {
+int FileReaderWriter::close() {
   int rc = ::close(_d->fd);
   _d->fd = -1;
   return rc;
 }
 
-ssize_t FileReader::read(void* buffer, size_t size) {
+ssize_t FileReaderWriter::read(void* buffer, size_t size) {
   char* cbuffer = static_cast<char*>(buffer);
   ssize_t ssize = size;
   ssize_t count = 0;
@@ -78,6 +84,25 @@ ssize_t FileReader::read(void* buffer, size_t size) {
   return count;
 }
 
-long long FileReader::offset() const {
+ssize_t FileReaderWriter::write(const void* buffer, size_t size) {
+  const char* cbuffer = static_cast<const char*>(buffer);
+  ssize_t ssize = size;
+  ssize_t count = 0;
+  while (count < ssize) {
+    ssize_t rc = ::write(_d->fd, cbuffer, size - count);
+    if (rc < 0) {
+      return rc;
+    }
+    if (rc == 0) {
+      /* count < size => end of file */
+      break;
+    }
+    cbuffer += rc;
+    count += rc;
+  }
+  return count;
+}
+
+long long FileReaderWriter::offset() const {
   return _d->offset;
 }

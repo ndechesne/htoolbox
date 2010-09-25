@@ -11,8 +11,7 @@ libhtools_la_LDFLAGS= -version-info $(LIB_VERSION)
 libhtools_la_SOURCES = \
   configuration.cpp \
   files.cpp \
-  filereader.cpp \
-  filewriter.cpp \
+  filereaderwriter.cpp \
   line.cpp \
   md5sumhasher.cpp \
   report.cpp \
@@ -24,11 +23,9 @@ libhtools_la_SOURCES = \
 EXTRA_DIST = \
   buffer.h \
   configuration.h \
-  filereader.h \
-  filewriter.h \
+  filereaderwriter.h \
   files.h \
-  ireader.h \
-  iwriter.h \
+  ireaderwriter.h \
   line.h \
   md5sumhasher.h \
   share.h \
