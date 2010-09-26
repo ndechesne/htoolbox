@@ -20,9 +20,9 @@ fi
 
 # Make sure dependencies are up-to-date
 if [ "$DIR" != "base" ]; then
-  $MAKE -C base || exit 2
+  $MAKE -C $BASE || exit 2
   if [ "$DIR" != "lib" ]; then
-    $MAKE -C lib || exit 2
+    $MAKE -C $LIB || exit 2
   fi
 fi
 

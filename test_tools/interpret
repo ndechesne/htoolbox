@@ -109,3 +109,5 @@ case $1 in
 esac
 
 DIR="$WHERE/../$DIR"
+BASE="$WHERE/../base"
+LIB="$WHERE/../lib"
