@@ -137,7 +137,7 @@ int Owner::finishOff(
 
   // Discard journal (step 2)
   if (! got_next || File(_d->journal->path()).isValid()) {
-    if (rename(_d->journal->path(), Path(_d->path, "journal~"))) {
+    if (rename(_d->journal->path(), Path(_d->path, "journal~").c_str())) {
       hlog_error("%s renaming journal to '%s/journal~'", strerror(errno),
         _d->path.c_str());
       return -1;
@@ -146,7 +146,7 @@ int Owner::finishOff(
 
   // list -> list~ (step 3)
   if (! got_next || File(_d->original->path()).isValid()) {
-    if (rename(_d->original->path(), Path(_d->path, "list~"))) {
+    if (rename(_d->original->path(), Path(_d->path, "list~").c_str())) {
       hlog_error("%s renaming backup list to '%s/list~'", strerror(errno),
         _d->path.c_str());
       return -1;
@@ -188,7 +188,7 @@ const char* Owner::name() const {
 }
 
 const char* Owner::path() const {
-  return _d->path;
+  return _d->path.c_str();
 }
 
 int Owner::hold() const {
@@ -198,7 +198,7 @@ int Owner::hold() const {
     return -1;
   }
 
-  File owner_list(Path(_d->path, "list"));
+  File owner_list(Path(_d->path, "list").c_str());
   if (! owner_list.isValid()) {
     hlog_error("Register not accessible in '%s', aborting", _d->name.c_str());
     return -1;
@@ -254,14 +254,14 @@ int Owner::open(
       return -1;
     }
   }
-  File owner_list(Path(_d->path, "list"));
+  File owner_list(Path(_d->path, "list").c_str());
 
   bool failed = false;
   // Open list
   _d->modified = false;
   _d->original = new ListReader(owner_list.path());
   if (_d->original->open(initialize)) {
-    File backup(Path(_d->path, "list~"));
+    File backup(Path(_d->path, "list~").c_str());
 
     if (backup.isValid()) {
       rename(backup.path(), _d->original->path());
@@ -282,8 +282,8 @@ int Owner::open(
   }
   if (! failed) {
     // Check journal
-    _d->journal = new ListWriter(Path(_d->path, "journal"), true);
-    _d->partial = new ListWriter(Path(_d->path, "partial"));
+    _d->journal = new ListWriter(Path(_d->path, "journal").c_str(), true);
+    _d->partial = new ListWriter(Path(_d->path, "partial").c_str());
     ListReader journal(_d->journal->path());
     if (! journal.open(true)) {
       // Check previous crash

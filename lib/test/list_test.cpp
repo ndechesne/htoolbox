@@ -32,7 +32,7 @@ using namespace std;
 
 class ListWriterJournal : public ListWriter {
 public:
-  ListWriterJournal(const Path& path) : ListWriter(path, true) {}
+  ListWriterJournal(const char* path) : ListWriter(path, true) {}
   void add(
       const char*     path,
       time_t          epoch,
@@ -86,7 +86,7 @@ static void showList(ListReader& list) {
       cout << list.path() << " is empty" << endl;
     } else {
       ListReader::Status rc;
-      Path path;
+      const char* path;
       while ((rc = list.fetchLine()) > 0) {
         if (rc == ListReader::got_path) {
           path = list.getPath();

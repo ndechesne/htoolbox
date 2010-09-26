@@ -239,7 +239,7 @@ int Data::organise(
         } else {
           // Move directory accross, changing its name
           if (rename(source_path.path(),
-              Path(dir.path(), &source_path.name()[2]))) {
+              Path(dir.path(), &source_path.name()[2]).c_str())) {
             failed = true;
           }
         }

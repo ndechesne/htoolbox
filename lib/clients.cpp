@@ -23,6 +23,7 @@
 using namespace std;
 
 #include <stdio.h>
+#include <limits.h>
 #include <ctype.h>
 #include <errno.h>
 
@@ -306,12 +307,16 @@ int Client::backup(
     } else
     {
       // Save configuration
-      Directory dir(Path(db.path(), ".configs"));
+      char path[PATH_MAX];
+      size_t len = sprintf(path, "%s/%s", db.path(), ".configs");
+      Directory dir(path);
       if (dir.create() < 0) {
         hlog_error("%s creating configuration directory '%s'", strerror(errno),
-          dir.path());
+          path);
       } else {
-        _config.write(Path(dir.path(), internalName().c_str()));
+        path[len++] = '/';
+        strcpy(&path[len], internalName().c_str());
+        _config.write(path);
       }
     }
   }

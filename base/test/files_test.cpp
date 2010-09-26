@@ -29,7 +29,6 @@
 using namespace std;
 
 #include "hreport.h"
-#include "line.h"
 #include "files.h"
 #include "filereaderwriter.h"
 #include "unzipreader.h"
@@ -62,7 +61,7 @@ static int parseList(Directory *d, const char* cur_dir) {
         *i = di;
         Path dir_path(cur_dir, di->name());
         if (! di->createList()) {
-          parseList(di, dir_path);
+          parseList(di, dir_path.c_str());
         } else {
           cerr << "Failed to create list for " << di->name() << " in "
             << cur_dir << endl;
@@ -226,54 +225,54 @@ int main(void) {
   cout << endl << "Test: constructors" << endl;
   Path* pth0;
   pth0 = new Path;
-  cout << pth0->length() << ": " << *pth0 << endl;
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
   delete pth0;
   pth0 = new Path("");
-  cout << pth0->length() << ": " << *pth0 << endl;
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
   delete pth0;
   pth0 = new Path("123");
-  cout << pth0->length() << ": " << *pth0 << endl;
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
   delete pth0;
   pth0 = new Path("123/456", "");
-  cout << pth0->length() << ": " << *pth0 << endl;
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
   delete pth0;
   pth0 = new Path("", "789");
-  cout << pth0->length() << ": " << *pth0 << endl;
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
   delete pth0;
-  pth0 = new Path(Path("123", "456"), "789");
-  cout << pth0->length() << ": " << *pth0 << endl;
+  pth0 = new Path(Path("123", "456").c_str(), "789");
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
   delete pth0;
   pth0 = new Path("123/456", "789/159");
-  cout << pth0->length() << ": " << *pth0 << endl;
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
   delete pth0;
   pth0 = new Path;
   *pth0 = Path("//1123//456", "7899//11599//");
-  cout << pth0->length() << ": " << *pth0 << endl;
+  cout << pth0->length() << ": " << pth0->c_str() << endl;
   delete pth0;
 
   cout << endl << "Test: basename and dirname" << endl;
   pth0 = new Path("this/is a path/to a/file");
-  cout << *pth0;
+  cout << pth0->c_str();
   cout << " -> base: ";
   cout << pth0->basename();
   cout << ", dir: ";
-  cout << pth0->dirname();
+  cout << pth0->dirname().c_str();
   cout << endl;
   delete pth0;
   pth0 = new Path("this is a file");
-  cout << *pth0;
+  cout << pth0->c_str();
   cout << " -> base: ";
   cout << pth0->basename();
   cout << ", dir: ";
-  cout << pth0->dirname();
+  cout << pth0->dirname().c_str();
   cout << endl;
   delete pth0;
   pth0 = new Path("this is a path/");
-  cout << *pth0;
+  cout << pth0->c_str();
   cout << " -> base: ";
   cout << pth0->basename();
   cout << ", dir: ";
-  cout << pth0->dirname();
+  cout << pth0->dirname().c_str();
   cout << endl;
   delete pth0;
 
@@ -843,10 +842,11 @@ int main(void) {
     return 0;
   }
   readfile->setProgressCallback(read_progress);
+  char*  buffer = NULL;
+  size_t capacity = 0;
   while (true) {
-    Line line;
     bool eol;
-    ssize_t rc = readfile->getLine(line, &eol);
+    ssize_t rc = readfile->getLine(&buffer, &capacity, &eol);
     if (rc < 0) {
       cout << "Error reading line, " << strerror(errno) << endl;
       return 0;
@@ -872,9 +872,8 @@ int main(void) {
   }
   readfile->setProgressCallback(read_progress);
   while (true) {
-    Line line;
     bool eol;
-    ssize_t rc = readfile->getLine(line, &eol);
+    ssize_t rc = readfile->getLine(&buffer, &capacity, &eol);
     if (rc < 0) {
       cout << "Error reading line, " << strerror(errno) << endl;
       return 0;
@@ -891,6 +890,7 @@ int main(void) {
   cout << "Checksum: " << readfile->checksum() << endl;
   cout << "Size: " << read_size << endl;
   delete readfile;
+  free(buffer);
 
   cout << "default decompress read" << endl;
   readfile = new Stream("test1/rwfile_source");

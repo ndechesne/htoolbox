@@ -254,7 +254,7 @@ int main(void) {
   Directory* d;
   File* f;
   Database::OpData* op;
-  Path p;
+  const char* p;
   d = new Directory("test1/subdir");
   d->setSize(0);
   p = "/client_path/subdir";

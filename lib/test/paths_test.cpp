@@ -70,9 +70,9 @@ int main(void) {
   db.setCopyProgressCallback(copy_progress);
   db.setListProgressCallback(list_progress);
   // myClient's lists
-  ListReader real_journal_reader(Path("test_db", "myClient/journal"));
-  ListReader journal_reader(Path("test_db", "myClient/journal~"));
-  ListReader dblist_reader(Path("test_db", "myClient/list"));
+  ListReader real_journal_reader(Path("test_db", "myClient/journal").c_str());
+  ListReader journal_reader(Path("test_db", "myClient/journal~").c_str());
+  ListReader dblist_reader(Path("test_db", "myClient/list").c_str());
   // Filter
   vector<string> params;
   params.resize(3);
@@ -759,8 +759,8 @@ int main(void) {
   }
 
   // hisClient's lists
-  ListReader journal2_reader(Path("test_db", "hisClient/journal~"));
-  ListReader dblist2_reader(Path("test_db", "hisClient/list"));
+  ListReader journal2_reader(Path("test_db", "hisClient/journal~").c_str());
+  ListReader dblist2_reader(Path("test_db", "hisClient/list").c_str());
 
   // Replace files to test recovery
   rename("test_db/myClient/list.cp", "test_db/myClient/list");

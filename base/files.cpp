@@ -35,7 +35,6 @@
 using namespace std;
 
 #include "buffer.h"
-#include "line.h"
 #include "filereaderwriter.h"
 #include "hasher.h"
 #include "unzipreader.h"
@@ -45,11 +44,33 @@ using namespace std;
 using namespace hbackup;
 
 Path::Path(const char* dir, const char* name) {
-  *this = dir;
   if (name[0] != '\0') {
-    *this += "/";
-    *this += name;
+    _capacity = asprintf(&_path, "%s/%s", dir, name);
+  } else {
+    _path = strdup(dir);
+    _capacity = strlen(_path);
   }
+}
+
+Path::Path(const Path& dir, const char* name) {
+  if (name[0] != '\0') {
+    _capacity = asprintf(&_path, "%s/%s", dir._path, name);
+  } else {
+    _path = strdup(dir._path);
+    _capacity = dir._capacity;
+  }
+}
+
+const Path& Path::operator=(const char* path) {
+  size_t len = strlen(path);
+  if (len > _capacity) {
+    free(_path);
+    _path = strdup(path);
+    _capacity = len;
+  } else {
+    strcpy(_path, path);
+  }
+  return *this;
 }
 
 const char* Path::basename(const char* path) {
@@ -63,12 +84,13 @@ const char* Path::basename(const char* path) {
 }
 
 Path Path::dirname() const {
-  int pos = rfind('/');
-  if (pos < 0) {
-    return ".";
-  }
   Path rc = *this;
-  rc.erase(pos);
+  char* pos = strrchr(rc._path, '/');
+  if (pos == NULL) {
+    rc = ".";
+  } else {
+    *pos = '\0';
+  }
   return rc;
 }
 
@@ -140,7 +162,7 @@ int Path::compare(const char* s1, const char* s2, ssize_t length) {
 
 int Node::stat() {
   struct stat64 metadata;
-  int rc = lstat64(_path, &metadata);
+  int rc = lstat64(_path.c_str(), &metadata);
   if (rc) {
     // errno set by lstat
     _type = '?';
@@ -171,7 +193,7 @@ bool Node::operator!=(const Node& right) const {
 }
 
 int Node::remove() {
-  int rc = ::remove(_path);
+  int rc = ::remove(_path.c_str());
   if (! rc) {
     _type = '?';
   }
@@ -187,7 +209,7 @@ int File::create() {
     // Only a warning
     return 1;
   } else {
-    int readfile = ::open(_path, O_WRONLY | O_CREAT, 0666);
+    int readfile = ::open(_path.c_str(), O_WRONLY | O_CREAT, 0666);
     if (readfile < 0) {
       return -1;
     }
@@ -216,7 +238,7 @@ int Directory::createList() {
   }
   // Create list
   struct dirent** direntList;
-  int size = scandir(_path, &direntList, direntFilter, direntCompare);
+  int size = scandir(_path.c_str(), &direntList, direntFilter, direntCompare);
   if (size < 0) {
     return -1;
   }
@@ -227,7 +249,7 @@ int Directory::createList() {
   }
   free(direntList);
   // Bug in CIFS client, usually gets detected by two subsequent dir reads
-  size2 = scandir(_path, &direntList, direntFilter, direntCompare);
+  size2 = scandir(_path.c_str(), &direntList, direntFilter, direntCompare);
   if (size != size2) {
     errno = EAGAIN;
     size = size2;
@@ -244,7 +266,7 @@ int Directory::createList() {
   _nodes = new list<Node*>;
   bool failed = false;
   while (size--) {
-    Node *g = new Node(Path(_path, direntList[size]->d_name));
+    Node *g = new Node(Path(_path.c_str(), direntList[size]->d_name));
     free(direntList[size]);
     if (! g->stat()) {
       switch (g->type()) {
@@ -295,7 +317,7 @@ int Directory::create() {
     // Only a warning
     return 1;
   } else {
-    if (mkdir(_path, 0777)) {
+    if (mkdir(_path.c_str(), 0777)) {
       return -1;
     }
     stat();
@@ -404,7 +426,7 @@ int Stream::open(
   }
   _d->size     = 0;
   _d->progress = 0;
-  _d->rw = new FileReaderWriter(_path, flags == O_WRONLY);
+  _d->rw = new FileReaderWriter(_path.c_str(), flags == O_WRONLY);
   switch (flags) {
   case O_WRONLY:
     _d->writer = true;

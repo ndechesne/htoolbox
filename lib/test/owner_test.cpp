@@ -67,15 +67,16 @@ static int showRegister(const char* path) {
     cout << strerror(errno) << " opening list at '" << path << "'" << endl;
     return -1;
   }
-  Line line;
-  while (list.getLine(line)) {
-    if (line[0] != '\t') {
+  char*  buffer = NULL;
+  size_t capacity = 0;
+  while (list.getLine(&buffer, &capacity)) {
+    if (buffer[0] != '\t') {
       // Header, footer or path
-      cout << line << endl;
+      cout << buffer << endl;
     } else {
       time_t ts;
       Node*  node = NULL;
-      List::decodeLine(line, &ts, &node);
+      List::decodeLine(buffer, &ts, &node);
       cout << "\t" << ts << "\t";
       if (node != NULL) {
         printf("%c\t%6lld\t%03o", node->type(), node->size(), node->mode());
@@ -87,6 +88,7 @@ static int showRegister(const char* path) {
     }
   }
   list.close();
+  free(buffer);
   return 0;
 }
 
@@ -109,7 +111,7 @@ int main(void) {
   Node*   list_node;
   Database::OpData* op;
   Missing missing;
-  Path p;
+  string p;
 
   cout << endl << "First operation" << endl;
   rc = o.open(true, false);
@@ -120,8 +122,8 @@ int main(void) {
   node = new File(Path("test1/testfile"));
   node->stat();
   list_node = NULL;
-  p = (remote_path + node->name()).c_str();
-  op = new Database::OpData(p, strlen(p), *node);
+  p = remote_path + node->name();
+  op = new Database::OpData(p.c_str(), p.length(), *node);
   o.send(*op, missing);
   delete list_node;
   ++my_time;
@@ -153,8 +155,8 @@ int main(void) {
   node = new File(Path("test2/testfile"));
   node->stat();
   list_node = NULL;
-  p = (remote_path + node->name()).c_str();
-  op = new Database::OpData(p, strlen(p), *node);
+  p = remote_path + node->name();
+  op = new Database::OpData(p.c_str(), p.length(), *node);
   o.send(*op, missing);
   delete list_node;
   ++my_time;
@@ -185,8 +187,8 @@ int main(void) {
   node = new File(Path("test1/testfile"));
   node->stat();
   list_node = NULL;
-  p = (remote_path + node->name()).c_str();
-  op = new Database::OpData(p, strlen(p), *node);
+  p = remote_path + node->name();
+  op = new Database::OpData(p.c_str(), p.length(), *node);
   o.send(*op, missing);
   delete list_node;
   ++my_time;
@@ -217,8 +219,8 @@ int main(void) {
   node = new File(Path("test2/testfile"));
   node->stat();
   list_node = NULL;
-  p = (remote_path + node->name()).c_str();
-  op = new Database::OpData(p, strlen(p), *node);
+  p = remote_path + node->name();
+  op = new Database::OpData(p.c_str(), p.length(), *node);
   o.send(*op, missing);
   delete list_node;
   op->extra = "checksum test";
@@ -318,7 +320,7 @@ int main(void) {
   } else
   for (list<CompData>::iterator i = checksums.begin();
       i != checksums.end(); i++) {
-    cout << " -> " << i->checksum() << ", " << i->size() << endl;
+    cout << " -> " << i->hash() << ", " << i->size() << endl;
   }
   cout << "Dir contents:" << endl;
   sys_rc = system("ls -R test_db");

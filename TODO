@@ -4,6 +4,5 @@ TODO - non-organised list of things I want to do
   * sort out lists management the right way
   * restoration via web gui
   * handle all compression requirements (maybe 1.2)
-  * make parsers sub-projects (maybe 1.1)
   * backup's backups (1.2)
   * review files.h (Path to go, Directory to speed up, no more File/Link) (1.2)

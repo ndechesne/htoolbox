@@ -27,7 +27,6 @@ using namespace std;
 
 #include "test.h"
 
-#include "line.h"
 #include "files.h"
 #include "configuration.h"
 #include "conditions.h"
@@ -73,10 +72,12 @@ static int showClientConfigs() {
     Config config;
     Stream stream((*i)->path());
     if (! stream.open(O_RDONLY)) {
-      Line line;
-      while (stream.getLine(line) > 0) {
-        cout << line << endl;
+      char*  buffer = NULL;
+      size_t capacity = 0;
+      while (stream.getLine(&buffer, &capacity) > 0) {
+        cout << buffer << endl;
       }
+      free(buffer);
       stream.close();
     } else {
       cout << "Could not open config file " << stream.path() << endl;

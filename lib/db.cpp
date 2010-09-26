@@ -75,7 +75,7 @@ int Database::lock() {
 
   // Set the database path that we just locked as default
   // Try to open lock file for reading: check who's holding the lock
-  if ((file = fopen(lock_path, "r")) != NULL) {
+  if ((file = fopen(lock_path.c_str(), "r")) != NULL) {
     pid_t pid = 0;
 
     // Lock already taken
@@ -88,7 +88,7 @@ int Database::lock() {
       kill(pid, 0);
       if (errno == ESRCH) {
         hlog_warning("Database lock reset");
-        ::remove(lock_path);
+        ::remove(lock_path.c_str());
       } else {
         hlog_error("Database lock taken by process with pid %d", pid);
         failed = true;
@@ -101,7 +101,7 @@ int Database::lock() {
 
   // Try to open lock file for writing: lock
   if (! failed) {
-    if ((file = fopen(lock_path, "w")) != NULL) {
+    if ((file = fopen(lock_path.c_str(), "w")) != NULL) {
       // Lock taken
       fprintf(file, "%u\n", getpid());
       fclose(file);
@@ -121,7 +121,8 @@ void Database::unlock() {
   File(Path(_d->path.c_str(), ".lock")).remove();
 }
 
-Database::Database(const char* path) : _d(new Private(Path(path, ".data"))) {
+Database::Database(const char* path) :
+  _d(new Private(Path(path, ".data").c_str())) {
   _d->path     = path;
   _d->access   = no;
   // Reset progress callback function
@@ -213,7 +214,7 @@ int Database::open(
     hlog_verbose("Database open in read-only mode");
   } else {
     // Open problematic checksums list
-    _d->missing.open(Path(_d->path.c_str(), ".checksums"));
+    _d->missing.open(Path(_d->path.c_str(), ".checksums").c_str());
     // Set mode to call openClient for checking only
     _d->access = quiet_rw;
     // Finish off any previous backup
@@ -365,7 +366,7 @@ int Database::restore(
     Path dir = base.dirname();
     if (! Directory(dir).isValid()) {
       string command = "mkdir -p \"";
-      command += dir;
+      command += dir.c_str();
       command += "\"";
       if (system(command.c_str())) {
         hlog_error("%s creating path '%s'", strerror(errno), dir.c_str());
@@ -395,7 +396,7 @@ int Database::restore(
             this_failed = true;
           } else
           if (links == HBackup::none) {
-            if (_d->data.read(base, f->checksum())) {
+            if (_d->data.read(base.c_str(), f->checksum())) {
               hlog_error("%s restoring file '%s'", strerror(errno),
                 base.c_str());
               this_failed = true;
@@ -403,7 +404,7 @@ int Database::restore(
           } else {
             string path;
             string extension;
-            string dest(base);
+            string dest(base.c_str());
             if (_d->data.name(f->checksum(), path, extension)) {
               this_failed = true;
             } else {
@@ -425,20 +426,20 @@ int Database::restore(
           }
         } break;
       case 'd':
-        if (mkdir(base, db_node->mode())) {
+        if (mkdir(base.c_str(), db_node->mode())) {
           hlog_error("%s restoring dir '%s'", strerror(errno), base.c_str());
           this_failed = true;
         }
         break;
       case 'l': {
           Link* l = static_cast<Link*>(db_node);
-          if (symlink(l->link(), base)) {
+          if (symlink(l->link(), base.c_str())) {
             hlog_error("%s restoring file '%s'", strerror(errno), base.c_str());
             this_failed = true;
           }
         } break;
       case 'p':
-        if (mkfifo(base, db_node->mode())) {
+        if (mkfifo(base.c_str(), db_node->mode())) {
           hlog_error("%s restoring pipe (FIFO) '%s'", strerror(errno),
             base.c_str());
           this_failed = true;
@@ -457,19 +458,19 @@ int Database::restore(
     if ((db_node->type() != 'l') && (links == HBackup::none)) {
       // Restore modification time
       struct utimbuf times = { -1, db_node->mtime() };
-      if (utime(base, &times)) {
+      if (utime(base.c_str(), &times)) {
         hlog_error("%s restoring modification time for '%s'", strerror(errno),
           base.c_str());
         this_failed = true;
       }
       // Restore permissions
-      if (chmod(base, db_node->mode())) {
+      if (chmod(base.c_str(), db_node->mode())) {
         hlog_error("%s restoring permissions for '%s'", strerror(errno),
           base.c_str());
         this_failed = true;
       }
       // Restore owner and group
-      if (chown(base, db_node->uid(), db_node->gid())) {
+      if (chown(base.c_str(), db_node->uid(), db_node->gid())) {
         hlog_error("%s restoring owner/group for '%s'", strerror(errno),
           base.c_str());
         this_failed = true;
@@ -516,7 +517,7 @@ int Database::scan(
     list<CompData>::iterator j = i;
     j++;
     while ((j != list_data.end())
-    && (strcmp(i->checksum(), j->checksum()) == 0)) {
+    && (strcmp(i->hash(), j->hash()) == 0)) {
       if (i->size() != j->size()) {
         i->signalBroken();
       }
@@ -538,14 +539,14 @@ int Database::scan(
     hlog_debug("Checksum(s) from list: %zu", list_data.size());
     for (list<CompData>::iterator i = list_data.begin();
         i != list_data.end(); i++) {
-      hlog_debug_arrow(1, "%s, %lld", i->checksum().c_str(), i->size());
+      hlog_debug_arrow(1, "%s, %lld", i->hash(), i->size());
     }
   }
   if (! data_data.empty()) {
     hlog_debug("Checksum(s) with data: %zu", data_data.size());
     for (list<CompData>::iterator i = data_data.begin();
         i != data_data.end(); i++) {
-      hlog_debug_arrow(1, "%s, %lld", i->checksum().c_str(), i->size());
+      hlog_debug_arrow(1, "%s, %lld", i->hash(), i->size());
     }
   }
 
@@ -561,11 +562,11 @@ int Database::scan(
       cmp = -1;
     } else
     {
-      cmp = strcmp(d->checksum(), l->checksum());
+      cmp = strcmp(d->hash(), l->hash());
     }
     if (cmp > 0) {
       // Checksum is missing
-      _d->missing.setMissing(l->checksum());
+      _d->missing.setMissing(l->hash());
       l++;
     } else
     if (cmp < 0) {
@@ -575,7 +576,7 @@ int Database::scan(
     {
       if (d->size() != l->size()) {
         // Data is broken
-        _d->missing.setInconsistent(d->checksum(), d->size());
+        _d->missing.setInconsistent(d->hash(), d->size());
       }
       // Next
       d = data_data.erase(d);
@@ -588,16 +589,15 @@ int Database::scan(
     hlog_info("Obsolete checksum(s): %zu", data_data.size());
     for (list<CompData>::iterator i = data_data.begin();
         i != data_data.end(); i++) {
-      if (i->checksum()[0] != '\0') {
+      if (i->hash()[0] != '\0') {
         if (rm_obsolete) {
-          if (_d->data.remove(i->checksum()) == 0) {
-            hlog_debug_arrow(1, "removed data for %s", i->checksum().c_str());
+          if (_d->data.remove(i->hash()) == 0) {
+            hlog_debug_arrow(1, "removed data for %s", i->hash());
           } else {
-            hlog_error("%s removing data for %s", strerror(errno),
-              i->checksum().c_str());
+            hlog_error("%s removing data for %s", strerror(errno), i->hash());
           }
         } else {
-          hlog_debug_arrow(1, "%s", i->checksum().c_str());
+          hlog_debug_arrow(1, "%s", i->hash());
         }
       }
     }

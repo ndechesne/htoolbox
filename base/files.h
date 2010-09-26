@@ -31,24 +31,25 @@ using namespace std;
 #include <sys/types.h>
 #include <fcntl.h>
 
-#include <line.h>
-
 namespace hbackup {
 
-class Path : public Line {
+class Path {
+  char*  _path;
+  size_t _capacity;
 public:
-  Path() : Line() {}
-  Path(const char* path) : Line(path) {}
+  Path() : _path(strdup("")), _capacity(0) {}
+  Path(const Path& path) : _path(strdup(path._path)), _capacity(strlen(_path)) {}
+  Path(const char* path) : _path(strdup(path)), _capacity(strlen(_path)) {}
   Path(const char* dir, const char* name);
-  const Path& operator=(const char* line) {
-    Line::operator=(line);
-    return *this;
-  }
-  size_t length() const  { return size(); }
+  Path(const Path& dir, const char* name);
+  const Path& operator=(const char* path);
+  char* buffer() { return _path; }
+  const char* c_str() const { return _path; }
+  size_t length() const  { return strlen(_path); }
   Path dirname() const;
-  const char* basename() const { return basename(*this); }
+  const char* basename() const { return basename(_path); }
   int compare(const Path& p, ssize_t length = -1) const {
-    return compare(*this, p, length);
+    return compare(_path, p._path, length);
   }
   // Some generic methods
   static const char* basename(const char* path);
@@ -122,7 +123,7 @@ public:
   virtual bool operator!=(const Node&) const;
   // Data read access
   virtual bool  isValid()     const { return _type != '?';     }
-  const char*   path()        const { return _path;            }
+  const char*   path()        const { return _path.c_str();    }
   size_t        pathLength()  const { return _path.length();   }
   const char*   name()        const { return _basename;        }
   char          type()        const { return _type;            }
@@ -222,7 +223,7 @@ public:
     _parsed = true;
     size_t size = static_cast<size_t>(_size);
     _link = static_cast<char*>(malloc(size + 1));
-    ssize_t count = readlink(_path, _link, size);
+    ssize_t count = readlink(_path.c_str(), _link, size);
     if (count >= 0) {
       _size = count;
     } else {
@@ -235,7 +236,7 @@ public:
     stat();
     _parsed = true;
     _link = static_cast<char*>(malloc(static_cast<int>(_size) + 1));
-    ssize_t count = readlink(_path, _link, static_cast<int>(_size));
+    ssize_t count = readlink(_path.c_str(), _link, static_cast<int>(_size));
     if (count >= 0) {
       _size = count;
     } else {
@@ -316,13 +317,6 @@ public:
     char**          buffer,
     size_t*         buffer_capacity,
     bool*           end_of_line_found = NULL);
-  virtual ssize_t getLine(
-    LineBuffer&     line,
-    bool*           end_of_line_found = NULL) {
-      *line.sizePtr() = getLine(line.bufferPtr(), line.capacityPtr(),
-        end_of_line_found);
-      return *line.sizePtr();
-    }
   // Write line of characters to file and add end of line character
   ssize_t putLine(
     const char*     buffer);

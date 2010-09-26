@@ -361,14 +361,14 @@ int HBackup::open(
     // Set-up client info
     Client* client = new Client("localhost", _d->attributes, _d->parsers_manager);
     client->setProtocol("file");
-    client->setListfile(Path(path, ".hbackup/config"));
+    client->setListfile(Path(path, ".hbackup/config").c_str());
     client->setBasePath(path);
     if (check_config) {
       failed = client->readConfig(client->listfile()) < 0;
     } else {
       _d->clients.push_back(client);
       // Set-up DB
-      _d->db = new Database(Path(path, ".hbackup"));
+      _d->db = new Database(Path(path, ".hbackup").c_str());
       _d->db->setCopyProgressCallback(_copy_progress);
       _d->db->setListProgressCallback(_list_progress);
     }
