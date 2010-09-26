@@ -1,6 +1,11 @@
-#!/bin/sh
+#!/bin/bash -e
 
-hbackup='valgrind --quiet --leak-check=full ../../hbackup'
+linked_hbackup="../../.libs/lt-hbackup"
+if [ ! -r $linked_hbackup ]; then
+	../../hbackup --version &> /dev/null
+fi
+
+hbackup="valgrind --quiet --leak-check=full $linked_hbackup"
 
 echo "Version"
 $hbackup --version -- 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
@@ -23,7 +28,7 @@ echo "Backup, DB missing"
 $hbackup -d -c etc/hbackup.conf -- 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Typical backup, initialize DB"
-$hbackup -di -c etc/hbackup.conf -- 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
+$hbackup -di -c etc/hbackup.conf  -- 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"
 
 echo "Specify clients"
 $hbackup -d -c etc/hbackup.conf -C myhost -C client.xp 2>&1 | sed "s/.*==//" | sed "s/[^:]* 0x[^:]*:/  /"

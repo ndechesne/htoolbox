@@ -13,6 +13,7 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 
+AC_DISABLE_STATIC
 AC_LANG([C++])
 
 # Compiler options
