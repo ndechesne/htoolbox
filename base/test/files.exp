@@ -2,14 +2,13 @@ Tools Test
 Our mask = 0022
 
 Test: constructors
-0: 
-0: 
-3: 123
-7: 123/456
-4: /789
-11: 123/456/789
-15: 123/456/789/159
-25: //1123//456/7899//11599//
+
+123
+123/456
+/789
+123/456/789
+123/456/789/159
+//1123//456/7899//11599//
 
 Test: basename and dirname
 this/is a path/to a/file -> base: file, dir: this/is a path/to a

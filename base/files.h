@@ -36,21 +36,17 @@ namespace hbackup {
 class Path {
   char*  _path;
   size_t _capacity;
+  Path();
+  const Path& operator=(const Path&);
 public:
-  Path() : _path(strdup("")), _capacity(0) {}
   Path(const Path& path) : _path(strdup(path._path)), _capacity(strlen(_path)) {}
   Path(const char* path) : _path(strdup(path)), _capacity(strlen(_path)) {}
   Path(const char* dir, const char* name);
   Path(const Path& dir, const char* name);
-  const Path& operator=(const char* path);
-  char* buffer() { return _path; }
+  ~Path() { free(_path); }
+  operator const char* () const { return _path; }
   const char* c_str() const { return _path; }
-  size_t length() const  { return strlen(_path); }
   Path dirname() const;
-  const char* basename() const { return basename(_path); }
-  int compare(const Path& p, ssize_t length = -1) const {
-    return compare(_path, p._path, length);
-  }
   // Some generic methods
   static const char* basename(const char* path);
   static int compare(const char* s1, const char* s2, ssize_t length = -1);
@@ -80,14 +76,14 @@ public:
         _gid(g._gid),
         _mode(g._mode),
         _parsed(false) {
-      _basename = _path.basename();
+      _basename = basename(_path);
     }
   // Constructor for path in the VFS
   Node(Path path) :
         _path(path),
         _type('?'),
         _parsed(false) {
-      _basename = _path.basename();
+      _basename = basename(_path);
     }
   // Constructor for given file metadata
   Node(
@@ -106,7 +102,7 @@ public:
         _gid(gid),
         _mode(mode),
         _parsed(false) {
-      _basename = _path.basename();
+      _basename = basename(_path);
     }
   virtual ~Node() {}
   // Stat file metadata
@@ -117,22 +113,21 @@ public:
   // Operators
   bool operator<(const Node& right) const {
     // Only compare paths
-    return _path.compare(right._path) < 0;
+    return Path::compare(_path, right._path) < 0;
   }
   // Compares names and metadata, not paths
   virtual bool operator!=(const Node&) const;
   // Data read access
-  virtual bool  isValid()     const { return _type != '?';     }
-  const char*   path()        const { return _path.c_str();    }
-  size_t        pathLength()  const { return _path.length();   }
-  const char*   name()        const { return _basename;        }
-  char          type()        const { return _type;            }
-  time_t        mtime()       const { return _mtime;           }
-  long long     size()        const { return _size;            }
-  uid_t         uid()         const { return _uid;             }
-  gid_t         gid()         const { return _gid;             }
-  mode_t        mode()        const { return _mode;            }
-  bool          parsed()      const { return _parsed;          }
+  virtual bool  isValid()     const { return _type != '?';  }
+  const char*   path()        const { return _path;         }
+  const char*   name()        const { return _basename;     }
+  char          type()        const { return _type;         }
+  time_t        mtime()       const { return _mtime;        }
+  long long     size()        const { return _size;         }
+  uid_t         uid()         const { return _uid;          }
+  gid_t         gid()         const { return _gid;          }
+  mode_t        mode()        const { return _mode;         }
+  bool          parsed()      const { return _parsed;       }
   // Remove node
   int   remove();
 };
@@ -223,7 +218,7 @@ public:
     _parsed = true;
     size_t size = static_cast<size_t>(_size);
     _link = static_cast<char*>(malloc(size + 1));
-    ssize_t count = readlink(_path.c_str(), _link, size);
+    ssize_t count = readlink(_path, _link, size);
     if (count >= 0) {
       _size = count;
     } else {
@@ -236,7 +231,7 @@ public:
     stat();
     _parsed = true;
     _link = static_cast<char*>(malloc(static_cast<int>(_size) + 1));
-    ssize_t count = readlink(_path.c_str(), _link, static_cast<int>(_size));
+    ssize_t count = readlink(_path, _link, static_cast<int>(_size));
     if (count >= 0) {
       _size = count;
     } else {

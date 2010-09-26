@@ -76,7 +76,8 @@ int ParsersManager::loadPlugins(const char* path) {
     const list<Node*>& nodes = d.nodesListConst();
     for (list<Node*>::const_iterator node_it = nodes.begin();
         node_it != nodes.end(); ++node_it) {
-      if (strcmp(&(*node_it)->path()[(*node_it)->pathLength() - 3], ".so") == 0) {
+      size_t path_len = strlen((*node_it)->path());
+      if (strcmp(&(*node_it)->path()[path_len - 3], ".so") == 0) {
         void* file_handle = dlopen((*node_it)->path(), RTLD_NOW);
         if (file_handle != NULL) {
           _dls.push_back(file_handle);

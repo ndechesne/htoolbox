@@ -61,18 +61,6 @@ Path::Path(const Path& dir, const char* name) {
   }
 }
 
-const Path& Path::operator=(const char* path) {
-  size_t len = strlen(path);
-  if (len > _capacity) {
-    free(_path);
-    _path = strdup(path);
-    _capacity = len;
-  } else {
-    strcpy(_path, path);
-  }
-  return *this;
-}
-
 const char* Path::basename(const char* path) {
   const char* name = strrchr(path, '/');
   if (name != NULL) {
@@ -84,14 +72,15 @@ const char* Path::basename(const char* path) {
 }
 
 Path Path::dirname() const {
-  Path rc = *this;
-  char* pos = strrchr(rc._path, '/');
+  char* pos = strrchr(_path, '/');
   if (pos == NULL) {
-    rc = ".";
+    return ".";
   } else {
+    Path rc(*this);
+    pos = rc._path + (pos - _path);
     *pos = '\0';
+    return rc;
   }
-  return rc;
 }
 
 const char* Path::fromDos(char* path) {
@@ -162,7 +151,7 @@ int Path::compare(const char* s1, const char* s2, ssize_t length) {
 
 int Node::stat() {
   struct stat64 metadata;
-  int rc = lstat64(_path.c_str(), &metadata);
+  int rc = lstat64(_path, &metadata);
   if (rc) {
     // errno set by lstat
     _type = '?';
@@ -189,11 +178,11 @@ bool Node::operator!=(const Node& right) const {
   return (_type != right._type)   || (_mtime != right._mtime)
       || (_size != right._size)   || (_uid != right._uid)
       || (_gid != right._gid)     || (_mode != right._mode)
-      || (strcmp(_path.basename(), right._path.basename()) != 0);
+      || (strcmp(basename(_path), basename(right._path)) != 0);
 }
 
 int Node::remove() {
-  int rc = ::remove(_path.c_str());
+  int rc = ::remove(_path);
   if (! rc) {
     _type = '?';
   }
@@ -209,7 +198,7 @@ int File::create() {
     // Only a warning
     return 1;
   } else {
-    int readfile = ::open(_path.c_str(), O_WRONLY | O_CREAT, 0666);
+    int readfile = ::open(_path, O_WRONLY | O_CREAT, 0666);
     if (readfile < 0) {
       return -1;
     }
@@ -238,7 +227,7 @@ int Directory::createList() {
   }
   // Create list
   struct dirent** direntList;
-  int size = scandir(_path.c_str(), &direntList, direntFilter, direntCompare);
+  int size = scandir(_path, &direntList, direntFilter, direntCompare);
   if (size < 0) {
     return -1;
   }
@@ -249,7 +238,7 @@ int Directory::createList() {
   }
   free(direntList);
   // Bug in CIFS client, usually gets detected by two subsequent dir reads
-  size2 = scandir(_path.c_str(), &direntList, direntFilter, direntCompare);
+  size2 = scandir(_path, &direntList, direntFilter, direntCompare);
   if (size != size2) {
     errno = EAGAIN;
     size = size2;
@@ -266,7 +255,7 @@ int Directory::createList() {
   _nodes = new list<Node*>;
   bool failed = false;
   while (size--) {
-    Node *g = new Node(Path(_path.c_str(), direntList[size]->d_name));
+    Node *g = new Node(Path(_path, direntList[size]->d_name));
     free(direntList[size]);
     if (! g->stat()) {
       switch (g->type()) {
@@ -317,7 +306,7 @@ int Directory::create() {
     // Only a warning
     return 1;
   } else {
-    if (mkdir(_path.c_str(), 0777)) {
+    if (mkdir(_path, 0777)) {
       return -1;
     }
     stat();
@@ -426,7 +415,7 @@ int Stream::open(
   }
   _d->size     = 0;
   _d->progress = 0;
-  _d->rw = new FileReaderWriter(_path.c_str(), flags == O_WRONLY);
+  _d->rw = new FileReaderWriter(_path, flags == O_WRONLY);
   switch (flags) {
   case O_WRONLY:
     _d->writer = true;

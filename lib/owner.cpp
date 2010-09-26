@@ -38,7 +38,7 @@ using namespace hreport;
 
 struct Owner::Private {
   string          name;
-  Path            path;
+  string          path;
   bool            modified;
   ListReader*     original;
   ListWriter*     journal;
@@ -70,7 +70,7 @@ struct Owner::Private {
 //      goto ---> step 1
 int Owner::finishOff(
     bool            recovery) {
-  File next(Path(_d->path, "list.next"));
+  File next(Path(_d->path.c_str(), "list.next"));
 
   // All files are expected to be closed
   bool got_next = recovery && next.isValid();
@@ -137,7 +137,7 @@ int Owner::finishOff(
 
   // Discard journal (step 2)
   if (! got_next || File(_d->journal->path()).isValid()) {
-    if (rename(_d->journal->path(), Path(_d->path, "journal~").c_str())) {
+    if (rename(_d->journal->path(), Path(_d->path.c_str(), "journal~").c_str())) {
       hlog_error("%s renaming journal to '%s/journal~'", strerror(errno),
         _d->path.c_str());
       return -1;
@@ -146,7 +146,7 @@ int Owner::finishOff(
 
   // list -> list~ (step 3)
   if (! got_next || File(_d->original->path()).isValid()) {
-    if (rename(_d->original->path(), Path(_d->path, "list~").c_str())) {
+    if (rename(_d->original->path(), Path(_d->path.c_str(), "list~").c_str())) {
       hlog_error("%s renaming backup list to '%s/list~'", strerror(errno),
         _d->path.c_str());
       return -1;
@@ -167,7 +167,7 @@ Owner::Owner(
     const char*     name,
     time_t          expiration) : _d(new Private) {
   _d->name       = name;
-  _d->path       = Path(path, name);
+  _d->path       = Path(path, name).c_str();
   _d->original   = NULL;
   _d->journal    = NULL;
   _d->partial    = NULL;
@@ -192,13 +192,13 @@ const char* Owner::path() const {
 }
 
 int Owner::hold() const {
-  Directory owner_dir(_d->path);
+  Directory owner_dir(_d->path.c_str());
   if (! owner_dir.isValid()) {
     hlog_error("Directory does not exist '%s', aborting", _d->name.c_str());
     return -1;
   }
 
-  File owner_list(Path(_d->path, "list").c_str());
+  File owner_list(Path(_d->path.c_str(), "list").c_str());
   if (! owner_list.isValid()) {
     hlog_error("Register not accessible in '%s', aborting", _d->name.c_str());
     return -1;
@@ -236,7 +236,7 @@ int Owner::release() const {
 int Owner::open(
     bool            initialize,
     bool            check) {
-  Directory owner_dir(_d->path);
+  Directory owner_dir(_d->path.c_str());
   if (! owner_dir.isValid()) {
     if (initialize) {
       if (owner_dir.create() < 0) {
@@ -254,14 +254,14 @@ int Owner::open(
       return -1;
     }
   }
-  File owner_list(Path(_d->path, "list").c_str());
+  File owner_list(Path(_d->path.c_str(), "list").c_str());
 
   bool failed = false;
   // Open list
   _d->modified = false;
   _d->original = new ListReader(owner_list.path());
   if (_d->original->open(initialize)) {
-    File backup(Path(_d->path, "list~").c_str());
+    File backup(Path(_d->path.c_str(), "list~").c_str());
 
     if (backup.isValid()) {
       rename(backup.path(), _d->original->path());
@@ -282,8 +282,8 @@ int Owner::open(
   }
   if (! failed) {
     // Check journal
-    _d->journal = new ListWriter(Path(_d->path, "journal").c_str(), true);
-    _d->partial = new ListWriter(Path(_d->path, "partial").c_str());
+    _d->journal = new ListWriter(Path(_d->path.c_str(), "journal").c_str(), true);
+    _d->partial = new ListWriter(Path(_d->path.c_str(), "partial").c_str());
     ListReader journal(_d->journal->path());
     if (! journal.open(true)) {
       // Check previous crash
