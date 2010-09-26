@@ -4400,7 +4400,7 @@ Database closed
 	test2/testfile2
 	test2/testfile2.gz
 	test2/testlink
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 12
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:346)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:330)
@@ -4537,7 +4537,7 @@ Database closed
 	test1/cvs/dirutd/
 	test1/cvs/filenew.c
 	test1/cvs/fileutd.h
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 8
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:346)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:330)
@@ -4681,7 +4681,7 @@ U       test_r/test2/testfile
  
 Database closed for 'myhost'
 Database closed
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 12
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:346)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:330)
@@ -4870,7 +4870,7 @@ U       test_r/test1/testlink
 U       test_r/test1/testpipe
 Database closed for 'myhost'
 Database closed
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 5
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:346)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:330)
@@ -5018,7 +5018,7 @@ U       test_r/test1/cvs/filenew.c
 U       test_r/test1/cvs/fileutd.h
 Database closed for 'myhost'
 Database closed
- 4 bytes in 1 blocks are definitely lost in loss record 1 of 8
+ 4 bytes in 1 blocks are definitely lost in loss record 1 of 2
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:346)
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:330)

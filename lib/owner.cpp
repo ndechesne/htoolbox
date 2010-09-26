@@ -549,16 +549,30 @@ int Owner::getNextRecord(
       return -1;
     }
     // Start of path must match
-    if (len == 0) return 1;
+    if (len == 0) {
+      return 1;
+    }
     int cmp = Path::compare(fpath, path, len);
     // Not reached
-    if (cmp < 0) continue;
+    if (cmp < 0) {
+      delete *fnode;
+      continue;
+    }
     // Exceeded
-    if (cmp > 0) return 0;
+    if (cmp > 0) {
+      delete *fnode;
+      return 0;
+    }
     size_t flen = strlen(fpath);
     // Not reached, but on the right path
-    if (flen < len) continue;
-    if ((flen > len) && (fpath[len] != '/')) return 0;
+    if (flen < len) {
+      delete *fnode;
+      continue;
+    }
+    if ((flen > len) && (fpath[len] != '/')) {
+      delete *fnode;
+      return 0;
+    }
     // Match
     return 1;
   }

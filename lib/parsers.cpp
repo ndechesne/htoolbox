@@ -87,6 +87,8 @@ int ParsersManager::loadPlugins(const char* path) {
             _children.push_back(manifest->parser);
             ++rc;
             hlog_regression("DBG manifest %s", manifest->parser->name());
+          } else {
+            dlclose(file_handle);
           }
         }
       }

@@ -122,7 +122,7 @@ void Database::unlock() {
 }
 
 Database::Database(const char* path) : _d(new Private(Path(path, ".data"))) {
-  _d->path     = strdup(path);
+  _d->path     = path;
   _d->access   = no;
   // Reset progress callback function
   _d->list_progress = NULL;
@@ -311,33 +311,36 @@ int Database::getRecords(
   if (date < 0) {
     date = time(NULL) + date;
   }
-  char db_path[PATH_MAX];
-  Node* db_node;
+  char   db_path[PATH_MAX];
+  Node*  db_node;
   string last_record;
-  int   rc;
-  while ((rc = _d->owner->getNextRecord(path, date, db_path, &db_node)) > 0) {
+  int    rc = -1;
+  do {
     if (aborting()) {
       return -1;
     }
-    if ((strncmp(path, db_path, path_len) == 0) &&
-        ((db_path[path_len] == '/') || (path_len == 0))) {
-      char* slash = strchr(&db_path[path_len + 1], '/');
-      if (slash != NULL) {
-        *slash = '\0';
-      }
-
-      if (last_record != db_path) {
-        last_record = db_path;
-        string record = last_record;
-        if ((slash != NULL) ||              // Was shortened, therefore is dir
-            ((db_node != NULL) && (db_node->type() == 'd'))) {
-          record += '/';
+    rc = _d->owner->getNextRecord(path, date, db_path, &db_node);
+    if (rc > 0) {
+      if ((strncmp(path, db_path, path_len) == 0) &&
+          ((db_path[path_len] == '/') || (path_len == 0))) {
+        char* slash = strchr(&db_path[path_len + 1], '/');
+        if (slash != NULL) {
+          *slash = '\0';
         }
-        records.push_back(record);
+
+        if (last_record != db_path) {
+          last_record = db_path;
+          string record = last_record;
+          if ((slash != NULL) ||              // Was shortened, therefore is dir
+              ((db_node != NULL) && (db_node->type() == 'd'))) {
+            record += '/';
+          }
+          records.push_back(record);
+        }
       }
+      delete db_node;
     }
-    delete db_node;
-  }
+  } while (rc > 0);
   return (rc < 0) ? -1 : 0;
 }
 
@@ -350,7 +353,7 @@ int Database::restore(
     date = time(NULL) + date;
   }
   bool  failed = false;
-  char db_path[PATH_MAX];
+  char  db_path[PATH_MAX];
   Node* db_node;
   int   rc;
   while ((rc = _d->owner->getNextRecord(path, date, db_path, &db_node)) > 0) {
