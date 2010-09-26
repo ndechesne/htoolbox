@@ -54,6 +54,10 @@ case $1 in
     export DIR="cli"
     export NAME="hbackup"
     ;;
+  "hh" )
+    export DIR="base"
+    export NAME="hash"
+    ;;
   "hw" | "hwbackup" )
     export DIR="cli"
     export NAME="hwbackup"

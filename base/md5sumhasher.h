@@ -27,7 +27,7 @@ class MD5SumHasher : public IReaderWriter {
   struct         Private;
   Private* const _d;
 public:
-  MD5SumHasher(IReaderWriter* child, bool delete_child, char* checksum);
+  MD5SumHasher(IReaderWriter* child, bool delete_child, char* hash);
   ~MD5SumHasher();
   int open();
   int close();
