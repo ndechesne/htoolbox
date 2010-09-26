@@ -10,7 +10,7 @@ check_PROGRAMS = \
   configuration_test \
   filereaderwriter_test \
   files_test \
-  hash_test \
+  hasher_test \
   line_test \
   report_test \
   $(NULL)
@@ -18,7 +18,7 @@ check_PROGRAMS = \
 buffer_test_SOURCES = buffer_test.cpp
 configuration_test_SOURCES = configuration_test.cpp
 files_test_SOURCES = files_test.cpp
-hash_test_SOURCES = hash_test.cpp
+hasher_test_SOURCES = hasher_test.cpp
 line_test_SOURCES = line_test.cpp
 report_test_SOURCES = report_test.cpp
 filereaderwriter_test_SOURCES = filereaderwriter_test.cpp
@@ -30,7 +30,7 @@ check_SUCCESSES = \
   configuration.done \
   line.done \
   filereaderwriter.done \
-  hash.done \
+  hasher.done \
   files.done \
   report.done \
   $(NULL)
@@ -40,7 +40,7 @@ EXTRA_DIST = \
   configuration.exp \
   files.exp \
   filereaderwriter.exp \
-  hash.exp \
+  hasher.exp \
   line.exp \
   report.exp \
   $(NULL)

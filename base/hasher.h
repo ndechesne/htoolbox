@@ -16,19 +16,34 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef _MD5SUMHASHER_H
-#define _MD5SUMHASHER_H
+#ifndef _HASHER_H
+#define _HASHER_H
 
 #include "ireaderwriter.h"
 
 namespace hbackup {
 
-class MD5SumHasher : public IReaderWriter {
+class Hasher : public IReaderWriter {
   struct         Private;
   Private* const _d;
 public:
-  MD5SumHasher(IReaderWriter* child, bool delete_child, char* hash);
-  ~MD5SumHasher();
+  enum Digest {
+    md_null,
+    md2,
+    md4,
+    md5,
+    sha,
+    sha1,
+    dss,
+    dss1,
+    sha224,
+    sha256,
+    sha384,
+    sha512,
+    ripemd160
+  };
+  Hasher(IReaderWriter* child, bool delete_child, Digest digest, char* hash);
+  ~Hasher();
   int open();
   int close();
   ssize_t read(void* buffer, size_t size);
@@ -38,4 +53,4 @@ public:
 
 };
 
-#endif // _MD5SUMHASHER_H
+#endif // _HASHER_H

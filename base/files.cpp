@@ -37,7 +37,7 @@ using namespace std;
 #include "buffer.h"
 #include "line.h"
 #include "filereaderwriter.h"
-#include "md5sumhasher.h"
+#include "hasher.h"
 #include "unzipreader.h"
 #include "zipwriter.h"
 #include "files.h"
@@ -410,7 +410,7 @@ int Stream::open(
     _d->writer = true;
     _size = 0;
     if (checksum) {
-      _d->rw = new MD5SumHasher(_d->rw, true, _hash);
+      _d->rw = new Hasher(_d->rw, true, Hasher::md5, _hash);
     } else {
       strcpy(_hash, "");
     }
@@ -424,7 +424,7 @@ int Stream::open(
       _d->rw = new UnzipReader(_d->rw, true);
     }
     if (checksum) {
-      _d->rw = new MD5SumHasher(_d->rw, true, _hash);
+      _d->rw = new Hasher(_d->rw, true, Hasher::md5, _hash);
     } else {
       strcpy(_hash, "");
     }

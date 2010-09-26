@@ -16,20 +16,20 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <openssl/md5.h>
 #include <openssl/evp.h>
 
-#include "md5sumhasher.h"
+#include "hasher.h"
 
 using namespace hbackup;
 
-struct MD5SumHasher::Private {
+struct Hasher::Private {
   IReaderWriter* child;
   bool           delete_child;
+  Digest         digest;
   char*          hash;
   EVP_MD_CTX ctx;
-  Private(IReaderWriter* c, bool d, char *h) :
-    child(c), delete_child(d), hash(h) {}
+  Private(IReaderWriter* c, bool d, Digest m, char *h) :
+    child(c), delete_child(d), digest(m), hash(h) {}
   void binToHex(char* out, const unsigned char* in, int bytes) {
     const char* hex = "0123456789abcdef";
 
@@ -43,7 +43,7 @@ struct MD5SumHasher::Private {
   int update(const void* buffer, size_t size);
 };
 
-int MD5SumHasher::Private::update(
+int Hasher::Private::update(
     const void*     buffer,
     size_t          size) {
   size_t      max = 409600; // That's as much as openssl/md5 accepts
@@ -64,28 +64,74 @@ int MD5SumHasher::Private::update(
   return 0;
 }
 
-MD5SumHasher::MD5SumHasher(IReaderWriter* c, bool d, char* h) :
-  _d(new Private(c, d, h)) {}
+Hasher::Hasher(IReaderWriter* c, bool d, Digest m, char* h) :
+  _d(new Private(c, d, m, h)) {}
 
-MD5SumHasher::~MD5SumHasher() {
+Hasher::~Hasher() {
   if (_d->delete_child) {
     delete _d->child;
   }
   delete _d;
 }
 
-int MD5SumHasher::open() {
+int Hasher::open() {
   if (_d->child->open() < 0) {
     return -1;
   }
-  if (EVP_DigestInit(&_d->ctx, EVP_md5()) != 1) {
-    _d->child->close();
-    return -1;
+  const EVP_MD* digest;
+  switch (_d->digest) {
+    case md_null:
+      digest = EVP_md_null();
+      break;
+    case md2:
+      digest = EVP_md2();
+      break;
+    case md4:
+      digest = EVP_md4();
+      break;
+    case md5:
+      digest = EVP_md5();
+      break;
+    case sha:
+      digest = EVP_sha();
+      break;
+    case sha1:
+      digest = EVP_sha1();
+      break;
+    case dss:
+      digest = EVP_dss();
+      break;
+    case sha224:
+      digest = EVP_sha224();
+      break;
+    case sha256:
+      digest = EVP_sha256();
+      break;
+    case sha384:
+      digest = EVP_sha384();
+      break;
+    case sha512:
+      digest = EVP_sha512();
+      break;
+    case dss1:
+      digest = EVP_dss1();
+      break;
+    case ripemd160:
+      digest = EVP_ripemd160();
+      break;
+    default:
+      goto err;
+  }
+  if (EVP_DigestInit(&_d->ctx, digest) != 1) {
+    goto err;
   }
   return 0;
+err:
+  _d->child->close();
+  return -1;
 }
 
-int MD5SumHasher::close() {
+int Hasher::close() {
   unsigned char hash[64];
   unsigned int  length;
 
@@ -101,7 +147,7 @@ int MD5SumHasher::close() {
   return rc;
 }
 
-ssize_t MD5SumHasher::read(void* buffer, size_t size) {
+ssize_t Hasher::read(void* buffer, size_t size) {
   ssize_t rc = _d->child->read(buffer, size);
   if (rc < 0) {
     return -1;
@@ -112,7 +158,7 @@ ssize_t MD5SumHasher::read(void* buffer, size_t size) {
   return rc;
 }
 
-ssize_t MD5SumHasher::write(const void* buffer, size_t size) {
+ssize_t Hasher::write(const void* buffer, size_t size) {
   ssize_t rc = _d->child->write(buffer, size);
   if (rc < 0) {
     return -1;
@@ -123,6 +169,6 @@ ssize_t MD5SumHasher::write(const void* buffer, size_t size) {
   return rc;
 }
 
-long long MD5SumHasher::offset() const {
+long long Hasher::offset() const {
   return _d->child->offset();
 }

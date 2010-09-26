@@ -25,7 +25,7 @@
 
 using namespace hreport;
 
-#include "md5sumhasher.h"
+#include "hasher.h"
 #include "filereaderwriter.h"
 
 using namespace hbackup;
@@ -36,7 +36,7 @@ int main() {
   {
     FileReaderWriter frw("testfile", true);
     char hash[64];
-    MD5SumHasher hh(&frw, false, hash);
+    Hasher hh(&frw, false, Hasher::md5, hash);
     IReaderWriter& fd = hh;
     if (fd.open() < 0) {
       hlog_regression("%s opening file", strerror(errno));
@@ -76,7 +76,7 @@ int main() {
 
     FileReaderWriter frw("testfile", false);
     char hash[64];
-    MD5SumHasher hh(&frw, false, hash);
+    Hasher hh(&frw, false, Hasher::md5, hash);
     IReaderWriter& fd = hh;
     if (fd.open() < 0) {
       hlog_regression("%s opening file", strerror(errno));
@@ -106,7 +106,7 @@ int main() {
     }
 
     FileReaderWriter frw2("testfile2", true);
-    MD5SumHasher hh2(&frw2, false, hash);
+    Hasher hh2(&frw2, false, Hasher::md5, hash);
     IReaderWriter& fd2 = hh2;
     if (fd2.open() < 0) {
       hlog_regression("%s opening file", strerror(errno));

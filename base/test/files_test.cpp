@@ -34,7 +34,7 @@ using namespace std;
 #include "filereaderwriter.h"
 #include "unzipreader.h"
 #include "zipwriter.h"
-#include "md5sumhasher.h"
+#include "hasher.h"
 
 using namespace hbackup;
 using namespace hreport;
@@ -1320,7 +1320,7 @@ int main(void) {
     ssize_t rc;
     FileReaderWriter r("test1/testfile", false);
     char checksum[64] = "";
-    MD5SumHasher fr(&r, false, checksum);
+    Hasher fr(&r, false, Hasher::md5, checksum);
     if (fr.open() < 0) {
       hlog_regression("%s opening file", strerror(errno));
     } else {
@@ -1338,7 +1338,7 @@ int main(void) {
 
     FileReaderWriter w("test1/writeback", true);
     memset(checksum, 0, sizeof(checksum));
-    MD5SumHasher fw(&w, false, checksum);
+    Hasher fw(&w, false, Hasher::md5, checksum);
     if (fw.open() < 0) {
       hlog_regression("%s opening file", strerror(errno));
     } else {
