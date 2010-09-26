@@ -25,6 +25,7 @@ namespace hbackup {
 
 class IReaderWriter {
 public:
+  virtual ~IReaderWriter() {}
   virtual int open() = 0;
   virtual int close() = 0;
   virtual ssize_t read(void* buffer, size_t size) = 0;

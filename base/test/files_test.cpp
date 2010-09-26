@@ -309,31 +309,37 @@ int main(void) {
   char* str2 = strdup(Path::fromDos(pth0->buffer()));
   cout << str2 << endl;
   cout << str2 << " -> ";
+  delete pth0;
   pth0 = new Path(str2);
   cout << Path::fromDos(pth0->buffer()) << endl;
   delete pth0;
 
   cout << endl << "Test: noTrailingSlashes" << endl;
+  free(str2);
   str2 = strdup("this/is a path/ Unix/ cannot cope with//");
   cout << str2 << " -> ";
   pth0 = new Path(str2);
   cout << Path::noTrailingSlashes(pth0->buffer()) << endl;
+  free(str2);
   str2 = strdup(Path::fromDos(pth0->buffer()));
   delete pth0;
   cout << str2 << " -> ";
   pth0 = new Path(str2);
   cout << Path::noTrailingSlashes(pth0->buffer()) << endl;
   delete pth0;
+  free(str2);
   str2 = strdup("");
   cout << str2 << " -> ";
   pth0 = new Path(str2);
   cout << Path::noTrailingSlashes(pth0->buffer()) << endl;
   delete pth0;
+  free(str2);
   str2 = strdup("/");
   cout << str2 << " -> ";
   pth0 = new Path(str2);
   cout << Path::noTrailingSlashes(pth0->buffer()) << endl;
   delete pth0;
+  free(str2);
 
   cout << endl << "Test: compare" << endl;
   cout << "a <> a: " << Path::compare("a", "a") << endl;
@@ -648,6 +654,7 @@ int main(void) {
     }
   }
   delete readfile;
+  delete writefile;
 
 
   cout << endl << "Test: file compare (both compressed)" << endl;
@@ -1122,6 +1129,7 @@ int main(void) {
   if (readfile->close()) cout << "Error closing read file" << endl;
   cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
+  free(line_test);
 
 
   cout << endl << "File types" << endl;
