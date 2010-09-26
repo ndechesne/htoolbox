@@ -40,23 +40,13 @@ public:
   Path() : Line() {}
   Path(const char* path) : Line(path) {}
   Path(const char* dir, const char* name);
-  Path(const Path& path, const char* name);
   const Path& operator=(const char* line) {
     Line::operator=(line);
     return *this;
   }
-  const Path& operator=(const Line& line) {
-    Line::operator=(line);
-    return *this;
-  }
-  const Path& fromDos();
-  const Path& noTrailingSlashes();
   size_t length() const  { return size(); }
   Path dirname() const;
   const char* basename() const { return basename(*this); }
-  int compare(const char* s, ssize_t length = -1) const {
-    return compare(*this, s, length);
-  }
   int compare(const Path& p, ssize_t length = -1) const {
     return compare(*this, p, length);
   }

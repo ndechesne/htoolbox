@@ -7,4 +7,3 @@ TODO - non-organised list of things I want to do
   * make parsers sub-projects (maybe 1.1)
   * backup's backups (1.2)
   * review files.h (Path to go, Directory to speed up, no more File/Link) (1.2)
-  * stackable classes for file read, [un]zip and hash computation (maybe 1.1)

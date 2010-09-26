@@ -52,12 +52,6 @@ Path::Path(const char* dir, const char* name) {
   }
 }
 
-Path::Path(const Path& path, const char* name) {
-  *this = path;
-  *this += "/";
-  *this += name;
-}
-
 const char* Path::basename(const char* path) {
   const char* name = strrchr(path, '/');
   if (name != NULL) {
@@ -76,16 +70,6 @@ Path Path::dirname() const {
   Path rc = *this;
   rc.erase(pos);
   return rc;
-}
-
-const Path& Path::fromDos() {
-  fromDos(buffer());
-  return *this;
-}
-
-const Path& Path::noTrailingSlashes() {
-  noTrailingSlashes(buffer());
-  return *this;
 }
 
 const char* Path::fromDos(char* path) {
@@ -381,11 +365,11 @@ struct Stream::Private {
   bool                writer;             // know which mode we're in
   long long           size;               // uncompressed file data size (bytes)
   long long           progress;           // transfered size, for progress
-  Buffer<char>        buffer_data;        // Buffer for data
-  BufferReader<char>  reader_data;        // Reader for buffer above
+  Buffer<char>        getline_buffer;     // Buffer for data
+  BufferReader<char>  getline_reader;        // Reader for buffer above
   progress_f          progress_callback;  // function to report progress
   cancel_f            cancel_callback;    // function to check for cancellation
-  Private() : reader_data(buffer_data) {}
+  Private() : getline_reader(getline_buffer) {}
 };
 
 Stream::Stream(Path path) : File(path), _d(new Private) {
@@ -465,8 +449,8 @@ int Stream::close() {
   int rc = _d->rw->close();
   if (! _d->writer) {
     // Destroy cacheing buffer if any
-    if (_d->buffer_data.exists()) {
-      _d->buffer_data.destroy();
+    if (_d->getline_buffer.exists()) {
+      _d->getline_buffer.destroy();
     }
   } else {
     // Update metadata
@@ -548,8 +532,8 @@ ssize_t Stream::getLine(
     size_t*         buffer_capacity,
     bool*           end_of_line_found) {
   // Need a buffer to speed things up
-  if (! _d->buffer_data.exists()) {
-    _d->buffer_data.create();
+  if (! _d->getline_buffer.exists()) {
+    _d->getline_buffer.create();
   }
   // Initialize return values
   bool         found  = false;
@@ -564,18 +548,18 @@ ssize_t Stream::getLine(
   // Find end of line or end of file
   do {
     // Fill up the buffer
-    ssize_t size = _d->reader_data.readable();
+    ssize_t size = _d->getline_reader.readable();
     if (size == 0) {
-      size = read(_d->buffer_data.writer(), _d->buffer_data.writeable());
+      size = read(_d->getline_buffer.writer(), _d->getline_buffer.writeable());
       if (size < 0) {
         return size;
       }
       if (size == 0) {
         break;
       }
-      _d->buffer_data.written(size);
+      _d->getline_buffer.written(size);
     }
-    const char* reader = _d->reader_data.reader();
+    const char* reader = _d->getline_reader.reader();
     size_t      length = size;
     while (length > 0) {
       length--;
@@ -592,7 +576,7 @@ ssize_t Stream::getLine(
       *writer++ = *reader++;
       count++;
     }
-    _d->reader_data.readn(size - length);
+    _d->getline_reader.readn(size - length);
   } while (! found);
   *writer = '\0';
 
@@ -651,7 +635,7 @@ struct CopyData {
   sem_t               write_sem;
   CopyData(Stream* d, Buffer<char>& b, sem_t& s, bool& eof, bool& failed) :
       stream(d), buffer(b), read_sem(s), eof(eof), failed(failed),
-      // No auto-unregistration: segentation fault may occur
+      // No auto-unregistration: segmentation fault may occur
       reader(buffer, false) {
     sem_init(&write_sem, 0, 0);
   }
