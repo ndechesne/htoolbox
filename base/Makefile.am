@@ -9,6 +9,7 @@ lib_LTLIBRARIES = libhtools.la
 libhtools_la_LDFLAGS= -version-info $(LIB_VERSION)
 
 libhtools_la_SOURCES = \
+  asyncwriter.cpp \
   configuration.cpp \
   files.cpp \
   filereaderwriter.cpp \
@@ -20,6 +21,7 @@ libhtools_la_SOURCES = \
   $(NULL)
 
 EXTRA_DIST = \
+  asyncwriter.h \
   buffer.h \
   configuration.h \
   filereaderwriter.h \

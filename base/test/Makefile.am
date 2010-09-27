@@ -6,6 +6,7 @@ AM_CXXFLAGS = \
   $(NULL)
 
 check_PROGRAMS = \
+  asyncwriter_test \
   buffer_test \
   configuration_test \
   filereaderwriter_test \
@@ -14,6 +15,7 @@ check_PROGRAMS = \
   report_test \
   $(NULL)
 
+asyncwriter_test_SOURCES = asyncwriter_test.cpp
 buffer_test_SOURCES = buffer_test.cpp
 configuration_test_SOURCES = configuration_test.cpp
 files_test_SOURCES = files_test.cpp
@@ -28,11 +30,13 @@ check_SUCCESSES = \
   configuration.done \
   filereaderwriter.done \
   hasher.done \
+  asyncwriter.done \
   files.done \
   report.done \
   $(NULL)
 
 EXTRA_DIST = \
+  asyncwriter.exp \
   buffer.exp \
   configuration.exp \
   files.exp \

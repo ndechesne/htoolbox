@@ -6,6 +6,10 @@
 #   2: the complete name
 
 case $1 in
+  "as" )
+    export DIR="base"
+    export NAME="async"
+    ;;
   "bf" )
     export DIR="base"
     export NAME="buffer"

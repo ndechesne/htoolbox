@@ -1,0 +1,126 @@
+/*
+     Copyright (C) 2010  Herve Fache
+
+     This program is free software; you can redistribute it and/or modify
+     it under the terms of the GNU General Public License version 2 as
+     published by the Free Software Foundation.
+
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License
+     along with this program; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place - Suite 330,
+     Boston, MA 02111-1307, USA.
+*/
+
+#include <pthread.h>
+
+#include <asyncwriter.h>
+
+using namespace hbackup;
+
+struct AsyncWriter::Private {
+  IReaderWriter*  child;
+  bool            delete_child;
+  pthread_t       tid;
+  const void*     buffer;
+  size_t          size;
+  bool            failed;
+  bool            closing;
+  pthread_mutex_t buffer_lock;
+  pthread_mutex_t thread_lock;
+  Private(IReaderWriter* c, bool d) : child(c), delete_child(d) {}
+};
+
+AsyncWriter::AsyncWriter(IReaderWriter* child, bool delete_child) :
+  _d(new Private(child, delete_child)) {}
+
+AsyncWriter::~AsyncWriter() {
+  if (_d->delete_child) {
+    delete _d->child;
+  }
+  delete _d;
+}
+
+void* AsyncWriter::_write_thread(void* data) {
+  AsyncWriter::Private* d = static_cast<AsyncWriter::Private*>(data);
+  do {
+    /* Wait for data */
+    pthread_mutex_lock(&d->thread_lock);
+    if (! d->closing) {
+      if (d->child->write(d->buffer, d->size) < 0) {
+        /* Can't do more than report failures */
+        d->failed = true;
+      }
+    }
+    /* Allow write or close to proceed */
+    pthread_mutex_unlock(&d->buffer_lock);
+  } while (! d->closing);
+  return NULL;
+}
+
+int AsyncWriter::open() {
+  if (_d->child->open() < 0) {
+    return -1;
+  }
+  _d->failed = false;
+  _d->closing = false;
+  if (pthread_mutex_init(&_d->buffer_lock, NULL) != 0) {
+    goto failed;
+  }
+  if (pthread_mutex_init(&_d->thread_lock, NULL) != 0) {
+    goto failed;
+  }
+  /* The thread must wait for data */
+  pthread_mutex_lock(&_d->thread_lock);
+  if (pthread_create(&_d->tid, NULL, _write_thread, _d) != 0) {
+    goto failed;
+  }
+  return 0;
+failed:
+  _d->child->close();
+  return -1;
+}
+
+int AsyncWriter::close() {
+  /* Wait for all data transfers to complete */
+  pthread_mutex_lock(&_d->buffer_lock);
+  /* Make sure everybody stops */
+  _d->closing = true;
+  /* Let thread see we are closing */
+  pthread_mutex_unlock(&_d->thread_lock);
+  /* Wait for thread to exit */
+//   pthread_mutex_lock(&_d->buffer_lock);
+  pthread_join(_d->tid, NULL);
+  /* All done */
+  pthread_mutex_destroy(&_d->buffer_lock);
+  pthread_mutex_destroy(&_d->thread_lock);
+  if (_d->child->close() < 0) {
+    return -1;
+  }
+  return _d->failed ? -1 : 0;
+}
+
+ssize_t AsyncWriter::read(void*, size_t) {
+  return -1;
+}
+
+ssize_t AsyncWriter::write(const void* buffer, size_t size) {
+  /* Wait for thread to finish */
+  pthread_mutex_lock(&_d->buffer_lock);
+  if (_d->closing || _d->failed) {
+    return -1;
+  }
+  _d->buffer = buffer;
+  _d->size = size;
+  /* Unleash thread */
+  pthread_mutex_unlock(&_d->thread_lock);
+  return size;
+}
+
+long long AsyncWriter::offset() const {
+  return _d->child->offset();
+}
