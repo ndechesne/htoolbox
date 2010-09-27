@@ -280,20 +280,15 @@ public:
     long long       previous,
     long long       current,
     long long       total);
-  // Constructor for path in the VFS
-  Stream(Path path);
+  // Constructor for path in the VFS for read or write (no append), with or
+  // without hash computation / compression (give level)
+  Stream(const char* path, bool writer, bool hash = false, int compression = 0);
   virtual ~Stream();
   bool isOpen() const;
   bool isWriteable() const;
-  // Open file, for read or write (no append), with or without compression
-  // Flags are either O_RDONLY or O_WRONLY, the latter implies O_CREAT
-  // checksum determines whether to compute the checksum as we read
-  // header when compressing
-  int open(
-    int             flags,
-    unsigned int    compression   = 0,
-    bool            checksum      = true);
-  // Close file, for read or write (no append), with or without compression
+  // Open file
+  int open();
+  // Close file
   int close();
   // Get progress indicator (size read/written)
   long long progress() const;

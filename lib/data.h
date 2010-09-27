@@ -107,7 +107,7 @@ public:
     replace = 2
   };
   WriteStatus write(
-    Stream&         source,           // Stream to read from
+    const char*     path,             // Source file path
     char            checksum[64],     // Copy checksum here
     int*            comp_level,       // Comp. to apply (< 0: never) / applied
     bool            auto_comp) const; // Choose whether to store compressed

@@ -134,7 +134,7 @@ int main(void) {
     cout << endl << "Test: write and read back with no compression (auto)" << endl;
     /* Write */
     chksm[0] = '\0';
-    Stream testfile("test1/testfile");
+    const char* testfile = "test1/testfile";
     int comp_level = 5;
     if ((status = db.write(testfile, chksm, &comp_level, true)) < 0) {
       printf("db.write error status %d\n", status);
@@ -144,7 +144,7 @@ int main(void) {
       printf("db.write returned unexpected null checksum\n");
       return 0;
     }
-    cout << chksm << "  " << testfile.path() << endl;
+    cout << chksm << "  " << testfile << endl;
     cout << "Meta file contents: " << endl;
     sys_rc = system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
     cout << endl;
@@ -161,7 +161,7 @@ int main(void) {
     }
     /* Write again */
     chksm[0] = '\0';
-    Stream blah("test_db/blah");
+    const char* blah = "test_db/blah";
     comp_level = 0;
     if ((status = db.write(blah, chksm, &comp_level, false)) < 0) {
       printf("db.write error status %d\n", status);
@@ -171,14 +171,14 @@ int main(void) {
       printf("db.write returned unexpected null checksum\n");
       return 0;
     }
-    cout << chksm << "  " << blah.path() << endl;
+    cout << chksm << "  " << blah << endl;
   }
 
 
   {
     cout << endl << "Test: write and read back with compression (auto)" << endl;
     /* Write */
-    Stream testfile("test1/big_file");
+    const char* testfile = "test1/big_file";
     int comp_level = 5;
     if ((status = db.write(testfile, chksm, &comp_level, true)) < 0) {
       printf("db.write error status %d\n", status);
@@ -188,7 +188,7 @@ int main(void) {
       printf("db.write returned unexpected null checksum\n");
       return 0;
     }
-    cout << chksm << "  " << testfile.path() << endl;
+    cout << chksm << "  " << testfile << endl;
     cout << "Meta file contents: " << endl;
     sys_rc = system("cat test_db/data/f1/c9645dbc14efddc7d8a322685f26eb-0/meta");
     cout << endl;
@@ -205,7 +205,7 @@ int main(void) {
     }
     /* Write again */
     chksm[0] = '\0';
-    Stream blah("test_db/blah");
+    const char* blah = "test_db/blah";
     comp_level = 0;
     if ((status = db.write(blah, chksm, &comp_level, false)) < 0) {
       printf("db.write error status %d\n", status);
@@ -215,12 +215,12 @@ int main(void) {
       printf("db.write returned unexpected null checksum\n");
       return 0;
     }
-    cout << chksm << "  " << blah.path() << endl;
+    cout << chksm << "  " << blah << endl;
   }
 
 
-  Stream testfile("test1/testfile");
-  Stream blah("test_db/blah");
+  const char* testfile = "test1/testfile";
+  const char* blah = "test_db/blah";
   {
     cout << endl << "Test: write and read back with forbidden compression"
       << endl;
@@ -234,7 +234,7 @@ int main(void) {
       printf("db.write returned unexpected null checksum\n");
       return 0;
     }
-    cout << chksm << "  " << testfile.path() << endl;
+    cout << chksm << "  " << testfile << endl;
     cout << "Meta file contents: " << endl;
     sys_rc =
       system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
@@ -261,7 +261,7 @@ int main(void) {
       printf("db.write returned unexpected null checksum\n");
       return 0;
     }
-    cout << chksm << "  " << blah.path() << endl;
+    cout << chksm << "  " << blah << endl;
   }
 
 
@@ -278,7 +278,7 @@ int main(void) {
     printf("db.write returned unexpected null checksum\n");
     return 0;
   }
-  cout << chksm << "  " << testfile.path() << endl;
+  cout << chksm << "  " << testfile << endl;
   cout << "Meta file contents: " << endl;
   sys_rc = system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
   cout << endl;
@@ -327,7 +327,7 @@ int main(void) {
     printf("db.write returned unexpected null checksum\n");
     return 0;
   }
-  cout << chksm << "  " << blah.path() << endl;
+  cout << chksm << "  " << blah << endl;
 
 
   cout << endl << "Test: organise" << endl;

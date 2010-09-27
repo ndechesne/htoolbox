@@ -92,8 +92,8 @@ int Missing::close() {
     if (_d->modified) {
       hlog_info("Missing checksums list updated");
     }
-    Stream missing_list((path + ".part").c_str());
-    if (missing_list.open(O_WRONLY)) {
+    Stream missing_list((path + ".part").c_str(), true);
+    if (missing_list.open()) {
       hlog_error("%s saving problematic checksums list '%s'", strerror(errno),
         missing_list.path());
       failed = true;
@@ -139,8 +139,8 @@ int Missing::load() {
   bool failed = false;
   // Read list of problematic checksums (it is ordered and contains no dup)
   hlog_verbose("Reading list of problematic checksums");
-  Stream missing_list(_d->path);
-  if (! missing_list.open(O_RDONLY)) {
+  Stream missing_list(_d->path, false);
+  if (! missing_list.open()) {
     missing_list.setProgressCallback(_d->progress);
     char* line = NULL;
     size_t line_capacity = 0;

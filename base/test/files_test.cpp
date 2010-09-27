@@ -339,8 +339,8 @@ int main(void) {
   Stream* writefile;
 
   cout << endl << "Test: file read (no cache)" << endl;
-  readfile = new Stream("test1/big_file");
-  if (readfile->open(O_RDONLY)) {
+  readfile = new Stream("test1/big_file", false, true);
+  if (readfile->open()) {
     cout << "Error opening source file: " << strerror(errno) << endl;
   } else {
     readfile->setProgressCallback(read_progress);
@@ -365,8 +365,8 @@ int main(void) {
   delete readfile;
 
   cout << endl << "Test: file write" << endl;
-  writefile = new Stream("test1/rwfile_dest");
-  if (writefile->open(O_WRONLY)) {
+  writefile = new Stream("test1/rwfile_dest", true, true);
+  if (writefile->open()) {
     cout << "Error opening source file: " << strerror(errno) << endl;
   } else {
     writefile->setProgressCallback(write_progress);
@@ -400,11 +400,11 @@ int main(void) {
   sys_rc = system("cat test1/rwfile_dest");
 
   cout << endl << "Test: file copy (read (cache) + write (no cache))" << endl;
-  readfile = new Stream("test1/big_file");
-  writefile = new Stream("test1/rwfile_dest");
-  if (readfile->open(O_RDONLY)) {
+  readfile = new Stream("test1/big_file", false, true);
+  writefile = new Stream("test1/rwfile_dest", true, true);
+  if (readfile->open()) {
     cout << "Error opening source file: " << strerror(errno) << endl;
-  } else if (writefile->open(O_WRONLY)) {
+  } else if (writefile->open()) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
     readfile->setProgressCallback(read_progress);
@@ -442,11 +442,11 @@ int main(void) {
 
   cout << endl << "Test: file compress (read + default compress write), "
     << "with last zero-size write call" << endl;
-  readfile = new Stream("test1/big_file");
-  writefile = new Stream("test1/rwfile_dest");
-  if (readfile->open(O_RDONLY)) {
+  readfile = new Stream("test1/big_file", false, true);
+  writefile = new Stream("test1/rwfile_dest", true, true, 5);
+  if (readfile->open()) {
     cout << "Error opening source file: " << strerror(errno) << endl;
-  } else if (writefile->open(O_WRONLY, 5)) {
+  } else if (writefile->open()) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
     unsigned char buffer[512000];
@@ -478,23 +478,24 @@ int main(void) {
     cout << "write size: " << write_size << " (" << writefile->size() << ", "
       << writefile->dataSize() << "), checksum: " << writefile->checksum()
       << endl;
-    if (writefile->open(O_RDONLY, 1)) {
+    Stream temp(writefile->path(), false, false, 1);
+    if (temp.open()) {
       cout << "Error re-opening source file: " << strerror(errno) << endl;
     } else {
       char blah;
-      writefile->read(&blah, 1);
-      writefile->close();
+      temp.read(&blah, 1);
+      temp.close();
     }
   }
   delete readfile;
   delete writefile;
 
   cout << endl << "Test: file uncompress (uncompress read + write)" << endl;
-  readfile = new Stream("test1/rwfile_dest");
-  writefile = new Stream("test1/rwfile_source");
-  if (readfile->open(O_RDONLY, 1)) {
+  readfile = new Stream("test1/rwfile_dest", false, true, 1);
+  writefile = new Stream("test1/rwfile_source", true, true);
+  if (readfile->open()) {
     cout << "Error opening source file: " << strerror(errno) << endl;
-  } else if (writefile->open(O_WRONLY)) {
+  } else if (writefile->open()) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
     unsigned char buffer[512000];
@@ -530,11 +531,11 @@ int main(void) {
   delete writefile;
 
   cout << endl << "Test: file compress (read + compress write)" << endl;
-  readfile = new Stream("test1/rwfile_source");
-  writefile = new Stream("test1/rwfile_dest");
-  if (readfile->open(O_RDONLY)) {
+  readfile = new Stream("test1/rwfile_source", false, true);
+  writefile = new Stream("test1/rwfile_dest", true, true, 5);
+  if (readfile->open()) {
     cout << "Error opening source file: " << strerror(errno) << endl;
-  } else if (writefile->open(O_WRONLY, 5, true)) {
+  } else if (writefile->open()) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
     unsigned char buffer[512000];
@@ -565,24 +566,28 @@ int main(void) {
     cout << "write size: " << write_size << " (" << writefile->size() << ", "
       << writefile->dataSize() << "), checksum: " << writefile->checksum()
       << endl;
-    if (writefile->open(O_RDONLY, 1)) {
+    Stream temp(writefile->path(), false, false, 1);
+    if (temp.open()) {
       cout << "Error re-opening source file: " << strerror(errno) << endl;
     } else {
       char blah;
-      writefile->read(&blah, 1);
-      writefile->close();
+      temp.read(&blah, 1);
+      temp.close();
     }
   }
   cout << endl
     << "Test: file recompress (uncompress read + compress write)" << endl;
   {
-    Stream* swap = readfile;
-    readfile = writefile;
-    writefile = swap;
+    string rfp = readfile->path();
+    string wfp = writefile->path();
+    delete readfile;
+    delete writefile;
+    readfile = new Stream(wfp.c_str(), false, true, 1);
+    writefile = new Stream(rfp.c_str(), true, true, 5);
   }
-  if (readfile->open(O_RDONLY, 1)) {
+  if (readfile->open()) {
     cout << "Error opening source file: " << strerror(errno) << endl;
-  } else if (writefile->open(O_WRONLY, 5, true)) {
+  } else if (writefile->open()) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
     unsigned char buffer[512000];
@@ -613,12 +618,13 @@ int main(void) {
     cout << "write size: " << write_size << " (" << writefile->size() << ", "
       << writefile->dataSize() << "), checksum: " << writefile->checksum()
       << endl;
-    if (writefile->open(O_RDONLY, 1)) {
+    Stream temp(writefile->path(), false, false, 1);
+    if (temp.open()) {
       cout << "Error re-opening source file: " << strerror(errno) << endl;
     } else {
       char blah;
-      writefile->read(&blah, 1);
-      writefile->close();
+      temp.read(&blah, 1);
+      temp.close();
     }
   }
   delete readfile;
@@ -626,16 +632,16 @@ int main(void) {
 
 
   cout << endl << "Test: file compare (both compressed)" << endl;
-  readfile = new Stream("test1/rwfile_source");
-  writefile = new Stream("test1/rwfile_dest");
-  if (readfile->open(O_RDONLY, 1)) {
+  readfile = new Stream("test1/rwfile_source", false, true, 1);
+  Stream* readfile2 = new Stream("test1/rwfile_dest", false, true, 1);
+  if (readfile->open()) {
     cout << "Error opening source file: " << strerror(errno) << endl;
-  } else if (writefile->open(O_RDONLY, 1)) {
+  } else if (readfile2->open()) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
     int rc;
     cout << "  whole files" << endl;
-    rc = writefile->compare(*readfile);
+    rc = readfile2->compare(*readfile);
     if (rc < 0) {
       cout << "Error comparing files: " << strerror(errno) << endl;
     } else if (rc > 0) {
@@ -644,11 +650,11 @@ int main(void) {
       cout << "files are equal" << endl;
     }
     if (readfile->close()) cout << "Error closing read file" << endl;
-    if (writefile->close()) cout << "Error closing write file" << endl;
-    readfile->open(O_RDONLY, 1);
-    writefile->open(O_RDONLY, 1);
+    if (readfile2->close()) cout << "Error closing write file" << endl;
+    readfile->open();
+    readfile2->open();
     cout << "  exact size" << endl;
-    rc = writefile->compare(*readfile, 10485760);
+    rc = readfile2->compare(*readfile, 10485760);
     if (rc < 0) {
       cout << "Error comparing files: " << strerror(errno) << endl;
     } else if (rc > 0) {
@@ -657,11 +663,11 @@ int main(void) {
       cout << "files are equal" << endl;
     }
     if (readfile->close()) cout << "Error closing read file" << endl;
-    if (writefile->close()) cout << "Error closing write file" << endl;
-    readfile->open(O_RDONLY, 1);
-    writefile->open(O_RDONLY, 1);
+    if (readfile2->close()) cout << "Error closing write file" << endl;
+    readfile->open();
+    readfile2->open();
     cout << "  first 2000 bytes" << endl;
-    rc = writefile->compare(*readfile, 2000);
+    rc = readfile2->compare(*readfile, 2000);
     if (rc < 0) {
       cout << "Error comparing files: " << strerror(errno) << endl;
     } else if (rc > 0) {
@@ -670,11 +676,11 @@ int main(void) {
       cout << "files are equal" << endl;
     }
     if (readfile->close()) cout << "Error closing read file" << endl;
-    if (writefile->close()) cout << "Error closing write file" << endl;
-    readfile->open(O_RDONLY, 1);
-    writefile->open(O_RDONLY, 1);
+    if (readfile2->close()) cout << "Error closing write file" << endl;
+    readfile->open();
+    readfile2->open();
     cout << "  first 100 bytes" << endl;
-    rc = writefile->compare(*readfile, 100);
+    rc = readfile2->compare(*readfile, 100);
     if (rc < 0) {
       cout << "Error comparing files: " << strerror(errno) << endl;
     } else if (rc > 0) {
@@ -683,22 +689,22 @@ int main(void) {
       cout << "files are equal" << endl;
     }
     if (readfile->close()) cout << "Error closing read file" << endl;
-    if (writefile->close()) cout << "Error closing write file" << endl;
+    if (readfile2->close()) cout << "Error closing write file" << endl;
   }
   delete readfile;
-  delete writefile;
+  delete readfile2;
 
   cout << endl << "Test: file compare (one compressed)" << endl;
-  readfile = new Stream("test1/rwfile_source");
-  writefile = new Stream("test1/rwfile_dest");
-  if (readfile->open(O_RDONLY, 1)) {
+  readfile = new Stream("test1/rwfile_source", false, true, 1);
+  readfile2 = new Stream("test1/rwfile_dest", false, true);
+  if (readfile->open()) {
     cout << "Error opening source file: " << strerror(errno) << endl;
-  } else if (writefile->open(O_RDONLY)) {
+  } else if (readfile2->open()) {
     cout << "Error opening dest file: " << strerror(errno) << endl;
   } else {
     int rc;
     cout << "  whole files" << endl;
-    rc = writefile->compare(*readfile);
+    rc = readfile2->compare(*readfile);
     if (rc < 0) {
       cout << "Error comparing files: " << strerror(errno) << endl;
     } else if (rc > 0) {
@@ -707,11 +713,11 @@ int main(void) {
       cout << "files are equal" << endl;
     }
     if (readfile->close()) cout << "Error closing read file" << endl;
-    if (writefile->close()) cout << "Error closing write file" << endl;
-    readfile->open(O_RDONLY, 1);
-    writefile->open(O_RDONLY);
+    if (readfile2->close()) cout << "Error closing write file" << endl;
+    readfile->open();
+    readfile2->open();
     cout << "  exact size" << endl;
-    rc = writefile->compare(*readfile, 10208);
+    rc = readfile2->compare(*readfile, 10208);
     if (rc < 0) {
       cout << "Error comparing files: " << strerror(errno) << endl;
     } else if (rc > 0) {
@@ -720,11 +726,11 @@ int main(void) {
       cout << "files are equal" << endl;
     }
     if (readfile->close()) cout << "Error closing read file" << endl;
-    if (writefile->close()) cout << "Error closing write file" << endl;
-    readfile->open(O_RDONLY, 1);
-    writefile->open(O_RDONLY);
+    if (readfile2->close()) cout << "Error closing write file" << endl;
+    readfile->open();
+    readfile2->open();
     cout << "  first 2000 bytes" << endl;
-    rc = writefile->compare(*readfile, 2000);
+    rc = readfile2->compare(*readfile, 2000);
     if (rc < 0) {
       cout << "Error comparing files: " << strerror(errno) << endl;
     } else if (rc > 0) {
@@ -733,11 +739,11 @@ int main(void) {
       cout << "files are equal" << endl;
     }
     if (readfile->close()) cout << "Error closing read file" << endl;
-    if (writefile->close()) cout << "Error closing write file" << endl;
-    readfile->open(O_RDONLY, 1);
-    writefile->open(O_RDONLY);
+    if (readfile2->close()) cout << "Error closing write file" << endl;
+    readfile->open();
+    readfile2->open();
     cout << "  first 100 bytes" << endl;
-    rc = writefile->compare(*readfile, 100);
+    rc = readfile2->compare(*readfile, 100);
     if (rc < 0) {
       cout << "Error comparing files: " << strerror(errno) << endl;
     } else if (rc > 0) {
@@ -746,16 +752,16 @@ int main(void) {
       cout << "files are equal" << endl;
     }
     if (readfile->close()) cout << "Error closing read file" << endl;
-    if (writefile->close()) cout << "Error closing write file" << endl;
+    if (readfile2->close()) cout << "Error closing write file" << endl;
   }
   delete readfile;
-  delete writefile;
+  delete readfile2;
 
 
   cout << endl << "Test: computeChecksum" << endl;
   cout << "default read" << endl;
-  readfile = new Stream("test1/testfile");
-  if (readfile->open(O_RDONLY)) {
+  readfile = new Stream("test1/testfile", false, true);
+  if (readfile->open()) {
     return 0;
   }
   readfile->setProgressCallback(read_progress);
@@ -771,8 +777,8 @@ int main(void) {
   delete readfile;
 
   cout << "default read" << endl;
-  readfile = new Stream("test2/testfile2.gz");
-  if (readfile->open(O_RDONLY)) {
+  readfile = new Stream("test2/testfile2.gz", false, true);
+  if (readfile->open()) {
     return 0;
   }
   readfile->setProgressCallback(read_progress);
@@ -788,8 +794,8 @@ int main(void) {
   delete readfile;
 
   cout << "default decompress read" << endl;
-  readfile = new Stream("test2/testfile2.gz");
-  if (readfile->open(O_RDONLY, 1)) {
+  readfile = new Stream("test2/testfile2.gz", false, true, 1);
+  if (readfile->open()) {
     return 0;
   }
   readfile->setProgressCallback(read_progress);
@@ -805,9 +811,9 @@ int main(void) {
   delete readfile;
 
   cout << "default getLine" << endl;
-  readfile = new Stream("test2/testfile2.gz");
+  readfile = new Stream("test2/testfile2.gz", false, true);
   ssize_t read_size = 0;
-  if (readfile->open(O_RDONLY)) {
+  if (readfile->open()) {
     return 0;
   }
   readfile->setProgressCallback(read_progress);
@@ -834,9 +840,9 @@ int main(void) {
   delete readfile;
 
   cout << "default decompress getLine" << endl;
-  readfile = new Stream("test2/testfile2.gz");
+  readfile = new Stream("test2/testfile2.gz", false, true, 1);
   read_size = 0;
-  if (readfile->open(O_RDONLY, 1)) {
+  if (readfile->open()) {
     return 0;
   }
   readfile->setProgressCallback(read_progress);
@@ -862,8 +868,8 @@ int main(void) {
   free(buffer);
 
   cout << "default decompress read" << endl;
-  readfile = new Stream("test1/rwfile_source");
-  if (readfile->open(O_RDONLY, 1)) {
+  readfile = new Stream("test1/rwfile_source", false, true, 1);
+  if (readfile->open()) {
     return 0;
   }
   readfile->setProgressCallback(read_progress);
@@ -880,10 +886,10 @@ int main(void) {
 
 
   cout << endl << "Test: copy" << endl;
-  readfile = new Stream("test1/rwfile_source");
+  readfile = new Stream("test1/rwfile_source", false, true, 1);
   Node("test1/rwfile_dest").remove();
-  writefile = new Stream("test1/rwfile_dest");
-  if (readfile->open(O_RDONLY, 1) || writefile->open(O_WRONLY)) {
+  writefile = new Stream("test1/rwfile_dest", true, true);
+  if (readfile->open() || writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     int rc = readfile->copy(writefile);
@@ -900,9 +906,9 @@ int main(void) {
   }
   delete readfile;
   delete writefile;
-  readfile = new Stream("test1/rwfile_dest");
-  writefile = new Stream("test1/rwfile_copy");
-  if (readfile->open(O_RDONLY) || writefile->open(O_WRONLY)) {
+  readfile = new Stream("test1/rwfile_dest", false, true);
+  writefile = new Stream("test1/rwfile_copy", true, true);
+  if (readfile->open() || writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     int rc = readfile->copy(writefile);
@@ -920,9 +926,9 @@ int main(void) {
   delete readfile;
   delete writefile;
   Node("test1/rwfile_dest").remove();
-  readfile = new Stream("test1/rwfile_copy");
-  writefile = new Stream("test1/rwfile_dest");
-  if (readfile->open(O_RDONLY) || writefile->open(O_WRONLY, 5)) {
+  readfile = new Stream("test1/rwfile_copy", false, true);
+  writefile = new Stream("test1/rwfile_dest", true, true, 5);
+  if (readfile->open() || writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     int rc = readfile->copy(writefile);
@@ -943,9 +949,9 @@ int main(void) {
   Node("test1/rwfile_copy").remove();
 
   cout << endl << "Test: interrupted copy" << endl;
-  readfile = new Stream("test1/rwfile_source");
-  writefile = new Stream("test1/rwfile_dest");
-  if (readfile->open(O_RDONLY, 1) || writefile->open(O_WRONLY)) {
+  readfile = new Stream("test1/rwfile_source", false, true, 1);
+  writefile = new Stream("test1/rwfile_dest", true, true);
+  if (readfile->open() || writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     readfile->setCancelCallback(cancel);
@@ -964,11 +970,10 @@ int main(void) {
   Node("test1/rwfile_dest").remove();
 
   cout << endl << "Test: double copy" << endl;
-  readfile = new Stream("test1/rwfile_source");
-  writefile = new Stream("test1/rwfile_dest");
-  Stream* writefile2 = new Stream("test1/rwfile_dest2");
-  if (readfile->open(O_RDONLY, 1) || writefile->open(O_WRONLY, 5)
-  || writefile2->open(O_WRONLY, 5)) {
+  readfile = new Stream("test1/rwfile_source", false, true, 1);
+  writefile = new Stream("test1/rwfile_dest", true, true, 5);
+  Stream* writefile2 = new Stream("test1/rwfile_dest2", true, true, 5);
+  if (readfile->open() || writefile->open() || writefile2->open()) {
     cout << "Error opening a file: " << strerror(errno) << endl;
   } else {
     int rc = readfile->copy(writefile, writefile2);
@@ -997,8 +1002,8 @@ int main(void) {
 
   cout << endl << "Test: getLine" << endl;
 
-  writefile = new Stream("test2/testfile");
-  if (writefile->open(O_WRONLY)) {
+  writefile = new Stream("test2/testfile", true, true);
+  if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     writefile->write(NULL, 0);
@@ -1006,10 +1011,10 @@ int main(void) {
   }
   cout << "Checksum: " << writefile->checksum() << endl;
   delete writefile;
-  readfile = new Stream("test2/testfile");
+  readfile = new Stream("test2/testfile", false, true);
   char* line_test = NULL;
   size_t line_test_capacity = 0;
-  readfile->open(O_RDONLY);
+  readfile->open();
   cout << "Reading empty file:" << endl;
   while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
     cout << "Line: " << line_test << endl;
@@ -1018,8 +1023,8 @@ int main(void) {
   cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
 
-  writefile = new Stream("test2/testfile");
-  if (writefile->open(O_WRONLY)) {
+  writefile = new Stream("test2/testfile", true, true);
+  if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     writefile->write("abcdef\nghi\n", 11);
@@ -1028,8 +1033,8 @@ int main(void) {
   }
   cout << "Checksum: " << writefile->checksum() << endl;
   delete writefile;
-  readfile = new Stream("test2/testfile");
-  if (readfile->open(O_RDONLY)) {
+  readfile = new Stream("test2/testfile", false, true);
+  if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
   cout << "Reading uncompressed file:" << endl;
@@ -1040,8 +1045,8 @@ int main(void) {
   cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
 
-  writefile = new Stream("test2/testfile");
-  if (writefile->open(O_WRONLY, 5)) {
+  writefile = new Stream("test2/testfile", true, true, 5);
+  if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     writefile->write("abcdef\nghi\n", 11);
@@ -1050,8 +1055,8 @@ int main(void) {
   }
   cout << "Checksum: " << writefile->checksum() << endl;
   delete writefile;
-  readfile = new Stream("test2/testfile");
-  if (readfile->open(O_RDONLY, 1)) {
+  readfile = new Stream("test2/testfile", false, true, 1);
+  if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
   cout << "Reading compressed file:" << endl;
@@ -1062,8 +1067,8 @@ int main(void) {
   cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
 
-  writefile = new Stream("test2/testfile");
-  if (writefile->open(O_WRONLY, 5)) {
+  writefile = new Stream("test2/testfile", true, true, 5);
+  if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     for (int i = 0; i < 60; i++) {
@@ -1075,8 +1080,8 @@ int main(void) {
   }
   cout << "Checksum: " << writefile->checksum() << endl;
   delete writefile;
-  readfile = new Stream("test2/testfile");
-  if (readfile->open(O_RDONLY, 1)) {
+  readfile = new Stream("test2/testfile", false, true, 1);
+  if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
   cout << "Reading compressed file (line length = 600):" << endl;
@@ -1087,8 +1092,8 @@ int main(void) {
   cout << "Checksum: " << readfile->checksum() << endl;
   delete readfile;
 
-  readfile = new Stream("test2/testfile");
-  if (readfile->open(O_RDONLY, 1, false)) {
+  readfile = new Stream("test2/testfile", false, false, 1);
+  if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
   cout << "Reading compressed file (line length = 600), no checksum:" << endl;

@@ -145,14 +145,14 @@ int main(void) {
   }
 
   // No checksum
-  node = new Stream("test1/test space");
+  node = new Stream("test1/test space", false);
   journal.add("file sp", time(NULL), node);
   delete node;
 
   journal.add("file_gone", time(NULL));
 
-  node = new Stream("test1/testfile");
-  static_cast<Stream*>(node)->open(O_RDONLY);
+  node = new Stream("test1/testfile", false, true);
+  static_cast<Stream*>(node)->open();
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
@@ -243,15 +243,15 @@ int main(void) {
   journal.add("CR\r", time(NULL), node);
   delete node;
 
-  node = new Stream("test1/test space");
-  static_cast<Stream*>(node)->open(O_RDONLY);
+  node = new Stream("test1/test space", false, true);
+  static_cast<Stream*>(node)->open();
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file sp", time(NULL), node);
   delete node;
 
-  node = new Stream("test1/testfile");
-  static_cast<Stream*>(node)->open(O_RDONLY);
+  node = new Stream("test1/testfile", false, true);
+  static_cast<Stream*>(node)->open();
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
@@ -328,8 +328,8 @@ int main(void) {
     return 0;
   }
   sys_rc = system("echo \"this is my new test\" > test1/testfile");
-  node = new Stream("test1/testfile");
-  static_cast<Stream*>(node)->open(O_RDONLY);
+  node = new Stream("test1/testfile", false, true);
+  static_cast<Stream*>(node)->open();
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
@@ -474,8 +474,8 @@ int main(void) {
     return 0;
   }
   sys_rc = system("echo \"this is my other test\" > test1/testfile");
-  node = new Stream("test1/testfile");
-  static_cast<Stream*>(node)->open(O_RDONLY);
+  node = new Stream("test1/testfile", false, true);
+  static_cast<Stream*>(node)->open();
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);
@@ -540,14 +540,14 @@ int main(void) {
   }
 
   // No checksum
-  node = new Stream("test1/test space");
+  node = new Stream("test1/test space", false);
   journal.add("file sp", time(NULL), node);
   delete node;
 
   journal.add("file_gone", time(NULL));
 
-  node = new Stream("test1/testfile");
-  static_cast<Stream*>(node)->open(O_RDONLY);
+  node = new Stream("test1/testfile", false, true);
+  static_cast<Stream*>(node)->open();
   static_cast<Stream*>(node)->computeChecksum();
   static_cast<Stream*>(node)->close();
   journal.add("file_new", time(NULL), node);

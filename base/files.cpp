@@ -374,6 +374,8 @@ public:
 struct Stream::Private {
   IReaderWriter*      rw;                 // reader/writer
   bool                writer;             // know which mode we're in
+  bool                compute_hash;       // need to compute hash
+  int                 compression;        // compress
   long long           size;               // uncompressed file data size (bytes)
   long long           progress;           // transfered size, for progress
   Buffer<char>        getline_buffer;     // Buffer for data
@@ -383,8 +385,12 @@ struct Stream::Private {
   Private() : getline_reader(getline_buffer) {}
 };
 
-Stream::Stream(Path path) : File(path), _d(new Private) {
+Stream::Stream(const char* path, bool writer, bool hash, int compression) :
+  File(path), _d(new Private) {
   _d->rw                = NULL;
+  _d->writer            = writer;
+  _d->compute_hash      = hash;
+  _d->compression       = compression;
   _d->progress_callback = NULL;
   _d->cancel_callback   = NULL;
   _d->size              = -1;
@@ -405,44 +411,34 @@ bool Stream::isWriteable() const {
   return _d->writer;
 }
 
-int Stream::open(
-    int             flags,
-    unsigned int    compression,
-    bool            checksum) {
+int Stream::open() {
   if (_d->rw != NULL) {
     errno = EBUSY;
     return -1;
   }
   _d->size     = 0;
   _d->progress = 0;
-  _d->rw = new FileReaderWriter(_path, flags == O_WRONLY);
-  switch (flags) {
-  case O_WRONLY:
-    _d->writer = true;
+  _d->rw = new FileReaderWriter(_path, _d->writer);
+  if (_d->writer) {
     _size = 0;
-    if (checksum) {
+    if (_d->compute_hash) {
       _d->rw = new Hasher(_d->rw, true, Hasher::md5, _hash);
     } else {
       strcpy(_hash, "");
     }
-    if (compression > 0) {
-      _d->rw = new ZipWriter(_d->rw, true, compression);
+    if (_d->compression > 0) {
+      _d->rw = new ZipWriter(_d->rw, true, _d->compression);
     }
-    break;
-  case O_RDONLY:
+  } else {
     _d->writer = false;
-    if (compression > 0) {
+    if (_d->compression > 0) {
       _d->rw = new UnzipReader(_d->rw, true);
     }
-    if (checksum) {
+    if (_d->compute_hash) {
       _d->rw = new Hasher(_d->rw, true, Hasher::md5, _hash);
     } else {
       strcpy(_hash, "");
     }
-    break;
-  default:
-    errno = EINVAL;
-    return -1;
   }
   if (_d->rw->open() < 0) {
     delete _d->rw;

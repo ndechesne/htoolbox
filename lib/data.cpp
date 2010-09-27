@@ -393,8 +393,8 @@ int Data::read(
       local_path);
     return -1;
   }
-  Stream data(local_path);
-  if (data.open(O_RDONLY, (no > 0) ? 1 : 0), false) {
+  Stream data(local_path, false, false, no > 0 ? 1 : 0);
+  if (data.open()) {
     hlog_error("%s opening source file '%s'", strerror(errno),
       data.path());
     return -1;
@@ -403,8 +403,8 @@ int Data::read(
   // Open temporary file to write to
   string temp_path = path;
   temp_path += ".hbackup-part";
-  Stream temp(temp_path.c_str());
-  if (temp.open(O_WRONLY)) {
+  Stream temp(temp_path.c_str(), true);
+  if (temp.open()) {
     hlog_error("%s opening read temp file '%s'", strerror(errno), temp.path());
     failed = true;
   } else {
@@ -441,19 +441,19 @@ int Data::read(
 }
 
 Data::WriteStatus Data::write(
-    Stream&         source,
+    const char*     path,
     char            dchecksum[64],
     int*            comp_level,
     bool            comp_auto) const {
   bool failed = false;
 
   // Open source file
-  if (source.open(O_RDONLY) < 0) {
+  Stream source(path, false, true);
+  if (source.open() < 0) {
     return error;
   }
 
   // Temporary file(s) to write to
-  Stream* temp1 = new Stream(_d->data.c_str());
   Stream* temp2 = NULL;
   CompressionCase comp_case;
   // compress < 0 => required to not compress by filter or configuration
@@ -471,8 +471,8 @@ Data::WriteStatus Data::write(
   if (comp_auto) {
     comp_case = later;
     // Automatic compression: copy twice, compressed and not, and choose best
-    temp2 = new Stream(_d->data_gz.c_str());
-    if (temp2->open(O_WRONLY, 0, false)) {
+    temp2 = new Stream(_d->data_gz.c_str(), true, false, 0);
+    if (temp2->open()) {
       hlog_error("%s opening write temp file '%s'", strerror(errno),
         temp2->path());
       failed = true;
@@ -482,7 +482,8 @@ Data::WriteStatus Data::write(
   {
     comp_case = forced_yes;
   }
-  if (temp1->open(O_WRONLY, *comp_level, false)) {
+  Stream* temp1 = new Stream(_d->data.c_str(), true, false, *comp_level);
+  if (temp1->open()) {
     hlog_error("%s opening write temp file '%s'", strerror(errno),
       temp1->path());
     failed = true;
@@ -513,8 +514,6 @@ Data::WriteStatus Data::write(
     return error;
   }
 
-  // File to add to DB
-  Stream* dest = temp1;
   // Size for comparison with existing DB data
   long long size_cmp = temp1->size();
   // If temp2 is not NULL then comp_auto is true
@@ -527,7 +526,7 @@ Data::WriteStatus Data::write(
     if (temp2->size() <= size_gz) {
       temp1->remove();
       delete temp1;
-      dest     = temp2;
+      temp1 = temp2;
       size_cmp = size_gz;
       comp_case = size_no;
       *comp_level = 0;
@@ -537,6 +536,9 @@ Data::WriteStatus Data::write(
       comp_case = size_yes;
     }
   }
+
+  // File to add to DB
+  Stream dest(temp1->path(), false, false, *comp_level);
 
   // Get file final location
   char dest_path[PATH_MAX];
@@ -565,11 +567,11 @@ Data::WriteStatus Data::write(
       } else
       // Compare files
       {
-        Stream data(data_path);
-        data.open(O_RDONLY, (no > 0) ? 1 : 0);
-        dest->open(O_RDONLY, *comp_level);
-        int cmp = dest->compare(data);
-        dest->close();
+        Stream data(data_path, false, false, (no > 0) ? 1 : 0);
+        data.open();
+        dest.open();
+        int cmp = dest.compare(data);
+        dest.close();
         data.close();
         switch (cmp) {
           // Same data
@@ -615,7 +617,7 @@ Data::WriteStatus Data::write(
     } else {
       char name[PATH_MAX];
       sprintf(name, "%s/data%s", final_path, (*comp_level != 0) ? ".gz" : "");
-      if (rename(dest->path(), name)) {
+      if (rename(dest.path(), name)) {
         hlog_error("%s moving file '%s'", strerror(errno), name);
         status = error;
       } else {
@@ -636,7 +638,7 @@ Data::WriteStatus Data::write(
 
   // If anything failed, or nothing happened, delete temporary file
   if ((status == error) || (status == leave)) {
-    dest->remove();
+    dest.remove();
   }
 
   // Report checksum
@@ -655,7 +657,6 @@ Data::WriteStatus Data::write(
     }
   }
 
-  delete dest;
   return status;
 }
 
@@ -687,7 +688,7 @@ int Data::check(
     }
     return -1;
   }
-  Stream data(local_path);
+  Stream data(local_path, false, true, (no > 0) ? 1 : 0);
   // Get original file size
   long long original_size = -1;
   CompressionCase comp_status = unknown;
@@ -706,7 +707,7 @@ int Data::check(
       data.setCancelCallback(aborting);
       data.setProgressCallback(_d->progress);
       // Open file
-      if (data.open(O_RDONLY, (no > 0) ? 1 : 0)) {
+      if (data.open()) {
         hlog_error("%s opening file '%s'", strerror(errno), data.path());
         failed = true;
       } else

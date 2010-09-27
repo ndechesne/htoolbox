@@ -62,8 +62,8 @@ time_t time(time_t *t) {
 }
 
 static int showRegister(const char* path) {
-  Stream list(path);
-  if (list.open(O_RDONLY)) {
+  Stream list(path, false);
+  if (list.open()) {
     cout << strerror(errno) << " opening list at '" << path << "'" << endl;
     return -1;
   }

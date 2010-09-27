@@ -70,8 +70,8 @@ static int showClientConfigs() {
   for (list<Node*>::const_iterator i = ls.begin(); i != ls.end(); i++) {
     cout << "Config for " << (*i)->path() << endl;
     Config config;
-    Stream stream((*i)->path());
-    if (! stream.open(O_RDONLY)) {
+    Stream stream((*i)->path(), false);
+    if (! stream.open()) {
       char*  buffer = NULL;
       size_t capacity = 0;
       while (stream.getLine(&buffer, &capacity) > 0) {
@@ -172,10 +172,10 @@ int main(void) {
   abort(0xffff);
 
   {
-    Stream s("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
-    Stream d("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data.gz");
-    if (! d.open(O_WRONLY, 5, true)) {
-      if (! s.open(O_RDONLY)) {
+    Stream s("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data", false);
+    Stream d("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data.gz", true, true, 5);
+    if (! d.open()) {
+      if (! s.open()) {
         if (! s.copy(&d) && ! s.close()) {
           s.remove();
           cout << endl << "Test: force-compress DB data" << endl;

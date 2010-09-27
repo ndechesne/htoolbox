@@ -722,9 +722,8 @@ int Database::add(
       } else {
         compression = op.compression;
       }
-      Stream source(op.node.path());
-      Data::WriteStatus status = _d->data.write(source, checksum, &compression,
-        op.comp_mode == auto_now);
+      Data::WriteStatus status = _d->data.write(op.node.path(), checksum,
+        &compression, op.comp_mode == auto_now);
       if (status == Data::error) {
         if ((op.operation == '!') && report_copy_error_once) {
           hlog_warning("%s backing up file '%s:%s'", strerror(errno),

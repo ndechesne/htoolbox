@@ -96,13 +96,13 @@ CvsParser::CvsParser(Mode mode, const string& dir_path)
     return;
   }
   string path = dir_path + control_dir + entries;
-  Stream entries_file(path.c_str());
+  Stream entries_file(path.c_str(), false);
 
   // Save mode
   _mode = mode;
 
   /* Fill in list of controlled files */
-  entries_file.open(O_RDONLY);
+  entries_file.open();
   hlog_debug_arrow(1, "Parsing CVS entries");
   int    line_no = 0;
   char*  buffer = NULL;
