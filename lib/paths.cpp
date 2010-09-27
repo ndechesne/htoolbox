@@ -153,6 +153,7 @@ int ClientPath::parse_recurse(
             &&  (  (errno != EBUSY)       // Ignore busy resources
                 && (errno != ETXTBSY)     // Ignore busy files
                 && (errno != ENOENT)      // Ignore files gone
+                && (errno != EPERM)      // Ignore files gone
                 && (errno != EACCES))) {  // Ignore access refused
               // All the rest results in a cease and desist order
               give_up = true;
