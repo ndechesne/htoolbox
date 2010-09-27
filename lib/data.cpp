@@ -399,24 +399,15 @@ int Data::read(
       data.path());
     return -1;
   }
-
-  // Open temporary file to write to
   string temp_path = path;
   temp_path += ".hbackup-part";
   Stream temp(temp_path.c_str(), true);
-  if (temp.open()) {
-    hlog_error("%s opening read temp file '%s'", strerror(errno), temp.path());
+  // Copy file to temporary name (size not checked: checksum suffices)
+  data.setCancelCallback(aborting);
+  data.setProgressCallback(_d->progress);
+  if (data.copy(&temp)) {
     failed = true;
-  } else {
-    // Copy file to temporary name (size not checked: checksum suffices)
-    data.setCancelCallback(aborting);
-    data.setProgressCallback(_d->progress);
-    if (data.copy(&temp)) {
-      failed = true;
-    }
-    temp.close();
   }
-
   data.close();
 
   if (! failed) {
@@ -472,22 +463,11 @@ Data::WriteStatus Data::write(
     comp_case = later;
     // Automatic compression: copy twice, compressed and not, and choose best
     temp2 = new Stream(_d->data_gz.c_str(), true, false, 0);
-    if (temp2->open()) {
-      hlog_error("%s opening write temp file '%s'", strerror(errno),
-        temp2->path());
-      failed = true;
-    }
-  } else
+  } else {
   // compress > 0 && ! comp_auto => compress
-  {
     comp_case = forced_yes;
   }
   Stream* temp1 = new Stream(_d->data.c_str(), true, false, *comp_level);
-  if (temp1->open()) {
-    hlog_error("%s opening write temp file '%s'", strerror(errno),
-      temp1->path());
-    failed = true;
-  }
 
   if (! failed) {
     // Copy file locally
@@ -495,11 +475,6 @@ Data::WriteStatus Data::write(
     source.setProgressCallback(_d->progress);
     if (source.copy(temp1, temp2) != 0) {
       failed = true;
-    }
-
-    temp1->close();
-    if (temp2 != NULL) {
-      temp2->close();
     }
   }
   source.close();

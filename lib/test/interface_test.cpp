@@ -174,14 +174,11 @@ int main(void) {
   {
     Stream s("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data", false);
     Stream d("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data.gz", true, true, 5);
-    if (! d.open()) {
-      if (! s.open()) {
-        if (! s.copy(&d) && ! s.close()) {
-          s.remove();
-          cout << endl << "Test: force-compress DB data" << endl;
-        }
+    if (! s.open()) {
+      if (! s.copy(&d) && ! s.close()) {
+        s.remove();
+        cout << endl << "Test: force-compress DB data" << endl;
       }
-      d.close();
     }
     sys_rc = system("echo -n 2 > "
       "test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/meta");

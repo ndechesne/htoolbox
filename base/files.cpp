@@ -374,8 +374,7 @@ public:
 struct Stream::Private {
   IReaderWriter*      rw;                 // reader/writer
   bool                writer;             // know which mode we're in
-  bool                compute_hash;       // need to compute hash
-  int                 compression;        // compress
+  bool                open;               // file is open
   long long           size;               // uncompressed file data size (bytes)
   long long           progress;           // transfered size, for progress
   Buffer<char>        getline_buffer;     // Buffer for data
@@ -385,15 +384,34 @@ struct Stream::Private {
   Private() : getline_reader(getline_buffer) {}
 };
 
-Stream::Stream(const char* path, bool writer, bool hash, int compression) :
+Stream::Stream(const char* path, bool writer, bool need_hash, int compression) :
   File(path), _d(new Private) {
-  _d->rw                = NULL;
   _d->writer            = writer;
-  _d->compute_hash      = hash;
-  _d->compression       = compression;
+  _d->open              = false;
   _d->progress_callback = NULL;
   _d->cancel_callback   = NULL;
   _d->size              = -1;
+  _d->rw = new FileReaderWriter(path, writer);
+  if (writer) {
+    _size = 0;
+    if (need_hash) {
+      _d->rw = new Hasher(_d->rw, true, Hasher::md5, _hash);
+    } else {
+      strcpy(_hash, "");
+    }
+    if (compression > 0) {
+      _d->rw = new ZipWriter(_d->rw, true, compression);
+    }
+  } else {
+    if (compression > 0) {
+      _d->rw = new UnzipReader(_d->rw, true);
+    }
+    if (need_hash) {
+      _d->rw = new Hasher(_d->rw, true, Hasher::md5, _hash);
+    } else {
+      strcpy(_hash, "");
+    }
+  }
 }
 
 Stream::~Stream() {
@@ -404,7 +422,7 @@ Stream::~Stream() {
 }
 
 bool Stream::isOpen() const {
-  return (_d->rw != NULL);
+  return (_d->open);
 }
 
 bool Stream::isWriteable() const {
@@ -412,44 +430,21 @@ bool Stream::isWriteable() const {
 }
 
 int Stream::open() {
-  if (_d->rw != NULL) {
+  if (isOpen()) {
     errno = EBUSY;
     return -1;
   }
   _d->size     = 0;
   _d->progress = 0;
-  _d->rw = new FileReaderWriter(_path, _d->writer);
-  if (_d->writer) {
-    _size = 0;
-    if (_d->compute_hash) {
-      _d->rw = new Hasher(_d->rw, true, Hasher::md5, _hash);
-    } else {
-      strcpy(_hash, "");
-    }
-    if (_d->compression > 0) {
-      _d->rw = new ZipWriter(_d->rw, true, _d->compression);
-    }
-  } else {
-    _d->writer = false;
-    if (_d->compression > 0) {
-      _d->rw = new UnzipReader(_d->rw, true);
-    }
-    if (_d->compute_hash) {
-      _d->rw = new Hasher(_d->rw, true, Hasher::md5, _hash);
-    } else {
-      strcpy(_hash, "");
-    }
-  }
   if (_d->rw->open() < 0) {
-    delete _d->rw;
-    _d->rw = NULL;
     return -1;
   }
+  _d->open = true;
   return 0;
 }
 
 int Stream::close() {
-  if (_d->rw == NULL) {
+  if (! isOpen()) {
     errno = EBADF;
     return -1;
   }
@@ -463,8 +458,7 @@ int Stream::close() {
     // Update metadata
     stat();
   }
-  delete _d->rw;
-  _d->rw = NULL;
+  _d->open = false;
   return rc;
 }
 
@@ -687,9 +681,15 @@ static void* write_task(void* data) {
 
 int Stream::copy(Stream* dest1, Stream* dest2) {
   errno = 0;
-  if (! isOpen() || ! dest1->isOpen()
-  || ((dest2 != NULL) && ! dest2->isOpen())) {
+  if (! isOpen()) {
     errno = EBADF;
+    return -1;
+  }
+  if (dest1->open() < 0) {
+    return -1;
+  }
+  if ((dest2 != NULL) && (dest2->open() < 0)) {
+    dest1->close();
     return -1;
   }
   Buffer<char>  buffer(1 << 20);
@@ -784,6 +784,13 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
     if ((errno == 0) && (dataSize() != dest2->dataSize())) {
       errno = EAGAIN;
     }
+  }
+  if ((dest2 != NULL) && (dest2->close() < 0)) {
+    dest1->close();
+    return -1;
+  }
+  if (dest1->close() < 0) {
+    return -1;
   }
   // Check that sizes match
   if (! failed && (errno == 0) && (size != dataSize())) {

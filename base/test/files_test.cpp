@@ -889,12 +889,11 @@ int main(void) {
   readfile = new Stream("test1/rwfile_source", false, true, 1);
   Node("test1/rwfile_dest").remove();
   writefile = new Stream("test1/rwfile_dest", true, true);
-  if (readfile->open() || writefile->open()) {
+  if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     int rc = readfile->copy(writefile);
     if (readfile->close()) cout << "Error closing read file" << endl;
-    if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {
       cout << "Error copying file: " << strerror(errno) << endl;
     } else {
@@ -908,12 +907,11 @@ int main(void) {
   delete writefile;
   readfile = new Stream("test1/rwfile_dest", false, true);
   writefile = new Stream("test1/rwfile_copy", true, true);
-  if (readfile->open() || writefile->open()) {
+  if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     int rc = readfile->copy(writefile);
     if (readfile->close()) cout << "Error closing read file" << endl;
-    if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {
       cout << "Error copying file: " << strerror(errno) << endl;
     } else {
@@ -928,12 +926,11 @@ int main(void) {
   Node("test1/rwfile_dest").remove();
   readfile = new Stream("test1/rwfile_copy", false, true);
   writefile = new Stream("test1/rwfile_dest", true, true, 5);
-  if (readfile->open() || writefile->open()) {
+  if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     int rc = readfile->copy(writefile);
     if (readfile->close()) cout << "Error closing read file" << endl;
-    if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {
       cout << "Error copying file: " << strerror(errno) << endl;
     } else {
@@ -951,13 +948,12 @@ int main(void) {
   cout << endl << "Test: interrupted copy" << endl;
   readfile = new Stream("test1/rwfile_source", false, true, 1);
   writefile = new Stream("test1/rwfile_dest", true, true);
-  if (readfile->open() || writefile->open()) {
+  if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     readfile->setCancelCallback(cancel);
     int rc = readfile->copy(writefile);
     if (readfile->close()) cout << "Error closing read file" << endl;
-    if (writefile->close()) cout << "Error closing write file" << endl;
     if (rc) {
       cout << "Error copying file: " << strerror(errno) << endl;
     } else {
@@ -973,13 +969,11 @@ int main(void) {
   readfile = new Stream("test1/rwfile_source", false, true, 1);
   writefile = new Stream("test1/rwfile_dest", true, true, 5);
   Stream* writefile2 = new Stream("test1/rwfile_dest2", true, true, 5);
-  if (readfile->open() || writefile->open() || writefile2->open()) {
+  if (readfile->open()) {
     cout << "Error opening a file: " << strerror(errno) << endl;
   } else {
     int rc = readfile->copy(writefile, writefile2);
     if (readfile->close()) cout << "Error closing read file" << endl;
-    if (writefile->close()) cout << "Error closing write file" << endl;
-    if (writefile2->close()) cout << "Error closing write file 2" << endl;
     if (rc) {
       cout << "Error copying file: " << strerror(errno) << endl;
     } else {
