@@ -99,7 +99,8 @@ ssize_t FileReaderWriter::write(const void* buffer, size_t size) {
     }
     cbuffer += rc;
     count += rc;
-  }
+    _d->offset += rc;
+}
   return count;
 }
 
