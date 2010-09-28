@@ -519,6 +519,7 @@ Data::WriteStatus Data::write(
   char dest_path[PATH_MAX];
   if (getDir(source.checksum(), dest_path, true) < 0) {
     hlog_error("Cannot create DB data '%s'", source.checksum());
+    delete temp1;
     return error;
   }
 
@@ -632,6 +633,7 @@ Data::WriteStatus Data::write(
     }
   }
 
+  delete temp1;
   return status;
 }
 
