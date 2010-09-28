@@ -39,6 +39,7 @@ using namespace std;
 #include "hasher.h"
 #include "unzipreader.h"
 #include "zipwriter.h"
+#include "asyncwriter.h"
 #include "files.h"
 
 using namespace hbackup;
@@ -418,6 +419,7 @@ Stream::~Stream() {
   if (isOpen()) {
     close();
   }
+  delete _d->rw;
   delete _d;
 }
 
@@ -624,179 +626,80 @@ int Stream::computeChecksum() {
   return 0;
 }
 
-struct CopyData {
-  // Global
-  Stream*             stream;
-  Buffer<char>&       buffer;
-  sem_t&              read_sem;
-  bool&               eof;
-  bool&               failed;
-  // Local
-  BufferReader<char>  reader;
-  sem_t               write_sem;
-  CopyData(Stream* d, Buffer<char>& b, sem_t& s, bool& eof, bool& failed) :
-      stream(d), buffer(b), read_sem(s), eof(eof), failed(failed),
-      // No auto-unregistration: segmentation fault may occur
-      reader(buffer, false) {
-    sem_init(&write_sem, 0, 0);
-  }
-  ~CopyData() {
-    sem_destroy(&write_sem);
-  }
-};
-
-struct ReadData {
-  sem_t         read_sem;
-  ReadData() {
-    sem_init(&read_sem, 0, 0);
-  }
-  ~ReadData() {
-    sem_destroy(&read_sem);
-  }
-};
-
-static void* write_task(void* data) {
-  CopyData& cd = *static_cast<CopyData*>(data);
-  do {
-    // Reset semaphore before checking for emptiness
-    if (! cd.reader.isEmpty()) {
-      // Write as much as possible
-      ssize_t l = cd.stream->write(cd.reader.reader(), cd.reader.readable());
-      if (l < 0) {
-        cd.failed = true;
-      } else {
-        cd.reader.readn(l);
-      }
-      // Allow read task to run
-      sem_post(&cd.read_sem);
-    } else {
-      // Now either a read occurred and we won't lock, or we shall wait
-      if (sem_wait(&cd.write_sem)) {
-        cd.failed = true;
-      }
-    }
-  } while (! cd.failed && (! cd.eof || ! cd.reader.isEmpty()));
-  return NULL;
-}
-
 int Stream::copy(Stream* dest1, Stream* dest2) {
   errno = 0;
+  // Setup => check that source is open, open destination(s)
   if (! isOpen()) {
     errno = EBADF;
     return -1;
   }
+  dest1->_d->rw = new AsyncWriter(dest1->_d->rw, true);
   if (dest1->open() < 0) {
     return -1;
   }
-  if ((dest2 != NULL) && (dest2->open() < 0)) {
-    dest1->close();
-    return -1;
-  }
-  Buffer<char>  buffer(1 << 20);
-  ReadData      rd;
-  bool          eof    = false;
-  bool          failed = false;
-  CopyData*     cd1 = NULL;
-  CopyData*     cd2 = NULL;
-  long long     size = 0;
-  pthread_t     child1;
-  pthread_t     child2;
-  cd1 = new CopyData(dest1, buffer, rd.read_sem, eof, failed);
-  int rc = pthread_create(&child1, NULL, write_task, cd1);
-  if (rc != 0) {
-    delete cd1;
-    errno = rc;
-    return -1;
-  }
   if (dest2 != NULL) {
-    cd2 = new CopyData(dest2, buffer, rd.read_sem, eof, failed);
-    rc = pthread_create(&child2, NULL, write_task, cd2);
-    if (rc != 0) {
-      delete cd2;
-      errno = rc;
-      // Tell other task to die and wait for it
-      failed = true;
-      pthread_join(child1, NULL);
-      delete cd1;
+    dest2->_d->rw = new AsyncWriter(dest2->_d->rw, true);
+    if (dest2->open() < 0) {
+      dest1->close();
       return -1;
     }
   }
-
-  // Read loop
+  // Copy loop
+  enum { BUFFER_SIZE = 1 << 19 }; // Total buffered size = 1 MiB
+  char buffer1[BUFFER_SIZE];      // odd buffer
+  char buffer2[BUFFER_SIZE];      // even buffer
+  char* buffer = buffer1;         // currently unused buffer
+  ssize_t size;                   // Size actually read at begining of loop
   do {
-    // Reset semaphore before checking for fullness
-    if (! buffer.isFull()) {
-      // Fill up only up to half of capacity, for simultenous read and write
-      ssize_t length = buffer.capacity() >> 1;
-      if (static_cast<size_t>(length) > buffer.writeable()) {
-        length = buffer.writeable();
-      }
-      length = read(buffer.writer(), length);
-      if (length < 0) {
-        failed = true;
-      } else {
-        // Update writer before signaling eof
-        buffer.written(length);
-        // Allow write task to run
-        if (length == 0) {
-          eof = true;
-        }
-        size += length;
-      }
-      sem_post(&cd1->write_sem);
-      if (dest2 != NULL) {
-        sem_post(&cd2->write_sem);
-      }
-    } else {
-      // Now either a write occurred and we won't lock, or we shall wait
-      if (sem_wait(&rd.read_sem)) {
-        failed = true;
-      }
-    }
-    if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)(2))) {
-      errno = ECANCELED;
-      failed = true;
-      sem_post(&cd1->write_sem);
-      if (dest2 != NULL) {
-        sem_post(&cd2->write_sem);
-      }
+    // size will be BUFFER_SIZE unless the end of file has been reached
+    size = read(buffer, BUFFER_SIZE);
+    if (size <= 0) {
       break;
     }
-  } while (! failed && ! eof);
-
-  // Wait for write tasks to terminate, check status
-  rc = pthread_join(child1, NULL);
-  delete cd1;
-  if (rc != 0) {
-    errno = rc;
-  } else
-  // Check that data sizes match
-  if ((errno == 0) && (dataSize() != dest1->dataSize())) {
-    errno = EAGAIN;
+    if (dest1->write(buffer, size) < 0) {
+      size = -1;
+      break;
+    }
+    if ((dest2 != NULL) && (dest2->write(buffer, size) < 0)) {
+      size = -1;
+      break;
+    }
+    // Swap unused buffers
+    if (buffer == buffer1) {
+      buffer = buffer2;
+    } else {
+      buffer = buffer1;
+    }
+    // Check that we are not told to abort
+    if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)(2))) {
+      errno = ECANCELED;
+      size = -1;
+      break;
+    }
+  } while (size == BUFFER_SIZE);
+  // One-stop error check
+  bool failed = (size == -1);
+  // close and update metadata and 'data size' (the unzipped size)
+  if (dest1->close() < 0) {
+    failed = true;
+  } else {
+    dest1->stat();
+    dest1->_d->size = _d->size;
   }
   if (dest2 != NULL) {
-    rc = pthread_join(child2, NULL);
-    delete cd2;
-    if (rc != 0) {
-      errno = rc;
-    } else
-    // Check that data sizes match
-    if ((errno == 0) && (dataSize() != dest2->dataSize())) {
-      errno = EAGAIN;
+    if (dest2->close() < 0) {
+      failed = true;
+    } else {
+      dest2->stat();
+      dest2->_d->size = _d->size;
     }
   }
-  if ((dest2 != NULL) && (dest2->close() < 0)) {
-    dest1->close();
-    return -1;
-  }
-  if (dest1->close() < 0) {
-    return -1;
-  }
-  // Check that sizes match
-  if (! failed && (errno == 0) && (size != dataSize())) {
+  // Check that stat'd and read sizes match
+  if (! failed && (_size != _d->rw->offset())) {
     errno = EAGAIN;
+    failed = true;
   }
-  return (errno != 0) ? -1 : 0;
+  return failed ? -1 : 0;
 }
 
 int Stream::compare(Stream& source, long long length) {
