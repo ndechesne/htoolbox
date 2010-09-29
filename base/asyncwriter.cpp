@@ -16,6 +16,8 @@
      Boston, MA 02111-1307, USA.
 */
 
+#include <errno.h>
+#include <string.h>
 #include <pthread.h>
 
 #include <hreport.h>
@@ -69,18 +71,21 @@ int AsyncWriter::open() {
   }
   _d->failed = false;
   _d->closing = false;
-  if (pthread_mutex_init(&_d->buffer_lock, NULL) != 0) {
-    hlog_alert("failed to initialise buffer mutex");
+  errno = pthread_mutex_init(&_d->buffer_lock, NULL);
+  if (errno != 0) {
+    hlog_alert("%s initialising buffer mutex", strerror(errno));
     goto failed;
   }
-  if (pthread_mutex_init(&_d->thread_lock, NULL) != 0) {
-    hlog_alert("failed to initialise thread mutex");
+  errno = pthread_mutex_init(&_d->thread_lock, NULL);
+  if (errno != 0) {
+    hlog_alert("%s initialising thread mutex", strerror(errno));
     goto failed;
   }
   /* The thread must wait for data */
   pthread_mutex_lock(&_d->thread_lock);
-  if (pthread_create(&_d->tid, NULL, _write_thread, _d) != 0) {
-    hlog_alert("failed to create thread");
+  errno = pthread_create(&_d->tid, NULL, _write_thread, _d);
+  if (errno != 0) {
+    hlog_alert("%s creating thread", strerror(errno));
     goto failed;
   }
   return 0;
@@ -120,6 +125,7 @@ ssize_t AsyncWriter::write(const void* buffer, size_t size) {
   }
   if (_d->closing) {
     hlog_alert("write called while closed");
+    errno = EBADF;
     return -1;
   }
   _d->buffer = buffer;

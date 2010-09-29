@@ -16,6 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
+#include <errno.h>
 #include <openssl/evp.h>
 
 #include <hreport.h>
@@ -58,6 +59,7 @@ int Hasher::Private::update(
     }
     if (EVP_DigestUpdate(&ctx, cbuffer, length) != 1) {
       hlog_alert("failed to update hasher");
+      errno = EUNATCH;
       return -1;
     }
     cbuffer += length;
@@ -126,6 +128,7 @@ int Hasher::open() {
   }
   if (EVP_DigestInit(&_d->ctx, digest) != 1) {
     hlog_alert("failed to intialise hasher");
+    errno = EUNATCH;
     goto err;
   }
   return 0;
@@ -141,6 +144,7 @@ int Hasher::close() {
   int rc = 0;
   if (EVP_DigestFinal(&_d->ctx, hash, &length) != 1) {
     hlog_alert("failed to finalise hasher");
+    errno = EUNATCH;
     rc = -1;
   } else {
     _d->binToHex(_d->hash, hash, length);

@@ -16,6 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
+#include <errno.h>
 #include <zlib.h>
 
 #include <hreport.h>
@@ -62,6 +63,7 @@ int ZipWriter::open() {
                    Z_DEFAULT_STRATEGY) != Z_OK) {
     _d->child->close();
     hlog_alert("failed to initialise compression (level = %d)", _d->level);
+    errno = EUNATCH;
     return -1;
   }
   _d->finished = false;
@@ -77,6 +79,7 @@ int ZipWriter::close() {
   int rc = 0;
   if (deflateEnd(&_d->strm) != Z_OK) {
     hlog_alert("failed to complete compression");
+    errno = EUNATCH;
     rc = -1;
   }
   if (_d->child->close() < 0) {
@@ -88,6 +91,7 @@ int ZipWriter::close() {
 // Not implemented
 ssize_t ZipWriter::read(void*, size_t) {
   hlog_alert("cannot read from compression module");
+  errno = EPROTO;
   return -1;
 }
 
@@ -111,6 +115,7 @@ ssize_t ZipWriter::write(const void* buffer, size_t size) {
         break;
       default:
         hlog_alert("failed to compress");
+        errno = EUNATCH;
         return -1;
     }
     ssize_t length = BUFFER_SIZE - _d->strm.avail_out;
