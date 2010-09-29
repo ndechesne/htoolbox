@@ -373,6 +373,7 @@ public:
 
 
 struct Stream::Private {
+  FileReaderWriter*   fd;                 // underlying file reader/writer
   IReaderWriter*      rw;                 // reader/writer
   bool                writer;             // know which mode we're in
   bool                open;               // file is open
@@ -392,7 +393,7 @@ Stream::Stream(const char* path, bool writer, bool need_hash, int compression) :
   _d->progress_callback = NULL;
   _d->cancel_callback   = NULL;
   _d->size              = -1;
-  _d->rw = new FileReaderWriter(path, writer);
+  _d->rw = _d->fd = new FileReaderWriter(path, writer);
   if (writer) {
     _size = 0;
     if (need_hash) {
@@ -491,7 +492,7 @@ ssize_t Stream::read(void* buffer, size_t asked) {
   // Update progress indicator (size read)
   if (size > 0) {
     long long previous = _d->progress;
-    _d->progress = _d->rw->offset();
+    _d->progress = _d->fd->offset();
     if ((_d->progress_callback != NULL) && (_d->progress != previous)) {
       (*_d->progress_callback)(previous, _d->progress, _size);
     }
@@ -695,7 +696,7 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
     }
   }
   // Check that stat'd and read sizes match
-  if (! failed && (_size != _d->rw->offset())) {
+  if (! failed && (_size != _d->fd->offset())) {
     errno = EAGAIN;
     failed = true;
   }

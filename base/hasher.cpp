@@ -168,7 +168,3 @@ ssize_t Hasher::write(const void* buffer, size_t size) {
   }
   return rc;
 }
-
-long long Hasher::offset() const {
-  return _d->child->offset();
-}

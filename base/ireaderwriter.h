@@ -30,8 +30,6 @@ public:
   virtual int close() = 0;
   virtual ssize_t read(void* buffer, size_t size) = 0;
   virtual ssize_t write(const void* buffer, size_t size) = 0;
-  // Offset of on-disk file
-  virtual long long offset() const = 0;
 };
 
 };

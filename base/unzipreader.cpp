@@ -120,7 +120,3 @@ ssize_t UnzipReader::write(const void* buffer, size_t size) {
   (void) size;
   return -1;
 }
-
-long long UnzipReader::offset() const {
-  return _d->child->offset();
-}

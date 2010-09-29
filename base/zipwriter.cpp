@@ -121,7 +121,3 @@ ssize_t ZipWriter::write(const void* buffer, size_t size) {
   } while (_d->strm.avail_out == 0);
   return size;
 }
-
-long long ZipWriter::offset() const {
-  return _d->child->offset();
-}

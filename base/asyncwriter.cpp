@@ -120,7 +120,3 @@ ssize_t AsyncWriter::write(const void* buffer, size_t size) {
   pthread_mutex_unlock(&_d->thread_lock);
   return size;
 }
-
-long long AsyncWriter::offset() const {
-  return _d->child->offset();
-}
