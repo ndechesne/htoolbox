@@ -22,12 +22,9 @@
 #include <errno.h>
 
 #include <hreport.h>
-
-using namespace hreport;
-
 #include "filereaderwriter.h"
 
-using namespace hbackup;
+using namespace htools;
 
 int main() {
   report.setLevel(regression);

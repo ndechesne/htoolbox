@@ -37,7 +37,7 @@ using namespace std;
 #include "paths.h"
 
 using namespace hbackup;
-using namespace hreport;
+using namespace htools;
 
 int ClientPath::parse_recurse(
     Database&       db,

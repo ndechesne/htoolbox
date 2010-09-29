@@ -34,7 +34,7 @@ using namespace std;
 #include "owner.h"
 
 using namespace hbackup;
-using namespace hreport;
+using namespace htools;
 
 struct Owner::Private {
   string          name;

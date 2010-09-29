@@ -20,7 +20,7 @@
 
 #include "hasher.h"
 
-using namespace hbackup;
+using namespace htools;
 
 struct Hasher::Private {
   IReaderWriter* child;

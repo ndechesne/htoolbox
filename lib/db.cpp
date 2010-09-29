@@ -54,7 +54,7 @@ namespace hbackup {
 };
 
 using namespace hbackup;
-using namespace hreport;
+using namespace htools;
 
 struct Database::Private {
   string                  path;

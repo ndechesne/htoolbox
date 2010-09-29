@@ -27,7 +27,7 @@ using namespace std;
 #include "filters.h"
 
 using namespace hbackup;
-using namespace hreport;
+using namespace htools;
 
 struct Condition::Private {
   Type              type;

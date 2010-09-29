@@ -21,7 +21,7 @@
 
 #include <unistd.h>
 
-namespace hbackup {
+namespace htools {
 
 class IReaderWriter {
 public:

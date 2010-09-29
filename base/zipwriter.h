@@ -21,7 +21,7 @@
 
 #include <ireaderwriter.h>
 
-namespace hbackup {
+namespace htools {
 
 class ZipWriter : public IReaderWriter {
   struct         Private;

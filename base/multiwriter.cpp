@@ -22,7 +22,7 @@ using namespace std;
 
 #include <multiwriter.h>
 
-using namespace hbackup;
+using namespace htools;
 
 struct MultiWriter::Private {
   struct Child {

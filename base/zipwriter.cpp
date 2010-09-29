@@ -22,7 +22,7 @@
 
 #include <zipwriter.h>
 
-using namespace hbackup;
+using namespace htools;
 
 enum {
   BUFFER_SIZE = 102400

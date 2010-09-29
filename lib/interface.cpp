@@ -37,7 +37,7 @@ using namespace std;
 #include "clients.h"
 
 using namespace hbackup;
-using namespace hreport;
+using namespace htools;
 
 #define DEFAULT_DB_PATH "/backup"
 

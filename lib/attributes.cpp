@@ -31,7 +31,7 @@ using namespace std;
 #include "attributes.h"
 
 using namespace hbackup;
-using namespace hreport;
+using namespace htools;
 
 ConfigObject* Attributes::configChildFactory(
     const vector<string>& params,

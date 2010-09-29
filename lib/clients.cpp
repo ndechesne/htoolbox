@@ -40,7 +40,7 @@ using namespace std;
 #include "clients.h"
 
 using namespace hbackup;
-using namespace hreport;
+using namespace htools;
 
 int Client::readConfig(
     const char*     config_path) {

@@ -20,7 +20,7 @@
 
 #include <asyncwriter.h>
 
-using namespace hbackup;
+using namespace htools;
 
 struct AsyncWriter::Private {
   IReaderWriter*  child;

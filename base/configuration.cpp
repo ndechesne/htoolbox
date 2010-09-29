@@ -33,7 +33,7 @@ using namespace std;
 #include "configuration.h"
 
 using namespace hbackup;
-using namespace hreport;
+using namespace htools;
 
 namespace hbackup {
 

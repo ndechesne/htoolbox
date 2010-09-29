@@ -23,7 +23,7 @@ using namespace std;
 
 #include "hreport.h"
 
-using namespace hreport;
+using namespace htools;
 
 time_t time(time_t* tm) {
   time_t val = 1249617904;

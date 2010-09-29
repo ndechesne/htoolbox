@@ -44,6 +44,7 @@ using namespace std;
 #include "files.h"
 
 using namespace hbackup;
+using namespace htools;
 
 Path::Path(const char* dir, const char* name) {
   if (name[0] != '\0') {

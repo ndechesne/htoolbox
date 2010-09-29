@@ -191,35 +191,35 @@ int main(int argc, char **argv) {
 
 
     // Set verbosity level to info
-    hreport::report.setLevel(hreport::info);
+    htools::report.setLevel(htools::info);
 
     // Set verbosity level to very quiet
     if (veryQuietSwitch.getValue()) {
-      hreport::report.setLevel(hreport::error);
+      htools::report.setLevel(htools::error);
     }
 
     // Set verbosity level to quiet
     if (quietSwitch.getValue()) {
-      hreport::report.setLevel(hreport::warning);
+      htools::report.setLevel(htools::warning);
     }
 
     // Set verbosity level to verbose
     if (verboseSwitch.getValue()) {
-      hreport::report.setLevel(hreport::verbose);
+      htools::report.setLevel(htools::verbose);
     }
 
     // Set verbosity level to debug
     if (debugSwitch.getValue()) {
-      hreport::report.setLevel(hreport::debug);
+      htools::report.setLevel(htools::debug);
     }
 
     // Set file copy progress callback function
-    if (hlog_is_worth(hreport::verbose)) {
+    if (hlog_is_worth(htools::verbose)) {
       hbackup::setCopyProgressCallback(copy_prog);
     }
 
     // Set previous list read progress callback function
-    if (hlog_is_worth(hreport::verbose)) {
+    if (hlog_is_worth(htools::verbose)) {
       hbackup::setListProgressCallback(list_prog);
     }
 

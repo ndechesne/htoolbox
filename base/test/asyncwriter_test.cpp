@@ -22,13 +22,10 @@
 #include <errno.h>
 
 #include <hreport.h>
-
-using namespace hreport;
-
 #include "hasher.h"
 #include "asyncwriter.h"
 
-using namespace hbackup;
+using namespace htools;
 
 int time = 0;
 

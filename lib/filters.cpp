@@ -29,7 +29,7 @@ using namespace std;
 #include "filters.h"
 
 using namespace hbackup;
-using namespace hreport;
+using namespace htools;
 
 Filter::~Filter() {
   list<Condition*>::const_iterator condition;

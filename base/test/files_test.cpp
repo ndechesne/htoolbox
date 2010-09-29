@@ -36,7 +36,7 @@ using namespace std;
 #include "hasher.h"
 
 using namespace hbackup;
-using namespace hreport;
+using namespace htools;
 
 static int parseList(Directory *d, const char* cur_dir) {
   list<Node*>::iterator i = d->nodesList().begin();

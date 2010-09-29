@@ -31,9 +31,9 @@ using namespace std;
 
 #include "hreport.h"
 
-using namespace hreport;
+using namespace htools;
 
-Report hreport::report;
+Report htools::report;
 
 struct Report::Private {
   pthread_mutex_t mutex;

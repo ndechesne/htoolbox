@@ -4,7 +4,7 @@
 #include <hreport.h>
 #include <hbackup.h>
 
-using namespace hreport;
+using namespace htools;
 using namespace hbackup;
 
 #endif  // _TEST_H

@@ -41,7 +41,7 @@ using namespace std;
 #include "data.h"
 
 using namespace hbackup;
-using namespace hreport;
+using namespace htools;
 
 struct Data::Private {
   string            path;

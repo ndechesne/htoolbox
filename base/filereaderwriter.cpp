@@ -25,7 +25,7 @@
 
 #include <filereaderwriter.h>
 
-using namespace hbackup;
+using namespace htools;
 
 struct FileReaderWriter::Private {
   char      path[PATH_MAX];

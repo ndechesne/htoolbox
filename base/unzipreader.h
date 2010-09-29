@@ -21,7 +21,7 @@
 
 #include <ireaderwriter.h>
 
-namespace hbackup {
+namespace htools {
 
 class UnzipReader : public IReaderWriter {
   struct         Private;

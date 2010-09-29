@@ -21,7 +21,7 @@
 #ifndef _HREPORT_H
 #define _HREPORT_H
 
-namespace hreport {
+namespace htools {
 
   //! Criticality levels
   enum Level {
@@ -92,55 +92,55 @@ namespace hreport {
 }
 
 #define hlog_is_worth(l) \
-  ((l) <= hreport::report.level())
+  ((l) <= htools::report.level())
 
 
 #define hlog_alert(f, ...) \
-  hlog_generic(hreport::alert,false,(f),##__VA_ARGS__)
+  hlog_generic(htools::alert,false,(f),##__VA_ARGS__)
 
 #define hlog_error(f, ...) \
-  hlog_generic(hreport::error,false,(f),##__VA_ARGS__)
+  hlog_generic(htools::error,false,(f),##__VA_ARGS__)
 
 #define hlog_warning(f, ...) \
-  hlog_generic(hreport::warning,false,(f),##__VA_ARGS__)
+  hlog_generic(htools::warning,false,(f),##__VA_ARGS__)
 
 #define hlog_info(f, ...) \
-  hlog_generic(hreport::info,false,(f),##__VA_ARGS__)
+  hlog_generic(htools::info,false,(f),##__VA_ARGS__)
 
 #define hlog_verbose(f, ...) \
-  hlog_generic(hreport::verbose,false,(f),##__VA_ARGS__)
+  hlog_generic(htools::verbose,false,(f),##__VA_ARGS__)
 
 #define hlog_debug(f, ...) \
-  hlog_generic(hreport::debug,false,(f),##__VA_ARGS__)
+  hlog_generic(htools::debug,false,(f),##__VA_ARGS__)
 
 #define hlog_regression(f, ...) \
-  hlog_generic(hreport::regression,false,(f),##__VA_ARGS__)
+  hlog_generic(htools::regression,false,(f),##__VA_ARGS__)
 
 
 #define hlog_info_temp(f, ...) \
-  hlog_generic(hreport::info,true,(f),##__VA_ARGS__)
+  hlog_generic(htools::info,true,(f),##__VA_ARGS__)
 
 #define hlog_verbose_temp(f, ...) \
-  hlog_generic(hreport::verbose,true,(f),##__VA_ARGS__)
+  hlog_generic(htools::verbose,true,(f),##__VA_ARGS__)
 
 #define hlog_debug_temp(f, ...) \
-  hlog_generic(hreport::debug,true,(f),##__VA_ARGS__)
+  hlog_generic(htools::debug,true,(f),##__VA_ARGS__)
 
 
 #define hlog_generic(level, temp, format, ...) \
   hlog_is_worth(level) ? \
-    hreport::report.log(__FILE__,__LINE__,(level),(temp),0,(format),##__VA_ARGS__) : 0
+    htools::report.log(__FILE__,__LINE__,(level),(temp),0,(format),##__VA_ARGS__) : 0
 
 
 #define hlog_verbose_arrow(i, f, ...) \
-  hlog_generic_arrow(hreport::verbose,(i),(f),##__VA_ARGS__)
+  hlog_generic_arrow(htools::verbose,(i),(f),##__VA_ARGS__)
 
 #define hlog_debug_arrow(i, f, ...) \
-  hlog_generic_arrow(hreport::debug,(i),(f),##__VA_ARGS__)
+  hlog_generic_arrow(htools::debug,(i),(f),##__VA_ARGS__)
 
 
 #define hlog_generic_arrow(level, ident, format, ...) \
   hlog_is_worth(level) ? \
-    hreport::report.log(__FILE__,__LINE__,(level),false,(ident),(format),##__VA_ARGS__) : 0
+    htools::report.log(__FILE__,__LINE__,(level),false,(ident),(format),##__VA_ARGS__) : 0
 
 #endif  // _HREPORT_H

@@ -40,7 +40,6 @@
 
 #include "hbackup.h"
 #include "files.h"
-#include "hreport.h"
 
 namespace hbackup {
 
