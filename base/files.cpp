@@ -40,6 +40,7 @@ using namespace std;
 #include "unzipreader.h"
 #include "zipwriter.h"
 #include "asyncwriter.h"
+#include "multiwriter.h"
 #include "files.h"
 
 using namespace hbackup;
@@ -635,15 +636,13 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
     return -1;
   }
   dest1->_d->rw = new AsyncWriter(dest1->_d->rw, true);
-  if (dest1->open() < 0) {
-    return -1;
-  }
+  MultiWriter w(dest1->_d->rw, false);
   if (dest2 != NULL) {
     dest2->_d->rw = new AsyncWriter(dest2->_d->rw, true);
-    if (dest2->open() < 0) {
-      dest1->close();
-      return -1;
-    }
+    w.add(dest2->_d->rw, false);
+  }
+  if (w.open() < 0) {
+    return -1;
   }
   // Copy loop
   enum { BUFFER_SIZE = 1 << 19 }; // Total buffered size = 1 MiB
@@ -657,11 +656,7 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
     if (size <= 0) {
       break;
     }
-    if (dest1->write(buffer, size) < 0) {
-      size = -1;
-      break;
-    }
-    if ((dest2 != NULL) && (dest2->write(buffer, size) < 0)) {
+    if (w.write(buffer, size) < 0) {
       size = -1;
       break;
     }
@@ -681,16 +676,12 @@ int Stream::copy(Stream* dest1, Stream* dest2) {
   // One-stop error check
   bool failed = (size == -1);
   // close and update metadata and 'data size' (the unzipped size)
-  if (dest1->close() < 0) {
+  if (w.close() < 0) {
     failed = true;
   } else {
     dest1->stat();
     dest1->_d->size = _d->size;
-  }
-  if (dest2 != NULL) {
-    if (dest2->close() < 0) {
-      failed = true;
-    } else {
+    if (dest2 != NULL) {
       dest2->stat();
       dest2->_d->size = _d->size;
     }
