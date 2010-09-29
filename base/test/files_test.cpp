@@ -381,12 +381,12 @@ int main(void) {
       cout << "write failed: " << strerror(errno) << endl;
     }
     write_size += size;
-    size = writefile->putLine("line");
+    size = writefile->write("line\n", 5);
     if (size < 0) {
       cout << "write failed: " << strerror(errno) << endl;
     }
     write_size += size;
-    size = writefile->putLine("this is a long line");
+    size = writefile->write("this is a long line\n", 20);
     if (size < 0) {
       cout << "write failed: " << strerror(errno) << endl;
     }
@@ -810,63 +810,6 @@ int main(void) {
   cout << "Data size: " << readfile->dataSize() << endl;
   delete readfile;
 
-  cout << "default getLine" << endl;
-  readfile = new Stream("test2/testfile2.gz", false, true);
-  ssize_t read_size = 0;
-  if (readfile->open()) {
-    return 0;
-  }
-  readfile->setProgressCallback(read_progress);
-  char*  buffer = NULL;
-  size_t capacity = 0;
-  while (true) {
-    bool eol;
-    ssize_t rc = readfile->getLine(&buffer, &capacity, &eol);
-    if (rc < 0) {
-      cout << "Error reading line, " << strerror(errno) << endl;
-      return 0;
-    }
-    read_size += rc + 1;
-    if (! eol) {
-      read_size--;
-      break;
-    }
-  }
-  if (readfile->close()) {
-    return 0;
-  }
-  cout << "Checksum: " << readfile->checksum() << endl;
-  cout << "Size: " << read_size << endl;
-  delete readfile;
-
-  cout << "default decompress getLine" << endl;
-  readfile = new Stream("test2/testfile2.gz", false, true, 1);
-  read_size = 0;
-  if (readfile->open()) {
-    return 0;
-  }
-  readfile->setProgressCallback(read_progress);
-  while (true) {
-    bool eol;
-    ssize_t rc = readfile->getLine(&buffer, &capacity, &eol);
-    if (rc < 0) {
-      cout << "Error reading line, " << strerror(errno) << endl;
-      return 0;
-    }
-    read_size += rc + 1;
-    if (! eol) {
-      read_size--;
-      break;
-    }
-  }
-  if (readfile->close()) {
-    return 0;
-  }
-  cout << "Checksum: " << readfile->checksum() << endl;
-  cout << "Size: " << read_size << endl;
-  delete readfile;
-  free(buffer);
-
   cout << "default decompress read" << endl;
   readfile = new Stream("test1/rwfile_source", false, true, 1);
   if (readfile->open()) {
@@ -992,112 +935,6 @@ int main(void) {
   delete writefile;
   writefile2->remove();
   delete writefile2;
-
-
-  cout << endl << "Test: getLine" << endl;
-
-  writefile = new Stream("test2/testfile", true, true);
-  if (writefile->open()) {
-    cout << "Error opening file: " << strerror(errno) << endl;
-  } else {
-    writefile->write(NULL, 0);
-    if (writefile->close()) cout << "Error closing write file" << endl;
-  }
-  cout << "Checksum: " << writefile->checksum() << endl;
-  delete writefile;
-  readfile = new Stream("test2/testfile", false, true);
-  char* line_test = NULL;
-  size_t line_test_capacity = 0;
-  readfile->open();
-  cout << "Reading empty file:" << endl;
-  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
-    cout << "Line: " << line_test << endl;
-  }
-  if (readfile->close()) cout << "Error closing read file" << endl;
-  cout << "Checksum: " << readfile->checksum() << endl;
-  delete readfile;
-
-  writefile = new Stream("test2/testfile", true, true);
-  if (writefile->open()) {
-    cout << "Error opening file: " << strerror(errno) << endl;
-  } else {
-    writefile->write("abcdef\nghi\n", 11);
-    writefile->write(NULL, 0);
-    if (writefile->close()) cout << "Error closing write file" << endl;
-  }
-  cout << "Checksum: " << writefile->checksum() << endl;
-  delete writefile;
-  readfile = new Stream("test2/testfile", false, true);
-  if (readfile->open()) {
-    cout << "Error opening file: " << strerror(errno) << endl;
-  }
-  cout << "Reading uncompressed file:" << endl;
-  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
-    cout << "Line: " << line_test << endl;
-  }
-  if (readfile->close()) cout << "Error closing read file" << endl;
-  cout << "Checksum: " << readfile->checksum() << endl;
-  delete readfile;
-
-  writefile = new Stream("test2/testfile", true, true, 5);
-  if (writefile->open()) {
-    cout << "Error opening file: " << strerror(errno) << endl;
-  } else {
-    writefile->write("abcdef\nghi\n", 11);
-    writefile->write(NULL, 0);
-    if (writefile->close()) cout << "Error closing write file" << endl;
-  }
-  cout << "Checksum: " << writefile->checksum() << endl;
-  delete writefile;
-  readfile = new Stream("test2/testfile", false, true, 1);
-  if (readfile->open()) {
-    cout << "Error opening file: " << strerror(errno) << endl;
-  }
-  cout << "Reading compressed file:" << endl;
-  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
-    cout << "Line: " << line_test << endl;
-  }
-  if (readfile->close()) cout << "Error closing read file" << endl;
-  cout << "Checksum: " << readfile->checksum() << endl;
-  delete readfile;
-
-  writefile = new Stream("test2/testfile", true, true, 5);
-  if (writefile->open()) {
-    cout << "Error opening file: " << strerror(errno) << endl;
-  } else {
-    for (int i = 0; i < 60; i++) {
-      writefile->write("1234567890", 10);
-    }
-    writefile->write("\n1234567890", 10);
-    writefile->write(NULL, 0);
-    if (writefile->close()) cout << "Error closing write file" << endl;
-  }
-  cout << "Checksum: " << writefile->checksum() << endl;
-  delete writefile;
-  readfile = new Stream("test2/testfile", false, true, 1);
-  if (readfile->open()) {
-    cout << "Error opening file: " << strerror(errno) << endl;
-  }
-  cout << "Reading compressed file (line length = 600):" << endl;
-  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
-    cout << "Line: " << line_test << endl;
-  }
-  if (readfile->close()) cout << "Error closing read file" << endl;
-  cout << "Checksum: " << readfile->checksum() << endl;
-  delete readfile;
-
-  readfile = new Stream("test2/testfile", false, false, 1);
-  if (readfile->open()) {
-    cout << "Error opening file: " << strerror(errno) << endl;
-  }
-  cout << "Reading compressed file (line length = 600), no checksum:" << endl;
-  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
-    cout << "Line: " << line_test << endl;
-  }
-  if (readfile->close()) cout << "Error closing read file" << endl;
-  cout << "Checksum: " << readfile->checksum() << endl;
-  delete readfile;
-  free(line_test);
 
 
   cout << endl << "File types" << endl;

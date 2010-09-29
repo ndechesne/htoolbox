@@ -27,6 +27,8 @@ using namespace std;
 
 #include "test.h"
 
+#include "filereaderwriter.h"
+#include "linereader.h"
 #include "files.h"
 #include "configuration.h"
 #include "conditions.h"
@@ -70,7 +72,8 @@ static int showClientConfigs() {
   for (list<Node*>::const_iterator i = ls.begin(); i != ls.end(); i++) {
     cout << "Config for " << (*i)->path() << endl;
     Config config;
-    Stream stream((*i)->path(), false);
+    FileReaderWriter fr((*i)->path(), false);
+    LineReader stream(&fr, false);
     if (! stream.open()) {
       char*  buffer = NULL;
       size_t capacity = 0;
@@ -80,7 +83,7 @@ static int showClientConfigs() {
       free(buffer);
       stream.close();
     } else {
-      cout << "Could not open config file " << stream.path() << endl;
+      cout << "Could not open config file " << (*i)->path() << endl;
       failed = true;
     }
   }

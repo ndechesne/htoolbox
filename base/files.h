@@ -302,14 +302,6 @@ public:
   ssize_t write(
     const void*     buffer,
     size_t          count);
-  // Read a line of characters from file until end of line or file
-  virtual ssize_t getLine(
-    char**          buffer,
-    size_t*         buffer_capacity,
-    bool*           end_of_line_found = NULL);
-  // Write line of characters to file and add end of line character
-  ssize_t putLine(
-    const char*     buffer);
   // Cancel function for the three methods below
   void setCancelCallback(cancel_f cancel);
   // Compute file checksum

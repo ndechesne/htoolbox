@@ -1,0 +1,8 @@
+Reading uncompressed empty file:
+Reading uncompressed file:
+Line: abcdef
+Line: ghi
+Reading compressed empty file:
+Reading compressed file:
+Line: abcdef
+Line: ghi

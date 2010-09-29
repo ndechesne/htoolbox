@@ -25,7 +25,7 @@ using namespace std;
 
 #include "buffer.h"
 
-using namespace hbackup;
+using namespace htools;
 
 int main(void) {
   {

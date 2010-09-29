@@ -381,11 +381,8 @@ struct Stream::Private {
   bool                open;               // file is open
   long long           size;               // uncompressed file data size (bytes)
   long long           progress;           // transfered size, for progress
-  Buffer<char>        getline_buffer;     // Buffer for data
-  BufferReader<char>  getline_reader;        // Reader for buffer above
   progress_f          progress_callback;  // function to report progress
   cancel_f            cancel_callback;    // function to check for cancellation
-  Private() : getline_reader(getline_buffer) {}
 };
 
 Stream::Stream(const char* path, bool writer, bool need_hash, int compression) :
@@ -454,12 +451,7 @@ int Stream::close() {
     return -1;
   }
   int rc = _d->rw->close();
-  if (! _d->writer) {
-    // Destroy cacheing buffer if any
-    if (_d->getline_buffer.exists()) {
-      _d->getline_buffer.destroy();
-    }
-  } else {
+  if (_d->writer) {
     // Update metadata
     stat();
   }
@@ -531,78 +523,6 @@ ssize_t Stream::write(
     _d->size += size;
   }
   return size;
-}
-
-ssize_t Stream::getLine(
-    char**          buffer,
-    size_t*         buffer_capacity,
-    bool*           end_of_line_found) {
-  // Need a buffer to speed things up
-  if (! _d->getline_buffer.exists()) {
-    _d->getline_buffer.create();
-  }
-  // Initialize return values
-  bool         found  = false;
-  unsigned int count  = 0;
-  char*        writer = *buffer;
-  // Make sure we have a buffer
-  if (*buffer == NULL) {
-    *buffer_capacity = 1024;
-    *buffer = static_cast<char*>(malloc(*buffer_capacity));
-    writer = *buffer;
-  }
-  // Find end of line or end of file
-  do {
-    // Fill up the buffer
-    ssize_t size = _d->getline_reader.readable();
-    if (size == 0) {
-      size = read(_d->getline_buffer.writer(), _d->getline_buffer.writeable());
-      if (size < 0) {
-        return size;
-      }
-      if (size == 0) {
-        break;
-      }
-      _d->getline_buffer.written(size);
-    }
-    const char* reader = _d->getline_reader.reader();
-    size_t      length = size;
-    while (length > 0) {
-      length--;
-      // Check for space
-      if (count >= *buffer_capacity) {
-        *buffer_capacity <<= 1;
-        *buffer = static_cast<char*>(realloc(*buffer, *buffer_capacity));
-        writer = &(*buffer)[count];
-      }
-      if (*reader == '\n') {
-        found = true;
-        break;
-      }
-      *writer++ = *reader++;
-      count++;
-    }
-    _d->getline_reader.readn(size - length);
-  } while (! found);
-  *writer = '\0';
-
-  if (end_of_line_found != NULL) {
-    *end_of_line_found = found;
-  }
-  return count;
-}
-
-ssize_t Stream::putLine(
-    const char*     buffer) {
-  ssize_t length = strlen(buffer);
-  ssize_t size   = write(buffer, length);
-  if (size < length) {
-    return -1;
-  }
-  if (write("\n", 1) != 1) {
-    return -1;
-  }
-  return size + 1;
 }
 
 void Stream::setCancelCallback(cancel_f cancel) {

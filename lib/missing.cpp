@@ -21,14 +21,19 @@
 #include <sstream>
 
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <errno.h>
 
 using namespace std;
 
+#include "hreport.h"
+#include "filereaderwriter.h"
+#include "linereader.h"
 #include "hbackup.h"
 #include "files.h"
 #include "configuration.h"
-#include "hreport.h"
 #include "missing.h"
 
 namespace hbackup {
@@ -60,6 +65,8 @@ struct Missing::Private {
   char*               path;
   vector<MissingData> data;
   progress_f          progress;
+  long long           progress_total;
+  long long           progress_last;
   bool                modified;
   bool                force_save;
 };
@@ -92,10 +99,11 @@ int Missing::close() {
     if (_d->modified) {
       hlog_info("Missing checksums list updated");
     }
-    Stream missing_list((path + ".part").c_str(), true);
+    string part = path + ".part";
+    FileReaderWriter missing_list(part.c_str(), true);
     if (missing_list.open()) {
       hlog_error("%s saving problematic checksums list '%s'", strerror(errno),
-        missing_list.path());
+        part.c_str());
       failed = true;
     }
     ssize_t rc = 0;
@@ -105,7 +113,9 @@ int Missing::close() {
         (*_d->progress)(i, i + 1, _d->data.size());
       }
       if (_d->data[i].status != recovered) {
-        rc = missing_list.putLine(_d->data[i].line().c_str());
+        rc = missing_list.write(_d->data[i].line().c_str(),
+          _d->data[i].line().size());
+        rc = missing_list.write("\n", 1);
         count++;
       }
       if (rc < 0) break;
@@ -117,7 +127,7 @@ int Missing::close() {
     if (rc >= 0) {
       // Put new version in place
       if ((rc == 0) || (errno == ENOENT)) {
-        rc = rename(missing_list.path(), path.c_str());
+        rc = rename(part.c_str(), path.c_str());
       }
     }
     failed = (rc != 0);
@@ -139,11 +149,20 @@ int Missing::load() {
   bool failed = false;
   // Read list of problematic checksums (it is ordered and contains no dup)
   hlog_verbose("Reading list of problematic checksums");
-  Stream missing_list(_d->path, false);
+  FileReaderWriter fr(_d->path, false);
+  LineReader missing_list(&fr, false);
   if (! missing_list.open()) {
-    missing_list.setProgressCallback(_d->progress);
     char* line = NULL;
     size_t line_capacity = 0;
+    if (_d->progress != NULL) {
+      struct stat64 metadata;
+      if (lstat64(_d->path, &metadata) < 0) {
+        _d->progress_total = -1;
+      } else {
+        _d->progress_total = metadata.st_size;
+      }
+      _d->progress_last = 0;
+    }
     while (missing_list.getLine(&line, &line_capacity) > 0) {
       vector<string> params;
       Config::extractParams(line, params);
@@ -176,12 +195,17 @@ int Missing::load() {
         default:
           hlog_warning("Missing checksums list: wrong identifier");
       }
+      if ((_d->progress != NULL) && (_d->progress_last >= 0)) {
+        long long progress_new = fr.offset();
+        (*_d->progress)(_d->progress_last, progress_new, _d->progress_total);
+        _d->progress_last = progress_new;
+      }
     }
     free(line);
     missing_list.close();
   } else {
     hlog_warning("%s opening missing checksums list '%s'", strerror(errno),
-      missing_list.path());
+      _d->path);
     failed = true;
   }
   return failed ? -1 : 0;

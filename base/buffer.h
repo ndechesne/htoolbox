@@ -25,7 +25,7 @@
 
 #include <unistd.h>
 
-namespace hbackup {
+namespace htools {
 
 template<class T>
 class BufferReader;

@@ -21,10 +21,14 @@
 
 using namespace std;
 
+#include "filereaderwriter.h"
+#include "linereader.h"
+
+using namespace htools;
+
 #include "parsers.h"
 
 using namespace hbackup;
-using namespace htools;
 
 static const string control_dir = "/CVS";
 static const char* entries = "/Entries";
@@ -96,7 +100,8 @@ CvsParser::CvsParser(Mode mode, const string& dir_path)
     return;
   }
   string path = dir_path + control_dir + entries;
-  Stream entries_file(path.c_str(), false);
+  FileReaderWriter fr(path.c_str(), false);
+  LineReader entries_file(&fr, false);
 
   // Save mode
   _mode = mode;
