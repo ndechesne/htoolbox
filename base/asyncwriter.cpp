@@ -18,7 +18,8 @@
 
 #include <pthread.h>
 
-#include <asyncwriter.h>
+#include <hreport.h>
+#include "asyncwriter.h"
 
 using namespace htools;
 
@@ -69,14 +70,17 @@ int AsyncWriter::open() {
   _d->failed = false;
   _d->closing = false;
   if (pthread_mutex_init(&_d->buffer_lock, NULL) != 0) {
+    hlog_alert("failed to initialise buffer mutex");
     goto failed;
   }
   if (pthread_mutex_init(&_d->thread_lock, NULL) != 0) {
+    hlog_alert("failed to initialise thread mutex");
     goto failed;
   }
   /* The thread must wait for data */
   pthread_mutex_lock(&_d->thread_lock);
   if (pthread_create(&_d->tid, NULL, _write_thread, _d) != 0) {
+    hlog_alert("failed to create thread");
     goto failed;
   }
   return 0;
@@ -111,7 +115,11 @@ ssize_t AsyncWriter::read(void*, size_t) {
 ssize_t AsyncWriter::write(const void* buffer, size_t size) {
   /* Wait for thread to finish */
   pthread_mutex_lock(&_d->buffer_lock);
-  if (_d->closing || _d->failed) {
+  if (_d->failed) {
+    return -1;
+  }
+  if (_d->closing) {
+    hlog_alert("write called while closed");
     return -1;
   }
   _d->buffer = buffer;

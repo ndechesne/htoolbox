@@ -16,11 +16,10 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <errno.h>
-
 #include <zlib.h>
 
-#include <unzipreader.h>
+#include <hreport.h>
+#include "unzipreader.h"
 
 using namespace htools;
 
@@ -59,7 +58,7 @@ int UnzipReader::open() {
   // De-compress
   if (inflateInit2(&_d->strm, 32 + 15) != Z_OK) {
     _d->child->close();
-    errno = ENOMEM;
+    hlog_alert("failed to initialise decompression");
     return -1;
   }
   _d->buffer_empty = true;
@@ -69,6 +68,7 @@ int UnzipReader::open() {
 int UnzipReader::close() {
   int rc = 0;
   if (inflateEnd(&_d->strm) != Z_OK) {
+    hlog_alert("failed to complete decompression");
     rc = -1;
   }
   if (_d->child->close() < 0) {
@@ -99,7 +99,7 @@ ssize_t UnzipReader::read(void* buffer, size_t size) {
       case Z_STREAM_END:
         break;
       default:
-        errno = EPROTO;
+        hlog_alert("failed to decompress");
         return -1;
     }
     count = size - _d->strm.avail_out;
@@ -115,8 +115,7 @@ ssize_t UnzipReader::read(void* buffer, size_t size) {
 }
 
 // Not implemented
-ssize_t UnzipReader::write(const void* buffer, size_t size) {
-  (void) buffer;
-  (void) size;
+ssize_t UnzipReader::write(const void*, size_t) {
+  hlog_alert("cannot write from decompression module");
   return -1;
 }

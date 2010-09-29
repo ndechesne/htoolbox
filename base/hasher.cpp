@@ -18,6 +18,7 @@
 
 #include <openssl/evp.h>
 
+#include <hreport.h>
 #include "hasher.h"
 
 using namespace htools;
@@ -56,6 +57,7 @@ int Hasher::Private::update(
       length = size;
     }
     if (EVP_DigestUpdate(&ctx, cbuffer, length) != 1) {
+      hlog_alert("failed to update hasher");
       return -1;
     }
     cbuffer += length;
@@ -123,6 +125,7 @@ int Hasher::open() {
       goto err;
   }
   if (EVP_DigestInit(&_d->ctx, digest) != 1) {
+    hlog_alert("failed to intialise hasher");
     goto err;
   }
   return 0;
@@ -137,6 +140,7 @@ int Hasher::close() {
 
   int rc = 0;
   if (EVP_DigestFinal(&_d->ctx, hash, &length) != 1) {
+    hlog_alert("failed to finalise hasher");
     rc = -1;
   } else {
     _d->binToHex(_d->hash, hash, length);
