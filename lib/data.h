@@ -19,6 +19,9 @@
 #ifndef _DATA_H
 #define _DATA_H
 
+#include <ireaderwriter.h>
+#include <filereaderwriter.h>
+
 namespace hbackup {
 
 class Data {
@@ -40,6 +43,16 @@ protected: // So I can test them
     const char*     path);
   static int touch(
     const char*     path);
+  // Compare two files
+  int compare(
+    htools::IReaderWriter&  left,
+    htools::IReaderWriter&  right) const;
+  // Copy file to one or two destinations
+  long long copy(
+    htools::IReaderWriter*    source,
+    htools::FileReaderWriter* source_fr,  // For progress. May be NULL
+    htools::IReaderWriter*    dest1,
+    htools::IReaderWriter*    dest2 = NULL) const;
   // Get path for given checksum
   int getDir(
     const char*     checksum,

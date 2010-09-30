@@ -304,10 +304,6 @@ public:
     size_t          count);
   // Cancel function for the three methods below
   void setCancelCallback(cancel_f cancel);
-  // Copy file into another, or two others if dest2 is not NULL
-  int copy(Stream* dest, Stream* dest2 = NULL);
-  // Compare two files
-  int compare(Stream& other, long long length = -1);
   // Get real file size
   long long dataSize() const;
 };

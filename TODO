@@ -6,3 +6,6 @@ TODO - non-organised list of things I want to do
   * handle all compression requirements (maybe 1.2)
   * backup's backups (1.2)
   * review files.h (Path to go, Directory to speed up, no more File/Link) (1.2)
+  * test zipper/unzipper
+  * test copy/compare
+  * test FileRW::path()

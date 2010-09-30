@@ -104,6 +104,10 @@ ssize_t FileReaderWriter::write(const void* buffer, size_t size) {
   return count;
 }
 
+const char* FileReaderWriter::path() const {
+  return _d->path;
+}
+
 long long FileReaderWriter::offset() const {
   return _d->offset;
 }

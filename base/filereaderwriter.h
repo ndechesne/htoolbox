@@ -33,6 +33,8 @@ public:
   int close();
   ssize_t read(void* buffer, size_t size);
   ssize_t write(const void* buffer, size_t size);
+  // File path
+  const char* path() const;
   // Offset of on-disk file
   long long offset() const;
 };

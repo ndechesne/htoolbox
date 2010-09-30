@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <limits.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -33,12 +34,15 @@
 
 using namespace std;
 
+#include "hreport.h"
 #include "filereaderwriter.h"
 #include "unzipreader.h"
+#include "zipwriter.h"
 #include "hasher.h"
+#include "asyncwriter.h"
+#include "multiwriter.h"
 #include "hbackup.h"
 #include "files.h"
-#include "hreport.h"
 #include "compdata.h"
 #include "data.h"
 
@@ -50,8 +54,6 @@ struct Data::Private {
   string            data;
   string            data_gz;
   progress_f        progress;
-  long long         progress_total;
-  long long         progress_last;
   Private() : progress(NULL) {}
 };
 
@@ -92,6 +94,150 @@ int Data::touch(
     return 0;
   }
   return -1;
+}
+
+ssize_t Data::compare(
+    IReaderWriter&  left,
+    IReaderWriter&  right) const {
+  ssize_t rc;
+  if (left.open() >= 0) {
+    if (right.open() >= 0) {
+      char buffer_left[102400];
+      char buffer_right[102400];
+      size_t data_size = 0;
+      bool failed = false;
+      bool differ = false;
+      do {
+        ssize_t length_left = left.read(buffer_left, sizeof(buffer_left));
+        if (length_left < 0) {
+          failed = true;
+          break;
+        }
+        ssize_t length_right = right.read(buffer_right, sizeof(buffer_right));
+        if (length_right < 0) {
+          failed = true;
+          break;
+        }
+        if (length_left != length_right) {
+          differ = true;
+          break;
+        }
+        if (length_left == 0) {
+          break;
+        }
+        if (memcmp(buffer_left, buffer_right, length_left) != 0) {
+          differ = true;
+          break;
+        }
+        data_size += length_left;
+        if (aborting(3)) {
+          errno = ECANCELED;
+          failed = true;
+          break;
+        }
+      } while (true);
+      if (failed) {
+        rc = -1;
+      } else {
+        rc = differ ? 1 : 0;
+      }
+      if (right.close() < 0) {
+        rc = -1;
+      }
+    } else {
+      rc = -1;
+    }
+    if (left.close() < 0) {
+      rc = -1;
+    }
+  } else {
+    rc = -1;
+  }
+  return rc;
+}
+
+long long Data::copy(
+    IReaderWriter*    source,
+    FileReaderWriter* source_fr,
+    IReaderWriter*    dest1,
+    IReaderWriter*    dest2) const {
+  // Make writers asynchronous
+  dest1 = new AsyncWriter(dest1, false);
+  MultiWriter w(dest1, false);
+  if (dest2 != NULL) {
+    dest2 = new AsyncWriter(dest2, false);
+    w.add(dest2, false);
+  }
+  if (w.open() < 0) {
+    delete dest1;
+    if (dest2 != NULL) {
+      delete dest2;
+    }
+    return -1;
+  }
+  // Copy loop
+  enum { BUFFER_SIZE = 1 << 19 }; // Total buffered size = 1 MiB
+  char buffer1[BUFFER_SIZE];      // odd buffer
+  char buffer2[BUFFER_SIZE];      // even buffer
+  char* buffer = buffer1;         // currently unused buffer
+  ssize_t size;                   // Size actually read at begining of loop
+  long long data_size = 0;        // Source file size
+  // Progress
+  long long progress_total = -1;
+  long long progress_last;
+  if ((_d->progress != NULL) && (source_fr != NULL)) {
+    struct stat64 metadata;
+    if (lstat64(source_fr->path(), &metadata) >= 0) {
+      progress_total = metadata.st_size;
+    }
+    progress_last = 0;
+  }
+
+  bool failed = false;
+  do {
+    // size will be BUFFER_SIZE unless the end of file has been reached
+    size = source->read(buffer, BUFFER_SIZE);
+    if (size <= 0) {
+      if (size < 0) {
+        failed = true;
+      }
+      break;
+    }
+    if (w.write(buffer, size) < 0) {
+      failed = true;
+      break;
+    }
+    data_size += size;
+    // Swap unused buffers
+    if (buffer == buffer1) {
+      buffer = buffer2;
+    } else {
+      buffer = buffer1;
+    }
+    // Update big brother
+    if (progress_total >= 0) {
+      long long progress_new = source_fr->offset();
+      if (progress_new != progress_last) {
+        (*_d->progress)(progress_last, progress_new, progress_total);
+        progress_last = progress_new;
+      }
+    }
+    // Check that we are not told to abort
+    if (aborting(2)) {
+      errno = ECANCELED;
+      failed = true;
+      break;
+    }
+  } while (size == BUFFER_SIZE);
+  // close and update metadata and 'data size' (the unzipped size)
+  if (w.close() < 0) {
+    failed = true;
+  }
+  delete dest1;
+  if (dest2 != NULL) {
+    delete dest2;
+  }
+  return failed ? -1 : data_size;
 }
 
 int Data::getDir(
@@ -397,26 +543,29 @@ int Data::read(
       local_path);
     return -1;
   }
-  Stream data(local_path, false, false, no > 0 ? 1 : 0);
+  FileReaderWriter* data_fr = new FileReaderWriter(local_path, false);
+  IReaderWriter* hh = data_fr;
+  if (no > 0) {
+    hh = new UnzipReader(hh, true);
+  }
+  char hash[129];
+  Hasher data(hh, true, Hasher::md5, hash);
   if (data.open()) {
-    hlog_error("%s opening source file '%s'", strerror(errno),
-      data.path());
+    hlog_error("%s opening source file '%s'", strerror(errno), local_path);
     return -1;
   }
   string temp_path = path;
   temp_path += ".hbackup-part";
-  Stream temp(temp_path.c_str(), true);
+  FileReaderWriter temp(temp_path.c_str(), true);
   // Copy file to temporary name (size not checked: checksum suffices)
-  data.setCancelCallback(aborting);
-  data.setProgressCallback(_d->progress);
-  if (data.copy(&temp)) {
+  if (copy(&data, data_fr, &temp) < 0) {
+    hlog_error("%s reading source file '%s'", strerror(errno), local_path);
     failed = true;
   }
   data.close();
-
   if (! failed) {
     // Verify that checksums match before overwriting final destination
-    if (strncmp(checksum, temp.checksum(), strlen(temp.checksum()))) {
+    if (strncmp(checksum, hash, strlen(hash)) != 0) {
       hlog_error("Read checksums don't match");
       failed = true;
     } else
@@ -427,11 +576,9 @@ int Data::read(
       failed = true;
     }
   }
-
   if (failed) {
     ::remove(temp_path.c_str());
   }
-
   return failed ? -1 : 0;
 }
 
@@ -443,13 +590,15 @@ Data::WriteStatus Data::write(
   bool failed = false;
 
   // Open source file
-  Stream source(path, false, true);
+  FileReaderWriter source_fr(path, false);
+  char source_hash[129];
+  Hasher source(&source_fr, false, Hasher::md5, source_hash);
   if (source.open() < 0) {
     return error;
   }
 
   // Temporary file(s) to write to
-  Stream* temp2 = NULL;
+  FileReaderWriter* temp2 = NULL;
   CompressionCase comp_case;
   // compress < 0 => required to not compress by filter or configuration
   if (*comp_level < 0) {
@@ -466,64 +615,77 @@ Data::WriteStatus Data::write(
   if (comp_auto) {
     comp_case = later;
     // Automatic compression: copy twice, compressed and not, and choose best
-    temp2 = new Stream(_d->data_gz.c_str(), true, false, 0);
+    temp2 = new FileReaderWriter(_d->data_gz.c_str(), true);
   } else {
   // compress > 0 && ! comp_auto => compress
     comp_case = forced_yes;
   }
-  Stream* temp1 = new Stream(_d->data.c_str(), true, false, *comp_level);
+  FileReaderWriter* temp1_fw = new FileReaderWriter(_d->data.c_str(), true);
+  IReaderWriter* temp1 = temp1_fw;
+  if (*comp_level > 0) {
+    temp1 = new ZipWriter(temp1_fw, true, *comp_level);
+  } else {
+    temp1 = temp1_fw;
+  }
 
+  long long source_data_size;
   if (! failed) {
     // Copy file locally
-    source.setCancelCallback(aborting);
-    source.setProgressCallback(_d->progress);
-    if (source.copy(temp1, temp2) != 0) {
+    source_data_size = copy(&source, &source_fr, temp1, temp2);
+    if (source_data_size < 0) {
       failed = true;
     }
   }
   source.close();
 
   if (failed) {
-    temp1->remove();
+    ::remove(_d->data.c_str());
     delete temp1;
     if (temp2 != NULL) {
-      temp2->remove();
+      ::remove(_d->data_gz.c_str());
       delete temp2;
     }
     return error;
   }
 
-  // Size for comparison with existing DB data
-  long long size_cmp = temp1->size();
+  // Size for comparison with existing data
+  long long size_cmp = temp1_fw->offset();
+  // Name of file
+  const char* dest_name = _d->data.c_str();
   // If temp2 is not NULL then comp_auto is true
   if (temp2 != NULL) {
     // Add ~1.6% to gzip'd size
-    long long size_gz = temp1->size() + (temp1->size() >> 6);
+    long long size_gz = temp1_fw->offset() + (temp1_fw->offset() >> 6);
     hlog_debug("Checking data, sizes: f=%lld z=%lld (%lld)",
-      temp2->size(), temp1->size(), size_gz);
+      temp2->offset(), temp1_fw->offset(), size_gz);
     // Keep non-compressed file (temp2)?
-    if (temp2->size() <= size_gz) {
-      temp1->remove();
-      delete temp1;
-      temp1 = temp2;
+    if (temp2->offset() <= size_gz) {
+      ::remove(_d->data.c_str());
+      dest_name = _d->data_gz.c_str();
       size_cmp = size_gz;
       comp_case = size_no;
       *comp_level = 0;
     } else {
-      temp2->remove();
-      delete temp2;
+      ::remove(_d->data_gz.c_str());
       comp_case = size_yes;
     }
+    delete temp2;
   }
+  delete temp1;
 
   // File to add to DB
-  Stream dest(temp1->path(), false, false, *comp_level);
+  FileReaderWriter* dfr = new FileReaderWriter(dest_name, false);
+  IReaderWriter* hh = dfr;
+  if (*comp_level > 0) {
+    hh = new UnzipReader(hh, true);
+  }
+  char hash[129];
+  Hasher dest(hh, true, Hasher::md5, hash);
 
   // Get file final location
   char dest_path[PATH_MAX];
-  if (getDir(source.checksum(), dest_path, true) < 0) {
-    hlog_error("Cannot create DB data '%s'", source.checksum());
-    delete temp1;
+  if (getDir(source_hash, dest_path, true) < 0) {
+    hlog_error("Cannot create DB data '%s'", source_hash);
     return error;
   }
 
@@ -547,21 +709,23 @@ Data::WriteStatus Data::write(
       } else
       // Compare files
       {
-        Stream data(data_path, false, false, (no > 0) ? 1 : 0);
-        data.open();
-        dest.open();
-        int cmp = dest.compare(data);
-        dest.close();
-        data.close();
+        FileReaderWriter* fr = new FileReaderWriter(data_path, false);
+        IReaderWriter* hh = fr;
+        if (no > 0) {
+          hh = new UnzipReader(hh, true);
+        }
+        char hash[129];
+        Hasher data(hh, true, Hasher::md5, hash);
+        int cmp = compare(dest, data);
         switch (cmp) {
           // Same data
           case 0:
             // Empty file is compressed
-            if ((data.size() == 0) && (no > 0)) {
+            if ((fr->offset() == 0) && (no > 0)) {
               status = replace;
             } else
             // Replacing data will save space
-            if (size_cmp < data.size()) {
+            if (size_cmp < fr->offset()) {
               status = replace;
             } else
             // Nothing to do
@@ -575,8 +739,7 @@ Data::WriteStatus Data::write(
             break;
           // Error
           default:
-            hlog_error("%s comparing data '%s'", strerror(errno),
-              source.checksum());
+            hlog_error("%s comparing data '%s'", strerror(errno), source_hash);
             status = error;
             failed = true;
         }
@@ -588,7 +751,7 @@ Data::WriteStatus Data::write(
   if ((status == add) || (status == replace)) {
     hlog_debug("%s %scompressed data for %s-%d",
       (status == add) ? "Adding" : "Replacing with",
-      (*comp_level != 0) ? "" : "un", source.checksum(), index);
+      (*comp_level != 0) ? "" : "un", source_hash, index);
     if (Directory(final_path).create() < 0) {
       hlog_error("%s creating directory '%s'", strerror(errno), final_path);
     } else
@@ -597,12 +760,12 @@ Data::WriteStatus Data::write(
     } else {
       char name[PATH_MAX];
       sprintf(name, "%s/data%s", final_path, (*comp_level != 0) ? ".gz" : "");
-      if (rename(dest.path(), name)) {
+      if (rename(dest_name, name)) {
         hlog_error("%s moving file '%s'", strerror(errno), name);
         status = error;
       } else {
         // Always add metadata (size) file (no error status on failure)
-        setMetadata(final_path, source.dataSize(), comp_case);
+        setMetadata(final_path, source_data_size, comp_case);
       }
     }
   } else
@@ -618,12 +781,12 @@ Data::WriteStatus Data::write(
 
   // If anything failed, or nothing happened, delete temporary file
   if ((status == error) || (status == leave)) {
-    dest.remove();
+    ::remove(dest_name);
   }
 
   // Report checksum
   if (status != error) {
-    sprintf(dchecksum, "%s-%d", source.checksum(), index);
+    sprintf(dchecksum, "%s-%d", source_hash, index);
     // Make sure we won't exceed the file number limit
     if (status != leave) {
       // dest_path is /path/to/checksum
@@ -636,8 +799,6 @@ Data::WriteStatus Data::write(
       }
     }
   }
-
-  delete temp1;
   return status;
 }
 
@@ -704,9 +865,11 @@ int Data::check(
         hlog_error("%s opening file '%s'", strerror(errno), local_path);
         failed = true;
       } else {
+        long long progress_total;
+        long long progress_last;
         if (_d->progress != NULL) {
-          _d->progress_total = real_size;
-          _d->progress_last = 0;
+          progress_total = real_size;
+          progress_last = 0;
         }
         // Compute file size and checksum
         long long size = 0;
@@ -721,12 +884,11 @@ int Data::check(
             break;
           }
           size += length;
-          if ((_d->progress != NULL) && (_d->progress_total >= 0)) {
+          if ((_d->progress != NULL) && (progress_total >= 0)) {
             long long progress_new = fr->offset();
-            if (progress_new != _d->progress_last) {
-              (*_d->progress)(_d->progress_last, progress_new,
-                              _d->progress_total);
-              _d->progress_last = progress_new;
+            if (progress_new != progress_last) {
+              (*_d->progress)(progress_last, progress_new, progress_total);
+              progress_last = progress_new;
             }
           }
           if (aborting(1)) {
