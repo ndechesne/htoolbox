@@ -101,36 +101,41 @@ int Missing::close() {
     }
     string part = path + ".part";
     FileReaderWriter missing_list(part.c_str(), true);
-    if (missing_list.open()) {
+    if (missing_list.open() < 0) {
       hlog_error("%s saving problematic checksums list '%s'", strerror(errno),
         part.c_str());
       failed = true;
-    }
-    ssize_t rc = 0;
-    count = 0;
-    for (unsigned int i = 0; i < _d->data.size(); i++) {
-      if (_d->progress != NULL) {
-        (*_d->progress)(i, i + 1, _d->data.size());
+    } else {
+      ssize_t rc = 0;
+      count = 0;
+      for (unsigned int i = 0; i < _d->data.size(); i++) {
+        if (_d->data[i].status != recovered) {
+          rc = missing_list.write(_d->data[i].line().c_str(),
+            _d->data[i].line().size());
+          if (rc < 0) break;
+          rc = missing_list.write("\n", 1);
+          if (rc < 0) break;
+          count++;
+        }
+        if (_d->progress != NULL) {
+          (*_d->progress)(i, i + 1, _d->data.size());
+        }
+        if (aborting()) {
+          failed = true;
+          break;
+        }
       }
-      if (_d->data[i].status != recovered) {
-        rc = missing_list.write(_d->data[i].line().c_str(),
-          _d->data[i].line().size());
-        rc = missing_list.write("\n", 1);
-        count++;
+      if (rc < 0) {
+        failed = true;
       }
-      if (rc < 0) break;
-    }
-    _d->data.clear();
-    if (rc >= 0) {
-      rc = missing_list.close();
-    }
-    if (rc >= 0) {
-      // Put new version in place
-      if ((rc == 0) || (errno == ENOENT)) {
-        rc = rename(part.c_str(), path.c_str());
+      _d->data.clear();
+      if (missing_list.close() >= 0) {
+        if (! failed) {
+          // Put new version in place
+          failed =  rename(part.c_str(), path.c_str()) != 0;
+        }
       }
     }
-    failed = (rc != 0);
   }
   if (count > 0) {
     hlog_info("List of problematic checksums contains %zu item%s",
@@ -195,10 +200,15 @@ int Missing::load() {
         default:
           hlog_warning("Missing checksums list: wrong identifier");
       }
-      if ((_d->progress != NULL) && (_d->progress_last >= 0)) {
+      if ((_d->progress != NULL) && (_d->progress_total >= 0)) {
         long long progress_new = fr.offset();
         (*_d->progress)(_d->progress_last, progress_new, _d->progress_total);
         _d->progress_last = progress_new;
+      }
+      if (aborting()) {
+        errno = ECANCELED;
+        failed = true;
+        break;
       }
     }
     free(line);
