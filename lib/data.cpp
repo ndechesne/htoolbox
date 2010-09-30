@@ -29,11 +29,13 @@
 #include <dirent.h>
 #include <errno.h>
 
-#include <sstream>
 #include <string>
 
 using namespace std;
 
+#include "filereaderwriter.h"
+#include "unzipreader.h"
+#include "hasher.h"
 #include "hbackup.h"
 #include "files.h"
 #include "hreport.h"
@@ -48,6 +50,8 @@ struct Data::Private {
   string            data;
   string            data_gz;
   progress_f        progress;
+  long long         progress_total;
+  long long         progress_last;
   Private() : progress(NULL) {}
 };
 
@@ -641,8 +645,8 @@ int Data::check(
     const char*     checksum,
     bool            thorough,
     bool            repair,
-    long long*      size,
-    bool*           compressed) const {
+    long long*      size_p,
+    bool*           compressed_p) const {
   char path[PATH_MAX];
   // Get dir from checksum
   if (getDir(checksum, path)) {
@@ -665,11 +669,18 @@ int Data::check(
     }
     return -1;
   }
-  Stream data(local_path, false, true, (no > 0) ? 1 : 0);
   // Get original file size
-  long long original_size = -1;
+  long long data_size = -1;
   CompressionCase comp_status = unknown;
-  getMetadata(path, &original_size, &comp_status);
+  getMetadata(path, &data_size, &comp_status);
+  // Get file size
+  long long real_size = -1;
+  {
+    struct stat64 metadata;
+    if (lstat64(local_path, &metadata) >= 0) {
+      real_size = metadata.st_size;
+    }
+  }
 
   char corrupted_path[PATH_MAX];
   sprintf(corrupted_path, "%s/%s", path, "corrupted");
@@ -678,49 +689,82 @@ int Data::check(
     // Already marked corrupted?
     if (isReadable(corrupted_path)) {
       hlog_warning("Data corruption reported for %s", checksum);
-      original_size = -1;
+      data_size = -1;
       failed = true;
     } else {
-      data.setCancelCallback(aborting);
-      data.setProgressCallback(_d->progress);
+      FileReaderWriter* fr = new FileReaderWriter(local_path, false);
+      IReaderWriter* hh = fr;
+      if (no > 0) {
+        hh = new UnzipReader(hh, true);
+      }
+      char hash[129];
+      Hasher data(hh, true, Hasher::md5, hash);
       // Open file
       if (data.open()) {
-        hlog_error("%s opening file '%s'", strerror(errno), data.path());
+        hlog_error("%s opening file '%s'", strerror(errno), local_path);
         failed = true;
-      } else
-      // Compute file checksum
-      if (data.computeChecksum()) {
-        hlog_error("%s reading file '%s'", strerror(errno), data.path());
-        failed = true;
-      } else
-      // Close file
-      if (data.close()) {
-        hlog_error("%s closing file '%s'", strerror(errno), data.path());
-        failed = true;
-      } else
-      // Compare with given checksum
-      if (strncmp(data.checksum(), checksum, strlen(data.checksum()))) {
-        stringstream s;
-        hlog_error("Data corrupted for %s%s", checksum, repair ? ", remove" : "");
-        hlog_debug("Checksum: %s", data.checksum());
-        failed = true;
-        if (repair) {
-          removePath(path);
-        } else {
-          // Mark corrupted
-          touch(corrupted_path);
+      } else {
+        if (_d->progress != NULL) {
+          _d->progress_total = real_size;
+          _d->progress_last = 0;
         }
-        original_size = -1;
-      } else
-      // Compare data size and stored size for compress files
-      if (data.dataSize() != original_size) {
-        if (original_size >= 0) {
-          hlog_error("Correcting wrong metadata for %s", checksum);
-        } else {
-          hlog_warning("Adding missing metadata for %s", checksum);
+        // Compute file size and checksum
+        long long size = 0;
+        ssize_t length;
+        do {
+          char buffer[102400];
+          length = data.read(buffer, sizeof(buffer));
+          if (length < 0) {
+            failed = true;
+          }
+          if (length <= 0) {
+            break;
+          }
+          size += length;
+          if ((_d->progress != NULL) && (_d->progress_total >= 0)) {
+            long long progress_new = fr->offset();
+            if (progress_new != _d->progress_last) {
+              (*_d->progress)(_d->progress_last, progress_new,
+                              _d->progress_total);
+              _d->progress_last = progress_new;
+            }
+          }
+          if (aborting(1)) {
+            errno = ECANCELED;
+            failed = true;
+          }
+        } while (length > 0);
+        // Close file
+        if (data.close()) {
+          hlog_error("%s closing file '%s'", strerror(errno), local_path);
+          failed = true;
         }
-        original_size = data.dataSize();
-        setMetadata(path, original_size, later);
+        if (failed) {
+          hlog_error("%s reading file '%s'", strerror(errno), local_path);
+        } else
+        // Compare with given checksum
+        if (strncmp(hash, checksum, strlen(hash))) {
+          hlog_error("Data corrupted for %s%s", checksum, repair ? ", remove" : "");
+          hlog_debug("Checksum: %s", hash);
+          failed = true;
+          if (repair) {
+            removePath(path);
+          } else {
+            // Mark corrupted
+            touch(corrupted_path);
+          }
+          data_size = -1;
+        } else
+        // Compare data size and stored size for compress files
+        if (size != data_size) {
+          if (data_size >= 0) {
+            hlog_error("Correcting wrong metadata for %s", checksum);
+          } else {
+            hlog_warning("Adding missing metadata for %s", checksum);
+          }
+          data_size = size;
+          setMetadata(path, data_size, later);
+        }
       }
     }
   } else
@@ -735,40 +779,42 @@ int Data::check(
       failed = true;
     } else
     // Compute size if missing
-    if (original_size < 0) {
+    if (data_size < 0) {
       if (no == 0) {
-        hlog_warning("Setting missing metadata for %s", checksum);
-        original_size = data.size();
-        setMetadata(path, original_size, later);
+        if (real_size >= 0) {
+          hlog_warning("Setting missing metadata for %s", checksum);
+          data_size = real_size;
+          setMetadata(path, data_size, later);
+        }
       } else
       // Compressed file, check it thoroughly, which shall add the metadata
       {
-        if (check(checksum, true, true, size, compressed)) {
+        if (check(checksum, true, true, size_p, compressed_p)) {
           failed = true;
         }
-        getMetadata(path, &original_size, &comp_status);
+        getMetadata(path, &data_size, &comp_status);
         display = false;
       }
     }
   } else
-  if ((original_size < 0) && (errno == ENOENT)) {
+  if ((data_size < 0) && (errno == ENOENT)) {
     hlog_error("Metadata missing for %s", checksum);
   }
 
   if (display) {
     if (no == 0) {
-      hlog_verbose_temp("%s %lld", checksum, original_size);
+      hlog_verbose_temp("%s %lld", checksum, data_size);
     } else {
-      hlog_verbose_temp("%s %lld %lld", checksum, original_size, data.size());
+      hlog_verbose_temp("%s %lld %lld", checksum, data_size, real_size);
     }
   }
 
   // Return file information if required
-  if (size != NULL) {
-    *size = original_size;
+  if (size_p != NULL) {
+    *size_p = data_size;
   }
-  if (compressed != NULL) {
-    *compressed = no > 0;
+  if (compressed_p != NULL) {
+    *compressed_p = no > 0;
   }
   return failed ? -1 : 0;
 }

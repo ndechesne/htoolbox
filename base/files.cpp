@@ -529,26 +529,6 @@ void Stream::setCancelCallback(cancel_f cancel) {
   _d->cancel_callback = cancel;
 }
 
-int Stream::computeChecksum() {
-  if (! isOpen()) {
-    errno = EBADF;
-    return -1;
-  }
-  ssize_t length;
-  do {
-    char buffer[102400];
-    length = read(buffer, sizeof(buffer));
-    if (length < 0) {
-      return length;
-    }
-    if ((_d->cancel_callback != NULL) && ((*_d->cancel_callback)(1))) {
-      errno = ECANCELED;
-      return -1;
-    }
-  } while (length > 0);
-  return 0;
-}
-
 int Stream::copy(Stream* dest1, Stream* dest2) {
   errno = 0;
   // Setup => check that source is open, open destination(s)

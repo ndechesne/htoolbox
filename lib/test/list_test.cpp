@@ -27,6 +27,11 @@ using namespace std;
 
 #include "test.h"
 
+#include "filereaderwriter.h"
+#include "hasher.h"
+
+using namespace htools;
+
 #include "files.h"
 #include "list.h"
 
@@ -110,6 +115,18 @@ static void showList(ListReader& list) {
   }
 }
 
+static void computeHash(const char* path, char* hash) {
+  FileReaderWriter fr(path, false);
+  Hasher hh(&fr, false, Hasher::md5, hash);
+  hh.open();
+  char buffer[1024];
+  ssize_t size;
+  do {
+    size = hh.read(buffer, sizeof(buffer));
+  } while (size > 0);
+  hh.close();
+}
+
 int main(void) {
   ListWriter dblist("test_db/list");
   ListWriterJournal journal("test_db/journal");
@@ -118,6 +135,7 @@ int main(void) {
   ListReader journal_reader("test_db/journal");
   ListReader merge_reader("test_db/merge");
   Node* node   = NULL;
+  char  hash[129];
   int sys_rc;
 
   cout << "Test: DB lists" << endl;
@@ -152,9 +170,8 @@ int main(void) {
   journal.add("file_gone", time(NULL));
 
   node = new Stream("test1/testfile", false, true);
-  static_cast<Stream*>(node)->open();
-  static_cast<Stream*>(node)->computeChecksum();
-  static_cast<Stream*>(node)->close();
+  computeHash(node->path(), hash);
+  static_cast<File*>(node)->setChecksum(hash);
   journal.add("file_new", time(NULL), node);
   delete node;
 
@@ -244,16 +261,14 @@ int main(void) {
   delete node;
 
   node = new Stream("test1/test space", false, true);
-  static_cast<Stream*>(node)->open();
-  static_cast<Stream*>(node)->computeChecksum();
-  static_cast<Stream*>(node)->close();
+  computeHash(node->path(), hash);
+  static_cast<File*>(node)->setChecksum(hash);
   journal.add("file sp", time(NULL), node);
   delete node;
 
   node = new Stream("test1/testfile", false, true);
-  static_cast<Stream*>(node)->open();
-  static_cast<Stream*>(node)->computeChecksum();
-  static_cast<Stream*>(node)->close();
+  computeHash(node->path(), hash);
+  static_cast<File*>(node)->setChecksum(hash);
   journal.add("file_new", time(NULL), node);
   delete node;
 
@@ -329,9 +344,8 @@ int main(void) {
   }
   sys_rc = system("echo \"this is my new test\" > test1/testfile");
   node = new Stream("test1/testfile", false, true);
-  static_cast<Stream*>(node)->open();
-  static_cast<Stream*>(node)->computeChecksum();
-  static_cast<Stream*>(node)->close();
+  computeHash(node->path(), hash);
+  static_cast<File*>(node)->setChecksum(hash);
   journal.add("file_new", time(NULL), node);
   journal.add("file_gone", time(NULL), node);
   delete node;
@@ -475,9 +489,8 @@ int main(void) {
   }
   sys_rc = system("echo \"this is my other test\" > test1/testfile");
   node = new Stream("test1/testfile", false, true);
-  static_cast<Stream*>(node)->open();
-  static_cast<Stream*>(node)->computeChecksum();
-  static_cast<Stream*>(node)->close();
+  computeHash(node->path(), hash);
+  static_cast<File*>(node)->setChecksum(hash);
   journal.add("file_new", time(NULL), node);
   delete node;
   node = NULL;
@@ -547,9 +560,8 @@ int main(void) {
   journal.add("file_gone", time(NULL));
 
   node = new Stream("test1/testfile", false, true);
-  static_cast<Stream*>(node)->open();
-  static_cast<Stream*>(node)->computeChecksum();
-  static_cast<Stream*>(node)->close();
+  computeHash(node->path(), hash);
+  static_cast<File*>(node)->setChecksum(hash);
   journal.add("file_new", time(NULL), node);
   delete node;
 
