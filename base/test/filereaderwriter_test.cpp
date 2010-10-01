@@ -16,6 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
@@ -49,7 +50,8 @@ int main() {
         if (rc < 0) {
           hlog_regression("%s writing file", strerror(errno));
         } else {
-          hlog_regression("written %zd bytes", rc);
+          hlog_regression("written %zd bytes (total %lld) to %s",
+                          rc, fw.offset(), fw.path());
         }
         count += rc;
       } while (rc > 0);
@@ -81,12 +83,16 @@ int main() {
         if (rc < 0) {
           hlog_regression("%s reading file", strerror(errno));
         } else {
-          hlog_regression("read %zd bytes", rc);
+          hlog_regression("read %zd bytes (total %lld) from %s",
+                          rc, fr.offset(), fr.path());
         }
         count += rc;
       } while (rc > 0);
       if (fr.close() < 0) {
         hlog_regression("%s closing file", strerror(errno));
+      } else {
+        // Use printf to avoid truncation
+        printf("file contents: '%s'\n", buffer);
       }
       size = count;
     }
@@ -100,7 +106,8 @@ int main() {
       if (rc < 0) {
         hlog_regression("%s writing file", strerror(errno));
       } else {
-        hlog_regression("written %zd bytes", rc);
+        hlog_regression("written %zd bytes (total %lld) to %s",
+                        rc, fw.offset(), fw.path());
       }
       if (fw.close() < 0) {
         hlog_regression("%s closing file", strerror(errno));
