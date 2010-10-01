@@ -8,4 +8,5 @@ TODO - non-organised list of things I want to do
   * review files.h (Path to go, Directory to speed up, no more File/Link) (1.2)
   * test zipper/unzipper
   * test copy/compare
-  * test FileRW::path()
+  * test FileRW::path()/stackhelper
+  * stackhelper to accept NULL child

@@ -39,6 +39,7 @@ using namespace std;
 #include "unzipreader.h"
 #include "zipwriter.h"
 #include "hasher.h"
+#include "stackhelper.h"
 #include "asyncwriter.h"
 #include "multiwriter.h"
 #include "hbackup.h"
@@ -157,8 +158,7 @@ ssize_t Data::compare(
 }
 
 long long Data::copy(
-    IReaderWriter*    source,
-    FileReaderWriter* source_fr,
+    StackHelper*      source,
     IReaderWriter*    dest1,
     IReaderWriter*    dest2) const {
   // Make writers asynchronous
@@ -185,9 +185,9 @@ long long Data::copy(
   // Progress
   long long progress_total = -1;
   long long progress_last;
-  if ((_d->progress != NULL) && (source_fr != NULL)) {
+  if (_d->progress != NULL) {
     struct stat64 metadata;
-    if (lstat64(source_fr->path(), &metadata) >= 0) {
+    if (lstat64(source->path(), &metadata) >= 0) {
       progress_total = metadata.st_size;
     }
     progress_last = 0;
@@ -216,7 +216,7 @@ long long Data::copy(
     }
     // Update big brother
     if (progress_total >= 0) {
-      long long progress_new = source_fr->offset();
+      long long progress_new = source->offset();
       if (progress_new != progress_last) {
         (*_d->progress)(progress_last, progress_new, progress_total);
         progress_last = progress_new;
@@ -544,12 +544,13 @@ int Data::read(
     return -1;
   }
   FileReaderWriter* data_fr = new FileReaderWriter(local_path, false);
-  IReaderWriter* hh = data_fr;
+  IReaderWriter* data_hh = data_fr;
   if (no > 0) {
-    hh = new UnzipReader(hh, true);
+    data_hh = new UnzipReader(data_hh, true);
   }
   char hash[129];
-  Hasher data(hh, true, Hasher::md5, hash);
+  data_hh = new Hasher(data_hh, true, Hasher::md5, hash);
+  StackHelper data(data_hh, true, data_fr);
   if (data.open()) {
     hlog_error("%s opening source file '%s'", strerror(errno), local_path);
     return -1;
@@ -558,7 +559,7 @@ int Data::read(
   temp_path += ".hbackup-part";
   FileReaderWriter temp(temp_path.c_str(), true);
   // Copy file to temporary name (size not checked: checksum suffices)
-  if (copy(&data, data_fr, &temp) < 0) {
+  if (copy(&data, &temp) < 0) {
     hlog_error("%s reading source file '%s'", strerror(errno), local_path);
     failed = true;
   }
@@ -592,7 +593,8 @@ Data::WriteStatus Data::write(
   // Open source file
   FileReaderWriter source_fr(path, false);
   char source_hash[129];
-  Hasher source(&source_fr, false, Hasher::md5, source_hash);
+  StackHelper source(new Hasher(&source_fr, false, Hasher::md5, source_hash),
+                     true, &source_fr);
   if (source.open() < 0) {
     return error;
   }
@@ -631,7 +633,7 @@ Data::WriteStatus Data::write(
   long long source_data_size;
   if (! failed) {
     // Copy file locally
-    source_data_size = copy(&source, &source_fr, temp1, temp2);
+    source_data_size = copy(&source, temp1, temp2);
     if (source_data_size < 0) {
       failed = true;
     }

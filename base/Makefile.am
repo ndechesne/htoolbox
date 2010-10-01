@@ -33,6 +33,7 @@ EXTRA_DIST = \
   linereader.h \
   multiwriter.h \
   share.h \
+  stackhelper.h \
   unzipreader.h \
   zipwriter.h \
   $(NULL)
