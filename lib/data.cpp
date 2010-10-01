@@ -545,20 +545,22 @@ int Data::read(
     return -1;
   }
   FileReaderWriter* data_fr = new FileReaderWriter(local_path, false);
-  IReaderWriter* data_hh = data_fr;
+  IReaderWriter* data_fd = data_fr;
+  // The reader might be unzipping...
   if (no > 0) {
-    data_hh = new UnzipReader(data_hh, true);
+    data_fd = new UnzipReader(data_fd, true);
   }
-  char hash[129];
-  data_hh = new Hasher(data_hh, true, Hasher::md5, hash);
-  StackHelper data(data_hh, true, data_fr);
+  StackHelper data(data_fd, true, data_fr);
   if (data.open()) {
     hlog_error("%s opening source file '%s'", strerror(errno), local_path);
     return -1;
   }
   string temp_path = path;
   temp_path += ".hbackup-part";
-  FileReaderWriter temp(temp_path.c_str(), true);
+  IReaderWriter* temp_fd = new FileReaderWriter(temp_path.c_str(), true);
+  // ...so we compute the checksum from the writer (in its own thread)
+  char hash[129];
+  Hasher temp(temp_fd, true, Hasher::md5, hash);
   // Copy file to temporary name (size not checked: checksum suffices)
   if (copy(&data, &temp) < 0) {
     hlog_error("%s reading source file '%s'", strerror(errno), local_path);
@@ -850,22 +852,21 @@ int Data::check(
       data_size = -1;
       failed = true;
     } else {
-      FileReaderWriter* fr = new FileReaderWriter(local_path, false);
-      IReaderWriter* hh = fr;
+      FileReaderWriter* data_fr = new FileReaderWriter(local_path, false);
+      IReaderWriter* data_fd = data_fr;
       if (no > 0) {
-        hh = new UnzipReader(hh, true);
+        data_fd = new UnzipReader(data_fd, true);
       }
-      char hash[129];
-      hh = new Hasher(hh, true, Hasher::md5, hash);
-      StackHelper data(hh, true, fr);
+      StackHelper data(data_fd, true, data_fr);
       // Open file
       if (data.open()) {
         hlog_error("%s opening file '%s'", strerror(errno), local_path);
         failed = true;
       } else {
-        // Copy to null writer, just to obtain the checksum
-        NullWriter nw;
-        long long size = copy(&data, &nw);
+        // Copy to null writer and compute the hash from it (different thread)
+        char hash[129];
+        Hasher nh(new NullWriter, true, Hasher::md5, hash);
+        long long size = copy(&data, &nh);
         real_size = data.offset();
         if (size < 0) {
           hlog_error("%s reading file '%s'", strerror(errno), local_path);
