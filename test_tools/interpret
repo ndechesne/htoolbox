@@ -110,6 +110,10 @@ case $1 in
     export DIR="lib"
     export NAME="svn_parser"
     ;;
+  "zu" )
+    export DIR="base"
+    export NAME="zip_unzip"
+    ;;
   * )
     export DIR="lib"
     export NAME="$1"

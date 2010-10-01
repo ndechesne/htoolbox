@@ -109,14 +109,13 @@ ssize_t ZipWriter::write(const void* buffer, size_t size) {
   do {
     _d->strm.avail_out = static_cast<uInt>(BUFFER_SIZE);
     _d->strm.next_out  = _d->buffer;
-    switch (deflate(&_d->strm, _d->finished ? Z_FINISH : Z_NO_FLUSH) != Z_OK) {
-      case Z_OK:
-      case Z_STREAM_END:
-        break;
-      default:
-        hlog_alert("failed to compress");
-        errno = EUNATCH;
-        return -1;
+
+
+    int zlib_rc = deflate(&_d->strm, _d->finished ? Z_FINISH : Z_NO_FLUSH);
+    if (zlib_rc < 0) {
+      hlog_alert("failed to compress, zlib error code is %d", zlib_rc);
+      errno = EUNATCH;
+      return -1;
     }
     ssize_t length = BUFFER_SIZE - _d->strm.avail_out;
     if (_d->child->write(_d->buffer, length) < 0) {

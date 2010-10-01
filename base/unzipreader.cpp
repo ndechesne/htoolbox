@@ -33,7 +33,6 @@ struct UnzipReader::Private {
   bool           delete_child;
   z_stream       strm;
   unsigned char  buffer[BUFFER_SIZE];
-  bool           buffer_empty;
   Private(IReaderWriter* c, bool d) : child(c), delete_child(d) {}
 };
 
@@ -63,7 +62,6 @@ int UnzipReader::open() {
     errno = EUNATCH;
     return -1;
   }
-  _d->buffer_empty = true;
   return 0;
 }
 
@@ -84,8 +82,8 @@ ssize_t UnzipReader::read(void* buffer, size_t size) {
   unsigned char* cbuffer = static_cast<unsigned char*>(buffer);
   size_t count = 0;
   while (count < size) {
-      ssize_t count_in;
-    if (_d->buffer_empty) {
+    ssize_t count_in;
+    if (_d->strm.avail_in == 0) {
       count_in = _d->child->read(_d->buffer, BUFFER_SIZE);
       if (count_in < 0) {
         return -1;
@@ -97,22 +95,15 @@ ssize_t UnzipReader::read(void* buffer, size_t size) {
     }
     _d->strm.avail_out = static_cast<uInt>(size - count);
     _d->strm.next_out  = &cbuffer[count];
-    switch (inflate(&_d->strm, Z_NO_FLUSH)) {
-      case Z_OK:
-      case Z_STREAM_END:
-        break;
-      default:
-        hlog_alert("failed to decompress");
-        errno = EUNATCH;
-        return -1;
+    int zlib_rc = inflate(&_d->strm, Z_NO_FLUSH);
+    if (zlib_rc < 0) {
+      hlog_alert("failed to decompress, zlib error code is %d", zlib_rc);
+      errno = EUNATCH;
+      return -1;
     }
     count = size - _d->strm.avail_out;
-    // Used up all input buffer data
-    if (_d->strm.avail_out != 0) {
-      _d->buffer_empty = true;
-      if (count_in == 0) {
-        break;
-      }
+    if ((_d->strm.avail_in == 0) && (_d->strm.avail_out != 0)) {
+      break;
     }
   }
   return count;
