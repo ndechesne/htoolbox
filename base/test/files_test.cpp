@@ -49,12 +49,6 @@ static int parseList(Directory *d, const char* cur_dir) {
         *i = f;
       }
       break;
-      case 'l': {
-        Link *l = new Link(*payload);
-        delete *i;
-        *i = l;
-      }
-      break;
       case 'd': {
         Directory *di = new Directory(*payload);
         delete *i;
@@ -77,15 +71,21 @@ static int parseList(Directory *d, const char* cur_dir) {
 static void showList(const Directory& d, int level = 0);
 
 static void defaultShowFile(const Node& g) {
-  cout << "Oth.: " << g.name()
-    << ", path = " << g.path()
-    << ", type = " << g.type()
-    << ", mtime = " << (g.mtime() != 0)
-    << ", size = " << g.size()
-    << ", uid = " << static_cast<int>(g.uid() != 0)
-    << ", gid = " << static_cast<int>(g.gid() != 0)
-    << oct << ", mode = " << g.mode() << dec
-    << endl;
+  const char* type;
+  if (g.type() == 'l') {
+    type = "Link";
+  } else {
+    type = "Oth.";
+  }
+  printf("%s: %s, path = %s, type = %c, mtime = %d, size = %lld, uid = %d, "
+         "gid = %d, mode = %03o",
+         type, g.name(), g.path(), g.type(), g.mtime() != 0, g.size(),
+         static_cast<int>(g.uid() != 0), static_cast<int>(g.gid() != 0),
+         g.mode());
+  if (g.link()[0] != '\0') {
+    printf(", link = %s", g.link());
+  }
+  printf("\n");
 }
 
 static void showFile(const Node& g, int level = 1) {
@@ -107,19 +107,6 @@ static void showFile(const Node& g, int level = 1) {
           << oct << ", mode = " << f.mode() << dec
           << endl;
       } break;
-      case 'l': {
-        const Link& l = static_cast<const Link&>(g);
-        cout << "Link: " << l.name()
-          << ", path = " << l.path()
-          << ", type = " << l.type()
-          << ", mtime = " << (l.mtime() != 0)
-          << ", size = " << l.size()
-          << ", uid = " << static_cast<int>(l.uid() != 0)
-          << ", gid = " << static_cast<int>(l.gid() != 0)
-          << oct << ", mode = " << l.mode() << dec
-          << ", link = " << l.link()
-          << endl;
-      } break;
       case 'd': {
         const Directory& d = static_cast<const Directory&>(g);
         cout << "Dir.: " << d.name()
@@ -135,6 +122,8 @@ static void showFile(const Node& g, int level = 1) {
           showList(d, level);
         }
       } break;
+      default:
+        defaultShowFile(g);
     }
   } else {
     defaultShowFile(g);
@@ -170,19 +159,8 @@ static void createNshowFile(const Node &g) {
       << endl;
     delete f; }
     break;
-  case 'l': {
-    Link *l = new Link(g);
-    cout << "Name: " << l->name()
-      << ", path = " << l->path()
-      << ", type = " << l->type()
-      << ", mtime = " << (l->mtime() != 0)
-      << ", size = " << l->size()
-      << ", uid = " << static_cast<int>(l->uid() != 0)
-      << ", gid = " << static_cast<int>(l->gid() != 0)
-      << oct << ", mode = " << l->mode() << dec
-      << ", link = " << l->link()
-      << endl;
-    delete l; }
+  case 'l':
+    defaultShowFile(g);
     break;
   case 'd': {
     Directory d(g);
@@ -324,26 +302,22 @@ int main(void) {
   cout << endl << "File types" << endl;
   // File types
   Node *g;
-  g = new Node("test1/testfile");
-  g->stat();
+  g = new Node("test1/testfile", true);
   createNshowFile(*g);
   delete g;
-  g = new Node("test1/testlink");
-  g->stat();
+  g = new Node("test1/testlink", true);
   createNshowFile(*g);
   delete g;
-  g = new Node("test1/testdir");
-  g->stat();
+  g = new Node("test1/testdir", true);
   createNshowFile(*g);
   delete g;
-  g = new Node("test1/subdir");
-  g->stat();
+  g = new Node("test1/subdir", true);
   createNshowFile(*g);
   delete g;
 
 
   cout << endl << "Link change" << endl;
-  Link* l = new Link("test1/testlink");
+  Node* l = new Node("test1/testlink", false);
   l->stat();
   showFile(*l);
   char max_link[PATH_MAX];
@@ -357,24 +331,24 @@ int main(void) {
   cout << endl << "Validity tests" << endl;
   cout << "File is file? " << File("test1/testfile").isValid() << endl;
   cout << "File is dir? " << Directory("test1/testfile").isValid() << endl;
-  cout << "File is link? " << Link("test1/testfile").isValid() << endl;
+  cout << "File is link? " << Node("test1/testfile", true).isLink() << endl;
   cout << "Dir is file? " << File("test1/testdir").isValid() << endl;
   cout << "Dir is dir? " << Directory("test1/testdir").isValid() << endl;
-  cout << "Dir is link? " << Link("test1/testdir").isValid() << endl;
+  cout << "Dir is link? " << Node("test1/testdir", true).isLink() << endl;
   cout << "Link is file? " << File("test1/testlink").isValid() << endl;
   cout << "Link is dir? " << Directory("test1/testlink").isValid() << endl;
-  cout << "Link is link? " << Link("test1/testlink").isValid() << endl;
+  cout << "Link is link? " << Node("test1/testlink", true).isLink() << endl;
 
   cout << endl << "Creation tests" << endl;
   cout << "File is file? " << File("test1/touchedfile").isValid() << endl;
   cout << "File is dir? " << Directory("test1/touchedfile").isValid() << endl;
-  cout << "File is link? " << Link("test1/touchedfile").isValid() << endl;
+  cout << "File is link? " << Node("test1/touchedfile", true).isLink() << endl;
   cout << "Dir is file? " << File("test1/toucheddir").isValid() << endl;
   cout << "Dir is dir? " << Directory("test1/toucheddir").isValid() << endl;
-  cout << "Dir is link? " << Link("test1/toucheddir").isValid() << endl;
+  cout << "Dir is link? " << Node("test1/toucheddir", true).isLink() << endl;
   cout << "Link is file? " << File("test1/touchedlink").isValid() << endl;
   cout << "Link is dir? " << Directory("test1/touchedlink").isValid() << endl;
-  cout << "Link is link? " << Link("test1/touchedlink").isValid() << endl;
+  cout << "Link is link? " << Node("test1/touchedlink", true).isLink() << endl;
 
   cout << "Create" << endl;
   if (File("test1/touchedfile").create())
@@ -384,13 +358,13 @@ int main(void) {
 
   cout << "File is file? " << File("test1/touchedfile").isValid() << endl;
   cout << "File is dir? " << Directory("test1/touchedfile").isValid() << endl;
-  cout << "File is link? " << Link("test1/touchedfile").isValid() << endl;
+  cout << "File is link? " << Node("test1/touchedfile", true).isLink() << endl;
   cout << "Dir is file? " << File("test1/toucheddir").isValid() << endl;
   cout << "Dir is dir? " << Directory("test1/toucheddir").isValid() << endl;
-  cout << "Dir is link? " << Link("test1/toucheddir").isValid() << endl;
+  cout << "Dir is link? " << Node("test1/toucheddir", true).isLink() << endl;
   cout << "Link is file? " << File("test1/touchedlink").isValid() << endl;
   cout << "Link is dir? " << Directory("test1/touchedlink").isValid() << endl;
-  cout << "Link is link? " << Link("test1/touchedlink").isValid() << endl;
+  cout << "Link is link? " << Node("test1/touchedlink", true).isLink() << endl;
 
   cout << "Create again" << endl;
   if (File("test1/touchedfile").create())
@@ -400,13 +374,13 @@ int main(void) {
 
   cout << "File is file? " << File("test1/touchedfile").isValid() << endl;
   cout << "File is dir? " << Directory("test1/touchedfile").isValid() << endl;
-  cout << "File is link? " << Link("test1/touchedfile").isValid() << endl;
+  cout << "File is link? " << Node("test1/touchedfile", true).isLink() << endl;
   cout << "Dir is file? " << File("test1/toucheddir").isValid() << endl;
   cout << "Dir is dir? " << Directory("test1/toucheddir").isValid() << endl;
-  cout << "Dir is link? " << Link("test1/toucheddir").isValid() << endl;
+  cout << "Dir is link? " << Node("test1/toucheddir", true).isLink() << endl;
   cout << "Link is file? " << File("test1/touchedlink").isValid() << endl;
   cout << "Link is dir? " << Directory("test1/touchedlink").isValid() << endl;
-  cout << "Link is link? " << Link("test1/touchedlink").isValid() << endl;
+  cout << "Link is link? " << Node("test1/touchedlink", true).isLink() << endl;
 
   cout << endl << "Parsing test" << endl;
 
@@ -421,193 +395,6 @@ int main(void) {
     }
   }
   delete d;
-
-  cout << endl << "Difference test" << endl;
-
-  Node* f1 = new Node("some_name", 'f', 1, 2, 3, 4, 5);
-  Node* f2 = new Node("some_name", 'f', 1, 2, 3, 4, 5);
-  if (*f1 != *f2) {
-    cout << "f1 and f2 differ" << endl;
-  } else {
-    cout << "f1 and f2 are identical" << endl;
-  }
-  delete f2;
-  f2 = new Node("other_name", 'f', 1, 2, 3, 4, 5);
-  if (*f1 != *f2) {
-    cout << "f1 and f2 differ" << endl;
-  } else {
-    cout << "f1 and f2 are identical" << endl;
-  }
-  delete f2;
-  f2 = new Node("some_name", 'd', 1, 2, 3, 4, 5);
-  if (*f1 != *f2) {
-    cout << "f1 and f2 differ" << endl;
-  } else {
-    cout << "f1 and f2 are identical" << endl;
-  }
-  delete f2;
-  f2 = new Node("some_name", 'f', 10, 2, 3, 4, 5);
-  if (*f1 != *f2) {
-    cout << "f1 and f2 differ" << endl;
-  } else {
-    cout << "f1 and f2 are identical" << endl;
-  }
-  delete f2;
-  f2 = new Node("some_name", 'f', 1, 20, 3, 4, 5);
-  if (*f1 != *f2) {
-    cout << "f1 and f2 differ" << endl;
-  } else {
-    cout << "f1 and f2 are identical" << endl;
-  }
-  delete f2;
-  f2 = new Node("some_name", 'f', 1, 2, 30, 4, 5);
-  if (*f1 != *f2) {
-    cout << "f1 and f2 differ" << endl;
-  } else {
-    cout << "f1 and f2 are identical" << endl;
-  }
-  delete f2;
-  f2 = new Node("some_name", 'f', 1, 2, 3, 40, 5);
-  if (*f1 != *f2) {
-    cout << "f1 and f2 differ" << endl;
-  } else {
-    cout << "f1 and f2 are identical" << endl;
-  }
-  delete f2;
-  f2 = new Node("some_name", 'f', 1, 2, 3, 4, 50);
-  if (*f1 != *f2) {
-    cout << "f1 and f2 differ" << endl;
-  } else {
-    cout << "f1 and f2 are identical" << endl;
-  }
-  delete f2;
-  delete f1;
-
-  Link* l1 = new Link("some_link", 'l', 1, 2, 3, 4, 5, "linked");
-  Link* l2 = new Link("some_link", 'l', 1, 2, 3, 4, 5, "linked");
-  if (*l1 != *l2) {
-    cout << "l1 and l2 differ" << endl;
-  } else {
-    cout << "l1 and l2 are identical" << endl;
-  }
-  delete l2;
-  l2 = new Link("other_link", 'l', 1, 2, 3, 4, 5, "linked");
-  if (*l1 != *l2) {
-    cout << "l1 and l2 differ" << endl;
-  } else {
-    cout << "l1 and l2 are identical" << endl;
-  }
-  delete l2;
-  l2 = new Link("some_link", 'l', 1, 2, 3, 4, 5, "unlinked");
-  if (*l1 != *l2) {
-    cout << "l1 and l2 differ" << endl;
-  } else {
-    cout << "l1 and l2 are identical" << endl;
-  }
-  delete l2;
-  delete l1;
-
-
-
-  cout << endl << "Stacking read/writers test" << endl;
-  report.setLevel(regression);
-  {
-    char buffer[4096];
-    memset(buffer, 0, 4096);
-    ssize_t rc;
-    FileReaderWriter r("test1/testfile", false);
-    char checksum[64] = "";
-    Hasher fr(&r, false, Hasher::md5, checksum);
-    if (fr.open() < 0) {
-      hlog_regression("%s opening file", strerror(errno));
-    } else {
-      rc = fr.read(buffer, sizeof(buffer));
-      if (rc < 0) {
-        hlog_regression("%s reading file", strerror(errno));
-      } else {
-        hlog_regression("read %zd bytes: '%s'", rc, buffer);
-      }
-      if (fr.close() < 0) {
-        hlog_regression("%s closing file", strerror(errno));
-      }
-      hlog_regression("checksum = '%s'", checksum);
-    }
-
-    FileReaderWriter w("test1/writeback", true);
-    memset(checksum, 0, sizeof(checksum));
-    Hasher fw(&w, false, Hasher::md5, checksum);
-    if (fw.open() < 0) {
-      hlog_regression("%s opening file", strerror(errno));
-    } else {
-      rc = fw.write(buffer, rc);
-      if (rc < 0) {
-        hlog_regression("%s writing file", strerror(errno));
-      } else {
-        hlog_regression("written %zd bytes", rc);
-      }
-      if (fw.close() < 0) {
-        hlog_regression("%s closing file", strerror(errno));
-      }
-      hlog_regression("checksum = '%s'", checksum);
-    }
-
-    if (fr.open() < 0) {
-      hlog_regression("%s opening file", strerror(errno));
-    } else {
-      rc = fr.read(buffer, sizeof(buffer));
-      if (rc < 0) {
-        hlog_regression("%s reading file", strerror(errno));
-      } else {
-        hlog_regression("read %zd bytes: '%s'", rc, buffer);
-      }
-      if (fr.close() < 0) {
-        hlog_regression("%s closing file", strerror(errno));
-      }
-    }
-  }
-
-  {
-    char buffer[4096];
-    memset(buffer, 0, 4096);
-    ssize_t rc;
-    system("gzip -c test1/testfile > test1/testfile.gz");
-    FileReaderWriter r("test1/testfile.gz", false);
-    UnzipReader fr(&r, false);
-    if (fr.open() < 0) {
-      hlog_regression("%s opening file", strerror(errno));
-    } else {
-      rc = fr.read(buffer, sizeof(buffer));
-      if (rc < 0) {
-        hlog_regression("%s reading file", strerror(errno));
-      } else {
-        hlog_regression("read %zd bytes: '%s'", rc, buffer);
-      }
-      if (fr.close() < 0) {
-        hlog_regression("%s closing file", strerror(errno));
-      }
-    }
-
-    FileReaderWriter w("test1/writeback", true);
-    ZipWriter fw(&w, false, 5);
-    if (fw.open() < 0) {
-      hlog_regression("%s opening file", strerror(errno));
-    } else {
-      rc = fw.write(buffer, rc);
-      if (rc < 0) {
-        hlog_regression("%s writing file", strerror(errno));
-      } else {
-        hlog_regression("written %zd bytes", rc);
-      }
-      if (fw.close() < 0) {
-        hlog_regression("%s closing file", strerror(errno));
-      }
-    }
-
-    system("zcat test1/testfile.gz");
-  }
-
-
-  cout << endl << "End of tests" << endl;
 
   return 0;
 }

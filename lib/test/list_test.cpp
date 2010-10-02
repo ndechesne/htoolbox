@@ -52,7 +52,7 @@ public:
         extra = static_cast<const File*>(node)->checksum();
       } else
       if (node->type() == 'l') {
-        extra = static_cast<const Link*>(node)->link();
+        extra = node->link();
       }
       putData(epoch, line, extra);
     } else {
@@ -75,7 +75,7 @@ static void showLine(time_t timestamp, const char* path, const Node* node) {
       printf(" %s", static_cast<const File*>(node)->checksum());
     }
     if (node->type() == 'l') {
-      printf(" %s", static_cast<const Link*>(node)->link());
+      printf(" %s", node->link());
     }
   } else {
     printf(" [rm]");
@@ -175,7 +175,7 @@ int main(void) {
   journal.add("file_new", time(NULL), node);
   delete node;
 
-  Link* link = new Link("test1/testlink");
+  Node* link = new Node("test1/testlink", true);
   char max_link[PATH_MAX];
   memset(max_link, '?', sizeof(max_link));
   max_link[sizeof(max_link) - 1] = '\0';
@@ -184,7 +184,7 @@ int main(void) {
   journal.add("link", time(NULL), node);
   delete node;
 
-  node = new Link("test1/longlink");
+  node = new Node("test1/longlink", true);
   journal.add("longlink", time(NULL), node);
   delete node;
 
@@ -252,11 +252,11 @@ int main(void) {
   }
   sys_rc = system("echo \"this is my new test\" > test1/testfile");
 
-  node = new Link("test1/testlink");
+  node = new Node("test1/testlink", true);
   journal.add("CR/x", time(NULL), node);
   delete node;
 
-  node = new Link("test1/testlink");
+  node = new Node("test1/testlink", true);
   journal.add("CR\r", time(NULL), node);
   delete node;
 
@@ -565,7 +565,7 @@ int main(void) {
   journal.add("file_new", time(NULL), node);
   delete node;
 
-  node = new Link("test1/testlink");
+  node = new Node("test1/testlink", true);
   journal.add("link2", time(NULL), node);
   delete node;
 

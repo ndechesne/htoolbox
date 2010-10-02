@@ -172,15 +172,21 @@ int Node::stat() {
     _uid   = metadata.st_uid;
     _gid   = metadata.st_gid;
     _mode  = metadata.st_mode & ~S_IFMT;
+    // Special case for symbolic links
+    if (isLink()) {
+      _parsed = true;
+      char link[static_cast<int>(_size) + 1];
+      ssize_t count = readlink(_path, link, static_cast<int>(_size));
+      if (count >= 0) {
+        _size = count;
+      } else {
+        _size = 0;
+      }
+      link[_size] = '\0';
+      _link = link;
+    }
   }
   return rc;
-}
-
-bool Node::operator!=(const Node& right) const {
-  return (_type != right._type)   || (_mtime != right._mtime)
-      || (_size != right._size)   || (_uid != right._uid)
-      || (_gid != right._gid)     || (_mode != right._mode)
-      || (strcmp(basename(_path), basename(right._path)) != 0);
 }
 
 int Node::remove() {
@@ -257,7 +263,7 @@ int Directory::createList() {
   _nodes = new list<Node*>;
   bool failed = false;
   while (size--) {
-    Node *g = new Node(Path(_path, direntList[size]->d_name));
+    Node *g = new Node(Path(_path, direntList[size]->d_name), false);
     free(direntList[size]);
     if (! g->stat()) {
       switch (g->type()) {
@@ -270,11 +276,6 @@ int Directory::createList() {
           Directory *d = new Directory(*g);
           delete g;
           g = d;
-        } break;
-        case 'l': {
-          Link *l = new Link(*g);
-          delete g;
-          g = l;
         } break;
         default:;
       }
@@ -314,14 +315,6 @@ int Directory::create() {
     stat();
   }
   return 0;
-}
-
-
-bool Link::operator!=(const Link& right) const {
-  if (static_cast<Node>(*this) != static_cast<Node>(right)) {
-    return true;
-  }
-  return strcmp(_link, right._link) != 0;
 }
 
 

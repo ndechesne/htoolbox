@@ -470,14 +470,11 @@ int List::decodeLine(
   case 'f':
     *node_p = new File(path, type, mtime, size, uid, gid, mode, extra);
     break;
-  case 'l':
-    *node_p = new Link(path, type, mtime, size, uid, gid, mode, extra);
-    break;
   case '-':
     *node_p = NULL;
     break;
   default:
-    *node_p = new Node(path, type, mtime, size, uid, gid, mode);
+    *node_p = new Node(path, type, mtime, size, uid, gid, mode, extra);
   }
   return 0;
 }
@@ -995,7 +992,7 @@ void ListReader::show(
             printf(" %s", static_cast<const File*>(node)->checksum());
           }
           if (node->type() == 'l') {
-            printf(" %s", static_cast<const Link*>(node)->link());
+            printf(" %s", node->link());
           }
           delete node;
         } else {

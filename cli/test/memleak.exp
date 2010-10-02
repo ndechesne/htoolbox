@@ -3838,7 +3838,7 @@ Crawling through DB data
    hbackup::Data::check(char const*, bool, bool, long long*, bool*) const (data.cpp:862)
    hbackup::Data::crawl_recurse(hbackup::Directory&, std::string const&, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:446)
    hbackup::Data::crawl(bool, bool, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*) const (data.cpp:985)
-   hbackup::Database::check(bool) const (db.cpp:624)
+   hbackup::Database::check(bool) const (db.cpp:623)
    hbackup::HBackup::check() (interface.cpp:424)
    main (hbackup.cpp:294)
  

@@ -369,7 +369,7 @@ int Data::organise(
       if (dir_entry->d_name[0] == '.') {
         continue;
       }
-      Node source_path(Path(path, dir_entry->d_name));
+      Node source_path(Path(path, dir_entry->d_name), false);
       if (source_path.stat()) {
         hlog_error("%s stating source file '%s'", strerror(errno),
           source_path.path());

@@ -500,7 +500,7 @@ int Owner::send(
     op.operation = '!';
   } else
   if ((op.node.type() == 'l') && (db_node_extra != NULL) &&
-      (strcmp(static_cast<const Link&>(op.node).link(), db_node_extra) != 0)) {
+      (strcmp(op.node.link(), db_node_extra) != 0)) {
     op.operation = 'L';
   }
   return 0;

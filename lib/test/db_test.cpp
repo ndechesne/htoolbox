@@ -451,7 +451,7 @@ int main(void) {
     db2.openClient("myClient");
     db.openClient("myClient");
 
-    Link l("test1/testlink");
+    Node l("test1/testlink", true);
     p = "/client_path/new_link";
     Database::OpData o(p, strlen(p), l);
     ++my_time;

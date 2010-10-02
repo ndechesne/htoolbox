@@ -432,8 +432,7 @@ int Database::restore(
         }
         break;
       case 'l': {
-          Link* l = static_cast<Link*>(db_node);
-          if (symlink(l->link(), base.c_str())) {
+          if (symlink(db_node->link(), base.c_str())) {
             hlog_error("%s restoring file '%s'", strerror(errno), base.c_str());
             this_failed = true;
           }
@@ -707,7 +706,7 @@ int Database::add(
       hlog_error("Bug in db add: link was not parsed!");
       return -1;
     } else {
-      op.extra = static_cast<Link&>(op.node).link();
+      op.extra = op.node.link();
     }
   }
 

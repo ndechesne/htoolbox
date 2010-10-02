@@ -65,6 +65,7 @@ protected:
   gid_t       _gid;       // group ID of owner
   mode_t      _mode;      // permissions
   bool        _parsed;    // more info available using proper type
+  std::string _link;
 public:
   // Default constructor
   Node(const Node& g) :
@@ -75,15 +76,19 @@ public:
         _uid(g._uid),
         _gid(g._gid),
         _mode(g._mode),
-        _parsed(false) {
+        _parsed(false),
+        _link(g._link) {
       _basename = basename(_path);
     }
   // Constructor for path in the VFS
-  Node(Path path) :
+  Node(Path path, bool parse) :
         _path(path),
         _type('?'),
         _parsed(false) {
       _basename = basename(_path);
+      if (parse) {
+        stat();
+      }
     }
   // Constructor for given file metadata
   Node(
@@ -93,7 +98,8 @@ public:
       long long   size,
       uid_t       uid,
       gid_t       gid,
-      mode_t      mode) :
+      mode_t      mode,
+      const char* link = "") :
         _path(path),
         _type(type),
         _mtime(mtime),
@@ -101,35 +107,40 @@ public:
         _uid(uid),
         _gid(gid),
         _mode(mode),
-        _parsed(false) {
+        _parsed(false),
+        _link(link) {
       _basename = basename(_path);
+      if ((_type == 'l') && ! _link.empty()) {
+        _parsed = true;
+      }
     }
   virtual ~Node() {}
   // Stat file metadata
   int stat();
   // Reset some metadata
-  void setMtime(time_t mtime)       { _mtime = mtime; }
-  void setSize(long long size)      { _size  = size; }
+  void setMtime(time_t mtime)    { _mtime = mtime; }
+  void setSize(long long size)   { _size  = size;  }
+  void setLink(const char* link) { _link = link;   }
   // Operators
   bool operator<(const Node& right) const {
     // Only compare paths
     return Path::compare(_path, right._path) < 0;
   }
-  // Compares names and metadata, not paths
-  virtual bool operator!=(const Node&) const;
   // Data read access
-  virtual bool  isValid()     const { return _type != '?';  }
-  const char*   path()        const { return _path;         }
-  const char*   name()        const { return _basename;     }
-  char          type()        const { return _type;         }
-  time_t        mtime()       const { return _mtime;        }
-  long long     size()        const { return _size;         }
-  uid_t         uid()         const { return _uid;          }
-  gid_t         gid()         const { return _gid;          }
-  mode_t        mode()        const { return _mode;         }
-  bool          parsed()      const { return _parsed;       }
+  virtual bool  isValid() const { return _type != '?';  }
+  bool          isLink()  const { return _type == 'l';  }
+  const char*   path()    const { return _path;         }
+  const char*   name()    const { return _basename;     }
+  char          type()    const { return _type;         }
+  time_t        mtime()   const { return _mtime;        }
+  long long     size()    const { return _size;         }
+  uid_t         uid()     const { return _uid;          }
+  gid_t         gid()     const { return _gid;          }
+  mode_t        mode()    const { return _mode;         }
+  bool          parsed()  const { return _parsed;       }
+  const char*   link()    const { return _link.c_str(); }
   // Remove node
-  int   remove();
+  int remove();
 };
 
 class File : public Node {
@@ -146,8 +157,7 @@ public:
     strcpy(_hash, "");
   }
   // Constructor for path in the VFS
-  File(Path path) : Node(path) {
-    stat();
+  File(Path path) : Node(path, true) {
     _parsed = true;
     strcpy(_hash, "");
   }
@@ -182,9 +192,7 @@ public:
     _nodes  = NULL;
   }
   // Constructor for path in the VFS
-  Directory(Path path) :
-      Node(path) {
-    stat();
+  Directory(Path path) : Node(path, true) {
     _parsed = true;
     _nodes  = NULL;
   }
@@ -200,72 +208,6 @@ public:
   bool  hasList() const                     { return _nodes != NULL; }
   list<Node*>& nodesList()                  { return *_nodes; }
   const list<Node*>& nodesListConst() const { return *_nodes; }
-};
-
-class Link : public Node {
-  char*     _link;
-public:
-  // Constructor for existing Node
-  Link(const Link& g) :
-      Node(g),
-      _link(NULL) {
-    _parsed = true;
-    _link = strdup(g._link);
-  }
-  Link(const Node& g) :
-      Node(g),
-      _link(NULL) {
-    _parsed = true;
-    size_t size = static_cast<size_t>(_size);
-    _link = static_cast<char*>(malloc(size + 1));
-    ssize_t count = readlink(_path, _link, size);
-    if (count >= 0) {
-      _size = count;
-    } else {
-      _size = 0;
-    }
-    _link[_size] = '\0';
-  }
-  // Constructor for path in the VFS
-  Link(Path path) : Node(path), _link(NULL) {
-    stat();
-    _parsed = true;
-    _link = static_cast<char*>(malloc(static_cast<int>(_size) + 1));
-    ssize_t count = readlink(_path, _link, static_cast<int>(_size));
-    if (count >= 0) {
-      _size = count;
-    } else {
-      _size = 0;
-    }
-    _link[_size] = '\0';
-  }
-  // Constructor for given file metadata
-  Link(
-    const char* name,
-    char        type,
-    time_t      mtime,
-    long long   size,
-    uid_t       uid,
-    gid_t       gid,
-    mode_t      mode,
-    const char* link) :
-        Node(name, type, mtime, size, uid, gid, mode),
-        _link(NULL) {
-    _parsed = true;
-    _link = strdup(link);
-  }
-  ~Link() {
-    free(_link);
-  }
-  // Operators
-  bool operator!=(const Link&) const;
-  bool isValid() const { return _type == 'l'; }
-  // Data read access
-  const char* link() const { return _link; }
-  void setLink(const char* link) {
-    free(_link);
-    _link = strdup(link);
-  }
 };
 
 }
