@@ -23,6 +23,14 @@
 
 namespace htools {
 
+//! \brief Hash computer
+/*!
+ * Reading/writing from/to this stream will read/write to the underlying stream,
+ * with no modificationto the data.
+ *
+ * The specified hash will be computed from the data on the fly, and will be
+ * valid after close() has been called.
+ */
 class Hasher : public IReaderWriter {
   struct         Private;
   Private* const _d;
@@ -42,6 +50,13 @@ public:
     sha512,
     ripemd160
   };
+  //! \brief Constructor
+  /*!
+   * \param child        underlying stream to read from or write to
+   * \param delete_child whether to also delete child at destruction
+   * \param digest       digest to compute
+   * \param hash         pre-allocated buffer where to store the resulting hash
+  */
   Hasher(IReaderWriter* child, bool delete_child, Digest digest, char* hash);
   ~Hasher();
   int open();

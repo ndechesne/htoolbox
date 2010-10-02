@@ -23,10 +23,19 @@
 
 namespace htools {
 
+//! \brief File reader/writer
+/*!
+ * This is the file accessor to actually read data from or store data to disk.
+ */
 class FileReaderWriter : public IFileReaderWriter {
   struct         Private;
   Private* const _d;
 public:
+  //! \brief Constructor
+  /*!
+   * \param path        path to the file to open a stream from
+   * \param writer      whether write to or read from stream
+  */
   FileReaderWriter(const char* path, bool writer);
   ~FileReaderWriter();
   int open();

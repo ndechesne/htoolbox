@@ -23,17 +23,39 @@
 
 namespace htools {
 
+//! \brief Line per line reader
+/*!
+ * Allows to read a file line by line, but only this way.
+ *
+ * Specific getLine() method must be used.
+ */
 class LineReader : public IReaderWriter {
   struct         Private;
   Private* const _d;
 public:
+  //! \brief Constructor
+  /*!
+   * \param child        underlying stream used to get the actual data
+   * \param delete_child whether to also delete child at destruction
+  */
   LineReader(IReaderWriter* child, bool delete_child);
   ~LineReader();
   int open();
   int close();
+  //! \brief Always fail to read, only use getLine
   ssize_t read(void* buffer, size_t size);
+  //! \brief Always fail to write, as this is a reader
   ssize_t write(const void* buffer, size_t size);
-  ssize_t getLine(char** buffer, size_t* capacity);
+  //! \brief Read bytes from stream, no less than asked unless end reached
+  /*!
+   * getLine() reads  an  entire line from stream, storing the address of the
+   * buffer containing the text into *buffer.  The buffer is null-terminated
+   * and includes the newline character, if one was found.
+   * \param buffer_p    pointer to the current/realloc'd buffer
+   * \param capacity_p  *buffer_p's current/updated capacity
+   * \return            negative number on failure, positive or null on success
+  */
+  ssize_t getLine(char** buffer_p, size_t* capacity_p);
 };
 
 };

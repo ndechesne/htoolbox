@@ -23,17 +23,33 @@
 
 namespace htools {
 
+//! \brief Writer to multiple streams at once
+/*!
+ * Writing to this stream will write to all underlying streams in sequence.
+ * This is most efficient when inserting an AsyncWriter in between this and the
+ * streams, so the writes actually happen concurrently.
+ */
 class MultiWriter : public IReaderWriter {
   struct         Private;
   Private* const _d;
 public:
+  //! \brief Constructor
+  /*!
+   * \param child        underlying stream to write to
+   * \param delete_child whether to also delete child at destruction
+  */
   MultiWriter(IReaderWriter* child, bool delete_child);
   ~MultiWriter();
   int open();
   int close();
+  //! \brief Always fail to read, as this is a writer
   ssize_t read(void* buffer, size_t size);
   ssize_t write(const void* buffer, size_t size);
-  // Add more writers
+  //! \brief Add more writers
+  /*!
+   * \param child        underlying stream to write to
+   * \param delete_child whether to also delete child at destruction
+  */
   void add(IReaderWriter* child, bool delete_child);
 };
 

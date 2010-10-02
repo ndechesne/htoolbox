@@ -23,10 +23,20 @@
 
 namespace htools {
 
+//! \brief Reader that unzips on the fly
+/*!
+ * Reading from this stream will automatically unzip the data read from the
+ * underlying stream.
+ */
 class UnzipReader : public IReaderWriter {
   struct         Private;
   Private* const _d;
 public:
+  //! \brief Constructor
+  /*!
+   * \param child        underlying stream to write to
+   * \param delete_child whether to also delete child at destruction
+  */
   UnzipReader(IReaderWriter* child, bool delete_child);
   ~UnzipReader();
   int open();

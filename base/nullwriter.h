@@ -23,6 +23,12 @@
 
 namespace htools {
 
+//! \brief Null writer
+/*!
+ * Opening, closing and writing always succeeds but does nothing.
+ *
+ * Offset is valid.
+ */
 class NullWriter : public IFileReaderWriter {
   long long _offset;
 public:
@@ -35,6 +41,7 @@ public:
   int close() {
     return 0;
   }
+  //! \brief Always fail to read, as this is a writer
   ssize_t read(void*, size_t) {
     return -1;
   }
@@ -42,6 +49,7 @@ public:
     _offset += size;
     return size;
   }
+  //! \brief Always return empty string
   const char* path() const {
     return "";
   };

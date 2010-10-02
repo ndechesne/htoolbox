@@ -23,18 +23,37 @@
 
 namespace htools {
 
+//! \brief Interface for the storage access reader/writer modules
+/*!
+ * This interface adds access to the path of the stream and the current offset.
+ *
+ * The documentation is the same as for IReaderWriter except for the two added
+ * methods path() and offset() described below.
+*/
 class IFileReaderWriter : public IReaderWriter {
 public:
   virtual ~IFileReaderWriter() {}
+  //! \brief Open the stream
+  /*!
+   * \return            negative number on failure, positive or null on success
+  */
   virtual int open() = 0;
+  //! \brief Close the stream
+  /*!
+   * \return            negative number on failure, positive or null on success
+  */
   virtual int close() = 0;
-  // Read size bytes exactly into buffer, no less until end of file
   virtual ssize_t read(void* buffer, size_t size) = 0;
-  // Write size bytes exactly from buffer, no less
   virtual ssize_t write(const void* buffer, size_t size) = 0;
-  // File path
+  //! \brief Get stream path
+  /*!
+   * \return            path to the underlying stream
+  */
   virtual const char* path() const = 0;
-  // Offset of on-disk file
+  //! \brief Get stream offset
+  /*!
+   * \return            offset in the underlying stream
+  */
   virtual long long offset() const = 0;
 };
 

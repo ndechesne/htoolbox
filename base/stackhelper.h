@@ -23,11 +23,27 @@
 
 namespace htools {
 
+//! \brief Helper to access top and bottom of the streams stack
+/*!
+ * This helper serves two purposes:
+ * - provide access to the path and offset method from the file reader/writer at
+ *   the bottom of the streams stack, which is especially useful for progress
+ *   reporting;
+ * - provide an easy way to encapsulate streams created on the heap with one
+ *   object on the stack which will delete the former automatically, thus making
+ *   memory leaks impossible
+ */
 class StackHelper : public IFileReaderWriter {
   IReaderWriter*     _child;
   bool               _delete_child;
   IFileReaderWriter* _fd;
 public:
+  //! \brief Constructor
+  /*!
+   * \param child        underlying stream to write to
+   * \param delete_child whether to also delete child at destruction
+   * \param fd           file reader/writer at the bottom of the streams stack
+  */
   StackHelper(IReaderWriter* child, bool delete_child, IFileReaderWriter* fd) :
     _child(child), _delete_child(delete_child), _fd(fd) {}
   ~StackHelper() {
@@ -46,11 +62,9 @@ public:
   ssize_t write(const void* buffer, size_t size) {
     return _child->write(buffer, size);
   }
-  // File path
   const char* path() const {
     return _fd->path();
   }
-  // Offset of on-disk file
   long long offset() const {
     return _fd->offset();
   }

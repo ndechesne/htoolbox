@@ -23,10 +23,21 @@
 
 namespace htools {
 
+//! \brief Writer that zips on the fly
+/*!
+ * Writing to this stream will automatically zip the data before writing to the
+ * underlying stream.
+ */
 class ZipWriter : public IReaderWriter {
   struct         Private;
   Private* const _d;
 public:
+  //! \brief Constructor
+  /*!
+   * \param child             underlying stream to write to
+   * \param delete_child      whether to also delete child at destruction
+   * \param compression_level the compression level to apply
+  */
   ZipWriter(IReaderWriter* child, bool delete_child, int compression_level);
   ~ZipWriter();
   int open();

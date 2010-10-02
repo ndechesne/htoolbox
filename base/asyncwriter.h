@@ -23,11 +23,27 @@
 
 namespace htools {
 
+//! \brief Background writer
+/*!
+ * Writing here actually takes place inside a thread, so write will only block
+ * if the thread is busy, allowing for multithreaded stream operations.
+ *
+ * A call to close() will block until all the data has been written.
+ *
+ * Important note: the buffer given to write will still be in use by the writer
+ * thread after write() has returned, so you should use two buffers
+ * alternatively when using this module.
+ */
 class AsyncWriter : public IReaderWriter {
   struct         Private;
   Private* const _d;
   static void* _write_thread(void* data);
 public:
+  //! \brief Constructor
+  /*!
+   * \param child        underlying stream to write to
+   * \param delete_child whether to also delete child at destruction
+  */
   AsyncWriter(IReaderWriter* child, bool delete_child);
   ~AsyncWriter();
   int open();
