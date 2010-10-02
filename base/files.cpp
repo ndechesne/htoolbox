@@ -34,7 +34,6 @@
 
 using namespace std;
 
-#include "buffer.h"
 #include "filereaderwriter.h"
 #include "hasher.h"
 #include "unzipreader.h"

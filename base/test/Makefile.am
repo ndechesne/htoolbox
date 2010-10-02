@@ -7,7 +7,6 @@ AM_CXXFLAGS = \
 
 check_PROGRAMS = \
   asyncwriter_test \
-  buffer_test \
   configuration_test \
   filereaderwriter_test \
   files_test \
@@ -18,7 +17,6 @@ check_PROGRAMS = \
   $(NULL)
 
 asyncwriter_test_SOURCES = asyncwriter_test.cpp
-buffer_test_SOURCES = buffer_test.cpp
 configuration_test_SOURCES = configuration_test.cpp
 filereaderwriter_test_SOURCES = filereaderwriter_test.cpp
 files_test_SOURCES = files_test.cpp
@@ -30,7 +28,6 @@ zip_unzip_test_SOURCES = zip_unzip_test.cpp
 LDADD = $(top_builddir)/base/libhtools.la
 
 check_SUCCESSES = \
-  buffer.done \
   configuration.done \
   filereaderwriter.done \
   linereader.done \
@@ -43,7 +40,6 @@ check_SUCCESSES = \
 
 EXTRA_DIST = \
   asyncwriter.exp \
-  buffer.exp \
   configuration.exp \
   files.exp \
   filereaderwriter.exp \

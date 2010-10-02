@@ -46,16 +46,32 @@ public:
   ssize_t read(void* buffer, size_t size);
   //! \brief Always fail to write, as this is a reader
   ssize_t write(const void* buffer, size_t size);
-  //! \brief Read bytes from stream, no less than asked unless end reached
+  //! \brief Read complete line from stream
   /*!
    * getLine() reads  an  entire line from stream, storing the address of the
    * buffer containing the text into *buffer.  The buffer is null-terminated
    * and includes the newline character, if one was found.
+   *
    * \param buffer_p    pointer to the current/realloc'd buffer
    * \param capacity_p  *buffer_p's current/updated capacity
    * \return            negative number on failure, positive or null on success
   */
-  ssize_t getLine(char** buffer_p, size_t* capacity_p);
+  inline ssize_t getLine(char** buffer_p, size_t* capacity_p) {
+    return getDelim(buffer_p, capacity_p, '\n');
+  }
+  //! \brief Read complete line from stream using specific delimiter
+  /*!
+   * getdelim() works like getline(), except a line delimiter other than newline
+   * can be specified as the delimiter argument.  As  with  getline(), a
+   * delimiter character is not added if one was not present in the input before
+   * end of file was reached.
+   *
+   * \param buffer_p    pointer to the current/realloc'd buffer
+   * \param capacity_p  *buffer_p's current/updated capacity
+   * \param delim       delimiter to use
+   * \return            negative number on failure, positive or null on success
+  */
+  ssize_t getDelim(char** buffer_p, size_t* capacity_p, int delim);
 };
 
 };

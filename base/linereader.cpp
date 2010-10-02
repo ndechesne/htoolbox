@@ -17,10 +17,10 @@
 */
 
 #include "stdlib.h"
+#include "string.h"
 #include "errno.h"
 
 #include "hreport.h"
-#include "buffer.h"
 #include "linereader.h"
 
 using namespace htools;
@@ -30,12 +30,37 @@ enum {
 };
 
 struct LineReader::Private {
-  IReaderWriter*      child;
-  bool                delete_child;
-  Buffer<char>        getline_buffer;     // Buffer for data
-  BufferReader<char>  getline_reader;        // Reader for buffer above
-  Private(IReaderWriter* c, bool d) : child(c), delete_child(d),
-    getline_reader(getline_buffer) {}
+  IReaderWriter*  child;
+  bool            delete_child;
+  char            buffer[102400];
+  const char*     buffer_end;
+  const char*     reader;
+  Private(IReaderWriter* c, bool d) : child(c), delete_child(d) {}
+  void reset() {
+    reader = buffer_end = buffer;
+  }
+  ssize_t refill() {
+    ssize_t rc = child->read(buffer, sizeof(buffer));
+    reader = buffer;
+    buffer_end = buffer + rc;
+    return rc;
+  }
+  static int grow(char** buffer, size_t* capacity_p, size_t target) {
+    bool no_realloc = false;
+    if ((*buffer == NULL) || (*capacity_p == 0)) {
+      *capacity_p = 1;
+      no_realloc = true;
+    }
+    while (*capacity_p < target) {
+      *capacity_p <<= 1;
+    }
+    if (no_realloc) {
+      *buffer = static_cast<char*>(malloc(*capacity_p));
+    } else {
+      *buffer = static_cast<char*>(realloc(*buffer, *capacity_p));
+    }
+    return *buffer == NULL ? -1 : 0;
+  }
 };
 
 LineReader::LineReader(IReaderWriter* child, bool delete_child) :
@@ -49,12 +74,11 @@ LineReader::~LineReader() {
 }
 
 int LineReader::open() {
-  _d->getline_buffer.create();
+  _d->reset();
   return _d->child->open();
 }
 
 int LineReader::close() {
-  _d->getline_buffer.destroy();
   return _d->child->close();
 }
 
@@ -71,49 +95,43 @@ ssize_t LineReader::write(const void*, size_t) {
   return -1;
 }
 
-ssize_t LineReader::getLine(char** buffer, size_t* buffer_capacity) {
-  // Make sure we have a buffer
-  if (*buffer == NULL) {
-    *buffer_capacity = 1024;
-    *buffer = static_cast<char*>(malloc(*buffer_capacity));
-  }
+ssize_t LineReader::getDelim(char** buffer_p, size_t* capacity_p, int delim) {
   // Find end of line or end of file
-  size_t count  = 0;
-  char*  writer = *buffer;
-  bool   found  = false;
+  size_t count = 0;
+  bool   found = false;
+  // Initialise buffer, at least for the null character
+  _d->grow(buffer_p, capacity_p, 128);
+  // Look for delimiter or end of file
   do {
     // Fill up the buffer
-    ssize_t size = _d->getline_reader.readable();
-    if (size == 0) {
-      size = _d->child->read(_d->getline_buffer.writer(),
-                             _d->getline_buffer.writeable());
-      if (size < 0) {
-        return size;
+    if (_d->reader == _d->buffer_end) {
+      int rc = _d->refill();
+      if (rc < 0) {
+        return rc;
       }
-      if (size == 0) {
-        break;
-      }
-      _d->getline_buffer.written(size);
-    }
-    const char* reader = _d->getline_reader.reader();
-    size_t      length = size;
-    while (length > 0) {
-      length--;
-      // Check for space
-      if (count >= *buffer_capacity) {
-        *buffer_capacity <<= 1;
-        *buffer = static_cast<char*>(realloc(*buffer, *buffer_capacity));
-        writer = &(*buffer)[count];
-      }
-      *writer++ = *reader;
-      count++;
-      if (*reader++ == '\n') {
-        found = true;
+      if (rc == 0) {
         break;
       }
     }
-    _d->getline_reader.readn(size - length);
+    // Look for delimiter or end of buffer
+    const char* start_reader = _d->reader;
+    const void* pos = memchr(_d->reader, delim, _d->buffer_end - _d->reader);
+    if (pos == NULL) {
+      _d->reader = _d->buffer_end;
+    } else {
+      _d->reader = static_cast<const char*>(pos);
+      _d->reader++;
+      found = true;
+    }
+    // Copy whatever we read
+    size_t to_add = _d->reader - start_reader;
+    if ((count + to_add >= *capacity_p) || (buffer_p == NULL)) {
+      // Leave one space for the null character
+      _d->grow(buffer_p, capacity_p, count + to_add + 1);
+    }
+    memcpy(&(*buffer_p)[count], start_reader, to_add);
+    count += to_add;
   } while (! found);
-  *writer = '\0';
+  (*buffer_p)[count] = '\0';
   return count;
 }

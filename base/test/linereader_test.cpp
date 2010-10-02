@@ -16,6 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -42,9 +43,10 @@ int main() {
 
   char* line_test;
   size_t line_test_capacity;
+  ssize_t line_size;
 
 
-  writefile = new FileReaderWriter("test2/testfile", true);
+  writefile = new FileReaderWriter("lineread", true);
   if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
@@ -53,20 +55,21 @@ int main() {
   }
   delete writefile;
 
-  fr = new FileReaderWriter("test2/testfile", false);
+  fr = new FileReaderWriter("lineread", false);
   readfile = new LineReader(fr, true);
   line_test = NULL;
   line_test_capacity = 0;
   readfile->open();
   cout << "Reading uncompressed empty file:" << endl;
-  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
-    hlog_regression("Line: '%s'", line_test);
+  while ((line_size = readfile->getLine(&line_test, &line_test_capacity)) > 0) {
+    hlog_regression("Line[%zu] (%zd): '%s'",
+      line_test_capacity, line_size, line_test);
   }
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
 
 
-  writefile = new FileReaderWriter("test2/testfile", true);
+  writefile = new FileReaderWriter("lineread", true);
   if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
@@ -76,14 +79,15 @@ int main() {
   }
   delete writefile;
 
-  fr = new FileReaderWriter("test2/testfile", false);
+  fr = new FileReaderWriter("lineread", false);
   readfile = new LineReader(fr, true);
   if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
   cout << "Reading uncompressed file:" << endl;
-  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
-    hlog_regression("Line: '%s'", line_test);
+  while ((line_size = readfile->getLine(&line_test, &line_test_capacity)) > 0) {
+    hlog_regression("Line[%zu] (%zd): '%s'",
+      line_test_capacity, line_size, line_test);
   }
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
@@ -93,7 +97,7 @@ int main() {
 
   // With compression
 
-  writefile = new FileReaderWriter("test2/testfile.gz", true);
+  writefile = new FileReaderWriter("lineread.gz", true);
   writefile = new ZipWriter(writefile, true, 5);
   if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
@@ -103,21 +107,22 @@ int main() {
   }
   delete writefile;
 
-  fr = new FileReaderWriter("test2/testfile.gz", false);
+  fr = new FileReaderWriter("lineread.gz", false);
   fr = new UnzipReader(fr, true);
   readfile = new LineReader(fr, true);
   line_test = NULL;
   line_test_capacity = 0;
   readfile->open();
   cout << "Reading compressed empty file:" << endl;
-  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
-    hlog_regression("Line: '%s'", line_test);
+  while ((line_size = readfile->getLine(&line_test, &line_test_capacity)) > 0) {
+    hlog_regression("Line[%zu] (%zd): '%s'",
+      line_test_capacity, line_size, line_test);
   }
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
 
 
-  writefile = new FileReaderWriter("test2/testfile.gz", true);
+  writefile = new FileReaderWriter("lineread.gz", true);
   writefile = new ZipWriter(writefile, true, 5);
   if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
@@ -128,18 +133,83 @@ int main() {
   }
   delete writefile;
 
-  fr = new FileReaderWriter("test2/testfile.gz", false);
+  fr = new FileReaderWriter("lineread.gz", false);
   fr = new UnzipReader(fr, true);
   readfile = new LineReader(fr, true);
   if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
   cout << "Reading compressed file:" << endl;
-  while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
-    hlog_regression("Line: '%s'", line_test);
+  while ((line_size = readfile->getLine(&line_test, &line_test_capacity)) > 0) {
+    hlog_regression("Line[%zu] (%zd): '%s'",
+      line_test_capacity, line_size, line_test);
   }
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
+
+
+  writefile = new FileReaderWriter("lineread.gz", true);
+  writefile = new ZipWriter(writefile, true, 5);
+  if (writefile->open()) {
+    cout << "Error opening file: " << strerror(errno) << endl;
+  } else {
+    writefile->write("abcdef\b\nghi\b\njkl", 16);
+    writefile->write(NULL, 0);
+    if (writefile->close()) cout << "Error closing write file" << endl;
+  }
+  delete writefile;
+
+  fr = new FileReaderWriter("lineread.gz", false);
+  fr = new UnzipReader(fr, true);
+  readfile = new LineReader(fr, true);
+  if (readfile->open()) {
+    cout << "Error opening file: " << strerror(errno) << endl;
+  }
+  cout << "Reading compressed file:" << endl;
+  while ((line_size = readfile->getDelim(&line_test, &line_test_capacity, '\b')) > 0) {
+    hlog_regression("Line[%zu] (%zd): '%s'",
+      line_test_capacity, line_size, line_test);
+  }
+  if (readfile->close()) cout << "Error closing read file" << endl;
+  delete readfile;
+
+
+  // Create line bigger than internal buffer
+  char line[200000];
+  for (size_t i = 0; i < sizeof(line); ++i) {
+    line[i] = static_cast<char>((rand() & 0x3f) + 0x20);
+  }
+  writefile = new FileReaderWriter("lineread.gz", true);
+  writefile = new ZipWriter(writefile, true, 5);
+  if (writefile->open()) {
+    cout << "Error opening file: " << strerror(errno) << endl;
+  } else {
+    for (size_t i = 1; i < 20; ++i) {
+      writefile->write("\n", 1);
+      writefile->write(line, sizeof(line) * i / 20 - 2);
+      writefile->write("\b", 1);
+    }
+    if (writefile->close()) cout << "Error closing write file" << endl;
+  }
+  delete writefile;
+
+  fr = new FileReaderWriter("lineread.gz", false);
+  fr = new UnzipReader(fr, true);
+  readfile = new LineReader(fr, true);
+  if (readfile->open()) {
+    cout << "Error opening file: " << strerror(errno) << endl;
+  }
+  cout << "Reading compressed big file:" << endl;
+  while ((line_size = readfile->getDelim(&line_test, &line_test_capacity, '\b')) > 0) {
+    bool ok = (line_test[0] == '\n') &&
+              (memcmp(line, &line_test[1], line_size - 2) == 0) &&
+              (line_test[line_size - 1] == '\b');
+    printf("Line[%zu] (%zd): %s\n",
+      line_test_capacity, line_size, ok ? "ok" : "ko");
+  }
+  if (readfile->close()) cout << "Error closing read file" << endl;
+  delete readfile;
+
 
   free(line_test);
 
