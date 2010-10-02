@@ -48,14 +48,50 @@ int main() {
   FileReaderWriter fr("random.gz", false);
   UnzipReader ur(&fr, false);
   Hasher hr(&ur, false, Hasher::md5, hash);
+  ssize_t rc;
+  size_t count;
+
+  count = 0;
   memset(hash, 0, 129);
   if (hr.open() < 0) return 0;
-  for (size_t i = 0; i < 2000000; ++i) {
-    char byte;
-    if (hr.read(&byte, 1) < 0) return 0;
-  }
+  do {
+    ++count;
+    char buffer[1];
+    rc = hr.read(buffer, sizeof(buffer));
+    if ((rc > 0) && (rc < sizeof(buffer))) {
+      hlog_regression("only read %zd bytes on iteration #%zu", rc, count);
+    }
+  } while (rc > 0);
   if (hr.close() < 0) return 0;
-  hlog_regression("hash = %s", hash);
+  hlog_regression("count = %zu, hash = %s", count, hash);
+
+  count = 0;
+  memset(hash, 0, 129);
+  if (hr.open() < 0) return 0;
+  do {
+    ++count;
+    char buffer[300000];
+    rc = hr.read(buffer, sizeof(buffer));
+    if ((rc > 0) && (rc < sizeof(buffer))) {
+      hlog_regression("only read %zd bytes on iteration #%zu", rc, count);
+    }
+  } while (rc > 0);
+  if (hr.close() < 0) return 0;
+  hlog_regression("count = %zu, hash = %s", count, hash);
+
+  count = 0;
+  memset(hash, 0, 129);
+  if (hr.open() < 0) return 0;
+  do {
+    ++count;
+    char buffer[4000000];
+    rc = hr.read(buffer, sizeof(buffer));
+    if ((rc > 0) && (rc < sizeof(buffer))) {
+      hlog_regression("only read %zd bytes on iteration #%zu", rc, count);
+    }
+  } while (rc > 0);
+  if (hr.close() < 0) return 0;
+  hlog_regression("count = %zu, hash = %s", count, hash);
 
   return 0;
 }

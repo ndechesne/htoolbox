@@ -102,7 +102,7 @@ ssize_t UnzipReader::read(void* buffer, size_t size) {
       return -1;
     }
     count = size - _d->strm.avail_out;
-    if ((_d->strm.avail_in == 0) && (_d->strm.avail_out != 0)) {
+    if (zlib_rc == Z_STREAM_END) {
       break;
     }
   }
