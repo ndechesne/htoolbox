@@ -20,7 +20,7 @@
 #define _DATA_H
 
 #include <ireaderwriter.h>
-#include <stackhelper.h>
+#include <ifilereaderwriter.h>
 
 namespace hbackup {
 
@@ -49,9 +49,9 @@ protected: // So I can test them
     htools::IReaderWriter&  right) const;
   // Copy file to one or two destinations
   long long copy(
-    htools::StackHelper*    source,
-    htools::IReaderWriter*  dest1,
-    htools::IReaderWriter*  dest2 = NULL) const;
+    htools::IFileReaderWriter* source,
+    htools::IReaderWriter*     dest1,
+    htools::IReaderWriter*     dest2 = NULL) const;
   // Get path for given checksum
   int getDir(
     const char*     checksum,

@@ -19,15 +19,17 @@
 #ifndef _NULLWRITER_H
 #define _NULLWRITER_H
 
-#include <ireaderwriter.h>
+#include <ifilereaderwriter.h>
 
 namespace htools {
 
-class NullWriter : public IReaderWriter {
+class NullWriter : public IFileReaderWriter {
+  long long _offset;
 public:
   NullWriter() {}
   ~NullWriter() {}
   int open() {
+    _offset = 0;
     return 0;
   }
   int close() {
@@ -37,8 +39,15 @@ public:
     return -1;
   }
   ssize_t write(const void*, size_t size) {
+    _offset += size;
     return size;
   }
+  const char* path() const {
+    return "";
+  };
+  long long offset() const {
+    return _offset;
+  };
 };
 
 };

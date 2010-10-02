@@ -19,17 +19,16 @@
 #ifndef _STACKHELPER_H
 #define _STACKHELPER_H
 
-#include <ireaderwriter.h>
-#include <filereaderwriter.h>
+#include <ifilereaderwriter.h>
 
 namespace htools {
 
-class StackHelper : public IReaderWriter {
-  IReaderWriter*    _child;
-  bool              _delete_child;
-  FileReaderWriter* _fd;
+class StackHelper : public IFileReaderWriter {
+  IReaderWriter*     _child;
+  bool               _delete_child;
+  IFileReaderWriter* _fd;
 public:
-  StackHelper(IReaderWriter* child, bool delete_child, FileReaderWriter* fd) :
+  StackHelper(IReaderWriter* child, bool delete_child, IFileReaderWriter* fd) :
     _child(child), _delete_child(delete_child), _fd(fd) {}
   ~StackHelper() {
     if (_delete_child)

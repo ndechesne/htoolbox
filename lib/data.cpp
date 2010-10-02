@@ -159,9 +159,9 @@ ssize_t Data::compare(
 }
 
 long long Data::copy(
-    StackHelper*      source,
-    IReaderWriter*    dest1,
-    IReaderWriter*    dest2) const {
+    IFileReaderWriter* source,
+    IReaderWriter*     dest1,
+    IReaderWriter*     dest2) const {
   // Make writers asynchronous
   dest1 = new AsyncWriter(dest1, false);
   MultiWriter w(dest1, false);

@@ -16,27 +16,28 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef _FILEREADERWRITER_H
-#define _FILEREADERWRITER_H
+#ifndef _IFILEREADERWRITER_H
+#define _IFILEREADERWRITER_H
 
-#include <ifilereaderwriter.h>
+#include <ireaderwriter.h>
 
 namespace htools {
 
-class FileReaderWriter : public IFileReaderWriter {
-  struct         Private;
-  Private* const _d;
+class IFileReaderWriter : public IReaderWriter {
 public:
-  FileReaderWriter(const char* path, bool writer);
-  ~FileReaderWriter();
-  int open();
-  int close();
-  ssize_t read(void* buffer, size_t size);
-  ssize_t write(const void* buffer, size_t size);
-  const char* path() const;
-  long long offset() const;
+  virtual ~IFileReaderWriter() {}
+  virtual int open() = 0;
+  virtual int close() = 0;
+  // Read size bytes exactly into buffer, no less until end of file
+  virtual ssize_t read(void* buffer, size_t size) = 0;
+  // Write size bytes exactly from buffer, no less
+  virtual ssize_t write(const void* buffer, size_t size) = 0;
+  // File path
+  virtual const char* path() const = 0;
+  // Offset of on-disk file
+  virtual long long offset() const = 0;
 };
 
 };
 
-#endif // _FILEREADERWRITER_H
+#endif // _IFILEREADERWRITER_H
