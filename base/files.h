@@ -268,46 +268,6 @@ public:
   }
 };
 
-class Stream : public File {
-  struct            Private;
-  Private* const    _d;
-public:
-  // Prototype for cancellation function (true cancels)
-  typedef bool (*cancel_f) (
-    unsigned short  method);
-  // Prototype for progress report function (receives size done and total)
-  typedef void (*progress_f) (
-    long long       previous,
-    long long       current,
-    long long       total);
-  // Constructor for path in the VFS for read or write (no append), with or
-  // without hash computation / compression (give level)
-  Stream(const char* path, bool writer, bool hash = false, int compression = 0);
-  virtual ~Stream();
-  bool isOpen() const;
-  bool isWriteable() const;
-  // Open file
-  int open();
-  // Close file
-  int close();
-  // Get progress indicator (size read/written)
-  long long progress() const;
-  // Progress report function for read and write
-  void setProgressCallback(progress_f progress);
-  // Read file
-  ssize_t read(
-    void*           buffer,
-    size_t          count);
-  // Write to file
-  ssize_t write(
-    const void*     buffer,
-    size_t          count);
-  // Cancel function for the three methods below
-  void setCancelCallback(cancel_f cancel);
-  // Get real file size
-  long long dataSize() const;
-};
-
 }
 
 #endif

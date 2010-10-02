@@ -163,13 +163,13 @@ int main(void) {
   }
 
   // No checksum
-  node = new Stream("test1/test space", false);
+  node = new File("test1/test space");
   journal.add("file sp", time(NULL), node);
   delete node;
 
   journal.add("file_gone", time(NULL));
 
-  node = new Stream("test1/testfile", false, true);
+  node = new File("test1/testfile");
   computeHash(node->path(), hash);
   static_cast<File*>(node)->setChecksum(hash);
   journal.add("file_new", time(NULL), node);
@@ -260,13 +260,13 @@ int main(void) {
   journal.add("CR\r", time(NULL), node);
   delete node;
 
-  node = new Stream("test1/test space", false, true);
+  node = new File("test1/test space");
   computeHash(node->path(), hash);
   static_cast<File*>(node)->setChecksum(hash);
   journal.add("file sp", time(NULL), node);
   delete node;
 
-  node = new Stream("test1/testfile", false, true);
+  node = new File("test1/testfile");
   computeHash(node->path(), hash);
   static_cast<File*>(node)->setChecksum(hash);
   journal.add("file_new", time(NULL), node);
@@ -343,7 +343,7 @@ int main(void) {
     return 0;
   }
   sys_rc = system("echo \"this is my new test\" > test1/testfile");
-  node = new Stream("test1/testfile", false, true);
+  node = new File("test1/testfile");
   computeHash(node->path(), hash);
   static_cast<File*>(node)->setChecksum(hash);
   journal.add("file_new", time(NULL), node);
@@ -488,7 +488,7 @@ int main(void) {
     return 0;
   }
   sys_rc = system("echo \"this is my other test\" > test1/testfile");
-  node = new Stream("test1/testfile", false, true);
+  node = new File("test1/testfile");
   computeHash(node->path(), hash);
   static_cast<File*>(node)->setChecksum(hash);
   journal.add("file_new", time(NULL), node);
@@ -553,13 +553,13 @@ int main(void) {
   }
 
   // No checksum
-  node = new Stream("test1/test space", false);
+  node = new File("test1/test space");
   journal.add("file sp", time(NULL), node);
   delete node;
 
   journal.add("file_gone", time(NULL));
 
-  node = new Stream("test1/testfile", false, true);
+  node = new File("test1/testfile");
   computeHash(node->path(), hash);
   static_cast<File*>(node)->setChecksum(hash);
   journal.add("file_new", time(NULL), node);
