@@ -1,8 +1,14 @@
 Reading uncompressed empty file:
 Reading uncompressed file:
-Line: abcdef
-Line: ghi
+Line: 'abcdef
+'
+Line: 'ghi
+'
+Line: 'jkl'
 Reading compressed empty file:
 Reading compressed file:
-Line: abcdef
-Line: ghi
+Line: 'abcdef
+'
+Line: 'ghi
+'
+Line: 'jkl'

@@ -24,6 +24,7 @@
 
 using namespace std;
 
+#include "hreport.h"
 #include "filereaderwriter.h"
 #include "zipwriter.h"
 #include "unzipreader.h"
@@ -32,6 +33,8 @@ using namespace std;
 using namespace htools;
 
 int main() {
+  report.setLevel(regression);
+
   IReaderWriter* fr;
   LineReader*    readfile;
 
@@ -57,7 +60,7 @@ int main() {
   readfile->open();
   cout << "Reading uncompressed empty file:" << endl;
   while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
-    cout << "Line: " << line_test << endl;
+    hlog_regression("Line: '%s'", line_test);
   }
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
@@ -67,7 +70,7 @@ int main() {
   if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    writefile->write("abcdef\nghi\n", 11);
+    writefile->write("abcdef\nghi\njkl", 14);
     writefile->write(NULL, 0);
     if (writefile->close()) cout << "Error closing write file" << endl;
   }
@@ -80,7 +83,7 @@ int main() {
   }
   cout << "Reading uncompressed file:" << endl;
   while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
-    cout << "Line: " << line_test << endl;
+    hlog_regression("Line: '%s'", line_test);
   }
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
@@ -90,7 +93,7 @@ int main() {
 
   // With compression
 
-  writefile = new FileReaderWriter("test2/testfile", true);
+  writefile = new FileReaderWriter("test2/testfile.gz", true);
   writefile = new ZipWriter(writefile, true, 5);
   if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
@@ -100,7 +103,7 @@ int main() {
   }
   delete writefile;
 
-  fr = new FileReaderWriter("test2/testfile", false);
+  fr = new FileReaderWriter("test2/testfile.gz", false);
   fr = new UnzipReader(fr, true);
   readfile = new LineReader(fr, true);
   line_test = NULL;
@@ -108,24 +111,24 @@ int main() {
   readfile->open();
   cout << "Reading compressed empty file:" << endl;
   while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
-    cout << "Line: " << line_test << endl;
+    hlog_regression("Line: '%s'", line_test);
   }
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
 
 
-  writefile = new FileReaderWriter("test2/testfile", true);
+  writefile = new FileReaderWriter("test2/testfile.gz", true);
   writefile = new ZipWriter(writefile, true, 5);
   if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    writefile->write("abcdef\nghi\n", 11);
+    writefile->write("abcdef\nghi\njkl", 14);
     writefile->write(NULL, 0);
     if (writefile->close()) cout << "Error closing write file" << endl;
   }
   delete writefile;
 
-  fr = new FileReaderWriter("test2/testfile", false);
+  fr = new FileReaderWriter("test2/testfile.gz", false);
   fr = new UnzipReader(fr, true);
   readfile = new LineReader(fr, true);
   if (readfile->open()) {
@@ -133,7 +136,7 @@ int main() {
   }
   cout << "Reading compressed file:" << endl;
   while (readfile->getLine(&line_test, &line_test_capacity) > 0) {
-    cout << "Line: " << line_test << endl;
+    hlog_regression("Line: '%s'", line_test);
   }
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;

@@ -125,7 +125,6 @@ CvsParser::CvsParser(Mode mode, const string& dir_path)
     char type;
     if (*reader == 'D') {
       reader++;
-      // End of line check should go once getLine is fixed
       if ((*reader == '\0') || (*reader == '\n')) {
         // If a directory contains no subdirectories, the last line of the
         // entries file is a single 'D'

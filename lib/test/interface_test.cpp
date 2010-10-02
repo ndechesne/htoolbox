@@ -77,8 +77,13 @@ static int showClientConfigs() {
     if (! stream.open()) {
       char*  buffer = NULL;
       size_t capacity = 0;
-      while (stream.getLine(&buffer, &capacity) > 0) {
-        cout << buffer << endl;
+      ssize_t size;
+      while ((size = stream.getLine(&buffer, &capacity)) > 0) {
+        if (buffer[size - 1] == '\n') {
+          buffer[size - 1] = '\0';
+        }
+        printf("%s\n", buffer);
+        fflush(stdout);
       }
       free(buffer);
       stream.close();

@@ -72,17 +72,15 @@ ssize_t LineReader::write(const void*, size_t) {
 }
 
 ssize_t LineReader::getLine(char** buffer, size_t* buffer_capacity) {
-  // Initialize return values
-  bool         found  = false;
-  unsigned int count  = 0;
-  char*        writer = *buffer;
   // Make sure we have a buffer
   if (*buffer == NULL) {
     *buffer_capacity = 1024;
     *buffer = static_cast<char*>(malloc(*buffer_capacity));
-    writer = *buffer;
   }
   // Find end of line or end of file
+  size_t count  = 0;
+  char*  writer = *buffer;
+  bool   found  = false;
   do {
     // Fill up the buffer
     ssize_t size = _d->getline_reader.readable();
@@ -107,12 +105,12 @@ ssize_t LineReader::getLine(char** buffer, size_t* buffer_capacity) {
         *buffer = static_cast<char*>(realloc(*buffer, *buffer_capacity));
         writer = &(*buffer)[count];
       }
-      if (*reader == '\n') {
+      *writer++ = *reader;
+      count++;
+      if (*reader++ == '\n') {
         found = true;
         break;
       }
-      *writer++ = *reader++;
-      count++;
     }
     _d->getline_reader.readn(size - length);
   } while (! found);
