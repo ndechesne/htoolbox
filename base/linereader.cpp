@@ -82,10 +82,27 @@ int LineReader::close() {
   return _d->child->close();
 }
 
-ssize_t LineReader::read(void*, size_t) {
-  hlog_alert("cannot read from line reader module");
-  errno = EPROTO;
-  return -1;
+ssize_t LineReader::read(void* buffer, size_t size) {
+  // Check for buffered data first
+  size_t buffer_size = _d->buffer_end - _d->reader;
+  if (buffer_size != 0) {
+    size_t copy_size;
+    if (size <= buffer_size) {
+      // Get buffered data and exit
+      copy_size = size;
+    } else {
+      // Not enough data in buffer, flush it
+      copy_size = buffer_size;
+    }
+    memcpy(buffer, _d->reader, copy_size);
+    _d->reader += copy_size;
+    if (copy_size == size) {
+      return size;
+    }
+  }
+  // If we are here, then we need more data
+  char* cbuffer = static_cast<char*>(buffer);
+  return _d->child->read(&cbuffer[buffer_size], size - buffer_size);
 }
 
 // Not implemented

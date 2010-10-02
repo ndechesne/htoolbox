@@ -1,23 +1,29 @@
+Empty file
 Reading uncompressed empty file:
+Simple file
 Reading uncompressed file:
 Line[128] (7): 'abcdef
 '
 Line[128] (4): 'ghi
 '
 Line[128] (3): 'jkl'
+Compressed empty file
 Reading compressed empty file:
+Compressed simple file
 Reading compressed file:
 Line[128] (7): 'abcdef
 '
 Line[128] (4): 'ghi
 '
 Line[128] (3): 'jkl'
+Compressed simple file, getDelim()
 Reading compressed file:
 Line[128] (7): 'abcdef'
 Line[128] (5): '
 ghi'
 Line[128] (4): '
 jkl'
+Compressed huge file with huge lines, getDelim()
 Reading compressed big file:
 Line[16384] (10000): ok
 Line[32768] (20000): ok
@@ -38,3 +44,26 @@ Line[262144] (160000): ok
 Line[262144] (170000): ok
 Line[262144] (180000): ok
 Line[262144] (190000): ok
+Same file, getDelim() / read() / getDelim()
+Reading compressed big file:
+Line[262144] (10000): ok
+Line[262144] (20000): ok
+Line[262144] (30000): ok
+Line[262144] (40000): ok
+Line[262144] (50000): ok
+Line[262144] (60000): ok
+Line[262144] (70000): ok
+Line[262144] (80000): ok
+Line[262144] (90000): ok
+Line[262144] (100000): ok
+Line[262144] (110000): ok
+Line[262144] (120000): ok
+Line[262144] (130000): ok
+Line[262144] (140000): ok
+Line[262144] (150000): ok
+Line[262144] (160000): ok
+read 10 bytes: ok
+Line[262144] (169990): ok
+Line[262144] (180000): ok
+read 89200 bytes: ok
+Line[262144] (70000): ok

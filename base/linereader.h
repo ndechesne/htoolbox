@@ -25,9 +25,9 @@ namespace htools {
 
 //! \brief Line per line reader
 /*!
- * Allows to read a file line by line, but only this way.
- *
- * Specific getLine() method must be used.
+ * Allows to read a file line by line using getLine() or, if you need to specify
+ * the delimiter, using getDelim().  The read() function may also be used at any
+ * time.
  */
 class LineReader : public IReaderWriter {
   struct         Private;
@@ -42,7 +42,6 @@ public:
   ~LineReader();
   int open();
   int close();
-  //! \brief Always fail to read, only use getLine
   ssize_t read(void* buffer, size_t size);
   //! \brief Always fail to write, as this is a reader
   ssize_t write(const void* buffer, size_t size);
