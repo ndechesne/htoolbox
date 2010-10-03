@@ -29,6 +29,7 @@ using namespace htools;
 
 int main() {
   report.setLevel(regression);
+  int sys_rc = 0;
 
   {
     FileReaderWriter frw("testfile", true);
@@ -63,13 +64,13 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    system("md5sum testfile");
+    sys_rc = system("md5sum testfile");
   }
 
   {
     char buffer[6000];
     memset(buffer, 0, sizeof(buffer));
-    size_t size;
+    size_t size = 0;
 
     FileReaderWriter frw("testfile", false);
     char hash[129];
@@ -121,7 +122,7 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    system("md5sum testfile2");
+    sys_rc = system("md5sum testfile2");
   }
 
   {
@@ -157,13 +158,13 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    system("sha1sum testfile");
+    sys_rc = system("sha1sum testfile");
   }
 
   {
     char buffer[6000];
     memset(buffer, 0, sizeof(buffer));
-    size_t size;
+    size_t size = 0;
 
     FileReaderWriter frw("testfile", false);
     char hash[64];
@@ -215,7 +216,7 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    system("sha1sum testfile2");
+    sys_rc = system("sha1sum testfile2");
   }
 
   {
@@ -251,13 +252,13 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    system("sha256sum testfile");
+    sys_rc = system("sha256sum testfile");
   }
 
   {
     char buffer[6000];
     memset(buffer, 0, sizeof(buffer));
-    size_t size;
+    size_t size = 0;
 
     FileReaderWriter frw("testfile", false);
     char hash[64];
@@ -309,7 +310,7 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    system("sha256sum testfile2");
+    sys_rc = system("sha256sum testfile2");
   }
 
   {
@@ -345,13 +346,13 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    system("sha512sum testfile");
+    sys_rc = system("sha512sum testfile");
   }
 
   {
     char buffer[6000];
     memset(buffer, 0, sizeof(buffer));
-    size_t size;
+    size_t size = 0;
 
     FileReaderWriter frw("testfile", false);
     char hash[64];
@@ -403,7 +404,7 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    system("sha512sum testfile2");
+    sys_rc = system("sha512sum testfile2");
   }
 
   return 0;

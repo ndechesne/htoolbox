@@ -58,7 +58,7 @@ int main() {
     ++count;
     char buffer[1];
     rc = hr.read(buffer, sizeof(buffer));
-    if ((rc > 0) && (rc < sizeof(buffer))) {
+    if ((rc > 0) && (rc < static_cast<ssize_t>(sizeof(buffer)))) {
       hlog_regression("only read %zd bytes on iteration #%zu", rc, count);
     }
   } while (rc > 0);
@@ -72,7 +72,7 @@ int main() {
     ++count;
     char buffer[300000];
     rc = hr.read(buffer, sizeof(buffer));
-    if ((rc > 0) && (rc < sizeof(buffer))) {
+    if ((rc > 0) && (rc < static_cast<ssize_t>(sizeof(buffer)))) {
       hlog_regression("only read %zd bytes on iteration #%zu", rc, count);
     }
   } while (rc > 0);
@@ -86,7 +86,7 @@ int main() {
     ++count;
     char buffer[4000000];
     rc = hr.read(buffer, sizeof(buffer));
-    if ((rc > 0) && (rc < sizeof(buffer))) {
+    if ((rc > 0) && (rc < static_cast<ssize_t>(sizeof(buffer)))) {
       hlog_regression("only read %zd bytes on iteration #%zu", rc, count);
     }
   } while (rc > 0);

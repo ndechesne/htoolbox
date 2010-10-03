@@ -91,7 +91,7 @@ static void showList(ListReader& list) {
       cout << list.path() << " is empty" << endl;
     } else {
       ListReader::Status rc;
-      const char* path;
+      const char* path = "";
       while ((rc = list.fetchLine()) > 0) {
         if (rc == ListReader::got_path) {
           path = list.getPath();

@@ -29,6 +29,7 @@ using namespace htools;
 
 int main() {
   report.setLevel(regression);
+  int sys_rc = 0;
 
   {
     FileReaderWriter fw("testfile", true);
@@ -59,13 +60,13 @@ int main() {
         hlog_regression("%s closing file", strerror(errno));
       }
     }
-    system("md5sum testfile");
+    sys_rc = system("md5sum testfile");
   }
 
   {
     char buffer[6000];
     memset(buffer, 0, sizeof(buffer));
-    size_t size;
+    size_t size = 0;
 
     FileReaderWriter fr("testfile", false);
     if (fr.open() < 0) {
@@ -113,7 +114,7 @@ int main() {
         hlog_regression("%s closing file", strerror(errno));
       }
     }
-    system("md5sum testfile2");
+    sys_rc = system("md5sum testfile2");
   }
 
   return 0;
