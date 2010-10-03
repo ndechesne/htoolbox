@@ -391,12 +391,12 @@ int Database::restore(
     switch (db_node->type()) {
       case 'f': {
           File* f = static_cast<File*>(db_node);
-          if (f->checksum()[0] == '\0') {
+          if (f->hash()[0] == '\0') {
             hlog_error("Data missing restoring file '%s'", base.c_str());
             this_failed = true;
           } else
           if (links == HBackup::none) {
-            if (_d->data.read(base.c_str(), f->checksum())) {
+            if (_d->data.read(base.c_str(), f->hash())) {
               hlog_error("%s restoring file '%s'", strerror(errno),
                 base.c_str());
               this_failed = true;
@@ -405,7 +405,7 @@ int Database::restore(
             string path;
             string extension;
             string dest(base.c_str());
-            if (_d->data.name(f->checksum(), path, extension)) {
+            if (_d->data.name(f->hash(), path, extension)) {
               this_failed = true;
             } else {
               dest += extension;

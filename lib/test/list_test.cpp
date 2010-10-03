@@ -49,7 +49,7 @@ public:
       List::encode(*node, line, &sep_offset);
       const char* extra = NULL;
       if (node->type() == 'f') {
-        extra = static_cast<const File*>(node)->checksum();
+        extra = node->hash();
       } else
       if (node->type() == 'l') {
         extra = node->link();
@@ -72,7 +72,7 @@ static void showLine(time_t timestamp, const char* path, const Node* node) {
   if (node != NULL) {
     printf(" %c %8lld %03o", node->type(), node->size(), node->mode());
     if (node->type() == 'f') {
-      printf(" %s", static_cast<const File*>(node)->checksum());
+      printf(" %s", node->hash());
     }
     if (node->type() == 'l') {
       printf(" %s", node->link());
@@ -171,7 +171,7 @@ int main(void) {
 
   node = new File("test1/testfile");
   computeHash(node->path(), hash);
-  static_cast<File*>(node)->setChecksum(hash);
+  node->setHash(hash);
   journal.add("file_new", time(NULL), node);
   delete node;
 
@@ -262,13 +262,13 @@ int main(void) {
 
   node = new File("test1/test space");
   computeHash(node->path(), hash);
-  static_cast<File*>(node)->setChecksum(hash);
+  node->setHash(hash);
   journal.add("file sp", time(NULL), node);
   delete node;
 
   node = new File("test1/testfile");
   computeHash(node->path(), hash);
-  static_cast<File*>(node)->setChecksum(hash);
+  node->setHash(hash);
   journal.add("file_new", time(NULL), node);
   delete node;
 
@@ -345,7 +345,7 @@ int main(void) {
   sys_rc = system("echo \"this is my new test\" > test1/testfile");
   node = new File("test1/testfile");
   computeHash(node->path(), hash);
-  static_cast<File*>(node)->setChecksum(hash);
+  node->setHash(hash);
   journal.add("file_new", time(NULL), node);
   journal.add("file_gone", time(NULL), node);
   delete node;
@@ -490,7 +490,7 @@ int main(void) {
   sys_rc = system("echo \"this is my other test\" > test1/testfile");
   node = new File("test1/testfile");
   computeHash(node->path(), hash);
-  static_cast<File*>(node)->setChecksum(hash);
+  node->setHash(hash);
   journal.add("file_new", time(NULL), node);
   delete node;
   node = NULL;
@@ -561,7 +561,7 @@ int main(void) {
 
   node = new File("test1/testfile");
   computeHash(node->path(), hash);
-  static_cast<File*>(node)->setChecksum(hash);
+  node->setHash(hash);
   journal.add("file_new", time(NULL), node);
   delete node;
 

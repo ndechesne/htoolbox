@@ -989,7 +989,7 @@ void ListReader::show(
         if (node != NULL) {
           printf(" %c %8lld %03o", node->type(), node->size(), node->mode());
           if (node->type() == 'f') {
-            printf(" %s", static_cast<const File*>(node)->checksum());
+            printf(" %s", node->hash());
           }
           if (node->type() == 'l') {
             printf(" %s", node->link());

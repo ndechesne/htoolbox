@@ -65,7 +65,8 @@ protected:
   gid_t       _gid;       // group ID of owner
   mode_t      _mode;      // permissions
   bool        _parsed;    // more info available using proper type
-  std::string _link;
+  char        _hash[129]; // regular file hash
+  std::string _link;      // symbolic link value
 public:
   // Default constructor
   Node(const Node& g) :
@@ -120,6 +121,8 @@ public:
   // Reset some metadata
   void setMtime(time_t mtime)    { _mtime = mtime; }
   void setSize(long long size)   { _size  = size;  }
+  // Only used in list test
+  void setHash(const char* hash) { strcpy(_hash, hash); }
   void setLink(const char* link) { _link = link;   }
   // Operators
   bool operator<(const Node& right) const {
@@ -127,7 +130,7 @@ public:
     return Path::compare(_path, right._path) < 0;
   }
   // Data read access
-  virtual bool  isValid() const { return _type != '?';  }
+  bool          isReg()   const { return _type == 'f';  }
   bool          isLink()  const { return _type == 'l';  }
   const char*   path()    const { return _path;         }
   const char*   name()    const { return _basename;     }
@@ -138,14 +141,13 @@ public:
   gid_t         gid()     const { return _gid;          }
   mode_t        mode()    const { return _mode;         }
   bool          parsed()  const { return _parsed;       }
+  const char*   hash()    const { return _hash;         }
   const char*   link()    const { return _link.c_str(); }
   // Remove node
   int remove();
 };
 
 class File : public Node {
-protected:
-  char _hash[64];
 public:
   // Constructor for existing Node
   File(const File& g) : Node(g) {
@@ -172,14 +174,11 @@ public:
     mode_t      mode,
     const char* hash) : Node(name, type, mtime, size, uid, gid, mode) {
     _parsed = true;
-    setChecksum(hash);
+    strcpy(_hash, hash);;
   }
   bool isValid() const { return _type == 'f'; }
   // Create empty file
   int create();
-  // Data read access
-  const char* checksum() const { return _hash;  }
-  void setChecksum(const char* hash) { strcpy(_hash, hash); }
 };
 
 class Directory : public Node {
