@@ -30,7 +30,7 @@ using namespace std;
 
 #include "hreport.h"
 #include "filereaderwriter.h"
-#include "linereader.h"
+#include "linereaderwriter.h"
 #include "hbackup.h"
 #include "files.h"
 #include "configuration.h"
@@ -100,7 +100,8 @@ int Missing::close() {
       hlog_info("Missing checksums list updated");
     }
     string part = path + ".part";
-    FileReaderWriter missing_list(part.c_str(), true);
+    FileReaderWriter fw(part.c_str(), true);
+    LineReaderWriter missing_list(&fw, false);
     if (missing_list.open() < 0) {
       hlog_error("%s saving problematic checksums list '%s'", strerror(errno),
         part.c_str());
@@ -110,11 +111,10 @@ int Missing::close() {
       count = 0;
       for (unsigned int i = 0; i < _d->data.size(); i++) {
         if (_d->data[i].status != recovered) {
-          rc = missing_list.write(_d->data[i].line().c_str(),
-            _d->data[i].line().size());
-          if (rc < 0) break;
-          rc = missing_list.write("\n", 1);
-          if (rc < 0) break;
+          if (missing_list.putLine(_d->data[i].line().c_str(),
+                                   _d->data[i].line().size()) < 0) {
+            break;
+          }
           count++;
         }
         if (_d->progress != NULL) {
@@ -155,7 +155,7 @@ int Missing::load() {
   // Read list of problematic checksums (it is ordered and contains no dup)
   hlog_verbose("Reading list of problematic checksums");
   FileReaderWriter fr(_d->path, false);
-  LineReader missing_list(&fr, false);
+  LineReaderWriter missing_list(&fr, false);
   if (! missing_list.open()) {
     char* line = NULL;
     size_t line_capacity = 0;

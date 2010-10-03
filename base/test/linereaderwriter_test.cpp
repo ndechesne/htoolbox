@@ -29,7 +29,7 @@ using namespace std;
 #include "filereaderwriter.h"
 #include "zipwriter.h"
 #include "unzipreader.h"
-#include "linereader.h"
+#include "linereaderwriter.h"
 
 using namespace htools;
 
@@ -37,7 +37,7 @@ int main() {
   report.setLevel(regression);
 
   IReaderWriter* fr;
-  LineReader*    readfile;
+  LineReaderWriter*    readfile;
 
   IReaderWriter* writefile;
 
@@ -52,13 +52,12 @@ int main() {
   if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    writefile->write(NULL, 0);
     if (writefile->close()) cout << "Error closing write file" << endl;
   }
   delete writefile;
 
   fr = new FileReaderWriter("lineread", false);
-  readfile = new LineReader(fr, true);
+  readfile = new LineReaderWriter(fr, true);
   line_test = NULL;
   line_test_capacity = 0;
   readfile->open();
@@ -84,7 +83,7 @@ int main() {
   delete writefile;
 
   fr = new FileReaderWriter("lineread", false);
-  readfile = new LineReader(fr, true);
+  readfile = new LineReaderWriter(fr, true);
   if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
@@ -106,14 +105,13 @@ int main() {
   if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    writefile->write(NULL, 0);
     if (writefile->close()) cout << "Error closing write file" << endl;
   }
   delete writefile;
 
   fr = new FileReaderWriter("lineread.gz", false);
   fr = new UnzipReader(fr, true);
-  readfile = new LineReader(fr, true);
+  readfile = new LineReaderWriter(fr, true);
   line_test = NULL;
   line_test_capacity = 0;
   readfile->open();
@@ -130,18 +128,21 @@ int main() {
 
   writefile = new FileReaderWriter("lineread.gz", true);
   writefile = new ZipWriter(writefile, true, 5);
-  if (writefile->open()) {
+  LineReaderWriter* writeline = new LineReaderWriter(writefile, false);
+  if (writeline->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    writefile->write("abcdef\nghi\njkl", 14);
-    writefile->write(NULL, 0);
-    if (writefile->close()) cout << "Error closing write file" << endl;
+    writeline->putLine("abcdef", 6);
+    writeline->putLine("ghi", 3);
+    writeline->write("jkl", 3);
+    if (writeline->close()) cout << "Error closing write file" << endl;
   }
   delete writefile;
+  delete writeline;
 
   fr = new FileReaderWriter("lineread.gz", false);
   fr = new UnzipReader(fr, true);
-  readfile = new LineReader(fr, true);
+  readfile = new LineReaderWriter(fr, true);
   if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
@@ -169,7 +170,7 @@ int main() {
 
   fr = new FileReaderWriter("lineread.gz", false);
   fr = new UnzipReader(fr, true);
-  readfile = new LineReader(fr, true);
+  readfile = new LineReaderWriter(fr, true);
   if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
@@ -190,21 +191,22 @@ int main() {
   }
   writefile = new FileReaderWriter("lineread.gz", true);
   writefile = new ZipWriter(writefile, true, 5);
-  if (writefile->open()) {
+  writeline = new LineReaderWriter(writefile, false);
+  if (writeline->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     for (size_t i = 1; i < 20; ++i) {
-      writefile->write("\n", 1);
-      writefile->write(line, sizeof(line) * i / 20 - 2);
-      writefile->write("\b", 1);
+      writeline->write("\n", 1);
+      writeline->putLine(line, sizeof(line) * i / 20 - 2, '\b');
     }
-    if (writefile->close()) cout << "Error closing write file" << endl;
+    if (writeline->close()) cout << "Error closing write file" << endl;
   }
+  delete writeline;
   delete writefile;
 
   fr = new FileReaderWriter("lineread.gz", false);
   fr = new UnzipReader(fr, true);
-  readfile = new LineReader(fr, true);
+  readfile = new LineReaderWriter(fr, true);
   if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
@@ -224,7 +226,7 @@ int main() {
 
   fr = new FileReaderWriter("lineread.gz", false);
   fr = new UnzipReader(fr, true);
-  readfile = new LineReader(fr, true);
+  readfile = new LineReaderWriter(fr, true);
   if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }

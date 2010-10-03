@@ -14,7 +14,7 @@ libhtools_la_SOURCES = \
   files.cpp \
   filereaderwriter.cpp \
   hasher.cpp \
-  linereader.cpp \
+  linereaderwriter.cpp \
   multiwriter.cpp \
   report.cpp \
   share.cpp \
@@ -30,7 +30,7 @@ EXTRA_DIST = \
   files.h \
   hasher.h \
   ireaderwriter.h \
-  linereader.h \
+  linereaderwriter.h \
   multiwriter.h \
   share.h \
   stackhelper.h \

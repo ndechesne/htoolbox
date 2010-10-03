@@ -11,7 +11,7 @@ check_PROGRAMS = \
   filereaderwriter_test \
   files_test \
   hasher_test \
-  linereader_test \
+  linereaderwriter_test \
   report_test \
   zip_unzip_test \
   $(NULL)
@@ -21,7 +21,7 @@ configuration_test_SOURCES = configuration_test.cpp
 filereaderwriter_test_SOURCES = filereaderwriter_test.cpp
 files_test_SOURCES = files_test.cpp
 hasher_test_SOURCES = hasher_test.cpp
-linereader_test_SOURCES = linereader_test.cpp
+linereaderwriter_test_SOURCES = linereaderwriter_test.cpp
 report_test_SOURCES = report_test.cpp
 zip_unzip_test_SOURCES = zip_unzip_test.cpp
 
@@ -30,7 +30,7 @@ LDADD = $(top_builddir)/base/libhtools.la
 check_SUCCESSES = \
   configuration.done \
   filereaderwriter.done \
-  linereader.done \
+  linereaderwriter.done \
   hasher.done \
   asyncwriter.done \
   files.done \
@@ -44,7 +44,7 @@ EXTRA_DIST = \
   files.exp \
   filereaderwriter.exp \
   hasher.exp \
-  linereader.exp \
+  linereaderwriter.exp \
   report.exp \
   zip_unzip.exp \
   $(NULL)

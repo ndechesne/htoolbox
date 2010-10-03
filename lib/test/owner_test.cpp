@@ -28,7 +28,7 @@ using namespace std;
 #include "test.h"
 
 #include "filereaderwriter.h"
-#include "linereader.h"
+#include "linereaderwriter.h"
 #include "files.h"
 #include "list.h"
 #include "missing.h"
@@ -65,7 +65,7 @@ time_t time(time_t *t) {
 
 static int showRegister(const char* path) {
   FileReaderWriter fr(path, false);
-  LineReader list(&fr, false);
+  LineReaderWriter list(&fr, false);
   if (list.open()) {
     cout << strerror(errno) << " opening list at '" << path << "'" << endl;
     return -1;

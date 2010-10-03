@@ -21,7 +21,7 @@
 #include "errno.h"
 
 #include "hreport.h"
-#include "linereader.h"
+#include "linereaderwriter.h"
 
 using namespace htools;
 
@@ -29,7 +29,7 @@ enum {
   BUFFER_SIZE = 102400
 };
 
-struct LineReader::Private {
+struct LineReaderWriter::Private {
   IReaderWriter*  child;
   bool            delete_child;
   char            buffer[102400];
@@ -63,26 +63,26 @@ struct LineReader::Private {
   }
 };
 
-LineReader::LineReader(IReaderWriter* child, bool delete_child) :
+LineReaderWriter::LineReaderWriter(IReaderWriter* child, bool delete_child) :
   _d(new Private(child, delete_child)) {}
 
-LineReader::~LineReader() {
+LineReaderWriter::~LineReaderWriter() {
   if (_d->delete_child) {
     delete _d->child;
   }
   delete _d;
 }
 
-int LineReader::open() {
+int LineReaderWriter::open() {
   _d->reset();
   return _d->child->open();
 }
 
-int LineReader::close() {
+int LineReaderWriter::close() {
   return _d->child->close();
 }
 
-ssize_t LineReader::read(void* buffer, size_t size) {
+ssize_t LineReaderWriter::read(void* buffer, size_t size) {
   // Check for buffered data first
   size_t buffer_size = _d->buffer_end - _d->reader;
   if (buffer_size != 0) {
@@ -105,14 +105,11 @@ ssize_t LineReader::read(void* buffer, size_t size) {
   return _d->child->read(&cbuffer[buffer_size], size - buffer_size);
 }
 
-// Not implemented
-ssize_t LineReader::write(const void*, size_t) {
-  hlog_alert("cannot write to line reader module");
-  errno = EPROTO;
-  return -1;
+ssize_t LineReaderWriter::write(const void* buffer, size_t size) {
+  return _d->child->write(buffer, size);
 }
 
-ssize_t LineReader::getLine(char** buffer_p, size_t* capacity_p, int delim) {
+ssize_t LineReaderWriter::getLine(char** buffer_p, size_t* capacity_p, int delim) {
   // Find end of line or end of file
   size_t count = 0;
   bool   found = false;
@@ -151,4 +148,12 @@ ssize_t LineReader::getLine(char** buffer_p, size_t* capacity_p, int delim) {
   } while (! found);
   (*buffer_p)[count] = '\0';
   return count;
+}
+
+ssize_t LineReaderWriter::putLine(const void* buffer, size_t size, int delim) {
+  ssize_t rc = _d->child->write(buffer, size);
+  if ((rc < 0) || (_d->child->write(&delim, 1) < 0)) {
+    return -1;
+  }
+  return rc;
 }

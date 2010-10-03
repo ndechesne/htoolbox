@@ -28,7 +28,7 @@ using namespace std;
 #include "test.h"
 
 #include "filereaderwriter.h"
-#include "linereader.h"
+#include "linereaderwriter.h"
 #include "files.h"
 #include "configuration.h"
 #include "conditions.h"
@@ -73,7 +73,7 @@ static int showClientConfigs() {
     cout << "Config for " << (*i)->path() << endl;
     Config config;
     FileReaderWriter fr((*i)->path(), false);
-    LineReader stream(&fr, false);
+    LineReaderWriter stream(&fr, false);
     if (! stream.open()) {
       char*  buffer = NULL;
       size_t capacity = 0;

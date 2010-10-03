@@ -16,8 +16,8 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef _LINEREADER_H
-#define _LINEREADER_H
+#ifndef _LINEREADERWRITER_H
+#define _LINEREADERWRITER_H
 
 #include <ireaderwriter.h>
 
@@ -29,7 +29,7 @@ namespace htools {
  * the delimiter, using getDelim().  The read() function may also be used at any
  * time.
  */
-class LineReader : public IReaderWriter {
+class LineReaderWriter : public IReaderWriter {
   struct         Private;
   Private* const _d;
 public:
@@ -38,28 +38,39 @@ public:
    * \param child        underlying stream used to get the actual data
    * \param delete_child whether to also delete child at destruction
   */
-  LineReader(IReaderWriter* child, bool delete_child);
-  ~LineReader();
+  LineReaderWriter(IReaderWriter* child, bool delete_child);
+  ~LineReaderWriter();
   int open();
   int close();
   ssize_t read(void* buffer, size_t size);
-  //! \brief Always fail to write, as this is a reader
   ssize_t write(const void* buffer, size_t size);
   //! \brief Read complete line from stream
   /*!
-   * getLine() reads  an  entire line from stream, storing the address of the
-   * buffer containing the text into *buffer.  A delimiter other than newline
-   * can be specified as the delimiter argument.  The buffer is null-terminated
-   * and includes the delimiter character, if one was found.
+   * getLine() reads an entire line from the underlying stream, storing the
+   * address of the buffer containing the text into *buffer.  A delimiter other
+   * than newline can be specified as the delimiter argument.  The buffer is
+   * null-terminated and includes the delimiter character, if one was found.
    *
    * \param buffer_p    pointer to the current/realloc'd buffer
    * \param capacity_p  *buffer_p's current/updated capacity
    * \param delim       delimiter to use
-   * \return            negative number on failure, positive or null on success
+   * \return            negative number on failure, buffer size on success
   */
   ssize_t getLine(char** buffer_p, size_t* capacity_p, int delim = '\n');
+  //! \brief Write a line to stream
+  /*!
+   * putLine() writes size bytes of buffer to the underlying stream, and adds
+   * the delimiter character.  A delimiter other than newline can be specified
+   * as the delimiter argument.
+   *
+   * \param buffer      buffer from which to read the data
+   * \param size        provided number of bytes
+   * \param delim       delimiter to use
+   * \return            negative number on failure, size on success
+  */
+  ssize_t putLine(const void* buffer, size_t size, int delim = '\n');
 };
 
 };
 
-#endif // _LINEREADER_H
+#endif // _LINEREADERWRITER_H

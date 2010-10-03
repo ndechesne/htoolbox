@@ -22,7 +22,7 @@
 using namespace std;
 
 #include "filereaderwriter.h"
-#include "linereader.h"
+#include "linereaderwriter.h"
 
 using namespace htools;
 
@@ -101,7 +101,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path)
   }
   string path = dir_path + control_dir + entries;
   FileReaderWriter fr(path.c_str(), false);
-  LineReader entries_file(&fr, false);
+  LineReaderWriter entries_file(&fr, false);
 
   // Save mode
   _mode = mode;
