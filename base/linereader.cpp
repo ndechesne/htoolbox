@@ -112,7 +112,7 @@ ssize_t LineReader::write(const void*, size_t) {
   return -1;
 }
 
-ssize_t LineReader::getDelim(char** buffer_p, size_t* capacity_p, int delim) {
+ssize_t LineReader::getLine(char** buffer_p, size_t* capacity_p, int delim) {
   // Find end of line or end of file
   size_t count = 0;
   bool   found = false;

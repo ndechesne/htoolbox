@@ -174,7 +174,7 @@ int main() {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
   cout << "Reading compressed file:" << endl;
-  while ((line_size = readfile->getDelim(&line_test, &line_test_capacity, '\b')) > 0) {
+  while ((line_size = readfile->getLine(&line_test, &line_test_capacity, '\b')) > 0) {
     hlog_regression("Line[%zu] (%zd): '%s'",
       line_test_capacity, line_size, line_test);
   }
@@ -209,7 +209,7 @@ int main() {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
   cout << "Reading compressed big file:" << endl;
-  while ((line_size = readfile->getDelim(&line_test, &line_test_capacity, '\b')) > 0) {
+  while ((line_size = readfile->getLine(&line_test, &line_test_capacity, '\b')) > 0) {
     bool ok = (line_test[0] == '\n') &&
               (memcmp(line, &line_test[1], line_size - 2) == 0) &&
               (line_test[line_size - 1] == '\b');
@@ -230,7 +230,7 @@ int main() {
   }
   cout << "Reading compressed big file:" << endl;
   size_t iteration = 0;
-  while ((line_size = readfile->getDelim(&line_test, &line_test_capacity, '\b')) > 0) {
+  while ((line_size = readfile->getLine(&line_test, &line_test_capacity, '\b')) > 0) {
     ++iteration;
     bool ok;
     if (iteration == 17) {
