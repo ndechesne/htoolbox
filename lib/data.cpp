@@ -167,7 +167,7 @@ long long Data::copy(
     return -1;
   }
   // Copy loop
-  enum { BUFFER_SIZE = 1 << 19 }; // Total buffered size = 1 MiB
+  enum { BUFFER_SIZE = 102400 };  // Too big and we end up wasting time
   char buffer1[BUFFER_SIZE];      // odd buffer
   char buffer2[BUFFER_SIZE];      // even buffer
   char* buffer = buffer1;         // currently unused buffer
