@@ -8,8 +8,8 @@ LIBS = $(top_builddir)/base/libhtools.la
 
 pkglib_LTLIBRARIES = cvs_parser.la svn_parser.la
 
-cvs_parser_la_LDFLAGS = -version-info $(LIB_VERSION) -module
+cvs_parser_la_LDFLAGS = -avoid-version -module
 cvs_parser_la_SOURCES = cvs_parser.cpp
 
-svn_parser_la_LDFLAGS = -version-info $(LIB_VERSION) -module
+svn_parser_la_LDFLAGS = -avoid-version -module
 svn_parser_la_SOURCES = svn_parser.cpp
