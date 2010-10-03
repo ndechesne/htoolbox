@@ -136,7 +136,7 @@ Condition* Filter::configChildFactory(
   } else
   if (type == "name_regex") {
     cond = new Condition(Condition::name_regex, value.c_str(), negated);
-    Node test("", false);
+    Node test("");
     if (cond->match(test) < 0) {
       hlog_error("%s:%zd cannot create regex '%s'",
         file_path, line_no, value.c_str());
@@ -155,7 +155,7 @@ Condition* Filter::configChildFactory(
   } else
   if (type == "path_regex") {
     cond = new Condition(Condition::name_regex, value.c_str(), negated);
-    Node test("", false);
+    Node test("");
     if (cond->match(test) < 0) {
       hlog_error("%s:%zd cannot create regex '%s'",
         file_path, line_no, value.c_str());

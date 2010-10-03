@@ -43,12 +43,6 @@ static int parseList(Directory *d, const char* cur_dir) {
   while (i != d->nodesList().end()) {
     Node* payload = *i;
     switch (payload->type()) {
-      case 'f': {
-        File *f = new File(*payload);
-        delete *i;
-        *i = f;
-      }
-      break;
       case 'd': {
         Directory *di = new Directory(*payload);
         delete *i;
@@ -72,9 +66,13 @@ static void showList(const Directory& d, int level = 0);
 
 static void defaultShowFile(const Node& g) {
   const char* type;
+  if (g.type() == 'f') {
+    type = "File";
+  } else
   if (g.type() == 'l') {
     type = "Link";
-  } else {
+  } else
+  {
     type = "Oth.";
   }
   printf("%s: %s, path = %s, type = %c, mtime = %d, size = %lld, uid = %d, "
@@ -93,40 +91,24 @@ static void showFile(const Node& g, int level = 1) {
   cout << " ";
   while (level_no--) cout << "-";
   cout << "> ";
-  if (g.parsed()) {
-    switch (g.type()) {
-      case 'f': {
-        const File& f = static_cast<const File&>(g);
-        cout << "File: " << f.name()
-          << ", path = " << f.path()
-          << ", type = " << f.type()
-          << ", mtime = " << (f.mtime() != 0)
-          << ", size = " << f.size()
-          << ", uid = " << static_cast<int>(f.uid() != 0)
-          << ", gid = " << static_cast<int>(f.gid() != 0)
-          << oct << ", mode = " << f.mode() << dec
-          << endl;
-      } break;
-      case 'd': {
-        const Directory& d = static_cast<const Directory&>(g);
-        cout << "Dir.: " << d.name()
-          << ", path = " << d.path()
-          << ", type = " << d.type()
-          << ", mtime = " << (d.mtime() != 0)
-          << ", size = " << (d.size() != 0)
-          << ", uid = " << static_cast<int>(d.uid() != 0)
-          << ", gid = " << static_cast<int>(d.gid() != 0)
-          << oct << ", mode = " << d.mode() << dec
-          << endl;
-        if (level) {
-          showList(d, level);
-        }
-      } break;
-      default:
-        defaultShowFile(g);
-    }
-  } else {
-    defaultShowFile(g);
+  switch (g.type()) {
+    case 'd': {
+      const Directory& d = static_cast<const Directory&>(g);
+      cout << "Dir.: " << d.name()
+        << ", path = " << d.path()
+        << ", type = " << d.type()
+        << ", mtime = " << (d.mtime() != 0)
+        << ", size = " << (d.size() != 0)
+        << ", uid = " << static_cast<int>(d.uid() != 0)
+        << ", gid = " << static_cast<int>(d.gid() != 0)
+        << oct << ", mode = " << d.mode() << dec
+        << endl;
+      if (level) {
+        showList(d, level);
+      }
+    } break;
+    default:
+      defaultShowFile(g);
   }
 }
 
@@ -146,19 +128,7 @@ static void showList(const Directory& d, int level) {
 
 static void createNshowFile(const Node &g) {
   switch (g.type()) {
-  case 'f': {
-    File *f = new File(g);
-    cout << "Name: " << f->name()
-      << ", path = " << f->path()
-      << ", type = " << f->type()
-      << ", mtime = " << (f->mtime() != 0)
-      << ", size = " << f->size()
-      << ", uid = " << static_cast<int>(f->uid() != 0)
-      << ", gid = " << static_cast<int>(f->gid() != 0)
-      << oct << ", mode = " << f->mode() << dec
-      << endl;
-    delete f; }
-    break;
+  case 'f':
   case 'l':
     defaultShowFile(g);
     break;
@@ -302,23 +272,22 @@ int main(void) {
   cout << endl << "File types" << endl;
   // File types
   Node *g;
-  g = new Node("test1/testfile", true);
+  g = new Node("test1/testfile");
   createNshowFile(*g);
   delete g;
-  g = new Node("test1/testlink", true);
+  g = new Node("test1/testlink");
   createNshowFile(*g);
   delete g;
-  g = new Node("test1/testdir", true);
+  g = new Node("test1/testdir");
   createNshowFile(*g);
   delete g;
-  g = new Node("test1/subdir", true);
+  g = new Node("test1/subdir");
   createNshowFile(*g);
   delete g;
 
 
   cout << endl << "Link change" << endl;
-  Node* l = new Node("test1/testlink", false);
-  l->stat();
+  Node* l = new Node("test1/testlink");
   showFile(*l);
   char max_link[PATH_MAX];
   memset(max_link, '?', sizeof(max_link) - 1);
@@ -329,58 +298,58 @@ int main(void) {
 
 
   cout << endl << "Validity tests" << endl;
-  cout << "File is file? " << File("test1/testfile").isValid() << endl;
+  cout << "File is file? " << Node("test1/testfile").isReg() << endl;
   cout << "File is dir? " << Directory("test1/testfile").isValid() << endl;
-  cout << "File is link? " << Node("test1/testfile", true).isLink() << endl;
-  cout << "Dir is file? " << File("test1/testdir").isValid() << endl;
+  cout << "File is link? " << Node("test1/testfile").isLink() << endl;
+  cout << "Dir is file? " << Node("test1/testdir").isReg() << endl;
   cout << "Dir is dir? " << Directory("test1/testdir").isValid() << endl;
-  cout << "Dir is link? " << Node("test1/testdir", true).isLink() << endl;
-  cout << "Link is file? " << File("test1/testlink").isValid() << endl;
+  cout << "Dir is link? " << Node("test1/testdir").isLink() << endl;
+  cout << "Link is file? " << Node("test1/testlink").isReg() << endl;
   cout << "Link is dir? " << Directory("test1/testlink").isValid() << endl;
-  cout << "Link is link? " << Node("test1/testlink", true).isLink() << endl;
+  cout << "Link is link? " << Node("test1/testlink").isLink() << endl;
 
   cout << endl << "Creation tests" << endl;
-  cout << "File is file? " << File("test1/touchedfile").isValid() << endl;
+  cout << "File is file? " << Node("test1/touchedfile").isReg() << endl;
   cout << "File is dir? " << Directory("test1/touchedfile").isValid() << endl;
-  cout << "File is link? " << Node("test1/touchedfile", true).isLink() << endl;
-  cout << "Dir is file? " << File("test1/toucheddir").isValid() << endl;
+  cout << "File is link? " << Node("test1/touchedfile").isLink() << endl;
+  cout << "Dir is file? " << Node("test1/toucheddir").isReg() << endl;
   cout << "Dir is dir? " << Directory("test1/toucheddir").isValid() << endl;
-  cout << "Dir is link? " << Node("test1/toucheddir", true).isLink() << endl;
-  cout << "Link is file? " << File("test1/touchedlink").isValid() << endl;
+  cout << "Dir is link? " << Node("test1/toucheddir").isLink() << endl;
+  cout << "Link is file? " << Node("test1/touchedlink").isReg() << endl;
   cout << "Link is dir? " << Directory("test1/touchedlink").isValid() << endl;
-  cout << "Link is link? " << Node("test1/touchedlink", true).isLink() << endl;
+  cout << "Link is link? " << Node("test1/touchedlink").isLink() << endl;
 
   cout << "Create" << endl;
-  if (File("test1/touchedfile").create())
+  if (Node::touch("test1/touchedfile"))
     cout << "failed to create file: " << strerror(errno) << endl;
   if (Directory("test1/toucheddir").create())
     cout << "failed to create dir" << endl;
 
-  cout << "File is file? " << File("test1/touchedfile").isValid() << endl;
+  cout << "File is file? " << Node("test1/touchedfile").isReg() << endl;
   cout << "File is dir? " << Directory("test1/touchedfile").isValid() << endl;
-  cout << "File is link? " << Node("test1/touchedfile", true).isLink() << endl;
-  cout << "Dir is file? " << File("test1/toucheddir").isValid() << endl;
+  cout << "File is link? " << Node("test1/touchedfile").isLink() << endl;
+  cout << "Dir is file? " << Node("test1/toucheddir").isReg() << endl;
   cout << "Dir is dir? " << Directory("test1/toucheddir").isValid() << endl;
-  cout << "Dir is link? " << Node("test1/toucheddir", true).isLink() << endl;
-  cout << "Link is file? " << File("test1/touchedlink").isValid() << endl;
+  cout << "Dir is link? " << Node("test1/toucheddir").isLink() << endl;
+  cout << "Link is file? " << Node("test1/touchedlink").isReg() << endl;
   cout << "Link is dir? " << Directory("test1/touchedlink").isValid() << endl;
-  cout << "Link is link? " << Node("test1/touchedlink", true).isLink() << endl;
+  cout << "Link is link? " << Node("test1/touchedlink").isLink() << endl;
 
   cout << "Create again" << endl;
-  if (File("test1/touchedfile").create())
+  if (Node::touch("test1/touchedfile"))
     cout << "failed to create file: " << strerror(errno) << endl;
   if (Directory("test1/toucheddir").create())
     cout << "failed to create dir: " << strerror(errno) << endl;
 
-  cout << "File is file? " << File("test1/touchedfile").isValid() << endl;
+  cout << "File is file? " << Node("test1/touchedfile").isReg() << endl;
   cout << "File is dir? " << Directory("test1/touchedfile").isValid() << endl;
-  cout << "File is link? " << Node("test1/touchedfile", true).isLink() << endl;
-  cout << "Dir is file? " << File("test1/toucheddir").isValid() << endl;
+  cout << "File is link? " << Node("test1/touchedfile").isLink() << endl;
+  cout << "Dir is file? " << Node("test1/toucheddir").isReg() << endl;
   cout << "Dir is dir? " << Directory("test1/toucheddir").isValid() << endl;
-  cout << "Dir is link? " << Node("test1/toucheddir", true).isLink() << endl;
-  cout << "Link is file? " << File("test1/touchedlink").isValid() << endl;
+  cout << "Dir is link? " << Node("test1/toucheddir").isLink() << endl;
+  cout << "Link is file? " << Node("test1/touchedlink").isReg() << endl;
   cout << "Link is dir? " << Directory("test1/touchedlink").isValid() << endl;
-  cout << "Link is link? " << Node("test1/touchedlink", true).isLink() << endl;
+  cout << "Link is link? " << Node("test1/touchedlink").isLink() << endl;
 
   cout << endl << "Parsing test" << endl;
 

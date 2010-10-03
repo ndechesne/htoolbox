@@ -148,7 +148,7 @@ int main(void) {
   if (Directory("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
     cout << "Directory still exists!" << endl;
   }
-  File("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
+  Node::touch("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data");
   sys_rc = system("echo 0 > "
     "test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/meta");
   if (db.scan()) {
@@ -168,7 +168,7 @@ int main(void) {
   if (Directory("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
     cout << "Directory still exists!" << endl;
   }
-  File("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data").create();
+  Node::touch("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data");
   sys_rc = system("echo 0 > "
     "test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/meta");
   db.close();
@@ -196,7 +196,7 @@ int main(void) {
   cout << "Scan again" << endl;
   if (Directory("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
     cout << "Directory still exists!" << endl;
-    if (File("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data").isValid())
+    if (Node("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data").isReg())
     {
       cout << "File still exists!" << endl;
     }
@@ -252,7 +252,7 @@ int main(void) {
   db.openClient("myClient");
 
   Directory* d;
-  File* f;
+  Node* f;
   Database::OpData* op;
   const char* p;
   d = new Directory("test1/subdir");
@@ -264,7 +264,7 @@ int main(void) {
   db.add(*op);
   delete op;
   delete d;
-  f = new File("test1/subdir/testfile");
+  f = new Node("test1/subdir/testfile");
   p = "/client_path/subdir/testfile";
   op = new Database::OpData(p, strlen(p), *f);
   op->compression = 5;
@@ -273,7 +273,7 @@ int main(void) {
   db.add(*op);
   delete op;
   delete f;
-  f = new File("test1/subdir/testfile2");
+  f = new Node("test1/subdir/testfile2");
   p = "/client_path/subdir/testfile2";
   op = new Database::OpData(p, strlen(p), *f);
   ++my_time;
@@ -281,7 +281,7 @@ int main(void) {
   db.add(*op);
   delete op;
   delete f;
-  f = new File("test1/test space");
+  f = new Node("test1/test space");
   p = "/client_path/test space";
   op = new Database::OpData(p, strlen(p), *f);
   ++my_time;
@@ -289,7 +289,7 @@ int main(void) {
   db.add(*op);
   delete op;
   delete f;
-  f = new File("test1/testfile");
+  f = new Node("test1/testfile");
   p = "/client_path/testfile";
   op = new Database::OpData(p, strlen(p), *f);
   ++my_time;
@@ -306,7 +306,7 @@ int main(void) {
   db.add(*op);
   delete op;
   delete d;
-  f = new File("test2/testfile");
+  f = new Node("test2/testfile");
   p = "other_path/testfile";
   op = new Database::OpData(p, strlen(p), *f);
   ++my_time;
@@ -425,7 +425,7 @@ int main(void) {
 
 
   cout << endl << "Test: scan" << endl;
-  File("test_db/.data/3d546a1ce46c6ae10ad34ab8a81c542e-0/data").remove();
+  ::remove("test_db/.data/3d546a1ce46c6ae10ad34ab8a81c542e-0/data");
   Directory("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0").create();
   sys_rc = system("echo '3' > test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
   sys_rc = system("echo 2 > test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/meta");
@@ -451,7 +451,7 @@ int main(void) {
     db2.openClient("myClient");
     db.openClient("myClient");
 
-    Node l("test1/testlink", true);
+    Node l("test1/testlink");
     p = "/client_path/new_link";
     Database::OpData o(p, strlen(p), l);
     ++my_time;

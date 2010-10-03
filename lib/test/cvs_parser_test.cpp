@@ -69,35 +69,35 @@ int main(void) {
     cout << "test1/cvs" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/cvs/nofile");
+    node = new Node("test1/cvs/nofile");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/filenew.c");
+    node = new Node("test1/cvs/filenew.c");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/filemod.o");
+    node = new Node("test1/cvs/filemod.o");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/fileutd.h");
+    node = new Node("test1/cvs/fileutd.h");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/fileoth");
+    node = new Node("test1/cvs/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -128,21 +128,21 @@ int main(void) {
     if ((parser2 = parser->createChildIfControlled("test1/cvs/CVS")) == NULL) {
       cout << "test1/cvs/CVS" << " is not controlled" << endl;
     } else {
-      node = new File("test1/cvs/CVS/Entries");
+      node = new Node("test1/cvs/CVS/Entries");
       cout << node->path() << " will";
       if (! parser2->ignore(*node)) {
         cout << " not";
       }
       cout << " be ignored" << endl;
       delete node;
-      node = new File("test1/cvs/CVS/Root");
+      node = new Node("test1/cvs/CVS/Root");
       cout << node->path() << " will";
       if (! parser2->ignore(*node)) {
         cout << " not";
       }
       cout << " be ignored" << endl;
       delete node;
-      node = new File("test1/cvs/CVS/Whatever");
+      node = new Node("test1/cvs/CVS/Whatever");
       cout << node->path() << " will";
       if (! parser2->ignore(*node)) {
         cout << " not";
@@ -165,14 +165,14 @@ int main(void) {
     cout << "test1/cvs/dirutd" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/cvs/dirutd/fileutd");
+    node = new Node("test1/cvs/dirutd/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/dirutd/fileoth");
+    node = new Node("test1/cvs/dirutd/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -187,14 +187,14 @@ int main(void) {
     cout << "test1/cvs/diroth" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/cvs/diroth/fileutd");
+    node = new Node("test1/cvs/diroth/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/diroth/fileoth");
+    node = new Node("test1/cvs/diroth/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -208,21 +208,21 @@ int main(void) {
   if ((parser = parser_list->createChildIfControlled("test1/cvs/CVS")) == NULL) {
     cout << "test1/cvs/CVS" << " is not controlled" << endl;
   } else {
-    node = new File("test1/cvs/CVS/Entries");
+    node = new Node("test1/cvs/CVS/Entries");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/CVS/Root");
+    node = new Node("test1/cvs/CVS/Root");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/CVS/Whatever");
+    node = new Node("test1/cvs/CVS/Whatever");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -250,35 +250,35 @@ int main(void) {
     cout << "test1/cvs" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/cvs/nofile");
+    node = new Node("test1/cvs/nofile");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/filenew.c");
+    node = new Node("test1/cvs/filenew.c");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/filemod.o");
+    node = new Node("test1/cvs/filemod.o");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/fileutd.h");
+    node = new Node("test1/cvs/fileutd.h");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/fileoth");
+    node = new Node("test1/cvs/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -309,21 +309,21 @@ int main(void) {
     if ((parser2 = parser->createChildIfControlled("test1/cvs/CVS")) == NULL) {
       cout << "test1/cvs/CVS" << " is not controlled" << endl;
     } else {
-      node = new File("test1/cvs/CVS/Entries");
+      node = new Node("test1/cvs/CVS/Entries");
       cout << node->path() << " will";
       if (! parser2->ignore(*node)) {
         cout << " not";
       }
       cout << " be ignored" << endl;
       delete node;
-      node = new File("test1/cvs/CVS/Root");
+      node = new Node("test1/cvs/CVS/Root");
       cout << node->path() << " will";
       if (! parser2->ignore(*node)) {
         cout << " not";
       }
       cout << " be ignored" << endl;
       delete node;
-      node = new File("test1/cvs/CVS/Whatever");
+      node = new Node("test1/cvs/CVS/Whatever");
       cout << node->path() << " will";
       if (! parser2->ignore(*node)) {
         cout << " not";
@@ -346,14 +346,14 @@ int main(void) {
     cout << "test1/cvs/dirutd" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/cvs/dirutd/fileutd");
+    node = new Node("test1/cvs/dirutd/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/dirutd/fileoth");
+    node = new Node("test1/cvs/dirutd/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -368,14 +368,14 @@ int main(void) {
     cout << "test1/cvs/diroth" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/cvs/diroth/fileutd");
+    node = new Node("test1/cvs/diroth/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/diroth/fileoth");
+    node = new Node("test1/cvs/diroth/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -389,21 +389,21 @@ int main(void) {
   if ((parser = parser_list->createChildIfControlled("test1/cvs/CVS")) == NULL) {
     cout << "test1/cvs/CVS" << " is not controlled" << endl;
   } else {
-    node = new File("test1/cvs/CVS/Entries");
+    node = new Node("test1/cvs/CVS/Entries");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/CVS/Root");
+    node = new Node("test1/cvs/CVS/Root");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/CVS/Whatever");
+    node = new Node("test1/cvs/CVS/Whatever");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -432,35 +432,35 @@ int main(void) {
     cout << "test1/cvs" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/cvs/nofile");
+    node = new Node("test1/cvs/nofile");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/filenew.c");
+    node = new Node("test1/cvs/filenew.c");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/filemod.o");
+    node = new Node("test1/cvs/filemod.o");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/fileutd.h");
+    node = new Node("test1/cvs/fileutd.h");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/fileoth");
+    node = new Node("test1/cvs/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -491,21 +491,21 @@ int main(void) {
     if ((parser2 = parser->createChildIfControlled("test1/cvs/CVS")) == NULL) {
       cout << "test1/cvs/CVS" << " is not controlled" << endl;
     } else {
-      node = new File("test1/cvs/CVS/Entries");
+      node = new Node("test1/cvs/CVS/Entries");
       cout << node->path() << " will";
       if (! parser2->ignore(*node)) {
         cout << " not";
       }
       cout << " be ignored" << endl;
       delete node;
-      node = new File("test1/cvs/CVS/Root");
+      node = new Node("test1/cvs/CVS/Root");
       cout << node->path() << " will";
       if (! parser2->ignore(*node)) {
         cout << " not";
       }
       cout << " be ignored" << endl;
       delete node;
-      node = new File("test1/cvs/CVS/Whatever");
+      node = new Node("test1/cvs/CVS/Whatever");
       cout << node->path() << " will";
       if (! parser2->ignore(*node)) {
         cout << " not";
@@ -528,14 +528,14 @@ int main(void) {
     cout << "test1/cvs/dirutd" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/cvs/dirutd/fileutd");
+    node = new Node("test1/cvs/dirutd/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/dirutd/fileoth");
+    node = new Node("test1/cvs/dirutd/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -550,14 +550,14 @@ int main(void) {
     cout << "test1/cvs/diroth" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/cvs/diroth/fileutd");
+    node = new Node("test1/cvs/diroth/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/diroth/fileoth");
+    node = new Node("test1/cvs/diroth/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -571,21 +571,21 @@ int main(void) {
   if ((parser = parser_list->createChildIfControlled("test1/cvs/CVS")) == NULL) {
     cout << "test1/cvs/CVS" << " is not controlled" << endl;
   } else {
-    node = new File("test1/cvs/CVS/Entries");
+    node = new Node("test1/cvs/CVS/Entries");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/CVS/Root");
+    node = new Node("test1/cvs/CVS/Root");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/CVS/Whatever");
+    node = new Node("test1/cvs/CVS/Whatever");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -614,35 +614,35 @@ int main(void) {
     cout << "test1/cvs" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/cvs/nofile");
+    node = new Node("test1/cvs/nofile");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/filenew.c");
+    node = new Node("test1/cvs/filenew.c");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/filemod.o");
+    node = new Node("test1/cvs/filemod.o");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/fileutd.h");
+    node = new Node("test1/cvs/fileutd.h");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/fileoth");
+    node = new Node("test1/cvs/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -673,21 +673,21 @@ int main(void) {
     if ((parser2 = parser->createChildIfControlled("test1/cvs/CVS")) == NULL) {
       cout << "test1/cvs/CVS" << " is not controlled" << endl;
     } else {
-      node = new File("test1/cvs/CVS/Entries");
+      node = new Node("test1/cvs/CVS/Entries");
       cout << node->path() << " will";
       if (! parser2->ignore(*node)) {
         cout << " not";
       }
       cout << " be ignored" << endl;
       delete node;
-      node = new File("test1/cvs/CVS/Root");
+      node = new Node("test1/cvs/CVS/Root");
       cout << node->path() << " will";
       if (! parser2->ignore(*node)) {
         cout << " not";
       }
       cout << " be ignored" << endl;
       delete node;
-      node = new File("test1/cvs/CVS/Whatever");
+      node = new Node("test1/cvs/CVS/Whatever");
       cout << node->path() << " will";
       if (! parser2->ignore(*node)) {
         cout << " not";
@@ -710,14 +710,14 @@ int main(void) {
     cout << "test1/cvs/dirutd" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/cvs/dirutd/fileutd");
+    node = new Node("test1/cvs/dirutd/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/dirutd/fileoth");
+    node = new Node("test1/cvs/dirutd/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -732,14 +732,14 @@ int main(void) {
     cout << "test1/cvs/diroth" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new File("test1/cvs/diroth/fileutd");
+    node = new Node("test1/cvs/diroth/fileutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/diroth/fileoth");
+    node = new Node("test1/cvs/diroth/fileoth");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -753,21 +753,21 @@ int main(void) {
   if ((parser = parser_list->createChildIfControlled("test1/cvs/CVS")) == NULL) {
     cout << "test1/cvs/CVS" << " is not controlled" << endl;
   } else {
-    node = new File("test1/cvs/CVS/Entries");
+    node = new Node("test1/cvs/CVS/Entries");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/CVS/Root");
+    node = new Node("test1/cvs/CVS/Root");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new File("test1/cvs/CVS/Whatever");
+    node = new Node("test1/cvs/CVS/Whatever");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";

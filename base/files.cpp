@@ -174,7 +174,6 @@ int Node::stat() {
     _mode  = metadata.st_mode & ~S_IFMT;
     // Special case for symbolic links
     if (isLink()) {
-      _parsed = true;
       char link[static_cast<int>(_size) + 1];
       ssize_t count = readlink(_path, link, static_cast<int>(_size));
       if (count >= 0) {
@@ -189,31 +188,14 @@ int Node::stat() {
   return rc;
 }
 
-int Node::remove() {
-  int rc = ::remove(_path);
-  if (! rc) {
-    _type = '?';
+int Node::touch(
+    const char*     path) {
+  FILE* fd = fopen(path, "w");
+  if (fd != NULL) {
+    fclose(fd);
+    return 0;
   }
-  return rc;
-}
-
-int File::create() {
-  if (_type == '?') {
-    stat();
-  }
-  if (isValid()) {
-    errno = EEXIST;
-    // Only a warning
-    return 1;
-  } else {
-    int readfile = ::open(_path, O_WRONLY | O_CREAT, 0666);
-    if (readfile < 0) {
-      return -1;
-    }
-    close(readfile);
-    stat();
-  }
-  return 0;
+  return -1;
 }
 
 static int direntFilter(const struct dirent* a) {
@@ -263,24 +245,18 @@ int Directory::createList() {
   _nodes = new list<Node*>;
   bool failed = false;
   while (size--) {
-    Node *g = new Node(Path(_path, direntList[size]->d_name), false);
+    Node *g = new Node(Path(_path, direntList[size]->d_name));
     free(direntList[size]);
-    if (! g->stat()) {
-      switch (g->type()) {
-        case 'f': {
-          File *f = new File(*g);
-          delete g;
-          g = f;
-        } break;
-        case 'd': {
-          Directory *d = new Directory(*g);
-          delete g;
-          g = d;
-        } break;
-        default:;
-      }
-    } else {
-      failed = true;
+    switch (g->type()) {
+      case 'd': {
+        Directory *d = new Directory(*g);
+        delete g;
+        g = d;
+      } break;
+      case '?':
+        failed = true;
+        break;
+      default:;
     }
     _nodes->push_front(g);
   }

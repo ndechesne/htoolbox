@@ -118,7 +118,7 @@ int Database::lock() {
 }
 
 void Database::unlock() {
-  File(Path(_d->path.c_str(), ".lock")).remove();
+  ::remove(Path(_d->path.c_str(), ".lock"));
 }
 
 Database::Database(const char* path) :
@@ -179,7 +179,7 @@ int Database::open(
   switch (_d->data.open(initialize)) {
     case 1:
       // Creation successful
-      File(Path(_d->path.c_str(), ".checksums")).create();
+      Node::touch(Path(_d->path.c_str(), ".checksums"));
       hlog_verbose("Database initialized in '%s'", _d->path.c_str());
     case 0:
       // Open successful
@@ -289,7 +289,7 @@ int Database::getClients(
   list<Node*>::iterator i = dir.nodesList().begin();
   while (i != dir.nodesList().end()) {
     if ((*i)->type() == 'd') {
-      if (File(Path((*i)->path(), "list")).isValid()) {
+      if (Node(Path((*i)->path(), "list")).isReg()) {
         clients.push_back((*i)->name());
       }
     }
@@ -389,54 +389,53 @@ int Database::restore(
     }
     hlog_info("%-8c%s", code, base.c_str());
     switch (db_node->type()) {
-      case 'f': {
-          File* f = static_cast<File*>(db_node);
-          if (f->hash()[0] == '\0') {
-            hlog_error("Data missing restoring file '%s'", base.c_str());
+      case 'f':
+        if (db_node->hash()[0] == '\0') {
+          hlog_error("Data missing restoring file '%s'", base.c_str());
+          this_failed = true;
+        } else
+        if (links == HBackup::none) {
+          if (_d->data.read(base.c_str(), db_node->hash())) {
+            hlog_error("%s restoring file '%s'", strerror(errno),
+              base.c_str());
             this_failed = true;
-          } else
-          if (links == HBackup::none) {
-            if (_d->data.read(base.c_str(), f->hash())) {
-              hlog_error("%s restoring file '%s'", strerror(errno),
-                base.c_str());
-              this_failed = true;
-            }
+          }
+        } else {
+          string path;
+          string extension;
+          string dest(base.c_str());
+          if (_d->data.name(db_node->hash(), path, extension)) {
+            this_failed = true;
           } else {
-            string path;
-            string extension;
-            string dest(base.c_str());
-            if (_d->data.name(f->hash(), path, extension)) {
-              this_failed = true;
+            dest += extension;
+            if (links == HBackup::symbolic) {
+              if (symlink(path.c_str(), dest.c_str())) {
+                hlog_error("%s sym-linking file '%s'", strerror(errno),
+                  dest.c_str());
+                this_failed = true;
+              }
             } else {
-              dest += extension;
-              if (links == HBackup::symbolic) {
-                if (symlink(path.c_str(), dest.c_str())) {
-                  hlog_error("%s sym-linking file '%s'", strerror(errno),
-                    dest.c_str());
-                  this_failed = true;
-                }
-              } else {
-                if (link(path.c_str(), dest.c_str())) {
-                  hlog_error("%s hard-linking file '%s'", strerror(errno),
-                    dest.c_str());
-                  this_failed = true;
-                }
+              if (link(path.c_str(), dest.c_str())) {
+                hlog_error("%s hard-linking file '%s'", strerror(errno),
+                  dest.c_str());
+                this_failed = true;
               }
             }
           }
-        } break;
+        }
+        break;
       case 'd':
         if (mkdir(base.c_str(), db_node->mode())) {
           hlog_error("%s restoring dir '%s'", strerror(errno), base.c_str());
           this_failed = true;
         }
         break;
-      case 'l': {
-          if (symlink(db_node->link(), base.c_str())) {
-            hlog_error("%s restoring file '%s'", strerror(errno), base.c_str());
-            this_failed = true;
-          }
-        } break;
+      case 'l':
+        if (symlink(db_node->link(), base.c_str())) {
+          hlog_error("%s restoring file '%s'", strerror(errno), base.c_str());
+          this_failed = true;
+        }
+        break;
       case 'p':
         if (mkfifo(base.c_str(), db_node->mode())) {
           hlog_error("%s restoring pipe (FIFO) '%s'", strerror(errno),
@@ -609,9 +608,7 @@ int Database::scan(
   _d->missing.forceSave();
   if (rc >= 0) {
     // Leave trace of successful scan
-    File f(Path(_d->path.c_str(), ".last-scan"));
-    f.remove();
-    f.create();
+    Node::touch(Path(_d->path.c_str(), ".last-scan"));
   }
   return rc;
 }
@@ -623,9 +620,7 @@ int Database::check(
   int rc = _d->data.crawl(true, remove);
   if (rc >= 0) {
     // Leave trace of successful check
-    File f(Path(_d->path.c_str(), ".last-check"));
-    f.remove();
-    f.create();
+    Node::touch(Path(_d->path.c_str(), ".last-check"));
   }
   return rc;
 }
@@ -679,9 +674,7 @@ int Database::closeClient(
   }
   if (! failed && ! abort) {
     // Leave trace of successful check
-    File f(Path(_d->owner->path(), ".last-backup"));
-    f.remove();
-    f.create();
+    Node::touch(Path(_d->owner->path(), ".last-backup"));
   }
   delete _d->owner;
   _d->owner = NULL;
@@ -702,12 +695,7 @@ int Database::add(
 
   // Add new record to active list
   if (op.node.type() == 'l') {
-    if (! op.node.parsed()) {
-      hlog_error("Bug in db add: link was not parsed!");
-      return -1;
-    } else {
-      op.extra = op.node.link();
-    }
+    op.extra = op.node.link();
   }
 
   // checksum must be valid when calling Owner::add

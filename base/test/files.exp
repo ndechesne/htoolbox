@@ -60,7 +60,7 @@ abcd <> abce, 4: -1
 abcd <> abce, 5: -1
 
 File types
-Name: testfile, path = test1/testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 750
+File: testfile, path = test1/testfile, type = f, mtime = 1, size = 13, uid = 1, gid = 1, mode = 750
 Link: testlink, path = test1/testlink, type = l, mtime = 1, size = 8, uid = 1, gid = 1, mode = 777, link = testfile
  > Dir.: testdir, path = test1/testdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  > Dir.: subdir, path = test1/subdir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
@@ -104,7 +104,6 @@ Link is file? 0
 Link is dir? 0
 Link is link? 0
 Create again
-failed to create file: File exists
 failed to create dir: File exists
 File is file? 1
 File is dir? 0

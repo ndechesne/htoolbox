@@ -81,7 +81,7 @@ IParser *CvsParser::createChildIfControlled(const string& dir_path) {
   }
 
   // If control directory exists and contains an entries file, assume control
-  if (! File(Path((dir_path + control_dir).c_str(), &entries[1])).isValid()) {
+  if (! Node(Path((dir_path + control_dir).c_str(), &entries[1])).isReg()) {
     if (! _no_parsing) {
       hlog_warning("Directory '%s' should be under CVS control",
         dir_path.c_str());

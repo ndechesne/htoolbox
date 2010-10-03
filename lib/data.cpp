@@ -88,16 +88,6 @@ bool Data::isReadable(
   return false;
 }
 
-int Data::touch(
-    const char*     path) {
-  FILE* fd = fopen(path, "w");
-  if (fd != NULL) {
-    fclose(fd);
-    return 0;
-  }
-  return -1;
-}
-
 ssize_t Data::compare(
     IReaderWriter&  left,
     IReaderWriter&  right) const {
@@ -369,8 +359,8 @@ int Data::organise(
       if (dir_entry->d_name[0] == '.') {
         continue;
       }
-      Node source_path(Path(path, dir_entry->d_name), false);
-      if (source_path.stat()) {
+      Node source_path(Path(path, dir_entry->d_name));
+      if (source_path.type() == '?') {
         hlog_error("%s stating source file '%s'", strerror(errno),
           source_path.path());
         failed = true;
@@ -397,7 +387,7 @@ int Data::organise(
       }
     }
     if (! failed) {
-      touch(nofiles_path);
+      Node::touch(nofiles_path);
     }
   }
   closedir(directory);
@@ -887,7 +877,7 @@ int Data::check(
               removePath(path);
             } else {
               // Mark corrupted
-              touch(corrupted_path);
+              Node::touch(corrupted_path);
             }
             data_size = -1;
           } else

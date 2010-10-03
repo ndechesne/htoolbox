@@ -163,19 +163,19 @@ int main(void) {
   }
 
   // No checksum
-  node = new File("test1/test space");
+  node = new Node("test1/test space");
   journal.add("file sp", time(NULL), node);
   delete node;
 
   journal.add("file_gone", time(NULL));
 
-  node = new File("test1/testfile");
+  node = new Node("test1/testfile");
   computeHash(node->path(), hash);
   node->setHash(hash);
   journal.add("file_new", time(NULL), node);
   delete node;
 
-  Node* link = new Node("test1/testlink", true);
+  Node* link = new Node("test1/testlink");
   char max_link[PATH_MAX];
   memset(max_link, '?', sizeof(max_link));
   max_link[sizeof(max_link) - 1] = '\0';
@@ -184,7 +184,7 @@ int main(void) {
   journal.add("link", time(NULL), node);
   delete node;
 
-  node = new Node("test1/longlink", true);
+  node = new Node("test1/longlink");
   journal.add("longlink", time(NULL), node);
   delete node;
 
@@ -252,21 +252,21 @@ int main(void) {
   }
   sys_rc = system("echo \"this is my new test\" > test1/testfile");
 
-  node = new Node("test1/testlink", true);
+  node = new Node("test1/testlink");
   journal.add("CR/x", time(NULL), node);
   delete node;
 
-  node = new Node("test1/testlink", true);
+  node = new Node("test1/testlink");
   journal.add("CR\r", time(NULL), node);
   delete node;
 
-  node = new File("test1/test space");
+  node = new Node("test1/test space");
   computeHash(node->path(), hash);
   node->setHash(hash);
   journal.add("file sp", time(NULL), node);
   delete node;
 
-  node = new File("test1/testfile");
+  node = new Node("test1/testfile");
   computeHash(node->path(), hash);
   node->setHash(hash);
   journal.add("file_new", time(NULL), node);
@@ -343,7 +343,7 @@ int main(void) {
     return 0;
   }
   sys_rc = system("echo \"this is my new test\" > test1/testfile");
-  node = new File("test1/testfile");
+  node = new Node("test1/testfile");
   computeHash(node->path(), hash);
   node->setHash(hash);
   journal.add("file_new", time(NULL), node);
@@ -488,7 +488,7 @@ int main(void) {
     return 0;
   }
   sys_rc = system("echo \"this is my other test\" > test1/testfile");
-  node = new File("test1/testfile");
+  node = new Node("test1/testfile");
   computeHash(node->path(), hash);
   node->setHash(hash);
   journal.add("file_new", time(NULL), node);
@@ -553,19 +553,19 @@ int main(void) {
   }
 
   // No checksum
-  node = new File("test1/test space");
+  node = new Node("test1/test space");
   journal.add("file sp", time(NULL), node);
   delete node;
 
   journal.add("file_gone", time(NULL));
 
-  node = new File("test1/testfile");
+  node = new Node("test1/testfile");
   computeHash(node->path(), hash);
   node->setHash(hash);
   journal.add("file_new", time(NULL), node);
   delete node;
 
-  node = new Node("test1/testlink", true);
+  node = new Node("test1/testlink");
   journal.add("link2", time(NULL), node);
   delete node;
 

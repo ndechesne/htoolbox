@@ -5,5 +5,5 @@ TODO - non-organised list of things I want to do
   * restoration via web gui
   * handle all compression requirements (maybe 1.2)
   * backup's backups (1.2)
-  * review files.h (Path to go, Directory to speed up, no more File) (1.1)
+  * review files.h (Path to go, Directory to speed up) (1.1)
   * test copy/compare/stackhelper/multiwriter/nullwriter/share (all tested elsewhere though)

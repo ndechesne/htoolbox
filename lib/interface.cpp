@@ -435,7 +435,8 @@ int HBackup::backup(
     // Set auto-compression mode
     _d->db->setCompressionMode(_d->db_compress_mode);
 
-    Directory mount_dir(Path(_d->db->path(), ".mount"));
+    Path mount_dir_path(_d->db->path(), ".mount");
+    Directory mount_dir(mount_dir_path);
     if (mount_dir.create() < 0) {
       return -1;
     }
@@ -459,8 +460,9 @@ int HBackup::backup(
           continue;
         }
       }
-      Directory mount_point(Path(mount_dir.path(),
-        (*client)->internalName().c_str()));
+      Path mount_point_path(mount_dir.path(),
+        (*client)->internalName().c_str());
+      Directory mount_point(mount_point_path);
       // Check that mount dir exists, if not create it
       if (mount_point.create() < 0) {
         return -1;
@@ -468,9 +470,9 @@ int HBackup::backup(
       if ((*client)->backup(*_d->db, mount_point.path())) {
         failed = true;
       }
-      mount_point.remove();
+      remove(mount_point_path);
     }
-    mount_dir.remove();
+    ::remove(mount_dir_path);
     _d->db->close();
     return failed ? -1 : 0;
   }

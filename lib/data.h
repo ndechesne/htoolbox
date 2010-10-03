@@ -41,8 +41,6 @@ protected: // So I can test them
     const char*     extensions[]);
   static bool isReadable(
     const char*     path);
-  static int touch(
-    const char*     path);
   // Compare two files
   int compare(
     htools::IReaderWriter&  left,

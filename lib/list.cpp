@@ -467,9 +467,6 @@ int List::decodeLine(
 
   // Return extracted data
   switch (type) {
-  case 'f':
-    *node_p = new File(path, type, mtime, size, uid, gid, mode, extra);
-    break;
   case '-':
     *node_p = NULL;
     break;

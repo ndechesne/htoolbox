@@ -98,12 +98,12 @@ int main(void) {
   cout << endl << "Test: getdir" << endl;
   cout << "Check test_db/data dir: " << ! Directory("test_db/data").isValid()
     << endl;
-  File("test_db/data/.nofiles").create();
+  Node::touch("test_db/data/.nofiles");
   Directory("test_db/data/fe").create();
-  File("test_db/data/fe/.nofiles").create();
-  File("test_db/data/fe/test4").create();
+  Node::touch("test_db/data/fe/.nofiles");
+  Node::touch("test_db/data/fe/test4");
   Directory("test_db/data/fe/dc").create();
-  File("test_db/data/fe/dc/.nofiles").create();
+  Node::touch("test_db/data/fe/dc/.nofiles");
   Directory("test_db/data/fe/ba").create();
   Directory("test_db/data/fe/ba/test1").create();
   Directory("test_db/data/fe/98").create();
@@ -266,7 +266,7 @@ int main(void) {
 
 
   cout << endl << "Test: write and read back with forced compression" << endl;
-  Node("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data", false).remove();
+  remove("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data");
   /* Write */
   chksm[0] = '\0';
   int comp_level = 5;
@@ -284,7 +284,7 @@ int main(void) {
   cout << endl;
 
   /* Check and repair */
-  Node("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta", false).remove();
+  remove("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
   if ((status = db.check(chksm, true, true, &size, &compressed)) < 0) {
     printf("db.check error status %d\n", status);
     return 0;

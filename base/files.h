@@ -16,8 +16,8 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef FILES_H
-#define FILES_H
+#ifndef _FILES_H
+#define _FILES_H
 
 #include <list>
 #include <vector>
@@ -64,9 +64,10 @@ protected:
   uid_t       _uid;       // user ID of owner
   gid_t       _gid;       // group ID of owner
   mode_t      _mode;      // permissions
-  bool        _parsed;    // more info available using proper type
   char        _hash[129]; // regular file hash
   std::string _link;      // symbolic link value
+  // Stat file metadata
+  int stat();
 public:
   // Default constructor
   Node(const Node& g) :
@@ -77,20 +78,18 @@ public:
         _uid(g._uid),
         _gid(g._gid),
         _mode(g._mode),
-        _parsed(false),
         _link(g._link) {
       _basename = basename(_path);
+      strcpy(_hash, g._hash);
     }
   // Constructor for path in the VFS
-  Node(Path path, bool parse) :
-        _path(path),
-        _type('?'),
-        _parsed(false) {
-      _basename = basename(_path);
-      if (parse) {
-        stat();
-      }
+  Node(Path path) : _path(path), _type('?') {
+    _basename = basename(_path);
+    if (_path[0] != '\0') {
+      stat();
     }
+    strcpy(_hash, "");
+  }
   // Constructor for given file metadata
   Node(
       const char* path,
@@ -100,24 +99,23 @@ public:
       uid_t       uid,
       gid_t       gid,
       mode_t      mode,
-      const char* link = "") :
+      const char* link_or_hash = "") :
         _path(path),
         _type(type),
         _mtime(mtime),
         _size(size),
         _uid(uid),
         _gid(gid),
-        _mode(mode),
-        _parsed(false),
-        _link(link) {
+        _mode(mode) {
       _basename = basename(_path);
-      if ((_type == 'l') && ! _link.empty()) {
-        _parsed = true;
+      if (_type == 'l') {
+        _link = link_or_hash;
+      } else
+      if (_type == 'f') {
+        strcpy(_hash, link_or_hash);
       }
     }
   virtual ~Node() {}
-  // Stat file metadata
-  int stat();
   // Reset some metadata
   void setMtime(time_t mtime)    { _mtime = mtime; }
   void setSize(long long size)   { _size  = size;  }
@@ -140,61 +138,19 @@ public:
   uid_t         uid()     const { return _uid;          }
   gid_t         gid()     const { return _gid;          }
   mode_t        mode()    const { return _mode;         }
-  bool          parsed()  const { return _parsed;       }
   const char*   hash()    const { return _hash;         }
   const char*   link()    const { return _link.c_str(); }
-  // Remove node
-  int remove();
-};
-
-class File : public Node {
-public:
-  // Constructor for existing Node
-  File(const File& g) : Node(g) {
-    _parsed = true;
-    strcpy(_hash, g._hash);
-  }
-  File(const Node& g) : Node(g) {
-    _parsed = true;
-    strcpy(_hash, "");
-  }
-  // Constructor for path in the VFS
-  File(Path path) : Node(path, true) {
-    _parsed = true;
-    strcpy(_hash, "");
-  }
-  // Constructor for given file metadata
-  File(
-    const char* name,
-    char        type,
-    time_t      mtime,
-    long long   size,
-    uid_t       uid,
-    gid_t       gid,
-    mode_t      mode,
-    const char* hash) : Node(name, type, mtime, size, uid, gid, mode) {
-    _parsed = true;
-    strcpy(_hash, hash);;
-  }
-  bool isValid() const { return _type == 'f'; }
   // Create empty file
-  int create();
+  static int touch(const char* path);
 };
 
 class Directory : public Node {
   list<Node*>*  _nodes;
 public:
   // Constructor for existing Node
-  Directory(const Node& g) :
-      Node(g) {
-    _parsed = true;
-    _nodes  = NULL;
-  }
+  Directory(const Node& g) : Node(g), _nodes(NULL) {}
   // Constructor for path in the VFS
-  Directory(Path path) : Node(path, true) {
-    _parsed = true;
-    _nodes  = NULL;
-  }
+  Directory(Path path) : Node(path), _nodes(NULL) {}
   ~Directory() {
     deleteList();
   }
@@ -211,4 +167,4 @@ public:
 
 }
 
-#endif
+#endif // _FILES_H

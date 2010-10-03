@@ -70,10 +70,10 @@ struct Owner::Private {
 //      goto ---> step 1
 int Owner::finishOff(
     bool            recovery) {
-  File next(Path(_d->path.c_str(), "list.next"));
+  Node next(Path(_d->path.c_str(), "list.next"));
 
   // All files are expected to be closed
-  bool got_next = recovery && next.isValid();
+  bool got_next = recovery && next.isReg();
 
   // Need to open journal in read mode
   ListReader journal(_d->journal->path());
@@ -136,7 +136,7 @@ int Owner::finishOff(
   }
 
   // Discard journal (step 2)
-  if (! got_next || File(_d->journal->path()).isValid()) {
+  if (! got_next || Node(_d->journal->path()).isReg()) {
     if (rename(_d->journal->path(), Path(_d->path.c_str(), "journal~").c_str())) {
       hlog_error("%s renaming journal to '%s/journal~'", strerror(errno),
         _d->path.c_str());
@@ -145,7 +145,7 @@ int Owner::finishOff(
   }
 
   // list -> list~ (step 3)
-  if (! got_next || File(_d->original->path()).isValid()) {
+  if (! got_next || Node(_d->original->path()).isReg()) {
     if (rename(_d->original->path(), Path(_d->path.c_str(), "list~").c_str())) {
       hlog_error("%s renaming backup list to '%s/list~'", strerror(errno),
         _d->path.c_str());
@@ -198,8 +198,8 @@ int Owner::hold() const {
     return -1;
   }
 
-  File owner_list(Path(_d->path.c_str(), "list").c_str());
-  if (! owner_list.isValid()) {
+  Node owner_list(Path(_d->path.c_str(), "list").c_str());
+  if (! owner_list.isReg()) {
     hlog_error("Register not accessible in '%s', aborting", _d->name.c_str());
     return -1;
   }
@@ -254,16 +254,16 @@ int Owner::open(
       return -1;
     }
   }
-  File owner_list(Path(_d->path.c_str(), "list").c_str());
+  Node owner_list(Path(_d->path.c_str(), "list").c_str());
 
   bool failed = false;
   // Open list
   _d->modified = false;
   _d->original = new ListReader(owner_list.path());
   if (_d->original->open(initialize)) {
-    File backup(Path(_d->path.c_str(), "list~").c_str());
+    Node backup(Path(_d->path.c_str(), "list~").c_str());
 
-    if (backup.isValid()) {
+    if (backup.isReg()) {
       rename(backup.path(), _d->original->path());
       hlog_warning("Register not accessible '%s', using backup",
         _d->name.c_str());

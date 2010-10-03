@@ -122,8 +122,7 @@ int main(void) {
     cout << "Failed to open: " << rc << endl;
     return 0;
   }
-  node = new File(Path("test1/testfile"));
-  node->stat();
+  node = new Node(Path("test1/testfile"));
   list_node = NULL;
   p = remote_path + node->name();
   op = new Database::OpData(p.c_str(), p.length(), *node);
@@ -155,8 +154,7 @@ int main(void) {
     cout << "Failed to open: " << rc << endl;
     return 0;
   }
-  node = new File(Path("test2/testfile"));
-  node->stat();
+  node = new Node(Path("test2/testfile"));
   list_node = NULL;
   p = remote_path + node->name();
   op = new Database::OpData(p.c_str(), p.length(), *node);
@@ -187,8 +185,7 @@ int main(void) {
     cout << "Failed to open: " << rc << endl;
     return 0;
   }
-  node = new File(Path("test1/testfile"));
-  node->stat();
+  node = new Node(Path("test1/testfile"));
   list_node = NULL;
   p = remote_path + node->name();
   op = new Database::OpData(p.c_str(), p.length(), *node);
@@ -219,8 +216,7 @@ int main(void) {
     cout << "Failed to open: " << rc << endl;
     return 0;
   }
-  node = new File(Path("test2/testfile"));
-  node->stat();
+  node = new Node(Path("test2/testfile"));
   list_node = NULL;
   p = remote_path + node->name();
   op = new Database::OpData(p.c_str(), p.length(), *node);
