@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <errno.h>
 
 using namespace std;
@@ -148,6 +149,8 @@ bool cancel(unsigned short __unused) {
 }
 
 int main(void) {
+  report.setLevel(regression);
+
   string line;
 
   cout << "Tools Test" << endl;
@@ -364,6 +367,28 @@ int main(void) {
     }
   }
   delete d;
+
+
+  hlog_regression("Directory::createList() performance test");
+  {
+    struct timeval tm_start;
+    struct timeval tm_end;
+    Directory d(".");
+    if (d.createList() < 0) return 0;
+    d.deleteList();
+    gettimeofday(&tm_start, NULL);
+    const int MAX = 10000;
+    for (int i = 0; i < MAX; ++i) {
+      if (d.createList() < 0) return 0;
+      d.deleteList();
+    }
+    gettimeofday(&tm_end, NULL);
+    int diff = (tm_end.tv_sec - tm_start.tv_sec) * 1000000 +
+                (tm_end.tv_usec - tm_start.tv_usec);
+    const int MAX_US = 55;
+    hlog_regression("duration <= %d us? %s",
+                    MAX_US, diff < MAX_US * MAX ? "yes" : "no");
+  }
 
   return 0;
 }

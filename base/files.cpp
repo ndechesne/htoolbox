@@ -244,8 +244,13 @@ int Directory::createList() {
   // Ok, let's parse
   _nodes = new list<Node*>;
   bool failed = false;
+  char path[PATH_MAX];
+  strcpy(path, _path);
+  int path_len = strlen(path);
+  path[path_len++] = '/';
   while (size--) {
-    Node *g = new Node(Path(_path, direntList[size]->d_name));
+    strcpy(&path[path_len], direntList[size]->d_name);
+    Node *g = new Node(path);
     free(direntList[size]);
     switch (g->type()) {
       case 'd': {
