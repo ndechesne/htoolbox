@@ -29,9 +29,9 @@ using namespace std;
 class TestParser : public IParser {
   int           _index;
 public:
-  TestParser(Mode mode = master, const string& dir_path = "") :
+  TestParser(Mode mode = master, const char* dir_path = "") :
       IParser(mode, dir_path) {
-    if (dir_path == "") {
+    if (dir_path[0] == '\0') {
       _index = 1;
       cout << "Contructing for list, mode: " << _mode << ", no parsing: "
         << _no_parsing << endl;
@@ -48,7 +48,7 @@ public:
   const char* name() const { return "test"; }
   const char* code() const { return "tst"; }
   // This will create an appropriate parser for the directory if relevant
-  IParser* createChildIfControlled(const string& dir_path) {
+  IParser* createChildIfControlled(const char* dir_path) {
     return new TestParser(_mode, dir_path);
   }
   // That tells use whether to ignore the file, i.e. not back it up

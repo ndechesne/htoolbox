@@ -256,7 +256,7 @@ ConfigObject* ClientPath::configChildFactory(
 int ClientPath::addParser(
     const string&   name,
     const string&   mode) {
-  IParser* parser = _parsers_manager.createParser(name, mode);
+  IParser* parser = _parsers_manager.createParser(name.c_str(), mode.c_str());
   if (parser == NULL) {
     return -1;
   }

@@ -71,14 +71,14 @@ class SvnParser : public IParser {
   bool _head;
 public:
   // Constructor
-  SvnParser(Mode mode = master, const string& dir_path = "");
+  SvnParser(Mode mode = master, const char* dir_path = "");
   // Tell them who we are
   const char* name() const { return "Subversion"; };
   const char* code() const { return "svn"; };
   // Factory
   IParser* createInstance(Mode mode) { return new SvnParser(mode); }
   // This will create an appropriate parser for the directory if relevant
-  IParser* createChildIfControlled(const string& dir_path);
+  IParser* createChildIfControlled(const char* dir_path);
   // That tells us whether to ignore the file, i.e. not back it up
   bool ignore(const Node& node);
   // For debug purposes
@@ -92,7 +92,7 @@ public:
   const char* name() const { return "Subversion Control"; }
   const char* code() const { return "svn_c"; }
   // This directory has no controlled children
-  IParser* createChildIfControlled(const string& dir_path) {
+  IParser* createChildIfControlled(const char* dir_path) {
     (void) dir_path;
     return new IgnoreParser;
   }
@@ -107,16 +107,18 @@ public:
 
 class SvnParserProxy : public IParser {
   SvnParser* _head;
-  SvnParserProxy(Mode mode, const string& dir_path);
+  SvnParserProxy(Mode mode, const char* dir_path);
 public:
   SvnParserProxy(SvnParser* head) : _head(head) {}
   const char* name() const { return "Subversion Proxy"; }
   const char* code() const { return "svn_p"; }
-  IParser* createChildIfControlled(const string& dir_path) {
+  IParser* createChildIfControlled(const char* dir_path) {
     // Parent under control, this is the control directory
-    if ((dir_path.size() > control_dir.size())
-    &&  (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
-      hlog_debug("Control dir '%s'", dir_path.c_str());
+    size_t dir_path_len = strlen(dir_path);
+    if ((dir_path_len > control_dir.size()) &&
+        (strcmp(&dir_path[dir_path_len - control_dir.size()],
+                control_dir.c_str()) == 0)) {
+      hlog_debug("Control dir '%s'", dir_path);
       return new SvnControlParser;
     }
     // Otherwise just return proxy
@@ -131,12 +133,13 @@ public:
 };
 
 // dir_path is the relative or absolute complete path to the dir
-IParser *SvnParser::createChildIfControlled(const string& dir_path) {
+IParser *SvnParser::createChildIfControlled(const char* dir_path) {
   // Parent under control, this is the control directory
-  if (! _no_parsing &&
-       (dir_path.size() > control_dir.size()) &&
-       (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
-    hlog_debug("Control dir '%s'", dir_path.c_str());
+  size_t dir_path_len = strlen(dir_path);
+  if (! _no_parsing && (dir_path_len > control_dir.size()) &&
+      (strcmp(&dir_path[dir_path_len - control_dir.size()],
+              control_dir.c_str()) == 0)) {
+    hlog_debug("Control dir '%s'", dir_path);
     return new SvnControlParser;
   }
 
@@ -144,7 +147,7 @@ IParser *SvnParser::createChildIfControlled(const string& dir_path) {
   if (! Node(Path((dir_path + control_dir).c_str(), &entries[1])).isReg()) {
     if (! _no_parsing) {
       hlog_warning("Directory '%s' should be under Subversion control",
-        dir_path.c_str());
+        dir_path);
       return new IgnoreParser;
     } else {
       return NULL;
@@ -160,16 +163,16 @@ IParser *SvnParser::createChildIfControlled(const string& dir_path) {
   }
 }
 
-SvnParser::SvnParser(Mode mode, const string& dir_path) :
+SvnParser::SvnParser(Mode mode, const char* dir_path) :
     IParser(mode, dir_path), _head(true) {
-  if (dir_path == "") {
+  if (dir_path[0] == '\0') {
     return;
   }
   /* Fill in list of files */
-  hlog_debug_arrow(1, "Parsing Subversion entries in '%s'", dir_path.c_str());
-  string command = "svn status --no-ignore --non-interactive \"" +
-    dir_path + "\"";
-  FILE* fd = popen(command.c_str(), "r");
+  hlog_debug_arrow(1, "Parsing Subversion entries in '%s'", dir_path);
+  char command[PATH_MAX + 64];
+  sprintf(command, "svn status --no-ignore --non-interactive \"%s\"", dir_path);
+  FILE* fd = popen(command, "r");
   if (fd != NULL) {
     char*   buffer = NULL;
     size_t  buflen = 0;

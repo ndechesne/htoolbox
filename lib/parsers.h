@@ -36,7 +36,6 @@
 #define PARSERS_H
 
 #include <list>
-#include <string>
 
 #include "hbackup.h"
 #include "files.h"
@@ -59,8 +58,8 @@ public:
   // Constructor
   // Note: all parsers MUST INHERIT this constructor as sole constructor, see
   // IgnoreParser below as an example
-  IParser(Mode mode = master, const string& dir_path = "") : _mode(mode) {
-    _no_parsing = (dir_path == "");
+  IParser(Mode mode = master, const char* dir_path = "") : _mode(mode) {
+    _no_parsing = (dir_path[0] == '\0');
   }
   // Need a virtual destructor
   virtual ~IParser() {};
@@ -73,7 +72,7 @@ public:
     return NULL;
   }
   // This will create an appropriate parser for the directory if relevant
-  virtual IParser* createChildIfControlled(const string& dir_path) = 0;
+  virtual IParser* createChildIfControlled(const char* dir_path) = 0;
   // That tells use whether to ignore the file, i.e. not back it up
   virtual bool ignore(const Node& node) = 0;
   // For debug purposes
@@ -85,21 +84,15 @@ public:
 class IgnoreParser : public IParser {
 public:
   // Only need default constructor here in fact, but rules are rules
-  IgnoreParser(Mode mode = master, const string& dir_path = "") :
+  IgnoreParser(Mode mode = master, const char* dir_path = "") :
     IParser(mode, dir_path) {}
   // Tell them who we are
   const char* name() const { return "ignore"; };
   const char* code() const { return "ign"; };
   // Fail on directory
-  IParser* createChildIfControlled(const string& dir_path) {
-    (void) dir_path;
-    return NULL;
-  };
+  IParser* createChildIfControlled(const char*) { return NULL; };
   // Ignore all files
-  bool ignore(const Node& node) {
-    (void) node;
-    return true;
-  };
+  bool ignore(const Node&) { return true; };
 };
 
 class Parsers {
@@ -107,7 +100,7 @@ class Parsers {
 public:
   ~Parsers();
   // Create new controlling parser if justified
-  IParser* createParserIfControlled(const string& dir_path) const;
+  IParser* createParserIfControlled(const char* dir_path) const;
   // List management
   bool empty() const { return _children.empty(); }
   size_t size() const { return _children.size(); }
@@ -124,7 +117,7 @@ public:
   // Load parser plugins
   int loadPlugins(const char* path);
   // create new managing parser of given name with given mode
-  IParser* createParser(const string& name, const string& mode) const;
+  IParser* createParser(const char* name, const char* mode) const;
   // For verbosity
   void show(int level = 0) const;
 };

@@ -38,7 +38,7 @@ Parsers::~Parsers() {
   _children.clear();
 }
 
-IParser* Parsers::createParserIfControlled(const string& dir_path) const {
+IParser* Parsers::createParserIfControlled(const char* dir_path) const {
   IParser *parser;
   list<IParser*>::const_iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
@@ -99,8 +99,8 @@ int ParsersManager::loadPlugins(const char* path) {
 }
 
 IParser* ParsersManager::createParser(
-    const string&   name,
-    const string&   mode_str) const{
+    const char*     name,
+    const char*     mode_str) const{
   IParser::Mode mode;
 
   /* Determine mode */
@@ -122,18 +122,18 @@ IParser* ParsersManager::createParser(
       mode = IParser::others;
       break;
     default:
-      hlog_error("Undefined parser mode '%s'", mode_str.c_str());
+      hlog_error("Undefined parser mode '%s'", mode_str);
       return NULL;
   }
 
   /* Create instance of specified parser */
   list<IParser*>::const_iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
-    if ((*i)->code() == name) {
+    if (strcmp((*i)->code(), name) == 0) {
       return (*i)->createInstance(mode);
     }
   }
-  hlog_error("Unsupported parser '%s'", name.c_str());
+  hlog_error("Unsupported parser '%s'", name);
   return NULL;
 }
 

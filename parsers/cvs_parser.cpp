@@ -37,14 +37,14 @@ class CvsParser : public IParser {
   list<Node>            _files;       // Files under control in current dir
 public:
   // Constructor
-  CvsParser(Mode mode = master, const string& dir_path = "");
+  CvsParser(Mode mode = master, const char* dir_path = "");
   // Tell them who we are
   const char* name() const { return "CVS"; };
   const char* code() const { return "cvs"; };
   // Factory
   IParser* createInstance(Mode mode) { return new CvsParser(mode); }
   // This will create an appropriate parser for the directory if relevant
-  IParser* createChildIfControlled(const string& dir_path);
+  IParser* createChildIfControlled(const char* dir_path);
   // That tells use whether to ignore the file, i.e. not back it up
   bool ignore(const Node& node);
   // For debug purposes
@@ -58,7 +58,7 @@ public:
   const char* name() const { return "CVS Control"; }
   const char* code() const { return "cvs_c"; }
   // This directory has no controlled children
-  IParser* createChildIfControlled(const string& dir_path) {
+  IParser* createChildIfControlled(const char* dir_path) {
     (void) dir_path;
     return new IgnoreParser;
   }
@@ -72,19 +72,18 @@ public:
   }
 };
 
-IParser *CvsParser::createChildIfControlled(const string& dir_path) {
+IParser *CvsParser::createChildIfControlled(const char* dir_path) {
   // Parent under control, this is the control directory
-  if (! _no_parsing
-   && (dir_path.size() > control_dir.size())
-   && (dir_path.substr(dir_path.size() - control_dir.size()) == control_dir)) {
+  size_t dir_path_len = strlen(dir_path);
+  if (! _no_parsing && (dir_path_len > control_dir.size()) &&
+      (strcmp(&dir_path[dir_path_len - control_dir.size()], control_dir.c_str()) == 0)) {
     return new CvsControlParser;
   }
 
   // If control directory exists and contains an entries file, assume control
   if (! Node(Path((dir_path + control_dir).c_str(), &entries[1])).isReg()) {
     if (! _no_parsing) {
-      hlog_warning("Directory '%s' should be under CVS control",
-        dir_path.c_str());
+      hlog_warning("Directory '%s' should be under CVS control", dir_path);
       return new IgnoreParser;
     } else {
       return NULL;
@@ -94,9 +93,9 @@ IParser *CvsParser::createChildIfControlled(const string& dir_path) {
   }
 }
 
-CvsParser::CvsParser(Mode mode, const string& dir_path)
+CvsParser::CvsParser(Mode mode, const char* dir_path)
     : IParser(mode, dir_path) {
-  if (dir_path == "") {
+  if (dir_path[0] == '\0') {
     return;
   }
   string path = dir_path + control_dir + entries;
@@ -137,7 +136,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path)
     // We expect a separator
     if (*reader != '/') {
       hlog_error("can't find first delimiter parsing CVS entries file '%s', "
-        "at line %d", dir_path.c_str(), line_no);
+        "at line %d", dir_path, line_no);
       continue;
     }
     reader++;
@@ -145,7 +144,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path)
     pos = strchr(reader, '/');
     if (pos == NULL) {
       hlog_error("can't find second delimiter parsing CVS entries file '%s', "
-        "at line %d", dir_path.c_str(), line_no);
+        "at line %d", dir_path, line_no);
       continue;
     }
     string name = reader;
@@ -157,7 +156,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path)
       pos = strchr(reader, '/');
       if (pos == NULL) {
         hlog_error("can't find third delimiter parsing CVS entries file '%s', "
-          "at line %d", dir_path.c_str(), line_no);
+          "at line %d", dir_path, line_no);
         continue;
       }
       // Get date
@@ -165,7 +164,7 @@ CvsParser::CvsParser(Mode mode, const string& dir_path)
       pos = strchr(reader, '/');
       if (pos == NULL) {
         hlog_error("can't find fourth delimiter parsing CVS entries file '%s', "
-          "at line %d", dir_path.c_str(), line_no);
+          "at line %d", dir_path, line_no);
         continue;
       }
       string date = reader;
@@ -213,7 +212,7 @@ bool CvsParser::ignore(const Node& node) {
   bool file_modified   = false;
   list<Node>::const_iterator  i;
   for (i = _files.begin(); i != _files.end(); i++) {
-    if (! strcmp(i->name(), node.name()) && (i->type() == node.type())) {
+    if ((strcmp(i->name(), node.name()) == 0) && (i->type() == node.type())) {
       file_controlled = true;
       if (i->mtime() != node.mtime()) {
         file_modified = true;
