@@ -144,4 +144,4 @@ CR\r
  -> Dir.: toucheddir, path = test1/toucheddir, type = d, mtime = 1, size = 1, uid = 1, gid = 1, mode = 755
  -> File: touchedfile, path = test1/touchedfile, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
 Directory::createList() performance test
-duration <= 55 us? yes
+duration <= 90 us? yes

@@ -385,7 +385,7 @@ int main(void) {
     gettimeofday(&tm_end, NULL);
     int diff = (tm_end.tv_sec - tm_start.tv_sec) * 1000000 +
                 (tm_end.tv_usec - tm_start.tv_usec);
-    const int MAX_US = 55;
+    const int MAX_US = 90;
     hlog_regression("duration <= %d us? %s",
                     MAX_US, diff < MAX_US * MAX ? "yes" : "no");
   }
