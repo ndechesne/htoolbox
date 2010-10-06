@@ -34,32 +34,39 @@
 
 using namespace std;
 
-#include "filereaderwriter.h"
-#include "hasher.h"
-#include "unzipreader.h"
-#include "zipwriter.h"
-#include "asyncwriter.h"
-#include "multiwriter.h"
+#include "hreport.h"
 #include "files.h"
 
 using namespace hbackup;
 using namespace htools;
 
+Path::Path(Path& path) : _buffer(path._buffer) {
+  ++_buffer->ref_cnt;
+}
+
+Path::Path(const Path& path) : _buffer(path._buffer) {
+  ++_buffer->ref_cnt;
+}
+
+Path::Path(const char* path) {
+  _buffer = new Buffer;
+  _buffer->path = strdup(path);
+  _buffer->size = strlen(path);
+}
+
 Path::Path(const char* dir, const char* name) {
-  if (name[0] != '\0') {
-    _capacity = asprintf(&_path, "%s/%s", dir, name);
+  _buffer = new Buffer;
+  if ((name != NULL) && (name[0] != '\0')) {
+    _buffer->size = asprintf(&_buffer->path, "%s/%s", dir, name);
   } else {
-    _path = strdup(dir);
-    _capacity = strlen(_path);
+    _buffer->path = strdup(dir);
+    _buffer->size = strlen(dir);
   }
 }
 
-Path::Path(const Path& dir, const char* name) {
-  if (name[0] != '\0') {
-    _capacity = asprintf(&_path, "%s/%s", dir._path, name);
-  } else {
-    _path = strdup(dir._path);
-    _capacity = dir._capacity;
+Path::~Path() {
+  if (--_buffer->ref_cnt == 0) {
+    delete _buffer;
   }
 }
 
@@ -74,12 +81,15 @@ const char* Path::basename(const char* path) {
 }
 
 Path Path::dirname() const {
-  char* pos = strrchr(_path, '/');
+  char* pos = strrchr(_buffer->path, '/');
   if (pos == NULL) {
     return ".";
   } else {
-    Path rc(*this);
-    pos = rc._path + (pos - _path);
+    Path rc;
+    rc._buffer = new Buffer;
+    rc._buffer->path = strdup(_buffer->path);
+    rc._buffer->size = pos - _buffer->path;
+    pos = rc._buffer->path + rc._buffer->size;
     *pos = '\0';
     return rc;
   }
@@ -290,58 +300,10 @@ int Directory::create() {
     // Only a warning
     return 1;
   } else {
-    if (mkdir(_path, 0777)) {
+    if (::mkdir(_path, 0777)) {
       return -1;
     }
     stat();
   }
   return 0;
 }
-
-
-class GzipExtraFieldSize {
-  union {
-    char            bytes[12];
-    struct {
-      char          si1;
-      char          si2;
-      short         len;
-      long long     size;
-    } fields;
-  } extra;
-public:
-  GzipExtraFieldSize(long long size) {
-    extra.fields.si1  = 'S';
-    extra.fields.si2  = 'Z';
-    extra.fields.len  = 8;
-    extra.fields.size = size;
-  }
-  GzipExtraFieldSize(const unsigned char* field) {
-    extra.fields.size = -1;
-    if ((field[0] == 'S') && (field[1] == 'Z')) {
-      memcpy(extra.bytes, field, 4);
-      if (extra.fields.len <= 8) {
-        memcpy(&extra.bytes[4], &field[4], extra.fields.len);
-      } else {
-        extra.fields.len  = 0;
-      }
-    } else {
-      extra.fields.si1  = '-';
-    }
-  }
-  operator unsigned char* () {
-    return reinterpret_cast<unsigned char*>(extra.bytes);
-  }
-  operator long long () {
-    return extra.fields.size;
-  }
-  int length() const {
-    if (extra.fields.si1 != 'S') {
-      return -1;
-    }
-    if (extra.fields.len == 0) {
-      return 0;
-    }
-    return extra.fields.len + 4;
-  }
-};

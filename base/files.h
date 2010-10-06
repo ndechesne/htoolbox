@@ -34,18 +34,25 @@ using namespace std;
 namespace hbackup {
 
 class Path {
-  char*  _path;
-  size_t _capacity;
-  Path();
+  struct Buffer {
+    char*  path;
+    size_t size;
+    size_t ref_cnt;
+    Buffer() : path(NULL), size(0), ref_cnt(1) {}
+    ~Buffer() { free(path); }
+  };
+  Buffer* _buffer;
+  Path() {}
   const Path& operator=(const Path&);
 public:
-  Path(const Path& path) : _path(strdup(path._path)), _capacity(strlen(_path)) {}
-  Path(const char* path) : _path(strdup(path)), _capacity(strlen(_path)) {}
+  Path(const Path& path);
+  Path(Path& path);
+  Path(const char* path);
   Path(const char* dir, const char* name);
-  Path(const Path& dir, const char* name);
-  ~Path() { free(_path); }
-  operator const char* () const { return _path; }
-  const char* c_str() const { return _path; }
+  ~Path();
+  operator const char* () const { return _buffer->path; }
+  const char* c_str() const { return _buffer->path; }
+  size_t size() const { return _buffer->size; }
   Path dirname() const;
   // Some generic methods
   static const char* basename(const char* path);
@@ -83,7 +90,7 @@ public:
       strcpy(_hash, g._hash);
     }
   // Constructor for path in the VFS
-  Node(Path path) : _path(path), _type('?') {
+  Node(const Path& path) : _path(path), _type('?') {
     _basename = basename(_path);
     if (_path[0] != '\0') {
       stat();
@@ -140,7 +147,7 @@ public:
   mode_t        mode()    const { return _mode;         }
   const char*   hash()    const { return _hash;         }
   const char*   link()    const { return _link.c_str(); }
-  // Create empty file
+  // Create empty/truncate file
   static int touch(const char* path);
 };
 
