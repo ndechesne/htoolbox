@@ -29,11 +29,7 @@ struct MultiWriter::Private {
     IReaderWriter* child;
     bool           delete_child;
     Child(IReaderWriter* c, bool d) : child(c), delete_child(d) {}
-    ~Child() {
-      if (delete_child) {
-        delete child;
-      }
-    }
+    // A child destructor here destroys the child as it is enlisted
   };
   list<Child> children;
 };
@@ -44,6 +40,12 @@ MultiWriter::MultiWriter(IReaderWriter* child, bool delete_child) :
   }
 
 MultiWriter::~MultiWriter() {
+  list<Private::Child>::iterator it;
+  for (it = _d->children.begin(); it != _d->children.end(); ++it) {
+    if (it->delete_child) {
+      delete it->child;
+    }
+  }
   delete _d;
 }
 
