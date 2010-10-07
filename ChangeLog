@@ -1,8 +1,13 @@
 1.1 - near future
-  * speedup SVN parsing by parsing all in one go (x20)
+  * fix expiration
+  * dramatically speedup SVN parsing
   * sensible message logger, with file logging
   * object-oriented configuration parser/reader
   * support for non-printable characters (except NUL) in file names
+  * modular system to manage file copying w/ hash calculation/[un]zipping
+  * loads of optimisations all over the place
+  * make parsers plugins
+  * disable static library support
 
 1.0 - 2010-06-04 (SVN r761)
   * add SSH support (with and without username and/or password)
