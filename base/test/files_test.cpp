@@ -61,8 +61,15 @@ static int parseList(Node *d, const char* cur_dir) {
 
 static void showList(const Node& d, int level = 0);
 
-static void defaultShowFile(const Node& g) {
+static void showFile(const Node& g, int level = 0) {
+  int level_no = level;
+  printf(" ");
+  while (level_no--) printf("-");
+  printf("> ");
   const char* type;
+  if (g.type() == 'd') {
+    type = "Dir.";
+  } else
   if (g.type() == 'f') {
     type = "File";
   } else
@@ -74,67 +81,37 @@ static void defaultShowFile(const Node& g) {
   }
   printf("%s: %s, path = %s, type = %c, mtime = %d, size = %lld, uid = %d, "
          "gid = %d, mode = %03o",
-         type, g.name(), g.path(), g.type(), g.mtime() != 0, g.size(),
+         type, g.name(), g.path(), g.type(), g.mtime() != 0,
+         (g.type() == 'd') ? 1 : g.size(),
          static_cast<int>(g.uid() != 0), static_cast<int>(g.gid() != 0),
          g.mode());
   if (g.link()[0] != '\0') {
     printf(", link = %s", g.link());
   }
+  if (g.hash()[0] != '\0') {
+    printf(", hash = %s", g.hash());
+  }
   printf("\n");
-}
-
-static void showFile(const Node& g, int level = 1) {
-  int level_no = level;
-  cout << " ";
-  while (level_no--) cout << "-";
-  cout << "> ";
-  switch (g.type()) {
-    case 'd': {
-      cout << "Dir.: " << g.name()
-        << ", path = " << g.path()
-        << ", type = " << g.type()
-        << ", mtime = " << (g.mtime() != 0)
-        << ", size = " << (g.size() != 0)
-        << ", uid = " << static_cast<int>(g.uid() != 0)
-        << ", gid = " << static_cast<int>(g.gid() != 0)
-        << oct << ", mode = " << g.mode() << dec
-        << endl;
-      if (level) {
-        showList(g, level);
-      }
-    } break;
-    default:
-      defaultShowFile(g);
+  if (g.type() == 'd') {
+    showList(g, level);
   }
 }
 
 static void showList(const Node& d, int level) {
-  if (level == 0) {
-    showFile(d, level);
-  }
   ++level;
   list<Node*>::const_iterator i;
   for (i = d.nodesListConst().begin(); i != d.nodesListConst().end(); i++) {
     if (! strcmp((*i)->name(), "cvs")) continue;
     if (! strcmp((*i)->name(), "svn")) continue;
-    if (! strcmp((*i)->name(), "bzr")) continue;
     showFile(**i, level);
   }
 }
 
 static void createNshowFile(Node &g) {
-  switch (g.type()) {
-  case 'f':
-  case 'l':
-    defaultShowFile(g);
-    break;
-  case 'd':
+  if (g.type() == 'd') {
     g.createList();
-    showList(g);
-    break;
-  default:
-    cout << "Unknown file type: " << g.type() << endl;
   }
+  showFile(g);
 }
 
 bool cancel(unsigned short __unused) {
@@ -270,10 +247,10 @@ int main(void) {
   // File types
   Node *g;
   g = new Node("test1/testfile");
-  createNshowFile(*g);
+  showFile(*g);
   delete g;
   g = new Node("test1/testlink");
-  createNshowFile(*g);
+  showFile(*g);
   delete g;
   g = new Node("test1/testdir");
   createNshowFile(*g);
@@ -354,7 +331,7 @@ int main(void) {
   if (d->isDir()) {
     if (! d->createList()) {
       if (! parseList(d, "test1")) {
-        showList(*d);
+        showFile(*d);
       }
     } else {
       cerr << "Failed to create list: " << strerror(errno) << endl;
