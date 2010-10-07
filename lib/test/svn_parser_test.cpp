@@ -58,33 +58,31 @@ int main(void) {
   // Create pseudo parsers list member
   parser_list = ParserManager.createInstance(IParser::controlled);
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1")) == NULL) {
     cout << "test1" << " is not controlled" << endl;
   } else {
     delete parser;
   }
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1/svn")) == NULL) {
     cout << "test1/svn" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new Directory("test1/svn/.svn");
+    node = new Node("test1/svn/.svn");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new Directory("test1/svn/dirbad");
+    node = new Node("test1/svn/dirbad");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new Directory("test1/svn/dirutd");
+    node = new Node("test1/svn/dirutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -161,7 +159,6 @@ int main(void) {
     delete parser;
   }
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1/svn/dirutd")) == NULL) {
     cout << "test1/svn/dirutd" << " is not controlled" << endl;
   } else {
@@ -183,7 +180,6 @@ int main(void) {
     delete parser;
   }
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1/svn/diroth")) == NULL) {
     cout << "test1/svn/diroth" << " is not controlled" << endl;
   } else {
@@ -239,33 +235,31 @@ int main(void) {
   // Create pseudo parsers list member
   parser_list = ParserManager.createInstance(IParser::modified);
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1")) == NULL) {
     cout << "test1" << " is not controlled" << endl;
   } else {
     delete parser;
   }
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1/svn")) == NULL) {
     cout << "test1/svn" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new Directory("test1/svn/.svn");
+    node = new Node("test1/svn/.svn");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new Directory("test1/svn/dirbad");
+    node = new Node("test1/svn/dirbad");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new Directory("test1/svn/dirutd");
+    node = new Node("test1/svn/dirutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -342,7 +336,6 @@ int main(void) {
     delete parser;
   }
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1/svn/dirutd")) == NULL) {
     cout << "test1/svn/dirutd" << " is not controlled" << endl;
   } else {
@@ -364,7 +357,6 @@ int main(void) {
     delete parser;
   }
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1/svn/diroth")) == NULL) {
     cout << "test1/svn/diroth" << " is not controlled" << endl;
   } else {
@@ -421,33 +413,31 @@ int main(void) {
   // Create pseudo parsers list member
   parser_list = ParserManager.createInstance(IParser::modifiedandothers);
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1")) == NULL) {
     cout << "test1" << " is not controlled" << endl;
   } else {
     delete parser;
   }
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1/svn")) == NULL) {
     cout << "test1/svn" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new Directory("test1/svn/.svn");
+    node = new Node("test1/svn/.svn");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new Directory("test1/svn/dirbad");
+    node = new Node("test1/svn/dirbad");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new Directory("test1/svn/dirutd");
+    node = new Node("test1/svn/dirutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -524,7 +514,6 @@ int main(void) {
     delete parser;
   }
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1/svn/dirutd")) == NULL) {
     cout << "test1/svn/dirutd" << " is not controlled" << endl;
   } else {
@@ -546,7 +535,6 @@ int main(void) {
     delete parser;
   }
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1/svn/diroth")) == NULL) {
     cout << "test1/svn/diroth" << " is not controlled" << endl;
   } else {
@@ -603,33 +591,31 @@ int main(void) {
   // Create pseudo parsers list member
   parser_list = ParserManager.createInstance(IParser::others);
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1")) == NULL) {
     cout << "test1" << " is not controlled" << endl;
   } else {
     delete parser;
   }
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1/svn")) == NULL) {
     cout << "test1/svn" << " is not controlled" << endl;
   } else {
     /* Nodes */
-    node = new Directory("test1/svn/.svn");
+    node = new Node("test1/svn/.svn");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new Directory("test1/svn/dirbad");
+    node = new Node("test1/svn/dirbad");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
     }
     cout << " be ignored" << endl;
     delete node;
-    node = new Directory("test1/svn/dirutd");
+    node = new Node("test1/svn/dirutd");
     cout << node->path() << " will";
     if (! parser->ignore(*node)) {
       cout << " not";
@@ -706,7 +692,6 @@ int main(void) {
     delete parser;
   }
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1/svn/dirutd")) == NULL) {
     cout << "test1/svn/dirutd" << " is not controlled" << endl;
   } else {
@@ -728,7 +713,6 @@ int main(void) {
     delete parser;
   }
 
-  /* Directory */
   if ((parser = parser_list->createChildIfControlled("test1/svn/diroth")) == NULL) {
     cout << "test1/svn/diroth" << " is not controlled" << endl;
   } else {

@@ -62,7 +62,7 @@ static void list_progress(long long previous, long long current, long long total
 }
 
 static int showClientConfigs() {
-  Directory dir("test_db/.configs");
+  Node dir("test_db/.configs");
   if (dir.createList()) {
     cout << "Could not open configs dir" << endl;
     return -1;

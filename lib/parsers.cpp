@@ -70,8 +70,8 @@ ParsersManager::~ParsersManager() {
 
 int ParsersManager::loadPlugins(const char* path) {
   int rc = 0;
-  Directory d(path);
-  if (d.isValid()) {
+  Node d(path);
+  if (d.isDir()) {
     d.createList();
     const list<Node*>& nodes = d.nodesListConst();
     for (list<Node*>::const_iterator node_it = nodes.begin();

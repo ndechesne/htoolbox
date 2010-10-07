@@ -39,20 +39,16 @@ using namespace std;
 using namespace hbackup;
 using namespace htools;
 
-static int parseList(Directory *d, const char* cur_dir) {
+static int parseList(Node *d, const char* cur_dir) {
   list<Node*>::iterator i = d->nodesList().begin();
   while (i != d->nodesList().end()) {
-    Node* payload = *i;
-    switch (payload->type()) {
+    switch ((*i)->type()) {
       case 'd': {
-        Directory *di = new Directory(*payload);
-        delete *i;
-        *i = di;
-        Path dir_path(cur_dir, di->name());
-        if (! di->createList()) {
-          parseList(di, dir_path.c_str());
+        Path dir_path(cur_dir, (*i)->name());
+        if (! (*i)->createList()) {
+          parseList((*i), dir_path.c_str());
         } else {
-          cerr << "Failed to create list for " << di->name() << " in "
+          cerr << "Failed to create list for " << (*i)->name() << " in "
             << cur_dir << endl;
         }
       }
@@ -63,7 +59,7 @@ static int parseList(Directory *d, const char* cur_dir) {
   return 0;
 }
 
-static void showList(const Directory& d, int level = 0);
+static void showList(const Node& d, int level = 0);
 
 static void defaultShowFile(const Node& g) {
   const char* type;
@@ -94,18 +90,17 @@ static void showFile(const Node& g, int level = 1) {
   cout << "> ";
   switch (g.type()) {
     case 'd': {
-      const Directory& d = static_cast<const Directory&>(g);
-      cout << "Dir.: " << d.name()
-        << ", path = " << d.path()
-        << ", type = " << d.type()
-        << ", mtime = " << (d.mtime() != 0)
-        << ", size = " << (d.size() != 0)
-        << ", uid = " << static_cast<int>(d.uid() != 0)
-        << ", gid = " << static_cast<int>(d.gid() != 0)
-        << oct << ", mode = " << d.mode() << dec
+      cout << "Dir.: " << g.name()
+        << ", path = " << g.path()
+        << ", type = " << g.type()
+        << ", mtime = " << (g.mtime() != 0)
+        << ", size = " << (g.size() != 0)
+        << ", uid = " << static_cast<int>(g.uid() != 0)
+        << ", gid = " << static_cast<int>(g.gid() != 0)
+        << oct << ", mode = " << g.mode() << dec
         << endl;
       if (level) {
-        showList(d, level);
+        showList(g, level);
       }
     } break;
     default:
@@ -113,7 +108,7 @@ static void showFile(const Node& g, int level = 1) {
   }
 }
 
-static void showList(const Directory& d, int level) {
+static void showList(const Node& d, int level) {
   if (level == 0) {
     showFile(d, level);
   }
@@ -127,17 +122,16 @@ static void showList(const Directory& d, int level) {
   }
 }
 
-static void createNshowFile(const Node &g) {
+static void createNshowFile(Node &g) {
   switch (g.type()) {
   case 'f':
   case 'l':
     defaultShowFile(g);
     break;
-  case 'd': {
-    Directory d(g);
-    d.createList();
-    showList(d);
-    } break;
+  case 'd':
+    g.createList();
+    showList(g);
+    break;
   default:
     cout << "Unknown file type: " << g.type() << endl;
   }
@@ -302,62 +296,62 @@ int main(void) {
 
   cout << endl << "Validity tests" << endl;
   cout << "File is file? " << Node("test1/testfile").isReg() << endl;
-  cout << "File is dir? " << Directory("test1/testfile").isValid() << endl;
+  cout << "File is dir? " << Node("test1/testfile").isDir() << endl;
   cout << "File is link? " << Node("test1/testfile").isLink() << endl;
   cout << "Dir is file? " << Node("test1/testdir").isReg() << endl;
-  cout << "Dir is dir? " << Directory("test1/testdir").isValid() << endl;
+  cout << "Dir is dir? " << Node("test1/testdir").isDir() << endl;
   cout << "Dir is link? " << Node("test1/testdir").isLink() << endl;
   cout << "Link is file? " << Node("test1/testlink").isReg() << endl;
-  cout << "Link is dir? " << Directory("test1/testlink").isValid() << endl;
+  cout << "Link is dir? " << Node("test1/testlink").isDir() << endl;
   cout << "Link is link? " << Node("test1/testlink").isLink() << endl;
 
   cout << endl << "Creation tests" << endl;
   cout << "File is file? " << Node("test1/touchedfile").isReg() << endl;
-  cout << "File is dir? " << Directory("test1/touchedfile").isValid() << endl;
+  cout << "File is dir? " << Node("test1/touchedfile").isDir() << endl;
   cout << "File is link? " << Node("test1/touchedfile").isLink() << endl;
   cout << "Dir is file? " << Node("test1/toucheddir").isReg() << endl;
-  cout << "Dir is dir? " << Directory("test1/toucheddir").isValid() << endl;
+  cout << "Dir is dir? " << Node("test1/toucheddir").isDir() << endl;
   cout << "Dir is link? " << Node("test1/toucheddir").isLink() << endl;
   cout << "Link is file? " << Node("test1/touchedlink").isReg() << endl;
-  cout << "Link is dir? " << Directory("test1/touchedlink").isValid() << endl;
+  cout << "Link is dir? " << Node("test1/touchedlink").isDir() << endl;
   cout << "Link is link? " << Node("test1/touchedlink").isLink() << endl;
 
   cout << "Create" << endl;
   if (Node::touch("test1/touchedfile"))
     cout << "failed to create file: " << strerror(errno) << endl;
-  if (Directory("test1/toucheddir").create())
+  if (Node("test1/toucheddir").mkdir())
     cout << "failed to create dir" << endl;
 
   cout << "File is file? " << Node("test1/touchedfile").isReg() << endl;
-  cout << "File is dir? " << Directory("test1/touchedfile").isValid() << endl;
+  cout << "File is dir? " << Node("test1/touchedfile").isDir() << endl;
   cout << "File is link? " << Node("test1/touchedfile").isLink() << endl;
   cout << "Dir is file? " << Node("test1/toucheddir").isReg() << endl;
-  cout << "Dir is dir? " << Directory("test1/toucheddir").isValid() << endl;
+  cout << "Dir is dir? " << Node("test1/toucheddir").isDir() << endl;
   cout << "Dir is link? " << Node("test1/toucheddir").isLink() << endl;
   cout << "Link is file? " << Node("test1/touchedlink").isReg() << endl;
-  cout << "Link is dir? " << Directory("test1/touchedlink").isValid() << endl;
+  cout << "Link is dir? " << Node("test1/touchedlink").isDir() << endl;
   cout << "Link is link? " << Node("test1/touchedlink").isLink() << endl;
 
   cout << "Create again" << endl;
   if (Node::touch("test1/touchedfile"))
     cout << "failed to create file: " << strerror(errno) << endl;
-  if (Directory("test1/toucheddir").create())
+  if (Node("test1/toucheddir").mkdir())
     cout << "failed to create dir: " << strerror(errno) << endl;
 
   cout << "File is file? " << Node("test1/touchedfile").isReg() << endl;
-  cout << "File is dir? " << Directory("test1/touchedfile").isValid() << endl;
+  cout << "File is dir? " << Node("test1/touchedfile").isDir() << endl;
   cout << "File is link? " << Node("test1/touchedfile").isLink() << endl;
   cout << "Dir is file? " << Node("test1/toucheddir").isReg() << endl;
-  cout << "Dir is dir? " << Directory("test1/toucheddir").isValid() << endl;
+  cout << "Dir is dir? " << Node("test1/toucheddir").isDir() << endl;
   cout << "Dir is link? " << Node("test1/toucheddir").isLink() << endl;
   cout << "Link is file? " << Node("test1/touchedlink").isReg() << endl;
-  cout << "Link is dir? " << Directory("test1/touchedlink").isValid() << endl;
+  cout << "Link is dir? " << Node("test1/touchedlink").isDir() << endl;
   cout << "Link is link? " << Node("test1/touchedlink").isLink() << endl;
 
   cout << endl << "Parsing test" << endl;
 
-  Directory* d = new Directory("test1");
-  if (d->isValid()) {
+  Node* d = new Node("test1");
+  if (d->isDir()) {
     if (! d->createList()) {
       if (! parseList(d, "test1")) {
         showList(*d);
@@ -369,11 +363,11 @@ int main(void) {
   delete d;
 
 
-  hlog_regression("Directory::createList() performance test");
+  hlog_regression("Node::createList() performance test");
   {
     struct timeval tm_start;
     struct timeval tm_end;
-    Directory d(".");
+    Node d(".");
     if (d.createList() < 0) return 0;
     d.deleteList();
     gettimeofday(&tm_start, NULL);

@@ -436,8 +436,8 @@ int HBackup::backup(
     _d->db->setCompressionMode(_d->db_compress_mode);
 
     Path mount_dir_path(_d->db->path(), ".mount");
-    Directory mount_dir(mount_dir_path);
-    if (mount_dir.create() < 0) {
+    Node mount_dir(mount_dir_path);
+    if (mount_dir.mkdir() < 0) {
       return -1;
     }
     bool failed = false;
@@ -462,9 +462,9 @@ int HBackup::backup(
       }
       Path mount_point_path(mount_dir.path(),
         (*client)->internalName().c_str());
-      Directory mount_point(mount_point_path);
+      Node mount_point(mount_point_path);
       // Check that mount dir exists, if not create it
-      if (mount_point.create() < 0) {
+      if (mount_point.mkdir() < 0) {
         return -1;
       }
       if ((*client)->backup(*_d->db, mount_point.path())) {

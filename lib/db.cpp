@@ -282,7 +282,7 @@ void Database::setListProgressCallback(progress_f progress) {
 
 int Database::getClients(
     list<string>& clients) const {
-  Directory dir(_d->path.c_str());
+  Node dir(_d->path.c_str());
   if (dir.createList() < 0) {
     return -1;
   }
@@ -364,7 +364,7 @@ int Database::restore(
     bool this_failed = false;
     Path base(dest, db_path);
     Path dir = base.dirname();
-    if (! Directory(dir).isValid()) {
+    if (! Node(dir).isDir()) {
       string command = "mkdir -p \"";
       command += dir.c_str();
       command += "\"";

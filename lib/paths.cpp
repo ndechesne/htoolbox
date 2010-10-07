@@ -44,7 +44,7 @@ int ClientPath::parse_recurse(
     const char*     remote_path,
     const char*     client_name,
     size_t          start,
-    Directory&      dir,
+    Node&           dir,
     IParser*        current_parser) {
   if (aborting()) {
     return -1;
@@ -110,11 +110,10 @@ int ClientPath::parse_recurse(
           // Parse directory, disregard/re-use some irrelevant fields
           bool create_list_failed = false;
           if ((*i)->type() == 'd') {
-            Directory& d = static_cast<Directory&>(**i);
-            d.setMtime(0);
-            d.setSize(0);
-            if (d.createList()) {
-              d.deleteList();
+            (*i)->setMtime(0);
+            (*i)->setSize(0);
+            if ((*i)->createList()) {
+              (*i)->deleteList();
               create_list_failed = true;
               if ((errno != EACCES)     // Ignore access refused
               &&  (errno != ENOENT)) {  // Ignore directory gone
@@ -122,7 +121,7 @@ int ClientPath::parse_recurse(
                 give_up = true;
               } else {
                 // Remember the error level
-                d.setSize(-1);
+                (*i)->setSize(-1);
               }
             }
           }
@@ -178,8 +177,7 @@ int ClientPath::parse_recurse(
             if ((*i)->size() != -1) {
               hlog_verbose_temp("%s", &rem_path[_path_len + 1]);
             }
-            if (parse_recurse(db, rem_path, client_name, start,
-                static_cast<Directory&>(**i), parser) < 0) {
+            if (parse_recurse(db, rem_path, client_name, start, **i, parser) < 0) {
               give_up = true;
             }
           }
@@ -270,8 +268,8 @@ int ClientPath::parse(
     const char*     client_name) {
   int rc = 0;
   _nodes = 0;
-  Directory dir(backup_path);
-  if (! dir.isValid() || dir.createList()) {
+  Node dir(backup_path);
+  if (! dir.isDir() || dir.createList()) {
     char* full_name;
     if (asprintf(&full_name, "%s:%s", client_name,
                  static_cast<const char*>(_path)) < 0) {

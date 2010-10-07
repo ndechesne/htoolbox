@@ -133,7 +133,7 @@ int main(void) {
     }
   }
   cout << "File data gone" << endl;
-  Directory("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").create();
+  Node("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").mkdir();
   if (db.scan()) {
     printf("db.scan: %s\n", strerror(errno));
   }
@@ -145,8 +145,8 @@ int main(void) {
     }
   }
   cout << "File data corrupted, surficial scan" << endl;
-  if (Directory("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
-    cout << "Directory still exists!" << endl;
+  if (Node("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").mkdir()) {
+    cout << "Node still exists!" << endl;
   }
   Node::touch("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data");
   sys_rc = system("echo 0 > "
@@ -165,8 +165,8 @@ int main(void) {
     printf("db.scan: %s\n", strerror(errno));
   }
   cout << "File data corrupted, thorough scan" << endl;
-  if (Directory("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
-    cout << "Directory still exists!" << endl;
+  if (Node("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").mkdir()) {
+    cout << "Node still exists!" << endl;
   }
   Node::touch("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data");
   sys_rc = system("echo 0 > "
@@ -194,8 +194,8 @@ int main(void) {
     printf("db.scan: %s\n", strerror(errno));
   }
   cout << "Scan again" << endl;
-  if (Directory("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").create()) {
-    cout << "Directory still exists!" << endl;
+  if (Node("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").mkdir()) {
+    cout << "Node still exists!" << endl;
     if (Node("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data").isReg())
     {
       cout << "File still exists!" << endl;
@@ -251,11 +251,11 @@ int main(void) {
 
   db.openClient("myClient");
 
-  Directory* d;
+  Node* d;
   Node* f;
   Database::OpData* op;
   const char* p;
-  d = new Directory("test1/subdir");
+  d = new Node("test1/subdir");
   d->setSize(0);
   p = "/client_path/subdir";
   op = new Database::OpData(p, strlen(p), *d);
@@ -297,7 +297,7 @@ int main(void) {
   db.add(*op);
   delete op;
   delete f;
-  d = new Directory("test1/testdir");
+  d = new Node("test1/testdir");
   d->setSize(0);
   p = "other_path/testdir";
   op = new Database::OpData(p, strlen(p), *d);
@@ -426,7 +426,7 @@ int main(void) {
 
   cout << endl << "Test: scan" << endl;
   ::remove("test_db/.data/3d546a1ce46c6ae10ad34ab8a81c542e-0/data");
-  Directory("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0").create();
+  Node("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0").mkdir();
   sys_rc = system("echo '3' > test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
   sys_rc = system("echo 2 > test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/meta");
   if ((status = db.open())) {

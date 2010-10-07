@@ -192,8 +192,8 @@ const char* Owner::path() const {
 }
 
 int Owner::hold() const {
-  Directory owner_dir(_d->path.c_str());
-  if (! owner_dir.isValid()) {
+  Node owner_dir(_d->path.c_str());
+  if (! owner_dir.isDir()) {
     hlog_error("Directory does not exist '%s', aborting", _d->name.c_str());
     return -1;
   }
@@ -236,11 +236,11 @@ int Owner::release() const {
 int Owner::open(
     bool            initialize,
     bool            check) {
-  Directory owner_dir(_d->path.c_str());
-  if (! owner_dir.isValid()) {
+  Node owner_dir(_d->path.c_str());
+  if (! owner_dir.isDir()) {
     if (initialize) {
-      if (owner_dir.create() < 0) {
-        hlog_error("Directory cannot be created '%s', aborting",
+      if (owner_dir.mkdir() < 0) {
+        hlog_error("Node cannot be created '%s', aborting",
           _d->name.c_str());
         return -1;
       }
@@ -250,7 +250,7 @@ int Owner::open(
       return 0;
     } else
     {
-      hlog_error("Directory does not exist '%s', aborting", _d->name.c_str());
+      hlog_error("Node does not exist '%s', aborting", _d->name.c_str());
       return -1;
     }
   }

@@ -245,7 +245,7 @@ int Data::getDir(
       path[path_len++] = checksum[level++];
       path[path_len++] = checksum[level++];
       path[path_len] = '\0';
-      if (create && (Directory(path).create() < 0)) {
+      if (create && (Node(path).mkdir() < 0)) {
         return -1;
       }
     } else {
@@ -256,7 +256,7 @@ int Data::getDir(
   path[path_len] = '/';
   strcpy(&path[path_len], &checksum[level]);
   path = path;
-  return Directory(path).isValid() ? 0 : 1;
+  return Node(path).isDir() ? 0 : 1;
 }
 
 int Data::getMetadata(
@@ -374,8 +374,8 @@ int Data::organise(
         char two_letters[3] = {
           source_path.name()[0], source_path.name()[1], '\0'
         };
-        Directory dir(Path(path, two_letters));
-        if (dir.create() < 0) {
+        Node dir(Path(path, two_letters));
+        if (dir.mkdir() < 0) {
           failed = true;
         } else {
           // Move directory accross, changing its name
@@ -395,7 +395,7 @@ int Data::organise(
 }
 
 int Data::crawl_recurse(
-    Directory&      dir,
+    Node&      dir,
     const string&   checksum_part,
     list<CompData>* data,
     bool            thorough,
@@ -403,7 +403,7 @@ int Data::crawl_recurse(
     size_t*         valid,
     size_t*         broken) const {
   bool failed = false;
-  if (dir.isValid() && ! dir.createList()) {
+  if (dir.isDir() && ! dir.createList()) {
     bool no_files   = false;
     bool temp_found = false;
     list<Node*>::iterator i = dir.nodesList().begin();
@@ -425,8 +425,7 @@ int Data::crawl_recurse(
         } else {
           string checksum = checksum_part + (*i)->name();
           if (no_files) {
-            Directory d(**i);
-            if (crawl_recurse(d, checksum, data, thorough, repair, valid,
+            if (crawl_recurse(**i, checksum, data, thorough, repair, valid,
                 broken) < 0){
               failed = true;
             }
@@ -473,12 +472,12 @@ Data::~Data() {
 
 int Data::open(bool create) {
   // Base directory
-  Directory dir(_d->path.c_str());
+  Node dir(_d->path.c_str());
   // Check for existence
-  if (dir.isValid()) {
+  if (dir.isDir()) {
     return 0;
   }
-  if (create && (dir.create() >= 0)) {
+  if (create && (dir.mkdir() >= 0)) {
     // Signal creation
     return 1;
   }
@@ -691,8 +690,8 @@ Data::WriteStatus Data::write(
   WriteStatus status = error;
   do {
     sprintf(final_path, "%s-%u", dest_path, index);
-    // Directory does not exist
-    if (! Directory(final_path).isValid()) {
+    // Node does not exist
+    if (! Node(final_path).isDir()) {
       status = add;
     } else {
       const char* extensions[] = { "", ".gz", NULL };
@@ -747,7 +746,7 @@ Data::WriteStatus Data::write(
     hlog_debug("%s %scompressed data for %s-%d",
       (status == add) ? "Adding" : "Replacing with",
       (*comp_level != 0) ? "" : "un", source_hash, index);
-    if (Directory(final_path).create() < 0) {
+    if (Node(final_path).mkdir() < 0) {
       hlog_error("%s creating directory '%s'", strerror(errno), final_path);
     } else
     if ((status == replace) && (::remove(data_path) < 0)) {
@@ -969,7 +968,7 @@ int Data::crawl(
     bool            thorough,
     bool            repair,
     list<CompData>* data) const {
-  Directory d(_d->path.c_str());
+  Node d(_d->path.c_str());
   size_t valid  = 0;
   size_t broken = 0;
   int rc = crawl_recurse(d, "", data, thorough, repair, &valid, &broken);

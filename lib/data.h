@@ -80,7 +80,7 @@ protected: // So I can test them
     bool*           compressed = NULL) const;
   // Scan database for missing/corrupted data, return a list of valid checksums
   int crawl_recurse(
-    Directory&      dir,              // Base directory
+    Node&           dir,              // Base directory
     const string&   checksum_part,    // Checksum part
     list<CompData>* data,             // List of collected data
     bool            thorough,         // Whether to check for data corruption

@@ -35,7 +35,7 @@ class ClientPath : public ConfigObject {
     const char*     remote_path,      // Dir where the file resides, remotely
     const char*     client_name,
     size_t          start,
-    Directory&      dir,
+    Node&           dir,
     IParser*        parser);
 public:
   ClientPath(

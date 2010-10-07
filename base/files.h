@@ -61,18 +61,21 @@ public:
   static const char* noTrailingSlashes(char* path);
 };
 
+class Node;
+
 class Node {
 protected:
-  Path        _path;      // file path
-  const char* _basename;  // file cached base name
-  char        _type;      // file type ('?' if metadata not available)
-  time_t      _mtime;     // time of last modification
-  long long   _size;      // file size, in bytes
-  uid_t       _uid;       // user ID of owner
-  gid_t       _gid;       // group ID of owner
-  mode_t      _mode;      // permissions
-  char        _hash[129]; // regular file hash
-  std::string _link;      // symbolic link value
+  Path          _path;      // file path
+  const char*   _basename;  // file cached base name
+  char          _type;      // file type ('?' if metadata not available)
+  time_t        _mtime;     // time of last modification
+  long long     _size;      // file size, in bytes
+  uid_t         _uid;       // user ID of owner
+  gid_t         _gid;       // group ID of owner
+  mode_t        _mode;      // permissions
+  char          _hash[129]; // regular file hash
+  std::string   _link;      // symbolic link value
+  list<Node*>*  _nodes;     // directory entries
   // Stat file metadata
   int stat();
 public:
@@ -85,12 +88,13 @@ public:
         _uid(g._uid),
         _gid(g._gid),
         _mode(g._mode),
-        _link(g._link) {
+        _link(g._link),
+        _nodes(NULL) {
       _basename = basename(_path);
       strcpy(_hash, g._hash);
     }
   // Constructor for path in the VFS
-  Node(const Path& path) : _path(path), _type('?') {
+  Node(const Path& path) : _path(path), _type('?'), _nodes(NULL) {
     _basename = basename(_path);
     if (_path[0] != '\0') {
       stat();
@@ -113,7 +117,8 @@ public:
         _size(size),
         _uid(uid),
         _gid(gid),
-        _mode(mode) {
+        _mode(mode),
+        _nodes(NULL) {
       _basename = basename(_path);
       if (_type == 'l') {
         _link = link_or_hash;
@@ -122,7 +127,9 @@ public:
         strcpy(_hash, link_or_hash);
       }
     }
-  virtual ~Node() {}
+  ~Node() {
+    deleteList();
+  }
   // Reset some metadata
   void setMtime(time_t mtime)    { _mtime = mtime; }
   void setSize(long long size)   { _size  = size;  }
@@ -135,6 +142,7 @@ public:
     return Path::compare(_path, right._path) < 0;
   }
   // Data read access
+  bool          isDir()   const { return _type == 'd';  }
   bool          isReg()   const { return _type == 'f';  }
   bool          isLink()  const { return _type == 'l';  }
   const char*   path()    const { return _path;         }
@@ -149,22 +157,9 @@ public:
   const char*   link()    const { return _link.c_str(); }
   // Create empty/truncate file
   static int touch(const char* path);
-};
-
-class Directory : public Node {
-  list<Node*>*  _nodes;
-public:
-  // Constructor for existing Node
-  Directory(const Node& g) : Node(g), _nodes(NULL) {}
-  // Constructor for path in the VFS
-  Directory(Path path) : Node(path), _nodes(NULL) {}
-  ~Directory() {
-    deleteList();
-  }
-  bool  isValid() const { return _type == 'd'; }
   // Create directory
-  int   create();
-  // Create list of Nodes contained in directory
+  int mkdir();
+  // Directory entries management
   int   createList();
   void  deleteList();
   bool  hasList() const                     { return _nodes != NULL; }

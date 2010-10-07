@@ -85,7 +85,7 @@ int main(void) {
   report.setLevel(debug);
 
   /* Test database */
-  Directory("test_db").create();
+  Node("test_db").mkdir();;
   status = db.open(true);
   if (status) {
     cout << "db::open status " << status << endl;
@@ -96,18 +96,18 @@ int main(void) {
 
 
   cout << endl << "Test: getdir" << endl;
-  cout << "Check test_db/data dir: " << ! Directory("test_db/data").isValid()
+  cout << "Check test_db/data dir: " << ! Node("test_db/data").isDir()
     << endl;
   Node::touch("test_db/data/.nofiles");
-  Directory("test_db/data/fe").create();
+  Node("test_db/data/fe").mkdir();;
   Node::touch("test_db/data/fe/.nofiles");
   Node::touch("test_db/data/fe/test4");
-  Directory("test_db/data/fe/dc").create();
+  Node("test_db/data/fe/dc").mkdir();;
   Node::touch("test_db/data/fe/dc/.nofiles");
-  Directory("test_db/data/fe/ba").create();
-  Directory("test_db/data/fe/ba/test1").create();
-  Directory("test_db/data/fe/98").create();
-  Directory("test_db/data/fe/98/test2").create();
+  Node("test_db/data/fe/ba").mkdir();;
+  Node("test_db/data/fe/ba/test1").mkdir();;
+  Node("test_db/data/fe/98").mkdir();;
+  Node("test_db/data/fe/98/test2").mkdir();;
   char getdir_path[PATH_MAX];
   cout << "febatest1 status: " << db.getDir("febatest1", getdir_path, true)
     << ", getdir_path: " << getdir_path << endl;
@@ -119,7 +119,7 @@ int main(void) {
     << ", getdir_path: " << getdir_path << endl;
   cout << "fedc76test5 status: " << db.getDir("fedc76test5", getdir_path, true)
     << ", getdir_path: " << getdir_path << endl;
-  Directory("test_db/data/fe/dc/76").create();
+  Node("test_db/data/fe/dc/76").mkdir();;
   cout << "fedc76test6 status: " << db.getDir("fedc76test6", getdir_path, true)
     << ", getdir_path: " << getdir_path << endl;
   mkdir("test_db/data/fe/dc/76/test6", 0755);

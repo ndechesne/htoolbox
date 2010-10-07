@@ -220,7 +220,7 @@ static int direntCompare(const dirent** a, const dirent** b) {
   return Path::compare((*a)->d_name, (*b)->d_name);
 }
 
-int Directory::createList() {
+int Node::createList() {
   if (_nodes != NULL) {
     errno = EBUSY;
     return -1;
@@ -262,16 +262,8 @@ int Directory::createList() {
     strcpy(&path[path_len], direntList[size]->d_name);
     Node *g = new Node(path);
     free(direntList[size]);
-    switch (g->type()) {
-      case 'd': {
-        Directory *d = new Directory(*g);
-        delete g;
-        g = d;
-      } break;
-      case '?':
-        failed = true;
-        break;
-      default:;
+    if (g->type() == '?') {
+      failed = true;
     }
     _nodes->push_front(g);
   }
@@ -279,7 +271,7 @@ int Directory::createList() {
   return failed ? -1 : 0;
 }
 
-void Directory::deleteList() {
+void Node::deleteList() {
   if (_nodes != NULL) {
     list<Node*>::iterator i = _nodes->begin();
     while (i != _nodes->end()) {
@@ -291,11 +283,11 @@ void Directory::deleteList() {
   }
 }
 
-int Directory::create() {
+int Node::mkdir() {
   if (_type == '?') {
     stat();
   }
-  if (isValid()) {
+  if (isDir()) {
     errno = EEXIST;
     // Only a warning
     return 1;

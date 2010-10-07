@@ -188,7 +188,7 @@ int main(void) {
   journal.add("longlink", time(NULL), node);
   delete node;
 
-  node = new Directory("test1/testdir");
+  node = new Node("test1/testdir");
   node->setSize(0);
   journal.add("path", time(NULL), node);
   delete node;
@@ -569,7 +569,7 @@ int main(void) {
   journal.add("link2", time(NULL), node);
   delete node;
 
-  node = new Directory("test1/testdir");
+  node = new Node("test1/testdir");
   journal.add("path", time(NULL), node);
   delete node;
 

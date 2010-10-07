@@ -309,8 +309,7 @@ int Client::backup(
       // Save configuration
       char path[PATH_MAX];
       size_t len = sprintf(path, "%s/%s", db.path(), ".configs");
-      Directory dir(path);
-      if (dir.create() < 0) {
+      if (Node(path).mkdir() < 0) {
         hlog_error("%s creating configuration directory '%s'", strerror(errno),
           path);
       } else {
