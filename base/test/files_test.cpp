@@ -150,6 +150,20 @@ int main(void) {
   pth0 = new Path("123/456", "789/159");
   cout << pth0->c_str() << endl;
   delete pth0;
+  // trailing slashes
+  pth0 = new Path("//////////12//////3/456////////", Path::NO_TRAILING_SLASHES);
+  hlog_regression("Path (%zu) = '%s'", pth0->length(), pth0->c_str());
+  delete pth0;
+  // multiple slashes
+  pth0 = new Path("//////////12//////3/456////////", Path::NO_REPEATED_SLASHES);
+  hlog_regression("Path (%zu) = '%s'", pth0->length(), pth0->c_str());
+  delete pth0;
+  // multiple and trailing slashes
+  pth0 = new Path("//////////12//////3/456////////",
+    Path::NO_TRAILING_SLASHES | Path::NO_REPEATED_SLASHES);
+  hlog_regression("Path (%zu) = '%s'", pth0->length(), pth0->c_str());
+  delete pth0;
+  //
   pth0 = new Path("//1123//456", "7899//11599//");
   cout << pth0->c_str() << endl;
   Path pth1(*pth0);

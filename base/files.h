@@ -45,20 +45,27 @@ class Path {
   Path() {}
   const Path& operator=(const Path&);
 public:
+  enum {
+    NO_TRAILING_SLASHES = 1 << 0,
+    NO_REPEATED_SLASHES = 1 << 1,
+    CONVERT_FROM_DOS    = 1 << 2
+  };
   Path(const Path& path);
   Path(Path& path);
-  Path(const char* path);
+  Path(const char* path, int flags = 0);
   Path(const char* dir, const char* name);
   ~Path();
   operator const char* () const { return _buffer->path; }
   const char* c_str() const { return _buffer->path; }
   size_t size() const { return _buffer->size; }
+  size_t length() const { return _buffer->size; }
   Path dirname() const;
   // Some generic methods
   static const char* basename(const char* path);
   static int compare(const char* s1, const char* s2, ssize_t length = -1);
   static const char* fromDos(char* path);
-  static const char* noTrailingSlashes(char* path);
+  static const char* noTrailingSlashes(char* path, size_t* size_p = NULL);
+  static const char* noRepeatedSlashes(char* path, size_t* size_p = NULL);
 };
 
 class Node;

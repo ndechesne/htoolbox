@@ -48,10 +48,19 @@ Path::Path(const Path& path) : _buffer(path._buffer) {
   ++_buffer->ref_cnt;
 }
 
-Path::Path(const char* path) {
+Path::Path(const char* path, int flags) {
   _buffer = new Buffer;
   _buffer->path = strdup(path);
   _buffer->size = strlen(path);
+  if (flags & CONVERT_FROM_DOS) {
+    fromDos(_buffer->path);
+  }
+  if (flags & NO_TRAILING_SLASHES) {
+    noTrailingSlashes(_buffer->path, &_buffer->size);
+  }
+  if (flags & NO_REPEATED_SLASHES) {
+    noRepeatedSlashes(_buffer->path, &_buffer->size);
+  }
 }
 
 Path::Path(const char* dir, const char* name) {
@@ -114,10 +123,40 @@ const char* Path::fromDos(char* path) {
   return path;
 }
 
-const char* Path::noTrailingSlashes(char* path) {
+const char* Path::noTrailingSlashes(char* path, size_t* size_p) {
   char* end = &path[strlen(path)];
   while ((--end >= path) && (*end == '/')) {}
   end[1] = '\0';
+  if (size_p != NULL) {
+    *size_p = end - path + 1;
+  }
+  return path;
+}
+
+const char* Path::noRepeatedSlashes(char* path, size_t* size_p) {
+  const char* reader = path;
+  char*       writer = path;
+  bool        slash  = false;
+  while (*reader != '\0') {
+    if (*reader == '/') {
+      if (slash) {
+        ++reader;
+        continue;
+      }
+      slash = true;
+    } else {
+      slash = false;
+    }
+    if (writer != reader) {
+      *writer = *reader;
+    }
+    ++reader;
+    ++writer;
+  }
+  *writer = '\0';
+  if (size_p != NULL) {
+    *size_p = writer - path;
+  }
   return path;
 }
 
