@@ -175,7 +175,7 @@ int ClientPath::parse_recurse(
           // For directory, recurse into it
           if ((*i)->type() == 'd') {
             if ((*i)->size() != -1) {
-              hlog_verbose_temp("%s", &rem_path[_path_len + 1]);
+              hlog_verbose_temp("%s", &rem_path[_path.length() + 1]);
             }
             if (parse_recurse(db, rem_path, client_name, start, **i, parser) < 0) {
               give_up = true;
@@ -197,19 +197,12 @@ ClientPath::ClientPath(
     const char* path,
     const Attributes& a,
     const ParsersManager& parsers_manager)
-    : _attributes(a), _parsers_manager(parsers_manager),
+    : _path(path, Path::NO_TRAILING_SLASHES | Path::NO_REPEATED_SLASHES |
+        Path::CONVERT_FROM_DOS),
+      _attributes(a), _parsers_manager(parsers_manager),
       _compress(NULL), _no_compress(NULL) {
-  _path = strdup(path);
-  // Change '\' into '/'
-  Path::fromDos(_path);
-  // Remove trailing '/'s
-  Path::noTrailingSlashes(_path);
-  _path_len = strlen(_path);
 }
 
-ClientPath::~ClientPath() {
-  free(_path);
-}
 ConfigObject* ClientPath::configChildFactory(
     const vector<string>& params,
     const char*           file_path,
@@ -273,7 +266,7 @@ int ClientPath::parse(
     char* full_name;
     if (asprintf(&full_name, "%s:%s", client_name,
                  static_cast<const char*>(_path)) < 0) {
-      hlog_error("%s creating final path '%s'", strerror(errno), _path);
+      hlog_error("%s creating final path '%s'", strerror(errno), _path.c_str());
       rc = -1;
     } else {
       hlog_error("%s reading initial directory '%s'", strerror(errno),
@@ -290,7 +283,7 @@ int ClientPath::parse(
 }
 
 void ClientPath::show(int level) const {
-  hlog_debug_arrow(level++, "Path: %s", _path);
+  hlog_debug_arrow(level++, "Path: %s", _path.c_str());
   _attributes.show(level);
   if (_compress != NULL) {
     hlog_debug_arrow(level, "Compress filter: %s",

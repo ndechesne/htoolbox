@@ -113,7 +113,7 @@ Client::Client(
     ParsersManager&   parsers_manager,
     const string&     subset)
     : _attributes(attributes), _parsers_manager(parsers_manager),
-      _own_parsers(false) {
+      _own_parsers(false), _list_file(NULL) {
   _name = name;
   _subset_server = subset;
   if (_subset_server.empty()) {
@@ -122,7 +122,6 @@ Client::Client(
     _internal_name = _name + "." + _subset_server;
   }
   _host_or_ip = name;
-  _list_file = NULL;
   _expire = -1;
   _timeout_nowarning = false;
 }
@@ -131,7 +130,7 @@ Client::~Client() {
   for (list<ClientPath*>::iterator i = _paths.begin(); i != _paths.end(); i++) {
     delete *i;
   }
-  free(_list_file);
+  delete _list_file;
 }
 
 ConfigObject* Client::configChildFactory(
@@ -207,10 +206,9 @@ const string& Client::internalName() const {
 }
 
 void Client::setListfile(const char* value) {
-  free(_list_file);
-  _list_file = strdup(value);
-  Path::fromDos(_list_file);
-  Path::noTrailingSlashes(_list_file);
+  delete _list_file;
+  _list_file = new Path(value, Path::NO_TRAILING_SLASHES |
+    Path::NO_REPEATED_SLASHES | Path::CONVERT_FROM_DOS);
 }
 
 ClientPath* Client::addClientPath(const string& name) {
@@ -265,7 +263,7 @@ int Client::backup(
 
   if (_list_file != NULL) {
     string config_path;
-    string list_file_dir = _list_file;
+    string list_file_dir = _list_file->c_str();
     string::size_type base = list_file_dir.rfind('/');
     if (base != string::npos) {
       list_file_dir.erase(base);
@@ -294,7 +292,7 @@ int Client::backup(
     if (config_path.size() != 0) {
       config_path += "/";
     }
-    config_path += Path::basename(_list_file);
+    config_path += _list_file->basename();
 
     if (readConfig(config_path.c_str()) != 0) {
       failed = true;
@@ -422,7 +420,7 @@ void Client::show(int level) const {
     hlog_debug_arrow(level, "No warning on time out");
   }
   if (_list_file != NULL) {
-    hlog_debug_arrow(level, "Config: %s", _list_file);
+    hlog_debug_arrow(level, "Config: %s", _list_file->c_str());
   }
   {
     if (_expire >= 0) {

@@ -59,6 +59,7 @@ public:
   const char* c_str() const { return _buffer->path; }
   size_t size() const { return _buffer->size; }
   size_t length() const { return _buffer->size; }
+  const char* basename() const { return basename(_buffer->path); }
   Path dirname() const;
   // Some generic methods
   static const char* basename(const char* path);

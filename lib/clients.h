@@ -33,7 +33,7 @@ class Client : public ConfigObject {
   string              _subset_server;
   string              _internal_name;
   string              _host_or_ip;
-  char*               _list_file;
+  Path*               _list_file;
   string              _protocol;
   list<Share::Option> _options;
   bool                _timeout_nowarning;
@@ -72,7 +72,10 @@ public:
   }
   void setListfile(const char* value);
   const char* listfile() const {
-    return _list_file;
+    if (_list_file == NULL) {
+      return NULL;
+    }
+    return _list_file->c_str();
   }
   //
   bool initialised() const;
