@@ -14,16 +14,16 @@ Database open in read/write mode
 
 Test: scan & check
 Sorting list
-Analysing list
-Found 0 unique checksum(s)
+List contains 0 checksum(s)
+List contains 0 unique checksum(s)
 Crawling through DB
 Found 0 valid and 0 broken data file(s)
 Database closed
 Database open in read/write mode
 File data gone
 Sorting list
-Analysing list
-Found 0 unique checksum(s)
+List contains 0 checksum(s)
+List contains 0 unique checksum(s)
 Crawling through DB
 Error: Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 Found 0 valid and 1 broken data file(s)
@@ -31,8 +31,8 @@ Database closed
 Database open in read/write mode
 File data corrupted, surficial scan
 Sorting list
-Analysing list
-Found 0 unique checksum(s)
+List contains 0 checksum(s)
+List contains 0 unique checksum(s)
 Crawling through DB
 59ca0efa9f5633cb0371bbc0355478d8-0 0\r
 Found 1 valid and 0 broken data file(s)
@@ -43,8 +43,8 @@ Obsolete checksum(s): 1
 Database closed
 Database open in read/write mode
 Sorting list
-Analysing list
-Found 0 unique checksum(s)
+List contains 0 checksum(s)
+List contains 0 unique checksum(s)
 Crawling through DB
 Found 0 valid and 0 broken data file(s)
 File data corrupted, thorough scan
@@ -53,16 +53,14 @@ Database open in read-only mode
 Crawling through DB data
 Error: Data corrupted for 59ca0efa9f5633cb0371bbc0355478d8-0
 Checksum: d41d8cd98f00b204e9800998ecf8427e
-59ca0efa9f5633cb0371bbc0355478d8-0 -1\r
 Found 0 valid and 1 broken data file(s)
 Database closed
 Database open in read/write mode
 Sorting list
-Analysing list
-Found 0 unique checksum(s)
+List contains 0 checksum(s)
+List contains 0 unique checksum(s)
 Crawling through DB
 Removed corrupted data for 59ca0efa9f5633cb0371bbc0355478d8-0
-59ca0efa9f5633cb0371bbc0355478d8-0 0\r
 Found 0 valid and 1 broken data file(s)
 Scan again
 Database closed
@@ -155,8 +153,8 @@ Test: scan
 Database open in read/write mode
 Reading list for 'myClient'
 Sorting list
-Analysing list
-Found 4 unique checksum(s)
+List contains 5 checksum(s)
+List contains 4 unique checksum(s)
 Crawling through DB
 285b35198a5e188b3a0df3ed33f93a26-0 12\r
 Error: Data missing for 3d546a1ce46c6ae10ad34ab8a81c542e-0

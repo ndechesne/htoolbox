@@ -492,8 +492,8 @@ CR\r
 Database open in read/write mode
 Reading list for 'myClient'
 Sorting list
-Analysing list
-Found 21 unique checksum(s)
+List contains 52 checksum(s)
+List contains 21 unique checksum(s)
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 31f8dac8a89739e4030e8e0e9ea219a5-0 33\r

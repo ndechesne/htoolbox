@@ -269,26 +269,37 @@ int Data::getMetadata(
   if (fd == NULL) {
     hlog_error("%s opening metadata file '%s'", strerror(errno), meta_path);
     return -1;
+  } else {
+    bool failed = false;
+    char line[64] = "";
+    ssize_t size = fread(line, 64, 1, fd);
+    if (size < 0) {
+      hlog_error("%s reading metadata file '%s'", strerror(errno), meta_path);
+      failed = true;
+    } else {
+      char bin[64];
+      int rc = sscanf(line, "%lld\t%c%s", size_p,
+        reinterpret_cast<char*>(comp_status_p), bin);
+      switch (rc) {
+        case 1:
+          *comp_status_p = unknown;
+        case 2:
+          break;
+        default:
+          hlog_error("metadata broken for '%s'", meta_path);
+          *size_p = -1;
+          failed = true;
+      }
+    }
+    if (fclose(fd) < 0) {
+      hlog_error("%s closing metadata file '%s'", strerror(errno), meta_path);
+      failed = true;
+    }
+    if (failed) {
+      ::remove(meta_path);
+    }
+    return failed ? 1 : 0;
   }
-  char line[64] = "";
-  ssize_t size = fread(line, 64, 1, fd);
-  if (size < 0) {
-    hlog_error("%s reading metadata file '%s'", strerror(errno), meta_path);
-    return -1;
-  }
-  int rc = sscanf(line, "%lld\t%c", size_p,
-    reinterpret_cast<char*>(comp_status_p));
-  switch (rc) {
-    case 0:
-      *size_p = -1;
-    case 1:
-      *comp_status_p = unknown;
-    case 2:
-      break;
-    default:
-      return -1;
-  }
-  return fclose(fd);
 }
 
 int Data::setMetadata(
@@ -432,7 +443,7 @@ int Data::crawl_recurse(
           } else {
             long long size;
             bool      comp;
-            if (! check(checksum.c_str(), thorough, repair, &size, &comp)) {
+            if (check(checksum.c_str(), thorough, repair, &size, &comp) == 0) {
               // Add to data, the list of collected data
               if (data != NULL) {
                 data->push_back(CompData(checksum.c_str(), size, comp));
@@ -917,10 +928,11 @@ int Data::check(
       } else
       // Compressed file, check it thoroughly, which shall add the metadata
       {
-        if (check(checksum, true, true, size_p, compressed_p)) {
+        if (check(checksum, true, true, size_p, compressed_p) < 0) {
           failed = true;
+        } else {
+          getMetadata(path, &data_size, &comp_status);
         }
-        getMetadata(path, &data_size, &comp_status);
         display = false;
       }
     } else
@@ -936,7 +948,7 @@ int Data::check(
     }
   }
 
-  if (display) {
+  if (! failed && display) {
     if (no == 0) {
       hlog_verbose_temp("%s %lld", checksum, data_size);
     } else {

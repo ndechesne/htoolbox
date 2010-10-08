@@ -508,21 +508,20 @@ int Database::scan(
   }
   hlog_verbose("Sorting list");
   list_data.sort();
-  hlog_verbose("Analysing list");
+  hlog_verbose("List contains %zu checksum(s)", list_data.size());
   // Unique, must do something if checksums match, but not sizes
   for (list<CompData>::iterator i = list_data.begin(); i != list_data.end();
       i++) {
     list<CompData>::iterator j = i;
     j++;
-    while ((j != list_data.end())
-    && (strcmp(i->hash(), j->hash()) == 0)) {
+    while ((j != list_data.end()) && (strcmp(i->hash(), j->hash()) == 0)) {
       if (i->size() != j->size()) {
         i->signalBroken();
       }
       j = list_data.erase(j);
     }
   }
-  hlog_verbose("Found %zu unique checksum(s)", list_data.size());
+  hlog_verbose("List contains %zu unique checksum(s)", list_data.size());
 
   // Get checksums from DB
   hlog_verbose("Crawling through DB");
@@ -541,7 +540,7 @@ int Database::scan(
     }
   }
   if (! data_data.empty()) {
-    hlog_debug("Checksum(s) with data: %zu", data_data.size());
+    hlog_verbose("Checksum(s) with data: %zu", data_data.size());
     for (list<CompData>::iterator i = data_data.begin();
         i != data_data.end(); i++) {
       hlog_debug_arrow(1, "%s, %lld", i->hash(), i->size());
@@ -590,6 +589,9 @@ int Database::scan(
       if (i->hash()[0] != '\0') {
         if (rm_obsolete) {
           if (_d->data.remove(i->hash()) == 0) {
+            if (aborting()) {
+              return -1;
+            }
             hlog_debug_arrow(1, "removed data for %s", i->hash());
           } else {
             hlog_error("%s removing data for %s", strerror(errno), i->hash());
@@ -602,9 +604,6 @@ int Database::scan(
   }
   _d->missing.show();
 
-  if (aborting()) {
-    return -1;
-  }
   _d->missing.forceSave();
   if (rc >= 0) {
     // Leave trace of successful scan

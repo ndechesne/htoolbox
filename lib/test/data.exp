@@ -94,11 +94,14 @@ Test: do nothing
 
 Test: scan - metadata check/correct
  * missing
+Error: metadata broken for 'test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta'
+Error: No such file or directory opening metadata file 'test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta'
 Warning: Adding missing metadata for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * check
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * missing
+Error: metadata broken for 'test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/meta'
 Warning: Setting missing metadata for d41d8cd98f00b204e9800998ecf8427e
 d41d8cd98f00b204e9800998ecf8427e 0\r
  * check
@@ -106,6 +109,7 @@ d41d8cd98f00b204e9800998ecf8427e 0\r
 
 Test: check - metadata check/correct
  * missing
+Error: metadata broken for 'test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta'
 Warning: Adding missing metadata for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * wrong
@@ -114,6 +118,7 @@ Error: Correcting wrong metadata for 59ca0efa9f5633cb0371bbc0355478d8-0
  * check
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * missing
+Error: metadata broken for 'test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/meta'
 Warning: Adding missing metadata for d41d8cd98f00b204e9800998ecf8427e
 d41d8cd98f00b204e9800998ecf8427e 0\r
  * wrong
