@@ -265,6 +265,7 @@ int main(void) {
                    "for name in `ls report.log*.gz`; do "
                    "echo \"$name:\"; zcat $name; done");
 
+  _unused = system("ls report.log*");
 
   cout << endl << "End of tests" << endl;
 

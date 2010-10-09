@@ -176,5 +176,11 @@ report.log-4.gz:
 2009-08-07 06:05:04 DEBUG report_test.cpp:209 message: debug
 report.log-5.gz:
 2009-08-07 06:05:04 VERB  report_test.cpp:208 message: verbose
+report.log
+report.log-1.gz
+report.log-2.gz
+report.log-3.gz
+report.log-4.gz
+report.log-5.gz
 
 End of tests

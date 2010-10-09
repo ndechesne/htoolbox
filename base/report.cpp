@@ -136,7 +136,13 @@ struct Report::Private {
         failed = true;
       }
     }
-    return failed ? -1 : 0;
+    if (failed) {
+      ::remove(fw.path());
+      return -1;
+    } else {
+      ::remove(fr.path());
+      return 0;
+    }
   }
   int rotate() {
     int rc = 0;
