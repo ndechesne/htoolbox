@@ -61,7 +61,7 @@ protected: // So I can test them
     long long       size,
     CompressionCase comp_status) const;
   // Remove given path
-  int removePath(const char* path) const;
+  int removePath(const char* path, const char* hash) const;
   // Make sure we don't have too many files per directory
   int organise(
     const char*     path,
@@ -84,7 +84,8 @@ protected: // So I can test them
     size_t*         broken) const;    // Number of broken data files found
 public:
   Data(
-    const char*     path);
+    const char*     path,
+    Backup&         backup);
   ~Data();
   // Open
   int open(

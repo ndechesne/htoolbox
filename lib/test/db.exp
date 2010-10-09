@@ -1,3 +1,4 @@
+Backup::Backup(test_db/.backup)
 Error: Cannot initialize in read-only mode
 db::open error status -1
 Error: Given DB path does not exist 'test_db'
@@ -26,6 +27,7 @@ List contains 0 checksum(s)
 List contains 0 unique checksum(s)
 Crawling through DB
 Error: Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
+Backup::removeHash(59ca0efa9f5633cb0371bbc0355478d8-0)
 Found 0 valid and 1 broken data file(s)
 Database closed
 Database open in read/write mode
@@ -39,6 +41,7 @@ Found 1 valid and 0 broken data file(s)
 Checksum(s) with data: 1
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 0
 Obsolete checksum(s): 1
+Backup::removeHash(59ca0efa9f5633cb0371bbc0355478d8-0)
  -> removed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Database closed
 Database open in read/write mode
@@ -60,6 +63,7 @@ Sorting list
 List contains 0 checksum(s)
 List contains 0 unique checksum(s)
 Crawling through DB
+Backup::removeHash(59ca0efa9f5633cb0371bbc0355478d8-0)
 Removed corrupted data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Found 0 valid and 1 broken data file(s)
 Scan again
@@ -86,12 +90,18 @@ Reading list of problematic checksums
 Register created for 'myClient'
 Database open r/w for 'myClient'
 Adding compressed data for 285b35198a5e188b3a0df3ed33f93a26-0
+Backup::addHash(285b35198a5e188b3a0df3ed33f93a26)
 Replacing with uncompressed data for 285b35198a5e188b3a0df3ed33f93a26-0
+Backup::addHash(285b35198a5e188b3a0df3ed33f93a26)
 Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
+Backup::addHash(d41d8cd98f00b204e9800998ecf8427e)
 Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
+Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8)
 Adding uncompressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
+Backup::addHash(3d546a1ce46c6ae10ad34ab8a81c542e)
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed
 [ 1] /client_path/subdir            d        0 755
 [ 2] /client_path/subdir/testfile   f       12 644 285b35198a5e188b3a0df3ed33f93a26-0
@@ -158,6 +168,7 @@ List contains 4 unique checksum(s)
 Crawling through DB
 285b35198a5e188b3a0df3ed33f93a26-0 12\r
 Error: Data missing for 3d546a1ce46c6ae10ad34ab8a81c542e-0
+Backup::removeHash(3d546a1ce46c6ae10ad34ab8a81c542e-0)
 59ca0efa9f5633cb0371bbc0355478d8-0 13\r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
@@ -173,15 +184,18 @@ Checksum(s) with data: 4
  -> 6d7fce9fee471194aa8b5b6e47267f03-0, 2
  -> d41d8cd98f00b204e9800998ecf8427e-0, 0
 Obsolete checksum(s): 1
+Backup::removeHash(6d7fce9fee471194aa8b5b6e47267f03-0)
  -> removed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Warning: Problematic checksum(s): 1
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0 missing
+Backup::add(test_db/.checksums)
 Missing checksums list updated
 List of problematic checksums contains 1 item
 Database closed
 
 Test: concurrent access
 Database open in read/write mode
+Backup::Backup(test_db/.backup)
 Database open in read-only mode
 Database open r-o for 'myClient'
 Reading list of problematic checksums
@@ -196,6 +210,7 @@ D       other_path/testdir
 D       other_path/testfile
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed for 'myClient'
 Database closed
 List of problematic checksums contains 1 item

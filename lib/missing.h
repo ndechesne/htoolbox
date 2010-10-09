@@ -30,10 +30,14 @@ public:
   void setProgressCallback(progress_f progress);
   // Open missing list
   void open(const char* path);
+  // Path to missing list
+  const char* path() const;
   // Load list from disk
   int load();
   // Close list and save it to disk
   int close();
+  // Check whether list was modified
+  bool modified() const;
   // Make sure list will be saved on exit
   void forceSave();
   // Get size of list

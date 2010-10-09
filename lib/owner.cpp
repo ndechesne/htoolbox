@@ -40,6 +40,7 @@ struct Owner::Private {
   string          name;
   string          path;
   bool            modified;
+  bool            files_modified;
   ListReader*     original;
   ListWriter*     journal;
   ListWriter*     partial;
@@ -94,6 +95,8 @@ int Owner::finishOff(
             if (ListWriter::merge(*_d->partial, *_d->original, journal) < 0) {
               hlog_error("Merge failed");
               failed = true;
+            } else {
+              _d->files_modified = true;
             }
             _d->original->setProgressCallback(NULL);
             _d->original->close();
@@ -192,6 +195,7 @@ const char* Owner::path() const {
 }
 
 int Owner::hold() const {
+  _d->files_modified = false;
   Node owner_dir(_d->path.c_str());
   if (! owner_dir.isDir()) {
     hlog_error("Directory does not exist '%s', aborting", _d->name.c_str());
@@ -259,6 +263,7 @@ int Owner::open(
   bool failed = false;
   // Open list
   _d->modified = false;
+  _d->files_modified = false;
   _d->original = new ListReader(owner_list.path());
   if (_d->original->open(initialize)) {
     Node backup(Path(_d->path.c_str(), "list~").c_str());
@@ -384,6 +389,10 @@ int Owner::close(
     _d->partial  = NULL;
   }
   return failed ? -1 : 0;
+}
+
+bool Owner::modified() const {
+  return _d->files_modified;
 }
 
 void Owner::setProgressCallback(progress_f progress) {
@@ -524,6 +533,7 @@ int Owner::add(
     return rc;
   }
   _d->modified = true;
+  _d->files_modified = true;
   return 0;
 }
 

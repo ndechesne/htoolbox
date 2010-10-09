@@ -39,6 +39,7 @@ using namespace std;
 #include "files.h"
 #include "hreport.h"
 #include "missing.h"
+#include "backup.h"
 #include "compdata.h"
 #include "data.h"
 #include "db.h"
@@ -59,13 +60,14 @@ using namespace htools;
 struct Database::Private {
   string                  path;
   Access                  access;
+  Backup                  backup;
   Data                    data;
   Missing                 missing;
   bool                    load_missing;
   CompressionMode         compress_mode;
   Owner*                  owner;
   progress_f              list_progress;
-  Private(const char* data_path) : data(data_path) {}
+  Private(const Path& b, const char* d) : backup(b), data(d, backup) {}
 };
 
 int Database::lock() {
@@ -122,7 +124,7 @@ void Database::unlock() {
 }
 
 Database::Database(const char* path) :
-  _d(new Private(Path(path, ".data").c_str())) {
+  _d(new Private(Path(path, ".backup"), Path(path, ".data").c_str())) {
   _d->path     = path;
   _d->access   = no;
   // Reset progress callback function
@@ -257,6 +259,9 @@ int Database::close() {
     // Close data manager
     if (_d->access >= rw) {
       // Save list of missing items
+      if (_d->missing.modified()) {
+        _d->backup.add(_d->missing.path());
+      }
       _d->missing.close();
       // Release lock
       unlock();
@@ -672,6 +677,9 @@ int Database::closeClient(
     hlog_verbose("Database closed for '%s'", _d->owner->name());
   }
   if (! failed && ! abort) {
+    if (_d->owner->modified()) {
+      _d->backup.add(_d->owner->path());
+    }
     // Leave trace of successful check
     Node::touch(Path(_d->owner->path(), ".last-backup"));
   }

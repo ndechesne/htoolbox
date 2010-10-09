@@ -41,6 +41,8 @@ public:
     bool            check      = false);  // Check only (no need to close)
   int close(                              // Close, whatever how open
     bool            teardown);
+  // Check whether list was modified
+  bool modified() const;
   // Set progress callback function
   void setProgressCallback(progress_f progress);
   // Send data for comparison

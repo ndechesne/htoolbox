@@ -144,10 +144,18 @@ int Missing::close() {
   return failed ? -1 : 0;
 }
 
+bool Missing::modified() const {
+  return _d->modified;
+}
+
 void Missing::open(const char* path) {
   _d->path       = strdup(path);
   _d->modified   = false;
   _d->force_save = false;
+}
+
+const char* Missing::path() const {
+  return _d->path;
 }
 
 int Missing::load() {

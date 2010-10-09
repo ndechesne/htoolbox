@@ -21,6 +21,8 @@
 #ifndef _HREPORT_H
 #define _HREPORT_H
 
+#include <stdlib.h>
+
 namespace htools {
 
   //! Criticality levels

@@ -45,6 +45,7 @@ using namespace std;
 #include "multiwriter.h"
 #include "hbackup.h"
 #include "files.h"
+#include "backup.h"
 #include "compdata.h"
 #include "data.h"
 
@@ -53,10 +54,11 @@ using namespace htools;
 
 struct Data::Private {
   string            path;
+  Backup&           backup;
   string            data;
   string            data_gz;
   progress_f        progress;
-  Private() : progress(NULL) {}
+  Private(Backup& b) : backup(b), progress(NULL) {}
 };
 
 ssize_t Data::compare(
@@ -292,7 +294,7 @@ int Data::setMetadata(
   return fclose(fd);
 }
 
-int Data::removePath(const char* path) const {
+int Data::removePath(const char* path, const char* hash) const {
   const char* extensions[] = { "", ".gz", NULL };
   char local_path[PATH_MAX];
   sprintf(local_path, "%s/%s", path, "data");
@@ -307,6 +309,7 @@ int Data::removePath(const char* path) const {
   sprintf(local_path, "%s/%s", path, "meta");
   ::remove(local_path);
   ::remove(path);
+  _d->backup.removeHash(hash);
   errno = errno_keep;
   return rc;
 }
@@ -442,7 +445,7 @@ int Data::crawl_recurse(
   return failed ? -1 : 0;
 }
 
-Data::Data(const char* path) : _d(new Private) {
+Data::Data(const char* path, Backup& backup) : _d(new Private(backup)) {
   _d->path = path;
   _d->data = _d->path + "/.data";
   _d->data_gz = _d->data + ".gz";
@@ -743,6 +746,7 @@ Data::WriteStatus Data::write(
         // Always add metadata (size) file (no error status on failure)
         setMetadata(final_path, source_data_size, comp_case);
       }
+      _d->backup.addHash(source_hash);
     }
   } else
   /* Make sure we have metadata information */
@@ -802,7 +806,7 @@ int Data::check(
   if (no < 0) {
     hlog_error("Data missing for %s", checksum);
     if (repair) {
-      removePath(path);
+      removePath(path, checksum);
     }
     return -1;
   }
@@ -855,7 +859,7 @@ int Data::check(
             hlog_debug("Checksum: %s", hash);
             failed = true;
             if (repair) {
-              removePath(path);
+              removePath(path, hash);
             } else {
               // Mark corrupted
               Node::touch(corrupted_path);
@@ -879,7 +883,7 @@ int Data::check(
   if (repair) {
     // Remove data marked corrupted
     if (Node::isReadable(corrupted_path)) {
-      if (removePath(path) == 0) {
+      if (removePath(path, checksum) == 0) {
         hlog_info("Removed corrupted data for %s", checksum);
       } else {
         hlog_error("%s removing data '%s'", strerror(errno), checksum);
@@ -944,7 +948,7 @@ int Data::remove(
     // Warn about directory missing
     return 1;
   }
-  return removePath(path);
+  return removePath(path, checksum);
 }
 
 int Data::crawl(

@@ -13,6 +13,7 @@ fedc76test6 status: 0, getdir_path: test_db/data/fe/dc/76/test6
 Test: write and read back with no compression (auto)
 Checking data, sizes: f=13 z=33 (33)
 Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
+Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8)
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
 Meta file contents: 
 13	.
@@ -22,6 +23,7 @@ Meta file contents:
 Test: write and read back with compression (auto)
 Checking data, sizes: f=10485760 z=10208 (10367)
 Adding compressed data for f1c9645dbc14efddc7d8a322685f26eb-0
+Backup::addHash(f1c9645dbc14efddc7d8a322685f26eb)
 f1c9645dbc14efddc7d8a322685f26eb-0  test1/big_file
 Meta file contents: 
 10485760	+
@@ -37,6 +39,7 @@ Meta file contents:
 
 Test: write and read back with forced compression
 Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
+Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8)
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
 Meta file contents: 
 13	f
@@ -48,6 +51,7 @@ Meta file contents:
 13	 
 59ca0efa9f5633cb0371bbc0355478d8-0 13 33\r
 Replacing with uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
+Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8)
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
 
 Test: organise

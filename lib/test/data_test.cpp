@@ -31,6 +31,7 @@ using namespace std;
 #include "test.h"
 
 #include "files.h"
+#include "backup.h"
 #include "compdata.h"
 #include "data.h"
 
@@ -47,7 +48,7 @@ using namespace std;
 
 class DataTest : public Data {
 public:
-  DataTest(const char* path) : Data(path) {}
+  DataTest(const char* path, Backup& backup) : Data(path, backup) {}
   int getDir(
       const char*     checksum,
       char*           path,
@@ -79,7 +80,8 @@ int main(void) {
   string            checksum;
   string            zchecksum;
   int               status;
-  DataTest          db("test_db/data");
+  Backup            backup("test_db/backup");
+  DataTest          db("test_db/data", backup);
   int               sys_rc;
 
   report.setLevel(debug);

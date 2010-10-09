@@ -1,3 +1,4 @@
+Backup::Backup(test_db/.backup)
 
 Initial backup, check '/' precedence
 Database initialized in 'test_db'
@@ -13,6 +14,7 @@ Reading list of problematic checksums
 Register created for 'myClient'
 Database open r/w for 'myClient'
 Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
+Backup::addHash(d41d8cd98f00b204e9800998ecf8427e)
 Af f    /home/User/àccénts_test
 Copy:   1.0%\r
 Copy:   2.0%\r
@@ -118,16 +120,20 @@ Copy:  98.6%\r
 Copy:  99.6%\r
 Copy: 100.0%\r
 Adding uncompressed data for f1c9645dbc14efddc7d8a322685f26eb-0
+Backup::addHash(f1c9645dbc14efddc7d8a322685f26eb)
 Af f    /home/User/big_file
 Ad      /home/User/cvs
 cvs\r
 Ad      /home/User/cvs/CVS
 cvs/CVS\r
 Adding uncompressed data for f899d6f61138a37484c8a2294656e903-0
+Backup::addHash(f899d6f61138a37484c8a2294656e903)
 Af f    /home/User/cvs/CVS/Entries
 Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
+Backup::addHash(b90f8fa56ea1d39881d4a199c7a81d35)
 Af f    /home/User/cvs/CVS/Root
 Adding uncompressed data for 9283e2c51868272850bd2d89b63c58e8-0
+Backup::addHash(9283e2c51868272850bd2d89b63c58e8)
 Af f    /home/User/cvs/CVS/Whatever
 Ad      /home/User/cvs/CVS/Wherever
 cvs/CVS/Wherever\r
@@ -137,10 +143,13 @@ cvs/dir space\r
 Ad      /home/User/cvs/dir space/CVS
 cvs/dir space/CVS\r
 Adding uncompressed data for 662ae0524981c10b4736be799fc8650a-0
+Backup::addHash(662ae0524981c10b4736be799fc8650a)
 Af f    /home/User/cvs/dir space/CVS/Entries
 Adding uncompressed data for 328b42839732650180b213aadebe494d-0
+Backup::addHash(328b42839732650180b213aadebe494d)
 Af f    /home/User/cvs/dir space/CVS/Root
 Adding uncompressed data for 947c302ec365383856310621ac3fbf2f-0
+Backup::addHash(947c302ec365383856310621ac3fbf2f)
 Af f    /home/User/cvs/dir space/CVS/Whatever
 Af ~    /home/User/cvs/dir space/file other
 Af ~    /home/User/cvs/dir space/file space
@@ -155,10 +164,13 @@ cvs/dirutd\r
 Ad      /home/User/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
 Adding uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
+Backup::addHash(5252f242d27b8c2c9fdbdcbb33545d07)
 Af f    /home/User/cvs/dirutd/CVS/Entries
 Adding uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
+Backup::addHash(eb75fb33b2019ef3c840eb5ccdc2e795)
 Af f    /home/User/cvs/dirutd/CVS/Root
 Adding uncompressed data for caecaacc7fdee8a7667d4f4f315858a9-0
+Backup::addHash(caecaacc7fdee8a7667d4f4f315858a9)
 Af f    /home/User/cvs/dirutd/CVS/Whatever
 Af ~    /home/User/cvs/dirutd/fileoth
 Af ~    /home/User/cvs/dirutd/fileutd
@@ -187,10 +199,13 @@ svn\r
 Ad      /home/User/svn/.svn
 svn/.svn\r
 Adding uncompressed data for b43487abe52b0721fa53957eef4917e7-0
+Backup::addHash(b43487abe52b0721fa53957eef4917e7)
 Af f    /home/User/svn/.svn/all-wcprops
 Adding uncompressed data for 31f8dac8a89739e4030e8e0e9ea219a5-0
+Backup::addHash(31f8dac8a89739e4030e8e0e9ea219a5)
 Af f    /home/User/svn/.svn/dir-prop-base
 Adding uncompressed data for 5173c1e86196c05c124452a401e92a22-0
+Backup::addHash(5173c1e86196c05c124452a401e92a22)
 Af f    /home/User/svn/.svn/entries
 Ad      /home/User/svn/.svn/prop-base
 svn/.svn/prop-base\r
@@ -215,8 +230,10 @@ svn/dir space\r
 Ad      /home/User/svn/dir space/.svn
 svn/dir space/.svn\r
 Adding uncompressed data for 512047d1b2605a59dabf850370d41370-0
+Backup::addHash(512047d1b2605a59dabf850370d41370)
 Af f    /home/User/svn/dir space/.svn/all-wcprops
 Adding uncompressed data for f2b4c9d3f0830dea53972d208979feb0-0
+Backup::addHash(f2b4c9d3f0830dea53972d208979feb0)
 Af f    /home/User/svn/dir space/.svn/entries
 Ad      /home/User/svn/dir space/.svn/prop-base
 svn/dir space/.svn/prop-base\r
@@ -244,8 +261,10 @@ svn/dirutd\r
 Ad      /home/User/svn/dirutd/.svn
 svn/dirutd/.svn\r
 Adding uncompressed data for 8c24b7e5642e642b5edb12400de15d03-0
+Backup::addHash(8c24b7e5642e642b5edb12400de15d03)
 Af f    /home/User/svn/dirutd/.svn/all-wcprops
 Adding uncompressed data for 33b426a9cdc8a98729e5dbe6d5feb619-0
+Backup::addHash(33b426a9cdc8a98729e5dbe6d5feb619)
 Af f    /home/User/svn/dirutd/.svn/entries
 Ad      /home/User/svn/dirutd/.svn/prop-base
 svn/dirutd/.svn/prop-base\r
@@ -265,8 +284,10 @@ Ad      /home/User/svn/dirutd/.svn/tmp/text-base
 svn/dirutd/.svn/tmp/text-base\r
 Af ~    /home/User/svn/dirutd/fileoth
 Adding uncompressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
+Backup::addHash(26ab0db90d72e28ad0ba1e22ee510510)
 Af f    /home/User/svn/dirutd/fileutd
 Adding uncompressed data for b026324c6904b2a9cb4b88d6d61c81d1-0
+Backup::addHash(b026324c6904b2a9cb4b88d6d61c81d1)
 Af f    /home/User/svn/filemod.o
 Af ~    /home/User/svn/filenew.c
 Af ~    /home/User/svn/fileoth
@@ -275,6 +296,7 @@ Af ~    /home/User/test space
 Ad      /home/User/testdir
 testdir\r
 Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
+Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8)
 Af f    /home/User/testfile
 Af ~    /home/User/testfile~
 Al      /home/User/testlink
@@ -282,6 +304,7 @@ Ap      /home/User/testpipe
 Parsed 98 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed
 
 myClient's list:
@@ -908,6 +931,7 @@ testdir                      \r
 Parsed 70 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed
 
 myClient's list:
@@ -1130,6 +1154,7 @@ Error: Permission denied backing up file 'myClient:/home/User/subdir/testfile'
 Af !    /home/User/subdir/testfile
 Af ~    /home/User/subdir/testfile1
 Adding uncompressed data for 285b35198a5e188b3a0df3ed33f93a26-0
+Backup::addHash(285b35198a5e188b3a0df3ed33f93a26)
 Af f    /home/User/subdir/testfile2
 ~f ~    /home/User/subdirfile
 svn\r
@@ -1165,6 +1190,7 @@ testdir                      \r
 Parsed 101 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed
 
 myClient's list:
@@ -1844,6 +1870,7 @@ Copy:  60.0%\r
 Copy:  80.0%\r
 Copy: 100.0%\r
 Adding uncompressed data for 816df6f64deba63b029ca19d880ee10a-0
+Backup::addHash(816df6f64deba63b029ca19d880ee10a)
 !f f    /home/User/cvs/big_file
 cvs/dir space\r
 cvs/dir space/CVS\r
@@ -1887,6 +1914,7 @@ testdir                      \r
 Parsed 102 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed
 
 myClient's list:
@@ -2626,6 +2654,7 @@ Ml      /home/User/testlink
 Parsed 98 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed
 
 myClient's list:
@@ -5316,6 +5345,7 @@ Il f    /home/User/testlink
 Parsed 38 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed
 
 myClient's list:
@@ -5636,6 +5666,7 @@ If p    /home/User/cvs/dirbad/fileutd
 Id p    /home/User/cvs/diroth
 Id f    /home/User/cvs/dirutd
 Adding uncompressed data for 0d599f0ec05c3bda8c3b8a68c32a1b47-0
+Backup::addHash(0d599f0ec05c3bda8c3b8a68c32a1b47)
 Mf f    /home/User/cvs/filenew.c
 If p    /home/User/cvs/fileoth
 dir space\r
@@ -5681,6 +5712,7 @@ Ap      /home/User/testpipe
 Parsed 39 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed
 
 myClient's list:
@@ -6073,6 +6105,7 @@ Il f    /home/User/testlink
 Parsed 59 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed
 
 myClient's list:
@@ -6822,15 +6855,18 @@ testdir\r
 Copy:  70.4%\r
 Copy: 100.0%\r
 Adding uncompressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
+Backup::addHash(3d546a1ce46c6ae10ad34ab8a81c542e)
 Af f    /home/User/testfile
 Copy:  39.5%\r
 Copy:  79.1%\r
 Copy: 100.0%\r
 Adding uncompressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+Backup::addHash(fb00cd74a5f35e89a7fbdd3c1d05375a)
 Af f    /home/User/testfile2
 Copy:  70.4%\r
 Copy: 100.0%\r
 Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
+Backup::addHash(f81f70dceaca8b0cec354f33fa3f0909)
 Af f    /home/User/testfile2.gz
 Copy:  19.5%\r
 Copy:  39.1%\r
@@ -6839,11 +6875,13 @@ Copy:  78.1%\r
 Copy:  97.7%\r
 Copy: 100.0%\r
 Adding uncompressed data for 59071590099d21dd439896592338bf95-0
+Backup::addHash(59071590099d21dd439896592338bf95)
 Af f    /home/User/testfile~
 Il f    /home/User/testlink
 Parsed 5 file(s)
 Register modified for 'hisClient'
 Database closed for 'hisClient'
+Backup::add(test_db/hisClient)
 Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
@@ -6977,6 +7015,7 @@ Il f    /home/User/testlink
 Parsed 55 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed
 
 hisClient's list:
@@ -8468,6 +8507,7 @@ Il f    /home/User/testlink
 Parsed 55 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed
 
 hisClient's list:
@@ -8820,6 +8860,7 @@ Il f    /home/User/testlink
 Parsed 54 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed
 
 hisClient's list:
@@ -9030,6 +9071,7 @@ Il f    /home/User/testlink
 Parsed 54 file(s)
 Register modified for 'myClient'
 Database closed for 'myClient'
+Backup::add(test_db/myClient)
 Database closed
 
 hisClient's list:
