@@ -80,12 +80,12 @@ int Data::findExtension(
 
 bool Data::isReadable(
     const char*     path) {
-  FILE* fd = fopen(path, "r");
-  if (fd != NULL) {
-    fclose(fd);
-    return true;
+  int fd = ::open64(path, O_RDONLY|O_NOATIME|O_LARGEFILE, 0666);
+  if (fd < 0) {
+    return false;
   }
-  return false;
+  ::close(fd);
+  return true;
 }
 
 ssize_t Data::compare(
