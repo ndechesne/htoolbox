@@ -22,7 +22,7 @@
 namespace hbackup {
 
 class ClientPath : public ConfigObject {
-  Path              _path;
+  htools::Path      _path;
   Attributes        _attributes;
   const ParsersManager& _parsers_manager;
   Parsers           _parsers;
@@ -34,7 +34,7 @@ class ClientPath : public ConfigObject {
     const char*     remote_path,      // Dir where the file resides, remotely
     const char*     client_name,
     size_t          start,
-    Node&           dir,
+    htools::Node&   dir,
     IParser*        parser);
 public:
   ClientPath(

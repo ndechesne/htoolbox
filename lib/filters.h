@@ -71,8 +71,8 @@ public:
     const char*           file_path = NULL,
     size_t                line_no   = 0);
   bool match(
-    const Node&     node,
-    size_t          start = 0) const;
+    const htools::Node& node,
+    size_t              start = 0) const;
   /* For verbosity */
   void show(int level = 0) const;
 };

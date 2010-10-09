@@ -37,7 +37,6 @@ using namespace std;
 #include "hreport.h"
 #include "files.h"
 
-using namespace hbackup;
 using namespace htools;
 
 Path::Path(Path& path) : _buffer(path._buffer) {
@@ -337,4 +336,36 @@ int Node::mkdir() {
     stat();
   }
   return 0;
+}
+
+bool Node::isReadable(
+    const char*     path) {
+  int fd = ::open64(path, O_RDONLY|O_NOATIME|O_LARGEFILE, 0666);
+  if (fd < 0) {
+    return false;
+  }
+  ::close(fd);
+  return true;
+}
+
+int Node::findExtension(
+    char*           path,
+    const char*     extensions[],
+    ssize_t         original_length) {
+  if (original_length < 0) {
+    original_length = strlen(path);
+  }
+  int i = 0;
+  while (extensions[i] != NULL) {
+    strcpy(&path[original_length], extensions[i]);
+    if (Node::isReadable(path)) {
+      break;
+    }
+    ++i;
+  }
+  if (extensions[i] == NULL) {
+    path[original_length] = '\0';
+    return -1;
+  }
+  return i;
 }

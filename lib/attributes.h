@@ -53,7 +53,7 @@ public:
     return _filters.addCondition(params, file_path, line_no);
   }
   void addIgnore(const Filter* filter)  { _ignore_list.push_back(filter); }
-  bool mustBeIgnored(const Node& node, size_t start = 0) const {
+  bool mustBeIgnored(const htools::Node& node, size_t start = 0) const {
     for (list<const Filter*>::const_iterator filter = _ignore_list.begin();
         filter != _ignore_list.end(); filter++) {
       if ((*filter)->match(node, start)) {

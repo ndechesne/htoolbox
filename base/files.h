@@ -31,7 +31,7 @@ using namespace std;
 #include <sys/types.h>
 #include <fcntl.h>
 
-namespace hbackup {
+namespace htools {
 
 class Path {
   struct Buffer {
@@ -173,6 +173,19 @@ public:
   bool  hasList() const                     { return _nodes != NULL; }
   list<Node*>& nodesList()                  { return *_nodes; }
   const list<Node*>& nodesListConst() const { return *_nodes; }
+  // Find out whether path can be opened
+  static bool isReadable(
+    const char*     path);
+  // Add extensions from array to path (which must be large enough) and find
+  // first readable file.  Last element of array must be NULL.  Returns
+  // extension index in array, or -1 if none matches.
+  // Example:
+  // const char* extensions[] = { "", ".gz", ".bz2", NULL };
+  // int no = Node::findExtension(path, extensions);
+  static int findExtension(
+    char*           path,
+    const char*     extensions[],
+    ssize_t         original_length = -1);
 };
 
 }

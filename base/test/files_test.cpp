@@ -36,7 +36,6 @@ using namespace std;
 #include "zipwriter.h"
 #include "hasher.h"
 
-using namespace hbackup;
 using namespace htools;
 
 static int parseList(Node *d, const char* cur_dir) {

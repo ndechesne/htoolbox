@@ -68,14 +68,14 @@ public:
   ssize_t getLine(char** buffer_p, size_t* cap_p);
   // Encode line from metadata
   static size_t encode(
-    const Node&     node,
-    char*           line,
-    size_t*         sep_offset_p);
+    const htools::Node& node,
+    char*               line,
+    size_t*             sep_offset_p);
   // Decode metadata from line
   static int decodeLine(
     const char*     line,           // Line to decode
     time_t*         ts,             // Line timestamp
-    Node**          node,           // File metadata
+    htools::Node**  node,           // File metadata
     const char*     path = "");   // Optional file path to store in metadata
   // Decode time stamp from line
   static int decodeTimeStamp(
@@ -142,7 +142,7 @@ public:
   int getEntry(
     time_t*         timestamp,
     char            path[],
-    Node**          node,
+    htools::Node**  node,
     time_t          date);
   // Show the list
   void show(

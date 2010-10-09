@@ -22,6 +22,7 @@ using namespace std;
 
 #include "stdio.h"
 #include "stdlib.h"
+#include "limits.h"
 #include "stdarg.h"
 #include "string.h"
 #include "errno.h"
@@ -30,6 +31,11 @@ using namespace std;
 #include "sys/stat.h"
 
 #include "hreport.h"
+
+#include <files.h>
+#include <filereaderwriter.h>
+#include <zipwriter.h>
+#include <asyncwriter.h>
 
 using namespace htools;
 
@@ -83,51 +89,96 @@ struct Report::Private {
     }
     return (fd == NULL) ? -1 : 0;
   }
+  int zip(char* name, size_t length) {
+    FileReaderWriter fr(name, false);
+    sprintf(&name[length], ".gz");
+    FileReaderWriter fw(name, true);
+    ZipWriter zw(&fw, false, 5);
+    AsyncWriter aw(&zw, false);
+    bool failed = false;
+    if (fr.open() < 0) {
+      failed = true;
+    } else {
+      if (aw.open() < 0) {
+        failed = true;
+      } else {
+        // Copy
+        enum { BUFFER_SIZE = 102400 };  // Too big and we end up wasting time
+        char buffer1[BUFFER_SIZE];      // odd buffer
+        char buffer2[BUFFER_SIZE];      // even buffer
+        char* buffer = buffer1;         // currently unused buffer
+        ssize_t size;                   // Size actually read at loop begining
+        do {
+          // size will be BUFFER_SIZE unless the end of file has been reached
+          size = fr.read(buffer, BUFFER_SIZE);
+          if (size <= 0) {
+            if (size < 0) {
+              failed = true;
+            }
+            break;
+          }
+          if (aw.write(buffer, size) < 0) {
+            failed = true;
+            break;
+          }
+          // Swap unused buffers
+          if (buffer == buffer1) {
+            buffer = buffer2;
+          } else {
+            buffer = buffer1;
+          }
+        } while (size == BUFFER_SIZE);
+        if (aw.close() < 0) {
+          failed = true;
+        }
+      }
+      if (fr.close() < 0) {
+        failed = true;
+      }
+    }
+    return failed ? -1 : 0;
+  }
   int rotate() {
     int rc = 0;
     /* Max size for: file_name-N.gz, where N can be up to 10 digits (32 bits) */
     size_t len = file_name.length();
-    char* name = static_cast<char*>(malloc(len + 11 + 3 + 1));
-    char* new_name = static_cast<char*>(malloc(len + 5 + 3 + 1));
+    char name[PATH_MAX];
+    char new_name[PATH_MAX];
     strcpy(name, file_name.c_str());
     strcpy(new_name, file_name.c_str());
     /* Loop over potential files */
     size_t i = max_files;
     do {
-      int zipped = 0;
+      // Complete name
       int num_chars;
-      struct stat buf;
       if (i != 0) {
         num_chars = sprintf(&name[len], "-%zu", i);
       } else {
         name[len] = '\0';
         num_chars = 0;
       }
-      int st = stat(name, &buf);
-      if (st < 0) {
-        sprintf(&name[len + num_chars], ".gz");
-        zipped = 1;
-        st = stat(name, &buf);
-      }
+      const char* extensions[] = { "", ".gz", NULL };
+      int no = Node::findExtension(name, extensions, len + num_chars);
       /* File found */
-      if (st >= 0) {
+      if (no >= 0) {
         if (i == max_files) {
           remove(name);
         } else {
           num_chars = sprintf(&new_name[len], "-%zu", i + 1);
-          if (zipped) {
+          if (no > 0) {
             sprintf(&new_name[len + num_chars], ".gz");
           }
           if (rename(name, new_name)) {
             rc = -1;
             break;
           }
-          /* zip the new file */
+          if (no == 0) {
+            /* zip the new file */
+            zip(new_name, len + num_chars);
+          }
         }
       }
     } while (i-- != 0);
-    free(name);
-    free(new_name);
     return rc;
   }
   int consoleLog(

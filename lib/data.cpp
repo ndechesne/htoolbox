@@ -59,35 +59,6 @@ struct Data::Private {
   Private() : progress(NULL) {}
 };
 
-int Data::findExtension(
-    char*           path,
-    const char*     extensions[]) {
-  size_t original_length = strlen(path);
-  int i = 0;
-  while (extensions[i] != NULL) {
-    strcpy(&path[original_length], extensions[i]);
-    if (isReadable(path)) {
-      break;
-    }
-    ++i;
-  }
-  if (extensions[i] == NULL) {
-    path[original_length] = '\0';
-    return -1;
-  }
-  return i;
-}
-
-bool Data::isReadable(
-    const char*     path) {
-  int fd = ::open64(path, O_RDONLY|O_NOATIME|O_LARGEFILE, 0666);
-  if (fd < 0) {
-    return false;
-  }
-  ::close(fd);
-  return true;
-}
-
 ssize_t Data::compare(
     IReaderWriter&  left,
     IReaderWriter&  right) const {
@@ -241,7 +212,7 @@ int Data::getDir(
   do {
     // If we can find a .nofiles file, then go down one more directory
     strcpy(&path[path_len++], "/.nofiles");
-    if (isReadable(path)) {
+    if (Node::isReadable(path)) {
       path[path_len++] = checksum[level++];
       path[path_len++] = checksum[level++];
       path[path_len] = '\0';
@@ -325,7 +296,7 @@ int Data::removePath(const char* path) const {
   const char* extensions[] = { "", ".gz", NULL };
   char local_path[PATH_MAX];
   sprintf(local_path, "%s/%s", path, "data");
-  int no = findExtension(local_path, extensions);
+  int no = Node::findExtension(local_path, extensions);
   int rc = 0;
   if (no >= 0) {
     rc = ::remove(local_path);
@@ -350,7 +321,7 @@ int Data::organise(
   // Already organised?
   char nofiles_path[PATH_MAX];
   sprintf(nofiles_path, "%s/%s", path, ".nofiles");
-  if (isReadable(nofiles_path)) {
+  if (Node::isReadable(nofiles_path)) {
     return 0;
   }
   // Find out how many entries
@@ -406,7 +377,7 @@ int Data::organise(
 }
 
 int Data::crawl_recurse(
-    Node&      dir,
+    Node&           dir,
     const string&   checksum_part,
     list<CompData>* data,
     bool            thorough,
@@ -511,7 +482,7 @@ int Data::name(
   const char* extensions[] = { "", ".gz", NULL };
   char local_path[PATH_MAX];
   sprintf(local_path, "%s/%s", path.c_str(), "data");
-  int no = findExtension(local_path, extensions);
+  int no = Node::findExtension(local_path, extensions);
   if (no < 0) {
     errno = ENOENT;
     hlog_error("%s looking for file '%s'*", strerror(errno), local_path);
@@ -537,7 +508,7 @@ int Data::read(
   const char* extensions[] = { "", ".gz", NULL };
   char local_path[PATH_MAX];
   sprintf(local_path, "%s/%s", source, "data");
-  int no = findExtension(local_path, extensions);
+  int no = Node::findExtension(local_path, extensions);
   if (no < 0) {
     errno = ENOENT;
     hlog_error("%s looking for source file '%s'*", strerror(errno),
@@ -707,7 +678,7 @@ Data::WriteStatus Data::write(
     } else {
       const char* extensions[] = { "", ".gz", NULL };
       sprintf(data_path, "%s/%s", final_path, "data");
-      int no = findExtension(data_path, extensions);
+      int no = Node::findExtension(data_path, extensions);
       // File does not exist
       if (no < 0) {
         status = add;
@@ -826,7 +797,7 @@ int Data::check(
   const char* extensions[] = { "", ".gz", NULL };
   char local_path[PATH_MAX];
   sprintf(local_path, "%s/%s", path, "data");
-  int no = findExtension(local_path, extensions);
+  int no = Node::findExtension(local_path, extensions);
   // Missing data
   if (no < 0) {
     hlog_error("Data missing for %s", checksum);
@@ -847,7 +818,7 @@ int Data::check(
   // Check data for corruption
   if (thorough) {
     // Already marked corrupted?
-    if (isReadable(corrupted_path)) {
+    if (Node::isReadable(corrupted_path)) {
       hlog_warning("Data corruption reported for %s", checksum);
       data_size = -1;
       failed = true;
@@ -907,7 +878,7 @@ int Data::check(
   } else
   if (repair) {
     // Remove data marked corrupted
-    if (isReadable(corrupted_path)) {
+    if (Node::isReadable(corrupted_path)) {
       if (removePath(path) == 0) {
         hlog_info("Removed corrupted data for %s", checksum);
       } else {

@@ -74,7 +74,7 @@ public:
   // This will create an appropriate parser for the directory if relevant
   virtual IParser* createChildIfControlled(const char* dir_path) = 0;
   // That tells use whether to ignore the file, i.e. not back it up
-  virtual bool ignore(const Node& node) = 0;
+  virtual bool ignore(const htools::Node& node) = 0;
   // For debug purposes
   virtual void show(int level = 0) {
     (void) level;
@@ -92,7 +92,7 @@ public:
   // Fail on directory
   IParser* createChildIfControlled(const char*) { return NULL; };
   // Ignore all files
-  bool ignore(const Node&) { return true; };
+  bool ignore(const htools::Node&) { return true; };
 };
 
 class Parsers {

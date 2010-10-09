@@ -36,11 +36,6 @@ protected: // So I can test them
     later = ' ',
     unknown = '?'
   };
-  static int findExtension(
-    char*           path,
-    const char*     extensions[]);
-  static bool isReadable(
-    const char*     path);
   // Compare two files
   int compare(
     htools::IReaderWriter&  left,
@@ -80,7 +75,7 @@ protected: // So I can test them
     bool*           compressed = NULL) const;
   // Scan database for missing/corrupted data, return a list of valid checksums
   int crawl_recurse(
-    Node&           dir,              // Base directory
+    htools::Node&   dir,              // Base directory
     const string&   checksum_part,    // Checksum part
     list<CompData>* data,             // List of collected data
     bool            thorough,         // Whether to check for data corruption

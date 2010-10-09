@@ -95,7 +95,7 @@ public:
     int               compression;      // Compression level for regular files
     const char*       path;             // Real file path, on client
     size_t            path_len;         // Its length
-    Node&             node;             // File metadata
+    htools::Node&     node;             // File metadata
     bool              same_list_entry;  // Don't add a list entry, replace
     // Pre-encoded node metadata, assumes the following max values:
     // * type: 1 char => 1
@@ -114,7 +114,7 @@ public:
     OpData(
       const char*     p,                // Real file path, on client
       size_t          l,                // Its length
-      Node&           n)                // File metadata
+      htools::Node&   n)                // File metadata
       : operation(' '), type(' '), info(' '), id(-1),
         comp_mode(Database::auto_later), compression(0),
         path(p), path_len(l), node(n), same_list_entry(false), extra(NULL) {}

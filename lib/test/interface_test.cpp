@@ -950,8 +950,9 @@ int main(void) {
   showClientConfigs();
 
   int _unused;
-  _unused = system("for name in `ls hbackup.log*`; do "
-                   "echo \"$name:\"; cat $name; done");
+  _unused = system("echo \"hbackup.log:\"; cat hbackup.log;"
+                   "for name in `ls hbackup.log*.gz`; do "
+                   "echo \"$name:\"; zcat $name; done");
 
   return 0;
 }

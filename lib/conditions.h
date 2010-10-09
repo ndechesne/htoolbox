@@ -85,8 +85,8 @@ public:
     bool            negated);
   ~Condition();
   bool match(
-    const Node&     node,
-    size_t          start = 0) const;
+    const htools::Node& node,
+    size_t              start = 0) const;
   // No children
   virtual ConfigObject* configChildFactory(
     const vector<string>& params,

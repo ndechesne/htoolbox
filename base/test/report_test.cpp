@@ -224,39 +224,46 @@ int main(void) {
 
   cout << endl << "Rotate file" << endl;
   int _unused;
-  _unused = system("for name in `ls report.log*`; do "
-                   "echo \"$name:\"; cat $name; done");
+  _unused = system("echo \"report.log:\"; cat report.log;"
+                   "for name in `ls report.log*.gz`; do "
+                   "echo \"$name:\"; zcat $name; done");
   // should rotate, log then empty
   report.startFileLog("report.log", 3, 5);
-  _unused = system("for name in `ls report.log*`; do "
-                   "echo \"$name:\"; cat $name; done");
+  _unused = system("echo \"report.log:\"; cat report.log;"
+                   "for name in `ls report.log*.gz`; do "
+                   "echo \"$name:\"; zcat $name; done");
   // should not rotate
   report.startFileLog("report.log", 3, 5);
-  _unused = system("for name in `ls report.log*`; do "
-                   "echo \"$name:\"; cat $name; done");
+  _unused = system("echo \"report.log:\"; cat report.log;"
+                   "for name in `ls report.log*.gz`; do "
+                   "echo \"$name:\"; zcat $name; done");
   _unused = system("echo \"1\" > report.log");
   // should rotate
   report.startFileLog("report.log", 3, 5);
 
-  _unused = system("for name in `ls report.log*`; do "
-                   "echo \"$name:\"; cat $name; done");
+  _unused = system("echo \"report.log:\"; cat report.log;"
+                   "for name in `ls report.log*.gz`; do "
+                   "echo \"$name:\"; zcat $name; done");
   _unused = system("echo \"1\" > report.log");
   // should rotate
   report.startFileLog("report.log", 3, 5);
 
-  _unused = system("for name in `ls report.log*`; do "
-                   "echo \"$name:\"; cat $name; done");
+  _unused = system("echo \"report.log:\"; cat report.log;"
+                   "for name in `ls report.log*.gz`; do "
+                   "echo \"$name:\"; zcat $name; done");
   _unused = system("echo \"1\" > report.log");
   // should rotate
   report.startFileLog("report.log", 3, 5);
 
-  _unused = system("for name in `ls report.log*`; do "
-                   "echo \"$name:\"; cat $name; done");
+  _unused = system("echo \"report.log:\"; cat report.log;"
+                   "for name in `ls report.log*.gz`; do "
+                   "echo \"$name:\"; zcat $name; done");
   // should not rotate
   report.startFileLog("report.log", 3, 5);
 
-  _unused = system("for name in `ls report.log*`; do "
-                   "echo \"$name:\"; cat $name; done");
+  _unused = system("echo \"report.log:\"; cat report.log;"
+                   "for name in `ls report.log*.gz`; do "
+                   "echo \"$name:\"; zcat $name; done");
 
 
   cout << endl << "End of tests" << endl;

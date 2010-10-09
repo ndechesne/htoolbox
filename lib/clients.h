@@ -33,7 +33,7 @@ class Client : public ConfigObject {
   string              _subset_server;
   string              _internal_name;
   string              _host_or_ip;
-  Path*               _list_file;
+  htools::Path*       _list_file;
   string              _protocol;
   list<Share::Option> _options;
   bool                _timeout_nowarning;

@@ -55,7 +55,7 @@ public:
     const char*     path,                 // The base path
     time_t          date,                 // The date (epoch, 0: all, <0: rel.)
     char*           db_path,              // The path found
-    Node**          db_node = NULL) const;// The metadata returned
+    htools::Node**  db_node = NULL) const;// The metadata returned
   // Relevant information about list data
   int getChecksums(
     list<CompData>& checksums) const;     // List to add checksums
