@@ -178,10 +178,12 @@ struct Report::Private {
             rc = -1;
             break;
           }
+#if 0
           if (no == 0) {
             /* zip the new file */
             zip(new_name, len + num_chars);
           }
+#endif
         }
       }
     } while (i-- != 0);

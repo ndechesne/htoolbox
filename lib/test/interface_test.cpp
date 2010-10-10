@@ -95,6 +95,19 @@ static int showClientConfigs() {
   return failed ? -1 : 0;
 }
 
+void show_logs() {
+  int _unused;
+  _unused  = system(
+    "for name in `ls hbackup.log*`; do"
+    "  echo \"$name:\";"
+    "  if echo $name | grep gz > /dev/null; then"
+    "    zcat $name;"
+    "  else"
+    "    cat $name;"
+    "  fi;"
+    "done");
+}
+
 int main(void) {
   HBackup*     hbackup;
   list<string> names;
@@ -949,10 +962,7 @@ int main(void) {
   delete hbackup;
   showClientConfigs();
 
-  int _unused;
-  _unused = system("echo \"hbackup.log:\"; cat hbackup.log;"
-                   "for name in `ls hbackup.log*.gz`; do "
-                   "echo \"$name:\"; zcat $name; done");
+  show_logs();
 
   return 0;
 }
