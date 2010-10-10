@@ -98,7 +98,7 @@ ssize_t UnzipReader::read(void* buffer, size_t size) {
     int zlib_rc = inflate(&_d->strm, Z_NO_FLUSH);
     if (zlib_rc < 0) {
       hlog_alert("failed to decompress, zlib error code is %d", zlib_rc);
-      errno = EUNATCH;
+      errno = EUCLEAN;
       return -1;
     }
     count = size - _d->strm.avail_out;

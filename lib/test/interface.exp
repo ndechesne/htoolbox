@@ -9154,6 +9154,7 @@ b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
 b8bbb1294db5d59366b7d1827e2158d6-0 5\r
 Error: Data corrupted for b90f8fa56ea1d39881d4a199c7a81d35-0
 Checksum: 68b329da9893e34099c7d8ad5cb9c940
+Reported corruption for b90f8fa56ea1d39881d4a199c7a81d35-0
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
 eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
@@ -9738,6 +9739,12 @@ Crawling through DB
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
+Error: No such file or directory opening metadata file 'test_db/.data/55555555555555555555555555555555-0/meta'
+Error: No such file or directory opening metadata file 'test_db/.data/55555555555555555555555555555555-0/meta'
+ALERT! failed to decompress, zlib error code is -5
+Error: Structure needs cleaning reading file 'test_db/.data/55555555555555555555555555555555-0/data.gz'
+Backup::removeHash(55555555555555555555555555555555-0)
+Removed corrupted data for 55555555555555555555555555555555-0
 662ae0524981c10b4736be799fc8650a-0 45\r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 27\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
@@ -9753,7 +9760,7 @@ f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 ffffffffffffffffffffffffffffffff-0 1000000   \r
-Found 22 valid and 0 broken data file(s)  
+Found 22 valid and 1 broken data file(s)  
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -11610,6 +11617,7 @@ f81f70dceaca8b0cec354f33fa3f0909-0 145461\r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 Error: Data corrupted for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 Checksum: 0de026794b4612fbca289ed619a3ea9a
+Reported corruption for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 Found 19 valid and 1 broken data file(s)
 Database closed
 
@@ -12603,9 +12611,9 @@ hbackup.log-1:
 hbackup.log-10:
 2009-08-07 06:05:04 VERB  db.cpp:216 Database open in read-only mode
 2009-08-07 06:05:04 VERB  db.cpp:622 Crawling through DB data
-2009-08-07 06:05:04 ERROR data.cpp:807 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
-2009-08-07 06:05:04 WARN  data.cpp:826 Data corruption reported for b90f8fa56ea1d39881d4a199c7a81d35-0
-2009-08-07 06:05:04 VERB  data.cpp:962 Found 19 valid and 2 broken data file(s)
+2009-08-07 06:05:04 ERROR data.cpp:804 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
+2009-08-07 06:05:04 WARN  data.cpp:823 Data corruption reported for b90f8fa56ea1d39881d4a199c7a81d35-0
+2009-08-07 06:05:04 VERB  data.cpp:971 Found 19 valid and 2 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
 hbackup.log-2:
 2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
@@ -12619,8 +12627,8 @@ hbackup.log-2:
 2009-08-07 06:05:04 VERB  db.cpp:516 List contains 43 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:529 List contains 21 unique checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:532 Crawling through DB
-2009-08-07 06:05:04 INFO  data.cpp:887 Removed corrupted data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-2009-08-07 06:05:04 VERB  data.cpp:962 Found 19 valid and 1 broken data file(s)
+2009-08-07 06:05:04 INFO  data.cpp:896 Removed corrupted data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+2009-08-07 06:05:04 VERB  data.cpp:971 Found 19 valid and 1 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:548 Checksum(s) with data: 19
 2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
@@ -12629,8 +12637,9 @@ hbackup.log-2:
 hbackup.log-3:
 2009-08-07 06:05:04 VERB  db.cpp:216 Database open in read-only mode
 2009-08-07 06:05:04 VERB  db.cpp:622 Crawling through DB data
-2009-08-07 06:05:04 ERROR data.cpp:858 Data corrupted for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-2009-08-07 06:05:04 VERB  data.cpp:962 Found 19 valid and 1 broken data file(s)
+2009-08-07 06:05:04 ERROR data.cpp:865 Data corrupted for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+2009-08-07 06:05:04 INFO  data.cpp:874 Reported corruption for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+2009-08-07 06:05:04 VERB  data.cpp:971 Found 19 valid and 1 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
 hbackup.log-4:
 2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
@@ -12646,8 +12655,8 @@ hbackup.log-4:
 2009-08-07 06:05:04 VERB  db.cpp:532 Crawling through DB
 2009-08-07 06:05:04 ERROR data.cpp:243 No such file or directory opening metadata file 'test_db/.data/5252f242d27b8c2c9fdbdcbb33545d07-0/meta'
 2009-08-07 06:05:04 ERROR data.cpp:243 No such file or directory opening metadata file 'test_db/.data/5252f242d27b8c2c9fdbdcbb33545d07-0/meta'
-2009-08-07 06:05:04 WARN  data.cpp:874 Adding missing metadata for 5252f242d27b8c2c9fdbdcbb33545d07-0
-2009-08-07 06:05:04 VERB  data.cpp:962 Found 20 valid and 0 broken data file(s)
+2009-08-07 06:05:04 WARN  data.cpp:883 Adding missing metadata for 5252f242d27b8c2c9fdbdcbb33545d07-0
+2009-08-07 06:05:04 VERB  data.cpp:971 Found 20 valid and 0 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:548 Checksum(s) with data: 20
 2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
@@ -12825,8 +12834,8 @@ hbackup.log-7:
 2009-08-07 06:05:04 VERB  db.cpp:529 List contains 20 unique checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:532 Crawling through DB
 2009-08-07 06:05:04 ERROR data.cpp:243 No such file or directory opening metadata file 'test_db/.data/dddddddddddddddddddddddddddddddd-0/meta'
-2009-08-07 06:05:04 WARN  data.cpp:899 Setting missing metadata for dddddddddddddddddddddddddddddddd-0
-2009-08-07 06:05:04 VERB  data.cpp:962 Found 21 valid and 0 broken data file(s)
+2009-08-07 06:05:04 WARN  data.cpp:908 Setting missing metadata for dddddddddddddddddddddddddddddddd-0
+2009-08-07 06:05:04 VERB  data.cpp:971 Found 21 valid and 0 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:548 Checksum(s) with data: 21
 2009-08-07 06:05:04 INFO  db.cpp:591 Obsolete checksum(s): 3
 2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
@@ -12844,7 +12853,7 @@ hbackup.log-7:
 2009-08-07 06:05:04 VERB  db.cpp:516 List contains 40 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:529 List contains 20 unique checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:532 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:962 Found 21 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  data.cpp:971 Found 21 valid and 0 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:548 Checksum(s) with data: 21
 2009-08-07 06:05:04 INFO  db.cpp:591 Obsolete checksum(s): 3
 2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
@@ -12862,7 +12871,7 @@ hbackup.log-7:
 2009-08-07 06:05:04 VERB  db.cpp:516 List contains 40 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:529 List contains 20 unique checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:532 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:962 Found 18 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  data.cpp:971 Found 18 valid and 0 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:548 Checksum(s) with data: 18
 2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
@@ -12880,7 +12889,12 @@ hbackup.log-8:
 2009-08-07 06:05:04 VERB  db.cpp:516 List contains 40 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:529 List contains 20 unique checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:532 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:962 Found 22 valid and 0 broken data file(s)
+2009-08-07 06:05:04 ERROR data.cpp:243 No such file or directory opening metadata file 'test_db/.data/55555555555555555555555555555555-0/meta'
+2009-08-07 06:05:04 ERROR data.cpp:243 No such file or directory opening metadata file 'test_db/.data/55555555555555555555555555555555-0/meta'
+2009-08-07 06:05:04 ALERT unzipreader.cpp:100 failed to decompress, zlib error code is -5
+2009-08-07 06:05:04 ERROR data.cpp:844 Structure needs cleaning reading file 'test_db/.data/55555555555555555555555555555555-0/data.gz'
+2009-08-07 06:05:04 INFO  data.cpp:849 Removed corrupted data for 55555555555555555555555555555555-0
+2009-08-07 06:05:04 VERB  data.cpp:971 Found 22 valid and 1 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:548 Checksum(s) with data: 22
 2009-08-07 06:05:04 INFO  db.cpp:591 Obsolete checksum(s): 4
 2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
@@ -12898,7 +12912,7 @@ hbackup.log-8:
 2009-08-07 06:05:04 VERB  db.cpp:516 List contains 40 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:529 List contains 20 unique checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:532 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:962 Found 22 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  data.cpp:971 Found 22 valid and 0 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:548 Checksum(s) with data: 22
 2009-08-07 06:05:04 INFO  db.cpp:591 Obsolete checksum(s): 4
 2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
@@ -12916,7 +12930,7 @@ hbackup.log-8:
 2009-08-07 06:05:04 VERB  db.cpp:516 List contains 40 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:529 List contains 20 unique checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:532 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:962 Found 18 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  data.cpp:971 Found 18 valid and 0 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:548 Checksum(s) with data: 18
 2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
 2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
@@ -12934,9 +12948,9 @@ hbackup.log-9:
 2009-08-07 06:05:04 VERB  db.cpp:516 List contains 40 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:529 List contains 20 unique checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:532 Crawling through DB
-2009-08-07 06:05:04 ERROR data.cpp:807 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
-2009-08-07 06:05:04 INFO  data.cpp:887 Removed corrupted data for b90f8fa56ea1d39881d4a199c7a81d35-0
-2009-08-07 06:05:04 VERB  data.cpp:962 Found 19 valid and 2 broken data file(s)
+2009-08-07 06:05:04 ERROR data.cpp:804 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
+2009-08-07 06:05:04 INFO  data.cpp:896 Removed corrupted data for b90f8fa56ea1d39881d4a199c7a81d35-0
+2009-08-07 06:05:04 VERB  data.cpp:971 Found 19 valid and 2 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:548 Checksum(s) with data: 19
 2009-08-07 06:05:04 INFO  db.cpp:591 Obsolete checksum(s): 1
 2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
@@ -12954,7 +12968,7 @@ hbackup.log-9:
 2009-08-07 06:05:04 VERB  db.cpp:516 List contains 40 checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:529 List contains 20 unique checksum(s)
 2009-08-07 06:05:04 VERB  db.cpp:532 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:962 Found 19 valid and 0 broken data file(s)
+2009-08-07 06:05:04 VERB  data.cpp:971 Found 19 valid and 0 broken data file(s)
 2009-08-07 06:05:04 VERB  db.cpp:548 Checksum(s) with data: 19
 2009-08-07 06:05:04 INFO  db.cpp:591 Obsolete checksum(s): 1
 2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3

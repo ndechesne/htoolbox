@@ -828,6 +828,8 @@ int main(void) {
   sys_rc = system("mkdir test_db/.data/ffffffffffffffffffffffffffffffff-0");
   sys_rc = system("touch test_db/.data/ffffffffffffffffffffffffffffffff-0/data");
   sys_rc = system("echo 1000000 > test_db/.data/ffffffffffffffffffffffffffffffff-0/meta");
+  sys_rc = system("mkdir test_db/.data/55555555555555555555555555555555-0");
+  sys_rc = system("touch test_db/.data/55555555555555555555555555555555-0/data.gz");
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;

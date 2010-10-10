@@ -56,6 +56,7 @@ Database open in read-only mode
 Crawling through DB data
 Error: Data corrupted for 59ca0efa9f5633cb0371bbc0355478d8-0
 Checksum: d41d8cd98f00b204e9800998ecf8427e
+Reported corruption for 59ca0efa9f5633cb0371bbc0355478d8-0
 Found 0 valid and 1 broken data file(s)
 Database closed
 Database open in read/write mode

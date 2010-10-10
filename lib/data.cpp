@@ -390,7 +390,6 @@ int Data::crawl_recurse(
   bool failed = false;
   if (dir.isDir() && ! dir.createList()) {
     bool no_files   = false;
-    bool temp_found = false;
     list<Node*>::iterator i = dir.nodesList().begin();
     while (i != dir.nodesList().end()) {
       if (failed) {
@@ -405,9 +404,7 @@ int Data::crawl_recurse(
       } else
       if ((*i)->type() == 'd') {
         // '.' files are before, so .temp will be found first
-        if (! temp_found && (strcmp((*i)->name(), ".temp") == 0)) {
-          temp_found = true;
-        } else {
+        if ((*i)->name()[0] != '.') {
           string checksum = checksum_part + (*i)->name();
           if (no_files) {
             if (crawl_recurse(**i, checksum, data, thorough, repair, valid,
@@ -846,6 +843,16 @@ int Data::check(
         if (size < 0) {
           hlog_error("%s reading file '%s'", strerror(errno), local_path);
           failed = true;
+          if (errno == EUCLEAN) {
+            if (repair) {
+              removePath(path, checksum);
+              hlog_info("Removed corrupted data for %s", checksum);
+            } else {
+              // Mark corrupted
+              Node::touch(corrupted_path);
+              hlog_info("Reported corruption for %s", checksum);
+            }
+          }
         }
         // Close file
         if (data.close()) {
@@ -859,10 +866,12 @@ int Data::check(
             hlog_debug("Checksum: %s", hash);
             failed = true;
             if (repair) {
-              removePath(path, hash);
+              removePath(path, checksum);
+              hlog_info("Removed corrupted data for %s", checksum);
             } else {
               // Mark corrupted
               Node::touch(corrupted_path);
+              hlog_info("Reported corruption for %s", checksum);
             }
             data_size = -1;
           } else
