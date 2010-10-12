@@ -1544,8 +1544,7 @@ Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
 Sorting list
-List contains 39 checksum(s)
-List contains 20 unique checksum(s)
+List statistics: 39 checksum(s), 20 unique [11037294 bytes, 10 saved]
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r

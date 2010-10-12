@@ -513,20 +513,26 @@ int Database::scan(
   }
   hlog_verbose("Sorting list");
   list_data.sort();
-  hlog_verbose("List contains %zu checksum(s)", list_data.size());
   // Unique, must do something if checksums match, but not sizes
+  size_t total_number = list_data.size();
+  long long total_size = 0;
+  long long saved_size  = 0;
   for (list<CompData>::iterator i = list_data.begin(); i != list_data.end();
       i++) {
+    total_size += i->size();
     list<CompData>::iterator j = i;
     j++;
     while ((j != list_data.end()) && (strcmp(i->hash(), j->hash()) == 0)) {
       if (i->size() != j->size()) {
         i->signalBroken();
       }
+      saved_size += j->size();
       j = list_data.erase(j);
     }
   }
-  hlog_verbose("List contains %zu unique checksum(s)", list_data.size());
+  hlog_verbose("List statistics: %zu checksum(s), %zu unique "
+    "[%lld bytes, %lld saved]",
+    total_number, list_data.size(), total_size - saved_size, saved_size);
 
   // Get checksums from DB
   hlog_verbose("Crawling through DB");

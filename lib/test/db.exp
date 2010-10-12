@@ -15,16 +15,14 @@ Database open in read/write mode
 
 Test: scan & check
 Sorting list
-List contains 0 checksum(s)
-List contains 0 unique checksum(s)
+List statistics: 0 checksum(s), 0 unique [0 bytes, 0 saved]
 Crawling through DB
 Found 0 valid and 0 broken data file(s)
 Database closed
 Database open in read/write mode
 File data gone
 Sorting list
-List contains 0 checksum(s)
-List contains 0 unique checksum(s)
+List statistics: 0 checksum(s), 0 unique [0 bytes, 0 saved]
 Crawling through DB
 Error: Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 Backup::removeHash(59ca0efa9f5633cb0371bbc0355478d8-0)
@@ -33,8 +31,7 @@ Database closed
 Database open in read/write mode
 File data corrupted, surficial scan
 Sorting list
-List contains 0 checksum(s)
-List contains 0 unique checksum(s)
+List statistics: 0 checksum(s), 0 unique [0 bytes, 0 saved]
 Crawling through DB
 59ca0efa9f5633cb0371bbc0355478d8-0 0\r
 Found 1 valid and 0 broken data file(s)
@@ -46,8 +43,7 @@ Backup::removeHash(59ca0efa9f5633cb0371bbc0355478d8-0)
 Database closed
 Database open in read/write mode
 Sorting list
-List contains 0 checksum(s)
-List contains 0 unique checksum(s)
+List statistics: 0 checksum(s), 0 unique [0 bytes, 0 saved]
 Crawling through DB
 Found 0 valid and 0 broken data file(s)
 File data corrupted, thorough scan
@@ -61,8 +57,7 @@ Found 0 valid and 1 broken data file(s)
 Database closed
 Database open in read/write mode
 Sorting list
-List contains 0 checksum(s)
-List contains 0 unique checksum(s)
+List statistics: 0 checksum(s), 0 unique [0 bytes, 0 saved]
 Crawling through DB
 Backup::removeHash(59ca0efa9f5633cb0371bbc0355478d8-0)
 Removed corrupted data for 59ca0efa9f5633cb0371bbc0355478d8-0
@@ -164,8 +159,7 @@ Test: scan
 Database open in read/write mode
 Reading list for 'myClient'
 Sorting list
-List contains 5 checksum(s)
-List contains 4 unique checksum(s)
+List statistics: 5 checksum(s), 4 unique [145421 bytes, 12 saved]
 Crawling through DB
 285b35198a5e188b3a0df3ed33f93a26-0 12\r
 Error: Data missing for 3d546a1ce46c6ae10ad34ab8a81c542e-0
