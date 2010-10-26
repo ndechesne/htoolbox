@@ -37,7 +37,7 @@ protected: // So I can test them
     unknown = '?'
   };
   // Compare two files
-  int compare(
+  ssize_t compare(
     htools::IReaderWriter&  left,
     htools::IReaderWriter&  right) const;
   // Copy file to one or two destinations
