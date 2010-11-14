@@ -1,21 +1,41 @@
 Conditions test
 Condition::name check
-match 2.1
+Condition: name 'to a file.txt'
+Condition::name (no case) check
+Condition: no case name 'to a file.txt'
+Condition: no case name 'TO A FILE.TXT'
 Condition::name_start check
-match 3.1
-match 3.2
+Condition: name_start 'to a file.txt'
+Condition: name_start 'to a file'
+Condition::name_start (no case) check
+Condition: no case name_start 'to a file.txt'
+Condition: no case name_start 'to a file'
+Condition: no case name_start 'TO A FILE.TXT'
+Condition: no case name_start 'TO A FILE'
 Condition::name_end check
-match 4.1
+Condition: name_end '.txt'
+Condition::name_end (no case) check
+Condition: no case name_end '.txt'
+Condition: no case name_end '.TXT'
 Condition::name_regex check
-match 5.1
+Condition: name_regex '^.*\.txt'
 Condition::path check
-match 6.1
+Condition: path 'this is/a path/to a file.txt'
+Condition::path (no case) check
+Condition: no case path 'this is/a path/to a file.txt'
+Condition: no case path 'THIS IS/A PATH/TO A FILE.TXT'
 Condition::path_start check
-match 7.1
+Condition: path_start 'this is/a'
+Condition::path_start (no case) check
+Condition: no case path_start 'this is/a'
+Condition: no case path_start 'THIS IS/A'
 Condition::path_end check
-match 8.1
+Condition: path_end '.txt'
+Condition::path_end (no case) check
+Condition: no case path_end '.txt'
+Condition: no case path_end '.TXT'
 Condition::path_regex check
-match 9.1
+Condition: path_regex '^this.*path/.*\.txt'
 Condition::size_ge check
 Not matching 4000
 Not matching 4999

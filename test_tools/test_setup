@@ -178,10 +178,10 @@ path "C:\Test Dir\"
     condition type        pipe
     condition name        a
     condition name_start  b
-    condition name_end    c
+    condition iname_end   c
     condition name_regex  d
-    condition path        e
-    condition path_start  f
+    condition !ipath      e
+    condition !path_start f
     condition path_end    g
     condition path_regex  h
     condition size>=      1

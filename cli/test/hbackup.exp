@@ -221,7 +221,7 @@ Backup::Backup(test_db/.backup)
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -231,7 +231,7 @@ Backup::Backup(test_db/.backup)
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -250,7 +250,7 @@ Backup::Backup(test_db/.backup)
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -340,7 +340,7 @@ Backup::Backup(test_db/.backup)
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -350,7 +350,7 @@ Backup::Backup(test_db/.backup)
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -369,7 +369,7 @@ Backup::Backup(test_db/.backup)
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -422,14 +422,14 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
- -----> Condition: name a
- -----> Condition: name_start b
- -----> Condition: name_end c
- -----> Condition: name_regex d
- -----> Condition: path e
- -----> Condition: path_start f
- -----> Condition: path_end g
- -----> Condition: name_regex h
+ -----> Condition: name 'a'
+ -----> Condition: name_start 'b'
+ -----> Condition: no case name_end 'c'
+ -----> Condition: name_regex 'd'
+ -----> Condition: not no case path 'e'
+ -----> Condition: not path_start 'f'
+ -----> Condition: path_end 'g'
+ -----> Condition: name_regex 'h'
  -----> Condition: size>= 1
  -----> Condition: size> 2048
  -----> Condition: size<= 3000000
@@ -470,8 +470,8 @@ Trying client 'myClient' using protocol 'nfs'
  ---> Path: /home/User/test
  ----> No error if same file fails copy again
  ----> Filter: or compress
- -----> Condition: name File2.txt
- -----> Condition: path dir/file3.txt
+ -----> Condition: name 'File2.txt'
+ -----> Condition: path 'dir/file3.txt'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
@@ -510,14 +510,14 @@ Trying client 'myClient.xp' using protocol 'smb'
  ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
- -----> Condition: name a
- -----> Condition: name_start b
- -----> Condition: name_end c
- -----> Condition: name_regex d
- -----> Condition: path e
- -----> Condition: path_start f
- -----> Condition: path_end g
- -----> Condition: name_regex h
+ -----> Condition: name 'a'
+ -----> Condition: name_start 'b'
+ -----> Condition: no case name_end 'c'
+ -----> Condition: name_regex 'd'
+ -----> Condition: not no case path 'e'
+ -----> Condition: not path_start 'f'
+ -----> Condition: path_end 'g'
+ -----> Condition: name_regex 'h'
  -----> Condition: size>= 1
  -----> Condition: size> 2048
  -----> Condition: size<= 3000000
@@ -552,7 +552,7 @@ Backup::add(test_db/myClient.xp)
  --> Expiry: 86400 second(s) / 1 day(s)
  --> No error if same file fails copy again
  --> Filter: and subdir
- ---> Condition: path_start subdir
+ ---> Condition: path_start 'subdir'
  ---> Condition: not size< 100
  --> Filter: and bigfile
  ---> Condition: size>= 10
@@ -564,12 +564,12 @@ Backup::add(test_db/myClient.xp)
  ---> Path: test1
  ----> No error if same file fails copy again
  ----> Filter: and not_object
- -----> Condition: not path_end .o
+ -----> Condition: not path_end '.o'
  ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
  -----> Condition: not filter not_object
  ----> Filter: and cvs_entries
- -----> Condition: name Entries
+ -----> Condition: name 'Entries'
  ----> Ignore filters:
  -----> nothing
  -----> backup
@@ -898,8 +898,8 @@ Trying client 'newClient' using protocol 'ssh'
  ---> Path: /home/Blah/test
  ----> No error if same file fails copy again
  ----> Filter: or compress
- -----> Condition: name File2.txt
- -----> Condition: path dir/file3.txt
+ -----> Condition: name 'File2.txt'
+ -----> Condition: path 'dir/file3.txt'
  ----> Ignore filters:
  -----> nothing
  ----> Compress filter: compress
@@ -1011,7 +1011,7 @@ Backup::Backup(test_db/.backup)
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -1021,7 +1021,7 @@ Backup::Backup(test_db/.backup)
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -1040,7 +1040,7 @@ Backup::Backup(test_db/.backup)
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -1067,14 +1067,14 @@ Trying client 'client.xp' using protocol 'smb'
  ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
- -----> Condition: name a
- -----> Condition: name_start b
- -----> Condition: name_end c
- -----> Condition: name_regex d
- -----> Condition: path e
- -----> Condition: path_start f
- -----> Condition: path_end g
- -----> Condition: name_regex h
+ -----> Condition: name 'a'
+ -----> Condition: name_start 'b'
+ -----> Condition: no case name_end 'c'
+ -----> Condition: name_regex 'd'
+ -----> Condition: not no case path 'e'
+ -----> Condition: not path_start 'f'
+ -----> Condition: path_end 'g'
+ -----> Condition: name_regex 'h'
  -----> Condition: size>= 1
  -----> Condition: size> 2048
  -----> Condition: size<= 3000000
@@ -1101,7 +1101,7 @@ Database closed for 'client.xp'
  --> Expiry: 86400 second(s) / 1 day(s)
  --> No error if same file fails copy again
  --> Filter: and subdir
- ---> Condition: path_start subdir
+ ---> Condition: path_start 'subdir'
  ---> Condition: not size< 100
  --> Filter: and bigfile
  ---> Condition: size>= 10
@@ -1113,12 +1113,12 @@ Database closed for 'client.xp'
  ---> Path: test1
  ----> No error if same file fails copy again
  ----> Filter: and not_object
- -----> Condition: not path_end .o
+ -----> Condition: not path_end '.o'
  ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
  -----> Condition: not filter not_object
  ----> Filter: and cvs_entries
- -----> Condition: name Entries
+ -----> Condition: name 'Entries'
  ----> Ignore filters:
  -----> nothing
  -----> backup
@@ -1380,7 +1380,7 @@ Backup::Backup(test_db/.backup)
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -1390,7 +1390,7 @@ Backup::Backup(test_db/.backup)
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -1409,7 +1409,7 @@ Backup::Backup(test_db/.backup)
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -1500,7 +1500,7 @@ Backup::Backup(test_db/.backup)
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -1510,7 +1510,7 @@ Backup::Backup(test_db/.backup)
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -1529,7 +1529,7 @@ Backup::Backup(test_db/.backup)
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -1692,7 +1692,7 @@ Backup::Backup(test_db/.backup)
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -1702,7 +1702,7 @@ Backup::Backup(test_db/.backup)
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -1721,7 +1721,7 @@ Backup::Backup(test_db/.backup)
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -1838,7 +1838,7 @@ Database closed
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -1848,7 +1848,7 @@ Database closed
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -1867,7 +1867,7 @@ Database closed
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -1968,7 +1968,7 @@ Database closed
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -1978,7 +1978,7 @@ Database closed
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -1997,7 +1997,7 @@ Database closed
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -2096,7 +2096,7 @@ Database closed
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -2106,7 +2106,7 @@ Database closed
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -2125,7 +2125,7 @@ Database closed
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -2227,7 +2227,7 @@ Database closed
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -2237,7 +2237,7 @@ Database closed
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -2256,7 +2256,7 @@ Database closed
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -2360,7 +2360,7 @@ Database closed
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -2370,7 +2370,7 @@ Database closed
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -2389,7 +2389,7 @@ Database closed
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -2492,7 +2492,7 @@ Database closed
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -2502,7 +2502,7 @@ Database closed
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -2521,7 +2521,7 @@ Database closed
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -2627,7 +2627,7 @@ Database closed
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -2637,7 +2637,7 @@ Database closed
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -2656,7 +2656,7 @@ Database closed
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -2770,7 +2770,7 @@ Database closed
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -2780,7 +2780,7 @@ Database closed
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -2799,7 +2799,7 @@ Database closed
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -2897,7 +2897,7 @@ Database closed
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -2907,7 +2907,7 @@ Database closed
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -2926,7 +2926,7 @@ Database closed
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -3069,7 +3069,7 @@ Database closed
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -3079,7 +3079,7 @@ Database closed
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -3098,7 +3098,7 @@ Database closed
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000
@@ -3212,7 +3212,7 @@ Database closed
  ---> Config: /home/Blah/hbackup.list
  ---> Expiry: 86400 second(s) / 1 day(s)
  ---> Filter: and subdir
- ----> Condition: path_start subdir
+ ----> Condition: path_start 'subdir'
  ----> Condition: not size< 100
  ---> Filter: and bigfile
  ----> Condition: size>= 10
@@ -3222,7 +3222,7 @@ Database closed
  ---> Paths:
  ----> Path: test1
  -----> Filter: and not_object
- ------> Condition: not path_end .o
+ ------> Condition: not path_end '.o'
  -----> Filter: or to_be_ignored
  ------> Condition: filter subdir
  ------> Condition: filter backup
@@ -3241,7 +3241,7 @@ Database closed
  --> Condition: size> 10
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
  -> Filter: or test_or
  --> Condition: filter backup
  --> Condition: not size< 1000

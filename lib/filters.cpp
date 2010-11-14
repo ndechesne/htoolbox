@@ -45,15 +45,22 @@ Condition* Filter::configChildFactory(
     size_t                line_no) {
   const string& filter_type = params[1];
   const string& value = params[2];
-  string type;
+  size_t pos = 0;
   bool negated;
-  if (filter_type[0] == '!') {
-    type = filter_type.substr(1);
-    negated     = true;
+  if (filter_type[pos] == '!') {
+    ++pos;
+    negated = true;
   } else {
-    type = filter_type;
-    negated     = false;
+    negated = false;
   }
+  bool case_sensitive = true;
+  if (filter_type[pos] == 'i') {
+    ++pos;
+    case_sensitive = false;
+  } else {
+    case_sensitive = true;
+  }
+  string type = filter_type.substr(pos);
 
   /* Add specified filter */
   Condition* cond = NULL;
@@ -126,13 +133,16 @@ Condition* Filter::configChildFactory(
     cond = new Condition(Condition::type, value[0], negated);
   } else
   if (type == "name") {
-    cond = new Condition(Condition::name, value.c_str(), negated);
+    cond = new Condition(Condition::name, value.c_str(), negated,
+      case_sensitive);
   } else
   if (type == "name_start") {
-    cond = new Condition(Condition::name_start, value.c_str(), negated);
+    cond = new Condition(Condition::name_start, value.c_str(), negated,
+      case_sensitive);
   } else
   if (type == "name_end") {
-    cond = new Condition(Condition::name_end, value.c_str(), negated);
+    cond = new Condition(Condition::name_end, value.c_str(), negated,
+      case_sensitive);
   } else
   if (type == "name_regex") {
     cond = new Condition(Condition::name_regex, value.c_str(), negated);
@@ -145,13 +155,16 @@ Condition* Filter::configChildFactory(
     }
   } else
   if (type == "path") {
-    cond = new Condition(Condition::path, value.c_str(), negated);
+    cond = new Condition(Condition::path, value.c_str(), negated,
+      case_sensitive);
   } else
   if (type == "path_start") {
-    cond = new Condition(Condition::path_start, value.c_str(), negated);
+    cond = new Condition(Condition::path_start, value.c_str(), negated,
+      case_sensitive);
   } else
   if (type == "path_end") {
-    cond = new Condition(Condition::path_end, value.c_str(), negated);
+    cond = new Condition(Condition::path_end, value.c_str(), negated,
+      case_sensitive);
   } else
   if (type == "path_regex") {
     cond = new Condition(Condition::name_regex, value.c_str(), negated);

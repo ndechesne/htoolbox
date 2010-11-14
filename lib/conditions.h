@@ -82,7 +82,8 @@ public:
   Condition(
     Type            type,
     const char*     string,
-    bool            negated);
+    bool            negated,
+    bool            case_sensitive = true);
   ~Condition();
   bool match(
     const htools::Node& node,

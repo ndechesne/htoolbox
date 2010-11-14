@@ -7,7 +7,7 @@ first with subdir NOT readable
 Path: /home/User
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
@@ -590,7 +590,7 @@ Database open in read/write mode
 Path: /home/User
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
@@ -856,7 +856,7 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
@@ -1102,7 +1102,7 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
@@ -1400,7 +1400,7 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
@@ -1661,7 +1661,7 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
@@ -1854,7 +1854,7 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Ignore filters:
  --> bazaar
 Reading list of problematic checksums
@@ -2095,10 +2095,10 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
@@ -2335,16 +2335,16 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
@@ -2588,16 +2588,16 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
@@ -2839,22 +2839,22 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
@@ -3099,22 +3099,22 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
@@ -3415,22 +3415,22 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
@@ -3718,22 +3718,22 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
@@ -4137,29 +4137,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -4503,29 +4503,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -4537,7 +4537,7 @@ Path: /home/User
  --> Condition: filter svn_dirutd
  -> Filter: and svn_dirutd
  --> Condition: type d
- --> Condition: path svn/dirutd
+ --> Condition: path 'svn/dirutd'
  -> Ignore filters:
  --> bazaar
  --> ignore1
@@ -4868,29 +4868,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -4902,7 +4902,7 @@ Path: /home/User
  --> Condition: filter svn_dirutd
  -> Filter: and svn_dirutd
  --> Condition: type d
- --> Condition: path svn/dirutd
+ --> Condition: path 'svn/dirutd'
  -> Ignore filters:
  --> bazaar
  --> ignore1
@@ -5228,29 +5228,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -5262,7 +5262,7 @@ Path: /home/User
  --> Condition: filter svn_dirutd
  -> Filter: and svn_dirutd
  --> Condition: type d
- --> Condition: path svn/dirutd
+ --> Condition: path 'svn/dirutd'
  -> Ignore filters:
  --> bazaar
  --> ignore1
@@ -5593,29 +5593,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -5627,7 +5627,7 @@ Path: /home/User
  --> Condition: filter svn_dirutd
  -> Filter: and svn_dirutd
  --> Condition: type d
- --> Condition: path svn/dirutd
+ --> Condition: path 'svn/dirutd'
  -> Ignore filters:
  --> bazaar
  --> ignore1
@@ -5962,29 +5962,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -5996,7 +5996,7 @@ Path: /home/User
  --> Condition: filter svn_dirutd
  -> Filter: and svn_dirutd
  --> Condition: type d
- --> Condition: path svn/dirutd
+ --> Condition: path 'svn/dirutd'
  -> Ignore filters:
  --> bazaar
  --> ignore1
@@ -6393,29 +6393,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -6427,7 +6427,7 @@ Path: /home/User
  --> Condition: filter svn_dirutd
  -> Filter: and svn_dirutd
  --> Condition: type d
- --> Condition: path svn/dirutd
+ --> Condition: path 'svn/dirutd'
  -> Ignore filters:
  --> bazaar
  --> ignore1
@@ -6802,29 +6802,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -6836,7 +6836,7 @@ Path: /home/User
  --> Condition: filter svn_dirutd
  -> Filter: and svn_dirutd
  --> Condition: type d
- --> Condition: path svn/dirutd
+ --> Condition: path 'svn/dirutd'
  -> Ignore filters:
  --> bazaar
  --> ignore1
@@ -6885,29 +6885,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -6919,7 +6919,7 @@ Path: /home/User
  --> Condition: filter svn_dirutd
  -> Filter: and svn_dirutd
  --> Condition: type d
- --> Condition: path svn/dirutd
+ --> Condition: path 'svn/dirutd'
  -> Ignore filters:
  --> bazaar
  --> ignore1
@@ -7609,29 +7609,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -7643,7 +7643,7 @@ Path: /home/User
  --> Condition: filter svn_dirutd
  -> Filter: and svn_dirutd
  --> Condition: type d
- --> Condition: path svn/dirutd
+ --> Condition: path 'svn/dirutd'
  -> Ignore filters:
  --> bazaar
  --> ignore1
@@ -8031,29 +8031,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -8065,7 +8065,7 @@ Path: /home/User
  --> Condition: filter svn_dirutd
  -> Filter: and svn_dirutd
  --> Condition: type d
- --> Condition: path svn/dirutd
+ --> Condition: path 'svn/dirutd'
  -> Ignore filters:
  --> bazaar
  --> ignore1
@@ -8383,29 +8383,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -8417,7 +8417,7 @@ Path: /home/User
  --> Condition: filter svn_dirutd
  -> Filter: and svn_dirutd
  --> Condition: type d
- --> Condition: path svn/dirutd
+ --> Condition: path 'svn/dirutd'
  -> Ignore filters:
  --> bazaar
  --> ignore1
@@ -8736,29 +8736,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -8770,7 +8770,7 @@ Path: /home/User
  --> Condition: filter svn_dirutd
  -> Filter: and svn_dirutd
  --> Condition: type d
- --> Condition: path svn/dirutd
+ --> Condition: path 'svn/dirutd'
  -> Ignore filters:
  --> bazaar
  --> ignore1
@@ -8948,29 +8948,29 @@ Path: /home/User
  -> No error if same file fails copy again
  -> Filter: and bazaar
  --> Condition: type d
- --> Condition: path bzr
+ --> Condition: path 'bzr'
  -> Filter: and testfile
  --> Condition: type f
- --> Condition: path subdir/testfile
+ --> Condition: path 'subdir/testfile'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter testfile
  -> Filter: and subdir
  --> Condition: type d
- --> Condition: path subdir
+ --> Condition: path 'subdir'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  -> Filter: and testlink
  --> Condition: type l
- --> Condition: path_start testlink
+ --> Condition: path_start 'testlink'
  -> Filter: or ignore1
  --> Condition: filter bazaar
  --> Condition: filter subdir
  --> Condition: filter testlink
  -> Filter: and cvs_dirutd
  --> Condition: type d
- --> Condition: path cvs/dirutd
+ --> Condition: path 'cvs/dirutd'
  -> Filter: or empty
  -> Filter: or ignore2
  --> Condition: filter bazaar
@@ -8982,7 +8982,7 @@ Path: /home/User
  --> Condition: filter svn_dirutd
  -> Filter: and svn_dirutd
  --> Condition: type d
- --> Condition: path svn/dirutd
+ --> Condition: path 'svn/dirutd'
  -> Ignore filters:
  --> bazaar
  --> ignore1

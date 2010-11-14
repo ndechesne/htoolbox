@@ -32,11 +32,13 @@ using namespace htools;
 struct Condition::Private {
   Type              type;
   bool              negated;
+  bool              case_sensitive;
   const Filter*     filter;
   char              file_type;
   long long         value;
   char*             string;
   regex_t*          regex;
+  Private() : case_sensitive(false) {}
 };
 
 Condition::Condition(
@@ -86,10 +88,12 @@ Condition::Condition(
 Condition::Condition(
     Type            type,
     const char*     string,
-    bool            negated) : _d(new Private) {
-  _d->type      = type;
-  _d->negated   = negated;
-  _d->string    = strdup(string);
+    bool            negated,
+    bool            case_sensitive) : _d(new Private) {
+  _d->type           = type;
+  _d->negated        = negated;
+  _d->case_sensitive = case_sensitive;
+  _d->string         = strdup(string);
   if ((type == Condition::name_regex) || (type == Condition::path_regex)) {
     _d->regex = new regex_t;
     if (regcomp(_d->regex, _d->string, REG_EXTENDED)) {
@@ -125,17 +129,29 @@ bool Condition::match(
       result = _d->file_type == node.type();
       break;
     case Condition::name:
-      result = strcmp(node.name(), _d->string) == 0;
+      if (_d->case_sensitive) {
+        result = strcmp(node.name(), _d->string) == 0;
+      } else {
+        result = strcasecmp(node.name(), _d->string) == 0;
+      }
       break;
     case Condition::name_start:
-      result = strncmp(node.name(), _d->string, strlen(_d->string)) == 0;
+      if (_d->case_sensitive) {
+        result = strncmp(node.name(), _d->string, strlen(_d->string)) == 0;
+      } else {
+        result = strncasecmp(node.name(), _d->string, strlen(_d->string)) == 0;
+      }
       break;
     case Condition::name_end: {
       ssize_t diff = strlen(node.name()) - strlen(_d->string);
       if (diff < 0) {
         result = false;
       } else {
-        result = strcmp(_d->string, &node.name()[diff]) == 0;
+        if (_d->case_sensitive) {
+          result = strcmp(_d->string, &node.name()[diff]) == 0;
+        } else {
+          result = strcasecmp(_d->string, &node.name()[diff]) == 0;
+        }
       }
     } break;
     case Condition::name_regex:
@@ -147,19 +163,31 @@ bool Condition::match(
         }
       break;
     case Condition::path:
-      result = strcmp(path, _d->string) == 0;
+      if (_d->case_sensitive) {
+        result = strcmp(path, _d->string) == 0;
+      } else {
+        result = strcasecmp(path, _d->string) == 0;
+      }
       break;
     case Condition::path_start:
-      result = strncmp(path, _d->string, strlen(_d->string)) == 0;
+      if (_d->case_sensitive) {
+        result = strncmp(path, _d->string, strlen(_d->string)) == 0;
+      } else {
+        result = strncasecmp(path, _d->string, strlen(_d->string)) == 0;
+      }
       break;
     case Condition::path_end: {
-        ssize_t diff = strlen(path) - strlen(_d->string);
-        if (diff < 0) {
-          result = false;
-        } else {
+      ssize_t diff = strlen(path) - strlen(_d->string);
+      if (diff < 0) {
+        result = false;
+      } else {
+        if (_d->case_sensitive) {
           result = strcmp(_d->string, &path[diff]) == 0;
+        } else {
+          result = strcasecmp(_d->string, &path[diff]) == 0;
         }
-      } break;
+      }
+    } break;
     case Condition::path_regex:
         if (_d->regex != NULL) {
           result = ! regexec(_d->regex, path, 0, NULL, 0);
@@ -194,6 +222,7 @@ bool Condition::match(
 
 void Condition::show(int level) const {
   const char* neg = _d->negated ? "not " : "";
+  const char* cas = _d->case_sensitive ? "" : "no case ";
   switch (_d->type) {
     case Condition::filter:
       hlog_debug_arrow(level, "Condition: %sfilter %s", neg,
@@ -239,8 +268,9 @@ void Condition::show(int level) const {
         default:
           type = "unknown";
       }
-      hlog_debug_arrow(level, "Condition: %s%s %s", neg, type, _d->string);
-      } break;
+      hlog_debug_arrow(level, "Condition: %s%s%s '%s'", neg, cas, type,
+        _d->string);
+    } break;
     case Condition::size_ge:
     case Condition::size_gt:
     case Condition::size_le:
@@ -263,7 +293,7 @@ void Condition::show(int level) const {
           type = "unknown";
       }
       hlog_debug_arrow(level, "Condition: %s%s %lld", neg, type, _d->value);
-      } break;
+    } break;
     case Condition::mode_and:
     case Condition::mode_eq: {
       const char* type;
@@ -278,7 +308,7 @@ void Condition::show(int level) const {
           type = "unknown";
       }
       hlog_debug_arrow(level, "Condition: %s%s 0%03llo", neg, type, _d->value);
-      } break;
+    } break;
     default:
       hlog_error("Condition: unknown type");
       return;

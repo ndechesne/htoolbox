@@ -1,7 +1,7 @@
 Global filter
  -> Filter: and backup
  --> Condition: type f
- --> Condition: path_end ~
+ --> Condition: path_end '~'
 >List 0 client(s):
 >List 1 client(s):
  -> Client: localhost
@@ -330,8 +330,8 @@ Trying client 'myClient' using protocol 'nfs'
  ---> Path: /home/User/test
  ----> No error if same file fails copy again
  ----> Filter: or compress
- -----> Condition: name File2.txt
- -----> Condition: path dir/file3.txt
+ -----> Condition: name 'File2.txt'
+ -----> Condition: path 'dir/file3.txt'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
  ----> No error if same file fails copy again
@@ -380,8 +380,8 @@ Trying client 'otherClient' using protocol 'ssh'
  ---> Path: /home/Blah/test
  ----> No error if same file fails copy again
  ----> Filter: or compress
- -----> Condition: name File2.txt
- -----> Condition: path dir/file3.txt
+ -----> Condition: name 'File2.txt'
+ -----> Condition: path 'dir/file3.txt'
  ----> Compress filter: compress
 Backing up client 'otherClient'
 Register created for 'otherClient'
@@ -415,8 +415,8 @@ Trying client 'otherClient1' using protocol 'ssh'
  ---> Path: /home/Blah/test
  ----> No error if same file fails copy again
  ----> Filter: or compress
- -----> Condition: name File2.txt
- -----> Condition: path dir/file3.txt
+ -----> Condition: name 'File2.txt'
+ -----> Condition: path 'dir/file3.txt'
  ----> Compress filter: compress
 Backing up client 'otherClient1'
 Register created for 'otherClient1'
@@ -474,7 +474,7 @@ Database open in read/write mode
  --> Config: etc/localhost.list
  --> Expiry: 86400 second(s) / 1 day(s)
  --> Filter: and subdir
- ---> Condition: path_start subdir
+ ---> Condition: path_start 'subdir'
  ---> Condition: not size< 100
  --> Filter: and bigfile
  ---> Condition: size>= 10
@@ -484,12 +484,12 @@ Database open in read/write mode
  --> Paths:
  ---> Path: test1
  ----> Filter: and not_object
- -----> Condition: not path_end .o
+ -----> Condition: not path_end '.o'
  ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
  -----> Condition: not filter not_object
  ----> Filter: and cvs_entries
- -----> Condition: name Entries
+ -----> Condition: name 'Entries'
  ----> Ignore filters:
  -----> backup
  -----> to_be_ignored
@@ -794,7 +794,7 @@ Database open in read/write mode
  --> Config: etc/localhost.list
  --> Expiry: 86400 second(s) / 1 day(s)
  --> Filter: and subdir
- ---> Condition: path_start subdir
+ ---> Condition: path_start 'subdir'
  ---> Condition: not size< 100
  --> Filter: and bigfile
  ---> Condition: size>= 10
@@ -804,12 +804,12 @@ Database open in read/write mode
  --> Paths:
  ---> Path: test1
  ----> Filter: and not_object
- -----> Condition: not path_end .o
+ -----> Condition: not path_end '.o'
  ----> Filter: or to_be_ignored
  -----> Condition: filter subdir
  -----> Condition: not filter not_object
  ----> Filter: and cvs_entries
- -----> Condition: name Entries
+ -----> Condition: name 'Entries'
  ----> Ignore filters:
  -----> backup
  -----> to_be_ignored
@@ -1330,8 +1330,8 @@ Trying client 'myClient' using protocol 'nfs'
  ---> Path: /home/User/test
  ----> No error if same file fails copy again
  ----> Filter: or compress
- -----> Condition: name File2.txt
- -----> Condition: path dir/file3.txt
+ -----> Condition: name 'File2.txt'
+ -----> Condition: path 'dir/file3.txt'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
  ----> No error if same file fails copy again
@@ -1367,8 +1367,8 @@ Trying client 'myClient' using protocol 'nfs'
  ---> Path: /home/User/test
  ----> No error if same file fails copy again
  ----> Filter: or compress
- -----> Condition: name File2.txt
- -----> Condition: path dir/file3.txt
+ -----> Condition: name 'File2.txt'
+ -----> Condition: path 'dir/file3.txt'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
  ----> No error if same file fails copy again
@@ -1400,8 +1400,8 @@ Trying client 'myClient' using protocol 'nfs'
  ---> Path: /home/User/test
  ----> No error if same file fails copy again
  ----> Filter: or compress
- -----> Condition: name File2.txt
- -----> Condition: path dir/file3.txt
+ -----> Condition: name 'File2.txt'
+ -----> Condition: path 'dir/file3.txt'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
  ----> No error if same file fails copy again
@@ -1440,14 +1440,14 @@ Trying client 'myClient.xp' using protocol 'smb'
  ----> Filter: and silly
  -----> Condition: filter backup
  -----> Condition: type p
- -----> Condition: name a
- -----> Condition: name_start b
- -----> Condition: name_end c
- -----> Condition: name_regex d
- -----> Condition: path e
- -----> Condition: path_start f
- -----> Condition: path_end g
- -----> Condition: name_regex h
+ -----> Condition: name 'a'
+ -----> Condition: name_start 'b'
+ -----> Condition: no case name_end 'c'
+ -----> Condition: name_regex 'd'
+ -----> Condition: not no case path 'e'
+ -----> Condition: not path_start 'f'
+ -----> Condition: path_end 'g'
+ -----> Condition: name_regex 'h'
  -----> Condition: size>= 1
  -----> Condition: size> 2048
  -----> Condition: size<= 3000000

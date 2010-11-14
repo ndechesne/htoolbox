@@ -40,120 +40,420 @@ int main(void) {
   node = new Node("this is/a path/to a file.txt", 'f', 0, 0, 0, 0, 0);
 
   cout << "Condition::name check" << endl;
-  condition = new Condition(Condition::name, "to a file.txt", false);
+  condition = new Condition(Condition::name, "to a file.txt", false, true);
   if (condition->match(*node)) {
-    cout << "match 2.1" << endl;
+    condition->show();
   }
   delete condition;
-  condition = new Condition(Condition::name, "to a file.tx", false);
+  condition = new Condition(Condition::name, "to a file.tx", false, true);
   if (condition->match(*node)) {
-    cout << "match 2.2" << endl;
+    condition->show();
   }
   delete condition;
-  condition = new Condition(Condition::name, "o a file.txt", false);
+  condition = new Condition(Condition::name, "o a file.txt", false, true);
   if (condition->match(*node)) {
-    cout << "match 2.3" << endl;
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name, "TO A FILE.TXT", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name, "TO A FILE.TX", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name, "O A FILE.TXT", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+
+  cout << "Condition::name (no case) check" << endl;
+  condition = new Condition(Condition::name, "to a file.txt", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name, "to a file.tx", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name, "o a file.txt", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name, "TO A FILE.TXT", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name, "TO A FILE.TX", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name, "O A FILE.TXT", false, false);
+  if (condition->match(*node)) {
+    condition->show();
   }
   delete condition;
 
   cout << "Condition::name_start check" << endl;
-  condition = new Condition(Condition::name_start, "to a file.txt", false);
+  condition = new Condition(Condition::name_start, "to a file.txt", false, true);
   if (condition->match(*node)) {
-    cout << "match 3.1" << endl;
+    condition->show();
   }
   delete condition;
-  condition = new Condition(Condition::name_start, "to a file", false);
+  condition = new Condition(Condition::name_start, "to a file", false, true);
   if (condition->match(*node)) {
-    cout << "match 3.2" << endl;
+    condition->show();
   }
   delete condition;
-  condition = new Condition(Condition::name_start, "o a file", false);
+  condition = new Condition(Condition::name_start, "o a file", false, true);
   if (condition->match(*node)) {
-    cout << "match 3.3" << endl;
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_start, "TO A FILE.TXT", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_start, "TO A FILE", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_start, "O A FILE", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+
+  cout << "Condition::name_start (no case) check" << endl;
+  condition = new Condition(Condition::name_start, "to a file.txt", false,
+    false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_start, "to a file", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_start, "o a file", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_start, "TO A FILE.TXT", false,
+    false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_start, "TO A FILE", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_start, "O A FILE", false, false);
+  if (condition->match(*node)) {
+    condition->show();
   }
   delete condition;
 
   cout << "Condition::name_end check" << endl;
-  condition = new Condition(Condition::name_end, ".txt", false);
+  condition = new Condition(Condition::name_end, ".txt", false, true);
   if (condition->match(*node)) {
-    cout << "match 4.1" << endl;
+    condition->show();
   }
   delete condition;
-  condition = new Condition(Condition::name_end, ".tst", false);
+  condition = new Condition(Condition::name_end, ".tst", false, true);
   if (condition->match(*node)) {
-    cout << "match 4.2" << endl;
+    condition->show();
   }
   delete condition;
-  condition = new Condition(Condition::name_end, "and to a file.txt", false);
+  condition = new Condition(Condition::name_end, "and to a file.txt", false,
+    true);
   if (condition->match(*node)) {
-    cout << "match 4.3" << endl;
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_end, ".TXT", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_end, ".TST", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_end, "AND TO A FILE.TXT", false,
+    true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+
+  cout << "Condition::name_end (no case) check" << endl;
+  condition = new Condition(Condition::name_end, ".txt", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_end, ".tst", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_end, "and to a file.txt", false,
+    false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_end, ".TXT", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_end, ".TST", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::name_end, "AND TO A FILE.TXT", false,
+    false);
+  if (condition->match(*node)) {
+    condition->show();
   }
   delete condition;
 
   cout << "Condition::name_regex check" << endl;
   condition = new Condition(Condition::name_regex, "^.*\\.txt", false);
   if (condition->match(*node)) {
-    cout << "match 5.1" << endl;
+    condition->show();
   }
   delete condition;
   condition = new Condition(Condition::name_regex, "^a.*\\.txt", false);
   if (condition->match(*node)) {
-    cout << "match 5.2" << endl;
+    condition->show();
   }
   delete condition;
 
   cout << "Condition::path check" << endl;
   condition = new Condition(Condition::path, "this is/a path/to a file.txt",
-    false);
+    false, true);
   if (condition->match(*node)) {
-    cout << "match 6.1" << endl;
+    condition->show();
   }
   delete condition;
   condition = new Condition(Condition::path, "his is/a path/to a file.txt",
-    false);
+    false, true);
   if (condition->match(*node)) {
-    cout << "match 6.2" << endl;
+    condition->show();
   }
   delete condition;
   condition = new Condition(Condition::path, "this is/a path/to a file.tx",
-    false);
+    false, true);
   if (condition->match(*node)) {
-    cout << "match 6.3" << endl;
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path, "THIS IS/A PATH/TO A FILE.TXT",
+    false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path, "HIS IS/A PATH/TO A FILE.TXT",
+    false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path, "THIS IS/A PATH/TO A FILE.TX",
+    false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+
+  cout << "Condition::path (no case) check" << endl;
+  condition = new Condition(Condition::path, "this is/a path/to a file.txt",
+    false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path, "his is/a path/to a file.txt",
+    false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path, "this is/a path/to a file.tx",
+    false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path, "THIS IS/A PATH/TO A FILE.TXT",
+    false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path, "HIS IS/A PATH/TO A FILE.TXT",
+    false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path, "THIS IS/A PATH/TO A FILE.TX",
+    false, false);
+  if (condition->match(*node)) {
+    condition->show();
   }
   delete condition;
 
   cout << "Condition::path_start check" << endl;
-  condition = new Condition(Condition::path_start, "this is/a", false);
+  condition = new Condition(Condition::path_start, "this is/a", false, true);
   if (condition->match(*node)) {
-    cout << "match 7.1" << endl;
+    condition->show();
   }
   delete condition;
-  condition = new Condition(Condition::path_start, "this was/a", false);
+  condition = new Condition(Condition::path_start, "this was/a", false, true);
   if (condition->match(*node)) {
-    cout << "match 7.2" << endl;
+    condition->show();
   }
   delete condition;
-  condition = new Condition(Condition::path_start, "his is/a", false);
+  condition = new Condition(Condition::path_start, "his is/a", false, true);
   if (condition->match(*node)) {
-    cout << "match 7.3" << endl;
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_start, "THIS IS/A", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_start, "THIS WAS/A", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_start, "HIS IS/A", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+
+  cout << "Condition::path_start (no case) check" << endl;
+  condition = new Condition(Condition::path_start, "this is/a", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_start, "this was/a", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_start, "his is/a", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_start, "THIS IS/A", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_start, "THIS WAS/A", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_start, "HIS IS/A", false, false);
+  if (condition->match(*node)) {
+    condition->show();
   }
   delete condition;
 
   cout << "Condition::path_end check" << endl;
-  condition = new Condition(Condition::path_end, ".txt", false);
+  condition = new Condition(Condition::path_end, ".txt", false, true);
   if (condition->match(*node)) {
-    cout << "match 8.1" << endl;
+    condition->show();
   }
   delete condition;
-  condition = new Condition(Condition::path_end, ".tst", false);
+  condition = new Condition(Condition::path_end, ".tst", false, true);
   if (condition->match(*node)) {
-    cout << "match 8.2" << endl;
+    condition->show();
   }
   delete condition;
   condition = new Condition(Condition::path_end,
-    "and this is/a path/to a file.txt", false);
+    "and this is/a path/to a file.txt", false, true);
   if (condition->match(*node)) {
-    cout << "match 8.3" << endl;
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_end, ".TXT", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_end, ".TST", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_end,
+    "AND THIS IS/A PATH/TO A FILE.TXT", false, true);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+
+  cout << "Condition::path_end (no case) check" << endl;
+  condition = new Condition(Condition::path_end, ".txt", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_end, ".tst", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_end,
+    "and this is/a path/to a file.txt", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_end, ".TXT", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_end, ".TST", false, false);
+  if (condition->match(*node)) {
+    condition->show();
+  }
+  delete condition;
+  condition = new Condition(Condition::path_end,
+    "AND THIS IS/A PATH/TO A FILE.TXT", false, false);
+  if (condition->match(*node)) {
+    condition->show();
   }
   delete condition;
 
@@ -161,13 +461,13 @@ int main(void) {
   condition = new Condition(Condition::path_regex, "^this.*path/.*\\.txt",
     false);
   if (condition->match(*node)) {
-    cout << "match 9.1" << endl;
+    condition->show();
   }
   delete condition;
   condition = new Condition(Condition::path_regex, "^this.*path/a.*\\.txt",
     false);
   if (condition->match(*node)) {
-    cout << "match 9.2" << endl;
+    condition->show();
   }
   delete condition;
 

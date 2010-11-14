@@ -2,9 +2,8 @@ HBackup is a backup program written in C++ by Herve Fache <herve@lucidia.net>.
 
 Please refer to the documentation linked from doc/index.html.
 
-If you intend to run the memory leak test, you'll need to configure with debug
-and static linking:
-./configure --disable-shared --enable-debug
+If you intend to run the memory leak test, you'll need to configure with debug:
+./configure --enable-debug=yes
 
 Then run the test:
 ./test_tools/check ml
