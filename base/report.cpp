@@ -17,6 +17,7 @@
 */
 
 #include <string>
+#include <list>
 
 using namespace std;
 
@@ -41,6 +42,29 @@ using namespace htools;
 
 Report htools::report;
 
+enum {
+  FILE_NAME_MAX = 128
+};
+
+struct RegressionCondition {
+  char        file_name[FILE_NAME_MAX + 1];
+  size_t      min_line;
+  size_t      max_line;
+  RegressionCondition(const RegressionCondition& r)
+  : min_line(r.min_line), max_line(r.max_line) {
+    strcpy(file_name, r.file_name);
+  }
+  RegressionCondition(const char* f, size_t l, size_t h)
+  : min_line(l), max_line(h) {
+    strncpy(file_name, f, FILE_NAME_MAX);
+    file_name[FILE_NAME_MAX] = '\0';
+  }
+  bool matches(const char* file, size_t line) const {
+    return (strncmp(file_name, file, FILE_NAME_MAX) == 0) &&
+      (line >= min_line) && ((max_line == 0) || (line <= max_line));
+  }
+};
+
 struct Report::Private {
   pthread_mutex_t mutex;
   size_t          size_to_overwrite;
@@ -51,6 +75,7 @@ struct Report::Private {
   size_t          max_files;
   FILE*           fd;
   size_t          lines;
+  list<RegressionCondition> reg_cond;
   Private() : size_to_overwrite(0), console_log(true), file_log(false),
       max_lines(0), max_files(0), fd(NULL) {
     pthread_mutex_init(&mutex, NULL);
@@ -192,7 +217,7 @@ struct Report::Private {
   int consoleLog(
       FILE*           fd,
       const char*     file,
-      int             line,
+      size_t          line,
       Level           level,
       bool            temporary,
       size_t          ident,
@@ -276,7 +301,7 @@ struct Report::Private {
   int fileLog(
       FILE*           fd,
       const char*     file,
-      int             line,
+      size_t          line,
       Level           level,
       bool            temporary,
       size_t          ident,
@@ -431,9 +456,16 @@ void Report::stopFileLog() {
   }
 }
 
+void Report::addRegressionCondition(
+    const char* file_name,
+    size_t      min_line,
+    size_t      max_line) {
+  _d->reg_cond.push_back(RegressionCondition(file_name, min_line, max_line));
+}
+
 int Report::log(
     const char*     file,
-    int             line,
+    size_t          line,
     Level           level,
     bool            temp,
     size_t          ident,
@@ -442,6 +474,20 @@ int Report::log(
   // print only if required
   if (level > this->level()) {
     return 0;
+  }
+  if ((level == regression) && ! _d->reg_cond.empty()) {
+    // Look for list of regressed files/lines
+    bool matches = false;
+    for (list<RegressionCondition>::const_iterator it = _d->reg_cond.begin();
+        it != _d->reg_cond.end(); ++it) {
+      if (it->matches(file, line)) {
+        matches = true;
+        break;
+      }
+    }
+    if (! matches) {
+      return 0;
+    }
   }
   va_list ap;
   va_start(ap, format);

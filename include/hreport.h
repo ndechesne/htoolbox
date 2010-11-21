@@ -78,10 +78,15 @@ namespace htools {
     Level level() const {
       return _console_level > _file_level ? _console_level : _file_level;
     }
+    // Add file name and lines to match to regression list
+    void addRegressionCondition(
+      const char* file_name,
+      size_t      min_line = 0,
+      size_t      max_line = 0);
     // Display message on standard output
     int log(
       const char*     file,
-      int             line,
+      size_t          line,
       Level           level,
       bool            temporary,  // erase this message with next one
       size_t          ident,      // text identation
