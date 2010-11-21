@@ -3767,7 +3767,7 @@ Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
 Sorting list
-List statistics: 39 checksum(s), 20 unique [11037294 bytes, 10 saved]
+List statistics: 39 checksum(s), 20 unique [11037304 real, 11037314 virtual]
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
@@ -3790,6 +3790,7 @@ f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 Found 20 valid and 0 broken data file(s)     
+Data statistics: 20 checksum(s), 20 valid [157126 real, 11037304 virtual]
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -3964,10 +3965,10 @@ Crawling through DB data
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:59)
    htools::StackHelper::open() (stackhelper.h:54)
-   hbackup::Data::check(char const*, bool, bool, long long*, bool*) const (data.cpp:834)
+   hbackup::Data::check(char const*, bool, bool, long long*, long long*) const (data.cpp:834)
    hbackup::Data::crawl_recurse(htools::Node&, std::string const&, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:417)
    hbackup::Data::crawl(bool, bool, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*) const (data.cpp:970)
-   hbackup::Database::check(bool) const (db.cpp:630)
+   hbackup::Database::check(bool) const (db.cpp:654)
    hbackup::HBackup::check() (interface.cpp:424)
    main (hbackup.cpp:293)
  
@@ -4806,7 +4807,7 @@ U       test_r/test2/testfile
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:59)
    htools::StackHelper::open() (stackhelper.h:54)
-   hbackup::Data::read(char const*, char const*) const (data.cpp:525)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:526)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:403)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:515)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
@@ -4950,7 +4951,7 @@ U       test_r/test1/big_file
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:59)
    htools::StackHelper::open() (stackhelper.h:54)
-   hbackup::Data::read(char const*, char const*) const (data.cpp:525)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:526)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:403)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:515)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
@@ -5288,7 +5289,7 @@ U       test_r/test1/big_file
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:59)
    htools::StackHelper::open() (stackhelper.h:54)
-   hbackup::Data::read(char const*, char const*) const (data.cpp:525)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:526)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:403)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:515)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)

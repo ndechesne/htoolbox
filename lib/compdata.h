@@ -23,22 +23,25 @@ namespace hbackup {
 
 class CompData {
   char              _hash[129];
-  long long         _size;
-  bool              _compressed;
+  long long         _data_size;
+  long long         _file_size;
   CompData();
   CompData& operator=(const CompData& c);
 public:
-  CompData(const CompData& c) : _size(c._size), _compressed(c._compressed) {
+  CompData(const CompData& c)
+    : _data_size(c._data_size), _file_size(c._file_size) {
     strcpy(_hash, c._hash);
   }
-  CompData(const char* c, long long s, bool z = false) : _size(s), _compressed(z) {
-    strcpy(_hash, c);
+  CompData(const char* h, long long d, long long f = -1)
+    : _data_size(d), _file_size(f) {
+    strcpy(_hash, h);
   }
-  void signalBroken() { _size = -1; }
-  inline const char* hash() const { return _hash; }
-  inline long long size() const       { return _size; }
-  inline bool compressed() const      { return _compressed; }
-  bool operator<(const CompData& d)  {
+  void signalBroken()               { _data_size = -1; }
+  bool isBroken() const             { return _data_size == -1; }
+  inline const char* hash() const   { return _hash; }
+  inline long long size() const     { return _data_size; }
+  inline long long fileSize() const { return _file_size; }
+  bool operator<(const CompData& d) {
     int cmp = strcmp(_hash, d._hash);
     if (cmp != 0) return cmp < 0;
     return _hash < d._hash;

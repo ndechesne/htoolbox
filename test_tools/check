@@ -21,6 +21,9 @@ fi
 # Make sure dependencies are up-to-date
 if [ "`basename $DIR`" != "base" ]; then
   $MAKE -C $BASE || exit 2
+  if [ "`basename $DIR`" != "parsers" ]; then
+    $MAKE -C parsers || exit 2
+  fi
   if [ "`basename $DIR`" != "lib" ]; then
     $MAKE -C $LIB || exit 2
   fi

@@ -1544,7 +1544,7 @@ Reading list for 'myClient.xp'
 Reading list for 'myhost'
 Reading list for 'newClient'
 Sorting list
-List statistics: 39 checksum(s), 20 unique [11037294 bytes, 10 saved]
+List statistics: 39 checksum(s), 20 unique [11037304 real, 11037314 virtual]
 Crawling through DB
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
 328b42839732650180b213aadebe494d-0 16\r
@@ -1567,6 +1567,7 @@ f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 Found 20 valid and 0 broken data file(s)     
+Data statistics: 20 checksum(s), 20 valid [157126 real, 11037304 virtual]
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16

@@ -516,23 +516,31 @@ int Database::scan(
   // Unique, must do something if checksums match, but not sizes
   size_t total_number = list_data.size();
   long long total_size = 0;
-  long long saved_size  = 0;
+  long long saved_size = 0;
   for (list<CompData>::iterator i = list_data.begin(); i != list_data.end();
       i++) {
     total_size += i->size();
     list<CompData>::iterator j = i;
     j++;
+    size_t duplicates = 0;
     while ((j != list_data.end()) && (strcmp(i->hash(), j->hash()) == 0)) {
-      if (i->size() != j->size()) {
-        i->signalBroken();
+      if (! i->isBroken()) {
+        if (i->size() != j->size()) {
+          total_size -= i->size() * (duplicates + 1);
+          saved_size -= i->size() * duplicates;
+          i->signalBroken();
+        } else {
+          total_size += i->size();
+          saved_size += i->size();
+          ++duplicates;
+        }
       }
-      saved_size += j->size();
       j = list_data.erase(j);
     }
   }
   hlog_verbose("List statistics: %zu checksum(s), %zu unique "
-    "[%lld bytes, %lld saved]",
-    total_number, list_data.size(), total_size - saved_size, saved_size);
+    "[%lld real, %lld virtual]",
+    total_number, list_data.size(), total_size - saved_size, total_size);
 
   // Get checksums from DB
   hlog_verbose("Crawling through DB");
@@ -541,6 +549,22 @@ int Database::scan(
   int rc = _d->data.crawl(false, true, &data_data);
   if (aborting() || (rc < 0)) {
     return -1;
+  }
+  if (hlog_is_worth(verbose)) {
+    size_t total_number = 0;
+    long long file_size = 0;
+    long long data_size  = 0;
+    for (list<CompData>::iterator i = data_data.begin(); i != data_data.end();
+        i++) {
+      if (i->size() >= 0) {
+        ++total_number;
+        data_size += i->size();
+        file_size += i->fileSize();
+      }
+    }
+    hlog_verbose("Data statistics: %zu checksum(s), %zu valid "
+      "[%lld real, %lld virtual]",
+      data_data.size(), total_number, file_size, data_size);
   }
 
   if (! list_data.empty()) {

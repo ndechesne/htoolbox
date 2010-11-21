@@ -69,10 +69,10 @@ protected: // So I can test them
   // Check existence/consistence of given checksum's data
   int check(
     const char*     checksum,
-    bool            thorough   = true,
-    bool            repair     = false,
-    long long*      size       = NULL,
-    bool*           compressed = NULL) const;
+    bool            thorough  = true,
+    bool            repair    = false,
+    long long*      data_size = NULL,
+    long long*      file_size = NULL) const;
   // Scan database for missing/corrupted data, return a list of valid checksums
   int crawl_recurse(
     htools::Node&   dir,              // Base directory

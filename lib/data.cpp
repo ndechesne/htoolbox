@@ -405,19 +405,20 @@ int Data::crawl_recurse(
       if ((*i)->type() == 'd') {
         // '.' files are before, so .temp will be found first
         if ((*i)->name()[0] != '.') {
-          string checksum = checksum_part + (*i)->name();
+          string hash = checksum_part + (*i)->name();
           if (no_files) {
-            if (crawl_recurse(**i, checksum, data, thorough, repair, valid,
-                broken) < 0){
+            if (crawl_recurse(**i, hash, data, thorough, repair, valid, broken)
+                < 0) {
               failed = true;
             }
           } else {
-            long long size;
-            bool      comp;
-            if (check(checksum.c_str(), thorough, repair, &size, &comp) == 0) {
+            long long data_size;
+            long long file_size;
+            if (check(hash.c_str(), thorough, repair, &data_size, &file_size)
+                == 0) {
               // Add to data, the list of collected data
               if (data != NULL) {
-                data->push_back(CompData(checksum.c_str(), size, comp));
+                data->push_back(CompData(hash.c_str(), data_size, file_size));
               }
               if (valid != NULL) {
                 (*valid)++;
@@ -783,8 +784,8 @@ int Data::check(
     const char*     checksum,
     bool            thorough,
     bool            repair,
-    long long*      size_p,
-    bool*           compressed_p) const {
+    long long*      data_size_p,
+    long long*      file_size_p) const {
   char path[PATH_MAX];
   // Get dir from checksum
   if (getDir(checksum, path)) {
@@ -793,7 +794,6 @@ int Data::check(
   // Look for data in dir
   bool failed  = false;
   bool display = true;  // To not print twice when calling check
-
 
   const char* extensions[] = { "", ".gz", NULL };
   char local_path[PATH_MAX];
@@ -812,7 +812,7 @@ int Data::check(
   CompressionCase comp_status = unknown;
   getMetadata(path, &data_size, &comp_status);
   // Get file size
-  long long real_size = -1;
+  long long file_size = -1;
 
   char corrupted_path[PATH_MAX];
   sprintf(corrupted_path, "%s/%s", path, "corrupted");
@@ -838,9 +838,9 @@ int Data::check(
         // Copy to null writer and compute the hash from it (different thread)
         char hash[129];
         Hasher nh(new NullWriter, true, Hasher::md5, hash);
-        long long size = copy(&data, &nh);
-        real_size = data.offset();
-        if (size < 0) {
+        long long copy_rc = copy(&data, &nh);
+        file_size = data.offset();
+        if (copy_rc < 0) {
           hlog_error("%s reading file '%s'", strerror(errno), local_path);
           failed = true;
           if (errno == EUCLEAN) {
@@ -876,13 +876,13 @@ int Data::check(
             data_size = -1;
           } else
           // Compare data size and stored size for compress files
-          if (size != data_size) {
+          if (copy_rc != data_size) {
             if (data_size >= 0) {
               hlog_error("Correcting wrong metadata for %s", checksum);
             } else {
               hlog_warning("Adding missing metadata for %s", checksum);
             }
-            data_size = size;
+            data_size = copy_rc;
             setMetadata(path, data_size, later);
           }
         }
@@ -904,15 +904,15 @@ int Data::check(
       if (no == 0) {
         struct stat64 metadata;
         if (lstat64(local_path, &metadata) >= 0) {
-          real_size = metadata.st_size;
+          file_size = metadata.st_size;
           hlog_warning("Setting missing metadata for %s", checksum);
-          data_size = real_size;
+          data_size = file_size;
           setMetadata(path, data_size, later);
         }
       } else
       // Compressed file, check it thoroughly, which shall add the metadata
       {
-        if (check(checksum, true, true, size_p, compressed_p) < 0) {
+        if (check(checksum, true, true, data_size_p, file_size_p) < 0) {
           failed = true;
         } else {
           getMetadata(path, &data_size, &comp_status);
@@ -923,7 +923,7 @@ int Data::check(
     if (hlog_is_worth(verbose)) {
       struct stat64 metadata;
       if (lstat64(local_path, &metadata) >= 0) {
-        real_size = metadata.st_size;
+        file_size = metadata.st_size;
       }
     }
   } else {
@@ -936,16 +936,16 @@ int Data::check(
     if (no == 0) {
       hlog_verbose_temp("%s %lld", checksum, data_size);
     } else {
-      hlog_verbose_temp("%s %lld %lld", checksum, data_size, real_size);
+      hlog_verbose_temp("%s %lld %lld", checksum, data_size, file_size);
     }
   }
 
   // Return file information if required
-  if (size_p != NULL) {
-    *size_p = data_size;
+  if (data_size_p != NULL) {
+    *data_size_p = data_size;
   }
-  if (compressed_p != NULL) {
-    *compressed_p = no > 0;
+  if (file_size_p != NULL) {
+    *file_size_p = file_size;
   }
   return failed ? -1 : 0;
 }

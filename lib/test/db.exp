@@ -15,26 +15,29 @@ Database open in read/write mode
 
 Test: scan & check
 Sorting list
-List statistics: 0 checksum(s), 0 unique [0 bytes, 0 saved]
+List statistics: 0 checksum(s), 0 unique [0 real, 0 virtual]
 Crawling through DB
 Found 0 valid and 0 broken data file(s)
+Data statistics: 0 checksum(s), 0 valid [0 real, 0 virtual]
 Database closed
 Database open in read/write mode
 File data gone
 Sorting list
-List statistics: 0 checksum(s), 0 unique [0 bytes, 0 saved]
+List statistics: 0 checksum(s), 0 unique [0 real, 0 virtual]
 Crawling through DB
 Error: Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 Backup::removeHash(59ca0efa9f5633cb0371bbc0355478d8-0)
 Found 0 valid and 1 broken data file(s)
+Data statistics: 0 checksum(s), 0 valid [0 real, 0 virtual]
 Database closed
 Database open in read/write mode
 File data corrupted, surficial scan
 Sorting list
-List statistics: 0 checksum(s), 0 unique [0 bytes, 0 saved]
+List statistics: 0 checksum(s), 0 unique [0 real, 0 virtual]
 Crawling through DB
 59ca0efa9f5633cb0371bbc0355478d8-0 0\r
 Found 1 valid and 0 broken data file(s)
+Data statistics: 1 checksum(s), 1 valid [0 real, 0 virtual]
 Checksum(s) with data: 1
  -> 59ca0efa9f5633cb0371bbc0355478d8-0, 0
 Obsolete checksum(s): 1
@@ -43,9 +46,10 @@ Backup::removeHash(59ca0efa9f5633cb0371bbc0355478d8-0)
 Database closed
 Database open in read/write mode
 Sorting list
-List statistics: 0 checksum(s), 0 unique [0 bytes, 0 saved]
+List statistics: 0 checksum(s), 0 unique [0 real, 0 virtual]
 Crawling through DB
 Found 0 valid and 0 broken data file(s)
+Data statistics: 0 checksum(s), 0 valid [0 real, 0 virtual]
 File data corrupted, thorough scan
 Database closed
 Database open in read-only mode
@@ -57,11 +61,12 @@ Found 0 valid and 1 broken data file(s)
 Database closed
 Database open in read/write mode
 Sorting list
-List statistics: 0 checksum(s), 0 unique [0 bytes, 0 saved]
+List statistics: 0 checksum(s), 0 unique [0 real, 0 virtual]
 Crawling through DB
 Backup::removeHash(59ca0efa9f5633cb0371bbc0355478d8-0)
 Removed corrupted data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Found 0 valid and 1 broken data file(s)
+Data statistics: 0 checksum(s), 0 valid [0 real, 0 virtual]
 Scan again
 Database closed
 
@@ -159,7 +164,7 @@ Test: scan
 Database open in read/write mode
 Reading list for 'myClient'
 Sorting list
-List statistics: 5 checksum(s), 4 unique [145421 bytes, 12 saved]
+List statistics: 5 checksum(s), 4 unique [145433 real, 145445 virtual]
 Crawling through DB
 285b35198a5e188b3a0df3ed33f93a26-0 12\r
 Error: Data missing for 3d546a1ce46c6ae10ad34ab8a81c542e-0
@@ -168,6 +173,7 @@ Backup::removeHash(3d546a1ce46c6ae10ad34ab8a81c542e-0)
 6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r
 Found 4 valid and 1 broken data file(s)
+Data statistics: 4 checksum(s), 4 valid [27 real, 27 virtual]
 Checksum(s) from list: 4
  -> 285b35198a5e188b3a0df3ed33f93a26-0, 12
  -> 3d546a1ce46c6ae10ad34ab8a81c542e-0, 145408
