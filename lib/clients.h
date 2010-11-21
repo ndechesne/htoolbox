@@ -23,7 +23,7 @@
 
 namespace hbackup {
 
-class Client : public ConfigObject {
+class Client : public htools::ConfigObject {
   Attributes          _attributes;
   ParsersManager&     _parsers_manager;
   bool                _own_parsers;
@@ -35,11 +35,11 @@ class Client : public ConfigObject {
   string              _host_or_ip;
   htools::Path*       _list_file;
   string              _protocol;
-  list<Share::Option> _options;
+  list<htools::Share::Option> _options;
   bool                _timeout_nowarning;
   list<string>        _users;
   string              _home_path;
-  Config              _config;
+  htools::Config      _config;
   int                 _expire;
 public:
   Client(
@@ -57,10 +57,10 @@ public:
   }
   const string& internalName() const;
   void addOption(const string& value) {
-    _options.push_back(Share::Option("", value));
+    _options.push_back(htools::Share::Option("", value));
   }
   void addOption(const string& name, const string& value) {
-    _options.push_back(Share::Option(name, value));
+    _options.push_back(htools::Share::Option(name, value));
   }
   const string getOption(const string& name) const;
   void setHostOrIp(string value) {

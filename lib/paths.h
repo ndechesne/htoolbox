@@ -21,7 +21,7 @@
 
 namespace hbackup {
 
-class ClientPath : public ConfigObject {
+class ClientPath : public htools::ConfigObject {
   htools::Path      _path;
   Attributes        _attributes;
   const ParsersManager& _parsers_manager;

@@ -22,7 +22,7 @@
 #include <string>
 #include <list>
 
-namespace hbackup {
+namespace htools {
 
 class Share {
 public:

@@ -19,7 +19,7 @@
 #ifndef _CONFIGURATION_H
 #define _CONFIGURATION_H
 
-namespace hbackup {
+namespace htools {
 
 // The configuration tree, line per line
 class ConfigLine {
@@ -92,7 +92,7 @@ class ConfigItem {
   unsigned int      _min_params;
   unsigned int      _max_params;
   list<ConfigItem*> _children;
-  ConfigItem(const hbackup::ConfigItem&) {}
+  ConfigItem(const htools::ConfigItem&) {}
 public:
   ConfigItem(
     const string&   keyword,

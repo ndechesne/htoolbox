@@ -32,10 +32,9 @@ using namespace std;
 
 #include "configuration.h"
 
-using namespace hbackup;
 using namespace htools;
 
-namespace hbackup {
+namespace htools {
 
 // To check occurrences
 class ConfigCounter {
@@ -48,7 +47,7 @@ public:
   void increment() { _occurrences++; }
 };
 
-}
+};
 
 ConfigLine::~ConfigLine() {
   clear();

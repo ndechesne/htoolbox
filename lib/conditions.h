@@ -34,7 +34,7 @@ namespace hbackup {
 // Stub
 class Filter;
 
-class Condition : public ConfigObject {
+class Condition : public htools::ConfigObject {
 public:
   enum Type {
     filter      = 1,    //!< sub-filter

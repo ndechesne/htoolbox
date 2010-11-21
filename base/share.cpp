@@ -24,7 +24,6 @@ using namespace std;
 #include "hreport.h"
 #include "share.h"
 
-using namespace hbackup;
 using namespace htools;
 
 const string Share::getOption(

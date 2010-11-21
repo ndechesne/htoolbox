@@ -21,7 +21,7 @@
 
 namespace hbackup {
 
-class Attributes : ConfigObject {
+class Attributes : htools::ConfigObject {
   bool                _report_copy_error_once;
   Filters             _filters;
   list<const Filter*> _ignore_list;

@@ -29,7 +29,6 @@ using namespace std;
 #include <hreport.h>
 #include "configuration.h"
 
-using namespace hbackup;
 using namespace htools;
 
 class MyObject : public ConfigObject {
