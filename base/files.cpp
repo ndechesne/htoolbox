@@ -294,7 +294,7 @@ int Node::createList() {
   bool failed = false;
   char path[PATH_MAX];
   strcpy(path, _path);
-  int path_len = strlen(path);
+  size_t path_len = strlen(path);
   path[path_len++] = '/';
   while (size--) {
     strcpy(&path[path_len], direntList[size]->d_name);

@@ -119,7 +119,7 @@ ssize_t LineReaderWriter::getLine(char** buffer_p, size_t* capacity_p, int delim
   do {
     // Fill up the buffer
     if (_d->reader == _d->buffer_end) {
-      int rc = _d->refill();
+      ssize_t rc = _d->refill();
       if (rc < 0) {
         return rc;
       }

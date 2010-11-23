@@ -346,7 +346,7 @@ struct Report::Private {
         break;
     }
     // location
-    rc += fprintf(fd, "%s:%d ", file, line);
+    rc += fprintf(fd, "%s:%zd ", file, line);
     // message
     rc += vfprintf(fd, format, *args);
     // end
