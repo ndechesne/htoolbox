@@ -14,11 +14,13 @@ libhtools_la_SOURCES = \
   files.cpp \
   filereaderwriter.cpp \
   hasher.cpp \
+  job_queue.cpp \
   linereaderwriter.cpp \
   multiwriter.cpp \
   report.cpp \
   share.cpp \
   unzipreader.cpp \
+  work_scheduler.cpp \
   zipwriter.cpp \
   $(NULL)
 
@@ -30,10 +32,12 @@ EXTRA_DIST = \
   files.h \
   hasher.h \
   ireaderwriter.h \
+  job_queue.h \
   linereaderwriter.h \
   multiwriter.h \
   share.h \
   stackhelper.h \
   unzipreader.h \
+  work_scheduler.h \
   zipwriter.h \
   $(NULL)

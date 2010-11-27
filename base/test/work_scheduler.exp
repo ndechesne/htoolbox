@@ -1,0 +1,53 @@
+no thread limit
+monitor.thread created
+monitor.loop enter
+worker #1.thread created
+monitor.loop enter
+worker #1.loop enter
+task enter: data = 'data1' user = 'user'
+worker #2.thread created
+monitor.loop enter
+monitor.queue closed
+worker #1.queue closed
+worker #2.queue closed
+all 2 worker queue(s) closed
+worker #2.loop enter
+task enter: data = 'data2' user = 'user'
+task exit: data = 'tata1'
+worker #1.loop enter
+worker #1.loop exit
+task exit: data = 'tata2'
+worker #1.thread joined
+worker #2.loop enter
+worker #2.loop exit
+worker #2.thread joined
+all worker thread(s) joined
+monitor.loop exit
+monitor.thread joined
+out queue:
+  'tata1'
+  'tata2'
+thread limit = 1
+monitor.thread created
+monitor.loop enter
+worker #1.thread created
+monitor.loop enter
+worker #1.loop enter
+monitor.loop enter
+monitor.queue closed
+worker #1.queue closed
+all 1 worker queue(s) closed
+task enter: data = 'data1' user = 'user'
+task exit: data = 'tata1'
+worker #1.loop enter
+task enter: data = 'data2' user = 'user'
+task exit: data = 'tata2'
+worker #1.loop enter
+worker #1.loop exit
+worker #1.thread joined
+all worker thread(s) joined
+monitor.loop exit
+monitor.thread joined
+out queue:
+  'tata1'
+  'tata2'
