@@ -1,135 +1,149 @@
 no thread limit
-monitor.thread created
-monitor.loop enter
-worker #1.thread created
-monitor.loop enter
-worker #1.loop enter
+sched.thread created
+sched.loop enter
+sched.loop 0 busy 0 idle 0 total
+sched.worker1.thread created
+sched.loop enter
+sched.worker1.loop enter
 task enter: data = 'data1' user = 'user1'
-worker #2.thread created
-monitor.loop enter
+sched.loop 1 busy 0 idle 1 total
+sched.worker2.thread created
+sched.loop enter
 2 thread(s)
-monitor.queue closed
-all idle worker thread(s) destroyed
-worker #1.queue closed
-worker #2.queue closed
-all 2 busy worker queue(s) closed
-worker #2.loop enter
+sched.queue closed
+sched.all idle worker thread(s) destroyed
+sched.worker1.queue closed
+sched.worker2.queue closed
+sched all 2 busy worker queue(s) closed
+sched.worker2.loop enter
 task enter: data = 'data2' user = 'user1'
 task exit: data = 'tata1'
-worker #1.loop enter
-worker #1.loop exit
+sched.worker1.loop enter
+sched.worker1.loop exit
 task exit: data = 'tata2'
-worker #1.thread joined
-worker #2.loop enter
-worker #2.loop exit
-worker #2.thread joined
-all worker thread(s) joined
-monitor.loop exit
-monitor.thread joined
+sched.worker1.thread joined
+sched.worker2.loop enter
+sched.worker2.loop exit
+sched.worker2.thread joined
+sched all worker thread(s) joined
+sched.loop exit
+sched.thread joined
 out queue:
   'tata1'
   'tata2'
 thread limit = 1
-monitor.thread created
-monitor.loop enter
-worker #1.thread created
-monitor.loop enter
-worker #1.loop enter
-task enter: data = 'data1' user = 'user2'
+sched.thread created
+sched.loop enter
+sched.loop 0 busy 0 idle 0 total
+sched.worker1.thread created
+sched.loop enter
+sched.loop 1 busy 0 idle 1 total
 1 thread(s)
-monitor.loop enter
-monitor.queue closed
-all idle worker thread(s) destroyed
-worker #1.queue closed
-all 1 busy worker queue(s) closed
+sched.worker1.loop enter
+sched.loop enter
+sched.queue closed
+sched.all idle worker thread(s) destroyed
+sched.worker1.queue closed
+sched all 1 busy worker queue(s) closed
+task enter: data = 'data1' user = 'user2'
 task exit: data = 'tata1'
-worker #1.loop enter
+sched.worker1.loop enter
 task enter: data = 'data2' user = 'user2'
 task exit: data = 'tata2'
-worker #1.loop enter
-worker #1.loop exit
-worker #1.thread joined
-all worker thread(s) joined
-monitor.loop exit
-monitor.thread joined
+sched.worker1.loop enter
+sched.worker1.loop exit
+sched.worker1.thread joined
+sched all worker thread(s) joined
+sched.loop exit
+sched.thread joined
 out queue:
   'tata1'
   'tata2'
 no thread limit, 10 objects
-monitor.thread created
-monitor.loop enter
-worker #1.thread created
-monitor.loop enter
-worker #1.loop enter
+sched.thread created
+sched.loop enter
+sched.loop 0 busy 0 idle 0 total
+sched.worker1.thread created
+sched.loop enter
+sched.worker1.loop enter
 task enter: data = 'data1' user = 'user3'
-worker #2.thread created
-monitor.loop enter
-worker #2.loop enter
+sched.loop 1 busy 0 idle 1 total
+sched.worker2.thread created
+sched.loop enter
+sched.worker2.loop enter
 task enter: data = 'data2' user = 'user3'
-worker #3.thread created
-monitor.loop enter
-worker #3.loop enter
+sched.loop 2 busy 0 idle 2 total
+sched.worker3.thread created
+sched.loop enter
+sched.worker3.loop enter
 task enter: data = 'data3' user = 'user3'
-worker #4.thread created
-monitor.loop enter
-worker #4.loop enter
+sched.loop 3 busy 0 idle 3 total
+sched.worker4.thread created
+sched.loop enter
+sched.worker4.loop enter
 task enter: data = 'data4' user = 'user3'
-worker #5.thread created
-monitor.loop enter
+sched.loop 4 busy 0 idle 4 total
+sched.worker5.thread created
+sched.loop enter
 task exit: data = 'tata1'
-worker #5.loop enter
+sched.worker5.loop enter
 task enter: data = 'data5' user = 'user3'
-monitor.loop enter
-worker #1.loop enter
+sched.loop 4 busy 1 idle 5 total
+sched.loop enter
+sched.worker1.loop enter
 task enter: data = 'data6' user = 'user3'
 task exit: data = 'tata2'
-monitor.loop enter
-worker #2.loop enter
+sched.loop 4 busy 1 idle 5 total
+sched.loop enter
+sched.worker2.loop enter
 task enter: data = 'data7' user = 'user3'
 task exit: data = 'tata3'
-monitor.loop enter
-worker #3.loop enter
+sched.loop 4 busy 1 idle 5 total
+sched.loop enter
+sched.worker3.loop enter
 task enter: data = 'data8' user = 'user3'
 task exit: data = 'tata4'
-monitor.loop enter
-worker #4.loop enter
+sched.loop 4 busy 1 idle 5 total
+sched.loop enter
+sched.worker4.loop enter
 task enter: data = 'data9' user = 'user3'
 task exit: data = 'tata5'
-monitor.loop enter
+sched.loop 4 busy 1 idle 5 total
+sched.loop enter
 task exit: data = 'tata6'
-worker #5.loop enter
+sched.worker5.loop enter
 task enter: data = 'data10' user = 'user3'
 5 thread(s)
-monitor.queue closed
-worker #1.queue closed
-worker #1.loop enter
-worker #1.loop exit
-worker #1.thread joined
-all idle worker thread(s) destroyed
-worker #2.queue closed
-worker #3.queue closed
-worker #4.queue closed
-worker #5.queue closed
-all 4 busy worker queue(s) closed
+sched.queue closed
+sched.worker1.queue closed
+sched.worker1.loop enter
+sched.worker1.loop exit
+sched.worker1.thread joined
+sched.all idle worker thread(s) destroyed
+sched.worker2.queue closed
+sched.worker3.queue closed
+sched.worker4.queue closed
+sched.worker5.queue closed
+sched all 4 busy worker queue(s) closed
 task exit: data = 'tata7'
-worker #2.loop enter
-worker #2.loop exit
+sched.worker2.loop enter
+sched.worker2.loop exit
 task exit: data = 'tata8'
-worker #2.thread joined
-worker #3.loop enter
-worker #3.loop exit
+sched.worker2.thread joined
+sched.worker3.loop enter
+sched.worker3.loop exit
 task exit: data = 'tata9'
-worker #3.thread joined
-worker #4.loop enter
-worker #4.loop exit
+sched.worker3.thread joined
+sched.worker4.loop enter
+sched.worker4.loop exit
 task exit: data = 'tata10'
-worker #4.thread joined
-worker #5.loop enter
-worker #5.loop exit
-worker #5.thread joined
-all worker thread(s) joined
-monitor.loop exit
-monitor.thread joined
+sched.worker4.thread joined
+sched.worker5.loop enter
+sched.worker5.loop exit
+sched.worker5.thread joined
+sched all worker thread(s) joined
+sched.loop exit
+sched.thread joined
 out queue:
   'tata1'
   'tata2'

@@ -14,6 +14,7 @@ check_PROGRAMS = \
   linereaderwriter_test \
   report_test \
   work_scheduler_test \
+  work_scheduler_extensive_test \
   zip_unzip_test \
   $(NULL)
 
@@ -25,6 +26,7 @@ hasher_test_SOURCES = hasher_test.cpp
 linereaderwriter_test_SOURCES = linereaderwriter_test.cpp
 report_test_SOURCES = report_test.cpp
 work_scheduler_test_SOURCES = work_scheduler_test.cpp
+work_scheduler_extensive_test_SOURCES = work_scheduler_extensive_test.cpp
 zip_unzip_test_SOURCES = zip_unzip_test.cpp
 
 LDADD = $(top_builddir)/base/libhtools.la
@@ -50,5 +52,6 @@ EXTRA_DIST = \
   linereaderwriter.exp \
   report.exp \
   work_scheduler.exp \
+  work_scheduler_extensive.exp \
   zip_unzip.exp \
   $(NULL)

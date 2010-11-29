@@ -26,7 +26,7 @@ int main(void) {
   JobQueue q_in("in");
   JobQueue q_out("out");
   char user[32] = "";
-  WorkScheduler ws(q_in, q_out, task, user);
+  WorkScheduler ws("sched", q_in, q_out, task, user);
 
   hlog_regression("no thread limit");
   q_in.open();

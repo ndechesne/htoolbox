@@ -114,6 +114,10 @@ case $1 in
     export DIR="base"
     export NAME="work_scheduler"
     ;;
+  "wse" )
+    export DIR="base"
+    export NAME="work_scheduler_extensive"
+    ;;
   "zu" )
     export DIR="base"
     export NAME="zip_unzip"
