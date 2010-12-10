@@ -22,18 +22,32 @@
 namespace hbackup {
 
 class Attributes : htools::ConfigObject {
+  const Attributes*   _parent;
   bool                _report_copy_error_once;
   Filters             _filters;
   list<const Filter*> _ignore_list;
   Attributes& operator=(const Attributes& a);
 public:
   Attributes()
-    : _report_copy_error_once(false), _filters(NULL) {}
-  Attributes(const Attributes& attributes) : _filters(&attributes.filters()) {
-    _report_copy_error_once = attributes._report_copy_error_once;
+    : _parent(NULL),
+      _report_copy_error_once(false),
+      _filters(NULL) {}
+  Attributes(const Attributes& attributes)
+    : _parent(&attributes),
+      _report_copy_error_once(false),
+      _filters(&attributes.filters()) {
     _ignore_list = attributes._ignore_list;
   }
-  bool reportCopyErrorOnceIsSet() const { return _report_copy_error_once; }
+  bool reportCopyErrorOnceIsSet() const {
+    const Attributes* attributes = this;
+    do {
+      if (attributes->_report_copy_error_once) {
+        return true;
+      }
+      attributes = attributes->_parent;
+    } while (attributes != NULL);
+    return false;
+  }
   const Filters& filters() const        { return _filters; }
   void setReportCopyErrorOnce()         { _report_copy_error_once = true; }
   virtual ConfigObject* configChildFactory(
@@ -62,19 +76,7 @@ public:
     }
     return false;
   }
-  void show(int level = 0) const {
-    if (_report_copy_error_once) {
-      hlog_debug_arrow(level, "No error if same file fails copy again");
-    }
-    _filters.show(level);
-    if (_ignore_list.size() > 0) {
-      hlog_debug_arrow(level, "Ignore filters:");
-      for (list<const Filter*>::const_iterator filter = _ignore_list.begin();
-          filter != _ignore_list.end(); filter++) {
-        hlog_debug_arrow(level + 1, "%s", (*filter)->name().c_str());
-      }
-    }
-  }
+  void show(int level = 0) const;
 };
 
 }

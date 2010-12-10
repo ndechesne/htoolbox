@@ -468,7 +468,6 @@ Trying client 'myClient' using protocol 'nfs'
  ---> nothing
  --> Paths:
  ---> Path: /home/User/test
- ----> No error if same file fails copy again
  ----> Filter: or compress
  -----> Condition: name 'File2.txt'
  -----> Condition: path 'dir/file3.txt'
@@ -562,7 +561,6 @@ Backup::add(test_db/myClient.xp)
  ---> backup
  --> Paths:
  ---> Path: test1
- ----> No error if same file fails copy again
  ----> Filter: and not_object
  -----> Condition: not path_end '.o'
  ----> Filter: or to_be_ignored
@@ -579,7 +577,6 @@ Backup::add(test_db/myClient.xp)
  ----> Parser: CVS
  ----> Parser: Subversion
  ---> Path: test2
- ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
  -----> backup
@@ -896,7 +893,6 @@ Trying client 'newClient' using protocol 'ssh'
  ---> nothing
  --> Paths:
  ---> Path: /home/Blah/test
- ----> No error if same file fails copy again
  ----> Filter: or compress
  -----> Condition: name 'File2.txt'
  -----> Condition: path 'dir/file3.txt'
@@ -1111,7 +1107,6 @@ Database closed for 'client.xp'
  ---> backup
  --> Paths:
  ---> Path: test1
- ----> No error if same file fails copy again
  ----> Filter: and not_object
  -----> Condition: not path_end '.o'
  ----> Filter: or to_be_ignored
@@ -1128,7 +1123,6 @@ Database closed for 'client.xp'
  ----> Parser: CVS
  ----> Parser: Subversion
  ---> Path: test2
- ----> No error if same file fails copy again
  ----> Ignore filters:
  -----> nothing
  -----> backup

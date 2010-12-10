@@ -328,13 +328,11 @@ Trying client 'myClient' using protocol 'nfs'
  --> No error if same file fails copy again
  --> Paths:
  ---> Path: /home/User/test
- ----> No error if same file fails copy again
  ----> Filter: or compress
  -----> Condition: name 'File2.txt'
  -----> Condition: path 'dir/file3.txt'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
- ----> No error if same file fails copy again
 Backing up client 'myClient'
 Reading list of problematic checksums
 Register created for 'myClient'
@@ -378,7 +376,6 @@ Trying client 'otherClient' using protocol 'ssh'
  --> No error if same file fails copy again
  --> Paths:
  ---> Path: /home/Blah/test
- ----> No error if same file fails copy again
  ----> Filter: or compress
  -----> Condition: name 'File2.txt'
  -----> Condition: path 'dir/file3.txt'
@@ -413,7 +410,6 @@ Trying client 'otherClient1' using protocol 'ssh'
  --> No error if same file fails copy again
  --> Paths:
  ---> Path: /home/Blah/test
- ----> No error if same file fails copy again
  ----> Filter: or compress
  -----> Condition: name 'File2.txt'
  -----> Condition: path 'dir/file3.txt'
@@ -1328,13 +1324,11 @@ Trying client 'myClient' using protocol 'nfs'
  --> No error if same file fails copy again
  --> Paths:
  ---> Path: /home/User/test
- ----> No error if same file fails copy again
  ----> Filter: or compress
  -----> Condition: name 'File2.txt'
  -----> Condition: path 'dir/file3.txt'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
- ----> No error if same file fails copy again
 Backing up client 'myClient'
 Reading list of problematic checksums
 Database open r/w for 'myClient'
@@ -1365,13 +1359,11 @@ Trying client 'myClient' using protocol 'nfs'
  --> No error if same file fails copy again
  --> Paths:
  ---> Path: /home/User/test
- ----> No error if same file fails copy again
  ----> Filter: or compress
  -----> Condition: name 'File2.txt'
  -----> Condition: path 'dir/file3.txt'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
- ----> No error if same file fails copy again
 Backing up client 'myClient'
 Reading list of problematic checksums
 Database open r/w for 'myClient'
@@ -1398,13 +1390,11 @@ Trying client 'myClient' using protocol 'nfs'
  --> No error if same file fails copy again
  --> Paths:
  ---> Path: /home/User/test
- ----> No error if same file fails copy again
  ----> Filter: or compress
  -----> Condition: name 'File2.txt'
  -----> Condition: path 'dir/file3.txt'
  ----> Compress filter: compress
  ---> Path: /home/User/test2
- ----> No error if same file fails copy again
 Backing up client 'myClient'
 Reading list of problematic checksums
 Database open r/w for 'myClient'
