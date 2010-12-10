@@ -39,7 +39,6 @@ check_SUCCESSES = \
   asyncwriter.done \
   files.done \
   report.done \
-  work_scheduler.done \
   zip_unzip.done \
   $(NULL)
 
