@@ -16,6 +16,8 @@
      Boston, MA 02111-1307, USA.
 */
 
+#include "stdio.h"
+
 #include <list>
 #include <string>
 
@@ -56,7 +58,29 @@ ConfigObject* Attributes::configChildFactory(
   if (keyword == "filter") {
     co = _filters.configChildFactory(params, file_path, line_no);
   } else
-  {
+  if (keyword == "tree") {
+    _tree_path = new Path(params[1].c_str(), Path::NO_TRAILING_SLASHES |
+      Path::NO_REPEATED_SLASHES | Path::CONVERT_FROM_DOS);
+    _hourly = 1;
+    _daily = 0;
+    _weekly = 0;
+    co = this;
+  } else
+  if (_tree_path != NULL) {
+    if ((keyword == "hourly") &&
+        (sscanf(params[1].c_str(), "%zu", &_hourly) == 1)) {
+      co = this;
+    }
+    if ((keyword == "daily") &&
+        (sscanf(params[1].c_str(), "%zu", &_daily) == 1)) {
+      co = this;
+    }
+    if ((keyword == "weekly") &&
+        (sscanf(params[1].c_str(), "%zu", &_weekly) == 1)) {
+      co = this;
+    }
+  }
+  if (co == NULL) {
     hlog_error("%s:%zd unknown keyword '%s'",
       file_path, line_no, keyword.c_str());
   }
@@ -74,5 +98,11 @@ void Attributes::show(int level) const {
         filter != _ignore_list.end(); filter++) {
       hlog_debug_arrow(level + 1, "%s", (*filter)->name().c_str());
     }
+  }
+  if (_tree_path != NULL) {
+    hlog_debug_arrow(level, "Trees path: '%s'", _tree_path->c_str());
+    hlog_debug_arrow(level + 1, "%zu hourly", _hourly);
+    hlog_debug_arrow(level + 1, "%zu daily", _daily);
+    hlog_debug_arrow(level + 1, "%zu weekly", _weekly);
   }
 }

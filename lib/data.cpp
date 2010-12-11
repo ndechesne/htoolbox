@@ -228,7 +228,6 @@ int Data::getDir(
   // Return path
   path[path_len] = '/';
   strcpy(&path[path_len], &checksum[level]);
-  path = path;
   return Node(path).isDir() ? 0 : 1;
 }
 
@@ -562,7 +561,8 @@ Data::WriteStatus Data::write(
     const char*     path,
     char            dchecksum[64],
     int*            comp_level,
-    bool            comp_auto) const {
+    bool            comp_auto,
+    string*         store_path) const {
   bool failed = false;
 
   // Open source file
@@ -725,17 +725,19 @@ Data::WriteStatus Data::write(
   } while (! failed && (status == error));
 
   // Now move the file in its place
+  char name[PATH_MAX] = "";
   if ((status == add) || (status == replace)) {
     hlog_debug("%s %scompressed data for %s-%d",
       (status == add) ? "Adding" : "Replacing with",
       (*comp_level != 0) ? "" : "un", source_hash, index);
     if (Node(final_path).mkdir() < 0) {
       hlog_error("%s creating directory '%s'", strerror(errno), final_path);
+      status = error;
     } else
     if ((status == replace) && (::remove(data_path) < 0)) {
       hlog_error("%s removing previous data '%s'", strerror(errno), data_path);
+      status = error;
     } else {
-      char name[PATH_MAX];
       sprintf(name, "%s/data%s", final_path, (*comp_level != 0) ? ".gz" : "");
       if (rename(dest_name, name)) {
         hlog_error("%s moving file '%s'", strerror(errno), name);
@@ -765,6 +767,12 @@ Data::WriteStatus Data::write(
   // Report checksum
   if (status != error) {
     sprintf(dchecksum, "%s-%d", source_hash, index);
+    if (store_path != NULL) {
+      if (status == leave) {
+        sprintf(name, "%s/data%s", final_path, (*comp_level != 0) ? ".gz" : "");
+      }
+      *store_path = name;
+    }
     // Make sure we won't exceed the file number limit
     if (status != leave) {
       // dest_path is /path/to/checksum

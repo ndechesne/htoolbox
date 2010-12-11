@@ -99,7 +99,7 @@ int main(void) {
     return 0;
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", "test_tree");
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -218,7 +218,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", "test_tree");
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -237,7 +237,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", "test_tree");
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -255,7 +255,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", "test_tree");
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -274,7 +274,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", "test_tree");
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -293,7 +293,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    if ((*i)->backup(db, "test_db/mount", 0) < 0) {
+    if ((*i)->backup(db, "test_db/mount", "test_tree") < 0) {
       cerr << "backup failed" << endl;
     }
   }
@@ -310,7 +310,7 @@ int main(void) {
   sys_rc = system("echo \"path 'C:\\Test Dir'\" > test_cifs/Backup/testhost2.list");
   client->setListfile("C:\\Backup\\testhost2.list");
   db.open();
-  client->backup(db, "test_db/mount", 0);
+  client->backup(db, "test_db/mount", "test_tree");
   db.close();
   delete client;
 
@@ -319,7 +319,7 @@ int main(void) {
   sys_rc = system("echo path /home/User/test > test_nfs/testhost3.list");
   client->setListfile("/home/User/testhost3.list");
   db.open();
-  client->backup(db, "test_db/mount", 0);
+  client->backup(db, "test_db/mount", "test_tree");
   db.close();
   delete client;
 
@@ -328,7 +328,7 @@ int main(void) {
   sys_rc = system("echo path test1/cvs > etc/testhost.list");
   client->setListfile("etc/testhost.list");
   db.open();
-  client->backup(db, "test_db/mount", 0);
+  client->backup(db, "test_db/mount", "test_tree");
   db.close();
   delete client;
 
@@ -432,7 +432,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", "test_tree");
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -458,7 +458,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", "test_tree");
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -485,7 +485,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", "test_tree");
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -511,7 +511,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", "test_tree");
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -532,7 +532,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", "test_tree");
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -554,7 +554,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", "test_tree");
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -575,7 +575,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", "test_tree");
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;
@@ -595,7 +595,7 @@ int main(void) {
   }
   db.open();
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
-    (*i)->backup(db, "test_db/mount", 0);
+    (*i)->backup(db, "test_db/mount", "test_tree");
   }
   for (list<Client*>::iterator i = clients.begin(); i != clients.end(); i++) {
     delete *i;

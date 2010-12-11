@@ -19,11 +19,17 @@
 #ifndef _ATTRIBUTES_H
 #define _ATTRIBUTES_H
 
+#include <files.h>
+
 namespace hbackup {
 
 class Attributes : htools::ConfigObject {
   const Attributes*   _parent;
   bool                _report_copy_error_once;
+  htools::Path*       _tree_path;
+  size_t              _hourly;
+  size_t              _daily;
+  size_t              _weekly;
   Filters             _filters;
   list<const Filter*> _ignore_list;
   Attributes& operator=(const Attributes& a);
@@ -31,12 +37,17 @@ public:
   Attributes()
     : _parent(NULL),
       _report_copy_error_once(false),
+      _tree_path(NULL),
       _filters(NULL) {}
   Attributes(const Attributes& attributes)
     : _parent(&attributes),
       _report_copy_error_once(false),
+      _tree_path(NULL),
       _filters(&attributes.filters()) {
     _ignore_list = attributes._ignore_list;
+  }
+  ~Attributes() {
+    delete _tree_path;
   }
   bool reportCopyErrorOnceIsSet() const {
     const Attributes* attributes = this;
@@ -48,8 +59,16 @@ public:
     } while (attributes != NULL);
     return false;
   }
-  const Filters& filters() const        { return _filters; }
-  void setReportCopyErrorOnce()         { _report_copy_error_once = true; }
+  bool treeIsSet() const          { return _tree_path != NULL; }
+  const char* tree() const        {
+    if (_tree_path != NULL) {
+      return _tree_path->c_str();
+    } else {
+      return NULL;
+    }
+  }
+  const Filters& filters() const  { return _filters; }
+  void setReportCopyErrorOnce()   { _report_copy_error_once = true; }
   virtual ConfigObject* configChildFactory(
     const vector<string>& params,
     const char*           file_path = NULL,

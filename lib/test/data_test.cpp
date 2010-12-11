@@ -138,7 +138,8 @@ int main(void) {
     chksm[0] = '\0';
     const char* testfile = "test1/testfile";
     int comp_level = 5;
-    if ((status = db.write(testfile, chksm, &comp_level, true)) < 0) {
+    string store_path;
+    if ((status = db.write(testfile, chksm, &comp_level, true, &store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -147,6 +148,7 @@ int main(void) {
       return 0;
     }
     cout << chksm << "  " << testfile << endl;
+    cout << "Stored at: " << store_path << endl;
     cout << "Meta file contents: " << endl;
     sys_rc = system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
     cout << endl;
@@ -165,7 +167,7 @@ int main(void) {
     chksm[0] = '\0';
     const char* blah = "test_db/blah";
     comp_level = 0;
-    if ((status = db.write(blah, chksm, &comp_level, false)) < 0) {
+    if ((status = db.write(blah, chksm, &comp_level, false, &store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -174,6 +176,7 @@ int main(void) {
       return 0;
     }
     cout << chksm << "  " << blah << endl;
+    cout << "Stored at: " << store_path << endl;
   }
 
 
@@ -182,7 +185,8 @@ int main(void) {
     /* Write */
     const char* testfile = "test1/big_file";
     int comp_level = 5;
-    if ((status = db.write(testfile, chksm, &comp_level, true)) < 0) {
+    string store_path;
+    if ((status = db.write(testfile, chksm, &comp_level, true, &store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -209,7 +213,7 @@ int main(void) {
     chksm[0] = '\0';
     const char* blah = "test_db/blah";
     comp_level = 0;
-    if ((status = db.write(blah, chksm, &comp_level, false)) < 0) {
+    if ((status = db.write(blah, chksm, &comp_level, false, &store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -218,6 +222,7 @@ int main(void) {
       return 0;
     }
     cout << chksm << "  " << blah << endl;
+    cout << "Stored at: " << store_path << endl;
   }
 
 
@@ -228,7 +233,8 @@ int main(void) {
       << endl;
     /* Write */
     int comp_level = -1;
-    if ((status = db.write(testfile, chksm, &comp_level, true)) < 0) {
+    string store_path;
+    if ((status = db.write(testfile, chksm, &comp_level, true, &store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -237,6 +243,7 @@ int main(void) {
       return 0;
     }
     cout << chksm << "  " << testfile << endl;
+    cout << "Stored at: " << store_path << endl;
     cout << "Meta file contents: " << endl;
     sys_rc =
       system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
@@ -255,7 +262,7 @@ int main(void) {
     /* Write again */
     chksm[0] = '\0';
     comp_level = 0;
-    if ((status = db.write(blah, chksm, &comp_level, false)) < 0) {
+    if ((status = db.write(blah, chksm, &comp_level, false, &store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -264,6 +271,7 @@ int main(void) {
       return 0;
     }
     cout << chksm << "  " << blah << endl;
+    cout << "Stored at: " << store_path << endl;
   }
 
 
@@ -272,7 +280,8 @@ int main(void) {
   /* Write */
   chksm[0] = '\0';
   int comp_level = 5;
-  if ((status = db.write(testfile, chksm, &comp_level, false)) < 0) {
+  string store_path;
+  if ((status = db.write(testfile, chksm, &comp_level, false, &store_path)) < 0) {
     printf("db.write error status %d\n", status);
     return 0;
   }
@@ -281,6 +290,7 @@ int main(void) {
     return 0;
   }
   cout << chksm << "  " << testfile << endl;
+  cout << "Stored at: " << store_path << endl;
   cout << "Meta file contents: " << endl;
   sys_rc = system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
   cout << endl;
@@ -310,7 +320,7 @@ int main(void) {
   /* Write again */
   chksm[0] = '\0';
   comp_level = 0;
-  if ((status = db.write(blah, chksm, &comp_level, false)) < 0) {
+  if ((status = db.write(blah, chksm, &comp_level, false, &store_path)) < 0) {
     printf("db.write error status %d\n", status);
     return 0;
   }
@@ -318,10 +328,11 @@ int main(void) {
     printf("db.write returned unexpected null checksum\n");
     return 0;
   }
+  cout << "Stored at: " << store_path << endl;
   /* Write again */
   chksm[0] = '\0';
   comp_level = 0;
-  if ((status = db.write(blah, chksm, &comp_level, false)) < 0) {
+  if ((status = db.write(blah, chksm, &comp_level, false, &store_path)) < 0) {
     printf("db.write error status %d\n", status);
     return 0;
   }
@@ -330,6 +341,7 @@ int main(void) {
     return 0;
   }
   cout << chksm << "  " << blah << endl;
+  cout << "Stored at: " << store_path << endl;
 
 
   cout << endl << "Test: organise" << endl;

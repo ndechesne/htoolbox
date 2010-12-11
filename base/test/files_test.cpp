@@ -347,7 +347,6 @@ int main(void) {
   cout << "Link is link? " << Node("test1/touchedlink").isLink() << endl;
 
   cout << endl << "Parsing test" << endl;
-
   Node* d = new Node("test1");
   if (d->isDir()) {
     if (! d->createList()) {
@@ -360,6 +359,17 @@ int main(void) {
   }
   delete d;
 
+
+  cout << endl << "mkdir_p test" << endl;
+  if (Node::mkdir_p("a/b/c/d", 0740) < 0) {
+    hlog_regression("mkdir_p test 1 failed");
+  }
+  if (Node::mkdir_p("a/b/c/d", 0750) < 0) {
+    hlog_regression("mkdir_p test 2 failed");
+  }
+  if (Node::mkdir_p("/a/b/c/d", 0700) >= 0) {
+    hlog_regression("mkdir_p test 3 failed");
+  }
 
   return 0;
 }

@@ -110,6 +110,7 @@ public:
     size_t            sep_offset;
     size_t            end_offset;
     const char*       extra;
+    string            store_path;       // Where data is stored in DB
     // Pointers given to the constructor MUST remain valid during operation!
     OpData(
       const char*     p,                // Real file path, on client
@@ -118,7 +119,7 @@ public:
       : operation(' '), type(' '), info(' '), id(-1),
         comp_mode(Database::auto_later), compression(0),
         path(p), path_len(l), node(n), same_list_entry(false), extra(NULL) {}
-    bool needsAdding() const { return operation != ' ';   }
+    bool needsAdding() const { return operation != ' '; }
     void verbose(char* code) {
       // File information
       code[0] = operation;
@@ -135,6 +136,9 @@ public:
   int  add(
     OpData&         operation,            // Operation data
     bool            report_copy_error_once = false);
+  // Make sure we have the file storage path info
+  int  setStorePath(
+    OpData&         operation);           // Operation data
 };
 
 }

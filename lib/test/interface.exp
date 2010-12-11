@@ -120,6 +120,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Error: Given DB path does not exist 'test_db'
 
 Test: check config
@@ -239,6 +243,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
  -> Reading client configuration file for 'localhost'
  -> Client: localhost
  --> Protocol: file
@@ -372,6 +380,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database initialized in 'test_db'
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
@@ -996,6 +1008,100 @@ path "/home/Blah/test/"
     condition "name" "File2.txt"
     condition "path" "dir/file3.txt"
   compress "compress"
+CR\r
+
+test_tree
+test_tree/aClient.vista
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/a File.TXT
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/another File.TXT
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My File.TXT
+test_tree/client.xp
+test_tree/client.xp/2009-08-07_06:05:04_CEST
+test_tree/client.xp/2009-08-07_06:05:04_CEST/C:
+test_tree/client.xp/2009-08-07_06:05:04_CEST/C:/Test Dir
+test_tree/client.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir
+test_tree/client.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/a File.TXT
+test_tree/client.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/another File.TXT
+test_tree/client.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My File.TXT
+test_tree/myClient
+test_tree/myClient/2009-08-07_06:05:04_CEST
+test_tree/myClient/2009-08-07_06:05:04_CEST/home
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/dir
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/dir/file3.txt
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/File2.txt
+test_tree/myClient.xp
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:/Test Dir
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/a File.TXT
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/another File.TXT
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My File.TXT
+test_tree/myhost
+test_tree/myhost/2009-08-07_06:05:04_CEST
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/big_file.gz
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS/Entries
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS/Root
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirbad
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS/Entries
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS/Root
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/file space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS/Entries
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS/Root
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/fileutd
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/filenew.c
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/fileutd.h
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/dir space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/dir space/file space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/dir space/link space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/longlink
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/strange1TAB	CR\r
+
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/strange2TAB	LF
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/strange3TAB	LF
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dirbad
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dir space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dir space/file space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dir space/.svn
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dir space/.svn/entries.gz
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dirutd
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dirutd/fileutd
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dirutd/.svn
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dirutd/.svn/entries.gz
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/filenew.c
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/.svn
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/.svn/entries.gz
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testdir
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testfile
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testlink
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/test space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test2
+test_tree/myhost/2009-08-07_06:05:04_CEST/test2/testdir
+test_tree/myhost/2009-08-07_06:05:04_CEST/test2/testfile2.gz
+test_tree/myhost/2009-08-07_06:05:04_CEST/test2/testfile.gz
+test_tree/myhost/2009-08-07_06:05:04_CEST/test2/testlink
+test_tree/newClient
+test_tree/newClient/2009-08-07_06:05:04_CEST
+test_tree/newClient/2009-08-07_06:05:04_CEST/home
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/dir
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/dir/file3.txt
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/File2.txt
 
 Test: same backup
  -> Reading configuration file 'etc/hbackup.conf'
@@ -1114,6 +1220,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client 'aClient.vista'
@@ -1464,6 +1574,188 @@ path "/home/Blah/test/"
     condition "name" "File2.txt"
     condition "path" "dir/file3.txt"
   compress "compress"
+CR\r
+
+CR\r
+
+test_tree
+test_tree/aClient.vista
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/a File.TXT
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/another File.TXT
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My File.TXT
+test_tree/aClient.vista/2009-08-07_06:05:05_CEST
+test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:
+test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:/Test Dir
+test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir
+test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/a File.TXT
+test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/another File.TXT
+test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:/Test Dir/My File.TXT
+test_tree/client.xp
+test_tree/client.xp/2009-08-07_06:05:04_CEST
+test_tree/client.xp/2009-08-07_06:05:04_CEST/C:
+test_tree/client.xp/2009-08-07_06:05:04_CEST/C:/Test Dir
+test_tree/client.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir
+test_tree/client.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/a File.TXT
+test_tree/client.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/another File.TXT
+test_tree/client.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My File.TXT
+test_tree/client.xp/2009-08-07_06:05:05_CEST
+test_tree/client.xp/2009-08-07_06:05:05_CEST/C:
+test_tree/client.xp/2009-08-07_06:05:05_CEST/C:/Test Dir
+test_tree/client.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir
+test_tree/client.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/a File.TXT
+test_tree/client.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/another File.TXT
+test_tree/client.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My File.TXT
+test_tree/myClient
+test_tree/myClient/2009-08-07_06:05:04_CEST
+test_tree/myClient/2009-08-07_06:05:04_CEST/home
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/dir
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/dir/file3.txt
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/File2.txt
+test_tree/myClient/2009-08-07_06:05:05_CEST
+test_tree/myClient/2009-08-07_06:05:05_CEST/home
+test_tree/myClient/2009-08-07_06:05:05_CEST/home/User
+test_tree/myClient/2009-08-07_06:05:05_CEST/home/User/test
+test_tree/myClient/2009-08-07_06:05:05_CEST/home/User/test/dir
+test_tree/myClient/2009-08-07_06:05:05_CEST/home/User/test/dir/file3.txt
+test_tree/myClient/2009-08-07_06:05:05_CEST/home/User/test/File2.txt
+test_tree/myClient.xp
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:/Test Dir
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/a File.TXT
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/another File.TXT
+test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:/Test Dir/My File.TXT
+test_tree/myClient.xp/2009-08-07_06:05:05_CEST
+test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:
+test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:/Test Dir
+test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir
+test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/a File.TXT
+test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/another File.TXT
+test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My File.TXT
+test_tree/myhost
+test_tree/myhost/2009-08-07_06:05:04_CEST
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/big_file.gz
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS/Entries
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS/Root
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirbad
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS/Entries
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS/Root
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/file space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS/Entries
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS/Root
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/fileutd
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/filenew.c
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/fileutd.h
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/dir space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/dir space/file space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/dir space/link space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/longlink
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/strange1TAB	CR\r
+
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/strange2TAB	LF
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/strange3TAB	LF
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dirbad
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dir space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dir space/file space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dir space/.svn
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dir space/.svn/entries.gz
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dirutd
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dirutd/fileutd
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dirutd/.svn
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/dirutd/.svn/entries.gz
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/filenew.c
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/.svn
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/.svn/entries.gz
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testdir
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testfile
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testlink
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/test space
+test_tree/myhost/2009-08-07_06:05:04_CEST/test2
+test_tree/myhost/2009-08-07_06:05:04_CEST/test2/testdir
+test_tree/myhost/2009-08-07_06:05:04_CEST/test2/testfile2.gz
+test_tree/myhost/2009-08-07_06:05:04_CEST/test2/testfile.gz
+test_tree/myhost/2009-08-07_06:05:04_CEST/test2/testlink
+test_tree/myhost/2009-08-07_06:05:05_CEST
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/big_file
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/CVS
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/CVS/Entries
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/CVS/Root
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirbad
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dir space
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dir space/CVS
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dir space/CVS/Entries
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dir space/CVS/Root
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dir space/file space
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirutd
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirutd/CVS
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirutd/CVS/Entries
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirutd/CVS/Root
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirutd/fileutd
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/filenew.c
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/fileutd.h
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/dir space
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/dir space/file space
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/dir space/link space
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/longlink
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/strange1TAB	CR\r
+
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/strange2TAB	LF
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/strange3TAB	LF
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirbad
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space/file space
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space/.svn
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space/.svn/entries
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd/fileutd
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd/.svn
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd/.svn/entries
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/filenew.c
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/.svn
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/.svn/entries
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/testdir
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/testfile
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/testlink
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/test space
+test_tree/myhost/2009-08-07_06:05:05_CEST/test2
+test_tree/myhost/2009-08-07_06:05:05_CEST/test2/testdir
+test_tree/myhost/2009-08-07_06:05:05_CEST/test2/testfile
+test_tree/myhost/2009-08-07_06:05:05_CEST/test2/testfile2
+test_tree/myhost/2009-08-07_06:05:05_CEST/test2/testfile2.gz
+test_tree/myhost/2009-08-07_06:05:05_CEST/test2/testlink
+test_tree/newClient
+test_tree/newClient/2009-08-07_06:05:04_CEST
+test_tree/newClient/2009-08-07_06:05:04_CEST/home
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/dir
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/dir/file3.txt
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/File2.txt
+test_tree/newClient/2009-08-07_06:05:05_CEST
+test_tree/newClient/2009-08-07_06:05:05_CEST/home
+test_tree/newClient/2009-08-07_06:05:05_CEST/home/Blah
+test_tree/newClient/2009-08-07_06:05:05_CEST/home/Blah/test
+test_tree/newClient/2009-08-07_06:05:05_CEST/home/Blah/test/dir
+test_tree/newClient/2009-08-07_06:05:05_CEST/home/Blah/test/dir/file3.txt
+test_tree/newClient/2009-08-07_06:05:05_CEST/home/Blah/test/File2.txt
 
 Test: interrupted backup
  -> Reading configuration file 'etc/hbackup.conf'
@@ -1582,6 +1874,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client 'aClient.vista'
@@ -1973,6 +2269,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Warning: Previous backup interrupted for 'myhost'
 Register modified for 'myhost'
 Database open in read/write mode
@@ -2370,6 +2670,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -2746,6 +3050,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read/write mode
 Reading list for 'aClient.vista'
 Reading list for 'client.xp'
@@ -2942,6 +3250,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Crawling through DB data
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -3087,6 +3399,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database closed
 	aClient.vista
@@ -3213,6 +3529,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 Database closed for 'myClient'
@@ -3336,6 +3656,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'client.xp'
 Database closed for 'client.xp'
@@ -3459,6 +3783,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myhost'
 U       test_r/test2/testfile
@@ -3582,6 +3910,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myhost'
 U       test_r/test1/big_file
@@ -3752,6 +4084,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myhost'
 U       test_r/test1/cvs
@@ -3891,6 +4227,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myhost'
 U       test_r/test1/big_file
@@ -4067,6 +4407,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client 'aClient.vista'
@@ -4535,6 +4879,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -4853,6 +5201,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database closed
 	aClient.vista
@@ -4979,6 +5331,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 Database closed for 'myClient.xp'
@@ -5105,6 +5461,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 Database closed for 'myClient'
@@ -5231,6 +5591,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 Database closed for 'myClient'
@@ -5356,6 +5720,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 Database closed for 'myClient.xp'
@@ -5481,6 +5849,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 U       test_r//home/User/test/File2.txt
@@ -5611,6 +5983,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 U       test_r//home/User/test/File2.txt
@@ -5745,6 +6121,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 U       test_r//home/User/test/File2.txt
@@ -5879,6 +6259,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 U       test_r//home/User/test/File2.txt
@@ -6013,6 +6397,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 U       test_r/C:/Test Dir/My File.TXT
@@ -6142,6 +6530,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 U       test_r/C:/Test Dir/My Dir
@@ -6275,6 +6667,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 U       test_r/C:/Test Dir/My Dir
@@ -6410,6 +6806,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 U       test_r/C:/Test Dir/My Dir
@@ -6546,6 +6946,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 U       test_r//home/User/test/File2.txt
@@ -6692,6 +7096,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 L       test_r//home/User/test/File2.txt
@@ -6822,6 +7230,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 L       test_r//home/User/test/File2.txt
@@ -6956,6 +7368,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 L       test_r//home/User/test/File2.txt
@@ -7090,6 +7506,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 L       test_r//home/User/test/File2.txt
@@ -7224,6 +7644,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 L       test_r/C:/Test Dir/My File.TXT
@@ -7353,6 +7777,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 U       test_r/C:/Test Dir/My Dir
@@ -7486,6 +7914,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 U       test_r/C:/Test Dir/My Dir
@@ -7621,6 +8053,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 U       test_r/C:/Test Dir/My Dir
@@ -7757,6 +8193,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 L       test_r//home/User/test/File2.txt
@@ -7904,6 +8344,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 H       test_r//home/User/test/File2.txt
@@ -8034,6 +8478,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 H       test_r//home/User/test/File2.txt
@@ -8168,6 +8616,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 H       test_r//home/User/test/File2.txt
@@ -8302,6 +8754,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 H       test_r//home/User/test/File2.txt
@@ -8436,6 +8892,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 H       test_r/C:/Test Dir/My File.TXT
@@ -8565,6 +9025,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 U       test_r/C:/Test Dir/My Dir
@@ -8698,6 +9162,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 U       test_r/C:/Test Dir/My Dir
@@ -8833,6 +9301,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient.xp'
 U       test_r/C:/Test Dir/My Dir
@@ -8969,6 +9441,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Database open r-o for 'myClient'
 H       test_r//home/User/test/File2.txt
@@ -9115,6 +9591,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Check
 Database open in read-only mode
 Crawling through DB data
@@ -9265,6 +9745,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Check
 Database open in read-only mode
 Crawling through DB data
@@ -9411,6 +9895,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Just scan
 Database open in read/write mode
 Reading list for 'aClient.vista'
@@ -9699,6 +10187,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Just scan
 Database open in read/write mode
 Reading list for 'aClient.vista'
@@ -10090,6 +10582,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Just scan
 Database open in read/write mode
 Reading list for 'aClient.vista'
@@ -10470,6 +10966,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client 'aClient.vista'
@@ -10966,6 +11466,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client 'aClient.vista'
@@ -11359,6 +11863,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read/write mode
 Reading list for 'aClient.vista'
 Reading list for 'client.xp'
@@ -11563,6 +12071,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read-only mode
 Crawling through DB data
 26ab0db90d72e28ad0ba1e22ee510510-0 2\r
@@ -11709,6 +12221,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read/write mode
 Reading list for 'aClient.vista'
 Reading list for 'client.xp'
@@ -11910,6 +12426,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client 'aClient.vista'
@@ -12391,6 +12911,10 @@ Backup::Backup(test_db/.backup)
  ---> Condition: not size< 1000
  --> Ignore filters:
  ---> nothing
+ --> Trees path: 'test_tree'
+ ---> 23 hourly
+ ---> 6 daily
+ ---> 52 weekly
 Database open in read/write mode
 Trying client 'aClient.vista' using protocol 'smb'
 Backing up client 'aClient.vista'
@@ -12485,460 +13009,460 @@ path "/home/Blah/test/"
     condition "path" "dir/file3.txt"
   compress "compress"
 hbackup.log:
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'aClient.vista'
-2009-08-07 06:05:04 VERB  missing.cpp:164 Reading list of problematic checksums
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 ERROR paths.cpp:273 No such file or directory reading initial directory 'aClient.vista:C:/Test Dir'
-2009-08-07 06:05:04 ERROR clients.cpp:359 Aborting client
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'aClient.vista'
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 2 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'aClient.vista'
+2009-08-07 06:05:06 VERB  missing.cpp:164 Reading list of problematic checksums
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'aClient.vista'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 ERROR paths.cpp:311 No such file or directory reading initial directory 'aClient.vista:C:/Test Dir'
+2009-08-07 06:05:06 ERROR clients.cpp:376 Aborting client
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'aClient.vista'
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 2 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
 hbackup.log-1:
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'aClient.vista'
-2009-08-07 06:05:04 VERB  missing.cpp:164 Reading list of problematic checksums
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'client.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'myClient' using protocol 'nfs'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path '/home/User/test'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'myClient.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'test1'
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/cvs/CVS/Wherever
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dir space/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dir space/file other
-2009-08-07 06:05:04 WARN  cvs_parser.cpp:86 Directory 'test1/cvs/dirbad' should be under CVS control
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dirbad/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dirbad/fileutd
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/cvs/diroth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dirutd/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dirutd/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If f    test1/cvs/filemod.o
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id f    test1/subdir
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/.svn/dir-prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/.svn/tmp
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dir space/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dir space/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dir space/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dir space/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dir space/.svn/tmp
-2009-08-07 06:05:04 WARN  svn_parser.cpp:150 Directory 'test1/svn/dirbad' should be under Subversion control
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dirbad/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dirbad/fileutd
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/diroth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dirutd/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dirutd/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dirutd/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dirutd/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dirutd/.svn/tmp
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dirutd/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If f    test1/svn/filemod.o
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/fileutd.h
-2009-08-07 06:05:04 VERB  paths.cpp:187 If f    test1/testfile~
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'test2'
-2009-08-07 06:05:04 INFO  paths.cpp:172 Rf ~    test2/testfile2
-2009-08-07 06:05:04 VERB  paths.cpp:187 If f    test2/testfile~
-2009-08-07 06:05:04 VERB  owner.cpp:365 Register modified for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'newClient' using protocol 'ssh'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path '/home/Blah/test'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'other' using protocol 'none'
-2009-08-07 06:05:04 ERROR clients.cpp:287 Protocol not supported 'none' for 'other'
-2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 2 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'aClient.vista'
+2009-08-07 06:05:06 VERB  missing.cpp:164 Reading list of problematic checksums
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'aClient.vista'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'aClient.vista'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'client.xp' using protocol 'smb'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'client.xp'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'client.xp'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'client.xp'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'myClient' using protocol 'nfs'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myClient'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path '/home/User/test'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myClient'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'myClient.xp' using protocol 'smb'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myClient.xp'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myClient.xp'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myClient.xp'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myhost'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'test1'
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/cvs/CVS/Wherever
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dir space/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dir space/file other
+2009-08-07 06:05:06 WARN  cvs_parser.cpp:86 Directory 'test1/cvs/dirbad' should be under CVS control
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dirbad/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dirbad/fileutd
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/cvs/diroth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dirutd/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dirutd/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test1/cvs/filemod.o
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id f    test1/subdir
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/.svn/dir-prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dir space/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dir space/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dir space/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dir space/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dir space/.svn/tmp
+2009-08-07 06:05:06 WARN  svn_parser.cpp:150 Directory 'test1/svn/dirbad' should be under Subversion control
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dirbad/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dirbad/fileutd
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/diroth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dirutd/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dirutd/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dirutd/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dirutd/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dirutd/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dirutd/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test1/svn/filemod.o
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/fileutd.h
+2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test1/testfile~
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'test2'
+2009-08-07 06:05:06 INFO  paths.cpp:188 Rf ~    test2/testfile2
+2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test2/testfile~
+2009-08-07 06:05:06 VERB  owner.cpp:365 Register modified for 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myhost'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'newClient' using protocol 'ssh'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'newClient'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'newClient'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path '/home/Blah/test'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'newClient'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'other' using protocol 'none'
+2009-08-07 06:05:06 ERROR clients.cpp:288 Protocol not supported 'none' for 'other'
+2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 2 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
 hbackup.log-10:
-2009-08-07 06:05:04 VERB  db.cpp:216 Database open in read-only mode
-2009-08-07 06:05:04 VERB  db.cpp:652 Crawling through DB data
-2009-08-07 06:05:04 ERROR data.cpp:804 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
-2009-08-07 06:05:04 WARN  data.cpp:823 Data corruption reported for b90f8fa56ea1d39881d4a199c7a81d35-0
-2009-08-07 06:05:04 VERB  data.cpp:971 Found 19 valid and 2 broken data file(s)
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:216 Database open in read-only mode
+2009-08-07 06:05:06 VERB  db.cpp:652 Crawling through DB data
+2009-08-07 06:05:06 ERROR data.cpp:812 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
+2009-08-07 06:05:06 WARN  data.cpp:831 Data corruption reported for b90f8fa56ea1d39881d4a199c7a81d35-0
+2009-08-07 06:05:06 VERB  data.cpp:979 Found 19 valid and 2 broken data file(s)
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
 hbackup.log-2:
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'aClient.vista'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:514 Sorting list
-2009-08-07 06:05:04 VERB  db.cpp:543 List statistics: 43 checksum(s), 21 unique [11549304 real, 11808402 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:546 Crawling through DB
-2009-08-07 06:05:04 INFO  data.cpp:896 Removed corrupted data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-2009-08-07 06:05:04 VERB  data.cpp:971 Found 19 valid and 1 broken data file(s)
-2009-08-07 06:05:04 VERB  db.cpp:567 Data statistics: 19 checksum(s), 19 valid [157388 real, 11290219 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:578 Checksum(s) with data: 19
-2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
-2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 3 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'aClient.vista'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'client.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'newClient'
+2009-08-07 06:05:06 VERB  db.cpp:514 Sorting list
+2009-08-07 06:05:06 VERB  db.cpp:543 List statistics: 43 checksum(s), 21 unique [11549304 real, 11808402 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:546 Crawling through DB
+2009-08-07 06:05:06 INFO  data.cpp:904 Removed corrupted data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+2009-08-07 06:05:06 VERB  data.cpp:979 Found 19 valid and 1 broken data file(s)
+2009-08-07 06:05:06 VERB  db.cpp:567 Data statistics: 19 checksum(s), 19 valid [157388 real, 11290219 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:578 Checksum(s) with data: 19
+2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
+2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 3 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
 hbackup.log-3:
-2009-08-07 06:05:04 VERB  db.cpp:216 Database open in read-only mode
-2009-08-07 06:05:04 VERB  db.cpp:652 Crawling through DB data
-2009-08-07 06:05:04 ERROR data.cpp:865 Data corrupted for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-2009-08-07 06:05:04 INFO  data.cpp:874 Reported corruption for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-2009-08-07 06:05:04 VERB  data.cpp:971 Found 19 valid and 1 broken data file(s)
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:216 Database open in read-only mode
+2009-08-07 06:05:06 VERB  db.cpp:652 Crawling through DB data
+2009-08-07 06:05:06 ERROR data.cpp:873 Data corrupted for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+2009-08-07 06:05:06 INFO  data.cpp:882 Reported corruption for fb00cd74a5f35e89a7fbdd3c1d05375a-0
+2009-08-07 06:05:06 VERB  data.cpp:979 Found 19 valid and 1 broken data file(s)
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
 hbackup.log-4:
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'aClient.vista'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:514 Sorting list
-2009-08-07 06:05:04 VERB  db.cpp:543 List statistics: 43 checksum(s), 21 unique [11549304 real, 11808402 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:546 Crawling through DB
-2009-08-07 06:05:04 ERROR data.cpp:243 No such file or directory opening metadata file 'test_db/.data/5252f242d27b8c2c9fdbdcbb33545d07-0/meta'
-2009-08-07 06:05:04 ERROR data.cpp:243 No such file or directory opening metadata file 'test_db/.data/5252f242d27b8c2c9fdbdcbb33545d07-0/meta'
-2009-08-07 06:05:04 WARN  data.cpp:883 Adding missing metadata for 5252f242d27b8c2c9fdbdcbb33545d07-0
-2009-08-07 06:05:04 VERB  data.cpp:971 Found 20 valid and 0 broken data file(s)
-2009-08-07 06:05:04 VERB  db.cpp:567 Data statistics: 20 checksum(s), 20 valid [157505 real, 11290404 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:578 Checksum(s) with data: 20
-2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
-2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 3 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'aClient.vista'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'client.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'newClient'
+2009-08-07 06:05:06 VERB  db.cpp:514 Sorting list
+2009-08-07 06:05:06 VERB  db.cpp:543 List statistics: 43 checksum(s), 21 unique [11549304 real, 11808402 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:546 Crawling through DB
+2009-08-07 06:05:06 ERROR data.cpp:242 No such file or directory opening metadata file 'test_db/.data/5252f242d27b8c2c9fdbdcbb33545d07-0/meta'
+2009-08-07 06:05:06 ERROR data.cpp:242 No such file or directory opening metadata file 'test_db/.data/5252f242d27b8c2c9fdbdcbb33545d07-0/meta'
+2009-08-07 06:05:06 WARN  data.cpp:891 Adding missing metadata for 5252f242d27b8c2c9fdbdcbb33545d07-0
+2009-08-07 06:05:06 VERB  data.cpp:979 Found 20 valid and 0 broken data file(s)
+2009-08-07 06:05:06 VERB  db.cpp:567 Data statistics: 20 checksum(s), 20 valid [157505 real, 11290404 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:578 Checksum(s) with data: 20
+2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
+2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 3 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
 hbackup.log-5:
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'aClient.vista'
-2009-08-07 06:05:04 VERB  missing.cpp:164 Reading list of problematic checksums
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'client.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'myClient' using protocol 'nfs'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path '/home/User/test'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'myClient.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'test1'
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/cvs/CVS/Wherever
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dir space/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dir space/file other
-2009-08-07 06:05:04 WARN  cvs_parser.cpp:86 Directory 'test1/cvs/dirbad' should be under CVS control
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dirbad/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dirbad/fileutd
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/cvs/diroth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dirutd/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dirutd/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If f    test1/cvs/filemod.o
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id f    test1/subdir
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/.svn/dir-prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/.svn/tmp
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dir space/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dir space/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dir space/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dir space/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dir space/.svn/tmp
-2009-08-07 06:05:04 WARN  svn_parser.cpp:150 Directory 'test1/svn/dirbad' should be under Subversion control
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dirbad/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dirbad/fileutd
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/diroth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dirutd/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dirutd/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dirutd/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dirutd/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dirutd/.svn/tmp
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dirutd/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If f    test1/svn/filemod.o
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/fileutd.h
-2009-08-07 06:05:04 VERB  paths.cpp:187 If f    test1/testfile~
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'test2'
-2009-08-07 06:05:04 VERB  paths.cpp:187 If f    test2/testfile~
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'newClient' using protocol 'ssh'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path '/home/Blah/test'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'other' using protocol 'none'
-2009-08-07 06:05:04 ERROR clients.cpp:287 Protocol not supported 'none' for 'other'
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 2 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'aClient.vista'
+2009-08-07 06:05:06 VERB  missing.cpp:164 Reading list of problematic checksums
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'aClient.vista'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'aClient.vista'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'client.xp' using protocol 'smb'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'client.xp'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'client.xp'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'client.xp'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'myClient' using protocol 'nfs'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myClient'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path '/home/User/test'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myClient'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'myClient.xp' using protocol 'smb'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myClient.xp'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myClient.xp'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myClient.xp'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myhost'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'test1'
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/cvs/CVS/Wherever
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dir space/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dir space/file other
+2009-08-07 06:05:06 WARN  cvs_parser.cpp:86 Directory 'test1/cvs/dirbad' should be under CVS control
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dirbad/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dirbad/fileutd
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/cvs/diroth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dirutd/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dirutd/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test1/cvs/filemod.o
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id f    test1/subdir
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/.svn/dir-prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dir space/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dir space/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dir space/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dir space/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dir space/.svn/tmp
+2009-08-07 06:05:06 WARN  svn_parser.cpp:150 Directory 'test1/svn/dirbad' should be under Subversion control
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dirbad/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dirbad/fileutd
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/diroth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dirutd/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dirutd/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dirutd/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dirutd/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dirutd/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dirutd/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test1/svn/filemod.o
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/fileutd.h
+2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test1/testfile~
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'test2'
+2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test2/testfile~
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myhost'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'newClient' using protocol 'ssh'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'newClient'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'newClient'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path '/home/Blah/test'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'newClient'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'other' using protocol 'none'
+2009-08-07 06:05:06 ERROR clients.cpp:288 Protocol not supported 'none' for 'other'
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 2 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
 hbackup.log-6:
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'aClient.vista' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'aClient.vista'
-2009-08-07 06:05:04 VERB  missing.cpp:164 Reading list of problematic checksums
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'aClient.vista'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'client.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'client.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'myClient' using protocol 'nfs'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path '/home/User/test'
-2009-08-07 06:05:04 INFO  paths.cpp:172 Cf f    /home/User/test/dir/file3.txt
-2009-08-07 06:05:04 VERB  owner.cpp:365 Register modified for 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'myClient'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'myClient.xp' using protocol 'smb'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'myClient.xp'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'test1'
-2009-08-07 06:05:04 INFO  paths.cpp:172 Rf f    test1/cvs/CVS/Root
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/cvs/CVS/Wherever
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dir space/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dir space/file other
-2009-08-07 06:05:04 WARN  cvs_parser.cpp:86 Directory 'test1/cvs/dirbad' should be under CVS control
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dirbad/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dirbad/fileutd
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/cvs/diroth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dirutd/CVS/Whatever
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/dirutd/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If f    test1/cvs/filemod.o
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/cvs/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id f    test1/subdir
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/.svn/dir-prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/.svn/tmp
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dir space/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dir space/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dir space/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dir space/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dir space/.svn/tmp
-2009-08-07 06:05:04 WARN  svn_parser.cpp:150 Directory 'test1/svn/dirbad' should be under Subversion control
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dirbad/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dirbad/fileutd
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/diroth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dirutd/.svn/all-wcprops
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dirutd/.svn/prop-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dirutd/.svn/props
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dirutd/.svn/text-base
-2009-08-07 06:05:04 VERB  paths.cpp:187 Id p    test1/svn/dirutd/.svn/tmp
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/dirutd/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If f    test1/svn/filemod.o
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/fileoth
-2009-08-07 06:05:04 VERB  paths.cpp:187 If p    test1/svn/fileutd.h
-2009-08-07 06:05:04 VERB  paths.cpp:187 If f    test1/testfile~
-2009-08-07 06:05:04 INFO  list.cpp:756 D       test1/testfile
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path 'test2'
-2009-08-07 06:05:04 INFO  paths.cpp:172 Mf zr   test2/testfile2
-2009-08-07 06:05:04 VERB  paths.cpp:187 If f    test2/testfile~
-2009-08-07 06:05:04 VERB  owner.cpp:365 Register modified for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'myhost'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'newClient' using protocol 'ssh'
-2009-08-07 06:05:04 INFO  clients.cpp:323 Backing up client 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:698 Database open r/w for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:338 Backing up path '/home/Blah/test'
-2009-08-07 06:05:04 VERB  db.cpp:707 Database closed for 'newClient'
-2009-08-07 06:05:04 INFO  clients.cpp:261 Trying client 'other' using protocol 'none'
-2009-08-07 06:05:04 ERROR clients.cpp:287 Protocol not supported 'none' for 'other'
-2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 2 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'aClient.vista' using protocol 'smb'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'aClient.vista'
+2009-08-07 06:05:06 VERB  missing.cpp:164 Reading list of problematic checksums
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'aClient.vista'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'aClient.vista'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'client.xp' using protocol 'smb'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'client.xp'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'client.xp'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'client.xp'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'myClient' using protocol 'nfs'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myClient'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path '/home/User/test'
+2009-08-07 06:05:06 INFO  paths.cpp:188 Cf f    /home/User/test/dir/file3.txt
+2009-08-07 06:05:06 VERB  owner.cpp:365 Register modified for 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myClient'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'myClient.xp' using protocol 'smb'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myClient.xp'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myClient.xp'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myClient.xp'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myhost'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'test1'
+2009-08-07 06:05:06 INFO  paths.cpp:188 Rf f    test1/cvs/CVS/Root
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/cvs/CVS/Wherever
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dir space/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dir space/file other
+2009-08-07 06:05:06 WARN  cvs_parser.cpp:86 Directory 'test1/cvs/dirbad' should be under CVS control
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dirbad/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dirbad/fileutd
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/cvs/diroth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dirutd/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dirutd/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test1/cvs/filemod.o
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id f    test1/subdir
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/.svn/dir-prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dir space/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dir space/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dir space/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dir space/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dir space/.svn/tmp
+2009-08-07 06:05:06 WARN  svn_parser.cpp:150 Directory 'test1/svn/dirbad' should be under Subversion control
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dirbad/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dirbad/fileutd
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/diroth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dirutd/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dirutd/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dirutd/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dirutd/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/svn/dirutd/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/dirutd/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test1/svn/filemod.o
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/fileutd.h
+2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test1/testfile~
+2009-08-07 06:05:06 INFO  list.cpp:756 D       test1/testfile
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'test2'
+2009-08-07 06:05:06 INFO  paths.cpp:188 Mf zr   test2/testfile2
+2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test2/testfile~
+2009-08-07 06:05:06 VERB  owner.cpp:365 Register modified for 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myhost'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'newClient' using protocol 'ssh'
+2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'newClient'
+2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'newClient'
+2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path '/home/Blah/test'
+2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'newClient'
+2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'other' using protocol 'none'
+2009-08-07 06:05:06 ERROR clients.cpp:288 Protocol not supported 'none' for 'other'
+2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 2 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
 hbackup.log-7:
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'aClient.vista'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:514 Sorting list
-2009-08-07 06:05:04 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:546 Crawling through DB
-2009-08-07 06:05:04 ERROR data.cpp:243 No such file or directory opening metadata file 'test_db/.data/dddddddddddddddddddddddddddddddd-0/meta'
-2009-08-07 06:05:04 WARN  data.cpp:908 Setting missing metadata for dddddddddddddddddddddddddddddddd-0
-2009-08-07 06:05:04 VERB  data.cpp:971 Found 21 valid and 0 broken data file(s)
-2009-08-07 06:05:04 VERB  db.cpp:567 Data statistics: 21 checksum(s), 21 valid [157628 real, 11549285 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:578 Checksum(s) with data: 21
-2009-08-07 06:05:04 INFO  db.cpp:621 Obsolete checksum(s): 3
-2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
-2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 3 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'aClient.vista'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:514 Sorting list
-2009-08-07 06:05:04 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:546 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:971 Found 21 valid and 0 broken data file(s)
-2009-08-07 06:05:04 VERB  db.cpp:567 Data statistics: 21 checksum(s), 21 valid [157628 real, 11549285 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:578 Checksum(s) with data: 21
-2009-08-07 06:05:04 INFO  db.cpp:621 Obsolete checksum(s): 3
-2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
-2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 3 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'aClient.vista'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:514 Sorting list
-2009-08-07 06:05:04 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:546 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:971 Found 18 valid and 0 broken data file(s)
-2009-08-07 06:05:04 VERB  db.cpp:567 Data statistics: 18 checksum(s), 18 valid [157626 real, 11549273 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:578 Checksum(s) with data: 18
-2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
-2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 3 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'aClient.vista'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'client.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'newClient'
+2009-08-07 06:05:06 VERB  db.cpp:514 Sorting list
+2009-08-07 06:05:06 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:546 Crawling through DB
+2009-08-07 06:05:06 ERROR data.cpp:242 No such file or directory opening metadata file 'test_db/.data/dddddddddddddddddddddddddddddddd-0/meta'
+2009-08-07 06:05:06 WARN  data.cpp:916 Setting missing metadata for dddddddddddddddddddddddddddddddd-0
+2009-08-07 06:05:06 VERB  data.cpp:979 Found 21 valid and 0 broken data file(s)
+2009-08-07 06:05:06 VERB  db.cpp:567 Data statistics: 21 checksum(s), 21 valid [157628 real, 11549285 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:578 Checksum(s) with data: 21
+2009-08-07 06:05:06 INFO  db.cpp:621 Obsolete checksum(s): 3
+2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
+2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 3 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'aClient.vista'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'client.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'newClient'
+2009-08-07 06:05:06 VERB  db.cpp:514 Sorting list
+2009-08-07 06:05:06 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:546 Crawling through DB
+2009-08-07 06:05:06 VERB  data.cpp:979 Found 21 valid and 0 broken data file(s)
+2009-08-07 06:05:06 VERB  db.cpp:567 Data statistics: 21 checksum(s), 21 valid [157628 real, 11549285 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:578 Checksum(s) with data: 21
+2009-08-07 06:05:06 INFO  db.cpp:621 Obsolete checksum(s): 3
+2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
+2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 3 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'aClient.vista'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'client.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'newClient'
+2009-08-07 06:05:06 VERB  db.cpp:514 Sorting list
+2009-08-07 06:05:06 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:546 Crawling through DB
+2009-08-07 06:05:06 VERB  data.cpp:979 Found 18 valid and 0 broken data file(s)
+2009-08-07 06:05:06 VERB  db.cpp:567 Data statistics: 18 checksum(s), 18 valid [157626 real, 11549273 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:578 Checksum(s) with data: 18
+2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
+2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 3 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
 hbackup.log-8:
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'aClient.vista'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:514 Sorting list
-2009-08-07 06:05:04 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:546 Crawling through DB
-2009-08-07 06:05:04 ERROR data.cpp:243 No such file or directory opening metadata file 'test_db/.data/55555555555555555555555555555555-0/meta'
-2009-08-07 06:05:04 ERROR data.cpp:243 No such file or directory opening metadata file 'test_db/.data/55555555555555555555555555555555-0/meta'
-2009-08-07 06:05:04 ALERT unzipreader.cpp:100 failed to decompress, zlib error code is -5
-2009-08-07 06:05:04 ERROR data.cpp:844 Structure needs cleaning reading file 'test_db/.data/55555555555555555555555555555555-0/data.gz'
-2009-08-07 06:05:04 INFO  data.cpp:849 Removed corrupted data for 55555555555555555555555555555555-0
-2009-08-07 06:05:04 VERB  data.cpp:971 Found 22 valid and 1 broken data file(s)
-2009-08-07 06:05:04 VERB  db.cpp:567 Data statistics: 22 checksum(s), 22 valid [157653 real, 12550276 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:578 Checksum(s) with data: 22
-2009-08-07 06:05:04 INFO  db.cpp:621 Obsolete checksum(s): 4
-2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
-2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 3 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'aClient.vista'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:514 Sorting list
-2009-08-07 06:05:04 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:546 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:971 Found 22 valid and 0 broken data file(s)
-2009-08-07 06:05:04 VERB  db.cpp:567 Data statistics: 22 checksum(s), 22 valid [157653 real, 12550276 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:578 Checksum(s) with data: 22
-2009-08-07 06:05:04 INFO  db.cpp:621 Obsolete checksum(s): 4
-2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
-2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 3 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'aClient.vista'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:514 Sorting list
-2009-08-07 06:05:04 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:546 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:971 Found 18 valid and 0 broken data file(s)
-2009-08-07 06:05:04 VERB  db.cpp:567 Data statistics: 18 checksum(s), 18 valid [157626 real, 11549273 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:578 Checksum(s) with data: 18
-2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
-2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 3 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'aClient.vista'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'client.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'newClient'
+2009-08-07 06:05:06 VERB  db.cpp:514 Sorting list
+2009-08-07 06:05:06 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:546 Crawling through DB
+2009-08-07 06:05:06 ERROR data.cpp:242 No such file or directory opening metadata file 'test_db/.data/55555555555555555555555555555555-0/meta'
+2009-08-07 06:05:06 ERROR data.cpp:242 No such file or directory opening metadata file 'test_db/.data/55555555555555555555555555555555-0/meta'
+2009-08-07 06:05:06 ALERT unzipreader.cpp:100 failed to decompress, zlib error code is -5
+2009-08-07 06:05:06 ERROR data.cpp:852 Structure needs cleaning reading file 'test_db/.data/55555555555555555555555555555555-0/data.gz'
+2009-08-07 06:05:06 INFO  data.cpp:857 Removed corrupted data for 55555555555555555555555555555555-0
+2009-08-07 06:05:06 VERB  data.cpp:979 Found 22 valid and 1 broken data file(s)
+2009-08-07 06:05:06 VERB  db.cpp:567 Data statistics: 22 checksum(s), 22 valid [157653 real, 12550276 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:578 Checksum(s) with data: 22
+2009-08-07 06:05:06 INFO  db.cpp:621 Obsolete checksum(s): 4
+2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
+2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 3 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'aClient.vista'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'client.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'newClient'
+2009-08-07 06:05:06 VERB  db.cpp:514 Sorting list
+2009-08-07 06:05:06 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:546 Crawling through DB
+2009-08-07 06:05:06 VERB  data.cpp:979 Found 22 valid and 0 broken data file(s)
+2009-08-07 06:05:06 VERB  db.cpp:567 Data statistics: 22 checksum(s), 22 valid [157653 real, 12550276 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:578 Checksum(s) with data: 22
+2009-08-07 06:05:06 INFO  db.cpp:621 Obsolete checksum(s): 4
+2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
+2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 3 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'aClient.vista'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'client.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'newClient'
+2009-08-07 06:05:06 VERB  db.cpp:514 Sorting list
+2009-08-07 06:05:06 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:546 Crawling through DB
+2009-08-07 06:05:06 VERB  data.cpp:979 Found 18 valid and 0 broken data file(s)
+2009-08-07 06:05:06 VERB  db.cpp:567 Data statistics: 18 checksum(s), 18 valid [157626 real, 11549273 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:578 Checksum(s) with data: 18
+2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
+2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 3 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
 hbackup.log-9:
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'aClient.vista'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:514 Sorting list
-2009-08-07 06:05:04 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:546 Crawling through DB
-2009-08-07 06:05:04 ERROR data.cpp:804 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
-2009-08-07 06:05:04 INFO  data.cpp:896 Removed corrupted data for b90f8fa56ea1d39881d4a199c7a81d35-0
-2009-08-07 06:05:04 VERB  data.cpp:971 Found 19 valid and 2 broken data file(s)
-2009-08-07 06:05:04 VERB  db.cpp:567 Data statistics: 19 checksum(s), 19 valid [157653 real, 11549275 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:578 Checksum(s) with data: 19
-2009-08-07 06:05:04 INFO  db.cpp:621 Obsolete checksum(s): 1
-2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
-2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 3 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
-2009-08-07 06:05:04 VERB  db.cpp:245 Database open in read/write mode
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'aClient.vista'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'client.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myClient.xp'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'myhost'
-2009-08-07 06:05:04 VERB  db.cpp:503 Reading list for 'newClient'
-2009-08-07 06:05:04 VERB  db.cpp:514 Sorting list
-2009-08-07 06:05:04 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:546 Crawling through DB
-2009-08-07 06:05:04 VERB  data.cpp:971 Found 19 valid and 0 broken data file(s)
-2009-08-07 06:05:04 VERB  db.cpp:567 Data statistics: 19 checksum(s), 19 valid [157653 real, 11549275 virtual]
-2009-08-07 06:05:04 VERB  db.cpp:578 Checksum(s) with data: 19
-2009-08-07 06:05:04 INFO  db.cpp:621 Obsolete checksum(s): 1
-2009-08-07 06:05:04 WARN  missing.cpp:296 Problematic checksum(s): 3
-2009-08-07 06:05:04 INFO  missing.cpp:100 Missing checksums list updated
-2009-08-07 06:05:04 INFO  missing.cpp:142 List of problematic checksums contains 3 items
-2009-08-07 06:05:04 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'aClient.vista'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'client.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'newClient'
+2009-08-07 06:05:06 VERB  db.cpp:514 Sorting list
+2009-08-07 06:05:06 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:546 Crawling through DB
+2009-08-07 06:05:06 ERROR data.cpp:812 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
+2009-08-07 06:05:06 INFO  data.cpp:904 Removed corrupted data for b90f8fa56ea1d39881d4a199c7a81d35-0
+2009-08-07 06:05:06 VERB  data.cpp:979 Found 19 valid and 2 broken data file(s)
+2009-08-07 06:05:06 VERB  db.cpp:567 Data statistics: 19 checksum(s), 19 valid [157653 real, 11549275 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:578 Checksum(s) with data: 19
+2009-08-07 06:05:06 INFO  db.cpp:621 Obsolete checksum(s): 1
+2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
+2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 3 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed
+2009-08-07 06:05:06 VERB  db.cpp:245 Database open in read/write mode
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'aClient.vista'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'client.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myClient.xp'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'myhost'
+2009-08-07 06:05:06 VERB  db.cpp:503 Reading list for 'newClient'
+2009-08-07 06:05:06 VERB  db.cpp:514 Sorting list
+2009-08-07 06:05:06 VERB  db.cpp:543 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:546 Crawling through DB
+2009-08-07 06:05:06 VERB  data.cpp:979 Found 19 valid and 0 broken data file(s)
+2009-08-07 06:05:06 VERB  db.cpp:567 Data statistics: 19 checksum(s), 19 valid [157653 real, 11549275 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:578 Checksum(s) with data: 19
+2009-08-07 06:05:06 INFO  db.cpp:621 Obsolete checksum(s): 1
+2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
+2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
+2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 3 items
+2009-08-07 06:05:06 VERB  db.cpp:270 Database closed

@@ -747,7 +747,8 @@ int Database::add(
         compression = op.compression;
       }
       Data::WriteStatus status = _d->data.write(op.node.path(), checksum,
-        &compression, op.comp_mode == auto_now);
+        &compression, op.comp_mode == auto_now, &op.store_path);
+      op.compression = compression;
       if (status == Data::error) {
         if ((op.operation == '!') && report_copy_error_once) {
           hlog_warning("%s backing up file '%s:%s'", strerror(errno),
@@ -799,4 +800,13 @@ int Database::add(
   }
 
   return failed ? -1 : 0;
+}
+
+int Database::setStorePath(
+    OpData&         op) {
+  if (op.extra == NULL) {
+    return -1;
+  }
+  string __unused;
+  return _d->data.name(op.extra, op.store_path, __unused);
 }

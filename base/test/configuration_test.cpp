@@ -63,7 +63,7 @@ public:
   }
   void show(int level = 0) const {
     if (_name == "root") {
-      hlog_verbose("0: root");
+      hlog_verbose(" 0: root");
     } else {
       stringstream s;
       for (size_t j = 0; j < _params.size(); j++) {
@@ -73,7 +73,7 @@ public:
         s << _params[j];
       }
       char format[16];
-      sprintf(format, "%%d:%%%ds%%s", level + 1);
+      sprintf(format, "%%2d:%%%ds%%s", level + 1);
       hlog_verbose(format, _line_no, " ", s.str().c_str());
     }
 #if 0
@@ -435,6 +435,21 @@ int main(void) {
 
     // compress_auto: to be ignored
     item->add(new ConfigItem("compress_auto", 0, 1));
+  }
+
+  // tree
+  {
+    ConfigItem* item = new ConfigItem("tree", 0, 1, 1);
+    syntax.add(item);
+
+    // hourly
+    item->add(new ConfigItem("hourly", 0, 1, 1, 1));
+
+    // daily
+    item->add(new ConfigItem("daily", 0, 1, 1, 1));
+
+    // weekly
+    item->add(new ConfigItem("weekly", 0, 1, 1, 1));
   }
 
   // parser plugins

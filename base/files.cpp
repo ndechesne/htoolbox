@@ -321,6 +321,34 @@ void Node::deleteList() {
   }
 }
 
+int Node::mkdir_p(const char* path, mode_t mode) {
+  // This is not meant to be efficient... at all!
+  char dir_path[PATH_MAX] = "";
+  size_t dir_path_len = 0;
+  const char* pos;
+  do {
+    // "[/]a/b/c"
+    pos = strchr(path, '/');
+    if (pos != NULL) {
+      memcpy(&dir_path[dir_path_len], path, pos - path);
+      dir_path_len += pos - path;
+      dir_path[dir_path_len] = '\0';
+      path = pos + 1;
+    } else {
+      strcpy(&dir_path[dir_path_len], path);
+    }
+    // create dir
+    if (dir_path_len > 0) {
+      hlog_regression("dir_path (%zu) = '%s'", dir_path_len, dir_path);
+      if ((::mkdir(dir_path, mode) < 0) && (errno != EEXIST)) {
+        return -1;
+      }
+    }
+    dir_path[dir_path_len++] = '/';
+  } while (pos != NULL);
+  return 0;
+}
+
 int Node::mkdir() {
   if (_type == '?') {
     stat();

@@ -116,7 +116,8 @@ public:
     const char*     path,             // Source file path
     char            checksum[64],     // Copy checksum here
     int*            comp_level,       // Comp. to apply (< 0: never) / applied
-    bool            auto_comp) const; // Choose whether to store compressed
+    bool            auto_comp,        // Choose whether to store compressed
+    string*         store_path) const;
   // Remove given checksum's data
   int remove(
     const char*     checksum) const;

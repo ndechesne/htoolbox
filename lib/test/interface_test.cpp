@@ -39,8 +39,9 @@ using namespace std;
 #include "paths.h"
 #include "clients.h"
 
+static time_t val = 1249617904;
+
 time_t time(time_t* tm) {
-  time_t val = 1249617904;
   if (tm != NULL) {
     *tm = val;
   }
@@ -154,6 +155,9 @@ int main(void) {
   hbackup->close();
   delete hbackup;
   showClientConfigs();
+  // Tree check
+  sys_rc = system("find test_tree | sort");
+  val++;
 
   cout << endl << "Test: same backup" << endl;
   hbackup = new HBackup();
@@ -165,6 +169,9 @@ int main(void) {
   hbackup->close();
   delete hbackup;
   showClientConfigs();
+  // Tree check
+  sys_rc = system("find test_tree | sort");
+  val++;
 
   cout << endl << "Test: interrupted backup" << endl;
   sys_rc = system("dd if=/dev/zero of=test1/dir\\ space/big_file bs=1k count=500"

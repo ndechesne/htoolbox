@@ -16,6 +16,7 @@ TESTDIRNFS="test_nfs"
 TESTDIRSSH="test_ssh"
 TESTDIRUSER="test_user"
 TESTDBDIR="test_db"
+TESTTREEDIR="test_tree"
 TESTRESTORE="test_r"
 
 ROOTDIRNFS="/home/User"
@@ -275,10 +276,16 @@ log "hbackup.log"
   max_lines 100000
   backups 10
   level verbose
+
 db "$TESTDBDIR"
   compress auto
   # Check backwards compatibility
   compress_auto
+
+tree "$TESTTREEDIR"
+  hourly 23
+  daily 6
+  weekly 52
 
 parsers_dir $PARSERSDIR
 

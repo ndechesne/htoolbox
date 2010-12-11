@@ -15,10 +15,12 @@ Checking data, sizes: f=13 z=33 (33)
 Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8)
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
+Stored at: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data
 Meta file contents: 
 13	.
 59ca0efa9f5633cb0371bbc0355478d8-0 13\r
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
+Stored at: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data
 
 Test: write and read back with compression (auto)
 Checking data, sizes: f=10485760 z=10208 (10367)
@@ -29,18 +31,22 @@ Meta file contents:
 10485760	+
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f1c9645dbc14efddc7d8a322685f26eb-0  test_db/blah
+Stored at: test_db/data/f1/c9645dbc14efddc7d8a322685f26eb-0/data
 
 Test: write and read back with forbidden compression
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
+Stored at: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data
 Meta file contents: 
 13	-
 59ca0efa9f5633cb0371bbc0355478d8-0 13            \r
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
+Stored at: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data
 
 Test: write and read back with forced compression
 Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8)
 59ca0efa9f5633cb0371bbc0355478d8-0  test1/testfile
+Stored at: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data.gz
 Meta file contents: 
 13	f
 Error: No such file or directory opening metadata file 'test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta'
@@ -52,7 +58,9 @@ Meta file contents:
 59ca0efa9f5633cb0371bbc0355478d8-0 13 33\r
 Replacing with uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8)
+Stored at: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data
 59ca0efa9f5633cb0371bbc0355478d8-0  test_db/blah
+Stored at: test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data
 
 Test: organise
 Lesser:

@@ -31,8 +31,9 @@ class ClientPath : public htools::ConfigObject {
   int               _nodes;
   int parse_recurse(
     Database&       db,
-    const char*     remote_path,      // Dir where the file resides, remotely
     const char*     client_name,
+    const char*     remote_path,      // Dir where the file resides, remotely
+    const char*     tree_base_path,
     size_t          start,
     htools::Node&   dir,
     IParser*        parser);
@@ -54,8 +55,9 @@ public:
     const string&   mode);
   int parse(
     Database&       db,
+    const char*     client_name,
     const char*     backup_path,
-    const char*     client_name);
+    const char*     tree_base_path = NULL);
   /* For verbosity */
   void show(int level = 0) const;
 };

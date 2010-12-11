@@ -22,6 +22,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <errno.h>
 
 using namespace std;
@@ -41,8 +43,9 @@ using namespace htools;
 
 int ClientPath::parse_recurse(
     Database&       db,
-    const char*     remote_path,
     const char*     client_name,
+    const char*     remote_path,
+    const char*     tree_base_path,
     size_t          start,
     Node&           dir,
     IParser*        current_parser) {
@@ -66,6 +69,11 @@ int ClientPath::parse_recurse(
   bool give_up = false;
   char rem_path[PATH_MAX];
   size_t remote_path_len = sprintf(rem_path, "%s/", remote_path);
+  char tree_path[PATH_MAX];
+  size_t tree_base_path_len;
+  if (tree_base_path != NULL) {
+    tree_base_path_len = sprintf(tree_path, "%s/", tree_base_path);
+  }
   if (dir.hasList()) {
     for (list<Node*>::iterator i = dir.nodesList().begin();
         i != dir.nodesList().end(); delete *i, i = dir.nodesList().erase(i)) {
@@ -104,6 +112,13 @@ int ClientPath::parse_recurse(
           // Count the nodes considered, for info
           _nodes++;
 
+          // Prepare path for tree
+          size_t tree_path_len = tree_base_path_len;
+          if (tree_base_path != NULL) {
+            tree_path_len += sprintf(&tree_path[tree_base_path_len], "%s",
+              (*i)->name());
+          }
+
           // Synchronize with DB records
           Database::OpData op(rem_path, rem_path_len, **i);
 
@@ -115,8 +130,8 @@ int ClientPath::parse_recurse(
             if ((*i)->createList()) {
               (*i)->deleteList();
               create_list_failed = true;
-              if ((errno != EACCES)     // Ignore access refused
-              &&  (errno != ENOENT)) {  // Ignore directory gone
+              if ((errno != EACCES) &&  // Ignore access refused
+                  (errno != ENOENT)) {  // Ignore directory gone
                 // All the rest results in a cease and desist order
                 give_up = true;
               } else {
@@ -125,9 +140,9 @@ int ClientPath::parse_recurse(
               }
             }
           }
-
           db.sendEntry(op);
           // Add node
+          int status = 0;
           if (op.needsAdding()) {
             // Regular file: deal with compression
             if ((*i)->type() == 'f') {
@@ -148,12 +163,13 @@ int ClientPath::parse_recurse(
                 op.compression = 0;
               }
             }
-            if (db.add(op, _attributes.reportCopyErrorOnceIsSet())
-            &&  (  (errno != EBUSY)       // Ignore busy resources
-                && (errno != ETXTBSY)     // Ignore busy files
-                && (errno != ENOENT)      // Ignore files gone
-                && (errno != EPERM)      // Ignore files gone
-                && (errno != EACCES))) {  // Ignore access refused
+            status = db.add(op, _attributes.reportCopyErrorOnceIsSet());
+            if ((status < 0) &&
+                ( (errno != EBUSY) &&    // Ignore busy resources
+                  (errno != ETXTBSY) &&  // Ignore busy files
+                  (errno != ENOENT) &&   // Ignore files gone
+                  (errno != EPERM) &&   // Ignore files gone
+                  (errno != EACCES))) {  // Ignore access refused
               // All the rest results in a cease and desist order
               give_up = true;
             }
@@ -170,14 +186,35 @@ int ClientPath::parse_recurse(
               }
             }
             hlog_info("%-8s%s", code, rem_path);
+          } else
+          if ((tree_base_path != NULL) && ((*i)->type() == 'f')) {
+            db.setStorePath(op);
           }
 
           // For directory, recurse into it
+          if ((*i)->type() == 'f') {
+            if ((status >= 0) && (tree_base_path != NULL)) {
+              if (op.compression > 0) {
+                strcpy(&tree_path[tree_path_len], ".gz");
+              }
+              symlink(op.store_path.c_str(), tree_path);
+            }
+          } else
+          if ((*i)->type() == 'l') {
+            if (tree_base_path != NULL) {
+              symlink((*i)->link(), tree_path);
+            }
+          } else
           if ((*i)->type() == 'd') {
+            if (tree_base_path != NULL) {
+              mkdir(tree_path, 0755);
+            }
             if ((*i)->size() != -1) {
               hlog_verbose_temp("%s", &rem_path[_path.length() + 1]);
             }
-            if (parse_recurse(db, rem_path, client_name, start, **i, parser) < 0) {
+            if (parse_recurse(db, client_name, rem_path,
+                tree_base_path != NULL ? tree_path : NULL,
+                start, **i, parser) < 0) {
               give_up = true;
             }
           }
@@ -257,8 +294,9 @@ int ClientPath::addParser(
 
 int ClientPath::parse(
     Database&       db,
+    const char*     client_name,
     const char*     backup_path,
-    const char*     client_name) {
+    const char*     tree_base_path) {
   int rc = 0;
   _nodes = 0;
   Node dir(backup_path);
@@ -274,10 +312,26 @@ int ClientPath::parse(
       free(full_name);
     }
     rc = -1;
-  } else
-  if (parse_recurse(db, _path, client_name, strlen(backup_path) + 1, dir, NULL)
-  || aborting()) {
-    rc = -1;
+  } else {
+    bool   tree_path_set = true;
+    string tree_path;
+    if (_attributes.treeIsSet()) {
+      tree_path = _attributes.tree();
+    } else
+    if (tree_base_path != NULL) {
+      tree_path = Path(tree_base_path, _path);
+    } else
+    {
+      tree_path_set = false;
+    }
+    if (tree_path_set) {
+      Node::mkdir_p(tree_path.c_str(), 0777);
+    }
+    if (parse_recurse(db, client_name, _path,
+          tree_path_set ? tree_path.c_str() : NULL, strlen(backup_path) + 1,
+          dir, NULL) || aborting()) {
+      rc = -1;
+    }
   }
   return rc;
 }

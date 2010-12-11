@@ -468,11 +468,9 @@ int Owner::send(
         // Checksum missing: retry
         if (db_node_extra == NULL) {
           op.same_list_entry = true;
-        } else
-        // Copy checksum accross
-        {
-          op.extra = db_node_extra;
         }
+        // Copy checksum accross
+        op.extra = db_node_extra;
       }
     } else
     // Data differs
@@ -501,6 +499,10 @@ int Owner::send(
           // Recover missing data
           op.operation = 'R';
         }
+      } else
+      // Copy checksum accross
+      {
+        op.extra = db_node_extra;
       }
     }
   } else

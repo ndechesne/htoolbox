@@ -255,6 +255,17 @@ int HBackup::readConfig(const char* config_path) {
     // old keyword for compress auto
     db->add(new ConfigItem("compress_auto", 0, 1));
   }
+  // tree
+  {
+    ConfigItem* tree = new ConfigItem("tree", 0, 1, 1);
+    config_syntax.add(tree);
+    // hourly: number of hourly backup to keep
+    tree->add(new ConfigItem("hourly", 0, 1, 1, 1));
+    // daily: number of daily backup to keep
+    tree->add(new ConfigItem("daily", 0, 1, 1, 1));
+    // weekly: number of weekly backup to keep
+    tree->add(new ConfigItem("weekly", 0, 1, 1, 1));
+  }
   // parser plugins
   config_syntax.add(new ConfigItem("parsers_dir", 0, 0, 1));
   // filter
@@ -467,7 +478,7 @@ int HBackup::backup(
       if (mount_point.mkdir() < 0) {
         return -1;
       }
-      if ((*client)->backup(*_d->db, mount_point.path())) {
+      if ((*client)->backup(*_d->db, mount_point.path(), _d->attributes.tree())) {
         failed = true;
       }
       remove(mount_point_path);

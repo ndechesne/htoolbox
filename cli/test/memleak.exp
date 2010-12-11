@@ -2323,14 +2323,14 @@ HBackup (c) 2006-2010 Hervé Fache
    TCLAP::CmdLine::CmdLine(std::string const&, char, std::string const&, bool) (CmdLine.h:330)
    main (hbackup.cpp:112)
  
- 112 bytes in 1 blocks are possibly lost in loss record 132 of 133
+ 112 bytes in 1 blocks are possibly lost in loss record 131 of 133
    malloc (vg_replace_malloc.c:236)
    __cxa_allocate_exception (in /usr/lib/libstdc++.so.6.0.14)
    TCLAP::CmdLine::parse(std::vector<std::string, std::allocator<std::string> >&) (CmdLine.h:464)
    TCLAP::CmdLine::parse(int, char const* const*) (CmdLine.h:430)
    main (hbackup.cpp:189)
  
- 114 bytes in 1 blocks are possibly lost in loss record 133 of 133
+ 114 bytes in 1 blocks are possibly lost in loss record 132 of 133
    operator new(unsigned int) (vg_replace_malloc.c:255)
    std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.14)
    std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.14)
@@ -2479,6 +2479,10 @@ Backup::Backup(test_db/.backup)
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Backing up in server mode
 Error: Given DB path does not exist 'test_db'
  4 bytes in 1 blocks are definitely lost in loss record 1 of 2
@@ -2604,6 +2608,10 @@ Backup::Backup(test_db/.backup)
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Backing up in server mode
 Database initialized in 'test_db'
 Database open in read/write mode
@@ -3277,6 +3285,10 @@ Backup::Backup(test_db/.backup)
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Backing up in server mode
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
@@ -3626,6 +3638,10 @@ Backup::Backup(test_db/.backup)
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Fixing database
 Database open in read/write mode
 Database closed
@@ -3752,6 +3768,10 @@ Backup::Backup(test_db/.backup)
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Scanning database
 Database open in read/write mode
 Reading list for 'aClient.vista'
@@ -3951,6 +3971,10 @@ Backup::Backup(test_db/.backup)
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Checking database
 Database open in read-only mode
 Crawling through DB data
@@ -3959,11 +3983,11 @@ Crawling through DB data
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:59)
    htools::StackHelper::open() (stackhelper.h:54)
-   hbackup::Data::check(char const*, bool, bool, long long*, long long*) const (data.cpp:834)
-   hbackup::Data::crawl_recurse(htools::Node&, std::string const&, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:417)
-   hbackup::Data::crawl(bool, bool, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*) const (data.cpp:970)
+   hbackup::Data::check(char const*, bool, bool, long long*, long long*) const (data.cpp:842)
+   hbackup::Data::crawl_recurse(htools::Node&, std::string const&, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:416)
+   hbackup::Data::crawl(bool, bool, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*) const (data.cpp:978)
    hbackup::Database::check(bool) const (db.cpp:654)
-   hbackup::HBackup::check() (interface.cpp:424)
+   hbackup::HBackup::check() (interface.cpp:435)
    main (hbackup.cpp:293)
  
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
@@ -4113,6 +4137,10 @@ Database closed
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Showing list
 Database open in read-only mode
 Database closed
@@ -4249,6 +4277,10 @@ Database closed
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Showing list
 Database open in read-only mode
 Database open r-o for 'myhost'
@@ -4383,6 +4415,10 @@ Database closed
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Showing list
 Database open in read-only mode
 Database open r-o for 'myhost'
@@ -4517,6 +4553,10 @@ Database closed
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Showing list
 Database open in read-only mode
 Database open r-o for 'myhost'
@@ -4654,6 +4694,10 @@ Database closed
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Showing list
 Database open in read-only mode
 Database open r-o for 'myhost'
@@ -4792,6 +4836,10 @@ Database closed
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Restoring
 Database open in read-only mode
 Database open r-o for 'myhost'
@@ -4801,9 +4849,9 @@ U       test_r/test2/testfile
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:59)
    htools::StackHelper::open() (stackhelper.h:54)
-   hbackup::Data::read(char const*, char const*) const (data.cpp:526)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:525)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:403)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:515)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:526)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
    main (hbackup.cpp:335)
  
@@ -4936,6 +4984,10 @@ Database closed
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Restoring
 Database open in read-only mode
 Database open r-o for 'myhost'
@@ -4945,9 +4997,9 @@ U       test_r/test1/big_file
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:59)
    htools::StackHelper::open() (stackhelper.h:54)
-   hbackup::Data::read(char const*, char const*) const (data.cpp:526)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:525)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:403)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:515)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:526)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
    main (hbackup.cpp:335)
  
@@ -5125,6 +5177,10 @@ Database closed
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Restoring
 Database open in read-only mode
 Database open r-o for 'myhost'
@@ -5274,6 +5330,10 @@ Database closed
  --> Condition: not size< 1000
  -> Ignore filters:
  --> nothing
+ -> Trees path: 'test_tree'
+ --> 23 hourly
+ --> 6 daily
+ --> 52 weekly
 Restoring
 Database open in read-only mode
 Database open r-o for 'myhost'
@@ -5283,9 +5343,9 @@ U       test_r/test1/big_file
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:59)
    htools::StackHelper::open() (stackhelper.h:54)
-   hbackup::Data::read(char const*, char const*) const (data.cpp:526)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:525)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:403)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:515)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:526)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
    main (hbackup.cpp:335)
  

@@ -167,6 +167,7 @@ public:
   static int touch(const char* path);
   // Create directory
   int mkdir();
+  static int mkdir_p(const char* path, mode_t mode);
   // Directory entries management
   int   createList();
   void  deleteList();
