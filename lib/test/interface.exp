@@ -13014,7 +13014,7 @@ hbackup.log:
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'aClient.vista'
 2009-08-07 06:05:06 VERB  missing.cpp:164 Reading list of problematic checksums
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:06 ERROR paths.cpp:311 No such file or directory reading initial directory 'aClient.vista:C:/Test Dir'
 2009-08-07 06:05:06 ERROR clients.cpp:376 Aborting client
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'aClient.vista'
@@ -13026,26 +13026,26 @@ hbackup.log-1:
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'aClient.vista'
 2009-08-07 06:05:06 VERB  missing.cpp:164 Reading list of problematic checksums
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'aClient.vista'
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'client.xp' using protocol 'smb'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'client.xp'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'client.xp'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'client.xp'
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'myClient' using protocol 'nfs'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myClient'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myClient'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path '/home/User/test'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path '/home/User/test'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myClient'
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'myClient.xp' using protocol 'smb'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myClient.xp'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myClient.xp'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myClient.xp'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myhost'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myhost'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'test1'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'test1'
 2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/CVS/Whatever
 2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/cvs/CVS/Wherever
 2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dir space/CVS/Whatever
@@ -13084,7 +13084,7 @@ hbackup.log-1:
 2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/fileoth
 2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/fileutd.h
 2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test1/testfile~
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'test2'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'test2'
 2009-08-07 06:05:06 INFO  paths.cpp:188 Rf ~    test2/testfile2
 2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test2/testfile~
 2009-08-07 06:05:06 VERB  owner.cpp:365 Register modified for 'myhost'
@@ -13092,7 +13092,7 @@ hbackup.log-1:
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'newClient' using protocol 'ssh'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'newClient'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'newClient'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path '/home/Blah/test'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path '/home/Blah/test'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'newClient'
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'other' using protocol 'none'
 2009-08-07 06:05:06 ERROR clients.cpp:288 Protocol not supported 'none' for 'other'
@@ -13159,26 +13159,26 @@ hbackup.log-5:
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'aClient.vista'
 2009-08-07 06:05:06 VERB  missing.cpp:164 Reading list of problematic checksums
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'aClient.vista'
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'client.xp' using protocol 'smb'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'client.xp'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'client.xp'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'client.xp'
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'myClient' using protocol 'nfs'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myClient'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myClient'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path '/home/User/test'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path '/home/User/test'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myClient'
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'myClient.xp' using protocol 'smb'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myClient.xp'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myClient.xp'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myClient.xp'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myhost'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myhost'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'test1'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'test1'
 2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/CVS/Whatever
 2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/cvs/CVS/Wherever
 2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/dir space/CVS/Whatever
@@ -13217,13 +13217,13 @@ hbackup.log-5:
 2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/fileoth
 2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/fileutd.h
 2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test1/testfile~
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'test2'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'test2'
 2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test2/testfile~
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myhost'
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'newClient' using protocol 'ssh'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'newClient'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'newClient'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path '/home/Blah/test'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path '/home/Blah/test'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'newClient'
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'other' using protocol 'none'
 2009-08-07 06:05:06 ERROR clients.cpp:288 Protocol not supported 'none' for 'other'
@@ -13235,28 +13235,28 @@ hbackup.log-6:
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'aClient.vista'
 2009-08-07 06:05:06 VERB  missing.cpp:164 Reading list of problematic checksums
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'aClient.vista'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'aClient.vista'
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'client.xp' using protocol 'smb'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'client.xp'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'client.xp'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'client.xp'
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'myClient' using protocol 'nfs'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myClient'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myClient'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path '/home/User/test'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path '/home/User/test'
 2009-08-07 06:05:06 INFO  paths.cpp:188 Cf f    /home/User/test/dir/file3.txt
 2009-08-07 06:05:06 VERB  owner.cpp:365 Register modified for 'myClient'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myClient'
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'myClient.xp' using protocol 'smb'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myClient.xp'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myClient.xp'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'C:/Test Dir'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'C:/Test Dir'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'myClient.xp'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'myhost'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'myhost'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'test1'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'test1'
 2009-08-07 06:05:06 INFO  paths.cpp:188 Rf f    test1/cvs/CVS/Root
 2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/cvs/CVS/Whatever
 2009-08-07 06:05:06 VERB  paths.cpp:224 Id p    test1/cvs/CVS/Wherever
@@ -13297,7 +13297,7 @@ hbackup.log-6:
 2009-08-07 06:05:06 VERB  paths.cpp:224 If p    test1/svn/fileutd.h
 2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test1/testfile~
 2009-08-07 06:05:06 INFO  list.cpp:756 D       test1/testfile
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path 'test2'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path 'test2'
 2009-08-07 06:05:06 INFO  paths.cpp:188 Mf zr   test2/testfile2
 2009-08-07 06:05:06 VERB  paths.cpp:224 If f    test2/testfile~
 2009-08-07 06:05:06 VERB  owner.cpp:365 Register modified for 'myhost'
@@ -13305,7 +13305,7 @@ hbackup.log-6:
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'newClient' using protocol 'ssh'
 2009-08-07 06:05:06 INFO  clients.cpp:324 Backing up client 'newClient'
 2009-08-07 06:05:06 VERB  db.cpp:698 Database open r/w for 'newClient'
-2009-08-07 06:05:06 INFO  clients.cpp:339 Backing up path '/home/Blah/test'
+2009-08-07 06:05:06 INFO  clients.cpp:354 Backing up path '/home/Blah/test'
 2009-08-07 06:05:06 VERB  db.cpp:707 Database closed for 'newClient'
 2009-08-07 06:05:06 INFO  clients.cpp:262 Trying client 'other' using protocol 'none'
 2009-08-07 06:05:06 ERROR clients.cpp:288 Protocol not supported 'none' for 'other'

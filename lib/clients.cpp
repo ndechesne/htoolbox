@@ -329,6 +329,21 @@ int Client::backup(
       failed = true;
     } else if (! config_check) {
       if (db.openClient(internalName().c_str(), _expire) >= 0) {
+        string tree_path;
+        if (_attributes.treeIsSet()) {
+          tree_path = _attributes.tree();
+        } else
+        if (tree_base_path != NULL) {
+          tree_path = tree_base_path;
+          tree_path += "/";
+          tree_path += internalName().c_str();
+          char date[64];
+          struct tm local;
+          time_t tm = time(NULL);
+          localtime_r(&tm, &local);
+          strftime(date, sizeof(date), "/%F_%T_%Z", &local);
+          tree_path += date;
+        }
         bool abort = false;
         for (list<ClientPath*>::iterator i = _paths.begin();
             i != _paths.end(); i++) {
@@ -354,21 +369,6 @@ int Client::backup(
             abort = true;
           } else {
             first_mount_try = false;
-            string tree_path;
-            if (_attributes.treeIsSet()) {
-              tree_path = _attributes.tree();
-            } else
-            if (tree_base_path != NULL) {
-              tree_path = tree_base_path;
-              tree_path += "/";
-              tree_path += internalName().c_str();
-              char date[64];
-              struct tm local;
-              time_t tm = time(NULL);
-              localtime_r(&tm, &local);
-              strftime(date, sizeof(date), "/%F_%T_%Z", &local);
-              tree_path += date;
-            }
             if ((*i)->parse(db, internalName().c_str(), backup_path.c_str(),
                 tree_path.empty() ? NULL : tree_path.c_str())) {
               // prepare_share sets errno
