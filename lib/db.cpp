@@ -807,6 +807,10 @@ int Database::setStorePath(
   if (op.extra == NULL) {
     return -1;
   }
-  string __unused;
-  return _d->data.name(op.extra, op.store_path, __unused);
+  string extension;
+  int rc = _d->data.name(op.extra, op.store_path, extension);
+  if (! extension.empty()) {
+    op.compression = 1;
+  }
+  return rc;
 }

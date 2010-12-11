@@ -1692,7 +1692,7 @@ test_tree/myhost/2009-08-07_06:05:04_CEST/test2/testfile.gz
 test_tree/myhost/2009-08-07_06:05:04_CEST/test2/testlink
 test_tree/myhost/2009-08-07_06:05:05_CEST
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/big_file
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/big_file.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/CVS
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/CVS/Entries
@@ -1723,23 +1723,22 @@ test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirbad
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space/file space
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space/.svn
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space/.svn/entries
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space/.svn/entries.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd/fileutd
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd/.svn
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd/.svn/entries
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd/.svn/entries.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/filenew.c
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/.svn
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/.svn/entries
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/.svn/entries.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/testdir
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/testfile
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/testlink
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/test space
 test_tree/myhost/2009-08-07_06:05:05_CEST/test2
 test_tree/myhost/2009-08-07_06:05:05_CEST/test2/testdir
-test_tree/myhost/2009-08-07_06:05:05_CEST/test2/testfile
-test_tree/myhost/2009-08-07_06:05:05_CEST/test2/testfile2
 test_tree/myhost/2009-08-07_06:05:05_CEST/test2/testfile2.gz
+test_tree/myhost/2009-08-07_06:05:05_CEST/test2/testfile.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test2/testlink
 test_tree/newClient
 test_tree/newClient/2009-08-07_06:05:04_CEST
