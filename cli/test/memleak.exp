@@ -3290,6 +3290,7 @@ Backup::Backup(test_db/.backup)
  --> 6 daily
  --> 52 weekly
 Backing up in server mode
+Upgrading database structure in test_db/.data, please wait...
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -3983,12 +3984,14 @@ Crawling through DB data
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:59)
    htools::StackHelper::open() (stackhelper.h:54)
-   hbackup::Data::check(char const*, bool, bool, long long*, long long*) const (data.cpp:842)
-   hbackup::Data::crawl_recurse(htools::Node&, std::string const&, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:416)
-   hbackup::Data::crawl(bool, bool, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*) const (data.cpp:978)
+   hbackup::Data::check(char const*, bool, bool, long long*, long long*) const (data.cpp:820)
+   hbackup::Data::crawl_recurse(unsigned int, htools::Node&, char*, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:417)
+   hbackup::Data::crawl_recurse(unsigned int, htools::Node&, char*, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:400)
+   hbackup::Data::crawl_recurse(unsigned int, htools::Node&, char*, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:400)
+   hbackup::Data::crawl_recurse(unsigned int, htools::Node&, char*, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:400)
+   hbackup::Data::crawl_recurse(unsigned int, htools::Node&, char*, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:400)
+   hbackup::Data::crawl(bool, bool, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*) const (data.cpp:957)
    hbackup::Database::check(bool) const (db.cpp:654)
-   hbackup::HBackup::check() (interface.cpp:435)
-   main (hbackup.cpp:293)
  
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
@@ -4849,7 +4852,7 @@ U       test_r/test2/testfile
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:59)
    htools::StackHelper::open() (stackhelper.h:54)
-   hbackup::Data::read(char const*, char const*) const (data.cpp:525)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:514)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:403)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:526)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
@@ -4997,7 +5000,7 @@ U       test_r/test1/big_file
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:59)
    htools::StackHelper::open() (stackhelper.h:54)
-   hbackup::Data::read(char const*, char const*) const (data.cpp:525)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:514)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:403)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:526)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
@@ -5343,7 +5346,7 @@ U       test_r/test1/big_file
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:59)
    htools::StackHelper::open() (stackhelper.h:54)
-   hbackup::Data::read(char const*, char const*) const (data.cpp:525)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:514)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:403)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:526)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)

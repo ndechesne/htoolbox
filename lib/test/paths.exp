@@ -512,6 +512,7 @@ CR\r
 [ 1] /home/User/testfile~           f        0 644 d41d8cd98f00b204e9800998ecf8427e-0
 [ 1] /home/User/testlink            l        8 777 testfile
 [ 1] /home/User/testpipe            p        0 600
+Upgrading database structure in test_db/.data, please wait...
 Database open in read/write mode
 Reading list for 'myClient'
 Sorting list

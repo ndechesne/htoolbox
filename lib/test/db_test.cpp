@@ -133,7 +133,7 @@ int main(void) {
     }
   }
   cout << "File data gone" << endl;
-  Node("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").mkdir();
+  Node::mkdir_p("test_db/.data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0", 0777);
   if (db.scan()) {
     printf("db.scan: %s\n", strerror(errno));
   }
@@ -145,12 +145,12 @@ int main(void) {
     }
   }
   cout << "File data corrupted, surficial scan" << endl;
-  if (Node("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").mkdir()) {
+  if (Node("test_db/.data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0").mkdir()) {
     cout << "Node still exists!" << endl;
   }
-  Node::touch("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data");
+  Node::touch("test_db/.data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/data");
   sys_rc = system("echo 0 > "
-    "test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/meta");
+    "test_db/.data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/meta");
   if (db.scan()) {
     printf("db.scan: %s\n", strerror(errno));
   }
@@ -165,12 +165,12 @@ int main(void) {
     printf("db.scan: %s\n", strerror(errno));
   }
   cout << "File data corrupted, thorough scan" << endl;
-  if (Node("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").mkdir()) {
+  if (Node("test_db/.data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0").mkdir()) {
     cout << "Node still exists!" << endl;
   }
-  Node::touch("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data");
+  Node::touch("test_db/.data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/data");
   sys_rc = system("echo 0 > "
-    "test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/meta");
+    "test_db/.data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/meta");
   db.close();
 
   if ((status = db.open(true))) {
@@ -194,9 +194,9 @@ int main(void) {
     printf("db.scan: %s\n", strerror(errno));
   }
   cout << "Scan again" << endl;
-  if (Node("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0").mkdir()) {
+  if (Node("test_db/.data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0").mkdir()) {
     cout << "Node still exists!" << endl;
-    if (Node("test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0/data").isReg())
+    if (Node("test_db/.data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/data").isReg())
     {
       cout << "File still exists!" << endl;
     }
@@ -425,10 +425,10 @@ int main(void) {
 
 
   cout << endl << "Test: scan" << endl;
-  ::remove("test_db/.data/3d546a1ce46c6ae10ad34ab8a81c542e-0/data");
-  Node("test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0").mkdir();
-  sys_rc = system("echo '3' > test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/data");
-  sys_rc = system("echo 2 > test_db/.data/6d7fce9fee471194aa8b5b6e47267f03-0/meta");
+  ::remove("test_db/.data/3d/54/6a/1ce46c6ae10ad34ab8a81c542e-0/data");
+  Node::mkdir_p("test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0", 0777);
+  sys_rc = system("echo '3' > test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/data");
+  sys_rc = system("echo 2 > test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/meta");
   if ((status = db.open())) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {

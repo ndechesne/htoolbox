@@ -208,26 +208,24 @@ int Data::getDir(
     const char*     checksum,
     char*           path,
     bool            create) const {
-  size_t path_len = sprintf(path, "%s", _d->path.c_str());
-  // Two cases: either there are files, or a .nofiles file and directories
-  int level = 0;
+  size_t path_len = sprintf(path, "%s/", _d->path.c_str());
+  const char* reader = checksum;
+  char* writer = &path[path_len];
+  size_t n = 0;
   do {
-    // If we can find a .nofiles file, then go down one more directory
-    strcpy(&path[path_len++], "/.nofiles");
-    if (Node::isReadable(path)) {
-      path[path_len++] = checksum[level++];
-      path[path_len++] = checksum[level++];
-      path[path_len] = '\0';
-      if (create && (Node(path).mkdir() < 0)) {
-        return -1;
+    if ((n == 2) || (n == 4) || (n == 6)) {
+      if (create) {
+        *writer = '\0';
+        if (Node(path).mkdir() < 0) {
+          hlog_alert("%s creating directory '%s'", strerror(errno), path);
+          return -1;
+        }
       }
-    } else {
-      break;
+      *writer++ = '/';
     }
-  } while (true);
-  // Return path
-  path[path_len] = '/';
-  strcpy(&path[path_len], &checksum[level]);
+    ++n;
+    *writer++ = *reader;
+  } while (*reader++ != '\0');
   return Node(path).isDir() ? 0 : 1;
 }
 
@@ -313,131 +311,122 @@ int Data::removePath(const char* path, const char* hash) const {
   return rc;
 }
 
-int Data::organise(
-    const char*     path,
-    int             number) const {
-  DIR           *directory;
-  struct dirent *dir_entry;
-  bool          failed = false;
-
-  // Already organised?
-  char nofiles_path[PATH_MAX];
-  sprintf(nofiles_path, "%s/%s", path, ".nofiles");
-  if (Node::isReadable(nofiles_path)) {
-    return 0;
+int Data::upgrade(
+    size_t          level,
+    htools::Node&   dir) const {
+  if ((level == 0) && ! Node(Path(dir.path(), ".upgraded")).isReg()) {
+    hlog_info("Upgrading database structure in %s, please wait...", dir.path());
   }
-  // Find out how many entries
-  if ((directory = opendir(path)) == NULL) {
-    return 1;
-  }
-  // Skip . and ..
-  number += 2;
-  while (((dir_entry = readdir(directory)) != NULL) && (number > 0)) {
-    number--;
-  }
-  // Decide what to do
-  if (number == 0) {
-    rewinddir(directory);
-    while ((dir_entry = readdir(directory)) != NULL) {
-      // Ignore anything in .*
-      if (dir_entry->d_name[0] == '.') {
-        continue;
-      }
-      Node source_path(Path(path, dir_entry->d_name));
-      if (source_path.type() == '?') {
-        hlog_error("%s stating source file '%s'", strerror(errno),
-          source_path.path());
-        failed = true;
-      } else
-      if ((source_path.type() == 'd')
-       // If we crashed, we might have some two-letter dirs already
-       && (strlen(source_path.name()) != 2)
-       // If we've reached the point where the dir is ??-?, stop!
-       && (source_path.name()[2] != '-')) {
-        // Create two-letter directory
-        char two_letters[3] = {
-          source_path.name()[0], source_path.name()[1], '\0'
-        };
-        Node dir(Path(path, two_letters));
-        if (dir.mkdir() < 0) {
-          failed = true;
-        } else {
-          // Move directory accross, changing its name
-          if (rename(source_path.path(),
-              Path(dir.path(), &source_path.name()[2]).c_str())) {
-            failed = true;
+  bool failed = false;
+  if (level < 3) {
+    if (! dir.createList()) {
+      list<Node*>::iterator i = dir.nodesList().begin();
+      while (i != dir.nodesList().end()) {
+        Path file(dir.path(), (*i)->name());
+        if (failed) {
+          // Skip any processing, but remove node from list
+        } else
+        if ((*i)->type() == 'f') {
+          if (strcmp((*i)->name(), ".nofiles") == 0) {
+            ::remove(file);
+          }
+        } else
+        if (((*i)->type() == 'd') && ((*i)->name()[0] != '.')) {
+          if (strlen((*i)->name()) > 2) {
+            char in[3];
+            in[0] = (*i)->name()[0];
+            in[1] = (*i)->name()[1];
+            in[2] = '\0';
+            Path dir_in(dir.path(), in);
+            if ((mkdir(dir_in, 0777)) && (errno != EEXIST)) {
+              hlog_error("failed to create dir %s", dir_in.c_str());
+              failed = true;
+            } else {
+              Path new_file(dir_in, &(*i)->name()[2]);
+              if (rename(file, new_file) != 0) {
+                hlog_error("failed to rename %s into %s",
+                  file.c_str(), new_file.c_str());
+                failed = true;
+              }
+              Node subdir(dir_in);
+              if (upgrade(level + 1, subdir) < 0) {
+                failed = true;
+              }
+            }
+          } else {
+            Node subdir(file);
+            if (upgrade(level + 1, subdir) < 0) {
+              failed = true;
+            }
           }
         }
+        if (aborting()) {
+          failed = true;
+        }
+        delete *i;
+        i = dir.nodesList().erase(i);
       }
-    }
-    if (! failed) {
-      Node::touch(nofiles_path);
+    } else {
+      hlog_error("failed to create list for %s", dir.path());
+      failed = true;
     }
   }
-  closedir(directory);
+  if ((level == 0) && ! failed) {
+    Node::touch(Path(dir.path(), ".upgraded"));
+  }
   return failed ? -1 : 0;
 }
 
 int Data::crawl_recurse(
+    size_t          level,
     Node&           dir,
-    const string&   checksum_part,
+    char*           hash,
     list<CompData>* data,
     bool            thorough,
     bool            repair,
     size_t*         valid,
     size_t*         broken) const {
   bool failed = false;
-  if (dir.isDir() && ! dir.createList()) {
-    bool no_files   = false;
-    list<Node*>::iterator i = dir.nodesList().begin();
-    while (i != dir.nodesList().end()) {
-      if (failed) {
-        // Skip any processing, but remove node from list
-      } else
-      // Will come first in Path order
-      if ((*i)->type() == 'f') {
-        // '.' files are before, so .nofiles will be found first
-        if (strcmp((*i)->name(), ".nofiles") == 0) {
-          no_files = true;
-        }
-      } else
-      if ((*i)->type() == 'd') {
-        // '.' files are before, so .temp will be found first
-        if ((*i)->name()[0] != '.') {
-          string hash = checksum_part + (*i)->name();
-          if (no_files) {
-            if (crawl_recurse(**i, hash, data, thorough, repair, valid, broken)
-                < 0) {
-              failed = true;
-            }
-          } else {
-            long long data_size;
-            long long file_size;
-            if (check(hash.c_str(), thorough, repair, &data_size, &file_size)
-                == 0) {
-              // Add to data, the list of collected data
-              if (data != NULL) {
-                data->push_back(CompData(hash.c_str(), data_size, file_size));
-              }
-              if (valid != NULL) {
-                (*valid)++;
-              }
-            } else {
-              if (broken != NULL) {
-                (*broken)++;
-              }
-            }
+  if (level < 4) {
+    if (! dir.createList()) {
+      list<Node*>::iterator i = dir.nodesList().begin();
+      while (i != dir.nodesList().end()) {
+        if (failed) {
+          // Skip any processing, but remove node from list
+        } else
+        if (((*i)->type() == 'd') && ((*i)->name()[0] != '.')) {
+          Node subdir(Path(dir.path(), (*i)->name()));
+          strcpy(&hash[level * 2], (*i)->name());
+          if (crawl_recurse(level + 1, subdir, hash, data, thorough, repair,
+              valid, broken) < 0) {
+            failed = true;
           }
         }
+        if (aborting()) {
+          failed = true;
+        }
+        delete *i;
+        i = dir.nodesList().erase(i);
       }
-      if (aborting()) {
-        failed = true;
-      }
-      delete *i;
-      i = dir.nodesList().erase(i);
+    } else {
+      failed = true;
     }
   } else {
-    failed = true;
+    long long data_size;
+    long long file_size;
+    if (check(hash, thorough, repair, &data_size, &file_size) == 0) {
+      // Add to data, the list of collected data
+      if (data != NULL) {
+        data->push_back(CompData(hash, data_size, file_size));
+      }
+      if (valid != NULL) {
+        (*valid)++;
+      }
+    } else {
+      if (broken != NULL) {
+        (*broken)++;
+      }
+    }
   }
   return failed ? -1 : 0;
 }
@@ -457,7 +446,7 @@ int Data::open(bool create) {
   Node dir(_d->path.c_str());
   // Check for existence
   if (dir.isDir()) {
-    return 0;
+    return upgrade(0, dir);
   }
   if (create && (dir.mkdir() >= 0)) {
     // Signal creation
@@ -773,17 +762,6 @@ Data::WriteStatus Data::write(
       }
       *store_path = name;
     }
-    // Make sure we won't exceed the file number limit
-    if (status != leave) {
-      // dest_path is /path/to/checksum
-      char* pos = strrchr(dest_path, '/');
-
-      if (pos != NULL) {
-        *pos = '\0';
-        // Now dest_path is /path/to
-        organise(dest_path, 256);
-      }
-    }
   }
   return status;
 }
@@ -975,7 +953,8 @@ int Data::crawl(
   Node d(_d->path.c_str());
   size_t valid  = 0;
   size_t broken = 0;
-  int rc = crawl_recurse(d, "", data, thorough, repair, &valid, &broken);
+  char hash[64] = "";
+  int rc = crawl_recurse(0, d, hash, data, thorough, repair, &valid, &broken);
   hlog_verbose("Found %zu valid and %zu broken data file(s)", valid, broken);
   return rc;
 }

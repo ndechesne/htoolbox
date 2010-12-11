@@ -37,7 +37,6 @@ using namespace std;
 
 // Tests status:
 //   getDir:          tested
-//   organise:        tested
 //   open:            tested
 //   read:            tested
 //   write:           tested
@@ -55,10 +54,10 @@ public:
       bool            create) {
     return Data::getDir(checksum, path, create);
   }
-  int organise(
-      const char*     path,
-      int             number) {
-    return Data::organise(path, number);
+  int upgrade(
+      size_t          level,
+      htools::Node&   dir) const {
+    return Data::upgrade(level, dir);
   }
   int check(
       const char*     checksum,
@@ -100,16 +99,15 @@ int main(void) {
   cout << endl << "Test: getdir" << endl;
   cout << "Check test_db/data dir: " << ! Node("test_db/data").isDir()
     << endl;
-  Node::touch("test_db/data/.nofiles");
   Node("test_db/data/fe").mkdir();;
-  Node::touch("test_db/data/fe/.nofiles");
-  Node::touch("test_db/data/fe/test4");
+  Node::touch("test_db/data/fe/te/st4");
   Node("test_db/data/fe/dc").mkdir();;
-  Node::touch("test_db/data/fe/dc/.nofiles");
   Node("test_db/data/fe/ba").mkdir();;
-  Node("test_db/data/fe/ba/test1").mkdir();;
+  Node("test_db/data/fe/ba/te").mkdir();;
+  Node("test_db/data/fe/ba/te/st1").mkdir();;
   Node("test_db/data/fe/98").mkdir();;
-  Node("test_db/data/fe/98/test2").mkdir();;
+  Node("test_db/data/fe/98/te").mkdir();;
+  Node("test_db/data/fe/98/te/st2").mkdir();;
   char getdir_path[PATH_MAX];
   cout << "febatest1 status: " << db.getDir("febatest1", getdir_path, true)
     << ", getdir_path: " << getdir_path << endl;
@@ -117,7 +115,7 @@ int main(void) {
     << ", getdir_path: " << getdir_path << endl;
   cout << "fe98test3 status: " << db.getDir("fe98test3", getdir_path, true)
     << ", getdir_path: " << getdir_path << endl;
-  cout << "fetest4 status: " << db.getDir("fetest4", getdir_path, true)
+  cout << "fetest4 status: " << db.getDir("fe07test4", getdir_path, true)
     << ", getdir_path: " << getdir_path << endl;
   cout << "fedc76test5 status: " << db.getDir("fedc76test5", getdir_path, true)
     << ", getdir_path: " << getdir_path << endl;
@@ -150,7 +148,7 @@ int main(void) {
     cout << chksm << "  " << testfile << endl;
     cout << "Stored at: " << store_path << endl;
     cout << "Meta file contents: " << endl;
-    sys_rc = system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+    sys_rc = system("cat test_db/data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/meta");
     cout << endl;
     /* Check */
     if ((status = db.check(chksm, true, true, &size, &real_size)) < 0) {
@@ -196,7 +194,7 @@ int main(void) {
     }
     cout << chksm << "  " << testfile << endl;
     cout << "Meta file contents: " << endl;
-    sys_rc = system("cat test_db/data/f1/c9645dbc14efddc7d8a322685f26eb-0/meta");
+    sys_rc = system("cat test_db/data/f1/c9/64/5dbc14efddc7d8a322685f26eb-0/meta");
     cout << endl;
     /* Check */
     if ((status = db.check(chksm, true, true, &size, &real_size)) < 0) {
@@ -246,7 +244,7 @@ int main(void) {
     cout << "Stored at: " << store_path << endl;
     cout << "Meta file contents: " << endl;
     sys_rc =
-      system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+      system("cat test_db/data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/meta");
     cout << endl;
     /* Check */
     if ((status = db.check(chksm, true, true, &size, &real_size)) < 0) {
@@ -276,7 +274,7 @@ int main(void) {
 
 
   cout << endl << "Test: write and read back with forced compression" << endl;
-  remove("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data");
+  remove("test_db/data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/data");
   /* Write */
   chksm[0] = '\0';
   int comp_level = 5;
@@ -292,18 +290,18 @@ int main(void) {
   cout << chksm << "  " << testfile << endl;
   cout << "Stored at: " << store_path << endl;
   cout << "Meta file contents: " << endl;
-  sys_rc = system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+  sys_rc = system("cat test_db/data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/meta");
   cout << endl;
 
   /* Check and repair */
-  remove("test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+  remove("test_db/data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/meta");
   if ((status = db.check(chksm, true, true, &size, &real_size)) < 0) {
     printf("db.check error status %d\n", status);
     return 0;
   }
   cout << "Size reported: " << size << endl;
   cout << "Meta file contents: " << endl;
-  sys_rc = system("cat test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+  sys_rc = system("cat test_db/data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/meta");
   cout << endl;
 
   /* Re-check */
@@ -344,23 +342,6 @@ int main(void) {
   cout << "Stored at: " << store_path << endl;
 
 
-  cout << endl << "Test: organise" << endl;
-  mkdir("test_db/data/zz", 0755);
-  mkdir("test_db/data/zz/000001", 0755);
-  cout << "Lesser:" << endl;
-  db.organise("test_db/data/zz", 2);
-  sys_rc = system("LANG=en_US.UTF-8 ls -AR test_db/data/zz");
-  mkdir("test_db/data/zz/000002", 0755);
-  cout << "Equal:" << endl;
-  db.organise("test_db/data/zz", 2);
-  sys_rc = system("LANG=en_US.UTF-8 ls -AR test_db/data/zz");
-  mkdir("test_db/data/zz/00/0003", 0755);
-  cout << "Greater:" << endl;
-  db.organise("test_db/data/zz/00", 2);
-  sys_rc = system("LANG=en_US.UTF-8 ls -AR test_db/data/zz");
-
-
-
   cout << endl << "Test: read-only mode" << endl;
   if ((status = db.open("test_db/data"))) {
     cout << "db::open error status " << status << endl;
@@ -391,11 +372,11 @@ int main(void) {
     /* Compressed */
     strcpy(chksm, "59ca0efa9f5633cb0371bbc0355478d8-0");
     sys_rc = system("gzip "
-      "test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/data");
+      "test_db/data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/data");
     /* Check */
     cout << " * missing" << endl;
     sys_rc = system("echo -n > "
-      "test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+      "test_db/data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/meta");
     if ((status = db.check(chksm, false, true, &size, &real_size)) < 0) {
       printf("db.check error status %d\n", status);
     }
@@ -404,14 +385,14 @@ int main(void) {
       printf("db.check error status %d\n", status);
     }
     /* Uncompressed */
-    sys_rc = system("mkdir -p test_db/data/d4/1d8cd98f00b204e9800998ecf8427e");
+    sys_rc = system("mkdir -p test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e");
     sys_rc = system("echo -n > "
-      "test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/data");
+      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/data");
     strcpy(chksm, "d41d8cd98f00b204e9800998ecf8427e");
     /* Check */
     cout << " * missing" << endl;
     sys_rc = system("echo -n > "
-      "test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/meta");
+      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/meta");
     if ((status = db.check(chksm, false, true, &size, &real_size)) < 0) {
       printf("db.check error status %d\n", status);
     }
@@ -437,13 +418,13 @@ int main(void) {
     /* Check */
     cout << " * missing" << endl;
     sys_rc = system("echo -n > "
-      "test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+      "test_db/data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/meta");
     if ((status = db.check(chksm, true, true, &size, &real_size)) < 0) {
       printf("db.check error status %d\n", status);
     }
     cout << " * wrong" << endl;
     sys_rc = system("sed -i 's/13/2/' "
-      "test_db/data/59/ca0efa9f5633cb0371bbc0355478d8-0/meta");
+      "test_db/data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/meta");
     if ((status = db.check(chksm, true, true, &size, &real_size)) < 0) {
       printf("db.check error status %d\n", status);
     }
@@ -452,20 +433,20 @@ int main(void) {
       printf("db.check error status %d\n", status);
     }
     /* Uncompressed */
-    sys_rc = system("mkdir -p test_db/data/d4/1d8cd98f00b204e9800998ecf8427e");
+    sys_rc = system("mkdir -p test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e");
     sys_rc = system("echo -n > "
-      "test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/data");
+      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/data");
     strcpy(chksm, "d41d8cd98f00b204e9800998ecf8427e");
     /* Check */
     cout << " * missing" << endl;
     sys_rc = system("echo -n > "
-      "test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/meta");
+      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/meta");
     if ((status = db.check(chksm, true, true, &size, &real_size)) < 0) {
       printf("db.check error status %d\n", status);
     }
     cout << " * wrong" << endl;
     sys_rc = system("sed -i 's/0/1/' "
-      "test_db/data/d4/1d8cd98f00b204e9800998ecf8427e/meta");
+      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/meta");
     if ((status = db.check(chksm, true, true, &size, &real_size)) < 0) {
       printf("db.check error status %d\n", status);
     }
@@ -474,6 +455,19 @@ int main(void) {
       printf("db.check error status %d\n", status);
     }
   }
+
+
+  cout << endl << "Test: organise" << endl;
+  remove("test_db/data/.upgraded");
+  Node::touch("test_db/data/.nofiles");
+  mkdir("test_db/data/zz", 0755);
+  Node::mkdir_p("test_db/data/zzaabb000001", 0755);
+  Node::mkdir_p("test_db/data/zz/aabb000002", 0755);
+  Node::mkdir_p("test_db/data/zz/aa/bb000003", 0755);
+  Node::mkdir_p("test_db/data/zz/aa/bb/000004", 0755);
+  Node dir("test_db/data");
+  db.upgrade(0, dir);
+  sys_rc = system("LANG=en_US.UTF-8 find test_db/data | sort");
 
 
   return 0;

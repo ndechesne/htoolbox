@@ -640,7 +640,7 @@ int main(void) {
 
    // Also test that we behave correctly when dir exists but is empty
   sys_rc = system("echo blah > test1/cvs/filenew.c");
-  mkdir("test_db/.data/0d599f0ec05c3bda8c3b8a68c32a1b47-0", 0755);
+  mkdir("test_db/.data/0d/59/9f/0ec05c3bda8c3b8a68c32a1b47-0", 0755);
 
   rename("testpipe", "test1/testpipe");
   path->show();
@@ -866,7 +866,7 @@ int main(void) {
   sys_rc = system("touch test1/testfile");
   sys_rc = system("chmod 0 test1/testfile");
   // Make removal complain
-  sys_rc = system("rm -r test_db/.data/285b35198a5e188b3a0df3ed33f93a26-0");
+  sys_rc = system("rm -r test_db/.data/28/5b/35/198a5e188b3a0df3ed33f93a26-0");
   path->show();
   db.openClient("myClient", expire * 24 * 3600);
   if (! path->parse(db, "host", "test1")) {
@@ -897,7 +897,7 @@ int main(void) {
   sys_rc = system("touch test1/testfile~");
   sys_rc = system("rm -f test1/testfile");
   // Make removal fail
-  sys_rc = system("chmod 0 test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0");
+  sys_rc = system("chmod 0 test_db/.data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0");
   path->show();
   db.openClient("myClient", 0);
   if (! path->parse(db, "host", "test1")) {
@@ -906,7 +906,7 @@ int main(void) {
   db.closeClient();
 
   int rc = db.close();
-  sys_rc = system("chmod 755 test_db/.data/59ca0efa9f5633cb0371bbc0355478d8-0");
+  sys_rc = system("chmod 755 test_db/.data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0");
   if (rc) {
     return 0;
   }

@@ -63,9 +63,9 @@ protected: // So I can test them
   // Remove given path
   int removePath(const char* path, const char* hash) const;
   // Make sure we don't have too many files per directory
-  int organise(
-    const char*     path,
-    int             number) const;
+  int upgrade(
+    size_t          level,            // Level in tree
+    htools::Node&   dir) const;       // Base directory
   // Check existence/consistence of given checksum's data
   int check(
     const char*     checksum,
@@ -75,8 +75,9 @@ protected: // So I can test them
     long long*      file_size = NULL) const;
   // Scan database for missing/corrupted data, return a list of valid checksums
   int crawl_recurse(
+    size_t          level,            // Level in tree
     htools::Node&   dir,              // Base directory
-    const string&   checksum_part,    // Checksum part
+    char*           hash,             // Hash (or part of it)
     list<CompData>* data,             // List of collected data
     bool            thorough,         // Whether to check for data corruption
     bool            remove,           // Whether to remove damaged data

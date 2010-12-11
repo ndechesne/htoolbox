@@ -1055,6 +1055,7 @@ Backup::Backup(test_db/.backup)
  --> 6 daily
  --> 52 weekly
 Backing up in server mode
+Upgrading database structure in test_db/.data, please wait...
 Database open in read/write mode
 Trying client 'client.xp' using protocol 'smb'
  -> mount -t cifs -o ro,nocase,username=Myself,password=flesyM,nocase //myClient/C$ test_db/.mount/client.xp
@@ -1276,6 +1277,7 @@ Backup::add(test_user/.hbackup/localhost)
 Database closed
 User-mode backup: upper verbosity level
 Backing up in user mode
+Upgrading database structure in test_user/.hbackup/.data, please wait...
 Database open in read/write mode
 Reading list of problematic checksums
 Register created for 'localhost'
