@@ -35,11 +35,11 @@ using namespace std;
 #include "hreport.h"
 
 // Signals
-void sighandler(int) {
+void sighandler(int signal) {
   if (hbackup::aborting()) {
     hlog_error("Already aborting...");
   } else {
-    hlog_warning("signal received, aborting...");
+    hlog_warning("signal %d received, aborting...", signal);
     hbackup::abort();
  }
 }
