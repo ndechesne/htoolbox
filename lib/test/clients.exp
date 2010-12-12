@@ -317,7 +317,6 @@ Database closed
  --> Options: username=, password=
  --> Config: C:/home/BlaH/Backup.list
  --> Expiry: none
-Upgrading database structure in test_db/.data, please wait...
 Database open in read/write mode
 Trying client 'myClient' using protocol 'nfs'
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User test_db/mount

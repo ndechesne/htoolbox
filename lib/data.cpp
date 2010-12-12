@@ -314,7 +314,10 @@ int Data::removePath(const char* path, const char* hash) const {
 int Data::upgrade(
     size_t          level,
     htools::Node&   dir) const {
-  if ((level == 0) && ! Node(Path(dir.path(), ".upgraded")).isReg()) {
+  if (level == 0) {
+    if (Node(Path(dir.path(), ".upgraded")).isReg()) {
+      return 0;
+    }
     hlog_info("Upgrading database structure in %s, please wait...", dir.path());
   }
   bool failed = false;
@@ -449,6 +452,7 @@ int Data::open(bool create) {
     return upgrade(0, dir);
   }
   if (create && (dir.mkdir() >= 0)) {
+    Node::touch(Path(dir.path(), ".upgraded"));
     // Signal creation
     return 1;
   }

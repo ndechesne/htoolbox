@@ -20,7 +20,6 @@ Crawling through DB
 Found 0 valid and 0 broken data file(s)
 Data statistics: 0 checksum(s), 0 valid [0 real, 0 virtual]
 Database closed
-Upgrading database structure in test_db/.data, please wait...
 Database open in read/write mode
 File data gone
 Sorting list
