@@ -1,4 +1,10 @@
-1.1 - near future
+1.2 - Future
+  * use fix number of subdirs in database
+  * on-the-fly image tree creation
+  * disk usage statistics in verbose mode
+  * support fir case insensitive string matching in filters
+
+1.1 - 2010-10-13 (SVN r975)
   * fix expiration
   * dramatically speedup SVN parsing
   * sensible message logger, with file logging
