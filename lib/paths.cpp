@@ -197,7 +197,7 @@ int ClientPath::parse_recurse(
               if (op.compression > 0) {
                 strcpy(&tree_path[tree_path_len], ".gz");
               }
-              symlink(op.store_path.c_str(), tree_path);
+              link(op.store_path.c_str(), tree_path);
             }
           } else
           if ((*i)->type() == 'l') {

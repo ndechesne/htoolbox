@@ -201,7 +201,9 @@ int main(void) {
 
   {
     cout << endl << "Test: force-compress DB data" << endl;
-    sys_rc = system("gzip -5 test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/data");
+    sys_rc = system("gzip -5 test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/data"
+      " -c > test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/data.gz");
+    remove("test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/data");
     sys_rc = system("echo -n 2 > "
       "test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/meta");
   }
@@ -880,6 +882,7 @@ int main(void) {
   cout << endl << "Test: backup recovers broken checksums + replace data"
     << endl;
   // Replace with compressed data
+  sys_rc = system("rm -rf test_tree");
   sys_rc = system("touch test2/testfile2");
   sys_rc = system("gunzip test_db/.data/fb/00/cd/74a5f35e89a7fbdd3c1d05375a-0/data.gz");
   // Wrong gzip format, data should be flat => conflict
