@@ -882,7 +882,6 @@ int main(void) {
   cout << endl << "Test: backup recovers broken checksums + replace data"
     << endl;
   // Replace with compressed data
-  sys_rc = system("rm -rf test_tree");
   sys_rc = system("touch test2/testfile2");
   sys_rc = system("gunzip test_db/.data/fb/00/cd/74a5f35e89a7fbdd3c1d05375a-0/data.gz");
   // Wrong gzip format, data should be flat => conflict

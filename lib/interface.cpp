@@ -259,6 +259,8 @@ int HBackup::readConfig(const char* config_path) {
   {
     ConfigItem* tree = new ConfigItem("tree", 0, 1, 1);
     config_syntax.add(tree);
+    // links: type of links to create [hard, symbolic]
+    tree->add(new ConfigItem("links", 0, 1, 1, 1));
     // hourly: number of hourly backup to keep
     tree->add(new ConfigItem("hourly", 0, 1, 1, 1));
     // daily: number of daily backup to keep
@@ -478,7 +480,8 @@ int HBackup::backup(
       if (mount_point.mkdir() < 0) {
         return -1;
       }
-      if ((*client)->backup(*_d->db, mount_point.path(), _d->attributes.tree())) {
+      if ((*client)->backup(*_d->db, mount_point.path(), _d->attributes.tree(),
+          _d->attributes.treeSymlinks(), false)) {
         failed = true;
       }
       remove(mount_point_path);

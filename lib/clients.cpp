@@ -251,6 +251,7 @@ int Client::backup(
     Database&       db,
     const char*     mount_point,
     const char*     tree_base_path,
+    bool            tree_symlinks,
     bool            config_check) {
   bool  first_mount_try = true;
   bool  failed = false;
@@ -332,6 +333,7 @@ int Client::backup(
         string tree_path;
         if (_attributes.treeIsSet()) {
           tree_path = _attributes.tree();
+          tree_symlinks = _attributes.treeSymlinks();
         } else
         if (tree_base_path != NULL) {
           tree_path = tree_base_path;
@@ -370,7 +372,7 @@ int Client::backup(
           } else {
             first_mount_try = false;
             if ((*i)->parse(db, internalName().c_str(), backup_path.c_str(),
-                tree_path.empty() ? NULL : tree_path.c_str())) {
+                tree_path.empty() ? NULL : tree_path.c_str(), tree_symlinks)) {
               // prepare_share sets errno
               if (! aborting()) {
                 hlog_error("Aborting client");

@@ -89,7 +89,8 @@ public:
     Database&       db,
     const char*     mount_point,
     const char*     tree_base_path = NULL,
-    bool            config_check = false);
+    bool            tree_symlinks  = false,
+    bool            config_check   = false);
   void show(int level = 0) const;
 };
 

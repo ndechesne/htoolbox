@@ -27,6 +27,7 @@ class Attributes : htools::ConfigObject {
   const Attributes*   _parent;
   bool                _report_copy_error_once;
   htools::Path*       _tree_path;
+  bool                _tree_symlinks;
   size_t              _hourly;
   size_t              _daily;
   size_t              _weekly;
@@ -67,6 +68,7 @@ public:
       return NULL;
     }
   }
+  bool treeSymlinks() const       { return _tree_symlinks; }
   const Filters& filters() const  { return _filters; }
   void setReportCopyErrorOnce()   { _report_copy_error_once = true; }
   virtual ConfigObject* configChildFactory(

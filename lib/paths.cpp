@@ -46,6 +46,7 @@ int ClientPath::parse_recurse(
     const char*     client_name,
     const char*     remote_path,
     const char*     tree_base_path,
+    bool            tree_symlinks,
     size_t          start,
     Node&           dir,
     IParser*        current_parser) {
@@ -197,7 +198,11 @@ int ClientPath::parse_recurse(
               if (op.compression > 0) {
                 strcpy(&tree_path[tree_path_len], ".gz");
               }
-              link(op.store_path.c_str(), tree_path);
+              if (tree_symlinks) {
+                symlink(op.store_path.c_str(), tree_path);
+              } else {
+                link(op.store_path.c_str(), tree_path);
+              }
             }
           } else
           if ((*i)->type() == 'l') {
@@ -213,7 +218,7 @@ int ClientPath::parse_recurse(
               hlog_verbose_temp("%s", &rem_path[_path.length() + 1]);
             }
             if (parse_recurse(db, client_name, rem_path,
-                tree_base_path != NULL ? tree_path : NULL,
+                tree_base_path != NULL ? tree_path : NULL, tree_symlinks,
                 start, **i, parser) < 0) {
               give_up = true;
             }
@@ -296,7 +301,8 @@ int ClientPath::parse(
     Database&       db,
     const char*     client_name,
     const char*     backup_path,
-    const char*     tree_base_path) {
+    const char*     tree_base_path,
+    bool            tree_symlinks) {
   int rc = 0;
   _nodes = 0;
   Node dir(backup_path);
@@ -328,8 +334,8 @@ int ClientPath::parse(
       Node::mkdir_p(tree_path.c_str(), 0777);
     }
     if (parse_recurse(db, client_name, _path,
-          tree_path_set ? tree_path.c_str() : NULL, strlen(backup_path) + 1,
-          dir, NULL) || aborting()) {
+          tree_path_set ? tree_path.c_str() : NULL, tree_symlinks,
+          strlen(backup_path) + 1, dir, NULL) || aborting()) {
       rc = -1;
     }
   }

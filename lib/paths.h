@@ -34,6 +34,7 @@ class ClientPath : public htools::ConfigObject {
     const char*     client_name,
     const char*     remote_path,      // Dir where the file resides, remotely
     const char*     tree_base_path,
+    bool            tree_symlinks,
     size_t          start,
     htools::Node&   dir,
     IParser*        parser);
@@ -57,7 +58,8 @@ public:
     Database&       db,
     const char*     client_name,
     const char*     backup_path,
-    const char*     tree_base_path = NULL);
+    const char*     tree_base_path = NULL,
+    bool            tree_symlinks  = false);
   /* For verbosity */
   void show(int level = 0) const;
 };

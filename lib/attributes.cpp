@@ -61,20 +61,36 @@ ConfigObject* Attributes::configChildFactory(
   if (keyword == "tree") {
     _tree_path = new Path(params[1].c_str(), Path::NO_TRAILING_SLASHES |
       Path::NO_REPEATED_SLASHES | Path::CONVERT_FROM_DOS);
+    _tree_symlinks = false;
     _hourly = 1;
     _daily = 0;
     _weekly = 0;
     co = this;
   } else
   if (_tree_path != NULL) {
+    if (keyword == "links") {
+      if (params[1] == "symbolic") {
+        _tree_symlinks = true;
+        co = this;
+      } else
+      if (params[1] == "hard") {
+        _tree_symlinks = false;
+        co = this;
+      } else
+      {
+        hlog_error("%s:%zd unknown option '%s' for keyword '%s'",
+          file_path, line_no, params[1].c_str(), keyword.c_str());
+        return NULL;
+      }
+    } else
     if ((keyword == "hourly") &&
         (sscanf(params[1].c_str(), "%zu", &_hourly) == 1)) {
       co = this;
-    }
+    } else
     if ((keyword == "daily") &&
         (sscanf(params[1].c_str(), "%zu", &_daily) == 1)) {
       co = this;
-    }
+    } else
     if ((keyword == "weekly") &&
         (sscanf(params[1].c_str(), "%zu", &_weekly) == 1)) {
       co = this;

@@ -283,6 +283,7 @@ db "$TESTDBDIR"
   compress_auto
 
 tree "$TESTTREEDIR"
+  links symbolic
   hourly 23
   daily 6
   weekly 52

@@ -442,6 +442,9 @@ int main(void) {
     ConfigItem* item = new ConfigItem("tree", 0, 1, 1);
     syntax.add(item);
 
+    // links
+    item->add(new ConfigItem("links", 0, 1, 1, 1));
+
     // hourly
     item->add(new ConfigItem("hourly", 0, 1, 1, 1));
 
