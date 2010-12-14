@@ -219,6 +219,7 @@ Syntax:
   report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
   timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
   tree, occ.: optional, max = 1; params: min = max = 1
+    compressed, occ.: optional, max = 1; params: min = max = 1
     daily, occ.: optional, max = 1; params: min = max = 1
     hourly, occ.: optional, max = 1; params: min = max = 1
     links, occ.: optional, max = 1; params: min = max = 1
@@ -233,86 +234,87 @@ Syntax:
  9:     compress_auto
 11:   tree test_tree
 12:     links symbolic
-13:     hourly 23
-14:     daily 6
-15:     weekly 52
-17:   parsers_dir ../../../parsers/.libs
-19:   filter all nothing
-20:     condition type pipe
-21:     condition size> 10
-23:   ignore nothing
-25:   filter all backup
-26:     condition type file
-27:     condition path_end ~
-29:   filter any test_or
-30:     condition filter backup
-31:     condition !size< 1000
-33:   client myClient xp
-34:     protocol smb
-35:     users backup
-36:     config C:\Backup\Backup.LST
-38:   client myClient
-39:     protocol nfs
-40:     users backup root
-41:     hostname myClient
-42:     config /home/User/hbackup.list
-44:   client newClient
-45:     protocol ssh
-46:     option username user
-47:     option password p4sS?
-48:     config /home/Blah/hbackup.list
-50:   client other
-51:     protocol none
-52:     hostname otherClient
-53:     option username foo
-54:     option password bar
-55:     config /home/Blah/hbackup.list
-57:     filter and subdir
-58:       condition path_start subdir
-59:       condition !size< 100
-61:     filter and bigfile
-62:       condition size>= 10
-63:       condition type file
-65:     expire 1
-67:     path test2//
-69:     path test1
-71:       filter and not_object
-72:         condition !path_end .o
-74:       filter or to_be_ignored
-75:         condition filter subdir
-76:         condition filter backup
-77:         condition !filter not_object
-79:       ignore to_be_ignored
-81:       compress bigfile
-83:       parser cvs controlled
-84:       parser svn modified
-86:   client myhost
-87:     report_copy_error_once
-88:     protocol file
-89:     hostname myhost.mynetwork.lan
-90:     timeout_nowarning
-91:     config etc/localhost.list
-92:     expire 1
-94:   client client xp
-95:     ignore backup
-96:     protocol smb
-97:     option username Myself
-98:     option password flesyM
-99:     option nocase
-100:     hostname myClient
-101:     config C:\Backup\Backup.LST
-103:   client aClient vista
-104:     protocol smb
-105:     filter and huge_file
-106:       condition !filter backup
-107:       condition !size< 100
-109:     path C:\Test Dir
-110:       filter and compress_m
-111:         condition !filter huge_file
-112:       compress compress_m
-113:       ignore backup
-114:       parser svn modified
-115:     report_copy_error_once
+13:     compressed check
+14:     hourly 23
+15:     daily 6
+16:     weekly 52
+18:   parsers_dir ../../../parsers/.libs
+20:   filter all nothing
+21:     condition type pipe
+22:     condition size> 10
+24:   ignore nothing
+26:   filter all backup
+27:     condition type file
+28:     condition path_end ~
+30:   filter any test_or
+31:     condition filter backup
+32:     condition !size< 1000
+34:   client myClient xp
+35:     protocol smb
+36:     users backup
+37:     config C:\Backup\Backup.LST
+39:   client myClient
+40:     protocol nfs
+41:     users backup root
+42:     hostname myClient
+43:     config /home/User/hbackup.list
+45:   client newClient
+46:     protocol ssh
+47:     option username user
+48:     option password p4sS?
+49:     config /home/Blah/hbackup.list
+51:   client other
+52:     protocol none
+53:     hostname otherClient
+54:     option username foo
+55:     option password bar
+56:     config /home/Blah/hbackup.list
+58:     filter and subdir
+59:       condition path_start subdir
+60:       condition !size< 100
+62:     filter and bigfile
+63:       condition size>= 10
+64:       condition type file
+66:     expire 1
+68:     path test2//
+70:     path test1
+72:       filter and not_object
+73:         condition !path_end .o
+75:       filter or to_be_ignored
+76:         condition filter subdir
+77:         condition filter backup
+78:         condition !filter not_object
+80:       ignore to_be_ignored
+82:       compress bigfile
+84:       parser cvs controlled
+85:       parser svn modified
+87:   client myhost
+88:     report_copy_error_once
+89:     protocol file
+90:     hostname myhost.mynetwork.lan
+91:     timeout_nowarning
+92:     config etc/localhost.list
+93:     expire 1
+95:   client client xp
+96:     ignore backup
+97:     protocol smb
+98:     option username Myself
+99:     option password flesyM
+100:     option nocase
+101:     hostname myClient
+102:     config C:\Backup\Backup.LST
+104:   client aClient vista
+105:     protocol smb
+106:     filter and huge_file
+107:       condition !filter backup
+108:       condition !size< 100
+110:     path C:\Test Dir
+111:       filter and compress_m
+112:         condition !filter huge_file
+113:       compress compress_m
+114:       ignore backup
+115:       parser svn modified
+116:     report_copy_error_once
 Config:
 1:   log hbackup.log
 2:     max_lines 100000
@@ -323,86 +325,87 @@ Config:
 9:     compress_auto
 11:   tree test_tree
 12:     links symbolic
-13:     hourly 23
-14:     daily 6
-15:     weekly 52
-17:   parsers_dir ../../../parsers/.libs
-19:   filter all nothing
-20:     condition type pipe
-21:     condition size> 10
-23:   ignore nothing
-25:   filter all backup
-26:     condition type file
-27:     condition path_end ~
-29:   filter any test_or
-30:     condition filter backup
-31:     condition !size< 1000
-33:   client myClient xp
-34:     protocol smb
-35:     users backup
-36:     config C:\Backup\Backup.LST
-38:   client myClient
-39:     protocol nfs
-40:     users backup root
-41:     hostname myClient
-42:     config /home/User/hbackup.list
-44:   client newClient
-45:     protocol ssh
-46:     option username user
-47:     option password p4sS?
-48:     config /home/Blah/hbackup.list
-50:   client other
-51:     protocol none
-52:     hostname otherClient
-53:     option username foo
-54:     option password bar
-55:     config /home/Blah/hbackup.list
-57:     filter and subdir
-58:       condition path_start subdir
-59:       condition !size< 100
-61:     filter and bigfile
-62:       condition size>= 10
-63:       condition type file
-65:     expire 1
-67:     path test2//
-69:     path test1
-71:       filter and not_object
-72:         condition !path_end .o
-74:       filter or to_be_ignored
-75:         condition filter subdir
-76:         condition filter backup
-77:         condition !filter not_object
-79:       ignore to_be_ignored
-81:       compress bigfile
-83:       parser cvs controlled
-84:       parser svn modified
-86:   client myhost
-87:     report_copy_error_once
-88:     protocol file
-89:     hostname myhost.mynetwork.lan
-90:     timeout_nowarning
-91:     config etc/localhost.list
-92:     expire 1
-94:   client client xp
-95:     ignore backup
-96:     protocol smb
-97:     option username Myself
-98:     option password flesyM
-99:     option nocase
-100:     hostname myClient
-101:     config C:\Backup\Backup.LST
-103:   client aClient vista
-104:     protocol smb
-105:     filter and huge_file
-106:       condition !filter backup
-107:       condition !size< 100
-109:     path C:\Test Dir
-110:       filter and compress_m
-111:         condition !filter huge_file
-112:       compress compress_m
-113:       ignore backup
-114:       parser svn modified
-115:     report_copy_error_once
+13:     compressed check
+14:     hourly 23
+15:     daily 6
+16:     weekly 52
+18:   parsers_dir ../../../parsers/.libs
+20:   filter all nothing
+21:     condition type pipe
+22:     condition size> 10
+24:   ignore nothing
+26:   filter all backup
+27:     condition type file
+28:     condition path_end ~
+30:   filter any test_or
+31:     condition filter backup
+32:     condition !size< 1000
+34:   client myClient xp
+35:     protocol smb
+36:     users backup
+37:     config C:\Backup\Backup.LST
+39:   client myClient
+40:     protocol nfs
+41:     users backup root
+42:     hostname myClient
+43:     config /home/User/hbackup.list
+45:   client newClient
+46:     protocol ssh
+47:     option username user
+48:     option password p4sS?
+49:     config /home/Blah/hbackup.list
+51:   client other
+52:     protocol none
+53:     hostname otherClient
+54:     option username foo
+55:     option password bar
+56:     config /home/Blah/hbackup.list
+58:     filter and subdir
+59:       condition path_start subdir
+60:       condition !size< 100
+62:     filter and bigfile
+63:       condition size>= 10
+64:       condition type file
+66:     expire 1
+68:     path test2//
+70:     path test1
+72:       filter and not_object
+73:         condition !path_end .o
+75:       filter or to_be_ignored
+76:         condition filter subdir
+77:         condition filter backup
+78:         condition !filter not_object
+80:       ignore to_be_ignored
+82:       compress bigfile
+84:       parser cvs controlled
+85:       parser svn modified
+87:   client myhost
+88:     report_copy_error_once
+89:     protocol file
+90:     hostname myhost.mynetwork.lan
+91:     timeout_nowarning
+92:     config etc/localhost.list
+93:     expire 1
+95:   client client xp
+96:     ignore backup
+97:     protocol smb
+98:     option username Myself
+99:     option password flesyM
+100:     option nocase
+101:     hostname myClient
+102:     config C:\Backup\Backup.LST
+104:   client aClient vista
+105:     protocol smb
+106:     filter and huge_file
+107:       condition !filter backup
+108:       condition !size< 100
+110:     path C:\Test Dir
+111:       filter and compress_m
+112:         condition !filter huge_file
+113:       compress compress_m
+114:       ignore backup
+115:       parser svn modified
+116:     report_copy_error_once
 Test: configuration save
  0: root
  1:   log hbackup.log
@@ -414,86 +417,87 @@ Test: configuration save
  7:     compress_auto
  8:   tree test_tree
  9:     links symbolic
-10:     hourly 23
-11:     daily 6
-12:     weekly 52
-13:   parsers_dir ../../../parsers/.libs
-14:   filter all nothing
-15:     condition type pipe
-16:     condition size> 10
-17:   ignore nothing
-18:   filter all backup
-19:     condition type file
-20:     condition path_end ~
-21:   filter any test_or
-22:     condition filter backup
-23:     condition !size< 1000
-24:   client myClient xp
-25:     protocol smb
-26:     users backup
-27:     config C:\Backup\Backup.LST
-28:   client myClient
-29:     protocol nfs
-30:     users backup root
-31:     hostname myClient
-32:     config /home/User/hbackup.list
-33:   client newClient
-34:     protocol ssh
-35:     option username user
-36:     option password p4sS?
-37:     config /home/Blah/hbackup.list
-38:   client other
-39:     protocol none
-40:     hostname otherClient
-41:     option username foo
-42:     option password bar
-43:     config /home/Blah/hbackup.list
-44:     filter and subdir
-45:       condition path_start subdir
-46:       condition !size< 100
-47:     filter and bigfile
-48:       condition size>= 10
-49:       condition type file
-50:     expire 1
-51:     path test2//
-52:     path test1
-53:       filter and not_object
-54:         condition !path_end .o
-55:       filter or to_be_ignored
-56:         condition filter subdir
-57:         condition filter backup
-58:         condition !filter not_object
-59:       ignore to_be_ignored
-60:       compress bigfile
-61:       parser cvs controlled
-62:       parser svn modified
-63:   client myhost
-64:     report_copy_error_once
-65:     protocol file
-66:     hostname myhost.mynetwork.lan
-67:     timeout_nowarning
-68:     config etc/localhost.list
-69:     expire 1
-70:   client client xp
-71:     ignore backup
-72:     protocol smb
-73:     option username Myself
-74:     option password flesyM
-75:     option nocase
-76:     hostname myClient
-77:     config C:\Backup\Backup.LST
-78:   client aClient vista
-79:     protocol smb
-80:     filter and huge_file
-81:       condition !filter backup
-82:       condition !size< 100
-83:     path C:\Test Dir
-84:       filter and compress_m
-85:         condition !filter huge_file
-86:       compress compress_m
-87:       ignore backup
-88:       parser svn modified
-89:     report_copy_error_once
+10:     compressed check
+11:     hourly 23
+12:     daily 6
+13:     weekly 52
+14:   parsers_dir ../../../parsers/.libs
+15:   filter all nothing
+16:     condition type pipe
+17:     condition size> 10
+18:   ignore nothing
+19:   filter all backup
+20:     condition type file
+21:     condition path_end ~
+22:   filter any test_or
+23:     condition filter backup
+24:     condition !size< 1000
+25:   client myClient xp
+26:     protocol smb
+27:     users backup
+28:     config C:\Backup\Backup.LST
+29:   client myClient
+30:     protocol nfs
+31:     users backup root
+32:     hostname myClient
+33:     config /home/User/hbackup.list
+34:   client newClient
+35:     protocol ssh
+36:     option username user
+37:     option password p4sS?
+38:     config /home/Blah/hbackup.list
+39:   client other
+40:     protocol none
+41:     hostname otherClient
+42:     option username foo
+43:     option password bar
+44:     config /home/Blah/hbackup.list
+45:     filter and subdir
+46:       condition path_start subdir
+47:       condition !size< 100
+48:     filter and bigfile
+49:       condition size>= 10
+50:       condition type file
+51:     expire 1
+52:     path test2//
+53:     path test1
+54:       filter and not_object
+55:         condition !path_end .o
+56:       filter or to_be_ignored
+57:         condition filter subdir
+58:         condition filter backup
+59:         condition !filter not_object
+60:       ignore to_be_ignored
+61:       compress bigfile
+62:       parser cvs controlled
+63:       parser svn modified
+64:   client myhost
+65:     report_copy_error_once
+66:     protocol file
+67:     hostname myhost.mynetwork.lan
+68:     timeout_nowarning
+69:     config etc/localhost.list
+70:     expire 1
+71:   client client xp
+72:     ignore backup
+73:     protocol smb
+74:     option username Myself
+75:     option password flesyM
+76:     option nocase
+77:     hostname myClient
+78:     config C:\Backup\Backup.LST
+79:   client aClient vista
+80:     protocol smb
+81:     filter and huge_file
+82:       condition !filter backup
+83:       condition !size< 100
+84:     path C:\Test Dir
+85:       filter and compress_m
+86:         condition !filter huge_file
+87:       compress compress_m
+88:       ignore backup
+89:       parser svn modified
+90:     report_copy_error_once
 Config:
 1:   log hbackup.log
 2:     max_lines 100000
@@ -504,86 +508,87 @@ Config:
 7:     compress_auto
 8:   tree test_tree
 9:     links symbolic
-10:     hourly 23
-11:     daily 6
-12:     weekly 52
-13:   parsers_dir ../../../parsers/.libs
-14:   filter all nothing
-15:     condition type pipe
-16:     condition size> 10
-17:   ignore nothing
-18:   filter all backup
-19:     condition type file
-20:     condition path_end ~
-21:   filter any test_or
-22:     condition filter backup
-23:     condition !size< 1000
-24:   client myClient xp
-25:     protocol smb
-26:     users backup
-27:     config C:\Backup\Backup.LST
-28:   client myClient
-29:     protocol nfs
-30:     users backup root
-31:     hostname myClient
-32:     config /home/User/hbackup.list
-33:   client newClient
-34:     protocol ssh
-35:     option username user
-36:     option password p4sS?
-37:     config /home/Blah/hbackup.list
-38:   client other
-39:     protocol none
-40:     hostname otherClient
-41:     option username foo
-42:     option password bar
-43:     config /home/Blah/hbackup.list
-44:     filter and subdir
-45:       condition path_start subdir
-46:       condition !size< 100
-47:     filter and bigfile
-48:       condition size>= 10
-49:       condition type file
-50:     expire 1
-51:     path test2//
-52:     path test1
-53:       filter and not_object
-54:         condition !path_end .o
-55:       filter or to_be_ignored
-56:         condition filter subdir
-57:         condition filter backup
-58:         condition !filter not_object
-59:       ignore to_be_ignored
-60:       compress bigfile
-61:       parser cvs controlled
-62:       parser svn modified
-63:   client myhost
-64:     report_copy_error_once
-65:     protocol file
-66:     hostname myhost.mynetwork.lan
-67:     timeout_nowarning
-68:     config etc/localhost.list
-69:     expire 1
-70:   client client xp
-71:     ignore backup
-72:     protocol smb
-73:     option username Myself
-74:     option password flesyM
-75:     option nocase
-76:     hostname myClient
-77:     config C:\Backup\Backup.LST
-78:   client aClient vista
-79:     protocol smb
-80:     filter and huge_file
-81:       condition !filter backup
-82:       condition !size< 100
-83:     path C:\Test Dir
-84:       filter and compress_m
-85:         condition !filter huge_file
-86:       compress compress_m
-87:       ignore backup
-88:       parser svn modified
-89:     report_copy_error_once
+10:     compressed check
+11:     hourly 23
+12:     daily 6
+13:     weekly 52
+14:   parsers_dir ../../../parsers/.libs
+15:   filter all nothing
+16:     condition type pipe
+17:     condition size> 10
+18:   ignore nothing
+19:   filter all backup
+20:     condition type file
+21:     condition path_end ~
+22:   filter any test_or
+23:     condition filter backup
+24:     condition !size< 1000
+25:   client myClient xp
+26:     protocol smb
+27:     users backup
+28:     config C:\Backup\Backup.LST
+29:   client myClient
+30:     protocol nfs
+31:     users backup root
+32:     hostname myClient
+33:     config /home/User/hbackup.list
+34:   client newClient
+35:     protocol ssh
+36:     option username user
+37:     option password p4sS?
+38:     config /home/Blah/hbackup.list
+39:   client other
+40:     protocol none
+41:     hostname otherClient
+42:     option username foo
+43:     option password bar
+44:     config /home/Blah/hbackup.list
+45:     filter and subdir
+46:       condition path_start subdir
+47:       condition !size< 100
+48:     filter and bigfile
+49:       condition size>= 10
+50:       condition type file
+51:     expire 1
+52:     path test2//
+53:     path test1
+54:       filter and not_object
+55:         condition !path_end .o
+56:       filter or to_be_ignored
+57:         condition filter subdir
+58:         condition filter backup
+59:         condition !filter not_object
+60:       ignore to_be_ignored
+61:       compress bigfile
+62:       parser cvs controlled
+63:       parser svn modified
+64:   client myhost
+65:     report_copy_error_once
+66:     protocol file
+67:     hostname myhost.mynetwork.lan
+68:     timeout_nowarning
+69:     config etc/localhost.list
+70:     expire 1
+71:   client client xp
+72:     ignore backup
+73:     protocol smb
+74:     option username Myself
+75:     option password flesyM
+76:     option nocase
+77:     hostname myClient
+78:     config C:\Backup\Backup.LST
+79:   client aClient vista
+80:     protocol smb
+81:     filter and huge_file
+82:       condition !filter backup
+83:       condition !size< 100
+84:     path C:\Test Dir
+85:       filter and compress_m
+86:         condition !filter huge_file
+87:       compress compress_m
+88:       ignore backup
+89:       parser svn modified
+90:     report_copy_error_once
 Test: broken configuration
 failed to read config!
 Error: after line 0: need at most 1 occurence(s) of keyword 'db'

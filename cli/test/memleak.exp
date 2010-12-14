@@ -2480,6 +2480,8 @@ Backup::Backup(test_db/.backup)
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -2609,6 +2611,8 @@ Backup::Backup(test_db/.backup)
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -3286,6 +3290,8 @@ Backup::Backup(test_db/.backup)
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -3639,6 +3645,8 @@ Backup::Backup(test_db/.backup)
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -3769,6 +3777,8 @@ Backup::Backup(test_db/.backup)
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -3972,6 +3982,8 @@ Backup::Backup(test_db/.backup)
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -4140,6 +4152,8 @@ Database closed
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -4280,6 +4294,8 @@ Database closed
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -4418,6 +4434,8 @@ Database closed
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -4556,6 +4574,8 @@ Database closed
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -4697,6 +4717,8 @@ Database closed
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -4839,6 +4861,8 @@ Database closed
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -4853,7 +4877,7 @@ U       test_r/test2/testfile
    htools::StackHelper::open() (stackhelper.h:54)
    hbackup::Data::read(char const*, char const*) const (data.cpp:518)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:403)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:529)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
    main (hbackup.cpp:335)
  
@@ -4987,6 +5011,8 @@ Database closed
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -5001,7 +5027,7 @@ U       test_r/test1/big_file
    htools::StackHelper::open() (stackhelper.h:54)
    hbackup::Data::read(char const*, char const*) const (data.cpp:518)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:403)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:529)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
    main (hbackup.cpp:335)
  
@@ -5180,6 +5206,8 @@ Database closed
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -5333,6 +5361,8 @@ Database closed
  -> Ignore filters:
  --> nothing
  -> Trees path: 'test_tree'
+ --> create symbolic links
+ --> check for compressed data (very slow)
  --> 23 hourly
  --> 6 daily
  --> 52 weekly
@@ -5347,7 +5377,7 @@ U       test_r/test1/big_file
    htools::StackHelper::open() (stackhelper.h:54)
    hbackup::Data::read(char const*, char const*) const (data.cpp:518)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:403)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:529)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
    main (hbackup.cpp:335)
  

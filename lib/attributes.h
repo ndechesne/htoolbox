@@ -28,6 +28,8 @@ class Attributes : htools::ConfigObject {
   bool                _report_copy_error_once;
   htools::Path*       _tree_path;
   bool                _tree_symlinks;
+  bool                _check_data;
+  bool                _compressed_data;
   size_t              _hourly;
   size_t              _daily;
   size_t              _weekly;
@@ -39,11 +41,15 @@ public:
     : _parent(NULL),
       _report_copy_error_once(false),
       _tree_path(NULL),
+      _check_data(false),
+      _compressed_data(false),
       _filters(NULL) {}
   Attributes(const Attributes& attributes)
     : _parent(&attributes),
       _report_copy_error_once(false),
       _tree_path(NULL),
+      _check_data(attributes._check_data),
+      _compressed_data(attributes._compressed_data),
       _filters(&attributes.filters()) {
     _ignore_list = attributes._ignore_list;
   }
@@ -69,6 +75,8 @@ public:
     }
   }
   bool treeSymlinks() const       { return _tree_symlinks; }
+  bool treeCheckData() const      { return _check_data; }
+  bool treeCompressedData() const { return _compressed_data; }
   const Filters& filters() const  { return _filters; }
   void setReportCopyErrorOnce()   { _report_copy_error_once = true; }
   virtual ConfigObject* configChildFactory(

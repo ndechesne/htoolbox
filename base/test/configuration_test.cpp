@@ -445,6 +445,9 @@ int main(void) {
     // links
     item->add(new ConfigItem("links", 0, 1, 1, 1));
 
+    // compressed
+    item->add(new ConfigItem("compressed", 0, 1, 1, 1));
+
     // hourly
     item->add(new ConfigItem("hourly", 0, 1, 1, 1));
 

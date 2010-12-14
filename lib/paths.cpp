@@ -189,7 +189,15 @@ int ClientPath::parse_recurse(
             hlog_info("%-8s%s", code, rem_path);
           } else
           if ((tree_base_path != NULL) && ((*i)->type() == 'f')) {
-            db.setStorePath(op);
+            if (_attributes.treeCheckData()) {
+              db.setStorePath(op);
+            } else
+            if (_attributes.treeCompressedData()) {
+              op.compression = 1;
+            } else
+            {
+              op.compression = 0;
+            }
           }
 
           // For directory, recurse into it

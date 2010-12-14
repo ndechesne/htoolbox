@@ -62,6 +62,8 @@ ConfigObject* Attributes::configChildFactory(
     _tree_path = new Path(params[1].c_str(), Path::NO_TRAILING_SLASHES |
       Path::NO_REPEATED_SLASHES | Path::CONVERT_FROM_DOS);
     _tree_symlinks = false;
+    _check_data = false;
+    _compressed_data = false;
     _hourly = 1;
     _daily = 0;
     _weekly = 0;
@@ -75,6 +77,28 @@ ConfigObject* Attributes::configChildFactory(
       } else
       if (params[1] == "hard") {
         _tree_symlinks = false;
+        co = this;
+      } else
+      {
+        hlog_error("%s:%zd unknown option '%s' for keyword '%s'",
+          file_path, line_no, params[1].c_str(), keyword.c_str());
+        return NULL;
+      }
+    } else
+    if (keyword == "compressed") {
+      if (params[1] == "yes") {
+        _check_data = false;
+        _compressed_data = true;
+        co = this;
+      } else
+      if (params[1] == "no") {
+        _check_data = false;
+        _compressed_data = false;
+        co = this;
+      } else
+      if (params[1] == "check") {
+        _check_data = true;
+        _compressed_data = false;
         co = this;
       } else
       {
@@ -117,6 +141,14 @@ void Attributes::show(int level) const {
   }
   if (_tree_path != NULL) {
     hlog_debug_arrow(level, "Trees path: '%s'", _tree_path->c_str());
+    hlog_debug_arrow(level + 1, "create %s links",
+      _tree_symlinks ? "symbolic" : "hard");
+    if (_check_data) {
+      hlog_debug_arrow(level + 1, "check for compressed data (very slow)");
+    } else {
+      hlog_debug_arrow(level + 1, "assume %scompressed data",
+        _compressed_data ? "" : "un");
+    }
     hlog_debug_arrow(level + 1, "%zu hourly", _hourly);
     hlog_debug_arrow(level + 1, "%zu daily", _daily);
     hlog_debug_arrow(level + 1, "%zu weekly", _weekly);

@@ -261,6 +261,9 @@ int HBackup::readConfig(const char* config_path) {
     config_syntax.add(tree);
     // links: type of links to create [hard, symbolic]
     tree->add(new ConfigItem("links", 0, 1, 1, 1));
+    // compressed: whether to check for compressed data, or assume one way or
+    //             the other [yes, no, check]
+    tree->add(new ConfigItem("compressed", 0, 1, 1, 1));
     // hourly: number of hourly backup to keep
     tree->add(new ConfigItem("hourly", 0, 1, 1, 1));
     // daily: number of daily backup to keep

@@ -284,6 +284,7 @@ db "$TESTDBDIR"
 
 tree "$TESTTREEDIR"
   links symbolic
+  compressed check
   hourly 23
   daily 6
   weekly 52
