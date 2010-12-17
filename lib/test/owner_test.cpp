@@ -33,7 +33,10 @@ using namespace std;
 #include "list.h"
 #include "missing.h"
 #include "compdata.h"
+#include "backup.h"
+#include "data.h"
 #include "db.h"
+#include "op_data.h"
 #include "owner.h"
 
 // Owner:               tested

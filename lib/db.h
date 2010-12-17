@@ -46,10 +46,10 @@ public:
   int  close();
   // Compression modes
   enum CompressionMode {
+    never,
     always,
     auto_now,
     auto_later,
-    never
   };
   // Set compression mode
   void setCompressionMode(
@@ -86,49 +86,7 @@ public:
   int  closeClient(
     bool            abort = false);       // Whether to remove remaining items
   // Class for data exchange
-  struct OpData {
-    char              operation;        // Letter showing current operation
-    char              type;             // Letter showing concerned type
-    char              info;             // Letter showing internal information
-    int               id;               // Missing checksum ID
-    Database::CompressionMode comp_mode;  // Compression decision
-    int               compression;      // Compression level for regular files
-    const char*       path;             // Real file path, on client
-    size_t            path_len;         // Its length
-    htools::Node&     node;             // File metadata
-    bool              same_list_entry;  // Don't add a list entry, replace
-    // Pre-encoded node metadata, assumes the following max values:
-    // * type: 1 char => 1
-    // * size: 2^64 => 20
-    // * mtime: 2^32 => 10
-    // * uid: 2^32 => 10
-    // * gid: 2^32 => 10
-    // * mode: 4 octal digits => 4
-    // * separators: 5 TABs => 5
-    // Total = 60 => 64
-    char              encoded_metadata[64];
-    size_t            sep_offset;
-    size_t            end_offset;
-    const char*       extra;
-    string            store_path;       // Where data is stored in DB
-    // Pointers given to the constructor MUST remain valid during operation!
-    OpData(
-      const char*     p,                // Real file path, on client
-      size_t          l,                // Its length
-      htools::Node&   n)                // File metadata
-      : operation(' '), type(' '), info(' '), id(-1),
-        comp_mode(Database::auto_later), compression(0),
-        path(p), path_len(l), node(n), same_list_entry(false), extra(NULL) {}
-    bool needsAdding() const { return operation != ' '; }
-    void verbose(char* code) {
-      // File information
-      code[0] = operation;
-      code[1] = node.type();
-      // Database information
-      code[3] = type;
-      code[4] = info;
-    }
-  };
+  struct OpData;
   // Send data for comparison
   void sendEntry(
     OpData&         operation);           // Operation data

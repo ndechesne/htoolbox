@@ -35,6 +35,10 @@ using namespace std;
 #include "filters.h"
 #include "parsers.h"
 #include "db.h"
+#include "compdata.h"
+#include "backup.h"
+#include "data.h"
+#include "op_data.h"
 #include "attributes.h"
 #include "paths.h"
 
@@ -147,21 +151,17 @@ int ClientPath::parse_recurse(
           if (op.needsAdding()) {
             // Regular file: deal with compression
             if ((*i)->type() == 'f') {
-              if ((_no_compress != NULL) && _no_compress->match(**i, start)) {
-                /* If in no-compress list, don't compress */
-                op.comp_mode = Database::never;
-              } else
-              if (op.comp_mode == Database::auto_now) {
-                /* If auto-compress list, let it be */
-                op.compression = compression_level;
-              } else
-              if ((_compress != NULL) && _compress->match(**i, start)) {
-                /* If in compress list, compress */
-                op.compression = compression_level;
-              } else
-              {
-                /* Do not compress for now */
-                op.compression = 0;
+              if ((op.comp_case == Data::auto_now) ||
+                  (op.comp_case == Data::auto_later)) {
+                if ((_no_compress != NULL) && _no_compress->match(**i, start)) {
+                  /* If in no-compress list, never compress */
+                  op.comp_case = Data::forced_no;
+                } else
+                if ((op.comp_case != Data::auto_now) &&
+                    (_compress != NULL) && _compress->match(**i, start)) {
+                  /* If in compress list, always compress */
+                  op.comp_case = Data::forced_yes;
+                }
               }
             }
             status = db.add(op, _attributes.reportCopyErrorOnceIsSet());

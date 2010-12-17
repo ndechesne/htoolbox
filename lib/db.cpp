@@ -43,6 +43,7 @@ using namespace std;
 #include "compdata.h"
 #include "data.h"
 #include "db.h"
+#include "op_data.h"
 #include "owner.h"
 
 namespace hbackup {
@@ -722,7 +723,20 @@ void Database::sendEntry(
     OpData&         op) {
   _d->owner->send(op, _d->missing);
   // Tell caller about compression mode
-  op.comp_mode = _d->compress_mode;
+  switch (_d->compress_mode) {
+    case never:
+      op.comp_case = Data::db_no;
+      break;
+    case always:
+      op.comp_case = Data::db_yes;
+      break;
+    case auto_now:
+      op.comp_case = Data::auto_now;
+      break;
+    case auto_later:
+      op.comp_case = Data::auto_later;
+      break;
+  };
 }
 
 int Database::add(
@@ -740,15 +754,8 @@ int Database::add(
   if (op.node.type() == 'f') {
     if (op.extra == NULL) {
       // Copy data
-      int compression;
-      if (op.comp_mode == never) {
-        compression = -1;
-      } else {
-        compression = op.compression;
-      }
       Data::WriteStatus status = _d->data.write(op.node.path(), checksum,
-        &compression, op.comp_mode == auto_now, &op.store_path);
-      op.compression = compression;
+        &op.compression, op.comp_case, &op.store_path);
       if (status == Data::error) {
         if ((op.operation == '!') && report_copy_error_once) {
           hlog_warning("%s backing up file '%s:%s'", strerror(errno),
@@ -764,7 +771,7 @@ int Database::add(
           // File data found in DB
           op.type = '~';
         } else {
-          if (compression > 0) {
+          if (op.compression > 0) {
             op.type = 'z';
           } else {
             op.type = 'f';
@@ -811,6 +818,8 @@ int Database::setStorePath(
   int rc = _d->data.name(op.extra, op.store_path, extension);
   if (! extension.empty()) {
     op.compression = 1;
+  } else {
+    op.compression = 0;
   }
   return rc;
 }

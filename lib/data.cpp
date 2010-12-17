@@ -554,7 +554,7 @@ Data::WriteStatus Data::write(
     const char*     path,
     char            dchecksum[64],
     int*            comp_level,
-    bool            comp_auto,
+    CompressionCase comp_case,
     string*         store_path) const {
   bool failed = false;
 
@@ -568,35 +568,35 @@ Data::WriteStatus Data::write(
   }
 
   // Temporary file(s) to write to
+  FileReaderWriter* temp1_fw = NULL;
+  IReaderWriter* temp1 = NULL;
   FileReaderWriter* temp2 = NULL;
-  CompressionCase comp_case;
-  // compress < 0 => required to not compress by filter or configuration
-  if (*comp_level < 0) {
-    comp_case = forced_no;
-    comp_auto = false;
-    *comp_level = 0;
-  } else
-  // compress = 0 => do not compress
-  if (*comp_level == 0) {
-    comp_case = later;
-    comp_auto = false;
-  } else
-  // compress > 0 && comp_auto => decide whether to compress or not
-  if (comp_auto) {
-    comp_case = later;
-    // Automatic compression: copy twice, compressed and not, and choose best
-    temp2 = new FileReaderWriter(_d->data_gz.c_str(), true);
-  } else {
-  // compress > 0 && ! comp_auto => compress
-    comp_case = forced_yes;
-  }
-  FileReaderWriter* temp1_fw = new FileReaderWriter(_d->data.c_str(), true);
-  IReaderWriter* temp1 = temp1_fw;
-  if (*comp_level > 0) {
-    temp1 = new ZipWriter(temp1_fw, true, *comp_level);
-  } else {
-    temp1 = temp1_fw;
-  }
+  // Check compression case
+  switch (comp_case) {
+    case auto_now:
+    case forced_yes:
+      if (*comp_level == 0) {
+        hlog_error("cannot compress with level = %d", *comp_level);
+        errno = EINVAL;
+        return error;
+      }
+      temp1_fw = new FileReaderWriter(_d->data_gz.c_str(), true);
+      temp1 = new ZipWriter(temp1_fw, true, *comp_level);
+      // Automatic compression: copy twice, compressed and not, and choose best
+      if (comp_case == auto_now) {
+        temp2 = new FileReaderWriter(_d->data.c_str(), true);
+      }
+      break;
+    case forced_no:
+    case auto_later:
+      *comp_level = 0;
+      temp1 = temp1_fw = new FileReaderWriter(_d->data.c_str(), true);
+      break;
+    default:
+      hlog_error("wrong compression case = %c", comp_case);
+      errno = EINVAL;
+      return error;
+  };
 
   long long source_data_size;
   if (! failed) {
@@ -609,10 +609,10 @@ Data::WriteStatus Data::write(
   source.close();
 
   if (failed) {
-    ::remove(_d->data.c_str());
+    ::remove(temp1_fw->path());
     delete temp1;
     if (temp2 != NULL) {
-      ::remove(_d->data_gz.c_str());
+      ::remove(temp2->path());
       delete temp2;
     }
     return error;
@@ -621,7 +621,7 @@ Data::WriteStatus Data::write(
   // Size for comparison with existing data
   long long size_cmp = temp1_fw->offset();
   // Name of file
-  const char* dest_name = _d->data.c_str();
+  const char* dest_name = NULL;
   // If temp2 is not NULL then comp_auto is true
   if (temp2 != NULL) {
     // Add ~1.6% to gzip'd size
@@ -630,16 +630,23 @@ Data::WriteStatus Data::write(
       temp2->offset(), temp1_fw->offset(), size_gz);
     // Keep non-compressed file (temp2)?
     if (temp2->offset() <= size_gz) {
-      ::remove(_d->data.c_str());
-      dest_name = _d->data_gz.c_str();
+      ::remove(_d->data_gz.c_str());
+      dest_name = _d->data.c_str();
       size_cmp = size_gz;
       comp_case = size_no;
       *comp_level = 0;
     } else {
-      ::remove(_d->data_gz.c_str());
+      ::remove(_d->data.c_str());
+      dest_name = _d->data_gz.c_str();
       comp_case = size_yes;
     }
     delete temp2;
+  } else {
+    if (*comp_level == 0) {
+      dest_name = _d->data.c_str();
+    } else {
+      dest_name = _d->data_gz.c_str();
+    }
   }
   delete temp1;
 
@@ -748,7 +755,7 @@ Data::WriteStatus Data::write(
     CompressionCase comp_status;
     if (! getMetadata(final_path, &size, &comp_status) &&
         (comp_status != forced_no)) {
-      setMetadata(final_path, size, forced_no);
+      setMetadata(final_path, size, comp_case);
     }
   }
 
@@ -873,7 +880,7 @@ int Data::check(
               hlog_warning("Adding missing metadata for %s", checksum);
             }
             data_size = copy_rc;
-            setMetadata(path, data_size, later);
+            setMetadata(path, data_size, auto_later);
           }
         }
       }
@@ -897,7 +904,7 @@ int Data::check(
           file_size = metadata.st_size;
           hlog_warning("Setting missing metadata for %s", checksum);
           data_size = file_size;
-          setMetadata(path, data_size, later);
+          setMetadata(path, data_size, auto_later);
         }
       } else
       // Compressed file, check it thoroughly, which shall add the metadata

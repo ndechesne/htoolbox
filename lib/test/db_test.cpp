@@ -31,6 +31,10 @@ using namespace std;
 #include "files.h"
 #include "list.h"
 #include "db.h"
+#include "compdata.h"
+#include "backup.h"
+#include "data.h"
+#include "op_data.h"
 
 // Tests status:
 //   lock:        tested
@@ -242,12 +246,13 @@ int main(void) {
 
 
   cout << endl << "Test: fill in DB" << endl;
-  if ((status = db.open())) {
+  if ((status = db.open()) != 0) {
     cout << "db::open error status " << status << endl;
     if (status < 0) {
       return 0;
     }
   }
+  db.setCompressionMode(Database::auto_later);
 
   db.openClient("myClient");
 
@@ -270,6 +275,7 @@ int main(void) {
   op->compression = 5;
   ++my_time;
   db.sendEntry(*op);
+  op->comp_case = Data::forced_yes;
   db.add(*op);
   delete op;
   delete f;

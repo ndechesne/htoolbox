@@ -27,15 +27,19 @@ namespace hbackup {
 class Data {
   struct            Private;
   Private* const    _d;
-protected: // So I can test them
+public:
   enum CompressionCase {
-    forced_no = '-',
-    forced_yes = 'f',
-    size_no = '.',
-    size_yes = '+',
-    later = ' ',
-    unknown = '?'
+    db_no = 'd',      // global no
+    db_yes = 'r',     // global yes
+    forced_no = '-',  // filter no
+    forced_yes = 'f', // filter yes
+    size_no = '.',    // auto no
+    size_yes = '+',   // auto yes
+    auto_now = 'a',   // auto need to check
+    auto_later = ' ', // auto might check later
+    unknown = '?',    // not decided
   };
+protected: // So I can test them
   // Compare two files
   ssize_t compare(
     htools::IReaderWriter&  left,
@@ -117,7 +121,7 @@ public:
     const char*     path,             // Source file path
     char            checksum[64],     // Copy checksum here
     int*            comp_level,       // Comp. to apply (< 0: never) / applied
-    bool            auto_comp,        // Choose whether to store compressed
+    CompressionCase auto_case,        // Choose whether to store compressed
     string*         store_path) const;
   // Remove given checksum's data
   int remove(
