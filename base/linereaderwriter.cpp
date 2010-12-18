@@ -20,7 +20,7 @@
 #include "string.h"
 #include "errno.h"
 
-#include "hreport.h"
+#include "report.h"
 #include "linereaderwriter.h"
 
 using namespace htools;

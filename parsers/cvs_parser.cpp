@@ -21,6 +21,7 @@
 
 using namespace std;
 
+#include "report.h"
 #include "filereaderwriter.h"
 #include "linereaderwriter.h"
 

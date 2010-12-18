@@ -21,7 +21,7 @@ using namespace std;
 #include <stdlib.h>
 #include <errno.h>
 
-#include "hreport.h"
+#include "report.h"
 #include "share.h"
 
 using namespace htools;

@@ -28,7 +28,7 @@
 
 using namespace std;
 
-#include <hreport.h>
+#include <report.h>
 #include <queue.h>
 #include <work_scheduler.h>
 

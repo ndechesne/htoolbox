@@ -19,7 +19,7 @@
 #include <errno.h>
 #include <zlib.h>
 
-#include <hreport.h>
+#include <report.h>
 #include "zipwriter.h"
 
 using namespace htools;

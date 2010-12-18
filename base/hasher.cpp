@@ -19,7 +19,7 @@
 #include <errno.h>
 #include <openssl/evp.h>
 
-#include <hreport.h>
+#include <report.h>
 #include "hasher.h"
 
 using namespace htools;

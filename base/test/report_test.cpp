@@ -21,7 +21,7 @@
 
 using namespace std;
 
-#include "hreport.h"
+#include "report.h"
 
 using namespace htools;
 

@@ -16,7 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include "hreport.h"
+#include "report.h"
 #include "files.h"
 #include "backup.h"
 

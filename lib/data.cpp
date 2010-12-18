@@ -34,7 +34,7 @@
 
 using namespace std;
 
-#include "hreport.h"
+#include "report.h"
 #include "filereaderwriter.h"
 #include "nullwriter.h"
 #include "unzipreader.h"

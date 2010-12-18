@@ -21,7 +21,7 @@
 #include <string.h>
 #include <errno.h>
 
-#include <hreport.h>
+#include <report.h>
 #include "filereaderwriter.h"
 #include "zipwriter.h"
 #include "unzipreader.h"

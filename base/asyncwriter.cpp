@@ -20,7 +20,7 @@
 #include <string.h>
 #include <pthread.h>
 
-#include <hreport.h>
+#include <report.h>
 #include "asyncwriter.h"
 
 using namespace htools;

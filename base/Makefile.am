@@ -1,7 +1,25 @@
 SUBDIRS = . test
 
-AM_CXXFLAGS = \
-  -I$(top_srcdir)/include \
+htoolsincludedir = $(includedir)/htools
+
+htoolsinclude_HEADERS = \
+  asyncwriter.h \
+  configuration.h \
+  filereaderwriter.h \
+  files.h \
+  hasher.h \
+  ifilereaderwriter.h \
+  ireaderwriter.h \
+  linereaderwriter.h \
+  multiwriter.h \
+  nullwriter.h \
+  queue.h \
+  report.h \
+  share.h \
+  stackhelper.h \
+  unzipreader.h \
+  work_scheduler.h \
+  zipwriter.h \
   $(NULL)
 
 lib_LTLIBRARIES = libhtools.la

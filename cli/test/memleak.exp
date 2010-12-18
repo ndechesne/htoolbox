@@ -4879,7 +4879,7 @@ U       test_r/test2/testfile
    hbackup::Data::read(char const*, char const*) const (data.cpp:518)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:404)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
    main (hbackup.cpp:335)
  
 Database closed for 'myhost'
@@ -5029,7 +5029,7 @@ U       test_r/test1/big_file
    hbackup::Data::read(char const*, char const*) const (data.cpp:518)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:404)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
    main (hbackup.cpp:335)
  
 U       test_r/test1/cvs
@@ -5227,7 +5227,7 @@ U       test_r/test1/cvs/CVS/Root
    hbackup::Data::read(char const*, char const*) const (data.cpp:518)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:404)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
    main (hbackup.cpp:335)
  
 U       test_r/test1/cvs/dir space
@@ -5390,7 +5390,7 @@ U       test_r/test1/big_file
    hbackup::Data::read(char const*, char const*) const (data.cpp:518)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:404)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
-   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
    main (hbackup.cpp:335)
  
 U       test_r/test1/cvs

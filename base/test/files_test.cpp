@@ -29,7 +29,7 @@
 
 using namespace std;
 
-#include "hreport.h"
+#include "report.h"
 #include "files.h"
 #include "filereaderwriter.h"
 #include "unzipreader.h"

@@ -37,7 +37,7 @@ using namespace std;
 
 #include "hbackup.h"
 #include "files.h"
-#include "hreport.h"
+#include "report.h"
 #include "missing.h"
 #include "backup.h"
 #include "compdata.h"

@@ -24,8 +24,6 @@
 #include <list>
 #include <string>
 
-#include <hreport.h>
-
 namespace hbackup {
   //! Compression level: nest compromise between speed and size
   static const int compression_level = 5;

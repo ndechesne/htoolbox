@@ -32,7 +32,7 @@ using namespace std;
 #include "config.h"
 
 #include "hbackup.h"
-#include "hreport.h"
+#include "report.h"
 
 // Signals
 void sighandler(int signal) {

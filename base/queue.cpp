@@ -25,7 +25,7 @@
 
 using namespace std;
 
-#include <hreport.h>
+#include <report.h>
 #include <queue.h>
 
 using namespace htools;

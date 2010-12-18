@@ -27,7 +27,7 @@ using namespace std;
 #include "test.h"
 
 #include "files.h"
-#include "hreport.h"
+#include "report.h"
 #include "parsers.h"
 
 int main(void) {

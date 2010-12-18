@@ -31,7 +31,7 @@ using namespace std;
 
 #include "sys/stat.h"
 
-#include "hreport.h"
+#include "report.h"
 
 #include <files.h>
 #include <filereaderwriter.h>

@@ -22,7 +22,7 @@
 
 #include "hbackup.h"
 #include "files.h"
-#include "hreport.h"
+#include "report.h"
 #include "list.h"
 
 using namespace hbackup;

@@ -26,10 +26,13 @@
 
 using namespace std;
 
+#include "report.h"
+
+using namespace htools;
+
 #include "parsers.h"
 
 using namespace hbackup;
-using namespace htools;
 
 static const string control_dir = "/.svn";
 static const char* entries = "/entries";
