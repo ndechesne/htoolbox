@@ -880,7 +880,7 @@ int Data::check(
               hlog_warning("Adding missing metadata for %s", checksum);
             }
             data_size = copy_rc;
-            setMetadata(path, data_size, auto_later);
+            setMetadata(path, data_size, unknown);
           }
         }
       }
@@ -904,7 +904,7 @@ int Data::check(
           file_size = metadata.st_size;
           hlog_warning("Setting missing metadata for %s", checksum);
           data_size = file_size;
-          setMetadata(path, data_size, auto_later);
+          setMetadata(path, data_size, unknown);
         }
       } else
       // Compressed file, check it thoroughly, which shall add the metadata

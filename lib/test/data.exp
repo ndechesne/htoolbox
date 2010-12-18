@@ -54,7 +54,7 @@ Warning: Adding missing metadata for 59ca0efa9f5633cb0371bbc0355478d8-0
 59ca0efa9f5633cb0371bbc0355478d8-0 13 33\r
 Size reported: 13
 Meta file contents: 
-13	 
+13	?
 59ca0efa9f5633cb0371bbc0355478d8-0 13 33\r
 Replacing with uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8)
