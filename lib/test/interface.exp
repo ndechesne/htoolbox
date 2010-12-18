@@ -401,18 +401,15 @@ Backing up path 'C:/Test Dir'
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 Ad      C:/Test Dir/My Dir
 My Dir\r
-Checking data, sizes: f=2 z=22 (22)
-Adding uncompressed data for b026324c6904b2a9cb4b88d6d61c81d1-0
+Adding compressed data for b026324c6904b2a9cb4b88d6d61c81d1-0
 Backup::addHash(b026324c6904b2a9cb4b88d6d61c81d1)
-Af f    C:/Test Dir/My Dir/a File.TXT
-Checking data, sizes: f=2 z=22 (22)
-Adding uncompressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
+Af z    C:/Test Dir/My Dir/a File.TXT
+Adding compressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
 Backup::addHash(26ab0db90d72e28ad0ba1e22ee510510)
-Af f    C:/Test Dir/My Dir/another File.TXT
-Checking data, sizes: f=0 z=20 (20)
-Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
+Af z    C:/Test Dir/My Dir/another File.TXT
+Adding compressed data for d41d8cd98f00b204e9800998ecf8427e-0
 Backup::addHash(d41d8cd98f00b204e9800998ecf8427e)
-Af f    C:/Test Dir/My File.TXT
+Af z    C:/Test Dir/My File.TXT
 Register modified for 'aClient.vista'
 Database closed for 'aClient.vista'
 Backup::add(test_db/aClient.vista)
@@ -494,14 +491,12 @@ Database open r/w for 'myClient'
 Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
-Checking data, sizes: f=0 z=20 (20)
 Af ~    /home/User/test/File2.txt
 Ad      /home/User/test/dir
 dir\r
-Checking data, sizes: f=2 z=22 (22)
-Adding uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
+Adding compressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Backup::addHash(6d7fce9fee471194aa8b5b6e47267f03)
-Af f    /home/User/test/dir/file3.txt
+Af z    /home/User/test/dir/file3.txt
 Register modified for 'myClient'
 Database closed for 'myClient'
 Backup::add(test_db/myClient)
@@ -701,7 +696,6 @@ Copy:  97.7%\r
 Copy:  98.6%\r
 Copy:  99.6%\r
 Copy: 100.0%\r
-Checking data, sizes: f=10485760 z=10208 (10367)
 Adding compressed data for f1c9645dbc14efddc7d8a322685f26eb-0
 Backup::addHash(f1c9645dbc14efddc7d8a322685f26eb)
 Af z    test1/big_file
@@ -719,10 +713,9 @@ cvs/CVS\r
 Adding uncompressed data for f899d6f61138a37484c8a2294656e903-0
 Backup::addHash(f899d6f61138a37484c8a2294656e903)
 Af f    test1/cvs/CVS/Entries
-Checking data, sizes: f=16 z=36 (36)
-Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
+Adding compressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 Backup::addHash(b90f8fa56ea1d39881d4a199c7a81d35)
-Af f    test1/cvs/CVS/Root
+Af z    test1/cvs/CVS/Root
 If p    test1/cvs/CVS/Whatever
 Id p    test1/cvs/CVS/Wherever
 Ad      test1/cvs/dir space
@@ -734,10 +727,9 @@ cvs/dir space/CVS\r
 Adding uncompressed data for 662ae0524981c10b4736be799fc8650a-0
 Backup::addHash(662ae0524981c10b4736be799fc8650a)
 Af f    test1/cvs/dir space/CVS/Entries
-Checking data, sizes: f=16 z=36 (36)
-Adding uncompressed data for 328b42839732650180b213aadebe494d-0
+Adding compressed data for 328b42839732650180b213aadebe494d-0
 Backup::addHash(328b42839732650180b213aadebe494d)
-Af f    test1/cvs/dir space/CVS/Root
+Af z    test1/cvs/dir space/CVS/Root
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
 Checking data, sizes: f=0 z=20 (20)
@@ -757,10 +749,9 @@ cvs/dirutd/CVS\r
 Adding uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
 Backup::addHash(5252f242d27b8c2c9fdbdcbb33545d07)
 Af f    test1/cvs/dirutd/CVS/Entries
-Checking data, sizes: f=10 z=30 (30)
-Adding uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
+Adding compressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
 Backup::addHash(eb75fb33b2019ef3c840eb5ccdc2e795)
-Af f    test1/cvs/dirutd/CVS/Root
+Af z    test1/cvs/dirutd/CVS/Root
 If p    test1/cvs/dirutd/CVS/Whatever
 If p    test1/cvs/dirutd/fileoth
 Checking data, sizes: f=0 z=20 (20)
@@ -804,7 +795,6 @@ svn/.svn\r
 Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
-Checking data, sizes: f=602 z=260 (264)
 Adding compressed data for 5173c1e86196c05c124452a401e92a22-0
 Backup::addHash(5173c1e86196c05c124452a401e92a22)
 Af z    test1/svn/.svn/entries
@@ -818,7 +808,6 @@ Ad      test1/svn/dir space/.svn
 svn/dir space/.svn\r
 Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
-Checking data, sizes: f=278 z=189 (191)
 Adding compressed data for f2b4c9d3f0830dea53972d208979feb0-0
 Backup::addHash(f2b4c9d3f0830dea53972d208979feb0)
 Af z    test1/svn/dir space/.svn/entries
@@ -840,7 +829,6 @@ Ad      test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
 Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
-Checking data, sizes: f=388 z=211 (214)
 Adding compressed data for 33b426a9cdc8a98729e5dbe6d5feb619-0
 Backup::addHash(33b426a9cdc8a98729e5dbe6d5feb619)
 Af z    test1/svn/dirutd/.svn/entries
@@ -860,10 +848,9 @@ Checking data, sizes: f=0 z=20 (20)
 Af ~    test1/test space
 Ad      test1/testdir
 testdir\r
-Checking data, sizes: f=13 z=33 (33)
-Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
+Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8)
-Af f    test1/testfile
+Af z    test1/testfile
 If f    test1/testfile~
 Al      test1/testlink
 Ap      test1/testpipe
@@ -919,16 +906,14 @@ Database open r/w for 'newClient'
 Backing up path '/home/Blah/test'
  -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
-Checking data, sizes: f=5 z=25 (25)
-Adding uncompressed data for b8bbb1294db5d59366b7d1827e2158d6-0
+Adding compressed data for b8bbb1294db5d59366b7d1827e2158d6-0
 Backup::addHash(b8bbb1294db5d59366b7d1827e2158d6)
-Af f    /home/Blah/test/File2.txt
+Af z    /home/Blah/test/File2.txt
 Ad      /home/Blah/test/dir
 dir\r
-Checking data, sizes: f=5 z=25 (25)
-Adding uncompressed data for 8a61083e712200a30c6ccf5f5c697b76-0
+Adding compressed data for 8a61083e712200a30c6ccf5f5c697b76-0
 Backup::addHash(8a61083e712200a30c6ccf5f5c697b76)
-Af f    /home/Blah/test/dir/file3.txt
+Af z    /home/Blah/test/dir/file3.txt
 Register modified for 'newClient'
 Database closed for 'newClient'
 Backup::add(test_db/newClient)
@@ -1022,9 +1007,9 @@ test_tree/aClient.vista/2009-08-07_06:05:04_CEST
 test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:
 test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir
 test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir
-test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/a File.TXT
-test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/another File.TXT
-test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My File.TXT
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/a File.TXT.gz
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/another File.TXT.gz
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My File.TXT.gz
 test_tree/client.xp
 test_tree/client.xp/2009-08-07_06:05:04_CEST
 test_tree/client.xp/2009-08-07_06:05:04_CEST/C:
@@ -1039,8 +1024,8 @@ test_tree/myClient/2009-08-07_06:05:04_CEST/home
 test_tree/myClient/2009-08-07_06:05:04_CEST/home/User
 test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test
 test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/dir
-test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/dir/file3.txt
-test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/File2.txt
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/dir/file3.txt.gz
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/File2.txt.gz
 test_tree/myClient.xp
 test_tree/myClient.xp/2009-08-07_06:05:04_CEST
 test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:
@@ -1056,17 +1041,17 @@ test_tree/myhost/2009-08-07_06:05:04_CEST/test1/big_file.gz
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS/Entries
-test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS/Root
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS/Root.gz
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirbad
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS/Entries
-test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS/Root
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS/Root.gz
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/file space
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS/Entries
-test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS/Root
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS/Root.gz
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/fileutd
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/filenew.c
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/fileutd.h
@@ -1092,7 +1077,7 @@ test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/filenew.c
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/.svn
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/.svn/entries.gz
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testdir
-test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testfile
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testfile.gz
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testlink
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/test space
 test_tree/myhost/2009-08-07_06:05:04_CEST/test2
@@ -1106,8 +1091,8 @@ test_tree/newClient/2009-08-07_06:05:04_CEST/home
 test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah
 test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test
 test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/dir
-test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/dir/file3.txt
-test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/File2.txt
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/dir/file3.txt.gz
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/File2.txt.gz
 
 Test: same backup
  -> Reading configuration file 'etc/hbackup.conf'
@@ -1585,23 +1570,23 @@ path "/home/Blah/test/"
 CR\r
 
 CR\r
-
+.gz
 test_tree
 test_tree/aClient.vista
 test_tree/aClient.vista/2009-08-07_06:05:04_CEST
 test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:
 test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir
 test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir
-test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/a File.TXT
-test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/another File.TXT
-test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My File.TXT
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/a File.TXT.gz
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My Dir/another File.TXT.gz
+test_tree/aClient.vista/2009-08-07_06:05:04_CEST/C:/Test Dir/My File.TXT.gz
 test_tree/aClient.vista/2009-08-07_06:05:05_CEST
 test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:
 test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:/Test Dir
 test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir
-test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/a File.TXT
-test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/another File.TXT
-test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:/Test Dir/My File.TXT
+test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/a File.TXT.gz
+test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/another File.TXT.gz
+test_tree/aClient.vista/2009-08-07_06:05:05_CEST/C:/Test Dir/My File.TXT.gz
 test_tree/client.xp
 test_tree/client.xp/2009-08-07_06:05:04_CEST
 test_tree/client.xp/2009-08-07_06:05:04_CEST/C:
@@ -1614,24 +1599,24 @@ test_tree/client.xp/2009-08-07_06:05:05_CEST
 test_tree/client.xp/2009-08-07_06:05:05_CEST/C:
 test_tree/client.xp/2009-08-07_06:05:05_CEST/C:/Test Dir
 test_tree/client.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir
-test_tree/client.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/a File.TXT
-test_tree/client.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/another File.TXT
-test_tree/client.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My File.TXT
+test_tree/client.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/a File.TXT.gz
+test_tree/client.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/another File.TXT.gz
+test_tree/client.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My File.TXT.gz
 test_tree/myClient
 test_tree/myClient/2009-08-07_06:05:04_CEST
 test_tree/myClient/2009-08-07_06:05:04_CEST/home
 test_tree/myClient/2009-08-07_06:05:04_CEST/home/User
 test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test
 test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/dir
-test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/dir/file3.txt
-test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/File2.txt
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/dir/file3.txt.gz
+test_tree/myClient/2009-08-07_06:05:04_CEST/home/User/test/File2.txt.gz
 test_tree/myClient/2009-08-07_06:05:05_CEST
 test_tree/myClient/2009-08-07_06:05:05_CEST/home
 test_tree/myClient/2009-08-07_06:05:05_CEST/home/User
 test_tree/myClient/2009-08-07_06:05:05_CEST/home/User/test
 test_tree/myClient/2009-08-07_06:05:05_CEST/home/User/test/dir
-test_tree/myClient/2009-08-07_06:05:05_CEST/home/User/test/dir/file3.txt
-test_tree/myClient/2009-08-07_06:05:05_CEST/home/User/test/File2.txt
+test_tree/myClient/2009-08-07_06:05:05_CEST/home/User/test/dir/file3.txt.gz
+test_tree/myClient/2009-08-07_06:05:05_CEST/home/User/test/File2.txt.gz
 test_tree/myClient.xp
 test_tree/myClient.xp/2009-08-07_06:05:04_CEST
 test_tree/myClient.xp/2009-08-07_06:05:04_CEST/C:
@@ -1644,9 +1629,9 @@ test_tree/myClient.xp/2009-08-07_06:05:05_CEST
 test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:
 test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:/Test Dir
 test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir
-test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/a File.TXT
-test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/another File.TXT
-test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My File.TXT
+test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/a File.TXT.gz
+test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My Dir/another File.TXT.gz
+test_tree/myClient.xp/2009-08-07_06:05:05_CEST/C:/Test Dir/My File.TXT.gz
 test_tree/myhost
 test_tree/myhost/2009-08-07_06:05:04_CEST
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1
@@ -1654,17 +1639,17 @@ test_tree/myhost/2009-08-07_06:05:04_CEST/test1/big_file.gz
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS/Entries
-test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS/Root
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/CVS/Root.gz
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirbad
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS/Entries
-test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS/Root
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/CVS/Root.gz
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dir space/file space
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS/Entries
-test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS/Root
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/CVS/Root.gz
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/dirutd/fileutd
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/filenew.c
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/cvs/fileutd.h
@@ -1690,7 +1675,7 @@ test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/filenew.c
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/.svn
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/svn/.svn/entries.gz
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testdir
-test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testfile
+test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testfile.gz
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/testlink
 test_tree/myhost/2009-08-07_06:05:04_CEST/test1/test space
 test_tree/myhost/2009-08-07_06:05:04_CEST/test2
@@ -1704,45 +1689,45 @@ test_tree/myhost/2009-08-07_06:05:05_CEST/test1/big_file.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/CVS
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/CVS/Entries
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/CVS/Root
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/CVS/Root.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirbad
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dir space
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dir space/CVS
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dir space/CVS/Entries
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dir space/CVS/Root
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dir space/file space
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dir space/CVS/Root.gz
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dir space/file space.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirutd
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirutd/CVS
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirutd/CVS/Entries
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirutd/CVS/Root
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirutd/fileutd
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/filenew.c
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/fileutd.h
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirutd/CVS/Root.gz
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/dirutd/fileutd.gz
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/filenew.c.gz
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/cvs/fileutd.h.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/dir space
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/dir space/file space
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/dir space/file space.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/dir space/link space
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/longlink
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/strange1TAB	CR\r
-
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/strange2TAB	LF
+.gz
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/strange2TAB	LF.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/strange3TAB	LF
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirbad
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space/file space
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space/file space.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space/.svn
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dir space/.svn/entries.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd/fileutd
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd/fileutd.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd/.svn
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/dirutd/.svn/entries.gz
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/filenew.c
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/filenew.c.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/.svn
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/svn/.svn/entries.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/testdir
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/testfile
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/testfile.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test1/testlink
-test_tree/myhost/2009-08-07_06:05:05_CEST/test1/test space
+test_tree/myhost/2009-08-07_06:05:05_CEST/test1/test space.gz
 test_tree/myhost/2009-08-07_06:05:05_CEST/test2
 test_tree/myhost/2009-08-07_06:05:05_CEST/test2/testdir
 test_tree/myhost/2009-08-07_06:05:05_CEST/test2/testfile2.gz
@@ -1754,15 +1739,15 @@ test_tree/newClient/2009-08-07_06:05:04_CEST/home
 test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah
 test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test
 test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/dir
-test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/dir/file3.txt
-test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/File2.txt
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/dir/file3.txt.gz
+test_tree/newClient/2009-08-07_06:05:04_CEST/home/Blah/test/File2.txt.gz
 test_tree/newClient/2009-08-07_06:05:05_CEST
 test_tree/newClient/2009-08-07_06:05:05_CEST/home
 test_tree/newClient/2009-08-07_06:05:05_CEST/home/Blah
 test_tree/newClient/2009-08-07_06:05:05_CEST/home/Blah/test
 test_tree/newClient/2009-08-07_06:05:05_CEST/home/Blah/test/dir
-test_tree/newClient/2009-08-07_06:05:05_CEST/home/Blah/test/dir/file3.txt
-test_tree/newClient/2009-08-07_06:05:05_CEST/home/Blah/test/File2.txt
+test_tree/newClient/2009-08-07_06:05:05_CEST/home/Blah/test/dir/file3.txt.gz
+test_tree/newClient/2009-08-07_06:05:05_CEST/home/Blah/test/File2.txt.gz
 
 Test: interrupted backup
  -> Reading configuration file 'etc/hbackup.conf'
@@ -2562,7 +2547,7 @@ path "/home/Blah/test/"
     condition "path" "dir/file3.txt"
   compress "compress"
 
-Test: force-compress DB data
+Test: force-decompress DB data
 
 Test: specify clients
  -> Reading configuration file 'etc/hbackup.conf'
@@ -2809,7 +2794,6 @@ Copy:  40.0%\r
 Copy:  60.0%\r
 Copy:  80.0%\r
 Copy: 100.0%\r
-Checking data, sizes: f=512000 z=531 (539)
 Adding compressed data for 816df6f64deba63b029ca19d880ee10a-0
 Backup::addHash(816df6f64deba63b029ca19d880ee10a)
 !f z    test1/dir space/big_file
@@ -3079,29 +3063,29 @@ Reading list for 'newClient'
 Sorting list
 List statistics: 40 checksum(s), 21 unique [11549304 real, 11549314 virtual]
 Crawling through DB
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
-59ca0efa9f5633cb0371bbc0355478d8-0 13\r
-662ae0524981c10b4736be799fc8650a-0 45\r
-6d7fce9fee471194aa8b5b6e47267f03-0 2 27\r
+59ca0efa9f5633cb0371bbc0355478d8-0 13 33\r
+662ae0524981c10b4736be799fc8650a-0 45   \r
+6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8a61083e712200a30c6ccf5f5c697b76-0 5         \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
-d41d8cd98f00b204e9800998ecf8427e-0 0 \r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25      \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+b90f8fa56ea1d39881d4a199c7a81d35-0 16 36\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20 \r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 Found 21 valid and 0 broken data file(s)     
-Data statistics: 21 checksum(s), 21 valid [157682 real, 11549304 virtual]
+Data statistics: 21 checksum(s), 21 valid [157837 real, 11549304 virtual]
 Checksum(s) from list: 21
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -3273,22 +3257,22 @@ Backup::Backup(test_db/.backup)
  ---> 52 weekly
 Database open in read-only mode
 Crawling through DB data
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
-59ca0efa9f5633cb0371bbc0355478d8-0 13\r
-662ae0524981c10b4736be799fc8650a-0 45\r
-6d7fce9fee471194aa8b5b6e47267f03-0 2 27\r
+59ca0efa9f5633cb0371bbc0355478d8-0 13 33\r
+662ae0524981c10b4736be799fc8650a-0 45   \r
+6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8a61083e712200a30c6ccf5f5c697b76-0 5         \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
-d41d8cd98f00b204e9800998ecf8427e-0 0 \r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25      \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+b90f8fa56ea1d39881d4a199c7a81d35-0 16 36\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20 \r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 Copy:  70.4%                              \r
@@ -7174,7 +7158,7 @@ d	test_r
 d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
-l	test_r/home/User/test/File2.txt
+l	test_r/home/User/test/File2.txt.gz
 
 Test: restore (symlinks) subdir (UNIX)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -7313,8 +7297,8 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-l	test_r/home/User/test/dir/file3.txt.gz
-l	test_r/home/User/test/File2.txt
+l	test_r/home/User/test/dir/file3.txt
+l	test_r/home/User/test/File2.txt.gz
 
 Test: restore (symlinks) dir (UNIX)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -7453,8 +7437,8 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-l	test_r/home/User/test/dir/file3.txt.gz
-l	test_r/home/User/test/File2.txt
+l	test_r/home/User/test/dir/file3.txt
+l	test_r/home/User/test/File2.txt.gz
 
 Test: restore (symlinks) client (UNIX)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -7593,8 +7577,8 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-l	test_r/home/User/test/dir/file3.txt.gz
-l	test_r/home/User/test/File2.txt
+l	test_r/home/User/test/dir/file3.txt
+l	test_r/home/User/test/File2.txt.gz
 
 Test: restore (symlinks) file (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -7729,7 +7713,7 @@ Database closed
 d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
-l	test_r/C:/Test Dir/My File.TXT
+l	test_r/C:/Test Dir/My File.TXT.gz
 
 Test: restore (symlinks) subdir (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -7867,8 +7851,8 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-l	test_r/C:/Test Dir/My Dir/a File.TXT
-l	test_r/C:/Test Dir/My Dir/another File.TXT
+l	test_r/C:/Test Dir/My Dir/a File.TXT.gz
+l	test_r/C:/Test Dir/My Dir/another File.TXT.gz
 
 Test: restore (symlinks) dir (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -8007,9 +7991,9 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-l	test_r/C:/Test Dir/My Dir/a File.TXT
-l	test_r/C:/Test Dir/My Dir/another File.TXT
-l	test_r/C:/Test Dir/My File.TXT
+l	test_r/C:/Test Dir/My Dir/a File.TXT.gz
+l	test_r/C:/Test Dir/My Dir/another File.TXT.gz
+l	test_r/C:/Test Dir/My File.TXT.gz
 
 Test: restore (symlinks) client (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -8148,9 +8132,9 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-l	test_r/C:/Test Dir/My Dir/a File.TXT
-l	test_r/C:/Test Dir/My Dir/another File.TXT
-l	test_r/C:/Test Dir/My File.TXT
+l	test_r/C:/Test Dir/My Dir/a File.TXT.gz
+l	test_r/C:/Test Dir/My Dir/another File.TXT.gz
+l	test_r/C:/Test Dir/My File.TXT.gz
 
 Test: restore (symlinks) client (dual-boot)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -8291,20 +8275,20 @@ L       test_r/C:/Test Dir/My Dir/another File.TXT
 L       test_r/C:/Test Dir/My File.TXT
 Database closed for 'myClient.xp'
 Database closed
-test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/data.gz
+test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/data
 d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-l	test_r/C:/Test Dir/My Dir/a File.TXT
-l	test_r/C:/Test Dir/My Dir/another File.TXT
-l	test_r/C:/Test Dir/My File.TXT
+l	test_r/C:/Test Dir/My Dir/a File.TXT.gz
+l	test_r/C:/Test Dir/My Dir/another File.TXT.gz
+l	test_r/C:/Test Dir/My File.TXT.gz
 d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-l	test_r/home/User/test/dir/file3.txt.gz
-l	test_r/home/User/test/File2.txt
+l	test_r/home/User/test/dir/file3.txt
+l	test_r/home/User/test/File2.txt.gz
 
 Test: restore (hard links) file (UNIX)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -8440,7 +8424,7 @@ d	test_r
 d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
-f	test_r/home/User/test/File2.txt
+f	test_r/home/User/test/File2.txt.gz
 
 Test: restore (hard links) subdir (UNIX)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -8579,8 +8563,8 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-f	test_r/home/User/test/dir/file3.txt.gz
-f	test_r/home/User/test/File2.txt
+f	test_r/home/User/test/dir/file3.txt
+f	test_r/home/User/test/File2.txt.gz
 
 Test: restore (hard links) dir (UNIX)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -8719,8 +8703,8 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-f	test_r/home/User/test/dir/file3.txt.gz
-f	test_r/home/User/test/File2.txt
+f	test_r/home/User/test/dir/file3.txt
+f	test_r/home/User/test/File2.txt.gz
 
 Test: restore (hard links) client (UNIX)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -8859,8 +8843,8 @@ d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-f	test_r/home/User/test/dir/file3.txt.gz
-f	test_r/home/User/test/File2.txt
+f	test_r/home/User/test/dir/file3.txt
+f	test_r/home/User/test/File2.txt.gz
 
 Test: restore (hard links) file (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -8995,7 +8979,7 @@ Database closed
 d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
-f	test_r/C:/Test Dir/My File.TXT
+f	test_r/C:/Test Dir/My File.TXT.gz
 
 Test: restore (hard links) subdir (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -9133,8 +9117,8 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-f	test_r/C:/Test Dir/My Dir/a File.TXT
-f	test_r/C:/Test Dir/My Dir/another File.TXT
+f	test_r/C:/Test Dir/My Dir/a File.TXT.gz
+f	test_r/C:/Test Dir/My Dir/another File.TXT.gz
 
 Test: restore (hard links) dir (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -9273,9 +9257,9 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-f	test_r/C:/Test Dir/My Dir/a File.TXT
-f	test_r/C:/Test Dir/My Dir/another File.TXT
-f	test_r/C:/Test Dir/My File.TXT
+f	test_r/C:/Test Dir/My Dir/a File.TXT.gz
+f	test_r/C:/Test Dir/My Dir/another File.TXT.gz
+f	test_r/C:/Test Dir/My File.TXT.gz
 
 Test: restore (hard links) client (DOS)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -9414,9 +9398,9 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-f	test_r/C:/Test Dir/My Dir/a File.TXT
-f	test_r/C:/Test Dir/My Dir/another File.TXT
-f	test_r/C:/Test Dir/My File.TXT
+f	test_r/C:/Test Dir/My Dir/a File.TXT.gz
+f	test_r/C:/Test Dir/My Dir/another File.TXT.gz
+f	test_r/C:/Test Dir/My File.TXT.gz
 
 Test: restore (hard links) client (dual-boot)
  -> Reading configuration file 'etc/hbackup.conf'
@@ -9561,15 +9545,15 @@ d	test_r
 d	test_r/C:
 d	test_r/C:/Test Dir
 d	test_r/C:/Test Dir/My Dir
-f	test_r/C:/Test Dir/My Dir/a File.TXT
-f	test_r/C:/Test Dir/My Dir/another File.TXT
-f	test_r/C:/Test Dir/My File.TXT
+f	test_r/C:/Test Dir/My Dir/a File.TXT.gz
+f	test_r/C:/Test Dir/My Dir/another File.TXT.gz
+f	test_r/C:/Test Dir/My File.TXT.gz
 d	test_r/home
 d	test_r/home/User
 d	test_r/home/User/test
 d	test_r/home/User/test/dir
-f	test_r/home/User/test/dir/file3.txt.gz
-f	test_r/home/User/test/File2.txt
+f	test_r/home/User/test/dir/file3.txt
+f	test_r/home/User/test/File2.txt.gz
 
 Test: check for corrupted data
 sh: cannot create test_db/.data/0f/2e/a9/73d77135dc3d06c8e68da6dc59-0/data.gz: Directory nonexistent
@@ -9699,24 +9683,24 @@ Backup::Backup(test_db/.backup)
 Check
 Database open in read-only mode
 Crawling through DB data
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
 Error: Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 662ae0524981c10b4736be799fc8650a-0 45\r
-6d7fce9fee471194aa8b5b6e47267f03-0 2 27\r
+6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8a61083e712200a30c6ccf5f5c697b76-0 5         \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25      \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
 Error: Data corrupted for b90f8fa56ea1d39881d4a199c7a81d35-0
 Checksum: 68b329da9893e34099c7d8ad5cb9c940
 Reported corruption for b90f8fa56ea1d39881d4a199c7a81d35-0
-d41d8cd98f00b204e9800998ecf8427e-0 0\r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 Copy:  70.4%                              \r
@@ -9855,22 +9839,22 @@ Backup::Backup(test_db/.backup)
 Check
 Database open in read-only mode
 Crawling through DB data
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
 Error: Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 662ae0524981c10b4736be799fc8650a-0 45\r
-6d7fce9fee471194aa8b5b6e47267f03-0 2 27\r
+6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8a61083e712200a30c6ccf5f5c697b76-0 5         \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25      \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
 Warning: Data corruption reported for b90f8fa56ea1d39881d4a199c7a81d35-0
-d41d8cd98f00b204e9800998ecf8427e-0 0\r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 Copy:  70.4%                              \r
@@ -10015,8 +9999,8 @@ Reading list for 'newClient'
 Sorting list
 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
 Crawling through DB
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
@@ -10024,22 +10008,22 @@ Crawling through DB
 Error: Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 Backup::removeHash(59ca0efa9f5633cb0371bbc0355478d8-0)
 662ae0524981c10b4736be799fc8650a-0 45\r
-6d7fce9fee471194aa8b5b6e47267f03-0 2 27\r
+6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8a61083e712200a30c6ccf5f5c697b76-0 5         \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25      \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
 Backup::removeHash(b90f8fa56ea1d39881d4a199c7a81d35-0)
 Removed corrupted data for b90f8fa56ea1d39881d4a199c7a81d35-0
-d41d8cd98f00b204e9800998ecf8427e-0 0\r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 Found 19 valid and 2 broken data file(s)     
-Data statistics: 19 checksum(s), 19 valid [157653 real, 11549275 virtual]
+Data statistics: 19 checksum(s), 19 valid [157768 real, 11549275 virtual]
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -10102,27 +10086,27 @@ Reading list for 'newClient'
 Sorting list
 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
 Crawling through DB
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
 662ae0524981c10b4736be799fc8650a-0 45\r
-6d7fce9fee471194aa8b5b6e47267f03-0 2 27\r
+6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8a61083e712200a30c6ccf5f5c697b76-0 5         \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-d41d8cd98f00b204e9800998ecf8427e-0 0\r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25      \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 Found 19 valid and 0 broken data file(s)     
-Data statistics: 19 checksum(s), 19 valid [157653 real, 11549275 virtual]
+Data statistics: 19 checksum(s), 19 valid [157768 real, 11549275 virtual]
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -10310,8 +10294,8 @@ Sorting list
 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
 Crawling through DB
 00000000000000000000000000000000-0 1\r
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
@@ -10323,14 +10307,14 @@ Error: Structure needs cleaning reading file 'test_db/.data/55/55/55/55555555555
 Backup::removeHash(55555555555555555555555555555555-0)
 Removed corrupted data for 55555555555555555555555555555555-0
 662ae0524981c10b4736be799fc8650a-0 45\r
-6d7fce9fee471194aa8b5b6e47267f03-0 2 27\r
+6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
 88888888888888888888888888888888-0 1000      \r
-8a61083e712200a30c6ccf5f5c697b76-0 5   \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-d41d8cd98f00b204e9800998ecf8427e-0 0\r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25\r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
@@ -10338,7 +10322,7 @@ f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 ffffffffffffffffffffffffffffffff-0 1000000   \r
 Found 22 valid and 1 broken data file(s)  
-Data statistics: 22 checksum(s), 22 valid [157653 real, 12550276 virtual]
+Data statistics: 22 checksum(s), 22 valid [157768 real, 12550276 virtual]
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -10408,21 +10392,21 @@ Sorting list
 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
 Crawling through DB
 00000000000000000000000000000000-0 1\r
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
 662ae0524981c10b4736be799fc8650a-0 45\r
-6d7fce9fee471194aa8b5b6e47267f03-0 2 27\r
+6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
 88888888888888888888888888888888-0 1000      \r
-8a61083e712200a30c6ccf5f5c697b76-0 5   \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-d41d8cd98f00b204e9800998ecf8427e-0 0\r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25\r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
@@ -10430,7 +10414,7 @@ f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 ffffffffffffffffffffffffffffffff-0 1000000   \r
 Found 22 valid and 0 broken data file(s)  
-Data statistics: 22 checksum(s), 22 valid [157653 real, 12550276 virtual]
+Data statistics: 22 checksum(s), 22 valid [157768 real, 12550276 virtual]
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -10503,26 +10487,26 @@ Reading list for 'newClient'
 Sorting list
 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
 Crawling through DB
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
 662ae0524981c10b4736be799fc8650a-0 45\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8a61083e712200a30c6ccf5f5c697b76-0 5         \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-d41d8cd98f00b204e9800998ecf8427e-0 0\r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25      \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 Found 18 valid and 0 broken data file(s)     
-Data statistics: 18 checksum(s), 18 valid [157626 real, 11549273 virtual]
+Data statistics: 18 checksum(s), 18 valid [157766 real, 11549273 virtual]
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -10706,9 +10690,9 @@ Reading list for 'newClient'
 Sorting list
 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
 Crawling through DB
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
-33333333333333333333333333333333-0 3 \r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
+33333333333333333333333333333333-0 3    \r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
@@ -10716,21 +10700,21 @@ Crawling through DB
 662ae0524981c10b4736be799fc8650a-0 45\r
 77777777777777777777777777777777-0 7 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8a61083e712200a30c6ccf5f5c697b76-0 5         \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-d41d8cd98f00b204e9800998ecf8427e-0 0\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25      \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20\r
 Error: No such file or directory opening metadata file 'test_db/.data/dd/dd/dd/dddddddddddddddddddddddddd-0/meta'
 Warning: Setting missing metadata for dddddddddddddddddddddddddddddddd-0
 dddddddddddddddddddddddddddddddd-0 2\r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 Found 21 valid and 0 broken data file(s)     
-Data statistics: 21 checksum(s), 21 valid [157628 real, 11549285 virtual]
+Data statistics: 21 checksum(s), 21 valid [157768 real, 11549285 virtual]
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -10797,9 +10781,9 @@ Reading list for 'newClient'
 Sorting list
 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
 Crawling through DB
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
-33333333333333333333333333333333-0 3 \r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
+33333333333333333333333333333333-0 3    \r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
@@ -10807,19 +10791,19 @@ Crawling through DB
 662ae0524981c10b4736be799fc8650a-0 45\r
 77777777777777777777777777777777-0 7 \r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8a61083e712200a30c6ccf5f5c697b76-0 5         \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-d41d8cd98f00b204e9800998ecf8427e-0 0\r
-dddddddddddddddddddddddddddddddd-0 2\r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25      \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20\r
+dddddddddddddddddddddddddddddddd-0 2   \r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 Found 21 valid and 0 broken data file(s)     
-Data statistics: 21 checksum(s), 21 valid [157628 real, 11549285 virtual]
+Data statistics: 21 checksum(s), 21 valid [157768 real, 11549285 virtual]
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -10889,26 +10873,26 @@ Reading list for 'newClient'
 Sorting list
 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
 Crawling through DB
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
 662ae0524981c10b4736be799fc8650a-0 45\r
 816df6f64deba63b029ca19d880ee10a-0 512000 531\r
-8a61083e712200a30c6ccf5f5c697b76-0 5         \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-d41d8cd98f00b204e9800998ecf8427e-0 0\r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25      \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20\r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 Found 18 valid and 0 broken data file(s)     
-Data statistics: 18 checksum(s), 18 valid [157626 real, 11549273 virtual]
+Data statistics: 18 checksum(s), 18 valid [157766 real, 11549273 virtual]
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -11161,10 +11145,9 @@ Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
 dir\r
-Checking data, sizes: f=2 z=22 (22)
-Adding uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
+Adding compressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Backup::addHash(6d7fce9fee471194aa8b5b6e47267f03)
-Cf f    /home/User/test/dir/file3.txt
+Cf z    /home/User/test/dir/file3.txt
 Register modified for 'myClient'
 Database closed for 'myClient'
 Backup::add(test_db/myClient)
@@ -11259,10 +11242,9 @@ cvs\r
  --> filenew.c: 0
  --> fileutd.h: 1159985080
 cvs/CVS\r
-Checking data, sizes: f=16 z=36 (36)
-Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
+Adding compressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 Backup::addHash(b90f8fa56ea1d39881d4a199c7a81d35)
-Rf f    test1/cvs/CVS/Root
+Rf z    test1/cvs/CVS/Root
 If p    test1/cvs/CVS/Whatever
 Id p    test1/cvs/CVS/Wherever
 cvs/dir space\r
@@ -11379,7 +11361,7 @@ Backup::add(test_db/.checksums)
 Missing checksums list updated
 List of problematic checksums contains 2 items
 Database closed
-data
+data.gz
 meta
 Config for test_db/.configs/client.xp
 subset "xp"
@@ -11992,8 +11974,8 @@ Reading list for 'newClient'
 Sorting list
 List statistics: 43 checksum(s), 21 unique [11549304 real, 11808402 virtual]
 Crawling through DB
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
@@ -12002,21 +11984,21 @@ Error: No such file or directory opening metadata file 'test_db/.data/52/52/f2/4
 Warning: Adding missing metadata for 5252f242d27b8c2c9fdbdcbb33545d07-0
 5252f242d27b8c2c9fdbdcbb33545d07-0 42 67\r
 662ae0524981c10b4736be799fc8650a-0 45   \r
-6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
+6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 536\r
-8a61083e712200a30c6ccf5f5c697b76-0 5         \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
-d41d8cd98f00b204e9800998ecf8427e-0 0 \r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25      \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+b90f8fa56ea1d39881d4a199c7a81d35-0 16 36\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20 \r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 185\r
 Found 20 valid and 0 broken data file(s)
-Data statistics: 20 checksum(s), 20 valid [157505 real, 11290404 virtual]
+Data statistics: 20 checksum(s), 20 valid [157685 real, 11290404 virtual]
 Checksum(s) from list: 21
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -12194,21 +12176,21 @@ Backup::Backup(test_db/.backup)
  ---> 52 weekly
 Database open in read-only mode
 Crawling through DB data
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42 67  \r
 662ae0524981c10b4736be799fc8650a-0 45   \r
-6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
+6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 536\r
-8a61083e712200a30c6ccf5f5c697b76-0 5         \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
-d41d8cd98f00b204e9800998ecf8427e-0 0 \r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25      \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+b90f8fa56ea1d39881d4a199c7a81d35-0 16 36\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20 \r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 Copy:  70.4%                              \r
@@ -12354,21 +12336,21 @@ Reading list for 'newClient'
 Sorting list
 List statistics: 43 checksum(s), 21 unique [11549304 real, 11808402 virtual]
 Crawling through DB
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42 67  \r
 662ae0524981c10b4736be799fc8650a-0 45   \r
-6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
+6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
 816df6f64deba63b029ca19d880ee10a-0 512000 536\r
-8a61083e712200a30c6ccf5f5c697b76-0 5         \r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
-d41d8cd98f00b204e9800998ecf8427e-0 0 \r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25      \r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+b90f8fa56ea1d39881d4a199c7a81d35-0 16 36\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20 \r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
@@ -12376,7 +12358,7 @@ f899d6f61138a37484c8a2294656e903-0 177   \r
 Backup::removeHash(fb00cd74a5f35e89a7fbdd3c1d05375a-0)
 Removed corrupted data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 Found 19 valid and 1 broken data file(s)
-Data statistics: 19 checksum(s), 19 valid [157388 real, 11290219 virtual]
+Data statistics: 19 checksum(s), 19 valid [157568 real, 11290219 virtual]
 Checksum(s) from list: 21
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -13138,7 +13120,7 @@ hbackup.log:
 2009-08-07 06:05:06 VERB  missing.cpp:164 Reading list of problematic checksums
 2009-08-07 06:05:06 VERB  db.cpp:699 Database open r/w for 'aClient.vista'
 2009-08-07 06:05:06 INFO  clients.cpp:356 Backing up path 'C:/Test Dir'
-2009-08-07 06:05:06 ERROR paths.cpp:325 No such file or directory reading initial directory 'aClient.vista:C:/Test Dir'
+2009-08-07 06:05:06 ERROR paths.cpp:324 No such file or directory reading initial directory 'aClient.vista:C:/Test Dir'
 2009-08-07 06:05:06 ERROR clients.cpp:378 Aborting client
 2009-08-07 06:05:06 VERB  db.cpp:708 Database closed for 'aClient.vista'
 2009-08-07 06:05:06 INFO  missing.cpp:142 List of problematic checksums contains 2 items
@@ -13169,47 +13151,47 @@ hbackup.log-1:
 2009-08-07 06:05:06 INFO  clients.cpp:325 Backing up client 'myhost'
 2009-08-07 06:05:06 VERB  db.cpp:699 Database open r/w for 'myhost'
 2009-08-07 06:05:06 INFO  clients.cpp:356 Backing up path 'test1'
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/CVS/Whatever
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/cvs/CVS/Wherever
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dir space/CVS/Whatever
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dir space/file other
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/cvs/CVS/Wherever
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dir space/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dir space/file other
 2009-08-07 06:05:06 WARN  cvs_parser.cpp:86 Directory 'test1/cvs/dirbad' should be under CVS control
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dirbad/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dirbad/fileutd
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/cvs/diroth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dirutd/CVS/Whatever
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dirutd/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If f    test1/cvs/filemod.o
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id f    test1/subdir
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/.svn/all-wcprops
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/.svn/dir-prop-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/.svn/prop-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/.svn/props
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/.svn/text-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/.svn/tmp
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dir space/.svn/all-wcprops
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dir space/.svn/prop-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dir space/.svn/props
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dir space/.svn/text-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dir space/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dirbad/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dirbad/fileutd
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/cvs/diroth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dirutd/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dirutd/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If f    test1/cvs/filemod.o
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id f    test1/subdir
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/.svn/dir-prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dir space/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dir space/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dir space/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dir space/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dir space/.svn/tmp
 2009-08-07 06:05:06 WARN  svn_parser.cpp:150 Directory 'test1/svn/dirbad' should be under Subversion control
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dirbad/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dirbad/fileutd
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/diroth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dirutd/.svn/all-wcprops
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dirutd/.svn/prop-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dirutd/.svn/props
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dirutd/.svn/text-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dirutd/.svn/tmp
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dirutd/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If f    test1/svn/filemod.o
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/fileutd.h
-2009-08-07 06:05:06 VERB  paths.cpp:237 If f    test1/testfile~
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dirbad/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dirbad/fileutd
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/diroth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dirutd/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dirutd/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dirutd/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dirutd/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dirutd/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dirutd/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If f    test1/svn/filemod.o
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/fileutd.h
+2009-08-07 06:05:06 VERB  paths.cpp:236 If f    test1/testfile~
 2009-08-07 06:05:06 INFO  clients.cpp:356 Backing up path 'test2'
-2009-08-07 06:05:06 INFO  paths.cpp:189 Rf ~    test2/testfile2
-2009-08-07 06:05:06 VERB  paths.cpp:237 If f    test2/testfile~
+2009-08-07 06:05:06 INFO  paths.cpp:188 Rf ~    test2/testfile2
+2009-08-07 06:05:06 VERB  paths.cpp:236 If f    test2/testfile~
 2009-08-07 06:05:06 VERB  owner.cpp:368 Register modified for 'myhost'
 2009-08-07 06:05:06 VERB  db.cpp:708 Database closed for 'myhost'
 2009-08-07 06:05:06 INFO  clients.cpp:263 Trying client 'newClient' using protocol 'ssh'
@@ -13242,7 +13224,7 @@ hbackup.log-2:
 2009-08-07 06:05:06 VERB  db.cpp:547 Crawling through DB
 2009-08-07 06:05:06 INFO  data.cpp:893 Removed corrupted data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
 2009-08-07 06:05:06 VERB  data.cpp:969 Found 19 valid and 1 broken data file(s)
-2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 19 checksum(s), 19 valid [157388 real, 11290219 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 19 checksum(s), 19 valid [157568 real, 11290219 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:579 Checksum(s) with data: 19
 2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
 2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
@@ -13270,7 +13252,7 @@ hbackup.log-4:
 2009-08-07 06:05:06 ERROR data.cpp:240 No such file or directory opening metadata file 'test_db/.data/52/52/f2/42d27b8c2c9fdbdcbb33545d07-0/meta'
 2009-08-07 06:05:06 WARN  data.cpp:880 Adding missing metadata for 5252f242d27b8c2c9fdbdcbb33545d07-0
 2009-08-07 06:05:06 VERB  data.cpp:969 Found 20 valid and 0 broken data file(s)
-2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 20 checksum(s), 20 valid [157505 real, 11290404 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 20 checksum(s), 20 valid [157685 real, 11290404 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:579 Checksum(s) with data: 20
 2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
 2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
@@ -13302,46 +13284,46 @@ hbackup.log-5:
 2009-08-07 06:05:06 INFO  clients.cpp:325 Backing up client 'myhost'
 2009-08-07 06:05:06 VERB  db.cpp:699 Database open r/w for 'myhost'
 2009-08-07 06:05:06 INFO  clients.cpp:356 Backing up path 'test1'
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/CVS/Whatever
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/cvs/CVS/Wherever
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dir space/CVS/Whatever
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dir space/file other
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/cvs/CVS/Wherever
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dir space/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dir space/file other
 2009-08-07 06:05:06 WARN  cvs_parser.cpp:86 Directory 'test1/cvs/dirbad' should be under CVS control
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dirbad/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dirbad/fileutd
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/cvs/diroth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dirutd/CVS/Whatever
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dirutd/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If f    test1/cvs/filemod.o
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id f    test1/subdir
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/.svn/all-wcprops
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/.svn/dir-prop-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/.svn/prop-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/.svn/props
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/.svn/text-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/.svn/tmp
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dir space/.svn/all-wcprops
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dir space/.svn/prop-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dir space/.svn/props
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dir space/.svn/text-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dir space/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dirbad/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dirbad/fileutd
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/cvs/diroth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dirutd/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dirutd/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If f    test1/cvs/filemod.o
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id f    test1/subdir
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/.svn/dir-prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dir space/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dir space/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dir space/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dir space/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dir space/.svn/tmp
 2009-08-07 06:05:06 WARN  svn_parser.cpp:150 Directory 'test1/svn/dirbad' should be under Subversion control
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dirbad/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dirbad/fileutd
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/diroth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dirutd/.svn/all-wcprops
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dirutd/.svn/prop-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dirutd/.svn/props
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dirutd/.svn/text-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dirutd/.svn/tmp
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dirutd/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If f    test1/svn/filemod.o
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/fileutd.h
-2009-08-07 06:05:06 VERB  paths.cpp:237 If f    test1/testfile~
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dirbad/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dirbad/fileutd
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/diroth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dirutd/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dirutd/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dirutd/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dirutd/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dirutd/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dirutd/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If f    test1/svn/filemod.o
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/fileutd.h
+2009-08-07 06:05:06 VERB  paths.cpp:236 If f    test1/testfile~
 2009-08-07 06:05:06 INFO  clients.cpp:356 Backing up path 'test2'
-2009-08-07 06:05:06 VERB  paths.cpp:237 If f    test2/testfile~
+2009-08-07 06:05:06 VERB  paths.cpp:236 If f    test2/testfile~
 2009-08-07 06:05:06 VERB  db.cpp:708 Database closed for 'myhost'
 2009-08-07 06:05:06 INFO  clients.cpp:263 Trying client 'newClient' using protocol 'ssh'
 2009-08-07 06:05:06 INFO  clients.cpp:325 Backing up client 'newClient'
@@ -13369,7 +13351,7 @@ hbackup.log-6:
 2009-08-07 06:05:06 INFO  clients.cpp:325 Backing up client 'myClient'
 2009-08-07 06:05:06 VERB  db.cpp:699 Database open r/w for 'myClient'
 2009-08-07 06:05:06 INFO  clients.cpp:356 Backing up path '/home/User/test'
-2009-08-07 06:05:06 INFO  paths.cpp:189 Cf f    /home/User/test/dir/file3.txt
+2009-08-07 06:05:06 INFO  paths.cpp:188 Cf z    /home/User/test/dir/file3.txt
 2009-08-07 06:05:06 VERB  owner.cpp:368 Register modified for 'myClient'
 2009-08-07 06:05:06 VERB  db.cpp:708 Database closed for 'myClient'
 2009-08-07 06:05:06 INFO  clients.cpp:263 Trying client 'myClient.xp' using protocol 'smb'
@@ -13380,49 +13362,49 @@ hbackup.log-6:
 2009-08-07 06:05:06 INFO  clients.cpp:325 Backing up client 'myhost'
 2009-08-07 06:05:06 VERB  db.cpp:699 Database open r/w for 'myhost'
 2009-08-07 06:05:06 INFO  clients.cpp:356 Backing up path 'test1'
-2009-08-07 06:05:06 INFO  paths.cpp:189 Rf f    test1/cvs/CVS/Root
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/CVS/Whatever
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/cvs/CVS/Wherever
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dir space/CVS/Whatever
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dir space/file other
+2009-08-07 06:05:06 INFO  paths.cpp:188 Rf z    test1/cvs/CVS/Root
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/cvs/CVS/Wherever
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dir space/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dir space/file other
 2009-08-07 06:05:06 WARN  cvs_parser.cpp:86 Directory 'test1/cvs/dirbad' should be under CVS control
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dirbad/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dirbad/fileutd
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/cvs/diroth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dirutd/CVS/Whatever
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/dirutd/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If f    test1/cvs/filemod.o
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/cvs/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id f    test1/subdir
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/.svn/all-wcprops
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/.svn/dir-prop-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/.svn/prop-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/.svn/props
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/.svn/text-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/.svn/tmp
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dir space/.svn/all-wcprops
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dir space/.svn/prop-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dir space/.svn/props
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dir space/.svn/text-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dir space/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dirbad/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dirbad/fileutd
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/cvs/diroth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dirutd/CVS/Whatever
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/dirutd/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If f    test1/cvs/filemod.o
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/cvs/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id f    test1/subdir
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/.svn/dir-prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dir space/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dir space/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dir space/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dir space/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dir space/.svn/tmp
 2009-08-07 06:05:06 WARN  svn_parser.cpp:150 Directory 'test1/svn/dirbad' should be under Subversion control
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dirbad/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dirbad/fileutd
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/diroth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dirutd/.svn/all-wcprops
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dirutd/.svn/prop-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dirutd/.svn/props
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dirutd/.svn/text-base
-2009-08-07 06:05:06 VERB  paths.cpp:237 Id p    test1/svn/dirutd/.svn/tmp
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/dirutd/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If f    test1/svn/filemod.o
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/fileoth
-2009-08-07 06:05:06 VERB  paths.cpp:237 If p    test1/svn/fileutd.h
-2009-08-07 06:05:06 VERB  paths.cpp:237 If f    test1/testfile~
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dirbad/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dirbad/fileutd
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/diroth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dirutd/.svn/all-wcprops
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dirutd/.svn/prop-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dirutd/.svn/props
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dirutd/.svn/text-base
+2009-08-07 06:05:06 VERB  paths.cpp:236 Id p    test1/svn/dirutd/.svn/tmp
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/dirutd/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If f    test1/svn/filemod.o
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/fileoth
+2009-08-07 06:05:06 VERB  paths.cpp:236 If p    test1/svn/fileutd.h
+2009-08-07 06:05:06 VERB  paths.cpp:236 If f    test1/testfile~
 2009-08-07 06:05:06 INFO  list.cpp:756 D       test1/testfile
 2009-08-07 06:05:06 INFO  clients.cpp:356 Backing up path 'test2'
-2009-08-07 06:05:06 INFO  paths.cpp:189 Mf zr   test2/testfile2
-2009-08-07 06:05:06 VERB  paths.cpp:237 If f    test2/testfile~
+2009-08-07 06:05:06 INFO  paths.cpp:188 Mf zr   test2/testfile2
+2009-08-07 06:05:06 VERB  paths.cpp:236 If f    test2/testfile~
 2009-08-07 06:05:06 VERB  owner.cpp:368 Register modified for 'myhost'
 2009-08-07 06:05:06 VERB  db.cpp:708 Database closed for 'myhost'
 2009-08-07 06:05:06 INFO  clients.cpp:263 Trying client 'newClient' using protocol 'ssh'
@@ -13449,7 +13431,7 @@ hbackup.log-7:
 2009-08-07 06:05:06 ERROR data.cpp:240 No such file or directory opening metadata file 'test_db/.data/dd/dd/dd/dddddddddddddddddddddddddd-0/meta'
 2009-08-07 06:05:06 WARN  data.cpp:905 Setting missing metadata for dddddddddddddddddddddddddddddddd-0
 2009-08-07 06:05:06 VERB  data.cpp:969 Found 21 valid and 0 broken data file(s)
-2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 21 checksum(s), 21 valid [157628 real, 11549285 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 21 checksum(s), 21 valid [157768 real, 11549285 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:579 Checksum(s) with data: 21
 2009-08-07 06:05:06 INFO  db.cpp:622 Obsolete checksum(s): 3
 2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
@@ -13467,7 +13449,7 @@ hbackup.log-7:
 2009-08-07 06:05:06 VERB  db.cpp:544 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:547 Crawling through DB
 2009-08-07 06:05:06 VERB  data.cpp:969 Found 21 valid and 0 broken data file(s)
-2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 21 checksum(s), 21 valid [157628 real, 11549285 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 21 checksum(s), 21 valid [157768 real, 11549285 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:579 Checksum(s) with data: 21
 2009-08-07 06:05:06 INFO  db.cpp:622 Obsolete checksum(s): 3
 2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
@@ -13485,7 +13467,7 @@ hbackup.log-7:
 2009-08-07 06:05:06 VERB  db.cpp:544 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:547 Crawling through DB
 2009-08-07 06:05:06 VERB  data.cpp:969 Found 18 valid and 0 broken data file(s)
-2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 18 checksum(s), 18 valid [157626 real, 11549273 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 18 checksum(s), 18 valid [157766 real, 11549273 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:579 Checksum(s) with data: 18
 2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
 2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
@@ -13508,7 +13490,7 @@ hbackup.log-8:
 2009-08-07 06:05:06 ERROR data.cpp:841 Structure needs cleaning reading file 'test_db/.data/55/55/55/55555555555555555555555555-0/data.gz'
 2009-08-07 06:05:06 INFO  data.cpp:846 Removed corrupted data for 55555555555555555555555555555555-0
 2009-08-07 06:05:06 VERB  data.cpp:969 Found 22 valid and 1 broken data file(s)
-2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 22 checksum(s), 22 valid [157653 real, 12550276 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 22 checksum(s), 22 valid [157768 real, 12550276 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:579 Checksum(s) with data: 22
 2009-08-07 06:05:06 INFO  db.cpp:622 Obsolete checksum(s): 4
 2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
@@ -13526,7 +13508,7 @@ hbackup.log-8:
 2009-08-07 06:05:06 VERB  db.cpp:544 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:547 Crawling through DB
 2009-08-07 06:05:06 VERB  data.cpp:969 Found 22 valid and 0 broken data file(s)
-2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 22 checksum(s), 22 valid [157653 real, 12550276 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 22 checksum(s), 22 valid [157768 real, 12550276 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:579 Checksum(s) with data: 22
 2009-08-07 06:05:06 INFO  db.cpp:622 Obsolete checksum(s): 4
 2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
@@ -13544,7 +13526,7 @@ hbackup.log-8:
 2009-08-07 06:05:06 VERB  db.cpp:544 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:547 Crawling through DB
 2009-08-07 06:05:06 VERB  data.cpp:969 Found 18 valid and 0 broken data file(s)
-2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 18 checksum(s), 18 valid [157626 real, 11549273 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 18 checksum(s), 18 valid [157766 real, 11549273 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:579 Checksum(s) with data: 18
 2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
 2009-08-07 06:05:06 INFO  missing.cpp:100 Missing checksums list updated
@@ -13564,7 +13546,7 @@ hbackup.log-9:
 2009-08-07 06:05:06 ERROR data.cpp:801 Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
 2009-08-07 06:05:06 INFO  data.cpp:893 Removed corrupted data for b90f8fa56ea1d39881d4a199c7a81d35-0
 2009-08-07 06:05:06 VERB  data.cpp:969 Found 19 valid and 2 broken data file(s)
-2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 19 checksum(s), 19 valid [157653 real, 11549275 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 19 checksum(s), 19 valid [157768 real, 11549275 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:579 Checksum(s) with data: 19
 2009-08-07 06:05:06 INFO  db.cpp:622 Obsolete checksum(s): 1
 2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3
@@ -13582,7 +13564,7 @@ hbackup.log-9:
 2009-08-07 06:05:06 VERB  db.cpp:544 List statistics: 40 checksum(s), 20 unique [11549302 real, 11549312 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:547 Crawling through DB
 2009-08-07 06:05:06 VERB  data.cpp:969 Found 19 valid and 0 broken data file(s)
-2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 19 checksum(s), 19 valid [157653 real, 11549275 virtual]
+2009-08-07 06:05:06 VERB  db.cpp:568 Data statistics: 19 checksum(s), 19 valid [157768 real, 11549275 virtual]
 2009-08-07 06:05:06 VERB  db.cpp:579 Checksum(s) with data: 19
 2009-08-07 06:05:06 INFO  db.cpp:622 Obsolete checksum(s): 1
 2009-08-07 06:05:06 WARN  missing.cpp:296 Problematic checksum(s): 3

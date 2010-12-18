@@ -2628,18 +2628,15 @@ Backing up path 'C:/Test Dir'
  -> mount -t cifs -o ro,nocase //aClient/C$ test_db/.mount/aClient.vista
 Ad      C:/Test Dir/My Dir
 My Dir\r
-Checking data, sizes: f=2 z=22 (22)
-Adding uncompressed data for b026324c6904b2a9cb4b88d6d61c81d1-0
+Adding compressed data for b026324c6904b2a9cb4b88d6d61c81d1-0
 Backup::addHash(b026324c6904b2a9cb4b88d6d61c81d1)
-Af f    C:/Test Dir/My Dir/a File.TXT
-Checking data, sizes: f=2 z=22 (22)
-Adding uncompressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
+Af z    C:/Test Dir/My Dir/a File.TXT
+Adding compressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
 Backup::addHash(26ab0db90d72e28ad0ba1e22ee510510)
-Af f    C:/Test Dir/My Dir/another File.TXT
-Checking data, sizes: f=0 z=20 (20)
-Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
+Af z    C:/Test Dir/My Dir/another File.TXT
+Adding compressed data for d41d8cd98f00b204e9800998ecf8427e-0
 Backup::addHash(d41d8cd98f00b204e9800998ecf8427e)
-Af f    C:/Test Dir/My File.TXT
+Af z    C:/Test Dir/My File.TXT
 Register modified for 'aClient.vista'
 Database closed for 'aClient.vista'
 Backup::add(test_db/aClient.vista)
@@ -2687,6 +2684,20 @@ Backing up path 'C:/Test Dir'
 Ad      C:/Test Dir/My Dir
 My Dir\r
 Checking data, sizes: f=2 z=22 (22)
+ Conditional jump or move depends on uninitialised value(s)
+   inflateReset2 (inflate.c:157)
+   inflateInit2_ (inflate.c:193)
+   htools::UnzipReader::open() (unzipreader.cpp:59)
+   htools::Hasher::open() (hasher.cpp:82)
+   hbackup::Data::compare(htools::IReaderWriter&, htools::IReaderWriter&) const (data.cpp:69)
+   hbackup::Data::write(char const*, char*, int*, hbackup::Data::CompressionCase, std::string*) const (data.cpp:696)
+   hbackup::Database::add(hbackup::Database::OpData&, bool) (db.cpp:758)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, char const*, bool, unsigned int, htools::Node&, hbackup::IParser*) (paths.cpp:166)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, char const*, bool, unsigned int, htools::Node&, hbackup::IParser*) (paths.cpp:227)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*, char const*, bool) (paths.cpp:343)
+   hbackup::Client::backup(hbackup::Database&, char const*, char const*, bool, bool) (clients.cpp:374)
+   hbackup::HBackup::backup(bool) (interface.cpp:486)
+ 
 Af ~    C:/Test Dir/My Dir/a File.TXT
 Checking data, sizes: f=2 z=22 (22)
 Af ~    C:/Test Dir/My Dir/another File.TXT
@@ -2721,14 +2732,12 @@ Database open r/w for 'myClient'
 Backing up path '/home/User/test'
  -> umount -fl test_db/.mount/myClient
  -> mount -t nfs -o ro,noatime,nolock,soft,timeo=30,intr myClient:/home/User/test test_db/.mount/myClient
-Checking data, sizes: f=0 z=20 (20)
 Af ~    /home/User/test/File2.txt
 Ad      /home/User/test/dir
 dir\r
-Checking data, sizes: f=2 z=22 (22)
-Adding uncompressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
+Adding compressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
 Backup::addHash(6d7fce9fee471194aa8b5b6e47267f03)
-Af f    /home/User/test/dir/file3.txt
+Af z    /home/User/test/dir/file3.txt
 Register modified for 'myClient'
 Database closed for 'myClient'
 Backup::add(test_db/myClient)
@@ -2928,7 +2937,6 @@ File copy progress:  97.7%\r
 File copy progress:  98.6%\r
 File copy progress:  99.6%\r
 File copy progress: 100.0%\r
-Checking data, sizes: f=10485760 z=10208 (10367)
 Adding compressed data for f1c9645dbc14efddc7d8a322685f26eb-0
 Backup::addHash(f1c9645dbc14efddc7d8a322685f26eb)
 Af z    test1/big_file
@@ -2946,10 +2954,9 @@ cvs/CVS\r
 Adding uncompressed data for f899d6f61138a37484c8a2294656e903-0
 Backup::addHash(f899d6f61138a37484c8a2294656e903)
 Af f    test1/cvs/CVS/Entries
-Checking data, sizes: f=16 z=36 (36)
-Adding uncompressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
+Adding compressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
 Backup::addHash(b90f8fa56ea1d39881d4a199c7a81d35)
-Af f    test1/cvs/CVS/Root
+Af z    test1/cvs/CVS/Root
 If p    test1/cvs/CVS/Whatever
 Id p    test1/cvs/CVS/Wherever
 Ad      test1/cvs/dir space
@@ -2961,10 +2968,9 @@ cvs/dir space/CVS\r
 Adding uncompressed data for 662ae0524981c10b4736be799fc8650a-0
 Backup::addHash(662ae0524981c10b4736be799fc8650a)
 Af f    test1/cvs/dir space/CVS/Entries
-Checking data, sizes: f=16 z=36 (36)
-Adding uncompressed data for 328b42839732650180b213aadebe494d-0
+Adding compressed data for 328b42839732650180b213aadebe494d-0
 Backup::addHash(328b42839732650180b213aadebe494d)
-Af f    test1/cvs/dir space/CVS/Root
+Af z    test1/cvs/dir space/CVS/Root
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
 Checking data, sizes: f=0 z=20 (20)
@@ -2984,10 +2990,9 @@ cvs/dirutd/CVS\r
 Adding uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
 Backup::addHash(5252f242d27b8c2c9fdbdcbb33545d07)
 Af f    test1/cvs/dirutd/CVS/Entries
-Checking data, sizes: f=10 z=30 (30)
-Adding uncompressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
+Adding compressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
 Backup::addHash(eb75fb33b2019ef3c840eb5ccdc2e795)
-Af f    test1/cvs/dirutd/CVS/Root
+Af z    test1/cvs/dirutd/CVS/Root
 If p    test1/cvs/dirutd/CVS/Whatever
 If p    test1/cvs/dirutd/fileoth
 Checking data, sizes: f=0 z=20 (20)
@@ -3031,7 +3036,6 @@ svn/.svn\r
 Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
-Checking data, sizes: f=602 z=260 (264)
 Adding compressed data for 5173c1e86196c05c124452a401e92a22-0
 Backup::addHash(5173c1e86196c05c124452a401e92a22)
 Af z    test1/svn/.svn/entries
@@ -3045,7 +3049,6 @@ Ad      test1/svn/dir space/.svn
 svn/dir space/.svn\r
 Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
-Checking data, sizes: f=278 z=189 (191)
 Adding compressed data for f2b4c9d3f0830dea53972d208979feb0-0
 Backup::addHash(f2b4c9d3f0830dea53972d208979feb0)
 Af z    test1/svn/dir space/.svn/entries
@@ -3067,7 +3070,6 @@ Ad      test1/svn/dirutd/.svn
 svn/dirutd/.svn\r
 Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
-Checking data, sizes: f=388 z=211 (214)
 Adding compressed data for 33b426a9cdc8a98729e5dbe6d5feb619-0
 Backup::addHash(33b426a9cdc8a98729e5dbe6d5feb619)
 Af z    test1/svn/dirutd/.svn/entries
@@ -3087,10 +3089,9 @@ Checking data, sizes: f=0 z=20 (20)
 Af ~    test1/test space
 Ad      test1/testdir
 testdir\r
-Checking data, sizes: f=13 z=33 (33)
-Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
+Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8)
-Af f    test1/testfile
+Af z    test1/testfile
 If f    test1/testfile~
 Al      test1/testlink
 Ap      test1/testpipe
@@ -3146,16 +3147,14 @@ Database open r/w for 'newClient'
 Backing up path '/home/Blah/test'
  -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
-Checking data, sizes: f=5 z=25 (25)
-Adding uncompressed data for b8bbb1294db5d59366b7d1827e2158d6-0
+Adding compressed data for b8bbb1294db5d59366b7d1827e2158d6-0
 Backup::addHash(b8bbb1294db5d59366b7d1827e2158d6)
-Af f    /home/Blah/test/File2.txt
+Af z    /home/Blah/test/File2.txt
 Ad      /home/Blah/test/dir
 dir\r
-Checking data, sizes: f=5 z=25 (25)
-Adding uncompressed data for 8a61083e712200a30c6ccf5f5c697b76-0
+Adding compressed data for 8a61083e712200a30c6ccf5f5c697b76-0
 Backup::addHash(8a61083e712200a30c6ccf5f5c697b76)
-Af f    /home/Blah/test/dir/file3.txt
+Af z    /home/Blah/test/dir/file3.txt
 Register modified for 'newClient'
 Database closed for 'newClient'
 Backup::add(test_db/newClient)
@@ -3793,28 +3792,28 @@ Reading list for 'newClient'
 Sorting list
 List statistics: 39 checksum(s), 20 unique [11037304 real, 11037314 virtual]
 Crawling through DB
-26ab0db90d72e28ad0ba1e22ee510510-0 2\r
-328b42839732650180b213aadebe494d-0 16\r
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
-59ca0efa9f5633cb0371bbc0355478d8-0 13\r
-662ae0524981c10b4736be799fc8650a-0 45\r
-6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
-8a61083e712200a30c6ccf5f5c697b76-0 5\r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
-d41d8cd98f00b204e9800998ecf8427e-0 0 \r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+59ca0efa9f5633cb0371bbc0355478d8-0 13 33\r
+662ae0524981c10b4736be799fc8650a-0 45   \r
+6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25\r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+b90f8fa56ea1d39881d4a199c7a81d35-0 16 36\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20 \r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 f81f70dceaca8b0cec354f33fa3f0909-0 145461 \r
 f899d6f61138a37484c8a2294656e903-0 177   \r
 fb00cd74a5f35e89a7fbdd3c1d05375a-0 259072 286\r
 Found 20 valid and 0 broken data file(s)     
-Data statistics: 20 checksum(s), 20 valid [157126 real, 11037304 virtual]
+Data statistics: 20 checksum(s), 20 valid [157326 real, 11037304 virtual]
 Checksum(s) from list: 20
  -> 26ab0db90d72e28ad0ba1e22ee510510-0, 2
  -> 328b42839732650180b213aadebe494d-0, 16
@@ -4004,19 +4003,21 @@ Crawling through DB data
    hbackup::Data::crawl(bool, bool, std::list<hbackup::CompData, std::allocator<hbackup::CompData> >*) const (data.cpp:968)
    hbackup::Database::check(bool) const (db.cpp:655)
  
+26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
+328b42839732650180b213aadebe494d-0 16 36\r
 33b426a9cdc8a98729e5dbe6d5feb619-0 388 211\r
 3d546a1ce46c6ae10ad34ab8a81c542e-0 145408 176\r
 5173c1e86196c05c124452a401e92a22-0 602 260   \r
 5252f242d27b8c2c9fdbdcbb33545d07-0 42     \r
-59ca0efa9f5633cb0371bbc0355478d8-0 13\r
-662ae0524981c10b4736be799fc8650a-0 45\r
-6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
-8a61083e712200a30c6ccf5f5c697b76-0 5\r
-b026324c6904b2a9cb4b88d6d61c81d1-0 2\r
-b8bbb1294db5d59366b7d1827e2158d6-0 5\r
-b90f8fa56ea1d39881d4a199c7a81d35-0 16\r
-d41d8cd98f00b204e9800998ecf8427e-0 0 \r
-eb75fb33b2019ef3c840eb5ccdc2e795-0 10\r
+59ca0efa9f5633cb0371bbc0355478d8-0 13 33\r
+662ae0524981c10b4736be799fc8650a-0 45   \r
+6d7fce9fee471194aa8b5b6e47267f03-0 2 22\r
+8a61083e712200a30c6ccf5f5c697b76-0 5 25\r
+b026324c6904b2a9cb4b88d6d61c81d1-0 2 22\r
+b8bbb1294db5d59366b7d1827e2158d6-0 5 25\r
+b90f8fa56ea1d39881d4a199c7a81d35-0 16 36\r
+d41d8cd98f00b204e9800998ecf8427e-0 0 20 \r
+eb75fb33b2019ef3c840eb5ccdc2e795-0 10 30\r
 f1c9645dbc14efddc7d8a322685f26eb-0 10485760 10208\r
 f2b4c9d3f0830dea53972d208979feb0-0 278 189       \r
 File copy progress:  70.4%                \r
@@ -5218,6 +5219,17 @@ U       test_r/test1/cvs
 U       test_r/test1/cvs/CVS
 U       test_r/test1/cvs/CVS/Entries
 U       test_r/test1/cvs/CVS/Root
+ Conditional jump or move depends on uninitialised value(s)
+   inflateReset2 (inflate.c:157)
+   inflateInit2_ (inflate.c:193)
+   htools::UnzipReader::open() (unzipreader.cpp:59)
+   htools::StackHelper::open() (stackhelper.h:54)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:518)
+   hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:404)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
+   hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:198)
+   main (hbackup.cpp:335)
+ 
 U       test_r/test1/cvs/dir space
 U       test_r/test1/cvs/dir space/CVS
 U       test_r/test1/cvs/dir space/CVS/Entries

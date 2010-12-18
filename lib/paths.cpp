@@ -157,8 +157,7 @@ int ClientPath::parse_recurse(
                   /* If in no-compress list, never compress */
                   op.comp_case = Data::forced_no;
                 } else
-                if ((op.comp_case != Data::auto_now) &&
-                    (_compress != NULL) && _compress->match(**i, start)) {
+                if ((_compress != NULL) && _compress->match(**i, start)) {
                   /* If in compress list, always compress */
                   op.comp_case = Data::forced_yes;
                 }

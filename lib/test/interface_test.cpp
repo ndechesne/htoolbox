@@ -200,10 +200,10 @@ int main(void) {
   abort(0xffff);
 
   {
-    cout << endl << "Test: force-compress DB data" << endl;
-    sys_rc = system("gzip -5 test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/data"
-      " -c > test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/data.gz");
-    remove("test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/data");
+    cout << endl << "Test: force-decompress DB data" << endl;
+    sys_rc = system("gunzip test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/data.gz"
+      " -c > test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/data");
+    remove("test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/data.gz");
     sys_rc = system("echo -n 2 > "
       "test_db/.data/6d/7f/ce/9fee471194aa8b5b6e47267f03-0/meta");
   }
@@ -664,7 +664,7 @@ int main(void) {
   hbackup->show(2);
   hbackup->restore("test_r", HBackup::symbolic, "", 0);
   hbackup->close();
-  sys_rc = system("ls -l test_r/home/User/test/dir/file3.txt.gz | sed \"s/.*-> //\"");
+  sys_rc = system("ls -l test_r/home/User/test/dir/file3.txt* | sed \"s/.*-> //\"");
   sys_rc = system("find test_r -printf '%y\t%p\n'  | sort -k2; rm -rf test_r");
   delete hbackup;
 
@@ -783,7 +783,7 @@ int main(void) {
   sys_rc = system("echo > test_db/.data/0f/2e/a9/73d77135dc3d06c8e68da6dc59-0/data.gz");
   sys_rc = system("echo > test_db/.data/b9/0f/8f/a56ea1d39881d4a199c7a81d35-0/data");
   sys_rc = system("echo > test_db/.data/fe/f5/18/38cd3cfe8ed96355742eb71fbd-0/data");
-  sys_rc = system("rm -f test_db/.data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/data");
+  sys_rc = system("rm -f test_db/.data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/data*");
   hbackup = new HBackup();
   if (hbackup->open("etc/hbackup.conf")) {
     return 1;
