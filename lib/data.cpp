@@ -465,24 +465,22 @@ void Data::setProgressCallback(progress_f progress) {
 
 int Data::name(
     const char*     checksum,
-    string&         path,
-    string&         extension) const {
-  char temp_path[PATH_MAX];
-  if (getDir(checksum, temp_path)) {
+    char*           path,
+    string*         extension) const {
+  if (getDir(checksum, path)) {
     return -1;
   }
-  path = temp_path;
-  const char* extensions[] = { "", ".gz", NULL };
-  char local_path[PATH_MAX];
-  sprintf(local_path, "%s/%s", path.c_str(), "data");
-  int no = Node::findExtension(local_path, extensions);
-  if (no < 0) {
-    errno = ENOENT;
-    hlog_error("%s looking for file '%s'*", strerror(errno), local_path);
-    return -1;
+  strcpy(&path[strlen(path)], "/data");
+  if (extension != NULL) {
+    const char* extensions[] = { "", ".gz", NULL };
+    int no = Node::findExtension(path, extensions);
+    if (no < 0) {
+      errno = ENOENT;
+      hlog_error("%s looking for file '%s'*", strerror(errno), path);
+      return -1;
+    } else
+    *extension = extensions[no];
   }
-  path      = local_path;
-  extension = extensions[no];
   return 0;
 }
 
@@ -555,7 +553,7 @@ Data::WriteStatus Data::write(
     char            dchecksum[64],
     int*            comp_level,
     CompressionCase comp_case,
-    string*         store_path) const {
+    char*           store_path) const {
   bool failed = false;
 
   // Open source file
@@ -771,7 +769,7 @@ Data::WriteStatus Data::write(
       if (status == leave) {
         sprintf(name, "%s/data%s", final_path, (*comp_level != 0) ? ".gz" : "");
       }
-      *store_path = name;
+      strcpy(store_path, name);
     }
   }
   return status;

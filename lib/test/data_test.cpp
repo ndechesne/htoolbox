@@ -136,9 +136,9 @@ int main(void) {
     chksm[0] = '\0';
     const char* testfile = "test1/testfile";
     int comp_level = 5;
-    string store_path;
+    char store_path[PATH_MAX];
     if ((status = db.write(testfile, chksm, &comp_level, Data::auto_now, 
-        &store_path)) < 0) {
+        store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -167,7 +167,7 @@ int main(void) {
     const char* blah = "test_db/blah";
     comp_level = 0;
     if ((status = db.write(blah, chksm, &comp_level, Data::auto_later, 
-        &store_path)) < 0) {
+        store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -185,9 +185,9 @@ int main(void) {
     /* Write */
     const char* testfile = "test1/big_file";
     int comp_level = 5;
-    string store_path;
+    char store_path[PATH_MAX];
     if ((status = db.write(testfile, chksm, &comp_level, Data::auto_now, 
-        &store_path)) < 0) {
+        store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -215,7 +215,7 @@ int main(void) {
     const char* blah = "test_db/blah";
     comp_level = 0;
     if ((status = db.write(blah, chksm, &comp_level, Data::auto_later, 
-        &store_path)) < 0) {
+        store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -235,9 +235,9 @@ int main(void) {
       << endl;
     /* Write */
     int comp_level = -1;
-    string store_path;
+    char store_path[PATH_MAX];
     if ((status = db.write(testfile, chksm, &comp_level, Data::forced_no, 
-        &store_path)) < 0) {
+        store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -266,7 +266,7 @@ int main(void) {
     chksm[0] = '\0';
     comp_level = 0;
     if ((status = db.write(blah, chksm, &comp_level, Data::auto_later, 
-        &store_path)) < 0) {
+        store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
     }
@@ -284,9 +284,9 @@ int main(void) {
   /* Write */
   chksm[0] = '\0';
   int comp_level = 5;
-  string store_path;
+  char store_path[PATH_MAX];
   if ((status = db.write(testfile, chksm, &comp_level, Data::Data::forced_yes, 
-      &store_path)) < 0) {
+      store_path)) < 0) {
     printf("db.write error status %d\n", status);
     return 0;
   }
@@ -326,7 +326,7 @@ int main(void) {
   chksm[0] = '\0';
   comp_level = 0;
   if ((status = db.write(blah, chksm, &comp_level, Data::auto_later, 
-      &store_path)) < 0) {
+      store_path)) < 0) {
     printf("db.write error status %d\n", status);
     return 0;
   }
@@ -339,7 +339,7 @@ int main(void) {
   chksm[0] = '\0';
   comp_level = 0;
   if ((status = db.write(blah, chksm, &comp_level, Data::auto_later, 
-      &store_path)) < 0) {
+      store_path)) < 0) {
     printf("db.write error status %d\n", status);
     return 0;
   }

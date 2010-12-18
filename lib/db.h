@@ -96,7 +96,8 @@ public:
     bool            report_copy_error_once = false);
   // Make sure we have the file storage path info
   int  setStorePath(
-    OpData&         operation);           // Operation data
+    OpData&         operation,            // Operation data
+    bool            check = true);        // Check extension
 };
 
 }

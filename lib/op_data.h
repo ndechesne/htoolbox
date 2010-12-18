@@ -44,7 +44,7 @@ namespace hbackup {
     size_t            sep_offset;
     size_t            end_offset;
     const char*       extra;
-    string            store_path;       // Where data is stored in DB
+    char              store_path[PATH_MAX]; // Where data is stored in DB
     // Pointers given to the constructor MUST remain valid during operation!
     OpData(
       const char*     p,                // Real file path, on client

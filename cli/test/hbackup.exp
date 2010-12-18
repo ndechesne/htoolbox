@@ -3412,7 +3412,6 @@ Error: after line 41: need at most 1 occurence(s) of keyword 'ignore'
 Error: after line 51: missing keyword 'condition'
 Error: at line 53: keyword 'filter' requires 2 parameter(s), found 1
 Error: after line 53: missing keyword 'condition'
-Error: after line 65: missing keyword 'protocol'
 Error: at line 71: keyword 'ignore' requires 1 parameter(s), found 2
 Error: at line 72: keyword 'compress' requires 1 parameter(s), found 2
 Error: at line 85: keyword 'ignore' requires 1 parameter(s), found 0

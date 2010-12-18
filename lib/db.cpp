@@ -407,21 +407,21 @@ int Database::restore(
             this_failed = true;
           }
         } else {
-          string path;
+          char path[PATH_MAX];
           string extension;
           string dest(base.c_str());
-          if (_d->data.name(db_node->hash(), path, extension)) {
+          if (_d->data.name(db_node->hash(), path, &extension)) {
             this_failed = true;
           } else {
             dest += extension;
             if (links == HBackup::symbolic) {
-              if (symlink(path.c_str(), dest.c_str())) {
+              if (symlink(path, dest.c_str())) {
                 hlog_error("%s sym-linking file '%s'", strerror(errno),
                   dest.c_str());
                 this_failed = true;
               }
             } else {
-              if (link(path.c_str(), dest.c_str())) {
+              if (link(path, dest.c_str())) {
                 hlog_error("%s hard-linking file '%s'", strerror(errno),
                   dest.c_str());
                 this_failed = true;
@@ -755,7 +755,7 @@ int Database::add(
     if (op.extra == NULL) {
       // Copy data
       Data::WriteStatus status = _d->data.write(op.node.path(), checksum,
-        &op.compression, op.comp_case, &op.store_path);
+        &op.compression, op.comp_case, op.store_path);
       if (status == Data::error) {
         if ((op.operation == '!') && report_copy_error_once) {
           hlog_warning("%s backing up file '%s:%s'", strerror(errno),
@@ -810,16 +810,19 @@ int Database::add(
 }
 
 int Database::setStorePath(
-    OpData&         op) {
+    OpData&         op,
+    bool            check) {
   if (op.extra == NULL) {
     return -1;
   }
   string extension;
-  int rc = _d->data.name(op.extra, op.store_path, extension);
-  if (! extension.empty()) {
-    op.compression = 1;
-  } else {
-    op.compression = 0;
+  int rc = _d->data.name(op.extra, op.store_path, check ? &extension : NULL);
+  if (check) {
+    if (! extension.empty()) {
+      op.compression = 1;
+    } else {
+      op.compression = 0;
+    }
   }
   return rc;
 }

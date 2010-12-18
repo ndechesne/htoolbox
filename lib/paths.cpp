@@ -188,14 +188,13 @@ int ClientPath::parse_recurse(
             hlog_info("%-8s%s", code, rem_path);
           } else
           if ((tree_base_path != NULL) && ((*i)->type() == 'f')) {
-            if (_attributes.treeCheckData()) {
-              db.setStorePath(op);
-            } else
-            if (_attributes.treeCompressedData()) {
-              op.compression = 1;
-            } else
-            {
-              op.compression = 0;
+            db.setStorePath(op, _attributes.treeCheckData());
+            if (! _attributes.treeCheckData()) {
+              if (_attributes.treeCompressedData()) {
+                op.compression = 1;
+              } else {
+                op.compression = 0;
+              }
             }
           }
 
@@ -206,9 +205,9 @@ int ClientPath::parse_recurse(
                 strcpy(&tree_path[tree_path_len], ".gz");
               }
               if (tree_symlinks) {
-                symlink(op.store_path.c_str(), tree_path);
+                symlink(op.store_path, tree_path);
               } else {
-                link(op.store_path.c_str(), tree_path);
+                link(op.store_path, tree_path);
               }
             }
           } else

@@ -100,8 +100,8 @@ public:
   // Get file name for given checksum
   int name(
     const char*     checksum,
-    string&         path,
-    string&         extension) const;
+    char*           path,
+    string*         extension) const;
   // Read file with given checksum, extract it to path
   int read(
     const char*     path,
@@ -122,7 +122,7 @@ public:
     char            checksum[64],     // Copy checksum here
     int*            comp_level,       // Comp. to apply (< 0: never) / applied
     CompressionCase auto_case,        // Choose whether to store compressed
-    string*         store_path) const;
+    char*           store_path) const;
   // Remove given checksum's data
   int remove(
     const char*     checksum) const;

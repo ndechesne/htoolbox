@@ -291,7 +291,7 @@ int HBackup::readConfig(const char* config_path) {
     // hostname
     client->add(new ConfigItem("hostname", 0, 1, 1));
     // protocol
-    client->add(new ConfigItem("protocol", 1, 1, 1));
+    client->add(new ConfigItem("protocol", 0, 1, 1));
     // option
     client->add(new ConfigItem("option", 0, 0, 1, 2));
     // timeout_nowarning

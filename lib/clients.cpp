@@ -122,6 +122,7 @@ Client::Client(
     _internal_name = _name + "." + _subset_server;
   }
   _host_or_ip = name;
+  _protocol = "file";
   _expire = -1;
   _timeout_nowarning = false;
 }
