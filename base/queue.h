@@ -16,17 +16,17 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef _JOB_QUEUE_H
-#define _JOB_QUEUE_H
+#ifndef _QUEUE_H
+#define _QUEUE_H
 
 namespace htools {
 
-class JobQueue {
+class Queue {
   struct         Private;
   Private* const _d;
 public:
-  JobQueue(const char* name);
-  ~JobQueue();
+  Queue(const char* name);
+  ~Queue();
   void open(size_t max_size = 1);
   void close();
   void wait();
@@ -38,4 +38,4 @@ public:
 
 };
 
-#endif // _JOB_QUEUE_H
+#endif // _QUEUE_H

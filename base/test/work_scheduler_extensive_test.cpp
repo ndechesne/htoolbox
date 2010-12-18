@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include <hreport.h>
-#include <job_queue.h>
+#include <queue.h>
 #include <work_scheduler.h>
 
 using namespace htools;
@@ -51,10 +51,10 @@ int main(void) {
 //   report.addRegressionCondition("work_scheduler.cpp");
   report.addRegressionCondition("work_scheduler_extensive_test.cpp");
 
-  JobQueue q_in("in");
-  JobQueue q_int1("int1");
-  JobQueue q_int2("int2");
-  JobQueue q_out("out");
+  Queue q_in("in");
+  Queue q_int1("int1");
+  Queue q_int2("int2");
+  Queue q_out("out");
   char user1[32] = "user1";
   char user2[32] = "user2";
   char user3[32] = "user3";

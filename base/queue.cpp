@@ -26,11 +26,11 @@
 using namespace std;
 
 #include <hreport.h>
-#include <job_queue.h>
+#include <queue.h>
 
 using namespace htools;
 
-struct JobQueue::Private {
+struct Queue::Private {
   char            name[64];
   bool            queue_open;
   size_t          max_size;
@@ -42,7 +42,7 @@ struct JobQueue::Private {
   pthread_cond_t  push_cond;
 };
 
-JobQueue::JobQueue(const char* name) :_d(new Private) {
+Queue::Queue(const char* name) :_d(new Private) {
   strncpy(_d->name, name, sizeof(_d->name));
   _d->name[sizeof(_d->name) - 1] = '\0';
   _d->queue_open = false;
@@ -52,7 +52,7 @@ JobQueue::JobQueue(const char* name) :_d(new Private) {
   pthread_cond_init(&_d->push_cond, NULL);
 }
 
-JobQueue::~JobQueue() {
+Queue::~Queue() {
   // FIXME what if queue is not empty?
   pthread_mutex_destroy(&_d->queue_lock);
   pthread_cond_destroy(&_d->pop_cond);
@@ -60,12 +60,12 @@ JobQueue::~JobQueue() {
   delete _d;
 }
 
-void JobQueue::open(size_t max_size) {
+void Queue::open(size_t max_size) {
   _d->queue_open = true;
   _d->max_size = max_size;
 }
 
-void JobQueue::close() {
+void Queue::close() {
   hlog_regression("%s.%s enter", _d->name, __FUNCTION__);
   _d->queue_open = false;
   _d->max_size = 0;
@@ -73,7 +73,7 @@ void JobQueue::close() {
   hlog_regression("%s.%s exit", _d->name, __FUNCTION__);
 }
 
-void JobQueue::wait() {
+void Queue::wait() {
   hlog_regression("%s.%s enter", _d->name, __FUNCTION__);
   pthread_mutex_lock(&_d->queue_lock);
   while (! _d->objects.empty()) {
@@ -84,15 +84,15 @@ void JobQueue::wait() {
   hlog_regression("%s.%s exit", _d->name, __FUNCTION__);
 }
 
-bool JobQueue::empty() const {
+bool Queue::empty() const {
   return _d->objects.empty();
 }
 
-size_t JobQueue::size() const {
+size_t Queue::size() const {
   return _d->objects.size();
 }
 
-int JobQueue::push(void* data) {
+int Queue::push(void* data) {
   hlog_regression("%s.%s enter", _d->name, __FUNCTION__);
   pthread_mutex_lock(&_d->queue_lock);
   // Wait for some space
@@ -113,7 +113,7 @@ int JobQueue::push(void* data) {
   return rc;
 }
 
-int JobQueue::pop(void** data) {
+int Queue::pop(void** data) {
   hlog_regression("%s.%s enter", _d->name, __FUNCTION__);
   bool queue_flushed = false;
   pthread_mutex_lock(&_d->queue_lock);

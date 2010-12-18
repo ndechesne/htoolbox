@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include <hreport.h>
-#include <job_queue.h>
+#include <queue.h>
 #include <work_scheduler.h>
 
 using namespace htools;
@@ -23,8 +23,8 @@ int main(void) {
   report.addRegressionCondition("work_scheduler.cpp");
   report.addRegressionCondition("work_scheduler_test.cpp");
 
-  JobQueue q_in("in");
-  JobQueue q_out("out");
+  Queue q_in("in");
+  Queue q_out("out");
   char user[32] = "";
   WorkScheduler ws("sched", q_in, q_out, task, user);
 

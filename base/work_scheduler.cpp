@@ -29,7 +29,7 @@
 using namespace std;
 
 #include <hreport.h>
-#include <job_queue.h>
+#include <queue.h>
 #include <work_scheduler.h>
 
 using namespace htools;
@@ -44,7 +44,7 @@ struct WorkerThreadData {
   WorkSchedulerData&        parent;
   pthread_t                 tid;
   char                      name[NAME_SIZE];
-  JobQueue                  q_in;
+  Queue                     q_in;
   time_t                    last_run;
   WorkerThreadData(WorkSchedulerData& p, const char* n)
   : parent(p), q_in(n) {
@@ -56,8 +56,8 @@ struct WorkerThreadData {
 struct WorkSchedulerData {
   // Parameters
   char                      name[NAME_SIZE];
-  JobQueue&                 q_in;
-  JobQueue&                 q_out;
+  Queue&                    q_in;
+  Queue&                    q_out;
   WorkScheduler::routine_f  routine;
   void*                     user;
   size_t                    min_threads;
@@ -69,7 +69,7 @@ struct WorkSchedulerData {
   pthread_mutex_t           threads_list_lock;
   list<WorkerThreadData*>   busy_threads;
   list<WorkerThreadData*>   idle_threads;
-  WorkSchedulerData(JobQueue& in, JobQueue& out)
+  WorkSchedulerData(Queue& in, Queue& out)
   : q_in(in), q_out(out), time_out(600), running(false) {
     pthread_mutex_init(&threads_list_lock, NULL);
   }
@@ -81,7 +81,7 @@ struct WorkSchedulerData {
 struct WorkScheduler::Private {
   WorkSchedulerData         data;
   pthread_t                 monitor_tid;
-  Private(JobQueue& in, JobQueue& out) : data(in, out) {}
+  Private(Queue& in, Queue& out) : data(in, out) {}
 };
 
 static void* worker_thread(void* data) {
@@ -227,7 +227,7 @@ static void* monitor_thread(void* data) {
   return NULL;
 }
 
-WorkScheduler::WorkScheduler(const char* name, JobQueue& in, JobQueue& out,
+WorkScheduler::WorkScheduler(const char* name, Queue& in, Queue& out,
     routine_f routine, void* user)
   : _d(new Private(in, out)) {
   strncpy(_d->data.name, name, NAME_SIZE);
