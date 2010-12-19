@@ -1,8 +1,7 @@
 include $(top_srcdir)/test_tools/test.mak
 
 AM_CXXFLAGS = \
-  -I$(top_srcdir)/include \
-  -I$(top_srcdir)/base \
+  -I../include \
   $(NULL)
 
 check_PROGRAMS = \
@@ -29,7 +28,7 @@ work_scheduler_test_SOURCES = work_scheduler_test.cpp
 work_scheduler_extensive_test_SOURCES = work_scheduler_extensive_test.cpp
 zip_unzip_test_SOURCES = zip_unzip_test.cpp
 
-LDADD = $(top_builddir)/base/libhtools.la
+LDADD = ../src/libhtools.la
 
 check_SUCCESSES = \
   configuration.done \

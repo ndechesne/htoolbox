@@ -1,0 +1,39 @@
+htoolsincludedir = $(includedir)/htools
+
+htoolsinclude_HEADERS = \
+  asyncwriter.h \
+  configuration.h \
+  filereaderwriter.h \
+  files.h \
+  hasher.h \
+  ifilereaderwriter.h \
+  ireaderwriter.h \
+  linereaderwriter.h \
+  multiwriter.h \
+  nullwriter.h \
+  queue.h \
+  report.h \
+  share.h \
+  stackhelper.h \
+  unzipreader.h \
+  work_scheduler.h \
+  zipwriter.h \
+  $(NULL)
+
+EXTRA_DIST = \
+  asyncwriter.h \
+  buffer.h \
+  configuration.h \
+  filereaderwriter.h \
+  files.h \
+  hasher.h \
+  ireaderwriter.h \
+  linereaderwriter.h \
+  multiwriter.h \
+  queue.h \
+  share.h \
+  stackhelper.h \
+  unzipreader.h \
+  work_scheduler.h \
+  zipwriter.h \
+  $(NULL)

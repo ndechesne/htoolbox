@@ -77,13 +77,15 @@ AC_CONFIG_FILES([Makefile
                  backend/src/Makefile
                  backend/test/Makefile
                  base/Makefile
+                 base/include/Makefile
+                 base/src/Makefile
                  base/test/Makefile
                  cli/Makefile
                  cli/man/Makefile
                  cli/src/Makefile
                  cli/test/Makefile
                  doc/Makefile
-                 include/Makefile
+                 lib/include/Makefile
                  lib/Makefile
                  lib/test/Makefile
                  parsers/Makefile

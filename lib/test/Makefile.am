@@ -1,9 +1,8 @@
 include $(top_srcdir)/test_tools/test.mak
 
 AM_CXXFLAGS = \
-  -I$(top_srcdir)/include \
-  -I$(top_srcdir)/base \
-  -I$(top_srcdir)/parsers \
+  -I$(top_srcdir)/base/include \
+  -I$(top_srcdir)/lib/include \
   -I$(top_srcdir)/lib \
   $(NULL)
 
@@ -36,7 +35,7 @@ paths_test_SOURCES = paths_test.cpp
 svn_parser_test_SOURCES = svn_parser_test.cpp
 
 LDADD = \
-  $(top_builddir)/base/libhtools.la \
+  $(top_builddir)/base/src/libhtools.la \
   $(top_builddir)/lib/libhbackup.la \
   $(NULL)
 

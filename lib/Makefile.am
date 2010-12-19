@@ -1,9 +1,8 @@
-SUBDIRS = . test
+SUBDIRS = . include test
 
 AM_CXXFLAGS = \
-  -I$(top_srcdir)/include \
-  -I$(top_srcdir)/base \
-  -I$(top_srcdir)/parsers \
+  -I$(top_srcdir)/base/include \
+  -I$(top_srcdir)/lib/include \
   $(NULL)
 
 # Library
@@ -12,7 +11,7 @@ lib_LTLIBRARIES = libhbackup.la
 libhbackup_la_LDFLAGS= -version-info $(LIB_VERSION)
 
 libhbackup_la_LIBADD = \
-  $(top_builddir)/base/libhtools.la \
+  $(top_builddir)/base/src/libhtools.la \
   -ldl \
   $(NULL)
 

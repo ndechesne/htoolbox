@@ -1,10 +1,10 @@
 AM_CXXFLAGS = \
-  -I@top_srcdir@/include \
-  -I@top_srcdir@/base \
+  -I@top_srcdir@/base/include \
+  -I@top_srcdir@/lib/include \
   $(NULL)
 
 LDADD = \
-  @top_srcdir@/base/libhtools.la \
+  @top_srcdir@/base/src/libhtools.la \
   @top_srcdir@/lib/libhbackup.la \
   $(NULL)
 
