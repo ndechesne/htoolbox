@@ -80,6 +80,7 @@ AC_CONFIG_FILES([Makefile
                  base/test/Makefile
                  cli/Makefile
                  cli/man/Makefile
+                 cli/src/Makefile
                  cli/test/Makefile
                  doc/Makefile
                  include/Makefile

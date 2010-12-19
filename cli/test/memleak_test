@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
-linked_hbackup="../../.libs/lt-hbackup"
+linked_hbackup="../../src/.libs/lt-hbackup"
 if [ ! -r $linked_hbackup ]; then
-	../../hbackup --version &> /dev/null
+	../../src/hbackup --version &> /dev/null
 fi
 
 hbackup="valgrind --quiet --leak-check=full $linked_hbackup"

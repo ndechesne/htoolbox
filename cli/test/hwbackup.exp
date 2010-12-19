@@ -1,4 +1,4 @@
-Testing: ../../hwbackup -t
+Testing: ../../src/hwbackup -t
 
 Help
 hwbackup options:

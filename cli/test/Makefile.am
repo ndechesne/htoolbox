@@ -4,9 +4,9 @@ check_SUCCESSES = \
 	hbackup.done \
 	hwbackup.done
 
-hbackup.done: ../hbackup
-hwbackup.done: ../hbackup ../hwbackup
-memleak.done: ../hbackup
+hbackup.done: ../src/hbackup
+hwbackup.done: ../src/hbackup ../src/hwbackup
+memleak.done: ../src/hbackup
 
 EXTRA_DIST = \
 	hbackup_test \

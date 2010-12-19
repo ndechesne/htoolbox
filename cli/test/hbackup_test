@@ -1,6 +1,6 @@
 #!/bin/sh
 
-hbackup="../../hbackup"
+hbackup="../../src/hbackup"
 
 echo "Version"
 "$hbackup" --version -- 2>&1

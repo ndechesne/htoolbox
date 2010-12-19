@@ -1,6 +1,6 @@
 #!/bin/sh
 
-prog="../../hwbackup -t"
+prog="../../src/hwbackup -t"
 touch -d "19710307 22:40 CET" test_time
 
 echo "Testing: $prog"
@@ -22,7 +22,7 @@ echo "Nothing yet"
 $prog -c etc/hbackup.conf -v -w test_web
 
 # Backup one client
-../../hbackup -c etc/hbackup.conf -iq -C aClient.vista > /dev/null 2>&1
+../../src/hbackup -c etc/hbackup.conf -iq -C aClient.vista > /dev/null 2>&1
 touch -c -d "20080727 23:59 GMT" test_db/aClient.vista/.last-backup
 
 echo
@@ -36,7 +36,7 @@ echo "Index:"
 cat test_web/index.xhtml
 
 # Scan
-../../hbackup -c etc/hbackup.conf -s > /dev/null 2>&1
+../../src/hbackup -c etc/hbackup.conf -s > /dev/null 2>&1
 touch -c -d "20080728 GMT" test_db/.last-scan
 
 echo
@@ -46,7 +46,7 @@ echo "Index:"
 cat test_web/index.xhtml
 
 # Check
-../../hbackup -c etc/hbackup.conf -t > /dev/null 2>&1
+../../src/hbackup -c etc/hbackup.conf -t > /dev/null 2>&1
 touch -c -d "20080728 00:01 GMT" test_db/.last-check
 
 echo
@@ -56,7 +56,7 @@ echo "Index:"
 cat test_web/index.xhtml
 
 # Backup another client, not finished
-../../hbackup -c etc/hbackup.conf -q -C myClient > /dev/null 2>&1
+../../src/hbackup -c etc/hbackup.conf -q -C myClient > /dev/null 2>&1
 rm -f test_db/myClient/.last-backup
 touch -d "20080728 00:15 GMT" test_db/myClient/journal
 touch -d "20080728 00:17 GMT" test_db/myClient/partial
@@ -70,7 +70,7 @@ cat test_web/index.xhtml
 # Backup another client, not finished
 rm -f test_db/myClient/journal
 rm -f test_db/myClient/partial
-../../hbackup -c etc/hbackup.conf -q -C myClient.xp > /dev/null 2>&1
+../../src/hbackup -c etc/hbackup.conf -q -C myClient.xp > /dev/null 2>&1
 touch -d "20080728 00:15 GMT" test_db/myClient/journal
 touch -d "20080728 00:17 GMT" test_db/myClient/partial
 touch -c -d "20080728 00:32 GMT" test_db/myClient.xp/.last-backup

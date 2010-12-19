@@ -12,7 +12,7 @@ Makefile
 test_dir.tar.gz
 aclocal.m4
 autom4te.cache
-cli/hbackup
+cli/src/hbackup
 config.guess
 config.h
 config.h.in
