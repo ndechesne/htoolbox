@@ -26,3 +26,6 @@ libtool
 ltmain.sh
 missing
 stamp-h1
+autoscan.log
+configure.scan
+backend/src/hbackend

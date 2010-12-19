@@ -9,9 +9,9 @@ AC_DEFINE([HBACKUP_CONFIG], ["/etc/hbackup/config"],
   [Default configuration file path])
 AC_SUBST(LIB_VERSION, [3:0:2])
 
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([config.h.in])
-AC_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADERS([config.h])
 
 AC_DISABLE_STATIC
 AC_LANG([C++])
@@ -29,6 +29,8 @@ fi
 
 # Checks for programs.
 AC_PROG_CXX
+AC_PROG_AWK
+AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
@@ -37,6 +39,7 @@ AC_PROG_LIBTOOL
 
 # Checks for libraries.
 liberrors=""
+AC_CHECK_LIB([dl], [dlopen])
 AC_CHECK_LIB(ssl, SSL_CTX_new, [], [liberrors="yes"])
 AC_CHECK_LIB(z, deflate, [], [liberrors="yes"])
 AC_CHECK_LIB(pthread, deflate, [], [liberrors="yes"])
@@ -45,50 +48,43 @@ if test "x$liberrors" != "x"; then
 fi
 
 # Checks for header files.
-AC_HEADER_DIRENT
-AC_HEADER_STDC
-AC_CHECK_HEADERS([fcntl.h stdlib.h string.h sys/time.h unistd.h utime.h])
+AC_CHECK_HEADERS([fcntl.h limits.h stdlib.h string.h sys/time.h unistd.h utime.h])
 AC_CHECK_HEADERS([sstream])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
-AC_C_CONST
-AC_C_INLINE
 AC_TYPE_UID_T
+AC_C_INLINE
 AC_TYPE_MODE_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
 
 # Checks for library functions.
-AC_FUNC_CLOSEDIR_VOID
+AC_FUNC_CHOWN
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC
-AC_FUNC_REALLOC
-AC_FUNC_MEMCMP
-AC_FUNC_CHOWN
 AC_FUNC_MKTIME
-AC_FUNC_SELECT_ARGTYPES
-AC_FUNC_STAT
-AC_FUNC_UTIME_NULL
-AC_STRUCT_TM
-AC_CHECK_FUNCS([gettimeofday mempcpy mkdir mkfifo regcomp select setenv])
-AC_CHECK_FUNCS([strchr strdup strerror strrchr strtol strtoul tzset utime])
+AC_FUNC_REALLOC
+AC_CHECK_FUNCS([getdelim localtime_r memchr memset mkdir mkfifo regcomp setenv strcasecmp strchr strdup strerror strncasecmp strrchr tzset utime])
 
 # Define test tools
 AC_PATH_PROG(TEST_TOOL, test_tools/test_setup, test_tools/test_setup)
 AC_PATH_PROG(TEST_RUN, test_tools/test_run, test_tools/test_run)
 
 AC_CONFIG_FILES([Makefile
-                 include/Makefile
+                 backend/Makefile
+                 backend/src/Makefile
+                 backend/test/Makefile
                  base/Makefile
                  base/test/Makefile
-                 parsers/Makefile
+                 cli/Makefile
+                 cli/man/Makefile
+                 cli/test/Makefile
+                 doc/Makefile
+                 include/Makefile
                  lib/Makefile
                  lib/test/Makefile
-                 cli/Makefile
-                 cli/test/Makefile
-                 cli/man/Makefile
-                 test_tools/Makefile
-                 doc/Makefile])
+                 parsers/Makefile
+                 test_tools/Makefile])
 AC_OUTPUT
