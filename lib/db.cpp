@@ -489,6 +489,22 @@ int Database::restore(
   return (failed || (rc < 0)) ? -1 : 0;
 }
 
+class Collector : public Data::Collector {
+  list<CompData> _data;
+public:
+  void add(const char* h, long long d, long long f) {
+    _data.push_back(CompData(h, d, f));
+  }
+  list<CompData>& data() { return _data; }
+  list<CompData>::iterator begin() { return _data.begin(); }
+  list<CompData>::iterator end() { return _data.end(); }
+  list<CompData>::iterator erase(list<CompData>::iterator i) {
+    return _data.erase(i);
+  }
+  size_t size() { return _data.size(); }
+  bool empty() { return _data.empty(); }
+};
+
 int Database::scan(
     bool            rm_obsolete) const {
   // Get checksums from list
@@ -545,7 +561,7 @@ int Database::scan(
 
   // Get checksums from DB
   hlog_verbose("Crawling through DB");
-  list<CompData> data_data;
+  Collector data_data;
   // Check surficially, remove empty dirs
   int rc = _d->data.crawl(false, true, &data_data);
   if (aborting() || (rc < 0)) {

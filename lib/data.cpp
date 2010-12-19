@@ -43,14 +43,15 @@ using namespace std;
 #include "stackhelper.h"
 #include "asyncwriter.h"
 #include "multiwriter.h"
-#include "hbackup.h"
 #include "files.h"
+
+using namespace htools;
+
+#include "hbackup.h"
 #include "backup.h"
-#include "compdata.h"
 #include "data.h"
 
 using namespace hbackup;
-using namespace htools;
 
 struct Data::Private {
   string            path;
@@ -384,7 +385,7 @@ int Data::crawl_recurse(
     size_t          level,
     Node&           dir,
     char*           hash,
-    list<CompData>* data,
+    Collector*      collector,
     bool            thorough,
     bool            repair,
     size_t*         valid,
@@ -400,8 +401,8 @@ int Data::crawl_recurse(
         if (((*i)->type() == 'd') && ((*i)->name()[0] != '.')) {
           Node subdir(Path(dir.path(), (*i)->name()));
           strcpy(&hash[level * 2], (*i)->name());
-          if (crawl_recurse(level + 1, subdir, hash, data, thorough, repair,
-              valid, broken) < 0) {
+          if (crawl_recurse(level + 1, subdir, hash, collector, thorough,
+              repair, valid, broken) < 0) {
             failed = true;
           }
         }
@@ -419,8 +420,8 @@ int Data::crawl_recurse(
     long long file_size;
     if (check(hash, thorough, repair, &data_size, &file_size) == 0) {
       // Add to data, the list of collected data
-      if (data != NULL) {
-        data->push_back(CompData(hash, data_size, file_size));
+      if (collector != NULL) {
+        collector->add(hash, data_size, file_size);
       }
       if (valid != NULL) {
         (*valid)++;
@@ -958,12 +959,13 @@ int Data::remove(
 int Data::crawl(
     bool            thorough,
     bool            repair,
-    list<CompData>* data) const {
+    Collector*      collector) const {
   Node d(_d->path.c_str());
   size_t valid  = 0;
   size_t broken = 0;
   char hash[64] = "";
-  int rc = crawl_recurse(0, d, hash, data, thorough, repair, &valid, &broken);
+  int rc = crawl_recurse(0, d, hash, collector, thorough, repair, &valid,
+    &broken);
   hlog_verbose("Found %zu valid and %zu broken data file(s)", valid, broken);
   return rc;
 }

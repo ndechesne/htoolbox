@@ -39,6 +39,11 @@ public:
     auto_later = ' ', // auto might check later
     unknown = '?',    // not decided
   };
+  // Data collector for the crawler
+  class Collector {
+  public:
+    virtual void add(const char* h, long long d, long long f) = 0;
+  };
 protected: // So I can test them
   // Compare two files
   ssize_t compare(
@@ -82,7 +87,7 @@ protected: // So I can test them
     size_t          level,            // Level in tree
     htools::Node&   dir,              // Base directory
     char*           hash,             // Hash (or part of it)
-    list<CompData>* data,             // List of collected data
+    Collector*      collector,        // Collector to give data to
     bool            thorough,         // Whether to check for data corruption
     bool            remove,           // Whether to remove damaged data
     size_t*         valid,            // Number of valid data files found
@@ -130,7 +135,7 @@ public:
   int crawl(
     bool            thorough,         // Whether to check for data corruption
     bool            repair,           // Whether to repair/remove damaged data
-    list<CompData>* data = NULL) const;// List of collected data
+    Collector*      collector = NULL) const; // Collector to give data to
 };
 
 }
