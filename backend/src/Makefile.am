@@ -1,7 +1,7 @@
 AM_CXXFLAGS = \
   -I$(top_srcdir)/base/include \
   -I$(top_srcdir)/lib/include \
-  -I$(top_srcdir)/lib \
+  -I$(top_srcdir)/lib/src \
   $(NULL)
 
 bin_PROGRAMS = hbackend

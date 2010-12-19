@@ -5,7 +5,7 @@ AM_CXXFLAGS = \
 
 LDADD = \
   @top_srcdir@/base/src/libhtools.la \
-  @top_srcdir@/lib/libhbackup.la \
+  @top_srcdir@/lib/src/libhbackup.la \
   $(NULL)
 
 bin_PROGRAMS = hbackup

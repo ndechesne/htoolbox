@@ -85,8 +85,9 @@ AC_CONFIG_FILES([Makefile
                  cli/src/Makefile
                  cli/test/Makefile
                  doc/Makefile
-                 lib/include/Makefile
                  lib/Makefile
+                 lib/include/Makefile
+                 lib/src/Makefile
                  lib/test/Makefile
                  parsers/Makefile
                  test_tools/Makefile])
