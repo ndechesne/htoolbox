@@ -1,8 +1,0 @@
-#!/bin/sh
-
-if [ -n "$1" ]; then
-  letter="$1"
-else
-  letter="M"
-fi
-svn st | grep -e "^$letter" | sed "s/.......//" | sort | xargs -l tkdiff &
