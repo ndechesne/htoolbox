@@ -16,12 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <files.h>    // Backup dependencies (see below)
-
-using namespace htools;
-
 #include <hbackup.h>  // progress_f (needs architecture review)
-#include <backup.h>   // Backup (needs architecture review)
 #include <data.h>
 
 using namespace hbackup;

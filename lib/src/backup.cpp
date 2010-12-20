@@ -23,6 +23,9 @@
 
 using namespace htools;
 
+#include "hbackup.h"
+#include "configuration.h"
+#include "data.h"
 #include "backup.h"
 
 using namespace hbackup;

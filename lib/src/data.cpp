@@ -48,8 +48,9 @@ using namespace std;
 using namespace htools;
 
 #include "hbackup.h"
-#include "backup.h"
 #include "data.h"
+#include "configuration.h"
+#include "backup.h"
 
 using namespace hbackup;
 

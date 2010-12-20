@@ -32,8 +32,9 @@ using namespace std;
 #include "list.h"
 #include "db.h"
 #include "compdata.h"
-#include "backup.h"
 #include "data.h"
+#include "configuration.h"
+#include "backup.h"
 #include "op_data.h"
 
 // Tests status:

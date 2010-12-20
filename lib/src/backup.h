@@ -19,11 +19,9 @@
 #ifndef _BACKUP_H
 #define _BACKUP_H
 
-#include "configuration.h"
-
 namespace hbackup {
 
-class Backup {
+class Backup : public Data::Backup {
   struct            Private;
   Private* const    _d;
 public:

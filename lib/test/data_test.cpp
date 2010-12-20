@@ -31,9 +31,10 @@ using namespace std;
 #include "test.h"
 
 #include "files.h"
-#include "backup.h"
 #include "compdata.h"
 #include "data.h"
+#include "configuration.h"
+#include "backup.h"
 
 // Tests status:
 //   getDir:          tested

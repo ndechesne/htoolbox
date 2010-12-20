@@ -30,9 +30,10 @@ using namespace std;
 #include "list.h"
 #include "missing.h"
 #include "db.h"
-#include "backup.h"
 #include "compdata.h"
 #include "data.h"
+#include "configuration.h"
+#include "backup.h"
 #include "op_data.h"
 #include "owner.h"
 

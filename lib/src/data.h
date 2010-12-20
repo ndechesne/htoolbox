@@ -38,6 +38,12 @@ public:
     auto_later = ' ', // auto might check later
     unknown = '?',    // not decided
   };
+  // Action collector for backup purposes
+  class Backup {
+  public:
+    virtual int addHash(const char* hash) = 0;
+    virtual int removeHash(const char* hash) = 0;
+  };
   // Data collector for the crawler
   class Collector {
   public:
