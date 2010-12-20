@@ -16,15 +16,11 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <iostream>
-#include <string>
 #include <list>
 
 #include <cctype>
 #include <cstdio>
 
-#include <pthread.h>
-#include <semaphore.h>
 #include <fcntl.h>
 #include <dirent.h>
 #include <sys/types.h>
@@ -222,15 +218,14 @@ int Node::stat() {
     _mode  = metadata.st_mode & ~S_IFMT;
     // Special case for symbolic links
     if (isLink()) {
-      char link[static_cast<int>(_size) + 1];
-      ssize_t count = readlink(_path, link, static_cast<int>(_size));
+      _link = static_cast<char*>(malloc(static_cast<int>(_size) + 1));
+      ssize_t count = readlink(_path, _link, static_cast<int>(_size));
       if (count >= 0) {
         _size = count;
       } else {
         _size = 0;
       }
-      link[_size] = '\0';
-      _link = link;
+      _link[_size] = '\0';
     }
   }
   return rc;

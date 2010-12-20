@@ -16,7 +16,7 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include "files.h"    // Node (private), string (1 occurence)
+#include "files.h"    // Node (private)
 
 using namespace htools;
 

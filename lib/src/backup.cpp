@@ -16,11 +16,15 @@
      Boston, MA 02111-1307, USA.
 */
 
+#include <string>
+
 #include "report.h"
 #include "files.h"
-#include "backup.h"
 
 using namespace htools;
+
+#include "backup.h"
+
 using namespace hbackup;
 
 struct Backup::Private {

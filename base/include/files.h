@@ -21,7 +21,6 @@
 
 #include <list>
 #include <vector>
-#include <string>
 
 using namespace std;
 
@@ -82,10 +81,12 @@ protected:
   gid_t         _gid;       // group ID of owner
   mode_t        _mode;      // permissions
   char          _hash[129]; // regular file hash
-  std::string   _link;      // symbolic link value
+  char*         _link;      // symbolic link value
   list<Node*>*  _nodes;     // directory entries
   // Stat file metadata
   int stat();
+  Node();
+  const Node& operator=(const Node&);
 public:
   // Default constructor
   Node(const Node& g) :
@@ -96,13 +97,16 @@ public:
         _uid(g._uid),
         _gid(g._gid),
         _mode(g._mode),
-        _link(g._link),
+        _link(NULL),
         _nodes(NULL) {
       _basename = basename(_path);
+      if (g._link != NULL) {
+        _link = strdup(g._link);
+      }
       strcpy(_hash, g._hash);
     }
   // Constructor for path in the VFS
-  Node(const Path& path) : _path(path), _type('?'), _nodes(NULL) {
+  Node(const Path& path) : _path(path), _type('?'), _link(NULL), _nodes(NULL) {
     _basename = basename(_path);
     if (_path[0] != '\0') {
       stat();
@@ -126,16 +130,18 @@ public:
         _uid(uid),
         _gid(gid),
         _mode(mode),
+        _link(NULL),
         _nodes(NULL) {
       _basename = basename(_path);
       if (_type == 'l') {
-        _link = link_or_hash;
+        _link = strdup(link_or_hash);
       } else
       if (_type == 'f') {
         strcpy(_hash, link_or_hash);
       }
     }
   ~Node() {
+    free(_link);
     deleteList();
   }
   // Reset some metadata
@@ -143,7 +149,10 @@ public:
   void setSize(long long size)   { _size  = size;  }
   // Only used in list test
   void setHash(const char* hash) { strcpy(_hash, hash); }
-  void setLink(const char* link) { _link = link;   }
+  void setLink(const char* link) {
+    free(_link);
+    _link = strdup(link);
+  }
   // Operators
   bool operator<(const Node& right) const {
     // Only compare paths
@@ -162,7 +171,13 @@ public:
   gid_t         gid()     const { return _gid;          }
   mode_t        mode()    const { return _mode;         }
   const char*   hash()    const { return _hash;         }
-  const char*   link()    const { return _link.c_str(); }
+  const char*   link()    const {
+    if (_link != NULL) {
+      return _link;
+    } else {
+      return "";
+    }
+  }
   // Create empty/truncate file
   static int touch(const char* path);
   // Create directory
