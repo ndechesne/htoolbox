@@ -6,7 +6,6 @@ htoolsinclude_HEADERS = \
   filereaderwriter.h \
   files.h \
   hasher.h \
-  ifilereaderwriter.h \
   ireaderwriter.h \
   linereaderwriter.h \
   multiwriter.h \

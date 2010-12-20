@@ -25,13 +25,10 @@
 using namespace htools;
 
 struct Hasher::Private {
-  IReaderWriter* child;
-  bool           delete_child;
   Digest         digest;
   char*          hash;
   EVP_MD_CTX ctx;
-  Private(IReaderWriter* c, bool d, Digest m, char *h) :
-    child(c), delete_child(d), digest(m), hash(h) {}
+  Private(Digest m, char *h) : digest(m), hash(h) {}
   void binToHex(char* out, const unsigned char* in, int bytes) {
     const char* hex = "0123456789abcdef";
 
@@ -69,17 +66,14 @@ int Hasher::Private::update(
 }
 
 Hasher::Hasher(IReaderWriter* c, bool d, Digest m, char* h) :
-  _d(new Private(c, d, m, h)) {}
+  IReaderWriter(c, d), _d(new Private(m, h)) {}
 
 Hasher::~Hasher() {
-  if (_d->delete_child) {
-    delete _d->child;
-  }
   delete _d;
 }
 
 int Hasher::open() {
-  if (_d->child->open() < 0) {
+  if (_child->open() < 0) {
     return -1;
   }
   const EVP_MD* digest;
@@ -133,7 +127,7 @@ int Hasher::open() {
   }
   return 0;
 err:
-  _d->child->close();
+  _child->close();
   return -1;
 }
 
@@ -149,14 +143,14 @@ int Hasher::close() {
   } else {
     _d->binToHex(_d->hash, hash, length);
   }
-  if (_d->child->close() < 0) {
+  if (_child->close() < 0) {
     rc = -1;
   }
   return rc;
 }
 
 ssize_t Hasher::read(void* buffer, size_t size) {
-  ssize_t rc = _d->child->read(buffer, size);
+  ssize_t rc = _child->read(buffer, size);
   if (rc < 0) {
     return -1;
   }
@@ -167,7 +161,7 @@ ssize_t Hasher::read(void* buffer, size_t size) {
 }
 
 ssize_t Hasher::write(const void* buffer, size_t size) {
-  ssize_t rc = _d->child->write(buffer, size);
+  ssize_t rc = _child->write(buffer, size);
   if (rc < 0) {
     return -1;
   }

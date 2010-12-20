@@ -29,25 +29,19 @@ enum {
 };
 
 struct UnzipReader::Private {
-  IReaderWriter* child;
-  bool           delete_child;
   z_stream       strm;
   unsigned char  buffer[BUFFER_SIZE];
-  Private(IReaderWriter* c, bool d) : child(c), delete_child(d) {}
 };
 
 UnzipReader::UnzipReader(IReaderWriter* child, bool delete_child) :
-  _d(new Private(child, delete_child)) {}
+  IReaderWriter(child, delete_child), _d(new Private) {}
 
 UnzipReader::~UnzipReader() {
-  if (_d->delete_child) {
-    delete _d->child;
-  }
   delete _d;
 }
 
 int UnzipReader::open() {
-  if (_d->child->open() < 0) {
+  if (_child->open() < 0) {
     return -1;
   }
   _d->strm.zalloc   = Z_NULL;
@@ -57,7 +51,7 @@ int UnzipReader::open() {
   _d->strm.next_in  = Z_NULL;
   // De-compress
   if (inflateInit2(&_d->strm, 32 + 15) != Z_OK) {
-    _d->child->close();
+    _child->close();
     hlog_alert("failed to initialise decompression");
     errno = EUNATCH;
     return -1;
@@ -72,7 +66,7 @@ int UnzipReader::close() {
     errno = EUNATCH;
     rc = -1;
   }
-  if (_d->child->close() < 0) {
+  if (_child->close() < 0) {
     rc = -1;
   }
   return rc;
@@ -84,7 +78,7 @@ ssize_t UnzipReader::read(void* buffer, size_t size) {
   while (count < size) {
     ssize_t count_in;
     if (_d->strm.avail_in == 0) {
-      count_in = _d->child->read(_d->buffer, BUFFER_SIZE);
+      count_in = _child->read(_d->buffer, BUFFER_SIZE);
       if (count_in < 0) {
         return -1;
       }

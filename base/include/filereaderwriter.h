@@ -19,7 +19,7 @@
 #ifndef _FILEREADERWRITER_H
 #define _FILEREADERWRITER_H
 
-#include <ifilereaderwriter.h>
+#include <ireaderwriter.h>
 
 namespace htools {
 
@@ -27,7 +27,7 @@ namespace htools {
 /*!
  * This is the file accessor to actually read data from or store data to disk.
  */
-class FileReaderWriter : public IFileReaderWriter {
+class FileReaderWriter : public IReaderWriter {
   struct         Private;
   Private* const _d;
 public:

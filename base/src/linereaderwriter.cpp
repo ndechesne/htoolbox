@@ -31,11 +31,10 @@ enum {
 
 struct LineReaderWriter::Private {
   IReaderWriter*  child;
-  bool            delete_child;
   char            buffer[102400];
   const char*     buffer_end;
   const char*     reader;
-  Private(IReaderWriter* c, bool d) : child(c), delete_child(d) {}
+  Private(IReaderWriter* c) : child(c) {}
   void reset() {
     reader = buffer_end = buffer;
   }
@@ -64,12 +63,9 @@ struct LineReaderWriter::Private {
 };
 
 LineReaderWriter::LineReaderWriter(IReaderWriter* child, bool delete_child) :
-  _d(new Private(child, delete_child)) {}
+  IReaderWriter(child, delete_child), _d(new Private(child)) {}
 
 LineReaderWriter::~LineReaderWriter() {
-  if (_d->delete_child) {
-    delete _d->child;
-  }
   delete _d;
 }
 

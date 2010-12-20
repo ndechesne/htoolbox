@@ -19,7 +19,7 @@
 #ifndef _NULLWRITER_H
 #define _NULLWRITER_H
 
-#include <ifilereaderwriter.h>
+#include <ireaderwriter.h>
 
 namespace htools {
 
@@ -29,7 +29,7 @@ namespace htools {
  *
  * Offset is valid.
  */
-class NullWriter : public IFileReaderWriter {
+class NullWriter : public IReaderWriter {
   long long _offset;
 public:
   NullWriter() {}

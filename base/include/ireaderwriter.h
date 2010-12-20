@@ -38,11 +38,29 @@ namespace htools {
  * bytes, except of course when read reaches the end of the stream.
  *
  * The close() method should report an error if any previous call failed.
+ *
+ * The path() method tries to return the path to the underlying stream, if any.
+ * Otherwise it must return NULL.
+ *
+ * The offset() method tries to return the offset of the underlying stream, if
+ * any. Otherwise it must return -1.
  */
 class IReaderWriter {
+protected:
+  //! \brief Next reader/writer in daisy chain
+  IReaderWriter*    _child;
+  //! \brief Whether to destroy daisy chained reader/writer at destruction
+  bool              _delete_child;
 public:
+  //! \brief Default constructor
+  IReaderWriter(IReaderWriter* child = NULL, bool delete_child = false)
+  : _child(child), _delete_child(delete_child) {}
   //! \brief Destructor must also be virtual
-  virtual ~IReaderWriter() {}
+  virtual ~IReaderWriter() {
+    if (_delete_child) {
+      delete _child;
+    }
+  }
   //! \brief Open the underlying stream and create all necessary ressources
   /*!
    * \return            negative number on failure, positive or null on success
@@ -67,6 +85,20 @@ public:
    * \return            negative number on failure, positive or null on success
   */
   virtual ssize_t write(const void* buffer, size_t size) = 0;
+  //! \brief Get underlying stream path
+  /*!
+   * \return            path to the underlying stream
+  */
+  virtual const char* path() const {
+    return _child == NULL ? NULL : _child->path();
+  }
+  //! \brief Get underlying stream offset
+  /*!
+   * \return            offset in the underlying stream
+  */
+  virtual long long offset() const {
+    return _child == NULL ? -1 : _child->offset();
+  }
 };
 
 };

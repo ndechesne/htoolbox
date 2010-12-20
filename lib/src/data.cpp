@@ -123,9 +123,9 @@ ssize_t Data::compare(
 }
 
 long long Data::copy(
-    IFileReaderWriter* source,
-    IReaderWriter*     dest1,
-    IReaderWriter*     dest2) const {
+    IReaderWriter*  source,
+    IReaderWriter*  dest1,
+    IReaderWriter*  dest2) const {
   // Make writers asynchronous
   dest1 = new AsyncWriter(dest1, false);
   MultiWriter w(dest1, false);
@@ -507,13 +507,12 @@ int Data::read(
       local_path);
     return -1;
   }
-  FileReaderWriter* data_fr = new FileReaderWriter(local_path, false);
-  IReaderWriter* data_fd = data_fr;
+  IReaderWriter* data_fd = new FileReaderWriter(local_path, false);
   // The reader might be unzipping...
   if (no > 0) {
     data_fd = new UnzipReader(data_fd, true);
   }
-  StackHelper data(data_fd, true, data_fr);
+  StackHelper data(data_fd, true);
   if (data.open()) {
     hlog_error("%s opening source file '%s'", strerror(errno), local_path);
     return -1;
@@ -560,8 +559,7 @@ Data::WriteStatus Data::write(
   // Open source file
   FileReaderWriter source_fr(path, false);
   char source_hash[129];
-  StackHelper source(new Hasher(&source_fr, false, Hasher::md5, source_hash),
-                     true, &source_fr);
+  Hasher source(&source_fr, false, Hasher::md5, source_hash);
   if (source.open() < 0) {
     return error;
   }
@@ -820,12 +818,11 @@ int Data::check(
       data_size = -1;
       failed = true;
     } else {
-      FileReaderWriter* data_fr = new FileReaderWriter(local_path, false);
-      IReaderWriter* data_fd = data_fr;
+      IReaderWriter* data_fd = new FileReaderWriter(local_path, false);
       if (no > 0) {
         data_fd = new UnzipReader(data_fd, true);
       }
-      StackHelper data(data_fd, true, data_fr);
+      StackHelper data(data_fd, true);
       // Open file
       if (data.open()) {
         hlog_error("%s opening file '%s'", strerror(errno), local_path);

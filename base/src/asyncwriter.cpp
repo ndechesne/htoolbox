@@ -27,7 +27,6 @@ using namespace htools;
 
 struct AsyncWriter::Private {
   IReaderWriter*  child;
-  bool            delete_child;
   pthread_t       tid;
   const void*     buffer;
   size_t          size;
@@ -35,16 +34,13 @@ struct AsyncWriter::Private {
   bool            closing;
   pthread_mutex_t buffer_lock;
   pthread_mutex_t thread_lock;
-  Private(IReaderWriter* c, bool d) : child(c), delete_child(d) {}
+  Private(IReaderWriter* c) : child(c) {}
 };
 
 AsyncWriter::AsyncWriter(IReaderWriter* child, bool delete_child) :
-  _d(new Private(child, delete_child)) {}
+  IReaderWriter(child, delete_child), _d(new Private(child)) {}
 
 AsyncWriter::~AsyncWriter() {
-  if (_d->delete_child) {
-    delete _d->child;
-  }
   delete _d;
 }
 

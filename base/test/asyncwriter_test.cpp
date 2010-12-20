@@ -32,7 +32,7 @@ using namespace htools;
 
 int time = 0;
 
-class Pit : public IFileReaderWriter {
+class Pit : public IReaderWriter {
   long long _offset;
 public:
   int open() { _offset = 0; return 0; }
@@ -51,10 +51,8 @@ public:
 };
 
 class Top : public IReaderWriter {
-  IReaderWriter* _child;
 public:
-  Top(IReaderWriter* child) : _child(child) {}
-  ~Top() { delete _child; }
+  Top(IReaderWriter* child) : IReaderWriter(child, true) {}
   int open() { return _child->open(); }
   int close() { return _child->close(); }
   ssize_t read(void*, size_t) { return -1; }
@@ -68,8 +66,7 @@ public:
 int main() {
   report.setLevel(regression);
 
-  IFileReaderWriter* fd = new Pit;
-  IReaderWriter* fw = fd;
+  IReaderWriter* fw = new Pit;
   char hash1[129];
   memset(hash1, 0, sizeof(hash1));
   char hash2[129];
@@ -78,7 +75,7 @@ int main() {
   fw = new AsyncWriter(fw, true);
   fw = new Hasher(fw, true, Hasher::md5, hash2);
   fw = new Top(fw);
-  fd = new StackHelper(fw, true, fd);
+  fw = new StackHelper(fw, true);
 
   char buffer1[1024];
   for (size_t i = 0; i < sizeof(buffer1); ++i) {
@@ -97,14 +94,14 @@ int main() {
     buffer4[i] = static_cast<char>(rand());
   }
 
-  hlog_regression("path = '%s'", fd->path());
-  if (fd->open() < 0) return 0;
-  if (fd->write(buffer1, sizeof(buffer1)) < 0) return 0;
-  if (fd->write(buffer2, sizeof(buffer2)) < 0) return 0;
-  if (fd->write(buffer3, sizeof(buffer3)) < 0) return 0;
-  if (fd->write(buffer4, sizeof(buffer4)) < 0) return 0;
-  if (fd->close() < 0) return 0;
-  hlog_regression("offset = '%lld'", fd->offset());
+  hlog_regression("path = '%s'", fw->path());
+  if (fw->open() < 0) return 0;
+  if (fw->write(buffer1, sizeof(buffer1)) < 0) return 0;
+  if (fw->write(buffer2, sizeof(buffer2)) < 0) return 0;
+  if (fw->write(buffer3, sizeof(buffer3)) < 0) return 0;
+  if (fw->write(buffer4, sizeof(buffer4)) < 0) return 0;
+  if (fw->close() < 0) return 0;
+  hlog_regression("offset = '%lld'", fw->offset());
 
   hlog_regression("hash1 = '%s'", hash1);
   memset(hash1, 0, sizeof(hash1));
@@ -119,17 +116,17 @@ int main() {
   fn = new AsyncWriter(fn, true);
   fn = new Top(fn);
 
-  MultiWriter* fm = new MultiWriter(fd, true);
+  MultiWriter* fm = new MultiWriter(fw, true);
   fm->add(fn, true);
 
-  hlog_regression("path = '%s'", fd->path());
+  hlog_regression("path = '%s'", fm->path());
   if (fm->open() < 0) return 0;
   if (fm->write(buffer1, sizeof(buffer1)) < 0) return 0;
   if (fm->write(buffer2, sizeof(buffer2)) < 0) return 0;
   if (fm->write(buffer3, sizeof(buffer3)) < 0) return 0;
   if (fm->write(buffer4, sizeof(buffer4)) < 0) return 0;
   if (fm->close() < 0) return 0;
-  hlog_regression("offset = '%lld'", fd->offset());
+  hlog_regression("offset = '%lld'", fm->offset());
 
   hlog_regression("hash1 = '%s'", hash1);
   memset(hash1, 0, sizeof(hash1));

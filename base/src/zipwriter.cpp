@@ -29,28 +29,22 @@ enum {
 };
 
 struct ZipWriter::Private {
-  IReaderWriter* child;
-  bool           delete_child;
   z_stream       strm;
   int            level;
   unsigned char  buffer[BUFFER_SIZE];
   bool           finished;
-  Private(IReaderWriter* c, bool d, int l) :
-    child(c), delete_child(d), level(l) {}
+  Private(int l) : level(l) {}
 };
 
 ZipWriter::ZipWriter(IReaderWriter* child, bool delete_child, int level) :
-  _d(new Private(child, delete_child, level)) {}
+  IReaderWriter(child, delete_child), _d(new Private(level)) {}
 
 ZipWriter::~ZipWriter() {
-  if (_d->delete_child) {
-    delete _d->child;
-  }
   delete _d;
 }
 
 int ZipWriter::open() {
-  if (_d->child->open() < 0) {
+  if (_child->open() < 0) {
     return -1;
   }
   _d->strm.zalloc   = Z_NULL;
@@ -61,7 +55,7 @@ int ZipWriter::open() {
   // De-compress
   if (deflateInit2(&_d->strm, _d->level, Z_DEFLATED, 16 + 15, 9,
                    Z_DEFAULT_STRATEGY) != Z_OK) {
-    _d->child->close();
+    _child->close();
     hlog_alert("failed to initialise compression (level = %d)", _d->level);
     errno = EUNATCH;
     return -1;
@@ -82,7 +76,7 @@ int ZipWriter::close() {
     errno = EUNATCH;
     rc = -1;
   }
-  if (_d->child->close() < 0) {
+  if (_child->close() < 0) {
     rc = -1;
   }
   return rc;
@@ -118,7 +112,7 @@ ssize_t ZipWriter::write(const void* buffer, size_t size) {
       return -1;
     }
     ssize_t length = BUFFER_SIZE - _d->strm.avail_out;
-    if (_d->child->write(_d->buffer, length) < 0) {
+    if (_child->write(_d->buffer, length) < 0) {
       return -1;
     }
   } while (_d->strm.avail_out == 0);

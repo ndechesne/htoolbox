@@ -101,6 +101,28 @@ ssize_t MultiWriter::write(const void* buffer, size_t size) {
   return 0;
 }
 
+const char* MultiWriter::path() const {
+  list<Private::Child>::iterator it;
+  for (it = _d->children.begin(); it != _d->children.end(); ++it) {
+    const char* path = it->child->path();
+    if (path != NULL) {
+      return path;
+    }
+  }
+  return NULL;
+}
+
+long long MultiWriter::offset() const {
+  list<Private::Child>::iterator it;
+  for (it = _d->children.begin(); it != _d->children.end(); ++it) {
+    long long offset = it->child->offset();
+    if (offset >= 0) {
+      return offset;
+    }
+  }
+  return -1;
+}
+
 void MultiWriter::add(IReaderWriter* child, bool delete_child) {
   _d->children.push_back(Private::Child(child, delete_child));
 }

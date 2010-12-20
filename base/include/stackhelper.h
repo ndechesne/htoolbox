@@ -19,37 +19,25 @@
 #ifndef _STACKHELPER_H
 #define _STACKHELPER_H
 
-#include <ifilereaderwriter.h>
+#include <ireaderwriter.h>
 
 namespace htools {
 
-//! \brief Helper to access top and bottom of the streams stack
+//! \brief Helper to create object on stack that destroys heap child
 /*!
- * This helper serves two purposes:
- * - provide access to the path and offset method from the file reader/writer at
- *   the bottom of the streams stack, which is especially useful for progress
- *   reporting;
- * - provide an easy way to encapsulate streams created on the heap with one
- *   object on the stack which will delete the former automatically, thus making
- *   memory leaks impossible
+ * This helper provides an easy way to encapsulate a reader/writer created on
+ * the heap with one object on the stack which will destroy the former
+ * automatically, thus making memory leaks impossible.
  */
-class StackHelper : public IFileReaderWriter {
-  IReaderWriter*     _child;
-  bool               _delete_child;
-  IFileReaderWriter* _fd;
+class StackHelper : public IReaderWriter {
 public:
   //! \brief Constructor
   /*!
    * \param child        underlying stream to write to
    * \param delete_child whether to also delete child at destruction
-   * \param fd           file reader/writer at the bottom of the streams stack
   */
-  StackHelper(IReaderWriter* child, bool delete_child, IFileReaderWriter* fd) :
-    _child(child), _delete_child(delete_child), _fd(fd) {}
-  ~StackHelper() {
-    if (_delete_child)
-      delete _child;
-  }
+  StackHelper(IReaderWriter* child, bool delete_child) :
+    IReaderWriter(child, delete_child) {}
   int open() {
     return _child->open();
   }
@@ -63,10 +51,10 @@ public:
     return _child->write(buffer, size);
   }
   const char* path() const {
-    return _fd->path();
+    return _child->path();
   }
   long long offset() const {
-    return _fd->offset();
+    return _child->offset();
   }
 };
 

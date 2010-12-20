@@ -45,6 +45,10 @@ public:
   //! \brief Always fail to read, as this is a writer
   ssize_t read(void* buffer, size_t size);
   ssize_t write(const void* buffer, size_t size);
+  //! \brief Returns first valid path found, if any
+  const char* path() const;
+  //! \brief Returns first valid offset found, if any
+  long long offset() const;
   //! \brief Add more writers
   /*!
    * \param child        underlying stream to write to
