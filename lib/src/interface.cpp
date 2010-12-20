@@ -233,7 +233,8 @@ int HBackup::addClient(const char* name) {
 
 int HBackup::readConfig(const char* config_path) {
   // Set up config syntax and grammar
-  ConfigSyntax config_syntax;
+  Config config;
+  ConfigItem& config_syntax = config.syntax();
 
   // log
   {
@@ -339,9 +340,8 @@ int HBackup::readConfig(const char* config_path) {
 
   /* Read configuration file */
   hlog_debug_arrow(1, "Reading configuration file '%s'", config_path);
-  Config config;
   ConfigErrors errors;
-  ssize_t rc = config.read(config_path, 0, config_syntax, _d, &errors);
+  ssize_t rc = config.read(config_path, 0, _d, &errors);
   if (rc < 0) {
     errors.show();
     return -1;

@@ -140,19 +140,17 @@ public:
     size_t                line_no   = 0) = 0;
 };
 
-class ConfigSyntax : public ConfigItem {
-public:
-  ConfigSyntax() : ConfigItem("") {}
-};
-
 class Config {
+  ConfigItem        _syntax;
   ConfigLine        _lines_top;
 public:
+  Config() : _syntax("") {}
+  // Access point to syntax
+  ConfigItem& syntax() { return _syntax; }
   // Read file, using Stream's flags as given
   ssize_t read(
     const char*     path,
     unsigned char   flags,
-    ConfigSyntax&   syntax,
     ConfigObject*   root = NULL,
     ConfigErrors*   errors = NULL);
   // Write configuration to file

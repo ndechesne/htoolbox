@@ -47,7 +47,7 @@ int Client::readConfig(
   // Set up config syntax and grammar
   _config.clear();
 
-  ConfigSyntax config_syntax;
+  ConfigItem& config_syntax = _config.syntax();
 
   // subset
   config_syntax.add(new ConfigItem("subset", 0, 1, 1));
@@ -97,8 +97,7 @@ int Client::readConfig(
   ConfigErrors errors;
   bool failed = false;
   _own_parsers = false;
-  if (_config.read(config_path, Config::flags_dos_catch, config_syntax, this,
-        &errors) < 0) {
+  if (_config.read(config_path, Config::flags_dos_catch, this, &errors) < 0) {
     errors.show();
     failed = true;
   } else {

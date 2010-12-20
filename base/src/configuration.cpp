@@ -213,7 +213,6 @@ void ConfigItem::show(int level) const {
 ssize_t Config::read(
     const char*     path,
     unsigned char   flags,
-    ConfigSyntax&   syntax,
     ConfigObject*   root,
     ConfigErrors*   errors) {
   // Open client configuration file
@@ -225,7 +224,7 @@ ssize_t Config::read(
   }
   // Where we are in the items tree
   list<const ConfigItem*> items_hierarchy;
-  items_hierarchy.push_back(&syntax);
+  items_hierarchy.push_back(&_syntax);
 
   // Where are we in the lines tree
   list<ConfigLine*> lines_hierarchy;

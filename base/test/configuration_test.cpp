@@ -334,21 +334,21 @@ int main(void) {
   report.setLevel(debug);
 
   cout << endl << "Test: client configuration" << endl;
-  ConfigSyntax client_syntax;
+  config = new Config;
 
   // expire
-  client_syntax.add(new ConfigItem("expire", 0, 1, 1));
+  config->syntax().add(new ConfigItem("expire", 0, 1, 1));
 
   // users
-  client_syntax.add(new ConfigItem("users", 0, 1, 1, -1));
+  config->syntax().add(new ConfigItem("users", 0, 1, 1, -1));
 
   // ignore
-  client_syntax.add(new ConfigItem("ignore", 0, 1, 1));
+  config->syntax().add(new ConfigItem("ignore", 0, 1, 1));
 
   // filter
   {
     ConfigItem* item = new ConfigItem("filter", 0, 0, 2);
-    client_syntax.add(item);
+    config->syntax().add(item);
 
     // condition
     item->add(new ConfigItem("condition", 1, 0, 2));
@@ -357,7 +357,7 @@ int main(void) {
   // path
   {
     ConfigItem* item = new ConfigItem("path", 1, 0, 1);
-    client_syntax.add(item);
+    config->syntax().add(item);
 
     // parser
     item->add(new ConfigItem("parser", 0, 0, 1, 2));
@@ -383,10 +383,9 @@ int main(void) {
 
   // show debug
   cout << "Syntax:" << endl;
-  client_syntax.show(2);
+  config->syntax().show(2);
 
-  config = new Config;
-  if (config->read("etc/localhost.list", 0, client_syntax, NULL, &errors) < 0) {
+  if (config->read("etc/localhost.list", 0, NULL, &errors) < 0) {
     cout << "failed to read config!" << endl;
   }
   errors.show();
@@ -397,7 +396,7 @@ int main(void) {
 
   MyObject object("root");
 
-  if (config->read("etc/localhost.list", 0, client_syntax, &object, &errors) < 0) {
+  if (config->read("etc/localhost.list", 0, &object, &errors) < 0) {
     cout << "failed to read config!" << endl;
   }
   errors.show();
@@ -411,12 +410,12 @@ int main(void) {
   delete config;
 
   cout << "Test: server configuration" << endl;
-  ConfigSyntax syntax;
+  config = new Config;
 
   // log
   {
     ConfigItem* log = new ConfigItem("log", 0, 1, 1);
-    syntax.add(log);
+    config->syntax().add(log);
     // max lines per file
     log->add(new ConfigItem("max_lines", 0, 1, 1, 1));
     // max backups to keep
@@ -428,7 +427,7 @@ int main(void) {
   // db
   {
     ConfigItem* item = new ConfigItem("db", 0, 1, 1);
-    syntax.add(item);
+    config->syntax().add(item);
 
     // compress
     item->add(new ConfigItem("compress", 0, 1, 1, 1));
@@ -440,7 +439,7 @@ int main(void) {
   // tree
   {
     ConfigItem* item = new ConfigItem("tree", 0, 1, 1);
-    syntax.add(item);
+    config->syntax().add(item);
 
     // links
     item->add(new ConfigItem("links", 0, 1, 1, 1));
@@ -459,30 +458,30 @@ int main(void) {
   }
 
   // parser plugins
-  syntax.add(new ConfigItem("parsers_dir", 0, 0, 1));
+  config->syntax().add(new ConfigItem("parsers_dir", 0, 0, 1));
 
   // filter
   {
     ConfigItem* item = new ConfigItem("filter", 0, 0, 2);
-    syntax.add(item);
+    config->syntax().add(item);
 
     // condition
     item->add(new ConfigItem("condition", 1, 0, 2));
   }
 
   // ignore
-  syntax.add(new ConfigItem("ignore", 0, 1, 1));
+  config->syntax().add(new ConfigItem("ignore", 0, 1, 1));
 
   // timeout_nowarning
-  syntax.add(new ConfigItem("timeout_nowarning", 0, 1));
+  config->syntax().add(new ConfigItem("timeout_nowarning", 0, 1));
 
   // report_copy_error_once
-  syntax.add(new ConfigItem("report_copy_error_once", 0, 1));
+  config->syntax().add(new ConfigItem("report_copy_error_once", 0, 1));
 
   // client
   {
     ConfigItem* item = new ConfigItem("client", 1, 0, 1, 2);
-    syntax.add(item);
+    config->syntax().add(item);
 
     // hostname
     item->add(new ConfigItem("hostname", 0, 1, 1));
@@ -550,10 +549,9 @@ int main(void) {
 
   // show debug
   cout << "Syntax:" << endl;
-  syntax.show(2);
+  config->syntax().show(2);
 
-  config = new Config;
-  if (config->read("etc/hbackup.conf", 0, syntax, &object, &errors) < 0) {
+  if (config->read("etc/hbackup.conf", 0, &object, &errors) < 0) {
     cout << "failed to read config!" << endl;
   }
   errors.show();
@@ -574,7 +572,7 @@ int main(void) {
   // clear list
   config->clear();
 
-  if (config->read("etc/config.saved", 0, syntax, &object, &errors) < 0) {
+  if (config->read("etc/config.saved", 0, &object, &errors) < 0) {
     cout << "failed to read config!" << endl;
   }
   errors.show();
@@ -589,7 +587,7 @@ int main(void) {
   config->clear();
 
   cout << "Test: broken configuration" << endl;
-  if (config->read("etc/broken.conf", 0, syntax, &object, &errors) < 0) {
+  if (config->read("etc/broken.conf", 0, &object, &errors) < 0) {
     cout << "failed to read config!" << endl;
   }
   errors.show();

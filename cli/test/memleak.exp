@@ -2695,7 +2695,7 @@ Checking data, sizes: f=2 z=22 (22)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, char const*, bool, unsigned int, htools::Node&, hbackup::IParser*) (paths.cpp:164)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, char const*, bool, unsigned int, htools::Node&, hbackup::IParser*) (paths.cpp:224)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*, char const*, bool) (paths.cpp:340)
-   hbackup::Client::backup(hbackup::Database&, char const*, char const*, bool, bool) (clients.cpp:375)
+   hbackup::Client::backup(hbackup::Database&, char const*, char const*, bool, bool) (clients.cpp:374)
    hbackup::HBackup::backup(bool) (interface.cpp:486)
  
 Af ~    C:/Test Dir/My Dir/a File.TXT
