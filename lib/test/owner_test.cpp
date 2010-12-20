@@ -34,8 +34,6 @@ using namespace std;
 #include "missing.h"
 #include "compdata.h"
 #include "data.h"
-#include "configuration.h"
-#include "backup.h"
 #include "db.h"
 #include "op_data.h"
 #include "owner.h"

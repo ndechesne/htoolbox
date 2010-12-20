@@ -26,7 +26,6 @@ Sorting list
 List statistics: 0 checksum(s), 0 unique [0 real, 0 virtual]
 Crawling through DB
 Error: Data missing for 59ca0efa9f5633cb0371bbc0355478d8-0
-Backup::removeHash(59ca0efa9f5633cb0371bbc0355478d8-0)
 Found 0 valid and 1 broken data file(s)
 Data statistics: 0 checksum(s), 0 valid [0 real, 0 virtual]
 Database closed
@@ -63,7 +62,6 @@ Database open in read/write mode
 Sorting list
 List statistics: 0 checksum(s), 0 unique [0 real, 0 virtual]
 Crawling through DB
-Backup::removeHash(59ca0efa9f5633cb0371bbc0355478d8-0)
 Removed corrupted data for 59ca0efa9f5633cb0371bbc0355478d8-0
 Found 0 valid and 1 broken data file(s)
 Data statistics: 0 checksum(s), 0 valid [0 real, 0 virtual]
@@ -91,15 +89,15 @@ Reading list of problematic checksums
 Register created for 'myClient'
 Database open r/w for 'myClient'
 Adding compressed data for 285b35198a5e188b3a0df3ed33f93a26-0
-Backup::addHash(285b35198a5e188b3a0df3ed33f93a26)
+Backup::addHash(285b35198a5e188b3a0df3ed33f93a26-0)
 Replacing with uncompressed data for 285b35198a5e188b3a0df3ed33f93a26-0
-Backup::addHash(285b35198a5e188b3a0df3ed33f93a26)
+Backup::addHash(285b35198a5e188b3a0df3ed33f93a26-0)
 Adding uncompressed data for d41d8cd98f00b204e9800998ecf8427e-0
-Backup::addHash(d41d8cd98f00b204e9800998ecf8427e)
+Backup::addHash(d41d8cd98f00b204e9800998ecf8427e-0)
 Adding uncompressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
-Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8)
+Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8-0)
 Adding uncompressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
-Backup::addHash(3d546a1ce46c6ae10ad34ab8a81c542e)
+Backup::addHash(3d546a1ce46c6ae10ad34ab8a81c542e-0)
 Register modified for 'myClient'
 Database closed for 'myClient'
 Backup::add(test_db/myClient)
@@ -168,7 +166,6 @@ List statistics: 5 checksum(s), 4 unique [145433 real, 145445 virtual]
 Crawling through DB
 285b35198a5e188b3a0df3ed33f93a26-0 12\r
 Error: Data missing for 3d546a1ce46c6ae10ad34ab8a81c542e-0
-Backup::removeHash(3d546a1ce46c6ae10ad34ab8a81c542e-0)
 59ca0efa9f5633cb0371bbc0355478d8-0 13\r
 6d7fce9fee471194aa8b5b6e47267f03-0 2 \r
 d41d8cd98f00b204e9800998ecf8427e-0 0\r

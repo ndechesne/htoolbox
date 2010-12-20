@@ -32,8 +32,6 @@ using namespace std;
 #include "db.h"
 #include "compdata.h"
 #include "data.h"
-#include "configuration.h"
-#include "backup.h"
 #include "op_data.h"
 #include "owner.h"
 

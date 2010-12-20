@@ -21,7 +21,7 @@
 
 namespace hbackup {
 
-class Backup : public Data::Backup {
+class Backup {
   struct            Private;
   Private* const    _d;
 public:

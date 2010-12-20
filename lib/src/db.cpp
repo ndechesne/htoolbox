@@ -69,7 +69,7 @@ struct Database::Private {
   CompressionMode         compress_mode;
   Owner*                  owner;
   progress_f              list_progress;
-  Private(const Path& b, const char* d) : backup(b), data(d, backup) {}
+  Private(const Path& b, const char* d) : backup(b), data(d) {}
 };
 
 int Database::lock() {
@@ -642,10 +642,11 @@ int Database::scan(
       if (i->hash()[0] != '\0') {
         if (rm_obsolete) {
           if (_d->data.remove(i->hash()) == 0) {
+            _d->backup.removeHash(i->hash());
+            hlog_debug_arrow(1, "removed data for %s", i->hash());
             if (aborting()) {
               return -1;
             }
-            hlog_debug_arrow(1, "removed data for %s", i->hash());
           } else {
             hlog_error("%s removing data for %s", strerror(errno), i->hash());
           }
@@ -796,6 +797,7 @@ int Database::add(
           if (status == Data::replace) {
             op.info = 'r';
           }
+          _d->backup.addHash(checksum);
         }
         op.extra = checksum;
         if ((op.id >= 0) && (_d->missing[op.id] == checksum)) {

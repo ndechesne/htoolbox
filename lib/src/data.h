@@ -38,12 +38,6 @@ public:
     auto_later = ' ', // auto might check later
     unknown = '?',    // not decided
   };
-  // Action collector for backup purposes
-  class Backup {
-  public:
-    virtual int addHash(const char* hash) = 0;
-    virtual int removeHash(const char* hash) = 0;
-  };
   // Data collector for the crawler
   class Collector {
   public:
@@ -75,7 +69,7 @@ protected: // So I can test them
     long long       size,
     CompressionCase comp_status) const;
   // Remove given path
-  int removePath(const char* path, const char* hash) const;
+  int removePath(const char* path) const;
   // Check existence/consistence of given checksum's data
   int check(
     const char*     checksum,
@@ -85,8 +79,7 @@ protected: // So I can test them
     long long*      file_size = NULL) const;
 public:
   Data(
-    const char*     path,
-    Backup&         backup);
+    const char*     path);
   ~Data();
   // Open
   int open(

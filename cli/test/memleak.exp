@@ -2629,13 +2629,13 @@ Backing up path 'C:/Test Dir'
 Ad      C:/Test Dir/My Dir
 My Dir\r
 Adding compressed data for b026324c6904b2a9cb4b88d6d61c81d1-0
-Backup::addHash(b026324c6904b2a9cb4b88d6d61c81d1)
+Backup::addHash(b026324c6904b2a9cb4b88d6d61c81d1-0)
 Af z    C:/Test Dir/My Dir/a File.TXT
 Adding compressed data for 26ab0db90d72e28ad0ba1e22ee510510-0
-Backup::addHash(26ab0db90d72e28ad0ba1e22ee510510)
+Backup::addHash(26ab0db90d72e28ad0ba1e22ee510510-0)
 Af z    C:/Test Dir/My Dir/another File.TXT
 Adding compressed data for d41d8cd98f00b204e9800998ecf8427e-0
-Backup::addHash(d41d8cd98f00b204e9800998ecf8427e)
+Backup::addHash(d41d8cd98f00b204e9800998ecf8427e-0)
 Af z    C:/Test Dir/My File.TXT
 Register modified for 'aClient.vista'
 Database closed for 'aClient.vista'
@@ -2689,12 +2689,12 @@ Checking data, sizes: f=2 z=22 (22)
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:53)
    htools::Hasher::open() (hasher.cpp:76)
-   hbackup::Data::compare(htools::IReaderWriter&, htools::IReaderWriter&) const (data.cpp:86)
-   hbackup::Data::write(char const*, char*, int*, hbackup::Data::CompressionCase, char*) const (data.cpp:709)
-   hbackup::Database::add(hbackup::Database::OpData&, bool) (db.cpp:775)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, char const*, bool, unsigned int, htools::Node&, hbackup::IParser*) (paths.cpp:166)
-   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, char const*, bool, unsigned int, htools::Node&, hbackup::IParser*) (paths.cpp:226)
-   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*, char const*, bool) (paths.cpp:342)
+   hbackup::Data::compare(htools::IReaderWriter&, htools::IReaderWriter&) const (data.cpp:83)
+   hbackup::Data::write(char const*, char*, int*, hbackup::Data::CompressionCase, char*) const (data.cpp:705)
+   hbackup::Database::add(hbackup::Database::OpData&, bool) (db.cpp:776)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, char const*, bool, unsigned int, htools::Node&, hbackup::IParser*) (paths.cpp:164)
+   hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, char const*, bool, unsigned int, htools::Node&, hbackup::IParser*) (paths.cpp:224)
+   hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*, char const*, bool) (paths.cpp:340)
    hbackup::Client::backup(hbackup::Database&, char const*, char const*, bool, bool) (clients.cpp:375)
    hbackup::HBackup::backup(bool) (interface.cpp:486)
  
@@ -2736,7 +2736,7 @@ Af ~    /home/User/test/File2.txt
 Ad      /home/User/test/dir
 dir\r
 Adding compressed data for 6d7fce9fee471194aa8b5b6e47267f03-0
-Backup::addHash(6d7fce9fee471194aa8b5b6e47267f03)
+Backup::addHash(6d7fce9fee471194aa8b5b6e47267f03-0)
 Af z    /home/User/test/dir/file3.txt
 Register modified for 'myClient'
 Database closed for 'myClient'
@@ -2938,7 +2938,7 @@ File copy progress:  98.6%\r
 File copy progress:  99.6%\r
 File copy progress: 100.0%\r
 Adding compressed data for f1c9645dbc14efddc7d8a322685f26eb-0
-Backup::addHash(f1c9645dbc14efddc7d8a322685f26eb)
+Backup::addHash(f1c9645dbc14efddc7d8a322685f26eb-0)
 Af z    test1/big_file
 Ad      test1/cvs
 cvs\r
@@ -2952,10 +2952,10 @@ cvs\r
 Ad      test1/cvs/CVS
 cvs/CVS\r
 Adding uncompressed data for f899d6f61138a37484c8a2294656e903-0
-Backup::addHash(f899d6f61138a37484c8a2294656e903)
+Backup::addHash(f899d6f61138a37484c8a2294656e903-0)
 Af f    test1/cvs/CVS/Entries
 Adding compressed data for b90f8fa56ea1d39881d4a199c7a81d35-0
-Backup::addHash(b90f8fa56ea1d39881d4a199c7a81d35)
+Backup::addHash(b90f8fa56ea1d39881d4a199c7a81d35-0)
 Af z    test1/cvs/CVS/Root
 If p    test1/cvs/CVS/Whatever
 Id p    test1/cvs/CVS/Wherever
@@ -2966,10 +2966,10 @@ cvs/dir space\r
 Ad      test1/cvs/dir space/CVS
 cvs/dir space/CVS\r
 Adding uncompressed data for 662ae0524981c10b4736be799fc8650a-0
-Backup::addHash(662ae0524981c10b4736be799fc8650a)
+Backup::addHash(662ae0524981c10b4736be799fc8650a-0)
 Af f    test1/cvs/dir space/CVS/Entries
 Adding compressed data for 328b42839732650180b213aadebe494d-0
-Backup::addHash(328b42839732650180b213aadebe494d)
+Backup::addHash(328b42839732650180b213aadebe494d-0)
 Af z    test1/cvs/dir space/CVS/Root
 If p    test1/cvs/dir space/CVS/Whatever
 If p    test1/cvs/dir space/file other
@@ -2988,10 +2988,10 @@ cvs/dirutd\r
 Ad      test1/cvs/dirutd/CVS
 cvs/dirutd/CVS\r
 Adding uncompressed data for 5252f242d27b8c2c9fdbdcbb33545d07-0
-Backup::addHash(5252f242d27b8c2c9fdbdcbb33545d07)
+Backup::addHash(5252f242d27b8c2c9fdbdcbb33545d07-0)
 Af f    test1/cvs/dirutd/CVS/Entries
 Adding compressed data for eb75fb33b2019ef3c840eb5ccdc2e795-0
-Backup::addHash(eb75fb33b2019ef3c840eb5ccdc2e795)
+Backup::addHash(eb75fb33b2019ef3c840eb5ccdc2e795-0)
 Af z    test1/cvs/dirutd/CVS/Root
 If p    test1/cvs/dirutd/CVS/Whatever
 If p    test1/cvs/dirutd/fileoth
@@ -3037,7 +3037,7 @@ Control dir 'test1/svn/.svn'
 If p    test1/svn/.svn/all-wcprops
 If p    test1/svn/.svn/dir-prop-base
 Adding compressed data for 5173c1e86196c05c124452a401e92a22-0
-Backup::addHash(5173c1e86196c05c124452a401e92a22)
+Backup::addHash(5173c1e86196c05c124452a401e92a22-0)
 Af z    test1/svn/.svn/entries
 Id p    test1/svn/.svn/prop-base
 Id p    test1/svn/.svn/props
@@ -3050,7 +3050,7 @@ svn/dir space/.svn\r
 Control dir 'test1/svn/dir space/.svn'
 If p    test1/svn/dir space/.svn/all-wcprops
 Adding compressed data for f2b4c9d3f0830dea53972d208979feb0-0
-Backup::addHash(f2b4c9d3f0830dea53972d208979feb0)
+Backup::addHash(f2b4c9d3f0830dea53972d208979feb0-0)
 Af z    test1/svn/dir space/.svn/entries
 Id p    test1/svn/dir space/.svn/prop-base
 Id p    test1/svn/dir space/.svn/props
@@ -3071,7 +3071,7 @@ svn/dirutd/.svn\r
 Control dir 'test1/svn/dirutd/.svn'
 If p    test1/svn/dirutd/.svn/all-wcprops
 Adding compressed data for 33b426a9cdc8a98729e5dbe6d5feb619-0
-Backup::addHash(33b426a9cdc8a98729e5dbe6d5feb619)
+Backup::addHash(33b426a9cdc8a98729e5dbe6d5feb619-0)
 Af z    test1/svn/dirutd/.svn/entries
 Id p    test1/svn/dirutd/.svn/prop-base
 Id p    test1/svn/dirutd/.svn/props
@@ -3090,7 +3090,7 @@ Af ~    test1/test space
 Ad      test1/testdir
 testdir\r
 Adding compressed data for 59ca0efa9f5633cb0371bbc0355478d8-0
-Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8)
+Backup::addHash(59ca0efa9f5633cb0371bbc0355478d8-0)
 Af z    test1/testfile
 If f    test1/testfile~
 Al      test1/testlink
@@ -3102,20 +3102,20 @@ File copy progress:  70.4%\r
 File copy progress: 100.0%\r
 Checking data, sizes: f=145408 z=176 (178)
 Adding compressed data for 3d546a1ce46c6ae10ad34ab8a81c542e-0
-Backup::addHash(3d546a1ce46c6ae10ad34ab8a81c542e)
+Backup::addHash(3d546a1ce46c6ae10ad34ab8a81c542e-0)
 Af z    test2/testfile
 File copy progress:  39.5%\r
 File copy progress:  79.1%\r
 File copy progress: 100.0%\r
 Checking data, sizes: f=259072 z=286 (290)
 Adding compressed data for fb00cd74a5f35e89a7fbdd3c1d05375a-0
-Backup::addHash(fb00cd74a5f35e89a7fbdd3c1d05375a)
+Backup::addHash(fb00cd74a5f35e89a7fbdd3c1d05375a-0)
 Af z    test2/testfile2
 File copy progress:  70.4%\r
 File copy progress: 100.0%\r
 Checking data, sizes: f=145461 z=145504 (147777)
 Adding uncompressed data for f81f70dceaca8b0cec354f33fa3f0909-0
-Backup::addHash(f81f70dceaca8b0cec354f33fa3f0909)
+Backup::addHash(f81f70dceaca8b0cec354f33fa3f0909-0)
 Af f    test2/testfile2.gz
 If f    test2/testfile~
 Al      test2/testlink
@@ -3148,12 +3148,12 @@ Backing up path '/home/Blah/test'
  -> fusermount -u test_db/.mount/newClient
  -> echo p4sS? | sshfs -o password_stdin user@newClient:/home/Blah/test test_db/.mount/newClient
 Adding compressed data for b8bbb1294db5d59366b7d1827e2158d6-0
-Backup::addHash(b8bbb1294db5d59366b7d1827e2158d6)
+Backup::addHash(b8bbb1294db5d59366b7d1827e2158d6-0)
 Af z    /home/Blah/test/File2.txt
 Ad      /home/Blah/test/dir
 dir\r
 Adding compressed data for 8a61083e712200a30c6ccf5f5c697b76-0
-Backup::addHash(8a61083e712200a30c6ccf5f5c697b76)
+Backup::addHash(8a61083e712200a30c6ccf5f5c697b76-0)
 Af z    /home/Blah/test/dir/file3.txt
 Register modified for 'newClient'
 Database closed for 'newClient'
@@ -3501,20 +3501,20 @@ Register created for 'localhost'
 Database open r/w for 'localhost'
 Backing up path 'test_user/testuser'
 Adding uncompressed data for 31d30eea8d0968d6458e0ad0027c9f80-0
-Backup::addHash(31d30eea8d0968d6458e0ad0027c9f80)
+Backup::addHash(31d30eea8d0968d6458e0ad0027c9f80-0)
 Af f    test_user/testuser/f1.txt
 Ad      test_user/testuser/subdir
 subdir\r
 Adding uncompressed data for dbbf8220893d497d403bb9cdf49db7a4-0
-Backup::addHash(dbbf8220893d497d403bb9cdf49db7a4)
+Backup::addHash(dbbf8220893d497d403bb9cdf49db7a4-0)
 Af f    test_user/testuser/subdir/f2.txt
 Ad      test_user/testuser/subdir2
 subdir2\r
 Adding uncompressed data for d5b4c7d9b06b60a7846c4529834c9812-0
-Backup::addHash(d5b4c7d9b06b60a7846c4529834c9812)
+Backup::addHash(d5b4c7d9b06b60a7846c4529834c9812-0)
 Af f    test_user/testuser/subdir2/f3.txt
 Adding uncompressed data for 90e2a51705594d033a3abe9d77b2b7ad-0
-Backup::addHash(90e2a51705594d033a3abe9d77b2b7ad)
+Backup::addHash(90e2a51705594d033a3abe9d77b2b7ad-0)
 Af f    test_user/testuser/subdir2/f4.txt
 Register modified for 'localhost'
 Database closed for 'localhost'
@@ -3994,14 +3994,14 @@ Crawling through DB data
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:53)
    htools::StackHelper::open() (stackhelper.h:42)
-   hbackup::Data::check(char const*, bool, bool, long long*, long long*) const (data.cpp:843)
-   hbackup::Data::Private::crawl_recurse(unsigned int, htools::Node&, char*, hbackup::Data::Collector*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:437)
-   hbackup::Data::Private::crawl_recurse(unsigned int, htools::Node&, char*, hbackup::Data::Collector*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:420)
-   hbackup::Data::Private::crawl_recurse(unsigned int, htools::Node&, char*, hbackup::Data::Collector*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:420)
-   hbackup::Data::Private::crawl_recurse(unsigned int, htools::Node&, char*, hbackup::Data::Collector*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:420)
-   hbackup::Data::Private::crawl_recurse(unsigned int, htools::Node&, char*, hbackup::Data::Collector*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:420)
-   hbackup::Data::crawl(bool, bool, hbackup::Data::Collector*) const (data.cpp:981)
-   hbackup::Database::check(bool) const (db.cpp:672)
+   hbackup::Data::check(char const*, bool, bool, long long*, long long*) const (data.cpp:838)
+   hbackup::Data::Private::crawl_recurse(unsigned int, htools::Node&, char*, hbackup::Data::Collector*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:433)
+   hbackup::Data::Private::crawl_recurse(unsigned int, htools::Node&, char*, hbackup::Data::Collector*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:416)
+   hbackup::Data::Private::crawl_recurse(unsigned int, htools::Node&, char*, hbackup::Data::Collector*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:416)
+   hbackup::Data::Private::crawl_recurse(unsigned int, htools::Node&, char*, hbackup::Data::Collector*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:416)
+   hbackup::Data::Private::crawl_recurse(unsigned int, htools::Node&, char*, hbackup::Data::Collector*, bool, bool, unsigned int*, unsigned int*) const (data.cpp:416)
+   hbackup::Data::crawl(bool, bool, hbackup::Data::Collector*) const (data.cpp:976)
+   hbackup::Database::check(bool) const (db.cpp:673)
  
 26ab0db90d72e28ad0ba1e22ee510510-0 2 22\r
 328b42839732650180b213aadebe494d-0 16 36\r
@@ -4876,7 +4876,7 @@ U       test_r/test2/testfile
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:53)
    htools::StackHelper::open() (stackhelper.h:42)
-   hbackup::Data::read(char const*, char const*) const (data.cpp:532)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:528)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:405)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
@@ -5026,7 +5026,7 @@ U       test_r/test1/big_file
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:53)
    htools::StackHelper::open() (stackhelper.h:42)
-   hbackup::Data::read(char const*, char const*) const (data.cpp:532)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:528)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:405)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
@@ -5224,7 +5224,7 @@ U       test_r/test1/cvs/CVS/Root
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:53)
    htools::StackHelper::open() (stackhelper.h:42)
-   hbackup::Data::read(char const*, char const*) const (data.cpp:532)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:528)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:405)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
@@ -5387,7 +5387,7 @@ U       test_r/test1/big_file
    inflateInit2_ (inflate.c:193)
    htools::UnzipReader::open() (unzipreader.cpp:53)
    htools::StackHelper::open() (stackhelper.h:42)
-   hbackup::Data::read(char const*, char const*) const (data.cpp:532)
+   hbackup::Data::read(char const*, char const*) const (data.cpp:528)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:405)
    hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
