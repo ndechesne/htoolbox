@@ -54,11 +54,6 @@ public:
       bool            create) {
     return Data::getDir(checksum, path, create);
   }
-  int upgrade(
-      size_t          level,
-      htools::Node&   dir) const {
-    return Data::upgrade(level, dir);
-  }
   int check(
       const char*     checksum,
       bool            thorough   = true,
@@ -137,7 +132,7 @@ int main(void) {
     const char* testfile = "test1/testfile";
     int comp_level = 5;
     char store_path[PATH_MAX];
-    if ((status = db.write(testfile, chksm, &comp_level, Data::auto_now, 
+    if ((status = db.write(testfile, chksm, &comp_level, Data::auto_now,
         store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
@@ -166,7 +161,7 @@ int main(void) {
     chksm[0] = '\0';
     const char* blah = "test_db/blah";
     comp_level = 0;
-    if ((status = db.write(blah, chksm, &comp_level, Data::auto_later, 
+    if ((status = db.write(blah, chksm, &comp_level, Data::auto_later,
         store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
@@ -186,7 +181,7 @@ int main(void) {
     const char* testfile = "test1/big_file";
     int comp_level = 5;
     char store_path[PATH_MAX];
-    if ((status = db.write(testfile, chksm, &comp_level, Data::auto_now, 
+    if ((status = db.write(testfile, chksm, &comp_level, Data::auto_now,
         store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
@@ -214,7 +209,7 @@ int main(void) {
     chksm[0] = '\0';
     const char* blah = "test_db/blah";
     comp_level = 0;
-    if ((status = db.write(blah, chksm, &comp_level, Data::auto_later, 
+    if ((status = db.write(blah, chksm, &comp_level, Data::auto_later,
         store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
@@ -236,7 +231,7 @@ int main(void) {
     /* Write */
     int comp_level = -1;
     char store_path[PATH_MAX];
-    if ((status = db.write(testfile, chksm, &comp_level, Data::forced_no, 
+    if ((status = db.write(testfile, chksm, &comp_level, Data::forced_no,
         store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
@@ -265,7 +260,7 @@ int main(void) {
     /* Write again */
     chksm[0] = '\0';
     comp_level = 0;
-    if ((status = db.write(blah, chksm, &comp_level, Data::auto_later, 
+    if ((status = db.write(blah, chksm, &comp_level, Data::auto_later,
         store_path)) < 0) {
       printf("db.write error status %d\n", status);
       return 0;
@@ -285,7 +280,7 @@ int main(void) {
   chksm[0] = '\0';
   int comp_level = 5;
   char store_path[PATH_MAX];
-  if ((status = db.write(testfile, chksm, &comp_level, Data::Data::forced_yes, 
+  if ((status = db.write(testfile, chksm, &comp_level, Data::Data::forced_yes,
       store_path)) < 0) {
     printf("db.write error status %d\n", status);
     return 0;
@@ -325,7 +320,7 @@ int main(void) {
   /* Write again */
   chksm[0] = '\0';
   comp_level = 0;
-  if ((status = db.write(blah, chksm, &comp_level, Data::auto_later, 
+  if ((status = db.write(blah, chksm, &comp_level, Data::auto_later,
       store_path)) < 0) {
     printf("db.write error status %d\n", status);
     return 0;
@@ -338,7 +333,7 @@ int main(void) {
   /* Write again */
   chksm[0] = '\0';
   comp_level = 0;
-  if ((status = db.write(blah, chksm, &comp_level, Data::auto_later, 
+  if ((status = db.write(blah, chksm, &comp_level, Data::auto_later,
       store_path)) < 0) {
     printf("db.write error status %d\n", status);
     return 0;
@@ -475,7 +470,13 @@ int main(void) {
   Node::mkdir_p("test_db/data/zz/aa/bb000003", 0755);
   Node::mkdir_p("test_db/data/zz/aa/bb/000004", 0755);
   Node dir("test_db/data");
-  db.upgrade(0, dir);
+  /* Open */
+  if ((status = db.open(true))) {
+    cout << "db::open error status " << status << endl;
+    if (status < 0) {
+      return 0;
+    }
+  }
   sys_rc = system("LANG=en_US.UTF-8 find test_db/data | sort");
 
 

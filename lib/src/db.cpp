@@ -408,9 +408,9 @@ int Database::restore(
           }
         } else {
           char path[PATH_MAX];
-          string extension;
+          char extension[5];
           string dest(base.c_str());
-          if (_d->data.name(db_node->hash(), path, &extension)) {
+          if (_d->data.name(db_node->hash(), path, extension)) {
             this_failed = true;
           } else {
             dest += extension;
@@ -831,10 +831,10 @@ int Database::setStorePath(
   if (op.extra == NULL) {
     return -1;
   }
-  string extension;
-  int rc = _d->data.name(op.extra, op.store_path, check ? &extension : NULL);
+  char extension[5];
+  int rc = _d->data.name(op.extra, op.store_path, check ? extension : NULL);
   if (check) {
-    if (! extension.empty()) {
+    if (extension[0] != '\0') {
       op.compression = 1;
     } else {
       op.compression = 0;

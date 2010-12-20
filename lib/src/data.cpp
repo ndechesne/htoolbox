@@ -54,12 +54,27 @@ using namespace htools;
 using namespace hbackup;
 
 struct Data::Private {
+  Data&             parent;
   string            path;
   Backup&           backup;
   string            data;
   string            data_gz;
   progress_f        progress;
-  Private(Backup& b) : backup(b), progress(NULL) {}
+  Private(Data& p, Backup& b) : parent(p), backup(b), progress(NULL) {}
+  // Make sure we don't have too many files per directory
+  int upgrade(
+    size_t          level,            // Level in tree
+    htools::Node&   dir) const;       // Base directory
+  // Scan database for missing/corrupted data, return a list of valid checksums
+  int crawl_recurse(
+    size_t          level,            // Level in tree
+    htools::Node&   dir,              // Base directory
+    char*           hash,             // Hash (or part of it)
+    Collector*      collector,        // Collector to give data to
+    bool            thorough,         // Whether to check for data corruption
+    bool            remove,           // Whether to remove damaged data
+    size_t*         valid,            // Number of valid data files found
+    size_t*         broken) const;    // Number of broken data files found
 };
 
 ssize_t Data::compare(
@@ -312,7 +327,7 @@ int Data::removePath(const char* path, const char* hash) const {
   return rc;
 }
 
-int Data::upgrade(
+int Data::Private::upgrade(
     size_t          level,
     htools::Node&   dir) const {
   if (level == 0) {
@@ -381,7 +396,7 @@ int Data::upgrade(
   return failed ? -1 : 0;
 }
 
-int Data::crawl_recurse(
+int Data::Private::crawl_recurse(
     size_t          level,
     Node&           dir,
     char*           hash,
@@ -418,7 +433,7 @@ int Data::crawl_recurse(
   } else {
     long long data_size;
     long long file_size;
-    if (check(hash, thorough, repair, &data_size, &file_size) == 0) {
+    if (parent.check(hash, thorough, repair, &data_size, &file_size) == 0) {
       // Add to data, the list of collected data
       if (collector != NULL) {
         collector->add(hash, data_size, file_size);
@@ -435,7 +450,7 @@ int Data::crawl_recurse(
   return failed ? -1 : 0;
 }
 
-Data::Data(const char* path, Backup& backup) : _d(new Private(backup)) {
+Data::Data(const char* path, Backup& backup) : _d(new Private(*this, backup)) {
   _d->path = path;
   _d->data = _d->path + "/.data";
   _d->data_gz = _d->data + ".gz";
@@ -450,7 +465,7 @@ int Data::open(bool create) {
   Node dir(_d->path.c_str());
   // Check for existence
   if (dir.isDir()) {
-    return upgrade(0, dir);
+    return _d->upgrade(0, dir);
   }
   if (create && (dir.mkdir() >= 0)) {
     Node::touch(Path(dir.path(), ".upgraded"));
@@ -467,7 +482,7 @@ void Data::setProgressCallback(progress_f progress) {
 int Data::name(
     const char*     checksum,
     char*           path,
-    string*         extension) const {
+    char*           extension) const {
   if (getDir(checksum, path)) {
     return -1;
   }
@@ -480,7 +495,7 @@ int Data::name(
       hlog_error("%s looking for file '%s'*", strerror(errno), path);
       return -1;
     } else
-    *extension = extensions[no];
+    strcpy(extension, extensions[no]);
   }
   return 0;
 }
@@ -961,7 +976,7 @@ int Data::crawl(
   size_t valid  = 0;
   size_t broken = 0;
   char hash[64] = "";
-  int rc = crawl_recurse(0, d, hash, collector, thorough, repair, &valid,
+  int rc = _d->crawl_recurse(0, d, hash, collector, thorough, repair, &valid,
     &broken);
   hlog_verbose("Found %zu valid and %zu broken data file(s)", valid, broken);
   return rc;

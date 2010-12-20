@@ -70,10 +70,6 @@ protected: // So I can test them
     CompressionCase comp_status) const;
   // Remove given path
   int removePath(const char* path, const char* hash) const;
-  // Make sure we don't have too many files per directory
-  int upgrade(
-    size_t          level,            // Level in tree
-    htools::Node&   dir) const;       // Base directory
   // Check existence/consistence of given checksum's data
   int check(
     const char*     checksum,
@@ -81,16 +77,6 @@ protected: // So I can test them
     bool            repair    = false,
     long long*      data_size = NULL,
     long long*      file_size = NULL) const;
-  // Scan database for missing/corrupted data, return a list of valid checksums
-  int crawl_recurse(
-    size_t          level,            // Level in tree
-    htools::Node&   dir,              // Base directory
-    char*           hash,             // Hash (or part of it)
-    Collector*      collector,        // Collector to give data to
-    bool            thorough,         // Whether to check for data corruption
-    bool            remove,           // Whether to remove damaged data
-    size_t*         valid,            // Number of valid data files found
-    size_t*         broken) const;    // Number of broken data files found
 public:
   Data(
     const char*     path,
@@ -104,8 +90,8 @@ public:
   // Get file name for given checksum
   int name(
     const char*     checksum,
-    char*           path,
-    string*         extension) const;
+    char*           path,             // Needs to be large enough! [PATH_MAX]
+    char*           extension) const; // Needs to be large enough! [5 should do]
   // Read file with given checksum, extract it to path
   int read(
     const char*     path,
