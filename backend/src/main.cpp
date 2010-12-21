@@ -37,11 +37,11 @@ using namespace hbackup;
 // static const char *default_config_path = "/etc/hbackup/hbackend.conf";
 static const char *default_config_path = "../hbackend.conf";
 
-struct LocalConfig : ConfigObject {
+struct LocalConfig : Config::Object {
   string    hostname;
   uint16_t  port;
   LocalConfig() : port(0) {}
-  ConfigObject* configChildFactory(
+  Object* configChildFactory(
     const vector<string>& params,
     const char*           path,
     size_t                line_no);
@@ -51,11 +51,11 @@ struct LocalConfig : ConfigObject {
   }
 };
 
-ConfigObject* LocalConfig::configChildFactory(
+Config::Object* LocalConfig::configChildFactory(
     const vector<string>& params,
     const char*           path,
     size_t                line_no) {
-  ConfigObject* co = NULL;
+  Object* co = NULL;
   const string& keyword = params[0];
   if (keyword == "hostname") {
     hostname = params[1];

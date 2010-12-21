@@ -34,8 +34,6 @@ using namespace std;
 
 using namespace htools;
 
-namespace htools {
-
 // To check occurrences
 class ConfigCounter {
   const string&     _keyword;
@@ -45,8 +43,6 @@ public:
   const string& keyword() const { return _keyword; }
   size_t occurrences() const { return _occurrences; }
   void increment() { _occurrences++; }
-};
-
 };
 
 ConfigLine::~ConfigLine() {
@@ -94,16 +90,16 @@ void ConfigLine::show(int level) const {
   hlog_verbose(format, lineNo(), " ", s.str().c_str());
 }
 
-class htools::ConfigItem {
+class htools::Config::Item {
   string            _keyword;
   unsigned int      _min_occurrences;
   unsigned int      _max_occurrences;
   unsigned int      _min_params;
   unsigned int      _max_params;
-  list<ConfigItem*> _children;
-  ConfigItem(const htools::ConfigItem&) {}
+  list<Item*>       _children;
+  Item(const Item&) {}
 public:
-  ConfigItem(
+  Item(
     const string&   keyword,
     unsigned int    min_occurrences = 0,
     unsigned int    max_occurrences = 0,
@@ -121,7 +117,12 @@ public:
       _max_params = _min_params;
     }
   }
-  ~ConfigItem();
+  ~Item() {
+    list<Item*>::iterator i;
+    for (i = _children.begin(); i != _children.end(); i = _children.erase(i)) {
+      delete *i;
+    }
+  }
   // Parameters accessers
   const string& keyword() const { return _keyword; }
   unsigned int min_occurrences() const { return _min_occurrences; }
@@ -129,9 +130,24 @@ public:
   unsigned int min_params() const { return _min_params; }
   unsigned int max_params() const { return _max_params; }
   // Add a child
-  void add(ConfigItem* child);
+  void add(Item* child) {
+    list<Item*>:: iterator i = _children.begin();
+    while (i != _children.end()) {
+      if ((*i)->keyword() > child->keyword()) break;
+      i++;
+    }
+    _children.insert(i, child);
+  }
   // Find a child
-  const ConfigItem* find(string& keyword) const;
+  const Item* find(string& keyword) const {
+    list<Item*>::const_iterator i;
+    for (i = _children.begin(); i != _children.end(); i++) {
+      if ((*i)->_keyword == keyword) {
+        return *i;
+      }
+    }
+    return NULL;
+  }
   // Callback for errors
   typedef void (*config_error_cb_f)(
     const char*     message,
@@ -146,40 +162,14 @@ public:
   void show(int level = 0) const;
 };
 
-ConfigItem::~ConfigItem() {
-  list<ConfigItem*>::iterator i;
-  for (i = _children.begin(); i != _children.end(); i = _children.erase(i)) {
-    delete *i;
-  }
-}
-
-void ConfigItem::add(ConfigItem* child) {
-  list<ConfigItem*>:: iterator i = _children.begin();
-  while (i != _children.end()) {
-    if ((*i)->keyword() > child->keyword()) break;
-    i++;
-  }
-  _children.insert(i, child);
-}
-
-const ConfigItem* ConfigItem::find(string& keyword) const {
-  list<ConfigItem*>::const_iterator i;
-  for (i = _children.begin(); i != _children.end(); i++) {
-    if ((*i)->_keyword == keyword) {
-      return *i;
-    }
-  }
-  return NULL;
-}
-
-bool ConfigItem::isValid(
+bool Config::Item::isValid(
     const list<ConfigCounter> counters,
     int                       line_no,
     config_error_cb_f         config_error_cb) const {
   bool is_valid = true;
   // Check occurrences for each child (both lists are sorted)
   list<ConfigCounter>::const_iterator j = counters.begin();
-  for (list<ConfigItem*>::const_iterator i = _children.begin();
+  for (list<Item*>::const_iterator i = _children.begin();
       i != _children.end(); i++) {
     // Find keyword in counters list
     size_t occurrences = 0;
@@ -215,8 +205,8 @@ bool ConfigItem::isValid(
   return is_valid;
 }
 
-void ConfigItem::show(int level) const {
-  list<ConfigItem*>::const_iterator i;
+void Config::Item::show(int level) const {
+  list<Item*>::const_iterator i;
   for (i = _children.begin(); i != _children.end(); i++) {
     char minimum[64] = "optional";
     if ((*i)->_min_occurrences != 0) {
@@ -245,20 +235,20 @@ void ConfigItem::show(int level) const {
 }
 
 Config::Config(config_error_cb_f config_error_cb) :
-    _syntax(new ConfigItem("")), _config_error_cb(config_error_cb) {}
+    _syntax(new Item("")), _config_error_cb(config_error_cb) {}
 
 Config::~Config() {
   delete _syntax;
 }
 
-ConfigItem* Config::syntaxAdd(
-    ConfigItem*     parent,
+Config::Item* Config::syntaxAdd(
+    Item*           parent,
     const string&   keyword,
     size_t          min_occurrences,
     size_t          max_occurrences,
     size_t          min_params,
     size_t          max_params) {
-  ConfigItem* child = new ConfigItem(keyword, min_occurrences, max_occurrences,
+  Item* child = new Item(keyword, min_occurrences, max_occurrences,
     min_params, max_params);
   parent->add(child);
   return child;
@@ -271,7 +261,7 @@ void Config::syntaxShow(int level) const {
 ssize_t Config::read(
     const char*     path,
     unsigned char   flags,
-    ConfigObject*   root) {
+    Config::Object* root) {
   // Open client configuration file
   FILE* fd = fopen(path, "r");
   if (fd == NULL) {
@@ -280,7 +270,7 @@ ssize_t Config::read(
     return -1;
   }
   // Where we are in the items tree
-  list<const ConfigItem*> items_hierarchy;
+  list<const Item*> items_hierarchy;
   items_hierarchy.push_back(_syntax);
 
   // Where are we in the lines tree
@@ -288,7 +278,7 @@ ssize_t Config::read(
   lines_hierarchy.push_back(&_lines_top);
 
   // Where we are in the objects tree (follows the items/syntax closely)
-  list<ConfigObject*> objects_hierarchy;
+  list<Object*> objects_hierarchy;
   objects_hierarchy.push_back(root);
 
   // Read through the file
@@ -333,7 +323,7 @@ ssize_t Config::read(
       // Look for keyword in children of items in the current items hierarchy
       while (items_hierarchy.size() > 0) {
         // Is this a child of the current item?
-        const ConfigItem* child = items_hierarchy.back()->find(params[0]);
+        const Item* child = items_hierarchy.back()->find(params[0]);
         if (child != NULL) {
           // Yes. Add under current hierarchy
           items_hierarchy.push_back(child);
@@ -372,7 +362,7 @@ ssize_t Config::read(
             failed = true;
           } else
           if (root != NULL) {
-            ConfigObject* child_object =
+            Object* child_object =
               objects_hierarchy.back()->configChildFactory(params, path,
                 line_no);
             if (child_object == NULL) {

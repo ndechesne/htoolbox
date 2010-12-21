@@ -27,7 +27,7 @@ class Backup {
 public:
   Backup(const htools::Path& path);
   ~Backup();
-  virtual htools::ConfigObject* configChildFactory(
+  virtual htools::Config::Object* configChildFactory(
     const vector<string>& params,
     const char*           file_path = NULL,
     size_t                line_no   = 0);

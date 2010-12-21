@@ -77,7 +77,7 @@ bool hbackup::aborting(unsigned short test) {
   return false;
 }
 
-struct HBackup::Private : ConfigObject {
+struct HBackup::Private : Config::Object {
   // db
   Database*                 db;
   Database::CompressionMode db_compress_mode;
@@ -106,17 +106,17 @@ struct HBackup::Private : ConfigObject {
       delete *i;
     }
   }
-  virtual ConfigObject* configChildFactory(
+  virtual Object* configChildFactory(
       const vector<string>& params,
       const char*           file_path = NULL,
       size_t                line_no   = 0);
 };
 
-ConfigObject* HBackup::Private::configChildFactory(
+Config::Object* HBackup::Private::configChildFactory(
     const vector<string>& params,
     const char*           file_path,
     size_t                line_no) {
-  ConfigObject* co = NULL;
+  Object* co = NULL;
   const string& keyword = params[0];
   if (keyword == "log") {
     log_file_name = params[1];
@@ -248,7 +248,7 @@ int HBackup::readConfig(const char* config_path) {
 
   // log
   {
-    ConfigItem* log = config.syntaxAdd(config.syntaxRoot(), "log", 0, 1, 1);
+    Config::Item* log = config.syntaxAdd(config.syntaxRoot(), "log", 0, 1, 1);
     // max lines per file
     config.syntaxAdd(log, "max_lines", 0, 1, 1, 1);
     // max backups to keep
@@ -258,7 +258,7 @@ int HBackup::readConfig(const char* config_path) {
   }
   // db
   {
-    ConfigItem* db = config.syntaxAdd(config.syntaxRoot(), "db", 0, 1, 1);
+    Config::Item* db = config.syntaxAdd(config.syntaxRoot(), "db", 0, 1, 1);
     // compress [always, auto_now, auto_later, never]
     config.syntaxAdd(db, "compress", 0, 1, 1, 1);
     // old keyword for compress auto
@@ -266,7 +266,7 @@ int HBackup::readConfig(const char* config_path) {
   }
   // tree
   {
-    ConfigItem* tree = config.syntaxAdd(config.syntaxRoot(), "tree", 0, 1, 1);
+    Config::Item* tree = config.syntaxAdd(config.syntaxRoot(), "tree", 0, 1, 1);
     // links: type of links to create [hard, symbolic]
     config.syntaxAdd(tree, "links", 0, 1, 1, 1);
     // compressed: whether to check for compressed data, or assume one way or
@@ -283,7 +283,8 @@ int HBackup::readConfig(const char* config_path) {
   config.syntaxAdd(config.syntaxRoot(), "parsers_dir", 0, 0, 1);
   // filter
   {
-    ConfigItem* filter = config.syntaxAdd(config.syntaxRoot(), "filter", 0, 0, 2);
+    Config::Item* filter =
+      config.syntaxAdd(config.syntaxRoot(), "filter", 0, 0, 2);
     // condition
     config.syntaxAdd(filter, "condition", 1, 0, 2);
   }
@@ -293,7 +294,8 @@ int HBackup::readConfig(const char* config_path) {
   config.syntaxAdd(config.syntaxRoot(), "report_copy_error_once", 0, 1);
   // client
   {
-    ConfigItem* client = config.syntaxAdd(config.syntaxRoot(), "client", 1, 0, 1, 2);
+    Config::Item* client =
+      config.syntaxAdd(config.syntaxRoot(), "client", 1, 0, 1, 2);
     // hostname
     config.syntaxAdd(client, "hostname", 0, 1, 1);
     // protocol
@@ -314,19 +316,19 @@ int HBackup::readConfig(const char* config_path) {
     config.syntaxAdd(client, "ignore", 0, 1, 1);
     // filter
     {
-      ConfigItem* filter = config.syntaxAdd(client, "filter", 0, 0, 2);
+      Config::Item* filter = config.syntaxAdd(client, "filter", 0, 0, 2);
 
       // condition
       config.syntaxAdd(filter, "condition", 1, 0, 2);
     }
     // path
     {
-      ConfigItem* path = config.syntaxAdd(client, "path", 0, 0, 1);
+      Config::Item* path = config.syntaxAdd(client, "path", 0, 0, 1);
       // parser
       config.syntaxAdd(path, "parser", 0, 0, 2);
       // filter
       {
-        ConfigItem* filter = config.syntaxAdd(path, "filter", 0, 0, 2);
+        Config::Item* filter = config.syntaxAdd(path, "filter", 0, 0, 2);
         // condition
         config.syntaxAdd(filter, "condition", 1, 0, 2);
       }

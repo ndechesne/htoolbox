@@ -21,7 +21,7 @@
 
 namespace hbackup {
 
-class ClientPath : public htools::ConfigObject {
+class ClientPath : public htools::Config::Object {
   htools::Path      _path;
   Attributes        _attributes;
   const ParsersManager& _parsers_manager;
@@ -43,7 +43,7 @@ public:
     const char* path,
     const Attributes& attributes,
     const ParsersManager& parsers_manager);
-  virtual ConfigObject* configChildFactory(
+  virtual Object* configChildFactory(
     const vector<string>& params,
     const char*           file_path = NULL,
     size_t                line_no   = 0);

@@ -34,7 +34,7 @@ namespace hbackup {
 // Stub
 class Filter;
 
-class Condition : public htools::ConfigObject {
+class Condition : public htools::Config::Object {
 public:
   enum Type {
     filter      = 1,    //!< sub-filter
@@ -89,7 +89,7 @@ public:
     const htools::Node& node,
     size_t              start = 0) const;
   // No children
-  virtual ConfigObject* configChildFactory(
+  virtual Object* configChildFactory(
     const vector<string>& params,
     const char*           file_path = NULL,
     size_t                line_no   = 0) {

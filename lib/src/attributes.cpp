@@ -35,11 +35,11 @@ using namespace std;
 using namespace hbackup;
 using namespace htools;
 
-ConfigObject* Attributes::configChildFactory(
+Config::Object* Attributes::configChildFactory(
     const vector<string>& params,
     const char*           file_path,
     size_t                line_no) {
-  ConfigObject* co = NULL;
+  Object* co = NULL;
   const string& keyword = params[0];
   if (keyword == "report_copy_error_once") {
     _report_copy_error_once = true;

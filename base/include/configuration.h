@@ -52,35 +52,35 @@ public:
   list<ConfigLine*>::const_iterator end() const { return _children.end();   }
 };
 
-class ConfigObject {
-public:
-  virtual ConfigObject* configChildFactory(
-    const vector<string>& params,
-    const char*           file_path = NULL,
-    size_t                line_no   = 0) = 0;
-};
-
-class ConfigItem;
-
 class Config {
 public:
+  // Class for items in the syntax tree
+  class Item;
+  // Class to inherit to automatically parse configuration files
+  class Object {
+  public:
+    virtual Object* configChildFactory(
+      const vector<string>& params,
+      const char*           file_path = NULL,
+      size_t                line_no   = 0) = 0;
+  };
   // Callback for errors
   typedef void (*config_error_cb_f)(
     const char*     message,
     const char*     value,
     size_t          line_no);
 private:
-  ConfigItem*       _syntax;
+  Item*             _syntax;
   ConfigLine        _lines_top;
   config_error_cb_f _config_error_cb;
 public:
   Config(config_error_cb_f config_error_cb = NULL);
   ~Config();
   // Root of config syntax
-  ConfigItem* syntaxRoot() { return _syntax; }
+  Item* syntaxRoot() { return _syntax; }
   // Add a config item
-  ConfigItem* syntaxAdd(
-    ConfigItem*     parent,
+  Item* syntaxAdd(
+    Item*           parent,
     const string&   keyword,
     size_t          min_occurrences = 0,
     size_t          max_occurrences = 0,
@@ -92,7 +92,7 @@ public:
   ssize_t read(
     const char*     path,
     unsigned char   flags,
-    ConfigObject*   root = NULL);
+    Object*         root = NULL);
   // Write configuration to file
   int write(
     const char*     path) const;

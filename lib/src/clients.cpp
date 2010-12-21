@@ -72,19 +72,21 @@ int Client::readConfig(
   _config.syntaxAdd(_config.syntaxRoot(), "parsers_dir", 0, 0, 1);
   // filter
   {
-    ConfigItem* filter = _config.syntaxAdd(_config.syntaxRoot(), "filter", 0, 0, 2);
+    Config::Item* filter =
+      _config.syntaxAdd(_config.syntaxRoot(), "filter", 0, 0, 2);
 
     // condition
     _config.syntaxAdd(filter, "condition", 1, 0, 2);
   }
   // path
   {
-    ConfigItem* path = _config.syntaxAdd(_config.syntaxRoot(), "path", 1, 0, 1);
+    Config::Item* path =
+      _config.syntaxAdd(_config.syntaxRoot(), "path", 1, 0, 1);
     // parser
     _config.syntaxAdd(path, "parser", 0, 0, 2);
     // filter
     {
-      ConfigItem* filter = _config.syntaxAdd(path, "filter", 0, 0, 2);
+      Config::Item* filter = _config.syntaxAdd(path, "filter", 0, 0, 2);
       // condition
       _config.syntaxAdd(filter, "condition", 1, 0, 2);
     }
@@ -137,11 +139,11 @@ Client::~Client() {
   delete _list_file;
 }
 
-ConfigObject* Client::configChildFactory(
+Config::Object* Client::configChildFactory(
     const vector<string>& params,
     const char*           file_path,
     size_t                line_no) {
-  ConfigObject* co = NULL;
+  Object* co = NULL;
   const string& keyword = params[0];
   if (keyword == "subset") {
     _subset_client = params[1];

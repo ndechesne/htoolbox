@@ -23,7 +23,7 @@
 
 namespace hbackup {
 
-class Attributes : htools::ConfigObject {
+class Attributes : htools::Config::Object {
   const Attributes*   _parent;
   bool                _report_copy_error_once;
   htools::Path*       _tree_path;
@@ -79,7 +79,7 @@ public:
   bool treeCompressedData() const { return _compressed_data; }
   const Filters& filters() const  { return _filters; }
   void setReportCopyErrorOnce()   { _report_copy_error_once = true; }
-  virtual ConfigObject* configChildFactory(
+  virtual Object* configChildFactory(
     const vector<string>& params,
     const char*           file_path = NULL,
     size_t                line_no   = 0);

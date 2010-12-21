@@ -31,7 +31,7 @@ using namespace std;
 
 using namespace htools;
 
-class MyObject : public ConfigObject {
+class MyObject : public Config::Object {
   string _name;
   string _path;
   size_t _line_no;
@@ -47,7 +47,7 @@ public:
     : _name(params[0]), _line_no(line_no), _params(params) {
       _path = file_path;
   }
-  virtual ConfigObject* configChildFactory(
+  virtual Object* configChildFactory(
     const vector<string>& params,
     const char*           file_path = NULL,
     size_t                line_no   = 0) {
@@ -360,19 +360,19 @@ int main(void) {
   config->syntaxAdd(config->syntaxRoot(), "parsers_dir", 0, 0, 1);
   // filter
   {
-    ConfigItem* filter = config->syntaxAdd(config->syntaxRoot(), "filter", 0, 0, 2);
+    Config::Item* filter = config->syntaxAdd(config->syntaxRoot(), "filter", 0, 0, 2);
 
     // condition
     config->syntaxAdd(filter, "condition", 1, 0, 2);
   }
   // path
   {
-    ConfigItem* path = config->syntaxAdd(config->syntaxRoot(), "path", 1, 0, 1);
+    Config::Item* path = config->syntaxAdd(config->syntaxRoot(), "path", 1, 0, 1);
     // parser
     config->syntaxAdd(path, "parser", 0, 0, 2);
     // filter
     {
-      ConfigItem* filter = config->syntaxAdd(path, "filter", 0, 0, 2);
+      Config::Item* filter = config->syntaxAdd(path, "filter", 0, 0, 2);
       // condition
       config->syntaxAdd(filter, "condition", 1, 0, 2);
     }
@@ -415,7 +415,7 @@ int main(void) {
 
   // log
   {
-    ConfigItem* log = config->syntaxAdd(config->syntaxRoot(), "log", 0, 1, 1);
+    Config::Item* log = config->syntaxAdd(config->syntaxRoot(), "log", 0, 1, 1);
     // max lines per file
     config->syntaxAdd(log, "max_lines", 0, 1, 1, 1);
     // max backups to keep
@@ -425,7 +425,7 @@ int main(void) {
   }
   // db
   {
-    ConfigItem* db = config->syntaxAdd(config->syntaxRoot(), "db", 0, 1, 1);
+    Config::Item* db = config->syntaxAdd(config->syntaxRoot(), "db", 0, 1, 1);
     // compress [always, auto_now, auto_later, never]
     config->syntaxAdd(db, "compress", 0, 1, 1, 1);
     // old keyword for compress auto
@@ -433,7 +433,7 @@ int main(void) {
   }
   // tree
   {
-    ConfigItem* tree = config->syntaxAdd(config->syntaxRoot(), "tree", 0, 1, 1);
+    Config::Item* tree = config->syntaxAdd(config->syntaxRoot(), "tree", 0, 1, 1);
     // links: type of links to create [hard, symbolic]
     config->syntaxAdd(tree, "links", 0, 1, 1, 1);
     // compressed: whether to check for compressed data, or assume one way or
@@ -450,7 +450,7 @@ int main(void) {
   config->syntaxAdd(config->syntaxRoot(), "parsers_dir", 0, 0, 1);
   // filter
   {
-    ConfigItem* filter = config->syntaxAdd(config->syntaxRoot(), "filter", 0, 0, 2);
+    Config::Item* filter = config->syntaxAdd(config->syntaxRoot(), "filter", 0, 0, 2);
     // condition
     config->syntaxAdd(filter, "condition", 1, 0, 2);
   }
@@ -460,7 +460,7 @@ int main(void) {
   config->syntaxAdd(config->syntaxRoot(), "report_copy_error_once", 0, 1);
   // client
   {
-    ConfigItem* client = config->syntaxAdd(config->syntaxRoot(), "client", 1, 0, 1, 2);
+    Config::Item* client = config->syntaxAdd(config->syntaxRoot(), "client", 1, 0, 1, 2);
     // hostname
     config->syntaxAdd(client, "hostname", 0, 1, 1);
     // protocol
@@ -481,19 +481,19 @@ int main(void) {
     config->syntaxAdd(client, "ignore", 0, 1, 1);
     // filter
     {
-      ConfigItem* filter = config->syntaxAdd(client, "filter", 0, 0, 2);
+      Config::Item* filter = config->syntaxAdd(client, "filter", 0, 0, 2);
 
       // condition
       config->syntaxAdd(filter, "condition", 1, 0, 2);
     }
     // path
     {
-      ConfigItem* path = config->syntaxAdd(client, "path", 0, 0, 1);
+      Config::Item* path = config->syntaxAdd(client, "path", 0, 0, 1);
       // parser
       config->syntaxAdd(path, "parser", 0, 0, 2);
       // filter
       {
-        ConfigItem* filter = config->syntaxAdd(path, "filter", 0, 0, 2);
+        Config::Item* filter = config->syntaxAdd(path, "filter", 0, 0, 2);
         // condition
         config->syntaxAdd(filter, "condition", 1, 0, 2);
       }

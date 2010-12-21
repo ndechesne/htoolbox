@@ -28,7 +28,7 @@ class Filters;
 // Each filter can be declared as a logical AND or OR of its conditions
 // A special condition runs a filter, so expressions of any complexity can be
 // defined. This is why the name is needed and must be unique.
-class Filter : public htools::ConfigObject {
+class Filter : public htools::Config::Object {
 public:
   enum Mode {
     any = 1,            //!< matches if at least one condition matches
@@ -77,7 +77,7 @@ public:
   void show(int level = 0) const;
 };
 
-class Filters : public htools::ConfigObject {
+class Filters : public htools::Config::Object {
   list<Filter*>   _children;
   const Filters*  _parent;
   Filter*         _last_filter;

@@ -249,11 +249,11 @@ ClientPath::ClientPath(
       _compress(NULL), _no_compress(NULL) {
 }
 
-ConfigObject* ClientPath::configChildFactory(
+Config::Object* ClientPath::configChildFactory(
     const vector<string>& params,
     const char*           file_path,
     size_t                line_no) {
-  ConfigObject* co = NULL;
+  Object* co = NULL;
   const string& keyword = params[0];
   if ((keyword == "compress") ||  (keyword == "no_compress")) {
     Filter* filter = _attributes.filters().find(params[1]);

@@ -42,7 +42,7 @@ Backup::~Backup() {
   delete _d;
 }
 
-ConfigObject* Backup::configChildFactory(
+Config::Object* Backup::configChildFactory(
     const vector<string>& /*params*/,
     const char*           /*file_path*/,
     size_t                /*line_no*/) {

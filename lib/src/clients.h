@@ -23,7 +23,7 @@
 
 namespace hbackup {
 
-class Client : public htools::ConfigObject {
+class Client : public htools::Config::Object {
   Attributes          _attributes;
   ParsersManager&     _parsers_manager;
   bool                _own_parsers;
@@ -48,7 +48,7 @@ public:
     ParsersManager&   parsers_manager,
     const string&     sub_name = "");
   ~Client();
-  virtual ConfigObject* configChildFactory(
+  virtual Object* configChildFactory(
     const vector<string>& params,
     const char*           file_path = NULL,
     size_t                line_no   = 0);
