@@ -10,6 +10,10 @@ case $1 in
     export DIR="base"
     export NAME="asyncwriter"
     ;;
+  "be" )
+    export DIR="backend"
+    export NAME="hbackend"
+    ;;
   "bf" )
     export DIR="base"
     export NAME="buffer"

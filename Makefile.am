@@ -1,1 +1,1 @@
-SUBDIRS = . base backend parsers lib cli test_tools doc
+SUBDIRS = . base parsers lib backend cli test_tools doc

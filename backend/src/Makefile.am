@@ -4,6 +4,11 @@ AM_CXXFLAGS = \
   -I$(top_srcdir)/lib/src \
   $(NULL)
 
+LDADD = \
+  @top_srcdir@/base/src/libhtools.la \
+  @top_srcdir@/lib/src/libhbackup.la \
+  $(NULL)
+
 bin_PROGRAMS = hbackend
 
 hbackend_SOURCES = \
