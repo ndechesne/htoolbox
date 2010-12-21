@@ -231,9 +231,20 @@ int HBackup::addClient(const char* name) {
   return 0;
 }
 
+static void config_error_cb(
+    const char*     message,
+    const char*     value,
+    size_t          line_no) {
+  if (line_no > 0) {
+    hlog_error("at line %zu: %s '%s'", line_no, message, value);
+  } else {
+    hlog_error("global: %s '%s'", message, value);
+  }
+}
+
 int HBackup::readConfig(const char* config_path) {
   // Set up config syntax and grammar
-  Config config;
+  Config config(config_error_cb);
   ConfigItem& config_syntax = config.syntax();
 
   // log
@@ -340,10 +351,8 @@ int HBackup::readConfig(const char* config_path) {
 
   /* Read configuration file */
   hlog_debug_arrow(1, "Reading configuration file '%s'", config_path);
-  ConfigErrors errors;
-  ssize_t rc = config.read(config_path, 0, _d, &errors);
+  ssize_t rc = config.read(config_path, 0, _d);
   if (rc < 0) {
-    errors.show();
     return -1;
   }
 

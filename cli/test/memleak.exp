@@ -2695,8 +2695,8 @@ Checking data, sizes: f=2 z=22 (22)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, char const*, bool, unsigned int, htools::Node&, hbackup::IParser*) (paths.cpp:164)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, char const*, bool, unsigned int, htools::Node&, hbackup::IParser*) (paths.cpp:224)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*, char const*, bool) (paths.cpp:340)
-   hbackup::Client::backup(hbackup::Database&, char const*, char const*, bool, bool) (clients.cpp:374)
-   hbackup::HBackup::backup(bool) (interface.cpp:486)
+   hbackup::Client::backup(hbackup::Database&, char const*, char const*, bool, bool) (clients.cpp:383)
+   hbackup::HBackup::backup(bool) (interface.cpp:495)
  
 Af ~    C:/Test Dir/My Dir/a File.TXT
 Checking data, sizes: f=2 z=22 (22)
@@ -4878,7 +4878,7 @@ U       test_r/test2/testfile
    htools::StackHelper::open() (stackhelper.h:42)
    hbackup::Data::read(char const*, char const*) const (data.cpp:528)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:405)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:541)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
    main (hbackup.cpp:335)
  
@@ -5028,7 +5028,7 @@ U       test_r/test1/big_file
    htools::StackHelper::open() (stackhelper.h:42)
    hbackup::Data::read(char const*, char const*) const (data.cpp:528)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:405)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:541)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
    main (hbackup.cpp:335)
  
@@ -5226,7 +5226,7 @@ U       test_r/test1/cvs/CVS/Root
    htools::StackHelper::open() (stackhelper.h:42)
    hbackup::Data::read(char const*, char const*) const (data.cpp:528)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:405)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:541)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
    main (hbackup.cpp:335)
  
@@ -5389,7 +5389,7 @@ U       test_r/test1/big_file
    htools::StackHelper::open() (stackhelper.h:42)
    hbackup::Data::read(char const*, char const*) const (data.cpp:528)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:405)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:532)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:541)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
    main (hbackup.cpp:335)
  
@@ -5457,32 +5457,32 @@ Broken configuration
  -> Reading configuration file 'etc/broken.conf'
 Backup::Backup(test_db/.backup)
 Error: Keyword 'db' redefined in 'blah'
-Error: after line 0: need at most 1 occurence(s) of keyword 'db'
-Error: after line 0: need at most 1 occurence(s) of keyword 'report_copy_error_once'
-Error: at line 7: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line 11: missing keyword 'condition'
-Error: after line 13: need at most 1 occurence(s) of keyword 'ignore'
-Error: at line 15: keyword 'users' requires at least 1 parameter(s), found 0
-Error: at line 17: keyword 'ignore' requires 1 parameter(s), found 0
-Error: after line 19: need at most 1 occurence(s) of keyword 'config'
-Error: after line 19: need at most 1 occurence(s) of keyword 'expire'
-Error: after line 19: need at most 1 occurence(s) of keyword 'hostname'
-Error: at line 23: keyword 'option' requires at most 2 parameter(s), found 3
-Error: at line 24: keyword 'option' requires at least 1 parameter(s), found 0
-Error: at line 32: keyword 'filter' requires 2 parameter(s), found 3
-Error: at line 33: keyword 'condition' requires 2 parameter(s), found 3
-Error: at line 34: keyword 'condition' requires 2 parameter(s), found 1
-Error: at line 37: keyword 'expire' requires 1 parameter(s), found 2
-Error: after line 41: need at most 1 occurence(s) of keyword 'compress'
-Error: after line 41: need at most 1 occurence(s) of keyword 'ignore'
-Error: after line 51: missing keyword 'condition'
-Error: at line 53: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line 53: missing keyword 'condition'
-Error: at line 71: keyword 'ignore' requires 1 parameter(s), found 2
-Error: at line 72: keyword 'compress' requires 1 parameter(s), found 2
-Error: at line 85: keyword 'ignore' requires 1 parameter(s), found 0
-Error: at line 86: keyword 'compress' requires 1 parameter(s), found 0
-Error: at line 88: keyword 'what_the_f...?' incorrect or misplaced, aborting
+Error: at line 7: exactly 2 params required, not 1 for 'filter'
+Error: at line 11: missing keyword 'condition'
+Error: at line 15: at least 1 params required, not 0 for 'users'
+Error: at line 17: exactly 1 params required, not 0 for 'ignore'
+Error: at line 13: need at most 1 occurence(s) of 'ignore'
+Error: at line 23: at most 2 params required, not 3 for 'option'
+Error: at line 24: at least 1 params required, not 0 for 'option'
+Error: at line 32: exactly 2 params required, not 3 for 'filter'
+Error: at line 33: exactly 2 params required, not 3 for 'condition'
+Error: at line 34: exactly 2 params required, not 1 for 'condition'
+Error: at line 37: exactly 1 params required, not 2 for 'expire'
+Error: at line 51: missing keyword 'condition'
+Error: at line 53: exactly 2 params required, not 1 for 'filter'
+Error: at line 53: missing keyword 'condition'
+Error: at line 41: need at most 1 occurence(s) of 'compress'
+Error: at line 41: need at most 1 occurence(s) of 'ignore'
+Error: at line 19: need at most 1 occurence(s) of 'config'
+Error: at line 19: need at most 1 occurence(s) of 'expire'
+Error: at line 19: need at most 1 occurence(s) of 'hostname'
+Error: at line 71: exactly 1 params required, not 2 for 'ignore'
+Error: at line 72: exactly 1 params required, not 2 for 'compress'
+Error: at line 85: exactly 1 params required, not 0 for 'ignore'
+Error: at line 86: exactly 1 params required, not 0 for 'compress'
+Error: global: need at most 1 occurence(s) of 'db'
+Error: global: need at most 1 occurence(s) of 'report_copy_error_once'
+Error: at line 88: incorrect or misplaced 'what_the_f...?'
  4 bytes in 1 blocks are definitely lost in loss record 1 of 1
    operator new(unsigned int) (vg_replace_malloc.c:255)
    TCLAP::CmdLine::_constructor() (CmdLine.h:346)

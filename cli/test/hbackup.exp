@@ -3391,29 +3391,29 @@ Broken configuration
  -> Reading configuration file 'etc/broken.conf'
 Backup::Backup(test_db/.backup)
 Error: Keyword 'db' redefined in 'blah'
-Error: after line 0: need at most 1 occurence(s) of keyword 'db'
-Error: after line 0: need at most 1 occurence(s) of keyword 'report_copy_error_once'
-Error: at line 7: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line 11: missing keyword 'condition'
-Error: after line 13: need at most 1 occurence(s) of keyword 'ignore'
-Error: at line 15: keyword 'users' requires at least 1 parameter(s), found 0
-Error: at line 17: keyword 'ignore' requires 1 parameter(s), found 0
-Error: after line 19: need at most 1 occurence(s) of keyword 'config'
-Error: after line 19: need at most 1 occurence(s) of keyword 'expire'
-Error: after line 19: need at most 1 occurence(s) of keyword 'hostname'
-Error: at line 23: keyword 'option' requires at most 2 parameter(s), found 3
-Error: at line 24: keyword 'option' requires at least 1 parameter(s), found 0
-Error: at line 32: keyword 'filter' requires 2 parameter(s), found 3
-Error: at line 33: keyword 'condition' requires 2 parameter(s), found 3
-Error: at line 34: keyword 'condition' requires 2 parameter(s), found 1
-Error: at line 37: keyword 'expire' requires 1 parameter(s), found 2
-Error: after line 41: need at most 1 occurence(s) of keyword 'compress'
-Error: after line 41: need at most 1 occurence(s) of keyword 'ignore'
-Error: after line 51: missing keyword 'condition'
-Error: at line 53: keyword 'filter' requires 2 parameter(s), found 1
-Error: after line 53: missing keyword 'condition'
-Error: at line 71: keyword 'ignore' requires 1 parameter(s), found 2
-Error: at line 72: keyword 'compress' requires 1 parameter(s), found 2
-Error: at line 85: keyword 'ignore' requires 1 parameter(s), found 0
-Error: at line 86: keyword 'compress' requires 1 parameter(s), found 0
-Error: at line 88: keyword 'what_the_f...?' incorrect or misplaced, aborting
+Error: at line 7: exactly 2 params required, not 1 for 'filter'
+Error: at line 11: missing keyword 'condition'
+Error: at line 15: at least 1 params required, not 0 for 'users'
+Error: at line 17: exactly 1 params required, not 0 for 'ignore'
+Error: at line 13: need at most 1 occurence(s) of 'ignore'
+Error: at line 23: at most 2 params required, not 3 for 'option'
+Error: at line 24: at least 1 params required, not 0 for 'option'
+Error: at line 32: exactly 2 params required, not 3 for 'filter'
+Error: at line 33: exactly 2 params required, not 3 for 'condition'
+Error: at line 34: exactly 2 params required, not 1 for 'condition'
+Error: at line 37: exactly 1 params required, not 2 for 'expire'
+Error: at line 51: missing keyword 'condition'
+Error: at line 53: exactly 2 params required, not 1 for 'filter'
+Error: at line 53: missing keyword 'condition'
+Error: at line 41: need at most 1 occurence(s) of 'compress'
+Error: at line 41: need at most 1 occurence(s) of 'ignore'
+Error: at line 19: need at most 1 occurence(s) of 'config'
+Error: at line 19: need at most 1 occurence(s) of 'expire'
+Error: at line 19: need at most 1 occurence(s) of 'hostname'
+Error: at line 71: exactly 1 params required, not 2 for 'ignore'
+Error: at line 72: exactly 1 params required, not 2 for 'compress'
+Error: at line 85: exactly 1 params required, not 0 for 'ignore'
+Error: at line 86: exactly 1 params required, not 0 for 'compress'
+Error: global: need at most 1 occurence(s) of 'db'
+Error: global: need at most 1 occurence(s) of 'report_copy_error_once'
+Error: at line 88: incorrect or misplaced 'what_the_f...?'

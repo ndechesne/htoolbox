@@ -94,6 +94,17 @@ public:
   }
 };
 
+void config_error_cb(
+    const char*     message,
+    const char*     value,
+    size_t          line_no) {
+  if (line_no > 0) {
+    hlog_error("at line %zu: %s '%s'", line_no, message, value);
+  } else {
+    hlog_error("global: %s '%s'", message, value);
+  }
+}
+
 int main(void) {
   cout << endl << "extractParams" << endl;
   string line;
@@ -328,13 +339,12 @@ int main(void) {
   delete params;
 
 
-  Config*           config;
-  ConfigErrors      errors;
+  Config* config;
 
   report.setLevel(debug);
 
   cout << endl << "Test: client configuration" << endl;
-  config = new Config;
+  config = new Config(config_error_cb);
 
   // expire
   config->syntax().add(new ConfigItem("expire", 0, 1, 1));
@@ -385,22 +395,18 @@ int main(void) {
   cout << "Syntax:" << endl;
   config->syntax().show(2);
 
-  if (config->read("etc/localhost.list", 0, NULL, &errors) < 0) {
+  if (config->read("etc/localhost.list", 0, NULL) < 0) {
     cout << "failed to read config!" << endl;
   }
-  errors.show();
-  errors.clear();
   config->clear();
 
   cout << "Test: with object" << endl;
 
   MyObject object("root");
 
-  if (config->read("etc/localhost.list", 0, &object, &errors) < 0) {
+  if (config->read("etc/localhost.list", 0, &object) < 0) {
     cout << "failed to read config!" << endl;
   }
-  errors.show();
-  errors.clear();
   object.show();
   object.clear();
 
@@ -410,7 +416,7 @@ int main(void) {
   delete config;
 
   cout << "Test: server configuration" << endl;
-  config = new Config;
+  config = new Config(config_error_cb);
 
   // log
   {
@@ -551,11 +557,9 @@ int main(void) {
   cout << "Syntax:" << endl;
   config->syntax().show(2);
 
-  if (config->read("etc/hbackup.conf", 0, &object, &errors) < 0) {
+  if (config->read("etc/hbackup.conf", 0, &object) < 0) {
     cout << "failed to read config!" << endl;
   }
-  errors.show();
-  errors.clear();
   object.show();
   object.clear();
 
@@ -572,11 +576,9 @@ int main(void) {
   // clear list
   config->clear();
 
-  if (config->read("etc/config.saved", 0, &object, &errors) < 0) {
+  if (config->read("etc/config.saved", 0, &object) < 0) {
     cout << "failed to read config!" << endl;
   }
-  errors.show();
-  errors.clear();
   object.show();
   object.clear();
 
@@ -587,11 +589,9 @@ int main(void) {
   config->clear();
 
   cout << "Test: broken configuration" << endl;
-  if (config->read("etc/broken.conf", 0, &object, &errors) < 0) {
+  if (config->read("etc/broken.conf", 0, &object) < 0) {
     cout << "failed to read config!" << endl;
   }
-  errors.show();
-  errors.clear();
   object.show();
   object.clear();
 

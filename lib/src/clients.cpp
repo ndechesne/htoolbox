@@ -42,6 +42,17 @@ using namespace std;
 using namespace hbackup;
 using namespace htools;
 
+static void config_error_cb(
+    const char*     message,
+    const char*     value,
+    size_t          line_no) {
+  if (line_no > 0) {
+    hlog_error("at line %zu: %s '%s'", line_no, message, value);
+  } else {
+    hlog_error("global: %s '%s'", message, value);
+  }
+}
+
 int Client::readConfig(
     const char*     config_path) {
   // Set up config syntax and grammar
@@ -94,11 +105,9 @@ int Client::readConfig(
 
   hlog_debug_arrow(1, "Reading client configuration file for '%s'",
     internalName().c_str());
-  ConfigErrors errors;
   bool failed = false;
   _own_parsers = false;
-  if (_config.read(config_path, Config::flags_dos_catch, this, &errors) < 0) {
-    errors.show();
+  if (_config.read(config_path, Config::flags_dos_catch, this) < 0) {
     failed = true;
   } else {
     show(1);
@@ -112,7 +121,7 @@ Client::Client(
     ParsersManager&   parsers_manager,
     const string&     subset)
     : _attributes(attributes), _parsers_manager(parsers_manager),
-      _own_parsers(false), _list_file(NULL) {
+      _own_parsers(false), _list_file(NULL), _config(config_error_cb) {
   _name = name;
   _subset_server = subset;
   if (_subset_server.empty()) {

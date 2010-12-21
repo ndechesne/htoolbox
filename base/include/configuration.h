@@ -54,37 +54,6 @@ public:
 
 class ConfigCounter;
 
-// To re-order the error messages
-class ConfigError {
-  string            _message;
-  int               _line_no;
-  int               _type;
-public:
-  ConfigError(
-    const string    message,
-    int             line_no = -1,
-    unsigned int    type = 0) :
-        _message(message),
-        _line_no(line_no),
-        _type(type) {}
-  bool operator<(const ConfigError& error) const;
-  void show() const;
-};
-
-class ConfigErrors {
-  list<ConfigError> _children;
-public:
-  void push_back(const ConfigError& error) { _children.push_back(error); }
-  void sort() { _children.sort(); }
-  void clear() { _children.clear(); }
-  void show() const {
-    for (list<ConfigError>::const_iterator i = _children.begin();
-        i != _children.end(); i++) {
-      i->show();
-    }
-  }
-};
-
 class ConfigItem {
   string            _keyword;
   unsigned int      _min_occurrences;
@@ -123,11 +92,16 @@ public:
   void add(ConfigItem* child);
   // Find a child
   const ConfigItem* find(string& keyword) const;
+  // Callback for errors
+  typedef void (*config_error_cb_f)(
+    const char*     message,
+    const char*     value,
+    size_t          line_no);
   // Check children occurrences
   bool isValid(
     const list<ConfigCounter> counters,
-    ConfigErrors*             errors  = NULL,
-    int                       line_no = -1) const;
+    int                       line_no,
+    config_error_cb_f         config_error_cb = NULL) const;
   // Debug
   void show(int level = 0) const;
 };
@@ -141,18 +115,26 @@ public:
 };
 
 class Config {
+public:
+  // Callback for errors
+  typedef void (*config_error_cb_f)(
+    const char*     message,
+    const char*     value,
+    size_t          line_no);
+private:
   ConfigItem        _syntax;
   ConfigLine        _lines_top;
+  config_error_cb_f _config_error_cb;
 public:
-  Config() : _syntax("") {}
+  Config(config_error_cb_f config_error_cb = NULL) :
+    _syntax(""), _config_error_cb(config_error_cb) {}
   // Access point to syntax
   ConfigItem& syntax() { return _syntax; }
   // Read file, using Stream's flags as given
   ssize_t read(
     const char*     path,
     unsigned char   flags,
-    ConfigObject*   root = NULL,
-    ConfigErrors*   errors = NULL);
+    ConfigObject*   root = NULL);
   // Write configuration to file
   int write(
     const char*     path) const;

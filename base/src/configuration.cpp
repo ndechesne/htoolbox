@@ -94,25 +94,6 @@ void ConfigLine::show(int level) const {
   hlog_verbose(format, lineNo(), " ", s.str().c_str());
 }
 
-bool ConfigError::operator<(const ConfigError& error) const {
-  return _line_no < error._line_no;
-}
-
-void ConfigError::show() const {
-  char details[32] = "";
-  stringstream s;
-  if (_line_no >= 0) {
-    if (_type != 0) {
-      s << "after";
-    } else {
-      s << "at";
-    }
-    s << " line";
-    sprintf(details, "%s line %d: ", (_type != 0) ? "after" : "at", _line_no);
-  }
-  hlog_error("%s%s", details, _message.c_str());
-}
-
 ConfigItem::~ConfigItem() {
   list<ConfigItem*>::iterator i;
   for (i = _children.begin(); i != _children.end(); i = _children.erase(i)) {
@@ -141,8 +122,8 @@ const ConfigItem* ConfigItem::find(string& keyword) const {
 
 bool ConfigItem::isValid(
     const list<ConfigCounter> counters,
-    ConfigErrors*             errors,
-    int                       line_no) const {
+    int                       line_no,
+    config_error_cb_f         config_error_cb) const {
   bool is_valid = true;
   // Check occurrences for each child (both lists are sorted)
   list<ConfigCounter>::const_iterator j = counters.begin();
@@ -158,23 +139,24 @@ bool ConfigItem::isValid(
         || (((*i)->max_occurrences() != 0)
           && (occurrences > (*i)->max_occurrences()))) {
       is_valid = false;
-      if (errors != NULL) {
-        ostringstream message;
+      if (config_error_cb != NULL) {
         if (occurrences < (*i)->min_occurrences()) {
           // Too few
           if (occurrences == 0) {
-            message << "missing ";
+            config_error_cb("missing keyword", (*i)->keyword().c_str(), line_no);
           } else {
-            message << "need at least "<< (*i)->min_occurrences()
-              << " occurence(s) of ";
+            char message[128];
+            sprintf(message, "need at least %zu occurence(s) of",
+              (*i)->min_occurrences());
+            config_error_cb(message, (*i)->keyword().c_str(), line_no);
           }
         } else {
           // Too many
-          message << "need at most " << (*i)->max_occurrences()
-            << " occurence(s) of ";
+          char message[128];
+          sprintf(message, "need at most %zu occurence(s) of",
+            (*i)->max_occurrences());
+          config_error_cb(message, (*i)->keyword().c_str(), line_no);
         }
-        message << "keyword '" << (*i)->keyword() << "'";
-        errors->push_back(ConfigError(message.str(), line_no, 1));
       }
     }
   }
@@ -213,8 +195,7 @@ void ConfigItem::show(int level) const {
 ssize_t Config::read(
     const char*     path,
     unsigned char   flags,
-    ConfigObject*   root,
-    ConfigErrors*   errors) {
+    ConfigObject*   root) {
   // Open client configuration file
   FILE* fd = fopen(path, "r");
   if (fd == NULL) {
@@ -286,24 +267,28 @@ ssize_t Config::read(
           // Add under current hierarchy
           lines_hierarchy.push_back(ln);
           // Check number of parameters (params.size() - 1)
-          if (   ((params.size() - 1) < child->min_params())
+          size_t nb_params = params.size() - 1;
+          if (   (nb_params < child->min_params())
               || ( (child->min_params() <= child->max_params())
-                && ((params.size() - 1) > child->max_params()))) {
-            if (errors != NULL) {
-              ostringstream message;
-              message << "keyword '" << params[0]
-                << "' requires ";
+                && (nb_params > child->max_params()))) {
+            if (_config_error_cb != NULL) {
+              char message[128];
+              size_t offset = 0;
               if (child->min_params() == child->max_params()) {
-                message << child->min_params();
+                offset += sprintf(&message[offset], "exactly %zu",
+                  child->min_params());
               } else
-              if ((params.size() - 1) < child->min_params()) {
-                message << "at least " << child->min_params();
+              if (nb_params < child->min_params()) {
+                offset += sprintf(&message[offset], "at least %zu",
+                  child->min_params());
               } else
               {
-                message << "at most " << child->max_params();
+                offset += sprintf(&message[offset], "at most %zu",
+                  child->max_params());
               }
-              message << " parameter(s), found " << params.size() - 1;
-              errors->push_back(ConfigError(message.str(), line_no));
+              offset += sprintf(&message[offset],
+                " params required, not %zu for", params.size() - 1);
+              _config_error_cb(message, params[0].c_str(), line_no);
             }
             // Stop creating objects
             root = NULL;
@@ -346,8 +331,8 @@ ssize_t Config::read(
             }
           }
           // Check against expected
-          if (! items_hierarchy.back()->isValid(entries, errors,
-                  lines_hierarchy.back()->lineNo())) {
+          if (! items_hierarchy.back()->isValid(entries,
+                  lines_hierarchy.back()->lineNo(), _config_error_cb)) {
             // Stop creating objects
             root = NULL;
             // Keep going to find all errors
@@ -361,9 +346,9 @@ ssize_t Config::read(
           lines_hierarchy.back()->sortChildren();
           lines_hierarchy.pop_back();
           if ((items_hierarchy.size() == 0) && ! eof) {
-            if (errors != NULL) {
-              errors->push_back(ConfigError("keyword '" + params[0]
-                + "' incorrect or misplaced, aborting", line_no));
+            if (_config_error_cb != NULL) {
+              _config_error_cb("incorrect or misplaced", params[0].c_str(),
+                line_no);
             }
             failed = true;
             goto end;
@@ -376,9 +361,6 @@ end:
   free(buffer);
   if (fclose(fd) < 0) {
     failed = true;
-  }
-  if (errors != NULL) {
-    errors->sort();
   }
   return failed ? -1 : 0;
 }
