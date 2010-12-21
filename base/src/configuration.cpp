@@ -45,12 +45,46 @@ public:
   void increment() { _occurrences++; }
 };
 
-ConfigLine::~ConfigLine() {
-  clear();
-}
+// The configuration tree, line per line
+class Config::Line {
+  vector<string>  _params;
+  unsigned int    _line_no;
+  list<Line*>     _children;
+public:
+  Line(
+    unsigned int  line_no = 0) : _line_no(line_no) {}
+  Line(
+    const vector<string>& params,
+    unsigned int          line_no = 0) : _params(params), _line_no(line_no) {}
+  ~Line() {
+    clear();
+  }
+  // Number of parameters
+  size_t size() const { return _params.size(); }
+  // Parameter
+  const string& operator[](size_t index) const { return _params[index]; }
+  // Get line no
+  unsigned int lineNo(void) const { return _line_no;          }
+  // Add a child
+  void add(Line* child);
+  // Sort children back into config file line order
+  void sortChildren();
+  // Lines tree accessor
+  static int line(
+    const Line*   top,
+    Line**        params,
+    bool          reset = false);
+  // Clear config lines
+  void clear();
+  // Debug
+  void show(int level = 0) const;
+  // Iterator boundaries
+  list<Line*>::const_iterator begin() const { return _children.begin(); }
+  list<Line*>::const_iterator end() const { return _children.end();   }
+};
 
-void ConfigLine::add(ConfigLine* child) {
-  list<ConfigLine*>:: iterator i = _children.begin();
+void Config::Line::add(Line* child) {
+  list<Line*>:: iterator i = _children.begin();
   while (i != _children.end()) {
     if ((*i)->_params[0] > child->_params[0]) break;
     i++;
@@ -60,24 +94,24 @@ void ConfigLine::add(ConfigLine* child) {
 
 // Need comparator to sort back in file order
 struct ConfigLineSorter :
-    public std::binary_function<const ConfigLine*, const ConfigLine*, bool> {
-  bool operator()(const ConfigLine* left, const ConfigLine* right) const {
+    public std::binary_function<const Config::Line*, const Config::Line*, bool> {
+  bool operator()(const Config::Line* left, const Config::Line* right) const {
     return left->lineNo() < right->lineNo();
   }
 };
 
-void ConfigLine::sortChildren() {
+void Config::Line::sortChildren() {
   _children.sort(ConfigLineSorter());
 }
 
-void ConfigLine::clear() {
-  list<ConfigLine*>::iterator i;
+void Config::Line::clear() {
+  list<Line*>::iterator i;
   for (i = _children.begin(); i != _children.end(); i = _children.erase(i)) {
     delete *i;
   }
 }
 
-void ConfigLine::show(int level) const {
+void Config::Line::show(int level) const {
   stringstream s;
   for (unsigned int j = 0; j < _params.size(); j++) {
     if (j != 0) {
@@ -235,10 +269,12 @@ void Config::Item::show(int level) const {
 }
 
 Config::Config(config_error_cb_f config_error_cb) :
-    _syntax(new Item("")), _config_error_cb(config_error_cb) {}
+    _syntax(new Item("")), _lines_top(new Line),
+    _config_error_cb(config_error_cb) {}
 
 Config::~Config() {
   delete _syntax;
+  delete _lines_top;
 }
 
 Config::Item* Config::syntaxAdd(
@@ -274,8 +310,8 @@ ssize_t Config::read(
   items_hierarchy.push_back(_syntax);
 
   // Where are we in the lines tree
-  list<ConfigLine*> lines_hierarchy;
-  lines_hierarchy.push_back(&_lines_top);
+  list<Line*> lines_hierarchy;
+  lines_hierarchy.push_back(_lines_top);
 
   // Where we are in the objects tree (follows the items/syntax closely)
   list<Object*> objects_hierarchy;
@@ -328,7 +364,7 @@ ssize_t Config::read(
           // Yes. Add under current hierarchy
           items_hierarchy.push_back(child);
           // Add in configuration lines tree, however incorrect it may be
-          ConfigLine* ln = new ConfigLine(params, line_no);
+          Line* ln = new Line(params, line_no);
           lines_hierarchy.back()->add(ln);
           // Add under current hierarchy
           lines_hierarchy.push_back(ln);
@@ -380,7 +416,7 @@ ssize_t Config::read(
           // No: we are going to go up one level, but compute/check children
           // occurrences first
           list<ConfigCounter> entries;
-          for (list<ConfigLine*>::const_iterator
+          for (list<Line*>::const_iterator
               i = lines_hierarchy.back()->begin();
               i != lines_hierarchy.back()->end(); i++) {
             list<ConfigCounter>::iterator j = entries.begin();
@@ -440,9 +476,9 @@ int Config::write(
       path, strerror(errno));
     return -1;
   }
-  ConfigLine* params;
+  Line* params;
   int level;
-  while ((level = line(&params)) >= 0) {
+  while ((level = Line::line(_lines_top, &params)) >= 0) {
     stringstream s;
     for (int j = 0; j < level << 1; j++) {
       s << " ";
@@ -465,19 +501,20 @@ int Config::write(
   return fclose(fd);
 }
 
-int Config::line(
-    ConfigLine**    params,
-    bool            reset) const {
-  static list<ConfigLine*>::const_iterator       i;
-  static list<const ConfigLine*>                 parents;
-  static list<list<ConfigLine*>::const_iterator> iterators;
+int Config::Line::line(
+    const Line*   top,
+    Line**        params,
+    bool          reset) {
+  static list<Line*>::const_iterator       i;
+  static list<const Line*>                 parents;
+  static list<list<Line*>::const_iterator> iterators;
 
   // Reset
   if (reset || (parents.size() == 0)) {
     parents.clear();
     iterators.clear();
-    i = _lines_top.begin();
-    parents.push_back(&_lines_top);
+    i = top->begin();
+    parents.push_back(top);
     iterators.push_back(i);
   } else
   // Next
@@ -504,14 +541,14 @@ int Config::line(
 }
 
 void Config::clear() {
-  _lines_top.clear();
+  _lines_top->clear();
 }
 
 void Config::show() const {
   hlog_debug("Config:");
-  ConfigLine* params;
+  Line* params;
   int level;
-  while ((level = line(&params)) >= 0) {
+  while ((level = Line::line(_lines_top, &params)) >= 0) {
     params->show((level + 1) * 2);
   }
 }

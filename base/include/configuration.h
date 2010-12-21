@@ -21,37 +21,6 @@
 
 namespace htools {
 
-// The configuration tree, line per line
-class ConfigLine {
-  vector<string>    _params;
-  unsigned int      _line_no;
-  list<ConfigLine*> _children;
-public:
-  ConfigLine(
-    unsigned int          line_no = 0) : _line_no(line_no) {}
-  ConfigLine(
-    const vector<string>& params,
-    unsigned int          line_no = 0) : _params(params), _line_no(line_no) {}
-  ~ConfigLine();
-  // Number of parameters
-  size_t size() const { return _params.size(); }
-  // Parameter
-  const string& operator[](size_t index) const { return _params[index]; }
-  // Get line no
-  unsigned int lineNo(void) const { return _line_no;          }
-  // Add a child
-  void add(ConfigLine* child);
-  // Sort children back into config file line order
-  void sortChildren();
-  // Clear config lines
-  void clear();
-  // Debug
-  void show(int level = 0) const;
-  // Iterator boundaries
-  list<ConfigLine*>::const_iterator begin() const { return _children.begin(); }
-  list<ConfigLine*>::const_iterator end() const { return _children.end();   }
-};
-
 class Config {
 public:
   // Class for items in the syntax tree
@@ -69,9 +38,11 @@ public:
     const char*     message,
     const char*     value,
     size_t          line_no);
+  // Internal class
+  class Line;
 private:
   Item*             _syntax;
-  ConfigLine        _lines_top;
+  Line*             _lines_top;
   config_error_cb_f _config_error_cb;
 public:
   Config(config_error_cb_f config_error_cb = NULL);
@@ -96,10 +67,6 @@ public:
   // Write configuration to file
   int write(
     const char*     path) const;
-  // Lines tree accessor
-  int line(
-    ConfigLine**    params,
-    bool            reset = false) const;
   // Clear config lines
   void clear();
   // Debug
