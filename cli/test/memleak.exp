@@ -2695,8 +2695,8 @@ Checking data, sizes: f=2 z=22 (22)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, char const*, bool, unsigned int, htools::Node&, hbackup::IParser*) (paths.cpp:164)
    hbackup::ClientPath::parse_recurse(hbackup::Database&, char const*, char const*, char const*, bool, unsigned int, htools::Node&, hbackup::IParser*) (paths.cpp:224)
    hbackup::ClientPath::parse(hbackup::Database&, char const*, char const*, char const*, bool) (paths.cpp:340)
-   hbackup::Client::backup(hbackup::Database&, char const*, char const*, bool, bool) (clients.cpp:383)
-   hbackup::HBackup::backup(bool) (interface.cpp:495)
+   hbackup::Client::backup(hbackup::Database&, char const*, char const*, bool, bool) (clients.cpp:378)
+   hbackup::HBackup::backup(bool) (interface.cpp:487)
  
 Af ~    C:/Test Dir/My Dir/a File.TXT
 Checking data, sizes: f=2 z=22 (22)
@@ -4878,7 +4878,7 @@ U       test_r/test2/testfile
    htools::StackHelper::open() (stackhelper.h:42)
    hbackup::Data::read(char const*, char const*) const (data.cpp:528)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:405)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:541)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:533)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
    main (hbackup.cpp:335)
  
@@ -5028,7 +5028,7 @@ U       test_r/test1/big_file
    htools::StackHelper::open() (stackhelper.h:42)
    hbackup::Data::read(char const*, char const*) const (data.cpp:528)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:405)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:541)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:533)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
    main (hbackup.cpp:335)
  
@@ -5226,7 +5226,7 @@ U       test_r/test1/cvs/CVS/Root
    htools::StackHelper::open() (stackhelper.h:42)
    hbackup::Data::read(char const*, char const*) const (data.cpp:528)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:405)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:541)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:533)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
    main (hbackup.cpp:335)
  
@@ -5389,7 +5389,7 @@ U       test_r/test1/big_file
    htools::StackHelper::open() (stackhelper.h:42)
    hbackup::Data::read(char const*, char const*) const (data.cpp:528)
    hbackup::Database::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (db.cpp:405)
-   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:541)
+   hbackup::HBackup::listOrRestore(char const*, std::list<std::string, std::allocator<std::string> >*, hbackup::HBackup::LinkType, char const*, long) (interface.cpp:533)
    hbackup::HBackup::restore(char const*, hbackup::HBackup::LinkType, char const*, long) (hbackup.h:196)
    main (hbackup.cpp:335)
  

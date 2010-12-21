@@ -127,13 +127,17 @@ Syntax:
   filter, occ.: optional, no max; params: min = max = 2
     condition, occ.: min = 1, no max; params: min = max = 2
   ignore, occ.: optional, max = 1; params: min = max = 1
+  parsers_dir, occ.: optional, no max; params: min = max = 1
   path, occ.: min = 1, no max; params: min = max = 1
     compress, occ.: optional, max = 1; params: min = max = 1
     filter, occ.: optional, no max; params: min = max = 2
       condition, occ.: min = 1, no max; params: min = max = 2
     ignore, occ.: optional, max = 1; params: min = max = 1
     no_compress, occ.: optional, max = 1; params: min = max = 1
-    parser, occ.: optional, no max; params: min = 1, max = 2
+    parser, occ.: optional, no max; params: min = max = 2
+    report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
+  report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
+  subset, occ.: optional, max = 1; params: min = max = 1
   users, occ.: optional, max = 1; params: min = 1, no max
 Test: with object
  0: root
@@ -200,8 +204,9 @@ Syntax:
         condition, occ.: min = 1, no max; params: min = max = 2
       ignore, occ.: optional, max = 1; params: min = max = 1
       no_compress, occ.: optional, max = 1; params: min = max = 1
-      parser, occ.: optional, no max; params: min = 1, max = 2
-    protocol, occ.: min = 1, max = 1; params: min = max = 1
+      parser, occ.: optional, no max; params: min = max = 2
+      report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
+    protocol, occ.: optional, max = 1; params: min = max = 1
     report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
     timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
     users, occ.: optional, max = 1; params: min = 1, no max
@@ -217,7 +222,6 @@ Syntax:
     max_lines, occ.: optional, max = 1; params: min = max = 1
   parsers_dir, occ.: optional, no max; params: min = max = 1
   report_copy_error_once, occ.: optional, max = 1; params: min = max = 0
-  timeout_nowarning, occ.: optional, max = 1; params: min = max = 0
   tree, occ.: optional, max = 1; params: min = max = 1
     compressed, occ.: optional, max = 1; params: min = max = 1
     daily, occ.: optional, max = 1; params: min = max = 1
@@ -314,7 +318,7 @@ Syntax:
 113:       compress compress_m
 114:       ignore backup
 115:       parser svn modified
-116:     report_copy_error_once
+116:       report_copy_error_once
 Config:
 1:   log hbackup.log
 2:     max_lines 100000
@@ -405,7 +409,7 @@ Config:
 113:       compress compress_m
 114:       ignore backup
 115:       parser svn modified
-116:     report_copy_error_once
+116:       report_copy_error_once
 Test: configuration save
  0: root
  1:   log hbackup.log
@@ -497,7 +501,7 @@ Test: configuration save
 87:       compress compress_m
 88:       ignore backup
 89:       parser svn modified
-90:     report_copy_error_once
+90:       report_copy_error_once
 Config:
 1:   log hbackup.log
 2:     max_lines 100000
@@ -588,7 +592,7 @@ Config:
 87:       compress compress_m
 88:       ignore backup
 89:       parser svn modified
-90:     report_copy_error_once
+90:       report_copy_error_once
 Test: broken configuration
 Error: at line 7: exactly 2 params required, not 1 for 'filter'
 Error: at line 11: missing keyword 'condition'
@@ -611,7 +615,6 @@ Error: at line 19: need at most 1 occurence(s) of 'expire'
 Error: at line 19: need at most 1 occurence(s) of 'hostname'
 Error: at line 71: exactly 1 params required, not 2 for 'ignore'
 Error: at line 72: exactly 1 params required, not 2 for 'compress'
-Error: at line 65: missing keyword 'protocol'
 Error: at line 85: exactly 1 params required, not 0 for 'ignore'
 Error: at line 86: exactly 1 params required, not 0 for 'compress'
 Error: global: need at most 1 occurence(s) of 'db'

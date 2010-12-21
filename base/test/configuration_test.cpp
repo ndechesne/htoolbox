@@ -346,54 +346,49 @@ int main(void) {
   cout << endl << "Test: client configuration" << endl;
   config = new Config(config_error_cb);
 
+  // subset
+  config->add(config->root(), "subset", 0, 1, 1);
   // expire
-  config->syntax().add(new ConfigItem("expire", 0, 1, 1));
-
+  config->add(config->root(), "expire", 0, 1, 1);
   // users
-  config->syntax().add(new ConfigItem("users", 0, 1, 1, -1));
-
+  config->add(config->root(), "users", 0, 1, 1, -1);
+  // timeout_nowarning
+  config->add(config->root(), "report_copy_error_once", 0, 1);
   // ignore
-  config->syntax().add(new ConfigItem("ignore", 0, 1, 1));
-
+  config->add(config->root(), "ignore", 0, 1, 1);
+  // parser plugins
+  config->add(config->root(), "parsers_dir", 0, 0, 1);
   // filter
   {
-    ConfigItem* item = new ConfigItem("filter", 0, 0, 2);
-    config->syntax().add(item);
+    ConfigItem* filter = config->add(config->root(), "filter", 0, 0, 2);
 
     // condition
-    item->add(new ConfigItem("condition", 1, 0, 2));
+    config->add(filter, "condition", 1, 0, 2);
   }
-
   // path
   {
-    ConfigItem* item = new ConfigItem("path", 1, 0, 1);
-    config->syntax().add(item);
-
+    ConfigItem* path = config->add(config->root(), "path", 1, 0, 1);
     // parser
-    item->add(new ConfigItem("parser", 0, 0, 1, 2));
-
+    config->add(path, "parser", 0, 0, 2);
     // filter
     {
-      ConfigItem* item2 = new ConfigItem("filter", 0, 0, 2);
-      item->add(item2);
-
+      ConfigItem* filter = config->add(path, "filter", 0, 0, 2);
       // condition
-      item2->add(new ConfigItem("condition", 1, 0, 2));
+      config->add(filter, "condition", 1, 0, 2);
     }
-
+    // timeout_nowarning
+    config->add(path, "report_copy_error_once", 0, 1);
     // ignore
-    item->add(new ConfigItem("ignore", 0, 1, 1));
-
+    config->add(path, "ignore", 0, 1, 1);
     // compress
-    item->add(new ConfigItem("compress", 0, 1, 1));
-
+    config->add(path, "compress", 0, 1, 1);
     // no_compress
-    item->add(new ConfigItem("no_compress", 0, 1, 1));
+    config->add(path, "no_compress", 0, 1, 1);
   }
 
   // show debug
   cout << "Syntax:" << endl;
-  config->syntax().show(2);
+  config->showSyntax(2);
 
   if (config->read("etc/localhost.list", 0, NULL) < 0) {
     cout << "failed to read config!" << endl;
@@ -420,142 +415,102 @@ int main(void) {
 
   // log
   {
-    ConfigItem* log = new ConfigItem("log", 0, 1, 1);
-    config->syntax().add(log);
+    ConfigItem* log = config->add(config->root(), "log", 0, 1, 1);
     // max lines per file
-    log->add(new ConfigItem("max_lines", 0, 1, 1, 1));
+    config->add(log, "max_lines", 0, 1, 1, 1);
     // max backups to keep
-    log->add(new ConfigItem("backups", 0, 1, 1, 1));
+    config->add(log, "backups", 0, 1, 1, 1);
     // log level
-    log->add(new ConfigItem("level", 0, 1, 1, 1));
+    config->add(log, "level", 0, 1, 1, 1);
   }
-
   // db
   {
-    ConfigItem* item = new ConfigItem("db", 0, 1, 1);
-    config->syntax().add(item);
-
-    // compress
-    item->add(new ConfigItem("compress", 0, 1, 1, 1));
-
-    // compress_auto: to be ignored
-    item->add(new ConfigItem("compress_auto", 0, 1));
+    ConfigItem* db = config->add(config->root(), "db", 0, 1, 1);
+    // compress [always, auto_now, auto_later, never]
+    config->add(db, "compress", 0, 1, 1, 1);
+    // old keyword for compress auto
+    config->add(db, "compress_auto", 0, 1);
   }
-
   // tree
   {
-    ConfigItem* item = new ConfigItem("tree", 0, 1, 1);
-    config->syntax().add(item);
-
-    // links
-    item->add(new ConfigItem("links", 0, 1, 1, 1));
-
-    // compressed
-    item->add(new ConfigItem("compressed", 0, 1, 1, 1));
-
-    // hourly
-    item->add(new ConfigItem("hourly", 0, 1, 1, 1));
-
-    // daily
-    item->add(new ConfigItem("daily", 0, 1, 1, 1));
-
-    // weekly
-    item->add(new ConfigItem("weekly", 0, 1, 1, 1));
+    ConfigItem* tree = config->add(config->root(), "tree", 0, 1, 1);
+    // links: type of links to create [hard, symbolic]
+    config->add(tree, "links", 0, 1, 1, 1);
+    // compressed: whether to check for compressed data, or assume one way or
+    //             the other [yes, no, check]
+    config->add(tree, "compressed", 0, 1, 1, 1);
+    // hourly: number of hourly backup to keep
+    config->add(tree, "hourly", 0, 1, 1, 1);
+    // daily: number of daily backup to keep
+    config->add(tree, "daily", 0, 1, 1, 1);
+    // weekly: number of weekly backup to keep
+    config->add(tree, "weekly", 0, 1, 1, 1);
   }
-
   // parser plugins
-  config->syntax().add(new ConfigItem("parsers_dir", 0, 0, 1));
-
+  config->add(config->root(), "parsers_dir", 0, 0, 1);
   // filter
   {
-    ConfigItem* item = new ConfigItem("filter", 0, 0, 2);
-    config->syntax().add(item);
-
+    ConfigItem* filter = config->add(config->root(), "filter", 0, 0, 2);
     // condition
-    item->add(new ConfigItem("condition", 1, 0, 2));
+    config->add(filter, "condition", 1, 0, 2);
   }
-
   // ignore
-  config->syntax().add(new ConfigItem("ignore", 0, 1, 1));
-
-  // timeout_nowarning
-  config->syntax().add(new ConfigItem("timeout_nowarning", 0, 1));
-
+  config->add(config->root(), "ignore", 0, 1, 1);
   // report_copy_error_once
-  config->syntax().add(new ConfigItem("report_copy_error_once", 0, 1));
-
+  config->add(config->root(), "report_copy_error_once", 0, 1);
   // client
   {
-    ConfigItem* item = new ConfigItem("client", 1, 0, 1, 2);
-    config->syntax().add(item);
-
+    ConfigItem* client = config->add(config->root(), "client", 1, 0, 1, 2);
     // hostname
-    item->add(new ConfigItem("hostname", 0, 1, 1));
-
+    config->add(client, "hostname", 0, 1, 1);
     // protocol
-    item->add(new ConfigItem("protocol", 1, 1, 1));
-
+    config->add(client, "protocol", 0, 1, 1);
     // option
-    item->add(new ConfigItem("option", 0, 0, 1, 2));
-
+    config->add(client, "option", 0, 0, 1, 2);
     // timeout_nowarning
-    item->add(new ConfigItem("timeout_nowarning", 0, 1));
-
+    config->add(client, "timeout_nowarning", 0, 1);
     // report_copy_error_once
-    item->add(new ConfigItem("report_copy_error_once", 0, 1));
-
+    config->add(client, "report_copy_error_once", 0, 1);
     // config
-    item->add(new ConfigItem("config", 0, 1, 1));
-
+    config->add(client, "config", 0, 1, 1);
     // expire
-    item->add(new ConfigItem("expire", 0, 1, 1));
-
+    config->add(client, "expire", 0, 1, 1);
     // users
-    item->add(new ConfigItem("users", 0, 1, 1, -1));
-
+    config->add(client, "users", 0, 1, 1, -1);
     // ignore
-    item->add(new ConfigItem("ignore", 0, 1, 1));
-
+    config->add(client, "ignore", 0, 1, 1);
     // filter
     {
-      ConfigItem* sub_item = new ConfigItem("filter", 0, 0, 2);
-      item->add(sub_item);
+      ConfigItem* filter = config->add(client, "filter", 0, 0, 2);
 
       // condition
-      sub_item->add(new ConfigItem("condition", 1, 0, 2));
+      config->add(filter, "condition", 1, 0, 2);
     }
-
     // path
     {
-      ConfigItem* sub_item = new ConfigItem("path", 0, 0, 1);
-      item->add(sub_item);
-
+      ConfigItem* path = config->add(client, "path", 0, 0, 1);
       // parser
-      sub_item->add(new ConfigItem("parser", 0, 0, 1, 2));
-
+      config->add(path, "parser", 0, 0, 2);
       // filter
       {
-        ConfigItem* item2 = new ConfigItem("filter", 0, 0, 2);
-        sub_item->add(item2);
-
+        ConfigItem* filter = config->add(path, "filter", 0, 0, 2);
         // condition
-        item2->add(new ConfigItem("condition", 1, 0, 2));
+        config->add(filter, "condition", 1, 0, 2);
       }
-
+      // timeout_nowarning
+      config->add(path, "report_copy_error_once", 0, 1);
       // ignore
-      sub_item->add(new ConfigItem("ignore", 0, 1, 1));
-
+      config->add(path, "ignore", 0, 1, 1);
       // compress
-      sub_item->add(new ConfigItem("compress", 0, 1, 1));
-
+      config->add(path, "compress", 0, 1, 1);
       // no_compress
-      sub_item->add(new ConfigItem("no_compress", 0, 1, 1));
+      config->add(path, "no_compress", 0, 1, 1);
     }
   }
 
   // show debug
   cout << "Syntax:" << endl;
-  config->syntax().show(2);
+  config->showSyntax(2);
 
   if (config->read("etc/hbackup.conf", 0, &object) < 0) {
     cout << "failed to read config!" << endl;

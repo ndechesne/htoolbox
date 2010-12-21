@@ -58,49 +58,44 @@ int Client::readConfig(
   // Set up config syntax and grammar
   _config.clear();
 
-  ConfigItem& config_syntax = _config.syntax();
-
   // subset
-  config_syntax.add(new ConfigItem("subset", 0, 1, 1));
+  _config.add(_config.root(), "subset", 0, 1, 1);
   // expire
-  config_syntax.add(new ConfigItem("expire", 0, 1, 1));
+  _config.add(_config.root(), "expire", 0, 1, 1);
   // users
-  config_syntax.add(new ConfigItem("users", 0, 1, 1, -1));
+  _config.add(_config.root(), "users", 0, 1, 1, -1);
   // timeout_nowarning
-  config_syntax.add(new ConfigItem("report_copy_error_once", 0, 1));
+  _config.add(_config.root(), "report_copy_error_once", 0, 1);
   // ignore
-  config_syntax.add(new ConfigItem("ignore", 0, 1, 1));
+  _config.add(_config.root(), "ignore", 0, 1, 1);
   // parser plugins
-  config_syntax.add(new ConfigItem("parsers_dir", 0, 0, 1));
+  _config.add(_config.root(), "parsers_dir", 0, 0, 1);
   // filter
   {
-    ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
-    config_syntax.add(filter);
+    ConfigItem* filter = _config.add(_config.root(), "filter", 0, 0, 2);
 
     // condition
-    filter->add(new ConfigItem("condition", 1, 0, 2));
+    _config.add(filter, "condition", 1, 0, 2);
   }
   // path
   {
-    ConfigItem* path = new ConfigItem("path", 1, 0, 1);
-    config_syntax.add(path);
+    ConfigItem* path = _config.add(_config.root(), "path", 1, 0, 1);
     // parser
-    path->add(new ConfigItem("parser", 0, 0, 2));
+    _config.add(path, "parser", 0, 0, 2);
     // filter
     {
-      ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
-      path->add(filter);
+      ConfigItem* filter = _config.add(path, "filter", 0, 0, 2);
       // condition
-      filter->add(new ConfigItem("condition", 1, 0, 2));
+      _config.add(filter, "condition", 1, 0, 2);
     }
     // timeout_nowarning
-    path->add(new ConfigItem("report_copy_error_once", 0, 1));
+    _config.add(path, "report_copy_error_once", 0, 1);
     // ignore
-    path->add(new ConfigItem("ignore", 0, 1, 1));
+    _config.add(path, "ignore", 0, 1, 1);
     // compress
-    path->add(new ConfigItem("compress", 0, 1, 1));
+    _config.add(path, "compress", 0, 1, 1);
     // no_compress
-    path->add(new ConfigItem("no_compress", 0, 1, 1));
+    _config.add(path, "no_compress", 0, 1, 1);
   }
 
   hlog_debug_arrow(1, "Reading client configuration file for '%s'",

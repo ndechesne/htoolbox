@@ -245,107 +245,99 @@ static void config_error_cb(
 int HBackup::readConfig(const char* config_path) {
   // Set up config syntax and grammar
   Config config(config_error_cb);
-  ConfigItem& config_syntax = config.syntax();
 
   // log
   {
-    ConfigItem* log = new ConfigItem("log", 0, 1, 1);
-    config_syntax.add(log);
+    ConfigItem* log = config.add(config.root(), "log", 0, 1, 1);
     // max lines per file
-    log->add(new ConfigItem("max_lines", 0, 1, 1, 1));
+    config.add(log, "max_lines", 0, 1, 1, 1);
     // max backups to keep
-    log->add(new ConfigItem("backups", 0, 1, 1, 1));
+    config.add(log, "backups", 0, 1, 1, 1);
     // log level
-    log->add(new ConfigItem("level", 0, 1, 1, 1));
+    config.add(log, "level", 0, 1, 1, 1);
   }
   // db
   {
-    ConfigItem* db = new ConfigItem("db", 0, 1, 1);
-    config_syntax.add(db);
+    ConfigItem* db = config.add(config.root(), "db", 0, 1, 1);
     // compress [always, auto_now, auto_later, never]
-    db->add(new ConfigItem("compress", 0, 1, 1, 1));
+    config.add(db, "compress", 0, 1, 1, 1);
     // old keyword for compress auto
-    db->add(new ConfigItem("compress_auto", 0, 1));
+    config.add(db, "compress_auto", 0, 1);
   }
   // tree
   {
-    ConfigItem* tree = new ConfigItem("tree", 0, 1, 1);
-    config_syntax.add(tree);
+    ConfigItem* tree = config.add(config.root(), "tree", 0, 1, 1);
     // links: type of links to create [hard, symbolic]
-    tree->add(new ConfigItem("links", 0, 1, 1, 1));
+    config.add(tree, "links", 0, 1, 1, 1);
     // compressed: whether to check for compressed data, or assume one way or
     //             the other [yes, no, check]
-    tree->add(new ConfigItem("compressed", 0, 1, 1, 1));
+    config.add(tree, "compressed", 0, 1, 1, 1);
     // hourly: number of hourly backup to keep
-    tree->add(new ConfigItem("hourly", 0, 1, 1, 1));
+    config.add(tree, "hourly", 0, 1, 1, 1);
     // daily: number of daily backup to keep
-    tree->add(new ConfigItem("daily", 0, 1, 1, 1));
+    config.add(tree, "daily", 0, 1, 1, 1);
     // weekly: number of weekly backup to keep
-    tree->add(new ConfigItem("weekly", 0, 1, 1, 1));
+    config.add(tree, "weekly", 0, 1, 1, 1);
   }
   // parser plugins
-  config_syntax.add(new ConfigItem("parsers_dir", 0, 0, 1));
+  config.add(config.root(), "parsers_dir", 0, 0, 1);
   // filter
   {
-    ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
-    config_syntax.add(filter);
+    ConfigItem* filter = config.add(config.root(), "filter", 0, 0, 2);
     // condition
-    filter->add(new ConfigItem("condition", 1, 0, 2));
+    config.add(filter, "condition", 1, 0, 2);
   }
   // ignore
-  config_syntax.add(new ConfigItem("ignore", 0, 1, 1));
+  config.add(config.root(), "ignore", 0, 1, 1);
   // report_copy_error_once
-  config_syntax.add(new ConfigItem("report_copy_error_once", 0, 1));
+  config.add(config.root(), "report_copy_error_once", 0, 1);
   // client
   {
-    ConfigItem* client = new ConfigItem("client", 1, 0, 1, 2);
-    config_syntax.add(client);
+    ConfigItem* client = config.add(config.root(), "client", 1, 0, 1, 2);
     // hostname
-    client->add(new ConfigItem("hostname", 0, 1, 1));
+    config.add(client, "hostname", 0, 1, 1);
     // protocol
-    client->add(new ConfigItem("protocol", 0, 1, 1));
+    config.add(client, "protocol", 0, 1, 1);
     // option
-    client->add(new ConfigItem("option", 0, 0, 1, 2));
+    config.add(client, "option", 0, 0, 1, 2);
     // timeout_nowarning
-    client->add(new ConfigItem("timeout_nowarning", 0, 1));
+    config.add(client, "timeout_nowarning", 0, 1);
     // report_copy_error_once
-    client->add(new ConfigItem("report_copy_error_once", 0, 1));
+    config.add(client, "report_copy_error_once", 0, 1);
     // config
-    client->add(new ConfigItem("config", 0, 1, 1));
+    config.add(client, "config", 0, 1, 1);
     // expire
-    client->add(new ConfigItem("expire", 0, 1, 1));
+    config.add(client, "expire", 0, 1, 1);
     // users
-    client->add(new ConfigItem("users", 0, 1, 1, -1));
+    config.add(client, "users", 0, 1, 1, -1);
     // ignore
-    client->add(new ConfigItem("ignore", 0, 1, 1));
+    config.add(client, "ignore", 0, 1, 1);
     // filter
     {
-      ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
-      client->add(filter);
+      ConfigItem* filter = config.add(client, "filter", 0, 0, 2);
+
       // condition
-      filter->add(new ConfigItem("condition", 1, 0, 2));
+      config.add(filter, "condition", 1, 0, 2);
     }
     // path
     {
-      ConfigItem* path = new ConfigItem("path", 0, 0, 1);
-      client->add(path);
+      ConfigItem* path = config.add(client, "path", 0, 0, 1);
       // parser
-      path->add(new ConfigItem("parser", 0, 0, 2));
+      config.add(path, "parser", 0, 0, 2);
       // filter
       {
-        ConfigItem* filter = new ConfigItem("filter", 0, 0, 2);
-        path->add(filter);
+        ConfigItem* filter = config.add(path, "filter", 0, 0, 2);
         // condition
-        filter->add(new ConfigItem("condition", 1, 0, 2));
+        config.add(filter, "condition", 1, 0, 2);
       }
-      // report_copy_error_once
-      path->add(new ConfigItem("report_copy_error_once", 0, 1));
+      // timeout_nowarning
+      config.add(path, "report_copy_error_once", 0, 1);
       // ignore
-      path->add(new ConfigItem("ignore", 0, 1, 1));
+      config.add(path, "ignore", 0, 1, 1);
       // compress
-      path->add(new ConfigItem("compress", 0, 1, 1));
+      config.add(path, "compress", 0, 1, 1);
       // no_compress
-      path->add(new ConfigItem("no_compress", 0, 1, 1));
+      config.add(path, "no_compress", 0, 1, 1);
     }
   }
 

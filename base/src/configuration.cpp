@@ -94,6 +94,58 @@ void ConfigLine::show(int level) const {
   hlog_verbose(format, lineNo(), " ", s.str().c_str());
 }
 
+class htools::ConfigItem {
+  string            _keyword;
+  unsigned int      _min_occurrences;
+  unsigned int      _max_occurrences;
+  unsigned int      _min_params;
+  unsigned int      _max_params;
+  list<ConfigItem*> _children;
+  ConfigItem(const htools::ConfigItem&) {}
+public:
+  ConfigItem(
+    const string&   keyword,
+    unsigned int    min_occurrences = 0,
+    unsigned int    max_occurrences = 0,
+    unsigned int    min_params = 0,
+    int             max_params = 0) :
+      _keyword(keyword),
+      _min_occurrences(min_occurrences),
+      _max_occurrences(max_occurrences),
+      _min_params(min_params),
+      _max_params(max_params) {
+    if (max_params < 0) {
+      _max_params = 0;
+    } else
+    if (max_params == 0) {
+      _max_params = _min_params;
+    }
+  }
+  ~ConfigItem();
+  // Parameters accessers
+  const string& keyword() const { return _keyword; }
+  unsigned int min_occurrences() const { return _min_occurrences; }
+  unsigned int max_occurrences() const { return _max_occurrences; }
+  unsigned int min_params() const { return _min_params; }
+  unsigned int max_params() const { return _max_params; }
+  // Add a child
+  void add(ConfigItem* child);
+  // Find a child
+  const ConfigItem* find(string& keyword) const;
+  // Callback for errors
+  typedef void (*config_error_cb_f)(
+    const char*     message,
+    const char*     value,
+    size_t          line_no);
+  // Check children occurrences
+  bool isValid(
+    const list<ConfigCounter> counters,
+    int                       line_no,
+    config_error_cb_f         config_error_cb = NULL) const;
+  // Debug
+  void show(int level = 0) const;
+};
+
 ConfigItem::~ConfigItem() {
   list<ConfigItem*>::iterator i;
   for (i = _children.begin(); i != _children.end(); i = _children.erase(i)) {
@@ -192,6 +244,30 @@ void ConfigItem::show(int level) const {
   }
 }
 
+Config::Config(config_error_cb_f config_error_cb) :
+    _syntax(new ConfigItem("")), _config_error_cb(config_error_cb) {}
+
+Config::~Config() {
+  delete _syntax;
+}
+
+ConfigItem* Config::add(
+    ConfigItem*     parent,
+    const string&   keyword,
+    size_t          min_occurrences,
+    size_t          max_occurrences,
+    size_t          min_params,
+    size_t          max_params) {
+  ConfigItem* child = new ConfigItem(keyword, min_occurrences, max_occurrences,
+    min_params, max_params);
+  parent->add(child);
+  return child;
+}
+
+void Config::showSyntax(int level) const {
+  _syntax->show(level);
+}
+
 ssize_t Config::read(
     const char*     path,
     unsigned char   flags,
@@ -205,7 +281,7 @@ ssize_t Config::read(
   }
   // Where we are in the items tree
   list<const ConfigItem*> items_hierarchy;
-  items_hierarchy.push_back(&_syntax);
+  items_hierarchy.push_back(_syntax);
 
   // Where are we in the lines tree
   list<ConfigLine*> lines_hierarchy;
