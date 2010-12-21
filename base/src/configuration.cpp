@@ -251,7 +251,7 @@ Config::~Config() {
   delete _syntax;
 }
 
-ConfigItem* Config::add(
+ConfigItem* Config::syntaxAdd(
     ConfigItem*     parent,
     const string&   keyword,
     size_t          min_occurrences,
@@ -264,7 +264,7 @@ ConfigItem* Config::add(
   return child;
 }
 
-void Config::showSyntax(int level) const {
+void Config::syntaxShow(int level) const {
   _syntax->show(level);
 }
 

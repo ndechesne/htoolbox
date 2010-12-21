@@ -248,96 +248,96 @@ int HBackup::readConfig(const char* config_path) {
 
   // log
   {
-    ConfigItem* log = config.add(config.root(), "log", 0, 1, 1);
+    ConfigItem* log = config.syntaxAdd(config.syntaxRoot(), "log", 0, 1, 1);
     // max lines per file
-    config.add(log, "max_lines", 0, 1, 1, 1);
+    config.syntaxAdd(log, "max_lines", 0, 1, 1, 1);
     // max backups to keep
-    config.add(log, "backups", 0, 1, 1, 1);
+    config.syntaxAdd(log, "backups", 0, 1, 1, 1);
     // log level
-    config.add(log, "level", 0, 1, 1, 1);
+    config.syntaxAdd(log, "level", 0, 1, 1, 1);
   }
   // db
   {
-    ConfigItem* db = config.add(config.root(), "db", 0, 1, 1);
+    ConfigItem* db = config.syntaxAdd(config.syntaxRoot(), "db", 0, 1, 1);
     // compress [always, auto_now, auto_later, never]
-    config.add(db, "compress", 0, 1, 1, 1);
+    config.syntaxAdd(db, "compress", 0, 1, 1, 1);
     // old keyword for compress auto
-    config.add(db, "compress_auto", 0, 1);
+    config.syntaxAdd(db, "compress_auto", 0, 1);
   }
   // tree
   {
-    ConfigItem* tree = config.add(config.root(), "tree", 0, 1, 1);
+    ConfigItem* tree = config.syntaxAdd(config.syntaxRoot(), "tree", 0, 1, 1);
     // links: type of links to create [hard, symbolic]
-    config.add(tree, "links", 0, 1, 1, 1);
+    config.syntaxAdd(tree, "links", 0, 1, 1, 1);
     // compressed: whether to check for compressed data, or assume one way or
     //             the other [yes, no, check]
-    config.add(tree, "compressed", 0, 1, 1, 1);
+    config.syntaxAdd(tree, "compressed", 0, 1, 1, 1);
     // hourly: number of hourly backup to keep
-    config.add(tree, "hourly", 0, 1, 1, 1);
+    config.syntaxAdd(tree, "hourly", 0, 1, 1, 1);
     // daily: number of daily backup to keep
-    config.add(tree, "daily", 0, 1, 1, 1);
+    config.syntaxAdd(tree, "daily", 0, 1, 1, 1);
     // weekly: number of weekly backup to keep
-    config.add(tree, "weekly", 0, 1, 1, 1);
+    config.syntaxAdd(tree, "weekly", 0, 1, 1, 1);
   }
   // parser plugins
-  config.add(config.root(), "parsers_dir", 0, 0, 1);
+  config.syntaxAdd(config.syntaxRoot(), "parsers_dir", 0, 0, 1);
   // filter
   {
-    ConfigItem* filter = config.add(config.root(), "filter", 0, 0, 2);
+    ConfigItem* filter = config.syntaxAdd(config.syntaxRoot(), "filter", 0, 0, 2);
     // condition
-    config.add(filter, "condition", 1, 0, 2);
+    config.syntaxAdd(filter, "condition", 1, 0, 2);
   }
   // ignore
-  config.add(config.root(), "ignore", 0, 1, 1);
+  config.syntaxAdd(config.syntaxRoot(), "ignore", 0, 1, 1);
   // report_copy_error_once
-  config.add(config.root(), "report_copy_error_once", 0, 1);
+  config.syntaxAdd(config.syntaxRoot(), "report_copy_error_once", 0, 1);
   // client
   {
-    ConfigItem* client = config.add(config.root(), "client", 1, 0, 1, 2);
+    ConfigItem* client = config.syntaxAdd(config.syntaxRoot(), "client", 1, 0, 1, 2);
     // hostname
-    config.add(client, "hostname", 0, 1, 1);
+    config.syntaxAdd(client, "hostname", 0, 1, 1);
     // protocol
-    config.add(client, "protocol", 0, 1, 1);
+    config.syntaxAdd(client, "protocol", 0, 1, 1);
     // option
-    config.add(client, "option", 0, 0, 1, 2);
+    config.syntaxAdd(client, "option", 0, 0, 1, 2);
     // timeout_nowarning
-    config.add(client, "timeout_nowarning", 0, 1);
+    config.syntaxAdd(client, "timeout_nowarning", 0, 1);
     // report_copy_error_once
-    config.add(client, "report_copy_error_once", 0, 1);
+    config.syntaxAdd(client, "report_copy_error_once", 0, 1);
     // config
-    config.add(client, "config", 0, 1, 1);
+    config.syntaxAdd(client, "config", 0, 1, 1);
     // expire
-    config.add(client, "expire", 0, 1, 1);
+    config.syntaxAdd(client, "expire", 0, 1, 1);
     // users
-    config.add(client, "users", 0, 1, 1, -1);
+    config.syntaxAdd(client, "users", 0, 1, 1, -1);
     // ignore
-    config.add(client, "ignore", 0, 1, 1);
+    config.syntaxAdd(client, "ignore", 0, 1, 1);
     // filter
     {
-      ConfigItem* filter = config.add(client, "filter", 0, 0, 2);
+      ConfigItem* filter = config.syntaxAdd(client, "filter", 0, 0, 2);
 
       // condition
-      config.add(filter, "condition", 1, 0, 2);
+      config.syntaxAdd(filter, "condition", 1, 0, 2);
     }
     // path
     {
-      ConfigItem* path = config.add(client, "path", 0, 0, 1);
+      ConfigItem* path = config.syntaxAdd(client, "path", 0, 0, 1);
       // parser
-      config.add(path, "parser", 0, 0, 2);
+      config.syntaxAdd(path, "parser", 0, 0, 2);
       // filter
       {
-        ConfigItem* filter = config.add(path, "filter", 0, 0, 2);
+        ConfigItem* filter = config.syntaxAdd(path, "filter", 0, 0, 2);
         // condition
-        config.add(filter, "condition", 1, 0, 2);
+        config.syntaxAdd(filter, "condition", 1, 0, 2);
       }
       // timeout_nowarning
-      config.add(path, "report_copy_error_once", 0, 1);
+      config.syntaxAdd(path, "report_copy_error_once", 0, 1);
       // ignore
-      config.add(path, "ignore", 0, 1, 1);
+      config.syntaxAdd(path, "ignore", 0, 1, 1);
       // compress
-      config.add(path, "compress", 0, 1, 1);
+      config.syntaxAdd(path, "compress", 0, 1, 1);
       // no_compress
-      config.add(path, "no_compress", 0, 1, 1);
+      config.syntaxAdd(path, "no_compress", 0, 1, 1);
     }
   }
 

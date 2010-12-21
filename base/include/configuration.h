@@ -77,9 +77,9 @@ public:
   Config(config_error_cb_f config_error_cb = NULL);
   ~Config();
   // Root of config syntax
-  ConfigItem* root() { return _syntax; }
+  ConfigItem* syntaxRoot() { return _syntax; }
   // Add a config item
-  ConfigItem* add(
+  ConfigItem* syntaxAdd(
     ConfigItem*     parent,
     const string&   keyword,
     size_t          min_occurrences = 0,
@@ -87,7 +87,7 @@ public:
     size_t          min_params = 0,
     size_t          max_params = 0);
   // Show syntax
-  void showSyntax(int level = 0) const;
+  void syntaxShow(int level = 0) const;
   // Read file, using Stream's flags as given
   ssize_t read(
     const char*     path,

@@ -73,8 +73,8 @@ ConfigObject* LocalConfig::configChildFactory(
 
 int read_config(const char* path, LocalConfig& conf) {
   Config config;
-  config.add(config.root(), "hostname", 0, 1, 1);
-  config.add(config.root(), "port", 0, 1, 1);
+  config.syntaxAdd(config.syntaxRoot(), "hostname", 0, 1, 1);
+  config.syntaxAdd(config.syntaxRoot(), "port", 0, 1, 1);
   hlog_debug("Reading configuration file '%s'", path);
   ssize_t rc = config.read(path, 0, &conf);
   if (rc < 0) {

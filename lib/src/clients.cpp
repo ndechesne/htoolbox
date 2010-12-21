@@ -59,43 +59,43 @@ int Client::readConfig(
   _config.clear();
 
   // subset
-  _config.add(_config.root(), "subset", 0, 1, 1);
+  _config.syntaxAdd(_config.syntaxRoot(), "subset", 0, 1, 1);
   // expire
-  _config.add(_config.root(), "expire", 0, 1, 1);
+  _config.syntaxAdd(_config.syntaxRoot(), "expire", 0, 1, 1);
   // users
-  _config.add(_config.root(), "users", 0, 1, 1, -1);
+  _config.syntaxAdd(_config.syntaxRoot(), "users", 0, 1, 1, -1);
   // timeout_nowarning
-  _config.add(_config.root(), "report_copy_error_once", 0, 1);
+  _config.syntaxAdd(_config.syntaxRoot(), "report_copy_error_once", 0, 1);
   // ignore
-  _config.add(_config.root(), "ignore", 0, 1, 1);
+  _config.syntaxAdd(_config.syntaxRoot(), "ignore", 0, 1, 1);
   // parser plugins
-  _config.add(_config.root(), "parsers_dir", 0, 0, 1);
+  _config.syntaxAdd(_config.syntaxRoot(), "parsers_dir", 0, 0, 1);
   // filter
   {
-    ConfigItem* filter = _config.add(_config.root(), "filter", 0, 0, 2);
+    ConfigItem* filter = _config.syntaxAdd(_config.syntaxRoot(), "filter", 0, 0, 2);
 
     // condition
-    _config.add(filter, "condition", 1, 0, 2);
+    _config.syntaxAdd(filter, "condition", 1, 0, 2);
   }
   // path
   {
-    ConfigItem* path = _config.add(_config.root(), "path", 1, 0, 1);
+    ConfigItem* path = _config.syntaxAdd(_config.syntaxRoot(), "path", 1, 0, 1);
     // parser
-    _config.add(path, "parser", 0, 0, 2);
+    _config.syntaxAdd(path, "parser", 0, 0, 2);
     // filter
     {
-      ConfigItem* filter = _config.add(path, "filter", 0, 0, 2);
+      ConfigItem* filter = _config.syntaxAdd(path, "filter", 0, 0, 2);
       // condition
-      _config.add(filter, "condition", 1, 0, 2);
+      _config.syntaxAdd(filter, "condition", 1, 0, 2);
     }
     // timeout_nowarning
-    _config.add(path, "report_copy_error_once", 0, 1);
+    _config.syntaxAdd(path, "report_copy_error_once", 0, 1);
     // ignore
-    _config.add(path, "ignore", 0, 1, 1);
+    _config.syntaxAdd(path, "ignore", 0, 1, 1);
     // compress
-    _config.add(path, "compress", 0, 1, 1);
+    _config.syntaxAdd(path, "compress", 0, 1, 1);
     // no_compress
-    _config.add(path, "no_compress", 0, 1, 1);
+    _config.syntaxAdd(path, "no_compress", 0, 1, 1);
   }
 
   hlog_debug_arrow(1, "Reading client configuration file for '%s'",
