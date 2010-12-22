@@ -1,0 +1,43 @@
+<h1>HBackend architecture</h1>
+
+<h2>Introduction</h2>
+
+<p>This document is an attempt at defining the architecture for the backend of
+my backup system.</p>
+
+<h2>Description</h2>
+
+<p>The aim of this backend is to allow for easier concurrent access to the
+backup database as well as background tasks. The backend will be an always-on
+daemon which shall provide the necessary scripts to integrate with the latest
+fashion of init (system V, upstart and systemd). It will require root
+privileges for mouting remote shares.</p>
+
+<h2>Layer</h2>
+
+<p>This backend will work at the data management layer and will have no clue
+about file metadata.</p>
+
+<h2>Methods</h2>
+
+<p>The write method is only given a file path to read from, and returns a
+status and a reference to the file contents (in fact a hash of the file),
+which is garanteed to be composed of only digits (0-9) and letters (a-f) and to
+be no longer than 256 characters in length.</p>
+
+<p>The read method takes a reference as argument and writes a new file at the
+given path containing the data stored under that reference.</p>
+
+<p><strike>The check method takes a reference and either check data presence or data
+integrity.</strike></p>
+
+<p>The remove method takes a reference and removes it and its associated data
+from the database.</p>
+
+<p>The crawl method triggers a full database check and returns the references
+found as it goes.</p>
+
+<h2>Interface</h2>
+
+<p>This backend will be accessible using an internet socket. It will strive to
+use an existing RPC protocol such as JSON or some XML or some TLV.</p>
