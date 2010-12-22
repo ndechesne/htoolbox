@@ -1,6 +1,6 @@
 HBackup is a backup program written in C++ by Herve Fache <herve@lucidia.net>.
 
-Please refer to the documentation linked from doc/index.html.
+Please refer to the documentation linked from lib/doc/index.html.
 
 To get started, you'll need:
 git
