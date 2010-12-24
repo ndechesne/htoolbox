@@ -9,6 +9,7 @@ Makefile
 *.done
 lib/test/*_test
 base/test/*_test
+backend/test/*_test
 *_test_dir
 test_dir.tar.gz
 aclocal.m4

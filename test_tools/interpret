@@ -98,9 +98,13 @@ case $1 in
     export DIR="lib"
     export NAME="owner"
     ;;
-  "pr" )
+  "pa" )
     export DIR="lib"
     export NAME="parsers"
+    ;;
+  "pr" )
+    export DIR="backend"
+    export NAME="protocol"
     ;;
   "pt" )
     export DIR="lib"

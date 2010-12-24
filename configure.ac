@@ -48,17 +48,20 @@ if test "x$liberrors" != "x"; then
 fi
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h limits.h stdlib.h string.h sys/time.h unistd.h utime.h])
+AC_CHECK_HEADERS([fcntl.h limits.h stdint.h stdlib.h string.h sys/time.h unistd.h utime.h])
 AC_CHECK_HEADERS([sstream])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
 AC_TYPE_UID_T
 AC_C_INLINE
+AC_TYPE_INT32_T
 AC_TYPE_MODE_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
+AC_TYPE_UINT16_T
+AC_TYPE_UINT8_T
 
 # Checks for library functions.
 AC_FUNC_CHOWN
@@ -84,8 +87,8 @@ AC_CONFIG_FILES([Makefile
                  cli/man/Makefile
                  cli/src/Makefile
                  cli/test/Makefile
-                 doc/Makefile
                  lib/Makefile
+                 lib/doc/Makefile
                  lib/include/Makefile
                  lib/src/Makefile
                  lib/test/Makefile
