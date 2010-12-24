@@ -29,19 +29,21 @@
 using namespace hbackend;
 
 enum {
-  OPEN = 0xbadc01d0,
-  CLOSE = 0xdeadbeef,
+  START = 0xbadc01d0,
+  END = 0xdeadbeef,
+  MAX_LENGTH = 0xffff,
 };
 
-int Sender::open() {
-  return write(0, OPEN);
+int Sender::start() {
+  return write(0, START);
 }
 
-int Sender::write(uint8_t tag, const char* string, size_t len) {
+int Sender::write(uint8_t tag, const void* buffer, size_t len) {
+  const char* cbuffer = static_cast<const char*>(buffer);
   if (len == 0) {
-    len = strlen(string);
+    len = strlen(cbuffer);
   }
-  if (len > 0xffff) {
+  if (len > MAX_LENGTH) {
     errno = ERANGE;
     return -1;
   }
@@ -61,7 +63,7 @@ int Sender::write(uint8_t tag, const char* string, size_t len) {
   // Value
   size_t sent = 0;
   while (sent < len) {
-    rc = ::write(_fd, &string[sent], len - sent);
+    rc = ::write(_fd, &cbuffer[sent], len - sent);
     if (rc <= 0) {
       return -1;
     }
@@ -76,6 +78,81 @@ int Sender::write(uint8_t tag, int32_t number) {
   return write(tag, string, len);
 }
 
-int Sender::close() {
-  return write(0, CLOSE);
+int Sender::end() {
+  return write(0, END);
+}
+
+struct Receiver::Private {
+  int       fd;
+  read_cb_f cb;
+  pthread_t thread;
+  Private(int fd_, read_cb_f cb_) : fd(fd_), cb(cb_) {}
+};
+
+void* receiver_thread(void* user) {
+  Receiver::Private* _d = static_cast<Receiver::Private*>(user);
+  uint8_t tag;
+  char len_str[8];
+  size_t  len = 0;
+  char value[MAX_LENGTH];
+  ssize_t rc;
+  while (true) {
+    // Receive header first (TL)
+    rc = read(_d->fd, &tag, 1);
+    if (rc < 1) {
+      _d->cb(Receiver::ERROR, rc < 0, errno, "receiving tag");
+      break;
+    }
+    rc = read(_d->fd, len_str, 4);
+    if (rc < 4) {
+      _d->cb(Receiver::ERROR, tag, errno, "receiving length");
+      break;
+    }
+    if (sscanf(len_str, "%x", &len) < 1) {
+      _d->cb(Receiver::ERROR, tag, errno, "decoding length");
+      break;
+    }
+    // Receive value (V)
+    size_t count = 0;
+    while (count < len) {
+      rc = read(_d->fd, &value[count], len - count);
+      if (rc <= 0) {
+        _d->cb(Receiver::ERROR, tag, errno, "receiving value");
+        break;
+      }
+      count += rc;
+    }
+    // Call listener
+    if (tag == 0) {
+      uint32_t code;
+      if (sscanf(value, "%x", &code) < 1) {
+        char message[128];
+        sprintf(message, "decoding value '%s' %x", value, value[0]);
+        _d->cb(Receiver::ERROR, tag, len, message);
+        break;
+      }
+      if (code == START) {
+        _d->cb(Receiver::START, tag, 0, "start");
+      } else
+      if (code == END) {
+        _d->cb(Receiver::END, tag, 0, "end");
+      } else
+      {
+        _d->cb(Receiver::ERROR, tag, 0, "interpreting value");
+      }
+    } else {
+      _d->cb(Receiver::DATA, tag, len, value);
+    }
+  }
+  return NULL;
+}
+
+Receiver::Receiver(int fd, read_cb_f cb) : _d(new Private(fd, cb)) {}
+
+int Receiver::open() {
+  return pthread_create(&_d->thread, NULL, receiver_thread, _d);
+}
+
+int Receiver::close() {
+  return pthread_cancel(_d->thread);
 }

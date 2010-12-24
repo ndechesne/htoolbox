@@ -17,18 +17,26 @@
 */
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 #include <stdint.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #include "protocol.h"
 
 int main(void) {
-  hbackend::Sender sender(1);
+  printf("sender launched\n");
+  int fd_in = open("fifo", O_WRONLY, 0666);
+  if (fd_in < 0) exit(0);
 
-  sender.open();
-
+  hbackend::Sender sender(fd_in);
+  sender.start();
   sender.write(0x12, "I am not a stupid protocol!");
+  sender.end();
 
-  sender.close();
+  close(fd_in);
 
   return 0;
 }

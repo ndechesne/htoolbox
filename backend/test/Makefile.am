@@ -5,10 +5,12 @@ AM_CXXFLAGS = \
   $(NULL)
 
 check_PROGRAMS = \
-  protocol_test \
+  receiver_test \
+  sender_test \
   $(NULL)
 
-protocol_test_SOURCES = protocol_test.cpp ../src/protocol.cpp
+receiver_test_SOURCES = receiver_test.cpp ../src/protocol.cpp
+sender_test_SOURCES = sender_test.cpp ../src/protocol.cpp
 
 LDADD = \
   $(top_builddir)/base/src/libhtools.la \
@@ -20,9 +22,12 @@ check_SUCCESSES = \
   $(NULL)
 
 hbackend.done: ../src/hbackend
+protocol.done: receiver_test sender_test protocol_test
 
 EXTRA_DIST = \
   hbackend_test \
   hbackend.exp \
+  protocol_test \
+  protocol.exp \
   $(NULL)
 
