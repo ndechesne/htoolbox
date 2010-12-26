@@ -25,7 +25,7 @@
 
 #include "unix_socket.h"
 
-using namespace hbackend;
+using namespace htools;
 
 struct UnixSocket::Private {
   char* path;
@@ -36,11 +36,11 @@ struct UnixSocket::Private {
   socklen_t addr_len;
 };
 
-UnixSocket::UnixSocket(const char* path) : _d(new Private) {
+UnixSocket::UnixSocket(const char* path, bool server) : _d(new Private) {
   _d->path = strdup(path);
   _d->fd = -1;
   _d->open = false;
-  _d->server = false;
+  _d->server = server;
   memset(&_d->addr, 0, sizeof(struct sockaddr_un));
   _d->addr.sun_family = AF_UNIX;
   strcpy(_d->addr.sun_path, _d->path);
@@ -55,8 +55,7 @@ UnixSocket::~UnixSocket() {
   delete _d;
 }
 
-int UnixSocket::open(bool server) {
-  _d->server = server;
+int UnixSocket::open() {
   if ((_d->fd = socket(AF_UNIX, SOCK_DGRAM, 0)) < 0) {
     return -1;
   }
@@ -104,8 +103,4 @@ ssize_t UnixSocket::write(const void* message, size_t length) {
     addr_len = _d->addr_len;
   }
   return sendto(_d->fd, message, length, MSG_NOSIGNAL, addr, addr_len);
-}
-
-int UnixSocket::fd() {
-  return _d->fd;
 }

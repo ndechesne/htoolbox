@@ -1,15 +1,6 @@
 #!/bin/bash -e
 
-mkfifo "fifo"
-
-echo "launching receiver"
 ../receiver_test &
-
 sleep 1
-
-echo "launching sender"
 ../sender_test
-
 wait
-
-rm "fifo"

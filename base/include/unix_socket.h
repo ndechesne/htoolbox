@@ -16,22 +16,25 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdint.h>
+#ifndef _UNIX_SOCKET_H
+#define _UNIX_SOCKET_H
 
-#include <string>
+#include <ireaderwriter.h>
 
-using namespace std;
+namespace htools {
 
-#include <hbackup.h>  // progress_f (needs architecture review)
-#include <data.h>
+class UnixSocket : public IReaderWriter {
+  struct          Private;
+  Private* const  _d;
+public:
+  UnixSocket(const char* path, bool server);
+  ~UnixSocket();
+  int open();
+  int close();
+  ssize_t read(void* message, size_t length);
+  ssize_t write(const void* message, size_t length);
+};
 
-using namespace hbackup;
+};
 
-#include "unix_socket.h"
-#include "protocol.h"
-#include "data_common.h"
-
-using namespace hbackend;
-
+#endif // _UNIX_SOCKET_H

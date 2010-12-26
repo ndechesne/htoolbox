@@ -14,6 +14,7 @@ htoolsinclude_HEADERS = \
   report.h \
   share.h \
   stackhelper.h \
+  unix_socket.h \
   unzipreader.h \
   work_scheduler.h \
   zipwriter.h \
@@ -32,6 +33,7 @@ EXTRA_DIST = \
   queue.h \
   share.h \
   stackhelper.h \
+  unix_socket.h \
   unzipreader.h \
   work_scheduler.h \
   zipwriter.h \

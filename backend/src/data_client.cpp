@@ -19,11 +19,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
+#include <errno.h>
 
 #include <string>
 
 using namespace std;
 
+#include <report.h>
 #include <files.h>
 
 using namespace htools;
@@ -45,10 +48,10 @@ struct Data::Private {
   Receiver*         receiver;
   progress_f        progress;
   Private(const char* sock_path)
-  : sock(sock_path), receiver(NULL), progress(NULL) {}
+  : sock(sock_path, false), receiver(NULL), progress(NULL) {}
 };
 
-Data::Data(const char* path) : _d(new Private(Path(path, "socket"))) {
+Data::Data(const char* path) : _d(new Private(Path(path, ".socket"))) {
   _d->path = path;
 }
 
@@ -58,24 +61,13 @@ Data::~Data() {
 
 int Data::open(
     bool            create) {
-  int rc;
-  // Base directory
-  Node dir(_d->path.c_str());
-  if (! dir.isDir()) {
-    if (! create || (dir.mkdir() < 0)) {
-      return -1;
-    } else {
-      Node::touch(Path(dir.path(), ".upgraded"));
-      rc = 1;
-    }
-  } else {
-    rc = 0;
-  }
+  (void) create;
   if (_d->sock.open() < 0) {
+    hlog_error("%s opening socket", strerror(errno));
     return -1;
   }
-  _d->receiver = new Receiver(_d->sock.fd());
-  return rc;
+  _d->receiver = new Receiver(_d->sock);
+  return 0;
 }
 
 int Data::close() {
@@ -88,16 +80,16 @@ int Data::close() {
 
 void Data::setProgressCallback(progress_f progress) {
   _d->progress = progress;
-  Sender sender(_d->sock.fd());
+  Sender sender(_d->sock);
   sender.start();
   sender.write(static_cast<uint8_t>(METHOD), PROGRESS);
   if (sender.end() >= 0) {
     // Get STATUS
-    Receiver        receiver(_d->sock.fd());
+    Receiver        receiver(_d->sock);
     Receiver::Type  type;
     uint8_t         tag;
     size_t          len;
-    char            val[65535];
+    char            val[65536];
     do {
       type = receiver.receive(&tag, &len, val);
     } while (type > Receiver::END);
@@ -109,7 +101,7 @@ int Data::name(
     char*           path,
     char*           extension) const {
   // Send hash, get path, and extension if not null
-  Sender sender(_d->sock.fd());
+  Sender sender(_d->sock);
   sender.start();
   sender.write(static_cast<uint8_t>(METHOD), NAME);
   sender.write(static_cast<uint8_t>(HASH), hash);
@@ -120,14 +112,16 @@ int Data::name(
     return -1;
   }
   // Get STATUS PATH [EXTENSION]
-  Receiver        receiver(_d->sock.fd());
+  Receiver        receiver(_d->sock);
   Receiver::Type  type;
   uint8_t         tag;
   size_t          len;
-  char            val[65535];
+  char            val[65536];
   int             rc = 0;
   do {
+hlog_alert("waiting for message");
     type = receiver.receive(&tag, &len, val);
+hlog_alert("received tag = %d", tag);
     switch (tag) {
       case STATUS:
         rc = atoi(val);
@@ -151,7 +145,7 @@ int Data::name(
 int Data::read(
     const char*     path,
     const char*     hash) const {
-  Sender sender(_d->sock.fd());
+  Sender sender(_d->sock);
   sender.start();
   sender.write(static_cast<uint8_t>(METHOD), READ);
   sender.write(static_cast<uint8_t>(PATH), path);
@@ -160,11 +154,11 @@ int Data::read(
     return -1;
   }
   // Get STATUS
-  Receiver        receiver(_d->sock.fd());
+  Receiver        receiver(_d->sock);
   Receiver::Type  type;
   uint8_t         tag;
   size_t          len;
-  char            val[65535];
+  char            val[65536];
   int             rc = 0;
   do {
     type = receiver.receive(&tag, &len, val);
@@ -188,7 +182,7 @@ Data::WriteStatus Data::write(
     int*            comp_level,
     CompressionCase comp_case,
     char*           store_path) const {
-  Sender sender(_d->sock.fd());
+  Sender sender(_d->sock);
   sender.start();
   sender.write(static_cast<uint8_t>(METHOD), WRITE);
   sender.write(static_cast<uint8_t>(PATH), path);
@@ -198,15 +192,16 @@ Data::WriteStatus Data::write(
     sender.write(static_cast<uint8_t>(STORE_PATH), NULL, 0);
   }
   if (sender.end() < 0) {
+    hlog_error("%s sending message", strerror(errno));
     return error;
   }
   // Wait for answer! (STATUS, HASH, COMPRESSION_LEVEL, STORE_PATH)
   // Get STATUS
-  Receiver        receiver(_d->sock.fd());
+  Receiver        receiver(_d->sock);
   Receiver::Type  type;
   uint8_t         tag;
   size_t          len;
-  char            val[65535];
+  char            val[65536];
   WriteStatus     status = error;
   do {
     type = receiver.receive(&tag, &len, val);
@@ -235,7 +230,7 @@ Data::WriteStatus Data::write(
 
 int Data::remove(
     const char*     hash) const {
-  Sender sender(_d->sock.fd());
+  Sender sender(_d->sock);
   sender.start();
   sender.write(static_cast<uint8_t>(METHOD), REMOVE);
   sender.write(static_cast<uint8_t>(HASH), hash);
@@ -243,11 +238,11 @@ int Data::remove(
     return -1;
   }
   // Get STATUS
-  Receiver        receiver(_d->sock.fd());
+  Receiver        receiver(_d->sock);
   Receiver::Type  type;
   uint8_t         tag;
   size_t          len;
-  char            val[65535];
+  char            val[65536];
   int             rc = 0;
   do {
     type = receiver.receive(&tag, &len, val);
@@ -269,7 +264,7 @@ int Data::crawl(
     bool            thorough,
     bool            repair,
     Collector*      collector) const {
-  Sender sender(_d->sock.fd());
+  Sender sender(_d->sock);
   sender.start();
   sender.write(static_cast<uint8_t>(METHOD), CRAWL);
   if (thorough) sender.write(static_cast<uint8_t>(THOROUGH), NULL, 0);
@@ -280,11 +275,11 @@ int Data::crawl(
   }
   // Wait for answer! (STATUS, COLLECTOR)
   // Get STATUS
-  Receiver        receiver(_d->sock.fd());
+  Receiver        receiver(_d->sock);
   Receiver::Type  type;
   uint8_t         tag;
   size_t          len;
-  char            val[65535];
+  char            val[65536];
   int             rc = 0;
   do {
     type = receiver.receive(&tag, &len, val);

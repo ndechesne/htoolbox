@@ -24,9 +24,10 @@
 #include <errno.h>
 #include <pthread.h>
 
+#include "report.h"
 #include "protocol.h"
 
-using namespace hbackend;
+using namespace htools;
 
 enum {
   START_CODE = 0xbadc01d0,
@@ -52,7 +53,7 @@ int Sender::write(uint8_t tag, const void* buffer, size_t len) {
   }
   ssize_t rc;
   // Tag
-  rc = ::write(_fd, &tag, 1);
+  rc = _fd.write(&tag, 1);
   if (rc < 1) {
     _failed = true;
     return -1;
@@ -60,7 +61,7 @@ int Sender::write(uint8_t tag, const void* buffer, size_t len) {
   // Length
   char len_str[8];
   rc = sprintf(len_str, "%04x", len);
-  rc = ::write(_fd, len_str, rc);
+  rc = _fd.write(len_str, rc);
   if (rc < 1) {
     _failed = true;
     return -1;
@@ -69,8 +70,9 @@ int Sender::write(uint8_t tag, const void* buffer, size_t len) {
   if (len > 0) {
     size_t sent = 0;
     while (sent < len) {
-      rc = ::write(_fd, &cbuffer[sent], len - sent);
+      rc = _fd.write(&cbuffer[sent], len - sent);
       if (rc <= 0) {
+        hlog_error("%s sending value", strerror(errno));
         _failed = true;
         return -1;
       }
@@ -96,7 +98,7 @@ Receiver::Type Receiver::receive(
     char*       val) {
   ssize_t rc;
   // Receive header first (TL)
-  rc = read(_fd, tag, 1);
+  rc = _fd.read(tag, 1);
   if (rc < 1) {
     *tag = rc < 0;
     *len = errno;
@@ -104,12 +106,13 @@ Receiver::Type Receiver::receive(
     return Receiver::ERROR;
   }
   char len_str[8];
-  rc = read(_fd, len_str, 4);
+  rc = _fd.read(len_str, 4);
   if (rc < 4) {
     *len = errno;
     strcpy(val, "receiving length");
     return Receiver::ERROR;
   }
+  len_str[4] = '\0';
   if (sscanf(len_str, "%x", len) < 1) {
     *len = errno;
     strcpy(val, "decoding length");
@@ -118,7 +121,7 @@ Receiver::Type Receiver::receive(
   // Receive value (V)
   size_t count = 0;
   while (count < *len) {
-    rc = read(_fd, &val[count], *len - count);
+    rc = _fd.read(&val[count], *len - count);
     if (rc <= 0) {
       *len = errno;
       strcpy(val, "receiving value");
@@ -126,6 +129,7 @@ Receiver::Type Receiver::receive(
     }
     count += rc;
   }
+  val[*len] = '\0';
   // Call listener
   if (*tag == 0) {
     uint32_t code;
@@ -145,8 +149,9 @@ Receiver::Type Receiver::receive(
       return Receiver::END;
     } else
     {
+      hlog_error("failed to interpret '%s' -> %x", val, code);
+      sprintf(val, "interpreting value %x, len = %zu", code, *len);
       *len = EINVAL;
-      sprintf(val, "interpreting value %x", code);
       return Receiver::ERROR;
     }
   } else {

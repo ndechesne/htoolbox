@@ -19,17 +19,19 @@
 #ifndef _SENDER_H
 #define _SENDER_H
 
-namespace hbackend {
+#include <ireaderwriter.h>
 
-// Message max length = 65535
+namespace htools {
+
+// Message max length = 65536
 
 class Sender {
-  int  _fd;
-  bool _failed;
+  IReaderWriter&  _fd;
+  bool            _failed;
   Sender(const Sender&);
   const Sender& operator=(const Sender&);
 public:
-  Sender(int fd) : _fd(fd), _failed(false) {}
+  Sender(IReaderWriter& fd) : _fd(fd), _failed(false) {}
   // Start message
   int start();
   // Add data to message
@@ -49,16 +51,16 @@ public:
     DATA  = 2,
   };
 private:
-  int  _fd;
+  IReaderWriter& _fd;
   Receiver(const Sender&);
   const Receiver& operator=(const Receiver&);
 public:
-  Receiver(int fd) : _fd(fd) {}
+  Receiver(IReaderWriter& fd) : _fd(fd) {}
   // Get message
   Type receive(
     uint8_t*    tag,
     size_t*     len,
-    char*       val);
+    char        val[65536]);
 };
 
 }

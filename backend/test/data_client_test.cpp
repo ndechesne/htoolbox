@@ -16,24 +16,36 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef _UNIX_SOCKET_H
-#define _UNIX_SOCKET_H
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdint.h>
+#include <string.h>
+#include <errno.h>
 
-namespace hbackend {
+#include <hbackup.h>
+#include <data.h>
 
-class UnixSocket {
-  struct          Private;
-  Private* const  _d;
-public:
-  UnixSocket(const char* path);
-  ~UnixSocket();
-  int open(bool server = false);
-  int close();
-  ssize_t read(void* message, size_t length);
-  ssize_t write(const void* message, size_t length);
-  int fd();
-};
+using namespace hbackup;
 
-};
+int main(void) {
+  Data data("data");
+  if (data.open() < 0) {
+    printf("%s creating socket\n", strerror(errno));
+    return 0;
+  }
 
-#endif /* _UNIX_SOCKET_H */
+  char hash[256];
+  char ext[16];
+  int comp_level = 5;
+  if (data.name("bullsh1t", hash, ext) < 0) {
+    printf("name failed\n");
+  }
+  if (data.write("../client_test", hash, &comp_level, Data::auto_now, NULL) ==
+      Data::error) {
+    printf("write failed\n");
+  }
+
+  data.close();
+  return 0;
+}

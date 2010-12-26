@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+../test_server &
+sleep 1
+../data_client_test
+wait

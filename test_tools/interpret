@@ -38,6 +38,10 @@ case $1 in
     export DIR="lib"
     export NAME="cvs_parser"
     ;;
+  "dc" )
+    export DIR="backend"
+    export NAME="client"
+    ;;
   "dt" )
     export DIR="lib"
     export NAME="data"

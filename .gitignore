@@ -12,6 +12,8 @@ base/test/*_test
 backend/test/hbackend_test
 backend/test/receiver_test
 backend/test/sender_test
+backend/test/data_client_test
+backend/test/test_server
 *_test_dir
 test_dir.tar.gz
 aclocal.m4

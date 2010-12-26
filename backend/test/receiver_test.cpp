@@ -26,18 +26,20 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#include "unix_socket.h"
 #include "protocol.h"
 
+using namespace htools;
+
 int main(void) {
-  printf("receiver launched\n");
-  int fd_out = open("fifo", O_RDONLY, 0666);
-  if (fd_out < 0) {
-    printf("%s opening fifo\n", strerror(errno));
+  UnixSocket sock("socket", true);
+  if (sock.open() < 0) {
+    printf("%s opening socket\n", strerror(errno));
     return 0;
   }
 
-  hbackend::Receiver receiver(fd_out);
-  hbackend::Receiver::Type type;
+  Receiver receiver(sock);
+  Receiver::Type type;
   do {
     uint8_t tag;
     size_t  len;
@@ -45,9 +47,9 @@ int main(void) {
     type = receiver.receive(&tag, &len, val);
     printf("receive: type=%d tag=%d, len=%d, value='%s'\n",
       type, tag, len, ((len > 0) || (tag == 0)) ? val : "");
-  } while (type != hbackend::Receiver::ERROR);
+  } while (type > Receiver::END);
 
-  close(fd_out);
+  sock.close();
 
   return 0;
 }

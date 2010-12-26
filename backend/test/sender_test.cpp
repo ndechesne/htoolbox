@@ -20,24 +20,39 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <string.h>
+#include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#include <report.h>
+#include <unix_socket.h>
 #include "protocol.h"
 
-int main(void) {
-  printf("sender launched\n");
-  int fd_in = open("fifo", O_WRONLY, 0666);
-  if (fd_in < 0) exit(0);
+using namespace htools;
 
-  hbackend::Sender sender(fd_in);
-  sender.start();
+int main(void) {
+  report.setLevel(regression);
+  UnixSocket sock("socket", false);
+  if (sock.open() < 0) {
+    hlog_error("%s opening socket", strerror(errno));
+    return 0;
+  }
+
+  Sender sender(sock);
+  if (sender.start() < 0) {
+    hlog_error("%s writing to socket", strerror(errno));
+    return 0;
+  }
   sender.write(1, NULL, 0);
   sender.write(0x12, "I am not a stupid protocol!");
-  sender.end();
+  if (sender.end() < 0) {
+    hlog_error("%s writing to socket", strerror(errno));
+    return 0;
+  }
 
-  close(fd_in);
+  sock.close();
 
   return 0;
 }
