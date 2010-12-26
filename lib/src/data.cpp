@@ -472,6 +472,10 @@ int Data::open(bool create) {
   return -1;
 }
 
+int Data::close() {
+  return 0;
+}
+
 void Data::setProgressCallback(progress_f progress) {
   _d->progress = progress;
 }

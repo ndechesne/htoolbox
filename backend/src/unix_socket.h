@@ -16,28 +16,24 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <stdint.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#ifndef _UNIX_SOCKET_H
+#define _UNIX_SOCKET_H
 
-#include "protocol.h"
+namespace hbackend {
 
-int main(void) {
-  printf("sender launched\n");
-  int fd_in = open("fifo", O_WRONLY, 0666);
-  if (fd_in < 0) exit(0);
+class UnixSocket {
+  struct          Private;
+  Private* const  _d;
+public:
+  UnixSocket(const char* path);
+  ~UnixSocket();
+  int open(bool server = false);
+  int close();
+  ssize_t read(void* message, size_t length);
+  ssize_t write(const void* message, size_t length);
+  int fd();
+};
 
-  hbackend::Sender sender(fd_in);
-  sender.start();
-  sender.write(1, NULL, 0);
-  sender.write(0x12, "I am not a stupid protocol!");
-  sender.end();
+};
 
-  close(fd_in);
-
-  return 0;
-}
+#endif /* _UNIX_SOCKET_H */

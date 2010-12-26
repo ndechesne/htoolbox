@@ -16,28 +16,37 @@
      Boston, MA 02111-1307, USA.
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <stdint.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#ifndef _DATA_COMMON_H
+#define _DATA_COMMON_H
 
-#include "protocol.h"
+namespace hbackend {
 
-int main(void) {
-  printf("sender launched\n");
-  int fd_in = open("fifo", O_WRONLY, 0666);
-  if (fd_in < 0) exit(0);
+enum Tags {
+  METHOD            = 1,
+  STATUS            = 2,
+  HASH              = 11,
+  PATH              = 12,
+  EXTENSION         = 13,
+  COMPRESSION_LEVEL = 14,
+  COMPRESSION_CASE  = 15,
+  STORE_PATH        = 16,
+  THOROUGH          = 17,
+  REPAIR            = 18,
+  COLLECTOR         = 20,
+  COLLECTOR_HASH    = 21,
+  COLLECTOR_DATA    = 22,
+  COLLECTOR_FILE    = 23,
+};
 
-  hbackend::Sender sender(fd_in);
-  sender.start();
-  sender.write(1, NULL, 0);
-  sender.write(0x12, "I am not a stupid protocol!");
-  sender.end();
+enum Methods {
+  NAME     = 1,
+  READ     = 2,
+  WRITE    = 3,
+  REMOVE   = 4,
+  CRAWL    = 5,
+  PROGRESS = 6,
+};
 
-  close(fd_in);
-
-  return 0;
 }
+
+#endif // _DATA_COMMON_H

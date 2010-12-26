@@ -28,15 +28,6 @@
 
 #include "protocol.h"
 
-static void callback(
-    hbackend::Receiver::Type  msg_type,
-    uint8_t                   tag,
-    size_t                    len,
-    const char*               val) {
-  printf("callback: type=%d tag=%d, len=%d, value='%s'\n",
-    msg_type, tag, len, val);
-}
-
 int main(void) {
   printf("receiver launched\n");
   int fd_out = open("fifo", O_RDONLY, 0666);
@@ -45,10 +36,16 @@ int main(void) {
     return 0;
   }
 
-  hbackend::Receiver receiver(fd_out, callback);
-  receiver.open();
-  sleep(2);
-  receiver.close();
+  hbackend::Receiver receiver(fd_out);
+  hbackend::Receiver::Type type;
+  do {
+    uint8_t tag;
+    size_t  len;
+    char    val[65535];
+    type = receiver.receive(&tag, &len, val);
+    printf("receive: type=%d tag=%d, len=%d, value='%s'\n",
+      type, tag, len, ((len > 0) || (tag == 0)) ? val : "");
+  } while (type != hbackend::Receiver::ERROR);
 
   close(fd_out);
 

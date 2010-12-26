@@ -21,12 +21,15 @@
 
 namespace hbackend {
 
+// Message max length = 65535
+
 class Sender {
-  int _fd;
+  int  _fd;
+  bool _failed;
   Sender(const Sender&);
   const Sender& operator=(const Sender&);
 public:
-  Sender(int fd) : _fd(fd) {}
+  Sender(int fd) : _fd(fd), _failed(false) {}
   // Start message
   int start();
   // Add data to message
@@ -40,27 +43,22 @@ class Receiver {
 public:
   // Return pointer to string
   enum Type {
-    ERROR,
-    START,
-    END,
-    DATA,
+    ERROR = -1,
+    END   = 0,
+    START = 1,
+    DATA  = 2,
   };
-  typedef void (*read_cb_f)(
-    Type        msg_type,
-    uint8_t     tag,
-    size_t      len,
-    const char* val);
-  struct            Private;
 private:
-  Private* const    _d;
+  int  _fd;
   Receiver(const Sender&);
   const Receiver& operator=(const Receiver&);
 public:
-  Receiver(int fd, read_cb_f cb);
-  // Start listening
-  int open();
-  // Stop listening
-  int close();
+  Receiver(int fd) : _fd(fd) {}
+  // Get message
+  Type receive(
+    uint8_t*    tag,
+    size_t*     len,
+    char*       val);
 };
 
 }

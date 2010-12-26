@@ -53,26 +53,26 @@ protected: // So I can test them
     htools::IReaderWriter*  source,
     htools::IReaderWriter*  dest1,
     htools::IReaderWriter*  dest2 = NULL) const;
-  // Get path for given checksum
+  // Get path for given hash
   int getDir(
-    const char*     checksum,
+    const char*     hash,
     char*           path,
     bool            create = false) const;
-  // Get size of orginal data for given checksum path (-1 means failed)
+  // Get size of orginal data for given hash path (-1 means failed)
   int getMetadata(
     const char*     path,
     long long*      size,
     CompressionCase* comp_status) const;
-  // Set size of orginal data for given checksum path
+  // Set size of orginal data for given hash path
   int setMetadata(
     const char*     path,
     long long       size,
     CompressionCase comp_status) const;
   // Remove given path
   int removePath(const char* path) const;
-  // Check existence/consistence of given checksum's data
+  // Check existence/consistence of given hash's data
   int check(
-    const char*     checksum,
+    const char*     hash,
     bool            thorough  = true,
     bool            repair    = false,
     long long*      data_size = NULL,
@@ -84,17 +84,19 @@ public:
   // Open
   int open(
     bool            create = false);
+  // Close
+  int close();
   // Set progress callback function
   void setProgressCallback(progress_f progress);
-  // Get file name for given checksum
+  // Get file name for given hash
   int name(
-    const char*     checksum,
+    const char*     hash,
     char*           path,             // Needs to be large enough! [PATH_MAX]
     char*           extension) const; // Needs to be large enough! [5 should do]
-  // Read file with given checksum, extract it to path
+  // Read file with given hash, extract it to path
   int read(
     const char*     path,
-    const char*     checksum) const;
+    const char*     hash) const;
   // Add new item to database
   // * compress:
   //    < 0  => never compress this file
@@ -108,14 +110,14 @@ public:
   };
   WriteStatus write(
     const char*     path,             // Source file path
-    char            checksum[64],     // Copy checksum here
+    char            hash[64],         // Copy hash here
     int*            comp_level,       // Comp. to apply (< 0: never) / applied
-    CompressionCase auto_case,        // Choose whether to store compressed
+    CompressionCase comp_case,        // Choose whether to store compressed
     char*           store_path) const;
-  // Remove given checksum's data
+  // Remove given hash's data
   int remove(
-    const char*     checksum) const;
-  // Scan database for missing/corrupted data, return a list of valid checksums
+    const char*     hash) const;
+  // Scan database for missing/corrupted data, return a list of valid hashes
   int crawl(
     bool            thorough,         // Whether to check for data corruption
     bool            repair,           // Whether to repair/remove damaged data
