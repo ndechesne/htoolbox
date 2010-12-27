@@ -265,6 +265,7 @@ int Database::close() {
         _d->backup.add(_d->missing.path());
       }
       _d->missing.close();
+      _d->data.close();
       // Release lock
       unlock();
     }
