@@ -33,6 +33,7 @@ public:
   int close();
   ssize_t read(void* message, size_t length);
   ssize_t write(const void* message, size_t length);
+  const char* path() const;
 };
 
 };

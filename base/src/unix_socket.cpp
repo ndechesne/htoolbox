@@ -104,3 +104,7 @@ ssize_t UnixSocket::write(const void* message, size_t length) {
   }
   return sendto(_d->fd, message, length, MSG_NOSIGNAL, addr, addr_len);
 }
+
+const char* UnixSocket::path() const {
+  return _d->path;
+}
