@@ -27,6 +27,7 @@ LDADD = \
 check_SUCCESSES = \
   hbackend.done \
   protocol.done \
+  client.done \
   $(NULL)
 
 hbackend.done: ../src/hbackend

@@ -12,6 +12,7 @@ libhtools_la_SOURCES = \
   files.cpp \
   filereaderwriter.cpp \
   hasher.cpp \
+  inet_socket.cpp \
   linereaderwriter.cpp \
   multiwriter.cpp \
   queue.cpp \

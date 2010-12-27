@@ -35,15 +35,24 @@ int main(void) {
     return 0;
   }
 
-  char hash[256];
-  char ext[16];
-  int comp_level = 5;
-  if (data.name("bullsh1t", hash, ext) < 0) {
+  char name[256] = "bullsh1t";
+  char hash[256] = "";
+  char ext[16] = "";
+  printf("name:\n-> name = '%s', ext = '%s'\n", name, ext);
+  if (data.name(name, hash, ext) < 0) {
     printf("name failed\n");
+  } else {
+    printf("<- hash = '%s', ext = '%s'\n", hash, ext);
   }
-  if (data.write("../client_test", hash, &comp_level, Data::auto_now, NULL) ==
+
+  char path[256] = "../client_test";
+  int comp_level = 5;
+  printf("write:\n-> path = '%s', comp_level = %d\n", path, comp_level);
+  if (data.write(path, hash, &comp_level, Data::auto_now, NULL) ==
       Data::error) {
     printf("write failed\n");
+  } else {
+    printf("<- hash = '%s', comp_level = %d\n", hash, comp_level);
   }
 
   data.close();

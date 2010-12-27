@@ -27,7 +27,7 @@
 #include <sys/types.h>
 
 #include <report.h>
-#include <unix_socket.h>
+#include <inet_socket.h>
 #include "protocol.h"
 
 #include "data_common.h"
@@ -44,8 +44,11 @@ struct AllFields {
 };
 
 int main(void) {
-  UnixSocket sock("data/.socket", true);
-  mkdir("data", 0777);
+  report.setLevel(info);
+  InetSocket sock(12345);
+  if (sock.listen(1) < 0) {
+    hlog_error("%s listening", strerror(errno));
+  }
   if (sock.open() < 0) {
     hlog_error("%s creating socket", strerror(errno));
     return 0;
@@ -71,7 +74,7 @@ int main(void) {
         if (started) {
           hlog_error("already started");
         } else {
-          hlog_info("start");
+          hlog_debug("start");
         }
         started = true;
         break;
@@ -79,22 +82,30 @@ int main(void) {
         if (! started) {
           hlog_error("not started");
         } else {
-          hlog_info("end");
+          hlog_debug("end");
         }
         started = false;
         switch (fields.method) {
           case NAME:
-hlog_info("send reply");
-sleep(1);
             sender.start();
-            sender.write(static_cast<uint8_t>(PATH), "data/01/23/45/56789-0/data");
-            sender.write(static_cast<uint8_t>(EXTENSION), ".gz");
             sender.write(static_cast<uint8_t>(STATUS), 0);
+            sender.write(static_cast<uint8_t>(PATH),
+                "data/01/23/45/56789-0/data");
+            sender.write(static_cast<uint8_t>(EXTENSION), ".gz");
             if (sender.end() < 0) {
-            hlog_info("%s replying", strerror(errno));
+              hlog_info("%s replying", strerror(errno));
               return 0;
             }
-hlog_info("reply sent");
+            break;
+          case WRITE:
+            sender.start();
+            sender.write(static_cast<uint8_t>(STATUS), 0);
+            sender.write(static_cast<uint8_t>(HASH), "987654321-0");
+            sender.write(static_cast<uint8_t>(COMPRESSION_LEVEL), 8);
+            if (sender.end() < 0) {
+              hlog_info("%s replying", strerror(errno));
+              return 0;
+            }
             break;
         }
         break;
@@ -102,7 +113,7 @@ hlog_info("reply sent");
         if (! started) {
           hlog_error("not started");
         } else {
-          hlog_info("tag %d, data: '%s'", tag, val);
+          hlog_debug("server: received tag %d, data: '%s'", tag, val);
           switch (tag) {
             case METHOD:
               fields.method = static_cast<Methods>(atoi(val));
@@ -122,11 +133,15 @@ hlog_info("reply sent");
         }
         break;
       default:
-        hlog_error("message error");
+        if (len > 0) {
+          hlog_error("reception error");
+        } else {
+          hlog_verbose("connection closed by client");
+        }
     };
-  } while (type >= Receiver::END);
+  } while (type > Receiver::ERROR);
 
   sock.close();
-  hlog_info("server process ended");
+  hlog_debug("server process ended");
   return 0;
 }

@@ -36,7 +36,7 @@ using namespace htools;
 
 using namespace hbackup;
 
-#include "unix_socket.h"
+#include "inet_socket.h"
 #include "protocol.h"
 #include "data_common.h"
 
@@ -44,14 +44,14 @@ using namespace hbackend;
 
 struct Data::Private {
   string            path;
-  UnixSocket        sock;
+  InetSocket        sock;
   Receiver*         receiver;
   progress_f        progress;
-  Private(const char* sock_path)
-  : sock(sock_path, false), receiver(NULL), progress(NULL) {}
+  Private(const char* hostname, int port)
+  : sock(port, hostname), receiver(NULL), progress(NULL) {}
 };
 
-Data::Data(const char* path) : _d(new Private(Path(path, ".socket"))) {
+Data::Data(const char* path) : _d(new Private("localhost", 12345)) {
   _d->path = path;
 }
 
@@ -119,26 +119,32 @@ int Data::name(
   char            val[65536];
   int             rc = 0;
   do {
-hlog_alert("waiting for message");
     type = receiver.receive(&tag, &len, val);
-hlog_alert("received tag = %d", tag);
-    switch (tag) {
-      case STATUS:
-        rc = atoi(val);
+    switch (type) {
+      case Receiver::START:
+      case Receiver::END:
         break;
-      case PATH:
-        strcpy(path, val);
-        break;
-      case EXTENSION:
-        strcpy(extension, val);
+      case Receiver::DATA:
+        switch (tag) {
+          case STATUS:
+            rc = atoi(val);
+            break;
+          case PATH:
+            strcpy(path, val);
+            break;
+          case EXTENSION:
+            strcpy(extension, val);
+            break;
+          default:
+            hlog_error("unexpected tag %d", tag);
+            return -1;
+        }
         break;
       default:
+        hlog_error("error reported");
         return -1;
     }
   } while (type > Receiver::END);
-  if (type < Receiver::END) {
-    return -1;
-  }
   return rc;
 }
 
@@ -162,17 +168,25 @@ int Data::read(
   int             rc = 0;
   do {
     type = receiver.receive(&tag, &len, val);
-    switch (tag) {
-      case STATUS:
-        rc = atoi(val);
+    switch (type) {
+      case Receiver::START:
+      case Receiver::END:
+        break;
+      case Receiver::DATA:
+        switch (tag) {
+          case STATUS:
+            rc = atoi(val);
+            break;
+          default:
+            hlog_error("unexpected tag %d", tag);
+            return -1;
+        }
         break;
       default:
+        hlog_error("error reported");
         return -1;
     }
   } while (type > Receiver::END);
-  if (type < Receiver::END) {
-    return -1;
-  }
   return rc;
 }
 
@@ -195,7 +209,6 @@ Data::WriteStatus Data::write(
     hlog_error("%s sending message", strerror(errno));
     return error;
   }
-  // Wait for answer! (STATUS, HASH, COMPRESSION_LEVEL, STORE_PATH)
   // Get STATUS
   Receiver        receiver(_d->sock);
   Receiver::Type  type;
@@ -205,26 +218,34 @@ Data::WriteStatus Data::write(
   WriteStatus     status = error;
   do {
     type = receiver.receive(&tag, &len, val);
-    switch (tag) {
-      case STATUS:
-        status = static_cast<WriteStatus>(atoi(val));
+    switch (type) {
+      case Receiver::START:
+      case Receiver::END:
         break;
-      case HASH:
-        strcpy(hash, val);
-        break;
-      case COMPRESSION_LEVEL:
-        *comp_level = atoi(val);
-        break;
-      case STORE_PATH:
-        strcpy(store_path, val);
+      case Receiver::DATA:
+        switch (tag) {
+          case STATUS:
+            status = static_cast<WriteStatus>(atoi(val));
+            break;
+          case HASH:
+            strcpy(hash, val);
+            break;
+          case COMPRESSION_LEVEL:
+            *comp_level = atoi(val);
+            break;
+          case STORE_PATH:
+            strcpy(store_path, val);
+            break;
+          default:
+            hlog_error("unexpected tag %d", tag);
+            return error;
+        }
         break;
       default:
+        hlog_error("error reported");
         return error;
     }
   } while (type > Receiver::END);
-  if (type < Receiver::END) {
-    return error;
-  }
   return status;
 }
 
@@ -246,17 +267,25 @@ int Data::remove(
   int             rc = 0;
   do {
     type = receiver.receive(&tag, &len, val);
-    switch (tag) {
-      case STATUS:
-        rc = atoi(val);
+    switch (type) {
+      case Receiver::START:
+      case Receiver::END:
+        break;
+      case Receiver::DATA:
+        switch (tag) {
+          case STATUS:
+            rc = atoi(val);
+            break;
+          default:
+            hlog_error("unexpected tag %d", tag);
+            return -1;
+        }
         break;
       default:
+        hlog_error("error reported");
         return -1;
     }
   } while (type > Receiver::END);
-  if (type < Receiver::END) {
-    return -1;
-  }
   return rc;
 }
 
@@ -286,29 +315,37 @@ int Data::crawl(
     char      hash[256] = "";
     long long data_size = -1;
     long long file_size = -1;
-    switch (tag) {
-      case STATUS:
-        rc = atoi(val);
+    switch (type) {
+      case Receiver::START:
+      case Receiver::END:
         break;
-      case COLLECTOR_HASH:
-        strcpy(hash, val);
-        break;
-      case COLLECTOR_DATA:
-        if (sscanf(val, "%lld", &data_size) < 1) {
-          data_size = -1;
-        }
-        break;
-      case COLLECTOR_FILE:
-        if (sscanf(val, "%lld", &file_size) == 1) {
-          collector->add(hash, data_size, file_size);
+      case Receiver::DATA:
+        switch (tag) {
+          case STATUS:
+            rc = atoi(val);
+            break;
+          case COLLECTOR_HASH:
+            strcpy(hash, val);
+            break;
+          case COLLECTOR_DATA:
+            if (sscanf(val, "%lld", &data_size) < 1) {
+              data_size = -1;
+            }
+            break;
+          case COLLECTOR_FILE:
+            if (sscanf(val, "%lld", &file_size) == 1) {
+              collector->add(hash, data_size, file_size);
+            }
+            break;
+          default:
+            hlog_error("unexpected tag %d", tag);
+            return -1;
         }
         break;
       default:
+        hlog_error("error reported");
         return -1;
     }
   } while (type > Receiver::END);
-  if (type < Receiver::END) {
-    return -1;
-  }
   return rc;
 }
