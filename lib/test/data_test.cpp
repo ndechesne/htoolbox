@@ -387,14 +387,14 @@ int main(void) {
       printf("db.check error status %d\n", status);
     }
     /* Uncompressed */
-    sys_rc = system("mkdir -p test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e");
+    sys_rc = system("mkdir -p test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e-0");
     sys_rc = system("echo -n > "
-      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/data");
-    strcpy(chksm, "d41d8cd98f00b204e9800998ecf8427e");
+      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e-0/data");
+    strcpy(chksm, "d41d8cd98f00b204e9800998ecf8427e-0");
     /* Check */
     cout << " * missing" << endl;
     sys_rc = system("echo -n > "
-      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/meta");
+      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e-0/meta");
     if ((status = db.check(chksm, false, true, &size, &real_size)) < 0) {
       printf("db.check error status %d\n", status);
     }
@@ -435,20 +435,20 @@ int main(void) {
       printf("db.check error status %d\n", status);
     }
     /* Uncompressed */
-    sys_rc = system("mkdir -p test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e");
+    sys_rc = system("mkdir -p test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e-0");
     sys_rc = system("echo -n > "
-      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/data");
-    strcpy(chksm, "d41d8cd98f00b204e9800998ecf8427e");
+      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e-0/data");
+    strcpy(chksm, "d41d8cd98f00b204e9800998ecf8427e-0");
     /* Check */
     cout << " * missing" << endl;
     sys_rc = system("echo -n > "
-      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/meta");
+      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e-0/meta");
     if ((status = db.check(chksm, true, true, &size, &real_size)) < 0) {
       printf("db.check error status %d\n", status);
     }
     cout << " * wrong" << endl;
     sys_rc = system("sed -i 's/0/1/' "
-      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/meta");
+      "test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e-0/meta");
     if ((status = db.check(chksm, true, true, &size, &real_size)) < 0) {
       printf("db.check error status %d\n", status);
     }

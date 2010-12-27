@@ -9,6 +9,7 @@ libhtools_la_LDFLAGS= -version-info $(LIB_VERSION)
 libhtools_la_SOURCES = \
   asyncwriter.cpp \
   configuration.cpp \
+  copier.cpp \
   files.cpp \
   filereaderwriter.cpp \
   hasher.cpp \

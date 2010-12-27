@@ -3,6 +3,7 @@ htoolsincludedir = $(includedir)/htools
 htoolsinclude_HEADERS = \
   asyncwriter.h \
   configuration.h \
+  copier.h \
   filereaderwriter.h \
   files.h \
   hasher.h \
@@ -24,6 +25,7 @@ EXTRA_DIST = \
   asyncwriter.h \
   buffer.h \
   configuration.h \
+  copier.h \
   filereaderwriter.h \
   files.h \
   hasher.h \

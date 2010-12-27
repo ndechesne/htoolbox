@@ -71,11 +71,11 @@ Warning: Adding missing metadata for 59ca0efa9f5633cb0371bbc0355478d8-0
  * check
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * missing
-Error: metadata broken for 'test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/meta'
-Warning: Setting missing metadata for d41d8cd98f00b204e9800998ecf8427e
-d41d8cd98f00b204e9800998ecf8427e 0\r
+Error: metadata broken for 'test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e-0/meta'
+Warning: Setting missing metadata for d41d8cd98f00b204e9800998ecf8427e-0
+d41d8cd98f00b204e9800998ecf8427e-0 0\r
  * check
-d41d8cd98f00b204e9800998ecf8427e 0\r
+d41d8cd98f00b204e9800998ecf8427e-0 0\r
 
 Test: check - metadata check/correct
  * missing
@@ -88,14 +88,14 @@ Error: Correcting wrong metadata for 59ca0efa9f5633cb0371bbc0355478d8-0
  * check
 59ca0efa9f5633cb0371bbc0355478d8-0 13 38\r
  * missing
-Error: metadata broken for 'test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/meta'
-Warning: Adding missing metadata for d41d8cd98f00b204e9800998ecf8427e
-d41d8cd98f00b204e9800998ecf8427e 0\r
+Error: metadata broken for 'test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e-0/meta'
+Warning: Adding missing metadata for d41d8cd98f00b204e9800998ecf8427e-0
+d41d8cd98f00b204e9800998ecf8427e-0 0\r
  * wrong
-Error: Correcting wrong metadata for d41d8cd98f00b204e9800998ecf8427e
-d41d8cd98f00b204e9800998ecf8427e 0\r
+Error: Correcting wrong metadata for d41d8cd98f00b204e9800998ecf8427e-0
+d41d8cd98f00b204e9800998ecf8427e-0 0\r
  * check
-d41d8cd98f00b204e9800998ecf8427e 0\r
+d41d8cd98f00b204e9800998ecf8427e-0 0\r
 
 Test: organise
 Upgrading database structure in test_db/data, please wait...
@@ -109,9 +109,9 @@ test_db/data/59/ca/0e/fa9f5633cb0371bbc0355478d8-0/meta
 test_db/data/d4
 test_db/data/d4/1d
 test_db/data/d4/1d/8c
-test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e
-test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/data
-test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e/meta
+test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e-0
+test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e-0/data
+test_db/data/d4/1d/8c/d98f00b204e9800998ecf8427e-0/meta
 test_db/data/f1
 test_db/data/f1/c9
 test_db/data/f1/c9/64

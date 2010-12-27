@@ -43,6 +43,7 @@ using namespace std;
 #include "stackhelper.h"
 #include "asyncwriter.h"
 #include "multiwriter.h"
+#include "copier.h"
 #include "files.h"
 
 using namespace htools;
@@ -139,25 +140,16 @@ long long Data::copy(
     IReaderWriter*  source,
     IReaderWriter*  dest1,
     IReaderWriter*  dest2) const {
-  // Make writers asynchronous
-  dest1 = new AsyncWriter(dest1, false);
-  MultiWriter w(dest1, false);
+  enum { BUFFER_SIZE = 102400 };  // Too big and we end up wasting time
+  Copier copier(source, false, BUFFER_SIZE);
+  copier.addDest(dest1, false);
   if (dest2 != NULL) {
-    dest2 = new AsyncWriter(dest2, false);
-    w.add(dest2, false);
+    copier.addDest(dest2, false);
   }
-  if (w.open() < 0) {
-    delete dest1;
-    if (dest2 != NULL) {
-      delete dest2;
-    }
+  if (copier.open() < 0) {
     return -1;
   }
   // Copy loop
-  enum { BUFFER_SIZE = 102400 };  // Too big and we end up wasting time
-  char buffer1[BUFFER_SIZE];      // odd buffer
-  char buffer2[BUFFER_SIZE];      // even buffer
-  char* buffer = buffer1;         // currently unused buffer
   ssize_t size;                   // Size actually read at begining of loop
   long long data_size = 0;        // Source file size
   // Progress
@@ -165,36 +157,25 @@ long long Data::copy(
   long long progress_last;
   if (_d->progress != NULL) {
     struct stat64 metadata;
-    if (lstat64(source->path(), &metadata) >= 0) {
+    if (lstat64(copier.path(), &metadata) >= 0) {
       progress_total = metadata.st_size;
     }
     progress_last = 0;
   }
-
   bool failed = false;
   do {
     // size will be BUFFER_SIZE unless the end of file has been reached
-    size = source->read(buffer, BUFFER_SIZE);
+    size = copier.copy();
     if (size <= 0) {
       if (size < 0) {
         failed = true;
       }
       break;
     }
-    if (w.write(buffer, size) < 0) {
-      failed = true;
-      break;
-    }
     data_size += size;
-    // Swap unused buffers
-    if (buffer == buffer1) {
-      buffer = buffer2;
-    } else {
-      buffer = buffer1;
-    }
     // Update big brother
     if (progress_total >= 0) {
-      long long progress_new = source->offset();
+      long long progress_new = copier.offset();
       if (progress_new != progress_last) {
         (*_d->progress)(progress_last, progress_new, progress_total);
         progress_last = progress_new;
@@ -208,12 +189,8 @@ long long Data::copy(
     }
   } while (size == BUFFER_SIZE);
   // close and update metadata and 'data size' (the unzipped size)
-  if (w.close() < 0) {
+  if (copier.close() < 0) {
     failed = true;
-  }
-  delete dest1;
-  if (dest2 != NULL) {
-    delete dest2;
   }
   return failed ? -1 : data_size;
 }
@@ -529,22 +506,17 @@ int Data::read(
     data_fd = new UnzipReader(data_fd, true);
   }
   StackHelper data(data_fd, true);
-  if (data.open()) {
-    hlog_error("%s opening source file '%s'", strerror(errno), local_path);
-    return -1;
-  }
   string temp_path = path;
   temp_path += ".hbackup-part";
-  IReaderWriter* temp_fd = new FileReaderWriter(temp_path.c_str(), true);
+  FileReaderWriter temp_fd(temp_path.c_str(), true);
   // ...so we compute the checksum from the writer (in its own thread)
   char hash[129];
-  Hasher temp(temp_fd, true, Hasher::md5, hash);
+  Hasher temp(&temp_fd, false, Hasher::md5, hash);
   // Copy file to temporary name (size not checked: checksum suffices)
   if (copy(&data, &temp) < 0) {
     hlog_error("%s reading source file '%s'", strerror(errno), local_path);
     failed = true;
   }
-  data.close();
   if (! failed) {
     // Verify that checksums match before overwriting final destination
     if (strncmp(checksum, hash, strlen(hash)) != 0) {
@@ -576,9 +548,6 @@ Data::WriteStatus Data::write(
   FileReaderWriter source_fr(path, false);
   char source_hash[129];
   Hasher source(&source_fr, false, Hasher::md5, source_hash);
-  if (source.open() < 0) {
-    return error;
-  }
 
   // Temporary file(s) to write to
   FileReaderWriter* temp1_fw = NULL;
@@ -612,14 +581,15 @@ Data::WriteStatus Data::write(
   };
 
   long long source_data_size;
+  int errno_saved = 0;
   if (! failed) {
     // Copy file locally
     source_data_size = copy(&source, temp1, temp2);
     if (source_data_size < 0) {
       failed = true;
+      errno_saved = errno;
     }
   }
-  source.close();
 
   if (failed) {
     ::remove(temp1_fw->path());
@@ -628,6 +598,7 @@ Data::WriteStatus Data::write(
       ::remove(temp2->path());
       delete temp2;
     }
+    errno = errno_saved;
     return error;
   }
 
@@ -838,61 +809,50 @@ int Data::check(
         data_fd = new UnzipReader(data_fd, true);
       }
       StackHelper data(data_fd, true);
-      // Open file
-      if (data.open()) {
-        hlog_error("%s opening file '%s'", strerror(errno), local_path);
+      // Copy to null writer and compute the hash from it (different thread)
+      char hash[129];
+      Hasher nh(new NullWriter, true, Hasher::md5, hash);
+      long long copy_rc = copy(&data, &nh);
+      file_size = data.offset();
+      if (copy_rc < 0) {
+        hlog_error("%s reading file '%s'", strerror(errno), local_path);
         failed = true;
-      } else {
-        // Copy to null writer and compute the hash from it (different thread)
-        char hash[129];
-        Hasher nh(new NullWriter, true, Hasher::md5, hash);
-        long long copy_rc = copy(&data, &nh);
-        file_size = data.offset();
-        if (copy_rc < 0) {
-          hlog_error("%s reading file '%s'", strerror(errno), local_path);
-          failed = true;
-          if (errno == EUCLEAN) {
-            if (repair) {
-              removePath(path);
-              hlog_info("Removed corrupted data for %s", checksum);
-            } else {
-              // Mark corrupted
-              Node::touch(corrupted_path);
-              hlog_info("Reported corruption for %s", checksum);
-            }
+        if (errno == EUCLEAN) {
+          if (repair) {
+            removePath(path);
+            hlog_info("Removed corrupted data for %s", checksum);
+          } else {
+            // Mark corrupted
+            Node::touch(corrupted_path);
+            hlog_info("Reported corruption for %s", checksum);
           }
         }
-        // Close file
-        if (data.close()) {
-          hlog_error("%s closing file '%s'", strerror(errno), local_path);
+      }
+      if (! failed) {
+        // Compare with given checksum
+        if (strncmp(hash, checksum, strlen(hash))) {
+          hlog_error("Data corrupted for %s%s", checksum, repair ? ", remove" : "");
+          hlog_debug("Checksum: %s", hash);
           failed = true;
-        }
-        if (! failed) {
-          // Compare with given checksum
-          if (strncmp(hash, checksum, strlen(hash))) {
-            hlog_error("Data corrupted for %s%s", checksum, repair ? ", remove" : "");
-            hlog_debug("Checksum: %s", hash);
-            failed = true;
-            if (repair) {
-              removePath(path);
-              hlog_info("Removed corrupted data for %s", checksum);
-            } else {
-              // Mark corrupted
-              Node::touch(corrupted_path);
-              hlog_info("Reported corruption for %s", checksum);
-            }
-            data_size = -1;
-          } else
-          // Compare data size and stored size for compress files
-          if (copy_rc != data_size) {
-            if (data_size >= 0) {
-              hlog_error("Correcting wrong metadata for %s", checksum);
-            } else {
-              hlog_warning("Adding missing metadata for %s", checksum);
-            }
-            data_size = copy_rc;
-            setMetadata(path, data_size, unknown);
+          if (repair) {
+            removePath(path);
+            hlog_info("Removed corrupted data for %s", checksum);
+          } else {
+            // Mark corrupted
+            Node::touch(corrupted_path);
+            hlog_info("Reported corruption for %s", checksum);
           }
+          data_size = -1;
+        } else
+        // Compare data size and stored size for compress files
+        if (copy_rc != data_size) {
+          if (data_size >= 0) {
+            hlog_error("Correcting wrong metadata for %s", checksum);
+          } else {
+            hlog_warning("Adding missing metadata for %s", checksum);
+          }
+          data_size = copy_rc;
+          setMetadata(path, data_size, unknown);
         }
       }
     }
