@@ -10,6 +10,7 @@ check_PROGRAMS = \
   filereaderwriter_test \
   files_test \
   hasher_test \
+  inet_socket_test \
   linereaderwriter_test \
   report_test \
   work_scheduler_test \
@@ -22,6 +23,7 @@ configuration_test_SOURCES = configuration_test.cpp
 filereaderwriter_test_SOURCES = filereaderwriter_test.cpp
 files_test_SOURCES = files_test.cpp
 hasher_test_SOURCES = hasher_test.cpp
+inet_socket_test_SOURCES = inet_socket_test.cpp
 linereaderwriter_test_SOURCES = linereaderwriter_test.cpp
 report_test_SOURCES = report_test.cpp
 work_scheduler_test_SOURCES = work_scheduler_test.cpp
@@ -33,6 +35,7 @@ LDADD = ../src/libhtools.la
 check_SUCCESSES = \
   configuration.done \
   filereaderwriter.done \
+  inet_socket.done \
   linereaderwriter.done \
   hasher.done \
   asyncwriter.done \
@@ -47,6 +50,7 @@ EXTRA_DIST = \
   files.exp \
   filereaderwriter.exp \
   hasher.exp \
+  inet_socket.exp \
   linereaderwriter.exp \
   report.exp \
   work_scheduler.exp \

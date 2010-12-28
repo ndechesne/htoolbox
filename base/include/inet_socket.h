@@ -34,8 +34,10 @@ public:
   int listen(int backlog);
   int open();
   int close();
-  ssize_t read(void* message, size_t length);
-  ssize_t write(const void* message, size_t length);
+  // WARNING: read returns whatever what was read, not necessarily size
+  ssize_t read(void* buffer, size_t size);
+  ssize_t write(const void* buffer, size_t size);
+  const char* path() const;
   static int getAddress(const char* hostname, uint32_t* address);
 };
 

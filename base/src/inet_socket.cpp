@@ -1,5 +1,6 @@
 #include <netdb.h>
 #include <arpa/inet.h>
+#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <errno.h>
@@ -11,6 +12,7 @@ using namespace htools;
 
 struct ServerData {
   char*             hostname;
+  size_t            hostname_len;
   uint16_t          port;
   int               listen_socket;
   ServerData() : hostname(NULL) {}
@@ -26,7 +28,9 @@ struct InetSocket::Private {
 InetSocket::InetSocket(int port, const char* hostname) : _d(new Private) {
   _d->data = new ServerData;
   _d->master_data = _d->data;
-  _d->data->hostname = strdup(hostname);
+  _d->data->hostname_len = strlen(hostname);
+  _d->data->hostname = static_cast<char*>(malloc(_d->data->hostname_len + 8));
+  sprintf(_d->data->hostname, "%s:%u", hostname, port);
   _d->data->port = static_cast<uint16_t>(port);
   _d->data->listen_socket = -1;
   _d->conn_socket = -1;
@@ -58,7 +62,10 @@ int InetSocket::listen(int backlog) {
   struct sockaddr_in sock;
   sock.sin_family = AF_INET;
   uint32_t ip;
-  if (getAddress(_d->data->hostname, &ip)) {
+  _d->data->hostname[_d->data->hostname_len] = '\0';
+  int rc = getAddress(_d->data->hostname, &ip);
+  _d->data->hostname[_d->data->hostname_len] = ':';
+  if (rc < 0) {
     hlog_error("%s getting address", strerror(errno));
     return -1;
   }
@@ -84,7 +91,7 @@ int InetSocket::listen(int backlog) {
     return -1;
   }
   hlog_regression("fd = %d", _d->data->listen_socket);
-  return 0;
+  return _d->data->listen_socket;
 }
 
 int InetSocket::open() {
@@ -97,7 +104,10 @@ int InetSocket::open() {
     struct sockaddr_in sock;
     sock.sin_family = AF_INET;
     uint32_t ip;
-    if (getAddress(_d->data->hostname, &ip)) {
+    _d->data->hostname[_d->data->hostname_len] = '\0';
+    int rc = getAddress(_d->data->hostname, &ip);
+    _d->data->hostname[_d->data->hostname_len] = ':';
+    if (rc < 0) {
       hlog_error("%s getting address", strerror(errno));
       return -1;
     }
@@ -163,12 +173,12 @@ ssize_t InetSocket::write(
         hlog_error("socket closed");
         return 0;
       default:
-        hlog_regression("sent %u", size);
+        hlog_regression("sent (partial) %u", size);
         sent += size;
     }
   } while (sent < static_cast<ssize_t>(length));
   if (sent > 0) {
-    hlog_debug("sent %u", sent);
+    hlog_debug("sent (total) %u", sent);
   }
   return sent;
 }
@@ -185,9 +195,13 @@ ssize_t InetSocket::read(
     }
   }
   if (size > 0) {
-    hlog_debug("received %u", size);
+    hlog_regression("received %u", size);
   }
   return size;
+}
+
+const char* InetSocket::path() const {
+  return _d->master_data->hostname;
 }
 
 int InetSocket::getAddress(
@@ -200,13 +214,13 @@ int InetSocket::getAddress(
   struct addrinfo* res;
   int errcode = getaddrinfo(hostname, NULL, &hints, &res);
   if (errcode != 0) {
-    hlog_alert("'%s': %s\n", hostname, gai_strerror(errcode));
+    hlog_alert("'%s': %s", hostname, gai_strerror(errcode));
     return -1;
   }
   struct sockaddr_in* addr = reinterpret_cast<struct sockaddr_in*>(res->ai_addr);
   *address = addr->sin_addr.s_addr;
   char tmp[32];
-  hlog_verbose("'%s': IP = %s\n", hostname,
+  hlog_verbose("'%s': IP = %s", hostname,
     inet_ntop(AF_INET, &addr->sin_addr, tmp, sizeof(tmp)));
   freeaddrinfo(res);
   return 0;

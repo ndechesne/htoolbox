@@ -78,6 +78,10 @@ case $1 in
     export DIR="lib"
     export NAME="interface"
     ;;
+  "is" )
+    export DIR="base"
+    export NAME="inet_socket"
+    ;;
   "lk" )
     export DIR="lib"
     export NAME="lock"
