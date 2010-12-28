@@ -32,8 +32,8 @@
 using namespace htools;
 
 int main(void) {
-  UnixSocket sock("socket", true);
-  if (sock.open() < 0) {
+  UnixSocket sock("socket");
+  if ((sock.listen(5) < 0) || (sock.open() < 0)) {
     printf("%s opening socket\n", strerror(errno));
     return 0;
   }

@@ -1,0 +1,16 @@
+server path = 'socket'
+server listening socket #3
+server going to accept connections
+server going to accept connections
+client1 path = 'socket'
+client connection socket #4
+client connected
+client2 path = 'socket'
+received 'This is my message'
+client connection socket #5
+client connected
+received 'Let us have another message'
+message from server to client1: 'This is my message. server is alive and kicking.'
+message from server to client2: 'Let us have another message. server is alive and kicking.'
+client disconnected
+client disconnected

@@ -26,11 +26,15 @@ namespace htools {
 class UnixSocket : public IReaderWriter {
   struct          Private;
   Private* const  _d;
+  const UnixSocket& operator=(const UnixSocket&);
 public:
-  UnixSocket(const char* path, bool server);
+  UnixSocket(const char* path);
+  UnixSocket(const UnixSocket&);
   ~UnixSocket();
+  int listen(int backlog);
   int open();
   int close();
+  // WARNING: read returns whatever what was read, not necessarily size
   ssize_t read(void* message, size_t length);
   ssize_t write(const void* message, size_t length);
   const char* path() const;

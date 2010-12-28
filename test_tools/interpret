@@ -126,6 +126,10 @@ case $1 in
     export DIR="lib"
     export NAME="svn_parser"
     ;;
+  "us" )
+    export DIR="base"
+    export NAME="unix_socket"
+    ;;
   "ws" )
     export DIR="base"
     export NAME="work_scheduler"

@@ -33,8 +33,8 @@
 using namespace htools;
 
 int main(void) {
-  report.setLevel(regression);
-  UnixSocket sock("socket", false);
+  report.setLevel(verbose);
+  UnixSocket sock("socket");
   if (sock.open() < 0) {
     hlog_error("%s opening socket", strerror(errno));
     return 0;
