@@ -23,13 +23,13 @@
 #include <pthread.h>
 
 #include <report.h>
-#include "unix_socket.h"
+#include "socket.h"
 
 using namespace htools;
 
 void* server_thread(void* user) {
-  UnixSocket& master_server = *static_cast<UnixSocket*>(user);
-  UnixSocket server(master_server);
+  Socket& master_server = *static_cast<Socket*>(user);
+  Socket server(master_server);
   hlog_info("server going to accept connections");
   int sock = server.open();
   if (sock < 0) {
@@ -60,7 +60,7 @@ void* server_thread(void* user) {
 int main() {
   report.setLevel(verbose);
 
-  UnixSocket server("socket");
+  Socket server("socket");
   hlog_info("server path = '%s'", server.path());
   int sock = server.listen(2);
   if (sock < 0) {
@@ -86,7 +86,7 @@ int main() {
 
   usleep(1000);
 
-  UnixSocket client1("socket");
+  Socket client1("socket");
   hlog_info("client1 path = '%s'", client1.path());
   if (client1.open() < 0) {
     hlog_error("%s, client1 failed to connect", strerror(-rc));
@@ -94,11 +94,13 @@ int main() {
 
   usleep(1000);
 
-  UnixSocket client2("socket");
+  Socket client2("socket");
   hlog_info("client2 path = '%s'", client2.path());
   if (client2.open() < 0) {
     hlog_error("%s, client2 failed to connect", strerror(-rc));
   }
+
+  usleep(1000);
 
   char buffer[65536];
   strcpy(buffer, "This is my message");

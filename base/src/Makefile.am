@@ -13,13 +13,12 @@ libhtools_la_SOURCES = \
   files.cpp \
   filereaderwriter.cpp \
   hasher.cpp \
-  inet_socket.cpp \
   linereaderwriter.cpp \
   multiwriter.cpp \
   queue.cpp \
   report.cpp \
   share.cpp \
-  unix_socket.cpp \
+  socket.cpp \
   unzipreader.cpp \
   work_scheduler.cpp \
   zipwriter.cpp \

@@ -29,7 +29,7 @@ using namespace std;
 
 using namespace hbackup;
 
-#include "unix_socket.h"
+#include "socket.h"
 #include "protocol.h"
 #include "data_common.h"
 

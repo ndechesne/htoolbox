@@ -36,7 +36,7 @@ using namespace htools;
 
 using namespace hbackup;
 
-#include "inet_socket.h"
+#include "socket.h"
 #include "protocol.h"
 #include "data_common.h"
 
@@ -44,11 +44,11 @@ using namespace hbackend;
 
 struct Data::Private {
   string            path;
-  InetSocket        sock;
+  Socket            sock;
   Receiver*         receiver;
   progress_f        progress;
   Private(const char* hostname, int port)
-  : sock(port, hostname), receiver(NULL), progress(NULL) {}
+  : sock(hostname, port), receiver(NULL), progress(NULL) {}
 };
 
 Data::Data(const char* path) : _d(new Private("localhost", 12345)) {

@@ -27,14 +27,14 @@
 #include <fcntl.h>
 
 #include <report.h>
-#include <unix_socket.h>
+#include <socket.h>
 #include "protocol.h"
 
 using namespace htools;
 
 int main(void) {
   report.setLevel(verbose);
-  UnixSocket sock("socket");
+  Socket sock("socket");
   if (sock.open() < 0) {
     hlog_error("%s opening socket", strerror(errno));
     return 0;

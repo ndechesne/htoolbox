@@ -26,13 +26,13 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include "unix_socket.h"
+#include "socket.h"
 #include "protocol.h"
 
 using namespace htools;
 
 int main(void) {
-  UnixSocket sock("socket");
+  Socket sock("socket");
   if ((sock.listen(5) < 0) || (sock.open() < 0)) {
     printf("%s opening socket\n", strerror(errno));
     return 0;

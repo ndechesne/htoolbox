@@ -16,30 +16,31 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef _UNIX_SOCKET_H
-#define _UNIX_SOCKET_H
+#ifndef _SOCKET_H
+#define _SOCKET_H
 
 #include <ireaderwriter.h>
 
 namespace htools {
 
-class UnixSocket : public IReaderWriter {
+class Socket : public IReaderWriter {
   struct          Private;
   Private* const  _d;
-  const UnixSocket& operator=(const UnixSocket&);
+  const Socket& operator=(const Socket&);
 public:
-  UnixSocket(const char* path);
-  UnixSocket(const UnixSocket&);
-  ~UnixSocket();
+  Socket(const char* hostname_or_path, int port = 0); // port = 0 => UNIX socket
+  Socket(const Socket&);
+  ~Socket();
   int listen(int backlog);
   int open();
   int close();
   // WARNING: read returns whatever what was read, not necessarily size
-  ssize_t read(void* message, size_t length);
-  ssize_t write(const void* message, size_t length);
+  ssize_t read(void* buffer, size_t size);
+  ssize_t write(const void* buffer, size_t size);
   const char* path() const;
+  static int getAddress(const char* hostname, uint32_t* address);
 };
 
 };
 
-#endif // _UNIX_SOCKET_H
+#endif // _SOCKET_H

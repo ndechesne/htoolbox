@@ -27,7 +27,7 @@
 #include <sys/types.h>
 
 #include <report.h>
-#include <inet_socket.h>
+#include <socket.h>
 #include "protocol.h"
 
 #include "data_common.h"
@@ -45,7 +45,7 @@ struct AllFields {
 
 int main(void) {
   report.setLevel(info);
-  InetSocket sock(12345);
+  Socket sock("localhost", 12345);
   if (sock.listen(1) < 0) {
     hlog_error("%s listening", strerror(errno));
   }
