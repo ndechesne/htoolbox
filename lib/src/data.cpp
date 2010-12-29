@@ -165,7 +165,7 @@ long long Data::copy(
   bool failed = false;
   do {
     // size will be BUFFER_SIZE unless the end of file has been reached
-    size = copier.copy();
+    size = copier.copyChunk();
     if (size <= 0) {
       if (size < 0) {
         failed = true;
@@ -187,7 +187,7 @@ long long Data::copy(
       failed = true;
       break;
     }
-  } while (size == BUFFER_SIZE);
+  } while (size >= 0);
   // close and update metadata and 'data size' (the unzipped size)
   if (copier.close() < 0) {
     failed = true;

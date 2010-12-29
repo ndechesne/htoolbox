@@ -101,7 +101,7 @@ int Copier::close() {
   return _d->failed ? -1 : 0;
 }
 
-ssize_t Copier::copy() {
+ssize_t Copier::copyChunk() {
   ssize_t size = _child->read(_d->buffer, _d->buffer_size);
   if (size <= 0) {
     if (size < 0) {
@@ -120,4 +120,13 @@ ssize_t Copier::copy() {
     _d->buffer = _d->buffer1;
   }
   return _d->failed ? -1 : size;
+}
+
+int Copier::copy() {
+  ssize_t size;
+  do {
+    // size will be BUFFER_SIZE unless the end of file has been reached
+    size = copyChunk();
+  } while (size > 0);
+  return size;
 }

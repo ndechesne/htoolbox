@@ -29,14 +29,15 @@ class Copier : public IReaderWriter {
   Copier(const Copier&);
   const Copier& operator=(const Copier&);
 public:
-  Copier(IReaderWriter* source, bool delete_source, size_t size);
+  Copier(IReaderWriter* source, bool delete_source, size_t chunk_size);
   ~Copier();
   void addDest(IReaderWriter* dest, bool delete_dest);
   int open();
   int close();
   ssize_t read(void*, size_t) { return -1; }
   ssize_t write(const void*, size_t) { return -1; }
-  ssize_t copy();
+  ssize_t copyChunk();
+  int copy();
 };
 
 };
