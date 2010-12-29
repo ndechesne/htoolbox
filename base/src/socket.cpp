@@ -229,12 +229,10 @@ ssize_t Socket::write(
   return sent;
 }
 
-ssize_t Socket::read(
-    void*           data,
-    size_t          length) {
+ssize_t Socket::stream(void* buffer, size_t max_size) {
   ssize_t size = -1;
   while (size < 0) {
-    size = ::recv(_d->conn_socket, data, length, 0);
+    size = ::recv(_d->conn_socket, buffer, max_size, 0);
     if ((size < 0) && (errno != EINTR)) {
       hlog_error("%s reading", strerror(errno));
       break;
@@ -244,6 +242,32 @@ ssize_t Socket::read(
     hlog_regression("received %u", size);
   }
   return size;
+}
+
+ssize_t Socket::read(
+    void*           buffer,
+    size_t          size) {
+  char* cbuffer = static_cast<char*>(buffer);
+  size_t count = 0;
+  while (count < size) {
+    ssize_t rc = ::recv(_d->conn_socket, &cbuffer[count], size - count, 0);
+    if (rc <= 0) {
+      if (rc < 0) {
+        if (errno == EINTR) {
+          continue;
+        } else {
+          hlog_error("%s reading", strerror(errno));
+        }
+      }
+      break;
+    } else {
+      count += rc;
+    }
+  }
+  if (count > 0) {
+    hlog_regression("received %u", size);
+  }
+  return count;
 }
 
 const char* Socket::path() const {

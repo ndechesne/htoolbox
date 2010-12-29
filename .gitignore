@@ -9,6 +9,8 @@ Makefile
 *.done
 lib/test/*_test
 base/test/*_test
+base/test/inet_socket_test.cpp
+base/test/unix_socket_test.cpp
 backend/test/hbackend_test
 backend/test/receiver_test
 backend/test/sender_test

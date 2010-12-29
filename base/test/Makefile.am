@@ -32,6 +32,20 @@ work_scheduler_test_SOURCES = work_scheduler_test.cpp
 work_scheduler_extensive_test_SOURCES = work_scheduler_extensive_test.cpp
 zip_unzip_test_SOURCES = zip_unzip_test.cpp
 
+inet_socket_test.cpp: socket_test.cpp
+	cat $< \
+	| sed "s/@@FIRST@@/\"0.0.0.0\", 12345/" \
+	| sed "s/@@SECOND@@/\"localhost\", 12345/" \
+	| sed "s/@@THIRD@@/\"127.0.0.1\", 12345/" \
+	> $@
+
+unix_socket_test.cpp: socket_test.cpp
+	cat $< \
+	| sed "s/@@FIRST@@/\"socket\"/" \
+	| sed "s/@@SECOND@@/\"socket\"/" \
+	| sed "s/@@THIRD@@/\"socket\"/" \
+	> $@
+
 LDADD = ../src/libhtools.la
 
 check_SUCCESSES = \

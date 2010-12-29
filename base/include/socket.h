@@ -34,7 +34,8 @@ public:
   int listen(int backlog);
   int open();
   int close();
-  // WARNING: read returns whatever what was read, not necessarily size
+  // stream returns whatever what was read, not necessarily max_size
+  ssize_t stream(void* buffer, size_t max_size);
   ssize_t read(void* buffer, size_t size);
   ssize_t write(const void* buffer, size_t size);
   const char* path() const;

@@ -27,10 +27,13 @@
 
 using namespace htools;
 
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
 void* server_thread(void* user) {
   Socket& master_server = *static_cast<Socket*>(user);
   Socket server(master_server);
   hlog_info("server going to accept connections");
+  pthread_mutex_unlock(&mutex);
   int sock = server.open();
   if (sock < 0) {
     hlog_error("%s, server failed to open", strerror(errno));
@@ -41,7 +44,7 @@ void* server_thread(void* user) {
   ssize_t rc;
   do {
     char buffer[65536];
-    rc = server.read(buffer, sizeof(buffer));
+    rc = server.stream(buffer, sizeof(buffer));
     if (rc > 0) {
       hlog_info("received '%s'", buffer);
     } else {
@@ -59,8 +62,9 @@ void* server_thread(void* user) {
 
 int main() {
   report.setLevel(verbose);
+  pthread_mutex_lock(&mutex);
 
-  Socket server("0.0.0.0", 12345);
+  Socket server(@@FIRST@@);
   hlog_info("server path = '%s'", server.path());
   int sock = server.listen(2);
   if (sock < 0) {
@@ -84,9 +88,10 @@ int main() {
     return 0;
   }
 
-  usleep(1000);
+  pthread_mutex_lock(&mutex);
+  pthread_mutex_lock(&mutex);
 
-  Socket client1("localhost", 12345);
+  Socket client1(@@SECOND@@);
   hlog_info("client1 path = '%s'", client1.path());
   if (client1.open() < 0) {
     hlog_error("%s, client1 failed to connect", strerror(-rc));
@@ -94,7 +99,7 @@ int main() {
 
   usleep(1000);
 
-  Socket client2("127.0.0.1", 12345);
+  Socket client2(@@THIRD@@);
   hlog_info("client2 path = '%s'", client2.path());
   if (client2.open() < 0) {
     hlog_error("%s, client2 failed to connect", strerror(-rc));
@@ -117,7 +122,7 @@ int main() {
 
   usleep(1000);
 
-  if (client1.read(buffer, sizeof(buffer)) < 0) {
+  if (client1.stream(buffer, sizeof(buffer)) < 0) {
     hlog_error("%s, client1 failed to write", strerror(-rc));
   } else {
     hlog_info("message from server to client1: '%s'", buffer);
@@ -125,7 +130,7 @@ int main() {
 
   usleep(1000);
 
-  if (client2.read(buffer, sizeof(buffer)) < 0) {
+  if (client2.stream(buffer, sizeof(buffer)) < 0) {
     hlog_error("%s, client2 failed to write", strerror(-rc));
   } else {
     hlog_info("message from server to client2: '%s'", buffer);
