@@ -1,6 +1,0 @@
-name:
--> name = 'bullsh1t', ext = ''
-<- hash = 'data/01/23/45/56789-0/data', ext = '.gz'
-write:
--> path = '../client_test', comp_level = 5
-<- hash = '987654321-0', comp_level = 8

@@ -1,5 +1,0 @@
-#!/bin/bash -e
-
-PROGRAM=../../src/hbackend
-
-$PROGRAM

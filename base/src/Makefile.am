@@ -2,11 +2,11 @@ AM_CXXFLAGS = \
   -I../include \
   $(NULL)
 
-lib_LTLIBRARIES = libhtools.la
+lib_LTLIBRARIES = libhtoolbox.la
 
-libhtools_la_LDFLAGS= -version-info $(LIB_VERSION)
+libhtoolbox_la_LDFLAGS= -version-info $(LIB_VERSION)
 
-libhtools_la_SOURCES = \
+libhtoolbox_la_SOURCES = \
   asyncwriter.cpp \
   configuration.cpp \
   copier.cpp \

@@ -4,16 +4,13 @@
 AC_PREREQ(2.61)
 
 # This contains version information
-AC_INIT([HBackup],[1.2a],[herve@lucidia.net])
-AC_DEFINE([HBACKUP_CONFIG], ["/etc/hbackup/config"],
-  [Default configuration file path])
+AC_INIT([HToolBox],[1.2a],[herve@lucidia.net])
 AC_SUBST(LIB_VERSION, [3:0:2])
 
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
-AC_DISABLE_STATIC
 AC_LANG([C++])
 
 # Compiler options
@@ -48,50 +45,32 @@ if test "x$liberrors" != "x"; then
 fi
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h limits.h stdint.h stdlib.h string.h sys/time.h unistd.h utime.h])
-AC_CHECK_HEADERS([sstream])
+AC_CHECK_HEADERS([arpa/inet.h fcntl.h limits.h netdb.h stdint.h stdlib.h string.h sys/time.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
 AC_TYPE_UID_T
-AC_C_INLINE
 AC_TYPE_INT32_T
 AC_TYPE_MODE_T
-AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
 AC_TYPE_UINT16_T
+AC_TYPE_UINT32_T
 AC_TYPE_UINT8_T
 
 # Checks for library functions.
-AC_FUNC_CHOWN
-AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC
-AC_FUNC_MKTIME
 AC_FUNC_REALLOC
-AC_CHECK_FUNCS([getdelim localtime_r memchr memset mkdir mkfifo regcomp setenv strcasecmp strchr strdup strerror strncasecmp strrchr tzset utime])
+AC_CHECK_FUNCS([localtime_r memchr memset mkdir socket strchr strdup strerror strrchr])
 
 # Define test tools
 AC_PATH_PROG(TEST_TOOL, test_tools/test_setup, test_tools/test_setup)
 AC_PATH_PROG(TEST_RUN, test_tools/test_run, test_tools/test_run)
 
 AC_CONFIG_FILES([Makefile
-                 backend/Makefile
-                 backend/src/Makefile
-                 backend/test/Makefile
                  base/Makefile
                  base/include/Makefile
                  base/src/Makefile
                  base/test/Makefile
-                 cli/Makefile
-                 cli/man/Makefile
-                 cli/src/Makefile
-                 cli/test/Makefile
-                 lib/Makefile
-                 lib/doc/Makefile
-                 lib/include/Makefile
-                 lib/src/Makefile
-                 lib/test/Makefile
-                 parsers/Makefile
                  test_tools/Makefile])
 AC_OUTPUT

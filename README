@@ -1,7 +1,3 @@
-HBackup is a backup program written in C++ by Herve Fache <herve@lucidia.net>.
-
-Please refer to the documentation linked from lib/doc/index.html.
-
 To get started, you'll need:
 git
 build-essential
@@ -10,22 +6,14 @@ libtool
 
 To compile, you'll need:
 libssl-dev
-libtclap-dev 
 zlib1g-dev
 
-To run the tests, you'll need:
-subversion
-
-To run the memory leak test, or debug, you'll need:
+To debug, you'll need:
 libc6-dbg
 zlib1g-dbg
-valgrind 
 
 To compile this code, run:
 ./autogen.sh && ./configure --enable-debug=yes && make
 
 To run the test suite, run:
 make check
-
-Then run the extra memory leak test:
-./test_tools/check ml
