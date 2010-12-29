@@ -1,4 +1,4 @@
-htoolsincludedir = $(includedir)/htools
+htoolsincludedir = $(includedir)/htoolbox
 
 htoolsinclude_HEADERS = \
   asyncwriter.h \
