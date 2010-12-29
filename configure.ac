@@ -68,9 +68,8 @@ AC_PATH_PROG(TEST_TOOL, test_tools/test_setup, test_tools/test_setup)
 AC_PATH_PROG(TEST_RUN, test_tools/test_run, test_tools/test_run)
 
 AC_CONFIG_FILES([Makefile
-                 base/Makefile
-                 base/include/Makefile
-                 base/src/Makefile
-                 base/test/Makefile
+                 include/Makefile
+                 src/Makefile
+                 test/Makefile
                  test_tools/Makefile])
 AC_OUTPUT

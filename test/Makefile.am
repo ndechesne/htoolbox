@@ -48,7 +48,7 @@ unix_socket_test.cpp: socket_test.cpp
 	| sed "s/@@THIRD@@/\"socket\"/" \
 	> $@
 
-LDADD = ../src/libhtools.la
+LDADD = ../src/libhtoolbox.la
 
 check_SUCCESSES = \
   configuration.done \
