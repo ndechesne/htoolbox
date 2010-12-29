@@ -16,6 +16,7 @@ htoolsinclude_HEADERS = \
   share.h \
   socket.h \
   stackhelper.h \
+  tlv.h \
   unzipreader.h \
   work_scheduler.h \
   zipwriter.h \
@@ -36,6 +37,7 @@ EXTRA_DIST = \
   share.h \
   socket.h \
   stackhelper.h \
+  tlv.h \
   unzipreader.h \
   work_scheduler.h \
   zipwriter.h \

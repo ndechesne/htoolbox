@@ -29,8 +29,12 @@ using namespace std;
 
 using namespace hbackup;
 
-#include "socket.h"
-#include "protocol.h"
+#include <socket.h>
+#include <tlv.h>
+
+using namespace htools;
+using namespace tlv;
+
 #include "data_common.h"
 
 using namespace hbackend;

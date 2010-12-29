@@ -9,7 +9,6 @@ lib_LTLIBRARIES = libhbackend_client.la libhbackend_server.la
 
 libhbackend_client_la_SOURCES = \
   data_client.cpp \
-  protocol.cpp \
   $(NULL)
 
 libhbackend_client_la_LDFLAGS= -version-info $(LIB_VERSION)
@@ -20,7 +19,6 @@ libhbackend_client_la_LIBADD = \
 
 libhbackend_server_la_SOURCES = \
   data_server.cpp \
-  protocol.cpp \
   $(NULL)
 
 libhbackend_server_la_LDFLAGS= -version-info $(LIB_VERSION)
@@ -40,8 +38,4 @@ hbackend_LDADD = \
 
 hbackend_SOURCES = \
   main.cpp \
-  $(NULL)
-
-EXTRA_DIST = \
-  protocol.h \
   $(NULL)

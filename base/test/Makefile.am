@@ -13,6 +13,7 @@ check_PROGRAMS = \
   inet_socket_test \
   linereaderwriter_test \
   report_test \
+  tlv_test \
   unix_socket_test \
   work_scheduler_test \
   work_scheduler_extensive_test \
@@ -27,6 +28,7 @@ hasher_test_SOURCES = hasher_test.cpp
 inet_socket_test_SOURCES = inet_socket_test.cpp
 linereaderwriter_test_SOURCES = linereaderwriter_test.cpp
 report_test_SOURCES = report_test.cpp
+tlv_test_SOURCES = tlv_test.cpp
 unix_socket_test_SOURCES = unix_socket_test.cpp
 work_scheduler_test_SOURCES = work_scheduler_test.cpp
 work_scheduler_extensive_test_SOURCES = work_scheduler_extensive_test.cpp
@@ -53,6 +55,7 @@ check_SUCCESSES = \
   filereaderwriter.done \
   inet_socket.done \
   unix_socket.done \
+  tlv.done \
   linereaderwriter.done \
   hasher.done \
   asyncwriter.done \
@@ -70,6 +73,7 @@ EXTRA_DIST = \
   inet_socket.exp \
   linereaderwriter.exp \
   report.exp \
+  tlv.exp \
   unix_socket.exp \
   work_scheduler.exp \
   work_scheduler_extensive.exp \

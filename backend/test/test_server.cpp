@@ -28,11 +28,13 @@
 
 #include <report.h>
 #include <socket.h>
-#include "protocol.h"
+#include <tlv.h>
+
+using namespace htools;
+using namespace tlv;
 
 #include "data_common.h"
 
-using namespace htools;
 using namespace hbackend;
 
 struct AllFields {

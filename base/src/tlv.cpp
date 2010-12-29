@@ -25,9 +25,10 @@
 #include <pthread.h>
 
 #include "report.h"
-#include "protocol.h"
+#include "tlv.h"
 
 using namespace htools;
+using namespace tlv;
 
 enum {
   START_CODE = 0xbadc01d0,

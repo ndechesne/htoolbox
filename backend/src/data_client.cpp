@@ -28,16 +28,17 @@ using namespace std;
 
 #include <report.h>
 #include <files.h>
+#include <socket.h>
+#include <tlv.h>
 
 using namespace htools;
+using namespace tlv;
 
 #include <hbackup.h>  // progress_f (needs architecture review)
 #include <data.h>
 
 using namespace hbackup;
 
-#include "socket.h"
-#include "protocol.h"
 #include "data_common.h"
 
 using namespace hbackend;

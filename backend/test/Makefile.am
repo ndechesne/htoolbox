@@ -8,14 +8,10 @@ AM_CXXFLAGS = \
   $(NULL)
 
 check_PROGRAMS = \
-  receiver_test \
-  sender_test \
   data_client_test \
   test_server \
   $(NULL)
 
-receiver_test_SOURCES = receiver_test.cpp
-sender_test_SOURCES = sender_test.cpp
 test_server_SOURCES = test_server.cpp
 data_client_test_SOURCES = data_client_test.cpp
 
@@ -26,19 +22,15 @@ LDADD = \
 
 check_SUCCESSES = \
   hbackend.done \
-  protocol.done \
   client.done \
   $(NULL)
 
 hbackend.done: ../src/hbackend
-protocol.done: receiver_test sender_test protocol_test
 client.done: data_client_test test_server
 
 EXTRA_DIST = \
   hbackend_test \
   hbackend.exp \
-  protocol_test \
-  protocol.exp \
   client_test \
   client.exp \
   $(NULL)

@@ -19,6 +19,7 @@ libhtools_la_SOURCES = \
   report.cpp \
   share.cpp \
   socket.cpp \
+  tlv.cpp \
   unzipreader.cpp \
   work_scheduler.cpp \
   zipwriter.cpp \

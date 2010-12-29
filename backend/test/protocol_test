@@ -1,6 +1,0 @@
-#!/bin/bash -e
-
-../receiver_test &
-sleep 1
-../sender_test
-wait

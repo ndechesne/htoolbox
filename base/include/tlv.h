@@ -22,6 +22,7 @@
 #include <ireaderwriter.h>
 
 namespace htools {
+namespace tlv {
 
 // Message max length = 65536
 
@@ -63,6 +64,7 @@ public:
     char        val[65536]);
 };
 
+}
 }
 
 #endif // _SENDER_H
