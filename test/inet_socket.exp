@@ -9,7 +9,7 @@ client connection socket #4
 client connected
 client2 path = '127.0.0.1:12345'
 '127.0.0.1': IP = 127.0.0.1
-client connection socket #6
+client connection socket #5
 client connected
 received 'This is my message'
 received 'Let us have another message'
