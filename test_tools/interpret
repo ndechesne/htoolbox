@@ -1,157 +1,54 @@
 # Parameters:
 #   1: a short name
 
-# Export
-#   1: the dir
-#   2: the complete name
+# Export the complete name
 
 case $1 in
   "as" )
-    export DIR="base"
     export NAME="asyncwriter"
     ;;
-  "be" )
-    export DIR="backend"
-    export NAME="hbackend"
-    ;;
-  "bf" )
-    export DIR="base"
-    export NAME="buffer"
-    ;;
-  "bzr" )
-    export DIR="lib"
-    export NAME="bzr_parser"
-    ;;
-  "cl" )
-    export DIR="lib"
-    export NAME="clients"
-    ;;
-  "cd" )
-    export DIR="lib"
-    export NAME="conditions"
-    ;;
   "cf" )
-    export DIR="base"
     export NAME="configuration"
     ;;
-  "cvs" )
-    export DIR="lib"
-    export NAME="cvs_parser"
-    ;;
-  "dc" )
-    export DIR="backend"
-    export NAME="client"
-    ;;
-  "dt" )
-    export DIR="lib"
-    export NAME="data"
-    ;;
-  "db" )
-    export DIR="lib"
-    export NAME="db"
-    ;;
   "fl" )
-    export DIR="base"
     export NAME="files"
     ;;
   "frw" )
-    export DIR="base"
     export NAME="filereaderwriter"
     ;;
-  "ft" )
-    export DIR="lib"
-    export NAME="filters"
-    ;;
-  "hb" | "hbackup" )
-    export DIR="cli"
-    export NAME="hbackup"
-    ;;
   "hh" )
-    export DIR="base"
     export NAME="hasher"
     ;;
-  "hw" | "hwbackup" )
-    export DIR="cli"
-    export NAME="hwbackup"
-    ;;
-  "in" )
-    export DIR="lib"
-    export NAME="interface"
-    ;;
   "is" )
-    export DIR="base"
     export NAME="inet_socket"
     ;;
-  "lk" )
-    export DIR="lib"
-    export NAME="lock"
-    ;;
   "lr" )
-    export DIR="base"
     export NAME="linereader"
     ;;
-  "ls" )
-    export DIR="lib"
-    export NAME="list"
-    ;;
   "ln" )
-    export DIR="base"
     export NAME="line"
     ;;
-  "ml" | "memleak" )
-    export DIR="cli"
-    export NAME="memleak"
-    ;;
-  "ow" )
-    export DIR="lib"
-    export NAME="owner"
-    ;;
-  "pa" )
-    export DIR="lib"
-    export NAME="parsers"
-    ;;
-  "pr" )
-    export DIR="backend"
-    export NAME="protocol"
-    ;;
-  "pt" )
-    export DIR="lib"
-    export NAME="paths"
-    ;;
   "rp" )
-    export DIR="base"
     export NAME="report"
     ;;
-  "svn" )
-    export DIR="lib"
-    export NAME="svn_parser"
-    ;;
   "tlv" )
-    export DIR="base"
     export NAME="tlv"
     ;;
   "us" )
-    export DIR="base"
     export NAME="unix_socket"
     ;;
   "ws" )
-    export DIR="base"
     export NAME="work_scheduler"
     ;;
   "wse" )
-    export DIR="base"
     export NAME="work_scheduler_extensive"
     ;;
   "zu" )
-    export DIR="base"
     export NAME="zip_unzip"
     ;;
   * )
-    export DIR="lib"
     export NAME="$1"
     ;;
 esac
 
-DIR="$WHERE/../$DIR"
-BASE="$WHERE/../base"
-LIB="$WHERE/../lib"
+DIR=$WHERE/..
