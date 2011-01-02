@@ -34,6 +34,7 @@ struct ServerData {
   size_t            hostname_len;
   uint16_t          port;
   int               listen_socket;
+  int               time_out;
   ServerData() : hostname(NULL) {}
   ~ServerData() { free(hostname); }
   int createSocket(
@@ -84,7 +85,7 @@ struct Socket::Private {
   int               conn_socket;
 };
 
-Socket::Socket(const char* hostname, int port) : _d(new Private) {
+Socket::Socket(const char* hostname, int port, int time_out) : _d(new Private) {
   _d->data = new ServerData;
   _d->master_data = _d->data;
   _d->data->hostname_len = strlen(hostname);
@@ -96,6 +97,7 @@ Socket::Socket(const char* hostname, int port) : _d(new Private) {
   }
   _d->data->port = static_cast<uint16_t>(port);
   _d->data->listen_socket = -1;
+  _d->data->time_out = time_out;
   _d->conn_socket = -1;
 }
 
@@ -137,6 +139,13 @@ int Socket::listen(int backlog) {
   int re_use = 1;
   ::setsockopt(_d->data->listen_socket, SOL_SOCKET, SO_REUSEADDR, &re_use,
     sizeof(int));
+  if (_d->data->time_out > 0) {
+    struct timeval tm = { _d->data->time_out, 0 };
+    ::setsockopt(_d->data->listen_socket, SOL_SOCKET, SO_RCVTIMEO, &tm,
+      sizeof(struct timeval));
+    ::setsockopt(_d->data->listen_socket, SOL_SOCKET, SO_SNDTIMEO, &tm,
+      sizeof(struct timeval));
+  }
   /* Use default values to bind and listen */
   if (::bind(_d->data->listen_socket, sock, sock_len)) {
     hlog_error("%s binding socket", strerror(errno));
@@ -164,6 +173,13 @@ int Socket::open() {
     }
     // Connect to server
     _d->conn_socket = ::socket(family, SOCK_STREAM, 0);
+    if (_d->data->time_out > 0) {
+      struct timeval tm = { _d->data->time_out, 0 };
+      ::setsockopt(_d->conn_socket, SOL_SOCKET, SO_RCVTIMEO, &tm,
+        sizeof(struct timeval));
+      ::setsockopt(_d->conn_socket, SOL_SOCKET, SO_SNDTIMEO, &tm,
+        sizeof(struct timeval));
+    }
     if (::connect(_d->conn_socket, sock, sock_len) < 0) {
       hlog_error("%s connecting", strerror(errno));
       return -1;

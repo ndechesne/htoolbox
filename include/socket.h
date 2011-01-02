@@ -28,7 +28,10 @@ class Socket : public IReaderWriter {
   Private* const  _d;
   const Socket& operator=(const Socket&);
 public:
-  Socket(const char* hostname_or_path, int port = 0); // port = 0 => UNIX socket
+  Socket(
+    const char* hostname_or_path,
+    int         port             = 0,   // port = 0 => UNIX socket
+    int         time_out         = 10); // in seconds, 0 for none
   Socket(const Socket&);
   ~Socket();
   int listen(int backlog);
