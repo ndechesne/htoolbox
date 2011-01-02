@@ -53,17 +53,13 @@ int Sender::write(uint8_t tag, const void* buffer, size_t len) {
     return -1;
   }
   ssize_t rc;
-  // Tag
-  rc = _fd.write(&tag, 1);
-  if (rc < 1) {
-    _failed = true;
-    return -1;
-  }
-  // Length
-  char len_str[8];
-  rc = sprintf(len_str, "%04x", len);
-  rc = _fd.write(len_str, rc);
-  if (rc < 1) {
+  // Tag and length
+  char tag_len[3];
+  tag_len[0] = tag;
+  tag_len[1] = static_cast<char>(len >> 8);
+  tag_len[2] = static_cast<char>(len);
+  rc = _fd.write(tag_len, sizeof(tag_len));
+  if (rc < 3) {
     _failed = true;
     return -1;
   }
@@ -99,26 +95,17 @@ Receiver::Type Receiver::receive(
     char*       val) {
   ssize_t rc;
   // Receive header first (TL)
-  rc = _fd.read(tag, 1);
-  if (rc < 1) {
+  char tag_len[3];
+  rc = _fd.read(tag_len, sizeof(tag_len));
+  if (rc < 3) {
     *tag = rc < 0;
     *len = errno;
-    strcpy(val, "receiving tag");
+    strcpy(val, "receiving tag and length");
     return Receiver::ERROR;
   }
-  char len_str[8];
-  rc = _fd.read(len_str, 4);
-  if (rc < 4) {
-    *len = errno;
-    strcpy(val, "receiving length");
-    return Receiver::ERROR;
-  }
-  len_str[4] = '\0';
-  if (sscanf(len_str, "%x", len) < 1) {
-    *len = errno;
-    strcpy(val, "decoding length");
-    return Receiver::ERROR;
-  }
+  *tag = tag_len[0];
+  *len = tag_len[1] << 8;
+  *len |= tag_len[2];
   // Receive value (V)
   size_t count = 0;
   while (count < *len) {
