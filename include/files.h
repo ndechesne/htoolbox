@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2010  Herve Fache
+     Copyright (C) 2006-2011  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -30,7 +30,7 @@ using namespace std;
 #include <sys/types.h>
 #include <fcntl.h>
 
-namespace htools {
+namespace htoolbox {
 
 class Path {
   struct Buffer {

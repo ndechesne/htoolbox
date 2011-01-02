@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2010  Herve Fache
+     Copyright (C) 2010-2011  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -19,12 +19,12 @@
 #ifndef _WORK_SCHEDULER_H
 #define _WORK_SCHEDULER_H
 
-namespace htools {
+namespace htoolbox {
 
 class WorkScheduler {
   struct         Private;
   Private* const _d;
-  WorkScheduler(const htools::WorkScheduler&);
+  WorkScheduler(const htoolbox::WorkScheduler&);
 public:
   typedef void* (*routine_f)(void* data, void* user);
   WorkScheduler(const char* name, Queue& in, Queue& out,

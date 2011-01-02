@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2010  Herve Fache
+     Copyright (C) 2006-2011  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -36,7 +36,7 @@ using namespace std;
 #include "zipwriter.h"
 #include "hasher.h"
 
-using namespace htools;
+using namespace htoolbox;
 
 static int parseList(Node *d, const char* cur_dir) {
   list<Node*>::iterator i = d->nodesList().begin();

@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2006-2010  Herve Fache
+     Copyright (C) 2006-2011  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -33,7 +33,7 @@ using namespace std;
 #include "report.h"
 #include "files.h"
 
-using namespace htools;
+using namespace htoolbox;
 
 Path::Path(Path& path) : _buffer(path._buffer) {
   ++_buffer->ref_cnt;

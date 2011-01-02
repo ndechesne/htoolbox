@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008-2010  Herve Fache
+     Copyright (C) 2008-2011  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -32,7 +32,7 @@ using namespace std;
 
 #include "configuration.h"
 
-using namespace htools;
+using namespace htoolbox;
 
 // To check occurrences
 class ConfigCounter {
@@ -124,7 +124,7 @@ void Config::Line::show(int level) const {
   hlog_verbose(format, lineNo(), " ", s.str().c_str());
 }
 
-class htools::Config::Item {
+class htoolbox::Config::Item {
   string            _keyword;
   unsigned int      _min_occurrences;
   unsigned int      _max_occurrences;

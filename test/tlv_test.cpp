@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2010  Herve Fache
+     Copyright (C) 2010-2011  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -31,7 +31,7 @@
 #include <socket.h>
 #include <tlv.h>
 
-using namespace htools;
+using namespace htoolbox;
 using namespace tlv;
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;

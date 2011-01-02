@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2010  Herve Fache
+     Copyright (C) 2010-2011  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -27,7 +27,7 @@
 #include "unzipreader.h"
 #include "hasher.h"
 
-using namespace htools;
+using namespace htoolbox;
 
 int main() {
   report.setLevel(regression);

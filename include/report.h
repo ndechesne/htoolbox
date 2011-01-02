@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008-2010  Herve Fache
+     Copyright (C) 2008-2011  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -23,7 +23,7 @@
 
 #include <stdlib.h>
 
-namespace htools {
+namespace htoolbox {
 
   //! Criticality levels
   enum Level {
@@ -99,55 +99,55 @@ namespace htools {
 }
 
 #define hlog_is_worth(l) \
-  ((l) <= htools::report.level())
+  ((l) <= htoolbox::report.level())
 
 
 #define hlog_alert(f, ...) \
-  hlog_generic(htools::alert,false,(f),##__VA_ARGS__)
+  hlog_generic(htoolbox::alert,false,(f),##__VA_ARGS__)
 
 #define hlog_error(f, ...) \
-  hlog_generic(htools::error,false,(f),##__VA_ARGS__)
+  hlog_generic(htoolbox::error,false,(f),##__VA_ARGS__)
 
 #define hlog_warning(f, ...) \
-  hlog_generic(htools::warning,false,(f),##__VA_ARGS__)
+  hlog_generic(htoolbox::warning,false,(f),##__VA_ARGS__)
 
 #define hlog_info(f, ...) \
-  hlog_generic(htools::info,false,(f),##__VA_ARGS__)
+  hlog_generic(htoolbox::info,false,(f),##__VA_ARGS__)
 
 #define hlog_verbose(f, ...) \
-  hlog_generic(htools::verbose,false,(f),##__VA_ARGS__)
+  hlog_generic(htoolbox::verbose,false,(f),##__VA_ARGS__)
 
 #define hlog_debug(f, ...) \
-  hlog_generic(htools::debug,false,(f),##__VA_ARGS__)
+  hlog_generic(htoolbox::debug,false,(f),##__VA_ARGS__)
 
 #define hlog_regression(f, ...) \
-  hlog_generic(htools::regression,false,(f),##__VA_ARGS__)
+  hlog_generic(htoolbox::regression,false,(f),##__VA_ARGS__)
 
 
 #define hlog_info_temp(f, ...) \
-  hlog_generic(htools::info,true,(f),##__VA_ARGS__)
+  hlog_generic(htoolbox::info,true,(f),##__VA_ARGS__)
 
 #define hlog_verbose_temp(f, ...) \
-  hlog_generic(htools::verbose,true,(f),##__VA_ARGS__)
+  hlog_generic(htoolbox::verbose,true,(f),##__VA_ARGS__)
 
 #define hlog_debug_temp(f, ...) \
-  hlog_generic(htools::debug,true,(f),##__VA_ARGS__)
+  hlog_generic(htoolbox::debug,true,(f),##__VA_ARGS__)
 
 
 #define hlog_generic(level, temp, format, ...) \
   hlog_is_worth(level) ? \
-    htools::report.log(__FILE__,__LINE__,(level),(temp),0,(format),##__VA_ARGS__) : 0
+    htoolbox::report.log(__FILE__,__LINE__,(level),(temp),0,(format),##__VA_ARGS__) : 0
 
 
 #define hlog_verbose_arrow(i, f, ...) \
-  hlog_generic_arrow(htools::verbose,(i),(f),##__VA_ARGS__)
+  hlog_generic_arrow(htoolbox::verbose,(i),(f),##__VA_ARGS__)
 
 #define hlog_debug_arrow(i, f, ...) \
-  hlog_generic_arrow(htools::debug,(i),(f),##__VA_ARGS__)
+  hlog_generic_arrow(htoolbox::debug,(i),(f),##__VA_ARGS__)
 
 
 #define hlog_generic_arrow(level, ident, format, ...) \
   hlog_is_worth(level) ? \
-    htools::report.log(__FILE__,__LINE__,(level),false,(ident),(format),##__VA_ARGS__) : 0
+    htoolbox::report.log(__FILE__,__LINE__,(level),false,(ident),(format),##__VA_ARGS__) : 0
 
 #endif  // _HREPORT_H

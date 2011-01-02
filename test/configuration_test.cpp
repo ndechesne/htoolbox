@@ -1,5 +1,5 @@
 /*
-     Copyright (C) 2008-2010  Herve Fache
+     Copyright (C) 2008-2011  Herve Fache
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License version 2 as
@@ -29,7 +29,7 @@ using namespace std;
 #include <report.h>
 #include "configuration.h"
 
-using namespace htools;
+using namespace htoolbox;
 
 class MyObject : public Config::Object {
   string _name;
