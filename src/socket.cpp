@@ -179,11 +179,13 @@ int Socket::close() {
   int rc = -1;
   if (_d->conn_socket == -1) {
     hlog_error("connection not open");
-  }
-  rc = ::close(_d->conn_socket);
-  _d->conn_socket = -1;
-  if (rc < 0) {
-    hlog_warning("%s", strerror(errno));
+    errno = EBADF;
+  } else {
+    rc = ::close(_d->conn_socket);
+    _d->conn_socket = -1;
+    if (rc < 0) {
+      hlog_warning("%s", strerror(errno));
+    }
   }
   return rc;
 }
