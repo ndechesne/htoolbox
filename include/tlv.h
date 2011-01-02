@@ -28,11 +28,12 @@ namespace tlv {
 
 class Sender {
   IReaderWriter&  _fd;
+  bool            _started;
   bool            _failed;
   Sender(const Sender&);
   const Sender& operator=(const Sender&);
 public:
-  Sender(IReaderWriter& fd) : _fd(fd), _failed(false) {}
+  Sender(IReaderWriter& fd) : _fd(fd), _started(false), _failed(false) {}
   // Start message
   int start();
   // Add data to message

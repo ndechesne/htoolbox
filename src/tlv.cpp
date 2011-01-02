@@ -37,12 +37,23 @@ enum {
 };
 
 int Sender::start() {
+  if (_started) {
+    errno = EBADF;
+    _failed = true;
+    return -1;
+  }
+  _started = true;
   int rc = write(0, START_CODE);
   _failed = rc < 0;
   return rc;
 }
 
 int Sender::write(uint8_t tag, const void* buffer, size_t len) {
+  if (! _started) {
+    errno = EBADF;
+    _failed = true;
+    return -1;
+  }
   const char* cbuffer = static_cast<const char*>(buffer);
   if ((len == 0) && (cbuffer != NULL)) {
     len = strlen(cbuffer);
@@ -86,7 +97,14 @@ int Sender::write(uint8_t tag, int32_t number) {
 }
 
 int Sender::end() {
-  return ((write(0, END_CODE) < 0) || _failed) ? -1 : 0;
+  if (! _started) {
+    errno = EBADF;
+    _failed = true;
+    return -1;
+  }
+  write(0, END_CODE);
+  _started = false;
+  return _failed ? -1 : 0;
 }
 
 Receiver::Type Receiver::receive(

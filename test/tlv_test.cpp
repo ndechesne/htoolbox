@@ -88,19 +88,19 @@ int main(void) {
 
   Sender sender(sock);
   if (sender.start() < 0) {
-    hlog_error("%s writing to socket", strerror(errno));
+    hlog_error("%s writing to socket (start)", strerror(errno));
     return 0;
   }
   if (sender.write(1, NULL, 0) < 0) {
-    hlog_error("%s writing to socket", strerror(errno));
+    hlog_error("%s writing to socket (empty)", strerror(errno));
     return 0;
   }
   if (sender.write(0x12, "I am not a stupid protocol!") < 0) {
-    hlog_error("%s writing to socket", strerror(errno));
+    hlog_error("%s writing to socket (string)", strerror(errno));
     return 0;
   }
   if (sender.end() < 0) {
-    hlog_error("%s writing to socket", strerror(errno));
+    hlog_error("%s writing to socket (end)", strerror(errno));
     return 0;
   }
 
