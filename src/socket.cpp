@@ -53,7 +53,8 @@ int ServerData::createSocket(
     sock_un.sun_family = *family;
     strcpy(sock_un.sun_path, hostname);
     *sock = reinterpret_cast<struct sockaddr*>(&sock_un);
-    *sock_len = sizeof(struct sockaddr_un);
+    *sock_len = reinterpret_cast<socklen_t>(reinterpret_cast<struct
+      sockaddr_un*>(0)->sun_path) + strlen(sock_un.sun_path);
   } else {
     // INET
     *family = AF_INET;
