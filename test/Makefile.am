@@ -34,21 +34,24 @@ work_scheduler_test_SOURCES = work_scheduler_test.cpp
 work_scheduler_extensive_test_SOURCES = work_scheduler_extensive_test.cpp
 zip_unzip_test_SOURCES = zip_unzip_test.cpp
 
-inet_socket_test.cpp: socket_test.cpp
+inet_socket_test.cpp: socket_test.cpp Makefile
 	cat $< \
 	| sed "s/@@FIRST@@/\"0.0.0.0\", 12345/" \
 	| sed "s/@@SECOND@@/\"localhost\", 12345/" \
 	| sed "s/@@THIRD@@/\"127.0.0.1\", 12345/" \
 	> $@
 
-unix_socket_test.cpp: socket_test.cpp
+unix_socket_test.cpp: socket_test.cpp Makefile
 	cat $< \
-	| sed "s/@@FIRST@@/\"socket\"/" \
-	| sed "s/@@SECOND@@/\"socket\"/" \
-	| sed "s/@@THIRD@@/\"socket\"/" \
+	| sed "s/@@FIRST@@/\"this_is_quite_a_long_socket\"/" \
+	| sed "s/@@SECOND@@/\"this_is_quite_a_long_socket\"/" \
+	| sed "s/@@THIRD@@/\"this_is_quite_a_long_socket\"/" \
 	> $@
 
 LDADD = ../src/libhtoolbox.la
+
+inet_socket.done: inet_socket_test.cpp
+unix_socket.done: unix_socket_test.cpp
 
 check_SUCCESSES = \
   configuration.done \

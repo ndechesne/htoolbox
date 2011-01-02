@@ -49,17 +49,20 @@ int ServerData::createSocket(
   if (port == 0) {
     // UNIX
     *family = AF_UNIX;
-    struct sockaddr_un sock_un;
-    sock_un.sun_family = *family;
-    strcpy(sock_un.sun_path, hostname);
-    *sock = reinterpret_cast<struct sockaddr*>(&sock_un);
     *sock_len = reinterpret_cast<socklen_t>(reinterpret_cast<struct
-      sockaddr_un*>(0)->sun_path) + strlen(sock_un.sun_path);
+      sockaddr_un*>(0)->sun_path) + strlen(hostname);
+    struct sockaddr_un* sock_un =
+      static_cast<struct sockaddr_un*>(malloc(*sock_len));
+    sock_un->sun_family = *family;
+    strcpy(sock_un->sun_path, hostname);
+    *sock = reinterpret_cast<struct sockaddr*>(sock_un);
   } else {
     // INET
     *family = AF_INET;
-    struct sockaddr_in sock_in;
-    sock_in.sin_family = *family;
+    *sock_len = sizeof(struct sockaddr_in);
+    struct sockaddr_in* sock_in =
+      static_cast<struct sockaddr_in*>(malloc(*sock_len));
+    sock_in->sin_family = *family;
     uint32_t ip;
     hostname[hostname_len] = '\0';
     int rc = Socket::getAddress(hostname, &ip);
@@ -68,10 +71,9 @@ int ServerData::createSocket(
       hlog_error("%s getting address", strerror(errno));
       return -1;
     }
-    sock_in.sin_addr.s_addr = ip;
-    sock_in.sin_port = htons(port);
-    *sock = reinterpret_cast<struct sockaddr*>(&sock_in);
-    *sock_len = sizeof(struct sockaddr_in);
+    sock_in->sin_addr.s_addr = ip;
+    sock_in->sin_port = htons(port);
+    *sock = reinterpret_cast<struct sockaddr*>(sock_in);
   }
   return 0;
 }
