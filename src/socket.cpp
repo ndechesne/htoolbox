@@ -227,7 +227,7 @@ ssize_t Socket::write(
     }
   } while (sent < static_cast<ssize_t>(length));
   if (sent > 0) {
-    hlog_debug("sent (total) %u", sent);
+    hlog_regression("sent (total) %u", sent);
   }
   return sent;
 }
