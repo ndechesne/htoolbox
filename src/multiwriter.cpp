@@ -90,7 +90,7 @@ ssize_t MultiWriter::write(const void* buffer, size_t size) {
   bool failed = false;
   list<Private::Child>::iterator it;
   for (it = _d->children.begin(); it != _d->children.end(); ++it) {
-    if (it->child->write(buffer, size) < 0) {
+    if (it->child->write(buffer, size) < static_cast<ssize_t>(size)) {
       failed = true;
       break;
     }
@@ -98,7 +98,7 @@ ssize_t MultiWriter::write(const void* buffer, size_t size) {
   if (failed) {
     return -1;
   }
-  return 0;
+  return size;
 }
 
 const char* MultiWriter::path() const {

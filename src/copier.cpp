@@ -101,13 +101,19 @@ int Copier::close() {
   return _d->failed ? -1 : 0;
 }
 
-ssize_t Copier::copyChunk() {
-  ssize_t size = _child->read(_d->buffer, _d->buffer_size);
+ssize_t Copier::stream(void* buffer, size_t max_size) {
+  if ((max_size == 0) || (max_size > _d->buffer_size)) {
+    max_size = _d->buffer_size;
+  }
+  ssize_t size = _child->read(_d->buffer, max_size);
   if (size <= 0) {
     if (size < 0) {
       _d->failed = true;
     }
     return size;
+  }
+  if (buffer != NULL) {
+    memcpy(buffer, _d->buffer, size);
   }
   if (_d->writer->write(_d->buffer, size) < 0) {
     _d->failed = true;
@@ -122,11 +128,24 @@ ssize_t Copier::copyChunk() {
   return _d->failed ? -1 : size;
 }
 
-int Copier::copy() {
-  ssize_t size;
+ssize_t Copier::read(void* buffer, size_t size) {
+  char* cbuffer = static_cast<char*>(buffer);
+  ssize_t rc;
+  size_t  count = 0;
   do {
     // size will be BUFFER_SIZE unless the end of file has been reached
-    size = copyChunk();
-  } while (size > 0);
-  return size;
+    rc = stream(cbuffer != NULL ? &cbuffer[count] : NULL, size - count);
+    if (rc < 0) {
+      return -1;
+    } else
+    if (rc == 0) {
+      break;
+    }
+    count += rc;
+  } while ((size == 0) || (count < size));
+  return count;
+}
+
+ssize_t Copier::Copier::write(const void* buffer, size_t size) {
+  return _d->writer->write(buffer, size);
 }

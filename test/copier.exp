@@ -1,0 +1,42 @@
+Create test input
+Hash = dbe3edb26120e31b25c5420fd54cb8203b4f6764
+
+stream() tests
+Size = 64000
+Hash = 48109d4183f4de3ab2dd56946b9570b71eedbe92
+Size = 32000
+Size = 32000
+Hash = 48109d4183f4de3ab2dd56946b9570b71eedbe92
+Size = 16000
+Size = 16000
+Size = 16000
+Size = 16000
+Hash = 48109d4183f4de3ab2dd56946b9570b71eedbe92
+Buffer hash = 48109d4183f4de3ab2dd56946b9570b71eedbe92
+Size = 64000
+Hash = 48109d4183f4de3ab2dd56946b9570b71eedbe92
+
+copy() tests
+Size = 640000
+Hash = dbe3edb26120e31b25c5420fd54cb8203b4f6764
+Size = 640000
+Hash = dbe3edb26120e31b25c5420fd54cb8203b4f6764
+Size = 64000
+Hash = 48109d4183f4de3ab2dd56946b9570b71eedbe92
+Size = 128000
+Hash = 9773a770da0e9f191728026dd2bdb0cb06b163d0
+Size = 256000
+Hash = 47a2057cdea8181d688b6e124681670b9c80b1b1
+Buffer hash = 47a2057cdea8181d688b6e124681670b9c80b1b1
+
+write() tests
+Size = 32000
+Size = 26
+Size = 64000
+Size = 26
+Size = 192000
+Size = 26
+Size = 352000
+Hash = 0e974e77def9be28fe539b9053d818a75c9efa13
+
+End of tests

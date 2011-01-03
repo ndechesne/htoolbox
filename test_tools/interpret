@@ -10,6 +10,9 @@ case $1 in
   "cf" )
     export NAME="configuration"
     ;;
+  "cp" )
+    export NAME="copier"
+    ;;
   "fl" )
     export NAME="files"
     ;;
@@ -24,9 +27,6 @@ case $1 in
     ;;
   "lr" )
     export NAME="linereader"
-    ;;
-  "ln" )
-    export NAME="line"
     ;;
   "rp" )
     export NAME="report"

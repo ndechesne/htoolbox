@@ -7,6 +7,7 @@ AM_CXXFLAGS = \
 check_PROGRAMS = \
   asyncwriter_test \
   configuration_test \
+  copier_test \
   filereaderwriter_test \
   files_test \
   hasher_test \
@@ -22,6 +23,7 @@ check_PROGRAMS = \
 
 asyncwriter_test_SOURCES = asyncwriter_test.cpp
 configuration_test_SOURCES = configuration_test.cpp
+copier_test_SOURCES = copier_test.cpp
 filereaderwriter_test_SOURCES = filereaderwriter_test.cpp
 files_test_SOURCES = files_test.cpp
 hasher_test_SOURCES = hasher_test.cpp
@@ -62,6 +64,7 @@ check_SUCCESSES = \
   linereaderwriter.done \
   hasher.done \
   asyncwriter.done \
+  copier.done \
   files.done \
   report.done \
   zip_unzip.done \

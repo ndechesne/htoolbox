@@ -34,10 +34,12 @@ public:
   void addDest(IReaderWriter* dest, bool delete_dest);
   int open();
   int close();
-  ssize_t read(void*, size_t) { return -1; }
-  ssize_t write(const void*, size_t) { return -1; }
-  ssize_t copyChunk();
-  int copy();
+  // Copies as it reads. Chunk size copy if size = 0 or size > chunk size
+  ssize_t stream(void* buffer = NULL, size_t max_size = 0);
+  // Copies as it reads. Full copy if size = 0
+  ssize_t read(void* buffer = NULL, size_t size = 0);
+  // Inserts data into destination
+  ssize_t write(const void*, size_t);
 };
 
 };
