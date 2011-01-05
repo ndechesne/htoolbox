@@ -29,21 +29,20 @@
 
 using namespace htoolbox;
 
-struct ServerData {
+struct SharedData {
   char*             hostname;
   size_t            hostname_len;
   uint16_t          port;
   int               listen_socket;
-  int               time_out;
-  ServerData() : hostname(NULL) {}
-  ~ServerData() { free(hostname); }
+  SharedData() : hostname(NULL) {}
+  ~SharedData() { free(hostname); }
   int createSocket(
     sa_family_t*      family,
     struct sockaddr**  sock_p,
     socklen_t*        sock_len) const;
 };
 
-int ServerData::createSocket(
+int SharedData::createSocket(
     sa_family_t*      family,
     struct sockaddr**  sock,
     socklen_t*        sock_len) const {
@@ -80,13 +79,21 @@ int ServerData::createSocket(
 }
 
 struct Socket::Private {
-  const ServerData* master_data;
-  ServerData*       data;
+  const SharedData* master_data;
+  SharedData*       data;
   int               conn_socket;
+  struct timeval    read_timeout;
+  struct timeval    write_timeout;
+  Private() : master_data(NULL), data(NULL), conn_socket(-1) {
+    read_timeout.tv_sec = 0;
+    read_timeout.tv_usec = 0;
+    write_timeout.tv_sec = 0;
+    write_timeout.tv_usec = 0;
+  }
 };
 
-Socket::Socket(const char* hostname, int port, int time_out) : _d(new Private) {
-  _d->data = new ServerData;
+Socket::Socket(const char* hostname, int port) : _d(new Private) {
+  _d->data = new SharedData;
   _d->master_data = _d->data;
   _d->data->hostname_len = strlen(hostname);
   if (port > 0) {
@@ -97,14 +104,13 @@ Socket::Socket(const char* hostname, int port, int time_out) : _d(new Private) {
   }
   _d->data->port = static_cast<uint16_t>(port);
   _d->data->listen_socket = -1;
-  _d->data->time_out = time_out;
   _d->conn_socket = -1;
 }
 
 Socket::Socket(const Socket& s) : IReaderWriter(), _d(new Private) {
   _d->master_data = s._d->master_data;
-  _d->data = NULL;
-  _d->conn_socket = -1;
+  _d->read_timeout = s._d->read_timeout;
+  _d->write_timeout = s._d->write_timeout;
 }
 
 Socket::~Socket() {
@@ -139,13 +145,6 @@ int Socket::listen(int backlog) {
   int re_use = 1;
   ::setsockopt(_d->data->listen_socket, SOL_SOCKET, SO_REUSEADDR, &re_use,
     sizeof(int));
-  if (_d->data->time_out > 0) {
-    struct timeval tm = { _d->data->time_out, 0 };
-    ::setsockopt(_d->data->listen_socket, SOL_SOCKET, SO_RCVTIMEO, &tm,
-      sizeof(struct timeval));
-    ::setsockopt(_d->data->listen_socket, SOL_SOCKET, SO_SNDTIMEO, &tm,
-      sizeof(struct timeval));
-  }
   /* Use default values to bind and listen */
   if (::bind(_d->data->listen_socket, sock, sock_len)) {
     hlog_error("%s binding socket", strerror(errno));
@@ -158,6 +157,33 @@ int Socket::listen(int backlog) {
   hlog_regression("fd = %d", _d->data->listen_socket);
   return _d->data->listen_socket;
 }
+
+int Socket::setReadTimeout(int seconds, int microseconds) {
+  _d->read_timeout.tv_sec = seconds;
+  _d->read_timeout.tv_usec = microseconds;
+  struct timeval& tv = _d->read_timeout;
+  if ((_d->conn_socket != -1) && (tv.tv_sec > 0) && (tv.tv_usec > 0)) {
+    if(::setsockopt(_d->data->listen_socket, SOL_SOCKET, SO_RCVTIMEO, &tv,
+        sizeof(struct timeval)) < 0) {
+      return -1;
+    }
+  }
+  return 0;
+}
+
+int Socket::setWriteTimeout(int seconds, int microseconds) {
+  _d->write_timeout.tv_sec = seconds;
+  _d->write_timeout.tv_usec = microseconds;
+  struct timeval& tv = _d->write_timeout;
+  if ((_d->conn_socket != -1) && (tv.tv_sec > 0) && (tv.tv_usec > 0)) {
+    if(::setsockopt(_d->data->listen_socket, SOL_SOCKET, SO_SNDTIMEO, &tv,
+        sizeof(struct timeval)) < 0) {
+      return -1;
+    }
+  }
+  return 0;
+}
+
 
 int Socket::open() {
   if (_d->conn_socket != -1) {
@@ -173,13 +199,6 @@ int Socket::open() {
     }
     // Connect to server
     _d->conn_socket = ::socket(family, SOCK_STREAM, 0);
-    if (_d->data->time_out > 0) {
-      struct timeval tm = { _d->data->time_out, 0 };
-      ::setsockopt(_d->conn_socket, SOL_SOCKET, SO_RCVTIMEO, &tm,
-        sizeof(struct timeval));
-      ::setsockopt(_d->conn_socket, SOL_SOCKET, SO_SNDTIMEO, &tm,
-        sizeof(struct timeval));
-    }
     if (::connect(_d->conn_socket, sock, sock_len) < 0) {
       hlog_error("%s connecting", strerror(errno));
       return -1;
@@ -188,6 +207,8 @@ int Socket::open() {
     // Accept connection from client
     _d->conn_socket = ::accept(_d->master_data->listen_socket, 0, 0);
   }
+  setReadTimeout(_d->read_timeout.tv_sec, _d->read_timeout.tv_usec);
+  setWriteTimeout(_d->write_timeout.tv_sec, _d->write_timeout.tv_usec);
   return _d->conn_socket;
 }
 
