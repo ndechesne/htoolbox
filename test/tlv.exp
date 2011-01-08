@@ -1,4 +1,5 @@
 receive: type=1 tag=0, len=0, value='start'
-receive: type=2 tag=1, len=0, value=''
-receive: type=2 tag=18, len=27, value='I am not a stupid protocol!'
+receive: type=3 tag=1, len=0, value=''
+receive: type=2 tag=0, len=0, value='check'
+receive: type=3 tag=18, len=27, value='I am not a stupid protocol!'
 receive: type=0 tag=0, len=0, value='end'

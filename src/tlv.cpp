@@ -32,18 +32,30 @@ using namespace tlv;
 
 enum {
   START_CODE = 0xbadc01d0,
-  END_CODE = 0xdeadbeef,
+  END_CODE   = 0xdeadbeef,
+  CHECK_CODE = 0xc01dbed5,
   MAX_LENGTH = 0xffff,
 };
 
 int Sender::start() {
   if (_started) {
-    errno = EBADF;
+    errno = EBUSY;
     _failed = true;
     return -1;
   }
   _started = true;
   int rc = write(0, START_CODE);
+  _failed = rc < 0;
+  return rc;
+}
+
+int Sender::check() {
+  if (! _started) {
+    errno = EBADF;
+    _failed = true;
+    return -1;
+  }
+  int rc = write(0, CHECK_CODE);
   _failed = rc < 0;
   return rc;
 }
@@ -148,6 +160,11 @@ Receiver::Type Receiver::receive(
       *len = 0;
       strcpy(val, "start");
       return Receiver::START;
+    } else
+    if (code == CHECK_CODE) {
+      *len = 0;
+      strcpy(val, "check");
+      return Receiver::CHECK;
     } else
     if (code == END_CODE) {
       *len = 0;

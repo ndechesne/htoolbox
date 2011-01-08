@@ -95,6 +95,10 @@ int main(void) {
     hlog_error("%s writing to socket (empty)", strerror(errno));
     return 0;
   }
+  if (sender.check() < 0) {
+    hlog_error("%s writing to socket (check)", strerror(errno));
+    return 0;
+  }
   if (sender.write(0x12, "I am not a stupid protocol!") < 0) {
     hlog_error("%s writing to socket (string)", strerror(errno));
     return 0;

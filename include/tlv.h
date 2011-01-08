@@ -36,6 +36,8 @@ public:
   Sender(IReaderWriter& fd) : _fd(fd), _started(false), _failed(false) {}
   // Start message
   int start();
+  // Check other end
+  int check();
   // Add data to message
   int write(uint8_t tag, const void* buffer, size_t len = 0);
   int write(uint8_t tag, int32_t number);
@@ -50,7 +52,8 @@ public:
     ERROR = -1,
     END   = 0,
     START = 1,
-    DATA  = 2,
+    CHECK = 2,
+    DATA  = 3,
   };
 private:
   IReaderWriter& _fd;
