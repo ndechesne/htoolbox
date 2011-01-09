@@ -34,6 +34,7 @@ public:
   Socket(const Socket&);
   ~Socket();
   int listen(int backlog);
+  int release();
   int setReadTimeout(int seconds, int microseconds = 0);
   int setWriteTimeout(int seconds, int microseconds = 0);
   int open();

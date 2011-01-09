@@ -147,5 +147,9 @@ int main() {
   pthread_join(thread1, NULL);
   pthread_join(thread2, NULL);
 
+  if (server.release() < 0) {
+    hlog_error("%s, failed to release listening socket", strerror(rc));
+  }
+
   return 0;
 }

@@ -68,7 +68,6 @@ int SharedData::createSocket(
     int rc = Socket::getAddress(hostname, &ip);
     hostname[hostname_len] = ':';
     if (rc < 0) {
-      hlog_error("%s getting address", strerror(errno));
       return -1;
     }
     sock_in->sin_addr.s_addr = ip;
@@ -122,11 +121,11 @@ Socket::~Socket() {
 
 int Socket::listen(int backlog) {
   if (_d->data == NULL) {
-    hlog_error("only the original object can listen");
+    errno = EPERM;
     return -1;
   }
   if (_d->data->listen_socket != -1) {
-    hlog_error("socket already open");
+    errno = EBUSY;
     return -1;
   }
   /* Create server socket */
@@ -139,23 +138,45 @@ int Socket::listen(int backlog) {
   /* We want quick restarts */
   _d->data->listen_socket = ::socket(family, SOCK_STREAM, 0);
   if (_d->data->listen_socket == -1) {
-    hlog_error("%s creating socket", strerror(errno));
     return -1;
   }
   int re_use = 1;
   ::setsockopt(_d->data->listen_socket, SOL_SOCKET, SO_REUSEADDR, &re_use,
     sizeof(int));
   /* Use default values to bind and listen */
+  if (family == AF_UNIX) {
+    unlink(_d->data->hostname);
+  }
   if (::bind(_d->data->listen_socket, sock, sock_len)) {
-    hlog_error("%s binding socket", strerror(errno));
     return -1;
   }
   if (::listen(_d->data->listen_socket, backlog)) {
-    hlog_error("%s listening", strerror(errno));
     return -1;
   }
   hlog_regression("fd = %d", _d->data->listen_socket);
   return _d->data->listen_socket;
+}
+
+int Socket::release() {
+  int rc = -1;
+  if (_d->data == NULL) {
+    errno = EPERM;
+  } else
+  if (_d->data->listen_socket == -1) {
+    errno = EBADF;
+  } else
+  {
+    rc = ::close(_d->data->listen_socket);
+    _d->data->listen_socket = -1;
+    if (rc < 0) {
+      hlog_warning("%s", strerror(errno));
+    }
+    // Port is 0 if socket family is AF_UNIX
+    if (_d->data->port == 0) {
+      unlink(_d->data->hostname);
+    }
+  }
+  return rc;
 }
 
 int Socket::setReadTimeout(int seconds, int microseconds) {
@@ -187,7 +208,7 @@ int Socket::setWriteTimeout(int seconds, int microseconds) {
 
 int Socket::open() {
   if (_d->conn_socket != -1) {
-    hlog_error("connection already open");
+    errno = EBUSY;
     return -1;
   }
   if ((_d->data != NULL) && (_d->data->listen_socket == -1)) {
@@ -200,22 +221,22 @@ int Socket::open() {
     // Connect to server
     _d->conn_socket = ::socket(family, SOCK_STREAM, 0);
     if (::connect(_d->conn_socket, sock, sock_len) < 0) {
-      hlog_error("%s connecting", strerror(errno));
-      return -1;
+      _d->conn_socket = -1;
     }
   } else {
     // Accept connection from client
     _d->conn_socket = ::accept(_d->master_data->listen_socket, 0, 0);
   }
-  setReadTimeout(_d->read_timeout.tv_sec, _d->read_timeout.tv_usec);
-  setWriteTimeout(_d->write_timeout.tv_sec, _d->write_timeout.tv_usec);
+  if (_d->conn_socket >= 0) {
+    setReadTimeout(_d->read_timeout.tv_sec, _d->read_timeout.tv_usec);
+    setWriteTimeout(_d->write_timeout.tv_sec, _d->write_timeout.tv_usec);
+  }
   return _d->conn_socket;
 }
 
 int Socket::close() {
   int rc = -1;
   if (_d->conn_socket == -1) {
-    hlog_error("connection not open");
     errno = EBADF;
   } else {
     rc = ::close(_d->conn_socket);
@@ -255,7 +276,6 @@ ssize_t Socket::write(
     } while (! conclusive);
     switch (size) {
       case -1:
-        hlog_error("%s sending", strerror(errno));
         return -1;
       case 0:
         hlog_error("socket closed");
@@ -276,7 +296,6 @@ ssize_t Socket::stream(void* buffer, size_t max_size) {
   while (size < 0) {
     size = ::recv(_d->conn_socket, buffer, max_size, 0);
     if ((size < 0) && (errno != EINTR)) {
-      hlog_error("%s reading", strerror(errno));
       break;
     }
   }
@@ -297,8 +316,6 @@ ssize_t Socket::read(
       if (rc < 0) {
         if (errno == EINTR) {
           continue;
-        } else {
-          hlog_error("%s reading", strerror(errno));
         }
       }
       break;
@@ -326,7 +343,6 @@ int Socket::getAddress(
   struct addrinfo* res;
   int errcode = getaddrinfo(hostname, NULL, &hints, &res);
   if (errcode != 0) {
-    hlog_alert("'%s': %s", hostname, gai_strerror(errcode));
     return -1;
   }
   struct sockaddr_in* addr = reinterpret_cast<struct sockaddr_in*>(res->ai_addr);
