@@ -56,8 +56,8 @@ struct WorkerThreadData {
 struct WorkSchedulerData {
   // Parameters
   char                      name[NAME_SIZE];
-  Queue&                    q_in;
-  Queue&                    q_out;
+  Queue*                    q_in;
+  Queue*                    q_out;
   WorkScheduler::routine_f  routine;
   void*                     user;
   size_t                    min_threads;
@@ -69,7 +69,7 @@ struct WorkSchedulerData {
   pthread_mutex_t           threads_list_lock;
   list<WorkerThreadData*>   busy_threads;
   list<WorkerThreadData*>   idle_threads;
-  WorkSchedulerData(Queue& in, Queue& out)
+  WorkSchedulerData(Queue* in, Queue* out)
   : q_in(in), q_out(out), time_out(600), running(false) {
     pthread_mutex_init(&threads_list_lock, NULL);
   }
@@ -81,7 +81,7 @@ struct WorkSchedulerData {
 struct WorkScheduler::Private {
   WorkSchedulerData         data;
   pthread_t                 monitor_tid;
-  Private(Queue& in, Queue& out) : data(in, out) {}
+  Private(Queue* in, Queue* out) : data(in, out) {}
 };
 
 static void* worker_thread(void* data) {
@@ -96,8 +96,8 @@ static void* worker_thread(void* data) {
     if (d->q_in.pop(&data_in) == 0) {
       // Work
       void* data_out = d->parent.routine(data_in, d->parent.user);
-      if (data_out != NULL) {
-        d->parent.q_out.push(data_out);
+      if ((d->parent.q_out != NULL) && (data_out != NULL)) {
+        d->parent.q_out->push(data_out);
       }
       // Put idle thread at the front of the list, if not shutting down
       pthread_mutex_lock(&d->parent.threads_list_lock);
@@ -125,7 +125,7 @@ static void* monitor_thread(void* data) {
   while (true) {
     hlog_regression("%s.loop enter", d->name);
     void* data_in;
-    if (d->q_in.pop(&data_in) == 0) {
+    if (d->q_in->pop(&data_in) == 0) {
       pthread_mutex_lock(&d->threads_list_lock);
       // Get first idle thread
       WorkerThreadData* wtd = NULL;
@@ -227,8 +227,8 @@ static void* monitor_thread(void* data) {
   return NULL;
 }
 
-WorkScheduler::WorkScheduler(const char* name, Queue& in, Queue& out,
-    routine_f routine, void* user)
+WorkScheduler::WorkScheduler(const char* name, routine_f routine, void* user,
+    Queue* in, Queue* out)
   : _d(new Private(in, out)) {
   strncpy(_d->data.name, name, NAME_SIZE);
   _d->data.name[NAME_SIZE - 1] ='\0';
@@ -260,7 +260,7 @@ int WorkScheduler::stop() {
   if (! _d->data.running) return -1;
 
   // Stop monitoring thread
-  _d->data.q_in.close();
+  _d->data.q_in->close();
   pthread_join(_d->monitor_tid, NULL);
   hlog_regression("%s.thread joined", _d->data.name);
   _d->data.running = false;

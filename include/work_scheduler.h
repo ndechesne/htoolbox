@@ -27,8 +27,8 @@ class WorkScheduler {
   WorkScheduler(const htoolbox::WorkScheduler&);
 public:
   typedef void* (*routine_f)(void* data, void* user);
-  WorkScheduler(const char* name, Queue& in, Queue& out,
-    routine_f routine, void* user);
+  WorkScheduler(const char* name, routine_f routine, void* user,
+    Queue* in, Queue* out);
   ~WorkScheduler();
   int start(size_t max_threads = 0, size_t min_threads = 0, time_t time_out = 600);
   int stop();

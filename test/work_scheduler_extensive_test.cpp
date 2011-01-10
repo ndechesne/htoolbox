@@ -72,18 +72,16 @@ int main(void) {
   Queue q_in("in");
   Queue q_int1("int1");
   Queue q_int2("int2");
-  Queue q_out("out");
   char user1[32] = "user1";
   char user2[32] = "user2";
   char user3[32] = "user3";
-  WorkScheduler ws1("sched1", q_in, q_int1, task1, user1);
-  WorkScheduler ws2("sched2", q_int1, q_int2, task2, user2);
-  WorkScheduler ws3("sched3", q_int2, q_out, task3, user3);
+  WorkScheduler ws1("sched1", task1, user1, &q_in, &q_int1);
+  WorkScheduler ws2("sched2", task2, user2, &q_int1, &q_int2);
+  WorkScheduler ws3("sched3", task3, user3, &q_int2, NULL);
 
   q_in.open();
   q_int1.open();
   q_int2.open();
-  q_out.open(MAX_LOOPS);
   if ((ws1.start(0, 0, 2) != 0) || (ws2.start(0, 0, 2) != 0) || (ws3.start(0, 0, 2) != 0)) {
     hlog_error("start failed");
   } else {
@@ -115,13 +113,6 @@ int main(void) {
     hlog_regression("ws3 %zu thread(s)", ws3.threads());
     ws3.stop();
     hlog_regression("ws3 stopped");
-    char* data_out;
-//     hlog_regression("out queue:");
-    q_out.close();
-    while (q_out.pop(reinterpret_cast<void**>(&data_out)) == 0) {
-//       hlog_regression("  '%s'", data_out);
-    }
-    q_out.wait();
   }
 
   return 0;
