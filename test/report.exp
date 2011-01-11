@@ -231,4 +231,8 @@ report.log-3
 report.log-4
 report.log-5
 
+Specific report
+ALERT! some message with a number 9
+message with a number 10
+
 End of tests

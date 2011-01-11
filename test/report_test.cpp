@@ -318,6 +318,13 @@ int main(void) {
   _unused = system("ls report.log*");
 
 
+  cout << endl << "Specific report" << endl;
+  Report my_report;
+  hlog_report(my_report, alert, "some message with a number %d", 9);
+  hlog_report(my_report, info, "message with a number %d", 10);
+  hlog_report(my_report, debug, "with a number %d", 11);
+
+
   cout << endl << "End of tests" << endl;
   return 0;
 }

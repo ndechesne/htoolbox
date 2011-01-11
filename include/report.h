@@ -40,10 +40,10 @@ namespace htoolbox {
 
   class Report {
     //! Current output criticality levels (default: info)
-    Level           _console_level;
-    Level           _file_level;
+    Level             _console_level;
+    Level             _file_level;
     struct Private;
-    Private* const  _d;
+    Private* const    _d;
     static size_t utf8_len(const char* s);
   public:
     Report();
@@ -80,16 +80,16 @@ namespace htoolbox {
     }
     // Add file name and lines to match to regression list
     void addRegressionCondition(
-      const char* file_name,
-      size_t      min_line = 0,
-      size_t      max_line = 0);
+      const char*     file_name,
+      size_t          min_line = 0,
+      size_t          max_line = 0);
     // Display message on standard output
     int log(
       const char*     file,
       size_t          line,
       Level           level,
       bool            temporary,  // erase this message with next one
-      size_t          ident,      // text identation
+      size_t          indent,      // text indentation
       const char*     format,
       ...) __attribute__ ((format (printf, 7, 8)));
   };
@@ -98,56 +98,59 @@ namespace htoolbox {
 
 }
 
+
+#define hlog_report_is_worth(r, l) \
+  ((l) <= (r).level())
+
+#define hlog_report(r, l, f, ...) \
+  hlog_report_is_worth((r), (l)) ? \
+     (r).log(__FILE__,__LINE__,(l),false,0,(f),##__VA_ARGS__) : 0
+
+
 #define hlog_is_worth(l) \
   ((l) <= htoolbox::report.level())
 
-
-#define hlog_alert(f, ...) \
-  hlog_generic(htoolbox::alert,false,(f),##__VA_ARGS__)
-
-#define hlog_error(f, ...) \
-  hlog_generic(htoolbox::error,false,(f),##__VA_ARGS__)
-
-#define hlog_warning(f, ...) \
-  hlog_generic(htoolbox::warning,false,(f),##__VA_ARGS__)
-
-#define hlog_info(f, ...) \
-  hlog_generic(htoolbox::info,false,(f),##__VA_ARGS__)
-
-#define hlog_verbose(f, ...) \
-  hlog_generic(htoolbox::verbose,false,(f),##__VA_ARGS__)
-
-#define hlog_debug(f, ...) \
-  hlog_generic(htoolbox::debug,false,(f),##__VA_ARGS__)
-
-#define hlog_regression(f, ...) \
-  hlog_generic(htoolbox::regression,false,(f),##__VA_ARGS__)
+#define hlog_generic(l, t, i, f, ...) \
+  hlog_is_worth(l) ? \
+    htoolbox::report.log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__) : 0
 
 
-#define hlog_info_temp(f, ...) \
-  hlog_generic(htoolbox::info,true,(f),##__VA_ARGS__)
+#define hlog_alert(format, ...) \
+  hlog_generic(htoolbox::alert,false,0,(format),##__VA_ARGS__)
 
-#define hlog_verbose_temp(f, ...) \
-  hlog_generic(htoolbox::verbose,true,(f),##__VA_ARGS__)
+#define hlog_error(format, ...) \
+  hlog_generic(htoolbox::error,false,0,(format),##__VA_ARGS__)
 
-#define hlog_debug_temp(f, ...) \
-  hlog_generic(htoolbox::debug,true,(f),##__VA_ARGS__)
+#define hlog_warning(format, ...) \
+  hlog_generic(htoolbox::warning,false,0,(format),##__VA_ARGS__)
+
+#define hlog_info(format, ...) \
+  hlog_generic(htoolbox::info,false,0,(format),##__VA_ARGS__)
+
+#define hlog_verbose(format, ...) \
+  hlog_generic(htoolbox::verbose,false,0,(format),##__VA_ARGS__)
+
+#define hlog_debug(format, ...) \
+  hlog_generic(htoolbox::debug,false,0,(format),##__VA_ARGS__)
+
+#define hlog_regression(format, ...) \
+  hlog_generic(htoolbox::regression,false,0,(format),##__VA_ARGS__)
 
 
-#define hlog_generic(level, temp, format, ...) \
-  hlog_is_worth(level) ? \
-    htoolbox::report.log(__FILE__,__LINE__,(level),(temp),0,(format),##__VA_ARGS__) : 0
+#define hlog_info_temp(format, ...) \
+  hlog_generic(htoolbox::info,true,0,(format),##__VA_ARGS__)
+
+#define hlog_verbose_temp(format, ...) \
+  hlog_generic(htoolbox::verbose,true,0,(format),##__VA_ARGS__)
+
+#define hlog_debug_temp(format, ...) \
+  hlog_generic(htoolbox::debug,true,0,(format),##__VA_ARGS__)
 
 
-#define hlog_verbose_arrow(i, f, ...) \
-  hlog_generic_arrow(htoolbox::verbose,(i),(f),##__VA_ARGS__)
+#define hlog_verbose_arrow(indent, format, ...) \
+  hlog_generic(htoolbox::verbose,false,(indent),(format),##__VA_ARGS__)
 
-#define hlog_debug_arrow(i, f, ...) \
-  hlog_generic_arrow(htoolbox::debug,(i),(f),##__VA_ARGS__)
-
-
-#define hlog_generic_arrow(level, ident, format, ...) \
-  hlog_is_worth(level) ? \
-    htoolbox::report.log(__FILE__,__LINE__,(level),false,(ident),(format),##__VA_ARGS__) : 0
+#define hlog_debug_arrow(indent, format, ...) \
+  hlog_generic(htoolbox::debug,false,(indent),(format),##__VA_ARGS__)
 
 #endif  // _HREPORT_H
