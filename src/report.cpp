@@ -67,17 +67,9 @@ struct RegressionCondition {
 
 struct Report::Private {
   pthread_mutex_t mutex;
-  size_t          size_to_overwrite;
-  bool            console_log;
-  bool            file_log;
-  string          file_name;
-  size_t          max_lines;
-  size_t          max_files;
-  FILE*           fd;
-  size_t          lines;
+  list<IOutput*>  children;
   list<RegressionCondition> reg_cond;
-  Private() : size_to_overwrite(0), console_log(true), file_log(false),
-      max_lines(0), max_files(0), fd(NULL) {
+  Private() {
     pthread_mutex_init(&mutex, NULL);
   }
   int lock() {
@@ -85,275 +77,6 @@ struct Report::Private {
   }
   int unlock() {
     return pthread_mutex_unlock(&mutex);
-  }
-  int checkRotate(bool init = false) {
-    bool need_open = false;
-    // check file still exists and size
-    struct stat stat_buf;
-    if (stat(file_name.c_str(), &stat_buf) < 0) {
-      if (file_log) {
-        fclose(fd);
-      }
-      need_open = true;
-    } else
-    if (init) {
-      if (stat_buf.st_size != 0) {
-        rotate();
-      }
-      need_open = true;
-    } else
-    if ((max_lines != 0) && (lines >= max_lines)) {
-      fclose(fd);
-      need_open = true;
-      rotate();
-    }
-    // re-open file
-    if (need_open) {
-      fd = fopen(file_name.c_str(), "w");
-      lines = 0;
-    }
-    return (fd == NULL) ? -1 : 0;
-  }
-  int zip(char* name, size_t length) {
-    FileReaderWriter fr(name, false);
-    sprintf(&name[length], ".gz");
-    FileReaderWriter fw(name, true);
-    ZipWriter zw(&fw, false, 5);
-    AsyncWriter aw(&zw, false);
-    bool failed = false;
-    if (fr.open() < 0) {
-      failed = true;
-    } else {
-      if (aw.open() < 0) {
-        failed = true;
-      } else {
-        // Copy
-        enum { BUFFER_SIZE = 102400 };  // Too big and we end up wasting time
-        char buffer1[BUFFER_SIZE];      // odd buffer
-        char buffer2[BUFFER_SIZE];      // even buffer
-        char* buffer = buffer1;         // currently unused buffer
-        ssize_t size;                   // Size actually read at loop begining
-        do {
-          // size will be BUFFER_SIZE unless the end of file has been reached
-          size = fr.read(buffer, BUFFER_SIZE);
-          if (size <= 0) {
-            if (size < 0) {
-              failed = true;
-            }
-            break;
-          }
-          if (aw.write(buffer, size) < 0) {
-            failed = true;
-            break;
-          }
-          // Swap unused buffers
-          if (buffer == buffer1) {
-            buffer = buffer2;
-          } else {
-            buffer = buffer1;
-          }
-        } while (size == BUFFER_SIZE);
-        if (aw.close() < 0) {
-          failed = true;
-        }
-      }
-      if (fr.close() < 0) {
-        failed = true;
-      }
-    }
-    if (failed) {
-      ::remove(fw.path());
-      return -1;
-    } else {
-      ::remove(fr.path());
-      return 0;
-    }
-  }
-  int rotate() {
-    int rc = 0;
-    /* Max size for: file_name-N.gz, where N can be up to 10 digits (32 bits) */
-    size_t len = file_name.length();
-    char name[PATH_MAX];
-    char new_name[PATH_MAX];
-    strcpy(name, file_name.c_str());
-    strcpy(new_name, file_name.c_str());
-    /* Loop over potential files */
-    size_t i = max_files;
-    do {
-      // Complete name
-      int num_chars;
-      if (i != 0) {
-        num_chars = sprintf(&name[len], "-%zu", i);
-      } else {
-        name[len] = '\0';
-        num_chars = 0;
-      }
-      const char* extensions[] = { "", ".gz", NULL };
-      int no = Node::findExtension(name, extensions, len + num_chars);
-      /* File found */
-      if (no >= 0) {
-        if (i == max_files) {
-          remove(name);
-        } else {
-          num_chars = sprintf(&new_name[len], "-%zu", i + 1);
-          if (no > 0) {
-            sprintf(&new_name[len + num_chars], ".gz");
-          }
-          if (rename(name, new_name)) {
-            rc = -1;
-            break;
-          }
-#if 0
-          if (no == 0) {
-            /* zip the new file */
-            zip(new_name, len + num_chars);
-          }
-#endif
-        }
-      }
-    } while (i-- != 0);
-    return rc;
-  }
-  int consoleLog(
-      FILE*           fd,
-      const char*     file,
-      size_t          line,
-      Level           level,
-      bool            temporary,
-      size_t          ident,
-      const char*     format,
-      va_list*        args) {
-    (void) file;
-    (void) line;
-    char buffer[1024];
-    size_t offset = 0;
-    // prefix
-    switch (level) {
-      case alert:
-        offset += sprintf(&buffer[offset], "ALERT! ");
-        break;
-      case error:
-        offset += sprintf(&buffer[offset], "Error: ");
-        break;
-      case warning:
-        offset += sprintf(&buffer[offset], "Warning: ");
-        break;
-      case verbose:
-      case debug:
-        // add arrow
-        if (ident > 0) {
-          /* " --n--> " */
-          buffer[offset++] = ' ';
-          for (size_t i = 0; i < ident; ++i) {
-            buffer[offset++] = '-';
-          }
-          buffer[offset++] = '>';
-          buffer[offset++] = ' ';
-        }
-        break;
-      case regression:
-        break;
-      default:
-        ;
-    }
-    // message
-    offset += vsnprintf(&buffer[offset], sizeof(buffer) - offset, format, *args);
-    size_t buffer_size = sizeof(buffer) - 1;
-    /* offset is what _would_ have been written, had there been enough space */
-    if (offset >= buffer_size) {
-      const char ending[] = "... [truncated]";
-      const size_t ending_length = sizeof(ending) - 1;
-      strcpy(&buffer[buffer_size - ending_length], ending);
-      offset = buffer_size;
-    }
-    buffer[buffer_size] = '\0';
-    // compute UTF-8 string length
-    size_t size = 0;
-    if (temporary || (size_to_overwrite != 0)) {
-      size = utf8_len(buffer);
-    }
-    // if previous length stored, overwrite end of previous line
-    if ((size_to_overwrite != 0) && (size_to_overwrite > size)) {
-      size_t diff = size_to_overwrite - size;
-      if (diff > (buffer_size - offset)) {
-        diff = buffer_size - offset;
-      }
-      memset(&buffer[offset], ' ', diff);
-      offset += diff;
-    }
-    // print
-    fwrite(buffer, offset, 1, fd);
-    // end
-    if (temporary) {
-      fprintf(fd, "\r");
-    } else {
-      fprintf(fd, "\n");
-    }
-    fflush(fd);
-    // if temp, store length (should be UTF-8 length...)
-    if (temporary) {
-      size_to_overwrite = size;
-    } else {
-      size_to_overwrite = 0;
-    }
-    return static_cast<int>(offset);
-  }
-  int fileLog(
-      FILE*           fd,
-      const char*     file,
-      size_t          line,
-      Level           level,
-      bool            temporary,
-      size_t          ident,
-      const char*     format,
-      va_list*        args) {
-    (void) ident;
-    if (temporary) {
-      return 0;
-    }
-    if (checkRotate() < 0) {
-      return -1;
-    }
-    int rc = 0;
-    // time
-    time_t epoch = time(NULL);
-    struct tm date;
-    localtime_r(&epoch, &date); // voluntarily ignore error case
-    rc += fprintf(fd, "%04d-%02d-%02d %02d:%02d:%02d ", date.tm_year + 1900,
-      date.tm_mon + 1, date.tm_mday, date.tm_hour, date.tm_min, date.tm_sec);
-    // level
-    switch (level) {
-      case alert:
-        rc += fprintf(fd, "ALERT ");
-        break;
-      case error:
-        rc += fprintf(fd, "ERROR ");
-        break;
-      case warning:
-        rc += fprintf(fd, "WARN  ");
-        break;
-      case info:
-        rc += fprintf(fd, "INFO  ");
-        break;
-      case verbose:
-        rc += fprintf(fd, "VERB  ");
-        break;
-      case debug:
-        rc += fprintf(fd, "DEBUG ");
-        break;
-      case regression:
-        rc += fprintf(fd, "REGR  ");
-        break;
-    }
-    // location
-    rc += fprintf(fd, "%s:%zd ", file, line);
-    // message
-    rc += vfprintf(fd, format, *args);
-    // end
-    rc += fprintf(fd, "\n");
-    fflush(fd);
-    ++lines;
-    return rc;
   }
 };
 
@@ -368,10 +91,17 @@ size_t Report::utf8_len(const char* s) {
   return size;
 }
 
-Report::Report() : _console_level(info), _file_level(info), _d(new Private) {}
+Report::Report() : _d(new Private) {
+  _console.setLevel(info);
+  _console.open();
+  notify();
+}
 
 Report::~Report() {
-  stopFileLog();
+  for (list<IOutput*>::iterator it = _d->children.begin();
+      it != _d->children.end(); ++it) {
+    (*it)->registerObserver(NULL);
+  }
   delete _d;
 }
 
@@ -427,33 +157,43 @@ int Report::stringToLevel(const char* str, Level* level) {
 }
 
 void Report::startConsoleLog() {
-  _d->console_log = true;
+  _console.open();
 }
 
 void Report::stopConsoleLog() {
-  _d->console_log = false;
+  _console.close();
 }
 
-int Report::startFileLog(const char* name, size_t max_lines, size_t max_files) {
-  stopFileLog();
-  _d->file_name = name;
-  _d->max_lines = max_lines;
-  _d->max_files = max_files;
-  _d->lines = 0;
-  if (_d->checkRotate(true) < 0) {
-    hlog_error("%s creating log file: '%s'", strerror(errno),
-      _d->file_name.c_str());
-    return -1;
-  }
-  _d->file_log = true;
-  return 0;
+void Report::add(IOutput* output) {
+  _d->children.push_back(output);
+  output-> registerObserver(this);
+  notify();
 }
 
-void Report::stopFileLog() {
-  if (_d->file_log) {
-    _d->file_log = false;
-    fclose(_d->fd);
+void Report::remove(IOutput* output) {
+  output-> registerObserver(NULL);
+  _d->children.remove(output);
+  notify();
+}
+
+void Report::notify() {
+  Level level = _console.level();
+  for (list<IOutput*>::const_iterator it = _d->children.begin();
+      it != _d->children.end(); ++it) {
+    if ((*it)->isOpen() && ((*it)->level() > level)) {
+      level = (*it)->level();
+    }
   }
+  _level = level;
+}
+
+void Report::setLevel(Level level) {
+  _console.setLevel(level);
+  for (list<IOutput*>::iterator it = _d->children.begin();
+      it != _d->children.end(); ++it) {
+    (*it)->setLevel(level);
+  }
+  _level = level;
 }
 
 void Report::addRegressionCondition(
@@ -494,15 +234,335 @@ int Report::log(
   // lock
   _d->lock();
   int rc = 0;
-  if (_d->console_log && (level <= _console_level)) {
-    FILE* fd = (level <= warning) ? stderr : stdout;
-    rc = _d->consoleLog(fd, file, line, level, temp, ident, format, &ap);
+  if (_console.isOpen() && (level <= _console.level())) {
+    rc = _console.log(file, line, level, temp, ident, format, &ap);
   }
-  if (_d->file_log && (level <= _file_level)) {
-    rc = _d->fileLog(_d->fd, file, line, level, temp, ident, format, &ap);
+  for (list<IOutput*>::iterator it = _d->children.begin();
+      it != _d->children.end(); ++it) {
+    if ((*it)->isOpen() && (level <= (*it)->level())) {
+      (*it)->log(file, line, level, temp, ident, format, &ap);
+    }
   }
   // unlock
   _d->unlock();
   va_end(ap);
+  return rc;
+}
+
+int Report::ConsoleOutput::log(
+    const char*     file,
+    size_t          line,
+    Level           level,
+    bool            temporary,
+    size_t          ident,
+    const char*     format,
+    va_list*        args) {
+  (void) file;
+  (void) line;
+  FILE* fd = (level <= warning) ? stderr : stdout;
+  char buffer[1024];
+  size_t offset = 0;
+  // prefix
+  switch (level) {
+    case alert:
+      offset += sprintf(&buffer[offset], "ALERT! ");
+      break;
+    case error:
+      offset += sprintf(&buffer[offset], "Error: ");
+      break;
+    case warning:
+      offset += sprintf(&buffer[offset], "Warning: ");
+      break;
+    case verbose:
+    case debug:
+      // add arrow
+      if (ident > 0) {
+        /* " --n--> " */
+        buffer[offset++] = ' ';
+        for (size_t i = 0; i < ident; ++i) {
+          buffer[offset++] = '-';
+        }
+        buffer[offset++] = '>';
+        buffer[offset++] = ' ';
+      }
+      break;
+    case regression:
+      break;
+    default:
+      ;
+  }
+  // message
+  offset += vsnprintf(&buffer[offset], sizeof(buffer) - offset, format, *args);
+  size_t buffer_size = sizeof(buffer) - 1;
+  /* offset is what _would_ have been written, had there been enough space */
+  if (offset >= buffer_size) {
+    const char ending[] = "... [truncated]";
+    const size_t ending_length = sizeof(ending) - 1;
+    strcpy(&buffer[buffer_size - ending_length], ending);
+    offset = buffer_size;
+  }
+  buffer[buffer_size] = '\0';
+  // compute UTF-8 string length
+  size_t size = 0;
+  if (temporary || (_size_to_overwrite != 0)) {
+    size = utf8_len(buffer);
+  }
+  // if previous length stored, overwrite end of previous line
+  if ((_size_to_overwrite != 0) && (_size_to_overwrite > size)) {
+    size_t diff = _size_to_overwrite - size;
+    if (diff > (buffer_size - offset)) {
+      diff = buffer_size - offset;
+    }
+    memset(&buffer[offset], ' ', diff);
+    offset += diff;
+  }
+  // print
+  fwrite(buffer, offset, 1, fd);
+  // end
+  if (temporary) {
+    fprintf(fd, "\r");
+  } else {
+    fprintf(fd, "\n");
+  }
+  fflush(fd);
+  // if temp, store length (should be UTF-8 length...)
+  if (temporary) {
+    _size_to_overwrite = size;
+  } else {
+    _size_to_overwrite = 0;
+  }
+  return static_cast<ssize_t>(offset);
+}
+
+struct Report::FileOutput::Private {
+  FileOutput&     parent;
+  FILE*           fd;
+  char*           name;
+  size_t          max_lines;
+  size_t          max_files;
+  size_t          lines;
+  Private(FileOutput& p) : parent(p), fd(NULL) {}
+
+  int checkRotate(bool init = false) {
+    // check file still exists and size
+    struct stat stat_buf;
+    if (stat(name, &stat_buf) < 0) {
+      if (parent.isOpen()) {
+        parent.close();
+      }
+    } else
+    if (init) {
+      if (stat_buf.st_size != 0) {
+        rotate();
+      }
+    } else
+    if ((max_lines != 0) && (lines >= max_lines)) {
+      parent.close();
+      rotate();
+    }
+    // re-open file
+    if (! parent.isOpen()) {
+      fd = fopen(name, "w");
+      lines = 0;
+    }
+    return (fd == NULL) ? -1 : 0;
+  }
+
+  int zip(char* name, size_t length) {
+    FileReaderWriter fr(name, false);
+    sprintf(&name[length], ".gz");
+    FileReaderWriter fw(name, true);
+    ZipWriter zw(&fw, false, 5);
+    AsyncWriter aw(&zw, false);
+    bool failed = false;
+    if (fr.open() < 0) {
+      failed = true;
+    } else {
+      if (aw.open() < 0) {
+        failed = true;
+      } else {
+        // Copy
+        enum { BUFFER_SIZE = 102400 };  // Too big and we end up wasting time
+        char buffer1[BUFFER_SIZE];      // odd buffer
+        char buffer2[BUFFER_SIZE];      // even buffer
+        char* buffer = buffer1;         // currently unused buffer
+        ssize_t size;                   // Size actually read at loop begining
+        do {
+          // size will be BUFFER_SIZE unless the end of file has been reached
+          size = fr.read(buffer, BUFFER_SIZE);
+          if (size <= 0) {
+            if (size < 0) {
+              failed = true;
+            }
+            break;
+          }
+          if (aw.write(buffer, size) < 0) {
+            failed = true;
+            break;
+          }
+          // Swap unused buffers
+          if (buffer == buffer1) {
+            buffer = buffer2;
+          } else {
+            buffer = buffer1;
+          }
+        } while (size == BUFFER_SIZE);
+        if (aw.close() < 0) {
+          failed = true;
+        }
+      }
+      if (fr.close() < 0) {
+        failed = true;
+      }
+    }
+    if (failed) {
+      ::remove(fw.path());
+      return -1;
+    } else {
+      ::remove(fr.path());
+      return 0;
+    }
+  }
+
+  int rotate() {
+    int rc = 0;
+    /* Max size for: file_name-N.gz, where N can be up to 10 digits (32 bits) */
+    size_t len = strlen(name);
+    char old_name[PATH_MAX];
+    char new_name[PATH_MAX];
+    strcpy(old_name, name);
+    strcpy(new_name, name);
+    /* Loop over potential files */
+    size_t i = max_files;
+    do {
+      // Complete name
+      int num_chars;
+      if (i != 0) {
+        num_chars = sprintf(&old_name[len], "-%zu", i);
+      } else {
+        old_name[len] = '\0';
+        num_chars = 0;
+      }
+      const char* extensions[] = { "", ".gz", NULL };
+      int no = Node::findExtension(old_name, extensions, len + num_chars);
+      /* File found */
+      if (no >= 0) {
+        if (i == max_files) {
+          ::remove(old_name);
+        } else {
+          num_chars = sprintf(&new_name[len], "-%zu", i + 1);
+          if (no > 0) {
+            sprintf(&new_name[len + num_chars], ".gz");
+          }
+          if (rename(old_name, new_name)) {
+            rc = -1;
+            break;
+          }
+#if 0
+          if (no == 0) {
+            /* zip the new file */
+            zip(new_name, len + num_chars);
+          }
+#endif
+        }
+      }
+    } while (i-- != 0);
+    return rc;
+  }
+};
+
+Report::FileOutput::FileOutput(
+    const char*     name,
+    size_t          max_lines,
+    size_t          max_files) : _d(new Private(*this)) {
+  _d->name = strdup(name);
+  _d->max_lines = max_lines;
+  _d->max_files = max_files;
+}
+
+Report::FileOutput::~FileOutput() {
+  close();
+  free(_d->name);
+  delete _d;
+}
+
+int Report::FileOutput::open() {
+  _d->lines = 0;
+  if (_d->checkRotate(true) < 0) {
+    hlog_error("%s creating log file: '%s'", strerror(errno), _d->name);
+    return -1;
+  }
+  return _d->fd != NULL ? 0 : -1;
+}
+
+int Report::FileOutput::close() {
+  int rc = -1;
+  if (_d->fd != NULL) {
+    rc = fclose(_d->fd);
+    _d->fd = NULL;
+  } else {
+    errno = EBADF;
+  }
+  return rc;
+}
+
+bool Report::FileOutput::isOpen() const {
+  return _d->fd != NULL;
+}
+
+ssize_t Report::FileOutput::log(
+    const char*     file,
+    size_t          line,
+    Level           level,
+    bool            temporary,
+    size_t          ident,
+    const char*     format,
+    va_list*        args) {
+  (void) ident;
+  if (temporary) {
+    return 0;
+  }
+  if (_d->checkRotate() < 0) {
+    return -1;
+  }
+  ssize_t rc = 0;
+  // time
+  time_t epoch = time(NULL);
+  struct tm date;
+  localtime_r(&epoch, &date); // voluntarily ignore error case
+  rc += fprintf(_d->fd, "%04d-%02d-%02d %02d:%02d:%02d ", date.tm_year + 1900,
+    date.tm_mon + 1, date.tm_mday, date.tm_hour, date.tm_min, date.tm_sec);
+  // level
+  switch (level) {
+    case alert:
+      rc += fprintf(_d->fd, "ALERT ");
+      break;
+    case error:
+      rc += fprintf(_d->fd, "ERROR ");
+      break;
+    case warning:
+      rc += fprintf(_d->fd, "WARN  ");
+      break;
+    case info:
+      rc += fprintf(_d->fd, "INFO  ");
+      break;
+    case verbose:
+      rc += fprintf(_d->fd, "VERB  ");
+      break;
+    case debug:
+      rc += fprintf(_d->fd, "DEBUG ");
+      break;
+    case regression:
+      rc += fprintf(_d->fd, "REGR  ");
+      break;
+  }
+  // location
+  rc += fprintf(_d->fd, "%s:%zd ", file, line);
+  // message
+  rc += vfprintf(_d->fd, format, *args);
+  // end
+  rc += fprintf(_d->fd, "\n");
+  fflush(_d->fd);
+  ++_d->lines;
   return rc;
 }

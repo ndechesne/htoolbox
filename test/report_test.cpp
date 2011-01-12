@@ -17,6 +17,9 @@
 */
 
 #include "stdlib.h" // for system
+#include "stdio.h"
+#include "string.h"
+#include "errno.h"
 #include <iostream>
 
 using namespace std;
@@ -267,7 +270,12 @@ int main(void) {
 
 
   cout << endl << "Log to file" << endl;
-  report.startFileLog("report.log", 1, 100);
+  Report::FileOutput log_file("report.log", 1, 5);
+  if (log_file.open() < 0) {
+    hlog_error("%s opening log file", strerror(errno));
+    return 0;
+  }
+  report.add(&log_file);
   report.stopConsoleLog();
   report.setLevel(debug);
   hlog_alert("message: %s", "alert");
@@ -281,39 +289,43 @@ int main(void) {
   hlog_verbose_temp("temporary message: %s", "verbose");
   hlog_debug_temp("temporary message: %s", "debug");
   hlog_info_temp("%s", "");
+  log_file.close();
 
   cout << endl << "Error logging to file" << endl;
-  report.startFileLog("missing/report.log");
+  Report::FileOutput missing_log_file("missing/report.log");
   report.startConsoleLog();
-  report.startFileLog("missing/report.log");
+  missing_log_file.open();
   report.stopConsoleLog();
-  report.stopFileLog();
-  report.stopFileLog();
 
 
   cout << endl << "Rotate file" << endl;
   int _unused;
   show_logs();
   // should rotate, log then empty
-  report.startFileLog("report.log", 3, 5);
+  log_file.open();
   show_logs();
   // should not rotate
-  report.startFileLog("report.log", 3, 5);
+  log_file.open();
+  log_file.close();
   show_logs();
   _unused = system("echo \"1\" > report.log");
   // should rotate
-  report.startFileLog("report.log", 3, 5);
+  log_file.open();
+  log_file.close();
   show_logs();
   _unused = system("echo \"1\" > report.log");
   // should rotate
-  report.startFileLog("report.log", 3, 5);
+  log_file.open();
+  log_file.close();
   show_logs();
   _unused = system("echo \"1\" > report.log");
   // should rotate
-  report.startFileLog("report.log", 3, 5);
+  log_file.open();
+  log_file.close();
   show_logs();
   // should not rotate
-  report.startFileLog("report.log", 3, 5);
+  log_file.open();
+  log_file.close();
   show_logs();
   _unused = system("ls report.log*");
 

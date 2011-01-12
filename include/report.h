@@ -22,6 +22,7 @@
 #define _HREPORT_H
 
 #include <stdlib.h>
+#include "stdarg.h"
 
 namespace htoolbox {
 
@@ -39,9 +40,8 @@ namespace htoolbox {
   };
 
   class Report {
-    //! Current output criticality levels (default: info)
-    Level             _console_level;
-    Level             _file_level;
+    //! Current output criticality level (default: info)
+    Level             _level;
     struct Private;
     Private* const    _d;
     static size_t utf8_len(const char* s);
@@ -51,33 +51,104 @@ namespace htoolbox {
     static const char* levelString(Level level);
     static int stringToLevel(const char* str, Level* level);
 
+    class IOutput {
+      Report*           _observer;
+    protected:
+      Level             _level;
+      bool              _open;
+    public:
+      IOutput() : _observer(NULL), _level(info), _open(false) {}
+      virtual ~IOutput() {}
+      void registerObserver(Report* observer) {
+        _observer = observer;
+      }
+      void setLevel(Level level) {
+        _level = level;
+        if (_observer != NULL) {
+          _observer->notify();
+        }
+      }
+      Level level() const { return _level; }
+      virtual int open() {
+        _open = true;
+        if (_observer != NULL) {
+          _observer->notify();
+        }
+        return 0;
+      }
+      virtual int close() {
+        _open = false;
+        if (_observer != NULL) {
+          _observer->notify();
+        }
+        return 0;
+      }
+      virtual bool isOpen() const { return _open; }
+      virtual ssize_t log(
+        const char*     file,
+        size_t          line,
+        Level           level,
+        bool            temporary,
+        size_t          ident,
+        const char*     format,
+        va_list*        args) = 0;
+    };
+
+    class ConsoleOutput : public IOutput {
+      size_t            _size_to_overwrite;
+    public:
+      ConsoleOutput() : _size_to_overwrite(0) {}
+      ssize_t log(
+        const char*     file,
+        size_t          line,
+        Level           level,
+        bool            temporary,
+        size_t          ident,
+        const char*     format,
+        va_list*        args);
+    };
+
+    class FileOutput : public IOutput {
+      struct Private;
+      Private* const    _d;
+    public:
+      FileOutput(
+        const char*     name,
+        size_t          max_lines = 0,  // default: no limit
+        size_t          backups   = 0); // default: no backup
+      ~FileOutput();
+      int open();
+      int close();
+      bool isOpen() const;
+      ssize_t log(
+        const char*     file,
+        size_t          line,
+        Level           level,
+        bool            temporary,
+        size_t          ident,
+        const char*     format,
+        va_list*        args);
+    };
+
     // Log to console
     void startConsoleLog();
     // Stop logging to console
     void stopConsoleLog();
     // Set console log level
-    void setConsoleLogLevel(Level level) { _console_level = level; }
+    void setConsoleLogLevel(Level level) { _console.setLevel(level); }
     // Get console log level
-    Level consoleLogLevel() const { return _console_level; }
+    Level consoleLogLevel() const { return _console.level(); }
 
-    // Log to file
-    int startFileLog(
-      const char*     name,
-      size_t          max_lines = 0,  // default: no limit
-      size_t          backups   = 0); // default: no backup
-    // Stop logging to file
-    void stopFileLog();
-    // Set file log level
-    void setFileLogLevel(Level level) { _file_level = level; }
-    // Get file log level
-    Level fileLogLevel() const { return _file_level; }
-
-    // Set output verbosity level
-    void setLevel(Level level) { _console_level = _file_level = level; }
+    // Add output to list
+    void add(IOutput* output);
+    // Remove output from list
+    void remove(IOutput* output);
+    // Notify of level change
+    void notify();
+    // Set output verbosity level for all outputs
+    void setLevel(Level level);
     // Get current output verbosity level
-    Level level() const {
-      return _console_level > _file_level ? _console_level : _file_level;
-    }
+    Level level() const { return _level; }
     // Add file name and lines to match to regression list
     void addRegressionCondition(
       const char*     file_name,
@@ -92,6 +163,8 @@ namespace htoolbox {
       size_t          indent,      // text indentation
       const char*     format,
       ...) __attribute__ ((format (printf, 7, 8)));
+  private:
+    ConsoleOutput     _console;
   };
 
   extern Report report;
