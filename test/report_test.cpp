@@ -68,6 +68,20 @@ int main(void) {
   hlog_debug_arrow(2, "debug 2 level");
   hlog_regression("regression level");
 
+  cout << endl << "Notifications" << endl;
+  report.setLevel(alert);
+  hlog_alert("console level should be alert, is %s",
+    Report::levelString(report.consoleLogLevel()));
+  report.setLevel(verbose);
+  hlog_alert("console level should be verbose, is %s",
+    Report::levelString(report.consoleLogLevel()));
+  report.setConsoleLogLevel(warning);
+  hlog_alert("level should be warning, is %s",
+    Report::levelString(report.level()));
+  report.setConsoleLogLevel(debug);
+  hlog_alert("level should be debug, is %s",
+    Report::levelString(report.level()));
+
   cout << endl << "Verbosity level: alert" << endl;
   report.setLevel(alert);
   hlog_info("default level");

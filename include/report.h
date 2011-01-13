@@ -22,7 +22,9 @@
 #define _HREPORT_H
 
 #include <stdlib.h>
-#include "stdarg.h"
+#include <stdarg.h>
+#include <list>
+#include <observer.h>
 
 namespace htoolbox {
 
@@ -39,7 +41,7 @@ namespace htoolbox {
     regression    /*!< For regression testing purposes */
   };
 
-  class Report {
+  class Report : public Observer {
     //! Current output criticality level (default: info)
     Level             _level;
     struct Private;
@@ -51,40 +53,30 @@ namespace htoolbox {
     static const char* levelString(Level level);
     static int stringToLevel(const char* str, Level* level);
 
-    class IOutput {
-      Report*           _observer;
+    class IOutput : public Observee {
     protected:
       Level             _level;
       bool              _open;
     public:
-      IOutput() : _observer(NULL), _level(info), _open(false) {}
+      IOutput() : _level(info), _open(false) {}
       virtual ~IOutput() {}
-      void registerObserver(Report* observer) {
-        _observer = observer;
-      }
-      void setLevel(Level level) {
+      virtual void setLevel(Level level) {
         _level = level;
-        if (_observer != NULL) {
-          _observer->notify();
-        }
+        notifyObservers();
       }
-      Level level() const { return _level; }
+      virtual Level level() const { return _level; }
       virtual int open() {
         _open = true;
-        if (_observer != NULL) {
-          _observer->notify();
-        }
+        notifyObservers();
         return 0;
       }
       virtual int close() {
         _open = false;
-        if (_observer != NULL) {
-          _observer->notify();
-        }
+        notifyObservers();
         return 0;
       }
       virtual bool isOpen() const { return _open; }
-      virtual ssize_t log(
+      virtual int log(
         const char*     file,
         size_t          line,
         Level           level,
@@ -98,7 +90,7 @@ namespace htoolbox {
       size_t            _size_to_overwrite;
     public:
       ConsoleOutput() : _size_to_overwrite(0) {}
-      ssize_t log(
+      int log(
         const char*     file,
         size_t          line,
         Level           level,
@@ -120,7 +112,7 @@ namespace htoolbox {
       int open();
       int close();
       bool isOpen() const;
-      ssize_t log(
+      int log(
         const char*     file,
         size_t          line,
         Level           level,
@@ -128,6 +120,57 @@ namespace htoolbox {
         size_t          ident,
         const char*     format,
         va_list*        args);
+    };
+
+    class Filter : public IOutput, public Observer {
+      IOutput*              _output;
+      bool                  _auto_delete;
+      Level                 _min_level;
+      Level                 _max_level;
+      bool conditionsMatch(const char* file, size_t line);
+      struct Condition;
+      std::list<Condition*> _conditions;
+    public:
+      Filter(IOutput* output, bool auto_delete,
+          Level min = alert, Level max = regression)
+        : _output(output), _auto_delete(auto_delete),
+          _min_level(min), _max_level(max) {
+        _output->registerObserver(this);
+      }
+      ~Filter();
+      void setLevel(Level level) { _output->setLevel(level); }
+      Level level() const { return _output->level(); }
+      void notify() {
+        notifyObservers();
+      }
+      void addCondition(
+        const char*     file_name,
+        size_t          min_line = 0,
+        size_t          max_line = 0);
+      bool matches(const char* file, size_t line, Level level) {
+        if ((level > _max_level) || (level < _min_level) ||
+            _conditions.empty()) {
+          // Bypass filter
+          return true;
+        }
+        return conditionsMatch(file, line);
+      }
+      int open() { return _output->open(); }
+      int close() { return _output->close(); }
+      bool isOpen() const { return _output->isOpen(); }
+      int log(
+          const char*     file,
+          size_t          line,
+          Level           level,
+          bool            temp,
+          size_t          ident,
+          const char*     format,
+          va_list*        args) {
+        if (matches(file, line, level)) {
+          return _output->log(file, line, level, temp, ident, format, args);
+        }
+        return 0;
+      }
     };
 
     // Log to console
@@ -140,9 +183,13 @@ namespace htoolbox {
     Level consoleLogLevel() const { return _console.level(); }
 
     // Add output to list
-    void add(IOutput* output);
+    void add(IOutput* output) {
+      output->registerObserver(this);
+    }
     // Remove output from list
-    void remove(IOutput* output);
+    void remove(IOutput* output) {
+      output->unregisterObserver(this);
+    }
     // Notify of level change
     void notify();
     // Set output verbosity level for all outputs
@@ -165,6 +212,7 @@ namespace htoolbox {
       ...) __attribute__ ((format (printf, 7, 8)));
   private:
     ConsoleOutput     _console;
+    Filter            _reg_filter;
   };
 
   extern Report report;

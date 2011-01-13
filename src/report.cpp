@@ -46,31 +46,13 @@ enum {
   FILE_NAME_MAX = 128
 };
 
-struct RegressionCondition {
-  char        file_name[FILE_NAME_MAX + 1];
-  size_t      min_line;
-  size_t      max_line;
-  RegressionCondition(const RegressionCondition& r)
-  : min_line(r.min_line), max_line(r.max_line) {
-    strcpy(file_name, r.file_name);
-  }
-  RegressionCondition(const char* f, size_t l, size_t h)
-  : min_line(l), max_line(h) {
-    strncpy(file_name, f, FILE_NAME_MAX);
-    file_name[FILE_NAME_MAX] = '\0';
-  }
-  bool matches(const char* file, size_t line) const {
-    return (strncmp(file_name, file, FILE_NAME_MAX) == 0) &&
-      (line >= min_line) && ((max_line == 0) || (line <= max_line));
-  }
-};
-
 struct Report::Private {
   pthread_mutex_t mutex;
-  list<IOutput*>  children;
-  list<RegressionCondition> reg_cond;
   Private() {
     pthread_mutex_init(&mutex, NULL);
+  }
+  ~Private() {
+    pthread_mutex_destroy(&mutex);
   }
   int lock() {
     return pthread_mutex_lock(&mutex);
@@ -91,17 +73,12 @@ size_t Report::utf8_len(const char* s) {
   return size;
 }
 
-Report::Report() : _d(new Private) {
-  _console.setLevel(info);
+Report::Report() : _d(new Private), _reg_filter(&_console, false, regression) {
+  _reg_filter.registerObserver(this);
   _console.open();
-  notify();
 }
 
 Report::~Report() {
-  for (list<IOutput*>::iterator it = _d->children.begin();
-      it != _d->children.end(); ++it) {
-    (*it)->registerObserver(NULL);
-  }
   delete _d;
 }
 
@@ -164,43 +141,31 @@ void Report::stopConsoleLog() {
   _console.close();
 }
 
-void Report::add(IOutput* output) {
-  _d->children.push_back(output);
-  output-> registerObserver(this);
-  notify();
-}
-
-void Report::remove(IOutput* output) {
-  output-> registerObserver(NULL);
-  _d->children.remove(output);
-  notify();
-}
-
 void Report::notify() {
-  Level level = _console.level();
-  for (list<IOutput*>::const_iterator it = _d->children.begin();
-      it != _d->children.end(); ++it) {
-    if ((*it)->isOpen() && ((*it)->level() > level)) {
-      level = (*it)->level();
+  Level level = alert;
+  for (list<Observee*>::const_iterator it = _observees.begin();
+      it != _observees.end(); ++it) {
+    IOutput* output = dynamic_cast<IOutput*>(*it);
+    if (output->isOpen() && (output->level() > level)) {
+      level = output->level();
     }
   }
   _level = level;
 }
 
 void Report::setLevel(Level level) {
-  _console.setLevel(level);
-  for (list<IOutput*>::iterator it = _d->children.begin();
-      it != _d->children.end(); ++it) {
-    (*it)->setLevel(level);
+  for (list<Observee*>::const_iterator it = _observees.begin();
+      it != _observees.end(); ++it) {
+    IOutput* output = dynamic_cast<IOutput*>(*it);
+    output->setLevel(level);
   }
-  _level = level;
 }
 
 void Report::addRegressionCondition(
     const char* file_name,
     size_t      min_line,
     size_t      max_line) {
-  _d->reg_cond.push_back(RegressionCondition(file_name, min_line, max_line));
+  _reg_filter.addCondition(file_name, min_line, max_line);
 }
 
 int Report::log(
@@ -212,35 +177,21 @@ int Report::log(
     const char*     format,
     ...) {
   // print only if required
-  if (level > this->level()) {
+  if ((level > this->level()) || ! _reg_filter.matches(file, line, level)) {
     return 0;
-  }
-  if ((level == regression) && ! _d->reg_cond.empty()) {
-    // Look for list of regressed files/lines
-    bool matches = false;
-    for (list<RegressionCondition>::const_iterator it = _d->reg_cond.begin();
-        it != _d->reg_cond.end(); ++it) {
-      if (it->matches(file, line)) {
-        matches = true;
-        break;
-      }
-    }
-    if (! matches) {
-      return 0;
-    }
   }
   va_list ap;
   va_start(ap, format);
   // lock
   _d->lock();
   int rc = 0;
-  if (_console.isOpen() && (level <= _console.level())) {
-    rc = _console.log(file, line, level, temp, ident, format, &ap);
-  }
-  for (list<IOutput*>::iterator it = _d->children.begin();
-      it != _d->children.end(); ++it) {
-    if ((*it)->isOpen() && (level <= (*it)->level())) {
-      (*it)->log(file, line, level, temp, ident, format, &ap);
+  for (list<Observee*>::const_iterator it = _observees.begin();
+      it != _observees.end(); ++it) {
+    IOutput* output = dynamic_cast<IOutput*>(*it);
+    if (output->isOpen() && (level <= output->level())) {
+      if (output->log(file, line, level, temp, ident, format, &ap) < 0) {
+        rc = -1;
+      }
     }
   }
   // unlock
@@ -331,7 +282,7 @@ int Report::ConsoleOutput::log(
   } else {
     _size_to_overwrite = 0;
   }
-  return static_cast<ssize_t>(offset);
+  return static_cast<int>(offset);
 }
 
 struct Report::FileOutput::Private {
@@ -510,7 +461,7 @@ bool Report::FileOutput::isOpen() const {
   return _d->fd != NULL;
 }
 
-ssize_t Report::FileOutput::log(
+int Report::FileOutput::log(
     const char*     file,
     size_t          line,
     Level           level,
@@ -525,7 +476,7 @@ ssize_t Report::FileOutput::log(
   if (_d->checkRotate() < 0) {
     return -1;
   }
-  ssize_t rc = 0;
+  int rc = 0;
   // time
   time_t epoch = time(NULL);
   struct tm date;
@@ -565,4 +516,50 @@ ssize_t Report::FileOutput::log(
   fflush(_d->fd);
   ++_d->lines;
   return rc;
+}
+
+struct Report::Filter::Condition {
+  char        file_name[FILE_NAME_MAX + 1];
+  size_t      file_name_length;
+  size_t      min_line;
+  size_t      max_line;
+  Condition(const char* f, size_t l, size_t h)
+  : min_line(l), max_line(h) {
+    strncpy(file_name, f, FILE_NAME_MAX);
+    file_name[FILE_NAME_MAX] = '\0';
+    file_name_length = strlen(file_name) + 1;
+  }
+  bool matches(const char* file, size_t line) const {
+    return (memcmp(file_name, file, file_name_length) == 0) &&
+      (line >= min_line) && ((max_line == 0) || (line <= max_line));
+  }
+};
+
+Report::Filter::~Filter() {
+  if ((_output != NULL) && _auto_delete) {
+    delete _output;
+  }
+  for (std::list<Condition*>::iterator it = _conditions.begin();
+      it != _conditions.end(); ++it) {
+    delete *it;
+  }
+}
+
+void Report::Filter::addCondition(
+    const char*     file_name,
+    size_t          min_line,
+    size_t          max_line) {
+  _conditions.push_back(new Condition(file_name, min_line, max_line));
+}
+
+bool Report::Filter::conditionsMatch(const char* file, size_t line) {
+  bool matches = false;
+  for (list<Condition*>::const_iterator it = _conditions.begin();
+      it != _conditions.end(); ++it) {
+    if ((*it)->matches(file, line)) {
+      matches = true;
+      break;
+    }
+  }
+  return matches;
 }
