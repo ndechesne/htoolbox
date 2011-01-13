@@ -1,0 +1,35 @@
+register m1 to b1
+m1: virtual void Middle::notify() called
+register m1 to b2
+m1: virtual void Middle::notify() called
+register m2 to b2
+m2: virtual void Middle::notify() called
+register t1 to m1
+t1: virtual void Top::notify() called
+register t2 to m1
+t2: virtual void Top::notify() called
+call t1 notify()
+t1: virtual void Top::notify() called
+call t2 notify()
+t2: virtual void Top::notify() called
+call m1 notifyObservers()
+t1: virtual void Top::notify() called
+t2: virtual void Top::notify() called
+call m2 notifyObservers()
+call b1 notifyObservers()
+m1: virtual void Middle::notify() called
+t1: virtual void Top::notify() called
+t2: virtual void Top::notify() called
+call b2 notifyObservers()
+m1: virtual void Middle::notify() called
+t1: virtual void Top::notify() called
+t2: virtual void Top::notify() called
+m2: virtual void Middle::notify() called
+exit
+m1: virtual void Middle::notify() called
+t1: virtual void Top::notify() called
+t2: virtual void Top::notify() called
+m2: virtual void Middle::notify() called
+m1: virtual void Middle::notify() called
+t1: virtual void Top::notify() called
+t2: virtual void Top::notify() called

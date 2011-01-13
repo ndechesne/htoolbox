@@ -28,6 +28,9 @@ case $1 in
   "lr" )
     export NAME="linereader"
     ;;
+  "ob" )
+    export NAME="observer"
+    ;;
   "rp" )
     export NAME="report"
     ;;

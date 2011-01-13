@@ -13,6 +13,7 @@ check_PROGRAMS = \
   hasher_test \
   inet_socket_test \
   linereaderwriter_test \
+  observer_test \
   report_test \
   tlv_test \
   unix_socket_test \
@@ -29,6 +30,7 @@ files_test_SOURCES = files_test.cpp
 hasher_test_SOURCES = hasher_test.cpp
 inet_socket_test_SOURCES = inet_socket_test.cpp
 linereaderwriter_test_SOURCES = linereaderwriter_test.cpp
+observer_test_SOURCES = observer_test.cpp
 report_test_SOURCES = report_test.cpp
 tlv_test_SOURCES = tlv_test.cpp
 unix_socket_test_SOURCES = unix_socket_test.cpp
@@ -56,6 +58,7 @@ inet_socket.done: inet_socket_test.cpp
 unix_socket.done: unix_socket_test.cpp
 
 check_SUCCESSES = \
+  observer.done \
   configuration.done \
   filereaderwriter.done \
   inet_socket.done \
@@ -78,6 +81,7 @@ EXTRA_DIST = \
   hasher.exp \
   inet_socket.exp \
   linereaderwriter.exp \
+  observer.exp \
   report.exp \
   tlv.exp \
   unix_socket.exp \

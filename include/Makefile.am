@@ -11,6 +11,7 @@ htoolsinclude_HEADERS = \
   linereaderwriter.h \
   multiwriter.h \
   nullwriter.h \
+  observer.h \
   queue.h \
   report.h \
   share.h \
@@ -24,7 +25,6 @@ htoolsinclude_HEADERS = \
 
 EXTRA_DIST = \
   asyncwriter.h \
-  buffer.h \
   configuration.h \
   copier.h \
   filereaderwriter.h \
@@ -33,7 +33,10 @@ EXTRA_DIST = \
   ireaderwriter.h \
   linereaderwriter.h \
   multiwriter.h \
+  nullwriter.h \
+  observer.h \
   queue.h \
+  report.h \
   share.h \
   socket.h \
   stackhelper.h \
