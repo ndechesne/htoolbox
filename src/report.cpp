@@ -161,11 +161,14 @@ void Report::setLevel(Level level) {
   }
 }
 
-void Report::addRegressionCondition(
-    const char* file_name,
-    size_t      min_line,
-    size_t      max_line) {
-  _reg_filter.addCondition(false, file_name, regression, regression,
+void Report::addConsoleCondition(
+    bool            negated,
+    const char*     file_name,
+    Level           min_level,
+    Level           max_level,
+    size_t          min_line,
+    size_t          max_line) {
+  _reg_filter.addCondition(negated, file_name, min_level, max_level,
     min_line, max_line);
 }
 

@@ -203,7 +203,7 @@ int main(void) {
 
   cout << endl << "Verbosity level: regression, restricted" << endl;
   report.setLevel(regression);
-  report.addRegressionCondition("");
+  report.addConsoleCondition(false, "", regression);
   hlog_info("default level");
   hlog_alert("alert level");
   hlog_error("error level");
@@ -221,7 +221,8 @@ int main(void) {
 
   cout << endl << "Verbosity level: regression, file name, line restricted" << endl;
   report.setLevel(regression);
-  report.addRegressionCondition("report_test.cpp", 0, __LINE__ + 10);
+  report.addConsoleCondition(false, "report_test.cpp", regression, regression, 0,
+    __LINE__ + 10);
   hlog_regression("regression level");
   hlog_info("default level");
   hlog_alert("alert level");
@@ -240,7 +241,7 @@ int main(void) {
 
   cout << endl << "Verbosity level: regression, file name" << endl;
   report.setLevel(regression);
-  report.addRegressionCondition("report_test.cpp");
+  report.addConsoleCondition(false, "report_test.cpp", regression);
   hlog_regression("regression level");
   hlog_info("default level");
   hlog_alert("alert level");

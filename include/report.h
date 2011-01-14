@@ -199,8 +199,11 @@ namespace htoolbox {
     // Get current output verbosity level
     Level level() const { return _level; }
     // Add file name and lines to match to regression list
-    void addRegressionCondition(
+    void addConsoleCondition(
+      bool            negated,
       const char*     file_name,
+      Level           min_level = alert,
+      Level           max_level = regression,
       size_t          min_line = 0,
       size_t          max_line = 0);
     // Display message on standard output

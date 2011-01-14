@@ -67,7 +67,7 @@ enum {
 int main(void) {
   report.setLevel(regression);
 //   report.addRegressionCondition("work_scheduler.cpp");
-  report.addRegressionCondition("work_scheduler_extensive_test.cpp");
+  report.addConsoleCondition(false, "work_scheduler_extensive_test.cpp", regression);
 
   Queue q_in("in");
   Queue q_int1("int1");

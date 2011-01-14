@@ -38,8 +38,8 @@ static void* task(void* data, void* user) {
 
 int main(void) {
   report.setLevel(regression);
-  report.addRegressionCondition("work_scheduler.cpp");
-  report.addRegressionCondition("work_scheduler_test.cpp");
+  report.addConsoleCondition(false, "work_scheduler.cpp", regression);
+  report.addConsoleCondition(false, "work_scheduler_test.cpp", regression);
 
   Queue q_in("in");
   Queue q_out("out");
