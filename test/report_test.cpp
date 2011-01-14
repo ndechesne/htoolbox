@@ -203,7 +203,7 @@ int main(void) {
 
   cout << endl << "Verbosity level: regression, restricted" << endl;
   report.setLevel(regression);
-  report.addConsoleCondition(false, "", regression);
+  report.addConsoleCondition("", regression);
   hlog_info("default level");
   hlog_alert("alert level");
   hlog_error("error level");
@@ -221,7 +221,7 @@ int main(void) {
 
   cout << endl << "Verbosity level: regression, file name, line restricted" << endl;
   report.setLevel(regression);
-  report.addConsoleCondition(false, "report_test.cpp", regression, regression, 0,
+  report.addConsoleCondition("report_test.cpp", regression, regression, 0,
     __LINE__ + 10);
   hlog_regression("regression level");
   hlog_info("default level");
@@ -241,7 +241,7 @@ int main(void) {
 
   cout << endl << "Verbosity level: regression, file name" << endl;
   report.setLevel(regression);
-  report.addConsoleCondition(false, "report_test.cpp", regression);
+  report.addConsoleCondition("report_test.cpp", regression);
   hlog_regression("regression level");
   hlog_info("default level");
   hlog_alert("alert level");
@@ -295,11 +295,11 @@ int main(void) {
   report.log("file1", 20 , info, false, 0, "file1:20: INFO: filters not enabled");
   report.log("file2", 20 , info, false, 0, "file2:20: INFO: filters not enabled");
   // Remove file2 altogether
-  fil1.addCondition(false, "file1");
+  fil1.addCondition("file1");
   report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter 1 enabled");
   report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter 1 enabled");
   // Remove file1 lines > 15
-  fil2.addCondition(false, "file1", alert, regression, 15);
+  fil2.addCondition("file1", alert, regression, 15);
   report.log("file1", 10 , info, false, 0, "file1:10: INFO: filters 1&2 enabled");
   report.log("file1", 20 , info, false, 0, "file1:20: INFO: filters 1&2 enabled");
   report.remove(&fil2);

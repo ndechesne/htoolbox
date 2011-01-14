@@ -125,14 +125,15 @@ namespace htoolbox {
     class Filter : public IOutput, public Observer {
       IOutput*              _output;
       bool                  _auto_delete;
+      bool                  _negated;
       Level                 _min_level;
       Level                 _max_level;
       bool conditionsMatch(const char* file, size_t line, Level level);
       class Condition;
       std::list<Condition*> _conditions;
     public:
-      Filter(IOutput* output, bool auto_delete)
-        : _output(output), _auto_delete(auto_delete),
+      Filter(IOutput* output, bool auto_delete, bool negated = false)
+        : _output(output), _auto_delete(auto_delete), _negated(negated),
           _min_level(alert), _max_level(regression) {
         _output->registerObserver(this);
       }
@@ -143,7 +144,6 @@ namespace htoolbox {
         notifyObservers();
       }
       void addCondition(
-        bool            negated,
         const char*     file_name,
         Level           min_level = alert,
         Level           max_level = regression,
@@ -200,7 +200,6 @@ namespace htoolbox {
     Level level() const { return _level; }
     // Add file name and lines to match to regression list
     void addConsoleCondition(
-      bool            negated,
       const char*     file_name,
       Level           min_level = alert,
       Level           max_level = regression,

@@ -162,13 +162,12 @@ void Report::setLevel(Level level) {
 }
 
 void Report::addConsoleCondition(
-    bool            negated,
     const char*     file_name,
     Level           min_level,
     Level           max_level,
     size_t          min_line,
     size_t          max_line) {
-  _reg_filter.addCondition(negated, file_name, min_level, max_level,
+  _reg_filter.addCondition(file_name, min_level, max_level,
     min_line, max_line);
 }
 
@@ -523,7 +522,6 @@ int Report::FileOutput::log(
 }
 
 class Report::Filter::Condition {
-  bool        _negated;
   char        _file_name[FILE_NAME_MAX + 1];
   size_t      _file_name_length;
   Level       _min_level;
@@ -531,8 +529,8 @@ class Report::Filter::Condition {
   size_t      _min_line;
   size_t      _max_line;
 public:
-  Condition(bool n, const char* f, Level b, Level t, size_t l, size_t h)
-  : _negated(n), _min_level(b), _max_level(t), _min_line(l), _max_line(h) {
+  Condition(const char* f, Level b, Level t, size_t l, size_t h)
+  : _min_level(b), _max_level(t), _min_line(l), _max_line(h) {
     strncpy(_file_name, f, FILE_NAME_MAX);
     _file_name[FILE_NAME_MAX] = '\0';
     _file_name_length = strlen(_file_name) + 1;
@@ -541,8 +539,8 @@ public:
     if ((level < _min_level) || (level > _max_level)) {
       return true;
     }
-    return _negated ^ ((memcmp(_file_name, file, _file_name_length) == 0) &&
-      (line >= _min_line) && ((_max_line == 0) || (line <= _max_line)));
+    return (memcmp(_file_name, file, _file_name_length) == 0) &&
+      (line >= _min_line) && ((_max_line == 0) || (line <= _max_line));
   }
 };
 
@@ -557,13 +555,12 @@ Report::Filter::~Filter() {
 }
 
 void Report::Filter::addCondition(
-    bool            negated,
     const char*     file_name,
     Level           min_level,
     Level           max_level,
     size_t          min_line,
     size_t          max_line) {
-  _conditions.push_back(new Condition(negated, file_name, min_level, max_level,
+  _conditions.push_back(new Condition(file_name, min_level, max_level,
     min_line, max_line));
   if (min_level < _min_level) _min_level = min_level;
   if (max_level > _max_level) _max_level = max_level;
@@ -578,5 +575,5 @@ bool Report::Filter::conditionsMatch(const char* file, size_t line, Level level)
       break;
     }
   }
-  return matches;
+  return matches ^ _negated;
 }
