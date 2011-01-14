@@ -180,7 +180,7 @@ int Report::log(
     const char*     format,
     ...) {
   // print only if required
-  if ((level > this->level()) || ! _reg_filter.matches(file, line, level)) {
+  if (level > this->level()) {
     return 0;
   }
   va_list ap;
@@ -213,6 +213,10 @@ int Report::ConsoleOutput::log(
     va_list*        args) {
   (void) file;
   (void) line;
+  // print only if required
+  if (level > this->level()) {
+    return 0;
+  }
   FILE* fd = (level <= warning) ? stderr : stdout;
   char buffer[1024];
   size_t offset = 0;
@@ -473,7 +477,8 @@ int Report::FileOutput::log(
     const char*     format,
     va_list*        args) {
   (void) ident;
-  if (temporary) {
+  // print only if required
+  if ((level > this->level()) || temporary) {
     return 0;
   }
   if (_d->checkRotate() < 0) {
@@ -575,5 +580,5 @@ bool Report::Filter::conditionsMatch(const char* file, size_t line, Level level)
       break;
     }
   }
-  return matches ^ _negated;
+  return matches;
 }

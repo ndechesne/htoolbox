@@ -150,12 +150,15 @@ namespace htoolbox {
         size_t          min_line = 0,
         size_t          max_line = 0);
       bool matches(const char* file, size_t line, Level level) {
+        bool rc;
         if ((level > _max_level) || (level < _min_level) ||
             _conditions.empty()) {
           // Bypass filter
-          return true;
+          rc = true;
+        } else {
+          rc = conditionsMatch(file, line, level);
         }
-        return conditionsMatch(file, line, level);
+        return rc ^ _negated;
       }
       int open() { return _output->open(); }
       int close() { return _output->close(); }
