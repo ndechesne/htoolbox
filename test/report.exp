@@ -146,6 +146,12 @@ temporary message: verbose\r
 temporary message: debug  \r
                         \r
 
+Filters
+file1:20: INFO: filters not enabled
+file2:20: INFO: filters not enabled
+file1:20: INFO: filter 1 enabled
+file1:20: INFO: filters 1&2 enabled
+
 Log to file
 
 Error logging to file
@@ -153,72 +159,61 @@ Error: No such file or directory creating log file: 'missing/report.log'
 
 Rotate file
 report.log:
-2009-08-07 06:05:04 DEBUG report_test.cpp:300 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:323 message: debug
 report.log-1:
-2009-08-07 06:05:04 VERB  report_test.cpp:299 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:322 message: verbose
 report.log-2:
-2009-08-07 06:05:04 INFO  report_test.cpp:298 message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:321 message: info
 report.log-3:
-2009-08-07 06:05:04 WARN  report_test.cpp:297 message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:320 message: warning
 report.log-4:
-2009-08-07 06:05:04 ERROR report_test.cpp:296 message: error
+2009-08-07 06:05:04 ERROR report_test.cpp:319 message: error
 report.log-5:
-2009-08-07 06:05:04 ALERT report_test.cpp:295 message: alert
+2009-08-07 06:05:04 ALERT report_test.cpp:318 message: alert
 report.log:
 report.log-1:
-2009-08-07 06:05:04 DEBUG report_test.cpp:300 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:323 message: debug
 report.log-2:
-2009-08-07 06:05:04 VERB  report_test.cpp:299 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:322 message: verbose
 report.log-3:
-2009-08-07 06:05:04 INFO  report_test.cpp:298 message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:321 message: info
 report.log-4:
-2009-08-07 06:05:04 WARN  report_test.cpp:297 message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:320 message: warning
 report.log-5:
-2009-08-07 06:05:04 ERROR report_test.cpp:296 message: error
+2009-08-07 06:05:04 ERROR report_test.cpp:319 message: error
 report.log:
 report.log-1:
-2009-08-07 06:05:04 DEBUG report_test.cpp:300 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:323 message: debug
 report.log-2:
-2009-08-07 06:05:04 VERB  report_test.cpp:299 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:322 message: verbose
 report.log-3:
-2009-08-07 06:05:04 INFO  report_test.cpp:298 message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:321 message: info
 report.log-4:
-2009-08-07 06:05:04 WARN  report_test.cpp:297 message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:320 message: warning
 report.log-5:
-2009-08-07 06:05:04 ERROR report_test.cpp:296 message: error
-report.log:
-report.log-1:
-1
-report.log-2:
-2009-08-07 06:05:04 DEBUG report_test.cpp:300 message: debug
-report.log-3:
-2009-08-07 06:05:04 VERB  report_test.cpp:299 message: verbose
-report.log-4:
-2009-08-07 06:05:04 INFO  report_test.cpp:298 message: info
-report.log-5:
-2009-08-07 06:05:04 WARN  report_test.cpp:297 message: warning
+2009-08-07 06:05:04 ERROR report_test.cpp:319 message: error
 report.log:
 report.log-1:
 1
 report.log-2:
-1
+2009-08-07 06:05:04 DEBUG report_test.cpp:323 message: debug
 report.log-3:
-2009-08-07 06:05:04 DEBUG report_test.cpp:300 message: debug
+2009-08-07 06:05:04 VERB  report_test.cpp:322 message: verbose
 report.log-4:
-2009-08-07 06:05:04 VERB  report_test.cpp:299 message: verbose
+2009-08-07 06:05:04 INFO  report_test.cpp:321 message: info
 report.log-5:
-2009-08-07 06:05:04 INFO  report_test.cpp:298 message: info
+2009-08-07 06:05:04 WARN  report_test.cpp:320 message: warning
 report.log:
 report.log-1:
 1
 report.log-2:
 1
 report.log-3:
-1
+2009-08-07 06:05:04 DEBUG report_test.cpp:323 message: debug
 report.log-4:
-2009-08-07 06:05:04 DEBUG report_test.cpp:300 message: debug
+2009-08-07 06:05:04 VERB  report_test.cpp:322 message: verbose
 report.log-5:
-2009-08-07 06:05:04 VERB  report_test.cpp:299 message: verbose
+2009-08-07 06:05:04 INFO  report_test.cpp:321 message: info
 report.log:
 report.log-1:
 1
@@ -227,9 +222,20 @@ report.log-2:
 report.log-3:
 1
 report.log-4:
-2009-08-07 06:05:04 DEBUG report_test.cpp:300 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:323 message: debug
 report.log-5:
-2009-08-07 06:05:04 VERB  report_test.cpp:299 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:322 message: verbose
+report.log:
+report.log-1:
+1
+report.log-2:
+1
+report.log-3:
+1
+report.log-4:
+2009-08-07 06:05:04 DEBUG report_test.cpp:323 message: debug
+report.log-5:
+2009-08-07 06:05:04 VERB  report_test.cpp:322 message: verbose
 report.log
 report.log-1
 report.log-2

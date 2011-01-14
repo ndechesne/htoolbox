@@ -1,6 +1,5 @@
 TODO - non-organised list of things I want to do
 * socket: maybe allow one re-open and its subsequent close
 * socket: test with server re-start
-* report: negative filter condition
-* report: add filters to console
+* report: add conditions to console filter
 * report: log to socket/tlv

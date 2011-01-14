@@ -127,14 +127,13 @@ namespace htoolbox {
       bool                  _auto_delete;
       Level                 _min_level;
       Level                 _max_level;
-      bool conditionsMatch(const char* file, size_t line);
-      struct Condition;
+      bool conditionsMatch(const char* file, size_t line, Level level);
+      class Condition;
       std::list<Condition*> _conditions;
     public:
-      Filter(IOutput* output, bool auto_delete,
-          Level min = alert, Level max = regression)
+      Filter(IOutput* output, bool auto_delete)
         : _output(output), _auto_delete(auto_delete),
-          _min_level(min), _max_level(max) {
+          _min_level(alert), _max_level(regression) {
         _output->registerObserver(this);
       }
       ~Filter();
@@ -144,7 +143,10 @@ namespace htoolbox {
         notifyObservers();
       }
       void addCondition(
+        bool            negated,
         const char*     file_name,
+        Level           min_level = alert,
+        Level           max_level = regression,
         size_t          min_line = 0,
         size_t          max_line = 0);
       bool matches(const char* file, size_t line, Level level) {
@@ -153,7 +155,7 @@ namespace htoolbox {
           // Bypass filter
           return true;
         }
-        return conditionsMatch(file, line);
+        return conditionsMatch(file, line, level);
       }
       int open() { return _output->open(); }
       int close() { return _output->close(); }

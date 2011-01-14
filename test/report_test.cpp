@@ -283,6 +283,29 @@ int main(void) {
   hlog_info_temp("%s", "");
 
 
+  cout << endl << "Filters" << endl;
+  report.stopConsoleLog();
+  hlog_info("should not appear");
+  Report::ConsoleOutput con_log;
+  con_log.open();
+  Report::Filter fil1(&con_log, false);
+  Report::Filter fil2(&fil1, false);
+  report.add(&fil2);
+  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filters not enabled");
+  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filters not enabled");
+  // Remove file2 altogether
+  fil1.addCondition(false, "file1");
+  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter 1 enabled");
+  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter 1 enabled");
+  // Remove file1 lines > 15
+  fil2.addCondition(false, "file1", alert, regression, 15);
+  report.log("file1", 10 , info, false, 0, "file1:10: INFO: filters 1&2 enabled");
+  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filters 1&2 enabled");
+  report.remove(&fil2);
+  hlog_info("should not appear");
+  report.startConsoleLog();
+
+
   cout << endl << "Log to file" << endl;
   Report::FileOutput log_file("report.log", 1, 5);
   if (log_file.open() < 0) {
