@@ -223,24 +223,21 @@ namespace htoolbox {
   };
 
   extern Report report;
-
+  extern __thread Report* tl_report;
 }
 
 
-#define hlog_report_is_worth(r, l) \
-  ((l) <= (r).level())
-
-#define hlog_report(r, l, f, ...) \
-  hlog_report_is_worth((r), (l)) ? \
-     (r).log(__FILE__,__LINE__,(l),false,0,(f),##__VA_ARGS__) : 0
-
-
 #define hlog_is_worth(l) \
-  ((l) <= htoolbox::report.level())
+  ((htoolbox::tl_report == NULL) \
+  ? ((l) <= htoolbox::report.level()) \
+  : ((l) <= htoolbox::tl_report->level()))
 
 #define hlog_generic(l, t, i, f, ...) \
-  hlog_is_worth(l) ? \
-    htoolbox::report.log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__) : 0
+  hlog_is_worth(l) \
+  ? ((htoolbox::tl_report == NULL) \
+    ? htoolbox::report.log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__) \
+    : htoolbox::tl_report->log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__)) \
+  : 0
 
 
 #define hlog_alert(format, ...) \

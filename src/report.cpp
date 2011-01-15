@@ -41,6 +41,7 @@ using namespace std;
 using namespace htoolbox;
 
 Report htoolbox::report;
+__thread Report* htoolbox::tl_report;
 
 enum {
   FILE_NAME_MAX = 128
