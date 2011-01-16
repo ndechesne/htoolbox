@@ -24,7 +24,6 @@
 #include <errno.h>
 #include <pthread.h>
 
-#include "report.h"
 #include "tlv.h"
 
 using namespace htoolbox;
@@ -92,7 +91,6 @@ int Sender::write(uint8_t tag, const void* buffer, size_t len) {
     while (sent < len) {
       rc = _fd.write(&cbuffer[sent], len - sent);
       if (rc <= 0) {
-        hlog_error("%s sending value", strerror(errno));
         _failed = true;
         return -1;
       }
@@ -172,7 +170,6 @@ Receiver::Type Receiver::receive(
       return Receiver::END;
     } else
     {
-      hlog_error("failed to interpret '%s' -> %x", val, code);
       sprintf(val, "interpreting value %x, len = %zu", code, *len);
       *len = EINVAL;
       return Receiver::ERROR;
