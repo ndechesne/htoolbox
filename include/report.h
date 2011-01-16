@@ -24,7 +24,9 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <list>
+
 #include <observer.h>
+#include <tlv.h>
 
 namespace htoolbox {
 
@@ -112,6 +114,25 @@ namespace htoolbox {
       int open();
       int close();
       bool isOpen() const;
+      int log(
+        const char*     file,
+        size_t          line,
+        Level           level,
+        bool            temporary,
+        size_t          ident,
+        const char*     format,
+        va_list*        args);
+    };
+
+    class TlvOutput : public IOutput {
+      tlv::Sender&      _sender;
+      uint8_t           _start_tag;
+    public:
+      // The log consumes 9 tags
+      TlvOutput(tlv::Sender& sender, uint8_t start_tag)
+        : _sender(sender), _start_tag(start_tag) {
+        open();
+      }
       int log(
         const char*     file,
         size_t          line,

@@ -527,6 +527,30 @@ int Report::FileOutput::log(
   return rc;
 }
 
+int Report::TlvOutput::log(
+    const char*     file,
+    size_t          line,
+    Level           level,
+    bool            temporary,
+    size_t          indent,
+    const char*     format,
+    va_list*        args) {
+  uint8_t tag = _start_tag;
+  _sender.write(tag++, file);
+  _sender.write(tag++, line);
+  _sender.write(tag++, level);
+  _sender.write(tag++, temporary);
+  _sender.write(tag++, indent);
+  char buffer[65536];
+  vsnprintf(buffer, sizeof(buffer), format, *args);
+  buffer[sizeof(buffer) - 1] = '\0';
+  if (_sender.write(tag++, buffer) < 0) {
+    hlog_error("%s: %s logging", __FUNCTION__, strerror(errno));
+    return -1;
+  }
+  return 0;
+}
+
 class Report::Filter::Condition {
   char        _file_name[FILE_NAME_MAX + 1];
   size_t      _file_name_length;

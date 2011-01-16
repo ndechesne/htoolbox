@@ -19,12 +19,14 @@
 #ifndef _SENDER_H
 #define _SENDER_H
 
+#include <stdint.h>
 #include <ireaderwriter.h>
 
 namespace htoolbox {
 namespace tlv {
 
-// Message max length = 65536
+// Tag 0 is reserved for internal use
+// Message max length = 65535, buffers need to be 65536 long (\0 always added)
 
 class Sender {
   IReaderWriter&  _fd;

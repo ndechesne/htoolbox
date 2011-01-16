@@ -37,6 +37,11 @@ using namespace tlv;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void* receiver(void*) {
+  // Report test!
+  Report my_report;
+  tl_report = &my_report;
+  hlog_info("receiver (local) log level is %s", Report::levelString(tl_report->level()));
+
   Socket sock("socket");
   Receiver receiver(sock);
 
@@ -58,7 +63,7 @@ void* receiver(void*) {
     type = receiver.receive(&tag, &len, val);
     hlog_info("receive: type=%d tag=%d, len=%d, value='%s'",
       type, tag, len, ((len > 0) || (tag == 0)) ? val : "");
-  } while (type > Receiver::END);
+  } while (type >= Receiver::END);
 
   sock.close();
 
@@ -71,6 +76,9 @@ int main(void) {
   report.setLevel(verbose);
   pthread_mutex_lock(&mutex);
 
+  tl_report = &report;
+  hlog_info("initial (global) log level is %s", Report::levelString(tl_report->level()));
+
   pthread_t thread;
   int rc = pthread_create(&thread, NULL, receiver, NULL);
   if (rc < 0) {
@@ -79,6 +87,7 @@ int main(void) {
   }
 
   pthread_mutex_lock(&mutex);
+  hlog_info("sender (global) log level is %s", Report::levelString(tl_report->level()));
 
   Socket sock("socket");
   if (sock.open() < 0) {
@@ -86,6 +95,8 @@ int main(void) {
     return 0;
   }
 
+
+  hlog_info("basic test");
   Sender sender(sock);
   if (sender.start() < 0) {
     hlog_error("%s writing to socket (start)", strerror(errno));
@@ -107,6 +118,23 @@ int main(void) {
     hlog_error("%s writing to socket (end)", strerror(errno));
     return 0;
   }
+
+
+  hlog_info("log test");
+  report.stopConsoleLog();
+  Report::TlvOutput o(sender, 11);
+  report.add(&o);
+  if (sender.start() < 0) {
+    hlog_error("%s writing to socket (start)", strerror(errno));
+    return 0;
+  }
+  hlog_info("this log should be send over the socket (%d)", 9);
+  tl_report->log("file", 12345, warning, true, 3, "this is some text with a number %d", 17);
+  if (sender.end() < 0) {
+    hlog_error("%s writing to socket (end)", strerror(errno));
+    return 0;
+  }
+  
 
   sock.close();
 
