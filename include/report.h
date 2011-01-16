@@ -260,7 +260,6 @@ namespace htoolbox {
     : htoolbox::tl_report->log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__)) \
   : 0
 
-
 #define hlog_alert(format, ...) \
   hlog_generic(htoolbox::alert,false,0,(format),##__VA_ARGS__)
 
@@ -298,5 +297,52 @@ namespace htoolbox {
 
 #define hlog_debug_arrow(indent, format, ...) \
   hlog_generic(htoolbox::debug,false,(indent),(format),##__VA_ARGS__)
+
+
+#define hlog_global_is_worth(l) \
+  ((l) <= htoolbox::report.level())
+
+#define hlog_global_generic(l, t, i, f, ...) \
+  hlog_global_is_worth(l) \
+  ? htoolbox::report.log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__) \
+  : 0
+
+#define hlog_global_alert(format, ...) \
+  hlog_global_generic(htoolbox::alert,false,0,(format),##__VA_ARGS__)
+
+#define hlog_global_error(format, ...) \
+  hlog_global_generic(htoolbox::error,false,0,(format),##__VA_ARGS__)
+
+#define hlog_global_warning(format, ...) \
+  hlog_global_generic(htoolbox::warning,false,0,(format),##__VA_ARGS__)
+
+#define hlog_global_info(format, ...) \
+  hlog_global_generic(htoolbox::info,false,0,(format),##__VA_ARGS__)
+
+#define hlog_global_verbose(format, ...) \
+  hlog_global_generic(htoolbox::verbose,false,0,(format),##__VA_ARGS__)
+
+#define hlog_global_debug(format, ...) \
+  hlog_global_generic(htoolbox::debug,false,0,(format),##__VA_ARGS__)
+
+#define hlog_global_regression(format, ...) \
+  hlog_global_generic(htoolbox::regression,false,0,(format),##__VA_ARGS__)
+
+
+#define hlog_global_info_temp(format, ...) \
+  hlog_global_generic(htoolbox::info,true,0,(format),##__VA_ARGS__)
+
+#define hlog_global_verbose_temp(format, ...) \
+  hlog_global_generic(htoolbox::verbose,true,0,(format),##__VA_ARGS__)
+
+#define hlog_global_debug_temp(format, ...) \
+  hlog_global_generic(htoolbox::debug,true,0,(format),##__VA_ARGS__)
+
+
+#define hlog_global_verbose_arrow(indent, format, ...) \
+  hlog_global_generic(htoolbox::verbose,false,(indent),(format),##__VA_ARGS__)
+
+#define hlog_global_debug_arrow(indent, format, ...) \
+  hlog_global_generic(htoolbox::debug,false,(indent),(format),##__VA_ARGS__)
 
 #endif  // _HREPORT_H
