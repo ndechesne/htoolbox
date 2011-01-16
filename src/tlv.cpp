@@ -126,9 +126,15 @@ Receiver::Type Receiver::receive(
   char tag_len[3];
   rc = _fd.read(tag_len, sizeof(tag_len));
   if (rc < 3) {
-    *tag = rc < 0;
-    *len = errno;
-    strcpy(val, "receiving tag and length");
+    if (rc == 0) {
+      *tag = 0;
+      *len = 0;
+      strcpy(val, "connection closed by sender");
+    } else {
+      *tag = 1;
+      *len = errno;
+      strcpy(val, "receiving tag and length");
+    }
     return Receiver::ERROR;
   }
   *tag = tag_len[0];
