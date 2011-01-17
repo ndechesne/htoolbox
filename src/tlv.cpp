@@ -123,7 +123,7 @@ Receiver::Type Receiver::receive(
     char*       val) {
   ssize_t rc;
   // Receive header first (TL)
-  char tag_len[3];
+  uint8_t tag_len[3];
   rc = _fd.read(tag_len, sizeof(tag_len));
   if (rc < 3) {
     if (rc == 0) {
@@ -146,7 +146,12 @@ Receiver::Type Receiver::receive(
     rc = _fd.read(&val[count], *len - count);
     if (rc <= 0) {
       *len = errno;
-      sprintf(val, "%s receiving value", strerror(errno));
+      if (rc == 0) {
+        *tag = 0;
+        strcpy(val, "connection unexpectedly closed while receiving value");
+      } else {
+        sprintf(val, "%s receiving value", strerror(errno));
+      }
       return Receiver::ERROR;
     }
     count += rc;
@@ -158,6 +163,7 @@ Receiver::Type Receiver::receive(
     if (sscanf(val, "%d", &code) < 1) {
       char message[128];
       sprintf(message, "decoding value '%s' %x", val, val[0]);
+      strcpy(val, message);
       return Receiver::ERROR;
     } else
     if (code == START_CODE) {
