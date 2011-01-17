@@ -113,8 +113,11 @@ Socket::Socket(const Socket& s) : IReaderWriter(), _d(new Private) {
 }
 
 Socket::~Socket() {
-  if ((_d->data != NULL) && (_d->data->listen_socket >= 0)) {
-    ::close(_d->data->listen_socket);
+  if (_d->data != NULL) {
+    if (_d->data->listen_socket >= 0) {
+      ::close(_d->data->listen_socket);
+    }
+    delete _d->data;
   }
   delete _d;
 }
