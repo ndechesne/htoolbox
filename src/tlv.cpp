@@ -133,7 +133,7 @@ Receiver::Type Receiver::receive(
     } else {
       *tag = 1;
       *len = errno;
-      strcpy(val, "receiving tag and length");
+      sprintf(val, "%s receiving tag and length", strerror(errno));
     }
     return Receiver::ERROR;
   }
@@ -146,7 +146,7 @@ Receiver::Type Receiver::receive(
     rc = _fd.read(&val[count], *len - count);
     if (rc <= 0) {
       *len = errno;
-      strcpy(val, "receiving value");
+      sprintf(val, "%s receiving value", strerror(errno));
       return Receiver::ERROR;
     }
     count += rc;
