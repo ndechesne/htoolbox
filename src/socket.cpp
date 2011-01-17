@@ -50,7 +50,7 @@ int SharedData::createSocket(
     // UNIX
     *family = AF_UNIX;
     *sock_len = reinterpret_cast<socklen_t>(reinterpret_cast<struct
-      sockaddr_un*>(0)->sun_path) + strlen(hostname);
+      sockaddr_un*>(0)->sun_path) + strlen(hostname) + 1;
     struct sockaddr_un* sock_un =
       static_cast<struct sockaddr_un*>(malloc(*sock_len));
     sock_un->sun_family = *family;
@@ -138,6 +138,7 @@ int Socket::listen(int backlog) {
   /* We want quick restarts */
   _d->data->listen_socket = ::socket(family, SOCK_STREAM, 0);
   if (_d->data->listen_socket == -1) {
+    free(sock);
     return -1;
   }
   int re_use = 1;
@@ -148,8 +149,10 @@ int Socket::listen(int backlog) {
     unlink(_d->data->hostname);
   }
   if (::bind(_d->data->listen_socket, sock, sock_len)) {
+    free(sock);
     return -1;
   }
+  free(sock);
   if (::listen(_d->data->listen_socket, backlog)) {
     return -1;
   }
@@ -223,6 +226,7 @@ int Socket::open() {
     if (::connect(_d->conn_socket, sock, sock_len) < 0) {
       _d->conn_socket = -1;
     }
+    free(sock);
   } else {
     // Accept connection from client
     _d->conn_socket = ::accept(_d->master_data->listen_socket, 0, 0);
