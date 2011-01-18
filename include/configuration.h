@@ -84,7 +84,7 @@ public:
     const char*     line,
     vector<string>& params,
     unsigned char   flags      = 0,
-    unsigned int    max_params = 0,     // Number of parameters to decode
+    size_t          max_params = 0,     // Number of parameters to decode
     const char*     delims     = "\t ", // Default: tabulation and space
     const char*     quotes     = "'\"", // Default: single and double quotes
     const char*     comments   = "#");  // Default: hash

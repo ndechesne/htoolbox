@@ -49,8 +49,8 @@ int SharedData::createSocket(
   if (port == 0) {
     // UNIX
     *family = AF_UNIX;
-    *sock_len = reinterpret_cast<socklen_t>(reinterpret_cast<struct
-      sockaddr_un*>(0)->sun_path) + strlen(hostname) + 1;
+    *sock_len = static_cast<socklen_t>(sizeof(sa_family_t) +
+      strlen(hostname) + 1);
     struct sockaddr_un* sock_un =
       static_cast<struct sockaddr_un*>(malloc(*sock_len));
     sock_un->sun_family = *family;
@@ -88,6 +88,14 @@ struct Socket::Private {
     read_timeout.tv_usec = 0;
     write_timeout.tv_sec = 0;
     write_timeout.tv_usec = 0;
+  }
+  void setReadTimeout(__time_t seconds,  __suseconds_t useconds) {
+    read_timeout.tv_sec = seconds;
+    read_timeout.tv_usec = useconds;
+  }
+  void setWriteTimeout(__time_t seconds,  __suseconds_t useconds) {
+    write_timeout.tv_sec = seconds;
+    write_timeout.tv_usec = useconds;
   }
 };
 
@@ -235,8 +243,8 @@ int Socket::open() {
     _d->conn_socket = ::accept(_d->master_data->listen_socket, 0, 0);
   }
   if (_d->conn_socket >= 0) {
-    setReadTimeout(_d->read_timeout.tv_sec, _d->read_timeout.tv_usec);
-    setWriteTimeout(_d->write_timeout.tv_sec, _d->write_timeout.tv_usec);
+    _d->setReadTimeout(_d->read_timeout.tv_sec, _d->read_timeout.tv_usec);
+    _d->setWriteTimeout(_d->write_timeout.tv_sec, _d->write_timeout.tv_usec);
   }
   return _d->conn_socket;
 }
@@ -288,12 +296,12 @@ ssize_t Socket::write(
         hlog_error("socket closed");
         return 0;
       default:
-        hlog_regression("sent (partial) %u", size);
+        hlog_regression("sent (partial) %zd", size);
         sent += size;
     }
   } while (sent < static_cast<ssize_t>(length));
   if (sent > 0) {
-    hlog_regression("sent (total) %u", sent);
+    hlog_regression("sent (total) %zd", sent);
   }
   return sent;
 }
@@ -307,7 +315,7 @@ ssize_t Socket::stream(void* buffer, size_t max_size) {
     }
   }
   if (size > 0) {
-    hlog_regression("received %u", size);
+    hlog_regression("received %zd", size);
   }
   return size;
 }
@@ -331,7 +339,7 @@ ssize_t Socket::read(
     }
   }
   if (count > 0) {
-    hlog_regression("received %u", size);
+    hlog_regression("received %zu", size);
   }
   return count;
 }

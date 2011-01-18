@@ -48,14 +48,14 @@ public:
 // The configuration tree, line per line
 class Config::Line {
   vector<string>  _params;
-  unsigned int    _line_no;
+  size_t          _line_no;
   list<Line*>     _children;
 public:
   Line(
-    unsigned int  line_no = 0) : _line_no(line_no) {}
+    size_t        line_no = 0) : _line_no(line_no) {}
   Line(
     const vector<string>& params,
-    unsigned int          line_no = 0) : _params(params), _line_no(line_no) {}
+    size_t                line_no = 0) : _params(params), _line_no(line_no) {}
   ~Line() {
     clear();
   }
@@ -64,7 +64,7 @@ public:
   // Parameter
   const string& operator[](size_t index) const { return _params[index]; }
   // Get line no
-  unsigned int lineNo(void) const { return _line_no;          }
+  size_t lineNo(void) const { return _line_no;          }
   // Add a child
   void add(Line* child);
   // Sort children back into config file line order
@@ -113,7 +113,7 @@ void Config::Line::clear() {
 
 void Config::Line::show(int level) const {
   stringstream s;
-  for (unsigned int j = 0; j < _params.size(); j++) {
+  for (size_t j = 0; j < _params.size(); j++) {
     if (j != 0) {
       s << " ";
     }
@@ -126,18 +126,18 @@ void Config::Line::show(int level) const {
 
 class htoolbox::Config::Item {
   string            _keyword;
-  unsigned int      _min_occurrences;
-  unsigned int      _max_occurrences;
-  unsigned int      _min_params;
-  unsigned int      _max_params;
+  size_t            _min_occurrences;
+  size_t            _max_occurrences;
+  size_t            _min_params;
+  size_t            _max_params;
   list<Item*>       _children;
   Item(const Item&) {}
 public:
   Item(
     const string&   keyword,
-    unsigned int    min_occurrences = 0,
-    unsigned int    max_occurrences = 0,
-    unsigned int    min_params = 0,
+    size_t          min_occurrences = 0,
+    size_t          max_occurrences = 0,
+    size_t          min_params = 0,
     int             max_params = 0) :
       _keyword(keyword),
       _min_occurrences(min_occurrences),
@@ -159,10 +159,10 @@ public:
   }
   // Parameters accessers
   const string& keyword() const { return _keyword; }
-  unsigned int min_occurrences() const { return _min_occurrences; }
-  unsigned int max_occurrences() const { return _max_occurrences; }
-  unsigned int min_params() const { return _min_params; }
-  unsigned int max_params() const { return _max_params; }
+  size_t min_occurrences() const { return _min_occurrences; }
+  size_t max_occurrences() const { return _max_occurrences; }
+  size_t min_params() const { return _min_params; }
+  size_t max_params() const { return _max_params; }
   // Add a child
   void add(Item* child) {
     list<Item*>:: iterator i = _children.begin();
@@ -190,7 +190,7 @@ public:
   // Check children occurrences
   bool isValid(
     const list<ConfigCounter> counters,
-    int                       line_no,
+    size_t                    line_no,
     config_error_cb_f         config_error_cb = NULL) const;
   // Debug
   void show(int level = 0) const;
@@ -198,7 +198,7 @@ public:
 
 bool Config::Item::isValid(
     const list<ConfigCounter> counters,
-    int                       line_no,
+    size_t                    line_no,
     config_error_cb_f         config_error_cb) const {
   bool is_valid = true;
   // Check occurrences for each child (both lists are sorted)
@@ -244,22 +244,22 @@ void Config::Item::show(int level) const {
   for (i = _children.begin(); i != _children.end(); i++) {
     char minimum[64] = "optional";
     if ((*i)->_min_occurrences != 0) {
-      sprintf(minimum, "min = %d", (*i)->_min_occurrences);
+      sprintf(minimum, "min = %zu", (*i)->_min_occurrences);
     }
     char maximum[64] = "no max";
     if ((*i)->_max_occurrences != 0) {
-      sprintf(maximum, "max = %d", (*i)->_max_occurrences);
+      sprintf(maximum, "max = %zu", (*i)->_max_occurrences);
     }
     char min_max[64] = "";
     if ((*i)->_min_params != (*i)->_max_params) {
-      int offset = sprintf(min_max, "min = %d, ", (*i)->_min_params);
+      int offset = sprintf(min_max, "min = %zu, ", (*i)->_min_params);
       if ((*i)->_max_params > (*i)->_min_params) {
-        sprintf(&min_max[offset], "max = %d", (*i)->_max_params);
+        sprintf(&min_max[offset], "max = %zu", (*i)->_max_params);
       } else {
         sprintf(&min_max[offset], "no max");
       }
     } else {
-      sprintf(min_max, "min = max = %d", (*i)->_min_params);
+      sprintf(min_max, "min = max = %zu", (*i)->_min_params);
     }
     char format[128];
     sprintf(format, "%%%ds%%s, occ.: %%s, %%s; params: %%s", level);
@@ -483,7 +483,7 @@ int Config::write(
     for (int j = 0; j < level << 1; j++) {
       s << " ";
     }
-    for (unsigned int j = 0; j < params->size(); j++) {
+    for (size_t j = 0; j < params->size(); j++) {
       if (j != 0) {
         s << " \"";
       }
@@ -558,7 +558,7 @@ int Config::extractParams(
     const char*     line,
     vector<string>& params,
     unsigned char   flags,
-    unsigned int    max_params,
+    size_t          max_params,
     const char*     delims,
     const char*     quotes,
     const char*     comments) {

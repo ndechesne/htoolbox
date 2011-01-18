@@ -537,10 +537,10 @@ int Report::TlvOutput::log(
     va_list*        args) {
   uint8_t tag = _start_tag;
   _sender.write(tag++, file);
-  _sender.write(tag++, line);
+  _sender.write(tag++, static_cast<uint32_t>(line));
   _sender.write(tag++, level);
   _sender.write(tag++, temporary);
-  _sender.write(tag++, indent);
+  _sender.write(tag++, static_cast<uint32_t>(indent));
   char buffer[65536];
   vsnprintf(buffer, sizeof(buffer), format, *args);
   buffer[sizeof(buffer) - 1] = '\0';

@@ -61,7 +61,7 @@ void* receiver(void*) {
     size_t  len;
     char    val[65535];
     type = receiver.receive(&tag, &len, val);
-    hlog_info("receive: type=%d tag=%d, len=%d, value='%s'",
+    hlog_info("receive: type=%d tag=%u, len=%zu, value='%s'",
       type, tag, len, ((len > 0) || (tag == 0)) ? val : "");
   } while (type >= Receiver::END);
 
