@@ -5,6 +5,9 @@
 
 case $1 in
   "as" )
+    export NAME="abstract_socket"
+    ;;
+  "aw" )
     export NAME="asyncwriter"
     ;;
   "cf" )

@@ -5,6 +5,7 @@ AM_CXXFLAGS = \
   $(NULL)
 
 check_PROGRAMS = \
+  abstract_socket_test \
   asyncwriter_test \
   configuration_test \
   copier_test \
@@ -22,6 +23,7 @@ check_PROGRAMS = \
   zip_unzip_test \
   $(NULL)
 
+abstract_socket_test_SOURCES = abstract_socket_test.cpp
 asyncwriter_test_SOURCES = asyncwriter_test.cpp
 configuration_test_SOURCES = configuration_test.cpp
 copier_test_SOURCES = copier_test.cpp
@@ -37,6 +39,13 @@ unix_socket_test_SOURCES = unix_socket_test.cpp
 work_scheduler_test_SOURCES = work_scheduler_test.cpp
 work_scheduler_extensive_test_SOURCES = work_scheduler_extensive_test.cpp
 zip_unzip_test_SOURCES = zip_unzip_test.cpp
+
+abstract_socket_test.cpp: socket_test.cpp Makefile
+	cat $< \
+	| sed "s/@@FIRST@@/\"this_is_quite_a_long_socket\", true/" \
+	| sed "s/@@SECOND@@/\"this_is_quite_a_long_socket\", true/" \
+	| sed "s/@@THIRD@@/\"this_is_quite_a_long_socket\", true/" \
+	> $@
 
 inet_socket_test.cpp: socket_test.cpp Makefile
 	cat $< \
@@ -54,6 +63,7 @@ unix_socket_test.cpp: socket_test.cpp Makefile
 
 LDADD = ../src/libhtoolbox.la
 
+abstract_socket.done: abstract_socket_test.cpp
 inet_socket.done: inet_socket_test.cpp
 unix_socket.done: unix_socket_test.cpp
 
@@ -63,6 +73,7 @@ check_SUCCESSES = \
   filereaderwriter.done \
   inet_socket.done \
   unix_socket.done \
+  abstract_socket.done \
   tlv.done \
   linereaderwriter.done \
   hasher.done \
@@ -74,6 +85,7 @@ check_SUCCESSES = \
   $(NULL)
 
 EXTRA_DIST = \
+  abstract_socket.exp \
   asyncwriter.exp \
   configuration.exp \
   files.exp \

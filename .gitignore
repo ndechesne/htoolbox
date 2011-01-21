@@ -8,6 +8,7 @@ Makefile.in
 Makefile
 *.done
 test/*_test
+test/abstract_socket_test.cpp
 test/inet_socket_test.cpp
 test/unix_socket_test.cpp
 *_test_dir

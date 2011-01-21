@@ -28,9 +28,14 @@ class Socket : public IReaderWriter {
   Private* const  _d;
   const Socket& operator=(const Socket&);
 public:
+  // Internet socket
   Socket(
-    const char* hostname_or_path,
-    int         port             = 0);  // port = 0 => UNIX socket
+    const char* hostname,
+    int         port);
+  // Unix socket
+  Socket(
+    const char* name,
+    bool        abstract = false);  // Abstract name is Linux-specific
   Socket(const Socket&);
   ~Socket();
   int listen(int backlog);
