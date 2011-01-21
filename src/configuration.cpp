@@ -115,13 +115,16 @@ void Config::Line::show(int level) const {
   stringstream s;
   for (size_t j = 0; j < _params.size(); j++) {
     if (j != 0) {
-      s << " ";
+      s << " '";
     }
     s << _params[j];
+    if (j != 0) {
+      s << "'";
+    }
   }
   char format[16];
-  sprintf(format, "%%d:%%%ds%%s", level + 1);
-  hlog_verbose(format, lineNo(), " ", s.str().c_str());
+  sprintf(format, "%%%ds%%s", level);
+  hlog_verbose(format, " ", s.str().c_str());
 }
 
 class htoolbox::Config::Item {
