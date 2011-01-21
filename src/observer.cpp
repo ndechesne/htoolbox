@@ -22,8 +22,9 @@ using namespace htoolbox;
 
 Observee::~Observee() {
   for (std::list<Observer*>::iterator it = _observers.begin();
-      it != _observers.end(); it = _observers.begin()) {
-    this->unregisterObserver(*it);
+      it != _observers.end(); ++it) {
+    (*it)->_observees.remove(this);
+    (*it)->notify();
   }
 }
 

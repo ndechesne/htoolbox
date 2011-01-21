@@ -32,6 +32,11 @@ namespace htoolbox {
     void registerObserver(Observer*);
     void unregisterObserver(Observer*);
     void notifyObservers() const;
+    // Remove observer without notification
+    void remove(Observer* observer) {
+      _observers.remove(observer);
+    }
+
   };
 
   class Observer {

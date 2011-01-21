@@ -576,6 +576,8 @@ public:
 
 Report::Filter::~Filter() {
   if ((_output != NULL) && _auto_delete) {
+    // So _output does not try to notify us
+    _output->remove(this);
     delete _output;
   }
   for (std::list<Condition*>::iterator it = _conditions.begin();
