@@ -31,7 +31,7 @@ using namespace std;
 
 using namespace htoolbox;
 
-class MyObject : public Config::Object {
+class MyObject : public Config::IObject {
   string _name;
   string _path;
   size_t _line_no;
@@ -47,7 +47,7 @@ public:
     : _name(params[0]), _line_no(line_no), _params(params) {
       _path = file_path;
   }
-  virtual Object* configChildFactory(
+  virtual IObject* configChildFactory(
     const vector<string>& params,
     const char*           file_path = NULL,
     size_t                line_no   = 0) {

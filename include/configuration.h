@@ -26,9 +26,9 @@ public:
   // Class for items in the syntax tree
   class Item;
   // Class to inherit to automatically parse configuration files
-  class Object {
+  class IObject {
   public:
-    virtual Object* configChildFactory(
+    virtual IObject* configChildFactory(
       const vector<string>& params,
       const char*           file_path = NULL,
       size_t                line_no   = 0) = 0;
@@ -63,7 +63,7 @@ public:
   ssize_t read(
     const char*     path,
     unsigned char   flags,
-    Object*         root = NULL);
+    IObject*        root = NULL);
   // Write configuration to file
   int write(
     const char*     path) const;

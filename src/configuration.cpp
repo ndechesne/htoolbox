@@ -297,7 +297,7 @@ void Config::syntaxShow(int level) const {
 ssize_t Config::read(
     const char*     path,
     unsigned char   flags,
-    Config::Object* root) {
+    IObject*        root) {
   // Open client configuration file
   FILE* fd = fopen(path, "r");
   if (fd == NULL) {
@@ -314,7 +314,7 @@ ssize_t Config::read(
   lines_hierarchy.push_back(_lines_top);
 
   // Where we are in the objects tree (follows the items/syntax closely)
-  list<Object*> objects_hierarchy;
+  list<IObject*> objects_hierarchy;
   objects_hierarchy.push_back(root);
 
   // Read through the file
@@ -398,7 +398,7 @@ ssize_t Config::read(
             failed = true;
           } else
           if (root != NULL) {
-            Object* child_object =
+            IObject* child_object =
               objects_hierarchy.back()->configChildFactory(params, path,
                 line_no);
             if (child_object == NULL) {
