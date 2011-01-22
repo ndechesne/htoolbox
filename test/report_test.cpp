@@ -332,7 +332,9 @@ int main(void) {
   cout << endl << "Error logging to file" << endl;
   Report::FileOutput missing_log_file("missing/report.log");
   report.startConsoleLog();
-  missing_log_file.open();
+  if (missing_log_file.open() < 0) {
+    hlog_error("%s creating log file: '%s'", strerror(errno), "missing/report.log");
+  }
   report.stopConsoleLog();
 
 

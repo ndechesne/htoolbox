@@ -448,7 +448,6 @@ Report::FileOutput::~FileOutput() {
 int Report::FileOutput::open() {
   _d->lines = 0;
   if (_d->checkRotate(true) < 0) {
-    hlog_error("%s creating log file: '%s'", strerror(errno), _d->name);
     return -1;
   }
   return _d->fd != NULL ? 0 : -1;

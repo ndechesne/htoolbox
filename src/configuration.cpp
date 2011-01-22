@@ -304,10 +304,9 @@ ssize_t Config::read(
   // Open client configuration file
   FILE* fd = fopen(path, "r");
   if (fd == NULL) {
-    hlog_error("failed to open configuration file '%s': %s",
-      path, strerror(errno));
     return -1;
   }
+  errno = EBADMSG;
   // Where we are in the items tree
   list<const Item*> items_hierarchy;
   items_hierarchy.push_back(_syntax);
