@@ -97,7 +97,7 @@ int main() {
     hlog_error("%s, client1 failed to connect", strerror(-rc));
   }
 
-  usleep(1000);
+  usleep(2000);
 
   Socket client2(@@THIRD@@);
   hlog_info("client2 path = '%s'", client2.path());

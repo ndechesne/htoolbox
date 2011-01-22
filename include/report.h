@@ -260,6 +260,9 @@ namespace htoolbox {
     : htoolbox::tl_report->log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__)) \
   : 0
 
+#define hlog_report(level, format, ...) \
+  hlog_generic((level),false,0,(format),##__VA_ARGS__)
+
 #define hlog_alert(format, ...) \
   hlog_generic(htoolbox::alert,false,0,(format),##__VA_ARGS__)
 
@@ -306,6 +309,9 @@ namespace htoolbox {
   hlog_global_is_worth(l) \
   ? htoolbox::report.log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__) \
   : 0
+
+#define hlog_global_report(level, format, ...) \
+  hlog_global_generic((level),false,0,(format),##__VA_ARGS__)
 
 #define hlog_global_alert(format, ...) \
   hlog_global_generic(htoolbox::alert,false,0,(format),##__VA_ARGS__)

@@ -58,6 +58,7 @@ int main(void) {
   hlog_error("error level");
   hlog_warning("warning level");
   hlog_info("info level");
+  hlog_report(info, "report, info level");
   hlog_verbose("verbose level");
   hlog_verbose_arrow(0, "verbose 0 level");
   hlog_verbose_arrow(1, "verbose 1 level");
@@ -89,6 +90,7 @@ int main(void) {
   hlog_error("error level");
   hlog_warning("warning level");
   hlog_info("info level");
+  hlog_report(info, "report, info level");
   hlog_verbose("verbose level");
   hlog_verbose_arrow(0, "verbose 0 level");
   hlog_verbose_arrow(1, "verbose 1 level");
@@ -106,6 +108,7 @@ int main(void) {
   hlog_error("error level");
   hlog_warning("warning level");
   hlog_info("info level");
+  hlog_report(info, "report, info level");
   hlog_verbose("verbose level");
   hlog_verbose_arrow(0, "verbose 0 level");
   hlog_verbose_arrow(1, "verbose 1 level");
@@ -123,6 +126,7 @@ int main(void) {
   hlog_error("error level");
   hlog_warning("warning level");
   hlog_info("info level");
+  hlog_report(info, "report, info level");
   hlog_verbose("verbose level");
   hlog_verbose_arrow(0, "verbose 0 level");
   hlog_verbose_arrow(1, "verbose 1 level");
@@ -140,6 +144,7 @@ int main(void) {
   hlog_error("error level");
   hlog_warning("warning level");
   hlog_info("info level");
+  hlog_report(info, "report, info level");
   hlog_verbose("verbose level");
   hlog_verbose_arrow(0, "verbose 0 level");
   hlog_verbose_arrow(1, "verbose 1 level");
@@ -157,6 +162,7 @@ int main(void) {
   hlog_error("error level");
   hlog_warning("warning level");
   hlog_info("info level");
+  hlog_report(info, "report, info level");
   hlog_verbose("verbose level");
   hlog_verbose_arrow(0, "verbose 0 level");
   hlog_verbose_arrow(1, "verbose 1 level");
@@ -174,6 +180,7 @@ int main(void) {
   hlog_error("error level");
   hlog_warning("warning level");
   hlog_info("info level");
+  hlog_report(info, "report, info level");
   hlog_verbose("verbose level");
   hlog_verbose_arrow(0, "verbose 0 level");
   hlog_verbose_arrow(1, "verbose 1 level");
@@ -191,6 +198,7 @@ int main(void) {
   hlog_error("error level");
   hlog_warning("warning level");
   hlog_info("info level");
+  hlog_report(info, "report, info level");
   hlog_verbose("verbose level");
   hlog_verbose_arrow(0, "verbose 0 level");
   hlog_verbose_arrow(1, "verbose 1 level");
@@ -209,6 +217,7 @@ int main(void) {
   hlog_error("error level");
   hlog_warning("warning level");
   hlog_info("info level");
+  hlog_report(info, "report, info level");
   hlog_verbose("verbose level");
   hlog_verbose_arrow(0, "verbose 0 level");
   hlog_verbose_arrow(1, "verbose 1 level");
@@ -229,6 +238,7 @@ int main(void) {
   hlog_error("error level");
   hlog_warning("warning level");
   hlog_info("info level");
+  hlog_report(info, "report, info level");
   hlog_verbose("verbose level");
   hlog_verbose_arrow(0, "verbose 0 level");
   hlog_verbose_arrow(1, "verbose 1 level");
@@ -248,6 +258,7 @@ int main(void) {
   hlog_error("error level");
   hlog_warning("warning level");
   hlog_info("info level");
+  hlog_report(info, "report, info level");
   hlog_verbose("verbose level");
   hlog_verbose_arrow(0, "verbose 0 level");
   hlog_verbose_arrow(1, "verbose 1 level");
