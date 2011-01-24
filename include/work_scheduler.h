@@ -30,6 +30,8 @@ public:
   WorkScheduler(const char* name, routine_f routine, void* user,
     Queue* in, Queue* out);
   ~WorkScheduler();
+  typedef void (*callback_f)(bool idle, void* user);
+  void setActivityCallback(callback_f callback, void* user);
   int start(size_t max_threads = 0, size_t min_threads = 0, time_t time_out = 600);
   int stop();
   size_t threads() const;

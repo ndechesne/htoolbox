@@ -42,11 +42,11 @@ struct Queue::Private {
   pthread_cond_t  push_cond;
 };
 
-Queue::Queue(const char* name) :_d(new Private) {
+Queue::Queue(const char* name, size_t max_size) :_d(new Private) {
   strncpy(_d->name, name, sizeof(_d->name));
   _d->name[sizeof(_d->name) - 1] = '\0';
   _d->queue_open = false;
-  _d->max_size = 0;
+  _d->max_size = max_size;
   pthread_mutex_init(&_d->queue_lock, NULL);
   pthread_cond_init(&_d->pop_cond, NULL);
   pthread_cond_init(&_d->push_cond, NULL);
@@ -60,15 +60,13 @@ Queue::~Queue() {
   delete _d;
 }
 
-void Queue::open(size_t max_size) {
+void Queue::open() {
   _d->queue_open = true;
-  _d->max_size = max_size;
 }
 
 void Queue::close() {
   hlog_regression("%s.%s enter", _d->name, __FUNCTION__);
   _d->queue_open = false;
-  _d->max_size = 0;
   pthread_cond_broadcast(&_d->pop_cond);
   hlog_regression("%s.%s exit", _d->name, __FUNCTION__);
 }

@@ -25,9 +25,9 @@ class Queue {
   struct         Private;
   Private* const _d;
 public:
-  Queue(const char* name);
+  Queue(const char* name, size_t max_size = 1);
   ~Queue();
-  void open(size_t max_size = 1);
+  void open();
   void close();
   void wait();
   bool empty() const;

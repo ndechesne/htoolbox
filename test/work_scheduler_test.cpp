@@ -36,19 +36,27 @@ static void* task(void* data, void* user) {
   return data;
 }
 
+void activity_callback(bool idle, void* user) {
+  char* cuser = static_cast<char*>(user);
+  hlog_regression("activity callback(%s): user = '%s'",
+    idle ? "idle" : "busy", cuser);
+}
+
 int main(void) {
   report.setLevel(regression);
   report.addConsoleCondition("work_scheduler.cpp", regression);
   report.addConsoleCondition("work_scheduler_test.cpp", regression);
 
   Queue q_in("in");
-  Queue q_out("out");
+  Queue q_out("out", 20);
   char user[32] = "";
   WorkScheduler ws("sched", task, user, &q_in, &q_out);
 
+  char cuser[] = "user_string";
+  ws.setActivityCallback(activity_callback, cuser);
+
   hlog_regression("no thread limit");
-  q_in.open();
-  q_out.open(20);
+  q_out.open();
   strcpy(user, "user1");
   if (ws.start() != 0) {
     hlog_error("start failed");
@@ -73,8 +81,7 @@ int main(void) {
   }
 
   hlog_regression("thread limit = 1");
-  q_in.open();
-  q_out.open(20);
+  q_out.open();
   strcpy(user, "user2");
   if (ws.start(1) != 0) {
     hlog_error("start failed");
@@ -99,8 +106,7 @@ int main(void) {
   }
 
   hlog_regression("no thread limit, 10 objects");
-  q_in.open();
-  q_out.open(20);
+  q_out.open();
   strcpy(user, "user3");
   if (ws.start() != 0) {
     hlog_error("start failed");

@@ -65,12 +65,16 @@ struct WorkSchedulerData {
   size_t                    threads;
   time_t                    time_out;
   bool                      running;
+  // Callback
+  WorkScheduler::callback_f callback;
+  void*                     callback_user;
+  bool                      callback_called_idle;
   // Local data
   pthread_mutex_t           threads_list_lock;
   list<WorkerThreadData*>   busy_threads;
   list<WorkerThreadData*>   idle_threads;
   WorkSchedulerData(Queue* in, Queue* out)
-  : q_in(in), q_out(out), time_out(600), running(false) {
+  : q_in(in), q_out(out), time_out(600), running(false), callback(NULL) {
     pthread_mutex_init(&threads_list_lock, NULL);
   }
   ~WorkSchedulerData() {
@@ -84,6 +88,27 @@ struct WorkScheduler::Private {
   Private(Queue* in, Queue* out) : data(in, out) {}
 };
 
+static void worker_thread_activity_callback(WorkerThreadData* d, bool idle) {
+  WorkSchedulerData& data = d->parent;
+  hlog_regression("%s.%s.activity_callback: %s (%zu/%zu busy)",
+    d->parent.name, d->name, idle ? "idle" : "busy",
+    d->parent.busy_threads.size(),
+    d->parent.busy_threads.size() + d->parent.idle_threads.size());
+  if (data.callback != NULL) {
+    if (idle) {
+      if (data.busy_threads.empty()) {
+        data.callback_called_idle = true;
+        data.callback(true, data.callback_user);
+      }
+    } else {
+      if (data.callback_called_idle) {
+        data.callback_called_idle = false;
+        data.callback(false, data.callback_user);
+      }
+    }
+  }
+}
+
 static void* worker_thread(void* data) {
   WorkerThreadData* d = static_cast<WorkerThreadData*>(data);
   // Loop
@@ -95,19 +120,22 @@ static void* worker_thread(void* data) {
     void* data_in;
     if (d->q_in.pop(&data_in) == 0) {
       // Work
+      worker_thread_activity_callback(d, false);
       void* data_out = d->parent.routine(data_in, d->parent.user);
       if ((d->parent.q_out != NULL) && (data_out != NULL)) {
         d->parent.q_out->push(data_out);
       }
-      // Put idle thread at the front of the list, if not shutting down
+      // Lock before checking that we're still running
       pthread_mutex_lock(&d->parent.threads_list_lock);
       if (d->parent.running) {
         d->parent.busy_threads.remove(d);
-        // Always push to back so unused threads are at the front
+        // Put idle thread at the back of the list, if not shutting down
         d->parent.idle_threads.push_back(d);
-        d->last_run = time(NULL);
       }
       pthread_mutex_unlock(&d->parent.threads_list_lock);
+      // Slack
+      d->last_run = time(NULL);
+      worker_thread_activity_callback(d, true);
     } else {
       // Exit loop
       hlog_regression("%s.%s.loop exit", d->parent.name, d->name);
@@ -157,13 +185,13 @@ static void* monitor_thread(void* data) {
         char name[NAME_SIZE];
         snprintf(name, NAME_SIZE, "worker%zu", ++order);
         wtd = new WorkerThreadData(*d, name);
-        if (pthread_create(&wtd->tid, NULL, worker_thread, wtd) == 0) {
+        int rc = pthread_create(&wtd->tid, NULL, worker_thread, wtd);
+        if (rc == 0) {
           d->busy_threads.push_back(wtd);
           ++d->threads;
           hlog_verbose("%s.%s.thread created", d->name, wtd->name);
         } else {
-          // FIXME Report cause of error
-          hlog_error("%s could not create thread", d->name);
+          hlog_error("%s creating thread '%s'", strerror(-rc), d->name);
           delete wtd;
           wtd = d->busy_threads.front();
           d->busy_threads.pop_front();
@@ -241,8 +269,15 @@ WorkScheduler::~WorkScheduler() {
   delete _d;
 }
 
+void WorkScheduler::setActivityCallback(callback_f callback, void* user) {
+  _d->data.callback = callback;
+  _d->data.callback_user = user;
+  _d->data.callback_called_idle = false;
+}
+
 int WorkScheduler::start(size_t max_threads, size_t min_threads, time_t time_out) {
   if (_d->data.running) return -1;
+  _d->data.q_in->open();
   _d->data.min_threads = min_threads;
   _d->data.max_threads = max_threads;
   _d->data.time_out = time_out;
@@ -253,6 +288,11 @@ int WorkScheduler::start(size_t max_threads, size_t min_threads, time_t time_out
     _d->data.threads = 0;
     hlog_regression("%s.thread created", _d->data.name);
   }
+  if (_d->data.callback != NULL) {
+    _d->data.callback_called_idle = true;
+    _d->data.callback(true, _d->data.callback_user);
+  }
+
   return rc;
 }
 

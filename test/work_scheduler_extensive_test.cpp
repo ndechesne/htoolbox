@@ -79,10 +79,7 @@ int main(void) {
   WorkScheduler ws2("sched2", task2, user2, &q_int1, &q_int2);
   WorkScheduler ws3("sched3", task3, user3, &q_int2, NULL);
 
-  q_in.open();
-  q_int1.open();
-  q_int2.open();
-  if ((ws1.start(0, 0, 2) != 0) || (ws2.start(0, 0, 2) != 0) || (ws3.start(0, 0, 2) != 0)) {
+  if ((ws3.start(0, 0, 2) != 0) || (ws2.start(0, 0, 2) != 0) || (ws1.start(0, 0, 2) != 0)) {
     hlog_error("start failed");
   } else {
     char data[MAX_LOOPS][32];
