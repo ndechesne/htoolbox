@@ -129,6 +129,10 @@ int Report::stringToLevel(const char* str, Level* level) {
     case 'D':
       *level = debug;
       return 0;
+    case 'r':
+    case 'R':
+      *level = regression;
+      return 0;
     default:
       return -1;
   }

@@ -69,6 +69,30 @@ int main(void) {
   hlog_debug_arrow(2, "debug 2 level");
   hlog_regression("regression level");
 
+  cout << endl << "String conversions" << endl;
+  Level converted;
+  converted = regression;
+  Report::stringToLevel("alert", &converted);
+  hlog_info("%s", Report::levelString(converted));
+  converted = regression;
+  Report::stringToLevel("error", &converted);
+  hlog_info("%s", Report::levelString(converted));
+  converted = regression;
+  Report::stringToLevel("warning", &converted);
+  hlog_info("%s", Report::levelString(converted));
+  converted = regression;
+  Report::stringToLevel("info", &converted);
+  hlog_info("%s", Report::levelString(converted));
+  converted = regression;
+  Report::stringToLevel("verbose", &converted);
+  hlog_info("%s", Report::levelString(converted));
+  converted = regression;
+  Report::stringToLevel("debug", &converted);
+  hlog_info("%s", Report::levelString(converted));
+  converted = alert;
+  Report::stringToLevel("regression", &converted);
+  hlog_info("%s", Report::levelString(converted));
+
   cout << endl << "Notifications" << endl;
   report.setLevel(alert);
   hlog_alert("console level should be alert, is %s",
