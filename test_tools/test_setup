@@ -7,20 +7,8 @@ umask 0022
 
 # Dir names
 CONFIGDIR="etc"
-PARSERSDIR="../../../parsers/.libs"
 
 TESTDIR="test1"
-TESTDIR2="test2"
-TESTDIRCIFS="test_cifs"
-TESTDIRNFS="test_nfs"
-TESTDIRSSH="test_ssh"
-TESTDIRUSER="test_user"
-TESTDBDIR="test_db"
-TESTTREEDIR="test_tree"
-TESTRESTORE="test_r"
-
-ROOTDIRNFS="/home/User"
-ROOTDIRSSH="/home/Blah"
 
 # Create given directory, enter it
 if [ -n "$1" ]; then
@@ -28,29 +16,13 @@ if [ -n "$1" ]; then
 else
   # Clean
   rm -rf "$CONFIGDIR"
-  rm -rf "$TESTDBDIR"
   rm -rf "$TESTDIR"
-  rm -rf "$TESTDIR2"
-  rm -rf "$TESTDIRCIFS"
-  rm -rf "$TESTDIRNFS"
-  rm -rf "$TESTDIRSSH"
-  rm -rf "$TESTDIRUSER"
-  rm -rf "$TESTRESTORE"
 fi
 
 # Create environment file
 cat << EOF >> test_env
 export CONFIGDIR="$CONFIGDIR"
 export TESTDIR="$TESTDIR"
-export TESTDIR2="$TESTDIR2"
-export TESTDIRCIFS="$TESTDIRCIFS"
-export TESTDIRNFS="$TESTDIRNFS"
-export TESTDIRSSH="$TESTDIRSSH"
-export TESTDIRUSER="$TESTDIRUSER"
-export TESTDBDIR="$TESTDBDIR"
-export TESTRESTORE="$TESTRESTORE"
-export ROOTDIRNFS="$ROOTDIRNFS"
-export ROOTDIRSSH="$ROOTDIRSSH"
 EOF
 
 # Test bench
@@ -58,7 +30,6 @@ mkdir "$TESTDIR"
 mkdir "$TESTDIR/testdir"
 echo "Hello world!" > "$TESTDIR/testfile"
 touch -d "20061022 GMT" "$TESTDIR/testfile"
-chgrp cdrom "$TESTDIR/testfile"
 chmod 750 "$TESTDIR/testfile"
 touch "$TESTDIR/testfile~"
 ln -s "testfile" "$TESTDIR/testlink"
@@ -85,190 +56,6 @@ touch "`echo -e "$TESTDIR/strange1\\01TAB\\tCR\\r"`"
 touch "`echo -e "$TESTDIR/strange2\\01TAB\\tLF\\n"`"
 touch "`echo -e "$TESTDIR/strange3\\01TAB\\tLF\\nCR\\r"`"
 
-# CVS test
-CVSDIR="$TESTDIR/cvs"
-mkdir "$CVSDIR"
-touch "$CVSDIR/filemod.o"
-touch "$CVSDIR/filenew.c"
-touch "$CVSDIR/fileoth"
-touch -d "Wed Oct  4 18:04:40 UTC 2006" "$CVSDIR/fileutd.h"
-mkdir "$CVSDIR/dirbad"
-touch "$CVSDIR/dirbad/fileoth"
-touch "$CVSDIR/dirbad/fileutd"
-mkdir "$CVSDIR/diroth"
-mkdir "$CVSDIR/dir space"
-touch "$CVSDIR/dir space/file space"
-touch "$CVSDIR/dir space/file other"
-mkdir "$CVSDIR/dirutd"
-touch "$CVSDIR/dirutd/fileoth"
-touch "$CVSDIR/dirutd/fileutd"
-
-mkdir "$CVSDIR/dir space/CVS"
-cat << EOF > "$CVSDIR/dir space/CVS/Entries"
-/file space/1.5/Sun May 30 22:19:13 2010//
-D
-EOF
-echo "Some space root" > "$CVSDIR/dir space/CVS/Root"
-echo "Some space thing" > "$CVSDIR/dir space/CVS/Whatever"
-
-mkdir "$CVSDIR/dirutd/CVS"
-cat << EOF > "$CVSDIR/dirutd/CVS/Entries"
-/fileutd/1.2/Wed Oct  4 18:04:40 2006//
-D
-EOF
-echo "Some root" > "$CVSDIR/dirutd/CVS/Root"
-echo "Some thing" > "$CVSDIR/dirutd/CVS/Whatever"
-
-mkdir "$CVSDIR/CVS"
-cat << EOF > "$CVSDIR/CVS/Entries"
-/filenew.c/0/dummy timestamp//
-/filemod.o/1.1/Mon Oct  2 16:27:11 2006//D2007.12.16.23.00.00
-/fileutd.h/1.2/Wed Oct  4 18:04:40 2006//
-D/dirbad////
-D/dirutd////
-D/dir space////
-EOF
-echo "Some other root" > "$CVSDIR/CVS/Root"
-echo "Some other thing" > "$CVSDIR/CVS/Whatever"
-
-mkdir "$CVSDIR/CVS/Wherever"
-touch "$CVSDIR/CVS/Wherever/Whichever"
-
-# Subversion test
-SVNDIR="$TESTDIR/svn"
-rm -rf "$SVNDIR"
-tar -x -z -f "../`dirname $0`/svn_test_dir.tar.gz"
-mv "svn_test_dir" "$SVNDIR"
-echo 1 >  "$SVNDIR/filemod.o"
-touch "$SVNDIR/filenew.c"
-svn add "$SVNDIR/filenew.c" > /dev/null
-touch "$SVNDIR/fileoth"
-touch "$SVNDIR/dir space/file space"
-svn add "$SVNDIR/dir space/file space" > /dev/null
-rm -rf "$SVNDIR/dirbad/.svn"
-touch "$SVNDIR/dirbad/fileoth"
-mkdir "$SVNDIR/diroth"
-touch "$SVNDIR/dirutd/fileoth"
-echo 2 > "$SVNDIR/dirutd/fileutd"
-
-
-# Multiple backup
-mkdir "$TESTDIR2"
-mkdir "$TESTDIR2/testdir"
-dd if=/dev/zero of="$TESTDIR2/testfile" bs=142 count=1024 2> /dev/null
-cp "../`dirname $0`/sample.gz" "$TESTDIR2/testfile2.gz"
-touch -d "2006-10-22 11:34:56 CEST" "$TESTDIR2/testfile"
-dd if=/dev/zero of="$TESTDIR2/testfile~" bs=512 count=1024 2> /dev/null
-dd if=/dev/zero of="$TESTDIR2/testfile2" bs=253 count=1024 2> /dev/null
-ln -s "testfile" "$TESTDIR2/testlink"
-
-# CIFS test
-mkdir -p "$TESTDIRCIFS/Backup"
-mkdir -p "$TESTDIRCIFS/Test Dir"
-touch "$TESTDIRCIFS/Test Dir/My File.TXT"
-mkdir -p "$TESTDIRCIFS/Test Dir/My Dir"
-echo 1 > "$TESTDIRCIFS/Test Dir/My Dir/a File.TXT"
-echo 2 > "$TESTDIRCIFS/Test Dir/My Dir/another File.TXT"
-cat << EOF > "$TESTDIRCIFS/Backup/Backup.LST"
-subset 'xp'
-# Ends in \", but should not fail
-path "C:\Test Dir\"
-
-  filter and silly
-    condition filter      backup
-    condition type        pipe
-    condition name        a
-    condition name_start  b
-    condition iname_end   c
-    condition name_regex  d
-    condition !ipath      e
-    condition !path_start f
-    condition path_end    g
-    condition path_regex  h
-    condition size>=      1
-    condition size>       2ki
-    condition size<=      3MB
-    condition size<       4GiB
-    condition mode&       0777
-    condition mode=       0644
-EOF
-cat << EOF > "$TESTDIRCIFS/Backup/Backup2.LST"
-subset 'xp'
-# Ends in \", but should not fail
-path "C:\Test\"
-
-  filter or crazy
-    condition name_regex  '$^what is an impossible regex?'
-    condition path_regex  '$^what is an impossible regex?'
-    condition size>=      a
-    condition size>       b
-    condition size<=      c
-    condition size<       d
-    condition mode&       e
-    condition mode=       f
-    condition size>=      1Kb
-    condition size>       2MiC
-    condition size<=      3GB.
-    condition size<       4iB
-EOF
-
-# NFS test
-mkdir -p "$TESTDIRNFS/test"
-touch "$TESTDIRNFS/test/File2.txt"
-mkdir -p "$TESTDIRNFS/test/dir"
-echo 3 > "$TESTDIRNFS/test/dir/file3.txt"
-mkdir -p "$TESTDIRNFS/test2"
-touch "$TESTDIRNFS/test2/File3.txt"
-touch "$TESTDIRNFS/test2/File4.txt"
-cat << EOF > "$TESTDIRNFS/hbackup.list"
-report_copy_error_once
-path "$ROOTDIRNFS/test/"
-
-  filter or compress
-    condition name File2.txt
-    condition path dir/file3.txt
-
-  compress compress
-EOF
-
-# SSH test
-mkdir -p "$TESTDIRSSH/test"
-echo ssh1 > "$TESTDIRSSH/test/File2.txt"
-mkdir -p "$TESTDIRSSH/test/dir"
-echo ssh3 > "$TESTDIRSSH/test/dir/file3.txt"
-mkdir -p "$TESTDIRSSH/test1"
-mkdir -p "$TESTDIRSSH/test2"
-echo ssh3 > "$TESTDIRSSH/test2/File3.txt"
-echo ssh4 > "$TESTDIRSSH/test2/File4.txt"
-cat << EOF > "$TESTDIRSSH/hbackup.list"
-report_copy_error_once
-path "$ROOTDIRSSH/test/"
-
-  filter or compress
-    condition name File2.txt
-    condition path dir/file3.txt
-
-  compress compress
-EOF
-
-# User-mode test
-mkdir -p "$TESTDIRUSER/testuser"
-echo 10 > "$TESTDIRUSER/testuser/f1.txt"
-mkdir -p "$TESTDIRUSER/testuser/subdir"
-echo 20 > "$TESTDIRUSER/testuser/subdir/f2.txt"
-mkdir -p "$TESTDIRUSER/testuser/subdir2"
-echo 30 > "$TESTDIRUSER/testuser/subdir2/f3.txt"
-echo 40 > "$TESTDIRUSER/testuser/subdir2/f4.txt"
-mkdir -p "$TESTDIRUSER/.hbackup"
-cat << EOF > "$TESTDIRUSER/.hbackup/config"
-parsers_dir $PARSERSDIR
-path "~/testuser/"
-report_copy_error_once
-EOF
-
-# Restore
-mkdir -p "$TESTRESTORE"
-
 # Server config
 mkdir "$CONFIGDIR"
 cat << EOF > "$CONFIGDIR/hbackup.conf"
@@ -277,19 +64,19 @@ log "hbackup.log"
   backups 10
   level verbose
 
-db "$TESTDBDIR"
+db "test_db"
   compress auto
   # Check backwards compatibility
   compress_auto
 
-tree "$TESTTREEDIR"
+tree "test_tree"
   links symbolic
   compressed check
   hourly 23
   daily 6
   weekly 52
 
-parsers_dir $PARSERSDIR
+parsers_dir ../../../parsers/.libs
 
 filter all nothing
   condition type pipe
@@ -314,20 +101,20 @@ client myClient
   protocol nfs
   users backup root
   hostname myClient
-  config $ROOTDIRNFS/hbackup.list
+  config /home/User/hbackup.list
 
 client newClient
   protocol ssh
   option username user
   option password p4sS?
-  config $ROOTDIRSSH/hbackup.list
+  config /home/Blah/hbackup.list
 
 client other
   protocol none
   hostname otherClient
   option username foo
   option password bar
-  config $ROOTDIRSSH/hbackup.list
+  config /home/Blah/hbackup.list
   # This is a comment
   filter and subdir
     condition path_start subdir
@@ -435,7 +222,7 @@ EOF
 
 # Broken config
 cat << EOF > "$CONFIGDIR/broken.conf"
-db "$TESTDBDIR"
+db "test_db"
 db blah
 
 report_copy_error_once
