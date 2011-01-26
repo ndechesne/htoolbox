@@ -141,13 +141,13 @@ public:
     size_t          min_occurrences = 0,
     size_t          max_occurrences = 0,
     size_t          min_params = 0,
-    int             max_params = 0) :
+    size_t          max_params = 0) :
       _keyword(keyword),
       _min_occurrences(min_occurrences),
       _max_occurrences(max_occurrences),
       _min_params(min_params),
       _max_params(max_params) {
-    if (max_params < 0) {
+    if (max_params == static_cast<size_t>(-1)) {
       _max_params = 0;
     } else
     if (max_params == 0) {
