@@ -74,8 +74,7 @@ int main(void) {
   report.setLevel(verbose);
   pthread_mutex_lock(&mutex);
 
-  tl_report = &report;
-  hlog_info("initial (global) log level is %s", Report::levelString(tl_report->level()));
+  hlog_info("initial (global) log level is %s", Report::levelString(report.level()));
 
   pthread_t thread;
   int rc = pthread_create(&thread, NULL, receiver, NULL);
@@ -85,7 +84,7 @@ int main(void) {
   }
 
   pthread_mutex_lock(&mutex);
-  hlog_info("sender (global) log level is %s", Report::levelString(tl_report->level()));
+  hlog_info("sender (global) log level is %s", Report::levelString(report.level()));
 
   Socket sock("socket");
   if (sock.open() < 0) {
@@ -119,15 +118,20 @@ int main(void) {
 
 
   hlog_info("log test");
+  // The global report shall log to the socket, but filter out the thread
   report.stopConsoleLog();
   Report::TlvOutput o(sender, 11);
-  report.add(&o);
+  Report::Filter f("sender", &o, false);
+  f.addCondition(false, "tlv_test.cpp", 37, 71);
+  report.add(&f);
   if (sender.start() < 0) {
     hlog_error("%s writing to socket (start)", strerror(errno));
     return 0;
   }
   hlog_info("this log should be send over the socket (%d)", 9);
-  tl_report->log("file", 12345, warning, true, 3, "this is some text with a number %d", 17);
+  report.log("file", 12345, warning, true, 3, "this is some text with a number %d", 17);
+  tl_report = &report;
+  hlog_info("message sent twice to socket");
   if (sender.end() < 0) {
     hlog_error("%s writing to socket (end)", strerror(errno));
     return 0;

@@ -233,16 +233,19 @@ namespace htoolbox {
 
 
 #define hlog_is_worth(l) \
-  ((htoolbox::tl_report == NULL) \
-  ? ((l) <= htoolbox::report.level()) \
-  : ((l) <= htoolbox::tl_report->level()))
+  (((htoolbox::tl_report != NULL) && \
+   (htoolbox::tl_report->level() > htoolbox::report.level())) \
+  ? ((l) <= htoolbox::tl_report->level()) \
+  : ((l) <= htoolbox::report.level()))
 
 #define hlog_generic(l, t, i, f, ...) \
-  hlog_is_worth(l) \
-  ? ((htoolbox::tl_report == NULL) \
-    ? htoolbox::report.log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__) \
-    : htoolbox::tl_report->log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__)) \
-  : 0
+  do { \
+    if ((htoolbox::tl_report != NULL) && \
+     ((l) <= htoolbox::tl_report->level())) \
+      htoolbox::tl_report->log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__); \
+    if ((l) <= htoolbox::report.level()) \
+      htoolbox::report.log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__); \
+  } while (0);
 
 #define hlog_report(level, format, ...) \
   hlog_generic((level),false,0,(format),##__VA_ARGS__)

@@ -1,5 +1,6 @@
 initial (global) log level is verbose
 receiver (local) log level is info
+receiver (local) log level is info
 sender (global) log level is verbose
 basic test
 log test
@@ -10,7 +11,7 @@ receive: type=3 tag=18, len=27, value='I am not a stupid protocol!'
 receive: type=0 tag=0, len=0, value='end'
 receive: type=1 tag=0, len=0, value='start'
 receive: type=3 tag=11, len=12, value='tlv_test.cpp'
-receive: type=3 tag=12, len=3, value='129'
+receive: type=3 tag=12, len=3, value='131'
 receive: type=3 tag=13, len=1, value='3'
 receive: type=3 tag=14, len=1, value='0'
 receive: type=3 tag=15, len=1, value='0'
@@ -21,5 +22,17 @@ receive: type=3 tag=13, len=1, value='2'
 receive: type=3 tag=14, len=1, value='1'
 receive: type=3 tag=15, len=1, value='3'
 receive: type=3 tag=16, len=34, value='this is some text with a number 17'
+receive: type=3 tag=11, len=12, value='tlv_test.cpp'
+receive: type=3 tag=12, len=3, value='134'
+receive: type=3 tag=13, len=1, value='3'
+receive: type=3 tag=14, len=1, value='0'
+receive: type=3 tag=15, len=1, value='0'
+receive: type=3 tag=16, len=28, value='message sent twice to socket'
+receive: type=3 tag=11, len=12, value='tlv_test.cpp'
+receive: type=3 tag=12, len=3, value='134'
+receive: type=3 tag=13, len=1, value='3'
+receive: type=3 tag=14, len=1, value='0'
+receive: type=3 tag=15, len=1, value='0'
+receive: type=3 tag=16, len=28, value='message sent twice to socket'
 receive: type=0 tag=0, len=0, value='end'
 receive: type=-1 tag=0, len=0, value='connection closed by sender'
