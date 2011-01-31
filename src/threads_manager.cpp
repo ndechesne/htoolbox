@@ -28,7 +28,7 @@ using namespace std;
 
 #include <report.h>
 #include <queue.h>
-#include <work_scheduler.h>
+#include <threads_manager.h>
 
 using namespace htoolbox;
 
@@ -36,27 +36,27 @@ enum {
   NAME_SIZE = 1024
 };
 
-struct WorkSchedulerData;
+struct ThreadsManagerData;
 
 struct WorkerThreadData {
-  WorkSchedulerData&        parent;
+  ThreadsManagerData&        parent;
   pthread_t                 tid;
   char                      name[NAME_SIZE];
   Queue                     q_in;
   time_t                    last_run;
-  WorkerThreadData(WorkSchedulerData& p, const char* n)
+  WorkerThreadData(ThreadsManagerData& p, const char* n)
   : parent(p), q_in(n) {
     strcpy(name, n);
     q_in.open();
   }
 };
 
-struct WorkSchedulerData {
+struct ThreadsManagerData {
   // Parameters
   char                      name[NAME_SIZE];
   Queue*                    q_in;
   Queue*                    q_out;
-  WorkScheduler::routine_f  routine;
+  ThreadsManager::routine_f  routine;
   void*                     user;
   size_t                    min_threads;
   size_t                    max_threads;
@@ -64,30 +64,30 @@ struct WorkSchedulerData {
   time_t                    time_out;
   bool                      running;
   // Callback
-  WorkScheduler::callback_f callback;
+  ThreadsManager::callback_f callback;
   void*                     callback_user;
   bool                      callback_called_idle;
   // Local data
   pthread_mutex_t           threads_list_lock;
   list<WorkerThreadData*>   busy_threads;
   list<WorkerThreadData*>   idle_threads;
-  WorkSchedulerData(Queue* in, Queue* out)
+  ThreadsManagerData(Queue* in, Queue* out)
   : q_in(in), q_out(out), time_out(600), running(false), callback(NULL) {
     pthread_mutex_init(&threads_list_lock, NULL);
   }
-  ~WorkSchedulerData() {
+  ~ThreadsManagerData() {
     pthread_mutex_destroy(&threads_list_lock);
   }
 };
 
-struct WorkScheduler::Private {
-  WorkSchedulerData         data;
+struct ThreadsManager::Private {
+  ThreadsManagerData         data;
   pthread_t                 monitor_tid;
   Private(Queue* in, Queue* out) : data(in, out) {}
 };
 
 static void worker_thread_activity_callback(WorkerThreadData* d, bool idle) {
-  WorkSchedulerData& data = d->parent;
+  ThreadsManagerData& data = d->parent;
   hlog_regression("%s.%s.activity_callback: %s (%zu/%zu busy)",
     d->parent.name, d->name, idle ? "idle" : "busy",
     d->parent.busy_threads.size(),
@@ -145,7 +145,7 @@ static void* worker_thread(void* data) {
 }
 
 static void* monitor_thread(void* data) {
-  WorkSchedulerData* d = static_cast<WorkSchedulerData*>(data);
+  ThreadsManagerData* d = static_cast<ThreadsManagerData*>(data);
   size_t order = 0;
   // Loop
   while (true) {
@@ -253,7 +253,7 @@ static void* monitor_thread(void* data) {
   return NULL;
 }
 
-WorkScheduler::WorkScheduler(const char* name, routine_f routine, void* user,
+ThreadsManager::ThreadsManager(const char* name, routine_f routine, void* user,
     Queue* in, Queue* out)
   : _d(new Private(in, out)) {
   strncpy(_d->data.name, name, NAME_SIZE);
@@ -262,18 +262,18 @@ WorkScheduler::WorkScheduler(const char* name, routine_f routine, void* user,
   _d->data.user = user;
 }
 
-WorkScheduler::~WorkScheduler() {
+ThreadsManager::~ThreadsManager() {
   stop();
   delete _d;
 }
 
-void WorkScheduler::setActivityCallback(callback_f callback, void* user) {
+void ThreadsManager::setActivityCallback(callback_f callback, void* user) {
   _d->data.callback = callback;
   _d->data.callback_user = user;
   _d->data.callback_called_idle = false;
 }
 
-int WorkScheduler::start(size_t max_threads, size_t min_threads, time_t time_out) {
+int ThreadsManager::start(size_t max_threads, size_t min_threads, time_t time_out) {
   if (_d->data.running) return -1;
   _d->data.q_in->open();
   _d->data.min_threads = min_threads;
@@ -294,7 +294,7 @@ int WorkScheduler::start(size_t max_threads, size_t min_threads, time_t time_out
   return rc;
 }
 
-int WorkScheduler::stop() {
+int ThreadsManager::stop() {
   if (! _d->data.running) return -1;
 
   // Stop monitoring thread
@@ -306,6 +306,6 @@ int WorkScheduler::stop() {
   return 0;
 }
 
-size_t WorkScheduler::threads() const {
+size_t ThreadsManager::threads() const {
   return _d->data.threads;
 }

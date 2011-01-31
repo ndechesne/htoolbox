@@ -19,15 +19,15 @@
 
 namespace htoolbox {
 
-class WorkScheduler {
+class ThreadsManager {
   struct         Private;
   Private* const _d;
-  WorkScheduler(const htoolbox::WorkScheduler&);
+  ThreadsManager(const htoolbox::ThreadsManager&);
 public:
   typedef void* (*routine_f)(void* data, void* user);
-  WorkScheduler(const char* name, routine_f routine, void* user,
+  ThreadsManager(const char* name, routine_f routine, void* user,
     Queue* in, Queue* out);
-  ~WorkScheduler();
+  ~ThreadsManager();
   typedef void (*callback_f)(bool idle, void* user);
   void setActivityCallback(callback_f callback, void* user);
   int start(size_t max_threads = 0, size_t min_threads = 0, time_t time_out = 600);

@@ -20,7 +20,7 @@
 
 #include <report.h>
 #include <queue.h>
-#include <work_scheduler.h>
+#include <threads_manager.h>
 
 using namespace htoolbox;
 
@@ -42,13 +42,13 @@ void activity_callback(bool idle, void* user) {
 
 int main(void) {
   report.setLevel(regression);
-  report.addConsoleCondition("work_scheduler.cpp", regression);
-  report.addConsoleCondition("work_scheduler_test.cpp", regression);
+  report.addConsoleCondition("threads_manager.cpp", regression);
+  report.addConsoleCondition("threads_manager_test.cpp", regression);
 
   Queue q_in("in");
   Queue q_out("out", 20);
   char user[32] = "";
-  WorkScheduler ws("sched", task, user, &q_in, &q_out);
+  ThreadsManager ws("sched", task, user, &q_in, &q_out);
 
   char cuser[] = "user_string";
   ws.setActivityCallback(activity_callback, cuser);

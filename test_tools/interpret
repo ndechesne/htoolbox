@@ -40,14 +40,14 @@ case $1 in
   "tlv" )
     export NAME="tlv"
     ;;
+  "tm" )
+    export NAME="threads_manager"
+    ;;
+  "tme" )
+    export NAME="threads_manager_extensive"
+    ;;
   "us" )
     export NAME="unix_socket"
-    ;;
-  "ws" )
-    export NAME="work_scheduler"
-    ;;
-  "wse" )
-    export NAME="work_scheduler_extensive"
     ;;
   "zu" )
     export NAME="zip_unzip"

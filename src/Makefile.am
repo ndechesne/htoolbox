@@ -22,6 +22,6 @@ libhtoolbox_la_SOURCES = \
   socket.cpp \
   tlv.cpp \
   unzipreader.cpp \
-  work_scheduler.cpp \
+  threads_manager.cpp \
   zipwriter.cpp \
   $(NULL)

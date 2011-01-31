@@ -21,7 +21,7 @@
 
 #include <report.h>
 #include <queue.h>
-#include <work_scheduler.h>
+#include <threads_manager.h>
 
 using namespace htoolbox;
 
@@ -64,8 +64,8 @@ enum {
 
 int main(void) {
   report.setLevel(regression);
-//   report.addRegressionCondition("work_scheduler.cpp");
-  report.addConsoleCondition("work_scheduler_extensive_test.cpp", regression);
+//   report.addRegressionCondition("threads_manager.cpp");
+  report.addConsoleCondition("threads_manager_extensive_test.cpp", regression);
 
   Queue q_in("in");
   Queue q_int1("int1");
@@ -73,9 +73,9 @@ int main(void) {
   char user1[32] = "user1";
   char user2[32] = "user2";
   char user3[32] = "user3";
-  WorkScheduler ws1("sched1", task1, user1, &q_in, &q_int1);
-  WorkScheduler ws2("sched2", task2, user2, &q_int1, &q_int2);
-  WorkScheduler ws3("sched3", task3, user3, &q_int2, NULL);
+  ThreadsManager ws1("sched1", task1, user1, &q_in, &q_int1);
+  ThreadsManager ws2("sched2", task2, user2, &q_int1, &q_int2);
+  ThreadsManager ws3("sched3", task3, user3, &q_int2, NULL);
 
   if ((ws3.start(0, 0, 2) != 0) || (ws2.start(0, 0, 2) != 0) || (ws1.start(0, 0, 2) != 0)) {
     hlog_error("start failed");

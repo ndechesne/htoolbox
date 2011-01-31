@@ -18,8 +18,8 @@ check_PROGRAMS = \
   report_test \
   tlv_test \
   unix_socket_test \
-  work_scheduler_test \
-  work_scheduler_extensive_test \
+  threads_manager_test \
+  threads_manager_extensive_test \
   zip_unzip_test \
   $(NULL)
 
@@ -36,8 +36,8 @@ observer_test_SOURCES = observer_test.cpp
 report_test_SOURCES = report_test.cpp
 tlv_test_SOURCES = tlv_test.cpp
 unix_socket_test_SOURCES = unix_socket_test.cpp
-work_scheduler_test_SOURCES = work_scheduler_test.cpp
-work_scheduler_extensive_test_SOURCES = work_scheduler_extensive_test.cpp
+threads_manager_test_SOURCES = threads_manager_test.cpp
+threads_manager_extensive_test_SOURCES = threads_manager_extensive_test.cpp
 zip_unzip_test_SOURCES = zip_unzip_test.cpp
 
 abstract_socket_test.cpp: socket_test.cpp Makefile
@@ -97,7 +97,7 @@ EXTRA_DIST = \
   report.exp \
   tlv.exp \
   unix_socket.exp \
-  work_scheduler.exp \
-  work_scheduler_extensive.exp \
+  threads_manager.exp \
+  threads_manager_extensive.exp \
   zip_unzip.exp \
   $(NULL)

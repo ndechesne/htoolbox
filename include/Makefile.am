@@ -19,7 +19,7 @@ htoolsinclude_HEADERS = \
   stackhelper.h \
   tlv.h \
   unzipreader.h \
-  work_scheduler.h \
+  threads_manager.h \
   zipwriter.h \
   $(NULL)
 
@@ -42,6 +42,6 @@ EXTRA_DIST = \
   stackhelper.h \
   tlv.h \
   unzipreader.h \
-  work_scheduler.h \
+  threads_manager.h \
   zipwriter.h \
   $(NULL)
