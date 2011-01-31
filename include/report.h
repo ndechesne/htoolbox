@@ -104,8 +104,9 @@ namespace htoolbox {
     public:
       FileOutput(
         const char*     name,
-        size_t          max_lines = 0,  // default: no limit
-        size_t          backups   = 0); // default: no backup
+        size_t          max_lines = 0,      // default: no limit
+        size_t          backups   = 0,      // default: no backup
+        bool            zip       = false); // default: do no zip backups
       ~FileOutput();
       int open();
       int close();

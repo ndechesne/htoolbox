@@ -301,6 +301,7 @@ struct Report::FileOutput::Private {
   char*           name;
   size_t          max_lines;
   size_t          max_files;
+  bool            zip_backups;
   size_t          lines;
   Private(FileOutput& p) : parent(p), fd(NULL) {}
 
@@ -419,12 +420,10 @@ struct Report::FileOutput::Private {
             rc = -1;
             break;
           }
-#if 0
-          if (no == 0) {
+          if (zip_backups && (no == 0)) {
             /* zip the new file */
             zip(new_name, len + num_chars);
           }
-#endif
         }
       }
     } while (i-- != 0);
@@ -435,10 +434,12 @@ struct Report::FileOutput::Private {
 Report::FileOutput::FileOutput(
     const char*     name,
     size_t          max_lines,
-    size_t          max_files) : _d(new Private(*this)) {
+    size_t          max_files,
+    bool            zip) : _d(new Private(*this)) {
   _d->name = strdup(name);
   _d->max_lines = max_lines;
   _d->max_files = max_files;
+  _d->zip_backups = zip;
 }
 
 Report::FileOutput::~FileOutput() {

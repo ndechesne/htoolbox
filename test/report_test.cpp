@@ -341,7 +341,7 @@ int main(void) {
 
 
   cout << endl << "Log to file" << endl;
-  Report::FileOutput log_file("report.log", 1, 5);
+  Report::FileOutput log_file("report.log", 1, 5, true);
   if (log_file.open() < 0) {
     hlog_error("%s opening log file", strerror(errno));
     return 0;
