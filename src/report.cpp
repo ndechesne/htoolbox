@@ -26,6 +26,7 @@ using namespace std;
 #include "string.h"
 #include "errno.h"
 #include "pthread.h"
+#include <utime.h>
 
 #include "sys/stat.h"
 
@@ -381,6 +382,11 @@ struct Report::FileOutput::Private {
       ::remove(fw.path());
       return -1;
     } else {
+      struct stat64 metadata;
+      if (lstat64(fr.path(), &metadata) == 0) {
+        struct utimbuf times = { -1, metadata.st_mtime };
+        utime(fw.path(), &times);
+      }
       ::remove(fr.path());
       return 0;
     }
