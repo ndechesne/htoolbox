@@ -141,59 +141,50 @@ namespace htoolbox {
     };
 
     class Filter : public IOutput, public Observer {
+      char                  _name[32];
       IOutput*              _output;
       bool                  _auto_delete;
-      bool                  _negated;
-      Level                 _min_level;
-      Level                 _max_level;
-      bool conditionsMatch(const char* file, size_t line, Level level);
+      size_t                _index;
       class Condition;
       std::list<Condition*> _conditions;
     public:
-      Filter(IOutput* output, bool auto_delete, bool negated = false)
-        : _output(output), _auto_delete(auto_delete), _negated(negated),
-          _min_level(alert), _max_level(regression) {
-        _output->registerObserver(this);
-      }
+      Filter(const char* name, IOutput* output, bool auto_delete);
       ~Filter();
-      void setLevel(Level level) { _output->setLevel(level); }
-      Level level() const { return _output->level(); }
-      void notify() {
+      // This shall trigger us back to check for macro check level
+      void setLevel(Level level) {
+        _output->setLevel(level);
         notifyObservers();
       }
-      void addCondition(
-        const char*     file_name,
-        Level           min_level = alert,
-        Level           max_level = regression,
-        size_t          min_line = 0,
-        size_t          max_line = 0);
-      bool matches(const char* file, size_t line, Level level) {
-        bool rc;
-        if ((level > _max_level) || (level < _min_level) ||
-            _conditions.empty()) {
-          // Bypass filter
-          rc = true;
-        } else {
-          rc = conditionsMatch(file, line, level);
-        }
-        return rc ^ _negated;
-      }
+      void notify();
+      /* This function adds a special condition, either to add some log or to
+       * remove some. Examples:
+       * - I want to see regression output for file.cpp lines 40 to 123
+       *   addCondition(true, "file.cpp", 40, 123, regression, regression);
+       * - I want to ignore debug output from main.cpp
+       *   addCondition(false, "main.cpp", 0, 0, debug, regression)
+       * - I want to ignore regression output all files
+       *   addCondition(false, "", 0, 0, regression, regression)
+       */
+      size_t addCondition(                      // returns condition index
+        bool            accept,                 // false to reject logging
+        const char*     file_name,              // file name to filter
+        size_t          min_line = 0,           // start line to filter
+        size_t          max_line = 0,           // end line to filter
+        Level           min_level = alert,      // min log level to set
+        Level           max_level = regression);// max log level to set
+      void removeCondition(size_t index);
       int open() { return _output->open(); }
       int close() { return _output->close(); }
       bool isOpen() const { return _output->isOpen(); }
       int log(
-          const char*     file,
-          size_t          line,
-          Level           level,
-          bool            temp,
-          size_t          ident,
-          const char*     format,
-          va_list*        args) {
-        if (matches(file, line, level)) {
-          return _output->log(file, line, level, temp, ident, format, args);
-        }
-        return 0;
-      }
+        const char*     file,
+        size_t          line,
+        Level           level,
+        bool            temp,
+        size_t          ident,
+        const char*     format,
+        va_list*        args);
+      void show(Level level) const;
     };
 
     // Log to console
@@ -219,13 +210,6 @@ namespace htoolbox {
     void setLevel(Level level);
     // Get current output verbosity level
     Level level() const { return _level; }
-    // Add file name and lines to match to regression list
-    void addConsoleCondition(
-      const char*     file_name,
-      Level           min_level = alert,
-      Level           max_level = regression,
-      size_t          min_line = 0,
-      size_t          max_line = 0);
     // Display message on standard output
     int log(
       const char*     file,
@@ -237,7 +221,10 @@ namespace htoolbox {
       ...) __attribute__ ((format (printf, 7, 8)));
   private:
     ConsoleOutput     _console;
-    Filter            _reg_filter;
+    Filter            _con_filter;
+  public:
+    // Console filter accessor
+    Filter& consoleFilter() { return _con_filter; }
   };
 
   extern Report report;

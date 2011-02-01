@@ -233,7 +233,7 @@ int main(void) {
 
   cout << endl << "Verbosity level: regression, restricted" << endl;
   report.setLevel(regression);
-  report.addConsoleCondition("", regression);
+  report.consoleFilter().addCondition(false, __FILE__, 0, 0, regression);
   hlog_info("default level");
   hlog_alert("alert level");
   hlog_error("error level");
@@ -252,8 +252,8 @@ int main(void) {
 
   cout << endl << "Verbosity level: regression, file name, line restricted" << endl;
   report.setLevel(regression);
-  report.addConsoleCondition("report_test.cpp", regression, regression, 0,
-    __LINE__ + 10);
+  report.consoleFilter().addCondition(true, "report_test.cpp", 0, __LINE__ + 10,
+    regression, regression);
   hlog_regression("regression level");
   hlog_info("default level");
   hlog_alert("alert level");
@@ -273,7 +273,7 @@ int main(void) {
 
   cout << endl << "Verbosity level: regression, file name" << endl;
   report.setLevel(regression);
-  report.addConsoleCondition("report_test.cpp", regression);
+  report.consoleFilter().addCondition(true, "report_test.cpp", regression);
   hlog_regression("regression level");
   hlog_info("default level");
   hlog_alert("alert level");
@@ -322,20 +322,50 @@ int main(void) {
   hlog_info("should not appear");
   Report::ConsoleOutput con_log;
   con_log.open();
-  Report::Filter fil1(&con_log, false);
-  Report::Filter fil2(&fil1, false);
-  report.add(&fil2);
+  con_log.setLevel(info);
+  Report::Filter fil("filter 1", &con_log, false);
+  report.add(&fil);
+  report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
   report.log("file1", 20 , info, false, 0, "file1:20: INFO: filters not enabled");
   report.log("file2", 20 , info, false, 0, "file2:20: INFO: filters not enabled");
-  // Remove file2 altogether
-  fil1.addCondition("file1");
-  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter 1 enabled");
-  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter 1 enabled");
-  // Remove file1 lines > 15
-  fil2.addCondition("file1", alert, regression, 15);
-  report.log("file1", 10 , info, false, 0, "file1:10: INFO: filters 1&2 enabled");
-  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filters 1&2 enabled");
-  report.remove(&fil2);
+  // Reject file2 altogether
+  fil.addCondition(false, "file2");
+  fil.show(info);
+  report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
+  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
+  // Reject file1 line > 15
+  fil.addCondition(false, "file1", 0, 15);
+  fil.show(info);
+  report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  report.log("file1", 10 , info, false, 0, "file1:10: INFO: filter enabled");
+  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
+  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
+  // Accept file1 5 < line < 25 level >= debug
+  size_t index = fil.addCondition(true, "file1", 5, 25, debug);
+  fil.show(info);
+  report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  report.log("file1", 10 , info, false, 0, "file1:10: INFO: filter enabled");
+  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
+  report.log("file1", 20 , debug, false, 0, "file1:20: DEBUG: filter enabled");
+  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
+  // Accept all if level <= verbose
+  fil.addCondition(true, "", 0, 0, alert, verbose);
+  fil.show(info);
+  report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  report.log("file1", 10 , info, false, 0, "file1:10: INFO: filter enabled");
+  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
+  report.log("file1", 20 , debug, false, 0, "file1:20: DEBUG: filter enabled");
+  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
+  // Remove rule on debug
+  fil.removeCondition(index);
+  fil.show(info);
+  report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  report.log("file1", 10 , info, false, 0, "file1:10: INFO: filter enabled");
+  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
+  report.log("file1", 20 , debug, false, 0, "file1:20: DEBUG: filter enabled");
+  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
+  report.remove(&fil);
   hlog_info("should not appear");
   report.startConsoleLog();
 

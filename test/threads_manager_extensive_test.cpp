@@ -63,9 +63,8 @@ enum {
 };
 
 int main(void) {
-  report.setLevel(regression);
-//   report.addRegressionCondition("threads_manager.cpp");
-  report.addConsoleCondition("threads_manager_extensive_test.cpp", regression);
+  report.setLevel(debug);
+  report.consoleFilter().addCondition(true, __FILE__, regression);
 
   Queue q_in("in");
   Queue q_int1("int1");
