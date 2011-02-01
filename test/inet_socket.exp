@@ -1,14 +1,11 @@
 server path = '0.0.0.0:12345'
-'0.0.0.0': IP = 0.0.0.0
 server listening socket #3
 server going to accept connections
 server going to accept connections
 client1 path = 'localhost:12345'
-'localhost': IP = 127.0.0.1
 client connection socket #4
 client connected
 client2 path = '127.0.0.1:12345'
-'127.0.0.1': IP = 127.0.0.1
 client connection socket #5
 client connected
 received 'This is my message'

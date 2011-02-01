@@ -14,6 +14,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -22,7 +23,6 @@
 #include <arpa/inet.h>
 #include <sys/un.h>
 
-#include "report.h"
 #include "socket.h"
 
 using namespace htoolbox;
@@ -180,7 +180,6 @@ int Socket::listen(int backlog) {
   if (::listen(_d->data->listen_socket, backlog)) {
     return -1;
   }
-  hlog_regression("fd = %d", _d->data->listen_socket);
   return _d->data->listen_socket;
 }
 
@@ -195,9 +194,6 @@ int Socket::release() {
   {
     rc = ::close(_d->data->listen_socket);
     _d->data->listen_socket = -1;
-    if (rc < 0) {
-      hlog_warning("%s", strerror(errno));
-    }
     // Port is 0 if socket family is AF_UNIX
     if (_d->data->port == 0) {
       unlink(_d->data->hostname);
@@ -269,9 +265,6 @@ int Socket::close() {
   } else {
     rc = ::close(_d->conn_socket);
     _d->conn_socket = -1;
-    if (rc < 0) {
-      hlog_warning("%s", strerror(errno));
-    }
   }
   return rc;
 }
@@ -293,7 +286,6 @@ ssize_t Socket::write(
             usleep(1000);
             // DO NOT INSERT A BREAK HERE, YOU NAIVE FOOL!
           case EINTR:
-            hlog_warning("%s", strerror(errno));
             break;
           default:
             conclusive = true;
@@ -306,16 +298,11 @@ ssize_t Socket::write(
       case -1:
         return -1;
       case 0:
-        hlog_error("socket closed");
         return 0;
       default:
-        hlog_regression("sent (partial) %zd", size);
         sent += size;
     }
   } while (sent < static_cast<ssize_t>(length));
-  if (sent > 0) {
-    hlog_regression("sent (total) %zd", sent);
-  }
   return sent;
 }
 
@@ -326,9 +313,6 @@ ssize_t Socket::stream(void* buffer, size_t max_size) {
     if ((size < 0) && (errno != EINTR)) {
       break;
     }
-  }
-  if (size > 0) {
-    hlog_regression("received %zd", size);
   }
   return size;
 }
@@ -344,15 +328,14 @@ ssize_t Socket::read(
       if (rc < 0) {
         if (errno == EINTR) {
           continue;
+        } else {
+          return -1;
         }
       }
       break;
     } else {
       count += rc;
     }
-  }
-  if (count > 0) {
-    hlog_regression("received %zu", size);
   }
   return count;
 }
@@ -375,9 +358,6 @@ int Socket::getAddress(
   }
   struct sockaddr_in* addr = reinterpret_cast<struct sockaddr_in*>(res->ai_addr);
   *address = addr->sin_addr.s_addr;
-  char tmp[32];
-  hlog_verbose("'%s': IP = %s", hostname,
-    inet_ntop(AF_INET, &addr->sin_addr, tmp, sizeof(tmp)));
   freeaddrinfo(res);
   return 0;
 }

@@ -156,35 +156,37 @@ Receiver::Type Receiver::receive(
   }
   val[*len] = '\0';
   // Call listener
+  Type type;
   if (*tag == 0) {
     uint32_t code;
     if (sscanf(val, "%d", &code) < 1) {
       char message[128];
       sprintf(message, "decoding value '%s' %x", val, val[0]);
       strcpy(val, message);
-      return Receiver::ERROR;
+      type = Receiver::ERROR;
     } else
     if (code == START_CODE) {
       *len = 0;
       strcpy(val, "start");
-      return Receiver::START;
+      type = Receiver::START;
     } else
     if (code == CHECK_CODE) {
       *len = 0;
       strcpy(val, "check");
-      return Receiver::CHECK;
+      type = Receiver::CHECK;
     } else
     if (code == END_CODE) {
       *len = 0;
       strcpy(val, "end");
-      return Receiver::END;
+      type = Receiver::END;
     } else
     {
       sprintf(val, "interpreting value %x, len = %zu", code, *len);
       *len = EINVAL;
-      return Receiver::ERROR;
+      type = Receiver::ERROR;
     }
   } else {
-    return Receiver::DATA;
+    type = Receiver::DATA;
   }
+  return type;
 }
