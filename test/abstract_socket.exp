@@ -1,11 +1,11 @@
-server path = 'this_is_quite_a_long_socket'
+server path = '@this_is_quite_a_long_socket'
 server listening socket #3
 server going to accept connections
 server going to accept connections
-client1 path = 'this_is_quite_a_long_socket'
+client1 path = '@this_is_quite_a_long_socket'
 client connection socket #4
 client connected
-client2 path = 'this_is_quite_a_long_socket'
+client2 path = '@this_is_quite_a_long_socket'
 client connection socket #5
 client connected
 received 'This is my message'

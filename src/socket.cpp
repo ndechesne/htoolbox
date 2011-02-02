@@ -57,11 +57,13 @@ int SharedData::createSocket(
       static_cast<struct sockaddr_un*>(malloc(*sock_len));
     sock_un->sun_family = *family;
     char* path = sock_un->sun_path;
+    const char* name = hostname;
     if (abstract) {
       path[0] = '\0';
       ++path;
+      ++name;
     }
-    strcpy(path, hostname);
+    strcpy(path, name);
     *sock = reinterpret_cast<struct sockaddr*>(sock_un);
   } else {
     // INET
@@ -106,12 +108,12 @@ struct Socket::Private {
   }
 };
 
-Socket::Socket(const char* hostname, int port) : _d(new Private) {
+Socket::Socket(const char* name, int port) : _d(new Private) {
   _d->data = new SharedData;
   _d->master_data = _d->data;
-  _d->data->hostname_len = strlen(hostname);
-  _d->data->hostname = static_cast<char*>(malloc(_d->data->hostname_len + 8));
-  sprintf(_d->data->hostname, "%s:%u", hostname, port);
+  _d->data->hostname_len = strlen(name);
+  _d->data->hostname = static_cast<char*>(malloc(_d->data->hostname_len + 7));
+  sprintf(_d->data->hostname, "%s:%u", name, port);
   _d->data->port = static_cast<uint16_t>(port);
   _d->data->listen_socket = -1;
   _d->conn_socket = -1;
@@ -121,7 +123,13 @@ Socket::Socket(const char* name, bool abstract) : _d(new Private) {
   _d->data = new SharedData;
   _d->master_data = _d->data;
   _d->data->hostname_len = strlen(name);
-  _d->data->hostname = strdup(name);
+  _d->data->hostname = static_cast<char*>(malloc(_d->data->hostname_len + 2));
+  char* hostname = _d->data->hostname;
+  if (abstract) {
+    hostname[0] = '@';
+    ++hostname;
+  }
+  strcpy(hostname, name);
   _d->data->abstract = abstract;
   _d->data->listen_socket = -1;
   _d->conn_socket = -1;
