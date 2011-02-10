@@ -277,7 +277,7 @@ int Socket::close() {
   return rc;
 }
 
-ssize_t Socket::write(
+ssize_t Socket::put(
     const void*     data,
     size_t          length) {
   const char* buffer = static_cast<const char*>(data);
@@ -314,7 +314,7 @@ ssize_t Socket::write(
   return sent;
 }
 
-ssize_t Socket::stream(void* buffer, size_t max_size) {
+ssize_t Socket::read(void* buffer, size_t max_size) {
   ssize_t size = -1;
   while (size < 0) {
     size = ::recv(_d->conn_socket, buffer, max_size, 0);
@@ -325,7 +325,7 @@ ssize_t Socket::stream(void* buffer, size_t max_size) {
   return size;
 }
 
-ssize_t Socket::read(
+ssize_t Socket::get(
     void*           buffer,
     size_t          size) {
   char* cbuffer = static_cast<char*>(buffer);

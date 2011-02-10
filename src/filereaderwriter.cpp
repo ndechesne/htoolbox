@@ -62,7 +62,7 @@ int FileReaderWriter::close() {
   return rc;
 }
 
-ssize_t FileReaderWriter::read(void* buffer, size_t size) {
+ssize_t FileReaderWriter::get(void* buffer, size_t size) {
   char* cbuffer = static_cast<char*>(buffer);
   ssize_t ssize = size;
   ssize_t count = 0;
@@ -82,7 +82,7 @@ ssize_t FileReaderWriter::read(void* buffer, size_t size) {
   return count;
 }
 
-ssize_t FileReaderWriter::write(const void* buffer, size_t size) {
+ssize_t FileReaderWriter::put(const void* buffer, size_t size) {
   const char* cbuffer = static_cast<const char*>(buffer);
   ssize_t ssize = size;
   ssize_t count = 0;

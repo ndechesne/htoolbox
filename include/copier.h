@@ -49,11 +49,11 @@ public:
   int open();
   int close();
   //! \brief Copies as it reads. Chunk size copy if size = 0 or size > chunk size
-  ssize_t stream(void* buffer = NULL, size_t max_size = 0);
+  ssize_t read(void* buffer = NULL, size_t max_size = 0);
   //! \brief Copies as it reads. Full copy if size = 0
-  ssize_t read(void* buffer = NULL, size_t size = 0);
+  ssize_t get(void* buffer = NULL, size_t size = 0);
   //! \brief Inserts data into destination
-  ssize_t write(const void*, size_t);
+  ssize_t put(const void*, size_t);
   //! \brief Returns the path of the last error if any, or an empty string
   const char* path() const;
 };

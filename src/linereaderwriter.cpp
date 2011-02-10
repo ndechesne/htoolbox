@@ -37,7 +37,7 @@ struct LineReaderWriter::Private {
     reader = buffer_end = buffer;
   }
   ssize_t refill() {
-    ssize_t rc = child->read(buffer, sizeof(buffer));
+    ssize_t rc = child->get(buffer, sizeof(buffer));
     reader = buffer;
     buffer_end = buffer + rc;
     return rc;
@@ -76,7 +76,7 @@ int LineReaderWriter::close() {
   return _d->child->close();
 }
 
-ssize_t LineReaderWriter::read(void* buffer, size_t size) {
+ssize_t LineReaderWriter::get(void* buffer, size_t size) {
   // Check for buffered data first
   size_t buffer_size = _d->buffer_end - _d->reader;
   if (buffer_size != 0) {
@@ -96,11 +96,11 @@ ssize_t LineReaderWriter::read(void* buffer, size_t size) {
   }
   // If we are here, then we need more data
   char* cbuffer = static_cast<char*>(buffer);
-  return _d->child->read(&cbuffer[buffer_size], size - buffer_size);
+  return _d->child->get(&cbuffer[buffer_size], size - buffer_size);
 }
 
-ssize_t LineReaderWriter::write(const void* buffer, size_t size) {
-  return _d->child->write(buffer, size);
+ssize_t LineReaderWriter::put(const void* buffer, size_t size) {
+  return _d->child->put(buffer, size);
 }
 
 ssize_t LineReaderWriter::getLine(char** buffer_p, size_t* capacity_p, int delim) {
@@ -145,8 +145,8 @@ ssize_t LineReaderWriter::getLine(char** buffer_p, size_t* capacity_p, int delim
 }
 
 ssize_t LineReaderWriter::putLine(const void* buffer, size_t size, int delim) {
-  ssize_t rc = _d->child->write(buffer, size);
-  if ((rc < 0) || (_d->child->write(&delim, 1) < 0)) {
+  ssize_t rc = _d->child->put(buffer, size);
+  if ((rc < 0) || (_d->child->put(&delim, 1) < 0)) {
     return -1;
   }
   return rc;

@@ -74,8 +74,8 @@ int main() {
   if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    writefile->write("abcdef\nghi\njkl", 14);
-    writefile->write(NULL, 0);
+    writefile->put("abcdef\nghi\njkl", 14);
+    writefile->put(NULL, 0);
     if (writefile->close()) cout << "Error closing write file" << endl;
   }
   delete writefile;
@@ -132,7 +132,7 @@ int main() {
   } else {
     writeline->putLine("abcdef", 6);
     writeline->putLine("ghi", 3);
-    writeline->write("jkl", 3);
+    writeline->put("jkl", 3);
     if (writeline->close()) cout << "Error closing write file" << endl;
   }
   delete writefile;
@@ -160,8 +160,8 @@ int main() {
   if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
-    writefile->write("abcdef\b\nghi\b\njkl", 16);
-    writefile->write(NULL, 0);
+    writefile->put("abcdef\b\nghi\b\njkl", 16);
+    writefile->put(NULL, 0);
     if (writefile->close()) cout << "Error closing write file" << endl;
   }
   delete writefile;
@@ -194,7 +194,7 @@ int main() {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
     for (size_t i = 1; i < 20; ++i) {
-      writeline->write("\n", 1);
+      writeline->put("\n", 1);
       writeline->putLine(line, sizeof(line) * i / 20 - 2, '\b');
     }
     if (writeline->close()) cout << "Error closing write file" << endl;
@@ -249,14 +249,14 @@ int main() {
     printf("Line[%zu] (%zd): %s\n",
       line_test_capacity, line_size, ok ? "ok" : "ko");
     if (iteration == 16) {
-      line_size = readfile->read(line_test, 10);
+      line_size = readfile->get(line_test, 10);
       line_test[line_size] = '\0';
       ok = (line_test[0] == '\n') &&
            (memcmp(line, &line_test[1], line_size - 2) == 0);
       hlog_regression("read %zd bytes: %s", line_size, ok ? "ok" : "ko");
     } else
     if (iteration == 18) {
-      line_size = readfile->read(line_test, 120000);
+      line_size = readfile->get(line_test, 120000);
       line_test[line_size] = '\0';
       ok = (line_test[0] == '\n') &&
            (memcmp(line, &line_test[1], line_size - 2) == 0);

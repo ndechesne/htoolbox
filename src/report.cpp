@@ -338,14 +338,14 @@ struct Report::FileOutput::Private {
         ssize_t size;                   // Size actually read at loop begining
         do {
           // size will be BUFFER_SIZE unless the end of file has been reached
-          size = fr.read(buffer, BUFFER_SIZE);
+          size = fr.get(buffer, BUFFER_SIZE);
           if (size <= 0) {
             if (size < 0) {
               failed = true;
             }
             break;
           }
-          if (aw.write(buffer, size) < 0) {
+          if (aw.put(buffer, size) < 0) {
             failed = true;
             break;
           }

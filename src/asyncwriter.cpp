@@ -48,7 +48,7 @@ void* AsyncWriter::_write_thread(void* data) {
     /* Wait for data */
     pthread_mutex_lock(&d->thread_lock);
     if (! d->closing) {
-      if (d->child->write(d->buffer, d->size) < 0) {
+      if (d->child->put(d->buffer, d->size) < 0) {
         /* Can't do more than report failures */
         d->failed = true;
       }
@@ -107,11 +107,11 @@ int AsyncWriter::close() {
   return _d->failed ? -1 : 0;
 }
 
-ssize_t AsyncWriter::read(void*, size_t) {
+ssize_t AsyncWriter::get(void*, size_t) {
   return -1;
 }
 
-ssize_t AsyncWriter::write(const void* buffer, size_t size) {
+ssize_t AsyncWriter::put(const void* buffer, size_t size) {
   /* Wait for thread to finish */
   pthread_mutex_lock(&_d->buffer_lock);
   if (_d->failed) {

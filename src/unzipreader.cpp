@@ -70,13 +70,13 @@ int UnzipReader::close() {
   return rc;
 }
 
-ssize_t UnzipReader::read(void* buffer, size_t size) {
+ssize_t UnzipReader::get(void* buffer, size_t size) {
   unsigned char* cbuffer = static_cast<unsigned char*>(buffer);
   size_t count = 0;
   while (count < size) {
     ssize_t count_in;
     if (_d->strm.avail_in == 0) {
-      count_in = _child->read(_d->buffer, BUFFER_SIZE);
+      count_in = _child->get(_d->buffer, BUFFER_SIZE);
       if (count_in < 0) {
         return -1;
       }
@@ -102,7 +102,7 @@ ssize_t UnzipReader::read(void* buffer, size_t size) {
 }
 
 // Not implemented
-ssize_t UnzipReader::write(const void*, size_t) {
+ssize_t UnzipReader::put(const void*, size_t) {
   hlog_alert("cannot write from decompression module");
   errno = EPROTO;
   return -1;

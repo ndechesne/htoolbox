@@ -43,9 +43,9 @@ public:
   int open();
   int close();
   // stream returns whatever what was read, not necessarily max_size
-  ssize_t stream(void* buffer, size_t max_size);
-  ssize_t read(void* buffer, size_t size);
-  ssize_t write(const void* buffer, size_t size);
+  ssize_t read(void* buffer, size_t max_size);
+  ssize_t get(void* buffer, size_t size);
+  ssize_t put(const void* buffer, size_t size);
   const char* path() const;
   static int getAddress(const char* hostname, uint32_t* address);
 };

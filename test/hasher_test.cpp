@@ -48,7 +48,7 @@ int main() {
         } else {
           size = sizeof(buffer) - count;
         }
-        rc = fd.write(&buffer[count], size);
+        rc = fd.put(&buffer[count], size);
         if (rc < 0) {
           hlog_regression("%s writing file", strerror(errno));
         } else {
@@ -85,7 +85,7 @@ int main() {
         } else {
           size = sizeof(buffer) - count;
         }
-        rc = fd.read(&buffer[count], size);
+        rc = fd.get(&buffer[count], size);
         if (rc < 0) {
           hlog_regression("%s reading file", strerror(errno));
         } else {
@@ -108,7 +108,7 @@ int main() {
       hlog_regression("%s opening file", strerror(errno));
     } else {
       ssize_t rc;
-      rc = fd2.write(buffer, size);
+      rc = fd2.put(buffer, size);
       if (rc < 0) {
         hlog_regression("%s writing file", strerror(errno));
       } else {
@@ -142,7 +142,7 @@ int main() {
         } else {
           size = sizeof(buffer) - count;
         }
-        rc = fd.write(&buffer[count], size);
+        rc = fd.put(&buffer[count], size);
         if (rc < 0) {
           hlog_regression("%s writing file", strerror(errno));
         } else {
@@ -179,7 +179,7 @@ int main() {
         } else {
           size = sizeof(buffer) - count;
         }
-        rc = fd.read(&buffer[count], size);
+        rc = fd.get(&buffer[count], size);
         if (rc < 0) {
           hlog_regression("%s reading file", strerror(errno));
         } else {
@@ -202,7 +202,7 @@ int main() {
       hlog_regression("%s opening file", strerror(errno));
     } else {
       ssize_t rc;
-      rc = fd2.write(buffer, size);
+      rc = fd2.put(buffer, size);
       if (rc < 0) {
         hlog_regression("%s writing file", strerror(errno));
       } else {
@@ -236,7 +236,7 @@ int main() {
         } else {
           size = sizeof(buffer) - count;
         }
-        rc = fd.write(&buffer[count], size);
+        rc = fd.put(&buffer[count], size);
         if (rc < 0) {
           hlog_regression("%s writing file", strerror(errno));
         } else {
@@ -273,7 +273,7 @@ int main() {
         } else {
           size = sizeof(buffer) - count;
         }
-        rc = fd.read(&buffer[count], size);
+        rc = fd.get(&buffer[count], size);
         if (rc < 0) {
           hlog_regression("%s reading file", strerror(errno));
         } else {
@@ -296,7 +296,7 @@ int main() {
       hlog_regression("%s opening file", strerror(errno));
     } else {
       ssize_t rc;
-      rc = fd2.write(buffer, size);
+      rc = fd2.put(buffer, size);
       if (rc < 0) {
         hlog_regression("%s writing file", strerror(errno));
       } else {
@@ -330,7 +330,7 @@ int main() {
         } else {
           size = sizeof(buffer) - count;
         }
-        rc = fd.write(&buffer[count], size);
+        rc = fd.put(&buffer[count], size);
         if (rc < 0) {
           hlog_regression("%s writing file", strerror(errno));
         } else {
@@ -367,7 +367,7 @@ int main() {
         } else {
           size = sizeof(buffer) - count;
         }
-        rc = fd.read(&buffer[count], size);
+        rc = fd.get(&buffer[count], size);
         if (rc < 0) {
           hlog_regression("%s reading file", strerror(errno));
         } else {
@@ -390,7 +390,7 @@ int main() {
       hlog_regression("%s opening file", strerror(errno));
     } else {
       ssize_t rc;
-      rc = fd2.write(buffer, size);
+      rc = fd2.put(buffer, size);
       if (rc < 0) {
         hlog_regression("%s writing file", strerror(errno));
       } else {

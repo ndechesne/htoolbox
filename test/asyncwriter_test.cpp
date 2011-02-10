@@ -35,8 +35,8 @@ class Pit : public IReaderWriter {
 public:
   int open() { _offset = 0; return 0; }
   int close() { return 0; }
-  ssize_t read(void*, size_t) { return -1; }
-  ssize_t write(const void*, size_t size) {
+  ssize_t get(void*, size_t) { return -1; }
+  ssize_t put(const void*, size_t size) {
     usleep(20000);
     hlog_regression("Pit called for %zd at time %d", size, time);
     usleep(20000);
@@ -53,10 +53,10 @@ public:
   Top(IReaderWriter* child) : IReaderWriter(child, true) {}
   int open() { return _child->open(); }
   int close() { return _child->close(); }
-  ssize_t read(void*, size_t) { return -1; }
-  ssize_t write(const void* buffer, size_t size) {
+  ssize_t get(void*, size_t) { return -1; }
+  ssize_t put(const void* buffer, size_t size) {
     hlog_regression("Top called for %zd at time %d", size, time);
-    _child->write(buffer, size);
+    _child->put(buffer, size);
     return size;
   }
 };
@@ -94,10 +94,10 @@ int main() {
 
   hlog_regression("path = '%s'", fw->path());
   if (fw->open() < 0) return 0;
-  if (fw->write(buffer1, sizeof(buffer1)) < 0) return 0;
-  if (fw->write(buffer2, sizeof(buffer2)) < 0) return 0;
-  if (fw->write(buffer3, sizeof(buffer3)) < 0) return 0;
-  if (fw->write(buffer4, sizeof(buffer4)) < 0) return 0;
+  if (fw->put(buffer1, sizeof(buffer1)) < 0) return 0;
+  if (fw->put(buffer2, sizeof(buffer2)) < 0) return 0;
+  if (fw->put(buffer3, sizeof(buffer3)) < 0) return 0;
+  if (fw->put(buffer4, sizeof(buffer4)) < 0) return 0;
   if (fw->close() < 0) return 0;
   hlog_regression("offset = '%lld'", fw->offset());
 
@@ -119,10 +119,10 @@ int main() {
 
   hlog_regression("path = '%s'", fm->path());
   if (fm->open() < 0) return 0;
-  if (fm->write(buffer1, sizeof(buffer1)) < 0) return 0;
-  if (fm->write(buffer2, sizeof(buffer2)) < 0) return 0;
-  if (fm->write(buffer3, sizeof(buffer3)) < 0) return 0;
-  if (fm->write(buffer4, sizeof(buffer4)) < 0) return 0;
+  if (fm->put(buffer1, sizeof(buffer1)) < 0) return 0;
+  if (fm->put(buffer2, sizeof(buffer2)) < 0) return 0;
+  if (fm->put(buffer3, sizeof(buffer3)) < 0) return 0;
+  if (fm->put(buffer4, sizeof(buffer4)) < 0) return 0;
   if (fm->close() < 0) return 0;
   hlog_regression("offset = '%lld'", fm->offset());
 

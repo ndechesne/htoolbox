@@ -64,7 +64,7 @@ int ZipWriter::open() {
 
 int ZipWriter::close() {
   if (! _d->finished) {
-    if (write(NULL, 0) < 0) {
+    if (put(NULL, 0) < 0) {
       return -1;
     }
   }
@@ -81,13 +81,13 @@ int ZipWriter::close() {
 }
 
 // Not implemented
-ssize_t ZipWriter::read(void*, size_t) {
+ssize_t ZipWriter::get(void*, size_t) {
   hlog_alert("cannot read from compression module");
   errno = EPROTO;
   return -1;
 }
 
-ssize_t ZipWriter::write(const void* buffer, size_t size) {
+ssize_t ZipWriter::put(const void* buffer, size_t size) {
   if ( _d->finished) {
     return 0;
   }
@@ -110,7 +110,7 @@ ssize_t ZipWriter::write(const void* buffer, size_t size) {
       return -1;
     }
     ssize_t length = BUFFER_SIZE - _d->strm.avail_out;
-    if (_child->write(_d->buffer, length) < 0) {
+    if (_child->put(_d->buffer, length) < 0) {
       return -1;
     }
   } while (_d->strm.avail_out == 0);

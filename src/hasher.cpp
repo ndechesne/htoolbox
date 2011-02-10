@@ -147,8 +147,8 @@ int Hasher::close() {
   return rc;
 }
 
-ssize_t Hasher::read(void* buffer, size_t size) {
-  ssize_t rc = _child->read(buffer, size);
+ssize_t Hasher::get(void* buffer, size_t size) {
+  ssize_t rc = _child->get(buffer, size);
   if (rc < 0) {
     return -1;
   }
@@ -158,8 +158,8 @@ ssize_t Hasher::read(void* buffer, size_t size) {
   return rc;
 }
 
-ssize_t Hasher::write(const void* buffer, size_t size) {
-  ssize_t rc = _child->write(buffer, size);
+ssize_t Hasher::put(const void* buffer, size_t size) {
+  ssize_t rc = _child->put(buffer, size);
   if (rc < 0) {
     return -1;
   }

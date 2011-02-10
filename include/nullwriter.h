@@ -39,11 +39,11 @@ public:
   int close() {
     return 0;
   }
-  //! \brief Always fail to read, as this is a writer
-  ssize_t read(void*, size_t) {
+  //! \brief Always fails to read, as this is a writer
+  ssize_t get(void*, size_t) {
     return -1;
   }
-  ssize_t write(const void*, size_t size) {
+  ssize_t put(const void*, size_t size) {
     _offset += size;
     return size;
   }

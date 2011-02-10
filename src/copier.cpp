@@ -99,11 +99,11 @@ int Copier::close() {
   return _d->failed ? -1 : 0;
 }
 
-ssize_t Copier::stream(void* buffer, size_t max_size) {
+ssize_t Copier::read(void* buffer, size_t max_size) {
   if ((max_size == 0) || (max_size > _d->buffer_size)) {
     max_size = _d->buffer_size;
   }
-  ssize_t size = _child->read(_d->buffer, max_size);
+  ssize_t size = _child->get(_d->buffer, max_size);
   if (size <= 0) {
     if (size < 0) {
       _d->path = _child->path();
@@ -114,7 +114,7 @@ ssize_t Copier::stream(void* buffer, size_t max_size) {
   if (buffer != NULL) {
     memcpy(buffer, _d->buffer, size);
   }
-  if (_d->writer->write(_d->buffer, size) < size) {
+  if (_d->writer->put(_d->buffer, size) < size) {
     _d->path = _d->writer->path();
     _d->failed = true;
     return -1;
@@ -128,13 +128,13 @@ ssize_t Copier::stream(void* buffer, size_t max_size) {
   return _d->failed ? -1 : size;
 }
 
-ssize_t Copier::read(void* buffer, size_t size) {
+ssize_t Copier::get(void* buffer, size_t size) {
   char* cbuffer = static_cast<char*>(buffer);
   ssize_t rc;
   size_t  count = 0;
   do {
     // size will be BUFFER_SIZE unless the end of file has been reached
-    rc = stream(cbuffer != NULL ? &cbuffer[count] : NULL, size - count);
+    rc = read(cbuffer != NULL ? &cbuffer[count] : NULL, size - count);
     if (rc < 0) {
       return -1;
     } else
@@ -146,8 +146,8 @@ ssize_t Copier::read(void* buffer, size_t size) {
   return count;
 }
 
-ssize_t Copier::Copier::write(const void* buffer, size_t size) {
-  return _d->writer->write(buffer, size);
+ssize_t Copier::Copier::put(const void* buffer, size_t size) {
+  return _d->writer->put(buffer, size);
 }
 
 const char* Copier::path() const {

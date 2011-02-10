@@ -45,7 +45,7 @@ int main() {
         } else {
           size = sizeof(buffer) - count;
         }
-        rc = fw.write(&buffer[count], size);
+        rc = fw.put(&buffer[count], size);
         if (rc < 0) {
           hlog_regression("%s writing file", strerror(errno));
         } else {
@@ -78,7 +78,7 @@ int main() {
         } else {
           size = sizeof(buffer) - count;
         }
-        rc = fr.read(&buffer[count], size);
+        rc = fr.get(&buffer[count], size);
         if (rc < 0) {
           hlog_regression("%s reading file", strerror(errno));
         } else {
@@ -101,7 +101,7 @@ int main() {
       hlog_regression("%s opening file", strerror(errno));
     } else {
       ssize_t rc;
-      rc = fw.write(buffer, size);
+      rc = fw.put(buffer, size);
       if (rc < 0) {
         hlog_regression("%s writing file", strerror(errno));
       } else {

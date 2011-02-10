@@ -79,7 +79,7 @@ int Sender::write(uint16_t tag, const void* buffer, size_t len) {
   tag_len[1] = static_cast<uint8_t>(tag);
   tag_len[2] = static_cast<uint8_t>(len >> 8);
   tag_len[3] = static_cast<uint8_t>(len);
-  rc = _fd.write(tag_len, sizeof(tag_len));
+  rc = _fd.put(tag_len, sizeof(tag_len));
   if (rc < 3) {
     _failed = true;
     return -1;
@@ -87,7 +87,7 @@ int Sender::write(uint16_t tag, const void* buffer, size_t len) {
   // Value
   size_t sent = 0;
   while (sent < len) {
-    rc = _fd.write(&cbuffer[sent], len - sent);
+    rc = _fd.put(&cbuffer[sent], len - sent);
     if (rc <= 0) {
       _failed = true;
       return -1;
@@ -121,7 +121,7 @@ Receiver::Type Receiver::receive(
   ssize_t rc;
   // Receive header first (TL)
   uint8_t tag_len[4];
-  rc = _fd.read(tag_len, sizeof(tag_len));
+  rc = _fd.get(tag_len, sizeof(tag_len));
   if (rc < 3) {
     if (rc == 0) {
       *tag = 0;
@@ -139,7 +139,7 @@ Receiver::Type Receiver::receive(
   // Receive value (V)
   size_t count = 0;
   while (count < *len) {
-    rc = _fd.read(&val[count], *len - count);
+    rc = _fd.get(&val[count], *len - count);
     if (rc <= 0) {
       *len = errno;
       if (rc == 0) {

@@ -42,11 +42,11 @@ public:
   int close() {
     return _child->close();
   }
-  ssize_t read(void* buffer, size_t size) {
-    return _child->read(buffer, size);
+  ssize_t get(void* buffer, size_t size) {
+    return _child->get(buffer, size);
   }
-  ssize_t write(const void* buffer, size_t size) {
-    return _child->write(buffer, size);
+  ssize_t put(const void* buffer, size_t size) {
+    return _child->put(buffer, size);
   }
   const char* path() const {
     return _child->path();

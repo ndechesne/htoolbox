@@ -88,15 +88,15 @@ int MultiWriter::close() {
   return 0;
 }
 
-ssize_t MultiWriter::read(void*, size_t) {
+ssize_t MultiWriter::get(void*, size_t) {
   return -1;
 }
 
-ssize_t MultiWriter::write(const void* buffer, size_t size) {
+ssize_t MultiWriter::put(const void* buffer, size_t size) {
   bool failed = false;
   list<Private::Child>::iterator it;
   for (it = _d->children.begin(); it != _d->children.end(); ++it) {
-    if (it->child->write(buffer, size) < static_cast<ssize_t>(size)) {
+    if (it->child->put(buffer, size) < static_cast<ssize_t>(size)) {
       _d->path = it->child->path();
       failed = true;
       break;

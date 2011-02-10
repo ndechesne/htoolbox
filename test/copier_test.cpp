@@ -47,7 +47,7 @@ int main(void) {
         buffer[i] = static_cast<char>(i + 32);
       }
       for (int i = 0; i < 10000; ++i) {
-        if (fd.write(buffer, sizeof(buffer)) < 0) {
+        if (fd.put(buffer, sizeof(buffer)) < 0) {
           hlog_error("%s writing", strerror(errno));
         }
       }
@@ -79,7 +79,7 @@ int main(void) {
   if (cp.open() < 0) {
     hlog_error("%s opening", strerror(errno));
   } else {
-    ssize_t rc = cp.stream();
+    ssize_t rc = cp.read();
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
@@ -96,13 +96,13 @@ int main(void) {
   if (cp.open() < 0) {
     hlog_error("%s opening", strerror(errno));
   } else {
-    ssize_t rc = cp.stream(NULL, chunk_size / 2);
+    ssize_t rc = cp.read(NULL, chunk_size / 2);
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
       hlog_info("Size = %zd", rc);
     }
-    rc = cp.stream(NULL, chunk_size / 2);
+    rc = cp.read(NULL, chunk_size / 2);
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
@@ -120,25 +120,25 @@ int main(void) {
     hlog_error("%s opening", strerror(errno));
   } else {
     char buffer[chunk_size];
-    ssize_t rc = cp.stream(&buffer[0 * chunk_size / 4], chunk_size / 4);
+    ssize_t rc = cp.read(&buffer[0 * chunk_size / 4], chunk_size / 4);
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
       hlog_info("Size = %zd", rc);
     }
-    rc = cp.stream(&buffer[1 * chunk_size / 4], chunk_size / 4);
+    rc = cp.read(&buffer[1 * chunk_size / 4], chunk_size / 4);
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
       hlog_info("Size = %zd", rc);
     }
-    rc = cp.stream(&buffer[2 * chunk_size / 4], chunk_size / 4);
+    rc = cp.read(&buffer[2 * chunk_size / 4], chunk_size / 4);
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
       hlog_info("Size = %zd", rc);
     }
-    rc = cp.stream(&buffer[3 * chunk_size / 4], chunk_size / 4);
+    rc = cp.read(&buffer[3 * chunk_size / 4], chunk_size / 4);
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
@@ -152,7 +152,7 @@ int main(void) {
     NullWriter nl;
     char buffer_hash[256];
     Hasher hn(&nl, false, Hasher::sha1, buffer_hash);
-    if ((hn.open() < 0) || (hn.write(buffer, sizeof(buffer)) < chunk_size) ||
+    if ((hn.open() < 0) || (hn.put(buffer, sizeof(buffer)) < chunk_size) ||
         (hn.close() < 0)) {
       hlog_error("%s computing buffer hash", strerror(errno));
     } else {
@@ -164,7 +164,7 @@ int main(void) {
   if (cp.open() < 0) {
     hlog_error("%s opening", strerror(errno));
   } else {
-    ssize_t rc = cp.stream(NULL, 2 * chunk_size);
+    ssize_t rc = cp.read(NULL, 2 * chunk_size);
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
@@ -184,7 +184,7 @@ int main(void) {
   if (cp.open() < 0) {
     hlog_error("%s opening", strerror(errno));
   } else {
-    ssize_t rc = cp.read();
+    ssize_t rc = cp.get();
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
@@ -201,7 +201,7 @@ int main(void) {
   if (cp.open() < 0) {
     hlog_error("%s opening", strerror(errno));
   } else {
-    ssize_t rc = cp.read(NULL, 10000000);
+    ssize_t rc = cp.get(NULL, 10000000);
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
@@ -218,7 +218,7 @@ int main(void) {
   if (cp.open() < 0) {
     hlog_error("%s opening", strerror(errno));
   } else {
-    ssize_t rc = cp.read(NULL, chunk_size);
+    ssize_t rc = cp.get(NULL, chunk_size);
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
@@ -235,7 +235,7 @@ int main(void) {
   if (cp.open() < 0) {
     hlog_error("%s opening", strerror(errno));
   } else {
-    ssize_t rc = cp.read(NULL, 2 * chunk_size);
+    ssize_t rc = cp.get(NULL, 2 * chunk_size);
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
@@ -253,7 +253,7 @@ int main(void) {
     hlog_error("%s opening", strerror(errno));
   } else {
     char buffer[4 * chunk_size];
-    ssize_t rc = cp.read(buffer, 4 * chunk_size);
+    ssize_t rc = cp.get(buffer, 4 * chunk_size);
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
@@ -267,7 +267,7 @@ int main(void) {
     NullWriter nl;
     char buffer_hash[256];
     Hasher hn(&nl, false, Hasher::sha1, buffer_hash);
-    if ((hn.open() < 0) || (hn.write(buffer, sizeof(buffer)) < chunk_size) ||
+    if ((hn.open() < 0) || (hn.put(buffer, sizeof(buffer)) < chunk_size) ||
         (hn.close() < 0)) {
       hlog_error("%s computing buffer hash", strerror(errno));
     } else {
@@ -283,43 +283,43 @@ int main(void) {
     hlog_error("%s opening", strerror(errno));
   } else {
     char buffer[] = "abcdefghijklmnopqrstuvwxyz";
-    ssize_t rc = cp.stream(NULL, chunk_size / 2);
+    ssize_t rc = cp.read(NULL, chunk_size / 2);
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
       hlog_info("Size = %zd", rc);
     }
-    rc = cp.write(buffer, strlen(buffer));
-    if (rc < 0) {
-      hlog_error("%s copying", strerror(errno));
-    } else {
-      hlog_info("Size = %zd", rc);
-    }
-    rc = cp.stream();
-    if (rc < 0) {
-      hlog_error("%s copying", strerror(errno));
-    } else {
-      hlog_info("Size = %zd", rc);
-    }
-    rc = cp.write(buffer, strlen(buffer));
-    if (rc < 0) {
-      hlog_error("%s copying", strerror(errno));
-    } else {
-      hlog_info("Size = %zd", rc);
-    }
-    rc = cp.read(NULL, 3 * chunk_size);
-    if (rc < 0) {
-      hlog_error("%s copying", strerror(errno));
-    } else {
-      hlog_info("Size = %zd", rc);
-    }
-    rc = cp.write(buffer, strlen(buffer));
+    rc = cp.put(buffer, strlen(buffer));
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {
       hlog_info("Size = %zd", rc);
     }
     rc = cp.read();
+    if (rc < 0) {
+      hlog_error("%s copying", strerror(errno));
+    } else {
+      hlog_info("Size = %zd", rc);
+    }
+    rc = cp.put(buffer, strlen(buffer));
+    if (rc < 0) {
+      hlog_error("%s copying", strerror(errno));
+    } else {
+      hlog_info("Size = %zd", rc);
+    }
+    rc = cp.get(NULL, 3 * chunk_size);
+    if (rc < 0) {
+      hlog_error("%s copying", strerror(errno));
+    } else {
+      hlog_info("Size = %zd", rc);
+    }
+    rc = cp.put(buffer, strlen(buffer));
+    if (rc < 0) {
+      hlog_error("%s copying", strerror(errno));
+    } else {
+      hlog_info("Size = %zd", rc);
+    }
+    rc = cp.get();
     if (rc < 0) {
       hlog_error("%s copying", strerror(errno));
     } else {

@@ -42,14 +42,14 @@ void* server_thread(void* user) {
   ssize_t rc;
   do {
     char buffer[65536];
-    rc = server.stream(buffer, sizeof(buffer));
+    rc = server.read(buffer, sizeof(buffer));
     if (rc > 0) {
       hlog_info("received '%s'", buffer);
     } else {
       break;
     }
     strcat(buffer, ". server is alive and kicking.");
-    rc = server.write(buffer, strlen(buffer) + 1);
+    rc = server.put(buffer, strlen(buffer) + 1);
   } while (rc > 0);
   hlog_info("client disconnected");
   if (server.close() < 0) {
@@ -107,20 +107,20 @@ int main() {
 
   char buffer[65536];
   strcpy(buffer, "This is my message");
-  if (client1.write(buffer, strlen(buffer) + 1) < 0) {
+  if (client1.put(buffer, strlen(buffer) + 1) < 0) {
     hlog_error("%s, client1 failed to write", strerror(-rc));
   }
 
   usleep(1000);
 
   strcpy(buffer, "Let us have another message");
-  if (client2.write(buffer, strlen(buffer) + 1) < 0) {
+  if (client2.put(buffer, strlen(buffer) + 1) < 0) {
     hlog_error("%s, client2 failed to write", strerror(-rc));
   }
 
   usleep(1000);
 
-  if (client1.stream(buffer, sizeof(buffer)) < 0) {
+  if (client1.read(buffer, sizeof(buffer)) < 0) {
     hlog_error("%s, client1 failed to write", strerror(-rc));
   } else {
     hlog_info("message from server to client1: '%s'", buffer);
@@ -128,7 +128,7 @@ int main() {
 
   usleep(1000);
 
-  if (client2.stream(buffer, sizeof(buffer)) < 0) {
+  if (client2.read(buffer, sizeof(buffer)) < 0) {
     hlog_error("%s, client2 failed to write", strerror(-rc));
   } else {
     hlog_info("message from server to client2: '%s'", buffer);

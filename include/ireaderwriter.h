@@ -75,14 +75,14 @@ public:
    * \param size        required number of bytes
    * \return            negative number on failure, positive or null on success
   */
-  virtual ssize_t read(void* buffer, size_t size) = 0;
+  virtual ssize_t get(void* buffer, size_t size) = 0;
   //! \brief Write all given bytes to stream
   /*!
    * \param buffer      buffer from which to read the data
    * \param size        provided number of bytes
    * \return            negative number on failure, positive or null on success
   */
-  virtual ssize_t write(const void* buffer, size_t size) = 0;
+  virtual ssize_t put(const void* buffer, size_t size) = 0;
   //! \brief Get underlying stream path
   /*!
    * \return            path to the underlying stream
