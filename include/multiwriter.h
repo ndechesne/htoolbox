@@ -30,29 +30,31 @@ namespace htoolbox {
 class MultiWriter : public IReaderWriter {
   struct         Private;
   Private* const _d;
+  MultiWriter(const MultiWriter&);
+  const MultiWriter& operator=(const MultiWriter&);
 public:
   //! \brief Constructor
   /*!
    * \param child        underlying stream to write to
    * \param delete_child whether to also delete child at destruction
-  */
+   */
   MultiWriter(IReaderWriter* child, bool delete_child);
   ~MultiWriter();
+  //! \brief Add more writers
+  /*!
+   * \param child        underlying stream to write to
+   * \param delete_child whether to also delete child at destruction
+   */
+  void add(IReaderWriter* child, bool delete_child);
   int open();
   int close();
   //! \brief Always fail to read, as this is a writer
   ssize_t read(void* buffer, size_t size);
   ssize_t write(const void* buffer, size_t size);
-  //! \brief Returns first valid path found, if any
+  //! \brief Returns the path of the last error if any, or an empty string
   const char* path() const;
-  //! \brief Returns first valid offset found, if any
+  //! \brief Returns the first valid offset found, if any
   long long offset() const;
-  //! \brief Add more writers
-  /*!
-   * \param child        underlying stream to write to
-   * \param delete_child whether to also delete child at destruction
-  */
-  void add(IReaderWriter* child, bool delete_child);
 };
 
 };

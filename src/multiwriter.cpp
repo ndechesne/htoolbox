@@ -30,6 +30,8 @@ struct MultiWriter::Private {
     // A child destructor here destroys the child as it is enlisted
   };
   list<Child> children;
+  const char* path;
+  Private() : path("") {}
 };
 
 MultiWriter::MultiWriter(IReaderWriter* child, bool delete_child) :
@@ -47,11 +49,16 @@ MultiWriter::~MultiWriter() {
   delete _d;
 }
 
+void MultiWriter::add(IReaderWriter* child, bool delete_child) {
+  _d->children.push_back(Private::Child(child, delete_child));
+}
+
 int MultiWriter::open() {
   bool failed = false;
   list<Private::Child>::iterator it;
   for (it = _d->children.begin(); it != _d->children.end(); ++it) {
     if (it->child->open() < 0) {
+      _d->path = it->child->path();
       failed = true;
       break;
     }
@@ -71,6 +78,7 @@ int MultiWriter::close() {
   list<Private::Child>::iterator it;
   for (it = _d->children.begin(); it != _d->children.end(); ++it) {
     if (it->child->close() < 0) {
+      _d->path = it->child->path();
       failed = true;
     }
   }
@@ -89,6 +97,7 @@ ssize_t MultiWriter::write(const void* buffer, size_t size) {
   list<Private::Child>::iterator it;
   for (it = _d->children.begin(); it != _d->children.end(); ++it) {
     if (it->child->write(buffer, size) < static_cast<ssize_t>(size)) {
+      _d->path = it->child->path();
       failed = true;
       break;
     }
@@ -100,14 +109,7 @@ ssize_t MultiWriter::write(const void* buffer, size_t size) {
 }
 
 const char* MultiWriter::path() const {
-  list<Private::Child>::iterator it;
-  for (it = _d->children.begin(); it != _d->children.end(); ++it) {
-    const char* path = it->child->path();
-    if (path != NULL) {
-      return path;
-    }
-  }
-  return NULL;
+  return _d->path;
 }
 
 long long MultiWriter::offset() const {
@@ -119,8 +121,4 @@ long long MultiWriter::offset() const {
     }
   }
   return -1;
-}
-
-void MultiWriter::add(IReaderWriter* child, bool delete_child) {
-  _d->children.push_back(Private::Child(child, delete_child));
 }

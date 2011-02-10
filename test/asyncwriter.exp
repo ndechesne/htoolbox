@@ -10,7 +10,7 @@ Pit called for 1000000 at time 3
 offset = '1006124'
 hash1 = 'e578857d8c46c367f7f0845d2f4c5cfe'
 hash2 = 'e578857d8c46c367f7f0845d2f4c5cfe'
-path = 'pit'
+path = ''
 Top called for 1024 at time 4
 Top called for 1024 at time 4
 Top called for 5000 at time 4

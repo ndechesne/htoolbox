@@ -29,13 +29,14 @@ using namespace std;
 using namespace htoolbox;
 
 struct Copier::Private {
+  const char*   path;
   bool          failed;
   MultiWriter*  writer;
   size_t        buffer_size;
   void*         buffer1;
   void*         buffer2;
   void*         buffer;
-  Private(size_t size) : writer(NULL), buffer1(NULL), buffer2(NULL) {
+  Private(size_t size) : path(""), writer(NULL), buffer1(NULL), buffer2(NULL) {
     buffer_size = size;
     buffer1 = malloc(buffer_size);
     buffer2 = malloc(buffer_size);
@@ -58,14 +59,6 @@ Copier::~Copier() {
 }
 
 void Copier::addDest(IReaderWriter* child, bool delete_child) {
-#if 0
-if (_d->writer == NULL) {
-  _d->writer = new MultiWriter(child, delete_child);
-} else {
-  _d->writer->add(child, delete_child);
-}
-return;
-#endif
   AsyncWriter* c = new AsyncWriter(child, delete_child);
   if (_d->writer == NULL) {
     _d->writer = new MultiWriter(c, true);
@@ -81,10 +74,12 @@ int Copier::open() {
     return -1;
   }
   if (_child->open() < 0) {
+    _d->path = _child->path();
     _d->failed = true;
     return -1;
   }
   if (_d->writer->open() < 0) {
+    _d->path = _d->writer->path();
     _child->close();
     _d->failed = true;
     return -1;
@@ -93,7 +88,12 @@ int Copier::open() {
 }
 
 int Copier::close() {
-  if ((_child->close() < 0) || (_d->writer->close() < 0)) {
+  if (_d->writer->close() < 0) {
+    _d->path = _d->writer->path();
+    _d->failed = true;
+  }
+  if (_child->close() < 0) {
+    _d->path = _child->path();
     _d->failed = true;
   }
   return _d->failed ? -1 : 0;
@@ -106,6 +106,7 @@ ssize_t Copier::stream(void* buffer, size_t max_size) {
   ssize_t size = _child->read(_d->buffer, max_size);
   if (size <= 0) {
     if (size < 0) {
+      _d->path = _child->path();
       _d->failed = true;
     }
     return size;
@@ -113,7 +114,9 @@ ssize_t Copier::stream(void* buffer, size_t max_size) {
   if (buffer != NULL) {
     memcpy(buffer, _d->buffer, size);
   }
+  // FIXME Should compare with size, not 0
   if (_d->writer->write(_d->buffer, size) < 0) {
+    _d->path = _d->writer->path();
     _d->failed = true;
     return -1;
   }
@@ -146,4 +149,8 @@ ssize_t Copier::read(void* buffer, size_t size) {
 
 ssize_t Copier::Copier::write(const void* buffer, size_t size) {
   return _d->writer->write(buffer, size);
+}
+
+const char* Copier::path() const {
+  return _d->path;
 }
