@@ -114,8 +114,7 @@ ssize_t Copier::stream(void* buffer, size_t max_size) {
   if (buffer != NULL) {
     memcpy(buffer, _d->buffer, size);
   }
-  // FIXME Should compare with size, not 0
-  if (_d->writer->write(_d->buffer, size) < 0) {
+  if (_d->writer->write(_d->buffer, size) < size) {
     _d->path = _d->writer->path();
     _d->failed = true;
     return -1;
