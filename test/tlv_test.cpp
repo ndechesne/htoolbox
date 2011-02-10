@@ -55,9 +55,9 @@ void* receiver(void*) {
 
   Receiver::Type type;
   do {
-    uint8_t tag;
-    size_t  len;
-    char    val[65535];
+    uint16_t    tag;
+    size_t      len;
+    char        val[65536];
     type = receiver.receive(&tag, &len, val);
     hlog_info("receive: type=%d tag=%u, len=%zu, value='%s'",
       type, tag, len, ((len > 0) || (tag == 0)) ? val : "");
@@ -120,7 +120,7 @@ int main(void) {
   hlog_info("log test");
   // The global report shall log to the socket, but filter out the thread
   report.stopConsoleLog();
-  Report::TlvOutput o(sender, 11);
+  Report::TlvOutput o(sender);
   Report::Filter f("sender", &o, false);
   f.addCondition(false, "tlv_test.cpp", 37, 71);
   report.add(&f);

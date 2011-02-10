@@ -23,8 +23,10 @@
 namespace htoolbox {
 namespace tlv {
 
-// Tag 0 is reserved for internal use
+// Tag max allowed value is 64999
 // Message max length = 65535, buffers need to be 65536 long (\0 always added)
+
+const uint16_t log_start_tag = 65520;
 
 class Sender {
   IReaderWriter&  _fd;
@@ -39,8 +41,8 @@ public:
   // Check other end
   int check();
   // Add data to message
-  int write(uint8_t tag, const void* buffer, size_t len = 0);
-  int write(uint8_t tag, int32_t number);
+  int write(uint16_t tag, const void* buffer, size_t len = 0);
+  int write(uint16_t tag, int32_t number);
   // End message
   int end();
 };
@@ -63,7 +65,7 @@ public:
   Receiver(IReaderWriter& fd) : _fd(fd) {}
   // Get message
   Type receive(
-    uint8_t*    tag,
+    uint16_t*   tag,
     size_t*     len,
     char        val[65536]);
 };

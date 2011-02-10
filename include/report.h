@@ -123,11 +123,9 @@ namespace htoolbox {
 
     class TlvOutput : public IOutput {
       tlv::Sender&      _sender;
-      uint8_t           _start_tag;
     public:
       // The log consumes 9 tags
-      TlvOutput(tlv::Sender& sender, uint8_t start_tag)
-        : _sender(sender), _start_tag(start_tag) {
+      TlvOutput(tlv::Sender& sender) : _sender(sender) {
         open();
       }
       int log(

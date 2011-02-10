@@ -529,12 +529,12 @@ int Report::TlvOutput::log(
     size_t          indent,
     const char*     format,
     va_list*        args) {
-  uint8_t tag = _start_tag;
+  uint16_t tag = tlv::log_start_tag;
   _sender.write(tag++, file);
-  _sender.write(tag++, static_cast<uint32_t>(line));
+  _sender.write(tag++, static_cast<int32_t>(line));
   _sender.write(tag++, level);
   _sender.write(tag++, temporary);
-  _sender.write(tag++, static_cast<uint32_t>(indent));
+  _sender.write(tag++, static_cast<int32_t>(indent));
   char buffer[65536];
   vsnprintf(buffer, sizeof(buffer), format, *args);
   buffer[sizeof(buffer) - 1] = '\0';

@@ -28,9 +28,9 @@ using namespace htoolbox;
 using namespace tlv;
 
 enum {
-  START_CODE = 0xbadc01d0,
-  END_CODE   = 0xdeadbeef,
-  CHECK_CODE = 0xc01dbed5,
+  START_TAG  = 65530,
+  CHECK_TAG  = 65531,
+  END_TAG    = 65532,
   MAX_LENGTH = 0xffff,
 };
 
@@ -41,7 +41,7 @@ int Sender::start() {
     return -1;
   }
   _started = true;
-  int rc = write(0, START_CODE);
+  int rc = write(START_TAG, "");
   _failed = rc < 0;
   return rc;
 }
@@ -52,12 +52,12 @@ int Sender::check() {
     _failed = true;
     return -1;
   }
-  int rc = write(0, CHECK_CODE);
+  int rc = write(CHECK_TAG, "");
   _failed = rc < 0;
   return rc;
 }
 
-int Sender::write(uint8_t tag, const void* buffer, size_t len) {
+int Sender::write(uint16_t tag, const void* buffer, size_t len) {
   if (! _started) {
     errno = EBADF;
     _failed = true;
@@ -74,31 +74,30 @@ int Sender::write(uint8_t tag, const void* buffer, size_t len) {
   }
   ssize_t rc;
   // Tag and length
-  char tag_len[3];
-  tag_len[0] = tag;
-  tag_len[1] = static_cast<char>(len >> 8);
-  tag_len[2] = static_cast<char>(len);
+  uint8_t tag_len[4];
+  tag_len[0] = static_cast<uint8_t>(tag >> 8);
+  tag_len[1] = static_cast<uint8_t>(tag);
+  tag_len[2] = static_cast<uint8_t>(len >> 8);
+  tag_len[3] = static_cast<uint8_t>(len);
   rc = _fd.write(tag_len, sizeof(tag_len));
   if (rc < 3) {
     _failed = true;
     return -1;
   }
   // Value
-  if (len > 0) {
-    size_t sent = 0;
-    while (sent < len) {
-      rc = _fd.write(&cbuffer[sent], len - sent);
-      if (rc <= 0) {
-        _failed = true;
-        return -1;
-      }
-      sent += rc;
+  size_t sent = 0;
+  while (sent < len) {
+    rc = _fd.write(&cbuffer[sent], len - sent);
+    if (rc <= 0) {
+      _failed = true;
+      return -1;
     }
+    sent += rc;
   }
   return 0;
 }
 
-int Sender::write(uint8_t tag, int32_t number) {
+int Sender::write(uint16_t tag, int32_t number) {
   char string[16];
   int len = sprintf(string, "%d", number);
   return write(tag, string, len);
@@ -110,18 +109,18 @@ int Sender::end() {
     _failed = true;
     return -1;
   }
-  write(0, END_CODE);
+  write(END_TAG, "");
   _started = false;
   return _failed ? -1 : 0;
 }
 
 Receiver::Type Receiver::receive(
-    uint8_t*    tag,
+    uint16_t*   tag,
     size_t*     len,
     char*       val) {
   ssize_t rc;
   // Receive header first (TL)
-  uint8_t tag_len[3];
+  uint8_t tag_len[4];
   rc = _fd.read(tag_len, sizeof(tag_len));
   if (rc < 3) {
     if (rc == 0) {
@@ -135,9 +134,8 @@ Receiver::Type Receiver::receive(
     }
     return Receiver::ERROR;
   }
-  *tag = tag_len[0];
-  *len = tag_len[1] << 8;
-  *len |= tag_len[2];
+  *tag = static_cast<uint16_t>((tag_len[0] << 8) + tag_len[1]);
+  *len = static_cast<uint16_t>((tag_len[2] << 8) + tag_len[3]);
   // Receive value (V)
   size_t count = 0;
   while (count < *len) {
@@ -157,36 +155,21 @@ Receiver::Type Receiver::receive(
   val[*len] = '\0';
   // Call listener
   Type type;
-  if (*tag == 0) {
-    uint32_t code;
-    if (sscanf(val, "%d", &code) < 1) {
-      char message[128];
-      sprintf(message, "decoding value '%s' %x", val, val[0]);
-      strcpy(val, message);
-      type = Receiver::ERROR;
-    } else
-    if (code == START_CODE) {
-      *len = 0;
+  switch (*tag) {
+    case START_TAG:
       strcpy(val, "start");
       type = Receiver::START;
-    } else
-    if (code == CHECK_CODE) {
-      *len = 0;
+      break;
+    case CHECK_TAG:
       strcpy(val, "check");
       type = Receiver::CHECK;
-    } else
-    if (code == END_CODE) {
-      *len = 0;
+      break;
+    case END_TAG:
       strcpy(val, "end");
       type = Receiver::END;
-    } else
-    {
-      sprintf(val, "interpreting value %x, len = %zu", code, *len);
-      *len = EINVAL;
-      type = Receiver::ERROR;
-    }
-  } else {
-    type = Receiver::DATA;
+      break;
+    default:
+      type = Receiver::DATA;
   }
   return type;
 }
