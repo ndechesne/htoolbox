@@ -157,6 +157,7 @@ public:
     return Path::compare(_path, right._path) < 0;
   }
   // Data read access
+  bool          exists()  const { return _type != '?';  }
   bool          isDir()   const { return _type == 'd';  }
   bool          isReg()   const { return _type == 'f';  }
   bool          isLink()  const { return _type == 'l';  }

@@ -291,23 +291,33 @@ int main(void) {
 
 
   cout << endl << "Validity tests" << endl;
+  cout << "File exists? " << Node("test1/testfile").exists() << endl;
   cout << "File is file? " << Node("test1/testfile").isReg() << endl;
   cout << "File is dir? " << Node("test1/testfile").isDir() << endl;
   cout << "File is link? " << Node("test1/testfile").isLink() << endl;
+
+  cout << "Dir exists? " << Node("test1/testdir").exists() << endl;
   cout << "Dir is file? " << Node("test1/testdir").isReg() << endl;
   cout << "Dir is dir? " << Node("test1/testdir").isDir() << endl;
   cout << "Dir is link? " << Node("test1/testdir").isLink() << endl;
+
+  cout << "Link exists? " << Node("test1/testlink").exists() << endl;
   cout << "Link is file? " << Node("test1/testlink").isReg() << endl;
   cout << "Link is dir? " << Node("test1/testlink").isDir() << endl;
   cout << "Link is link? " << Node("test1/testlink").isLink() << endl;
 
   cout << endl << "Creation tests" << endl;
+  cout << "File exists? " << Node("test1/touchedfile").exists() << endl;
   cout << "File is file? " << Node("test1/touchedfile").isReg() << endl;
   cout << "File is dir? " << Node("test1/touchedfile").isDir() << endl;
   cout << "File is link? " << Node("test1/touchedfile").isLink() << endl;
+
+  cout << "Dir exists? " << Node("test1/toucheddir").exists() << endl;
   cout << "Dir is file? " << Node("test1/toucheddir").isReg() << endl;
   cout << "Dir is dir? " << Node("test1/toucheddir").isDir() << endl;
   cout << "Dir is link? " << Node("test1/toucheddir").isLink() << endl;
+
+  cout << "Link exists? " << Node("test1/touchedlink").exists() << endl;
   cout << "Link is file? " << Node("test1/touchedlink").isReg() << endl;
   cout << "Link is dir? " << Node("test1/touchedlink").isDir() << endl;
   cout << "Link is link? " << Node("test1/touchedlink").isLink() << endl;
@@ -318,12 +328,17 @@ int main(void) {
   if (Node("test1/toucheddir").mkdir())
     cout << "failed to create dir" << endl;
 
+  cout << "File exists? " << Node("test1/touchedfile").exists() << endl;
   cout << "File is file? " << Node("test1/touchedfile").isReg() << endl;
   cout << "File is dir? " << Node("test1/touchedfile").isDir() << endl;
   cout << "File is link? " << Node("test1/touchedfile").isLink() << endl;
+
+  cout << "Dir exists? " << Node("test1/toucheddir").exists() << endl;
   cout << "Dir is file? " << Node("test1/toucheddir").isReg() << endl;
   cout << "Dir is dir? " << Node("test1/toucheddir").isDir() << endl;
   cout << "Dir is link? " << Node("test1/toucheddir").isLink() << endl;
+
+  cout << "Link exists? " << Node("test1/touchedlink").exists() << endl;
   cout << "Link is file? " << Node("test1/touchedlink").isReg() << endl;
   cout << "Link is dir? " << Node("test1/touchedlink").isDir() << endl;
   cout << "Link is link? " << Node("test1/touchedlink").isLink() << endl;
@@ -334,12 +349,17 @@ int main(void) {
   if (Node("test1/toucheddir").mkdir())
     cout << "failed to create dir: " << strerror(errno) << endl;
 
+  cout << "File exists? " << Node("test1/touchedfile").exists() << endl;
   cout << "File is file? " << Node("test1/touchedfile").isReg() << endl;
   cout << "File is dir? " << Node("test1/touchedfile").isDir() << endl;
   cout << "File is link? " << Node("test1/touchedfile").isLink() << endl;
+
+  cout << "Dir exists? " << Node("test1/toucheddir").exists() << endl;
   cout << "Dir is file? " << Node("test1/toucheddir").isReg() << endl;
   cout << "Dir is dir? " << Node("test1/toucheddir").isDir() << endl;
   cout << "Dir is link? " << Node("test1/toucheddir").isLink() << endl;
+
+  cout << "Link exists? " << Node("test1/touchedlink").exists() << endl;
   cout << "Link is file? " << Node("test1/touchedlink").isReg() << endl;
   cout << "Link is dir? " << Node("test1/touchedlink").isDir() << endl;
   cout << "Link is link? " << Node("test1/touchedlink").isLink() << endl;
