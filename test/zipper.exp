@@ -4,3 +4,9 @@ only read 200000 bytes on iteration #7
 count = 8, hash = e25ee9ff9b39f1ec32eb3a23efc1772e
 only read 2000000 bytes on iteration #1
 count = 2, hash = e25ee9ff9b39f1ec32eb3a23efc1772e
+count = 2000329, hash = 4c915884369504ac6d02654058c394c0
+only read 200328 bytes on iteration #7
+count = 8, hash = 4c915884369504ac6d02654058c394c0
+only read 2000328 bytes on iteration #1
+count = 2, hash = 4c915884369504ac6d02654058c394c0
+hash = 4c915884369504ac6d02654058c394c0

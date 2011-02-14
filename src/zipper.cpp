@@ -87,7 +87,7 @@ struct Zipper::Private {
     return strm.avail_out == 0;
   }
   ssize_t update(void* buffer, size_t size) {
-    strm.avail_out = size;
+    strm.avail_out = static_cast<uInt>(size);
     strm.next_out  = static_cast<Bytef*>(buffer);
     int rc;
     const char* mode;

@@ -49,8 +49,8 @@ case $1 in
   "us" )
     export NAME="unix_socket"
     ;;
-  "zu" )
-    export NAME="zip_unzip"
+  "zip" )
+    export NAME="zipper"
     ;;
   * )
     export NAME="$1"
