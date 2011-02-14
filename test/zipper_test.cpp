@@ -21,8 +21,7 @@
 
 #include <report.h>
 #include "filereaderwriter.h"
-#include "zipwriter.h"
-#include "unzipreader.h"
+#include "zipper.h"
 #include "hasher.h"
 
 using namespace htoolbox;
@@ -32,7 +31,7 @@ int main() {
 
   FileReaderWriter fw("random.gz", true);
   char hash[129];
-  ZipWriter zw(&fw, false, 5);
+  Zipper zw(&fw, false, 5);
   Hasher hw(&zw, false, Hasher::md5, hash);
   memset(hash, 0, 129);
   if (hw.open() < 0) return 0;
@@ -44,7 +43,7 @@ int main() {
   hlog_regression("hash = %s", hash);
 
   FileReaderWriter fr("random.gz", false);
-  UnzipReader ur(&fr, false);
+  Zipper ur(&fr, false);
   Hasher hr(&ur, false, Hasher::md5, hash);
   ssize_t rc;
   size_t count;

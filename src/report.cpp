@@ -34,7 +34,7 @@ using namespace std;
 
 #include <files.h>
 #include <filereaderwriter.h>
-#include <zipwriter.h>
+#include <zipper.h>
 #include <asyncwriter.h>
 
 using namespace htoolbox;
@@ -321,7 +321,7 @@ struct Report::FileOutput::Private {
     FileReaderWriter fr(name, false);
     sprintf(&name[length], ".gz");
     FileReaderWriter fw(name, true);
-    ZipWriter zw(&fw, false, 5);
+    Zipper zw(&fw, false, 5);
     AsyncWriter aw(&zw, false);
     bool failed = false;
     if (fr.open() < 0) {

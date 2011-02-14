@@ -14,37 +14,36 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _ZIPWRITER_H
-#define _ZIPWRITER_H
+#ifndef _ZIPPER_H
+#define _ZIPPER_H
 
 #include <ireaderwriter.h>
 
 namespace htoolbox {
 
-//! \brief Writer that zips on the fly
+//! \brief ReaderWriter that (un)zips on the fly
 /*!
- * Writing to this stream will automatically zip the data before writing to the
- * underlying stream.
+ * Reading from/writing to this stream will automatically (un)zip the data
+ * before reading from/writing to the underlying stream.
  */
-class ZipWriter : public IReaderWriter {
+class Zipper : public IReaderWriter {
   struct         Private;
   Private* const _d;
 public:
   //! \brief Constructor
   /*!
-   * \param child             underlying stream to write to
+   * \param child             underlying stream
    * \param delete_child      whether to also delete child at destruction
-   * \param compression_level the compression level to apply
+   * \param compression_level the compression level to apply, -1 to uncompress
   */
-  ZipWriter(IReaderWriter* child, bool delete_child, int compression_level);
-  ~ZipWriter();
+  Zipper(IReaderWriter* child, bool delete_child, int compression_level = -1);
+  ~Zipper();
   int open();
   int close();
-  // Always fails to read as this is a writer
   ssize_t get(void* buffer, size_t size);
   ssize_t put(const void* buffer, size_t size);
 };
 
 };
 
-#endif // _ZIPWRITER_H
+#endif // _ZIPPER_H

@@ -29,10 +29,6 @@ using namespace std;
 
 #include "report.h"
 #include "files.h"
-#include "filereaderwriter.h"
-#include "unzipreader.h"
-#include "zipwriter.h"
-#include "hasher.h"
 
 using namespace htoolbox;
 

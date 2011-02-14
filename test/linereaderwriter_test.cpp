@@ -25,8 +25,7 @@ using namespace std;
 
 #include "report.h"
 #include "filereaderwriter.h"
-#include "zipwriter.h"
-#include "unzipreader.h"
+#include "zipper.h"
 #include "linereaderwriter.h"
 
 using namespace htoolbox;
@@ -99,7 +98,7 @@ int main() {
   hlog_regression("Compressed empty file");
 
   writefile = new FileReaderWriter("lineread.gz", true);
-  writefile = new ZipWriter(writefile, true, 5);
+  writefile = new Zipper(writefile, true, 5);
   if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
@@ -108,7 +107,7 @@ int main() {
   delete writefile;
 
   fr = new FileReaderWriter("lineread.gz", false);
-  fr = new UnzipReader(fr, true);
+  fr = new Zipper(fr, true);
   readfile = new LineReaderWriter(fr, true);
   line_test = NULL;
   line_test_capacity = 0;
@@ -125,7 +124,7 @@ int main() {
   hlog_regression("Compressed simple file");
 
   writefile = new FileReaderWriter("lineread.gz", true);
-  writefile = new ZipWriter(writefile, true, 5);
+  writefile = new Zipper(writefile, true, 5);
   LineReaderWriter* writeline = new LineReaderWriter(writefile, false);
   if (writeline->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
@@ -139,7 +138,7 @@ int main() {
   delete writeline;
 
   fr = new FileReaderWriter("lineread.gz", false);
-  fr = new UnzipReader(fr, true);
+  fr = new Zipper(fr, true);
   readfile = new LineReaderWriter(fr, true);
   if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
@@ -156,7 +155,7 @@ int main() {
   hlog_regression("Compressed simple file, getDelim()");
 
   writefile = new FileReaderWriter("lineread.gz", true);
-  writefile = new ZipWriter(writefile, true, 5);
+  writefile = new Zipper(writefile, true, 5);
   if (writefile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   } else {
@@ -167,7 +166,7 @@ int main() {
   delete writefile;
 
   fr = new FileReaderWriter("lineread.gz", false);
-  fr = new UnzipReader(fr, true);
+  fr = new Zipper(fr, true);
   readfile = new LineReaderWriter(fr, true);
   if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
@@ -188,7 +187,7 @@ int main() {
     line[i] = static_cast<char>((rand() & 0x3f) + 0x20);
   }
   writefile = new FileReaderWriter("lineread.gz", true);
-  writefile = new ZipWriter(writefile, true, 5);
+  writefile = new Zipper(writefile, true, 5);
   writeline = new LineReaderWriter(writefile, false);
   if (writeline->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
@@ -203,7 +202,7 @@ int main() {
   delete writefile;
 
   fr = new FileReaderWriter("lineread.gz", false);
-  fr = new UnzipReader(fr, true);
+  fr = new Zipper(fr, true);
   readfile = new LineReaderWriter(fr, true);
   if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
@@ -223,7 +222,7 @@ int main() {
   hlog_regression("Same file, getDelim() / read() / getDelim()");
 
   fr = new FileReaderWriter("lineread.gz", false);
-  fr = new UnzipReader(fr, true);
+  fr = new Zipper(fr, true);
   readfile = new LineReaderWriter(fr, true);
   if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;

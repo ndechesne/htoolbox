@@ -1,1 +1,5 @@
 TODO - non-organised list of things I want to do
+* test zip/unzip on both get/put: only zip+write and unzip+read tested as yet
+* all to implement read
+* copier to adapt buffer size to keep both reader and writer busy (esp. startup)
+* copier to call read in read if buffer size > 0

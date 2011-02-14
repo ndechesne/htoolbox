@@ -20,7 +20,7 @@ check_PROGRAMS = \
   unix_socket_test \
   threads_manager_test \
   threads_manager_extensive_test \
-  zip_unzip_test \
+  zipper_test \
   $(NULL)
 
 abstract_socket_test_SOURCES = abstract_socket_test.cpp
@@ -38,7 +38,7 @@ tlv_test_SOURCES = tlv_test.cpp
 unix_socket_test_SOURCES = unix_socket_test.cpp
 threads_manager_test_SOURCES = threads_manager_test.cpp
 threads_manager_extensive_test_SOURCES = threads_manager_extensive_test.cpp
-zip_unzip_test_SOURCES = zip_unzip_test.cpp
+zipper_test_SOURCES = zipper_test.cpp
 
 abstract_socket_test.cpp: socket_test.cpp Makefile
 	cat $< \
@@ -81,7 +81,7 @@ check_SUCCESSES = \
   copier.done \
   files.done \
   report.done \
-  zip_unzip.done \
+  zipper.done \
   $(NULL)
 
 EXTRA_DIST = \
@@ -99,5 +99,5 @@ EXTRA_DIST = \
   unix_socket.exp \
   threads_manager.exp \
   threads_manager_extensive.exp \
-  zip_unzip.exp \
+  zipper.exp \
   $(NULL)

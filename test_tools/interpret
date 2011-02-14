@@ -28,8 +28,8 @@ case $1 in
   "is" )
     export NAME="inet_socket"
     ;;
-  "lr" )
-    export NAME="linereader"
+  "ln" )
+    export NAME="linereaderwriter"
     ;;
   "ob" )
     export NAME="observer"

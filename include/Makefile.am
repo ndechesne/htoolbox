@@ -18,9 +18,8 @@ htoolsinclude_HEADERS = \
   socket.h \
   stackhelper.h \
   tlv.h \
-  unzipreader.h \
   threads_manager.h \
-  zipwriter.h \
+  zipper.h \
   $(NULL)
 
 EXTRA_DIST = \
@@ -41,7 +40,6 @@ EXTRA_DIST = \
   socket.h \
   stackhelper.h \
   tlv.h \
-  unzipreader.h \
   threads_manager.h \
-  zipwriter.h \
+  zipper.h \
   $(NULL)
