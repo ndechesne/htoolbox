@@ -62,6 +62,14 @@ int FileReaderWriter::close() {
   return rc;
 }
 
+ssize_t FileReaderWriter::read(void* buffer, size_t size) {
+  ssize_t rc = ::read(_d->fd, buffer, size);
+  if (rc > 0) {
+    _d->offset += rc;
+  }
+  return rc;
+}
+
 ssize_t FileReaderWriter::get(void* buffer, size_t size) {
   char* cbuffer = static_cast<char*>(buffer);
   ssize_t ssize = size;

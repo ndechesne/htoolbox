@@ -40,6 +40,10 @@ public:
     return 0;
   }
   //! \brief Always fails to read, as this is a writer
+  ssize_t read(void*, size_t) {
+    return -1;
+  }
+  //! \brief Always fails to get, as this is a writer
   ssize_t get(void*, size_t) {
     return -1;
   }

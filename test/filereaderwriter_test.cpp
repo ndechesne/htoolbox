@@ -29,6 +29,7 @@ int main() {
   report.setLevel(regression);
   int sys_rc = 0;
 
+  hlog_regression("Test: put");
   {
     FileReaderWriter fw("testfile", true);
     if (fw.open() < 0) {
@@ -50,7 +51,7 @@ int main() {
           hlog_regression("%s writing file", strerror(errno));
         } else {
           hlog_regression("written %zd bytes (total %lld) to %s",
-                          rc, fw.offset(), fw.path());
+            rc, fw.offset(), fw.path());
         }
         count += rc;
       } while (rc > 0);
@@ -61,6 +62,7 @@ int main() {
     sys_rc = system("md5sum testfile");
   }
 
+  hlog_regression("Test: get");
   {
     char buffer[6000];
     memset(buffer, 0, sizeof(buffer));
@@ -83,7 +85,7 @@ int main() {
           hlog_regression("%s reading file", strerror(errno));
         } else {
           hlog_regression("read %zd bytes (total %lld) from %s",
-                          rc, fr.offset(), fr.path());
+            rc, fr.offset(), fr.path());
         }
         count += rc;
       } while (rc > 0);
@@ -113,6 +115,53 @@ int main() {
       }
     }
     sys_rc = system("md5sum testfile2");
+  }
+
+  hlog_regression("Test: read");
+  {
+    FileReaderWriter fw("testfile", true);
+    if (fw.open() < 0) {
+      hlog_regression("%s opening file", strerror(errno));
+    } else {
+      char buffer[5000];
+      memset(buffer, 0x61, sizeof(buffer));
+      ssize_t rc;
+      for (int i =0; i < 1000; ++i) {
+        rc = fw.put(buffer, sizeof(buffer));
+        if (rc < 0) {
+          hlog_regression("%s writing file", strerror(errno));
+        } else {
+          hlog_regression("written %zd bytes (total %lld) to %s",
+            rc, fw.offset(), fw.path());
+        }
+      }
+      if (fw.close() < 0) {
+        hlog_regression("%s closing file", strerror(errno));
+      }
+    }
+    sys_rc = system("md5sum testfile");
+
+    FileReaderWriter fr("testfile", false);
+    if (fr.open() < 0) {
+      hlog_regression("%s opening file", strerror(errno));
+    } else {
+      ssize_t rc;
+      size_t count = 0;
+      char buffer[900000];
+      do {
+        rc = fr.read(buffer, sizeof(buffer));
+        if (rc < 0) {
+          hlog_regression("%s reading file", strerror(errno));
+        } else {
+          hlog_regression("read %zd bytes (total %lld) from %s",
+            rc, fr.offset(), fr.path());
+        }
+        count += rc;
+      } while (rc > 0);
+      if (fr.close() < 0) {
+        hlog_regression("%s closing file", strerror(errno));
+      }
+    }
   }
 
   return 0;

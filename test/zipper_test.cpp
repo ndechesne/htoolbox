@@ -29,6 +29,9 @@ using namespace htoolbox;
 int main() {
   report.setLevel(regression);
   {
+    ssize_t rc;
+    size_t count;
+    size_t size = 0;
     // Write-compress file containing random data
     FileReaderWriter fw("random.gz", true);
     char hash[129];
@@ -37,20 +40,22 @@ int main() {
     memset(hash, 0, 129);
     if (hw.open() < 0) return 0;
     for (size_t i = 0; i < 2000000; ++i) {
+      ++count;
       char byte = static_cast<char>(rand());
-      if (hw.put(&byte, 1) < 0) return 0;
+      rc = hw.put(&byte, 1);
+      if (rc < 0) return 0;
+      size += rc;
     }
     if (hw.close() < 0) return 0;
-    hlog_regression("hash = %s", hash);
+    hlog_regression("wz: count = %zu, size = %zu, hash = %s", count, size, hash);
 
     // Read-uncompress file
     FileReaderWriter fr("random.gz", false);
     Zipper ur(&fr, false);
     Hasher hr(&ur, false, Hasher::md5, hash);
-    ssize_t rc;
-    size_t count;
 
     count = 0;
+    size = 0;
     memset(hash, 0, 129);
     if (hr.open() < 0) return 0;
     do {
@@ -60,11 +65,13 @@ int main() {
       if ((rc > 0) && (rc < static_cast<ssize_t>(sizeof(buffer)))) {
         hlog_regression("only read %zd bytes on iteration #%zu", rc, count);
       }
+      size += rc;
     } while (rc > 0);
     if (hr.close() < 0) return 0;
-    hlog_regression("count = %zu, hash = %s", count, hash);
+    hlog_regression("gu: count = %zu, size = %zu, hash = %s", count, size, hash);
 
     count = 0;
+    size = 0;
     memset(hash, 0, 129);
     if (hr.open() < 0) return 0;
     do {
@@ -74,11 +81,13 @@ int main() {
       if ((rc > 0) && (rc < static_cast<ssize_t>(sizeof(buffer)))) {
         hlog_regression("only read %zd bytes on iteration #%zu", rc, count);
       }
+      size += rc;
     } while (rc > 0);
     if (hr.close() < 0) return 0;
-    hlog_regression("count = %zu, hash = %s", count, hash);
+    hlog_regression("gu: count = %zu, size = %zu, hash = %s", count, size, hash);
 
     count = 0;
+    size = 0;
     memset(hash, 0, 129);
     if (hr.open() < 0) return 0;
     do {
@@ -88,9 +97,10 @@ int main() {
       if ((rc > 0) && (rc < static_cast<ssize_t>(sizeof(buffer)))) {
         hlog_regression("only read %zd bytes on iteration #%zu", rc, count);
       }
+      size += rc;
     } while (rc > 0);
     if (hr.close() < 0) return 0;
-    hlog_regression("count = %zu, hash = %s", count, hash);
+    hlog_regression("gu: count = %zu, size = %zu, hash = %s", count, size, hash);
   }
   (void) system("gunzip random.gz");
   {
@@ -101,8 +111,10 @@ int main() {
     Hasher hr(&ur, false, Hasher::md5, hash);
     ssize_t rc;
     size_t count;
+    size_t size;
 
     count = 0;
+    size = 0;
     memset(hash, 0, 129);
     if (hr.open() < 0) return 0;
     do {
@@ -112,27 +124,30 @@ int main() {
       if ((rc > 0) && (rc < static_cast<ssize_t>(sizeof(buffer)))) {
         hlog_regression("only read %zd bytes on iteration #%zu", rc, count);
       }
+      size += rc;
     } while (rc > 0);
     if (hr.close() < 0) return 0;
-    hlog_regression("count = %zu, hash = %s", count, hash);
+    hlog_regression("gz: count = %zu, size = %zu, hash = %s", count, size, hash);
 
     count = 0;
+    size = 0;
     memset(hash, 0, 129);
     if (hr.open() < 0) return 0;
     do {
       ++count;
       char buffer[300000];
-      rc = hr.get(buffer, sizeof(buffer));
+      rc = hr.read(buffer, sizeof(buffer));
       if ((rc > 0) && (rc < static_cast<ssize_t>(sizeof(buffer)))) {
-        hlog_regression("only read %zd bytes on iteration #%zu", rc, count);
+        hlog_regression("rz: only read %zd bytes on iteration #%zu", rc, count);
       }
+      size += rc;
     } while (rc > 0);
     if (hr.close() < 0) return 0;
-    hlog_regression("count = %zu, hash = %s", count, hash);
+    hlog_regression("count = %zu, size = %zu, hash = %s", count, size, hash);
 
     char buffer[4000000];
-    size_t size = 0;
     count = 0;
+    size = 0;
     memset(hash, 0, 129);
     if (hr.open() < 0) return 0;
     do {
@@ -144,7 +159,7 @@ int main() {
       size += rc;
     } while (rc > 0);
     if (hr.close() < 0) return 0;
-    hlog_regression("count = %zu, hash = %s", count, hash);
+    hlog_regression("gz: count = %zu, size = %zu, hash = %s", count, size, hash);
 
     // Write-decompress file containing random data
     FileReaderWriter fw("random", true);
@@ -154,7 +169,7 @@ int main() {
     if (hw.open() < 0) return 0;
     if (hw.put(buffer, size) < static_cast<ssize_t>(size)) return 0;
     if (hw.close() < 0) return 0;
-    hlog_regression("hash = %s", hash);
+    hlog_regression("pu: size = %zu, hash = %s", size, hash);
   }
   return 0;
 }

@@ -367,7 +367,7 @@ int main() {
         } else {
           size = sizeof(buffer) - count;
         }
-        rc = fd.get(&buffer[count], size);
+        rc = fd.read(&buffer[count], size);
         if (rc < 0) {
           hlog_regression("%s reading file", strerror(errno));
         } else {

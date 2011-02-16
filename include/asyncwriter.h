@@ -46,6 +46,9 @@ public:
   ~AsyncWriter();
   int open();
   int close();
+  //! \brief Always fails to read, as this is a writer
+  ssize_t read(void* buffer, size_t size);
+  //! \brief Always fails to get, as this is a writer
   ssize_t get(void* buffer, size_t size);
   ssize_t put(const void* buffer, size_t size);
 };

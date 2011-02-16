@@ -1,12 +1,32 @@
-hash = e25ee9ff9b39f1ec32eb3a23efc1772e
-count = 2000001, hash = e25ee9ff9b39f1ec32eb3a23efc1772e
+wz: count = 2000000, size = 2000000, hash = e25ee9ff9b39f1ec32eb3a23efc1772e
+gu: count = 2000001, size = 2000000, hash = e25ee9ff9b39f1ec32eb3a23efc1772e
 only read 200000 bytes on iteration #7
-count = 8, hash = e25ee9ff9b39f1ec32eb3a23efc1772e
+gu: count = 8, size = 2000000, hash = e25ee9ff9b39f1ec32eb3a23efc1772e
 only read 2000000 bytes on iteration #1
-count = 2, hash = e25ee9ff9b39f1ec32eb3a23efc1772e
-count = 2000329, hash = 4c915884369504ac6d02654058c394c0
-only read 200328 bytes on iteration #7
-count = 8, hash = 4c915884369504ac6d02654058c394c0
+gu: count = 2, size = 2000000, hash = e25ee9ff9b39f1ec32eb3a23efc1772e
+gz: count = 2000329, size = 2000328, hash = 4c915884369504ac6d02654058c394c0
+rz: only read 98367 bytes on iteration #1
+rz: only read 98369 bytes on iteration #2
+rz: only read 98378 bytes on iteration #3
+rz: only read 98369 bytes on iteration #4
+rz: only read 98356 bytes on iteration #5
+rz: only read 98362 bytes on iteration #6
+rz: only read 98362 bytes on iteration #7
+rz: only read 98354 bytes on iteration #8
+rz: only read 131177 bytes on iteration #9
+rz: only read 98360 bytes on iteration #10
+rz: only read 98375 bytes on iteration #11
+rz: only read 98356 bytes on iteration #12
+rz: only read 98361 bytes on iteration #13
+rz: only read 98371 bytes on iteration #14
+rz: only read 98368 bytes on iteration #15
+rz: only read 98384 bytes on iteration #16
+rz: only read 131152 bytes on iteration #17
+rz: only read 98358 bytes on iteration #18
+rz: only read 98364 bytes on iteration #19
+rz: only read 32791 bytes on iteration #20
+rz: only read 32994 bytes on iteration #21
+count = 22, size = 2000328, hash = 4c915884369504ac6d02654058c394c0
 only read 2000328 bytes on iteration #1
-count = 2, hash = 4c915884369504ac6d02654058c394c0
-hash = 4c915884369504ac6d02654058c394c0
+gz: count = 2, size = 2000328, hash = 4c915884369504ac6d02654058c394c0
+pu: size = 2000328, hash = 4c915884369504ac6d02654058c394c0

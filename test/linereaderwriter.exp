@@ -61,9 +61,11 @@ Line[262144] (120000): ok
 Line[262144] (130000): ok
 Line[262144] (140000): ok
 Line[262144] (150000): ok
-Line[262144] (160000): ok
+read 28800 bytes: ok
+read 48226 bytes: ok
+Line[262144] (82974): ok
 read 10 bytes: ok
 Line[262144] (169990): ok
 Line[262144] (180000): ok
-read 89200 bytes: ok
+read 120000 bytes: ok
 Line[262144] (70000): ok

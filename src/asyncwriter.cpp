@@ -107,6 +107,10 @@ int AsyncWriter::close() {
   return _d->failed ? -1 : 0;
 }
 
+ssize_t AsyncWriter::read(void*, size_t) {
+  return -1;
+}
+
 ssize_t AsyncWriter::get(void*, size_t) {
   return -1;
 }

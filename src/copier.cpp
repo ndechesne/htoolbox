@@ -100,10 +100,16 @@ int Copier::close() {
 }
 
 ssize_t Copier::read(void* buffer, size_t max_size) {
+  bool just_read = (max_size != 0);
   if ((max_size == 0) || (max_size > _d->buffer_size)) {
     max_size = _d->buffer_size;
   }
-  ssize_t size = _child->get(_d->buffer, max_size);
+  ssize_t size;
+  if (just_read) {
+    size = _child->read(_d->buffer, max_size);
+  } else {
+    size = _child->get(_d->buffer, max_size);
+  }
   if (size <= 0) {
     if (size < 0) {
       _d->path = _child->path();

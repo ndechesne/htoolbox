@@ -25,15 +25,18 @@ namespace htoolbox {
 /*!
  * This is the interface for a number of modules that use or transform data.
  *
- * They must implement open(), close(), read() and write() in  a standard
+ * They must implement open(), close(), read(), get() and put() in  a standard
  * manner. They  must check and return errors, and set errno appropriately if
  * not set by the called party.
  *
  * They are completely defined at construction or just after, as the open()
  * method must not require any arguments.
  *
- * The read() and write() methods must get or put exactly the given number of
+ * The get() and put() methods must get or put exactly the given number of
  * bytes, except of course when read reaches the end of the stream.
+ *
+ * The read() method gets any number of bytes, not exceeding the given size.
+ * The write() method is not required, as it is not deemed necessary.
  *
  * The close() method should report an error if any previous call failed.
  *
@@ -73,16 +76,23 @@ public:
   /*!
    * \param buffer      buffer in which to store the data
    * \param size        required number of bytes
-   * \return            negative number on failure, positive or null on success
+   * \return            negative number on failure, bytes read on success
   */
   virtual ssize_t get(void* buffer, size_t size) = 0;
   //! \brief Write all given bytes to stream
   /*!
    * \param buffer      buffer from which to read the data
    * \param size        provided number of bytes
-   * \return            negative number on failure, positive or null on success
+   * \return            negative number on failure, bytes written success
   */
   virtual ssize_t put(const void* buffer, size_t size) = 0;
+  //! \brief Read bytes from stream, no more than asked
+  /*!
+   * \param buffer      buffer in which to store the data
+   * \param size        maximum number of bytes
+   * \return            negative number on failure, bytes read on success
+  */
+  virtual ssize_t read(void* buffer, size_t size) = 0;
   //! \brief Get underlying stream path
   /*!
    * \return            path to the underlying stream

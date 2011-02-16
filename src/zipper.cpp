@@ -141,6 +141,17 @@ int Zipper::close() {
   return rc;
 }
 
+ssize_t Zipper::read(void* buffer, size_t size) {
+  if (_d->canSubmit()) {
+    ssize_t length = _child->read(_d->buffer, sizeof(_d->buffer));
+    if (length < 0) {
+      return -1;
+    }
+    _d->submit(_d->buffer, length);
+  }
+  return _d->update(buffer, size);
+}
+
 ssize_t Zipper::get(void* buffer, size_t size) {
   char* cbuffer = static_cast<char*>(buffer);
   size_t count = 0;

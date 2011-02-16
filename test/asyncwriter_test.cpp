@@ -35,6 +35,7 @@ class Pit : public IReaderWriter {
 public:
   int open() { _offset = 0; return 0; }
   int close() { return 0; }
+  ssize_t read(void*, size_t) { return -1; }
   ssize_t get(void*, size_t) { return -1; }
   ssize_t put(const void*, size_t size) {
     usleep(20000);
@@ -53,6 +54,7 @@ public:
   Top(IReaderWriter* child) : IReaderWriter(child, true) {}
   int open() { return _child->open(); }
   int close() { return _child->close(); }
+  ssize_t read(void*, size_t) { return -1; }
   ssize_t get(void*, size_t) { return -1; }
   ssize_t put(const void* buffer, size_t size) {
     hlog_regression("Top called for %zd at time %d", size, time);

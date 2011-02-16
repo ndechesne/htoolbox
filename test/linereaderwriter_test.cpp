@@ -14,7 +14,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -212,7 +211,7 @@ int main() {
     bool ok = (line_test[0] == '\n') &&
               (memcmp(line, &line_test[1], line_size - 2) == 0) &&
               (line_test[line_size - 1] == '\b');
-    printf("Line[%zu] (%zd): %s\n",
+    hlog_regression("Line[%zu] (%zd): %s",
       line_test_capacity, line_size, ok ? "ok" : "ko");
   }
   if (readfile->close()) cout << "Error closing read file" << endl;
@@ -232,6 +231,10 @@ int main() {
   while ((line_size = readfile->getLine(&line_test, &line_test_capacity, '\b')) > 0) {
     ++iteration;
     bool ok;
+    if (iteration == 16) {
+      ok = (memcmp(&line[28800 + 48226 - 1], line_test, line_size - 2) == 0) &&
+           (line_test[line_size - 1] == '\b');
+    } else
     if (iteration == 17) {
       ok = (memcmp(&line[10 - 1], line_test, line_size - 2) == 0) &&
            (line_test[line_size - 1] == '\b');
@@ -245,8 +248,19 @@ int main() {
            (memcmp(line, &line_test[1], line_size - 2) == 0) &&
            (line_test[line_size - 1] == '\b');
     }
-    printf("Line[%zu] (%zd): %s\n",
+    hlog_regression("Line[%zu] (%zd): %s",
       line_test_capacity, line_size, ok ? "ok" : "ko");
+    if (iteration == 15) {
+      line_size = readfile->read(line_test, 100000);  // Reads 28800
+      line_test[line_size] = '\0';
+      ok = (line_test[0] == '\n') &&
+           (memcmp(line, &line_test[1], line_size - 2) == 0);
+      hlog_regression("read %zd bytes: %s", line_size, ok ? "ok" : "ko");
+      line_size = readfile->read(line_test, 100000);  // Reads 48226 (unzip'd)
+      line_test[line_size] = '\0';
+      ok = true;
+      hlog_regression("read %zd bytes: %s", line_size, ok ? "ok" : "ko");
+    } else
     if (iteration == 16) {
       line_size = readfile->get(line_test, 10);
       line_test[line_size] = '\0';

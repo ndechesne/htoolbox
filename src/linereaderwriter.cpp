@@ -76,27 +76,43 @@ int LineReaderWriter::close() {
   return _d->child->close();
 }
 
+ssize_t LineReaderWriter::read(void* buffer, size_t size) {
+  // Check for buffered data first
+  size_t copy_size = _d->buffer_end - _d->reader;
+  if (copy_size != 0) {
+    if (size <= copy_size) {
+      copy_size = size;
+    }
+    memcpy(buffer, _d->reader, copy_size);
+    _d->reader += copy_size;
+    return copy_size;
+  } else {
+    return _d->child->read(buffer, size);
+  }
+}
+
 ssize_t LineReaderWriter::get(void* buffer, size_t size) {
   // Check for buffered data first
-  size_t buffer_size = _d->buffer_end - _d->reader;
-  if (buffer_size != 0) {
-    size_t copy_size;
-    if (size <= buffer_size) {
+  size_t copy_size = _d->buffer_end - _d->reader;
+  if (copy_size != 0) {
+    if (size <= copy_size) {
       // Get buffered data and exit
       copy_size = size;
-    } else {
-      // Not enough data in buffer, flush it
-      copy_size = buffer_size;
     }
     memcpy(buffer, _d->reader, copy_size);
     _d->reader += copy_size;
     if (copy_size == size) {
-      return size;
+      return copy_size;
     }
   }
   // If we are here, then we need more data
   char* cbuffer = static_cast<char*>(buffer);
-  return _d->child->get(&cbuffer[buffer_size], size - buffer_size);
+  ssize_t rc = _d->child->get(&cbuffer[copy_size], size - copy_size);
+  if (rc < 0) {
+    return rc;
+  }
+  copy_size += rc;
+  return copy_size;
 }
 
 ssize_t LineReaderWriter::put(const void* buffer, size_t size) {

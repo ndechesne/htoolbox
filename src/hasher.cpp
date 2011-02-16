@@ -147,6 +147,17 @@ int Hasher::close() {
   return rc;
 }
 
+ssize_t Hasher::read(void* buffer, size_t size) {
+  ssize_t rc = _child->read(buffer, size);
+  if (rc < 0) {
+    return -1;
+  }
+  if (_d->update(buffer, rc) < 0) {
+    return -1;
+  }
+  return rc;
+}
+
 ssize_t Hasher::get(void* buffer, size_t size) {
   ssize_t rc = _child->get(buffer, size);
   if (rc < 0) {

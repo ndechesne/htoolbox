@@ -42,6 +42,9 @@ public:
   int close() {
     return _child->close();
   }
+  ssize_t read(void* buffer, size_t size) {
+    return _child->read(buffer, size);
+  }
   ssize_t get(void* buffer, size_t size) {
     return _child->get(buffer, size);
   }

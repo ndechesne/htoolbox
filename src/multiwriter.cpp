@@ -88,6 +88,10 @@ int MultiWriter::close() {
   return 0;
 }
 
+ssize_t MultiWriter::read(void*, size_t) {
+  return -1;
+}
+
 ssize_t MultiWriter::get(void*, size_t) {
   return -1;
 }
