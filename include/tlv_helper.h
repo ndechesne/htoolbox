@@ -59,16 +59,20 @@ class ReceptionManager : public IReceptionManager {
     }
   };
   class Blob : public IObject {
-    size_t _capacity;
     char*  _buffer;
+    size_t _capacity;
   public:
-    Blob(uint16_t tag, size_t cap, char* buf) :
-      IObject(tag), _capacity(cap), _buffer(buf) {}
+    Blob(uint16_t tag, char* buf, size_t cap) :
+      IObject(tag), _buffer(buf), _capacity(cap) {}
     int submit(size_t size, const char* val) {
       if (size > _capacity) {
         return -ERANGE;
       }
-      strcpy(_buffer, val);
+      memcpy(_buffer, val, size);
+      // Sugar for strings
+      if (size < _capacity) {
+        _buffer[size] = '\0';
+      }
       return 0;
     }
   };
@@ -110,7 +114,7 @@ public:
     _objects.push_back(new Bool(tag, val));
   }
   void add(uint16_t tag, char* val, size_t capacity) {
-    _objects.push_back(new Blob(tag, capacity, val));
+    _objects.push_back(new Blob(tag, val, capacity));
   }
   void add(uint16_t tag, int32_t* val) {
     _objects.push_back(new Int(tag, val));
