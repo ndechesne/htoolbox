@@ -14,8 +14,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _SENDER_H
-#define _SENDER_H
+#ifndef _TLV_H
+#define _TLV_H
 
 #include <stdint.h>
 #include <ireaderwriter.h>
@@ -41,7 +41,7 @@ public:
   // Check other end
   int check();
   // Add data to message
-  int write(uint16_t tag, const void* buffer, size_t len = 0);
+  int write(uint16_t tag, const void* buffer = "", size_t len = 0);
   int write(uint16_t tag, int32_t number);
   // End message
   int end();
@@ -73,4 +73,4 @@ public:
 }
 }
 
-#endif // _SENDER_H
+#endif // _TLV_H

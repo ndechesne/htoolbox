@@ -1,0 +1,147 @@
+/*
+    Copyright (C) 2011  Hervé Fache
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef _TLV_HELPER_H
+#define _TLV_HELPER_H
+
+#include <string.h>
+#include <errno.h>
+
+#include <string>
+#include <list>
+
+namespace htoolbox {
+namespace tlv {
+
+class IReceptionManager {
+protected:
+  IReceptionManager* _next;
+public:
+  IReceptionManager(IReceptionManager* next = NULL): _next(next) {}
+  virtual int submit(uint16_t tag, size_t size, const char* val) = 0;
+};
+
+class ReceptionManager : public IReceptionManager {
+  class IObject {
+  protected:
+    uint16_t _tag;
+  public:
+    IObject(uint16_t tag) : _tag(tag) {}
+    uint16_t tag() const { return _tag; }
+    virtual int submit(size_t, const char*) { return -EPERM; }
+  };
+  class Bool : public IObject {
+    bool* _value;
+  public:
+    Bool(uint16_t tag, bool* val) : IObject(tag), _value(val) {
+      if (_value != NULL) {
+        *_value = false;
+      }
+    }
+    int submit(size_t, const char*) {
+      if (_value != NULL) {
+        *_value = true;
+      }
+      return 0;
+    }
+  };
+  class Blob : public IObject {
+    size_t _capacity;
+    char*  _buffer;
+  public:
+    Blob(uint16_t tag, size_t cap, char* buf) :
+      IObject(tag), _capacity(cap), _buffer(buf) {}
+    int submit(size_t size, const char* val) {
+      if (size > _capacity) {
+        return -ERANGE;
+      }
+      strcpy(_buffer, val);
+      return 0;
+    }
+  };
+  class Int : public IObject {
+    int32_t*  _int_32;
+    uint32_t* _uint_32;
+    int64_t*  _int_64;
+    uint64_t* _uint_64;
+  public:
+    Int(uint16_t tag, int32_t* val_p): IObject(tag),
+      _int_32(val_p), _uint_32(NULL), _int_64(NULL), _uint_64(NULL) {}
+    Int(uint16_t tag, uint32_t* val_p): IObject(tag),
+      _int_32(NULL), _uint_32(val_p), _int_64(NULL), _uint_64(NULL) {}
+    Int(uint16_t tag, int64_t* val_p): IObject(tag),
+      _int_32(NULL), _uint_32(NULL), _int_64(val_p), _uint_64(NULL) {}
+    Int(uint16_t tag, uint64_t* val_p): IObject(tag),
+      _int_32(NULL), _uint_32(NULL), _int_64(NULL), _uint_64(val_p) {}
+    int submit(size_t size, const char* val);
+  };
+  class String : public IObject {
+    std::string& _value;
+  public:
+    String(uint16_t tag, std::string& value) : IObject(tag), _value(value) {}
+    int submit(size_t, const char* val) {
+      _value = val;
+      return 0;
+    }
+  };
+  std::list<IObject*>    _objects;
+public:
+  ReceptionManager(IReceptionManager* next = NULL): IReceptionManager(next) {}
+  ~ReceptionManager() {
+    for (std::list<IObject*>::iterator it = _objects.begin();
+        it != _objects.end(); ++it) {
+      delete *it;
+    }
+  }
+  void add(uint16_t tag, bool* val = NULL) {
+    _objects.push_back(new Bool(tag, val));
+  }
+  void add(uint16_t tag, char* val, size_t capacity) {
+    _objects.push_back(new Blob(tag, capacity, val));
+  }
+  void add(uint16_t tag, int32_t* val) {
+    _objects.push_back(new Int(tag, val));
+  }
+  void add(uint16_t tag, uint32_t* val) {
+    _objects.push_back(new Int(tag, val));
+  }
+  void add(uint16_t tag, int64_t* val) {
+    _objects.push_back(new Int(tag, val));
+  }
+  void add(uint16_t tag, uint64_t* val) {
+    _objects.push_back(new Int(tag, val));
+  }
+  void add(uint16_t tag, std::string& val) {
+    _objects.push_back(new String(tag, val));
+  }
+  int submit(uint16_t tag, size_t size, const char* val) {
+    for (std::list<IObject*>::iterator it = _objects.begin();
+        it != _objects.end(); ++it) {
+      if ((*it)->tag() == tag) {
+        return (*it)->submit(size, val);
+      }
+    }
+    if (_next != NULL) {
+      return _next->submit(tag, size, val);
+    }
+    return -ENOSYS;
+  }
+};
+
+}
+}
+
+#endif // _TLV_HELPER_H

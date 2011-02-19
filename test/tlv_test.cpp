@@ -54,6 +54,7 @@ void* receiver(void*) {
   }
 
   Receiver::Type type;
+  Report::TlvManager log_manager;
   do {
     uint16_t    tag;
     size_t      len;
@@ -61,6 +62,12 @@ void* receiver(void*) {
     type = receiver.receive(&tag, &len, val);
     hlog_info("receive: type=%d tag=%u, len=%zu, value='%s'",
       type, tag, len, ((len > 0) || (tag == 0)) ? val : "");
+    // The code below would be fun, but report would see a line number within
+    // range (the original one) and try to send it over the socket...
+/*    if ((tag >= tlv::log_start_tag) && (tag < tlv::log_start_tag + 10) &&
+        (log_manager.submit(tag, len, val) < 0)) {
+      hlog_error("%s logging", strerror(errno));
+    }*/
   } while (type >= Receiver::END);
 
   sock.close();
@@ -122,7 +129,7 @@ int main(void) {
   report.stopConsoleLog();
   Report::TlvOutput o(sender);
   Report::Filter f("sender", &o, false);
-  f.addCondition(false, "tlv_test.cpp", 37, 71);
+  f.addCondition(false, "tlv_test.cpp", 37, 76);
   report.add(&f);
   if (sender.start() < 0) {
     hlog_error("%s writing to socket (start)", strerror(errno));

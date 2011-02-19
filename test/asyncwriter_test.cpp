@@ -28,7 +28,7 @@
 
 using namespace htoolbox;
 
-int time = 0;
+int my_time = 0;
 
 class Pit : public IReaderWriter {
   long long _offset;
@@ -39,9 +39,9 @@ public:
   ssize_t get(void*, size_t) { return -1; }
   ssize_t put(const void*, size_t size) {
     usleep(20000);
-    hlog_regression("Pit called for %zd at time %d", size, time);
+    hlog_regression("Pit called for %zd at time %d", size, my_time);
     usleep(20000);
-    ++time;
+    ++my_time;;
     _offset += size;
     return size;
   }
@@ -57,7 +57,7 @@ public:
   ssize_t read(void*, size_t) { return -1; }
   ssize_t get(void*, size_t) { return -1; }
   ssize_t put(const void* buffer, size_t size) {
-    hlog_regression("Top called for %zd at time %d", size, time);
+    hlog_regression("Top called for %zd at time %d", size, my_time);
     _child->put(buffer, size);
     return size;
   }

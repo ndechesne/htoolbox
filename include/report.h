@@ -19,10 +19,13 @@
 
 #include <stdlib.h>
 #include <stdarg.h>
+
+#include <string>
 #include <list>
 
 #include <observer.h>
 #include <tlv.h>
+#include <tlv_helper.h>
 
 namespace htoolbox {
 
@@ -136,6 +139,25 @@ namespace htoolbox {
         size_t          ident,
         const char*     format,
         va_list*        args);
+    };
+
+    class TlvManager : public tlv::IReceptionManager {
+      std::string           _file;
+      size_t                _line;
+      int                   _level;
+      bool                  _temp;
+      size_t                _indent;
+      tlv::ReceptionManager _manager;
+    public:
+      TlvManager(IReceptionManager* next = NULL): IReceptionManager(next) {
+        _manager.add(tlv::log_start_tag + 0, _file);
+        _manager.add(tlv::log_start_tag + 1, &_line);
+        _manager.add(tlv::log_start_tag + 2, &_level);
+        _manager.add(tlv::log_start_tag + 3, &_temp);
+        _manager.add(tlv::log_start_tag + 4, &_indent);
+        _manager.add(tlv::log_start_tag + 5);
+      }
+      int submit(uint16_t tag, size_t size, const char* val);
     };
 
     class Filter : public IOutput, public Observer {

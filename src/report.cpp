@@ -533,14 +533,41 @@ int Report::TlvOutput::log(
   _sender.write(tag++, file);
   _sender.write(tag++, static_cast<int32_t>(line));
   _sender.write(tag++, level);
-  _sender.write(tag++, temporary);
+  if (temporary) {
+    _sender.write(tag++);
+  } else {
+    ++tag;
+  }
   _sender.write(tag++, static_cast<int32_t>(indent));
   char buffer[65536];
   vsnprintf(buffer, sizeof(buffer), format, *args);
   buffer[sizeof(buffer) - 1] = '\0';
   if (_sender.write(tag++, buffer) < 0) {
-    hlog_error("%s: %s logging", __FUNCTION__, strerror(errno));
+    hlog_error("Report::TlvOutput::log: %s logging for file='%s' line=%zu",
+      strerror(errno), file, line);
     return -1;
+  }
+  return 0;
+}
+
+int Report::TlvManager::submit(uint16_t tag, size_t size, const char* val) {
+  int rc = _manager.submit(tag, size, val);
+  if (rc < 0) {
+    if (_next != NULL) {
+      return _next->submit(tag, size, val);
+    } else {
+      return rc;
+    }
+  }
+  if (tag == tlv::log_start_tag) {
+    _temp = false;
+  } else
+  if (tag == tlv::log_start_tag + 5) {
+    Level level = static_cast<Level>(_level);
+    if (tl_report != NULL) {
+      tl_report->log(_file.c_str(), _line, level, _temp, _indent, "%s", val);
+    }
+    report.log(_file.c_str(), _line, level, _temp, _indent, "%s", val);
   }
   return 0;
 }
