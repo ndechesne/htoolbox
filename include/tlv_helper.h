@@ -27,10 +27,7 @@ namespace htoolbox {
 namespace tlv {
 
 class IReceptionManager {
-protected:
-  IReceptionManager* _next;
 public:
-  IReceptionManager(IReceptionManager* next = NULL): _next(next) {}
   virtual int submit(uint16_t tag, size_t size, const char* val) = 0;
 };
 
@@ -101,9 +98,10 @@ class ReceptionManager : public IReceptionManager {
       return 0;
     }
   };
-  std::list<IObject*>    _objects;
+  IReceptionManager*  _next;
+  std::list<IObject*> _objects;
 public:
-  ReceptionManager(IReceptionManager* next = NULL): IReceptionManager(next) {}
+  ReceptionManager(IReceptionManager* next = NULL): _next(next) {}
   ~ReceptionManager() {
     for (std::list<IObject*>::iterator it = _objects.begin();
         it != _objects.end(); ++it) {

@@ -553,11 +553,7 @@ int Report::TlvOutput::log(
 int Report::TlvManager::submit(uint16_t tag, size_t size, const char* val) {
   int rc = _manager.submit(tag, size, val);
   if (rc < 0) {
-    if (_next != NULL) {
-      return _next->submit(tag, size, val);
-    } else {
-      return rc;
-    }
+    return rc;
   }
   if (tag == tlv::log_start_tag) {
     _temp = false;

@@ -149,7 +149,7 @@ namespace htoolbox {
       size_t                _indent;
       tlv::ReceptionManager _manager;
     public:
-      TlvManager(IReceptionManager* next = NULL): IReceptionManager(next) {
+      TlvManager(IReceptionManager* next = NULL): _manager(next) {
         _manager.add(tlv::log_start_tag + 0, _file);
         _manager.add(tlv::log_start_tag + 1, &_line);
         _manager.add(tlv::log_start_tag + 2, &_level);
