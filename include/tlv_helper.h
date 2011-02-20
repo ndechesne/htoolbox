@@ -23,6 +23,8 @@
 #include <string>
 #include <list>
 
+#include <socket.h>
+
 namespace htoolbox {
 namespace tlv {
 
@@ -141,6 +143,9 @@ public:
     }
     return -ENOSYS;
   }
+  // Called on CHECK message, return true do abort reception
+  typedef bool (*abort_cb_f)(void*);
+  int receive(Socket& sock, abort_cb_f abort_cb = NULL, void* user = NULL);
 };
 
 }

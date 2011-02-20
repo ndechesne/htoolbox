@@ -22,6 +22,7 @@
 #include <errno.h>
 #include <pthread.h>
 
+#include <tlv.h>
 #include "tlv_helper.h"
 
 using namespace htoolbox;
@@ -63,5 +64,34 @@ int ReceptionManager::Int::submit(size_t size, const char* val) {
   {
     return -EINVAL;
   }
+  return 0;
+}
+
+int ReceptionManager::receive(Socket& sock, abort_cb_f abort_cb, void* user) {
+  Receiver        receiver(sock);
+  Receiver::Type  type;
+  uint16_t        tag;
+  size_t          len;
+  char            val[65536];
+  do {
+    type = receiver.receive(&tag, &len, val);
+    switch (type) {
+      case Receiver::CHECK:
+        if ((abort_cb != NULL) && abort_cb(user)) {
+          return -ECANCELED;
+        }
+      case Receiver::START:
+      case Receiver::END:
+        break;
+      case Receiver::DATA: {
+        int sub_rc = submit(tag, len, val);
+        if (sub_rc < 0) {
+          return sub_rc;
+        }
+      } break;
+      default:
+        return -EBADE;
+    }
+  } while (type > Receiver::END);
   return 0;
 }
