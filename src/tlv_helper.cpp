@@ -49,7 +49,7 @@ int ReceptionManager::Int::submit(size_t size, const char* val) {
     if (size >= 20) {
       return -ERANGE;
     }
-    if (sscanf(val, "%lld", _int_64) < 1) {
+    if (sscanf(val, "%jd", _int_64) < 1) {
       return -EINVAL;
     }
   } else
@@ -57,7 +57,7 @@ int ReceptionManager::Int::submit(size_t size, const char* val) {
     if (size >= 20) {
       return -ERANGE;
     }
-    if (sscanf(val, "%llu", _uint_64) < 1) {
+    if (sscanf(val, "%ju", _uint_64) < 1) {
       return -EINVAL;
     }
   } else
