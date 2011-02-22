@@ -41,7 +41,7 @@ int Sender::start() {
     return -1;
   }
   _started = true;
-  int rc = write(START_TAG, "");
+  int rc = write(START_TAG, "", 0);
   _failed = rc < 0;
   return rc;
 }
@@ -52,7 +52,7 @@ int Sender::check() {
     _failed = true;
     return -1;
   }
-  int rc = write(CHECK_TAG, "");
+  int rc = write(CHECK_TAG, "", 0);
   _failed = rc < 0;
   return rc;
 }
@@ -64,9 +64,6 @@ int Sender::write(uint16_t tag, const void* buffer, size_t len) {
     return -1;
   }
   const char* cbuffer = static_cast<const char*>(buffer);
-  if ((len == 0) && (cbuffer != NULL)) {
-    len = strlen(cbuffer);
-  }
   if (len > MAX_LENGTH) {
     errno = ERANGE;
     _failed = true;
@@ -85,14 +82,10 @@ int Sender::write(uint16_t tag, const void* buffer, size_t len) {
     return -1;
   }
   // Value
-  size_t sent = 0;
-  while (sent < len) {
-    rc = _fd.put(&cbuffer[sent], len - sent);
-    if (rc <= 0) {
-      _failed = true;
-      return -1;
-    }
-    sent += rc;
+  rc = _fd.put(cbuffer, len);
+  if (rc < static_cast<ssize_t>(len)) {
+    _failed = true;
+    return -1;
   }
   return 0;
 }
@@ -109,7 +102,7 @@ int Sender::end() {
     _failed = true;
     return -1;
   }
-  write(END_TAG, "");
+  write(END_TAG, "", 0);
   _started = false;
   return _failed ? -1 : 0;
 }

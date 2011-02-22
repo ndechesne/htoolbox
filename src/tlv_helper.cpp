@@ -67,14 +67,13 @@ int ReceptionManager::Int::submit(size_t size, const char* val) {
   return 0;
 }
 
-int ReceptionManager::receive(Socket& sock, abort_cb_f abort_cb, void* user) {
-  Receiver        receiver(sock);
+int ReceptionManager::receive(Receiver& rec, abort_cb_f abort_cb, void* user) {
   Receiver::Type  type;
   uint16_t        tag;
   size_t          len;
   char            val[65536];
   do {
-    type = receiver.receive(&tag, &len, val);
+    type = rec.receive(&tag, &len, val);
     switch (type) {
       case Receiver::CHECK:
         if ((abort_cb != NULL) && abort_cb(user)) {
@@ -93,5 +92,30 @@ int ReceptionManager::receive(Socket& sock, abort_cb_f abort_cb, void* user) {
         return -EBADE;
     }
   } while (type > Receiver::END);
+  return 0;
+}
+
+int TransmissionManager::send(Sender& sender, bool start_and_end) const {
+  int rc = 0;
+  if (start_and_end) {
+    rc = sender.start();
+    if (rc < 0) return rc;
+  }
+  const ITransmissionManager* src = this;
+  while (src != NULL) {
+    for (std::list<IObject*>::const_iterator it = _objects.begin();
+        it != _objects.end(); ++it) {
+      IObject& o = **it;
+      if (o.length() >= 0) {
+        rc = sender.write(o.tag(), o.value(), o.length());
+        if (rc < 0) return rc;
+      }
+    }
+    src = src->next();
+  }
+  if (start_and_end) {
+    rc = sender.end();
+    if (rc < 0) return rc;
+  }
   return 0;
 }

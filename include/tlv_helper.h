@@ -17,6 +17,7 @@
 #ifndef _TLV_HELPER_H
 #define _TLV_HELPER_H
 
+#include <stdio.h>
 #include <string.h>
 #include <errno.h>
 
@@ -145,7 +146,109 @@ public:
   }
   // Called on CHECK message, return true do abort reception
   typedef bool (*abort_cb_f)(void*);
-  int receive(Socket& sock, abort_cb_f abort_cb = NULL, void* user = NULL);
+  int receive(Receiver& rec, abort_cb_f abort_cb = NULL, void* user = NULL);
+};
+
+class ITransmissionManager {
+  const ITransmissionManager* _next;
+public:
+  ITransmissionManager(const ITransmissionManager* next): _next(next) {}
+  const ITransmissionManager* next() const { return _next; }
+  virtual int send(Sender& sender, bool insert) const = 0;
+};
+
+class TransmissionManager : public ITransmissionManager {
+  class IObject {
+  protected:
+    uint16_t _tag;
+    ssize_t  _len;
+  public:
+    IObject(uint16_t tag) : _tag(tag), _len(-1) {}
+    uint16_t tag() const { return _tag; }
+    virtual ssize_t length() const { return _len; }
+    virtual const char* value() const = 0;
+  };
+  class Bool : public IObject {
+  public:
+    Bool(uint16_t tag, bool val) : IObject(tag) {
+      _len = val ? 0 : -1;
+    }
+    const char* value() const {
+      return "";
+    }
+  };
+  class Blob : public IObject {
+    const char* _buffer;
+  public:
+    Blob(uint16_t tag, const char* buf, size_t size):
+        IObject(tag), _buffer(buf) {
+      _len = size;
+    }
+    const char* value() const {
+      return _buffer;
+    }
+  };
+  class Int : public IObject {
+    char   _val[32];
+  public:
+    Int(uint16_t tag, int32_t val): IObject(tag) {
+      _len = sprintf(_val, "%i", val);
+    }
+    Int(uint16_t tag, uint32_t val): IObject(tag) {
+      _len = sprintf(_val, "%u", val);
+    }
+    Int(uint16_t tag, int64_t val): IObject(tag) {
+      _len = sprintf(_val, "%ji", val);
+    }
+    Int(uint16_t tag, uint64_t val): IObject(tag) {
+      _len = sprintf(_val, "%ju", val);
+    }
+    const char* value() const { return _val; }
+  };
+  class String : public IObject {
+    const std::string& _value;
+  public:
+    String(uint16_t tag, const std::string& value): IObject(tag),
+      _value(value) {}
+    ssize_t length() const {
+      return _value.length();
+    }
+    const char* value() const {
+      return _value.c_str();
+    }
+  };
+  std::list<IObject*>   _objects;
+public:
+  TransmissionManager(const ITransmissionManager* next = NULL):
+      ITransmissionManager(next) {}
+  ~TransmissionManager() {
+    for (std::list<IObject*>::iterator it = _objects.begin();
+        it != _objects.end(); ++it) {
+      delete *it;
+    }
+  }
+  void add(uint16_t tag, bool val = NULL) {
+    _objects.push_back(new Bool(tag, val));
+  }
+  void add(uint16_t tag, const char* val, size_t size) {
+    _objects.push_back(new Blob(tag, val, size));
+  }
+  void add(uint16_t tag, int32_t val) {
+    _objects.push_back(new Int(tag, val));
+  }
+  void add(uint16_t tag, uint32_t val) {
+    _objects.push_back(new Int(tag, val));
+  }
+  void add(uint16_t tag, int64_t val) {
+    _objects.push_back(new Int(tag, val));
+  }
+  void add(uint16_t tag, uint64_t val) {
+    _objects.push_back(new Int(tag, val));
+  }
+  void add(uint16_t tag, const std::string& val) {
+    _objects.push_back(new String(tag, val));
+  }
+  int send(Sender& sender, bool start_and_end = true) const;
 };
 
 }

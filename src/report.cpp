@@ -530,19 +530,17 @@ int Report::TlvOutput::log(
     const char*     format,
     va_list*        args) {
   uint16_t tag = tlv::log_start_tag;
-  _sender.write(tag++, file);
-  _sender.write(tag++, static_cast<int32_t>(line));
-  _sender.write(tag++, level);
-  if (temporary) {
-    _sender.write(tag++);
-  } else {
-    ++tag;
-  }
-  _sender.write(tag++, static_cast<int32_t>(indent));
+  tlv::TransmissionManager m;
+  m.add(tag++, file, strlen(file));
+  m.add(tag++, static_cast<int32_t>(line));
+  m.add(tag++, level);
+  m.add(tag++, temporary);
+  m.add(tag++, static_cast<int32_t>(indent));
   char buffer[65536];
-  vsnprintf(buffer, sizeof(buffer), format, *args);
+  int len = vsnprintf(buffer, sizeof(buffer), format, *args);
   buffer[sizeof(buffer) - 1] = '\0';
-  if (_sender.write(tag++, buffer) < 0) {
+  m.add(tag++, buffer, len);
+  if (m.send(_sender, false) < 0) {
     hlog_error("Report::TlvOutput::log: %s logging for file='%s' line=%zu",
       strerror(errno), file, line);
     return -1;

@@ -114,7 +114,8 @@ int main(void) {
     hlog_error("%s writing to socket (check)", strerror(errno));
     return 0;
   }
-  if (sender.write(0x12, "I am not a stupid protocol!") < 0) {
+  const char message[] = "I am not a stupid protocol!";
+  if (sender.write(0x12, message, strlen(message)) < 0) {
     hlog_error("%s writing to socket (string)", strerror(errno));
     return 0;
   }
@@ -130,15 +131,16 @@ int main(void) {
   Report::TlvOutput o(sender);
   Report::Filter f("sender", &o, false);
   f.addCondition(false, "tlv_test.cpp", 37, 76);
-  report.add(&f);
   if (sender.start() < 0) {
     hlog_error("%s writing to socket (start)", strerror(errno));
     return 0;
   }
+  report.add(&f);
   hlog_info("this log should be send over the socket (%d)", 9);
   report.log("file", 12345, warning, true, 3, "this is some text with a number %d", 17);
   tl_report = &report;
   hlog_info("message sent twice to socket");
+  report.remove(&f);
   if (sender.end() < 0) {
     hlog_error("%s writing to socket (end)", strerror(errno));
     return 0;

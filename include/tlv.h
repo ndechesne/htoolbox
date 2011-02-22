@@ -41,7 +41,7 @@ public:
   // Check other end
   int check();
   // Add data to message
-  int write(uint16_t tag, const void* buffer = "", size_t len = 0);
+  int write(uint16_t tag, const void* buffer, size_t len);
   int write(uint16_t tag, int32_t number);
   // End message
   int end();
