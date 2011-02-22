@@ -154,7 +154,7 @@ class ITransmissionManager {
 public:
   ITransmissionManager(const ITransmissionManager* next): _next(next) {}
   const ITransmissionManager* next() const { return _next; }
-  virtual int send(Sender& sender, bool insert) const = 0;
+  virtual int send(Sender& sender, bool insert) = 0;
 };
 
 class TransmissionManager : public ITransmissionManager {
@@ -192,13 +192,13 @@ class TransmissionManager : public ITransmissionManager {
     char   _val[32];
   public:
     Int(uint16_t tag, int32_t val): IObject(tag) {
-      _len = sprintf(_val, "%i", val);
+      _len = sprintf(_val, "%d", val);
     }
     Int(uint16_t tag, uint32_t val): IObject(tag) {
       _len = sprintf(_val, "%u", val);
     }
     Int(uint16_t tag, int64_t val): IObject(tag) {
-      _len = sprintf(_val, "%ji", val);
+      _len = sprintf(_val, "%jd", val);
     }
     Int(uint16_t tag, uint64_t val): IObject(tag) {
       _len = sprintf(_val, "%ju", val);
@@ -217,10 +217,11 @@ class TransmissionManager : public ITransmissionManager {
       return _value.c_str();
     }
   };
-  std::list<IObject*>   _objects;
+  std::list<IObject*> _objects;
+  bool                _started;
 public:
   TransmissionManager(const ITransmissionManager* next = NULL):
-      ITransmissionManager(next) {}
+      ITransmissionManager(next), _started(false) {}
   ~TransmissionManager() {
     for (std::list<IObject*>::iterator it = _objects.begin();
         it != _objects.end(); ++it) {
@@ -248,7 +249,14 @@ public:
   void add(uint16_t tag, const std::string& val) {
     _objects.push_back(new String(tag, val));
   }
-  int send(Sender& sender, bool start_and_end = true) const;
+  int start(Sender& sender) {
+    int rc = sender.start();
+    if (rc >= 0) {
+      _started = true;
+    }
+    return rc;
+  }
+  int send(Sender& sender, bool start_and_end = true);
 };
 
 }

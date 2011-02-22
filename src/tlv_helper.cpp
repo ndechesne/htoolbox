@@ -95,11 +95,11 @@ int ReceptionManager::receive(Receiver& rec, abort_cb_f abort_cb, void* user) {
   return 0;
 }
 
-int TransmissionManager::send(Sender& sender, bool start_and_end) const {
+int TransmissionManager::send(Sender& sender, bool start_and_end) {
   int rc = 0;
-  if (start_and_end) {
-    rc = sender.start();
-    if (rc < 0) return rc;
+  if (start_and_end && ! _started) {
+    rc = this->start(sender);
+    if (rc < 0) return -errno;
   }
   const ITransmissionManager* src = this;
   while (src != NULL) {
@@ -108,14 +108,15 @@ int TransmissionManager::send(Sender& sender, bool start_and_end) const {
       IObject& o = **it;
       if (o.length() >= 0) {
         rc = sender.write(o.tag(), o.value(), o.length());
-        if (rc < 0) return rc;
+        if (rc < 0) return -errno;
       }
     }
     src = src->next();
   }
-  if (start_and_end) {
+  if (start_and_end && _started) {
     rc = sender.end();
-    if (rc < 0) return rc;
+    if (rc < 0) return -errno;
+    _started = false;
   }
   return 0;
 }
