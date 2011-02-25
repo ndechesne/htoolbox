@@ -26,6 +26,7 @@ namespace tlv {
 // Tag max allowed value is 64999
 // Message max length = 65535, buffers need to be 65536 long (\0 always added)
 
+const uint16_t BUFFER_MAX = 65535;
 const uint16_t log_start_tag = 65520;
 
 class Sender {

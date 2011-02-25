@@ -16,6 +16,7 @@ check_PROGRAMS = \
   linereaderwriter_test \
   observer_test \
   report_test \
+  tlv_helper_test \
   tlv_test \
   unix_socket_test \
   threads_manager_test \
@@ -34,6 +35,7 @@ inet_socket_test_SOURCES = inet_socket_test.cpp
 linereaderwriter_test_SOURCES = linereaderwriter_test.cpp
 observer_test_SOURCES = observer_test.cpp
 report_test_SOURCES = report_test.cpp
+tlv_helper_test_SOURCES = tlv_helper_test.cpp
 tlv_test_SOURCES = tlv_test.cpp
 unix_socket_test_SOURCES = unix_socket_test.cpp
 threads_manager_test_SOURCES = threads_manager_test.cpp
@@ -75,6 +77,7 @@ check_SUCCESSES = \
   unix_socket.done \
   abstract_socket.done \
   tlv.done \
+  tlv_helper.done \
   linereaderwriter.done \
   hasher.done \
   asyncwriter.done \
@@ -95,6 +98,7 @@ EXTRA_DIST = \
   linereaderwriter.exp \
   observer.exp \
   report.exp \
+  tlv_helper.exp \
   tlv.exp \
   unix_socket.exp \
   threads_manager.exp \

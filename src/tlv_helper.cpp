@@ -67,6 +67,19 @@ int ReceptionManager::Int::submit(size_t size, const char* val) {
   return 0;
 }
 
+int ReceptionManager::submit(uint16_t tag, size_t size, const char* val) {
+  for (std::list<IObject*>::iterator it = _objects.begin();
+      it != _objects.end(); ++it) {
+    if ((*it)->tag() == tag) {
+      return (*it)->submit(size, val);
+    }
+  }
+  if (_next != NULL) {
+    return _next->submit(tag, size, val);
+  }
+  return -ENOSYS;
+}
+
 int ReceptionManager::receive(Receiver& rec, abort_cb_f abort_cb, void* user) {
   Receiver::Type  type;
   uint16_t        tag;
@@ -106,7 +119,7 @@ int TransmissionManager::send(Sender& sender, bool start_and_end) {
     for (std::list<IObject*>::const_iterator it = _objects.begin();
         it != _objects.end(); ++it) {
       IObject& o = **it;
-      if (o.length() >= 0) {
+      while (o.ready()) {
         rc = sender.write(o.tag(), o.value(), o.length());
         if (rc < 0) return -errno;
       }

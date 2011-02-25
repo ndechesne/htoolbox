@@ -76,6 +76,22 @@ class ReceptionManager : public IReceptionManager {
       return 0;
     }
   };
+  class BigBlob : public IObject {
+  public:
+    typedef int (*callback_f)(const char* buffer, size_t size, void* user);
+  private:
+    callback_f _callback;
+    void*      _user;
+  public:
+    BigBlob(uint16_t tag, callback_f cb, void* user) :
+      IObject(tag), _callback(cb), _user(user) {}
+    int submit(size_t size, const char* val) {
+      if (_callback == NULL) {
+        return -EINVAL;
+      }
+      return _callback(val, size, _user);;
+    }
+  };
   class Int : public IObject {
     int32_t*  _int_32;
     uint32_t* _uint_32;
@@ -132,18 +148,10 @@ public:
   void add(uint16_t tag, std::string& val) {
     _objects.push_back(new String(tag, val));
   }
-  int submit(uint16_t tag, size_t size, const char* val) {
-    for (std::list<IObject*>::iterator it = _objects.begin();
-        it != _objects.end(); ++it) {
-      if ((*it)->tag() == tag) {
-        return (*it)->submit(size, val);
-      }
-    }
-    if (_next != NULL) {
-      return _next->submit(tag, size, val);
-    }
-    return -ENOSYS;
+  void add(uint16_t tag, BigBlob::callback_f cb, void* user) {
+    _objects.push_back(new BigBlob(tag, cb, user));
   }
+  int submit(uint16_t tag, size_t size, const char* val);
   // Called on CHECK message, return true do abort reception
   typedef bool (*abort_cb_f)(void*);
   int receive(Receiver& rec, abort_cb_f abort_cb = NULL, void* user = NULL);
@@ -160,11 +168,22 @@ public:
 class TransmissionManager : public ITransmissionManager {
   class IObject {
   protected:
+    bool     _ready;
     uint16_t _tag;
     ssize_t  _len;
   public:
-    IObject(uint16_t tag) : _tag(tag), _len(-1) {}
-    uint16_t tag() const { return _tag; }
+    IObject(uint16_t tag) : _ready(true), _tag(tag), _len(-1) {}
+    virtual bool ready() {
+      if (_ready) {
+        _ready = false;
+        return true;
+      } else {
+          // Re-arm
+        _ready = true;
+        return false;
+      }
+    }
+    virtual uint16_t tag() const { return _tag; }
     virtual ssize_t length() const { return _len; }
     virtual const char* value() const = 0;
   };
@@ -172,6 +191,13 @@ class TransmissionManager : public ITransmissionManager {
   public:
     Bool(uint16_t tag, bool val) : IObject(tag) {
       _len = val ? 0 : -1;
+    }
+    bool ready() {
+      if (_len < 0) {
+        return false;
+      } else {
+        return IObject::ready();
+      }
     }
     const char* value() const {
       return "";
@@ -182,7 +208,26 @@ class TransmissionManager : public ITransmissionManager {
   public:
     Blob(uint16_t tag, const char* buf, size_t size):
         IObject(tag), _buffer(buf) {
+      // FIXME Automatically use BigBlob when size > BUFFER_MAX
       _len = size;
+    }
+    const char* value() const {
+      return _buffer;
+    }
+  };
+  class BigBlob : public IObject {
+  public:
+    typedef ssize_t (*callback_f)(const char** buf, size_t size, void* user);
+  private:
+    callback_f  _callback;
+    void*       _user;
+    const char* _buffer;
+  public:
+    BigBlob(uint16_t tag, callback_f cb, void* user) :
+        IObject(tag), _callback(cb), _user(user), _buffer(NULL) {}
+    bool ready() {
+      _len = _callback(&_buffer, BUFFER_MAX, _user);
+      return _len > 0;
     }
     const char* value() const {
       return _buffer;
@@ -208,14 +253,11 @@ class TransmissionManager : public ITransmissionManager {
   class String : public IObject {
     const std::string& _value;
   public:
-    String(uint16_t tag, const std::string& value): IObject(tag),
-      _value(value) {}
-    ssize_t length() const {
-      return _value.length();
+    String(uint16_t tag, const std::string& value):
+        IObject(tag), _value(value) {
+      _len = _value.length();
     }
-    const char* value() const {
-      return _value.c_str();
-    }
+    const char* value() const { return _value.c_str(); }
   };
   std::list<IObject*> _objects;
   bool                _started;
@@ -248,6 +290,9 @@ public:
   }
   void add(uint16_t tag, const std::string& val) {
     _objects.push_back(new String(tag, val));
+  }
+  void add(uint16_t tag, BigBlob::callback_f cb, void* user) {
+    _objects.push_back(new BigBlob(tag, cb, user));
   }
   int start(Sender& sender) {
     int rc = sender.start();
